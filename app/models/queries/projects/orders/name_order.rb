@@ -34,7 +34,7 @@ class Queries::Projects::Orders::NameOrder < Queries::Orders::Base
   end
 
   def scope
-    super.select('projects.*', 'lower(projects.name)')
+    super.select("projects.*", "lower(projects.name)")
   end
 
   def order

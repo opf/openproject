@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Principals::Scopes::PossibleAssignee do
   shared_let(:project) { create(:project) }
@@ -41,8 +41,8 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
   shared_let(:assignable_work_package_role) { create(:comment_work_package_role) }
   shared_let(:non_assignable_work_package_role) { create(:view_work_package_role) }
 
-  describe '.possible_assignee' do
-    context 'when providing Project resources' do
+  describe ".possible_assignee" do
+    context "when providing Project resources" do
       subject { Principal.possible_assignee(project) }
 
       let(:user_status) { :active }
@@ -61,54 +61,54 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
         create(:group, member_with_roles: { other_project => role })
       end
 
-      context 'with the role being assignable' do
+      context "with the role being assignable" do
         let(:role) { assignable_project_role }
 
-        context 'with the user status being active' do
-          it 'returns non locked users, groups and placeholder users that are members' do
+        context "with the user status being active" do
+          it "returns non locked users, groups and placeholder users that are members" do
             expect(subject)
               .to contain_exactly(member_user, member_placeholder_user, member_group)
           end
         end
 
-        context 'with the user status being registered' do
+        context "with the user status being registered" do
           let(:user_status) { :registered }
 
-          it 'returns non locked users, groups and placeholder users that are members' do
+          it "returns non locked users, groups and placeholder users that are members" do
             expect(subject)
               .to contain_exactly(member_user, member_placeholder_user, member_group)
           end
         end
 
-        context 'with the user status being invited' do
+        context "with the user status being invited" do
           let(:user_status) { :invited }
 
-          it 'returns non locked users, groups and placeholder users that are members' do
+          it "returns non locked users, groups and placeholder users that are members" do
             expect(subject)
               .to contain_exactly(member_user, member_placeholder_user, member_group)
           end
         end
 
-        context 'with the user status being locked' do
+        context "with the user status being locked" do
           let(:user_status) { :locked }
 
-          it 'returns non locked users, groups and placeholder users that are members' do
+          it "returns non locked users, groups and placeholder users that are members" do
             expect(subject)
               .to contain_exactly(member_placeholder_user, member_group)
           end
         end
       end
 
-      context 'with the role not being assignable' do
+      context "with the role not being assignable" do
         let(:role) { non_assignable_project_role }
 
-        it 'returns nothing' do
+        it "returns nothing" do
           expect(subject)
             .to be_empty
         end
       end
 
-      context 'when asking for multiple projects' do
+      context "when asking for multiple projects" do
         subject { Principal.possible_assignee([project, other_project]) }
 
         before do
@@ -120,14 +120,14 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
 
         let(:role) { assignable_project_role }
 
-        it 'returns users assignable in all of the provided projects (intersection)' do
+        it "returns users assignable in all of the provided projects (intersection)" do
           expect(subject)
             .to contain_exactly(member_user)
         end
       end
     end
 
-    context 'when providing WorkPackage resources' do
+    context "when providing WorkPackage resources" do
       subject { Principal.possible_assignee(work_package) }
 
       let!(:member_user) do
@@ -142,48 +142,48 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
         create(:group, member_with_roles: { work_package => role })
       end
 
-      context 'with the role being assignable' do
+      context "with the role being assignable" do
         let(:role) { assignable_work_package_role }
 
-        context 'and the user status being active' do
+        context "and the user status being active" do
           let(:user_status) { :active }
 
-          it 'returns non locked users, groups and placeholder users that are members' do
+          it "returns non locked users, groups and placeholder users that are members" do
             expect(subject)
               .to contain_exactly(member_user, member_placeholder_user, member_group)
           end
         end
 
-        context 'with the user status being invited' do
+        context "with the user status being invited" do
           let(:user_status) { :invited }
 
-          it 'returns non locked users, groups and placeholder users that are members' do
+          it "returns non locked users, groups and placeholder users that are members" do
             expect(subject)
               .to contain_exactly(member_user, member_placeholder_user, member_group)
           end
         end
 
-        context 'with the user status being locked' do
+        context "with the user status being locked" do
           let(:user_status) { :locked }
 
-          it 'returns non locked users, groups and placeholder users that are members' do
+          it "returns non locked users, groups and placeholder users that are members" do
             expect(subject)
               .to contain_exactly(member_placeholder_user, member_group)
           end
         end
       end
 
-      context 'with the role not being assignable' do
+      context "with the role not being assignable" do
         let(:role) { non_assignable_work_package_role }
         let(:user_status) { :active }
 
-        it 'returns nothing' do
+        it "returns nothing" do
           expect(subject)
             .to be_empty
         end
       end
 
-      context 'when asking for multiple Work Packages (intersection)' do
+      context "when asking for multiple Work Packages (intersection)" do
         subject { Principal.possible_assignee([work_package, other_work_package]) }
 
         before do
@@ -196,7 +196,7 @@ RSpec.describe Principals::Scopes::PossibleAssignee do
         let(:role) { assignable_work_package_role }
         let(:user_status) { :active }
 
-        it 'returns users assignable in all of the provided work packages (intersection)' do
+        it "returns users assignable in all of the provided work packages (intersection)" do
           expect(subject)
             .to contain_exactly(member_user)
         end

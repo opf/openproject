@@ -28,20 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe EnvData::LdapSeeder do
   let(:seed_data) { Source::SeedData.new({}) }
 
   subject(:seeder) { described_class.new(seed_data) }
 
-  context 'when not provided' do
-    it 'does nothing' do
+  context "when not provided" do
+    it "does nothing" do
       expect { seeder.seed! }.not_to change(LdapAuthSource, :count)
     end
   end
 
-  context 'when providing seed variables',
+  context "when providing seed variables",
           :settings_reset,
           with_env: {
             OPENPROJECT_SEED_LDAP_FOO_HOST: "localhost",
@@ -64,7 +64,7 @@ RSpec.describe EnvData::LdapSeeder do
             OPENPROJECT_SEED_LDAP_FOO_GROUPFILTER_BAR_SYNC__USERS: "true",
             OPENPROJECT_SEED_LDAP_FOO_GROUPFILTER_BAR_GROUP__ATTRIBUTE: "dn"
           } do
-    it 'uses those variables' do # rubocop:disable RSpec/MultipleExpectations, RSpec/ExampleLength
+    it "uses those variables" do # rubocop:disable RSpec/MultipleExpectations, RSpec/ExampleLength
       reset(:seed_ldap)
 
       allow(LdapGroups::SynchronizationJob).to receive(:perform_now)
@@ -74,34 +74,34 @@ RSpec.describe EnvData::LdapSeeder do
       expect(LdapGroups::SynchronizationJob).to have_received(:perform_now)
 
       ldap = LdapAuthSource.last
-      expect(ldap.name).to eq 'foo'
-      expect(ldap.host).to eq 'localhost'
+      expect(ldap.name).to eq "foo"
+      expect(ldap.host).to eq "localhost"
       expect(ldap.port).to eq 12389
-      expect(ldap.tls_mode).to eq 'plain_ldap'
+      expect(ldap.tls_mode).to eq "plain_ldap"
       expect(ldap.read_ldap_certificates.first).to be_a(OpenSSL::X509::Certificate)
       expect(ldap.verify_peer).to be false
-      expect(ldap.account).to eq 'uid=admin,ou=system'
-      expect(ldap.account_password).to eq 'secret'
-      expect(ldap.base_dn).to eq 'dc=example,dc=com'
-      expect(ldap.filter_string).to eq '(uid=*)'
+      expect(ldap.account).to eq "uid=admin,ou=system"
+      expect(ldap.account_password).to eq "secret"
+      expect(ldap.base_dn).to eq "dc=example,dc=com"
+      expect(ldap.filter_string).to eq "(uid=*)"
       expect(ldap).to be_onthefly_register
-      expect(ldap.attr_login).to eq 'uid'
-      expect(ldap.attr_firstname).to eq 'givenName'
-      expect(ldap.attr_lastname).to eq 'sn'
-      expect(ldap.attr_mail).to eq 'mail'
-      expect(ldap.attr_admin).to eq 'is_openproject_admin'
+      expect(ldap.attr_login).to eq "uid"
+      expect(ldap.attr_firstname).to eq "givenName"
+      expect(ldap.attr_lastname).to eq "sn"
+      expect(ldap.attr_mail).to eq "mail"
+      expect(ldap.attr_admin).to eq "is_openproject_admin"
 
       expect(ldap.ldap_groups_synchronized_filters.count).to eq(1)
       filter = ldap.ldap_groups_synchronized_filters.first
-      expect(filter.name).to eq 'bar'
-      expect(filter.base_dn).to eq 'ou=groups,dc=example,dc=com'
-      expect(filter.filter_string).to eq '(cn=*)'
+      expect(filter.name).to eq "bar"
+      expect(filter.base_dn).to eq "ou=groups,dc=example,dc=com"
+      expect(filter.filter_string).to eq "(cn=*)"
       expect(filter.sync_users).to be true
-      expect(filter.group_name_attribute).to eq 'dn'
+      expect(filter.group_name_attribute).to eq "dn"
     end
   end
 
-  context 'when removing a previously seeded filter',
+  context "when removing a previously seeded filter",
           :settings_reset,
           with_env: {
             OPENPROJECT_SEED_LDAP_FOO_HOST: "localhost",
@@ -118,13 +118,13 @@ RSpec.describe EnvData::LdapSeeder do
             OPENPROJECT_SEED_LDAP_FOO_LASTNAME__MAPPING: "sn",
             OPENPROJECT_SEED_LDAP_FOO_MAIL__MAPPING: "mail"
           } do
-    let!(:ldap) { create(:ldap_auth_source, name: 'foo') }
-    let!(:filter) { create(:ldap_synchronized_filter, name: 'bar', ldap_auth_source: ldap) }
+    let!(:ldap) { create(:ldap_auth_source, name: "foo") }
+    let!(:filter) { create(:ldap_synchronized_filter, name: "bar", ldap_auth_source: ldap) }
 
-    it 'removes the other one' do # rubocop:disable RSpec/MultipleExpectations
+    it "removes the other one" do # rubocop:disable RSpec/MultipleExpectations
       expect(ldap.ldap_groups_synchronized_filters.count).to eq(1)
       names = ldap.ldap_groups_synchronized_filters.pluck(:name)
-      expect(names).to contain_exactly('bar')
+      expect(names).to contain_exactly("bar")
 
       reset(:seed_ldap)
 
@@ -135,27 +135,27 @@ RSpec.describe EnvData::LdapSeeder do
       expect(LdapGroups::SynchronizationJob).to have_received(:perform_now)
 
       ldap.reload
-      expect(ldap.name).to eq 'foo'
-      expect(ldap.host).to eq 'localhost'
+      expect(ldap.name).to eq "foo"
+      expect(ldap.host).to eq "localhost"
       expect(ldap.port).to eq 12389
-      expect(ldap.tls_mode).to eq 'plain_ldap'
+      expect(ldap.tls_mode).to eq "plain_ldap"
       expect(ldap.verify_peer).to be false
-      expect(ldap.account).to eq 'uid=admin,ou=system'
-      expect(ldap.account_password).to eq 'secret'
-      expect(ldap.base_dn).to eq 'dc=example,dc=com'
-      expect(ldap.filter_string).to eq '(uid=*)'
+      expect(ldap.account).to eq "uid=admin,ou=system"
+      expect(ldap.account_password).to eq "secret"
+      expect(ldap.base_dn).to eq "dc=example,dc=com"
+      expect(ldap.filter_string).to eq "(uid=*)"
       expect(ldap).to be_onthefly_register
-      expect(ldap.attr_login).to eq 'uid'
-      expect(ldap.attr_firstname).to eq 'givenName'
-      expect(ldap.attr_lastname).to eq 'sn'
-      expect(ldap.attr_mail).to eq 'mail'
+      expect(ldap.attr_login).to eq "uid"
+      expect(ldap.attr_firstname).to eq "givenName"
+      expect(ldap.attr_lastname).to eq "sn"
+      expect(ldap.attr_mail).to eq "mail"
       expect(ldap.attr_admin).to be_nil
 
       expect(ldap.ldap_groups_synchronized_filters.count).to eq(0)
     end
   end
 
-  context 'when removing a previously seeded filter and adding one',
+  context "when removing a previously seeded filter and adding one",
           :settings_reset,
           with_env: {
             OPENPROJECT_SEED_LDAP_FOO_HOST: "localhost",
@@ -177,13 +177,13 @@ RSpec.describe EnvData::LdapSeeder do
             OPENPROJECT_SEED_LDAP_FOO_GROUPFILTER_ANOTHER_SYNC__USERS: "true",
             OPENPROJECT_SEED_LDAP_FOO_GROUPFILTER_ANOTHER_GROUP__ATTRIBUTE: "dn"
           } do
-    let!(:ldap) { create(:ldap_auth_source, name: 'foo') }
-    let!(:filter) { create(:ldap_synchronized_filter, name: 'bar', ldap_auth_source: ldap) }
+    let!(:ldap) { create(:ldap_auth_source, name: "foo") }
+    let!(:filter) { create(:ldap_synchronized_filter, name: "bar", ldap_auth_source: ldap) }
 
-    it 'removes the other one' do # rubocop:disable RSpec/MultipleExpectations, RSpec/ExampleLength
+    it "removes the other one" do # rubocop:disable RSpec/MultipleExpectations, RSpec/ExampleLength
       expect(ldap.ldap_groups_synchronized_filters.count).to eq(1)
       names = ldap.ldap_groups_synchronized_filters.pluck(:name)
-      expect(names).to contain_exactly('bar')
+      expect(names).to contain_exactly("bar")
 
       reset(:seed_ldap)
 
@@ -194,25 +194,25 @@ RSpec.describe EnvData::LdapSeeder do
       expect(LdapGroups::SynchronizationJob).to have_received(:perform_now)
 
       ldap.reload
-      expect(ldap.name).to eq 'foo'
-      expect(ldap.host).to eq 'localhost'
+      expect(ldap.name).to eq "foo"
+      expect(ldap.host).to eq "localhost"
       expect(ldap.port).to eq 12389
-      expect(ldap.tls_mode).to eq 'plain_ldap'
+      expect(ldap.tls_mode).to eq "plain_ldap"
       expect(ldap.verify_peer).to be false
-      expect(ldap.account).to eq 'uid=admin,ou=system'
-      expect(ldap.account_password).to eq 'secret'
-      expect(ldap.base_dn).to eq 'dc=example,dc=com'
-      expect(ldap.filter_string).to eq '(uid=*)'
+      expect(ldap.account).to eq "uid=admin,ou=system"
+      expect(ldap.account_password).to eq "secret"
+      expect(ldap.base_dn).to eq "dc=example,dc=com"
+      expect(ldap.filter_string).to eq "(uid=*)"
       expect(ldap).to be_onthefly_register
-      expect(ldap.attr_login).to eq 'uid'
-      expect(ldap.attr_firstname).to eq 'givenName'
-      expect(ldap.attr_lastname).to eq 'sn'
-      expect(ldap.attr_mail).to eq 'mail'
+      expect(ldap.attr_login).to eq "uid"
+      expect(ldap.attr_firstname).to eq "givenName"
+      expect(ldap.attr_lastname).to eq "sn"
+      expect(ldap.attr_mail).to eq "mail"
       expect(ldap.attr_admin).to be_nil
 
       expect(ldap.ldap_groups_synchronized_filters.count).to eq(1)
       names = ldap.ldap_groups_synchronized_filters.pluck(:name)
-      expect(names).to contain_exactly('another')
+      expect(names).to contain_exactly("another")
     end
   end
 end

@@ -38,7 +38,7 @@ module OpenProject::Bim::BcfXml
       super()
 
       # Remember root markup node for easier access
-      @markup_node = markup_doc.at_xpath('/Markup')
+      @markup_node = markup_doc.at_xpath("/Markup")
     end
 
     def update
@@ -77,7 +77,7 @@ module OpenProject::Bim::BcfXml
     ##
     # Update the topic node, or create it
     def topic
-      topic_node = fetch(markup_node, 'Topic')
+      topic_node = fetch(markup_node, "Topic")
 
       topic_attributes      topic_node
 
@@ -120,77 +120,77 @@ module OpenProject::Bim::BcfXml
     end
 
     def topic_attributes(topic_node)
-      topic_node['Guid'] = issue.uuid
-      topic_node['TopicType'] = work_package.type.name # TODO: Looks wrong to me. Probably better to use original TopicType?
-      topic_node['TopicStatus'] = work_package.status.name
+      topic_node["Guid"] = issue.uuid
+      topic_node["TopicType"] = work_package.type.name # TODO: Looks wrong to me. Probably better to use original TopicType?
+      topic_node["TopicStatus"] = work_package.status.name
     end
 
     def topic_title(topic_node)
-      target = fetch(topic_node, 'Title')
+      target = fetch(topic_node, "Title")
       target.content = work_package.subject
     end
 
     def topic_creation_date(topic_node)
-      target = fetch(topic_node, 'CreationDate')
+      target = fetch(topic_node, "CreationDate")
       target.content = to_bcf_datetime(work_package.created_at)
     end
 
     def topic_modified_date(topic_node)
-      target = fetch(topic_node, 'ModifiedDate')
+      target = fetch(topic_node, "ModifiedDate")
       target.content = to_bcf_datetime(work_package.updated_at)
     end
 
     def topic_description(topic_node)
-      target = fetch(topic_node, 'Description')
+      target = fetch(topic_node, "Description")
       target.content = work_package.description
     end
 
     def topic_creation_author(topic_node)
-      target = fetch(topic_node, 'CreationAuthor')
+      target = fetch(topic_node, "CreationAuthor")
       target.content = work_package.author.mail
     end
 
     def topic_reference_link(topic_node)
-      target = fetch(topic_node, 'ReferenceLink')
+      target = fetch(topic_node, "ReferenceLink")
       target.content = url_helpers.work_package_url(work_package)
     end
 
     def topic_priority(topic_node)
       if priority = work_package.priority
-        target = fetch(topic_node, 'Priority')
+        target = fetch(topic_node, "Priority")
         target.content = priority.name
       end
     end
 
     def topic_assigned_to(topic_node)
       if assignee = work_package.assigned_to
-        target = fetch(topic_node, 'AssignedTo')
+        target = fetch(topic_node, "AssignedTo")
         target.content = assignee.mail
       end
     end
 
     def topic_modified_author(topic_node)
       if journal = work_package.journals.select(:user_id).last
-        target = fetch(topic_node, 'ModifiedAuthor')
+        target = fetch(topic_node, "ModifiedAuthor")
         target.content = journal.user.mail if journal.user_id
       end
     end
 
     def topic_due_date(topic_node)
       if work_package.due_date
-        target = fetch(topic_node, 'DueDate')
+        target = fetch(topic_node, "DueDate")
         target.content = to_bcf_date(work_package.due_date.to_datetime)
       end
     end
 
     def replace_comments
-      markup_node.xpath('./Comment').remove
+      markup_node.xpath("./Comment").remove
 
       Nokogiri::XML::Builder.with(markup_node, &method(:comments))
     end
 
     def replace_viewpoints
-      markup_node.xpath('./Viewpoints').remove
+      markup_node.xpath("./Viewpoints").remove
 
       Nokogiri::XML::Builder.with(markup_node, &method(:viewpoints))
     end

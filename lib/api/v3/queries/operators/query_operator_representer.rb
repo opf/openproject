@@ -53,7 +53,7 @@ module API
           end
 
           def _type
-            'QueryOperator'
+            "QueryOperator"
           end
         end
       end

@@ -62,7 +62,7 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
     else
       WorkPackageCustomField.all
     end
-      .reject { |cf| cf.field_format == 'text' }
+      .reject { |cf| cf.field_format == "text" }
       .map { |cf| new(cf) }
   end
 
@@ -100,11 +100,11 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
       .left_joins(:custom_values)
       .where(custom_values: { custom_field: })
       .where.not(custom_values: { value: nil })
-      .where.not(custom_values: { value: '' })
+      .where.not(custom_values: { value: "" })
   end
 
   def summable_select_statement
-    if custom_field.field_format == 'int'
+    if custom_field.field_format == "int"
       "COALESCE(SUM(value::BIGINT)::BIGINT, 0) #{name}"
     else
       "COALESCE(ROUND(SUM(value::NUMERIC), 2)::FLOAT, 0.0) #{name}"

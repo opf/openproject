@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -95,7 +95,7 @@ module API
         date_property :start_date
 
         date_property :effective_date,
-                      as: 'endDate',
+                      as: "endDate",
                       writable: true
 
         property :status
@@ -106,7 +106,7 @@ module API
         date_time_property :updated_at
 
         def _type
-          'Version'
+          "Version"
         end
       end
     end

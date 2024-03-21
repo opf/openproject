@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::CleanupUncontaineredFileLinksJob, type: :job do
-  describe '#perform' do
-    it 'removes uncontainered file_links which are old enough' do
+  describe "#perform" do
+    it "removes uncontainered file_links which are old enough" do
       grace_period = 10
       allow(OpenProject::Configuration)
         .to receive(:attachments_grace_period)

@@ -39,7 +39,7 @@ module WorkPackage::Exports
       private
 
       def formatted_hours(value)
-        value.nil? ? '' : "#{value} #{I18n.t('export.units.hours')}"
+        value.nil? ? "" : "#{value} #{I18n.t('export.units.hours')}"
       end
     end
   end

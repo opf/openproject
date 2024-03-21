@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/ui/extensible_tabs'
-require_relative '../../../config/constants/api_patch_registry'
-require_relative '../../../config/constants/open_project/activity'
-require_relative '../../../config/constants/views'
-require_relative '../../../config/constants/settings/definition'
+require "open_project/ui/extensible_tabs"
+require_relative "../../../config/constants/api_patch_registry"
+require_relative "../../../config/constants/open_project/activity"
+require_relative "../../../config/constants/views"
+require_relative "../../../config/constants/settings/definition"
 
 module OpenProject::Plugins
   module ActsAsOpEngine
@@ -43,10 +43,10 @@ module OpenProject::Plugins
         config.before_configuration do |app|
           # This is required for the routes to be loaded first
           # as the routes should be prepended so they take precedence over the core.
-          app.config.paths['config/routes.rb'].unshift File.join(config.root, 'config', 'routes.rb')
+          app.config.paths["config/routes.rb"].unshift File.join(config.root, "config", "routes.rb")
         end
 
-        initializer "#{engine_name}.remove_duplicate_routes", after: 'add_routing_paths' do |app|
+        initializer "#{engine_name}.remove_duplicate_routes", after: "add_routing_paths" do |app|
           # removes duplicate entry from app.routes_reloader
           # As we prepend the plugin's routes to the load_path up front and rails
           # adds all engines' config/routes.rb later, we have double loaded the routes
@@ -59,18 +59,18 @@ module OpenProject::Plugins
         end
 
         initializer "#{engine_name}.i18n_load_paths" do |app|
-          app.config.i18n.load_path += Dir[config.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
+          app.config.i18n.load_path += Dir[config.root.join("config", "locales", "crowdin", "*.{rb,yml}").to_s]
         end
 
         # adds our factories to factory girl's load path
-        initializer "#{engine_name}.register_factories", after: 'factory_bot.set_factory_paths' do |_app|
+        initializer "#{engine_name}.register_factories", after: "factory_bot.set_factory_paths" do |_app|
           FactoryBot.definition_file_paths << File.expand_path("#{root}/spec/factories") if defined?(FactoryBot)
         end
 
         initializer "#{engine_name}.append_migrations" do |app|
           unless app.root.to_s.match root.to_s
-            config.paths['db/migrate'].expanded.each do |expanded_path|
-              app.config.paths['db/migrate'] << expanded_path
+            config.paths["db/migrate"].expanded.each do |expanded_path|
+              app.config.paths["db/migrate"] << expanded_path
             end
 
             ##
@@ -78,7 +78,7 @@ module OpenProject::Plugins
             # in order to re-enable chained rake tasks
             # finding all migrations.
             # http://blog.pivotal.io/pivotal-labs/labs/leave-your-migrations-in-your-rails-engines
-            paths = app.config.paths['db/migrate'].to_a
+            paths = app.config.paths["db/migrate"].to_a
             ActiveRecord::Tasks::DatabaseTasks.migrations_paths = paths
             ActiveRecord::Migrator.migrations_paths = paths
           end
@@ -122,7 +122,7 @@ module OpenProject::Plugins
             "#{plugin_module}::Patches::#{klass_name}Patch".constantize
           end
 
-          qualified_class_name = args.map(&:to_s).join('::')
+          qualified_class_name = args.map(&:to_s).join("::")
           klass = qualified_class_name.to_s.constantize
           klass.send(:include, patch) unless klass.included_modules.include?(patch)
         end
@@ -223,7 +223,7 @@ module OpenProject::Plugins
 
       def extend_api_response(*args, &)
         config.to_prepare do
-          representer_namespace = args.map { |arg| arg.to_s.camelize }.join('::')
+          representer_namespace = args.map { |arg| arg.to_s.camelize }.join("::")
           representer_class     = "::API::#{representer_namespace}Representer".constantize
           representer_class.instance_eval(&)
         end
@@ -271,7 +271,7 @@ module OpenProject::Plugins
         end
 
         config.to_prepare do
-          representer_namespace = path.map { |arg| arg.to_s.camelize }.join('::')
+          representer_namespace = path.map { |arg| arg.to_s.camelize }.join("::")
           representer_class     = "::API::#{representer_namespace}Representer".constantize
           representer_class.prepend mod
         end

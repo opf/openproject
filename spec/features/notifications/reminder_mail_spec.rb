@@ -1,5 +1,5 @@
-require 'spec_helper'
-require_relative '../users/notifications/shared_examples'
+require "spec_helper"
+require_relative "../users/notifications/shared_examples"
 
 RSpec.describe "Reminder email sending", :js, :with_cuprite do
   let!(:project) { create(:project, members: { current_user => role }) }
@@ -14,8 +14,8 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
   # time zone. For the time zone Hawaii (UTC-10) this means between 8:00:00 and 8:14:59 UTC.
   # The job is scheduled to run every 15 min so the scheduled_at will in production always move between the quarters of an hour.
   # The current time can be way behind that.
-  let(:current_utc_time) { ActiveSupport::TimeZone['Pacific/Honolulu'].parse("2021-09-30T08:34:10").utc }
-  let(:job_run_at) { ActiveSupport::TimeZone['Pacific/Honolulu'].parse("2021-09-30T08:00:00").utc }
+  let(:current_utc_time) { ActiveSupport::TimeZone["Pacific/Honolulu"].parse("2021-09-30T08:34:10").utc }
+  let(:job_run_at) { ActiveSupport::TimeZone["Pacific/Honolulu"].parse("2021-09-30T08:00:00").utc }
 
   # Fix the time of the specs to ensure a consistent run
   around do |example|
@@ -28,10 +28,10 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
     create(
       :user,
       preferences: {
-        time_zone: 'Pacific/Honolulu',
+        time_zone: "Pacific/Honolulu",
         daily_reminders: {
           enabled: true,
-          times: [hitting_reminder_slot_for('Pacific/Honolulu', current_utc_time)]
+          times: [hitting_reminder_slot_for("Pacific/Honolulu", current_utc_time)]
         },
         immediate_reminders: {
           mentioned: false
@@ -63,7 +63,7 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
     GoodJob::Job.where(id: scheduled_job.job_id).update_all(scheduled_at: job_run_at)
   end
 
-  it 'sends a digest mail based on the configuration', with_settings: { journal_aggregation_time_minutes: 0 } do
+  it "sends a digest mail based on the configuration", with_settings: { journal_aggregation_time_minutes: 0 } do
     # Perform some actions the user listens to
     User.execute_as other_user do
       note = <<~NOTE
@@ -78,10 +78,10 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
       work_package.add_journal(user: other_user, notes: note)
       work_package.save!
 
-      watched_work_package.subject = 'New watched work package subject'
+      watched_work_package.subject = "New watched work package subject"
       watched_work_package.save!
 
-      involved_work_package.description = 'New involved work package description'
+      involved_work_package.description = "New involved work package description"
       involved_work_package.save!
     end
 

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../../support/pages/my/page'
+require_relative "../../support/pages/my/page"
 
-RSpec.describe 'My page', :js do
+RSpec.describe "My page", :js do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:open_status) { create(:default_status) }
@@ -97,9 +97,9 @@ RSpec.describe 'My page', :js do
     end
   end
 
-  it 'renders the default view, allows altering and saving' do
+  it "renders the default view, allows altering and saving" do
     # Waits for the default view to be created
-    my_page.expect_toast(message: 'Successful update')
+    my_page.expect_toast(message: "Successful update")
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist
@@ -113,7 +113,7 @@ RSpec.describe 'My page', :js do
       .to have_content(assigned_work_package.subject)
 
     # add widget above to right area
-    my_page.add_widget(1, 1, :row, 'Calendar')
+    my_page.add_widget(1, 1, :row, "Calendar")
 
     sleep(0.5)
     reload_grid!
@@ -131,7 +131,7 @@ RSpec.describe 'My page', :js do
     calendar_area.expect_to_span(1, 1, 2, 2)
 
     # add widget right next to the calendar widget
-    my_page.add_widget(1, 2, :within, 'News')
+    my_page.add_widget(1, 2, :within, "News")
 
     sleep(0.5)
     reload_grid!
@@ -148,7 +148,7 @@ RSpec.describe 'My page', :js do
     assigned_area.expect_to_span(3, 1, 4, 2)
     created_area.expect_to_span(2, 2, 3, 3)
 
-    my_page.add_widget(1, 3, :column, 'Work packages watched by me')
+    my_page.add_widget(1, 3, :column, "Work packages watched by me")
 
     sleep(0.5)
     reload_grid!
@@ -161,7 +161,7 @@ RSpec.describe 'My page', :js do
     # that widgets that have been there are moved down
     created_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
     reload_grid!
 
@@ -176,7 +176,7 @@ RSpec.describe 'My page', :js do
     # as no more widgets start in the second column, that column is removed
     news_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
     reload_grid!
 

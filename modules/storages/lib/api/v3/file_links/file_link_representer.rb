@@ -35,19 +35,19 @@ module API::V3::FileLinks
   PERMISSION_LINKS = {
     view_allowed: {
       href: URN_PERMISSION_VIEW,
-      title: 'View allowed'
+      title: "View allowed"
     },
     view_not_allowed: {
       href: URN_PERMISSION_NOT_ALLOWED,
-      title: 'View not allowed'
+      title: "View not allowed"
     },
     not_found: {
       href: URN_STATUS_NOT_FOUND,
-      title: 'Not found'
+      title: "Not found"
     },
     error: {
       href: URN_STATUS_ERROR,
-      title: 'Error'
+      title: "Error"
     }
   }.freeze
 
@@ -118,9 +118,9 @@ module API::V3::FileLinks
                         skip_render: ->(*) { true },
                         getter: ->(*) {},
                         setter: ->(fragment:, **) {
-                          break if fragment['href'].blank?
+                          break if fragment["href"].blank?
 
-                          canonical_url = fragment['href'].gsub(/\/+$/, '')
+                          canonical_url = fragment["href"].gsub(/\/+$/, "")
                           represented.storage = ::Storages::Storage.find_by(host: canonical_url)
                           represented.storage ||= ::Storages::Storage::InexistentStorage.new(host: canonical_url)
                         }
@@ -131,7 +131,7 @@ module API::V3::FileLinks
                         skip_render: ->(*) { represented.container_id.nil? }
 
     def _type
-      'FileLink'
+      "FileLink"
     end
 
     private
@@ -160,10 +160,10 @@ module API::V3::FileLinks
         origin_created_by_name: origin_data["createdByName"],
         origin_last_modified_by_name: origin_data["lastModifiedByName"],
         origin_created_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["createdAt"],
-                                                                                  'originData.createdAt',
+                                                                                  "originData.createdAt",
                                                                                   allow_nil: true),
         origin_updated_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["lastModifiedAt"],
-                                                                                  'originData.lastModifiedAt',
+                                                                                  "originData.lastModifiedAt",
                                                                                   allow_nil: true)
       }
     end

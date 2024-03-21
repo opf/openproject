@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../../support/pages/ifc_models/show_default'
+require "spec_helper"
+require_relative "../../support/pages/ifc_models/show_default"
 
-RSpec.describe 'Update status from WP card', :js, :with_cuprite, with_config: { edition: 'bim' } do
+RSpec.describe "Update status from WP card", :js, :with_cuprite, with_config: { edition: "bim" } do
   let(:manager_role) do
     create(:project_role, permissions: %i[view_work_packages edit_work_packages view_ifc_models view_linked_issues])
   end
   let(:manager) do
     create(:user,
-           firstname: 'Manager',
-           lastname: 'Guy',
+           firstname: "Manager",
+           lastname: "Guy",
            member_with_roles: { project => manager_role })
   end
   let(:status1) { create(:status) }
@@ -49,7 +49,7 @@ RSpec.describe 'Update status from WP card', :js, :with_cuprite, with_config: { 
            project:,
            type:,
            status: status1,
-           subject: 'Foobar')
+           subject: "Foobar")
   end
 
   let!(:workflow) do
@@ -70,14 +70,14 @@ RSpec.describe 'Update status from WP card', :js, :with_cuprite, with_config: { 
     loading_indicator_saveguard
     wp_table.expect_work_package_listed(work_package)
 
-    wp_table.switch_view 'Cards'
+    wp_table.switch_view "Cards"
   end
 
-  it 'can update the status through the button' do
+  it "can update the status through the button" do
     status_button = wp_card_view.status_button(work_package)
     status_button.update status2.name
 
-    wp_card_view.expect_and_dismiss_toaster message: 'Successful update.'
+    wp_card_view.expect_and_dismiss_toaster message: "Successful update."
     status_button.expect_text status2.name
 
     work_package.reload

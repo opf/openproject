@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe User do
-  describe 'backlogs_preference' do
-    describe 'task_color' do
-      it 'reads from and writes to a user preference' do
+  describe "backlogs_preference" do
+    describe "task_color" do
+      it "reads from and writes to a user preference" do
         u = create(:user)
-        u.backlogs_preference(:task_color, '#FFCC33')
+        u.backlogs_preference(:task_color, "#FFCC33")
 
-        expect(u.backlogs_preference(:task_color)).to eq('#FFCC33')
+        expect(u.backlogs_preference(:task_color)).to eq("#FFCC33")
         u.reload
-        expect(u.backlogs_preference(:task_color)).to eq('#FFCC33')
+        expect(u.backlogs_preference(:task_color)).to eq("#FFCC33")
       end
 
-      it 'computes a random color and persists it, when none is set' do
+      it "computes a random color and persists it, when none is set" do
         u = create(:user)
         u.backlogs_preference(:task_color, nil)
         u.save!

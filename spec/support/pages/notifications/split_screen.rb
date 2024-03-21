@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/work_packages/split_work_package'
+require "support/pages/page"
+require "support/pages/work_packages/split_work_package"
 
 module Pages
   module Notifications
@@ -36,7 +36,7 @@ module Pages
 
       def initialize(work_package, project = nil)
         super(work_package, project)
-        @selector = '.work-packages--details'
+        @selector = ".work-packages--details"
       end
     end
   end

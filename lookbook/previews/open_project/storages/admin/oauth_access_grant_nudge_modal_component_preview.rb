@@ -6,7 +6,7 @@ module OpenProject::Storages
       # @param authorized toggle Denotes whether access has been granted and renders a success state
       def default(authorized: false)
         project_storage = FactoryBot.build_stubbed(:project_storage)
-        render_with_template(locals: { project_storage:, authorized:, confirm_button_url: '#' })
+        render_with_template(locals: { project_storage:, authorized:, confirm_button_url: "#" })
       end
     end
   end

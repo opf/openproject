@@ -72,7 +72,7 @@ class Groups::UpdateService < BaseServices::Update
 
     MemberRole
       .includes(member: :member_roles)
-      .where(inherited_from: model.members.joins(:member_roles).select('member_roles.id'))
+      .where(inherited_from: model.members.joins(:member_roles).select("member_roles.id"))
       .where(members: { user_id: users.map(&:id) })
   end
 

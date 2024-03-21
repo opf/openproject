@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/meetings/show'
+require "spec_helper"
+require_relative "../support/pages/meetings/show"
 
-RSpec.describe 'Meetings', :js do
+RSpec.describe "Meetings", :js do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:role) { create(:project_role, permissions:) }
   let(:user) do
@@ -37,39 +37,39 @@ RSpec.describe 'Meetings', :js do
            member_with_roles: { project => role })
   end
 
-  let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }
+  let!(:meeting) { create(:meeting, project:, title: "Awesome meeting!") }
   let(:show_page) { Pages::Meetings::Show.new(meeting) }
 
   current_user { user }
 
-  describe 'navigate to meeting page' do
+  describe "navigate to meeting page" do
     let(:permissions) { %i[view_meetings] }
 
-    it 'can visit the meeting' do
+    it "can visit the meeting" do
       visit meetings_path(project)
 
-      find('td.title a', text: 'Awesome meeting!', wait: 10).click
-      expect(page).to have_css('h2', text: 'Meeting: Awesome meeting!')
+      find("td.title a", text: "Awesome meeting!", wait: 10).click
+      expect(page).to have_css("h2", text: "Meeting: Awesome meeting!")
 
-      expect(page).to have_test_selector('op-meeting--meeting_agenda',
-                                         text: 'There is currently nothing to display')
+      expect(page).to have_test_selector("op-meeting--meeting_agenda",
+                                         text: "There is currently nothing to display")
     end
 
-    context 'with a location' do
-      context 'as a valid url' do
-        it 'renders a link to the meeting location' do
+    context "with a location" do
+      context "as a valid url" do
+        it "renders a link to the meeting location" do
           show_page.visit!
 
           show_page.expect_link_to_location(meeting.location)
         end
       end
 
-      context 'as an invalid url' do
+      context "as an invalid url" do
         before do
-          meeting.update!(location: 'badurl')
+          meeting.update!(location: "badurl")
         end
 
-        it 'renders the meeting location as plaintext' do
+        it "renders the meeting location as plaintext" do
           show_page.visit!
 
           show_page.expect_plaintext_location(meeting.location)
@@ -77,100 +77,100 @@ RSpec.describe 'Meetings', :js do
       end
     end
 
-    context 'with an open agenda' do
-      let!(:agenda) { create(:meeting_agenda, meeting:, text: 'foo') }
-      let(:agenda_update) { create(:meeting_agenda, meeting:, text: 'bla') }
+    context "with an open agenda" do
+      let!(:agenda) { create(:meeting_agenda, meeting:, text: "foo") }
+      let(:agenda_update) { create(:meeting_agenda, meeting:, text: "bla") }
 
-      it 'shows the agenda' do
+      it "shows the agenda" do
         visit meeting_path(meeting)
-        expect(page).to have_test_selector('op-meeting--meeting_agenda',
-                                           text: 'foo')
+        expect(page).to have_test_selector("op-meeting--meeting_agenda",
+                                           text: "foo")
 
         # May not edit
-        expect(page).to have_no_css('.button--edit-agenda')
-        expect(page).not_to have_test_selector('op-meeting--meeting_agenda',
-                                               text: 'Edit')
+        expect(page).to have_no_css(".button--edit-agenda")
+        expect(page).not_to have_test_selector("op-meeting--meeting_agenda",
+                                               text: "Edit")
       end
 
-      it 'can view history' do
+      it "can view history" do
         agenda_update
 
         visit meeting_path(meeting)
 
-        click_on 'History'
+        click_on "History"
 
-        find_by_id('version-1').click
-        expect(page).to have_test_selector('op-meeting--meeting_agenda', text: 'foo')
+        find_by_id("version-1").click
+        expect(page).to have_test_selector("op-meeting--meeting_agenda", text: "foo")
       end
 
-      context 'and edit permissions' do
+      context "and edit permissions" do
         let(:permissions) { %i[view_meetings create_meeting_agendas] }
         let(:field) do
           TextEditorField.new(page,
-                              '',
-                              selector: test_selector('op-meeting--meeting_agenda'))
+                              "",
+                              selector: test_selector("op-meeting--meeting_agenda"))
         end
 
-        it 'can edit the agenda' do
+        it "can edit the agenda" do
           visit meeting_path(meeting)
 
-          find('.toolbar-item', text: 'Edit').click
+          find(".toolbar-item", text: "Edit").click
 
-          field.expect_value('foo')
+          field.expect_value("foo")
 
-          field.set_value('My new meeting text')
+          field.set_value("My new meeting text")
 
           field.submit_by_enter
 
-          show_page.expect_and_dismiss_toaster message: 'Successful update'
+          show_page.expect_and_dismiss_toaster message: "Successful update"
 
           meeting.reload
 
-          expect(meeting.agenda.text).to eq 'My new meeting text'
+          expect(meeting.agenda.text).to eq "My new meeting text"
         end
       end
 
-      context 'and edit minutes permissions' do
+      context "and edit minutes permissions" do
         let(:permissions) { %i[view_meetings create_meeting_minutes] }
 
-        it 'can not edit the minutes' do
+        it "can not edit the minutes" do
           visit meeting_path(meeting)
-          click_link 'Minutes'
-          expect(page).not_to have_test_selector('op-meeting--meeting_minutes', text: 'Edit')
-          expect(page).to have_test_selector('op-meeting--meeting_minutes',
-                                             text: 'There is currently nothing to display')
+          click_link "Minutes"
+          expect(page).not_to have_test_selector("op-meeting--meeting_minutes", text: "Edit")
+          expect(page).to have_test_selector("op-meeting--meeting_minutes",
+                                             text: "There is currently nothing to display")
         end
       end
     end
 
-    context 'with a locked agenda' do
-      let!(:agenda) { create(:meeting_agenda, meeting:, text: 'foo', locked: true) }
+    context "with a locked agenda" do
+      let!(:agenda) { create(:meeting_agenda, meeting:, text: "foo", locked: true) }
 
-      it 'shows the minutes when visiting' do
+      it "shows the minutes when visiting" do
         visit meeting_path(meeting)
-        expect(page).to have_no_css('h2', text: 'Agenda')
-        expect(page).to have_no_css('#meeting_minutes_text')
-        expect(page).to have_css('h2', text: 'Minutes')
+        expect(page).to have_no_css("h2", text: "Agenda")
+        expect(page).to have_no_css("#meeting_minutes_text")
+        expect(page).to have_css("h2", text: "Minutes")
       end
 
-      context 'and edit permissions' do
+      context "and edit permissions" do
         let(:permissions) { %i[view_meetings create_meeting_minutes] }
         let(:field) do
           TextEditorField.new(page,
-                              '',
-                              selector: test_selector('op-meeting--meeting_minutes'))
+                              "",
+                              selector: test_selector("op-meeting--meeting_minutes"))
         end
 
-        it 'can edit the minutes' do
+        it "can edit the minutes" do
           visit meeting_path(meeting)
 
-          field.set_value('This is what we talked about')
+          field.set_value("This is what we talked about")
 
-          click_button 'Save'
+          click_button "Save"
 
           expect(page)
-            .to have_css('.op-uc-container',
-                         text: 'This is what we talked about')
+            .to have_css(".op-uc-container",
+                         text: "This is what we talked about")
         end
       end
     end

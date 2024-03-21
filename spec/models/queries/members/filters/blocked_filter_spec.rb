@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Members::Filters::BlockedFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :blocked }
     let(:type) { :list }
 
-    describe '#allowed_values' do
-      it 'is a list of the possible values' do
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
         expected = [[I18n.t(:status_blocked), :blocked]]
 
         expect(instance.allowed_values).to match_array(expected)

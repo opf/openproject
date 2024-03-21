@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wysiwyg child pages spec', :js do
+RSpec.describe "Wysiwyg child pages spec", :js do
   let(:project) do
     create(:project,
            enabled_module_names: %w[wiki])
@@ -41,20 +41,20 @@ RSpec.describe 'Wysiwyg child pages spec', :js do
 
   let(:wiki_page) do
     create(:wiki_page,
-           title: 'Test',
-           text: '# My page')
+           title: "Test",
+           text: "# My page")
   end
 
   let(:parent_page) do
     create(:wiki_page,
-           title: 'Parent page',
-           text: '# parent page')
+           title: "Parent page",
+           text: "# parent page")
   end
 
   let(:child_page) do
     create(:wiki_page,
-           title: 'Child page',
-           text: '# child page')
+           title: "Child page",
+           text: "# child page")
   end
 
   before do
@@ -69,92 +69,92 @@ RSpec.describe 'Wysiwyg child pages spec', :js do
     login_as(user)
   end
 
-  describe 'in wikis' do
-    describe 'creating a wiki page' do
+  describe "in wikis" do
+    describe "creating a wiki page" do
       before do
         visit edit_project_wiki_path(project, :test)
       end
 
-      it 'can add and edit an child pages widget' do
+      it "can add and edit an child pages widget" do
         editor.in_editor do |_container, editable|
-          expect(editable).to have_css('h1', text: 'My page')
+          expect(editable).to have_css("h1", text: "My page")
 
-          editor.insert_macro 'Links to child pages'
+          editor.insert_macro "Links to child pages"
 
           # Find widget, click to show toolbar
-          placeholder = find('.op-uc-placeholder', text: 'Links to child pages')
+          placeholder = find(".op-uc-placeholder", text: "Links to child pages")
 
           # Placeholder states `this page` and no `Include parent`
-          expect(placeholder).to have_text('this page')
-          expect(placeholder).to have_no_text('Include parent')
+          expect(placeholder).to have_text("this page")
+          expect(placeholder).to have_no_text("Include parent")
 
           # Edit widget and cancel again
           placeholder.click
-          page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_css('.spot-modal')
-          expect(page).to have_field('selected-page', with: '')
-          find('.spot-modal--cancel-button').click
+          page.find(".ck-balloon-panel .ck-button", visible: :all, text: "Edit").click
+          expect(page).to have_css(".spot-modal")
+          expect(page).to have_field("selected-page", with: "")
+          find(".spot-modal--cancel-button").click
 
           # Edit widget and save
           placeholder.click
-          page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_css('.spot-modal')
-          fill_in 'selected-page', with: 'parent-page'
+          page.find(".ck-balloon-panel .ck-button", visible: :all, text: "Edit").click
+          expect(page).to have_css(".spot-modal")
+          fill_in "selected-page", with: "parent-page"
 
           # Save widget
-          find('.spot-modal--submit-button').click
+          find(".spot-modal--submit-button").click
 
           # Placeholder states `parent-page` and no `Include parent`
-          expect(placeholder).to have_text('parent-page')
-          expect(placeholder).to have_no_text('Include parent')
+          expect(placeholder).to have_text("parent-page")
+          expect(placeholder).to have_no_text("Include parent")
         end
 
         # Save wiki page
-        click_on 'Save'
+        click_on "Save"
 
-        expect(page).to have_css('.op-toast.-success')
+        expect(page).to have_css(".op-toast.-success")
 
-        within('#content') do
-          expect(page).to have_css('.pages-hierarchy')
-          expect(page).to have_css('.pages-hierarchy', text: 'Child page')
-          expect(page).to have_no_css('.pages-hierarchy', text: 'Parent page')
-          expect(page).to have_css('h1', text: 'My page')
+        within("#content") do
+          expect(page).to have_css(".pages-hierarchy")
+          expect(page).to have_css(".pages-hierarchy", text: "Child page")
+          expect(page).to have_no_css(".pages-hierarchy", text: "Parent page")
+          expect(page).to have_css("h1", text: "My page")
 
           SeleniumHubWaiter.wait
-          find('.toolbar .icon-edit').click
+          find(".toolbar .icon-edit").click
         end
 
         editor.in_editor do |_container, _editable|
           # Find widget, click to show toolbar
-          placeholder = find('.op-uc-placeholder', text: 'Links to child pages')
+          placeholder = find(".op-uc-placeholder", text: "Links to child pages")
 
           # Edit widget and save
           placeholder.click
-          page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_css('.spot-modal')
-          page.check 'include-parent'
+          page.find(".ck-balloon-panel .ck-button", visible: :all, text: "Edit").click
+          expect(page).to have_css(".spot-modal")
+          page.check "include-parent"
 
           # Save widget
-          find('.spot-modal--submit-button').click
+          find(".spot-modal--submit-button").click
 
           # Placeholder states `parent-page` and `Include parent`
-          expect(placeholder).to have_text('parent-page')
-          expect(placeholder).to have_text('Include parent')
+          expect(placeholder).to have_text("parent-page")
+          expect(placeholder).to have_text("Include parent")
         end
 
         # Save wiki page
-        click_on 'Save'
+        click_on "Save"
 
-        expect(page).to have_css('.op-toast.-success')
+        expect(page).to have_css(".op-toast.-success")
 
-        within('#content') do
-          expect(page).to have_css('.pages-hierarchy')
-          expect(page).to have_css('.pages-hierarchy', text: 'Child page')
-          expect(page).to have_css('.pages-hierarchy', text: 'Parent page')
-          expect(page).to have_css('h1', text: 'My page')
+        within("#content") do
+          expect(page).to have_css(".pages-hierarchy")
+          expect(page).to have_css(".pages-hierarchy", text: "Child page")
+          expect(page).to have_css(".pages-hierarchy", text: "Parent page")
+          expect(page).to have_css("h1", text: "My page")
 
           SeleniumHubWaiter.wait
-          find('.toolbar .icon-edit').click
+          find(".toolbar .icon-edit").click
         end
       end
     end

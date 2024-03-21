@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackages::Scopes::InvolvingUser do
   create_shared_association_defaults_for_work_package_factory
@@ -39,7 +39,7 @@ RSpec.describe WorkPackages::Scopes::InvolvingUser do
     )
   end
 
-  it 'returns work packages for which a user is assigned to' do
+  it "returns work packages for which a user is assigned to" do
     _work_package_blank = create(:work_package)
     work_package_assigned1 = create(:work_package, assigned_to: user)
     work_package_assigned2 = create(:work_package, assigned_to: user)
@@ -48,7 +48,7 @@ RSpec.describe WorkPackages::Scopes::InvolvingUser do
       .to contain_exactly(work_package_assigned1, work_package_assigned2)
   end
 
-  it 'returns work packages for which a user is accountable / responsible' do
+  it "returns work packages for which a user is accountable / responsible" do
     _work_package_blank = create(:work_package)
     work_package_responsible1 = create(:work_package, responsible: user)
     work_package_responsible2 = create(:work_package, responsible: user)
@@ -57,7 +57,7 @@ RSpec.describe WorkPackages::Scopes::InvolvingUser do
       .to contain_exactly(work_package_responsible1, work_package_responsible2)
   end
 
-  it 'returns work packages for which a user is a watcher' do
+  it "returns work packages for which a user is a watcher" do
     _work_package_blank = create(:work_package)
     work_package_watched1 = create(:work_package)
     create(:watcher, watchable: work_package_watched1, user:)
@@ -68,10 +68,10 @@ RSpec.describe WorkPackages::Scopes::InvolvingUser do
       .to contain_exactly(work_package_watched1, work_package_watched2)
   end
 
-  context 'when user is part of a group' do
+  context "when user is part of a group" do
     shared_let(:group) { create(:group, members: [user]) }
 
-    it 'returns work packages for which the group is assigned to' do
+    it "returns work packages for which the group is assigned to" do
       _work_package_blank = create(:work_package)
       work_package_assigned = create(:work_package, assigned_to: group)
 
@@ -79,7 +79,7 @@ RSpec.describe WorkPackages::Scopes::InvolvingUser do
         .to contain_exactly(work_package_assigned)
     end
 
-    it 'returns work packages for which the group is accountable / responsible' do
+    it "returns work packages for which the group is accountable / responsible" do
       _work_package_blank = create(:work_package)
       work_package_responsible = create(:work_package, responsible: group)
 

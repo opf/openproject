@@ -28,40 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::Bim::BcfJson::FasterConverter do
   def pps(hash)
-    PP.pp(hash, +'')
+    PP.pp(hash, +"")
   end
 
-  describe '.xml_to_hash' do
-    it 'deals with single tag without params' do
+  describe ".xml_to_hash" do
+    it "deals with single tag without params" do
       xml = <<~XML
         <Component />
       XML
-      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), 'should be identical to reference implementation'
+      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), "should be identical to reference implementation"
       expect(described_class.xml_to_hash(xml))
         .to eq("Component" => nil)
     end
 
-    it 'deals with single tag with params' do
+    it "deals with single tag with params" do
       xml = <<~XML
         <Component IfcGuid="3_LMnKT5PDNvFeWnu3ys5Q" />
       XML
-      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), 'should be identical to reference implementation'
+      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), "should be identical to reference implementation"
       expect(described_class.xml_to_hash(xml))
         .to eq("Component" => { "IfcGuid" => "3_LMnKT5PDNvFeWnu3ys5Q" })
     end
 
-    it 'deals with single tag with inner tags' do
+    it "deals with single tag with inner tags" do
       xml = <<~XML
         <Component IfcGuid="3_LMnKT5PDNvFeWnu3ys5Q">
           <OriginatingSystem>Revit</OriginatingSystem>
           <AuthoringToolId>1110420</AuthoringToolId>
         </Component>
       XML
-      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), 'should be identical to reference implementation'
+      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), "should be identical to reference implementation"
       expect(described_class.xml_to_hash(xml))
         .to eq(
           "Component" => {
@@ -72,7 +72,7 @@ RSpec.describe OpenProject::Bim::BcfJson::FasterConverter do
         )
     end
 
-    it 'deals with multiple similar tags with inner tags' do
+    it "deals with multiple similar tags with inner tags" do
       xml = <<~XML
         <root>
           <Component IfcGuid="3_LMnKT5PDNvFeWnu3ys5Q">
@@ -85,7 +85,7 @@ RSpec.describe OpenProject::Bim::BcfJson::FasterConverter do
           </Component>
         </root>
       XML
-      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), 'should be identical to reference implementation'
+      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), "should be identical to reference implementation"
       expect(described_class.xml_to_hash(xml))
         .to eq(
           "root" => {
@@ -97,38 +97,38 @@ RSpec.describe OpenProject::Bim::BcfJson::FasterConverter do
         )
     end
 
-    it 'deals with outer tag + multiple similar inner tags' do
+    it "deals with outer tag + multiple similar inner tags" do
       xml = <<~XML
         <Color>
           <Component />
           <Component />
         </Color>
       XML
-      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), 'should be identical to reference implementation'
+      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), "should be identical to reference implementation"
       expect(described_class.xml_to_hash(xml))
         .to eq("Color" => { "Component" => [nil, nil] })
     end
 
-    it 'deals with outer tag with params + multiple similar inner tags' do
+    it "deals with outer tag with params + multiple similar inner tags" do
       xml = <<~XML
         <Color Color="3498db">
           <Component />
           <Component />
         </Color>
       XML
-      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), 'should be identical to reference implementation'
+      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), "should be identical to reference implementation"
       expect(described_class.xml_to_hash(xml))
         .to eq("Color" => { "Color" => "3498db", "Component" => [nil, nil] })
     end
 
-    it 'deals with outer tag with params + multiple similar inner tags with params' do
+    it "deals with outer tag with params + multiple similar inner tags with params" do
       xml = <<~XML
         <Color Color="3498db">
           <Component IfcGuid="3_LMnKT5PDNvFeWnu3ys5Q"/>
           <Component IfcGuid="3_LMnKT5PDNvFeWnu3ysAc"/>
         </Color>
       XML
-      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), 'should be identical to reference implementation'
+      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), "should be identical to reference implementation"
       expect(described_class.xml_to_hash(xml))
         .to eq(
           "Color" => {
@@ -141,7 +141,7 @@ RSpec.describe OpenProject::Bim::BcfJson::FasterConverter do
         )
     end
 
-    it 'deals with outer tag + multiple similar inner tags with inner tags' do
+    it "deals with outer tag + multiple similar inner tags with inner tags" do
       xml = <<~XML
         <Color>
           <Component>
@@ -152,7 +152,7 @@ RSpec.describe OpenProject::Bim::BcfJson::FasterConverter do
           </Component>
         </Color>
       XML
-      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), 'should be identical to reference implementation'
+      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), "should be identical to reference implementation"
       expect(described_class.xml_to_hash(xml))
         .to eq(
           "Color" => {
@@ -164,7 +164,7 @@ RSpec.describe OpenProject::Bim::BcfJson::FasterConverter do
         )
     end
 
-    it 'deals with outer tag + mixed similar inner tags' do
+    it "deals with outer tag + mixed similar inner tags" do
       xml = <<~XML
         <Color>
           <Component IfcGuid="guid:1"/>
@@ -174,7 +174,7 @@ RSpec.describe OpenProject::Bim::BcfJson::FasterConverter do
           <Component IfcGuid="guid:3"/>
         </Color>
       XML
-      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), 'should be identical to reference implementation'
+      expect(described_class.xml_to_hash(xml)).to eq(Hash.from_xml(xml)), "should be identical to reference implementation"
       expect(described_class.xml_to_hash(xml))
         .to eq(
           "Color" => {

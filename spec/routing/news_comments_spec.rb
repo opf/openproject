@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe News::CommentsController, 'routing' do
-  context 'news scoped' do
+RSpec.describe News::CommentsController, "routing" do
+  context "news scoped" do
     it {
-      expect(subject).to route(:post, '/news/567/comments').to(controller: 'news/comments',
-                                                               action: 'create',
-                                                               news_id: '567')
+      expect(subject).to route(:post, "/news/567/comments").to(controller: "news/comments",
+                                                               action: "create",
+                                                               news_id: "567")
     }
   end
 
   it {
-    expect(subject).to route(:delete, '/comments/15').to(controller: 'news/comments',
-                                                         action: 'destroy',
-                                                         id: '15')
+    expect(subject).to route(:delete, "/comments/15").to(controller: "news/comments",
+                                                         action: "destroy",
+                                                         id: "15")
   }
 end

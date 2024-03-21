@@ -36,15 +36,15 @@ class DocumentsController < ApplicationController
   before_action :authorize
 
   def index
-    @group_by = %w(category date title author).include?(params[:group_by]) ? params[:group_by] : 'category'
+    @group_by = %w(category date title author).include?(params[:group_by]) ? params[:group_by] : "category"
     documents = @project.documents
     @grouped =
       case @group_by
-      when 'date'
+      when "date"
         documents.group_by { |d| d.updated_at.to_date }
-      when 'title'
+      when "title"
         documents.group_by { |d| d.title.first.upcase }
-      when 'author'
+      when "author"
         documents.with_attachments.group_by { |d| d.attachments.last.author }
       else
         documents.includes(:category).group_by(&:category)
@@ -54,7 +54,7 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    @attachments = @document.attachments.order(Arel.sql('created_at DESC'))
+    @attachments = @document.attachments.order(Arel.sql("created_at DESC"))
   end
 
   def new
@@ -71,7 +71,7 @@ class DocumentsController < ApplicationController
       redirect_to project_documents_path(@project)
     else
       @document = call.result
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -86,21 +86,21 @@ class DocumentsController < ApplicationController
 
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'show', id: @document
+      redirect_to action: "show", id: @document
     else
       @document = call.result
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
   def destroy
     @document.destroy
-    redirect_to controller: '/documents', action: 'index', project_id: @project
+    redirect_to controller: "/documents", action: "index", project_id: @project
   end
 
   private
 
   def document_params
-    params.fetch(:document, {}).permit('category_id', 'title', 'description')
+    params.fetch(:document, {}).permit("category_id", "title", "description")
   end
 end

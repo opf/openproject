@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.shared_context 'action link shared' do
+RSpec.shared_context "action link shared" do
   let(:all_permissions) { OpenProject::AccessControl.permissions.map(&:name) }
   let(:permissions) { all_permissions }
   let(:action_link_user) do
@@ -47,7 +47,7 @@ RSpec.shared_context 'action link shared' do
     end
   end
 
-  it 'indicates the desired method' do
+  it "indicates the desired method" do
     verb = begin
       # the standard method #method on an object interferes
       # with the let named 'method' conditionally defined
@@ -66,60 +66,60 @@ RSpec.shared_context 'action link shared' do
     end
   end
 
-  describe 'without permission' do
+  describe "without permission" do
     let(:permissions) { all_permissions - Array(permission) }
 
-    it_behaves_like 'has no link'
+    it_behaves_like "has no link"
   end
 end
 
-RSpec.shared_examples_for 'has an untitled action link' do
-  include_context 'action link shared'
+RSpec.shared_examples_for "has an untitled action link" do
+  include_context "action link shared"
 
-  it_behaves_like 'has an untitled link'
+  it_behaves_like "has an untitled link"
 end
 
-RSpec.shared_examples_for 'has a titled action link' do
-  include_context 'action link shared'
+RSpec.shared_examples_for "has a titled action link" do
+  include_context "action link shared"
 
-  it_behaves_like 'has a titled link'
+  it_behaves_like "has a titled link"
 end
 
-RSpec.shared_examples_for 'has a titled link' do
+RSpec.shared_examples_for "has a titled link" do
   it { is_expected.to be_json_eql(href.to_json).at_path("_links/#{link}/href") }
   it { is_expected.to be_json_eql(title.to_json).at_path("_links/#{link}/title") }
 end
 
-RSpec.shared_examples_for 'has an untitled link' do
+RSpec.shared_examples_for "has an untitled link" do
   it { is_expected.to be_json_eql(href.to_json).at_path("_links/#{link}/href") }
   it { is_expected.not_to have_json_path("_links/#{link}/title") }
 end
 
-RSpec.shared_examples_for 'has a templated link' do
+RSpec.shared_examples_for "has a templated link" do
   it { is_expected.to be_json_eql(href.to_json).at_path("_links/#{link}/href") }
   it { is_expected.to be_json_eql(true.to_json).at_path("_links/#{link}/templated") }
 end
 
-RSpec.shared_examples_for 'has an empty link' do
+RSpec.shared_examples_for "has an empty link" do
   it { is_expected.to be_json_eql(nil.to_json).at_path("_links/#{link}/href") }
 
-  it 'has no embedded resource' do
+  it "has no embedded resource" do
     expect(subject).not_to have_json_path("_embedded/#{link}")
   end
 end
 
-RSpec.shared_examples_for 'has an empty link collection' do
+RSpec.shared_examples_for "has an empty link collection" do
   it { is_expected.to be_json_eql([].to_json).at_path("_links/#{link}") }
 end
 
-RSpec.shared_examples_for 'has a link collection' do
+RSpec.shared_examples_for "has a link collection" do
   it { is_expected.to be_json_eql(hrefs.to_json).at_path("_links/#{link}") }
 end
 
-RSpec.shared_examples_for 'has no link' do
+RSpec.shared_examples_for "has no link" do
   it { is_expected.not_to have_json_path("_links/#{link}") }
 
-  it 'has no embedded resource' do
+  it "has no embedded resource" do
     expect(subject).not_to have_json_path("_embedded/#{link}")
   end
 end

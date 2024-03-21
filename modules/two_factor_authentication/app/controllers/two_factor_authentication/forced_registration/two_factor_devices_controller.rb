@@ -41,13 +41,13 @@ module ::TwoFactorAuthentication
           if needs_confirmation
             redirect_to action: :confirm, device_id: @device.id
           else
-            flash[:notice] = t('two_factor_authentication.devices.registration_complete')
+            flash[:notice] = t("two_factor_authentication.devices.registration_complete")
             @device.confirm_registration_and_save
             redirect_to registration_success_path
           end
         else
           Rails.logger.warn { "User ##{target_user.id} forced to register failed for #{@device_type}." }
-          render 'two_factor_authentication/two_factor_devices/new'
+          render "two_factor_authentication/two_factor_devices/new"
         end
       end
 
@@ -76,7 +76,7 @@ module ::TwoFactorAuthentication
       ##
       # Ensure the authentication stage from the core provided the authenticated user
       def require_authenticated_user
-        raise ArgumentError, 'Missing param' unless session[:authenticated_user_force_2fa]
+        raise ArgumentError, "Missing param" unless session[:authenticated_user_force_2fa]
 
         @authenticated_user = User.find(session[:authenticated_user_id])
         true

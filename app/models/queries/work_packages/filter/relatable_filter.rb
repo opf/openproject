@@ -54,7 +54,7 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
 
   # 'children' used to be supported by the API although 'child' would be more fitting.
   def scope_operator
-    if operator == 'children'
+    if operator == "children"
       Relation::TYPE_CHILD
     else
       operator

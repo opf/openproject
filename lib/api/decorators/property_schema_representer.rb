@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module Decorators
@@ -109,11 +109,11 @@ module API
       # either nil, _links, or _meta depending on the input
       def derive_location(location)
         case location.to_s
-        when 'link'
+        when "link"
           :_links
-        when 'meta'
+        when "meta"
           :_meta
-        when ''
+        when ""
           nil
         else
           raise ArgumentError, "Invalid location attribute #{location}"

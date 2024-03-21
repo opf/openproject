@@ -42,87 +42,87 @@ RSpec.describe Activities::ItemComponent, type: :component do
       journal:
     )
   end
-  let(:project) { build_stubbed(:project, name: 'My project') }
+  let(:project) { build_stubbed(:project, name: "My project") }
   let(:journal) { build_stubbed(:work_package_journal) }
 
-  it 'renders the activity title' do
+  it "renders the activity title" do
     render_inline(described_class.new(event:))
 
-    expect(page).to have_css('.op-activity-list--item-title', text: 'Event Title')
+    expect(page).to have_css(".op-activity-list--item-title", text: "Event Title")
   end
 
   it 'adds "(Project: ...)" suffix after the activity title' do
     render_inline(described_class.new(event:))
 
-    expect(page).to have_css('.op-activity-list--item-title', text: /Event Title\s+\(Project: My project\)/)
+    expect(page).to have_css(".op-activity-list--item-title", text: /Event Title\s+\(Project: My project\)/)
   end
 
-  it 'escapes HTML in the activity title and the project suffix' do
-    event.event_title = 'Hello <b>World</b>!'
-    event.project.name = 'Project <b>name</b> with HTML'
+  it "escapes HTML in the activity title and the project suffix" do
+    event.event_title = "Hello <b>World</b>!"
+    event.project.name = "Project <b>name</b> with HTML"
     render_inline(described_class.new(event:))
 
-    expect(page).to have_css('.op-activity-list--item-title', text: 'Hello <b>World</b>!')
-    expect(page).to have_css('.op-activity-list--item-title', text: 'Project: Project <b>name</b> with HTML)')
+    expect(page).to have_css(".op-activity-list--item-title", text: "Hello <b>World</b>!")
+    expect(page).to have_css(".op-activity-list--item-title", text: "Project: Project <b>name</b> with HTML)")
   end
 
-  it 'does not truncate the title' do
-    event.event_title = 'Hello, World!' * 20
+  it "does not truncate the title" do
+    event.event_title = "Hello, World!" * 20
     render_inline(described_class.new(event:))
 
-    expect(page).to have_css('.op-activity-list--item-title', text: event.event_title)
+    expect(page).to have_css(".op-activity-list--item-title", text: event.event_title)
   end
 
-  it 'removes line breaks and tabs from the title and replaces them with spaces' do
+  it "removes line breaks and tabs from the title and replaces them with spaces" do
     event.event_title = "This \t should\n\rbe\n all\ncleaned"
     render_inline(described_class.new(event:))
 
-    expect(page).to have_css('.op-activity-list--item-title', text: 'This should be all cleaned')
+    expect(page).to have_css(".op-activity-list--item-title", text: "This should be all cleaned")
   end
 
-  context 'for Project activities' do
+  context "for Project activities" do
     let(:journal) { build_stubbed(:project_journal) }
 
-    it 'does not add the project suffix' do
+    it "does not add the project suffix" do
       component = described_class.new(event:)
       render_inline(component)
 
       expect(component.project_suffix).to be_nil
-      expect(page).to have_css('.op-activity-list--item-title', text: /\A\s*Event Title\s*\z/)
+      expect(page).to have_css(".op-activity-list--item-title", text: /\A\s*Event Title\s*\z/)
     end
   end
 
-  context 'when :current_project is set' do
-    it 'does not display the project suffix for activities of the current project' do
-      event.project.name = 'My project'
+  context "when :current_project is set" do
+    it "does not display the project suffix for activities of the current project" do
+      event.project.name = "My project"
       component = described_class.new(event:, current_project: project)
       render_inline(component)
 
       expect(component.project_suffix).to be_nil
-      expect(page).to have_no_css('.op-activity-list--item-title', text: '(Project: My project)')
+      expect(page).to have_no_css(".op-activity-list--item-title", text: "(Project: My project)")
     end
 
     it 'adds "(Subproject: ...)" suffix for activities of subprojects of the current project' do
       parent_project = build_stubbed(:project)
       event.project.parent = parent_project
-      event.project.name = 'My subproject'
+      event.project.name = "My subproject"
       render_inline(described_class.new(event:, current_project: parent_project))
 
-      expect(page).to have_css('.op-activity-list--item-title', text: '(Subproject: My subproject)')
+      expect(page).to have_css(".op-activity-list--item-title", text: "(Subproject: My subproject)")
     end
   end
 
-  context 'when a journal change does not have a formatter associated' do
-    it 'does not display the change information' do
-      event.event_description = ''
-      allow(event.journal).to receive(:details).and_return(i_do_not_have_a_formatter_associated: ['old', 'new'])
+  context "when a journal change does not have a formatter associated" do
+    it "does not display the change information" do
+      event.event_description = ""
+      allow(event.journal).to receive(:details).and_return(i_do_not_have_a_formatter_associated: ["old", "new"])
       render_inline(described_class.new(event:))
 
-      expect(page).to have_no_css('.op-activity-list--item-detail')
+      expect(page).to have_no_css(".op-activity-list--item-detail")
     end
   end
 
-  context 'for TimeEntry activities' do
+  context "for TimeEntry activities" do
     let(:journal) { build_stubbed(:time_entry_journal) }
     let(:event) do
       Activities::Event.new(
@@ -134,10 +134,10 @@ RSpec.describe Activities::ItemComponent, type: :component do
       )
     end
 
-    it 'displays the title correctly' do
+    it "displays the title correctly" do
       component = described_class.new(event:)
       render_inline(component)
-      expect(page).to have_css('.op-activity-list--item-title', text: /Event Title\s+\(Project: My project\)/)
+      expect(page).to have_css(".op-activity-list--item-title", text: /Event Title\s+\(Project: My project\)/)
     end
   end
 end

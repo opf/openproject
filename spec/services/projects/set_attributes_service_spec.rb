@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Projects::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
@@ -58,7 +58,7 @@ RSpec.describe Projects::SetAttributesService, type: :model do
     build_stubbed(:project)
   end
 
-  describe 'call' do
+  describe "call" do
     let(:call_attributes) do
       {}
     end
@@ -75,25 +75,25 @@ RSpec.describe Projects::SetAttributesService, type: :model do
 
     subject { instance.call(call_attributes) }
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
-    it 'calls validation' do
+    it "calls validation" do
       subject
 
       expect(contract_instance)
         .to have_received(:validate)
     end
 
-    it 'sets the attributes' do
+    it "sets the attributes" do
       subject
 
       expect(project.attributes.slice(*project.changed).symbolize_keys)
         .to eql call_attributes
     end
 
-    it 'does not persist the project' do
+    it "does not persist the project" do
       allow(project)
         .to receive(:save)
 
@@ -103,44 +103,44 @@ RSpec.describe Projects::SetAttributesService, type: :model do
         .not_to have_received(:save)
     end
 
-    shared_examples 'setting status attributes' do
-      let(:status_explanation) { 'A magic dwells in each beginning.' }
+    shared_examples "setting status attributes" do
+      let(:status_explanation) { "A magic dwells in each beginning." }
 
-      it 'sets the project status code' do
+      it "sets the project status code" do
         expect(subject.result.status_code)
           .to eq status_code
       end
 
-      it 'sets the project status explanation' do
+      it "sets the project status explanation" do
         expect(subject.result.status_explanation)
           .to eq status_explanation
       end
     end
 
-    context 'for a new record' do
+    context "for a new record" do
       let(:project) do
         Project.new
       end
 
-      describe 'identifier default value' do
-        context 'with an identifier provided' do
+      describe "identifier default value" do
+        context "with an identifier provided" do
           let(:call_attributes) do
             {
-              identifier: 'lorem'
+              identifier: "lorem"
             }
           end
 
-          it 'does not alter the identifier' do
+          it "does not alter the identifier" do
             expect(subject.result.identifier)
-              .to eql 'lorem'
+              .to eql "lorem"
           end
         end
 
-        context 'with no identifier provided' do
-          it 'stays nil' do
+        context "with no identifier provided" do
+          it "stays nil" do
             allow(Project)
               .to receive(:next_identifier)
-              .and_return('ipsum')
+              .and_return("ipsum")
 
             expect(subject.result.identifier)
               .to be_nil
@@ -148,62 +148,62 @@ RSpec.describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      describe 'public default value', with_settings: { default_projects_public: true } do
-        context 'with a value for is_public provided' do
+      describe "public default value", with_settings: { default_projects_public: true } do
+        context "with a value for is_public provided" do
           let(:call_attributes) do
             {
               public: false
             }
           end
 
-          it 'does not alter the public value' do
+          it "does not alter the public value" do
             expect(subject.result)
               .not_to be_public
           end
         end
 
-        context 'with no value for public provided' do
-          it 'sets uses the default value' do
+        context "with no value for public provided" do
+          it "sets uses the default value" do
             expect(subject.result)
               .to be_public
           end
         end
       end
 
-      describe 'enabled_module_names default value', with_settings: { default_projects_modules: ['lorem', 'ipsum'] } do
-        context 'with a value for enabled_module_names provided' do
+      describe "enabled_module_names default value", with_settings: { default_projects_modules: ["lorem", "ipsum"] } do
+        context "with a value for enabled_module_names provided" do
           let(:call_attributes) do
             {
               enabled_module_names: %w(some other)
             }
           end
 
-          it 'does not alter the enabled modules' do
+          it "does not alter the enabled modules" do
             expect(subject.result.enabled_module_names)
               .to match_array %w(some other)
           end
         end
 
-        context 'with no value for enabled_module_names provided' do
-          it 'sets a default enabled modules' do
+        context "with no value for enabled_module_names provided" do
+          it "sets a default enabled modules" do
             expect(subject.result.enabled_module_names)
               .to match_array %w(lorem ipsum)
           end
         end
 
-        context 'with the enabled modules being set before' do
+        context "with the enabled modules being set before" do
           before do
             project.enabled_module_names = %w(some other)
           end
 
-          it 'does not alter the enabled modules' do
+          it "does not alter the enabled modules" do
             expect(subject.result.enabled_module_names)
               .to match_array %w(some other)
           end
         end
       end
 
-      describe 'types default value' do
+      describe "types default value" do
         let(:other_types) do
           [build_stubbed(:type)]
         end
@@ -218,25 +218,25 @@ RSpec.describe Projects::SetAttributesService, type: :model do
         end
 
         shared_examples "setting custom field defaults" do
-          context 'with custom fields' do
+          context "with custom fields" do
             let!(:custom_field) { create(:text_wp_custom_field, types:) }
             let!(:custom_field_with_no_type) { create(:text_wp_custom_field) }
 
-            it 'activates the type\'s custom fields' do
+            it "activates the type's custom fields" do
               expect(subject.result.work_package_custom_fields)
                 .to eq([custom_field])
             end
           end
         end
 
-        context 'with a value for types provided' do
+        context "with a value for types provided" do
           let(:call_attributes) do
             {
               types: other_types
             }
           end
 
-          it 'does not alter the types' do
+          it "does not alter the types" do
             expect(subject.result.types)
               .to match_array other_types
           end
@@ -247,8 +247,8 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           end
         end
 
-        context 'with no value for types provided' do
-          it 'sets the default types' do
+        context "with no value for types provided" do
+          it "sets the default types" do
             expect(subject.result.types)
               .to match_array default_types
           end
@@ -259,27 +259,27 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           end
         end
 
-        context 'with the types being set before' do
-          let(:types) { [build(:type, name: 'lorem')] }
+        context "with the types being set before" do
+          let(:types) { [build(:type, name: "lorem")] }
 
           before do
             project.types = types
           end
 
-          it 'does not alter the types modules' do
+          it "does not alter the types modules" do
             expect(subject.result.types.map(&:name))
               .to match_array %w(lorem)
           end
 
           include_examples "setting custom field defaults" do
-            let(:types) { [create(:type, name: 'lorem')] }
+            let(:types) { [create(:type, name: "lorem")] }
           end
         end
       end
 
-      describe 'project status' do
-        context 'with valid status attributes' do
-          let(:status_code) { 'on_track' }
+      describe "project status" do
+        context "with valid status attributes" do
+          let(:status_code) { "on_track" }
           let(:call_attributes) do
             {
               status_code:,
@@ -287,11 +287,11 @@ RSpec.describe Projects::SetAttributesService, type: :model do
             }
           end
 
-          include_examples 'setting status attributes'
+          include_examples "setting status attributes"
         end
 
-        context 'with an invalid status code provided' do
-          let(:status_code) { 'wrong' }
+        context "with an invalid status code provided" do
+          let(:status_code) { "wrong" }
           let(:call_attributes) do
             {
               status_code:,
@@ -299,20 +299,20 @@ RSpec.describe Projects::SetAttributesService, type: :model do
             }
           end
 
-          include_examples 'setting status attributes'
+          include_examples "setting status attributes"
         end
       end
     end
 
-    context 'for an existing project' do
-      describe 'project status' do
+    context "for an existing project" do
+      describe "project status" do
         let(:project) do
           build_stubbed(:project, :with_status)
         end
 
-        context 'with a value provided' do
-          let(:status_code) { 'at_risk' }
-          let(:status_explanation) { 'Still some magic there.' }
+        context "with a value provided" do
+          let(:status_code) { "at_risk" }
+          let(:status_explanation) { "Still some magic there." }
           let(:call_attributes) do
             {
               status_code:,
@@ -320,7 +320,7 @@ RSpec.describe Projects::SetAttributesService, type: :model do
             }
           end
 
-          include_examples 'setting status attributes'
+          include_examples "setting status attributes"
         end
       end
     end

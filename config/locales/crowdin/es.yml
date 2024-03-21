@@ -1537,6 +1537,7 @@ es:
   journals:
     changes_retracted: "Se deshicieron los cambios."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Cambio de fechas"
       system_update: "Actualización del sistema OpenProject:"
     cause_descriptions:
@@ -2714,6 +2715,9 @@ es:
   setting_apiv3_cors_origins: "Orígenes permitidos de la API de CORS (uso compartido de recursos entre orígenes) V3"
   setting_apiv3_cors_origins_text_html: >
     Si CORS está habilitado, estos son los orígenes que tienen permiso para acceder a la API de OpenProject. <br/> Consulte la <a href="%{origin_link}" target="_blank">documentación sobre el encabezado Origin</a> para obtener información sobre cómo especificar los valores esperados.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Tamaño máximo de página API"
   setting_apiv3_max_page_instructions_html: >
     Establecer el tamaño máximo de página con el que responderá la API. No será posible realizar peticiones API que devuelvan más valores en una sola página. <br/> <strong>Advertencia:</strong> Por favor, cambie este valor sólo si está seguro de por qué lo necesita. Un ajuste alto impactará significativamente el rendimiento, mientras que un valor inferior a las opciones por página causará errores en las vistas paginadas.
@@ -3092,6 +3096,7 @@ es:
     status_user_and_brute_force: "%{user} y %{brute_force}"
     status_change: "Cambio de estado"
     text_change_disabled_for_provider_login: "El nombre lo configura su proveedor de inicio de sesión y no se puede cambiar."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear y resetear los inicios de sesión fallidos"
   version_status_closed: "cerrado"

@@ -159,11 +159,11 @@ class Redmine::Diff::ArrayStringDiff
   end
 
   def discarda(i, elem)
-    @curdiffs.push ['-', i, elem]
+    @curdiffs.push ["-", i, elem]
   end
 
   def discardb(i, elem)
-    @curdiffs.push ['+', i, elem]
+    @curdiffs.push ["+", i, elem]
   end
 
   def compact

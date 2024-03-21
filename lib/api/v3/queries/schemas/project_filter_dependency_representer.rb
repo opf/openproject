@@ -33,7 +33,7 @@ module API
         class ProjectFilterDependencyRepresenter <
           FilterDependencyRepresenter
           def href_callback
-            params = [active: { operator: '=', values: ['t'] }]
+            params = [active: { operator: "=", values: ["t"] }]
             escaped = CGI.escape(::JSON.dump(params))
 
             "#{api_v3_paths.projects}?filters=#{escaped}&pageSize=-1"

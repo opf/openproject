@@ -28,10 +28,10 @@ module DevelopmentData
   class CustomFieldsSeeder < Seeder
     def seed_data!
       CustomField.transaction do
-        print_status '    ↳ Creating custom fields...'
+        print_status "    ↳ Creating custom fields..."
         cfs = create_cfs!
 
-        print_status '    ↳ Creating types for linking CFs'
+        print_status "    ↳ Creating types for linking CFs"
         create_types!(cfs)
       end
     end
@@ -43,14 +43,14 @@ module DevelopmentData
     def create_types!(cfs)
       # Create ALL CFs types
       non_req_cfs = cfs.reject(&:is_required).map(&:attribute_name)
-      type = FactoryBot.build :type, name: 'All CFS'
-      extend_group(type, ['Custom fields', non_req_cfs])
+      type = FactoryBot.build :type, name: "All CFS"
+      extend_group(type, ["Custom fields", non_req_cfs])
       type.save!
 
       # Create type
       req_cfs = cfs.select(&:is_required).map(&:attribute_name)
-      type_req = FactoryBot.build :type, name: 'Required CF'
-      extend_group(type_req, ['Custom fields', req_cfs])
+      type_req = FactoryBot.build :type, name: "Required CF"
+      extend_group(type_req, ["Custom fields", req_cfs])
       type_req.save!
     end
 
@@ -60,34 +60,34 @@ module DevelopmentData
       # create some custom fields and add them to the project
       (all_cfs - %w(list multilist intrange)).each do |type|
         cfs << CustomField.create!(name: "CF DEV #{type}",
-                                   type: 'WorkPackageCustomField',
+                                   type: "WorkPackageCustomField",
                                    is_required: false,
                                    field_format: type)
       end
 
       cfs << CustomField.create!(name: "CF DEV list",
                                  is_required: false,
-                                 type: 'WorkPackageCustomField',
-                                 possible_values: ['A', 'B', 'C'],
-                                 field_format: 'list')
+                                 type: "WorkPackageCustomField",
+                                 possible_values: ["A", "B", "C"],
+                                 field_format: "list")
 
       cfs << CustomField.create!(name: "CF DEV multilist",
-                                 type: 'WorkPackageCustomField',
+                                 type: "WorkPackageCustomField",
                                  is_required: false,
                                  multi_value: true,
-                                 possible_values: ['Foo', 'Bar', 'Bla'],
-                                 field_format: 'list')
+                                 possible_values: ["Foo", "Bar", "Bla"],
+                                 field_format: "list")
 
       cfs << CustomField.create!(name: "CF DEV required text",
-                                 type: 'WorkPackageCustomField',
+                                 type: "WorkPackageCustomField",
                                  is_required: true,
-                                 field_format: 'text')
+                                 field_format: "text")
 
       cfs << CustomField.create!(name: "CF DEV intrange",
-                                 type: 'WorkPackageCustomField',
+                                 type: "WorkPackageCustomField",
                                  min_length: 2,
                                  max_length: 5,
-                                 field_format: 'int')
+                                 field_format: "int")
 
       cfs
     end

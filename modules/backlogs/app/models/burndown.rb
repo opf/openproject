@@ -34,7 +34,7 @@ class Burndown
 
     series_data = OpenProject::Backlogs::Burndown::SeriesRawData.new(project,
                                                                      sprint,
-                                                                     points: ['story_points'])
+                                                                     points: ["story_points"])
 
     series_data.collect_data
 
@@ -65,7 +65,7 @@ class Burndown
   end
 
   def calculate_ideals(data)
-    (['story_points'] & data.collect_names).each do |ideal|
+    (["story_points"] & data.collect_names).each do |ideal|
       calculate_ideal(ideal, data.unit_for(ideal))
     end
   end
@@ -79,7 +79,7 @@ class Burndown
       ideal[i] = max - (delta * i)
     end
 
-    make_series name.to_s + '_ideal', unit, ideal
+    make_series name.to_s + "_ideal", unit, ideal
   end
 
   def make_series(name, units, data)

@@ -58,7 +58,7 @@ module OpenProject::GithubIntegration
         github_id = payload.check_run
                            .pull_requests
                            .first
-                           .fetch('id')
+                           .fetch("id")
         GithubPullRequest.find_by(github_id:)
       end
     end

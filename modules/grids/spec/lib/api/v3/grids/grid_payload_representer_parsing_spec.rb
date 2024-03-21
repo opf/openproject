@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::Grids::GridPayloadRepresenter, 'parsing' do
+RSpec.describe API::V3::Grids::GridPayloadRepresenter, "parsing" do
   include API::V3::Utilities::PathHelper
 
   let(:object) do
@@ -46,7 +46,7 @@ RSpec.describe API::V3::Grids::GridPayloadRepresenter, 'parsing' do
       "widgets" => [
         {
           _type: "Widget",
-          identifier: 'work_packages_assigned',
+          identifier: "work_packages_assigned",
           startRow: 4,
           endRow: 5,
           startColumn: 1,
@@ -54,7 +54,7 @@ RSpec.describe API::V3::Grids::GridPayloadRepresenter, 'parsing' do
         },
         {
           _type: "Widget",
-          identifier: 'work_packages_created',
+          identifier: "work_packages_created",
           startRow: 1,
           endRow: 2,
           startColumn: 1,
@@ -62,7 +62,7 @@ RSpec.describe API::V3::Grids::GridPayloadRepresenter, 'parsing' do
         },
         {
           _type: "Widget",
-          identifier: 'work_packages_watched',
+          identifier: "work_packages_watched",
           startRow: 2,
           endRow: 4,
           startColumn: 4,
@@ -71,45 +71,45 @@ RSpec.describe API::V3::Grids::GridPayloadRepresenter, 'parsing' do
       ],
       "_links" => {
         "scope" => {
-          "href" => 'some_path'
+          "href" => "some_path"
         }
       }
     }
   end
 
-  describe '_links' do
-    context 'scope' do
-      it 'updates page' do
+  describe "_links" do
+    context "scope" do
+      it "updates page" do
         grid = representer.from_hash(hash)
         expect(grid.scope)
-          .to eql('some_path')
+          .to eql("some_path")
       end
     end
   end
 
-  describe 'properties' do
-    context 'rowCount' do
-      it 'updates row_count' do
+  describe "properties" do
+    context "rowCount" do
+      it "updates row_count" do
         grid = representer.from_hash(hash)
         expect(grid.row_count)
           .to be(10)
       end
     end
 
-    context 'columnCount' do
-      it 'updates column_count' do
+    context "columnCount" do
+      it "updates column_count" do
         grid = representer.from_hash(hash)
         expect(grid.column_count)
           .to be(20)
       end
     end
 
-    context 'widgets' do
-      it 'updates widgets' do
+    context "widgets" do
+      it "updates widgets" do
         grid = representer.from_hash(hash)
 
         expect(grid.widgets[0].identifier)
-          .to eql('work_packages_assigned')
+          .to eql("work_packages_assigned")
         expect(grid.widgets[0].start_row)
           .to be(4)
         expect(grid.widgets[0].end_row)
@@ -120,7 +120,7 @@ RSpec.describe API::V3::Grids::GridPayloadRepresenter, 'parsing' do
           .to be(2)
 
         expect(grid.widgets[1].identifier)
-          .to eql('work_packages_created')
+          .to eql("work_packages_created")
         expect(grid.widgets[1].start_row)
           .to be(1)
         expect(grid.widgets[1].end_row)
@@ -131,7 +131,7 @@ RSpec.describe API::V3::Grids::GridPayloadRepresenter, 'parsing' do
           .to be(2)
 
         expect(grid.widgets[2].identifier)
-          .to eql('work_packages_watched')
+          .to eql("work_packages_watched")
         expect(grid.widgets[2].start_row)
           .to be(2)
         expect(grid.widgets[2].end_row)

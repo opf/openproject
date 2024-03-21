@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'Subprojects widget on dashboard', :js do
+RSpec.describe "Subprojects widget on dashboard", :js do
   let!(:project) do
     create(:project, parent: parent_project)
   end
@@ -73,14 +73,14 @@ RSpec.describe 'Subprojects widget on dashboard', :js do
     Pages::Dashboard.new(project)
   end
 
-  context 'as a user' do
+  context "as a user" do
     current_user { user }
 
-    it 'can add the widget listing active subprojects the user is member of', :aggregate_failures do
+    it "can add the widget listing active subprojects the user is member of", :aggregate_failures do
       dashboard_page.visit!
       dashboard_page.add_widget(1, 1, :within, "Subprojects")
 
-      subprojects_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      subprojects_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
       expect(page)
         .to have_link(child_project.name)
@@ -102,14 +102,14 @@ RSpec.describe 'Subprojects widget on dashboard', :js do
     end
   end
 
-  context 'as an admin' do
+  context "as an admin" do
     current_user { create(:admin) }
 
-    it 'can add the widget listing all active subprojects', :aggregate_failures do
+    it "can add the widget listing all active subprojects", :aggregate_failures do
       dashboard_page.visit!
       dashboard_page.add_widget(1, 2, :within, "Subprojects")
 
-      subprojects_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+      subprojects_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
 
       within(subprojects_widget.area) do
         expect(page)

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'work_packages/base_contract'
+require "work_packages/base_contract"
 
 module WorkPackages
   class CreateContract < BaseContract
@@ -64,7 +64,7 @@ module WorkPackages
 
     def attributes_changed_by_user
       # lock version is initialized by AR itself
-      super - ['lock_version']
+      super - ["lock_version"]
     end
   end
 end

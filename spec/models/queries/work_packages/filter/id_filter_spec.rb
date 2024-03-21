@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::IdFilter do
-  it_behaves_like 'filter by work package id' do
+  it_behaves_like "filter by work package id" do
     let(:class_key) { :id }
 
-    describe '#where' do
+    describe "#where" do
       let!(:visible_wp) { create(:work_package) }
       let!(:other_wp) { create(:work_package) }
 
       before do
         instance.values = [visible_wp.id.to_s]
-        instance.operator = '='
+        instance.operator = "="
       end
 
-      it 'filters' do
+      it "filters" do
         expect(WorkPackage.where(instance.where))
           .to contain_exactly(visible_wp)
       end

@@ -42,8 +42,8 @@ module Principals::Scopes
       def possible_member(project)
         Queries::Principals::PrincipalQuery
           .new(user: ::User.current)
-          .where(:member, '!', [project.id])
-          .where(:status, '!', [statuses[:locked]])
+          .where(:member, "!", [project.id])
+          .where(:status, "!", [statuses[:locked]])
           .results
       end
     end

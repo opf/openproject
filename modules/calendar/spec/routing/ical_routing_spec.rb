@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Calendar::ICalController do
   it do
-    expect(get('/projects/1/calendars/2/ical')).to route_to(controller: 'calendar/ical',
-                                                            action: 'show',
-                                                            id: '2',
-                                                            project_id: '1')
+    expect(get("/projects/1/calendars/2/ical")).to route_to(controller: "calendar/ical",
+                                                            action: "show",
+                                                            id: "2",
+                                                            project_id: "1")
   end
 end

@@ -38,7 +38,7 @@ module WorkPackage::PDFExport::Style
     end
 
     def page_size
-      @styles[:page_size] || 'EXECUTIVE'
+      @styles[:page_size] || "EXECUTIVE"
     end
 
     def page_header_offset
@@ -98,7 +98,7 @@ module WorkPackage::PDFExport::Style
     end
 
     def link_color
-      @styles.dig(:page, :link_color) || '000000'
+      @styles.dig(:page, :link_color) || "000000"
     end
 
     def overview_group_header
@@ -302,8 +302,8 @@ module WorkPackage::PDFExport::Style
   private
 
   def load_style
-    yml = YAML::load_file(File.join(styles_asset_path, 'standard.yml'))
-    schema = JSON::load_file(File.join(styles_asset_path, 'schema.json'))
+    yml = YAML::load_file(File.join(styles_asset_path, "standard.yml"))
+    schema = JSON::load_file(File.join(styles_asset_path, "schema.json"))
     validate_schema!(yml, schema)
   end
 

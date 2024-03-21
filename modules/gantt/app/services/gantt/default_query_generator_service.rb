@@ -43,7 +43,7 @@ module ::Gantt
         tzl: "auto",
         tv: true,
         hi: true,
-        t: 'start_date:asc'
+        t: "start_date:asc"
       }.to_json.freeze
 
     attr_reader :project
@@ -70,7 +70,7 @@ module ::Gantt
       def all_open_query(project)
         default_with_filter = add_columns(project)
 
-        default_with_filter['f'] = [{ 'n' => 'status', 'o' => 'o', 'v' => [] }]
+        default_with_filter["f"] = [{ "n" => "status", "o" => "o", "v" => [] }]
 
         default_with_filter
       end
@@ -81,7 +81,7 @@ module ::Gantt
         milestones = milestone_ids(project)
         return if milestones.empty?
 
-        default_with_filter['f'] = [{ 'n' => 'type', 'o' => '=', 'v' => milestones }]
+        default_with_filter["f"] = [{ "n" => "type", "o" => "=", "v" => milestones }]
         default_with_filter
       end
 
@@ -89,7 +89,7 @@ module ::Gantt
         default_with_filter = JSON
           .parse(Gantt::DefaultQueryGeneratorService::DEFAULT_PARAMS)
 
-        default_with_filter['c'] = if project.present?
+        default_with_filter["c"] = if project.present?
                                      Gantt::DefaultQueryGeneratorService::PROJECT_DEFAULT_COLUMNS
                                    else
                                      Gantt::DefaultQueryGeneratorService::GLOBAL_DEFAULT_COLUMNS
@@ -110,11 +110,11 @@ module ::Gantt
         if project.present?
           ::Type
             .enabled_in(project.id)
-            .where(name: I18n.t('seeds.standard.types.item_2.name', default: 'Phase'))
+            .where(name: I18n.t("seeds.standard.types.item_2.name", default: "Phase"))
             .pluck(:id)
             .map(&:to_s)
         else
-          ::Type.where(name: 'Phase').pluck(:id).map(&:to_s)
+          ::Type.where(name: "Phase").pluck(:id).map(&:to_s)
         end
       end
     end

@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'Work package details toolbar', :js, :selenium do
+RSpec.describe "Work package details toolbar", :js, :selenium do
   let(:project) { create(:project_with_types, public: true) }
   let!(:work_package) { create(:work_package, project:) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
-  describe 'toggle watch state' do
+  describe "toggle watch state" do
     let(:user) { create(:admin) }
 
     before do
@@ -42,17 +42,17 @@ RSpec.describe 'Work package details toolbar', :js, :selenium do
       work_packages_page.visit_index(work_package)
     end
 
-    it 'toggles the watch state' do
+    it "toggles the watch state" do
       expect(work_package.watcher_users).not_to include(user)
-      expect(page).to have_css('.work-packages--details-toolbar button', text: 'Watch')
-      within '.work-packages--details-toolbar' do
-        click_button 'Watch'
+      expect(page).to have_css(".work-packages--details-toolbar button", text: "Watch")
+      within ".work-packages--details-toolbar" do
+        click_button "Watch"
       end
 
-      expect(page).to have_css('.work-packages--details-toolbar button', text: 'Unwatch')
+      expect(page).to have_css(".work-packages--details-toolbar button", text: "Unwatch")
 
       expect(work_package.reload.watcher_users).to include(user)
-      expect(page).to have_css('.work-packages--details-toolbar button', text: 'Unwatch')
+      expect(page).to have_css(".work-packages--details-toolbar button", text: "Unwatch")
     end
   end
 end

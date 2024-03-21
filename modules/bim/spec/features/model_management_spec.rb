@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/ifc_models/index'
+require_relative "../support/pages/ifc_models/index"
 
-RSpec.describe 'model management', :js, with_config: { edition: 'bim' } do
+RSpec.describe "model management", :js, with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:role) { create(:project_role, permissions: %i[view_ifc_models manage_bcf manage_ifc_models view_work_packages]) }
@@ -53,7 +53,7 @@ RSpec.describe 'model management', :js, with_config: { edition: 'bim' } do
            uploader: user)
   end
 
-  context 'with all permissions' do
+  context "with all permissions" do
     before do
       login_as(user)
       model
@@ -61,17 +61,17 @@ RSpec.describe 'model management', :js, with_config: { edition: 'bim' } do
       index_page.visit!
     end
 
-    it 'I can perform all actions on the models' do
+    it "I can perform all actions on the models" do
       index_page.model_listed true, model.title
       index_page.add_model_allowed true
       index_page.edit_model_allowed model.title, true
       index_page.delete_model_allowed model.title, true
 
-      index_page.edit_model model.title, 'My super cool new name'
-      index_page.delete_model 'My super cool new name'
+      index_page.edit_model model.title, "My super cool new name"
+      index_page.delete_model "My super cool new name"
     end
 
-    it 'I can see single models and the defaults' do
+    it "I can see single models and the defaults" do
       index_page.model_listed true, model.title
       index_page.show_model model
       index_page.bcf_buttons true
@@ -83,7 +83,7 @@ RSpec.describe 'model management', :js, with_config: { edition: 'bim' } do
     end
   end
 
-  context 'with only viewing permissions' do
+  context "with only viewing permissions" do
     let(:view_role) { create(:project_role, permissions: %i[view_ifc_models view_work_packages]) }
     let(:view_user) do
       create(:user,
@@ -97,14 +97,14 @@ RSpec.describe 'model management', :js, with_config: { edition: 'bim' } do
       index_page.visit!
     end
 
-    it 'I can see, but not edit models' do
+    it "I can see, but not edit models" do
       index_page.model_listed true, model.title
       index_page.add_model_allowed false
       index_page.edit_model_allowed model.title, false
       index_page.delete_model_allowed model.title, false
     end
 
-    it 'I can see single models and the defaults' do
+    it "I can see single models and the defaults" do
       index_page.model_listed true, model.title
       index_page.show_model model
 
@@ -115,7 +115,7 @@ RSpec.describe 'model management', :js, with_config: { edition: 'bim' } do
     end
   end
 
-  context 'without any permissions' do
+  context "without any permissions" do
     let(:no_permissions_role) { create(:project_role, permissions: %i[]) }
     let(:user_without_permissions) do
       create(:user,
@@ -129,8 +129,8 @@ RSpec.describe 'model management', :js, with_config: { edition: 'bim' } do
     end
 
     it "I can't see any models and perform no actions" do
-      expected = '[Error 403] You are not authorized to access this page.'
-      expect(page).to have_css('.op-toast.-error', text: expected)
+      expected = "[Error 403] You are not authorized to access this page."
+      expect(page).to have_css(".op-toast.-error", text: expected)
 
       index_page.add_model_allowed false
     end

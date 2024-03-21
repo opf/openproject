@@ -51,27 +51,27 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       groups_permissions = permissions.fetch(:groups)
 
       body = Nokogiri::XML::Builder.new do |xml|
-        xml['d'].propertyupdate(
-          'xmlns:d' => 'DAV:',
-          'xmlns:nc' => 'http://nextcloud.org/ns'
+        xml["d"].propertyupdate(
+          "xmlns:d" => "DAV:",
+          "xmlns:nc" => "http://nextcloud.org/ns"
         ) do
-          xml['d'].set do
-            xml['d'].prop do
-              xml['nc'].send(:'acl-list') do
+          xml["d"].set do
+            xml["d"].prop do
+              xml["nc"].send(:"acl-list") do
                 groups_permissions.each do |group, group_permissions|
-                  xml['nc'].acl do
-                    xml['nc'].send(:'acl-mapping-type', 'group')
-                    xml['nc'].send(:'acl-mapping-id', group)
-                    xml['nc'].send(:'acl-mask', '31')
-                    xml['nc'].send(:'acl-permissions', group_permissions.to_s)
+                  xml["nc"].acl do
+                    xml["nc"].send(:"acl-mapping-type", "group")
+                    xml["nc"].send(:"acl-mapping-id", group)
+                    xml["nc"].send(:"acl-mask", "31")
+                    xml["nc"].send(:"acl-permissions", group_permissions.to_s)
                   end
                 end
                 users_permissions.each do |user, user_permissions|
-                  xml['nc'].acl do
-                    xml['nc'].send(:'acl-mapping-type', 'user')
-                    xml['nc'].send(:'acl-mapping-id', user)
-                    xml['nc'].send(:'acl-mask', '31')
-                    xml['nc'].send(:'acl-permissions', user_permissions.to_s)
+                  xml["nc"].acl do
+                    xml["nc"].send(:"acl-mapping-type", "user")
+                    xml["nc"].send(:"acl-mapping-id", user)
+                    xml["nc"].send(:"acl-mask", "31")
+                    xml["nc"].send(:"acl-permissions", user_permissions.to_s)
                   end
                 end
               end
@@ -103,11 +103,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           Util.error(:error, "nc:acl properly has not been set for #{path}", error_data)
         end
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
+        Util.error(:not_found, "Outbound request destination not found", error_data)
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
+        Util.error(:unauthorized, "Outbound request not authorized", error_data)
       else
-        Util.error(:error, 'Outbound request failed', error_data)
+        Util.error(:error, "Outbound request failed", error_data)
       end
     end
 

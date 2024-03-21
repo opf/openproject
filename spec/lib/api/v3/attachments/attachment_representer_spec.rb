@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Attachments::AttachmentRepresenter do
   include API::V3::Utilities::PathHelper
@@ -46,7 +46,7 @@ RSpec.describe API::V3::Attachments::AttachmentRepresenter do
                   author:) do |attachment|
       allow(attachment)
         .to receive(:filename)
-        .and_return('some_file_of_mine.txt')
+        .and_return("some_file_of_mine.txt")
     end
   end
 
@@ -62,73 +62,73 @@ RSpec.describe API::V3::Attachments::AttachmentRepresenter do
 
   subject { representer.to_json }
 
-  it { is_expected.to be_json_eql('Attachment'.to_json).at_path('_type') }
-  it { is_expected.to be_json_eql(attachment.id.to_json).at_path('id') }
-  it { is_expected.to be_json_eql(attachment.filename.to_json).at_path('fileName') }
-  it { is_expected.to be_json_eql(attachment.filesize.to_json).at_path('fileSize') }
-  it { is_expected.to be_json_eql(attachment.content_type.to_json).at_path('contentType') }
-  it { is_expected.to be_json_eql('uploaded'.to_json).at_path('status') }
+  it { is_expected.to be_json_eql("Attachment".to_json).at_path("_type") }
+  it { is_expected.to be_json_eql(attachment.id.to_json).at_path("id") }
+  it { is_expected.to be_json_eql(attachment.filename.to_json).at_path("fileName") }
+  it { is_expected.to be_json_eql(attachment.filesize.to_json).at_path("fileSize") }
+  it { is_expected.to be_json_eql(attachment.content_type.to_json).at_path("contentType") }
+  it { is_expected.to be_json_eql("uploaded".to_json).at_path("status") }
 
-  it_behaves_like 'API V3 formattable', 'description' do
-    let(:format) { 'plain' }
+  it_behaves_like "API V3 formattable", "description" do
+    let(:format) { "plain" }
     let(:raw) { attachment.description }
   end
 
-  it_behaves_like 'API V3 digest' do
-    let(:path) { 'digest' }
-    let(:algorithm) { 'md5' }
+  it_behaves_like "API V3 digest" do
+    let(:path) { "digest" }
+    let(:algorithm) { "md5" }
     let(:hash) { attachment.digest }
   end
 
-  it_behaves_like 'has UTC ISO 8601 date and time' do
+  it_behaves_like "has UTC ISO 8601 date and time" do
     let(:date) { attachment.created_at }
-    let(:json_path) { 'createdAt' }
+    let(:json_path) { "createdAt" }
   end
 
-  describe '_links' do
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'self' }
+  describe "_links" do
+    it_behaves_like "has a titled link" do
+      let(:link) { "self" }
       let(:href) { api_v3_paths.attachment(attachment.id) }
       let(:title) { attachment.filename }
     end
 
-    context 'for a work package container' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'container' }
+    context "for a work package container" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "container" }
         let(:href) { api_v3_paths.work_package(container.id) }
         let(:title) { container.subject }
       end
     end
 
-    context 'for a wiki page container' do
+    context "for a wiki page container" do
       let(:container) { build_stubbed(:wiki_page) }
 
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'container' }
+      it_behaves_like "has a titled link" do
+        let(:link) { "container" }
         let(:href) { api_v3_paths.wiki_page(container.id) }
         let(:title) { container.title }
       end
     end
 
-    context 'without a container' do
+    context "without a container" do
       let(:container) { nil }
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'container' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "container" }
         let(:href) { nil }
       end
     end
 
-    describe 'downloadLocation link' do
-      context 'for a local attachment' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'downloadLocation' }
+    describe "downloadLocation link" do
+      context "for a local attachment" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "downloadLocation" }
           let(:href) { api_v3_paths.attachment_content(attachment.id) }
         end
       end
 
-      context 'for a remote attachment' do
-        let(:external_url) { 'https://some.bogus/download/xyz' }
+      context "for a remote attachment" do
+        let(:external_url) { "https://some.bogus/download/xyz" }
 
         before do
           allow(attachment)
@@ -139,65 +139,65 @@ RSpec.describe API::V3::Attachments::AttachmentRepresenter do
             .and_return(external_url)
         end
 
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'downloadLocation' }
+        it_behaves_like "has an untitled link" do
+          let(:link) { "downloadLocation" }
           let(:href) { external_url }
         end
 
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'staticDownloadLocation' }
+        it_behaves_like "has an untitled link" do
+          let(:link) { "staticDownloadLocation" }
           let(:href) { api_v3_paths.attachment_content(attachment.id) }
         end
       end
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'author' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "author" }
       let(:href) { api_v3_paths.user(attachment.author.id) }
       let(:title) { attachment.author.name }
     end
 
-    describe 'delete link' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'delete' }
+    describe "delete link" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "delete" }
         let(:href) { api_v3_paths.attachment(attachment.id) }
       end
 
-      it 'has the DELETE method' do
-        expect(subject).to be_json_eql('delete'.to_json).at_path('_links/delete/method')
+      it "has the DELETE method" do
+        expect(subject).to be_json_eql("delete".to_json).at_path("_links/delete/method")
       end
 
-      context 'user is not allowed to edit the container' do
+      context "user is not allowed to edit the container" do
         let(:permissions) { all_permissions - [:edit_work_packages] }
 
-        it_behaves_like 'has no link' do
-          let(:link) { 'delete' }
+        it_behaves_like "has no link" do
+          let(:link) { "delete" }
         end
       end
 
-      context 'attachment has no container' do
+      context "attachment has no container" do
         let(:container) { nil }
 
-        context 'user is the author' do
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'delete' }
+        context "user is the author" do
+          it_behaves_like "has an untitled link" do
+            let(:link) { "delete" }
             let(:href) { api_v3_paths.attachment(attachment.id) }
           end
         end
 
-        context 'user is not the author' do
+        context "user is not the author" do
           let(:author) { build_stubbed(:user) }
 
-          it_behaves_like 'has no link' do
-            let(:link) { 'delete' }
+          it_behaves_like "has no link" do
+            let(:link) { "delete" }
           end
         end
       end
     end
   end
 
-  describe 'caching' do
-    it 'is based on the representer\'s cache_key' do
+  describe "caching" do
+    it "is based on the representer's cache_key" do
       expect(OpenProject::Cache)
         .to receive(:fetch)
         .with(representer.json_cache_key)
@@ -206,22 +206,22 @@ RSpec.describe API::V3::Attachments::AttachmentRepresenter do
       representer.to_json
     end
 
-    describe '#json_cache_key' do
+    describe "#json_cache_key" do
       let!(:former_cache_key) { representer.json_cache_key }
 
-      it 'includes the name of the representer class' do
+      it "includes the name of the representer class" do
         expect(representer.json_cache_key)
-          .to include('API', 'V3', 'Attachments', 'AttachmentRepresenter')
+          .to include("API", "V3", "Attachments", "AttachmentRepresenter")
       end
 
-      it 'changes when the locale changes' do
+      it "changes when the locale changes" do
         I18n.with_locale(:fr) do
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
         end
       end
 
-      it 'changes when the attachment is changed (has no update)' do
+      it "changes when the attachment is changed (has no update)" do
         attachment.updated_at = Time.now + 10.seconds
 
         expect(representer.json_cache_key)

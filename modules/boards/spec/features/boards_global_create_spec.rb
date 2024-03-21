@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-require_relative 'support/board_new_page'
+require "spec_helper"
+require_relative "support/board_new_page"
 
-RSpec.describe 'Boards',
-               'Creating a view from a Global Context',
+RSpec.describe "Boards",
+               "Creating a view from a Global Context",
                :js,
                :with_cuprite,
                with_ee: %i[board_view] do
@@ -16,8 +16,8 @@ RSpec.describe 'Boards',
   shared_let(:versions) { create_list(:version, 3, project:) }
   shared_let(:excluded_versions) do
     [
-      create(:version, project:, status: 'closed'),
-      create(:version, project: other_project, sharing: 'system')
+      create(:version, project:, status: "closed"),
+      create(:version, project: other_project, sharing: "system")
     ]
   end
 
@@ -27,32 +27,32 @@ RSpec.describe 'Boards',
     login_as admin
   end
 
-  context 'within the global index page' do
+  context "within the global index page" do
     before do
       visit work_package_boards_path
     end
 
-    context 'when clicking on the create button' do
+    context "when clicking on the create button" do
       before do
         new_board_page.navigate_by_create_button
       end
 
-      it 'navigates to the global create form' do
+      it "navigates to the global create form" do
         expect(page).to have_current_path new_work_package_board_path
-        expect(page).to have_content I18n.t('boards.label_create_new_board')
+        expect(page).to have_content I18n.t("boards.label_create_new_board")
       end
     end
   end
 
-  context 'within the global create page' do
+  context "within the global create page" do
     before do
       new_board_page.visit!
     end
 
-    context 'with a Community Edition', with_ee: %i[] do
-      it 'renders an enterprise banner and disables all restriced board types', :aggregate_failures do
-        expect(page).to have_css('op-enterprise-banner')
-        expect(page).to have_selector(:radio_button, 'Basic')
+    context "with a Community Edition", with_ee: %i[] do
+      it "renders an enterprise banner and disables all restriced board types", :aggregate_failures do
+        expect(page).to have_css("op-enterprise-banner")
+        expect(page).to have_selector(:radio_button, "Basic")
 
         %w[Status Assignee Version Subproject Parent-child].each do |restricted_board_type|
           expect(page).to have_selector(:radio_button, restricted_board_type, disabled: true)
@@ -60,8 +60,8 @@ RSpec.describe 'Boards',
       end
     end
 
-    context 'with an Enterprise Edition' do
-      context 'with all fields set' do
+    context "with an Enterprise Edition" do
+      context "with all fields set" do
         before do
           wait_for_reload # Halt until the project autocompleter is ready
 
@@ -71,13 +71,13 @@ RSpec.describe 'Boards',
 
         context 'when creating a "Basic" board' do
           before do
-            new_board_page.set_board_type 'Basic'
+            new_board_page.set_board_type "Basic"
             new_board_page.click_on_submit
 
             wait_for_reload
           end
 
-          it 'creates the board and redirects me to it' do
+          it "creates the board and redirects me to it" do
             expect(page).to have_text(I18n.t(:notice_successful_create))
             expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
             expect(page).to have_text "Gotham Renewal Board"
@@ -86,13 +86,13 @@ RSpec.describe 'Boards',
 
         context 'when creating a "Status" board' do
           before do
-            new_board_page.set_board_type 'Status'
+            new_board_page.set_board_type "Status"
             new_board_page.click_on_submit
 
             wait_for_reload
           end
 
-          it 'creates the board and redirects me to it' do
+          it "creates the board and redirects me to it" do
             expect(page).to have_text(I18n.t(:notice_successful_create))
             expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
             expect(page).to have_text "Gotham Renewal Board"
@@ -102,13 +102,13 @@ RSpec.describe 'Boards',
 
         context 'when creating an "Assignee" board' do
           before do
-            new_board_page.set_board_type 'Assignee'
+            new_board_page.set_board_type "Assignee"
             new_board_page.click_on_submit
 
             wait_for_reload
           end
 
-          it 'creates the board and redirects me to it' do
+          it "creates the board and redirects me to it" do
             expect(page).to have_text(I18n.t(:notice_successful_create))
             expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
             expect(page).to have_text "Gotham Renewal Board"
@@ -117,13 +117,13 @@ RSpec.describe 'Boards',
 
         context 'when creating a "Version" board' do
           before do
-            new_board_page.set_board_type 'Version'
+            new_board_page.set_board_type "Version"
             new_board_page.click_on_submit
 
             wait_for_reload
           end
 
-          it 'creates the board and redirects me to it', :aggregate_failures do
+          it "creates the board and redirects me to it", :aggregate_failures do
             expect(page).to have_text(I18n.t(:notice_successful_create))
             expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
             expect(page).to have_text "Gotham Renewal Board"
@@ -138,13 +138,13 @@ RSpec.describe 'Boards',
 
         context 'when creating a "Subproject" board' do
           before do
-            new_board_page.set_board_type 'Subproject'
+            new_board_page.set_board_type "Subproject"
             new_board_page.click_on_submit
 
             wait_for_reload
           end
 
-          it 'creates the board and redirects me to it' do
+          it "creates the board and redirects me to it" do
             expect(page).to have_text(I18n.t(:notice_successful_create))
             expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
             expect(page).to have_text "Gotham Renewal Board"
@@ -153,13 +153,13 @@ RSpec.describe 'Boards',
 
         context 'when creating a "Parent-child" board' do
           before do
-            new_board_page.set_board_type 'Parent-child'
+            new_board_page.set_board_type "Parent-child"
             new_board_page.click_on_submit
 
             wait_for_reload
           end
 
-          it 'creates the board and redirects me to it' do
+          it "creates the board and redirects me to it" do
             expect(page).to have_text(I18n.t(:notice_successful_create))
             expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
             expect(page).to have_text "Gotham Renewal Board"
@@ -167,8 +167,8 @@ RSpec.describe 'Boards',
         end
       end
 
-      context 'when missing a required field' do
-        describe 'title' do
+      context "when missing a required field" do
+        describe "title" do
           before do
             wait_for_reload # Halt until the project autocompleter is ready
 
@@ -176,7 +176,7 @@ RSpec.describe 'Boards',
             new_board_page.click_on_submit
           end
 
-          it 'renders a required attribute validation error' do
+          it "renders a required attribute validation error" do
             expect(Boards::Grid.all).to be_empty
 
             # Required HTML attribute just warns
@@ -184,7 +184,7 @@ RSpec.describe 'Boards',
           end
         end
 
-        describe 'project_id' do
+        describe "project_id" do
           before do
             new_board_page.set_title("Batman's Itinerary")
             new_board_page.click_on_submit
@@ -192,7 +192,7 @@ RSpec.describe 'Boards',
             wait_for_reload
           end
 
-          it 'renders a required attribute validation error' do
+          it "renders a required attribute validation error" do
             expect(Boards::Grid.all).to be_empty
 
             new_board_page.expect_toast message: "Project #{I18n.t('activerecord.errors.messages.blank')}",
@@ -203,13 +203,13 @@ RSpec.describe 'Boards',
       end
     end
 
-    describe 'cancel button' do
+    describe "cancel button" do
       context "when it's clicked" do
         before do
           new_board_page.click_on_cancel_button
         end
 
-        it 'navigates back to the global index page' do
+        it "navigates back to the global index page" do
           expect(page).to have_current_path(work_package_boards_path)
         end
       end

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 time entries available projects resource' do
+RSpec.describe "API v3 time entries available projects resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -87,7 +87,7 @@ RSpec.describe 'API v3 time entries available projects resource' do
 
   subject(:response) { last_response }
 
-  describe 'GET api/v3/time_entries/available_projects' do
+  describe "GET api/v3/time_entries/available_projects" do
     let(:projects) do
       [project_with_log_permission,
        project_with_edit_permission,
@@ -106,40 +106,40 @@ RSpec.describe 'API v3 time entries available projects resource' do
       get path
     end
 
-    it 'responds 200 OK' do
+    it "responds 200 OK" do
       expect(subject.status).to eq(200)
     end
 
-    it 'returns a collection of projects containing only the ones for which the user has the necessary permissions' do
+    it "returns a collection of projects containing only the ones for which the user has the necessary permissions" do
       expect(subject.body)
-        .to be_json_eql('Collection'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Collection".to_json)
+        .at_path("_type")
 
       expect(subject.body)
-        .to be_json_eql('3')
-        .at_path('total')
+        .to be_json_eql("3")
+        .at_path("total")
 
       expect(subject.body)
         .to be_json_eql(project_with_log_permission.id.to_json)
-        .at_path('_embedded/elements/0/id')
+        .at_path("_embedded/elements/0/id")
 
       expect(subject.body)
         .to be_json_eql(project_with_edit_permission.id.to_json)
-        .at_path('_embedded/elements/1/id')
+        .at_path("_embedded/elements/1/id")
 
       expect(subject.body)
         .to be_json_eql(project_with_edit_own_permission.id.to_json)
-        .at_path('_embedded/elements/2/id')
+        .at_path("_embedded/elements/2/id")
     end
 
-    context 'without permissions' do
+    context "without permissions" do
       let(:projects) do
         [project_with_view_permission,
          project_without_permission,
          project_without_membership]
       end
 
-      it 'returns a 403' do
+      it "returns a 403" do
         expect(subject.status)
           .to eq(403)
       end

@@ -27,13 +27,13 @@
 #++
 
 class Journal::MeetingAgendaItemJournal < Journal::BaseJournal
-  self.table_name = 'meeting_agenda_item_journals'
+  self.table_name = "meeting_agenda_item_journals"
 
   enum item_type: MeetingAgendaItem::ITEM_TYPES
 
   belongs_to :meeting
-  belongs_to :author, class_name: 'User'
-  belongs_to :agenda_item, class_name: 'MeetingAgendaItem'
+  belongs_to :author, class_name: "User"
+  belongs_to :agenda_item, class_name: "MeetingAgendaItem"
 
   def editable?
     false

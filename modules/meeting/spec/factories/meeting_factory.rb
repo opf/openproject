@@ -27,19 +27,19 @@
 #++
 
 FactoryBot.define do
-  factory :meeting, class: 'Meeting' do |m|
+  factory :meeting, class: "Meeting" do |m|
     author factory: :user
     project
     start_time { Date.tomorrow + 10.hours }
     duration { 1.0 }
-    location { 'https://some-url.com' }
+    location { "https://some-url.com" }
     m.sequence(:title) { |n| "Meeting #{n}" }
 
     after(:create) do |meeting, evaluator|
       meeting.project = evaluator.project if evaluator.project
     end
 
-    factory :structured_meeting, class: 'StructuredMeeting' do |m|
+    factory :structured_meeting, class: "StructuredMeeting" do |m|
       m.sequence(:title) { |n| "Structured meeting #{n}" }
     end
   end

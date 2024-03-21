@@ -27,7 +27,7 @@
 #++
 
 class CustomStylesController < ApplicationController
-  layout 'admin'
+  layout "admin"
   menu_item :custom_style
 
   before_action :require_admin,
@@ -154,7 +154,7 @@ class CustomStylesController < ApplicationController
   def options_for_theme_select
     options = OpenProject::CustomStyles::ColorThemes.themes.pluck(:theme)
     unless @current_theme.present?
-      options << [t('admin.custom_styles.color_theme_custom'), '',
+      options << [t("admin.custom_styles.color_theme_custom"), "",
                   { selected: true, disabled: true }]
     end
 

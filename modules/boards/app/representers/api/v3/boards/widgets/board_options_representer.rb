@@ -33,12 +33,12 @@ module API
         class BoardOptionsRepresenter < ::API::V3::Grids::Widgets::DefaultOptionsRepresenter
           property :queryId,
                    getter: ->(represented:, **) {
-                     represented['queryId'] || represented['query_id']
+                     represented["queryId"] || represented["query_id"]
                    }
 
           property :filters,
                    getter: ->(represented:, **) {
-                     represented['filters']
+                     represented["filters"]
                    }
         end
       end

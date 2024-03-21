@@ -27,7 +27,7 @@
 #++
 
 Rails.application.routes.draw do
-  scope 'projects/:project_id', as: 'projects' do
+  scope "projects/:project_id", as: "projects" do
     resources :budgets, only: %i[new create index] do
       match :update_labor_budget_item, on: :collection, via: %i[get post]
       match :update_material_budget_item, on: :collection, via: %i[get post]

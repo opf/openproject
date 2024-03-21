@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::WorkPackages < Tables::Base
   # rubocop:disable Metrics/AbcSize
@@ -34,7 +34,7 @@ class Tables::WorkPackages < Tables::Base
     create_table migration do |t|
       t.integer :type_id, default: 0, null: false
       t.belongs_to :project, default: 0, null: false, type: :int
-      t.string :subject, default: '', null: false
+      t.string :subject, default: "", null: false
       t.text :description
       t.date :due_date
       t.integer :category_id

@@ -29,7 +29,7 @@ module Users
 
     class_methods do
       def get_local_avatar(user_id)
-        Attachment.find_by(container_id: user_id, container_type: 'Principal', description: 'avatar')
+        Attachment.find_by(container_id: user_id, container_type: "Principal", description: "avatar")
       end
     end
 
@@ -41,7 +41,7 @@ module Users
 
     def local_avatar_attachment
       defined?(@local_avatar_attachment) || begin
-        @local_avatar_attachment = attachments.find_by(description: 'avatar')
+        @local_avatar_attachment = attachments.find_by(description: "avatar")
       end
 
       @local_avatar_attachment
@@ -53,7 +53,7 @@ module Users
 
       @local_avatar_attachment = Attachments::CreateService
         .new(user: User.system, contract_class: EmptyContract)
-        .call(file:, container: self, filename: file.original_filename, description: 'avatar')
+        .call(file:, container: self, filename: file.original_filename, description: "avatar")
         .result
 
       touch

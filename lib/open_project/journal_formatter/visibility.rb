@@ -28,14 +28,14 @@
 
 class OpenProject::JournalFormatter::Visibility < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-    label_text = I18n.t('activerecord.attributes.project.public_value.title')
+    label_text = I18n.t("activerecord.attributes.project.public_value.title")
     label_text = content_tag(:strong, label_text) if options[:html]
 
     value =
       if values.last
-        I18n.t('activerecord.attributes.project.public_value.true')
+        I18n.t("activerecord.attributes.project.public_value.true")
       else
-        I18n.t('activerecord.attributes.project.public_value.false')
+        I18n.t("activerecord.attributes.project.public_value.false")
       end
     value = content_tag(:i, value) if options[:html]
 

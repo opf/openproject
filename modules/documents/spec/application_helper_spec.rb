@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ApplicationHelper do
   include ApplicationHelper
@@ -47,7 +47,7 @@ RSpec.describe ApplicationHelper do
     end
     let(:document) do
       create(:document,
-             title: 'Test document',
+             title: "Test document",
              project:)
     end
 
@@ -62,10 +62,10 @@ RSpec.describe ApplicationHelper do
 
     context "Simple Document links" do
       let(:document_link) do
-        link_to('Test document',
-                { controller: 'documents', action: 'show', id: document.id },
-                class: 'document op-uc-link',
-                target: '_top')
+        link_to("Test document",
+                { controller: "documents", action: "show", id: document.id },
+                class: "document op-uc-link",
+                target: "_top")
       end
 
       context "Plain link" do
@@ -93,7 +93,7 @@ RSpec.describe ApplicationHelper do
       end
     end
 
-    context 'Cross-Project Document Links' do
+    context "Cross-Project Document Links" do
       let(:the_other_project) { create(:valid_project) }
 
       context "By name without project" do

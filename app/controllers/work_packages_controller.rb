@@ -47,7 +47,7 @@ class WorkPackagesController < ApplicationController
       format.html do
         render :index,
                locals: { query: @query, project: @project, menu_name: project_or_global_menu },
-               layout: 'angular/angular'
+               layout: "angular/angular"
       end
 
       format.any(*supported_list_formats) do
@@ -65,7 +65,7 @@ class WorkPackagesController < ApplicationController
       format.html do
         render :show,
                locals: { work_package:, menu_name: project_or_global_menu },
-               layout: 'angular/angular'
+               layout: "angular/angular"
       end
 
       format.any(*supported_single_formats) do
@@ -90,7 +90,7 @@ class WorkPackagesController < ApplicationController
       .call(query: @query, mime_type:, params:)
       .result
 
-    if request.headers['Accept']&.include?('application/json')
+    if request.headers["Accept"]&.include?("application/json")
       render json: { job_id: }
     else
       redirect_to job_status_path(job_id)
@@ -110,9 +110,9 @@ class WorkPackagesController < ApplicationController
   end
 
   def atom_journals
-    render template: 'journals/index',
+    render template: "journals/index",
            layout: false,
-           content_type: 'application/atom+xml',
+           content_type: "application/atom+xml",
            locals: { title: "#{Setting.app_title} - #{work_package}",
                      journals: }
   end
@@ -125,7 +125,7 @@ class WorkPackagesController < ApplicationController
 
   def per_page_param
     case params[:format]
-    when 'atom'
+    when "atom"
       Setting.feeds_limit.to_i
     else
       super
@@ -144,9 +144,9 @@ class WorkPackagesController < ApplicationController
     @journals ||= begin
       order =
         if current_user.wants_comments_in_reverse_order?
-          Journal.arel_table['created_at'].desc
+          Journal.arel_table["created_at"].desc
         else
-          Journal.arel_table['created_at'].asc
+          Journal.arel_table["created_at"].asc
         end
 
       work_package

@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BasicData::TypeConfigurationSeeder do
-  include_context 'with basic seed data', edition: 'bim'
+  include_context "with basic seed data", edition: "bim"
 
   subject(:seeder) { described_class.new(seed_data) }
 
@@ -39,8 +39,8 @@ RSpec.describe BasicData::TypeConfigurationSeeder do
   let(:phase_type) { seed_data.find_reference(:default_type_phase).reload }
   let(:data_hash) { {} }
 
-  context 'without any form_configuration for the given type' do
-    it 'does not change attribute_groups' do
+  context "without any form_configuration for the given type" do
+    it "does not change attribute_groups" do
       attribute_groups_before = phase_type.attribute_groups.dup
       seeder.seed!
       attribute_groups_now = phase_type.attribute_groups
@@ -48,7 +48,7 @@ RSpec.describe BasicData::TypeConfigurationSeeder do
     end
   end
 
-  context 'with a form_configuration entry in type_configuration in seed data' do
+  context "with a form_configuration entry in type_configuration in seed data" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         type_configuration:
@@ -60,15 +60,15 @@ RSpec.describe BasicData::TypeConfigurationSeeder do
               query: :query__bugs_of_the_week
       SEEDING_DATA_YAML
     end
-    let(:query) { create(:query, name: 'Children') }
-    let(:bugs_of_the_week_query) { create(:query, name: 'Bugs of the week') }
+    let(:query) { create(:query, name: "Children") }
+    let(:bugs_of_the_week_query) { create(:query, name: "Bugs of the week") }
 
     before do
       seed_data.store_reference(:query__children, query)
       seed_data.store_reference(:query__bugs_of_the_week, bugs_of_the_week_query)
     end
 
-    it 'adds the given query groups in the form configuration of the type' do
+    it "adds the given query groups in the form configuration of the type" do
       attribute_groups_before = phase_type.attribute_groups.dup
       seeder.seed!
       attribute_groups_now = phase_type.attribute_groups

@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
   let(:status) { build_stubbed(:status) }
   let(:status2) { build_stubbed(:status) }
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list }
     let(:class_key) { :status_id }
 
-    describe '#available?' do
-      it 'is true if any status exists' do
+    describe "#available?" do
+      it "is true if any status exists" do
         allow(Status)
           .to receive(:all)
           .and_return [status]
@@ -45,7 +45,7 @@ RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
         expect(instance).to be_available
       end
 
-      it 'is false if no status exists' do
+      it "is false if no status exists" do
         allow(Status)
           .to receive(:exists?)
           .and_return false
@@ -54,43 +54,43 @@ RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
       end
     end
 
-    describe '#allowed_values' do
+    describe "#allowed_values" do
       before do
         allow(Status)
           .to receive(:all)
           .and_return [status]
       end
 
-      it 'is an array of status values' do
+      it "is an array of status values" do
         expect(instance.allowed_values)
           .to contain_exactly([status.name, status.id.to_s])
       end
     end
 
-    describe '#valid_values!' do
+    describe "#valid_values!" do
       before do
         allow(Status)
           .to receive(:all)
           .and_return [status]
 
-        instance.values = [status.id.to_s, '99999']
+        instance.values = [status.id.to_s, "99999"]
       end
 
-      it 'remove the invalid value' do
+      it "remove the invalid value" do
         instance.valid_values!
 
         expect(instance.values).to contain_exactly(status.id.to_s)
       end
     end
 
-    describe '#value_objects' do
+    describe "#value_objects" do
       before do
         allow(Status)
           .to receive(:all)
           .and_return [status, status2]
       end
 
-      it 'is an array of statuses' do
+      it "is an array of statuses" do
         instance.values = [status.id.to_s]
 
         expect(instance.value_objects)
@@ -98,8 +98,8 @@ RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
       end
     end
 
-    describe '#ar_object_filter?' do
-      it 'is true' do
+    describe "#ar_object_filter?" do
+      it "is true" do
         expect(instance)
           .to be_ar_object_filter
       end

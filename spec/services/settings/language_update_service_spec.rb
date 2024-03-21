@@ -29,7 +29,7 @@
 # ++
 #
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Settings::LanguageUpdateService do
   let(:service) do
@@ -41,21 +41,21 @@ RSpec.describe Settings::LanguageUpdateService do
     allow(service).to receive(:force_users_to_use_only_available_languages)
   end
 
-  it 'sets language of users having a non-available language to the default language' do
+  it "sets language of users having a non-available language to the default language" do
     service.call(available_languages:)
 
     expect(service)
       .to have_received(:force_users_to_use_only_available_languages)
   end
 
-  context 'when the contract is not successfully validated' do
+  context "when the contract is not successfully validated" do
     before do
       allow(service)
         .to receive(:validate_contract)
-        .and_return(ServiceResult.failure(message: 'fake error'))
+        .and_return(ServiceResult.failure(message: "fake error"))
     end
 
-    it 'does not change language of any users' do
+    it "does not change language of any users" do
       service.call(available_languages:)
 
       expect(service)

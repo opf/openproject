@@ -40,6 +40,6 @@ class Queries::Projects::Filters::PrincipalFilter < Queries::Projects::Filters::
   end
 
   def where
-    operator_strategy.sql_for_field(values, 'members', 'user_id')
+    operator_strategy.sql_for_field(values, "members", "user_id")
   end
 end

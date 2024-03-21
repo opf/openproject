@@ -32,10 +32,10 @@ module Queries
       class AncestorFilter < ::Queries::Projects::Filters::ProjectFilter
         def scope
           case operator
-          when '='
+          when "="
             Project
               .where(exists_condition.exists)
-          when '!'
+          when "!"
             Project
               .where.not(exists_condition.exists)
           else

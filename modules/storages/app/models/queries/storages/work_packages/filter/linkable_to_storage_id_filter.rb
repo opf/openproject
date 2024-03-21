@@ -35,7 +35,7 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def filter_column
-      'id'
+      "id"
     end
 
     def permission

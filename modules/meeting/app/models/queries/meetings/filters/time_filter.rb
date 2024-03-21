@@ -27,8 +27,8 @@
 #++
 
 class Queries::Meetings::Filters::TimeFilter < Queries::Meetings::Filters::MeetingFilter
-  PAST_VALUE = 'past'.freeze
-  FUTURE_VALUE = 'future'.freeze
+  PAST_VALUE = "past".freeze
+  FUTURE_VALUE = "future".freeze
 
   validate :validate_only_single_value
 

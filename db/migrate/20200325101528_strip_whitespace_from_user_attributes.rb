@@ -28,7 +28,7 @@
 
 class StripWhitespaceFromUserAttributes < ActiveRecord::Migration[6.0]
   def up
-    User.update_all('login = TRIM(login), mail = TRIM(mail)')
+    User.update_all("login = TRIM(login), mail = TRIM(mail)")
   end
 
   def down

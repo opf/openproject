@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class OnDate < Base
-    label 'on'
-    set_symbol '=d'
+    label "on"
+    set_symbol "=d"
 
     extend DateRangeClauses
 

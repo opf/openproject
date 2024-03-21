@@ -47,7 +47,7 @@ module Redmine
           self.searchable_options = options
 
           if searchable_options[:columns].nil?
-            raise ArgumentError, 'No searchable column defined.'
+            raise ArgumentError, "No searchable column defined."
           end
 
           searchable_options[:columns] = Array(searchable_options[:columns])
@@ -85,7 +85,7 @@ module Redmine
             tokens = Array(tokens)
             projects = [] << projects unless projects.nil? || projects.is_a?(Array)
 
-            find_order = "#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')
+            find_order = "#{searchable_options[:order_column]} " + (options[:before] ? "DESC" : "ASC")
 
             token_clauses = searchable_column_conditions
 
@@ -97,7 +97,7 @@ module Redmine
               token_clauses += Array(searchable_custom_fields_conditions)
             end
 
-            sql = (["(#{token_clauses.join(' OR ')})"] * tokens.size).join(' AND ')
+            sql = (["(#{token_clauses.join(' OR ')})"] * tokens.size).join(" AND ")
 
             if tsv_clauses.present?
               sql << (" OR #{tsv_clauses.join(' OR ')}")
@@ -112,7 +112,7 @@ module Redmine
             results = []
             results_count = 0
 
-            where(project_conditions.join(' AND ')).scoping do
+            where(project_conditions.join(" AND ")).scoping do
               where(find_conditions)
                 .includes(searchable_options[:include])
                 .references(searchable_options[:references])
@@ -122,7 +122,7 @@ module Redmine
                   results       = all
 
                   if options[:offset]
-                    results = results.where("(#{searchable_options[:date_column]} " + (options[:before] ? '<' : '>') + "'#{connection.quoted_date(options[:offset])}')")
+                    results = results.where("(#{searchable_options[:date_column]} " + (options[:before] ? "<" : ">") + "'#{connection.quoted_date(options[:offset])}')")
                   end
                   results = results.limit(options[:limit]) if options[:limit]
                 end
@@ -160,7 +160,7 @@ module Redmine
               tsv_condition =
                 OpenProject::FullTextSearch.tsv_where(tsv_column[:table_name],
                                                       tsv_column[:column_name],
-                                                      tokens.join(' '),
+                                                      tokens.join(" "),
                                                       normalization: tsv_column[:normalization_type])
               if tsv_column[:scope]
                 subquery_condition(tsv_column[:scope], tsv_condition)
@@ -175,7 +175,7 @@ module Redmine
                                                             searchable: true).pluck(:id)
             if searchable_custom_field_ids.any?
               custom_field_condition =
-                CustomValue.select('1').where(customized_type: name)
+                CustomValue.select("1").where(customized_type: name)
                            .where("customized_id=#{table_name}.id AND value ILIKE ?")
                            .where(custom_field_id: searchable_custom_field_ids)
 

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 # This is not strictly version CF specific, but targets regression #53198.
-RSpec.describe 'Work package filtering by version custom field', :js do
+RSpec.describe "Work package filtering by version custom field", :js do
   let!(:project) { create(:project) }
   let!(:type) { project.types.first }
   let!(:version_cf1) do
@@ -50,8 +50,8 @@ RSpec.describe 'Work package filtering by version custom field', :js do
       projects: [project]
     )
   end
-  let!(:version_1) { create(:version, project:, name: 'Version 1') }
-  let!(:version_2) { create(:version, project:, name: 'Version 2') }
+  let!(:version_1) { create(:version, project:, name: "Version 1") }
+  let!(:version_2) { create(:version, project:, name: "Version 2") }
 
   let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
 
@@ -101,14 +101,14 @@ RSpec.describe 'Work package filtering by version custom field', :js do
 
     # Filtering by cf1 "is (AND)"
 
-    filters.add_filter_by(version_cf1.name, 'is (AND)', [version_1.name], version_cf1.attribute_name(:camel_case))
+    filters.add_filter_by(version_cf1.name, "is (AND)", [version_1.name], version_cf1.attribute_name(:camel_case))
 
     wp_table.expect_work_package_listed(work_package_1_1, work_package_mix)
     wp_table.ensure_work_package_not_listed!(work_package_2_1)
 
     # Filtering by multiple cf1 values (nothing matches)
     filters.remove_filter version_cf1.attribute_name(:camel_case)
-    filters.add_filter_by(version_cf1.name, 'is (AND)', [version_1.name, version_2.name], version_cf1.attribute_name(:camel_case))
+    filters.add_filter_by(version_cf1.name, "is (AND)", [version_1.name, version_2.name], version_cf1.attribute_name(:camel_case))
 
     wp_table.ensure_work_package_not_listed!(work_package_2_1, work_package_1_1, work_package_mix)
   end
@@ -120,7 +120,7 @@ RSpec.describe 'Work package filtering by version custom field', :js do
     filters.open
 
     # Filtering by cf1 "is not"
-    filters.add_filter_by(version_cf2.name, 'is not', [version_1.name], version_cf2.attribute_name(:camel_case))
+    filters.add_filter_by(version_cf2.name, "is not", [version_1.name], version_cf2.attribute_name(:camel_case))
 
     wp_table.expect_work_package_listed(work_package_mix, work_package_1_1)
     wp_table.ensure_work_package_not_listed!(work_package_2_1)

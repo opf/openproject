@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'users/show' do
+RSpec.describe "users/show" do
   let(:project)    { create(:valid_project) }
   let(:user)       { create(:admin, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
   let(:custom_field) { create(:user_custom_field, :text) }
@@ -36,7 +36,7 @@ RSpec.describe 'users/show' do
     create(:principal_custom_value,
            customized: user,
            custom_field:,
-           value: 'TextUserCustomFieldValue')
+           value: "TextUserCustomFieldValue")
   end
 
   before do
@@ -48,9 +48,9 @@ RSpec.describe 'users/show' do
     assign(:events, [])
   end
 
-  it 'renders the visible custom values' do
+  it "renders the visible custom values" do
     render
 
-    expect(rendered).to have_css('li', text: 'TextUserCustomField')
+    expect(rendered).to have_css("li", text: "TextUserCustomField")
   end
 end

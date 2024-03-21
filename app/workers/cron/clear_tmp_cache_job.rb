@@ -31,7 +31,7 @@ module Cron
     include ::RakeJob
 
     def perform
-      super('tmp:cache:clear')
+      super("tmp:cache:clear")
     end
   end
 end

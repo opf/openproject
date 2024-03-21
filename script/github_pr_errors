@@ -1,26 +1,26 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'bundler'
+require "rubygems"
+require "bundler"
 Bundler.setup(:default, :development)
 
-require 'colored2'
-require 'json'
-require 'optparse'
-require 'base64'
-require 'pathname'
-require 'pry'
-require 'yaml'
-require 'httpx'
+require "colored2"
+require "json"
+require "optparse"
+require "base64"
+require "pathname"
+require "pry"
+require "yaml"
+require "httpx"
 
-GITHUB_API_OPENPROJECT_PREFIX = 'https://api.github.com/repos/opf/openproject'.freeze
-GITHUB_HTML_OPENPROJECT_PREFIX = 'https://github.com/opf/openproject'.freeze
+GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject".freeze
+GITHUB_HTML_OPENPROJECT_PREFIX = "https://github.com/opf/openproject".freeze
 RAILS_ROOT = Pathname.new(__dir__).dirname
 EXCLUDED_JOB_NAMES = %w[eslint rubocop].freeze
 
-if !ENV['GITHUB_USERNAME']
+if !ENV["GITHUB_USERNAME"]
   raise "Missing GITHUB_USERNAME env"
-elsif !ENV['GITHUB_TOKEN']
+elsif !ENV["GITHUB_TOKEN"]
   raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
 end
 
@@ -152,7 +152,7 @@ def current_branch_name
 end
 
 def github_url(path)
-  if path.start_with?('http')
+  if path.start_with?("http")
     path
   else
     "#{GITHUB_API_OPENPROJECT_PREFIX}/#{path}"
@@ -163,7 +163,7 @@ def http
   HTTPX
     .plugin(:follow_redirects)
     .plugin(:basic_auth)
-    .basic_auth(ENV.fetch('GITHUB_USERNAME'), ENV.fetch('GITHUB_TOKEN'))
+    .basic_auth(ENV.fetch("GITHUB_USERNAME"), ENV.fetch("GITHUB_TOKEN"))
 end
 
 def get_http(path)
@@ -201,18 +201,18 @@ end
 
 def path_to_cache_key(path)
   path
-    .gsub(/\?.*$/, '') # remove query parameter
-    .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/o, '') # remove https://.../
-    .gsub(/\W/, '_') # transform non alphanum chars
+    .gsub(/\?.*$/, "") # remove query parameter
+    .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/o, "") # remove https://.../
+    .gsub(/\W/, "_") # transform non alphanum chars
 end
 
 def get_jobs(workflow_run)
-  workflow_run['jobs_url']
+  workflow_run["jobs_url"]
   cache_key = [
-    path_to_cache_key(workflow_run['jobs_url']),
-    workflow_run['updated_at'].delete(':')
-  ].join('_')
-  cached(cache_key) { get_json(workflow_run['jobs_url']) }
+    path_to_cache_key(workflow_run["jobs_url"]),
+    workflow_run["updated_at"].delete(":")
+  ].join("_")
+  cached(cache_key) { get_json(workflow_run["jobs_url"]) }
 end
 
 def get_log(job)
@@ -242,18 +242,18 @@ end
 
 def last_with_status(workflow_runs, status)
   workflow_runs
-    .select { |entry| entry['status'] == status }
-    .max_by { |entry| entry['run_number'] }
+    .select { |entry| entry["status"] == status }
+    .max_by { |entry| entry["run_number"] }
 end
 
 def get_last_workflow_run(branch_name)
   test_workflow_runs =
     get_json("actions/runs?branch=#{CGI.escape(branch_name)}")
-      .then { |response| response['workflow_runs'] }
-      .select { |entry| entry['name'] == 'Test suite' }
+      .then { |response| response["workflow_runs"] }
+      .select { |entry| entry["name"] == "Test suite" }
 
-  last_completed = last_with_status(test_workflow_runs, 'completed')
-  last_in_progress = last_with_status(test_workflow_runs, 'in_progress')
+  last_completed = last_with_status(test_workflow_runs, "completed")
+  last_in_progress = last_with_status(test_workflow_runs, "in_progress")
 
   last_completed || last_in_progress or raise "No workflow run found for branch #{branch_name}"
 end
@@ -511,7 +511,7 @@ class Formatter
         return
       end
       begin
-        Open3.popen2e('imgcat', '--width', '50%', '--url', screenshot_url) do |stdin, stdout_and_stderr, _thread|
+        Open3.popen2e("imgcat", "--width", "50%", "--url", screenshot_url) do |stdin, stdout_and_stderr, _thread|
           stdin.close
           warn stdout_and_stderr.read
         end
@@ -528,7 +528,7 @@ class Formatter
 
     warn [
       "    ",
-      '↳'.blue.bold,
+      "↳".blue.bold,
       " ",
       name.blue,
       ": ",
@@ -551,9 +551,9 @@ class Formatter
   end
 
   def display_pull_request_info(workflow_run)
-    return unless workflow_run['event'] == 'pull_request'
+    return unless workflow_run["event"] == "pull_request"
 
-    if pr = workflow_run['pull_requests'].first
+    if pr = workflow_run["pull_requests"].first
       pr_number = "##{pr['number']}"
       pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
       pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
@@ -564,17 +564,17 @@ class Formatter
   end
 
   def commit_message(workflow_run)
-    workflow_run['head_commit']
+    workflow_run["head_commit"]
       .then { |commit| commit["message"] }
       .then { |message| message.split("\n", 2).first }
   end
 
   def status_icon(job)
-    case job['status']
+    case job["status"]
     when "queued", "in_progress"
       "●".yellow
     else
-      case job['conclusion']
+      case job["conclusion"]
       when "success"
         "✓".green
       when "failure"
@@ -586,9 +586,9 @@ class Formatter
   end
 
   def status_url(job)
-    return if job['conclusion'] == "success"
+    return if job["conclusion"] == "success"
 
-    job['html_url'].white.dark
+    job["html_url"].white.dark
   end
 
   def status_line(job)
@@ -610,11 +610,11 @@ def get_failed_jobs_logs_from_github(formatter)
 
   formatter.display_workflow_status(workflow_run)
   get_jobs(workflow_run)
-    .then { |jobs_response| jobs_response['jobs'] }
-    .sort_by { _1['name'] }
+    .then { |jobs_response| jobs_response["jobs"] }
+    .sort_by { _1["name"] }
     .each { |job| formatter.display_job_status(job) }
-    .select { _1['conclusion'] == 'failure' }
-    .reject { EXCLUDED_JOB_NAMES.include?(_1['name']) }
+    .select { _1["conclusion"] == "failure" }
+    .reject { EXCLUDED_JOB_NAMES.include?(_1["name"]) }
     .map { |job| get_log(job) }
 end
 

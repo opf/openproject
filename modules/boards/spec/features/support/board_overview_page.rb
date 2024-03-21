@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require_relative 'board_list_page'
+require "support/pages/page"
+require_relative "board_list_page"
 
 module Pages
   class BoardOverview < BoardListPage
@@ -36,8 +36,8 @@ module Pages
     end
 
     def expect_global_menu_item_selected
-      within '#main-menu' do
-        expect(page).to have_css('.selected', text: 'Boards')
+      within "#main-menu" do
+        expect(page).to have_css(".selected", text: "Boards")
       end
     end
   end

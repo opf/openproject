@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Enumerations' do
+RSpec.describe "Enumerations" do
   shared_let(:admin) { create(:admin) }
 
   before do
@@ -36,9 +36,9 @@ RSpec.describe 'Enumerations' do
     visit enumerations_path
   end
 
-  it 'contains all defined enumerations' do
+  it "contains all defined enumerations" do
     Enumeration.subclasses.each do |enumeration|
-      expect(page).to have_css('h3', text: I18n.t(enumeration::OptionName))
+      expect(page).to have_css("h3", text: I18n.t(enumeration::OptionName))
       expect(page).to have_link(I18n.t(:label_enumeration_new),
                                 href: new_enumeration_path(type: enumeration.name))
     end

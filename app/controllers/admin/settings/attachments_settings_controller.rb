@@ -31,7 +31,7 @@ module Admin::Settings
     menu_item :attachments_settings
 
     def default_breadcrumb
-      t(:'attributes.attachments')
+      t(:"attributes.attachments")
     end
 
     def settings_params

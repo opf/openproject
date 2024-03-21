@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path('../spec_helper', __dir__)
+require File.expand_path("../spec_helper", __dir__)
 
 RSpec.describe Webhooks::Incoming::HooksController do
   let(:hook) { double(OpenProject::Webhooks::Hook) }
   let(:user) { double(User).as_null_object }
 
-  describe '#handle_hook' do
+  describe "#handle_hook" do
     before do
-      expect(OpenProject::Webhooks).to receive(:find).with('testhook').and_return(hook)
+      expect(OpenProject::Webhooks).to receive(:find).with("testhook").and_return(hook)
       allow(controller).to receive(:find_current_user).and_return(user)
     end
 
@@ -43,20 +43,20 @@ RSpec.describe Webhooks::Incoming::HooksController do
       User.current = nil
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(hook).to receive(:handle)
 
-      post :handle_hook, params: { hook_name: 'testhook' }
+      post :handle_hook, params: { hook_name: "testhook" }
 
       expect(response).to be_successful
     end
 
-    it 'calls the hook with a user' do
+    it "calls the hook with a user" do
       expect(hook).to receive(:handle) { |_env, _params, user|
         expect(user).to equal(user)
       }
 
-      post :handle_hook, params: { hook_name: 'testhook' }
+      post :handle_hook, params: { hook_name: "testhook" }
     end
   end
 end

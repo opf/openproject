@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'queries/create_contract'
+require "queries/create_contract"
 
 module Queries
   class GlobalCreateContract < CreateContract

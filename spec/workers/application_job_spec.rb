@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ApplicationJob do
   class JobMock < ApplicationJob
@@ -39,24 +39,24 @@ RSpec.describe ApplicationJob do
     end
   end
 
-  describe 'resets request store' do
-    it 'resets request store on each perform' do
+  describe "resets request store" do
+    it "resets request store on each perform" do
       job = JobMock.new(-> do
         expect(RequestStore[:test_value]).to be_nil
         RequestStore[:test_value] = 42
       end)
 
-      RequestStore[:test_value] = 'my value'
+      RequestStore[:test_value] = "my value"
       expect { job.perform_now }.not_to change { RequestStore[:test_value] }
 
-      RequestStore[:test_value] = 'my value2'
+      RequestStore[:test_value] = "my value2"
       expect { job.perform_now }.not_to change { RequestStore[:test_value] }
 
-      expect(RequestStore[:test_value]).to eq 'my value2'
+      expect(RequestStore[:test_value]).to eq "my value2"
     end
   end
 
-  describe 'email configuration' do
+  describe "email configuration" do
     let(:ports) { [] }
 
     before do

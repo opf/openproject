@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Calendar::Views::GlobalCreateService do
   shared_let(:project) { create(:project) }
@@ -37,7 +37,7 @@ RSpec.describe Calendar::Views::GlobalCreateService do
 
   subject { instance.call(params) }
 
-  context 'with all valid params' do
+  context "with all valid params" do
     let(:params) do
       {
         name: "Batman's Itinerary",
@@ -47,15 +47,15 @@ RSpec.describe Calendar::Views::GlobalCreateService do
       }
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
-    it 'creates a calendar view and its query' do
+    it "creates a calendar view and its query" do
       view = subject.result
       query = view.query
 
-      expect(view.type).to eq 'work_packages_calendar'
+      expect(view.type).to eq "work_packages_calendar"
 
       expect(query.name).to eq "Batman's Itinerary"
       expect(query.project).to eql(project)

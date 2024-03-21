@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context 'with basic seed data' do |edition: 'standard'|
+RSpec.shared_context "with basic seed data" do |edition: "standard"|
   def add_needed_seeders_for(seeder_class, needed_acc)
     seeder_class.needs.each do |needed_seeder_class|
       next if needed_acc.include?(needed_seeder_class)

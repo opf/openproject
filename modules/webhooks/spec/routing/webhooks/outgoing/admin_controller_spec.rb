@@ -26,38 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Outgoing webhooks administration' do
-  it 'route to index' do
-    expect(get('/admin/settings/webhooks')).to route_to('webhooks/outgoing/admin#index')
+RSpec.describe "Outgoing webhooks administration" do
+  it "route to index" do
+    expect(get("/admin/settings/webhooks")).to route_to("webhooks/outgoing/admin#index")
   end
 
-  it 'route to new' do
-    expect(get('/admin/settings/webhooks/new')).to route_to('webhooks/outgoing/admin#new')
+  it "route to new" do
+    expect(get("/admin/settings/webhooks/new")).to route_to("webhooks/outgoing/admin#new")
   end
 
-  it 'route to show' do
-    expect(get('/admin/settings/webhooks/1')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                          action: 'show',
-                                                          webhook_id: '1')
+  it "route to show" do
+    expect(get("/admin/settings/webhooks/1")).to route_to(controller: "webhooks/outgoing/admin",
+                                                          action: "show",
+                                                          webhook_id: "1")
   end
 
-  it 'route to edit' do
-    expect(get('/admin/settings/webhooks/1/edit')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                               action: 'edit',
-                                                               webhook_id: '1')
+  it "route to edit" do
+    expect(get("/admin/settings/webhooks/1/edit")).to route_to(controller: "webhooks/outgoing/admin",
+                                                               action: "edit",
+                                                               webhook_id: "1")
   end
 
-  it 'route to PUT update' do
-    expect(put('/admin/settings/webhooks/1')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                          action: 'update',
-                                                          webhook_id: '1')
+  it "route to PUT update" do
+    expect(put("/admin/settings/webhooks/1")).to route_to(controller: "webhooks/outgoing/admin",
+                                                          action: "update",
+                                                          webhook_id: "1")
   end
 
-  it 'route to DELETE destroy' do
-    expect(delete('/admin/settings/webhooks/1')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                             action: 'destroy',
-                                                             webhook_id: '1')
+  it "route to DELETE destroy" do
+    expect(delete("/admin/settings/webhooks/1")).to route_to(controller: "webhooks/outgoing/admin",
+                                                             action: "destroy",
+                                                             webhook_id: "1")
   end
 end

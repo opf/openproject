@@ -23,4 +23,4 @@ ko:
   js:
     two_factor_authentication:
       errors:
-        aborted: "The authentication was cancelled. Please try again."
+        aborted: "인증이 취소되었습니다. 다시 시도해 주세요."

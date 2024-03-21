@@ -29,8 +29,8 @@
 module Queries::Operators
   module CustomFields
     class EqualsAll < ::Queries::Operators::Base
-      label 'operator_equals_all'
-      set_symbol '&='
+      label "operator_equals_all"
+      set_symbol "&="
 
       def self.sql_for_customized(values, custom_field_id, customized_type, customized_id_join_field)
         # code expects strings (e.g. for quoting), but ints would work as well: unify them here
@@ -45,10 +45,10 @@ module Queries::Operators
               "AND value ='#{connection.quote_string(val)}')"
           end
 
-          sql.join(' AND ')
+          sql.join(" AND ")
         else
           # empty set of allowed values produces no result
-          '0=1'
+          "0=1"
         end
       end
     end

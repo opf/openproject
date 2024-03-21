@@ -1,1 +1,1 @@
-require 'open_project/boards'
+require "open_project/boards"

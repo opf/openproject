@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'digest/md5'
+require "digest/md5"
 
 module ReportingHelper
   # ======================= SHARED CODE START
@@ -50,7 +50,7 @@ module ReportingHelper
 
   def label_for(field)
     name = field.to_s
-    if name.starts_with?('label')
+    if name.starts_with?("label")
       return I18n.t(field)
     end
 
@@ -68,8 +68,8 @@ module ReportingHelper
     end
   end
 
-  def debug_fields(result, prefix = ', ')
-    prefix << result.fields.inspect << ', ' << result.important_fields.inspect << ', ' << result.key.inspect if params[:debug]
+  def debug_fields(result, prefix = ", ")
+    prefix << result.fields.inspect << ", " << result.important_fields.inspect << ", " << result.key.inspect if params[:debug]
   end
 
   def month_name(index)
@@ -101,7 +101,7 @@ module ReportingHelper
   end
 
   def field_representation_map(key, value)
-    return I18n.t(:'placeholders.default') if value.blank?
+    return I18n.t(:"placeholders.default") if value.blank?
 
     case key.to_sym
     when :activity_id                           then mapped value, Enumeration, "<i>#{I18n.t(:caption_material_costs)}</i>"
@@ -119,7 +119,7 @@ module ReportingHelper
     when :week                                  then "#{I18n.t(:label_week)} #%s" % value.to_i.modulo(100)
     when :priority_id                           then h(IssuePriority.find(value.to_i).name)
     when :version_id                            then h(Version.find(value.to_i).name)
-    when :singleton_value                       then ''
+    when :singleton_value                       then ""
     when :status_id                             then h(Status.find(value.to_i).name)
     when /custom_field\d+/                      then custom_value(key, value)
     else h(value.to_s)
@@ -127,7 +127,7 @@ module ReportingHelper
   end
 
   def custom_value(cf_identifier, value)
-    cf_id = cf_identifier.gsub('custom_field', '').to_i
+    cf_id = cf_identifier.gsub("custom_field", "").to_i
 
     # Reuses rails cache to locate the custom field
     # and then properly cast the value
@@ -137,7 +137,7 @@ module ReportingHelper
   end
 
   def field_sort_map(key, value)
-    return '' if value.blank?
+    return "" if value.blank?
 
     case key.to_sym
     when :work_package_id, :tweek, :tmonth, :week  then value.to_i
@@ -149,7 +149,7 @@ module ReportingHelper
   def show_result(row, unit_id = self.unit_id)
     case unit_id
     when -1 then l_hours(row.units)
-    when 0  then row.real_costs ? number_to_currency(row.real_costs) : '-'
+    when 0  then row.real_costs ? number_to_currency(row.real_costs) : "-"
     else
       current_cost_type = @cost_type || CostType.find(unit_id)
       pluralize(row.units, current_cost_type.unit, current_cost_type.unit_plural)
@@ -157,7 +157,7 @@ module ReportingHelper
   end
 
   def set_filter_options(struct, key, value)
-    struct[:operators][key] = '='
+    struct[:operators][key] = "="
     struct[:values][key]    = value.to_s
   end
 
@@ -177,7 +177,7 @@ module ReportingHelper
   end
 
   def link_to_details(result)
-    return '' # unless result.respond_to? :fields # uncomment to display
+    return "" # unless result.respond_to? :fields # uncomment to display
     session_filter = { operators: session[:report][:filters][:operators].dup, values: session[:report][:filters][:values].dup }
     filters = result.fields.inject session_filter do |struct, (key, value)|
       key = key.to_sym
@@ -194,24 +194,24 @@ module ReportingHelper
       struct
     end
     options = { fields: filters[:operators].keys, set_filter: 1, action: :drill_down }
-    link_to '[+]', filters.merge(options), class: 'drill_down', title: I18n.t(:description_drill_down)
+    link_to "[+]", filters.merge(options), class: "drill_down", title: I18n.t(:description_drill_down)
   end
 
   ##
   # Create the appropriate action for an entry with the type of log to use
   def action_for(result, options = {})
-    options.merge controller: controller_for(result.fields['type']), id: result.fields['id'].to_i
+    options.merge controller: controller_for(result.fields["type"]), id: result.fields["id"].to_i
   end
 
   def controller_for(type)
-    type == 'TimeEntry' ? 'timelog' : 'costlog'
+    type == "TimeEntry" ? "timelog" : "costlog"
   end
 
   ##
   # Create the appropriate action for an entry with the type of log to use
   def entry_for(result)
-    type = result.fields['type'] == 'TimeEntry' ? TimeEntry : CostEntry
-    type.find(result.fields['id'].to_i)
+    type = result.fields["type"] == "TimeEntry" ? TimeEntry : CostEntry
+    type.find(result.fields["id"].to_i)
   end
 
   ##
@@ -224,7 +224,7 @@ module ReportingHelper
 
   def delimit(items, options = {})
     options[:step] ||= 1
-    options[:delim] ||= '&bull;'
+    options[:delim] ||= "&bull;"
     delimited = []
     items.each_with_index do |item, ix|
       delimited << if ix != 0 && (ix % options[:step]).zero?

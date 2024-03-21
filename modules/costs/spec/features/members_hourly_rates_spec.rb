@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
-RSpec.describe 'hourly rates on a member', :js do
+RSpec.describe "hourly rates on a member", :js do
   let(:project) { build(:project) }
   let(:user) do
     create(:admin, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
@@ -36,7 +36,7 @@ RSpec.describe 'hourly rates on a member', :js do
   let(:member) { Member.find_by(project:, principal: user) }
 
   def view_rates
-    visit edit_user_path(user, tab: 'rates')
+    visit edit_user_path(user, tab: "rates")
   end
 
   def view_project_members
@@ -54,13 +54,13 @@ RSpec.describe 'hourly rates on a member', :js do
     sleep(0.1)
     all("tr[id^='user_new_rate_attributes_'] .delete-row-button").each(&:click)
     sleep(0.1)
-    click_link_or_button 'Add rate'
+    click_link_or_button "Add rate"
 
     datepicker = Components::BasicDatepicker.new
-    datepicker.set_date(date.strftime('%Y-%m-%d'))
+    datepicker.set_date(date.strftime("%Y-%m-%d"))
 
     within "tr[id^='user_new_rate_attributes_']" do
-      fill_in 'Rate', with: rate
+      fill_in "Rate", with: rate
     end
   end
 
@@ -68,7 +68,7 @@ RSpec.describe 'hourly rates on a member', :js do
     input = find("table.rates .date input[data-value='#{from.strftime('%Y-%m-%d')}']")
     input.click
     datepicker = Components::BasicDatepicker.new
-    datepicker.set_date(to.strftime('%Y-%m-%d'))
+    datepicker.set_date(to.strftime("%Y-%m-%d"))
   end
 
   before do
@@ -77,34 +77,34 @@ RSpec.describe 'hourly rates on a member', :js do
     login_as(user)
   end
 
-  it 'displays always the currently active rate' do
-    expect_current_rate_in_members_table('0.00 EUR')
+  it "displays always the currently active rate" do
+    expect_current_rate_in_members_table("0.00 EUR")
 
-    click_link('0.00 EUR')
+    click_link("0.00 EUR")
     SeleniumHubWaiter.wait
 
     add_rate(date: Date.current, rate: 10)
 
-    click_button 'Save'
+    click_button "Save"
 
-    expect_current_rate_in_members_table('10.00 EUR')
+    expect_current_rate_in_members_table("10.00 EUR")
 
     SeleniumHubWaiter.wait
-    click_link('10.00 EUR')
+    click_link("10.00 EUR")
 
     add_rate(date: 3.days.ago, rate: 20)
 
-    click_button 'Save'
+    click_button "Save"
 
-    expect_current_rate_in_members_table('10.00 EUR')
+    expect_current_rate_in_members_table("10.00 EUR")
 
     SeleniumHubWaiter.wait
-    click_link('10.00 EUR')
+    click_link("10.00 EUR")
 
     change_rate_date(from: Date.current, to: 5.days.ago)
 
-    click_button 'Save'
+    click_button "Save"
 
-    expect_current_rate_in_members_table('20.00 EUR')
+    expect_current_rate_in_members_table("20.00 EUR")
   end
 end

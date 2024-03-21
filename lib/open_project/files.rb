@@ -33,7 +33,7 @@ module OpenProject
     ##
     # Creates a temp file with the given file name.
     # It will reside in some temporary directory.
-    def create_temp_file(name: 'test.txt', content: 'test content', binary: false)
+    def create_temp_file(name: "test.txt", content: "test content", binary: false)
       tmp = Tempfile.new name
       path = Pathname(tmp)
 
@@ -41,7 +41,7 @@ module OpenProject
       path.mkdir # create temp directory
 
       file_path = path.join name
-      File.open(file_path, 'w' + (binary ? 'b' : '')) do |f|
+      File.open(file_path, "w" + (binary ? "b" : "")) do |f|
         f.write content
       end
 
@@ -60,9 +60,9 @@ module OpenProject
       uploaded_file
     end
 
-    def create_uploaded_file(name: 'test.txt',
-                             content_type: 'text/plain',
-                             content: 'test content',
+    def create_uploaded_file(name: "test.txt",
+                             content_type: "text/plain",
+                             content: "test content",
                              binary: false)
 
       tmp = create_temp_file(name:, content:, binary:)

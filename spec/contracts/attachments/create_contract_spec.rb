@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe Attachments::CreateContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:user) }
   let(:model) do
@@ -49,12 +49,12 @@ RSpec.describe Attachments::CreateContract do
   let(:file) do
     Rack::Test::UploadedFile.new(
       Rails.root.join("spec/fixtures/files/image.png"),
-      'image/png',
+      "image/png",
       true
     )
   end
-  let(:content_type) { 'image/png' }
-  let(:filename) { 'image.png' }
+  let(:content_type) { "image/png" }
+  let(:filename) { "image.png" }
 
   let(:can_attach_global) { true }
 
@@ -63,23 +63,23 @@ RSpec.describe Attachments::CreateContract do
       .to receive(:none?).and_return(!can_attach_global)
   end
 
-  context 'with user who has no permissions' do
+  context "with user who has no permissions" do
     let(:can_attach_global) { false }
 
-    it_behaves_like 'contract is invalid', base: :error_unauthorized
+    it_behaves_like "contract is invalid", base: :error_unauthorized
   end
 
-  context 'with a user that is not the author' do
+  context "with a user that is not the author" do
     let(:user) { build_stubbed(:user) }
 
-    it_behaves_like 'contract is invalid', author: :invalid
+    it_behaves_like "contract is invalid", author: :invalid
   end
 
-  context 'with user who has permissions to add' do
-    it_behaves_like 'contract is valid'
+  context "with user who has permissions to add" do
+    it_behaves_like "contract is valid"
   end
 
-  context 'with a container' do
+  context "with a container" do
     let(:container) { build_stubbed(:work_package) }
 
     before do
@@ -89,54 +89,54 @@ RSpec.describe Attachments::CreateContract do
               .and_return(can_attach)
     end
 
-    context 'with user who has no permissions' do
+    context "with user who has no permissions" do
       let(:can_attach) { false }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
 
-    context 'with user who has permissions to add' do
+    context "with user who has permissions to add" do
       let(:can_attach) { true }
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
   end
 
-  context 'with an empty whitelist',
+  context "with an empty whitelist",
           with_settings: { attachment_whitelist: %w[] } do
-    it_behaves_like 'contract is valid'
+    it_behaves_like "contract is valid"
   end
 
-  context 'with a matching mime whitelist',
+  context "with a matching mime whitelist",
           with_settings: { attachment_whitelist: %w[image/png] } do
-    it_behaves_like 'contract is valid'
+    it_behaves_like "contract is valid"
   end
 
-  context 'with a matching extension whitelist',
+  context "with a matching extension whitelist",
           with_settings: { attachment_whitelist: %w[*.png] } do
-    it_behaves_like 'contract is valid'
+    it_behaves_like "contract is valid"
   end
 
-  context 'with a non-matching whitelist',
+  context "with a non-matching whitelist",
           with_settings: { attachment_whitelist: %w[*.jpg image/jpeg] } do
-    it_behaves_like 'contract is invalid', content_type: :not_whitelisted
+    it_behaves_like "contract is invalid", content_type: :not_whitelisted
 
-    context 'when disabling the whitelist check' do
+    context "when disabling the whitelist check" do
       let(:contract_options) do
         { whitelist: [] }
       end
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
 
-    context 'when overriding the whitelist' do
+    context "when overriding the whitelist" do
       let(:contract_options) do
         { whitelist: %w[*.png] }
       end
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

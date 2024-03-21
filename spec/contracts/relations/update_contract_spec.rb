@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Relations::UpdateContract do
-  it_behaves_like 'relation contract' do
+  it_behaves_like "relation contract" do
     let(:relation) do
       build_stubbed(:relation,
                     from: relation_from,
@@ -40,12 +40,12 @@ RSpec.describe Relations::UpdateContract do
     end
   end
 
-  describe 'valid?' do
+  describe "valid?" do
     create_shared_association_defaults_for_work_package_factory
     let(:current_user) { build_stubbed(:admin) }
     let(:contract) { described_class.new(relation, current_user) }
 
-    context 'when an isolated relation is reversed' do
+    context "when an isolated relation is reversed" do
       let(:relation) do
         create(:relation, relation_type: Relation::TYPE_BLOCKS)
       end
@@ -54,12 +54,12 @@ RSpec.describe Relations::UpdateContract do
         relation.relation_type = Relation::TYPE_BLOCKED
       end
 
-      it 'is valid' do
+      it "is valid" do
         expect(contract).to be_valid
       end
     end
 
-    context 'when a relation that cannot be reversed is reversed' do
+    context "when a relation that cannot be reversed is reversed" do
       let(:relation_from_wp) { create(:work_package) }
       let(:relation_to_wp) { create(:work_package) }
       let(:intermediary_wp) { create(:work_package) }
@@ -88,7 +88,7 @@ RSpec.describe Relations::UpdateContract do
         relation.relation_type = Relation::TYPE_PRECEDES
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(contract).not_to be_valid
       end
     end

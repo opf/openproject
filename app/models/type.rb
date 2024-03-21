@@ -46,13 +46,13 @@ class ::Type < ApplicationRecord
   has_and_belongs_to_many :projects
 
   has_and_belongs_to_many :custom_fields,
-                          class_name: 'WorkPackageCustomField',
+                          class_name: "WorkPackageCustomField",
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          association_foreign_key: 'custom_field_id'
+                          association_foreign_key: "custom_field_id"
 
   belongs_to :color,
              optional: true,
-             class_name: 'Color'
+             class_name: "Color"
 
   acts_as_list
 
@@ -65,7 +65,7 @@ class ::Type < ApplicationRecord
 
   scopes :milestone
 
-  default_scope { order('position ASC') }
+  default_scope { order("position ASC") }
 
   scope :without_standard, -> {
     where(is_standard: false)

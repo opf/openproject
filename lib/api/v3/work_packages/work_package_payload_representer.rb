@@ -42,9 +42,9 @@ module API
                    next unless fragment.is_a?(Array)
 
                    ids = fragment.map do |link|
-                     ::API::Utilities::ResourceLinkParser.parse_id link['href'],
+                     ::API::Utilities::ResourceLinkParser.parse_id link["href"],
                                                                    property: :file_link,
-                                                                   expected_version: '3',
+                                                                   expected_version: "3",
                                                                    expected_namespace: :file_links
                    end
 

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe WorkPackageMembers::CreateContract do
-  it_behaves_like 'work package member contract' do
+  it_behaves_like "work package member contract" do
     let(:member) do
       Member.new(roles: member_roles,
                  principal: member_principal,
@@ -46,52 +46,52 @@ RSpec.describe WorkPackageMembers::CreateContract do
 
     let(:contract) { described_class.new(member, current_user) }
 
-    describe 'validation' do
-      context 'if the principal is nil' do
+    describe "validation" do
+      context "if the principal is nil" do
         let(:member_principal) { nil }
 
-        it_behaves_like 'contract is invalid', principal: :blank
+        it_behaves_like "contract is invalid", principal: :blank
       end
 
-      context 'if the principal is a locked user' do
+      context "if the principal is a locked user" do
         let(:member_principal) { build_stubbed(:locked_user) }
 
-        it_behaves_like 'contract is invalid', principal: :unassignable
+        it_behaves_like "contract is invalid", principal: :unassignable
       end
 
-      context 'if the principal is a builtin user' do
+      context "if the principal is a builtin user" do
         let(:member_principal) { build_stubbed(:anonymous) }
 
-        it_behaves_like 'contract is invalid', principal: :unassignable
+        it_behaves_like "contract is invalid", principal: :unassignable
       end
 
-      context 'if the project is nil' do
+      context "if the project is nil" do
         let(:member_project) { nil }
 
-        it_behaves_like 'contract is invalid', project: :blank
+        it_behaves_like "contract is invalid", project: :blank
       end
 
-      context 'if the project is not set by the system' do
+      context "if the project is not set by the system" do
         before do
           member.project = build_stubbed(:project)
         end
 
-        it_behaves_like 'contract is invalid', project_id: :error_readonly
+        it_behaves_like "contract is invalid", project_id: :error_readonly
       end
 
-      context 'if the entity is nil' do
+      context "if the entity is nil" do
         let(:member_entity) { nil }
         let(:member_project) { build_stubbed(:project) }
 
-        it_behaves_like 'contract is invalid', entity: :blank
+        it_behaves_like "contract is invalid", entity: :blank
       end
 
-      context 'if the entity is something else' do
+      context "if the entity is something else" do
         before do
-          member.entity_type = 'Meeting'
+          member.entity_type = "Meeting"
         end
 
-        it_behaves_like 'contract is invalid', entity_type: :inclusion
+        it_behaves_like "contract is invalid", entity_type: :inclusion
       end
     end
   end

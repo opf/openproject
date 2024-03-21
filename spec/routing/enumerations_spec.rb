@@ -26,41 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe EnumerationsController, 'routing' do
-  context 'admin scoped' do
+RSpec.describe EnumerationsController, "routing" do
+  context "admin scoped" do
     it {
-      expect(subject).to route(:get, 'admin/enumerations').to(controller: 'enumerations',
-                                                              action: 'index')
+      expect(subject).to route(:get, "admin/enumerations").to(controller: "enumerations",
+                                                              action: "index")
     }
 
     it {
-      expect(subject).to route(:get, 'admin/enumerations/new').to(controller: 'enumerations',
-                                                                  action: 'new')
+      expect(subject).to route(:get, "admin/enumerations/new").to(controller: "enumerations",
+                                                                  action: "new")
     }
 
     it {
-      expect(subject).to route(:post, 'admin/enumerations').to(controller: 'enumerations',
-                                                               action: 'create')
+      expect(subject).to route(:post, "admin/enumerations").to(controller: "enumerations",
+                                                               action: "create")
     }
 
     it {
-      expect(subject).to route(:get, 'admin/enumerations/1/edit').to(controller: 'enumerations',
-                                                                     action: 'edit',
-                                                                     id: '1')
+      expect(subject).to route(:get, "admin/enumerations/1/edit").to(controller: "enumerations",
+                                                                     action: "edit",
+                                                                     id: "1")
     }
 
     it {
-      expect(subject).to route(:put, 'admin/enumerations/1').to(controller: 'enumerations',
-                                                                action: 'update',
-                                                                id: '1')
+      expect(subject).to route(:put, "admin/enumerations/1").to(controller: "enumerations",
+                                                                action: "update",
+                                                                id: "1")
     }
 
     it {
-      expect(subject).to route(:delete, 'admin/enumerations/1').to(controller: 'enumerations',
-                                                                   action: 'destroy',
-                                                                   id: '1')
+      expect(subject).to route(:delete, "admin/enumerations/1").to(controller: "enumerations",
+                                                                   action: "destroy",
+                                                                   id: "1")
     }
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
   shared_let(:user) { create(:admin) }
@@ -70,11 +70,11 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
 
   current_user { user }
 
-  context 'with no permissions' do
+  context "with no permissions" do
     let(:user) { create(:user) }
 
-    it 'does not return any work packages' do
-      expect(result["errorIdentifier"]).to eq('urn:openproject-org:api:v3:errors:NotFound')
+    it "does not return any work packages" do
+      expect(result["errorIdentifier"]).to eq("urn:openproject-org:api:v3:errors:NotFound")
     end
   end
 
@@ -141,7 +141,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
         expect(subjects).to contain_exactly(wp1.id, wp1_1.id, wp1_2.id, wp1_2_1.id, wp2_1.id, wp2_2.id)
       end
 
-      describe 'with an already existing relationship from the work package' do
+      describe "with an already existing relationship from the work package" do
         shared_let(:relation_wp2_to_wp2_2) do
           create(:relation, from: wp2, to: wp2_2, relation_type: "follows")
         end
@@ -149,64 +149,64 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
         shared_let(:relation_wp1_1_to_wp2) do
           create(:relation, from: wp1_1, to: wp2, relation_type: "follows")
         end
-        context 'for a follows relationship' do
-          it 'does not contain the work packages already related in the opposite direction nor the parent' do
+        context "for a follows relationship" do
+          it "does not contain the work packages already related in the opposite direction nor the parent" do
             expect(subjects).to contain_exactly(wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
 
-        context 'for a precedes relationship' do
+        context "for a precedes relationship" do
           let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP&type=precedes" }
 
-          it 'does not contain the work packages already related but the parent' do
+          it "does not contain the work packages already related but the parent" do
             expect(subjects).to contain_exactly(wp1.id, wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
 
-        context 'for a parent relationship' do
+        context "for a parent relationship" do
           let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP&type=parent" }
 
-          it 'does not contain the work packages already related but the parent' do
+          it "does not contain the work packages already related but the parent" do
             expect(subjects).to contain_exactly(wp1.id, wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
 
-        context 'for a child relationship' do
+        context "for a child relationship" do
           let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP&type=child" }
 
-          it 'does not contain the work packages already related nor the parent' do
+          it "does not contain the work packages already related nor the parent" do
             expect(subjects).to contain_exactly(wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
 
-        context 'for a relates relationship' do
+        context "for a relates relationship" do
           let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP&type=relates" }
 
-          it 'does not contain the work packages already related but the parent' do
+          it "does not contain the work packages already related but the parent" do
             expect(subjects).to contain_exactly(wp1.id, wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
       end
     end
 
-    context 'when a project is archived' do
+    context "when a project is archived" do
       let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP" }
 
       before do
         project1.update_column(:active, false)
       end
 
-      it 'does not return work packages from that project' do
+      it "does not return work packages from that project" do
         expect(subjects).to contain_exactly(wp2_1.id, wp2_2.id)
       end
     end
   end
 
-  context 'when the user is not an admin and has access to just one project' do
+  context "when the user is not an admin and has access to just one project" do
     let(:user) { create(:user, member_with_permissions: { project2 => %i[view_work_packages edit_work_packages] }) }
     let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP" }
 
-    it 'only includes work packages from the first project' do
+    it "only includes work packages from the first project" do
       expect(subjects).to contain_exactly(wp2_1.id, wp2_2.id)
     end
   end

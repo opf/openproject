@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Query Sort Bys resource' do
+RSpec.describe "API v3 Query Sort Bys resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  describe '#get queries/sort_bys/:id' do
+  describe "#get queries/sort_bys/:id" do
     let(:path) { api_v3_paths.query_sort_by(column_name, direction) }
-    let(:column_name) { 'status' }
-    let(:direction) { 'desc' }
+    let(:column_name) { "status" }
+    let(:direction) { "desc" }
     let(:project) { create(:project) }
     let(:role) { create(:project_role, permissions:) }
     let(:permissions) { [:view_work_packages] }
@@ -53,45 +53,45 @@ RSpec.describe 'API v3 Query Sort Bys resource' do
       get path
     end
 
-    it 'succeeds' do
+    it "succeeds" do
       expect(last_response.status)
         .to eq(200)
     end
 
-    it 'returns the sort by' do
+    it "returns the sort by" do
       expect(last_response.body)
         .to be_json_eql(path.to_json)
-        .at_path('_links/self/href')
+        .at_path("_links/self/href")
     end
 
-    context 'user not allowed' do
+    context "user not allowed" do
       let(:permissions) { [] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
 
-    context 'non existing sort by' do
-      let(:path) { api_v3_paths.query_sort_by('bogus', direction) }
+    context "non existing sort by" do
+      let(:path) { api_v3_paths.query_sort_by("bogus", direction) }
 
-      it 'returns 404' do
+      it "returns 404" do
         expect(last_response.status)
           .to be(404)
       end
     end
 
-    context 'non existing direction' do
-      let(:path) { api_v3_paths.query_sort_by(column_name, 'bogus') }
+    context "non existing direction" do
+      let(:path) { api_v3_paths.query_sort_by(column_name, "bogus") }
 
-      it 'returns 404' do
+      it "returns 404" do
         expect(last_response.status)
           .to be(404)
       end
     end
 
-    context 'non sortable sort by' do
-      let(:path) { api_v3_paths.query_sort_by('spent_time', direction) }
+    context "non sortable sort by" do
+      let(:path) { api_v3_paths.query_sort_by("spent_time", direction) }
 
-      it 'returns 404' do
+      it "returns 404" do
         expect(last_response.status)
           .to be(404)
       end

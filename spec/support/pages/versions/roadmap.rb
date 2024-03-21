@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Versions
@@ -42,33 +42,33 @@ module Pages
       end
 
       def apply_filter(filter_name)
-        within '#menu-sidebar' do
+        within "#menu-sidebar" do
           check filter_name
-          click_on 'Apply'
+          click_on "Apply"
         end
       end
 
       def remove_filter(filter_name)
-        within '#menu-sidebar' do
+        within "#menu-sidebar" do
           uncheck filter_name
-          click_on 'Apply'
+          click_on "Apply"
         end
       end
 
       def expect_filter_set(filter_name)
-        within '#menu-sidebar' do
+        within "#menu-sidebar" do
           expect(page).to have_checked_field(filter_name)
         end
       end
 
       def expect_filter_not_set(filter_name)
-        within '#menu-sidebar' do
+        within "#menu-sidebar" do
           expect(page).to have_no_checked_field(filter_name)
         end
       end
 
       def expect_versions_listed(*versions)
-        within '#roadmap' do
+        within "#roadmap" do
           versions.each do |version|
             expect(page).to have_content version.name
           end
@@ -76,7 +76,7 @@ module Pages
       end
 
       def expect_versions_not_listed(*versions)
-        within '#roadmap' do
+        within "#roadmap" do
           versions.each do |version|
             expect(page).to have_no_content version.name
           end

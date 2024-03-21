@@ -1,67 +1,67 @@
 ms:
   js:
     grid:
-      add_widget: 'Add widget'
-      remove: 'Remove widget'
-      configure: 'Configure widget'
+      add_widget: 'Tambah widget'
+      remove: 'Buang widget'
+      configure: 'Konfigurasi widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "Anda tidak mempunyai kebenaran yang diperlukan untuk melihat widget ini."
         custom_text:
-          title: 'Custom text'
+          title: 'Teks custom'
         documents:
-          title: 'Documents'
-          no_results: 'No documents yet.'
+          title: 'Dokumen'
+          no_results: 'Tiada dokumen lagi.'
         members:
-          title: 'Members'
-          no_results: 'No visible members.'
-          view_all_members: 'View all members'
-          add: 'Member'
-          too_many: 'Displaying %{count} of %{total} members.'
+          title: 'Ahli'
+          no_results: 'Tiada ahli nyata.'
+          view_all_members: 'Lihat semua ahli'
+          add: 'Ahli'
+          too_many: 'Memaparkan %{count} dari %{total} ahli.'
         news:
-          title: 'News'
-          at: 'at'
-          no_results: 'Nothing new to report.'
+          title: 'Berita'
+          at: 'pada'
+          no_results: 'Tiada benda baru untuk dilapor.'
         project_description:
-          title: 'Project description'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          title: 'Penerangan projek'
+          no_results: "Tiada penerangan yang tertulis lagi. Penerangan boleh diberikan di dalam 'Seting Projek'."
         project_details:
-          title: 'Project details'
-          no_results: 'No custom fields have been defined for projects.'
+          title: 'Butiran projek'
+          no_results: 'Tiada medan langganan yang telah ditetapkan untuk projek.'
         project_status:
-          title: 'Project status'
-          not_started: 'Not started'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
-          not_set: 'Not set'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          title: 'Status projek'
+          not_started: 'Belum dimulakan'
+          on_track: 'Ikut jadual'
+          off_track: 'Lari jadual'
+          at_risk: 'Berisiko'
+          not_set: 'Tidak ditetapkan'
+          finished: 'Selesai'
+          discontinued: 'Dihentikan'
         subprojects:
-          title: 'Subprojects'
-          no_results: 'No subprojects.'
+          title: 'Subprojek'
+          no_results: 'Tiada subprojek.'
         time_entries_current_user:
-          title: 'My spent time'
-          displayed_days: 'Days displayed in the widget:'
+          title: 'Masa yang saya gunakan'
+          displayed_days: 'Hari yang dipaparkan dalam widget:'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
-          no_results: 'No time entries for the last 7 days.'
+          title: 'Masa yang diguna (7 hari lepas)'
+          no_results: 'Tiada catatan masa untuk 7 hari yang lalu.'
         work_packages_accountable:
-          title: "Work packages I am accountable for"
+          title: "Pakej kerja yang saya bertanggungjawab"
         work_packages_assigned:
-          title: 'Work packages assigned to me'
+          title: 'Pakej kerja yang ditugaskan pada saya'
         work_packages_created:
-          title: 'Work packages created by me'
+          title: 'Pakej kerja yang saya cipta'
         work_packages_watched:
-          title: 'Work packages watched by me'
+          title: 'Pakej kerja yang saya pantau'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Jadual pakej kerja'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Graf pakej kerja'
         work_packages_calendar:
-          title: 'Calendar'
+          title: 'Kalendar'
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          title: 'Gambaran keseluruhan pakej kerja'
+          placeholder: 'Klik untuk edit ...'

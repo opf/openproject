@@ -422,7 +422,7 @@ zh-TW:
       copy_failed: "此工作項目無法被複製"
       move_failed: "此工作項目無法被移動"
       could_not_be_saved: "以下文檔無法被保存"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
+      none_could_be_saved: " %{total} 工作項目無法更新"
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
       selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
@@ -980,7 +980,7 @@ zh-TW:
               ungrantable: "has an unassignable role."
               more_than_one: "has more than one role."
             principal:
-              unassignable: "cannot be assigned to a project."
+              unassignable: "無法分派到專案。"
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
@@ -1077,8 +1077,8 @@ zh-TW:
     derived_start_date: "Derived start date"
     display_sums: "顯示加總"
     due_date: "完成日期"
-    estimated_hours: "Work"
-    estimated_time: "Work"
+    estimated_hours: "工時"
+    estimated_time: "工時"
     expires_at: "過期於"
     firstname: "名字"
     group: "群組"
@@ -1512,6 +1512,7 @@ zh-TW:
   journals:
     changes_retracted: "更改已被撤銷"
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "日期已異動"
       system_update: "OpenProject 系統更新："
     cause_descriptions:
@@ -2687,6 +2688,9 @@ zh-TW:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -2720,7 +2724,7 @@ zh-TW:
   setting_brute_force_block_minutes: "使用者被禁止的時間"
   setting_cache_formatted_text: "快取格式化文字"
   setting_use_wysiwyg_description: "勾選此選項可在預設情況下為所有使用者啟用 CKEditor5 所見即所得 (WYSIWYG) 編輯器。CKEditor 對 GFM Markdown的功能有限。"
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "預設工作項目欄位"
   setting_commit_fix_keywords: "固定的關鍵字"
   setting_commit_logs_encoding: "Commit 訊息的編碼"
   setting_commit_logtime_activity_id: "紀錄時間的動作"
@@ -3064,6 +3068,7 @@ zh-TW:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "狀態變更"
     text_change_disabled_for_provider_login: "該名稱由賬戶提供者設定，因此無法更改。"
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "按此啟用"
     unlock_and_reset_failed_logins: "啟用並清除登入紀錄"
   version_status_closed: "已關閉"

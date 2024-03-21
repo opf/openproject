@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_context'
-require_relative '../support/components/add_existing_pane'
+require "spec_helper"
+require_relative "shared_context"
+require_relative "../support/components/add_existing_pane"
 
-RSpec.describe 'Team planner remove event',
+RSpec.describe "Team planner remove event",
                :js,
                with_ee: %i[team_planner_view],
                with_settings: { start_of_week: 1 } do
-  include_context 'with team planner full access'
+  include_context "with team planner full access"
 
   let!(:viewer_role) { create(:project_role, permissions: [:view_work_packages]) }
 
   let!(:other_user) do
     create(:user,
-           firstname: 'Bernd',
+           firstname: "Bernd",
            member_with_permissions: { project => %w[
              view_work_packages view_team_planner
            ] })
@@ -49,7 +49,7 @@ RSpec.describe 'Team planner remove event',
   let!(:removable_wp) do
     create(:work_package,
            project:,
-           subject: 'Some task',
+           subject: "Some task",
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
@@ -58,7 +58,7 @@ RSpec.describe 'Team planner remove event',
   let!(:non_removable_wp) do
     create(:work_package,
            project:,
-           subject: 'Parent work package',
+           subject: "Parent work package",
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday),
@@ -87,21 +87,21 @@ RSpec.describe 'Team planner remove event',
     sleep 2
   end
 
-  it 'can remove one of the work packages' do
+  it "can remove one of the work packages" do
     team_planner.drag_to_remove_dropzone non_removable_wp, expect_removable: false
     team_planner.drag_to_remove_dropzone removable_wp, expect_removable: true
   end
 
-  context 'with the add existing open searching for the task' do
+  context "with the add existing open searching for the task" do
     let(:add_existing_pane) { Components::AddExistingPane.new }
 
-    it 'the removed task shows up again' do
+    it "the removed task shows up again" do
       # Open the left hand pane
       add_existing_pane.open
       add_existing_pane.expect_empty
 
       # Search for the task, expect empty
-      add_existing_pane.search 'task'
+      add_existing_pane.search "task"
       add_existing_pane.expect_empty
 
       # Remove the task

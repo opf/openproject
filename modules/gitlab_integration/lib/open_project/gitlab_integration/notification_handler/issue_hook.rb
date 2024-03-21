@@ -37,7 +37,7 @@ module OpenProject::GitlabIntegration
       def process(payload_params)
         @payload = wrap_payload(payload_params)
         user = User.find_by_id(payload.open_project_user_id)
-        text = payload.object_attributes.title + ' - ' + payload.object_attributes.description
+        text = payload.object_attributes.title + " - " + payload.object_attributes.description
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
         comment_on_referenced_work_packages(work_packages, user, notes)
@@ -52,9 +52,9 @@ module OpenProject::GitlabIntegration
         accepted_actions = %w[open reopen close]
 
         key_action = {
-          'open' => 'opened',
-          'reopen' => 'reopened',
-          'close' => 'closed'
+          "open" => "opened",
+          "reopen" => "reopened",
+          "close" => "closed"
         }[payload.object_attributes.action]
 
         return nil unless accepted_actions.include? payload.object_attributes.action

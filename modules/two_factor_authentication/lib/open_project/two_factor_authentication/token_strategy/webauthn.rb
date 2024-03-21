@@ -1,4 +1,4 @@
-require 'webauthn'
+require "webauthn"
 
 module OpenProject::TwoFactorAuthentication
   module TokenStrategy

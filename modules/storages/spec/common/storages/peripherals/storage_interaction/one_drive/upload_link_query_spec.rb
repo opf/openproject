@@ -28,16 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQuery, :webmock do
-  let(:storage) { create(:one_drive_storage, :with_oauth_client, drive_id: 'b!~bunchOfLettersAndNumb3rs') }
+  let(:storage) { create(:one_drive_storage, :with_oauth_client, drive_id: "b!~bunchOfLettersAndNumb3rs") }
   let(:token) { create(:oauth_client_token, oauth_client: storage.oauth_client) }
   let(:user) { token.user }
 
   # Need to verify the actual object
-  let(:query_payload) { { 'parent' => 'LFHLUDSILANC', 'file_name' => 'it_is_a_trap.flac' } }
+  let(:query_payload) { { "parent" => "LFHLUDSILANC", "file_name" => "it_is_a_trap.flac" } }
 
   subject(:upload_query) { described_class.new(storage) }
 
@@ -46,31 +46,31 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQu
       :post,
       "https://graph.microsoft.com/v1.0/drives/b!~bunchOfLettersAndNumb3rs/items/LFHLUDSILANC:/it_is_a_trap.flac:/createUploadSession"
     ).with(
-      headers: { 'Authorization' => "Bearer #{token.access_token}", 'Content-Type' => 'application/json' },
-      body: { item: { "@microsoft.graph.conflictBehavior" => "rename", name: query_payload['file_name'] } }
+      headers: { "Authorization" => "Bearer #{token.access_token}", "Content-Type" => "application/json" },
+      body: { item: { "@microsoft.graph.conflictBehavior" => "rename", name: query_payload["file_name"] } }
     ).to_return(
       status: 200,
-      headers: { 'Content-Type' => 'application/json' },
+      headers: { "Content-Type" => "application/json" },
       body: { uploadUrl: "https://sn3302.up.1drv.com/up/fe6987415ace7X4e1eF866337",
               expirationDateTime: "2015-01-29T09:21:55.523Z" }.to_json
     )
   end
 
-  it '.call requires 3 arguments: storage, user, and data' do
+  it ".call requires 3 arguments: storage, user, and data" do
     expect(described_class).to respond_to(:call)
 
     method = described_class.method(:call)
     expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq data])
   end
 
-  it 'must return an upload link URL' do
+  it "must return an upload link URL" do
     link = upload_query.call(user:, data: query_payload).result
 
     expect(link.destination).not_to be_nil
     expect(link.method).to eq(:put)
   end
 
-  shared_examples_for 'outbound is failing' do |code, symbol|
+  shared_examples_for "outbound is failing" do |code, symbol|
     describe "with outbound request returning #{code}" do
       before do
         stub_request(
@@ -87,8 +87,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQu
     end
   end
 
-  include_examples 'outbound is failing', 400, :error
-  include_examples 'outbound is failing', 401, :unauthorized
-  include_examples 'outbound is failing', 404, :not_found
-  include_examples 'outbound is failing', 500, :error
+  include_examples "outbound is failing", 400, :error
+  include_examples "outbound is failing", 401, :unauthorized
+  include_examples "outbound is failing", 404, :not_found
+  include_examples "outbound is failing", 500, :error
 end

@@ -81,13 +81,13 @@ module Queries::Filters::Shared
 
       def type
         case custom_field.field_format
-        when 'float'
+        when "float"
           :float
-        when 'int'
+        when "int"
           :integer
-        when 'text'
+        when "text"
           :text
-        when 'date'
+        when "date"
           :date
         else
           :string
@@ -110,13 +110,13 @@ module Queries::Filters::Shared
         messages = errors.full_messages
                          .join(" #{I18n.t('support.array.sentence_connector')} ")
 
-        human_name + I18n.t(default: ' %<message>s', message: messages)
+        human_name + I18n.t(default: " %<message>s", message: messages)
       end
 
       protected
 
       def condition
-        operator_strategy.sql_for_field(values_replaced, CustomValue.table_name, 'value')
+        operator_strategy.sql_for_field(values_replaced, CustomValue.table_name, "value")
       end
 
       def type_strategy_class

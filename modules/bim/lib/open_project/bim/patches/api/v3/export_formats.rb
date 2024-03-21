@@ -10,7 +10,7 @@ module OpenProject::Bim::Patches
 
     def representation_format_bcf
       representation_format :bcf,
-                            mime_type: 'application/octet-stream'
+                            mime_type: "application/octet-stream"
     end
   end
 end
