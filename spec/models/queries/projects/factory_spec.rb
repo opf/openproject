@@ -50,6 +50,24 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
       query.select(:project_status, :name, :created_at)
     end
   end
+  let(:custom_field) do
+    build_stubbed(:project_custom_field, id: 1) do |cf|
+      scope = instance_double(ActiveRecord::Relation)
+
+      allow(ProjectCustomField)
+        .to receive(:visible)
+              .and_return(scope)
+
+      allow(scope)
+        .to receive(:find_by)
+              .and_return nil
+
+      allow(scope)
+        .to receive(:find_by)
+              .with(id: cf.id.to_s)
+              .and_return(cf)
+    end
+  end
 
   let(:id) { nil }
   let(:params) { {} }
@@ -80,7 +98,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to eq([["lft", :asc]])
       end
 
-      it "has the enabled project columns columns as selects" do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -91,7 +109,11 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
             with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
       current_user { build_stubbed(:admin) }
 
-      it "has the enabled project columns columns as selects" do
+      before do
+        custom_field
+      end
+
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -120,7 +142,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to eq([["lft", :asc]])
       end
 
-      it "has the enabled project columns columns as selects" do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -149,7 +171,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to eq([["lft", :asc]])
       end
 
-      it "has the enabled project columns columns as selects" do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -178,7 +200,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to eq([["lft", :asc]])
       end
 
-      it "has the enabled project columns columns as selects" do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -207,7 +229,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to eq([["lft", :asc]])
       end
 
-      it "has the enabled project columns columns as selects" do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -236,7 +258,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to eq([["lft", :asc]])
       end
 
-      it "has the enabled project columns columns as selects" do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -265,7 +287,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to eq([["lft", :asc]])
       end
 
-      it "has the enabled project columns columns as selects" do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -383,7 +405,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to eq([["id", :asc], ["name", :desc]])
       end
 
-      it "has the enabled project columns columns as selects" do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -428,7 +450,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to eq([%i[lft asc]])
       end
 
-      it "has the enabled project columns columns as selects" do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
@@ -625,6 +647,19 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
           .to be_nil
       end
     end
+
+    context "without id, as non admin and with a non existing custom field id",
+            with_ee: %i[custom_fields_in_projects_list],
+            with_settings: { enabled_projects_columns: %w[name created_at cf_1 cf_42] } do
+      before do
+        custom_field
+      end
+
+      it "has only the available fields (non admin only and only existing cf)" do
+        expect(find.selects.map(&:attribute))
+          .to eq(%i[name cf_1]) # rubocop:disable Naming/VariableNumber
+      end
+    end
   end
 
   describe ".static_query_active" do
@@ -650,7 +685,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
         .to eq([["lft", :asc]])
     end
 
-    it "has the enabled project columns columns as selects" do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
@@ -679,7 +714,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
         .to eq([["lft", :asc]])
     end
 
-    it "has the enabled project columns columns as selects" do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
@@ -708,7 +743,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
         .to eq([["lft", :asc]])
     end
 
-    it "has the enabled project columns columns as selects" do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
@@ -737,7 +772,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
         .to eq([["lft", :asc]])
     end
 
-    it "has the enabled project columns columns as selects" do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
@@ -766,7 +801,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
         .to eq([["lft", :asc]])
     end
 
-    it "has the enabled project columns columns as selects" do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
@@ -795,7 +830,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
         .to eq([["lft", :asc]])
     end
 
-    it "has the enabled project columns columns as selects" do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end

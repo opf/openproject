@@ -1,5 +1,5 @@
 #English strings go here for Rails i18n
-pt:
+pt-PT:
   plugin_openproject_two_factor_authentication:
     name: "Autenticação de dois fatores do OpenProject"
     description: >-

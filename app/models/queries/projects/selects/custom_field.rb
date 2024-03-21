@@ -55,4 +55,8 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
                         .visible
                         .find_by(id: self.class.key.match(attribute)[1])
   end
+
+  def available?
+    custom_field.present?
+  end
 end

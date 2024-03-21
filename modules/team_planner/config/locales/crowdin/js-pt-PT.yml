@@ -1,5 +1,5 @@
 #English strings go here
-pt:
+pt-PT:
   js:
     team_planner:
       add_existing: 'Adicionar existente'
