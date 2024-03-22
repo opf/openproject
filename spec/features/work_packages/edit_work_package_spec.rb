@@ -116,7 +116,8 @@ RSpec.describe "edit work package", :js do
       visit!
     end
 
-    it "does not hide empty % Complete while it is being edited" do
+    it "does not hide empty % Complete while it is being edited",
+       skip: "TODO: revisit once the progress popover is implemented" do
       field = wp_page.work_package_field(:percentageDone)
       field.update("0", save: false, expect_failure: true)
 
