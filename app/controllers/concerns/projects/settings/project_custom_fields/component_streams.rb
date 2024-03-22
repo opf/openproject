@@ -36,14 +36,12 @@ module Projects
           def update_sections_via_turbo_stream(
             project: @project,
             project_custom_field_sections: @project_custom_field_sections,
-            project_custom_fields_grouped_by_section: @project_custom_fields_grouped_by_section,
             project_custom_field_project_mappings: @project_custom_field_project_mappings
           )
             update_via_turbo_stream(
               component: ::Projects::Settings::ProjectCustomFieldSections::IndexComponent.new(
                 project:,
                 project_custom_field_sections:,
-                project_custom_fields_grouped_by_section:,
                 project_custom_field_project_mappings:
               )
             )

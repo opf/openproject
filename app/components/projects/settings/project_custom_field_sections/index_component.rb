@@ -37,14 +37,12 @@ module Projects
         def initialize(
           project:,
           project_custom_field_sections:,
-          project_custom_fields_grouped_by_section:,
           project_custom_field_project_mappings:
         )
           super
 
           @project = project
           @project_custom_field_sections = project_custom_field_sections
-          @project_custom_fields_grouped_by_section = project_custom_fields_grouped_by_section
           @project_custom_field_project_mappings = project_custom_field_project_mappings
         end
 
@@ -55,10 +53,6 @@ module Projects
             controller: 'projects--settings--project-custom-fields-mapping-filter',
             'application-target': 'dynamic'
           }
-        end
-
-        def get_eager_loaded_project_custom_field_section(section_id)
-          @project_custom_field_sections.find { |section| section.id == section_id }
         end
       end
     end

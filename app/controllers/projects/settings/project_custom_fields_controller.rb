@@ -82,13 +82,13 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
   private
 
   def eager_load_project_custom_field_data
-    @project_custom_field_sections = ProjectCustomFieldSection.all.to_a
-
-    @project_custom_fields_grouped_by_section = ProjectCustomField
-      .visible
-      .includes(:project_custom_field_section)
-      .sort_by { |pcf| pcf.project_custom_field_section.position }
-      .group_by(&:custom_field_section_id)
+    # Load only the sections that have custom_fields associated
+    @project_custom_field_sections =
+      ProjectCustomFieldSection
+        .joins(:custom_fields)
+        .includes(:custom_fields)
+        .group(:id, "custom_fields.id")
+        .order(:position)
 
     @project_custom_field_project_mappings = ProjectCustomFieldProjectMapping
       .where(project_id: @project.id)

@@ -19,12 +19,13 @@
           }
         ))
       end
-      @project_custom_fields_grouped_by_section.each do |section_id, project_custom_fields|
+
+      @project_custom_field_sections.each do |project_custom_field_section|
         flex.with_row do
           render(Projects::Settings::ProjectCustomFieldSections::ShowComponent.new(
             project: @project,
-            project_custom_field_section: get_eager_loaded_project_custom_field_section(section_id),
-            project_custom_fields:,
+            project_custom_field_section:,
+            project_custom_fields: project_custom_field_section.custom_fields,
             project_custom_field_project_mappings: @project_custom_field_project_mappings
           ))
         end
