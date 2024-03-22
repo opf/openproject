@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
+RSpec.describe "API v3 storages resource", :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
   include StorageServerHelpers
   include UserPermissionsHelper
@@ -42,75 +42,72 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
   end
   shared_let(:user_without_project) { create(:user) }
   shared_let(:admin) { create(:admin) }
-  shared_let(:oauth_application) { create(:oauth_application) }
-  shared_let(:storage) { create(:nextcloud_storage, creator: user_with_permissions, oauth_application:) }
+  shared_let(:storage) { create(:nextcloud_storage_configured, creator: user_with_permissions) }
   shared_let(:project_storage) { create(:project_storage, project:, storage:) }
 
-  let(:authorize_url) { 'https://example.com/authorize' }
-  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
   let(:current_user) { user_with_permissions }
+  let(:auth_check_result) { ServiceResult.success }
 
   subject(:last_response) do
     get path
   end
 
   before do
-    allow(connection_manager).to receive_messages(get_authorization_uri: authorize_url, authorization_state: :connected)
-    allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+    Storages::Peripherals::Registry.stub("nextcloud.queries.auth_check", ->(_) { auth_check_result })
     login_as current_user
   end
 
-  shared_examples_for 'successful storage response' do |as_admin: false|
-    include_examples 'successful response'
+  shared_examples_for "successful storage response" do |as_admin: false|
+    include_examples "successful response"
 
-    describe 'response body' do
+    describe "response body" do
       subject { last_response.body }
 
-      it { is_expected.to be_json_eql('Storage'.to_json).at_path('_type') }
-      it { is_expected.to be_json_eql(storage.id.to_json).at_path('id') }
+      it { is_expected.to be_json_eql("Storage".to_json).at_path("_type") }
+      it { is_expected.to be_json_eql(storage.id.to_json).at_path("id") }
 
       if as_admin
-        it { is_expected.to have_json_path('_embedded/oauthApplication') }
+        it { is_expected.to have_json_path("_embedded/oauthApplication") }
       else
-        it { is_expected.not_to have_json_path('_embedded/oauthApplication') }
+        it { is_expected.not_to have_json_path("_embedded/oauthApplication") }
       end
     end
   end
 
-  describe 'GET /api/v3/storages' do
+  describe "GET /api/v3/storages" do
     let(:path) { api_v3_paths.storages }
     let!(:another_storage) { create(:nextcloud_storage) }
 
     subject(:last_response) { get path }
 
-    context 'as admin' do
+    context "as admin" do
       let(:current_user) { admin }
 
-      describe 'gets the storage collection and returns it' do
+      describe "gets the storage collection and returns it" do
         subject { last_response.body }
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'Storage', 'Collection' do
+        it_behaves_like "API V3 collection response", 2, 2, "Storage", "Collection" do
           let(:elements) { [another_storage, storage] }
         end
       end
     end
 
-    context 'as non-admin' do
-      describe 'gets the storage collection of storages linked to visible projects with correct permissions' do
+    context "as non-admin" do
+      describe "gets the storage collection of storages linked to visible projects with correct permissions" do
         subject { last_response.body }
 
-        it_behaves_like 'API V3 collection response', 1, 1, 'Storage', 'Collection' do
+        it_behaves_like "API V3 collection response", 1, 1, "Storage", "Collection" do
           let(:elements) { [storage] }
         end
       end
     end
   end
 
-  describe 'POST /api/v3/storages' do
+  describe "POST /api/v3/storages" do
     let(:path) { api_v3_paths.storages }
-    let(:host) { 'https://example.nextcloud.local' }
-    let(:name) { 'APIStorage' }
-    let(:type) { 'urn:openproject-org:api:v3:storages:Nextcloud' }
+    let(:host) { "https://example.nextcloud.local" }
+    let(:name) { "APIStorage" }
+    let(:type) { "urn:openproject-org:api:v3:storages:Nextcloud" }
     let(:params) do
       {
         name:,
@@ -131,32 +128,32 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       post path, params.to_json
     end
 
-    context 'as admin' do
+    context "as admin" do
       let(:current_user) { admin }
 
-      describe 'creates a storage and returns it' do
+      describe "creates a storage and returns it" do
         subject { last_response.body }
 
-        it_behaves_like 'successful response', 201
+        it_behaves_like "successful response", 201
 
-        it { is_expected.to have_json_path('_embedded/oauthApplication/clientSecret') }
+        it { is_expected.to have_json_path("_embedded/oauthApplication/clientSecret") }
       end
 
-      context 'with applicationPassword' do
+      context "with applicationPassword" do
         let(:params) do
           super().merge(
-            applicationPassword: 'myappsecret'
+            applicationPassword: "myappsecret"
           )
         end
 
         subject { last_response.body }
 
-        it_behaves_like 'successful response', 201
+        it_behaves_like "successful response", 201
 
-        it { is_expected.to be_json_eql('true').at_path('hasApplicationPassword') }
+        it { is_expected.to be_json_eql("true").at_path("hasApplicationPassword") }
       end
 
-      context 'with applicationPassword as null' do
+      context "with applicationPassword as null" do
         let(:params) do
           super().merge(
             applicationPassword: nil
@@ -165,168 +162,164 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
 
         subject { last_response.body }
 
-        it_behaves_like 'successful response', 201
+        it_behaves_like "successful response", 201
 
-        it { is_expected.to be_json_eql('false').at_path('hasApplicationPassword') }
+        it { is_expected.to be_json_eql("false").at_path("hasApplicationPassword") }
       end
 
-      context 'if missing a mandatory value' do
+      context "if missing a mandatory value" do
         let(:params) do
           {
-            name: 'APIStorage',
+            name: "APIStorage",
             _links: {
-              type: { href: 'urn:openproject-org:api:v3:storages:Nextcloud' }
+              type: { href: "urn:openproject-org:api:v3:storages:Nextcloud" }
             }
           }
         end
 
-        it_behaves_like 'constraint violation' do
+        it_behaves_like "constraint violation" do
           let(:message) { "Host is not a valid URL" }
         end
       end
     end
 
-    context 'as non-admin' do
-      it_behaves_like 'unauthorized access'
+    context "as non-admin" do
+      it_behaves_like "unauthorized access"
     end
   end
 
-  describe 'GET /api/v3/storages/:storage_id' do
+  describe "GET /api/v3/storages/:storage_id" do
     let(:path) { api_v3_paths.storage(storage.id) }
 
-    context 'if user belongs to a project using the given storage' do
+    context "if user belongs to a project using the given storage" do
       subject { last_response.body }
 
-      it_behaves_like 'successful storage response'
+      it_behaves_like "successful storage response"
 
-      context 'if user is missing permission view_file_links' do
+      context "if user is missing permission view_file_links" do
         before(:all) { remove_permissions(user_with_permissions, :view_file_links) }
         after(:all) { add_permissions(user_with_permissions, :view_file_links) }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
 
-      context 'if no storage with that id exists' do
+      context "if no storage with that id exists" do
         let(:path) { api_v3_paths.storage(1337) }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
     end
 
-    context 'if user has :manage_storages_in_project permission in any project' do
+    context "if user has :manage_storages_in_project permission in any project" do
       let(:permissions) { %i(manage_storages_in_project) }
 
-      it_behaves_like 'successful storage response'
+      it_behaves_like "successful storage response"
     end
 
-    context 'as admin' do
+    context "as admin" do
       let(:current_user) { admin }
 
-      it_behaves_like 'successful storage response', as_admin: true
+      it_behaves_like "successful storage response", as_admin: true
 
       subject { last_response.body }
 
-      it { is_expected.not_to have_json_path('_embedded/oauthApplication/clientSecret') }
+      it { is_expected.not_to have_json_path("_embedded/oauthApplication/clientSecret") }
     end
 
-    context 'when OAuth authorization server is involved' do
-      shared_examples 'a storage authorization result' do |expected:, has_authorize_link:|
+    context "when OAuth authorization server is involved" do
+      shared_examples "a storage authorization result" do |expected:, has_authorize_link:|
         subject { last_response.body }
 
-        before do
-          allow(connection_manager).to receive(:authorization_state).and_return(authorization_state)
-        end
-
         it "returns #{expected}" do
-          expect(subject).to be_json_eql(expected.to_json).at_path('_links/authorizationState/href')
+          expect(subject).to be_json_eql(expected.to_json).at_path("_links/authorizationState/href")
         end
 
         it "has #{has_authorize_link ? '' : 'no'} authorize link" do
           if has_authorize_link
-            expect(subject).to be_json_eql(authorize_url.to_json).at_path('_links/authorize/href')
+            expect(subject).to have_json_path("_links/authorize/href")
           else
-            expect(subject).not_to have_json_path('_links/authorize/href')
+            expect(subject).not_to have_json_path("_links/authorize/href")
           end
         end
       end
 
-      context 'when authorization succeeds and storage is connected' do
-        let(:authorization_state) { :connected }
+      context "when authorization succeeds and storage is connected" do
+        let(:auth_check_result) { ServiceResult.success }
 
-        include_examples 'a storage authorization result',
+        include_examples "a storage authorization result",
                          expected: API::V3::Storages::URN_CONNECTION_CONNECTED,
                          has_authorize_link: false
       end
 
-      context 'when authorization fails' do
-        let(:authorization_state) { :failed_authorization }
+      context "when authorization fails" do
+        let(:auth_check_result) { ServiceResult.failure(errors: Storages::StorageError.new(code: :unauthorized)) }
 
-        include_examples 'a storage authorization result',
+        include_examples "a storage authorization result",
                          expected: API::V3::Storages::URN_CONNECTION_AUTH_FAILED,
                          has_authorize_link: true
       end
 
-      context 'when authorization fails with an error' do
-        let(:authorization_state) { :error }
+      context "when authorization fails with an error" do
+        let(:auth_check_result) { ServiceResult.failure(errors: Storages::StorageError.new(code: :error)) }
 
-        include_examples 'a storage authorization result',
+        include_examples "a storage authorization result",
                          expected: API::V3::Storages::URN_CONNECTION_ERROR,
                          has_authorize_link: false
       end
     end
   end
 
-  describe 'PATCH /api/v3/storages/:storage_id' do
+  describe "PATCH /api/v3/storages/:storage_id" do
     let(:path) { api_v3_paths.storage(storage.id) }
-    let(:name) { 'A new storage name' }
+    let(:name) { "A new storage name" }
     let(:params) { { name: } }
 
     subject(:last_response) do
       patch path, params.to_json
     end
 
-    context 'as non-admin' do
-      context 'if user belongs to a project using the given storage' do
-        it_behaves_like 'unauthorized access'
+    context "as non-admin" do
+      context "if user belongs to a project using the given storage" do
+        it_behaves_like "unauthorized access"
       end
 
-      context 'if user does not belong to a project using the given storage' do
+      context "if user does not belong to a project using the given storage" do
         let(:current_user) { user_without_project }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
     end
 
-    context 'as admin' do
+    context "as admin" do
       let(:current_user) { admin }
 
-      describe 'patches the storage and returns it' do
+      describe "patches the storage and returns it" do
         subject { last_response.body }
 
-        it_behaves_like 'successful response'
+        it_behaves_like "successful response"
 
-        it { is_expected.to be_json_eql(name.to_json).at_path('name') }
+        it { is_expected.to be_json_eql(name.to_json).at_path("name") }
       end
 
-      context 'with applicationPassword' do
+      context "with applicationPassword" do
         let(:params) do
           super().merge(
-            applicationPassword: 'myappsecret'
+            applicationPassword: "myappsecret"
           )
         end
 
         before do
-          mock_nextcloud_application_credentials_validation(storage.host, password: 'myappsecret')
+          mock_nextcloud_application_credentials_validation(storage.host, password: "myappsecret")
         end
 
         subject { last_response.body }
 
-        it_behaves_like 'successful response'
+        it_behaves_like "successful response"
 
-        it { is_expected.to be_json_eql('true').at_path('hasApplicationPassword') }
+        it { is_expected.to be_json_eql("true").at_path("hasApplicationPassword") }
       end
 
-      context 'with applicationPassword as null' do
+      context "with applicationPassword as null" do
         let(:params) do
           super().merge(
             applicationPassword: nil
@@ -335,30 +328,30 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
 
         subject { last_response.body }
 
-        it_behaves_like 'successful response'
+        it_behaves_like "successful response"
 
-        it { is_expected.to be_json_eql('false').at_path('hasApplicationPassword') }
+        it { is_expected.to be_json_eql("false").at_path("hasApplicationPassword") }
       end
 
-      context 'with invalid applicationPassword' do
+      context "with invalid applicationPassword" do
         let(:params) do
           super().merge(
-            applicationPassword: '123'
+            applicationPassword: "123"
           )
         end
 
         before do
-          mock_nextcloud_application_credentials_validation(storage.host, password: '123', response_code: 401)
+          mock_nextcloud_application_credentials_validation(storage.host, password: "123", response_code: 401)
         end
 
         subject { last_response.body }
 
-        it { is_expected.to be_json_eql('Password is not valid.'.to_json).at_path('message') }
+        it { is_expected.to be_json_eql("Password is not valid.".to_json).at_path("message") }
       end
     end
   end
 
-  describe 'DELETE /api/v3/storages/:storage_id' do
+  describe "DELETE /api/v3/storages/:storage_id" do
     let(:path) { api_v3_paths.storage(storage.id) }
     let(:delete_folder_url) do
       "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.managed_project_folder_path.chop}/"
@@ -375,72 +368,72 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       deletion_request_stub
     end
 
-    context 'as admin' do
+    context "as admin" do
       let(:current_user) { admin }
 
-      it_behaves_like 'successful no content response'
+      it_behaves_like "successful no content response"
     end
 
-    context 'as non-admin' do
-      context 'if user belongs to a project using the given storage' do
-        it_behaves_like 'unauthorized access'
+    context "as non-admin" do
+      context "if user belongs to a project using the given storage" do
+        it_behaves_like "unauthorized access"
 
-        it 'does not request project folder deletion' do
+        it "does not request project folder deletion" do
           expect(deletion_request_stub).not_to have_been_requested
         end
       end
 
-      context 'if user does not belong to a project using the given storage' do
+      context "if user does not belong to a project using the given storage" do
         let(:current_user) { user_without_project }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
 
-        it 'does not request project folder deletion' do
+        it "does not request project folder deletion" do
           expect(deletion_request_stub).not_to have_been_requested
         end
       end
     end
   end
 
-  describe 'GET /api/v3/storages/:storage_id/open' do
+  describe "GET /api/v3/storages/:storage_id/open" do
     let(:path) { api_v3_paths.storage_open(storage.id) }
-    let(:location) { 'https://deathstar.storage.org/files' }
+    let(:location) { "https://deathstar.storage.org/files" }
 
     before do
       Storages::Peripherals::Registry.stub(
-        'nextcloud.queries.open_storage',
+        "nextcloud.queries.open_storage",
         ->(_) { ServiceResult.success(result: location) }
       )
     end
 
-    context 'as admin' do
+    context "as admin" do
       let(:current_user) { admin }
 
-      it_behaves_like 'redirect response'
+      it_behaves_like "redirect response"
     end
 
-    context 'if user belongs to a project using the given storage' do
-      it_behaves_like 'redirect response'
+    context "if user belongs to a project using the given storage" do
+      it_behaves_like "redirect response"
 
-      context 'if user is missing permission view_file_links' do
+      context "if user is missing permission view_file_links" do
         before(:all) { remove_permissions(user_with_permissions, :view_file_links) }
         after(:all) { add_permissions(user_with_permissions, :view_file_links) }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
 
-      context 'if no storage with that id exists' do
-        let(:path) { api_v3_paths.storage_open('1337') }
+      context "if no storage with that id exists" do
+        let(:path) { api_v3_paths.storage_open("1337") }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
     end
   end
 
-  describe 'POST /api/v3/storages/:storage_id/oauth_client_credentials' do
+  describe "POST /api/v3/storages/:storage_id/oauth_client_credentials" do
     let(:path) { api_v3_paths.storage_oauth_client_credentials(storage.id) }
-    let(:client_id) { 'myl1ttlecl13ntidii' }
-    let(:client_secret) { 'th3v3rys3cr3tcl13nts3cr3t' }
+    let(:client_id) { "myl1ttlecl13ntidii" }
+    let(:client_secret) { "th3v3rys3cr3tcl13nts3cr3t" }
     let(:params) do
       {
         clientId: client_id,
@@ -452,41 +445,41 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       post path, params.to_json
     end
 
-    context 'as non-admin' do
-      context 'if user belongs to a project using the given storage' do
-        it_behaves_like 'unauthorized access'
+    context "as non-admin" do
+      context "if user belongs to a project using the given storage" do
+        it_behaves_like "unauthorized access"
       end
 
-      context 'if user does not belong to a project using the given storage' do
+      context "if user does not belong to a project using the given storage" do
         let(:current_user) { user_without_project }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
     end
 
-    context 'as admin' do
+    context "as admin" do
       let(:current_user) { admin }
 
-      describe 'creates new oauth client secrets' do
+      describe "creates new oauth client secrets" do
         subject { last_response.body }
 
-        it_behaves_like 'successful response', 201
+        it_behaves_like "successful response", 201
 
-        it { is_expected.to be_json_eql('OAuthClientCredentials'.to_json).at_path('_type') }
-        it { is_expected.to be_json_eql(client_id.to_json).at_path('clientId') }
-        it { is_expected.to be_json_eql(true.to_json).at_path('confidential') }
-        it { is_expected.not_to have_json_path('clientSecret') }
+        it { is_expected.to be_json_eql("OAuthClientCredentials".to_json).at_path("_type") }
+        it { is_expected.to be_json_eql(client_id.to_json).at_path("clientId") }
+        it { is_expected.to be_json_eql(true.to_json).at_path("confidential") }
+        it { is_expected.not_to have_json_path("clientSecret") }
       end
 
-      context 'if request body is invalid' do
+      context "if request body is invalid" do
         let(:params) do
           {
-            clientSecret: 'only_an_id'
+            clientSecret: "only_an_id"
           }
         end
 
-        it_behaves_like 'constraint violation' do
-          let(:message) { 'Client ID can\'t be blank.' }
+        it_behaves_like "constraint violation" do
+          let(:message) { "Client ID can't be blank." }
         end
       end
     end

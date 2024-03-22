@@ -30,16 +30,40 @@
 
 module Storages
   module Peripherals
-    module OAuthConfigurations
-      class ConfigurationInterface
-        def scope = raise ::Storages::Errors::SubclassResponsibility
+    module StorageInteraction
+      module OneDrive
+        class AuthCheckQuery
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
 
-        def basic_rack_oauth_client = raise ::Storages::Errors::SubclassResponsibility
+          using ServiceResultRefinements
 
-        def to_httpx_oauth_config = raise ::Storages::Errors::SubclassResponsibility
+          def self.call(storage:, auth_strategy:)
+            new(storage).call(auth_strategy:)
+          end
 
-        def authorization_uri(state: nil)
-          basic_rack_oauth_client.authorization_uri(scope:, state:)
+          def initialize(storage)
+            @storage = storage
+          end
+
+          def call(auth_strategy:)
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              handle_response http.get(Util.join_uri_path(@storage.uri, "/v1.0/me"))
+            end
+          end
+
+          private
+
+          def handle_response(response)
+            case response
+            in { status: 200..299 }
+              ServiceResult.success
+            in { status: 401 }
+              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
+            else
+              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
+              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
+            end
+          end
         end
       end
     end
