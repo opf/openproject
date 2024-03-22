@@ -47,6 +47,13 @@ module OpenProject::GithubIntegration
                    {},
                    permissible_on: %i[work_package project])
       end
+
+      menu :admin_menu,
+           :admin_github_integration,
+           { controller: "admin/settings/github_integration_settings", action: :show },
+           if: Proc.new { User.current.admin? },
+           caption: :project_module_github,
+           icon: "github"
     end
 
     initializer "github.register_hook" do
