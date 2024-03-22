@@ -37,22 +37,22 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
   def scope
     query = visible_shared_work_packages(scoped_to_visible_projects: !querying_for_self?)
 
-    if operator == '='
+    if operator == "="
       query = query.where(shared_with_any_of_condition)
-    elsif operator == '&='
+    elsif operator == "&="
       query = query.where(shared_with_all_of_condition)
     end
 
-    WorkPackage.where(id: query.select('work_packages.id').distinct)
+    WorkPackage.where(id: query.select("work_packages.id").distinct)
   end
 
   # Conditions handled in +scope+ method
   def where
-    '1=1'
+    "1=1"
   end
 
   def human_name
-    I18n.t('query_fields.shared_with_user')
+    I18n.t("query_fields.shared_with_user")
   end
 
   def type
@@ -101,7 +101,7 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
       SQL
     end
 
-    where_clauses.join(' AND ')
+    where_clauses.join(" AND ")
   end
 
   def querying_for_self?

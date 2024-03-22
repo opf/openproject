@@ -35,7 +35,7 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def filter_column
-      'storage_id'
+      "storage_id"
     end
 
     def permission

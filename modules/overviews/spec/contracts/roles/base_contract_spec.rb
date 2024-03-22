@@ -24,7 +24,7 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Roles::BaseContract do
   let(:work_package_role) { build_stubbed(:work_package_role) }
@@ -34,38 +34,38 @@ RSpec.describe Roles::BaseContract do
   let(:current_user) { build_stubbed(:admin) }
   let(:contract) { described_class.new(role, current_user) }
 
-  describe 'assignable_permissions' do
-    context 'for a work package role' do
+  describe "assignable_permissions" do
+    context "for a work package role" do
       let(:role) { work_package_role }
 
-      it 'does not include manage_overview' do
+      it "does not include manage_overview" do
         expect(contract.assignable_permissions.map(&:name))
           .not_to include :manage_overview
       end
     end
 
-    context 'for a member role' do
+    context "for a member role" do
       let(:role) { member_role }
 
-      it 'includes manage_overview' do
+      it "includes manage_overview" do
         expect(contract.assignable_permissions.map(&:name))
           .to include :manage_overview
       end
     end
 
-    context 'for a global role' do
+    context "for a global role" do
       let(:role) { global_role }
 
-      it 'does not include manage_overview' do
+      it "does not include manage_overview" do
         expect(contract.assignable_permissions.map(&:name))
           .not_to include :manage_overview
       end
     end
 
-    context 'for a builtin role' do
+    context "for a builtin role" do
       let(:role) { anonymous_role }
 
-      it 'does not include manage_overview' do
+      it "does not include manage_overview" do
         expect(contract.assignable_permissions.map(&:name))
           .not_to include :manage_overview
       end

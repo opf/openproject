@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../../toasts/expectations'
+require_relative "../../toasts/expectations"
 
 module Components
   module WorkPackages
@@ -37,12 +37,12 @@ module Components
       include Toasts::Expectations
 
       def open_and_save_query(name)
-        open_and_choose('Save')
+        open_and_choose("Save")
         within_modal_fill_in_and_save(name:)
       end
 
       def open_and_save_query_as(name)
-        open_and_choose('Save as')
+        open_and_choose("Save as")
         within_modal_fill_in_and_save(name:)
       end
 
@@ -54,7 +54,7 @@ module Components
       end
 
       def open!
-        click_on 'work-packages-settings-button'
+        click_on "work-packages-settings-button"
         dropdown_menu
       end
 
@@ -84,13 +84,13 @@ module Components
       private
 
       def selector
-        '#settingsDropdown'
+        "#settingsDropdown"
       end
 
       def within_modal_fill_in_and_save(name:)
         modal.within_modal do
-          fill_in 'save-query-name', with: name
-          click_button 'Save'
+          fill_in "save-query-name", with: name
+          click_button "Save"
         end
         wait_for_save_completion
       end

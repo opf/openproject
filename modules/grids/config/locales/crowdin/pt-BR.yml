@@ -1,4 +1,4 @@
-pt:
+pt-BR:
   grids:
     label_widget_in_grid: "Widget contido na Grade %{grid_name}"
   activerecord:

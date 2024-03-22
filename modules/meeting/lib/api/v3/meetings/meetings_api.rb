@@ -37,7 +37,7 @@ module API
             end
           end
 
-          route_param :id, type: Integer, desc: 'Activity ID' do
+          route_param :id, type: Integer, desc: "Activity ID" do
             after_validation do
               @meeting = Meeting.visible.find(declared_params[:id])
             end

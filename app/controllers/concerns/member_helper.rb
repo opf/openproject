@@ -88,7 +88,7 @@ module MemberHelper
     return array if array.blank?
 
     each_comma_separated(array) do |elem|
-      elem.to_s.split(',')
+      elem.to_s.split(",")
     end
   end
 

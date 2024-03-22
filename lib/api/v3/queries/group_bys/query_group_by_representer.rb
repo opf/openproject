@@ -52,7 +52,7 @@ module API
           alias :id :converted_name
 
           def _type
-            'QueryGroupBy'
+            "QueryGroupBy"
           end
 
           def convert_attribute(attribute)

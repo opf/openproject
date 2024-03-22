@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Custom actions me value', :js, :with_cuprite, with_ee: %i[custom_actions] do
+RSpec.describe "Custom actions me value", :js, :with_cuprite, with_ee: %i[custom_actions] do
   shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages) }
@@ -37,7 +37,7 @@ RSpec.describe 'Custom actions me value', :js, :with_cuprite, with_ee: %i[custom
     create(:user, member_with_roles: { project => role })
   end
   let(:type) { create(:type_task) }
-  let(:project) { create(:project, types: [type], name: 'This project') }
+  let(:project) { create(:project, types: [type], name: "This project") }
   let!(:custom_field) { create(:user_wp_custom_field, types: [type], projects: [project]) }
   let!(:work_package) do
     create(:work_package,
@@ -47,7 +47,7 @@ RSpec.describe 'Custom actions me value', :js, :with_cuprite, with_ee: %i[custom
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:default_priority) do
-    create(:default_priority, name: 'Normal')
+    create(:default_priority, name: "Normal")
   end
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
 
@@ -55,26 +55,26 @@ RSpec.describe 'Custom actions me value', :js, :with_cuprite, with_ee: %i[custom
     login_as(admin)
   end
 
-  it 'can assign user custom field to self' do
+  it "can assign user custom field to self" do
     # create custom action 'Unassign'
     index_ca_page.visit!
 
     new_ca_page = index_ca_page.new
-    new_ca_page.set_name('Set CF to me')
-    new_ca_page.add_action(custom_field.name, I18n.t('custom_actions.actions.assigned_to.executing_user_value'))
+    new_ca_page.set_name("Set CF to me")
+    new_ca_page.add_action(custom_field.name, I18n.t("custom_actions.actions.assigned_to.executing_user_value"))
 
     new_ca_page.create
 
     assign = CustomAction.last
     expect(assign.actions.length).to eq(1)
     expect(assign.conditions.length).to eq(0)
-    expect(assign.actions.first.values).to eq(['current_user'])
+    expect(assign.actions.first.values).to eq(["current_user"])
 
     login_as user
     wp_page.visit!
 
-    wp_page.expect_custom_action('Set CF to me')
-    wp_page.click_custom_action('Set CF to me')
+    wp_page.expect_custom_action("Set CF to me")
+    wp_page.click_custom_action("Set CF to me")
     wp_page.expect_attributes "customField#{custom_field.id}": user.name
   end
 end

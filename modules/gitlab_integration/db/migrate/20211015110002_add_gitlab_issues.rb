@@ -45,7 +45,7 @@ class AddGitlabIssues < ActiveRecord::Migration[7.0]
     end
 
     create_join_table :gitlab_issues, :work_packages do |t|
-      t.index :gitlab_issue_id, name: 'gitlab_issues_wp_issue_id'
+      t.index :gitlab_issue_id, name: "gitlab_issues_wp_issue_id"
       t.index %i[gitlab_issue_id work_package_id],
               unique: true,
               name: "unique_index_gl_issues_wps_on_gl_issue_id_and_wp_id"

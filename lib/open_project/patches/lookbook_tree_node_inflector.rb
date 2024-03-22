@@ -32,7 +32,7 @@ module OpenProject
     # Allow directory labels in lookbook to be inflected
     module LookbookTreeNodeInflector
       def label
-        return name if name == 'OpenProject'
+        return name if name == "OpenProject"
 
         super
       end
@@ -41,7 +41,7 @@ module OpenProject
 end
 
 if Rails.env.development?
-  OpenProject::Patches.patch_gem_version 'lookbook', '2.2.2' do
+  OpenProject::Patches.patch_gem_version "lookbook", "2.2.2" do
     Lookbook::TreeNode.prepend OpenProject::Patches::LookbookTreeNodeInflector
   end
 end

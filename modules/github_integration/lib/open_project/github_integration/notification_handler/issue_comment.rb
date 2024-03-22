@@ -83,11 +83,11 @@ module OpenProject::GithubIntegration
       def journal_entry(pull_request, payload)
         return unless COMMENT_ACTIONS.include?(payload.action)
 
-        angular_component_tag 'macro',
-                              class: 'github_pull_request',
+        angular_component_tag "macro",
+                              class: "github_pull_request",
                               inputs: {
                                 pullRequestId: pull_request.id,
-                                pullRequestState: 'referenced'
+                                pullRequestState: "referenced"
                               }
       end
     end

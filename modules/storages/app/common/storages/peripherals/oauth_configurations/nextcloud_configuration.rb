@@ -32,23 +32,26 @@ module Storages
   module Peripherals
     module OAuthConfigurations
       class NextcloudConfiguration < ConfigurationInterface
+        Util = StorageInteraction::Nextcloud::Util
+
         attr_reader :oauth_client
 
+        # rubocop:disable Lint/MissingSuper
         def initialize(storage)
           @uri = storage.uri
           @oauth_client = storage.oauth_client.freeze
         end
 
-        def authorization_state_check(token)
-          util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+        # rubocop:enable Lint/MissingSuper
 
+        def authorization_state_check(token)
           authorization_check_wrapper do
             OpenProject.httpx.get(
-              util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
+              Util.join_uri_path(@uri, "/ocs/v1.php/cloud/user"),
               headers: {
-                'Authorization' => "Bearer #{token}",
-                'OCS-APIRequest' => 'true',
-                'Accept' => 'application/json'
+                "Authorization" => "Bearer #{token}",
+                "OCS-APIRequest" => "true",
+                "Accept" => "application/json"
               }
             )
           end
@@ -56,6 +59,15 @@ module Storages
 
         def extract_origin_user_id(rack_access_token)
           rack_access_token.raw_attributes[:user_id]
+        end
+
+        def to_httpx_oauth_config
+          StorageInteraction::AuthenticationStrategies::OAuthConfiguration.new(
+            client_id: @oauth_client.client_id,
+            client_secret: @oauth_client.client_secret,
+            issuer: URI(Util.join_uri_path(@uri, "/index.php/apps/oauth2/api/v1")).normalize,
+            scope: []
+          )
         end
 
         def scope
@@ -70,8 +82,8 @@ module Storages
             scheme: @uri.scheme,
             host: @uri.host,
             port: @uri.port,
-            authorization_endpoint: File.join(@uri.path, "/index.php/apps/oauth2/authorize"),
-            token_endpoint: File.join(@uri.path, "/index.php/apps/oauth2/api/v1/token")
+            authorization_endpoint: Util.join_uri_path(@uri.path, "/index.php/apps/oauth2/authorize"),
+            token_endpoint: Util.join_uri_path(@uri.path, "/index.php/apps/oauth2/api/v1/token")
           )
         end
       end

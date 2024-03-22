@@ -31,6 +31,6 @@
 class Journal::AssociatedJournal < ApplicationRecord
   self.abstract_class = true
 
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
   belongs_to :journal
 end

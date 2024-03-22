@@ -36,11 +36,11 @@ module OpenProject::GitlabIntegration
 
       def process(payload_params)
         @payload = wrap_payload(payload_params)
-        return nil unless payload.object_kind == 'push'
+        return nil unless payload.object_kind == "push"
 
         payload.commits.each do |commit|
           user = User.find_by_id(payload.open_project_user_id)
-          text = commit['title'] + " - " + commit['message']
+          text = commit["title"] + " - " + commit["message"]
           work_packages = find_mentioned_work_packages(text, user)
           notes = generate_notes(commit, payload)
           comment_on_referenced_work_packages(work_packages, user, notes)
@@ -52,12 +52,12 @@ module OpenProject::GitlabIntegration
       attr_reader :payload
 
       def generate_notes(commit, payload)
-        commit_id = commit['id']
+        commit_id = commit["id"]
         I18n.t("gitlab_integration.push_single_commit_comment",
                commit_number: commit_id[0, 8],
-               commit_note: commit['message'],
-               commit_url: commit['url'],
-               commit_timestamp: commit['timestamp'],
+               commit_note: commit["message"],
+               commit_url: commit["url"],
+               commit_timestamp: commit["timestamp"],
                repository: payload.repository.name,
                repository_url: payload.repository.homepage,
                gitlab_user: payload.user_name,

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 module Pages::Meetings
   class Show < Base
@@ -83,12 +83,12 @@ module Pages::Meetings
     end
 
     def meeting_details_container
-      find('.meeting.details')
+      find(".meeting.details")
     end
 
     def click_edit
-      within '.meeting--main-toolbar .toolbar-items' do
-        click_link 'Edit'
+      within ".meeting--main-toolbar .toolbar-items" do
+        click_link "Edit"
       end
     end
 

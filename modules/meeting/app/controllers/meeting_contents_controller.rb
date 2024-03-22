@@ -45,17 +45,17 @@ class MeetingContentsController < ApplicationController
   def show
     if params[:id].present? && @content.last_journal.version == params[:id].to_i
       # Redirect links to the last version
-      redirect_to controller: '/meetings',
+      redirect_to controller: "/meetings",
                   action: :show,
                   id: @meeting,
-                  tab: @content_type.sub(/^meeting_/, '')
+                  tab: @content_type.sub(/^meeting_/, "")
       return
     end
 
     # go to an old version if a version id is given
     @journaled_version = true
     @content = @content.at_version params[:id] if params[:id].present?
-    render 'meeting_contents/show'
+    render "meeting_contents/show"
   end
 
   def update
@@ -65,27 +65,27 @@ class MeetingContentsController < ApplicationController
 
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
+      redirect_back_or_default controller: "/meetings", action: "show", id: @meeting
     else
       flash.now[:error] = call.message
-      params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
-      render 'meetings/show'
+      params[:tab] ||= "minutes" if @meeting.agenda.present? && @meeting.agenda.locked?
+      render "meetings/show"
     end
   end
 
   def history
     # don't load text
-    @content_versions = @content.journals.select('id, user_id, notes, created_at, version')
-                                .order(Arel.sql('version DESC'))
+    @content_versions = @content.journals.select("id, user_id, notes, created_at, version")
+                                .order(Arel.sql("version DESC"))
                                 .page(page_param)
                                 .per_page(per_page_param)
 
-    render 'meeting_contents/history', layout: !request.xhr?
+    render "meeting_contents/history", layout: !request.xhr?
   end
 
   def diff
     @diff = @content.diff(params[:version_to], params[:version_from])
-    render 'meeting_contents/diff'
+    render "meeting_contents/diff"
   rescue ActiveRecord::RecordNotFound
     render_404
   end

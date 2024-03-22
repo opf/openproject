@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Quarantined attachments',
+RSpec.describe "Quarantined attachments",
                :skip_csrf,
                type: :rails_request,
                with_ee: %i[virus_scanning] do
@@ -37,25 +37,25 @@ RSpec.describe 'Quarantined attachments',
 
   shared_let(:container) { create(:work_package) }
   shared_let(:quarantined_attachment) do
-    create(:attachment, container:, status: :quarantined, author: other_author, filename: 'other-1.txt')
+    create(:attachment, container:, status: :quarantined, author: other_author, filename: "other-1.txt")
   end
   shared_let(:scanned_attachment) do
-    create(:attachment, container:, status: :scanned, author: other_author, filename: 'scanned-1.txt')
+    create(:attachment, container:, status: :scanned, author: other_author, filename: "scanned-1.txt")
   end
 
   before do
     login_as admin
   end
 
-  describe 'DELETE /admin/quarantined_attachments/:id' do
-    it 'allows management of attachments' do
+  describe "DELETE /admin/quarantined_attachments/:id" do
+    it "allows management of attachments" do
       delete admin_quarantined_attachment_path(quarantined_attachment)
       expect(response).to be_redirect
 
       expect { quarantined_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it 'fails to find if not quarantined' do
+    it "fails to find if not quarantined" do
       delete admin_quarantined_attachment_path(scanned_attachment)
       expect(response).to have_http_status :not_found
     end

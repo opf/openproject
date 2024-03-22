@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Cost report showing my own times', :js do
+RSpec.describe "Cost report showing my own times", :js do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
   let(:user2) { create(:admin) }
@@ -31,17 +31,17 @@ RSpec.describe 'Cost report showing my own times', :js do
     visit cost_reports_path(project)
   end
 
-  shared_examples 'me filter value' do |filter_name, filter_selector|
+  shared_examples "me filter value" do |filter_name, filter_selector|
     it 'keeps the special "me" value for the current user' do
-      select 'me', from: filter_selector
-      click_on 'Save'
-      fill_in 'query_name', with: 'Query ME value'
-      check 'query_is_public'
-      find_by_id('query-icon-save-button').click
+      select "me", from: filter_selector
+      click_on "Save"
+      fill_in "query_name", with: "Query ME value"
+      check "query_is_public"
+      find_by_id("query-icon-save-button").click
       # wait until the save is complete
-      expect(page).to have_css('h2', text: 'Query ME value')
+      expect(page).to have_css("h2", text: "Query ME value")
 
-      expect(page).to have_css('.report', text: '10.00')
+      expect(page).to have_css(".report", text: "10.00")
 
       report = nil
       retry_block do
@@ -57,14 +57,14 @@ RSpec.describe 'Cost report showing my own times', :js do
 
       # Create and save cost report
       visit cost_report_path(report.id, project_id: project.identifier)
-      expect(page).to have_no_css('.report', text: '10.00')
-      expect(page).to have_css('.report', text: '15.00')
+      expect(page).to have_no_css(".report", text: "10.00")
+      expect(page).to have_css(".report", text: "15.00")
 
-      expect(page).to have_field(filter_selector, text: 'me')
+      expect(page).to have_field(filter_selector, text: "me")
     end
   end
 
-  describe 'assignee filter' do
+  describe "assignee filter" do
     let(:work_package) { create(:work_package, project:, assigned_to: user) }
     let(:work_package2) { create(:work_package, project:, assigned_to: user2) }
 
@@ -85,14 +85,14 @@ RSpec.describe 'Cost report showing my own times', :js do
 
     before do
       # Remove default user filter, add assignee filter
-      find('#rm_box_user_id .filter_rem').click
-      select 'Assignee', from: 'add_filter_select'
+      find("#rm_box_user_id .filter_rem").click
+      select "Assignee", from: "add_filter_select"
     end
 
-    it_behaves_like 'me filter value', 'AssignedToId', 'assigned_to_id_arg_1_val'
+    it_behaves_like "me filter value", "AssignedToId", "assigned_to_id_arg_1_val"
   end
 
-  describe 'user filter' do
-    it_behaves_like 'me filter value', 'UserId', 'user_id_arg_1_val'
+  describe "user filter" do
+    it_behaves_like "me filter value", "UserId", "user_id_arg_1_val"
   end
 end

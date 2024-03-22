@@ -65,19 +65,19 @@ class JsonValidator < ActiveModel::EachValidator
   end
 
   def add_error(record, error)
-    data_pointer, type, schema = error.values_at('data_pointer', 'type', 'schema')
-    path = data_pointer.split('/', 3)[1..]
+    data_pointer, type, schema = error.values_at("data_pointer", "type", "schema")
+    path = data_pointer.split("/", 3)[1..]
 
     case type
-    when 'required'
+    when "required"
       add_blank_error(record, error, path)
-    when 'null', 'string', 'boolean', 'integer', 'number', 'array', 'object'
+    when "null", "string", "boolean", "integer", "number", "array", "object"
       add_type_mismatch_error(record, path, type)
-    when 'schema'
+    when "schema"
       add_schema_violated_error(record, path)
-    when 'format'
-      add_format_error(record, path, schema.fetch('format'))
-    when 'enum'
+    when "format"
+      add_format_error(record, path, schema.fetch("format"))
+    when "enum"
       add_enum_error(record, path)
     else
       add_invalid_error(record, path)
@@ -85,13 +85,13 @@ class JsonValidator < ActiveModel::EachValidator
   end
 
   def add_blank_error(record, error, path)
-    keys = error.dig('details', 'missing_keys')
+    keys = error.dig("details", "missing_keys")
 
     keys.each do |key|
       if path.nil?
         record.errors.add(key, :blank)
       else
-        record.errors.add(path[0], :blank_nested, property: (path[1..] + [key]).join('/'))
+        record.errors.add(path[0], :blank_nested, property: (path[1..] + [key]).join("/"))
       end
     end
   end

@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Views::UpdateContract do
   # TODO: this is just a stub to ensure that the type is not altered
-  it_behaves_like 'view contract' do
+  it_behaves_like "view contract" do
     let(:view) do
       build_stubbed(:view_work_packages_table).tap do |view|
         view.type = view_type if defined?(view_type)
@@ -43,11 +43,11 @@ RSpec.describe Views::UpdateContract do
       described_class.new(view, current_user)
     end
 
-    describe 'validation' do
-      context 'with the type being changed' do
-        let(:view_type) { 'team_planner' }
+    describe "validation" do
+      context "with the type being changed" do
+        let(:view_type) { "team_planner" }
 
-        it_behaves_like 'contract is invalid', type: %i[error_readonly]
+        it_behaves_like "contract is invalid", type: %i[error_readonly]
       end
     end
   end

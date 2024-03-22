@@ -26,34 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'repositories/stats' do
+RSpec.describe "repositories/stats" do
   let(:project) { create(:project) }
 
   before do
     assign(:project, project)
   end
 
-  describe 'requested by a user with view_commit_author_statistics permission' do
+  describe "requested by a user with view_commit_author_statistics permission" do
     before do
       assign(:show_commits_per_author, true)
       render
     end
 
-    it 'embeds the commits per author graph' do
-      expect(rendered).to include('commits_per_author')
+    it "embeds the commits per author graph" do
+      expect(rendered).to include("commits_per_author")
     end
   end
 
-  describe 'requested by a user without view_commit_author_statistics permission' do
+  describe "requested by a user without view_commit_author_statistics permission" do
     before do
       assign(:show_commits_per_author, false)
       render
     end
 
-    it 'does not embed the commits per author graph' do
-      expect(rendered).not_to include('commits_per_author')
+    it "does not embed the commits per author graph" do
+      expect(rendered).not_to include("commits_per_author")
     end
   end
 end

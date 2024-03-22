@@ -1,4 +1,4 @@
-pt:
+pt-PT:
   js:
     grid:
       add_widget: 'Adicionar widget'
@@ -8,7 +8,7 @@ pt:
         text: "Alguns widgets, como o widget gráfico do pacote de trabalho, estão disponíveis apenas na edição Enterprise."
         link: 'Edição Enterprise.'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "Não tem as permissões necessárias para visualizar este widget."
         custom_text:
           title: 'Texto personalizado'
         documents:

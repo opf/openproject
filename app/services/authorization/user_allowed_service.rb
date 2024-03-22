@@ -157,7 +157,7 @@ class Authorization::UserAllowedService
   end
 
   def normalize_action(action)
-    if action.is_a?(Hash) && action[:controller] && action[:controller].to_s.starts_with?('/')
+    if action.is_a?(Hash) && action[:controller] && action[:controller].to_s.starts_with?("/")
       action = action.dup
       action[:controller] = action[:controller][1..]
     end

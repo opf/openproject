@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Types::Scopes::Milestone do
   let!(:milestone) { create(:type, is_milestone: true) }
   let!(:other_type) { create(:type, is_milestone: false) }
 
-  describe '.milestone' do
+  describe ".milestone" do
     subject { Type.milestone }
 
-    it 'returns only milestones' do
+    it "returns only milestones" do
       expect(subject)
         .to contain_exactly(milestone)
     end

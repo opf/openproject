@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'News widget on dashboard', :js do
+RSpec.describe "News widget on dashboard", :js do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
   let!(:visible_news) do
     create(:news,
            project:,
-           description: 'blubs')
+           description: "blubs")
   end
   let!(:invisible_news) do
     create(:news,
@@ -65,11 +65,11 @@ RSpec.describe 'News widget on dashboard', :js do
     dashboard.visit!
   end
 
-  it 'can add the widget and see the visible news' do
+  it "can add the widget and see the visible news" do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, :within, 'News')
+    dashboard.add_widget(1, 1, :within, "News")
 
-    news_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    news_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
     within news_widget.area do
       expect(page)
@@ -79,7 +79,7 @@ RSpec.describe 'News widget on dashboard', :js do
       expect(page)
         .to have_content visible_news.project.name
       expect(page)
-        .to have_content visible_news.created_at.strftime('%m/%d/%Y')
+        .to have_content visible_news.created_at.strftime("%m/%d/%Y")
 
       expect(page)
         .to have_no_content invisible_news.title

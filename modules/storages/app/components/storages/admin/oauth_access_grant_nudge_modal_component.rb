@@ -30,8 +30,8 @@
 #
 module Storages::Admin
   class OAuthAccessGrantNudgeModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    options dialog_id: 'storages--oauth-grant-nudge-modal-component',
-            dialog_body_id: 'storages--oauth-grant-nudge-modal-body-component',
+    options dialog_id: "storages--oauth-grant-nudge-modal-component",
+            dialog_body_id: "storages--oauth-grant-nudge-modal-body-component",
             authorized: false
 
     attr_reader :project_storage
@@ -48,41 +48,41 @@ module Storages::Admin
     private
 
     def confirm_button_text
-      I18n.t('storages.oauth_grant_nudge_modal.confirm_button_label')
+      I18n.t("storages.oauth_grant_nudge_modal.confirm_button_label")
     end
 
     def title
       if authorized
-        I18n.t('storages.oauth_grant_nudge_modal.access_granted_screen_reader', storage: project_storage.storage.name)
+        I18n.t("storages.oauth_grant_nudge_modal.access_granted_screen_reader", storage: project_storage.storage.name)
       else
-        I18n.t('storages.oauth_grant_nudge_modal.title')
+        I18n.t("storages.oauth_grant_nudge_modal.title")
       end
     end
 
     def waiting_title
-      I18n.t('storages.oauth_grant_nudge_modal.requesting_access_to', storage: project_storage.storage.name)
+      I18n.t("storages.oauth_grant_nudge_modal.requesting_access_to", storage: project_storage.storage.name)
     end
 
     def cancel_button_text
       if authorized
-        I18n.t('button_close')
+        I18n.t("button_close")
       else
-        I18n.t('storages.oauth_grant_nudge_modal.cancel_button_label')
+        I18n.t("storages.oauth_grant_nudge_modal.cancel_button_label")
       end
     end
 
     def body_text
       if authorized
-        success_title = I18n.t('storages.oauth_grant_nudge_modal.access_granted')
-        success_subtitle = I18n.t('storages.oauth_grant_nudge_modal.storage_ready', storage: project_storage.storage.name)
+        success_title = I18n.t("storages.oauth_grant_nudge_modal.access_granted")
+        success_subtitle = I18n.t("storages.oauth_grant_nudge_modal.storage_ready", storage: project_storage.storage.name)
         concat(render(Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
       else
-        I18n.t('storages.oauth_grant_nudge_modal.body', storage: project_storage.storage.name)
+        I18n.t("storages.oauth_grant_nudge_modal.body", storage: project_storage.storage.name)
       end
     end
 
     def confirm_button_aria_label
-      I18n.t('storages.oauth_grant_nudge_modal.confirm_button_aria_label', storage: project_storage.storage.name)
+      I18n.t("storages.oauth_grant_nudge_modal.confirm_button_aria_label", storage: project_storage.storage.name)
     end
 
     def confirm_button_url

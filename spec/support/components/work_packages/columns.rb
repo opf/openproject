@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../autocompleter/ng_select_autocomplete_helpers'
+require_relative "../autocompleter/ng_select_autocomplete_helpers"
 
 module Components
   module WorkPackages
@@ -43,22 +43,22 @@ module Components
       end
 
       def column_autocompleter
-        find('.columns-modal--content .op-draggable-autocomplete--input')
+        find(".columns-modal--content .op-draggable-autocomplete--input")
       end
 
       def close_autocompleter
-        find('.columns-modal--content .op-draggable-autocomplete--input input').send_keys :escape
+        find(".columns-modal--content .op-draggable-autocomplete--input input").send_keys :escape
       end
 
       def column_item(name)
-        find('.op-draggable-autocomplete--item', text: name)
+        find(".op-draggable-autocomplete--item", text: name)
       end
 
       def expect_column_not_available(name)
         modal_open? or open_modal
 
         column_autocompleter.click
-        expect(page).to have_no_css('.ng-option', text: name, visible: :all)
+        expect(page).to have_no_css(".ng-option", text: name, visible: :all)
         close_autocompleter
       end
 
@@ -66,19 +66,19 @@ module Components
         modal_open? or open_modal
 
         column_autocompleter.click
-        expect(page).to have_css('.ng-option', text: name, visible: :all)
+        expect(page).to have_css(".ng-option", text: name, visible: :all)
         close_autocompleter
       end
 
       def expect_alternative_available_column(search_term, displayed_name)
         column_autocompleter.click
 
-        autocompleter_input = column_autocompleter.find('input')
+        autocompleter_input = column_autocompleter.find("input")
 
         autocompleter_input.set(search_term)
 
         expect(page)
-          .to have_css('.ng-dropdown-panel .ng-option-label', text: displayed_name)
+          .to have_css(".ng-dropdown-panel .ng-option-label", text: displayed_name)
 
         autocompleter_input.set(search_term)
       end
@@ -87,7 +87,7 @@ module Components
         open_modal unless modal_open?
 
         select_autocomplete column_autocompleter,
-                            results_selector: '.ng-dropdown-panel-items',
+                            results_selector: ".ng-dropdown-panel-items",
                             query: name
 
         if save_changes
@@ -103,7 +103,7 @@ module Components
 
         within_modal do
           container = column_item(name)
-          container.find('.op-draggable-autocomplete--remove-item').click
+          container.find(".op-draggable-autocomplete--remove-item").click
         end
 
         apply if save_changes
@@ -111,13 +111,13 @@ module Components
 
       def expect_checked(name)
         within_modal do
-          expect(page).to have_css('.op-draggable-autocomplete--item', text: name)
+          expect(page).to have_css(".op-draggable-autocomplete--item", text: name)
         end
       end
 
       def expect_unchecked(name)
         within_modal do
-          expect(page).to have_no_css('.op-draggable-autocomplete--item', text: name)
+          expect(page).to have_no_css(".op-draggable-autocomplete--item", text: name)
         end
       end
 
@@ -125,8 +125,8 @@ module Components
         open_modal unless modal_open?
 
         within_modal do
-          expect(page).to have_css('.op-draggable-autocomplete--item', minimum: 1)
-          page.all('.op-draggable-autocomplete--remove-item').each(&:click)
+          expect(page).to have_css(".op-draggable-autocomplete--item", minimum: 1)
+          page.all(".op-draggable-autocomplete--remove-item").each(&:click)
         end
 
         apply if save_changes
@@ -135,12 +135,12 @@ module Components
       def apply
         @opened = false
 
-        click_button('Apply')
+        click_button("Apply")
       end
 
       def open_modal
         @opened = true
-        ::Components::WorkPackages::TableConfigurationModal.new(trigger_parent).open_and_switch_to 'Columns'
+        ::Components::WorkPackages::TableConfigurationModal.new(trigger_parent).open_and_switch_to "Columns"
       end
 
       def assume_opened
@@ -150,7 +150,7 @@ module Components
       private
 
       def within_modal(&)
-        page.within('.wp-table--configuration-modal', &)
+        page.within(".wp-table--configuration-modal", &)
       end
 
       def modal_open?

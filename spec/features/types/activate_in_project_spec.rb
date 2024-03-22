@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'support/pages/custom_fields'
+require "spec_helper"
+require "support/pages/custom_fields"
 
-RSpec.describe 'types', :js, :with_cuprite do
+RSpec.describe "types", :js, :with_cuprite do
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i(edit_project manage_types add_work_packages view_work_packages) })
@@ -44,14 +44,14 @@ RSpec.describe 'types', :js, :with_cuprite do
     login_as user
   end
 
-  it 'is only visible in the project if it has been activated' do
+  it "is only visible in the project if it has been activated" do
     # the currently active types are available for work package creation
     work_packages_page.visit!
 
     work_packages_page.expect_type_available_for_create(active_type)
     work_packages_page.expect_type_not_available_for_create(type)
 
-    project_settings_page.visit_tab!('types')
+    project_settings_page.visit_tab!("types")
 
     expect(page)
       .to have_unchecked_field(type.name)

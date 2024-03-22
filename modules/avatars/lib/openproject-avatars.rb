@@ -1,1 +1,1 @@
-require 'open_project/avatars'
+require "open_project/avatars"

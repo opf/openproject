@@ -107,7 +107,7 @@ module OpenProject::GithubIntegration
         def method_missing(name, *args, &block)
           super unless args.empty? && block.nil?
 
-          value = if name.end_with?('?')
+          value = if name.end_with?("?")
                     @payload.fetch(name.to_s[..-2], nil)
                   else
                     @payload.fetch(name.to_s)

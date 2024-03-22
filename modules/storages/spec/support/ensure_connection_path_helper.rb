@@ -35,7 +35,7 @@ module EnsureConnectionPathHelper
       oauth_client_id: project_storage.storage.oauth_client.client_id,
       storage_id: project_storage.storage.id,
       destination_url: url_helpers.open_project_storage_url(
-        protocol: 'https',
+        protocol: "https",
         project_id: project_storage.project.identifier,
         id: project_storage.id
       )

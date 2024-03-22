@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wiki page navigation spec', :js do
+RSpec.describe "Wiki page navigation spec", :js do
   shared_let(:admin) { create(:admin) }
   current_user { admin }
 
@@ -36,7 +36,7 @@ RSpec.describe 'Wiki page navigation spec', :js do
   let!(:wiki_page_55) do
     create(:wiki_page,
            wiki: project.wiki,
-           title: 'Wiki Page No. 55')
+           title: "Wiki Page No. 55")
   end
   let!(:wiki_pages) do
     create_list(:wiki_page, 30, wiki: project.wiki)
@@ -48,18 +48,18 @@ RSpec.describe 'Wiki page navigation spec', :js do
     FactoryBot.set_factory_default(:author, admin)
   end
 
-  it 'scrolls to the selected page on load (Regression #36937)' do
+  it "scrolls to the selected page on load (Regression #36937)" do
     visit project_wiki_path(project, wiki_page_55)
 
-    expect(page).to have_css('div.wiki-content')
+    expect(page).to have_css("div.wiki-content")
 
-    expect(page).to have_css('.title-container h2', text: 'Wiki Page No. 55')
+    expect(page).to have_css(".title-container h2", text: "Wiki Page No. 55")
 
     # Expect scrolled to menu node
-    expect_element_in_view page.find('.tree-menu--item.-selected', text: 'Wiki Page No. 55')
+    expect_element_in_view page.find(".tree-menu--item.-selected", text: "Wiki Page No. 55")
 
     # Expect permalink being correct (Regression #46351)
-    permalink = page.all('.op-uc-link_permalink', visible: :all).first
-    expect(permalink['href']).to include "/projects/#{project.identifier}/wiki/wiki-page-no-55#wiki-page-no-55"
+    permalink = page.all(".op-uc-link_permalink", visible: :all).first
+    expect(permalink["href"]).to include "/projects/#{project.identifier}/wiki/wiki-page-no-55#wiki-page-no-55"
   end
 end

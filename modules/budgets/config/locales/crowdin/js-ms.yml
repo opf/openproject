@@ -23,4 +23,4 @@ ms:
   js:
     work_packages:
       properties:
-        costObject: "Budget"
+        costObject: "Anggaran"

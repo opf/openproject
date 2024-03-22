@@ -31,7 +31,7 @@ def assert_valid_ee_action(action, example)
   return if valid_ee_actions.include?(action)
 
   spell_checker = DidYouMean::SpellChecker.new(dictionary: valid_ee_actions)
-  suggestions = spell_checker.correct(action).map(&:inspect).join(' ')
+  suggestions = spell_checker.correct(action).map(&:inspect).join(" ")
   did_you_mean = " Did you mean #{suggestions} instead?" if suggestions.present?
 
   raise "Invalid Enterprise action #{action.inspect} at #{example.location}.#{did_you_mean}"

@@ -61,7 +61,7 @@ module API::V3::StorageFiles
                exec_context: :decorator
 
     def _type
-      'StorageFiles'
+      "StorageFiles"
     end
   end
 end

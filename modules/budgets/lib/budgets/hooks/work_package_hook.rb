@@ -41,11 +41,11 @@ module Budgets
 
         budget_id = context[:params] && context[:params][:budget_id]
         case budget_id
-        when '' # a.k.a "(No change)"
+        when "" # a.k.a "(No change)"
           # cost objects HAVE to be changed if move is performed across project boundaries
           # as the are project specific
           context[:work_package].budget_id = nil unless context[:work_package].project == context[:target_project]
-        when 'none'
+        when "none"
           context[:work_package].budget_id = nil
         else
           context[:work_package].budget_id = budget_id
@@ -63,14 +63,14 @@ module Budgets
 
         when context[:params][:budget_id].blank?
           # Do nothing
-        when context[:params][:budget_id] == 'none'
+        when context[:params][:budget_id] == "none"
           # Unassign budget
           context[:work_package].budget = nil
         else
           context[:work_package].budget = Budget.find(context[:params][:budget_id])
         end
 
-        ''
+        ""
       end
     end
   end

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notifications::MailService, type: :model do
-  require_relative 'mentioned_journals_shared'
+  require_relative "mentioned_journals_shared"
 
   subject(:call) { instance.call }
 
@@ -48,7 +48,7 @@ RSpec.describe Notifications::MailService, type: :model do
   let(:instance) { described_class.new(notification) }
   let(:immediate_reminders_mentioned) { true }
 
-  context 'with a work package journal notification' do
+  context "with a work package journal notification" do
     let(:journal) do
       build_stubbed(:work_package_journal).tap do |j|
         allow(j)
@@ -85,8 +85,8 @@ RSpec.describe Notifications::MailService, type: :model do
       mail
     end
 
-    shared_examples_for 'sends a mentioned mail' do
-      it 'sends a mail' do
+    shared_examples_for "sends a mentioned mail" do
+      it "sends a mail" do
         call
 
         expect(WorkPackageMailer)
@@ -99,8 +99,8 @@ RSpec.describe Notifications::MailService, type: :model do
       end
     end
 
-    shared_examples_for 'sends no mentioned mail' do
-      it 'sends no mail' do
+    shared_examples_for "sends no mentioned mail" do
+      it "sends no mail" do
         call
 
         expect(WorkPackageMailer)
@@ -108,24 +108,24 @@ RSpec.describe Notifications::MailService, type: :model do
       end
     end
 
-    context 'with the notification mentioning the user' do
-      it_behaves_like 'sends a mentioned mail'
+    context "with the notification mentioning the user" do
+      it_behaves_like "sends a mentioned mail"
     end
 
-    context 'with the notification not mentioning the user' do
+    context "with the notification not mentioning the user" do
       let(:reason) { false }
 
-      it_behaves_like 'sends no mentioned mail'
+      it_behaves_like "sends no mentioned mail"
     end
 
-    context 'with the notification mentioning the user but with the recipient having deactivated the mail' do
+    context "with the notification mentioning the user but with the recipient having deactivated the mail" do
       let(:immediate_reminders_mentioned) { false }
 
-      it_behaves_like 'sends no mentioned mail'
+      it_behaves_like "sends no mentioned mail"
     end
   end
 
-  context 'with a wiki_content journal notification' do
+  context "with a wiki_content journal notification" do
     let(:journal) do
       build_stubbed(:wiki_page_journal,
                     journable: build_stubbed(:wiki_page)).tap do |j|
@@ -164,10 +164,10 @@ RSpec.describe Notifications::MailService, type: :model do
       mail
     end
 
-    context 'with the notification being for an initial journal' do
+    context "with the notification being for an initial journal" do
       let(:journal_initial) { true }
 
-      it 'sends a mail' do
+      it "sends a mail" do
         call
 
         expect(UserMailer)
@@ -180,10 +180,10 @@ RSpec.describe Notifications::MailService, type: :model do
       end
     end
 
-    context 'with the notification being for an update journal' do
+    context "with the notification being for an update journal" do
       let(:journal_initial) { false }
 
-      it 'sends a mail' do
+      it "sends a mail" do
         call
 
         expect(UserMailer)
@@ -196,10 +196,10 @@ RSpec.describe Notifications::MailService, type: :model do
       end
     end
 
-    context 'with the notification read in app already' do
+    context "with the notification read in app already" do
       let(:read_ian) { true }
 
-      it 'sends no mail' do
+      it "sends no mail" do
         call
 
         expect(UserMailer)
@@ -210,7 +210,7 @@ RSpec.describe Notifications::MailService, type: :model do
     end
   end
 
-  context 'with a news journal notification' do
+  context "with a news journal notification" do
     let(:journal) do
       build_stubbed(:news_journal,
                     journable: build_stubbed(:news)).tap do |j|
@@ -243,10 +243,10 @@ RSpec.describe Notifications::MailService, type: :model do
       mail
     end
 
-    context 'with the notification being for an initial journal' do
+    context "with the notification being for an initial journal" do
       let(:journal_initial) { true }
 
-      it 'sends a mail' do
+      it "sends a mail" do
         call
 
         expect(UserMailer)
@@ -261,10 +261,10 @@ RSpec.describe Notifications::MailService, type: :model do
 
     # This case should not happen as no notification is created in this case that would
     # trigger the NotificationJob. But as this might change, this test case is in place.
-    context 'with the notification being for an update journal' do
+    context "with the notification being for an update journal" do
       let(:journal_initial) { false }
 
-      it 'sends no mail' do
+      it "sends no mail" do
         call
 
         expect(UserMailer)
@@ -273,7 +273,7 @@ RSpec.describe Notifications::MailService, type: :model do
     end
   end
 
-  context 'with a message journal notification' do
+  context "with a message journal notification" do
     let(:journal) do
       build_stubbed(:message_journal,
                     journable: build_stubbed(:message))
@@ -304,7 +304,7 @@ RSpec.describe Notifications::MailService, type: :model do
       mail
     end
 
-    it 'sends a mail' do
+    it "sends a mail" do
       call
 
       expect(UserMailer)
@@ -316,10 +316,10 @@ RSpec.describe Notifications::MailService, type: :model do
         .to have_received(:deliver_now)
     end
 
-    context 'with the notification read in app already' do
+    context "with the notification read in app already" do
       let(:read_ian) { true }
 
-      it 'sends no mail' do
+      it "sends no mail" do
         call
 
         expect(UserMailer)
@@ -328,7 +328,7 @@ RSpec.describe Notifications::MailService, type: :model do
     end
   end
 
-  context 'with a different journal notification' do
+  context "with a different journal notification" do
     let(:journal) do
       build_stubbed(:journal,
                     journable: build_stubbed(:work_package))
@@ -341,12 +341,12 @@ RSpec.describe Notifications::MailService, type: :model do
     end
 
     # did that before
-    it 'does nothing' do
+    it "does nothing" do
       expect { call }
         .not_to raise_error(ArgumentError)
     end
 
-    it 'does not send a mail' do
+    it "does not send a mail" do
       expect { call }
         .not_to change(ActionMailer::Base.deliveries, :count)
     end

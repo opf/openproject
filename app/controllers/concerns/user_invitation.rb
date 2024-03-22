@@ -30,11 +30,11 @@ module UserInvitation
   module Events
     class << self
       def user_invited
-        'user_invited'
+        "user_invited"
       end
 
       def user_reinvited
-        'user_reinvited'
+        "user_reinvited"
       end
     end
   end

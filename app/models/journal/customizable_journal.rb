@@ -27,7 +27,7 @@
 #++
 
 class Journal::CustomizableJournal < Journal::AssociatedJournal
-  self.table_name = 'customizable_journals'
+  self.table_name = "customizable_journals"
 
   belongs_to :custom_field
 

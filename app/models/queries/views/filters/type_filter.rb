@@ -32,7 +32,7 @@ class Queries::Views::Filters::TypeFilter < Queries::Views::Filters::ViewFilter
   end
 
   def where
-    operator_strategy.sql_for_field(transformed_values, View.table_name, 'type')
+    operator_strategy.sql_for_field(transformed_values, View.table_name, "type")
   end
 
   def transformed_values

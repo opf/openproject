@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe "API v3 project's versions resource" do
   include Rack::Test::Methods
@@ -49,10 +49,10 @@ RSpec.describe "API v3 project's versions resource" do
 
   subject(:response) { last_response }
 
-  describe '#get (index)' do
+  describe "#get (index)" do
     let(:get_path) { api_v3_paths.versions_by_project project.id }
 
-    context 'logged in user' do
+    context "logged in user" do
       before do
         current_user
 
@@ -62,10 +62,10 @@ RSpec.describe "API v3 project's versions resource" do
         get get_path
       end
 
-      it_behaves_like 'API V3 collection response', 4, 4, 'Version'
+      it_behaves_like "API V3 collection response", 4, 4, "Version"
     end
 
-    context 'logged in user without permission' do
+    context "logged in user without permission" do
       let(:role) { create(:project_role, permissions: []) }
 
       before do
@@ -74,7 +74,7 @@ RSpec.describe "API v3 project's versions resource" do
         get get_path
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 end

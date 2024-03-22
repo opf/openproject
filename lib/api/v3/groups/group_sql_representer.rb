@@ -33,7 +33,7 @@ module API
         link :self,
              path: { api: :group, params: %w(id) },
              column: -> { :id },
-             title: -> { 'lastname' }
+             title: -> { "lastname" }
 
         property :_type,
                  representation: ->(*) { "'Group'" }

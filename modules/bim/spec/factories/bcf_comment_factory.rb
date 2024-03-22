@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :bcf_comment, class: '::Bim::Bcf::Comment' do
+  factory :bcf_comment, class: "::Bim::Bcf::Comment" do
     transient do
       author { nil }
     end
@@ -38,7 +38,7 @@ FactoryBot.define do
                             else
                               create(:work_package_journal, user: evaluator.author)
                             end
-      bcf_comment.journal.update_attribute(:notes, 'Some BCF comment.')
+      bcf_comment.journal.update_attribute(:notes, "Some BCF comment.")
       bcf_comment.journal.save
       bcf_comment.save
     end

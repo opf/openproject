@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 # These specs mainly check that error messages from a sub-service
@@ -52,53 +52,53 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     hook_listener.application_controller_before_action(controller:)
   end
 
-  shared_examples 'content security policy directives' do
-    it 'adds CSP connect_src directives' do
+  shared_examples "content security policy directives" do
+    it "adds CSP connect_src directives" do
       trigger_application_controller_before_action_hook
 
       expect(controller).to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host])
     end
   end
 
-  shared_examples 'does not change CSP' do
-    it 'does not change CSP directives' do
+  shared_examples "does not change CSP" do
+    it "does not change CSP directives" do
       trigger_application_controller_before_action_hook
 
       expect(controller).not_to have_received(:append_content_security_policy_directives)
     end
   end
 
-  context 'with a project with an active Nextcloud storage' do
-    context 'when current user is an admin without being a member of any project' do
+  context "with a project with an active Nextcloud storage" do
+    context "when current user is an admin without being a member of any project" do
       current_user { admin }
 
-      include_examples 'content security policy directives'
+      include_examples "content security policy directives"
     end
 
-    context 'when current user is a member of the project with permission to manage file links' do
+    context "when current user is a member of the project with permission to manage file links" do
       current_user { create(:user, member_with_permissions: { project => %i[manage_file_links] }) }
 
-      include_examples 'content security policy directives'
+      include_examples "content security policy directives"
     end
 
-    context 'when current user is a member of the project without permission to manage file links' do
+    context "when current user is a member of the project without permission to manage file links" do
       current_user { create(:user, member_with_permissions: { project => [] }) }
 
-      it 'does not add CSP connect_src directive' do
+      it "does not add CSP connect_src directive" do
         trigger_application_controller_before_action_hook
 
         expect(controller).not_to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host])
       end
     end
 
-    context 'when the project is archived' do
+    context "when the project is archived" do
       current_user { admin }
 
       before do
         project.update(active: false)
       end
 
-      it 'does not add CSP connect_src directive' do
+      it "does not add CSP connect_src directive" do
         trigger_application_controller_before_action_hook
 
         expect(controller).not_to have_received(:append_content_security_policy_directives).with(connect_src: [storage.host])
@@ -106,45 +106,45 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     end
   end
 
-  context 'with a project without an active storage' do
+  context "with a project without an active storage" do
     current_user { admin }
     let(:project_storage) { nil }
 
-    include_examples 'does not change CSP'
+    include_examples "does not change CSP"
   end
 
-  context 'with a project without any storages configured' do
+  context "with a project without any storages configured" do
     current_user { admin }
     let(:project_storage) { nil }
     let(:storage) { nil }
 
-    include_examples 'does not change CSP'
+    include_examples "does not change CSP"
   end
 
-  context 'with an active Nextcloud storage having a host with a non-standard port' do
-    let(:storage) { create(:nextcloud_storage, host: 'http://somehost.com:8080') }
+  context "with an active Nextcloud storage having a host with a non-standard port" do
+    let(:storage) { create(:nextcloud_storage, host: "http://somehost.com:8080") }
 
     current_user { admin }
 
-    it 'adds the port to the CSP directive' do
+    it "adds the port to the CSP directive" do
       trigger_application_controller_before_action_hook
 
       expect(controller).to have_received(:append_content_security_policy_directives) do |args|
-        expect(args).to eq(connect_src: ['http://somehost.com:8080'])
+        expect(args).to eq(connect_src: ["http://somehost.com:8080"])
       end
     end
   end
 
-  context 'with an active Nextcloud storage having a host with a path' do
-    let(:storage) { create(:nextcloud_storage, host: 'https://my.server.com/nextcloud') }
+  context "with an active Nextcloud storage having a host with a path" do
+    let(:storage) { create(:nextcloud_storage, host: "https://my.server.com/nextcloud") }
 
     current_user { admin }
 
-    it 'removes the path from the host for the CSP directive' do
+    it "removes the path from the host for the CSP directive" do
       trigger_application_controller_before_action_hook
 
       expect(controller).to have_received(:append_content_security_policy_directives) do |args|
-        expect(args).to eq(connect_src: ['https://my.server.com'])
+        expect(args).to eq(connect_src: ["https://my.server.com"])
       end
     end
   end

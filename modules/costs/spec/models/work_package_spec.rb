@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 RSpec.describe WorkPackage do
   let(:user) { create(:admin) }
@@ -43,7 +43,7 @@ RSpec.describe WorkPackage do
   end
   let!(:cost_entry) do
     create(:cost_entry, work_package:, project:, units: 3, spent_on: Date.today, user:,
-                        comments: 'test entry')
+                        comments: "test entry")
   end
   let!(:budget) { create(:budget, project:) }
 
@@ -53,13 +53,13 @@ RSpec.describe WorkPackage do
       .call(project:)
   end
 
-  it 'updates cost entries on move' do
+  it "updates cost entries on move" do
     expect(work_package.project_id).to eql project.id
     expect(move_to_project(work_package, project2)).not_to be_falsey
     expect(cost_entry.reload.project_id).to eql project2.id
   end
 
-  it 'allows to set budget to nil' do
+  it "allows to set budget to nil" do
     work_package.budget = budget
     work_package.save!
     expect(work_package.budget).to eql budget

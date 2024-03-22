@@ -25,10 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Days::WeekAPI,
-               'show',
+               "show",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -41,36 +41,36 @@ RSpec.describe API::V3::Days::WeekAPI,
     get path
   end
 
-  context 'for an admin user' do
+  context "for an admin user" do
     let(:user) { build(:admin) }
 
-    it_behaves_like 'successful response'
+    it_behaves_like "successful response"
 
-    it 'responds with the correct day' do
-      expect(subject).to be_json_eql('WeekDay'.to_json).at_path('_type')
-      expect(subject).to be_json_eql(1.to_json).at_path('day')
+    it "responds with the correct day" do
+      expect(subject).to be_json_eql("WeekDay".to_json).at_path("_type")
+      expect(subject).to be_json_eql(1.to_json).at_path("day")
     end
 
-    context 'when requesting nonexistent day' do
+    context "when requesting nonexistent day" do
       let(:path) { api_v3_paths.days_week_day(0) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 
-  context 'for a not logged in user' do
+  context "for a not logged in user" do
     let(:user) { build(:anonymous) }
 
-    context 'when login_required', with_settings: { login_required: true } do
-      it_behaves_like 'unauthenticated access'
+    context "when login_required", with_settings: { login_required: true } do
+      it_behaves_like "unauthenticated access"
     end
 
-    context 'when not login_required', with_settings: { login_required: false } do
-      it_behaves_like 'successful response'
+    context "when not login_required", with_settings: { login_required: false } do
+      it_behaves_like "successful response"
 
-      it 'responds with the correct day', :aggregate_failures do
-        expect(subject).to be_json_eql('WeekDay'.to_json).at_path('_type')
-        expect(subject).to be_json_eql(1.to_json).at_path('day')
+      it "responds with the correct day", :aggregate_failures do
+        expect(subject).to be_json_eql("WeekDay".to_json).at_path("_type")
+        expect(subject).to be_json_eql(1.to_json).at_path("day")
       end
     end
   end

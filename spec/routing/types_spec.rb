@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'types routes' do
+RSpec.describe "types routes" do
   it do
-    expect(post('/types/move/123')).to route_to(controller: 'types',
-                                                action: 'move',
-                                                id: '123')
+    expect(post("/types/move/123")).to route_to(controller: "types",
+                                                action: "move",
+                                                id: "123")
   end
 end

@@ -40,7 +40,7 @@ module Components
       end
 
       def open!
-        @modal.open_and_switch_to 'Gantt chart'
+        @modal.open_and_switch_to "Gantt chart"
       end
 
       def get_select(position)
@@ -48,18 +48,18 @@ module Components
       end
 
       def expect_labels!(left:, right:, farRight:)
-        expect(page).to have_select('modal-timelines-label-left', selected: left)
-        expect(page).to have_select('modal-timelines-label-right', selected: right)
-        expect(page).to have_select('modal-timelines-label-farRight', selected: farRight)
+        expect(page).to have_select("modal-timelines-label-left", selected: left)
+        expect(page).to have_select("modal-timelines-label-right", selected: right)
+        expect(page).to have_select("modal-timelines-label-farRight", selected: farRight)
       end
 
       def update_labels(left:, right:, farRight:)
-        get_select(:left).find('option', text: left).select_option
-        get_select(:right).find('option', text: right).select_option
-        get_select(:farRight).find('option', text: farRight).select_option
+        get_select(:left).find("option", text: left).select_option
+        get_select(:right).find("option", text: right).select_option
+        get_select(:farRight).find("option", text: farRight).select_option
 
-        page.within '.spot-modal' do
-          click_on 'Apply'
+        page.within ".spot-modal" do
+          click_on "Apply"
         end
       end
     end

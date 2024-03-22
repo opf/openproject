@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)', :js do
+RSpec.describe "Wysiwyg paragraphs in lists behavior (Regression #28765)", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }
@@ -57,10 +57,10 @@ RSpec.describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)', :js d
     visit edit_project_wiki_path(project, wiki_page.slug)
   end
 
-  it 'shows the list correctly' do
+  it "shows the list correctly" do
     editor.in_editor do |_container, editable|
-      expect(editable).to have_css('ol li', count: 3)
-      expect(editable).to have_no_css('ol li p')
+      expect(editable).to have_css("ol li", count: 3)
+      expect(editable).to have_no_css("ol li p")
     end
   end
 end

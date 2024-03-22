@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ArchivedProjectsHelper do
-  describe '#archived_projects_urls_for' do
+  describe "#archived_projects_urls_for" do
     subject { helper.archived_projects_urls_for([archived_project, other_archived_project]) }
 
     shared_let(:archived_project) { create(:project, :archived) }
@@ -43,7 +43,7 @@ RSpec.describe ArchivedProjectsHelper do
         "{\"name_and_identifier\":{\"operator\":\"=\",\"values\":[\"#{other_archived_project.name}\"]}}]"
     end
 
-    it 'returns a comma-separated list of anchor tags for each archived project' do
+    it "returns a comma-separated list of anchor tags for each archived project" do
       expect(subject)
         .to eq(
           "<a target=\"_blank\" rel=\"noopener\" href=\"#{projects_path(filters: archived_project_filters)}\">" \

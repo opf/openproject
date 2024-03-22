@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CoreExtensions::SquishSql do
   using described_class
 
-  it 'removes single line SQL comments' do
+  it "removes single line SQL comments" do
     sql = <<~SQL.squish
       -- select existing users from given IDs
       --

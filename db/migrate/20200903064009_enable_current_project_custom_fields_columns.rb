@@ -28,7 +28,7 @@
 
 class EnableCurrentProjectCustomFieldsColumns < ActiveRecord::Migration[6.0]
   def up
-    return unless Setting.where(name: 'enabled_projects_column').exists? # rubocop:disable Rails/WhereExists
+    return unless Setting.where(name: "enabled_projects_column").exists? # rubocop:disable Rails/WhereExists
 
     columns = Setting.enabled_projects_columns
     cf_columns = ProjectCustomField.pluck(:id).map { |id| "cf_#{id}" }

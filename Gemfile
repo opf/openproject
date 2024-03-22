@@ -36,7 +36,7 @@ ruby File.read(".ruby-version").strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
-gem "activerecord-import", "~> 1.5.0"
+gem "activerecord-import", "~> 1.6.0"
 gem "activerecord-session_store", "~> 2.1.0"
 gem "ox"
 gem "rails", "~> 7.1.3"
@@ -124,7 +124,7 @@ gem "multi_json", "~> 1.15.0"
 gem "oj", "~> 3.16.0"
 
 gem "daemons"
-gem "good_job", "~> 3.26.1" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "= 3.26.2" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 

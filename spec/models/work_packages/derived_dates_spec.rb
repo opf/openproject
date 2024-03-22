@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe WorkPackage, 'derived dates' do
+RSpec.describe WorkPackage, "derived dates" do
   let(:work_package) do
     create(:work_package)
   end
@@ -66,86 +66,86 @@ RSpec.describe WorkPackage, 'derived dates' do
     work_packages
   end
 
-  shared_examples_for 'derived dates' do
-    context 'with all dates being set' do
-      it 'the derived_start_date is the minimum of both start and due date' do
+  shared_examples_for "derived dates" do
+    context "with all dates being set" do
+      it "the derived_start_date is the minimum of both start and due date" do
         expect(subject.derived_start_date).to eql child_start_date
       end
 
-      it 'the derived_due_date is the maximum of both start and due date' do
+      it "the derived_due_date is the maximum of both start and due date" do
         expect(subject.derived_due_date).to eql other_child_due_date
       end
     end
 
-    context 'with the due dates being minimal (start date being nil)' do
+    context "with the due dates being minimal (start date being nil)" do
       let(:child_start_date) { nil }
       let(:other_child_start_date) { nil }
 
-      it 'the derived_start_date is the minimum of the due dates' do
+      it "the derived_start_date is the minimum of the due dates" do
         expect(subject.derived_start_date).to eql child_due_date
       end
 
-      it 'the derived_due_date is the maximum of the due dates' do
+      it "the derived_due_date is the maximum of the due dates" do
         expect(subject.derived_due_date).to eql other_child_due_date
       end
     end
 
-    context 'with the start date being maximum (due date being nil)' do
+    context "with the start date being maximum (due date being nil)" do
       let(:child_due_date) { nil }
       let(:other_child_due_date) { nil }
 
-      it 'the derived_start_date is the minimum of the start dates' do
+      it "the derived_start_date is the minimum of the start dates" do
         expect(subject.derived_start_date).to eql child_start_date
       end
 
-      it 'has the derived_due_date is the maximum of the start dates' do
+      it "has the derived_due_date is the maximum of the start dates" do
         expect(subject.derived_due_date).to eql other_child_start_date
       end
     end
 
-    context 'with child dates being nil' do
+    context "with child dates being nil" do
       let(:child_start_date) { nil }
       let(:child_due_date) { nil }
       let(:other_child_start_date) { nil }
       let(:other_child_due_date) { nil }
 
-      it 'is nil' do
+      it "is nil" do
         expect(subject.derived_start_date).to be_nil
       end
     end
 
-    context 'without children' do
+    context "without children" do
       let(:work_packages) { [work_package] }
 
-      it 'is nil' do
+      it "is nil" do
         expect(subject.derived_start_date).to be_nil
       end
     end
   end
 
-  context 'for a work_package loaded individually' do
+  context "for a work_package loaded individually" do
     subject { work_package }
 
-    it_behaves_like 'derived dates'
+    it_behaves_like "derived dates"
   end
 
-  context 'for a work package that had derived dates loaded' do
+  context "for a work package that had derived dates loaded" do
     subject { WorkPackage.include_derived_dates.first }
 
-    it_behaves_like 'derived dates'
+    it_behaves_like "derived dates"
   end
 
-  context 'for an unpersisted work_package' do
+  context "for an unpersisted work_package" do
     let(:work_package) { WorkPackage.new }
     let(:work_packages) { [] }
 
     subject { work_package }
 
-    it 'the derived_start_date is nil' do
+    it "the derived_start_date is nil" do
       expect(subject.derived_start_date).to be_nil
     end
 
-    it 'the derived_due_date is nil' do
+    it "the derived_due_date is nil" do
       expect(subject.derived_due_date).to be_nil
     end
   end

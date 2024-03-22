@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require 'support/shared/acts_as_watchable'
+require "support/shared/acts_as_watchable"
 
 RSpec.describe WorkPackage do
   let(:project) { create(:project) }
@@ -37,7 +37,7 @@ RSpec.describe WorkPackage do
            project:)
   end
 
-  it_behaves_like 'acts_as_watchable included' do
+  it_behaves_like "acts_as_watchable included" do
     let(:model_instance) { create(:work_package) }
     let(:watch_permission) { :view_work_packages }
     let(:project) { model_instance.project }

@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'date'
+require "date"
 
 class Task < WorkPackage
   extend OpenProject::Backlogs::Mixins::PreventIssueSti
 
   def self.type
-    task_type = Setting.plugin_openproject_backlogs['task_type']
+    task_type = Setting.plugin_openproject_backlogs["task_type"]
     task_type.blank? ? nil : task_type.to_i
   end
 

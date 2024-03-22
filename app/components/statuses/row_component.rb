@@ -59,8 +59,8 @@ module Statuses
     end
 
     def sort
-      helpers.reorder_links 'status',
-                            { action: 'update', id: status },
+      helpers.reorder_links "status",
+                            { action: "update", id: status },
                             method: :patch
     end
 
@@ -72,7 +72,7 @@ module Statuses
 
     def delete_link
       link_to(
-        helpers.op_icon('icon icon-delete'),
+        helpers.op_icon("icon icon-delete"),
         status_path(status),
         method: :delete,
         data: { confirm: I18n.t(:text_are_you_sure) },

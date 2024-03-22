@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + "/../spec_helper"
 
 RSpec.describe PermittedParams do
   let(:user) { build_stubbed(:user) }
 
-  describe '#search' do
-    it 'permits its whitelisted params' do
+  describe "#search" do
+    it "permits its whitelisted params" do
       acceptable_params = { messages: 1 }
 
       permitted = ActionController::Parameters.new(acceptable_params).permit!

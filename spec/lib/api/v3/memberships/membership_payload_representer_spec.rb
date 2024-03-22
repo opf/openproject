@@ -26,31 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Memberships::MembershipPayloadRepresenter do
   let(:membership) { build_stubbed(:member) }
 
   current_user { build_stubbed(:user) }
 
-  describe 'generation' do
+  describe "generation" do
     subject(:json) { representer.to_json }
 
-    describe '_meta' do
-      describe 'notificationMessage' do
-        let(:meta) { OpenStruct.new notifiation_message: 'Come to the dark side' }
+    describe "_meta" do
+      describe "notificationMessage" do
+        let(:meta) { OpenStruct.new notifiation_message: "Come to the dark side" }
         let(:representer) do
           described_class.create(membership,
                                  meta:,
                                  current_user:)
         end
 
-        it_behaves_like 'formattable property', :'_meta/notificationMessage' do
+        it_behaves_like "formattable property", :"_meta/notificationMessage" do
           let(:value) { meta.notification_message }
         end
       end
 
-      describe 'sendNotifications' do
+      describe "sendNotifications" do
         let(:meta) { OpenStruct.new send_notifications: true }
         let(:representer) do
           described_class.create(membership,
@@ -58,14 +58,14 @@ RSpec.describe API::V3::Memberships::MembershipPayloadRepresenter do
                                  current_user:)
         end
 
-        it_behaves_like 'property', :'_meta/sendNotifications' do
+        it_behaves_like "property", :"_meta/sendNotifications" do
           let(:value) { true }
         end
       end
     end
   end
 
-  describe 'parsing' do
+  describe "parsing" do
     subject(:parsed) { representer.from_hash parsed_hash }
 
     let(:representer) do
@@ -74,25 +74,25 @@ RSpec.describe API::V3::Memberships::MembershipPayloadRepresenter do
                              current_user:)
     end
 
-    describe '_meta' do
-      context 'with meta set' do
+    describe "_meta" do
+      context "with meta set" do
         let(:parsed_hash) do
           {
-            '_meta' => {
-              'notificationMessage' => {
-                "raw" => 'Come to the dark side'
+            "_meta" => {
+              "notificationMessage" => {
+                "raw" => "Come to the dark side"
               },
-              'sendNotifications' => true
+              "sendNotifications" => true
             }
           }
         end
 
-        it 'sets the parsed message' do
+        it "sets the parsed message" do
           expect(parsed.meta.notification_message)
-            .to eql 'Come to the dark side'
+            .to eql "Come to the dark side"
         end
 
-        it 'sets the notification sending configuration' do
+        it "sets the notification sending configuration" do
           expect(parsed.meta.send_notifications)
             .to be_truthy
         end

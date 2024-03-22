@@ -35,7 +35,7 @@
 #
 # Use this as a temporary patch
 
-require 'ferrum/errors'
+require "ferrum/errors"
 
 def ignore_ferrum_javascript_error
   yield
@@ -50,7 +50,7 @@ module Ferrum
   class Network
     class Request
       def loader_id
-        @params['loaderId']
+        @params["loaderId"]
       end
     end
 

@@ -1,4 +1,4 @@
-require 'roar/decorator'
+require "roar/decorator"
 
 module API
   module V3

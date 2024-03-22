@@ -36,9 +36,9 @@ module Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
                           .select(relation_select)
 
     operator = if operator_class <= Queries::Operators::Equals
-                 'IN'
+                 "IN"
                else
-                 'NOT IN'
+                 "NOT IN"
                end
 
     "#{WorkPackage.table_name}.id #{operator} (#{relations_subselect.to_sql})"

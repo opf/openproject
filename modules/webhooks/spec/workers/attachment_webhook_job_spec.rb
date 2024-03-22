@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe AttachmentWebhookJob, :webmock, type: :job do
   shared_let(:user) { create(:admin) }
   shared_let(:request_url) { "http://example.net/test/42" }
-  shared_let(:project) { create(:project, name: 'Foo Bar') }
+  shared_let(:project) { create(:project, name: "Foo Bar") }
   shared_let(:container) { create(:work_package, project:) }
   shared_let(:attachment) { create(:attachment, container:) }
   shared_let(:webhook) { create(:webhook, all_projects: true, url: request_url, secret: nil) }
@@ -56,7 +56,7 @@ RSpec.describe AttachmentWebhookJob, :webmock, type: :job do
           "action" => event,
           "attachment" => hash_including(
             "_type" => "Attachment",
-            'id' => attachment.id
+            "id" => attachment.id
           )
         ),
         headers: request_headers
@@ -82,7 +82,7 @@ RSpec.describe AttachmentWebhookJob, :webmock, type: :job do
   end
 
   describe "attachment webhook call" do
-    it 'requests with all projects' do
+    it "requests with all projects" do
       allow(webhook)
         .to receive(:enabled_for_project?).with(project.id)
                                           .and_call_original
@@ -91,7 +91,7 @@ RSpec.describe AttachmentWebhookJob, :webmock, type: :job do
       expect(stub).to have_been_requested
     end
 
-    it 'does not request when project does not match unless create case' do
+    it "does not request when project does not match unless create case" do
       allow(webhook)
         .to receive(:enabled_for_project?).with(project.id)
                                           .and_return(false)
@@ -100,10 +100,10 @@ RSpec.describe AttachmentWebhookJob, :webmock, type: :job do
       expect(stub).not_to have_been_requested
     end
 
-    context 'with uncontainered' do
+    context "with uncontainered" do
       shared_let(:attachment) { create(:attachment, container: nil) }
 
-      it 'does requests even if project nil' do
+      it "does requests even if project nil" do
         allow(webhook)
           .to receive(:enabled_for_project?).with(project.id)
                                             .and_return(false)
@@ -113,7 +113,7 @@ RSpec.describe AttachmentWebhookJob, :webmock, type: :job do
       end
     end
 
-    describe 'successful flow' do
+    describe "successful flow" do
       before do
         subject
       end

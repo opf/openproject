@@ -27,7 +27,7 @@
 # ++
 
 class Queries::Projects::Selects::CustomField < Queries::Selects::Base
-  validates :custom_field, presence: { message: I18n.t(:'activerecord.errors.messages.does_not_exist') }
+  validates :custom_field, presence: { message: I18n.t(:"activerecord.errors.messages.does_not_exist") }
 
   def self.key
     /cf_(\d+)/
@@ -54,5 +54,9 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
     @custom_field ||= ProjectCustomField
                         .visible
                         .find_by(id: self.class.key.match(attribute)[1])
+  end
+
+  def available?
+    custom_field.present?
   end
 end

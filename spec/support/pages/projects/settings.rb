@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Projects
@@ -74,7 +74,7 @@ module Pages
       end
 
       def save!
-        click_button 'Save'
+        click_button "Save"
       end
 
       def expect_wp_custom_field(custom_field, active = true)
@@ -83,7 +83,7 @@ module Pages
       end
 
       def fieldset_label
-        find 'fieldset#project_issue_custom_fields label'
+        find "fieldset#project_issue_custom_fields label"
       end
 
       private

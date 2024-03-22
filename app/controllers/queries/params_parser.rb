@@ -49,7 +49,7 @@ module Queries
             .to_h
             .map { |k, v| { attribute: k, direction: v } }
       rescue JSON::ParserError
-        [{ attribute: 'invalid', direction: 'asc' }]
+        [{ attribute: "invalid", direction: "asc" }]
       end
 
       def parse_columns_from_params(params)
@@ -86,7 +86,7 @@ module Queries
 
       def consume_ampersand
         case @buffer.peek(1)
-        when '&', /\s/
+        when "&", /\s/
           @buffer.getch
           consume_ampersand
         end
@@ -106,9 +106,9 @@ module Queries
           parse_doublequoted_value
         when "'"
           parse_singlequoted_value
-        when '['
+        when "["
           parse_array_value
-        when '&'
+        when "&"
           []
         else
           parse_unguarded_value
@@ -128,7 +128,7 @@ module Queries
       def parse_unguarded_value
         value = @buffer
                   .scan_until(/&|\z/)
-                  .delete_suffix('&')
+                  .delete_suffix("&")
 
         [value]
       end
@@ -136,8 +136,8 @@ module Queries
       def parse_array_value
         @buffer
           .scan_until(/]|\z/)
-          .delete_suffix(']')
-          .delete_prefix('[')
+          .delete_suffix("]")
+          .delete_prefix("[")
           .scan(/(?:'([^']*)')|(?:"([^"]*)")/)
           .flatten
           .compact

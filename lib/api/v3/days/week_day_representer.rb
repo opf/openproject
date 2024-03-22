@@ -37,7 +37,7 @@ module API::V3::Days
     self_link path: :days_week_day, id_attribute: :day
 
     def _type
-      'WeekDay'
+      "WeekDay"
     end
 
     def json_key_part_represented

@@ -75,7 +75,7 @@ fr:
       button_register_mobile_phone_for_user: "Enregistrer un téléphone mobile"
       text_2fa_enabled: "Lors de chaque connexion, cet utilisateur sera invité à entrer un jeton OTP depuis son appareil 2FA par défaut."
       text_2fa_disabled: "L'utilisateur n'a configuré aucun appareil 2FA sur sa page « Mon compte »"
-      only_sms_allowed: "Only SMS delivery can be set up for other users."
+      only_sms_allowed: "Seul l'envoi de SMS peut être configuré pour d'autres utilisateurs."
     upsale:
       title: "Authentification à deux facteurs"
       description: "Renforcez la sécurité de votre instance OpenProject en offrant (ou en forçant) une authentification à deux facteurs à tous les membres du projet."
@@ -112,12 +112,12 @@ fr:
       failed_to_delete: "Impossible de supprimer l'appareil 2FA."
       is_default_cannot_delete: "Cet appareil est un appareil par défaut, et ne peut être supprimé à d'une politique de sécurité active. Sélectionnez un autre appareil comme appareil par défaut avant de supprimer l'appareil par défaut actuel."
       not_existing: "Aucun appareil 2FA n’a été enregistré pour votre compte."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      2fa_from_input: Veuillez entrer le code obtenu depuis <strong>%{device_name}</strong> pour vérifier votre identité.
+      2fa_from_webauthn: Veuillez spécifier l'appareil WebAuthn <strong>%{device_name}</strong>. S'il s'agit d'un périphérique USB, veillez à le brancher et à le toucher. Cliquez ensuite sur le bouton de connexion.
       webauthn:
         title: "WebAuthn"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: Utilisez l'authentification Web pour enregistrer un dispositif FIDO2 (comme une YubiKey) ou l'enclave sécurisée de votre appareil mobile en tant que deuxième facteur.
+        further_steps: Après avoir choisi un nom, cliquez sur le bouton Continuer. Votre navigateur vous invitera à présenter votre appareil WebAuthn. Une fois cette action effectuée, l'enregistrement de l'appareil est terminé.
       totp:
         title: "Utilisez votre authentificateur basé sur l'application"
         provisioning_uri: "Provisionnement URI"

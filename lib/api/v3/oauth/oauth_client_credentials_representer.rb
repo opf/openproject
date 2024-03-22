@@ -57,7 +57,7 @@ module API::V3::OAuth
     end
 
     def _type
-      'OAuthClientCredentials'
+      "OAuthClientCredentials"
     end
   end
 end

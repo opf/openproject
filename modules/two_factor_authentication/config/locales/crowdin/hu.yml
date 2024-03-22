@@ -74,8 +74,8 @@ hu:
       delete_all_are_you_sure: "Biztos vagy benne hogy törölni szeretnéd az összes 2FA eszközt ennél a felhasználónál?"
       button_delete_all_devices: "2FA eszköz regisztrációjának törlése"
       button_register_mobile_phone_for_user: "Mobiltelefon regisztrálása"
-      text_2fa_enabled: "Upon every login, this user will be requested to enter a OTP token from their default 2FA device."
-      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
+      text_2fa_enabled: "Minden egyes belépésnél szüksége lesz az alapértelmezett 2FA eszközről beírt OTP tokenre."
+      text_2fa_disabled: "A felhasználó nem állított be 2FA eszközt a „Saját fiókom” oldalon"
       only_sms_allowed: "Only SMS delivery can be set up for other users."
     upsale:
       title: "Kétlépcsős hitelesítés"

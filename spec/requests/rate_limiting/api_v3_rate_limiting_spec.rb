@@ -26,47 +26,47 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Rate limiting APIv3',
+RSpec.describe "Rate limiting APIv3",
                :with_rack_attack do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   current_user { create(:admin) }
 
-  context 'when enabled', with_config: { rate_limiting: { api_v3: true } } do
-    it 'blocks post request to any form' do
+  context "when enabled", with_config: { rate_limiting: { api_v3: true } } do
+    it "blocks post request to any form" do
       # Need to reload rules again after config change
       OpenProject::RateLimiting.set_defaults!
 
       # First requests sets the cookie discriminator
-      get '/'
+      get "/"
 
       6.times do
-        post '/api/v3/work_packages/form',
+        post "/api/v3/work_packages/form",
              nil,
-             'CONTENT_TYPE' => 'application/json'
+             "CONTENT_TYPE" => "application/json"
 
         expect(last_response.status).to eq 200
       end
 
-      post '/api/v3/work_packages/form',
+      post "/api/v3/work_packages/form",
            nil,
-           'CONTENT_TYPE' => 'application/json'
+           "CONTENT_TYPE" => "application/json"
       expect(last_response.status).to eq 429
     end
   end
 
-  context 'when disabled', with_config: { rate_limiting: { api_v3: false } } do
-    it 'does not block post request to any form' do
+  context "when disabled", with_config: { rate_limiting: { api_v3: false } } do
+    it "does not block post request to any form" do
       # Need to reload rules again after config change
       OpenProject::RateLimiting.set_defaults!
 
       9.times do
-        post '/api/v3/work_packages/form',
+        post "/api/v3/work_packages/form",
              nil,
-             'CONTENT_TYPE' => 'application/json'
+             "CONTENT_TYPE" => "application/json"
 
         expect(last_response.status).to eq 200
       end

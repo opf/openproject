@@ -41,7 +41,7 @@ module API
           end
 
           def href_callback
-            params = [ancestor: { operator: '=', values: [filter.project.id.to_s] }]
+            params = [ancestor: { operator: "=", values: [filter.project.id.to_s] }]
             escaped = CGI.escape(::JSON.dump(params))
 
             "#{api_v3_paths.projects}?filters=#{escaped}&pageSize=-1"

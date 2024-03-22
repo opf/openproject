@@ -30,7 +30,7 @@ module Queries::Operators
   module WorkPackages
     module SharedWithUser
       class Any < ::Queries::Operators::All
-        label 'operator_shared_with_user_any'
+        label "operator_shared_with_user_any"
       end
     end
   end

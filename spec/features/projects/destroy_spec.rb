@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Projects#destroy', :js, :with_cuprite do
-  let!(:project) { create(:project, name: 'foo', identifier: 'foo') }
+RSpec.describe "Projects#destroy", :js, :with_cuprite do
+  let!(:project) { create(:project, name: "foo", identifier: "foo") }
   let(:project_page) { Pages::Projects::Destroy.new(project) }
   let(:danger_zone) { DangerZone.new(page) }
 
@@ -37,7 +37,7 @@ RSpec.describe 'Projects#destroy', :js, :with_cuprite do
 
   before { project_page.visit! }
 
-  it 'destroys the project' do
+  it "destroys the project" do
     # Confirm the deletion
     # Without confirmation, the button is disabled
     expect(danger_zone).to be_disabled
@@ -53,7 +53,7 @@ RSpec.describe 'Projects#destroy', :js, :with_cuprite do
     expect(danger_zone).not_to be_disabled
     danger_zone.danger_button.click
 
-    expect(page).to have_css '.op-toast.-success', text: I18n.t('projects.delete.scheduled')
+    expect(page).to have_css ".op-toast.-success", text: I18n.t("projects.delete.scheduled")
     expect(project.reload).to eq(project)
 
     perform_enqueued_jobs

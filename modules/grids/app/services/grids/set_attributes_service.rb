@@ -63,11 +63,11 @@ class Grids::SetAttributesService < BaseServices::SetAttributes
     to_destroy.each(&:mark_for_destruction)
 
     to_create.each do |widget|
-      model.widgets.build widget.attributes.except('id')
+      model.widgets.build widget.attributes.except("id")
     end
 
     update_map.each do |existing, provided|
-      existing.attributes = provided.attributes.except('id', 'grid_id')
+      existing.attributes = provided.attributes.except("id", "grid_id")
     end
   end
 

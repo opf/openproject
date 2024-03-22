@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::SharedWithMeFilter do
   create_shared_association_defaults_for_work_package_factory
@@ -44,33 +44,33 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithMeFilter do
 
   let(:query) { Query.new }
 
-  let(:instance) { described_class.create!(context: query, values: ['t'], operator: '=') }
+  let(:instance) { described_class.create!(context: query, values: ["t"], operator: "=") }
 
   subject { instance }
 
-  describe '#available?' do
-    context 'when the query is not scoped to a project' do
-      context 'when the user has work packages shared with them' do
+  describe "#available?" do
+    context "when the query is not scoped to a project" do
+      context "when the user has work packages shared with them" do
         current_user { shared_with_user }
         it { is_expected.to be_available }
       end
 
-      context 'when the user does not have work packages shared with them' do
+      context "when the user does not have work packages shared with them" do
         current_user { non_shared_with_user }
         it { is_expected.not_to be_available }
       end
     end
 
-    context 'when the query is scoped to a project' do
+    context "when the query is scoped to a project" do
       current_user { shared_with_user }
 
-      context 'and the user has work packages shared with them in the project' do
+      context "and the user has work packages shared with them in the project" do
         before { query.project = project_with_types }
 
         it { is_expected.to be_available }
       end
 
-      context 'and the user does not have work packages shared with them in the project' do
+      context "and the user does not have work packages shared with them in the project" do
         before { query.project = create(:project) }
 
         it { is_expected.not_to be_available }
@@ -78,10 +78,10 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithMeFilter do
     end
   end
 
-  describe '#where' do
+  describe "#where" do
     subject { WorkPackage.where(instance.where) }
 
-    context 'when the user has work packages shared with them' do
+    context "when the user has work packages shared with them" do
       current_user { shared_with_user }
 
       let!(:other_work_package) do
@@ -91,7 +91,7 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithMeFilter do
       it { is_expected.to contain_exactly(shared_work_package) }
     end
 
-    context 'when the user has no work packages shared with them' do
+    context "when the user has no work packages shared with them" do
       current_user { non_shared_with_user }
 
       it { is_expected.to be_empty }

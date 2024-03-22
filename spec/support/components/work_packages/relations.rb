@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/components/autocompleter/ng_select_autocomplete_helpers'
+require "support/components/autocompleter/ng_select_autocomplete_helpers"
 
 module Components
   module WorkPackages
@@ -54,10 +54,10 @@ module Components
       def edit_relation_type(relatable, to_type:)
         row = find_row(relatable)
         SeleniumHubWaiter.wait
-        row.find('.relation-row--type').click
+        row.find(".relation-row--type").click
 
-        expect(row).to have_css('select.inline-edit--field')
-        row.find('.inline-edit--field option', text: to_type).select_option
+        expect(row).to have_css("select.inline-edit--field")
+        row.find(".inline-edit--field option", text: to_type).select_option
       end
 
       def hover_action(relatable, action)
@@ -72,9 +72,9 @@ module Components
           row = find_row(relatable)
           case action
           when :delete
-            row.find('.relation-row--remove-btn').click
+            row.find(".relation-row--remove-btn").click
           when :info
-            row.find('.wp-relations--description-btn').click
+            row.find(".wp-relations--description-btn").click
           end
         end
       end
@@ -90,24 +90,24 @@ module Components
       def add_relation(type:, to:)
         # Open create form
         SeleniumHubWaiter.wait
-        find_by_id('relation--add-relation').click
+        find_by_id("relation--add-relation").click
 
         # Select relation type
-        container = find('.wp-relations-create--form', wait: 10)
+        container = find(".wp-relations-create--form", wait: 10)
 
         # Labels to expect
         relation_label = I18n.t("js.relation_labels.#{type}")
 
-        select relation_label, from: 'relation-type--select'
+        select relation_label, from: "relation-type--select"
 
         # Enter the query and select the child
         autocomplete = container.find("[data-test-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
-                            results_selector: '.ng-dropdown-panel-items',
+                            results_selector: ".ng-dropdown-panel-items",
                             query: to.subject,
                             select_text: to.subject
 
-        expect(page).to have_css('.relation-group--header',
+        expect(page).to have_css(".relation-group--header",
                                  text: relation_label.upcase,
                                  wait: 10)
 
@@ -137,14 +137,14 @@ module Components
       def add_parent(query, work_package)
         # Open the parent edit
         SeleniumHubWaiter.wait
-        find('.wp-relation--parent-change').click
+        find(".wp-relation--parent-change").click
 
         # Enter the query and select the child
         SeleniumHubWaiter.wait
         autocomplete = find("[data-test-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             query:,
-                            results_selector: '.ng-dropdown-panel-items',
+                            results_selector: ".ng-dropdown-panel-items",
                             select_text: work_package.id
       end
 
@@ -160,28 +160,28 @@ module Components
 
       def remove_parent
         SeleniumHubWaiter.wait
-        find('.wp-relation--parent-remove').click
+        find(".wp-relation--parent-remove").click
       end
 
       def inline_create_child(subject_text)
-        container = find('.wp-relations--children')
+        container = find(".wp-relations--children")
         scroll_to_and_click(container.find('[data-test-selector="op-wp-inline-create"]'))
 
-        subject = ::EditField.new(container, 'subject')
+        subject = ::EditField.new(container, "subject")
         subject.expect_active!
         subject.update subject_text
       end
 
       def open_children_autocompleter
         retry_block do
-          next if page.has_selector?('.wp-relations--children .ng-input input')
+          next if page.has_selector?(".wp-relations--children .ng-input input")
 
           SeleniumHubWaiter.wait
           find('[data-test-selector="op-wp-inline-create-reference"]',
-               text: I18n.t('js.relation_buttons.add_existing_child')).click
+               text: I18n.t("js.relation_buttons.add_existing_child")).click
 
           # Security check to be sure that the autocompleter has finished loading
-          page.find '.wp-relations--children .ng-input input'
+          page.find ".wp-relations--children .ng-input input"
         end
       end
 
@@ -190,21 +190,21 @@ module Components
         autocomplete = page.find(".wp-relations--add-form [data-test-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             query: work_package.id,
-                            results_selector: '.ng-dropdown-panel-items',
+                            results_selector: ".ng-dropdown-panel-items",
                             select_text: work_package.subject
       end
 
       def expect_child(work_package)
-        container = find('wp-relations-hierarchy wp-children-query')
+        container = find("wp-relations-hierarchy wp-children-query")
 
         within container do
           expect(page)
-            .to have_css('.wp-table--cell-td.subject', text: work_package.subject, wait: 10)
+            .to have_css(".wp-table--cell-td.subject", text: work_package.subject, wait: 10)
         end
       end
 
       def expect_not_child(work_package)
-        page.within('wp-relations-tab .work-packages-embedded-view--container') do
+        page.within("wp-relations-tab .work-packages-embedded-view--container") do
           row = ".wp-row-#{work_package.id}-table"
 
           expect(page).to have_no_selector(row)
@@ -212,15 +212,15 @@ module Components
       end
 
       def children_table
-        ::Pages::EmbeddedWorkPackagesTable.new find('wp-relations-tab .work-packages-embedded-view--container')
+        ::Pages::EmbeddedWorkPackagesTable.new find("wp-relations-tab .work-packages-embedded-view--container")
       end
 
       def relations_group
-        find('wp-relations-tab wp-relations-group')
+        find("wp-relations-tab wp-relations-group")
       end
 
       def remove_child(work_package)
-        page.within('.work-packages-embedded-view--container') do
+        page.within(".work-packages-embedded-view--container") do
           row = ".wp-row-#{work_package.id}-table"
 
           SeleniumHubWaiter.wait

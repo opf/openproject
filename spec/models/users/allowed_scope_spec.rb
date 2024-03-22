@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe User, 'allowed scope' do
+RSpec.describe User, "allowed scope" do
   let(:user) { member.principal }
   let(:anonymous) { build(:anonymous) }
   let(:project) { build(:project, public: false) }
@@ -62,7 +62,7 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe User, 'allowed scope' do
       user.update_attribute(:admin, true)
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
@@ -91,7 +91,7 @@ RSpec.describe User, 'allowed scope' do
       user.update_attribute(:admin, true)
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -105,7 +105,7 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -118,7 +118,7 @@ RSpec.describe User, 'allowed scope' do
       role.add_permission! action
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -135,7 +135,7 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -154,7 +154,7 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -172,7 +172,7 @@ RSpec.describe User, 'allowed scope' do
       project.save!
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
@@ -190,7 +190,7 @@ RSpec.describe User, 'allowed scope' do
       project.save!
     end
 
-    it 'returns the anonymous user' do
+    it "returns the anonymous user" do
       expect(described_class.allowed(action, project).where(id: [user.id, anonymous.id])).to contain_exactly(anonymous)
     end
   end
@@ -208,7 +208,7 @@ RSpec.describe User, 'allowed scope' do
       project.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -224,7 +224,7 @@ RSpec.describe User, 'allowed scope' do
       project.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -245,7 +245,7 @@ RSpec.describe User, 'allowed scope' do
       non_member.add_permission! action
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -259,7 +259,7 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed(public_action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
@@ -274,7 +274,7 @@ RSpec.describe User, 'allowed scope' do
       project.save
     end
 
-    it 'returns the user and anonymous' do
+    it "returns the user and anonymous" do
       expect(described_class.allowed(public_action,
                                      project).where(id: [user.id, anonymous.id])).to contain_exactly(user, anonymous)
     end
@@ -296,7 +296,7 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(permission.name, project).where(id: user.id)).to eq []
     end
   end
@@ -317,7 +317,7 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed(permission.name, project).where(id: user.id)).to eq [user]
     end
   end
@@ -334,7 +334,7 @@ RSpec.describe User, 'allowed scope' do
       project.update(active: false)
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project)).to eq []
     end
   end
@@ -349,7 +349,7 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed_members(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
@@ -362,7 +362,7 @@ RSpec.describe User, 'allowed scope' do
       user.update_attribute(:admin, true)
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed_members(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -379,7 +379,7 @@ RSpec.describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed_members(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
@@ -394,12 +394,12 @@ RSpec.describe User, 'allowed scope' do
       role.add_permission! action
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed_members(action, project).where(id: user.id)).to be_empty
     end
   end
 
-  describe '.allowed_members_on_work_package' do
+  describe ".allowed_members_on_work_package" do
     shared_let(:richard)  { create(:user) }
     shared_let(:dinesh)   { create(:user) }
     shared_let(:gilfoyle) { create(:user) }

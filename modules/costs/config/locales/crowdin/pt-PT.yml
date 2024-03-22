@@ -19,7 +19,7 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-pt:
+pt-PT:
   plugin_costs:
     name: "Tempo e custos"
     description: "Este módulo acrescenta funcionalidades para planear e acompanhar os custos dos projetos."

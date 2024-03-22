@@ -32,8 +32,8 @@ class MeetingMailer < UserMailer
     @meeting = meeting
     @user = user
 
-    open_project_headers 'Project' => @meeting.project.identifier,
-                         'Meeting-Id' => @meeting.id
+    open_project_headers "Project" => @meeting.project.identifier,
+                         "Meeting-Id" => @meeting.id
 
     with_attached_ics(meeting, user) do
       subject = "[#{@meeting.project.name}] #{@meeting.title}"
@@ -47,12 +47,12 @@ class MeetingMailer < UserMailer
     @meeting = meeting
     @changes = changes
 
-    open_project_headers 'Project' => @meeting.project.identifier,
-                         'Meeting-Id' => @meeting.id
+    open_project_headers "Project" => @meeting.project.identifier,
+                         "Meeting-Id" => @meeting.id
 
     with_attached_ics(meeting, user) do
       subject = "[#{@meeting.project.name}] "
-      subject << I18n.t('meeting.email.rescheduled.header', title: @meeting.title)
+      subject << I18n.t("meeting.email.rescheduled.header", title: @meeting.title)
       mail(to: user.mail, subject:)
     end
   end
@@ -79,7 +79,7 @@ class MeetingMailer < UserMailer
         .call
 
       call.on_success do
-        attachments['meeting.ics'] = call.result
+        attachments["meeting.ics"] = call.result
 
         yield
       end
@@ -91,9 +91,9 @@ class MeetingMailer < UserMailer
   end
 
   def set_headers(meeting)
-    open_project_headers 'Project' => meeting.project.identifier, 'Meeting-Id' => meeting.id
-    headers['Content-Type'] = 'text/calendar; charset=utf-8; method="PUBLISH"; name="meeting.ics"'
-    headers['Content-Transfer-Encoding'] = '8bit'
+    open_project_headers "Project" => meeting.project.identifier, "Meeting-Id" => meeting.id
+    headers["Content-Type"] = 'text/calendar; charset=utf-8; method="PUBLISH"; name="meeting.ics"'
+    headers["Content-Transfer-Encoding"] = "8bit"
   end
 
   def format_timezone_offset(timezone, time)

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal:true
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -28,26 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module AuthenticationStrategies
+        class OAuthConfiguration
+          include ActiveModel::Validations
 
-RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::Util do
-  describe '.basic_auth_header' do
-    subject { described_class.basic_auth_header(username, password) }
+          attr_reader :scope, :issuer, :client_secret, :client_id
 
-    context 'when password is more than 60 symbols' do
-      let(:username) { 'Dart Scuadron' }
-      let(:password) { "#{'StarWars' * 10}Forever!" }
+          validates_presence_of :client_id, :client_secret, :issuer
 
-      it 'has no newline characters in encoded string' do
-        expect(subject['Authorization']).not_to match(/\n/)
-        expect(subject).to eq(
-          {
-            "Authorization" => "Basic RGFydCBTY3VhZHJvbjpTdGFyV2Fyc1N0YXJXYXJzU3Rhcl" \
-                               "dhcnNTdGFyV2Fyc1N0YXJXYXJzU3RhcldhcnNTdGFyV2Fyc1N0YX" \
-                               "JXYXJzU3RhcldhcnNTdGFyV2Fyc0ZvcmV2ZXIh"
-          }
-        )
+          def initialize(client_id: nil,
+                         client_secret: nil,
+                         issuer: nil,
+                         scope: nil)
+            @client_id = client_id
+            @client_secret = client_secret
+            @issuer = issuer
+            @scope = scope
+          end
+        end
       end
     end
   end

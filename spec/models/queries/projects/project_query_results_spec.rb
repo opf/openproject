@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Queries::Projects::ProjectQuery, 'results' do
+RSpec.describe Queries::Projects::ProjectQuery, "results" do
   let(:instance) { described_class.new }
   let(:base_scope) { Project.order(id: :desc) }
 
   shared_let(:view_role) { create(:project_role, permissions: %i[view_project]) }
   shared_let(:non_member_role) { create(:non_member, permissions: %i[view_project]) }
-  shared_let(:grandparent) { create(:project, name: 'Grandparent') }
-  shared_let(:parent) { create(:project, parent: grandparent, name: 'Parent') }
-  shared_let(:child) { create(:project, parent:, name: 'Child') }
-  shared_let(:grandchild) { create(:project, parent: child, name: 'Grandchild') }
-  shared_let(:sibling) { create(:project, parent:, name: 'Sibling') }
-  shared_let(:not_member) { create(:project, name: 'Not member') }
-  shared_let(:public) { create(:public_project, name: 'Public') }
-  shared_let(:no_hierarchy) { create(:project, name: 'No Hierarchy') }
+  shared_let(:grandparent) { create(:project, name: "Grandparent") }
+  shared_let(:parent) { create(:project, parent: grandparent, name: "Parent") }
+  shared_let(:child) { create(:project, parent:, name: "Child") }
+  shared_let(:grandchild) { create(:project, parent: child, name: "Grandchild") }
+  shared_let(:sibling) { create(:project, parent:, name: "Sibling") }
+  shared_let(:not_member) { create(:project, name: "Not member") }
+  shared_let(:public) { create(:public_project, name: "Public") }
+  shared_let(:no_hierarchy) { create(:project, name: "No Hierarchy") }
 
   shared_let(:user) do
     create(:user, member_with_roles: {
@@ -56,33 +56,33 @@ RSpec.describe Queries::Projects::ProjectQuery, 'results' do
 
   current_user { user }
 
-  context 'without a filter' do
-    it 'gets all visible projects' do
+  context "without a filter" do
+    it "gets all visible projects" do
       expect(instance.results)
         .to contain_exactly(grandparent, parent, child, sibling, grandchild, public, no_hierarchy)
     end
   end
 
-  context 'with a parent filter' do
+  context "with a parent filter" do
     context 'with a "=" operator' do
       before do
-        instance.where('parent_id', '=', [parent.id])
+        instance.where("parent_id", "=", [parent.id])
       end
 
-      it 'returns all children of the specified parent' do
+      it "returns all children of the specified parent" do
         expect(instance.results)
           .to contain_exactly(child, sibling)
       end
     end
   end
 
-  context 'with an ancestor filter' do
+  context "with an ancestor filter" do
     context 'with a "=" operator' do
       before do
-        instance.where('ancestor', '=', [grandparent.id])
+        instance.where("ancestor", "=", [grandparent.id])
       end
 
-      it 'gets all projects that are descendants' do
+      it "gets all projects that are descendants" do
         expect(instance.results)
           .to contain_exactly(parent, child, sibling, grandchild)
       end
@@ -90,29 +90,29 @@ RSpec.describe Queries::Projects::ProjectQuery, 'results' do
 
     context 'with a "!" operator' do
       before do
-        instance.where('ancestor', '!', [grandparent.id])
+        instance.where("ancestor", "!", [grandparent.id])
       end
 
-      it 'gets all projects that are not descendants' do
+      it "gets all projects that are not descendants" do
         expect(instance.results)
           .to contain_exactly(grandparent, public, no_hierarchy)
       end
     end
   end
 
-  context 'with an order by id asc' do
-    it 'returns all visible projects ordered by id asc' do
+  context "with an order by id asc" do
+    it "returns all visible projects ordered by id asc" do
       expect(instance.order(id: :asc).results.to_a)
         .to eql [grandparent, parent, child, sibling, grandchild, public, no_hierarchy].sort_by(&:id)
     end
   end
 
-  context 'with an order by typeahead asc' do
+  context "with an order by typeahead asc" do
     before do
       instance.order(typeahead: :asc)
     end
 
-    it 'returns all visible projects ordered by lft asc' do
+    it "returns all visible projects ordered by lft asc" do
       expect(instance.results.to_a)
         .to eql [grandparent, parent, child, grandchild, sibling, no_hierarchy, public]
     end

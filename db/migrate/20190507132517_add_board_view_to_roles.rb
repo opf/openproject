@@ -34,8 +34,8 @@ class AddBoardViewToRoles < ActiveRecord::Migration[5.2]
       .add(:view_work_packages,
            :show_board_views)
 
-    unless Setting.default_projects_modules.include?('board_view')
-      Setting.default_projects_modules = Setting.default_projects_modules + ['board_view']
+    unless Setting.default_projects_modules.include?("board_view")
+      Setting.default_projects_modules = Setting.default_projects_modules + ["board_view"]
     end
   end
 

@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::AuthorFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list }
     let(:class_key) { :author_id }
 
     let(:user_1) { build_stubbed(:user) }
 
     let(:principal_loader) do
-      loader = double('principal_loader')
+      loader = double("principal_loader")
       allow(loader)
         .to receive(:user_values)
         .and_return([])
@@ -51,7 +51,7 @@ RSpec.describe Queries::WorkPackages::Filter::AuthorFilter do
         .and_return(principal_loader)
     end
 
-    describe '#available?' do
+    describe "#available?" do
       let(:logged_in) { true }
 
       before do
@@ -60,12 +60,12 @@ RSpec.describe Queries::WorkPackages::Filter::AuthorFilter do
           .and_return(logged_in)
       end
 
-      context 'when being logged in' do
-        it 'is true if no other user is available' do
+      context "when being logged in" do
+        it "is true if no other user is available" do
           expect(instance).to be_available
         end
 
-        it 'is true if there is another user selectable' do
+        it "is true if there is another user selectable" do
           allow(principal_loader)
             .to receive(:user_values)
             .and_return([[nil, user_1.id.to_s]])
@@ -74,14 +74,14 @@ RSpec.describe Queries::WorkPackages::Filter::AuthorFilter do
         end
       end
 
-      context 'when not being logged in' do
+      context "when not being logged in" do
         let(:logged_in) { false }
 
-        it 'is false if no other user is available' do
+        it "is false if no other user is available" do
           expect(instance).not_to be_available
         end
 
-        it 'is true if there is another user selectable' do
+        it "is true if there is another user selectable" do
           allow(principal_loader)
             .to receive(:user_values)
             .and_return([[nil, user_1.id.to_s]])
@@ -91,7 +91,7 @@ RSpec.describe Queries::WorkPackages::Filter::AuthorFilter do
       end
     end
 
-    describe '#allowed_values' do
+    describe "#allowed_values" do
       let(:logged_in) { true }
 
       before do
@@ -100,21 +100,21 @@ RSpec.describe Queries::WorkPackages::Filter::AuthorFilter do
           .and_return(logged_in)
       end
 
-      context 'when being logged in' do
-        it 'returns the me value and the available users' do
+      context "when being logged in" do
+        it "returns the me value and the available users" do
           allow(principal_loader)
             .to receive(:user_values)
             .and_return([[nil, user_1.id.to_s]])
 
           expect(instance.allowed_values)
-            .to contain_exactly([I18n.t(:label_me), 'me'], [nil, user_1.id.to_s])
+            .to contain_exactly([I18n.t(:label_me), "me"], [nil, user_1.id.to_s])
         end
       end
 
-      context 'when not being logged in' do
+      context "when not being logged in" do
         let(:logged_in) { false }
 
-        it 'returns the available users' do
+        it "returns the available users" do
           allow(principal_loader)
             .to receive(:user_values)
             .and_return([[nil, user_1.id.to_s]])

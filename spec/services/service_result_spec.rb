@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ServiceResult, type: :model do
   let(:instance) { described_class.new }
 
-  describe 'success' do
-    it 'is what the service is initialized with' do
+  describe "success" do
+    it "is what the service is initialized with" do
       instance = described_class.new success: true
 
       expect(instance.success).to be_truthy
@@ -44,7 +44,7 @@ RSpec.describe ServiceResult, type: :model do
       expect(instance.success?).to be(false)
     end
 
-    it 'returns what is provided' do
+    it "returns what is provided" do
       instance.success = true
 
       expect(instance.success).to be_truthy
@@ -56,25 +56,25 @@ RSpec.describe ServiceResult, type: :model do
       expect(instance.success?).to be(false)
     end
 
-    it 'is false by default' do
+    it "is false by default" do
       expect(instance.success).to be_falsey
       expect(instance.success?).to be(false)
     end
   end
 
-  describe '.success' do
-    it 'creates a ServiceResult with success: true' do
+  describe ".success" do
+    it "creates a ServiceResult with success: true" do
       instance = described_class.success
       expect(instance.success).to be_truthy
     end
 
-    it 'accepts the same set of parameters as the initializer' do
-      errors = ['errors']
-      message = 'message'
+    it "accepts the same set of parameters as the initializer" do
+      errors = ["errors"]
+      message = "message"
       message_type = :message_type
       state = instance_double(Shared::ServiceState)
-      dependent_results = ['dependent_results']
-      result = instance_double(Object, 'result')
+      dependent_results = ["dependent_results"]
+      result = instance_double(Object, "result")
 
       instance = described_class.success(
         errors:,
@@ -93,19 +93,19 @@ RSpec.describe ServiceResult, type: :model do
     end
   end
 
-  describe '.failure' do
-    it 'creates a ServiceResult with success: false' do
+  describe ".failure" do
+    it "creates a ServiceResult with success: false" do
       instance = described_class.failure
       expect(instance.success).to be_falsy
     end
 
-    it 'accepts the same set of parameters as the initializer' do
-      errors = ['errors']
-      message = 'message'
+    it "accepts the same set of parameters as the initializer" do
+      errors = ["errors"]
+      message = "message"
       message_type = :message_type
       state = instance_double(Shared::ServiceState)
-      dependent_results = ['dependent_results']
-      result = instance_double(Object, 'result')
+      dependent_results = ["dependent_results"]
+      result = instance_double(Object, "result")
 
       instance = described_class.failure(
         errors:,
@@ -124,77 +124,77 @@ RSpec.describe ServiceResult, type: :model do
     end
   end
 
-  describe 'errors' do
-    let(:errors) { ['errors'] }
+  describe "errors" do
+    let(:errors) { ["errors"] }
 
-    it 'is what has been provided' do
+    it "is what has been provided" do
       instance.errors = errors
 
       expect(instance.errors).to eql errors
     end
 
-    it 'is what the object is initialized with' do
+    it "is what the object is initialized with" do
       instance = described_class.new(errors:)
 
       expect(instance.errors).to eql errors
     end
 
-    it 'is an empty ActiveModel::Errors by default' do
+    it "is an empty ActiveModel::Errors by default" do
       expect(instance.errors).to be_a ActiveModel::Errors
     end
 
-    context 'when providing errors from user' do
+    context "when providing errors from user" do
       let(:result) { build(:work_package) }
 
-      it 'creates a new errors instance' do
+      it "creates a new errors instance" do
         instance = described_class.new(result:)
         expect(instance.errors).not_to eq result.errors
       end
     end
   end
 
-  describe 'result' do
-    let(:result) { instance_double(Object, 'result') }
+  describe "result" do
+    let(:result) { instance_double(Object, "result") }
 
-    it 'is what the object is initialized with' do
+    it "is what the object is initialized with" do
       instance = described_class.new(result:)
 
       expect(instance.result).to eql result
     end
 
-    it 'is what has been provided' do
+    it "is what has been provided" do
       instance.result = result
 
       expect(instance.result).to eql result
     end
 
-    it 'is nil by default' do
+    it "is nil by default" do
       instance = described_class.new
 
       expect(instance.result).to be_nil
     end
   end
 
-  describe 'apply_flash_message!' do
-    let(:message) { 'some message' }
+  describe "apply_flash_message!" do
+    let(:message) { "some message" }
 
     subject(:flash) do
       {}.tap { service_result.apply_flash_message!(_1) }
     end
 
-    context 'when successful' do
+    context "when successful" do
       let(:service_result) { described_class.success(message:) }
 
       it { is_expected.to include(notice: message) }
     end
 
-    context 'when failure' do
+    context "when failure" do
       let(:service_result) { described_class.failure(message:) }
 
       it { is_expected.to include(error: message) }
     end
 
-    context 'when setting message_type to :info' do
+    context "when setting message_type to :info" do
       let(:service_result) { described_class.success(message:, message_type: :info) }
 
       it { is_expected.to include(info: message) }

@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notifications::ScheduleReminderMailsJob, type: :job do
   let(:scheduled_job) { described_class.perform_later }
@@ -42,9 +42,9 @@ RSpec.describe Notifications::ScheduleReminderMailsJob, type: :job do
     allow(scope).to receive(:pluck).with(:id).and_return(ids)
   end
 
-  describe '#perform' do
-    shared_examples_for 'schedules reminder mails' do
-      it 'schedules reminder jobs for every user with a reminder mails to be sent' do
+  describe "#perform" do
+    shared_examples_for "schedules reminder mails" do
+      it "schedules reminder jobs for every user with a reminder mails to be sent" do
         expect { GoodJob.perform_inline }.to change(GoodJob::Job, :count).by(2)
 
         arguments_from_both_jobs =
@@ -54,23 +54,23 @@ RSpec.describe Notifications::ScheduleReminderMailsJob, type: :job do
         expect(arguments_from_both_jobs).to eq(ids)
       end
 
-      it 'queries with the intended job execution time (which might have been missed due to high load)' do
+      it "queries with the intended job execution time (which might have been missed due to high load)" do
         GoodJob.perform_inline
 
         expect(User).to have_received(:having_reminder_mail_to_send).with(scheduled_job.job_scheduled_at)
       end
     end
 
-    it_behaves_like 'schedules reminder mails'
+    it_behaves_like "schedules reminder mails"
 
-    context 'with a job that missed some runs' do
+    context "with a job that missed some runs" do
       before do
         GoodJob::Job
           .where(id: scheduled_job.job_id)
           .update_all(scheduled_at: scheduled_job.job_scheduled_at - 3.hours)
       end
 
-      it_behaves_like 'schedules reminder mails'
+      it_behaves_like "schedules reminder mails"
     end
   end
 end

@@ -1,1 +1,1 @@
-require 'open_project/xls_export'
+require "open_project/xls_export"

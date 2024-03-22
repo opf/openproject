@@ -46,7 +46,7 @@ class Queries::Selects::Base
   end
 
   def caption
-    model = self.class.name.split('::')[1].singularize.constantize
+    model = self.class.name.split("::")[1].singularize.constantize
     model.human_attribute_name(attribute)
   end
 
@@ -54,5 +54,9 @@ class Queries::Selects::Base
 
   def initialize(attribute)
     self.attribute = attribute
+  end
+
+  def available?
+    true
   end
 end

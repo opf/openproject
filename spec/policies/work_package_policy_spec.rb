@@ -26,23 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackagePolicy, type: :controller do
   let(:user)         { build_stubbed(:user) }
   let(:project)      { build_stubbed(:project) }
   let(:work_package) { build_stubbed(:work_package, project:) }
 
-  describe '#allowed?' do
+  describe "#allowed?" do
     let(:subject) { described_class.new(user) }
 
-    context 'for edit' do
-      it 'is false if the user has no permissions' do
+    context "for edit" do
+      it "is false if the user has no permissions" do
         mock_permissions_for(user, &:forbid_everything)
         expect(subject).not_to be_allowed(work_package, :edit)
       end
 
-      it 'is true if the user has the edit_work_package permission' do
+      it "is true if the user has the edit_work_package permission" do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :edit_work_packages, project:
         end
@@ -50,7 +50,7 @@ RSpec.describe WorkPackagePolicy, type: :controller do
         expect(subject).to be_allowed(work_package, :edit)
       end
 
-      it 'is true if the user has the edit_work_package permission on the work packge' do
+      it "is true if the user has the edit_work_package permission on the work packge" do
         mock_permissions_for(user) do |mock|
           mock.allow_in_work_package :edit_work_packages, work_package:
         end
@@ -58,7 +58,7 @@ RSpec.describe WorkPackagePolicy, type: :controller do
         expect(subject).to be_allowed(work_package, :edit)
       end
 
-      it 'is false if the user has only the add_work_package_notes permission' do
+      it "is false if the user has only the add_work_package_notes permission" do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :add_work_package_notes, project:
         end
@@ -66,7 +66,7 @@ RSpec.describe WorkPackagePolicy, type: :controller do
         expect(subject).not_to be_allowed(work_package, :edit)
       end
 
-      it 'is false if the user has the permissions but the work package is unpersisted' do
+      it "is false if the user has the permissions but the work package is unpersisted" do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :edit_work_packages, :add_work_package_notes, project:
         end
@@ -77,8 +77,8 @@ RSpec.describe WorkPackagePolicy, type: :controller do
       end
     end
 
-    context 'for manage_subtasks' do
-      it 'is true if the user has the manage_subtasks permission in the project' do
+    context "for manage_subtasks" do
+      it "is true if the user has the manage_subtasks permission in the project" do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :manage_subtasks, project:
         end
@@ -87,26 +87,26 @@ RSpec.describe WorkPackagePolicy, type: :controller do
       end
     end
 
-    context 'for comment' do
-      it 'is false if the user lacks permission' do
+    context "for comment" do
+      it "is false if the user lacks permission" do
         expect(subject).not_to be_allowed(work_package, :comment)
       end
 
-      it 'is true if the user has the add_work_package_notes permission' do
+      it "is true if the user has the add_work_package_notes permission" do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :add_work_package_notes, project:
         end
         expect(subject).to be_allowed(work_package, :comment)
       end
 
-      it 'is true if the user has the add_work_package_notes permission on the work package' do
+      it "is true if the user has the add_work_package_notes permission on the work package" do
         mock_permissions_for(user) do |mock|
           mock.allow_in_work_package :add_work_package_notes, work_package:
         end
         expect(subject).to be_allowed(work_package, :comment)
       end
 
-      it 'is true if the user has the edit_work_packages permission' do
+      it "is true if the user has the edit_work_packages permission" do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :edit_work_packages, project:
         end

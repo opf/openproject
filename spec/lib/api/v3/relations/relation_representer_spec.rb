@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Relations::RelationRepresenter do
   let(:user) { build_stubbed(:admin) }
@@ -83,13 +83,13 @@ RSpec.describe API::V3::Relations::RelationRepresenter do
     }
   end
 
-  it 'serializes the relation correctly' do
+  it "serializes the relation correctly" do
     data = JSON.parse representer.to_json
 
     expect(data).to eq result
   end
 
-  it 'deserializes the relation correctly' do
+  it "deserializes the relation correctly" do
     rep = API::V3::Relations::RelationRepresenter.new OpenStruct.new, current_user: user
     rel = rep.from_json result.except(:id).to_json
 

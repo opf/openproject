@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Members::Filters::UpdatedAtFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :updated_at }
     let(:type) { :datetime_past }
     let(:model) { Member }
     let(:attribute) { :updated_at }
-    let(:values) { ['3'] }
+    let(:values) { ["3"] }
   end
 end

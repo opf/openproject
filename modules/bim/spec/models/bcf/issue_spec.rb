@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Bim::Bcf::Issue do
   let(:type) { create(:type, name: "Issue [BCF]") }
   let(:work_package) { create(:work_package, type:) }
   let(:issue) { create(:bcf_issue, work_package:) }
 
-  describe '#markup_doc' do
+  describe "#markup_doc" do
     subject { issue }
 
     it "returns a Nokogiri::XML::Document" do
@@ -47,17 +47,17 @@ RSpec.describe Bim::Bcf::Issue do
 
     it "invalidates the cache after an update of the issue" do
       first_fetched_doc = subject.markup_doc
-      subject.markup = subject.markup + ' '
+      subject.markup = subject.markup + " "
       subject.save
       expect(subject.markup_doc).not_to eql(first_fetched_doc)
     end
   end
 
-  describe '.of_project' do
+  describe ".of_project" do
     let!(:other_work_package) { create(:work_package, type:) }
     let!(:other_issue) { create(:bcf_issue, work_package: other_work_package) }
 
-    it 'returns all issues of the provided project' do
+    it "returns all issues of the provided project" do
       expect(described_class.of_project(issue.project))
         .to contain_exactly(issue)
     end

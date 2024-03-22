@@ -27,7 +27,7 @@ class Notifications::NavigationHelper
     center.click_item notification
     split_screen = ::Pages::SplitWorkPackage.new work_package
     split_screen.expect_tab :activity
-    split_screen.switch_to_tab tab: 'relations'
+    split_screen.switch_to_tab tab: "relations"
 
     center.close
   end

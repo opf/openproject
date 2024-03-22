@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Query::Results, 'Filtering custom fields' do
+RSpec.describe Query::Results, "Filtering custom fields" do
   shared_let(:user) { create(:admin) }
   shared_let(:custom_field) do
     create(
@@ -57,27 +57,27 @@ RSpec.describe Query::Results, 'Filtering custom fields' do
   end
 
   shared_let(:wp_a) do
-    create(:work_package, subject: 'A', type:, project:, custom_values: custom_values_for('A'))
+    create(:work_package, subject: "A", type:, project:, custom_values: custom_values_for("A"))
   end
 
   shared_let(:wp_b) do
-    create(:work_package, subject: 'B', type:, project:, custom_values: custom_values_for('B'))
+    create(:work_package, subject: "B", type:, project:, custom_values: custom_values_for("B"))
   end
 
   shared_let(:wp_c) do
-    create(:work_package, subject: 'C', type:, project:, custom_values: custom_values_for('C'))
+    create(:work_package, subject: "C", type:, project:, custom_values: custom_values_for("C"))
   end
 
   shared_let(:wp_a_b) do
-    create(:work_package, subject: 'A and B', type:, project:, custom_values: custom_values_for('A', 'B'))
+    create(:work_package, subject: "A and B", type:, project:, custom_values: custom_values_for("A", "B"))
   end
 
   shared_let(:wp_b_c) do
-    create(:work_package, subject: 'B and C', type:, project:, custom_values: custom_values_for('B', 'C'))
+    create(:work_package, subject: "B and C", type:, project:, custom_values: custom_values_for("B", "C"))
   end
 
   shared_let(:wp_a_b_c) do
-    create(:work_package, subject: 'A B C', type:, project:, custom_values: custom_values_for('A', 'B', 'C'))
+    create(:work_package, subject: "A B C", type:, project:, custom_values: custom_values_for("A", "B", "C"))
   end
 
   let(:query) do
@@ -101,91 +101,91 @@ RSpec.describe Query::Results, 'Filtering custom fields' do
     login_as(user)
   end
 
-  shared_examples 'filtered work packages' do
+  shared_examples "filtered work packages" do
     it do
       expect(query_results).to match_array expected.map(&:id)
     end
   end
 
-  describe 'filter for is(OR)' do
-    let(:operator) { '=' }
+  describe "filter for is(OR)" do
+    let(:operator) { "=" }
 
-    context 'when filtering for A' do
-      let(:values) { ['A'] }
+    context "when filtering for A" do
+      let(:values) { ["A"] }
 
-      it_behaves_like 'filtered work packages' do
+      it_behaves_like "filtered work packages" do
         let(:expected) { [wp_a, wp_a_b, wp_a_b_c] }
       end
     end
 
-    context 'when filtering for A OR B' do
+    context "when filtering for A OR B" do
       let(:values) { %w[A B] }
 
-      it_behaves_like 'filtered work packages' do
+      it_behaves_like "filtered work packages" do
         let(:expected) { [wp_a, wp_a_b, wp_a_b_c, wp_b, wp_b_c] }
       end
     end
 
-    context 'when filtering for A OR B OR C' do
+    context "when filtering for A OR B OR C" do
       let(:values) { %w[A B C] }
 
-      it_behaves_like 'filtered work packages' do
+      it_behaves_like "filtered work packages" do
         let(:expected) { [wp_a, wp_a_b, wp_a_b_c, wp_b, wp_b_c, wp_c] }
       end
     end
   end
 
-  describe 'filter for is(AND)' do
-    let(:operator) { '&=' }
+  describe "filter for is(AND)" do
+    let(:operator) { "&=" }
 
-    context 'when filtering for A' do
-      let(:values) { ['A'] }
+    context "when filtering for A" do
+      let(:values) { ["A"] }
 
-      it_behaves_like 'filtered work packages' do
+      it_behaves_like "filtered work packages" do
         let(:expected) { [wp_a, wp_a_b, wp_a_b_c] }
       end
     end
 
-    context 'when filtering for A AND B' do
+    context "when filtering for A AND B" do
       let(:values) { %w[A B] }
 
-      it_behaves_like 'filtered work packages' do
+      it_behaves_like "filtered work packages" do
         let(:expected) { [wp_a_b, wp_a_b_c] }
       end
     end
 
-    context 'when filtering for A AND B AND C' do
+    context "when filtering for A AND B AND C" do
       let(:values) { %w[A B C] }
 
-      it_behaves_like 'filtered work packages' do
+      it_behaves_like "filtered work packages" do
         let(:expected) { [wp_a_b_c] }
       end
     end
   end
 
-  describe 'filter for is not' do
-    let(:operator) { '!' }
+  describe "filter for is not" do
+    let(:operator) { "!" }
 
-    context 'when filtering for A' do
-      let(:values) { ['A'] }
+    context "when filtering for A" do
+      let(:values) { ["A"] }
 
-      it_behaves_like 'filtered work packages' do
+      it_behaves_like "filtered work packages" do
         let(:expected) { [wp_b, wp_b_c, wp_c] }
       end
     end
 
-    context 'when filtering for A AND B' do
+    context "when filtering for A AND B" do
       let(:values) { %w[A B] }
 
-      it_behaves_like 'filtered work packages' do
+      it_behaves_like "filtered work packages" do
         let(:expected) { [wp_c] }
       end
     end
 
-    context 'when filtering for A AND B AND C' do
+    context "when filtering for A AND B AND C" do
       let(:values) { %w[A B C] }
 
-      it_behaves_like 'filtered work packages' do
+      it_behaves_like "filtered work packages" do
         let(:expected) { [] }
       end
     end

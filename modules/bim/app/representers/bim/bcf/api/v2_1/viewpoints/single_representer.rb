@@ -45,7 +45,7 @@ module Bim::Bcf::API::V2_1
     property :clipping_planes
 
     def to_json(*)
-      represented.read_attribute_before_type_cast('json_viewpoint')
+      represented.read_attribute_before_type_cast("json_viewpoint")
     end
   end
 end

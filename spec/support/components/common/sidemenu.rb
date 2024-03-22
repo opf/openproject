@@ -67,11 +67,11 @@ module Components
       private
 
       def expect_count(count)
-        expect(page).to have_css('.op-bubble', text: count)
+        expect(page).to have_css(".op-bubble", text: count)
       end
 
       def expect_no_count
-        expect(page).to have_no_css('.op-bubble')
+        expect(page).to have_no_css(".op-bubble")
       end
 
       def item_action_selector(item)

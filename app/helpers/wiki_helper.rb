@@ -31,7 +31,7 @@ module WikiHelper
                                    ids: true,
                                    placeholder: true)
     s = if placeholder
-          [["-- #{t('label_no_parent_page')} --", '']]
+          [["-- #{t('label_no_parent_page')} --", ""]]
         else
           []
         end
@@ -59,7 +59,7 @@ module WikiHelper
   end
 
   def nl2br(content)
-    content.gsub(/(?:\n\r?|\r\n?)/, '<br />').html_safe
+    content.gsub(/(?:\n\r?|\r\n?)/, "<br />").html_safe
   end
 
   private
@@ -78,7 +78,7 @@ module WikiHelper
   end
 
   def wiki_page_option(page, level, ids)
-    indent = level.positive? ? (('&nbsp;' * level * 2) + '&#187; ') : ''
+    indent = level.positive? ? (("&nbsp;" * level * 2) + "&#187; ") : ""
     id = ids ? page.id : page.title
     [(indent + h(page.title)).html_safe, id]
   end

@@ -28,9 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work Packages', 'Bulk Sharing',
+RSpec.describe "Work Packages", "Bulk Sharing",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
   shared_let(:view_work_package_role)    { create(:view_work_package_role)    }
@@ -48,16 +48,16 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
                                           view_shared_work_packages])
   end
 
-  shared_let(:sharer) { create(:user, firstname: 'Sharer', lastname: 'User') }
-  shared_let(:viewer) { create(:user, firstname: 'Viewer', lastname: 'User') }
+  shared_let(:sharer) { create(:user, firstname: "Sharer", lastname: "User") }
+  shared_let(:viewer) { create(:user, firstname: "Viewer", lastname: "User") }
 
   shared_let(:project) do
     create(:project, members: { sharer => [sharer_role], viewer => [viewer_role] })
   end
 
-  shared_let(:dinesh)   { create(:user, firstname: 'Dinesh', lastname: 'Chugtai')    }
-  shared_let(:gilfoyle) { create(:user, firstname: 'Bertram', lastname: 'Gilfoyle')  }
-  shared_let(:richard)  { create(:user, firstname: 'Richard', lastname: 'Hendricks') }
+  shared_let(:dinesh)   { create(:user, firstname: "Dinesh", lastname: "Chugtai")    }
+  shared_let(:gilfoyle) { create(:user, firstname: "Bertram", lastname: "Gilfoyle")  }
+  shared_let(:richard)  { create(:user, firstname: "Richard", lastname: "Hendricks") }
 
   shared_let(:work_package) do
     create(:work_package, project:) do |wp|
@@ -70,10 +70,10 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package)               }
   let(:share_modal)       { Components::WorkPackages::ShareModal.new(work_package) }
 
-  context 'when having share permission' do
+  context "when having share permission" do
     current_user { sharer }
 
-    it 'allows administrating shares in bulk' do
+    it "allows administrating shares in bulk" do
       work_package_page.visit!
 
       work_package_page.click_share_button
@@ -92,7 +92,7 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
         share_modal.expect_select_all_untoggled
         # Available now
         share_modal.expect_bulk_actions_available
-        share_modal.expect_bulk_update_label('View')
+        share_modal.expect_bulk_update_label("View")
 
         # Toggling all selects all
         share_modal.toggle_select_all
@@ -100,7 +100,7 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
         share_modal.expect_selected_count_of(3)
         share_modal.expect_select_all_toggled
         share_modal.expect_bulk_actions_available
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
 
         # Deselecting one individually
         share_modal.deselect_shares(richard)
@@ -108,7 +108,7 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
         share_modal.expect_selected_count_of(2)
         share_modal.expect_select_all_untoggled
         share_modal.expect_bulk_actions_available
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
 
         # Re-selecting the missing share
         share_modal.select_shares(richard)
@@ -116,7 +116,7 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
         share_modal.expect_selected_count_of(3)
         share_modal.expect_select_all_toggled
         share_modal.expect_bulk_actions_available
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
 
         # De-selecting all
         share_modal.toggle_select_all
@@ -133,7 +133,7 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
         share_modal.expect_select_all_toggled
         # Available again
         share_modal.expect_bulk_actions_available
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
 
         # De-selecting all individually
         share_modal.deselect_shares(richard, dinesh, gilfoyle)
@@ -147,7 +147,7 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
         share_modal.select_shares(richard, dinesh)
         share_modal.expect_selected_count_of(2)
         share_modal.expect_select_all_untoggled
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
 
         share_modal.remove_user(gilfoyle)
         share_modal.expect_not_shared_with(gilfoyle)
@@ -155,35 +155,35 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
         share_modal.expect_selected(richard, dinesh)
         share_modal.expect_selected_count_of(2)
         share_modal.expect_select_all_toggled
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
 
-        share_modal.invite_user(gilfoyle, 'Comment')
+        share_modal.invite_user(gilfoyle, "Comment")
         share_modal.expect_shared_with(gilfoyle)
         share_modal.expect_selected(richard, dinesh)
         share_modal.expect_selected_count_of(2)
         share_modal.expect_select_all_untoggled
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
       end
 
       aggregate_failures "Preserving selected states when performing individual updates" do
-        share_modal.change_role(gilfoyle, 'View')
-        share_modal.expect_shared_with(gilfoyle, 'View')
+        share_modal.change_role(gilfoyle, "View")
+        share_modal.expect_shared_with(gilfoyle, "View")
 
         share_modal.expect_selected(richard, dinesh)
         share_modal.expect_selected_count_of(2)
         share_modal.expect_select_all_untoggled
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
 
         share_modal.toggle_select_all
         share_modal.expect_selected_count_of(3)
         share_modal.expect_select_all_toggled
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
 
-        share_modal.change_role(gilfoyle, 'Edit')
-        share_modal.expect_shared_with(gilfoyle, 'Edit')
+        share_modal.change_role(gilfoyle, "Edit")
+        share_modal.expect_shared_with(gilfoyle, "Edit")
         share_modal.expect_selected_count_of(3)
         share_modal.expect_select_all_toggled
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
       end
 
       # Reset
@@ -212,37 +212,37 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
       end
 
       # Re-populate
-      share_modal.invite_user(richard, 'View')
+      share_modal.invite_user(richard, "View")
       share_modal.expect_shared_with(richard)
-      share_modal.invite_user(dinesh, 'Comment')
+      share_modal.invite_user(dinesh, "Comment")
       share_modal.expect_shared_with(dinesh)
 
-      aggregate_failures 'Bulk updating' do
+      aggregate_failures "Bulk updating" do
         share_modal.select_shares(richard)
         share_modal.expect_selected(richard)
         share_modal.expect_selected_count_of(1)
-        share_modal.expect_bulk_update_label('View')
+        share_modal.expect_bulk_update_label("View")
 
-        share_modal.bulk_update('Edit')
+        share_modal.bulk_update("Edit")
 
-        share_modal.expect_shared_with(richard, 'Edit')
-        share_modal.expect_shared_with(dinesh, 'Comment')
+        share_modal.expect_shared_with(richard, "Edit")
+        share_modal.expect_shared_with(dinesh, "Comment")
         share_modal.expect_selected(richard)
         share_modal.expect_selected_count_of(1)
-        share_modal.expect_bulk_update_label('Edit')
+        share_modal.expect_bulk_update_label("Edit")
 
         share_modal.select_shares(richard, dinesh)
         share_modal.expect_selected(richard, dinesh)
         share_modal.expect_selected_count_of(2)
-        share_modal.expect_bulk_update_label('Mixed')
+        share_modal.expect_bulk_update_label("Mixed")
 
-        share_modal.bulk_update('View')
+        share_modal.bulk_update("View")
 
-        share_modal.expect_shared_with(richard, 'View')
-        share_modal.expect_shared_with(dinesh, 'View')
+        share_modal.expect_shared_with(richard, "View")
+        share_modal.expect_shared_with(dinesh, "View")
         share_modal.expect_selected(richard, dinesh)
         share_modal.expect_selected_count_of(2)
-        share_modal.expect_bulk_update_label('View')
+        share_modal.expect_bulk_update_label("View")
 
         share_modal.toggle_select_all
         share_modal.expect_deselected(richard, dinesh)
@@ -273,8 +273,8 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
         share_modal.expect_select_all_not_available
         share_modal.expect_bulk_actions_not_available
 
-        share_modal.invite_user(richard, 'View')
-        share_modal.expect_shared_with(richard, 'View')
+        share_modal.invite_user(richard, "View")
+        share_modal.expect_shared_with(richard, "View")
         share_modal.expect_shared_count_of(2)
 
         share_modal.expect_select_all_available
@@ -282,10 +282,10 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
     end
   end
 
-  context 'without share permission' do
+  context "without share permission" do
     current_user { viewer }
 
-    it 'does not allow bulk sharing' do
+    it "does not allow bulk sharing" do
       work_package_page.visit!
 
       work_package_page.click_share_button

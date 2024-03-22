@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Timestamp do
   describe ".new" do
@@ -99,15 +99,15 @@ RSpec.describe Timestamp do
       end
 
       {
-        'PT1H' => 'PT1H',
-        'PT0001H' => 'PT1H',
-        'PT0009H' => 'PT9H',
-        'PT-1H' => 'PT-1H',
-        '+PT1H' => 'PT1H',
-        '-PT1H' => 'PT-1H',
-        '-PT-1H' => 'PT1H',
-        '  PT1H  ' => 'PT1H',
-        '-P1M-1DT1H-02M' => 'P-1M1DT-1H2M'
+        "PT1H" => "PT1H",
+        "PT0001H" => "PT1H",
+        "PT0009H" => "PT9H",
+        "PT-1H" => "PT-1H",
+        "+PT1H" => "PT1H",
+        "-PT1H" => "PT-1H",
+        "-PT-1H" => "PT1H",
+        "  PT1H  " => "PT1H",
+        "-P1M-1DT1H-02M" => "P-1M1DT-1H2M"
       }.each do |input, expected|
         context "with the duration #{input.inspect}" do
           subject { described_class.parse(input) }
@@ -135,7 +135,7 @@ RSpec.describe Timestamp do
         expect(subject).not_to be_relative
       end
 
-      context 'with a non-UTC time' do
+      context "with a non-UTC time" do
         subject { described_class.parse("2022-10-29T21:55:58+03:00") }
 
         it "returns a described_class representing that absolute time and preserve the timezone component" do
@@ -147,7 +147,7 @@ RSpec.describe Timestamp do
         end
       end
 
-      context 'without the seconds designator' do
+      context "without the seconds designator" do
         subject { described_class.parse("2022-10-29T21:55Z") }
 
         it "returns a described_class representing that absolute time" do
@@ -412,7 +412,7 @@ RSpec.describe Timestamp do
       end
     end
 
-    describe 'when providing a Timestamp' do
+    describe "when providing a Timestamp" do
       subject { described_class.parse(provided) }
 
       let(:provided) { described_class.new }
@@ -522,10 +522,10 @@ RSpec.describe Timestamp do
     end
 
     describe "for a timestamp as a date keyword representing a point in time relative to now" do
-      let(:timestamp) { described_class.new('oneDayAgo@12:00+02:00') }
+      let(:timestamp) { described_class.new("oneDayAgo@12:00+02:00") }
 
       it "returns an relative date keyword" do
-        expect(subject).to eq 'oneDayAgo@12:00+02:00'
+        expect(subject).to eq "oneDayAgo@12:00+02:00"
       end
     end
   end
@@ -611,31 +611,31 @@ RSpec.describe Timestamp do
 
   describe "#hash" do
     # rubocop:disable RSpec/IdenticalEqualityAssertion
-    context 'for two instances of relative time representing the same point in time' do
-      it 'is eql' do
+    context "for two instances of relative time representing the same point in time" do
+      it "is eql" do
         expect(described_class.new("PT0S").hash)
           .to eql described_class.new("PT0S").hash
       end
     end
 
-    context 'for two instances of relative time representing different points in time' do
-      it 'is different' do
+    context "for two instances of relative time representing different points in time" do
+      it "is different" do
         expect(described_class.new("PT0S").hash)
           .not_to eql described_class.new("PT10S").hash
       end
     end
 
-    context 'for two instances of absolute time representing the same point in time' do
+    context "for two instances of absolute time representing the same point in time" do
       let(:time) { Time.zone.now }
 
-      it 'is equal' do
+      it "is equal" do
         expect(described_class.new(time).hash)
           .to eql described_class.new(time).hash
       end
     end
 
-    context 'for two instances of absolute time representing different points in time' do
-      it 'is different' do
+    context "for two instances of absolute time representing different points in time" do
+      it "is different" do
         expect(described_class.new(10.seconds.ago).hash)
           .not_to eql described_class.new(5.seconds.ago).hash
       end

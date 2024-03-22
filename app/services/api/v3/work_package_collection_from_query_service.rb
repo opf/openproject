@@ -78,7 +78,7 @@ module API
 
       def calculate_resulting_params(provided_params)
         calculate_default_params
-          .merge(provided_params.slice('offset', 'pageSize').symbolize_keys)
+          .merge(provided_params.slice("offset", "pageSize").symbolize_keys)
           .tap do |params|
           if query.manually_sorted?
             params[:query_id] = query.id
@@ -91,7 +91,7 @@ module API
             params[:pageSize] = pageSizeParam(params)
           end
 
-          params[:select] = nested_from_csv(provided_params['select']) if provided_params['select']
+          params[:select] = nested_from_csv(provided_params["select"]) if provided_params["select"]
         end
       end
 

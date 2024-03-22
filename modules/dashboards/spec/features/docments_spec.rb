@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'Documents widget on dashboard', :js do
+RSpec.describe "Documents widget on dashboard", :js do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
   let!(:visible_document) do
     create(:document,
            project:,
-           description: 'blubs')
+           description: "blubs")
   end
   let!(:invisible_document) do
     create(:document,
@@ -64,11 +64,11 @@ RSpec.describe 'Documents widget on dashboard', :js do
     dashboard.visit!
   end
 
-  it 'can add the widget and see the visible documents' do
+  it "can add the widget and see the visible documents" do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, :within, 'Documents')
+    dashboard.add_widget(1, 1, :within, "Documents")
 
-    document_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    document_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
     within document_widget.area do
       expect(page)
@@ -76,7 +76,7 @@ RSpec.describe 'Documents widget on dashboard', :js do
       expect(page)
         .to have_content visible_document.description
       expect(page)
-        .to have_content visible_document.created_at.strftime('%m/%d/%Y')
+        .to have_content visible_document.created_at.strftime("%m/%d/%Y")
 
       expect(page)
         .to have_no_content invisible_document.title

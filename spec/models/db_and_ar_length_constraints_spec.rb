@@ -25,9 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'DB and ActiveRecord constraints' do # rubocop:disable RSpec/DescribeClass
+RSpec.describe "DB and ActiveRecord constraints" do # rubocop:disable RSpec/DescribeClass
   def self.has_max_length_validator?(model)
     max_length_validators(model).any?
   end
@@ -50,7 +50,7 @@ RSpec.describe 'DB and ActiveRecord constraints' do # rubocop:disable RSpec/Desc
       ]
     )
     rows = ActiveRecord::Base.connection.execute(query)
-    rows.first['character_maximum_length']
+    rows.first["character_maximum_length"]
   end
 
   ApplicationRecord.descendants

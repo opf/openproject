@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require Rails.root.join("db/migrate/20240307102541_reduce_configurable_design_variables.rb")
 
 RSpec.describe ReduceConfigurableDesignVariables, type: :model do
-  context 'when migrating up' do
+  context "when migrating up" do
     before do
-      create(:design_color, variable: 'alternative-color')
-      create(:design_color, variable: 'primary-color')
-      create(:design_color, variable: 'primary-color-dark')
-      create(:design_color, variable: 'content-link-color')
+      create(:design_color, variable: "alternative-color")
+      create(:design_color, variable: "primary-color")
+      create(:design_color, variable: "primary-color-dark")
+      create(:design_color, variable: "content-link-color")
     end
 
     # Silencing migration logs, since we are not interested in that during testing
@@ -45,19 +45,19 @@ RSpec.describe ReduceConfigurableDesignVariables, type: :model do
       expect { subject }
         .to change(DesignColor, :count).from(4).to(2)
 
-      expect(DesignColor.find_by(variable: 'primary-button-color')).not_to be_nil
-      expect(DesignColor.find_by(variable: 'accent-color')).not_to be_nil
-      expect(DesignColor.find_by(variable: 'primary-color')).to be_nil
-      expect(DesignColor.find_by(variable: 'primary-color-dark')).to be_nil
-      expect(DesignColor.find_by(variable: 'alternative-color')).to be_nil
-      expect(DesignColor.find_by(variable: 'content-link-color')).to be_nil
+      expect(DesignColor.find_by(variable: "primary-button-color")).not_to be_nil
+      expect(DesignColor.find_by(variable: "accent-color")).not_to be_nil
+      expect(DesignColor.find_by(variable: "primary-color")).to be_nil
+      expect(DesignColor.find_by(variable: "primary-color-dark")).to be_nil
+      expect(DesignColor.find_by(variable: "alternative-color")).to be_nil
+      expect(DesignColor.find_by(variable: "content-link-color")).to be_nil
     end
   end
 
-  context 'when migrating down' do
+  context "when migrating down" do
     before do
-      create(:design_color, variable: 'primary-button-color')
-      create(:design_color, variable: 'accent-color')
+      create(:design_color, variable: "primary-button-color")
+      create(:design_color, variable: "accent-color")
     end
 
     # Silencing migration logs, since we are not interested in that during testing
@@ -67,12 +67,12 @@ RSpec.describe ReduceConfigurableDesignVariables, type: :model do
       expect { subject }
         .to change(DesignColor, :count).from(2).to(4)
 
-      expect(DesignColor.find_by(variable: 'primary-button-color')).to be_nil
-      expect(DesignColor.find_by(variable: 'accent-color')).to be_nil
-      expect(DesignColor.find_by(variable: 'primary-color')).not_to be_nil
-      expect(DesignColor.find_by(variable: 'primary-color-dark')).not_to be_nil
-      expect(DesignColor.find_by(variable: 'alternative-color')).not_to be_nil
-      expect(DesignColor.find_by(variable: 'content-link-color')).not_to be_nil
+      expect(DesignColor.find_by(variable: "primary-button-color")).to be_nil
+      expect(DesignColor.find_by(variable: "accent-color")).to be_nil
+      expect(DesignColor.find_by(variable: "primary-color")).not_to be_nil
+      expect(DesignColor.find_by(variable: "primary-color-dark")).not_to be_nil
+      expect(DesignColor.find_by(variable: "alternative-color")).not_to be_nil
+      expect(DesignColor.find_by(variable: "content-link-color")).not_to be_nil
 
     end
   end

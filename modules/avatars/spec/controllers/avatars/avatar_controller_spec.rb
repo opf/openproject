@@ -1,5 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../../shared_examples')
+require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
+require File.expand_path(File.dirname(__FILE__) + "/../../shared_examples")
 
 RSpec.describe Avatars::AvatarController do
   include_context "there are users with and without avatars"
@@ -9,18 +9,18 @@ RSpec.describe Avatars::AvatarController do
     allow(OpenProject::Avatars::AvatarManager).to receive(:local_avatars_enabled?).and_return enabled
   end
 
-  describe ':show' do
+  describe ":show" do
     let(:redirect_path) { user_avatar_url(target_user.id) }
     let(:action) { get :show, params: { id: target_user.id } }
 
-    context 'as anonymous' do
+    context "as anonymous" do
       let(:target_user) { user_with_avatar }
       let(:current_user) { User.anonymous }
 
-      it_behaves_like 'an action checked for required login'
+      it_behaves_like "an action checked for required login"
     end
 
-    describe 'when logged in' do
+    describe "when logged in" do
       let(:user) { create(:user) }
 
       before do
@@ -28,29 +28,29 @@ RSpec.describe Avatars::AvatarController do
         action
       end
 
-      context 'when avatars enabled' do
-        context 'when user has avatar' do
+      context "when avatars enabled" do
+        context "when user has avatar" do
           let(:target_user) { user_with_avatar }
 
-          it 'renders the send file' do
+          it "renders the send file" do
             expect(response.status).to eq 200
           end
         end
 
-        context 'when user has no avatar' do
+        context "when user has no avatar" do
           let(:target_user) { user_without_avatar }
 
-          it 'renders 404' do
+          it "renders 404" do
             expect(response.status).to eq 404
           end
         end
       end
 
-      context 'when avatars disabled' do
+      context "when avatars disabled" do
         let(:enabled) { false }
         let(:target_user) { user_with_avatar }
 
-        it 'renders a 404' do
+        it "renders a 404" do
           expect(response.status).to eq 404
         end
       end

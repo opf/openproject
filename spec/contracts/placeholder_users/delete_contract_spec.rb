@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe PlaceholderUsers::DeleteContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   let(:placeholder_user) { create(:placeholder_user) }
   let(:role) { create(:existing_project_role, permissions: [:manage_members]) }
@@ -38,29 +38,29 @@ RSpec.describe PlaceholderUsers::DeleteContract do
   let(:not_shared_project) { create(:project, members: { placeholder_user => role }) }
   let(:contract) { described_class.new(placeholder_user, current_user) }
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  context 'when user with global permission to manage_placeholders' do
+  context "when user with global permission to manage_placeholders" do
     let(:current_user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
     before do
       shared_project
     end
 
-    context 'when user is allowed to manage members in all projects of the placeholder user' do
-      it_behaves_like 'contract is valid'
+    context "when user is allowed to manage members in all projects of the placeholder user" do
+      it_behaves_like "contract is valid"
     end
 
-    context 'when user is not allowed to manage members in all projects of the placeholder user' do
+    context "when user is not allowed to manage members in all projects of the placeholder user" do
       before do
         not_shared_project
       end
 
-      it_behaves_like 'contract user is unauthorized'
+      it_behaves_like "contract user is unauthorized"
     end
   end
 
-  include_examples 'contract reuses the model errors' do
+  include_examples "contract reuses the model errors" do
     let(:current_user) { build_stubbed(:admin) }
   end
 end

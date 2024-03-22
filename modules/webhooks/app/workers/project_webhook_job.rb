@@ -32,7 +32,7 @@ class ProjectWebhookJob < RepresentedWebhookJob
   end
 
   def accepted_in_project?
-    if event_name == 'project:created'
+    if event_name == "project:created"
       true
     else
       webhook.enabled_for_project?(resource.id)
