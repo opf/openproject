@@ -34,16 +34,11 @@ module Projects
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(
-          project:,
-          project_custom_field_sections:,
-          project_custom_field_project_mappings:
-        )
+        def initialize(project:, project_custom_field_sections:)
           super
 
           @project = project
           @project_custom_field_sections = project_custom_field_sections
-          @project_custom_field_project_mappings = project_custom_field_project_mappings
         end
 
         private

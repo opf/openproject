@@ -35,14 +35,12 @@ module Projects
         included do
           def update_sections_via_turbo_stream(
             project: @project,
-            project_custom_field_sections: @project_custom_field_sections,
-            project_custom_field_project_mappings: @project_custom_field_project_mappings
+            project_custom_field_sections: @project_custom_field_sections
           )
             update_via_turbo_stream(
               component: ::Projects::Settings::ProjectCustomFieldSections::IndexComponent.new(
                 project:,
-                project_custom_field_sections:,
-                project_custom_field_project_mappings:
+                project_custom_field_sections:
               )
             )
           end
