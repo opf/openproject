@@ -82,11 +82,12 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
   private
 
   def eager_load_project_custom_field_data
-    # Load only the sections that have custom_fields associated
+    # Load only the sections that have visible custom_fields associated
     @project_custom_field_sections =
       ProjectCustomFieldSection
         .joins(:custom_fields)
         .includes(:custom_fields)
+        .merge(ProjectCustomField.visible)
         .group(:id, "custom_fields.id")
         .order(:position)
 
