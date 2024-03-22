@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,24 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "work_packages/copy_contract"
+require "work_packages/create_contract"
 
-# Can be used to copy all of a project's work packages. As the
-# work packages can be old, some of the validations that would
-# apply to newly created work packages need not apply there, e.g
-# on copying, it is ok for work packages to have closed versions
 module WorkPackages
-  class CopyProjectContract < CopyContract
-    include WorkPackages::SkipAuthorizationChecks
-
-    # let the contract be used in error messages
-    delegate :to_s,
-             to: :model
-
-    private
-
-    def validate_version_is_assignable; end
-
-    def validate_no_reopen_on_closed_version; end
+  class CopyContract < CreateContract
+    # As % Complete can be set while Work and Remaining work are not, copying is
+    # a scenario where this field must be writable
+    attribute :done_ratio,
+              writable: true
   end
 end

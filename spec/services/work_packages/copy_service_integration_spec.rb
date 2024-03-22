@@ -164,6 +164,36 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
         end
       end
 
+      context "with work, remaining work, and % complete set in the source work package" do
+        before do
+          work_package.update(
+            estimated_hours: 10.0,
+            remaining_hours: 6.0,
+            done_ratio: 40
+          )
+        end
+
+        it "copies them all values over" do
+          expect(copy.estimated_hours).to eq(10.0)
+          expect(copy.remaining_hours).to eq(6.0)
+          expect(copy.done_ratio).to eq(40)
+        end
+      end
+
+      context "with only % complete set in the source work package" do
+        before do
+          work_package.update(
+            estimated_hours: nil,
+            remaining_hours: nil,
+            done_ratio: 40
+          )
+        end
+
+        it "copies the % complete value over" do
+          expect(copy.done_ratio).to eq(40)
+        end
+      end
+
       describe "#attributes" do
         before do
           target_project.types << work_package.type

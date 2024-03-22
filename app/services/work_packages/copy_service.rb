@@ -35,7 +35,7 @@ class WorkPackages::CopyService
                 :work_package,
                 :contract_class
 
-  def initialize(user:, work_package:, contract_class: WorkPackages::CreateContract)
+  def initialize(user:, work_package:, contract_class: WorkPackages::CopyContract)
     self.user = user
     self.work_package = work_package
     self.contract_class = contract_class
