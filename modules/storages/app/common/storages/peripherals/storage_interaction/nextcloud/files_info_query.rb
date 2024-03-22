@@ -52,7 +52,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         return ServiceResult.success(result: [])
       end
 
-      Auth[auth_strategy].call(storage: @storage, http_options: Util.ocs_api_request) do |http|
+      http_options = Util.ocs_api_request.deep_merge(Util.accept_json)
+      Auth[auth_strategy].call(storage: @storage, http_options:) do |http|
         files_info(http, file_ids).map(&parse_json) >> handle_failure >> create_storage_file_infos
       end
     end
