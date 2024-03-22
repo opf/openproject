@@ -143,7 +143,7 @@ class MembersController < ApplicationController
       project: @project,
       available_roles: roles,
       authorize_update: authorize_for("members", :update),
-      authorize_delete: authorize_for("members", :destroy_by_principal),
+      authorize_delete: authorize_for("members", :destroy),
       authorize_work_package_shares_view: authorize_for("work_packages/shares", :update),
       authorize_work_package_shares_delete: authorize_for("work_packages/shares/bulk", :destroy),
       is_filtered: Members::UserFilterComponent.filtered?(params),

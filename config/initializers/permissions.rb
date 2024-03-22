@@ -118,7 +118,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_members,
                      {
-                       members: %i[index new create update destroy_by_principal autocomplete_for_member menu],
+                       members: %i[index new create update destroy destroy_by_principal autocomplete_for_member menu],
                        "members/menus": %i[show]
                      },
                      permissible_on: :project,
