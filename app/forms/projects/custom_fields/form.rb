@@ -57,7 +57,7 @@ module Projects::CustomFields
         elsif @custom_field_section.present?
           @project
             .available_custom_fields
-            .where(custom_field_section: @custom_field_section)
+            .where(custom_field_section_id: @custom_field_section.id)
         else
           @project.available_custom_fields
         end
