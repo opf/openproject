@@ -53,10 +53,6 @@ module Projects
         def wrapper_uniq_by
           @project_custom_field_section.id
         end
-
-        def sorted_project_custom_fields
-          @project_custom_fields.sort_by { |pcf| pcf.position_in_custom_field_section }
-        end
       end
     end
   end

@@ -25,7 +25,7 @@
         end
       end
 
-      sorted_project_custom_fields.each do |project_custom_field|
+      @project_custom_fields.each do |project_custom_field|
         details_container.with_row(mb: 3) do
           render(ProjectCustomFields::Sections::ProjectCustomFields::ShowComponent.new(
             project_custom_field: project_custom_field,

@@ -32,21 +32,16 @@ module ProjectCustomFields
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(project:, eager_loaded_project_custom_field_sections:)
+    def initialize(project:)
       super
 
       @project = project
-      @eager_loaded_project_custom_field_sections = eager_loaded_project_custom_field_sections
     end
 
     private
-
-    def get_eager_loaded_project_custom_field_section(project_custom_field_section_id)
-      @eager_loaded_project_custom_field_sections.find { |pcfs| pcfs.id == project_custom_field_section_id }
-    end
-
     def available_project_custom_fields_grouped_by_section
-      @available_project_custom_fields_grouped_by_section ||= @project.available_project_custom_fields_grouped_by_section
+      @available_project_custom_fields_grouped_by_section ||=
+        @project.available_custom_fields.group_by(&:project_custom_field_section)
     end
   end
 end

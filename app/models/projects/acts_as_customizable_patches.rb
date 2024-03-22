@@ -120,6 +120,7 @@ module Projects::ActsAsCustomizablePatches
       custom_fields = ProjectCustomField
         .visible
         .includes(:project_custom_field_section)
+        .order("custom_field_sections.position", :position_in_custom_field_section)
 
       # available_custom_fields is called from within the acts_as_customizable module
       # we don't want to adjust these calls, but need a way to query the available custom fields on a global level in some cases
@@ -135,22 +136,6 @@ module Projects::ActsAsCustomizablePatches
       end
 
       custom_fields
-    end
-
-    def available_project_custom_fields_grouped_by_section
-      sorted_available_custom_fields
-        .group_by(&:custom_field_section_id)
-    end
-
-    def sorted_available_custom_fields
-      available_custom_fields
-        .sort_by { |pcf| [pcf.project_custom_field_section&.position, pcf.position_in_custom_field_section] }
-    end
-
-    def sorted_available_custom_fields_by_section(section)
-      available_custom_fields
-        .where(custom_field_section_id: section.id)
-        .sort_by(&:position_in_custom_field_section)
     end
 
     def validate_custom_values

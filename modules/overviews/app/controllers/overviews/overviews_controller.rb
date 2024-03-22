@@ -8,8 +8,6 @@ module ::Overviews
     menu_item :overview
 
     def project_custom_fields_sidebar
-      @eager_loaded_project_custom_field_sections = eager_loaded_project_custom_field_sections
-
       render :project_custom_fields_sidebar, layout: false
     end
 
@@ -70,15 +68,8 @@ module ::Overviews
 
     def update_sidebar_component
       update_via_turbo_stream(
-        component: ProjectCustomFields::SidebarComponent.new(
-          project: @project,
-          eager_loaded_project_custom_field_sections:
-        )
+        component: ProjectCustomFields::SidebarComponent.new(project: @project)
       )
-    end
-
-    def eager_loaded_project_custom_field_sections
-      ProjectCustomFieldSection.all.to_a
     end
   end
 end

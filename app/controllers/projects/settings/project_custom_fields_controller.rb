@@ -89,7 +89,7 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
         .includes(:custom_fields)
         .merge(ProjectCustomField.visible)
         .group(:id, "custom_fields.id")
-        .order(:position)
+        .order(:position, :position_in_custom_field_section)
 
     @project_custom_field_project_mappings = ProjectCustomFieldProjectMapping
       .where(project_id: @project.id)

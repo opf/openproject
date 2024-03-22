@@ -59,7 +59,7 @@
           render(Primer::Beta::Text.new(color: :subtle)) { t("settings.project_attributes.label_no_project_custom_fields") }
         end
       else
-        sorted_project_custom_fields.each do |project_custom_field|
+        @project_custom_fields.each do |project_custom_field|
           component.with_row(data: { 'projects--settings--project-custom-fields-mapping-filter-target': 'searchItem' }) do
             render(Projects::Settings::ProjectCustomFieldSections::CustomFieldRowComponent.new(
               project: @project,

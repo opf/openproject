@@ -28,7 +28,7 @@
 module Projects::CustomFields
   class Form < ApplicationForm
     form do |custom_fields_form|
-      sorted_custom_fields.each do |custom_field|
+      custom_fields.each do |custom_field|
         custom_fields_form.fields_for(:custom_field_values) do |builder|
           custom_field_input(builder, custom_field)
         end
@@ -50,16 +50,17 @@ module Projects::CustomFields
 
     private
 
-    def sorted_custom_fields
-      return @custom_fields if @custom_fields.present?
-
-      @custom_fields = if @custom_field.present?
-                         [@custom_field]
-                       elsif @custom_field_section.present?
-                         @project.sorted_available_custom_fields_by_section(@custom_field_section)
-                       else
-                         @project.sorted_available_custom_fields
-                       end
+    def custom_fields
+      @custom_fields ||=
+        if @custom_field.present?
+          [@custom_field]
+        elsif @custom_field_section.present?
+          @project
+            .available_custom_fields
+            .where(custom_field_section: @custom_field_section)
+        else
+          @project.available_custom_fields
+        end
     end
 
     def custom_field_input(builder, custom_field)
