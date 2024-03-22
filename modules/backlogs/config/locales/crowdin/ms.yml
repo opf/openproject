@@ -152,7 +152,7 @@ ms:
   required_burn_rate_points: "kadar pembakaran yang diperlukan (mata)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Kolum dalam backlog"
+  version_settings_display_label: "Kolum dalam tunggakan"
   version_settings_display_option_left: "kiri"
   version_settings_display_option_none: "tiada"
   version_settings_display_option_right: "kanan"

@@ -60,6 +60,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
   # Show a HTML page with a form in order to create a new ProjectStorage
   # Called by: When a user clicks on the "+New" button in Project -> Settings -> File Storages
+  # rubocop:disable Metrics/AbcSize
   def new
     @available_storages = available_storages
     project_folder_mode = Storages::ProjectStorage.project_folder_modes.values.find do |mode|
@@ -75,6 +76,8 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
     render template: "/storages/project_settings/new"
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   # Create a new ProjectStorage object.
   # Called by: The new page above with form-data from that form.
@@ -95,12 +98,11 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
   def oauth_access_grant # rubocop:disable Metrics/AbcSize
     @project_storage = @object
-    connection_manager = OAuthClients::ConnectionManager.new(
-      user: current_user,
-      configuration: @project_storage.storage.oauth_configuration
-    )
+    storage = @project_storage.storage
+    auth_state = ::Storages::Peripherals::StorageInteraction::Authentication
+                   .authorization_state(storage:, user: current_user)
 
-    if connection_manager.authorization_state_connected?
+    if auth_state == :connected
       redirect_to(project_settings_project_storages_path)
     else
       nonce = SecureRandom.uuid
@@ -110,7 +112,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
         expires: 1.hour
       }
       session[:oauth_callback_flash_modal] = oauth_access_grant_nudge_modal(authorized: true)
-      redirect_to(connection_manager.get_authorization_uri(state: nonce))
+      redirect_to(storage.oauth_configuration.authorization_uri(state: nonce))
     end
   end
 

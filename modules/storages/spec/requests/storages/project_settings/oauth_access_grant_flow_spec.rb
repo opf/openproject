@@ -62,7 +62,7 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
   context "when user is logged in" do
     before { login_as(user) }
 
-    context 'when user is not "connected"' do
+    context "when user is not 'connected'" do
       let(:nonce) { "57a17c3f-b2ed-446e-9dd8-651ba3aec37d" }
       let(:redirect_uri) do
         CGI.escape("#{OpenProject::Application.root_url}/oauth_clients/#{storage.oauth_client.client_id}/callback")
@@ -90,19 +90,11 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
       end
     end
 
-    context 'when user is "connected"' do
+    context "when user is 'connected'" do
       shared_let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
 
       before do
-        oauth_client_token
-        stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user")
-          .with(
-            headers: {
-              "Accept" => "application/json",
-              "Authorization" => "Bearer #{oauth_client_token.access_token}",
-              "Ocs-Apirequest" => "true"
-            }
-          ).to_return(status: 200, body: "", headers: {})
+        Storages::Peripherals::Registry.stub("nextcloud.queries.auth_check", ->(_) { ServiceResult.success })
       end
 
       it "redirects to destination_url" do

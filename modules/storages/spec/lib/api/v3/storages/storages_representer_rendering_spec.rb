@@ -36,16 +36,16 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
   let(:oauth_client_credentials) { build_stubbed(:oauth_client) }
   let(:storage) { build_stubbed(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
   let(:user) { build_stubbed(:user) }
+  let(:auth_check_result) { ServiceResult.success }
   let(:representer) { described_class.new(storage, current_user: user, embed_links: true) }
-  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
 
   subject(:generated) { representer.to_json }
 
   before do
-    allow(OAuthClients::ConnectionManager)
-      .to receive(:new).and_return(connection_manager)
-    allow(connection_manager)
-      .to receive_messages(authorization_state: :connected, get_authorization_uri: 'https://example.com/authorize')
+    Storages::Peripherals::Registry.stub(
+      "#{storage.short_provider_type}.queries.auth_check",
+      ->(_) { auth_check_result }
+    )
   end
 
   describe '_links' do

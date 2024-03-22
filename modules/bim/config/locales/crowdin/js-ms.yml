@@ -4,9 +4,9 @@ ms:
     bcf:
       label_bcf: 'BCF'
       import: 'Import'
-      import_bcf_xml_file: 'Import fail BCF XML (BCF version 2.1)'
+      import_bcf_xml_file: 'Import fail BCF XML (BCF versi 2.1)'
       export: 'Eksport'
-      export_bcf_xml_file: 'Eksport fail BCF XML (BCF version 2.1)'
+      export_bcf_xml_file: 'Eksport fail BCF XML (BCF versi 2.1)'
       viewpoint: 'Sudut pandangan'
       add_viewpoint: 'Tambah sudut pandangan'
       show_viewpoint: 'Tunjuk sudut pandangan'
@@ -26,4 +26,4 @@ ms:
         split_cards: 'Pemerhati dan kad'
     revit:
       revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in_settings: "Seting Revit Add-In"
