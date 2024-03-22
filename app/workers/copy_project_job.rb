@@ -34,7 +34,6 @@ class CopyProjectJob < ApplicationJob
 
   queue_with_priority :above_normal
 
-  # rubocop:disable Metrics/AbcSize
   # Again error handling pushing the branch costs up
   def perform(target_project_params:, associations_to_copy:, send_mails: false)
     User.current = user
@@ -57,7 +56,6 @@ class CopyProjectJob < ApplicationJob
     update_batch(errors:)
     failure_status_update(errors)
   end
-  # rubocop:enable Metrics/AbcSize
 
   def store_status? = true
 
@@ -145,9 +143,22 @@ class CopyProjectJob < ApplicationJob
   # rubocop:enable Metrics/AbcSize
 
   def copy_project(target_project_params, associations_to_copy, send_notifications)
-    ::Projects::CopyService
-      .new(source: source_project, user:)
-      .call({ target_project_params:, send_notifications:, only: Array(associations_to_copy) })
+    copy_service = ::Projects::CopyService.new(source: source_project, user:)
+    result = copy_service.call({ target_project_params:, send_notifications:, only: Array(associations_to_copy) })
+
+    enqueue_copy_project_folder_jobs(copy_service.state.copied_project_storages, copy_service.state.work_package_id_lookup)
+
+    result
+  end
+
+  def enqueue_copy_project_folder_jobs(copied_storages, work_packages_map)
+    Array(copied_storages).each do |storage_pair|
+      batch.enqueue do
+        Storages::CopyProjectFoldersJob.perform_later(source: storage_pair[:source],
+                                                      target: storage_pair[:target],
+                                                      work_packages_map:)
+      end
+    end
   end
 
   def logger = OpenProject.logger

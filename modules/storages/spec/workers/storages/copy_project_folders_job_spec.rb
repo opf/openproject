@@ -43,7 +43,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
   let(:target) { create(:project_storage, storage: source.storage) }
   let(:target_work_packages) { create_list(:work_package, 4, project: target.project) }
 
-  let(:work_package_map) do
+  let(:work_packages_map) do
     source_work_packages
       .pluck(:id)
       .map(&:to_s)
@@ -80,7 +80,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
   end
 
   describe "non-automatic managed folders" do
-    let(:inverted_wp_map) { work_package_map.invert }
+    let(:inverted_wp_map) { work_packages_map.invert }
 
     before do
       source.update(project_folder_mode: "manual", project_folder_id: "awesome-folder")
@@ -89,7 +89,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
 
     it "updates the target project storage project_folder_id to match the source" do
       GoodJob::Batch.enqueue(user:) do
-        described_class.perform_later(source_id: source.id, target_id: target.id, work_package_map:)
+        described_class.perform_later(source:, target:, work_packages_map:)
       end
 
       GoodJob.perform_inline
@@ -100,12 +100,12 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
 
     it "copies all the file link info on the corresponding work_package" do
       GoodJob::Batch.enqueue(user:) do
-        described_class.perform_later(source_id: source.id, target_id: target.id, work_package_map:)
+        described_class.perform_later(source:, target:, work_packages_map:)
       end
 
       GoodJob.perform_inline
 
-      WorkPackage.includes(:file_links).where(id: work_package_map.values).find_each do |target_wp|
+      WorkPackage.includes(:file_links).where(id: work_packages_map.values).find_each do |target_wp|
         expect(target_wp.file_links.count).to eq(1)
 
         file_link = target_wp.file_links.first
@@ -140,7 +140,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
 
     it "copies the folders from source to target" do
       GoodJob::Batch.enqueue(user:) do
-        described_class.perform_later(source_id: source.id, target_id: target.id, work_package_map:)
+        described_class.perform_later(source:, target:, work_packages_map:)
       end
       GoodJob.perform_inline
 
@@ -151,7 +151,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
 
     it "creates the file links pointing to the newly copied files" do
       GoodJob::Batch.enqueue(user:) do
-        described_class.perform_later(source_id: source.id, target_id: target.id, work_package_map:)
+        described_class.perform_later(source:, target:, work_packages_map:)
       end
       GoodJob.perform_inline
 
@@ -192,7 +192,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
 
     it "stores the polling url on the batch properties" do
       batch = GoodJob::Batch.enqueue(user:) do
-        described_class.perform_later(source_id: source.id, target_id: target.id, work_package_map:)
+        described_class.perform_later(source:, target:, work_packages_map:)
       end
       GoodJob.perform_inline
       batch.reload
@@ -212,7 +212,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
 
       it "updates the storages" do
         GoodJob::Batch.enqueue(user:) do
-          described_class.perform_later(source_id: source.id, target_id: target.id, work_package_map:)
+          described_class.perform_later(source:, target:, work_packages_map:)
         end
         GoodJob.perform_inline
 
@@ -223,7 +223,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
 
       it "handles re-enqueues and polling" do
         GoodJob::Batch.enqueue(user:) do
-          described_class.perform_later(source_id: source.id, target_id: target.id, work_package_map:)
+          described_class.perform_later(source:, target:, work_packages_map:)
         end
         GoodJob.perform_inline
         job = GoodJob::Job.order(:created_at).last

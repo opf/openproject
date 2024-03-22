@@ -35,9 +35,7 @@ module Storages
     retry_on Errors::PollingRequired, wait: 3, attempts: :unlimited
     discard_on HTTPX::HTTPError
 
-    def perform(source_id:, target_id:, work_package_map:)
-      target = ProjectStorage.find(target_id)
-      source = ProjectStorage.find(source_id)
+    def perform(source:, target:, work_packages_map:)
       user = batch.properties[:user]
 
       project_folder_result = results_from_polling || initiate_copy(source, target)
@@ -47,7 +45,7 @@ module Storages
                                           project_folder_mode: source.project_folder_mode)
                                     .on_failure { |failed| log_failure(failed) and return failed }
 
-      FileLinks::CopyFileLinksService.call(source:, target:, user:, work_packages_map: work_package_map)
+      FileLinks::CopyFileLinksService.call(source:, target:, user:, work_packages_map:)
     end
 
     private
@@ -72,7 +70,7 @@ module Storages
     end
 
     def results_from_polling
-      return unless polling?
+      return unless batch.properties[:polling_url]
 
       response = OpenProject.httpx.get(batch.properties[:polling_url]).json(symbolize_keys: true)
 
