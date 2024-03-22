@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Projects copy', :js, :with_cuprite do
-  describe 'with a full copy example' do
+RSpec.describe "Projects copy", :js, :with_cuprite do
+  describe "with a full copy example" do
     let!(:project) do
       create(:project,
              parent: parent_project,
              types: active_types,
              members: { user => role },
-             custom_field_values: { project_custom_field.id => 'some text cf' }).tap do |p|
+             custom_field_values: { project_custom_field.id => "some text cf" }).tap do |p|
         p.work_package_custom_fields << wp_custom_field
         p.types.first.custom_fields << wp_custom_field
 
         # Enable wiki
-        p.enabled_module_names += ['wiki']
+        p.enabled_module_names += ["wiki"]
       end
     end
 
@@ -109,17 +109,17 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
              done_ratio: 20,
              category:,
              version:,
-             description: 'Some description',
-             custom_field_values: { wp_custom_field.id => 'Some wp cf text' },
-             attachments: [build(:attachment, filename: 'work_package_attachment.pdf')])
+             description: "Some description",
+             custom_field_values: { wp_custom_field.id => "Some wp cf text" },
+             attachments: [build(:attachment, filename: "work_package_attachment.pdf")])
     end
 
     let!(:wiki) { project.wiki }
     let!(:wiki_page) do
       create(:wiki_page,
-             title: 'Attached',
+             title: "Attached",
              wiki:,
-             attachments: [build(:attachment, container: nil, filename: 'wiki_page_attachment.pdf')])
+             attachments: [build(:attachment, container: nil, filename: "wiki_page_attachment.pdf")])
     end
 
     let(:parent_field) { FormFields::SelectFormField.new :parent }
@@ -140,32 +140,32 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       clear_performed_jobs
     end
 
-    it 'copies projects and the associated objects' do
+    it "copies projects and the associated objects" do
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
 
-      find('.toolbar a', text: 'Copy').click
+      find(".toolbar a", text: "Copy").click
 
       expect(page).to have_text "Copy project \"#{project.name}\""
 
-      fill_in 'Name', with: 'Copied project'
+      fill_in "Name", with: "Copied project"
 
       # Expand advanced settings
-      click_on 'Advanced settings'
+      click_on "Advanced settings"
 
       # the value of the custom field should be preselected
       editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
-      editor.expect_value 'some text cf'
+      editor.expect_value "some text cf"
 
-      click_button 'Save'
+      click_on "Save"
 
-      expect(page).to have_text 'The job has been queued and will be processed shortly.'
+      expect(page).to have_text "The job has been queued and will be processed shortly."
 
       # ensure all jobs are run especially emails which might be sent later on
       while perform_enqueued_jobs > 0
       end
 
-      copied_project = Project.find_by(name: 'Copied project')
+      copied_project = Project.find_by(name: "Copied project")
 
       expect(copied_project).to be_present
 
@@ -181,16 +181,16 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       # copies over the value of the custom field
       # has the parent of the original project
       editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
-      editor.expect_value 'some text cf'
+      editor.expect_value "some text cf"
 
       # has wp custom fields of original project active
-      copied_settings_page.visit_tab!('custom_fields')
+      copied_settings_page.visit_tab!("custom_fields")
 
       copied_settings_page.expect_wp_custom_field_active(wp_custom_field)
       copied_settings_page.expect_wp_custom_field_inactive(inactive_wp_custom_field)
 
       # has types of original project active
-      copied_settings_page.visit_tab!('types')
+      copied_settings_page.visit_tab!("types")
 
       active_types.each do |type|
         copied_settings_page.expect_type_active(type)
@@ -200,10 +200,10 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
 
       # Expect wiki was copied
       expect(copied_project.wiki.pages.count).to eq(project.wiki.pages.count)
-      copied_page = copied_project.wiki.find_page 'Attached'
+      copied_page = copied_project.wiki.find_page "Attached"
       expect(copied_page).not_to be_nil
       expect(copied_page.attachments.map(&:filename))
-        .to eq ['wiki_page_attachment.pdf']
+        .to eq ["wiki_page_attachment.pdf"]
 
       # Expect ProjectStores and their FileLinks were copied
       expect(copied_project.project_storages.count).to eq(project.project_storages.count)
@@ -226,8 +226,8 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       expect(copied_work_package.description).to eql work_package.description
       expect(copied_work_package.category).to eql copied_project.categories.find_by(name: category.name)
       expect(copied_work_package.version).to eql copied_project.versions.find_by(name: version.name)
-      expect(copied_work_package.custom_value_attributes).to eql(wp_custom_field.id => 'Some wp cf text')
-      expect(copied_work_package.attachments.map(&:filename)).to eq ['work_package_attachment.pdf']
+      expect(copied_work_package.custom_value_attributes).to eql(wp_custom_field.id => "Some wp cf text")
+      expect(copied_work_package.attachments.map(&:filename)).to eq ["work_package_attachment.pdf"]
 
       expect(ActionMailer::Base.deliveries.count).to eql(1)
       expect(ActionMailer::Base.deliveries.last.subject).to eql("Created project Copied project")
@@ -235,10 +235,10 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
     end
   end
 
-  describe 'copying a set of ordered work packages' do
+  describe "copying a set of ordered work packages" do
     let(:user) { create(:admin) }
     let(:wp_table) { Pages::WorkPackagesTable.new project }
-    let(:copied_project) { Project.find_by(name: 'Copied project') }
+    let(:copied_project) { Project.find_by(name: "Copied project") }
     let(:copy_wp_table) { Pages::WorkPackagesTable.new copied_project }
     let(:project) { create(:project, types: [type]) }
     let(:type) { create(:type) }
@@ -249,14 +249,14 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       { type:, status:, project:, priority: }
     end
 
-    let(:parent1) { create(:work_package, default_params.merge(subject: 'Initial phase')) }
-    let(:child1_1) { create(:work_package, default_params.merge(parent: parent1, subject: 'Confirmation phase')) }
-    let(:child1_2) { create(:work_package, default_params.merge(parent: parent1, subject: 'Initiation')) }
-    let(:parent2) { create(:work_package, default_params.merge(subject: 'Execution')) }
-    let(:child2_1) { create(:work_package, default_params.merge(parent: parent2, subject: 'Define goal')) }
-    let(:child2_2) { create(:work_package, default_params.merge(parent: parent2, subject: 'Specify metrics')) }
-    let(:child2_3) { create(:work_package, default_params.merge(parent: parent2, subject: 'Prepare launch')) }
-    let(:child2_4) { create(:work_package, default_params.merge(parent: parent2, subject: 'Launch')) }
+    let(:parent1) { create(:work_package, default_params.merge(subject: "Initial phase")) }
+    let(:child1_1) { create(:work_package, default_params.merge(parent: parent1, subject: "Confirmation phase")) }
+    let(:child1_2) { create(:work_package, default_params.merge(parent: parent1, subject: "Initiation")) }
+    let(:parent2) { create(:work_package, default_params.merge(subject: "Execution")) }
+    let(:child2_1) { create(:work_package, default_params.merge(parent: parent2, subject: "Define goal")) }
+    let(:child2_2) { create(:work_package, default_params.merge(parent: parent2, subject: "Specify metrics")) }
+    let(:child2_3) { create(:work_package, default_params.merge(parent: parent2, subject: "Prepare launch")) }
+    let(:child2_4) { create(:work_package, default_params.merge(parent: parent2, subject: "Launch")) }
 
     let(:order) do
       [parent1, child1_1, child1_2, parent2, child2_1, child2_2, child2_3, child2_4]
@@ -274,7 +274,7 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       login_as user
     end
 
-    it 'copies them in the same order' do
+    it "copies them in the same order" do
       wp_table.visit!
       wp_table.expect_work_package_listed *order
       wp_table.expect_work_package_order *order
@@ -282,13 +282,13 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
 
-      find('.toolbar a', text: 'Copy').click
+      find(".toolbar a", text: "Copy").click
 
-      fill_in 'Name', with: 'Copied project'
+      fill_in "Name", with: "Copied project"
 
-      click_button 'Save'
+      click_on "Save"
 
-      expect(page).to have_text 'The job has been queued and will be processed shortly.'
+      expect(page).to have_text "The job has been queued and will be processed shortly."
 
       perform_enqueued_jobs
 
