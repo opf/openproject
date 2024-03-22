@@ -31,6 +31,8 @@
 module Storages
   module FileLinks
     class CopyFileLinksService
+      include OpenProject::LocaleHelper
+
       def self.call(source:, target:, user:, work_packages_map:)
         new(source:, target:, user:, work_packages_map:).call
       end
@@ -47,10 +49,12 @@ module Storages
           .includes(:creator)
           .where(container_id: @work_packages_map.keys, container_type: "WorkPackage")
 
-        if @source.project_folder_automatic?
-          create_managed_file_links(source_file_links)
-        else
-          create_unmanaged_file_links(source_file_links)
+        with_locale_for(@user) do
+          if @source.project_folder_automatic?
+            create_managed_file_links(source_file_links)
+          else
+            create_unmanaged_file_links(source_file_links)
+          end
         end
       end
 
@@ -75,7 +79,9 @@ module Storages
       end
 
       def build_location_map(source_files, target_location_map)
-        source_location_map = source_files.to_h { |info| [info.id, info.location] }
+        source_location_map = source_files.filter { |info| info.status == "OK" }.to_h do |info|
+          [info.id, info.location]
+        end
 
         source_location_map.each_with_object({}) do |(id, location), output|
           target = location.gsub(@source.managed_project_folder_path, @target.managed_project_folder_path)
@@ -99,7 +105,6 @@ module Storages
       def create_unmanaged_file_links(source_file_links)
         source_file_links.find_each do |source_file_link|
           attributes = source_file_link.dup.attributes
-
           attributes["creator_id"] = @user.id
           attributes["container_id"] = @work_packages_map[source_file_link.container_id]
 

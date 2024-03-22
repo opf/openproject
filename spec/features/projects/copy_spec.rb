@@ -28,7 +28,8 @@
 
 require "spec_helper"
 
-RSpec.describe "Projects copy", :js, :with_cuprite, with_good_job_batches: [CopyProjectJob, SendCopyProjectStatusEmailJob] do
+RSpec.describe "Projects copy", :js, :with_cuprite,
+               with_good_job_batches: [CopyProjectJob, Storages::CopyProjectFoldersJob, SendCopyProjectStatusEmailJob] do
   describe "with a full copy example" do
     let!(:project) do
       create(:project,

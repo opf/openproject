@@ -50,14 +50,9 @@ module Projects::Copy
             .new(user: User.current)
             .call(storage_id: source_project_storage.storage_id,
                   project_id: target.id,
-                  project_folder_mode: 'inactive')
+                  project_folder_mode: "inactive")
             .on_failure { |r| add_error!(source_project_storage.class.to_s, r.to_active_model_errors) }
             .result
-
-        Storages::CopyProjectFoldersJob.perform_later(source_id: source_project_storage.id,
-                                                      target_id: project_storage_copy.id,
-                                                      user_id: User.current.id,
-                                                      work_package_map: state.work_package_id_lookup)
 
         array << { source: source_project_storage, target: project_storage_copy }
       end
