@@ -135,9 +135,9 @@ ms:
                     4.  _Cipta dan kemaskini carta Gantt_: → Pergi ke [Carta Gantt]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
                     5.  _Mengaktifkan modul lanjutan_: → Pergi ke [Seting projek → Modul]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
                     6.  _Lihat paparan til untuk dapatkan gambar keseluruhan isu BCF anda:_ → Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Pemangkin kerja? Semak board kami yang baru:_ → Pergi ke [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    7.  _Pemangkin kerja? Semak board kami yang baru:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
-                    Disini anda akan jumpa [User Guides](https://www.openproject.org/docs/user-guide/) kami.
+                    Disini anda akan jumpa [Panduan Pengguna](https://www.openproject.org/docs/user-guide/) kami.
                     Sila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan sokongan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
@@ -185,14 +185,14 @@ ms:
 
                     _Cuba ikuti langkah berikut:_
 
-                    1.  _Jemput ahli baru ke projek anda:_ → Pergi ke [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) dalam navigasi projek.
-                    2.  _Lihat kerja dalam projek anda:_ → Pergi ke [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
-                    3.  _Cipta satu pakej kerja baharu:_ → Pergi ke [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Cipta dan kemaskini Gantt chart:_ → Pergi ke [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi project.
-                    5.  _Aktifkan modul lanjutan:_ → Pergi ke [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Pemangkin kerja? Cipta satu panel baharu:_ → Pergi ke [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Jemput ahli baru ke projek anda:_ → Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) dalam navigasi projek.
+                    2.  _Lihat kerja dalam projek anda:_ → Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    3.  _Cipta satu pakej kerja baru:_ → Pergi ke [Pakej kerja → Cipta]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Cipta dan kemaskini carta Gantt:_ → Pergi ke [Carta Gantt]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    5.  _Aktifkan modul lanjutan:_ → Pergi ke [Seting Projek → Modul]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    6.  _Pemangkin kerja? Cipta satu board baharu:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Di sini anda akan menemui [User Guides](https://www.openproject.org/docs/user-guide/) kami.
+                    Di sini anda akan menemui [Panduan Pengguna](https://www.openproject.org/docs/user-guide/) kami.
                     Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
@@ -209,7 +209,7 @@ ms:
               description: |-
                 Permulaan projek menandakan permulaan projek di dalam syarikat anda. Setiap orang yang menjadi sebahagian daripada projek ini perlu dijemput untuk menyertai taklimat pertama projek.
 
-                Langkah seterusnya adalah menyemak jadual waktu dan menyesuaikan temujanji dengan melihat [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Langkah seterusnya adalah menyemak jadual waktu dan menyesuaikan temujanji dengan melihat [Carta Gantt]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Penilaian asas
               description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
@@ -318,7 +318,7 @@ ms:
                     ## Huraian
 
                     *   Menyediakan tapak untuk projek
-                    *  Kumpulkan pasukan
+                    *   Kumpulkan pasukan
                     *   ...
                 item_1:
                   subject: Asas
@@ -388,7 +388,7 @@ ms:
 
                     *   Menyiapkan pemasangan sistem perkhidmatan bangunan
                     *   Menyiapkan pembinaan dalaman
-                    *   MEnyiapkan muka bangunan
+                    *   Menyiapkan muka bangunan
                     *   ...
                 item_6:
                   subject: Majlis perasmian rumah baru
@@ -439,17 +439,17 @@ ms:
 
                     _Cuba ikuti langkah berikut:_
 
-                    1.  _Jemput ahli baru ke projek anda:_ → Pergi ke [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) dalam navigasi projek.
+                    1.  _Jemput ahli baru ke projek anda:_ → Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-bim-project/members) dalam navigasi projek.
                     2.  _Muat naik dan paparkan model 3d dalam format IFC:_ → Pergi ke [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) dalam navigasi projek.
                     3.  _Cipta dan urus isu BCF yang berkaitan dalam model IFC:_ → Pergi ke [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Cipta.
-                    4.  _Lihat kerja dalam projek anda:_ → Pergi ke [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
-                    5.  _Cipta satu pakej pekerjaan baharu:_ → Pergi ke [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Cipta dan kemaskini Gantt chart:_ → Pergi ke [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
-                    7.  _Aktifkan modul lanjutan:_ → Pergi ke [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Semak paparan til untuk mendapatkan gambaran keseluruhan mengenai isu-isu BCF anda:_ → Pergi ke [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Pemangkin kerja? Cipta satu panel baru:_ → Pergi ke [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    4.  _Lihat kerja dalam projek anda:_ → Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    5.  _Cipta satu pakej pekerjaan baharu:_ → Pergi ke [Pakej kerja → Cipta]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    6.  _Cipta dan kemaskini carta Gantt:_ → Pergi ke [Carta Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    7.  _Aktifkan modul lanjutan:_ → Pergi ke [Seting Projek → Modul]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
+                    8.  _Semak paparan til untuk mendapatkan gambaran keseluruhan mengenai isu-isu BCF anda:_ → Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Pemangkin kerja? Cipta satu panel baru:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
-                    Di sini anda akan menemui [User Guides](https://www.openproject.org/docs/user-guide/) kami.
+                    Di sini anda akan menemui [Panduan pengguna](https://www.openproject.org/docs/user-guide/) kami.
                     Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
@@ -466,7 +466,7 @@ ms:
               description: |-
                 Permulaan projek menandakan permulaan projek di dalam syarikat anda. Setiap orang yang menjadi sebahagian daripada projek ini perlu dijemput untuk menyertai taklimat pertama projek.
 
-                Langkah seterusnya adalah menyemak jadual waktu dan menyesuaikan temujanji dengan melihat [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Langkah seterusnya adalah menyemak jadual waktu dan menyesuaikan temujanji dengan melihat [Carta Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Penyediaan projek
               description: Jenis ini adalah induk bagi jenis &quot;Clash&quot; dan &quot;Request&quot;, oleh itu mewakili catatan umum.
@@ -715,16 +715,16 @@ ms:
 
                     _Cuba ikuti langkah berikut:_
 
-                    1.  _Jemput ahli baru ke projek anda:_ → Pergi ke [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) dalam navigasi projek.
+                    1.  _Jemput ahli baru ke projek anda:_ → Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) dalam navigasi projek.
                     2.  _Muat naik dan lihat model 3d dalam format IFC:_ → Pergi ke [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) dalam navigasi projek.
                     3.  _Cipta dan urus isu BCF yang dihubung secara langsung dalam model IFC:_ → Pergi ke [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Cipta.
                     4.  _Lihat fail BCF dalam projek anda:_ → Pergi ke  [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) dalam navigasi projek.
                     5.  _Muatkan fail BCF anda:_ → Pergi ke [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Cipta dan kemas kini Gantt chart:_ → Pergi ke [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) dalam navigasi projek.
-                    7.  _Aktifkan modul lanjutan:_ → Pergi ke [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _Anda suka pendekatan yang pantas ini? Cipta Board:_ → Pergi ke [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    6.  _Cipta dan kemas kini Carta Gantt:_ → Pergi ke [Carta Gantt]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) dalam navigasi projek.
+                    7.  _Aktifkan modul lanjutan:_ → Pergi ke [Seting Projek → Modul.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
+                    8.  _Anda suka pendekatan yang pantas ini? Cipta Board:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
 
-                    Disini anda akan menemui [User Guides](https://www.openproject.org/docs/user-guide/) kami.
+                    Disini anda akan menemui [Panduan pengguna](https://www.openproject.org/docs/user-guide/) kami.
                     Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:

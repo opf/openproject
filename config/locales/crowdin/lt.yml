@@ -26,8 +26,8 @@ lt:
       no_results_title_text: Šiuo periodu projekte nieko neįvyko.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Šio metu nėra įdiegtų priedų.
+      no_results_content_text: Daugiau informacijos rasite mūsų integracijų ir priedų puslapyje.
     custom_styles:
       color_theme: "Spalvų tema"
       color_theme_custom: "(Pasirinktinis)"
@@ -1591,7 +1591,7 @@ lt:
   journals:
     changes_retracted: "Pakeitimai buvo atšaukti."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
+      default_attribute_written: "Tik-skaitymo atributai įrašyti"
       dates_changed: "Datos pasikeitė"
       system_update: "OpenProject sistemos atnaujinimas"
     cause_descriptions:

@@ -422,7 +422,7 @@ zh-TW:
       copy_failed: "此工作項目無法被複製"
       move_failed: "此工作項目無法被移動"
       could_not_be_saved: "以下文檔無法被保存"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
+      none_could_be_saved: " %{total} 工作項目無法更新"
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
       selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"

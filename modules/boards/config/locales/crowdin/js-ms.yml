@@ -42,15 +42,15 @@ ms:
         action_text: >
           Board dengan senarai yang disaring di atribut %{attribute}. Pemindahan pakej kerja ke senarai lain akan mengemas kini atribut mereka.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Board dengan kolum automatik untuk subprojek. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Board dengan kolum automatik untuk sub-elements. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Board gaya kanban asas dengan kolum untuk status seperti Untuk Dilakukan, Dalam Pelaksanaan, Selesai.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Board dengan kolum automatik berdasarkan pengguna yang ditentukan. Ideal untuk penghantaran pakej kerja.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Board dengan kolum automatik berdasarkan versi atribut. Ideal untuk merancang pembangunan produk.
         action_type:
           assignee: wakil
           status: status

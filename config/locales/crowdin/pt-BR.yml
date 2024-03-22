@@ -2718,7 +2718,7 @@ pt-BR:
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    Se ativada, a API permitirá que os administradores escrevam atributos estáticos somente leitura durante a criação, como os campos data/hora createdAt e updatedAt. <br/> <strong>Aviso:</strong> Esta configuração tem um caso de uso para, por exemplo, importar dados, mas permite que os administradores personifiquem a criação de itens como outros usuários. No entanto, todas as solicitações de criação estão sendo registradas com o verdadeiro autor. </br> Para obter mais informações sobre atributos e recursos compatíveis, consulte o site %{api_documentation_link}.
   setting_apiv3_max_page_size: "Tamanho máximo da página de API"
   setting_apiv3_max_page_instructions_html: >
     Defina o tamanho máximo de página com o qual a API responderá. Não será possível realizar solicitações de API que retornem mais valores em uma única página. <br/> <strong>Aviso:</strong> Somente altere este valor se tiver certeza do motivo de sua necessidade. Definir um valor alto resultará em impactos significativos no desempenho, enquanto um valor menor que as opções por página causará erros nas visualizações paginadas.
@@ -3097,7 +3097,7 @@ pt-BR:
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Mudança de situação"
     text_change_disabled_for_provider_login: "O nome é definido por seu fornecedor de início de sessão e, desta forma, não pode ser alterado."
-    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
+    text_change_disabled_for_ldap_login: "O nome e o e-mail são definidos pelo LDAP e, portanto, não podem ser alterados."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear e redefinir logins com falha"
   version_status_closed: "fechado"
