@@ -428,7 +428,7 @@ GEM
       descendants_tracker (~> 0.0.1)
     color_conversion (0.1.1)
     colored2 (4.0.0)
-    commonmarker (1.0.4-x86_64-linux)
+    commonmarker (1.0.4)
     compare-xml (0.66)
       nokogiri (~> 1.8)
     concurrent-ruby (1.2.3)
@@ -749,7 +749,7 @@ GEM
     net-smtp (0.4.0.1)
       net-protocol
     nio4r (2.7.0)
-    nokogiri (1.16.3-x86_64-linux)
+    nokogiri (1.16.3)
       racc (~> 1.4)
     oj (3.16.3)
       bigdecimal (>= 3.0)
@@ -1155,7 +1155,7 @@ GEM
     zeitwerk (2.6.13)
 
 PLATFORMS
-  x86_64-linux
+  ruby
 
 DEPENDENCIES
   actionpack-xml_parser (~> 2.0.0)

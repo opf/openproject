@@ -70,6 +70,8 @@ module Storages
 
         notify_unhealthy_admin_users
       end
+
+      schedule_mail_job(@storage) unless mail_job_exists?
     end
 
     private
