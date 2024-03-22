@@ -38,9 +38,6 @@ $search-input-height: 30px
         color: var(--header-item-font-hover-color)
         border-bottom: var(--header-border-bottom-width) solid var(--header-border-bottom-color)
 
-    &.-input-focused
-      color: var(--header-search-field-font-color)
-
   &--loading
     top: var(--header-height) - 11px  // display directly under ng-input field
     height: 46px                // ng-option height + 1px border
@@ -56,7 +53,7 @@ $search-input-height: 30px
       width: 20px
 
     .ng-select-container
-      background: transparent
+      background: transparent !important
       border-color: var(--header-item-font-color) !important
 
       &:focus-within
@@ -94,12 +91,6 @@ $search-input-height: 30px
       width: $search-input-width-expanded
       background: white
       border-radius: 4px
-      color: var(--header-search-field-font-color)
-
-      .ng-placeholder,
-      .ng-clear-wrapper,
-      input
-        color: var(--header-search-field-font-color)
 
     .ng-dropdown-header
       border-bottom: none
@@ -118,7 +109,7 @@ $search-input-height: 30px
       height: auto
 
     .ng-option
-      border-bottom: 1px solid var(--color-border-muted)
+      border-bottom: 1px solid var(--color-border-default)
       white-space: normal
       padding: 5px 10px
       // We do not want the default highlighting of ng-select to take place as
