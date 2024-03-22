@@ -52,7 +52,6 @@ module OpenProject
     # And old connections will not be closed properly which could lead to EMFILE error.
     Thread.current[:httpx_session] ||= begin
       session = HTTPX
-        .plugin(:persistent) # persistent plugin enables retries plugin under the hood
         .plugin(:basic_auth)
         .plugin(:webdav)
         .with(
