@@ -77,8 +77,7 @@ class WorkPackages::CopyService
     attributes = work_package
                    .attributes
                    .slice(*writable_work_package_attributes(work_package))
-                   .merge("parent_id" => work_package.parent_id,
-                          "custom_field_values" => work_package.custom_value_attributes)
+                   .merge("custom_field_values" => work_package.custom_value_attributes)
                    .merge(overwritten_attributes)
 
     if overwritten_attributes.has_key?("start_date") &&
