@@ -33,12 +33,12 @@ module Storages
     end
 
     def healthy
-      if @storage.health_status == 'healthy'
+      if @storage.health_status == "healthy"
         @storage.touch(:health_checked_at)
       else
         reason = @storage.health_reason
 
-        @storage.update(health_status: 'healthy',
+        @storage.update(health_status: "healthy",
                         health_changed_at: Time.now.utc,
                         health_checked_at: Time.now.utc,
                         health_reason: nil)
@@ -50,18 +50,22 @@ module Storages
     end
 
     def unhealthy(reason:)
-      if @storage.health_status == 'unhealthy'
-        unless reason_is_same(reason)
-          @storage.update(health_changed_at: Time.now.utc,
-                          health_checked_at: Time.now.utc,
+      time = Time.now.utc
+
+      if @storage.health_status == "unhealthy"
+        if reason_is_same(reason)
+          @storage.update(health_checked_at: time)
+        else
+          @storage.update(health_changed_at: time,
+                          health_checked_at: time,
                           health_reason: reason)
 
           notify_unhealthy_admin_users
         end
       else
-        @storage.update(health_status: 'unhealthy',
-                        health_changed_at: Time.now.utc,
-                        health_checked_at: Time.now.utc,
+        @storage.update(health_status: "unhealthy",
+                        health_changed_at: time,
+                        health_checked_at: time,
                         health_reason: reason)
 
         notify_unhealthy_admin_users
@@ -78,7 +82,7 @@ module Storages
 
     def admin_users
       User.where(admin: true)
-          .where.not(mail: [nil, ''])
+          .where.not(mail: [nil, ""])
     end
 
     def schedule_mail_job(storage)
@@ -86,11 +90,11 @@ module Storages
     end
 
     def mail_job_exists?
-      Delayed::Job.where('handler LIKE ?', "%job_class: Storages::HealthStatusMailerJob%").any?
+      Delayed::Job.where("handler LIKE ?", "%job_class: Storages::HealthStatusMailerJob%").any?
     end
 
     def reason_is_same(new_health_reason)
-      @storage.health_reason_identifier == Storages::Storage.extract_part_from_piped_string(new_health_reason, 0)
+      @storage.health_reason_identifier == ::Storages::Storage.extract_part_from_piped_string(new_health_reason, 0)
     end
   end
 end
