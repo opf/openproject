@@ -578,10 +578,10 @@ cs:
                     *   ...
                 item_3:
                   subject: Odesílání modelu BIM
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
             item_5:
               subject: Koordinace, první cyklus
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
               children:
                 item_0:
                   subject: Koordinace různých modelů BIM
