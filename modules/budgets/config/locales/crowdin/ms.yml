@@ -34,7 +34,7 @@ ms:
         status: "Status"
         subject: "Subjek"
         type: "Jenis kos"
-        labor_budget: "Kos buruh yang dirancang"
+        labor_budget: "Kos buruh terancang"
         material_budget: "Kos unit yang dirancang"
       work_package:
         budget_subject: "Tajuk anggaran"
