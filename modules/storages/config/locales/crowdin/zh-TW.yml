@@ -197,7 +197,7 @@ zh-TW:
     page_titles:
       file_storages:
         delete: 刪除儲存區
-        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+        subtitle: 新增外部檔案存儲空間，以便上傳、連結和管理工作項目中的文件。
       managed_project_folders:
         one_drive_information: |-
           To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
@@ -231,8 +231,8 @@ zh-TW:
         name: OneDrive/SharePoint
         name_placeholder: 例如 OneDrive
     storage_list_blank_slate:
-      description: Add a storage to see them here.
-      heading: You don't have any storages yet.
+      description: 新增的儲存空間將在此顯示
+      heading: 目前沒有任何儲存空間
     upsale:
       description: |-
         Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
