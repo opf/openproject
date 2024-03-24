@@ -2745,6 +2745,10 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
 
   project_module_activity: "Activity"
   project_module_forums: "Forums"
