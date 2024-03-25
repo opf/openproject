@@ -41,7 +41,7 @@ export function removeSuccessFlashMessages():void {
   jQuery('.op-toast.-success').remove();
 }
 
-export type ToastType = 'success'|'error'|'warning'|'info'|'upload'|'loading'|'notification';
+export type ToastType = 'success'|'error'|'warning'|'info'|'upload'|'loading';
 export const OPToastEvent = 'op:toasters:add';
 
 export interface IToast {
