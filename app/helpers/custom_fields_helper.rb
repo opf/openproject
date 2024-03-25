@@ -42,12 +42,6 @@ module CustomFieldsHelper
         label: :label_spent_time
       },
       {
-        name: 'ProjectCustomField',
-        partial: 'custom_fields/tab',
-        path: custom_fields_path(tab: :ProjectCustomField),
-        label: :label_project_plural
-      },
-      {
         name: 'VersionCustomField',
         partial: 'custom_fields/tab',
         path: custom_fields_path(tab: :VersionCustomField),

@@ -46,16 +46,29 @@ module Overviews
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl.permission(:view_project)
           .controller_actions
-          .push('overviews/overviews/show')
+          .push(
+            'overviews/overviews/show',
+            'overviews/overviews/project_custom_fields_sidebar'
+          )
+
+        OpenProject::AccessControl.permission(:edit_project)
+          .controller_actions
+          .push(
+            'overviews/overviews/project_custom_field_section_dialog',
+            'overviews/overviews/update_project_custom_values'
+          )
 
         OpenProject::AccessControl.permission(:view_work_packages)
-        .controller_actions
-        .push('overviews/overviews/show')
+          .controller_actions
+          .push('overviews/overviews/show')
 
         OpenProject::AccessControl.map do |ac_map|
           ac_map.project_module nil do |map|
             map.permission :manage_overview,
-                           { 'overviews/overviews': ['show'] },
+                           { 'overviews/overviews':
+                              [
+                                'show'
+                              ] },
                            permissible_on: :project,
                            require: :member
           end
