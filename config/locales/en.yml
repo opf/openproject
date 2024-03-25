@@ -2900,7 +2900,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
     If enabled, the API will allow administrators to write static read-only attributes during creation,
-    such as createdAt and updatedAt timestamps.
+    such as createdAt and author.
     <br/>
     <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows
     administrators to impersonate the creation of items as other users. All creation requests are being
