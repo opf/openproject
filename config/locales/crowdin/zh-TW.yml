@@ -1058,8 +1058,8 @@ zh-TW:
   #common attributes of all models
   attributes:
     active: "啟用"
-    assigned_to: "負責執行者"
-    assignee: "負責執行者"
+    assigned_to: "執行者"
+    assignee: "執行者"
     attachments: "附加檔"
     author: "作者"
     base: "一般錯誤:"
@@ -2566,9 +2566,9 @@ zh-TW:
   #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "啟用或封存"
-    assigned_to_role: "負責執行者的角色"
+    assigned_to_role: "執行者的角色"
     assignee_or_group: "被指派或所屬的人或群組"
-    member_of_group: "負責執行者的群組"
+    member_of_group: "執行者的群組"
     name_or_identifier: "名稱或識別碼"
     only_subproject_id: "只限子專案"
     shared_with_user: "分配給成員"
