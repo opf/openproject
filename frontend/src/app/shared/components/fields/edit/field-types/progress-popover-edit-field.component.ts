@@ -33,20 +33,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject, Injector,
+  Inject,
+  Injector,
   OnInit,
-  ViewChild,
 } from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { ActionsService } from 'core-app/core/state/actions/actions.service';
-import {
-  WorkPackageShareModalComponent
-} from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
 import {
   ProgressEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/progress-edit-field.component';
@@ -55,7 +47,8 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import {
-  OpEditingPortalChangesetToken, OpEditingPortalHandlerToken,
+  OpEditingPortalChangesetToken,
+  OpEditingPortalHandlerToken,
   OpEditingPortalSchemaToken,
 } from 'core-app/shared/components/fields/edit/edit-field.component';
 
@@ -100,6 +93,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
 
   public showProgressModal():void {
     this.opened = true;
+    this.cdRef.detectChanges();
   }
 
   public onModalClosed():void {
