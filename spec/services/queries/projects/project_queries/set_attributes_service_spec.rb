@@ -30,6 +30,20 @@ require "spec_helper"
 
 RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:user) }
+  let!(:custom_field) do
+    build_stubbed(:project_custom_field, id: 1) do |cf|
+      scope = instance_double(ActiveRecord::Relation)
+
+      allow(ProjectCustomField)
+        .to receive(:visible)
+              .and_return(scope)
+
+      allow(scope)
+        .to receive(:find_by)
+              .with(id: cf.id.to_s)
+              .and_return(cf)
+    end
+  end
 
   let(:contract_instance) do
     contract = instance_double(Queries::Projects::ProjectQueries::CreateContract)

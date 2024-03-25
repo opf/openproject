@@ -37,25 +37,21 @@ RSpec.describe "Showing of file links in work package", :js do
   let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:work_package) { create(:work_package, project:, description: "Initial description") }
 
-  let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, name: "My storage", oauth_application:) }
+  let(:storage) { create(:nextcloud_storage_configured, name: "My storage") }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:file_link) { create(:file_link, container: work_package, storage:, origin_id: "42", origin_name: "logo.png") }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
-  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
   let(:sync_service) { instance_double(Storages::FileLinkSyncService) }
+  let(:authorization_state) { ServiceResult.success }
 
   before do
-    allow(OAuthClients::ConnectionManager)
-      .to receive(:new)
-            .and_return(connection_manager)
-    allow(connection_manager)
-      .to receive_messages(refresh_token: ServiceResult.success(result: oauth_client_token),
-                           get_access_token: ServiceResult.success(result: oauth_client_token),
-                           authorization_state: :connected)
+    Storages::Peripherals::Registry.stub(
+      "#{storage.short_provider_type}.queries.auth_check",
+      ->(_) { authorization_state }
+    )
 
     # Mock FileLinkSyncService as if Nextcloud would respond with origin_status=nil
     allow(Storages::FileLinkSyncService)
@@ -98,10 +94,7 @@ RSpec.describe "Showing of file links in work package", :js do
   end
 
   context "if user is not authorized in Nextcloud" do
-    before do
-      allow(connection_manager).to receive_messages(authorization_state: :failed_authorization,
-                                                    get_authorization_uri: "https://example.com/authorize")
-    end
+    let(:authorization_state) { ServiceResult.failure(errors: Storages::StorageError.new(code: :unauthorized)) }
 
     it "must show storage information box with login button" do
       within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do
@@ -113,9 +106,7 @@ RSpec.describe "Showing of file links in work package", :js do
   end
 
   context "if an error occurred while authorizing to Nextcloud" do
-    before do
-      allow(connection_manager).to receive(:authorization_state).and_return(:error)
-    end
+    let(:authorization_state) { ServiceResult.failure(errors: Storages::StorageError.new(code: :error)) }
 
     it "must show storage information box" do
       within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do

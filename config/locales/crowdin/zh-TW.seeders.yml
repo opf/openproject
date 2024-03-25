@@ -218,7 +218,7 @@ zh-TW:
                   name: 里程碑
           work_packages:
             item_0:
-              subject: Start of project
+              subject: 專案開始
             item_1:
               subject: Organize open source conference
               children:

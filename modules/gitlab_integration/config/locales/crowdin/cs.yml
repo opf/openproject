@@ -40,7 +40,7 @@ cs:
     merge_request_closed_comment: >
       **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_merged_comment: >
-      **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR sloučeno:** Požadavek na sloučení %{mr_number} [%{mr_title}](%{mr_url}) pro [%{repository}](%{repository_url}) byl sloučen [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_reopened_comment: >
       **MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >

@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'nokogiri'
+require "nokogiri"
 
 module OpenProject
   module Common
@@ -34,7 +34,7 @@ module OpenProject
                   :name,
                   :description
 
-      PARAGRAPH_CSS_CLASS = 'op-uc-p'.freeze
+      PARAGRAPH_CSS_CLASS = "op-uc-p".freeze
 
       def initialize(id, name, description, **args)
         super
@@ -73,7 +73,7 @@ module OpenProject
                                  .inner_html
                                  .html_safe # rubocop:disable Rails/OutputSafety
                              else
-                               ''
+                               ""
                              end
       end
 
@@ -83,12 +83,12 @@ module OpenProject
 
       def body_children
         text_ast
-          .xpath('html/body')
+          .xpath("html/body")
           .children
       end
 
       def multi_type?
-        first_paragraph.include?('figure') || first_paragraph.include?('macro')
+        first_paragraph.include?("figure") || first_paragraph.include?("macro")
       end
     end
   end

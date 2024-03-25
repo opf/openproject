@@ -1,5 +1,5 @@
 #English strings go here
-pt:
+pt-PT:
   plugin_openproject_boards:
     name: "Quadros do OpenProject"
     description: "Fornece vistas do quadro."

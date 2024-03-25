@@ -1,22 +1,22 @@
-<%= render(FormControl.new(input: @input)) do %>
+<%= render(FormControl.new(input: @input, data: @wrapper_data_attributes)) do %>
   <% if decorated_select? %>
     <%= render partial: '/augmented/autocomplete_select_decoration',
                locals: {
-                 input_name: builder.field_name(@input.name),
-                 input_id: builder.field_id(@input.name),
+                 input_name: @autocomplete_options.fetch(:inputName) { builder.field_name(@input.name) },
+                 input_id: @autocomplete_options.fetch(:inputId) { builder.field_id(@input.name) },
                  select_options: select_options.map(&:to_h),
                  multiple: @autocomplete_options.fetch(:multiple, false),
                  key: @autocomplete_options.fetch(:resource, ''),
                  append_to: @autocomplete_options.fetch(:append_to, 'body')
                } %>
   <% else %>
-    <%= angular_component_tag 'opce-autocompleter',
+    <%= angular_component_tag @autocomplete_options.fetch(:component, 'opce-autocompleter'),
                               data: @autocomplete_options.delete(:data) { {} },
                               inputs: @autocomplete_options.merge(
                                 classes: "ng-select--primerized #{@input.invalid? ? '-error' : ''}",
-                                inputName: builder.field_name(@input.name),
-                                inputValue: builder.object.send(@input.name),
-                                defaultData: 'true'
+                                inputName: @autocomplete_options.fetch(:inputName) { builder.field_name(@input.name) },
+                                inputValue: @autocomplete_options.fetch(:inputValue) { builder.object.send(@input.name) },
+                                defaultData: @autocomplete_options.fetch(:defaultData) { true }
                               )
     %>
   <% end %>

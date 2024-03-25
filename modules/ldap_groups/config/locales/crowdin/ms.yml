@@ -51,8 +51,8 @@ ms:
       destroy:
         title: 'Keluarkan kumpulan yang diselaraskan %{name}'
         confirmation: "Jika anda teruskan, kumpulan yang diselaraskan %{name} dan semua pengguna %{users_count} yang diselaraskan melalui itu akan dikeluarkan."
-        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
-        verification: "Enter the group's name %{name} to verify the deletion."
+        info: "Perhatian: Kumpulan OpenProject itu sendiri dan ahli yang ditambah di luar penjanaan LDAP tidak akan dikeluarkan."
+        verification: "Masukkan nama kumpulan %{name} untuk mengesahkan pembuangan."
       help_text_html: |
         This module allows you to set up a synchronization between LDAP and OpenProject groups.
         It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.

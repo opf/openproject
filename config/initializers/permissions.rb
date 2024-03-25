@@ -109,6 +109,13 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
+      map.permission :select_project_custom_fields,
+                     {
+                       'projects/settings/project_custom_fields': %i[show toggle enable_all_of_section disable_all_of_section]
+                     },
+                     permissible_on: :project,
+                     require: :member
+
       map.permission :manage_members,
                      {
                        members: %i[index new create update destroy autocomplete_for_member menu],

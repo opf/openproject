@@ -43,7 +43,6 @@ RSpec.configure do |config|
       classes.each(&:disable_test_adapter)
       ActiveJob::Base.queue_adapter = good_job_adapter
       example.run
-
     ensure
       ActiveJob::Base.queue_adapter = original_adapter
       classes.each { |cls| cls.enable_test_adapter(original_adapter) }
