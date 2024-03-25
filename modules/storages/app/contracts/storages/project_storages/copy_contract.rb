@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,35 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Copy
-  class StoragesDependentService < Dependency
-    using Storages::Peripherals::ServiceResultRefinements
+module Storages
+  module ProjectStorages
+    class CopyContract < CreateContract
+      private
 
-    def self.human_name
-      I18n.t(:label_project_storage_plural)
+      def validate_user_allowed_to_manage = true
     end
-
-    def source_count
-      source.storages.count
-    end
-
-    protected
-
-    # rubocop:disable Metrics/AbcSize
-    def copy_dependency(*)
-      state.copied_project_storages = source.project_storages.each_with_object([]) do |source_project_storage, array|
-        project_storage_copy =
-          ::Storages::ProjectStorages::CreateService
-            .new(user: User.current, contract_class: ::Storages::ProjectStorages::CopyContract)
-            .call(storage_id: source_project_storage.storage_id,
-                  project_id: target.id,
-                  project_folder_mode: "inactive")
-            .on_failure { |r| add_error!(source_project_storage.class.to_s, r.to_active_model_errors) }
-            .result
-
-        array << { source: source_project_storage, target: project_storage_copy }
-      end
-    end
-    # rubocop:enable Metrics/AbcSize
   end
 end

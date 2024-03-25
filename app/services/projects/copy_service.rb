@@ -47,6 +47,18 @@ module Projects
       ]
     end
 
+    # Project Folders and File Links aren't dependent services anymore,
+    #  so we need to amend the services for the form Representer
+    def self.copyable_dependencies
+      super + [{ identifier: "storage_project_folders",
+                 name_source: -> { I18n.t(:label_project_storage_project_folder) },
+                 count_source: ->(source, _) { source.storages.count } },
+
+               { identifier: "file_links",
+                 name_source: -> { I18n.t("projects.copy.work_package_file_links") },
+                 count_source: ->(source, _) { source.work_packages.joins(:file_links).count("file_links.id") } }]
+    end
+
     protected
 
     ##
