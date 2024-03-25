@@ -74,7 +74,8 @@ module Storages
             "origin_id" => location_map[source_link.origin_id]
           )
 
-          CreateService.new(user: @user).call(attributes).on_failure { |failed| log_errors(failed) }
+          CreateService.new(user: @user, contract_class: CopyContract)
+                       .call(attributes).on_failure { |failed| log_errors(failed) }
         end
       end
 
@@ -108,7 +109,8 @@ module Storages
           attributes["creator_id"] = @user.id
           attributes["container_id"] = @work_packages_map[source_file_link.container_id]
 
-          FileLinks::CreateService.new(user: @user).call(attributes).on_failure { |failed| log_errors(failed) }
+          FileLinks::CreateService.new(user: @user, contract_class: CopyContract)
+                                  .call(attributes).on_failure { |failed| log_errors(failed) }
         end
       end
 

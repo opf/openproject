@@ -146,17 +146,20 @@ class CopyProjectJob < ApplicationJob
     copy_service = ::Projects::CopyService.new(source: source_project, user:)
     result = copy_service.call({ target_project_params:, send_notifications:, only: Array(associations_to_copy) })
 
-    enqueue_copy_project_folder_jobs(copy_service.state.copied_project_storages, copy_service.state.work_package_id_lookup)
+    enqueue_copy_project_folder_jobs(copy_service.state.copied_project_storages,
+                                     copy_service.state.work_package_id_lookup,
+                                     associations_to_copy)
 
     result
   end
 
-  def enqueue_copy_project_folder_jobs(copied_storages, work_packages_map)
+  def enqueue_copy_project_folder_jobs(copied_storages, work_packages_map, only)
+    return unless only.intersect?("file_links", "storage_project_folders").any?
+
     Array(copied_storages).each do |storage_pair|
       batch.enqueue do
-        Storages::CopyProjectFoldersJob.perform_later(source: storage_pair[:source],
-                                                      target: storage_pair[:target],
-                                                      work_packages_map:)
+        Storages::CopyProjectFoldersJob
+          .perform_later(source: storage_pair[:source], target: storage_pair[:target], work_packages_map:)
       end
     end
   end
