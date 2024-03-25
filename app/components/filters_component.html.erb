@@ -9,7 +9,11 @@
             'action': 'filters#toggleDisplayFilters',
             'test-selector': 'filter-component-toggle' })) do %>
       <%= t(:label_filter) %>
-      <%= render(Primer::Beta::Counter.new(count: filters_count, round: true, hide_if_zero: false, scheme: :default)) %>
+      <%= render(Primer::Beta::Counter.new(count: filters_count,
+                                           round: true,
+                                           hide_if_zero: false,
+                                           scheme: :default,
+                                           data: { "test-selector": "filters-button-counter" })) %>
     <% end %>
     <div class="op-filters-header-actions">
       <% buttons.each do |button| %>
