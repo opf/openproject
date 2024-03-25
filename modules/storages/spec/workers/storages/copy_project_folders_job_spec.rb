@@ -197,8 +197,8 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
       GoodJob.perform_inline
       batch.reload
 
-      expect(batch.properties[:polling_url]).to eq(polling_url)
-      expect(batch.properties[:polling_state]).to eq(:ongoing)
+      expect(batch.properties.dig(:polling, source.id.to_s, :polling_url)).to eq(polling_url)
+      expect(batch.properties.dig(:polling, source.id.to_s, :polling_state)).to eq(:ongoing)
     end
 
     context "when the polling completes" do
