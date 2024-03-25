@@ -57,7 +57,13 @@ module Members
     end
 
     def delete_url(work_package_shares_role_id: nil)
-      url_for(controller: "/members", action: "destroy_by_principal", principal_id: principal, work_package_shares_role_id:)
+      url_for(
+        controller: "/members",
+        action: "destroy_by_principal",
+        project_id: row.project,
+        principal_id: row.principal,
+        work_package_shares_role_id:
+      )
     end
   end
 end
