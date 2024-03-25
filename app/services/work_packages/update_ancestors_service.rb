@@ -99,9 +99,8 @@ class WorkPackages::UpdateAncestorsService
       # or the derived remaining hours, depending on the % Complete mode
       # currently active.
       #
-      %i[estimated_hours remaining_hours] => :derive_estimated_hours,
-      %i[remaining_hours estimated_hours] => :derive_remaining_hours,
-      %i[estimated_hours done_ratio status status_id] => :derive_done_ratio,
+      %i[estimated_hours remaining_hours] => :derive_total_estimated_and_remaining_hours,
+      %i[estimated_hours remaining_hours done_ratio status status_id] => :derive_done_ratio,
       %i[ignore_non_working_days] => :derive_ignore_non_working_days
     }.each do |derivative_attributes, method|
       if attributes.intersect?(derivative_attributes + %i[parent parent_id])
@@ -117,7 +116,6 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def derive_done_ratio(ancestor, loader)
-    return if initiator?(ancestor)
     return if WorkPackage.done_ratio_disabled?
 
     ancestor.derived_done_ratio = compute_derived_done_ratio(ancestor, loader) || 0
@@ -152,15 +150,10 @@ class WorkPackages::UpdateAncestorsService
     ancestor.ignore_non_working_days = descendant_value
   end
 
-  def derive_estimated_hours(work_package, loader)
+  def derive_total_estimated_and_remaining_hours(work_package, loader)
     descendants = loader.descendants_of(work_package)
 
     work_package.derived_estimated_hours = not_zero(all_estimated_hours([work_package] + descendants).sum.to_f)
-  end
-
-  def derive_remaining_hours(work_package, loader)
-    descendants = loader.descendants_of(work_package)
-
     work_package.derived_remaining_hours = not_zero(all_remaining_hours([work_package] + descendants).sum.to_f)
   end
 

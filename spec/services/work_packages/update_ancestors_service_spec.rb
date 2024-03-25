@@ -862,7 +862,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .and change(new_parent, :derived_remaining_hours).to(new_remaining_hours)
       end
 
-      it "updates the derived_done_ratio, erived_estimated_hours, and derived_remaining_hours of the grandparent" do
+      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the grandparent" do
         expect do
           subject
           grandparent.reload
@@ -1060,6 +1060,54 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             parent  |
           TABLE
         end
+      end
+    end
+  end
+
+  describe "done_ratio propagation" do
+    shared_let(:parent) { create(:work_package, subject: "parent") }
+
+    context "given child with work, when remaining work being set on parent" do
+      let_work_packages(<<~TABLE)
+        hierarchy | work | total work | remaining work | total remaining work
+        parent    |      |        10h |             7h |
+          child1  |  10h |        10h |                |
+      TABLE
+
+      subject(:call_result) do
+        described_class.new(user:, work_package: parent)
+                        .call(%i(remaining_hours))
+      end
+
+      it "sets parent total remaining work and updates total % complete accordingly" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total remaining work | total % complete
+          parent  |                   7h |              30%
+        TABLE
+      end
+    end
+
+    context "given child with remaining work, when work being set on parent" do
+      let_work_packages(<<~TABLE)
+        hierarchy | work | total work | remaining work | total remaining work
+        parent    |  10h |            |                |                   7h
+          child1  |      |            |             7h |                   7h
+      TABLE
+
+      subject(:call_result) do
+        described_class.new(user:, work_package: parent)
+                        .call(%i(estimated_hours))
+      end
+
+      it "sets parent total work and updates total % complete accordingly" do
+        expect(call_result).to be_success
+        updated_work_packages = call_result.all_results
+        expect_work_packages(updated_work_packages, <<~TABLE)
+          subject | total work | total % complete
+          parent  |        10h |              30%
+        TABLE
       end
     end
   end
