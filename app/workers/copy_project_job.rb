@@ -154,7 +154,7 @@ class CopyProjectJob < ApplicationJob
   end
 
   def enqueue_copy_project_folder_jobs(copied_storages, work_packages_map, only)
-    return unless only.intersect?("file_links", "storage_project_folders").any?
+    return unless only.intersect?(%w[file_links storage_project_folders])
 
     Array(copied_storages).each do |storage_pair|
       batch.enqueue do

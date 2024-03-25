@@ -102,6 +102,8 @@ RSpec.describe(
           boards
           overview
           storages
+          storage_project_folders
+          file_links
         )
       )
     end

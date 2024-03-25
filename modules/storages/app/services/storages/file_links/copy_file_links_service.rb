@@ -45,12 +45,16 @@ module Storages
       end
 
       def call
+        OpenProject.logger.error "STORAGE CLASS: #{@source.storage.class}, #{@target.storage.class}"
+
         source_file_links = FileLink
           .includes(:creator)
-          .where(container_id: @work_packages_map.keys, container_type: "WorkPackage")
+          .where(storage: @source.storage,
+                 container_id: @work_packages_map.keys,
+                 container_type: "WorkPackage")
 
         with_locale_for(@user) do
-          if @source.project_folder_automatic?
+          if @source.project_folder_mode == "automatic"
             create_managed_file_links(source_file_links)
           else
             create_unmanaged_file_links(source_file_links)
@@ -67,6 +71,8 @@ module Storages
         )
 
         source_file_links.find_each do |source_link|
+          next unless location_map.has_key?(source_link.origin_id)
+
           attributes = source_link.dup.attributes
           attributes.merge!(
             "creator_id" => @user.id,
@@ -80,17 +86,22 @@ module Storages
       end
 
       def build_location_map(source_files, target_location_map)
-        source_location_map = source_files.filter { |info| info.status == "OK" }.to_h do |info|
-          [info.id, info.location]
+        # We need this due to inconsistencies of how we represent the File Path
+        target_location_map.transform_keys! { |key| key.starts_with?("/") ? key : "/#{key}" }
+
+        # Since right now we can't make the relevant call as a remote admin we need to filter out 403 responses
+        source_location_map = source_files.filter { |info| info.status_code.to_i == 200 }.to_h do |info|
+          [info.id.to_s, info.clean_location]
         end
 
         source_location_map.each_with_object({}) do |(id, location), output|
           target = location.gsub(@source.managed_project_folder_path, @target.managed_project_folder_path)
 
-          output[id] = target_location_map[target]
+          output[id] = target_location_map[target]&.id || id
         end
       end
 
+      # Known issue, this can lead to 403s.
       def source_files_info(source_file_links)
         Peripherals::Registry
           .resolve("#{@source.storage.short_provider_type}.queries.files_info")
@@ -115,7 +126,8 @@ module Storages
       end
 
       def log_errors(failure)
-        OpenProject.logger.warn failure.errors.inspect
+        OpenProject.logger.error failure.inspect
+        OpenProject.logger.error failure.errors.inspect
       end
     end
   end

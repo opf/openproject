@@ -56,7 +56,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
 
   let(:target_deep_file_ids) do
     source_file_links.each_with_object({}) do |fl, hash|
-      hash["#{target.managed_project_folder_path}#{fl.name}"] = "RANDOM_ID_#{fl.hash}"
+      hash["#{target.managed_project_folder_path}#{fl.name}"] = Storages::StorageFileInfo.from_id("RANDOM_ID_#{fl.hash}")
     end
   end
 
@@ -64,7 +64,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
   let(:source_file_infos) do
     source_file_links.map do |fl|
       Storages::StorageFileInfo.new(
-        status: "ok",
+        status: "OK",
         status_code: 200,
         id: fl.origin_id,
         name: fl.name,
@@ -156,7 +156,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
       GoodJob.perform_inline
 
       Storages::FileLink.where(container: target_work_packages).find_each do |file_link|
-        expect(file_link.origin_id).to eq(target_deep_file_ids["#{target.managed_project_folder_path}#{file_link.name}"])
+        expect(file_link.origin_id).to eq(target_deep_file_ids["/#{target.managed_project_folder_path}#{file_link.name}"].id)
       end
     end
   end
