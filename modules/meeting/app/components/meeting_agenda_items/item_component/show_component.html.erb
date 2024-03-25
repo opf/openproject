@@ -70,7 +70,7 @@
                                   ml: 2,
                                   test_selector: 'op-meeting-agenda-actions')
             edit_action_item(menu) if @meeting_agenda_item.editable?
-            add_note_action_item(menu) if @meeting_agenda_item.editable?
+            add_note_action_item(menu) if @meeting_agenda_item.editable? && @meeting_agenda_item.notes.blank?
             move_actions(menu)
             delete_action_item(menu)
           end

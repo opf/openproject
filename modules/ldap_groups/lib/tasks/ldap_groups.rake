@@ -128,6 +128,7 @@ namespace :ldap_groups do
         uid=aa729,ou=people,dc=example,dc=com (Password: smada)
         uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)
         uid=cc414,ou=people,dc=example,dc=com (Password: retneprac)
+        uid=bölle,ou=people,dc=example,dc=com (Password: bólle)
 
         --------------------------------------------------------
 
