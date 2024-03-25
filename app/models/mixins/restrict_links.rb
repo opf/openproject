@@ -26,33 +26,67 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Comment < ApplicationRecord
-  include Mixins::RestrictLinks
+module Mixins::RestrictLinks
+  extend ActiveSupport::Concern
+  extend self
 
-  belongs_to :commented, polymorphic: true, counter_cache: true
-  belongs_to :author, class_name: "User"
-
-  validates :commented, :author, :comments, presence: true
-
-  after_create :send_news_comment_added_mail
-
-  def text
-    comments
+  included do
+    validate :restricted_links
   end
-
-  def post!
-    save!
-  end
-
-  private
 
   def restricted_attributes
-    %i(comments)
+    raise NotImplementedError
   end
 
-  def send_news_comment_added_mail
-    OpenProject::Notifications.send(OpenProject::Events::NEWS_COMMENT_CREATED,
-                                    comment: self,
-                                    send_notification: true)
+  def link_author
+    author
+  end
+
+  def restricted_links
+    return if trusted_author? link_author
+
+    restricted_attributes.each do |attr|
+      content = send attr
+
+      if contains_links?(content) && forbidden_links?(content)
+        errors.add attr, :forbidden_link
+      end
+    end
+  end
+
+  def contains_links?(content)
+    content.match? URI::DEFAULT_PARSER.make_regexp
+  end
+
+  def forbidden_links?(content)
+    return false if links_allowed?(content)
+
+    true
+  end
+
+  def links_allowed?(content)
+    content.scan(URI::DEFAULT_PARSER.make_regexp).all? do |match|
+      host = String(match[3])
+
+      host_allowed? host
+    end
+  end
+
+  def host_allowed?(host)
+    allowed_hosts.include? host
+  end
+
+  def allowed_hosts
+    Array(Setting.forum_allowed_link_hosts).map do |link|
+      if link == "'self'"
+        Setting.host_name
+      else
+        link
+      end
+    end
+  end
+
+  def trusted_author?(user)
+    user.admin? && false
   end
 end

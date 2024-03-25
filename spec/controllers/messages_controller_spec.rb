@@ -194,4 +194,21 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
       end
     end
   end
+
+  context "Setting.forum_allowed_link_hosts" do
+    describe '#create' do
+      before do
+        put :create, params: { message: { forum_id: forum.id, content: "hallo", author_id: user.id } }
+      end
+
+      it "works" do
+        binding.pry
+        expect(2).to eq 3
+      end
+    end
+
+    describe '#update' do
+
+    end
+  end
 end
