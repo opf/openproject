@@ -77,19 +77,19 @@ export default class ProjectCustomFieldsMappingFilterController extends Controll
     this.showBulkActionContainers();
 
     this.searchItemTargets.forEach((item) => {
-      (item as HTMLElement).style.display = 'block';
+      (item as HTMLElement).classList.remove('hidden-by-filter');
     });
   }
 
   hideBulkActionContainers() {
     this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).style.display = 'none';
+      (item as HTMLElement).classList.add('hidden-by-filter');
     });
   }
 
   showBulkActionContainers() {
     this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).style.display = 'block';
+      (item as HTMLElement).classList.remove('hidden-by-filter');
     });
   }
 }
