@@ -27,36 +27,15 @@
 #++
 module WorkPackage::Exports
   module Formatters
-    class EstimatedHours < ::Exports::Formatters::Default
+    class DoneRatio < ::Exports::Formatters::Default
       def self.apply?(name, _export_format)
-        name.to_sym == :estimated_hours
+        name.to_sym == :done_ratio
       end
 
       def format(work_package, **)
-        estimated_hours = formatted_hours(work_package.estimated_hours)
-        derived_hours = formatted_derived_hours(work_package)
-
-        if estimated_hours.nil? || derived_hours.nil?
-          return estimated_hours || derived_hours
-        end
-
-        "#{estimated_hours} #{derived_hours}"
-      end
-
-      def format_value(value, _options)
-        formatted_hours(value)
-      end
-
-      private
-
-      def formatted_hours(value)
-        value.nil? ? nil : "#{value} #{I18n.t('export.units.hours')}"
-      end
-
-      def formatted_derived_hours(work_package)
-        if (derived_estimated_value = work_package.derived_estimated_hours)
-          "· Σ #{formatted_hours(derived_estimated_value)}"
-        end
+        derived_done_ratio = work_package.derived_done_ratio
+        derived  = derived_done_ratio > 0 ? " · Σ #{derived_done_ratio}%" : ""
+        "#{work_package.done_ratio}%#{derived}"
       end
     end
   end
