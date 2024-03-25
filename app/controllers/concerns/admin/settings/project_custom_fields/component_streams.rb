@@ -42,7 +42,7 @@ module Admin
           def update_section_via_turbo_stream(project_custom_field_section:)
             update_via_turbo_stream(
               component: ::Settings::ProjectCustomFieldSections::ShowComponent.new(
-                # Note: `first_and_last:` argument is necessary here, because we render
+                # Note: `first_and_last:` argument is not necessary here, because we render
                 # a single custom field section, and not a list of sections. Calling first?
                 # and last? method in the component will not result in an N+1 in this case.
                 project_custom_field_section:
