@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:label_project_plural) %>
+<%= toolbar title: t(:label_project_settings) %>
 
-<%= styled_form_tag(admin_settings_update_projects_path, method: :patch) do %>
+<%= styled_form_tag(admin_settings_projects_path, method: :patch) do %>
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t('settings.projects.section_new_projects') %></legend>
@@ -59,6 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
           %>
         </div>
       <% end %>
+
 
       <div class="form--field -full-width">
         <div class="form--text-field-container -xwide">

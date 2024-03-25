@@ -80,6 +80,15 @@ module Projects
       end
     end
 
+    def after_perform(call)
+      copy_activated_custom_fields(call)
+
+      super
+    end
+
+    def copy_activated_custom_fields(call)
+       call.result.project_custom_field_ids = source.project_custom_field_ids
+    end
     def contract_options
       { copy_source: source, validate_model: true }
     end

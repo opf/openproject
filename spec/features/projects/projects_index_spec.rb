@@ -822,6 +822,15 @@ RSpec.describe 'Projects index page',
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to have_no_text(project_created_on_fixed_date.name)
+
+        # Disabling a CF in the project should remove the project from results
+
+        project_created_on_today.project_custom_field_project_mappings.destroy_all
+        click_on 'Apply'
+        wait_for_reload
+
+        expect(page).to have_no_text(project_created_on_today.name, wait: 1)
+        expect(page).to have_no_text(project_created_on_fixed_date.name)
       end
 
       pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"

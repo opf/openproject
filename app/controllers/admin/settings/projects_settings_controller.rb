@@ -28,12 +28,12 @@
 
 module Admin::Settings
   class ProjectsSettingsController < ::Admin::SettingsController
-    menu_item :settings_projects
+    menu_item :projects_settings
 
     before_action :validate_enabled_modules, only: :update
 
     def default_breadcrumb
-      t(:label_project_plural)
+      t(:label_project_settings)
     end
 
     private

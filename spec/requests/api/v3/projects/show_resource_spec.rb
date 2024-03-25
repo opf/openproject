@@ -53,6 +53,14 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
                        value: '1234',
                        customized: project)
   end
+  let(:invisible_custom_field) do
+    create(:text_project_custom_field, visible: false)
+  end
+  let(:invisible_custom_value) do
+    CustomValue.create(custom_field: invisible_custom_field,
+                       value: '1234',
+                       customized: project)
+  end
 
   let(:get_path) { api_v3_paths.project project.id }
   let!(:parent_project) do
@@ -96,12 +104,33 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
               .at_path('_links/ancestors/0/href')
     end
 
-    it 'includes custom fields' do
+    it 'includes only visible custom fields' do
       custom_value
+      invisible_custom_value
 
       expect(subject.body)
         .to be_json_eql(custom_value.value.to_json)
               .at_path("customField#{custom_field.id}/raw")
+
+      expect(subject.body)
+        .not_to have_json_path("customField#{invisible_custom_field.id}/raw")
+    end
+
+    context 'with admin permissions' do
+      current_user { admin }
+
+      it 'includes invisible custom fields' do
+        custom_value
+        invisible_custom_value
+
+        expect(subject.body)
+          .to be_json_eql(custom_value.value.to_json)
+                .at_path("customField#{custom_field.id}/raw")
+
+        expect(subject.body)
+          .to be_json_eql(invisible_custom_value.value.to_json)
+                .at_path("customField#{invisible_custom_field.id}/raw")
+      end
     end
 
     it 'includes the project status' do
