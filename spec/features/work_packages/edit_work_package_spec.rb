@@ -131,11 +131,11 @@ RSpec.describe "edit work package", :js do
                               combinedDate: ["2013-03-04", "2013-03-20"],
                               responsible: manager.name,
                               assignee: manager.name,
-                              estimatedTime: "5",
+                              estimatedTime: "10",
+                              remainingTime: "7",
                               priority: priority2.name,
                               version: version.name,
                               category: category.name,
-                              percentageDone: "30",
                               status: status2.name,
                               description: "a new description"
 
@@ -143,7 +143,8 @@ RSpec.describe "edit work package", :js do
                               responsible: manager.name,
                               assignee: manager.name,
                               combinedDate: "03/04/2013 - 03/20/2013",
-                              estimatedTime: "5",
+                              estimatedTime: "10 h",
+                              remainingTime: "7 h",
                               percentageDone: "30%",
                               subject: "a new subject",
                               description: "a new description",
