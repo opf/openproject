@@ -1,0 +1,93 @@
+This document serves as a reference guide for developers and designers with essential information about the colors used within our application.
+Consistent utilization of colors not only enhances the visual appeal of the application but also improves user experience by creating a cohesive and intuitive design language.
+
+By adhering to the prescribed color codes and guidelines outlined in this document, you will ensure that the application maintains consistency and usability across all its components.
+Whether you're designing new features, updating existing interfaces, or implementing UI enhancements, 
+this documentation serves as your go-to resource for making informed color decisions that align with our identity and user experience objectives.
+
+## Special colors
+
+
+### Primary button color
+
+Hex Code: #1F883D
+
+RGB: (31,136,61)
+
+Variable: --primary-button-color
+
+Usage: This vibrant green is used sparingly for the most important button on a screen.
+
+Gray button:
+
+```html
+
+<button class="button"></button>
+
+```
+
+Primary Button:
+
+```html
+
+<button class="button -primary"></button>
+
+```
+
+
+#### Where it's used
+
+- Work packages &rarr; Create a Work package
+
+### Accent color
+
+Hex Code: #155282
+
+RGB: (21,82,130)
+
+Variable: --accent-color
+
+Usage: This shade of blue is used for links and other decently highlighted elements.
+
+#### Where it's used
+
+- Work package full-screen page &rarr; Parent link
+
+
+### Text color
+
+Hex Code: #333333
+
+RGB: (51,51,51)
+
+Variable: --body-font-color which is mapped to --color-fg-default primer variable
+
+Usage: The text color is used for body text and general content throughout the application.
+
+#### Where it's used
+
+- Wiki page
+
+
+## Accessibility considerations
+
+When implementing colors in the application, we should ensure compliance with accessibility standards.
+Moreover we should verify that text has sufficient contrast against background colors to ensure readability for users with visual impairments.
+
+### High-contrast mode
+
+High Contrast Mode in our application is a user accessibility feature designed to enhance visibility and readability for individuals with visual impairments or those 
+who prefer distinct visual elements. When enabled, High Contrast Mode adjusts the application's color scheme, typically by increasing the contrast between text and 
+background, using bold fonts, and employing vibrant colors to ensure clear distinction between interface elements.
+ This mode aims to make content more discernible, thereby improving usability and accessibility for all users regardless of their visual abilities.
+
+High-contrast mode will be activated by following these steps:
+
+My account &rarr; Settings &rarr; Mode &rarr; selecting light high contrast
+
+In order to apply the high-contast colors after activating this mode, we should map some OpenProject global color variables to Primer color variables in: `app/views/custom_styles/_primer_color_mapping.erb`
+
+For example: --button--border-color: var(--color-border-default);
+
+It is noteworthy that when activating high-contrast mode, theming won't work anymore.
+
