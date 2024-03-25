@@ -110,7 +110,7 @@ module Acts::Journalized
       end
 
       def merge_reference_journals_by_id(new_journals, old_journals, id_key, value)
-        all_associated_journal_ids = new_journals.pluck(id_key) | old_journals.pluck(id_key)
+        all_associated_journal_ids = (new_journals.pluck(id_key) | old_journals.pluck(id_key)).compact
 
         all_associated_journal_ids.index_with do |id|
           [select_and_combine_journals(old_journals, id, id_key, value),
