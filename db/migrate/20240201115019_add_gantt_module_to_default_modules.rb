@@ -1,6 +1,6 @@
 class AddGanttModuleToDefaultModules < ActiveRecord::Migration[7.0]
   def up
-    unless Setting.default_projects_modules.include?("gantt")
+    if Setting.default_projects_modules_writable? && Setting.default_projects_modules&.exclude?("gantt")
       Setting.default_projects_modules = Setting.default_projects_modules + ["gantt"]
     end
   end
