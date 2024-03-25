@@ -1,4 +1,4 @@
-<div class="op-toast -{{ type }}" tabindex="0">
+<div class="op-toast -{{ type }} {{ icon }}" tabindex="0">
   <div class="op-toast--content" role="alert" aria-atomic="true">
     <ng-container *ngIf="type === 'loading'">
       <p [textContent]="toast.message"></p>

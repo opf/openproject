@@ -135,8 +135,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-success,
   &.-warning,
   &.-info,
-  &.-loading,
-  &.-notification
+  &.-loading
     padding: $nm-box-padding
 
   &.-ee-upsale
@@ -150,34 +149,32 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error
     @extend %error-placeholder
 
-    &::before
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-error
 
   &.-success
     @extend %success-placeholder
 
-    &::before
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-success
 
   &.-warning
     @extend %warning-placeholder
 
-    &::before
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-warning
 
   &.-info
     @extend %info-placeholder
 
-    &::before
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-info
 
-  &.-notification
-    @extend %info-placeholder
-
+  &.-notification-icon
     &::before
       @include messages-icon
       @extend %nm-icon-notification
