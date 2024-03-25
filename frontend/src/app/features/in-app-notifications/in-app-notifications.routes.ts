@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Ng2StateDeclaration } from '@uirouter/angular';
+import type { Ng2StateDeclaration } from '@uirouter/angular';
 import { makeSplitViewRoutes } from 'core-app/features/work-packages/routing/split-view-routes.template';
 import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view.component';
 import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';

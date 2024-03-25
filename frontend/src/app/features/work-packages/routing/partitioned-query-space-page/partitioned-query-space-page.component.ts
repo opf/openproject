@@ -41,7 +41,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ComponentType } from '@angular/cdk/overlay';
-import { Ng2StateDeclaration } from '@uirouter/angular';
+import type { Ng2StateDeclaration } from '@uirouter/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/invite-user.component';

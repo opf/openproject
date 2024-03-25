@@ -27,7 +27,7 @@
 //++
 
 import { WorkPackageNewSplitViewComponent } from 'core-app/features/work-packages/components/wp-new/wp-new-split-view.component';
-import { Ng2StateDeclaration } from '@uirouter/angular';
+import type { Ng2StateDeclaration } from '@uirouter/angular';
 import { ComponentType } from '@angular/cdk/overlay';
 import { WpTabWrapperComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
 import { WorkPackageCopySplitViewComponent } from 'core-app/features/work-packages/components/wp-copy/wp-copy-split-view.component';

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Ng2StateDeclaration } from '@uirouter/angular';
+import type { Ng2StateDeclaration } from '@uirouter/angular';
 import { BacklogsPageComponent } from 'core-app/features/backlogs/backlogs-page/backlogs-page.component';
 
 export const BACKLOGS_ROUTES:Ng2StateDeclaration[] = [
