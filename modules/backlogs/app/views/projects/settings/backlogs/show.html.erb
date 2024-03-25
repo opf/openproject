@@ -82,7 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </div>
 <div class="generic-table--action-buttons">
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 </div>
 
 <% end %>
@@ -90,5 +90,5 @@ See COPYRIGHT and LICENSE files for more details.
 <h3><%= t('backlogs.rebuild_positions') %></h3>
 
 <%= styled_form_tag(controller: '/projects/settings/backlogs', action: "rebuild_positions", id: @project) do %>
-  <p><%= styled_button_tag t('backlogs.rebuild'), class: '-highlight' %></p>
+  <p><%= styled_button_tag t('backlogs.rebuild'), class: '-primary' %></p>
 <% end %>

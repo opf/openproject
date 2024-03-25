@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= link_to_if_authorized({ controller: '/categories', action: 'new', project_id: @project },
                                 { aria: { label: t(:label_work_package_category_new) },
                                   title: t(:label_work_package_category_new),
-                                  class: 'button -alt-highlight'}) do %>
+                                  class: 'button -primary'}) do %>
         <%= op_icon('icon-add button--icon') %>
         <span class="button--text"><%= t('activerecord.models.category') %></span>
       <% end %>

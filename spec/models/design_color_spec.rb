@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe DesignColor do
-  let(:default_primary) { OpenProject::CustomStyles::Design.variables['primary-color'] }
-  let(:primary_color) { create(:'design_color_primary-color') }
+  let(:default_primary) { OpenProject::CustomStyles::Design.variables['primary-button-color'] }
+  let(:primary_color) { create(:'design_color_primary-button-color') }
 
   describe "#setables" do
     it "returns an Array of instances" do
@@ -28,7 +28,7 @@ RSpec.describe DesignColor do
     end
 
     it "returns nil hexcode if hexcode not present" do
-      expect(described_class.new(variable: "primary-color").hexcode)
+      expect(described_class.new(variable: "primary-button-color").hexcode)
         .to be_nil
     end
   end

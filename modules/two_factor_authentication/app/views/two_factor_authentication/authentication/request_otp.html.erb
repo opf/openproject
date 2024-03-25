@@ -43,24 +43,20 @@
         </label>
       </div>
     <% end %>
-    <div class="login-form--footer">
-      <input type="submit" name="login" value="<%= t(:button_login) %>" class="button -highlight button_no-margin" tabindex="2"/>
-      <% if resend_supported || has_other_devices || has_backup_codes %>
-        <div class="login-options-container">
-          <div class="login-links">
-            <%= link_to(
-                  t(:text_otp_not_receive),
-                  '#',
-                  id: 'toggle_resend_form',
-                  tabindex: 3,
-                  data: { action: 'two-factor-authentication#toggleResendOptions' },
-                  class: 'login-form--footer-link'
-                ) %>
-          </div>
+    <input type="submit" name="login" value="<%= t(:button_login) %>" class="button -primary button_no-margin" tabindex="2"/>
+    <% if resend_supported || has_other_devices || has_backup_codes %>
+      <div class="login-options-container">
+        <div class="login-links">
+          <%= link_to(
+                t(:text_otp_not_receive),
+                '#',
+                id: 'toggle_resend_form',
+                tabindex: 3,
+                data: { action: 'two-factor-authentication#toggleResendOptions' }
+              ) %>
         </div>
-      <% end %>
-    </div>
-
+      </div>
+    <% end %>
   <% end %>
   <div
     id="resend_otp_container"
@@ -81,8 +77,7 @@
             <label for="channel_<%= channel %>"><%= t("button_otp_by_#{channel}") %></label>
           </div>
         <% end %>
-
-        <input type="submit" value="<%= t(:button_resend_otp_form) %>" id="submit_resend_form" class="button -highlight"/>
+        <input type="submit" value="<%= t(:button_resend_otp_form) %>" id="submit_resend_form" class="button -primary"/>
       <% end %>
     <% end %>
     <% if has_other_devices %>

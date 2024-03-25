@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   <% end %>
 
-  <%= submit_tag t(:button_apply), class: 'button -highlight' %>
+  <%= submit_tag t(:button_apply), class: 'button -primary' %>
   <%= link_to t(:button_cancel),
       { controller: '/wiki', action: 'show', project_id: @project, id: @page },
       class: 'button' %>

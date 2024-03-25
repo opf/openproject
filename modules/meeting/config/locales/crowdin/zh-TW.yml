@@ -22,7 +22,7 @@
 #English strings go here for Rails i18n
 zh-TW:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "OpenProject 會議"
     description: >-
       This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
   activerecord:
@@ -30,7 +30,7 @@ zh-TW:
       meeting:
         type: "會議類型"
         location: "地點"
-        duration: "會議長度"
+        duration: "天數"
         notes: "備註"
         participants: "參加人員"
         participant:
@@ -95,9 +95,9 @@ zh-TW:
   label_start_date: "開始日期"
   meeting:
     copy:
-      title: "Copy meeting %{title}"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      title: "複製會議 %{title}"
+      agenda: "複製議程"
+      agenda_text: "複製舊會議之議程"
     email:
       open_meeting_link: "打開會議連結"
       invited:
@@ -140,8 +140,8 @@ zh-TW:
   text_meeting_agenda_open_are_you_sure: "將會覆蓋所有會議紀錄中的變動！您希望繼續嗎？"
   text_meeting_minutes_for_meeting: '%{meeting} 的會議記錄'
   text_notificiation_invited: "此郵件包含以下會議的 ics 條目:"
-  text_meeting_empty_heading: "您的會議暫時無內容"
-  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
+  text_meeting_empty_heading: "暫無會議資料(會議建立後，請記得點選右上角功能「發送電子郵件給所有參與者」)"
+  text_meeting_empty_description_1: "可以點選下幫「增加」來新增項目。 每個項目可以像標題一樣簡單，但您也可以加上其他詳細信息，例如開會時間與備註。"
   text_meeting_empty_description_2: "你也可以引用到現有工作項目。當您這樣做時，相關的紀錄將自動呈現於於工作項目的「會議」標籤。"
   label_meeting_empty_action: "新增議程項目"
   label_meeting_actions: "會議行動"

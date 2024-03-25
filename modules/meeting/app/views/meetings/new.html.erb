@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
                                                    'refresh-on-form-changes-target': 'form',
                                                    'refresh-on-form-changes-turbo-stream-url-value': new_meeting_url }} do |f| -%>
   <%= render :partial => 'form', :locals => { f:, copy_from: } %>
-  <%= styled_button_tag t(:button_create), class: '-highlight' %>
+  <%= styled_button_tag t(:button_create), class: '-primary' %>
   <%= link_to t(:button_cancel), { :action => 'index', :project_id => @project },
         class: 'button' %>
 <% end %>

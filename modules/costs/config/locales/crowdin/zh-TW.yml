@@ -54,7 +54,7 @@ zh-TW:
           is_not_a_valid_target_for_cost_entries: "工作項目 #%{id} 不是重新分配支出的有效目標"
           nullify_is_not_valid_for_cost_entries: "支出項目無法分配至專案"
   attributes:
-    comment: "評論"
+    comment: "留言"
     cost_type: "費用類別"
     costs: "費用"
     current_rate: "目前費率"

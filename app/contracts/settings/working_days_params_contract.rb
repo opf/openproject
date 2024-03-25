@@ -42,7 +42,7 @@ module Settings
     end
 
     def unique_job
-      if WorkPackages::ApplyWorkingDaysChangeJob.scheduled?
+      WorkPackages::ApplyWorkingDaysChangeJob.new.check_concurrency do
         errors.add :base, :previous_working_day_changes_unprocessed
       end
     end

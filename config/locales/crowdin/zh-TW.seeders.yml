@@ -172,12 +172,12 @@ zh-TW:
               name: 團隊規劃
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban看板
             basic:
-              name: Basic board
+              name: 基本看板
               lists:
                 item_0:
-                  name: Wish list
+                  name: 願望清單
                 item_1:
                   name: Short list
                 item_2:
@@ -265,7 +265,7 @@ zh-TW:
             item_0:
               name: Bug的待辦事項
             item_1:
-              name: Product Backlog
+              name: 產品待辦事項
             item_2:
               name: Sprint 1
               wiki:
@@ -331,14 +331,14 @@ zh-TW:
               name: 任務
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban看板
             basic:
               name: 任務看板
               lists:
                 item_0:
-                  name: Wish list
+                  name: 願望清單
                 item_1:
-                  name: Short list
+                  name: 短清單
                 item_2:
                   name: Priority list for today
                 item_3:
@@ -399,7 +399,7 @@ zh-TW:
             item_5:
               subject: Wrong hover color
             item_6:
-              subject: SSL certificate
+              subject: SSL 憑證
             item_7:
               subject: Set-up Staging environment
             item_8:

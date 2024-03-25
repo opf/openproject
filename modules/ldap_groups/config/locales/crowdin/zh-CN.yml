@@ -1,7 +1,7 @@
 zh-CN:
   plugin_openproject_ldap_groups:
     name: "OpenProject LDAP 组"
-    description: "LDAP组成员同步。"
+    description: "LDAP 组成员同步。"
   activerecord:
     attributes:
       ldap_groups/synchronized_group:

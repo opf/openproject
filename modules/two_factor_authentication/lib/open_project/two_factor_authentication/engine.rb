@@ -61,12 +61,6 @@ module OpenProject::TwoFactorAuthentication
                                                           }) do
         two_factor_authentication_request_path
       end
-
-      WebAuthn.configure do |config|
-        # TODO: Real settings here
-        config.origin = "http://localhost:3000"
-        config.rp_name = "Example Inc."
-      end
     end
   end
 end

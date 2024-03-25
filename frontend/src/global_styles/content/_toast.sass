@@ -195,6 +195,13 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     @extend %info-placeholder
     padding: $nm-upload-box-padding
 
+  &.-notification
+    @extend %info-placeholder
+
+    &::before
+      @include messages-icon
+      @extend %nm-icon-notification
+
   //@hack adapting to provided styles
   //messy I dont have all the details for a magic resolve, this might change
   & p, & div, & ul
@@ -297,7 +304,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   animation: animate-stripes 5s linear infinite
   background-color: $nm-pb-regress-color
   border: rem-calc(1) solid $nm-pb-border-color
-  color: var(--primary-color-dark)
+  color: $nm-pb-background-color
   margin: 0
   width: 100%
 

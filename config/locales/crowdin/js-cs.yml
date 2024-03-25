@@ -31,7 +31,7 @@ cs:
         Opravdu chcete odstranit tento soubor? Tato akce není vratná.
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Soubor je karanténí, protože byl nalezen virus. Není k dispozici ke stažení."
     autocomplete_ng_select:
       add_tag: "Přidat položku"
       clear_all: "Vymazat vše"
@@ -347,11 +347,11 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_3":
+          "13_4":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                Vydání obsahuje různé nové funkce a vylepšení: <br> <ul class="%{list_styling_class}"> <li>filtrovat a ukládat vlastní seznamy projektů.</li> <li>Oddělte Gantt grafy novým výchozím zobrazením.</li> <li>Automaticky spravované složky projektu pro integraci OneDrive/SharePoint</li> <li>Zobrazit počet "Sdílených uživatelů" v tlačítku sdílení a zobrazit je v seznamu pracovních balíčků.</li> <li>Vylepšené výpočty a aktualizace zpráv o pokroku pro hierarchie pracovních balíčků.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
     ical_sharing_modal:
       title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
@@ -443,7 +443,7 @@ cs:
     label_less_than_ago: "před méně jak (dny)"
     label_loading: "Načítání..."
     label_mail_notification: "E-mailová upozornění"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Správa a uspořádání sloupců"
     label_me: "já"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Zápis"
@@ -482,7 +482,7 @@ cs:
     label_report: "Hlášení"
     label_repository_plural: "Repozitáře"
     label_save_as: "Uložit jako"
-    label_search_columns: "Search a column"
+    label_search_columns: "Vyhledávání ve sloupci"
     label_select_project: "Vyberte projekt"
     label_select_watcher: "Zvolte sledujícího..."
     label_selected_filter_list: "Vybrané filtry"
@@ -494,7 +494,7 @@ cs:
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
-    label_star_query: "Oblíbené"
+    label_star_query: "Oblíbená"
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -756,7 +756,7 @@ cs:
           membership_updated: "Členství bylo aktualizováno"
         title: "E-mail upozornění "
         pause:
-          label: "Dočasně pozastavit denní posílání oznámení e-mailem"
+          label: "Dočasně pozastavit denní připomenutí e-mailem"
           first_day: "První den"
           last_day: "Poslední den"
     text_are_you_sure: "Jste si jisti?"
@@ -1002,7 +1002,7 @@ cs:
         all_open: "Všechny otevřené"
         summary: "Souhrn"
         shared_with_users: "Sdíleno s uživateli"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Sdíleno se mnou"
       jump_marks:
         pagination: "Přejít na stránku tabulky"
         label_pagination: "Kliknutím sem přeskočíte tabulku pracovních balíčků a přejděte na stránku"

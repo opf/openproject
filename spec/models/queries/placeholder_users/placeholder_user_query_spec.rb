@@ -49,7 +49,7 @@ RSpec.describe Queries::PlaceholderUsers::PlaceholderUserQuery do
       it 'is the same as handwriting the query' do
         expected = base_scope
                      .merge(PlaceholderUser
-                     .where(["LOWER(CONCAT(users.firstname, CONCAT(' ', users.lastname))) LIKE ?",
+                     .where(["unaccent(LOWER(CONCAT(users.firstname, ' ', users.lastname))) LIKE unaccent(?)",
                              "%a user%"]))
 
         expect(instance.results.to_sql).to eql expected.to_sql

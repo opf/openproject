@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t(:label_budget_plural) do %>
   <% if authorize_for(:budgets, :new) %>
     <li class="toolbar-item">
-      <a href="<%= new_projects_budget_path(@project) %>" aria-label="<%= I18n.t(:button_add_budget) %>" id="add-budget-button" title="<%= I18n.t(:button_add_budget) %>" class="button -alt-highlight">
+      <a href="<%= new_projects_budget_path(@project) %>" aria-label="<%= I18n.t(:button_add_budget) %>" id="add-budget-button" title="<%= I18n.t(:button_add_budget) %>" class="button -primary">
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t(:label_budget) %></span>
       </a>
