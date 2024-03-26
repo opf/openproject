@@ -47,7 +47,7 @@ module Queries
     end
 
     def user_allowed_to_change_query
-      unless (model.user == user || model.user.nil?) && user_allowed_to_save_queries?
+      unless model.user == user && user_allowed_to_save_queries?
         errors.add :base, :error_unauthorized
       end
     end
