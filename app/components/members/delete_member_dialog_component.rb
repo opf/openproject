@@ -38,6 +38,7 @@ module Members
              :can_delete?,
              :can_delete_roles?,
              :can_delete_shares?,
+             :may_manage_user?,
              to: :row
 
     delegate :principal,

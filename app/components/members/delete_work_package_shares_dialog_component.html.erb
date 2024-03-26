@@ -89,7 +89,11 @@ See COPYRIGHT and LICENSE files for more details.
   <% when other_shared_work_packages_count? %>
     <% dialog.with_body do %>
       <%= paragraph { scoped_t(:cannot_remove_inherited_with_role, shared_role_name:) } %>
-      <%= paragraph { scoped_t(:cannot_remove_inherited_note_html, administration_settings_link:) } %>
+      <% if may_manage_user? %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_note_admin_html, administration_settings_link:) } %>
+      <% else %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_note_non_admin) } %>
+      <% end %>
     <% end %>
 
     <% dialog.with_footer do %>
@@ -98,7 +102,11 @@ See COPYRIGHT and LICENSE files for more details.
   <% else %>
     <% dialog.with_body do %>
       <%= paragraph { scoped_t(:cannot_remove_inherited, shared_role_name:) } %>
-      <%= paragraph { scoped_t(:cannot_remove_inherited_note_html, administration_settings_link:) } %>
+      <% if may_manage_user? %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_note_admin_html, administration_settings_link:) } %>
+      <% else %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_note_non_admin) } %>
+      <% end %>
     <% end %>
 
     <% dialog.with_footer do %>

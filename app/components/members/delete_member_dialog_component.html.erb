@@ -73,7 +73,11 @@ See COPYRIGHT and LICENSE files for more details.
   <% else %>
     <% dialog.with_body do %>
       <%= paragraph { scoped_t(:cannot_delete_group_member) } %>
-      <%= paragraph { scoped_t(:cannot_delete_group_member_note_html, administration_settings_link:) } %>
+      <% if may_manage_user? %>
+        <%= paragraph { scoped_t(:cannot_delete_group_member_note_admin_html, administration_settings_link:) } %>
+      <% else %>
+        <%= paragraph { scoped_t(:cannot_delete_group_member_note_non_admin) } %>
+      <% end %>
     <% end %>
 
     <% dialog.with_footer do %>

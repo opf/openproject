@@ -34,6 +34,7 @@ module Members
             :authorize_delete,
             :authorize_work_package_shares_view,
             :authorize_work_package_shares_delete,
+            :authorize_manage_user,
             :available_roles,
             :is_filtered,
             :shared_role_name,

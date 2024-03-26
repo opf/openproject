@@ -155,6 +155,7 @@ module Members
     def may_delete? = table.authorize_delete
     def may_view_shared_work_packages? = table.authorize_work_package_shares_view
     def may_delete_shares? = table.authorize_work_package_shares_delete
+    def may_manage_user? = table.authorize_manage_user
 
     def can_update? = may_update? && !table.hide_roles?
     def can_delete? = may_delete? && member.project_role? && member.deletable?

@@ -372,7 +372,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       remove_just_user_or_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
       will_remove_all_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
       cannot_delete_group_member: "You cannot delete this member because they belong to a group that is itself a member of this project."
-      cannot_delete_group_member_note_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_group_member_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_group_member_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
     delete_work_package_shares_dialog:
       title: "Revoke work package shares"
       shared_with_this_user_html:
@@ -388,7 +389,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
       cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
       cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
-      cannot_remove_inherited_note_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
       will_revoke_access_but_for_inherited: "This action will revoke their access to all of them, but the work packages shared with a group."
       will_revoke_access_to_all: "This action will revoke their access to all of them."
 

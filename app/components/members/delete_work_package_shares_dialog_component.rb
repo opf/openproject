@@ -38,6 +38,7 @@ module Members
              :shared_work_packages_link,
              :all_shared_work_packages_link,
              :administration_settings_link,
+             :may_manage_user?,
              to: :row
 
     delegate :shared_role_id,

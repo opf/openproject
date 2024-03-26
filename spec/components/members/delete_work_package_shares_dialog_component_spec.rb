@@ -50,13 +50,15 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
                     shared_work_packages_count:,
                     all_shared_work_packages_link:,
                     shared_work_packages_link:,
-                    administration_settings_link:)
+                    administration_settings_link:,
+                    may_manage_user?: may_manage_user?)
   end
   let(:all_shared_work_packages_count) { 5 }
   let(:shared_work_packages_count) { 3 }
   let(:all_shared_work_packages_link) { "[all shared work packages link]" }
   let(:shared_work_packages_link) { "[shared work packages link]" }
   let(:administration_settings_link) { "[administration settings link]" }
+  let(:may_manage_user?) { true }
 
   before do
     allow(member).to receive_messages(stubs)

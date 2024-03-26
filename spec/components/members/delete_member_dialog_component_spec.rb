@@ -42,11 +42,13 @@ RSpec.describe Members::DeleteMemberDialogComponent, type: :component do
                     shared_work_packages_count:,
                     shared_work_packages_link:,
                     administration_settings_link:,
+                    may_manage_user?: may_manage_user?,
                     **stubs)
   end
   let(:shared_work_packages_count) { 3 }
   let(:shared_work_packages_link) { "[shared work packages link]" }
   let(:administration_settings_link) { "[administration settings link]" }
+  let(:may_manage_user?) { true }
 
   before do
     allow(member).to receive(:inherited_shared_work_packages_count?).and_return(true)
