@@ -32,7 +32,8 @@ module Members
   class DeleteMemberDialogComponent < ::ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     options :row
 
-    delegate :shared_work_packages_link,
+    delegate :shared_work_packages_count,
+             :shared_work_packages_link,
              :administration_settings_link,
              :can_delete?,
              :can_delete_roles?,

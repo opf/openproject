@@ -35,8 +35,8 @@ See COPYRIGHT and LICENSE files for more details.
     <% dialog.with_body do %>
       <% if inherited_shared_work_packages_count? %>
         <%= paragraph do %>
-          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
-          <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, shared_role_name:) %>
+          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
+          <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, count: shared_work_packages_count, shared_role_name:) %>
         <% end %>
         <%= paragraph do %>
           <%= scoped_t(:revoke_all_or_with_role, shared_role_name:) %>
@@ -44,14 +44,14 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       <% elsif principal.is_a?(Group) %>
         <%= paragraph do %>
-          <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:) %>
-          <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, shared_role_name:) %>
+          <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
+          <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, count: shared_work_packages_count, shared_role_name:) %>
         <% end %>
         <%= paragraph { scoped_t(:revoke_all_or_with_role, shared_role_name:) } %>
       <% else %>
         <%= paragraph do %>
-          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
-          <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, shared_role_name:) %>
+          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
+          <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, count: shared_work_packages_count, shared_role_name:) %>
         <% end %>
         <%= paragraph { scoped_t(:revoke_all_or_with_role, shared_role_name:) } %>
       <% end %>
@@ -66,17 +66,17 @@ See COPYRIGHT and LICENSE files for more details.
     <% dialog.with_body do %>
       <% if inherited_shared_work_packages_count? %>
         <%= paragraph do %>
-          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
+          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
           <%= scoped_t(:will_revoke_access_but_for_inherited) %>
         <% end %>
       <% elsif principal.is_a?(Group) %>
         <%= paragraph do %>
-          <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:) %>
+          <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
           <%= scoped_t(:will_revoke_access_to_all) %>
         <% end %>
       <% else %>
         <%= paragraph do %>
-          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
+          <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:, count: all_shared_work_packages_count) %>
           <%= scoped_t(:will_revoke_access_to_all) %>
         <% end %>
       <% end %>

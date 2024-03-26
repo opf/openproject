@@ -46,10 +46,14 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
                     table:,
                     project:,
                     principal:,
+                    all_shared_work_packages_count:,
+                    shared_work_packages_count:,
                     all_shared_work_packages_link:,
                     shared_work_packages_link:,
                     administration_settings_link:)
   end
+  let(:all_shared_work_packages_count) { 5 }
+  let(:shared_work_packages_count) { 3 }
   let(:all_shared_work_packages_link) { "[all shared work packages link]" }
   let(:shared_work_packages_link) { "[shared work packages link]" }
   let(:administration_settings_link) { "[administration settings link]" }

@@ -39,10 +39,12 @@ RSpec.describe Members::DeleteMemberDialogComponent, type: :component do
     instance_double(Members::RowComponent,
                     project:,
                     principal:,
+                    shared_work_packages_count:,
                     shared_work_packages_link:,
                     administration_settings_link:,
                     **stubs)
   end
+  let(:shared_work_packages_count) { 3 }
   let(:shared_work_packages_link) { "[shared work packages link]" }
   let(:administration_settings_link) { "[administration settings link]" }
 

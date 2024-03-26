@@ -360,20 +360,30 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     delete_member_dialog:
       title: "Remove member"
       will_remove_the_users_role: "This will remove the user’s role from this project."
-      however_shares_with_user_html: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_shares_with_user_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this user."
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
       would_you_like_to_remove_the_shares_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
       will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
       can_remove_direct_but_not_shared_role: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
-      also_user_has_shares_html: "Also, %{shared_work_packages_link} have been shared with this user."
+      also_user_has_shares_html:
+        one: "Also, %{shared_work_packages_link} has been shared with this user."
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
       remove_just_user_or_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
       will_remove_all_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
       cannot_delete_group_member: "You cannot delete this member because they belong to a group that is itself a member of this project."
       cannot_delete_group_member_note_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
     delete_work_package_shares_dialog:
       title: "Revoke work package shares"
-      shared_with_this_user_html: "%{all_shared_work_packages_link} have been shared with this user."
-      shared_with_this_group_html: "%{all_shared_work_packages_link} have been shared with this group."
-      shared_with_permission_html: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      shared_with_this_user_html:
+        one: "%{all_shared_work_packages_link} has been shared with this user."
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        one: "%{all_shared_work_packages_link} has been shared with this group."
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
       revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
       will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
       cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."

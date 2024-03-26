@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% if can_delete? %>
         <%= paragraph do %>
           <%= scoped_t(:will_remove_the_users_role) %>
-          <%= scoped_t(:however_shares_with_user_html, shared_work_packages_link:) %>
+          <%= scoped_t(:however_shares_with_user_html, shared_work_packages_link:, count: shared_work_packages_count) %>
         <% end %>
         <%= paragraph do %>
           <%= scoped_t(:would_you_like_to_remove_the_shares_too) %>
@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       <% else %>
         <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_role) } %>
-        <%= paragraph { scoped_t(:also_user_has_shares_html, shared_work_packages_link:) } %>
+        <%= paragraph { scoped_t(:also_user_has_shares_html, shared_work_packages_link:, count: shared_work_packages_count) } %>
         <%= paragraph do %>
           <%= scoped_t(:remove_just_user_or_shares_too) %>
           <%= scoped_t(:will_not_affect_inherited_shares) if inherited_shared_work_packages_count? %>

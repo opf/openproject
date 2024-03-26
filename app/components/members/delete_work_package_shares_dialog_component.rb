@@ -33,6 +33,8 @@ module Members
     options :row
 
     delegate :table,
+             :shared_work_packages_count,
+             :all_shared_work_packages_count,
              :shared_work_packages_link,
              :all_shared_work_packages_link,
              :administration_settings_link,

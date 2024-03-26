@@ -81,8 +81,10 @@ module Members
       shared_work_packages_link
     end
 
+    def shared_work_packages_count = member.shared_work_package_ids.length
+
     def shared_work_packages_link
-      link_to I18n.t(:label_x_work_packages, count: member.shared_work_package_ids.length),
+      link_to I18n.t(:label_x_work_packages, count: shared_work_packages_count),
               shared_work_packages_url,
               target: "_blank",
               rel: "noopener"
@@ -96,7 +98,7 @@ module Members
       end
     end
 
-    def all_shared_work_packages_count = member.all_shared_work_packages_count
+    delegate :all_shared_work_packages_count, to: :member
 
     def all_shared_work_packages_link
       link_to I18n.t(:label_x_work_packages, count: all_shared_work_packages_count),
