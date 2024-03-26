@@ -93,9 +93,7 @@ RSpec.describe WorkPackages::SetAttributesService,
 
       subject
 
-      expected_attributes.each do |attribute, key|
-        expect(work_package.send(attribute)).to eql key
-      end
+      expect(work_package).to have_attributes(expected_attributes)
     end
 
     it "does not persist the work_package" do
@@ -184,7 +182,7 @@ RSpec.describe WorkPackages::SetAttributesService,
                           description: "recomputes remaining work according to the % complete value of the new status"
         end
 
-        context "when another status without any default % complete value is set", skip: "TODO: not implemented yet" do
+        context "when another status without any default % complete value is set" do
           let(:call_attributes) { { status: status_no_pct_complete } }
           let(:expected_attributes) { { remaining_hours: nil } }
 
@@ -279,7 +277,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           it_behaves_like "service call", description: "unsets % complete"
         end
 
-        context "when work is increased", skip: "TODO: not implemented yet" do
+        context "when work is increased" do
           # work changed by +10h
           let(:call_attributes) { { estimated_hours: 10.0 + 10.0 } }
           let(:expected_attributes) do
@@ -290,7 +288,7 @@ RSpec.describe WorkPackages::SetAttributesService,
                           description: "remaining work is increased by the same amount, and % complete is updated accordingly"
         end
 
-        context "when work is decreased", skip: "TODO: not implemented yet" do
+        context "when work is decreased" do
           # work changed by -2h
           let(:call_attributes) { { estimated_hours: 10.0 - 2.0 } }
           let(:expected_attributes) do
@@ -301,7 +299,7 @@ RSpec.describe WorkPackages::SetAttributesService,
                           description: "remaining work is decreased by the same amount, and % complete is updated accordingly"
         end
 
-        context "when work is decreased below remaining work value", skip: "TODO: not implemented yet" do
+        context "when work is decreased below remaining work value" do
           # work changed by -8h
           let(:call_attributes) { { estimated_hours: 10.0 - 8.0 } }
           let(:expected_attributes) do
@@ -330,9 +328,42 @@ RSpec.describe WorkPackages::SetAttributesService,
 
         context "when both work and remaining work are changed" do
           let(:call_attributes) { { estimated_hours: 20, remaining_hours: 2 } }
-          let(:expected_attributes) { { done_ratio: 90 } }
+          let(:expected_attributes) { call_attributes.merge(done_ratio: 90) }
 
           it_behaves_like "service call", description: "updates % complete accordingly"
+        end
+      end
+
+      context "given a work package with work being set, and remaining work and % complete being unset" do
+        before do
+          work_package.estimated_hours = 10
+          work_package.remaining_hours = nil
+          work_package.done_ratio = nil
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is changed" do
+          let(:call_attributes) { { estimated_hours: 20.0 } }
+          let(:expected_attributes) { { remaining_hours: 20.0, done_ratio: 0 } }
+
+          it_behaves_like "service call", description: "remaining work is set to the same value and % complete is set to 0%"
+        end
+      end
+
+      context "given a work package with remaining work being set, and work and % complete being unset" do
+        before do
+          work_package.estimated_hours = nil
+          work_package.remaining_hours = 6.0
+          work_package.done_ratio = nil
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is set" do
+          let(:call_attributes) { { estimated_hours: 10.0 } }
+          let(:expected_attributes) { { remaining_hours: 6.0, done_ratio: 40 } }
+
+          it_behaves_like "service call",
+                          description: "remaining work is kept to the same value and % complete is updated accordingly"
         end
       end
 
@@ -344,7 +375,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           work_package.send(:clear_changes_information)
         end
 
-        context "when work is set", skip: "TODO: not implemented yet" do
+        context "when work is set" do
           let(:call_attributes) { { estimated_hours: 10.0 } }
           let(:expected_attributes) do
             { remaining_hours: 4.0, done_ratio: 60 }
@@ -362,7 +393,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           work_package.send(:clear_changes_information)
         end
 
-        context "when work is set", skip: "TODO: not implemented yet" do
+        context "when work is set" do
           let(:call_attributes) { { estimated_hours: 10.0 } }
           let(:expected_attributes) do
             { remaining_hours: 10.0, done_ratio: 0 }

@@ -62,9 +62,8 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
     shift_dates_to_soonest_working_days
     update_duration
-    update_done_ratio
-    update_remaining_hours
     update_derivable
+    update_progress_attributes
     update_project_dependent_attributes
     reassign_invalid_status_if_type_changed
     set_templated_description
@@ -284,6 +283,32 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     work_package.duration = 1 if work_package.milestone?
   end
 
+  def update_progress_attributes
+    if WorkPackage.use_status_for_done_ratio?
+      update_done_ratio
+      update_remaining_hours
+    elsif only_percent_complete_initially_set?
+      update_remaining_hours_from_percent_complete
+    else
+      update_remaining_hours
+      update_done_ratio
+    end
+  end
+
+  def only_percent_complete_initially_set?
+    return false if work_package.done_ratio.nil?
+    return false if work_package.remaining_hours.present?
+
+    work_package.estimated_hours_changed? && work_package.estimated_hours.present?
+  end
+
+  def only_remaining_work_initially_set?
+    return false if work_package.remaining_hours.nil?
+    return false if work_package.done_ratio.present?
+
+    work_package.estimated_hours_was.nil?
+  end
+
   # Compute and update +done_ratio+ if its dependent attributes are being modified.
   # The dependent attributes for +done_ratio+ are
   # - +remaining_hours+
@@ -293,9 +318,9 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   # considered nil.
   def update_done_ratio
     if WorkPackage.use_status_for_done_ratio?
-      return unless model.status_id_changed?
+      return unless work_package.status_id_changed?
 
-      model.done_ratio = model.status.default_done_ratio
+      work_package.done_ratio = work_package.status.default_done_ratio
     else
       return unless work_package.remaining_hours_changed? || work_package.estimated_hours_changed?
 
@@ -305,6 +330,10 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
                                   compute_done_ratio
                                 end
     end
+  end
+
+  def update_remaining_hours_from_percent_complete
+    work_package.remaining_hours = remaining_hours_from_done_ratio_and_estimated_hours
   end
 
   def done_ratio_dependent_attribute_unset?
@@ -322,24 +351,30 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   # on the computation of it derived from the status's default done ratio
   # and the estimated hours. If the estimated hours are unset, then also
   # unset the remaining hours.
+  # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
   def update_remaining_hours
-    if WorkPackage.use_status_for_done_ratio? &&
-       model.status &&
-       model.status.default_done_ratio
-      model.remaining_hours = if model.estimated_hours
-                                remaining_hours_from_done_ratio_and_estimated_hours
-                              end
+    if WorkPackage.use_status_for_done_ratio?
+      work_package.remaining_hours = remaining_hours_from_done_ratio_and_estimated_hours
     elsif WorkPackage.use_field_for_done_ratio? &&
-          model.estimated_hours_changed? &&
-          model.estimated_hours.nil?
-      model.remaining_hours = nil
+          work_package.estimated_hours_changed?
+      return if work_package.remaining_hours_changed?
+      return if only_remaining_work_initially_set?
+
+      if work_package.estimated_hours.nil? || work_package.remaining_hours.nil?
+        work_package.remaining_hours = work_package.estimated_hours
+      else
+        delta = work_package.estimated_hours - work_package.estimated_hours_was
+        work_package.remaining_hours = (work_package.remaining_hours + delta).clamp(0.0, work_package.estimated_hours)
+      end
     end
   end
+  # rubocop:enable Metrics/AbcSize,Metrics/PerceivedComplexity
 
   def remaining_hours_from_done_ratio_and_estimated_hours
-    ((((model.done_ratio.to_f / 100) * model.estimated_hours) \
-      - model.estimated_hours) \
-      * -1).abs
+    return nil if work_package.done_ratio.nil? || work_package.estimated_hours.nil?
+
+    completed_work = work_package.estimated_hours * work_package.done_ratio / 100.0
+    work_package.estimated_hours - completed_work
   end
 
   def set_version_to_nil
