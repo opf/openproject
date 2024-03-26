@@ -38,13 +38,13 @@ module Pages::StructuredMeeting
 
     def add_agenda_item(type: MeetingAgendaItem, save: true, &)
       page.within("#meeting-agenda-items-new-button-component") do
-        click_button I18n.t(:button_add)
+        click_on I18n.t(:button_add)
         click_link type.model_name.human
       end
 
       in_agenda_form do
         yield
-        click_button("Save") if save
+        click_on("Save") if save
       end
     end
 
@@ -169,17 +169,17 @@ module Pages::StructuredMeeting
     end
 
     def close_meeting
-      click_button("Close meeting")
+      click_on("Close meeting")
       expect(page).to have_button("Reopen meeting")
     end
 
     def reopen_meeting
-      click_button("Reopen meeting")
+      click_on("Reopen meeting")
       expect(page).to have_button("Close meeting")
     end
 
     def close_dialog
-      click_button(class: "Overlay-closeButton")
+      click_on(class: "Overlay-closeButton")
     end
 
     def meeting_details_container

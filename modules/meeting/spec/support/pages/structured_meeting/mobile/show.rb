@@ -39,7 +39,7 @@ module Pages::StructuredMeeting::Mobile
 
     def open_participant_form
       within(meeting_details_container) do
-        click_button "Show all"
+        click_on "Show all"
       end
       expect(page).to have_css("#meetings-sidebar-participants-form-component")
     end
