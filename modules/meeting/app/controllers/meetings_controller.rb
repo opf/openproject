@@ -75,7 +75,7 @@ class MeetingsController < ApplicationController
       if @copy_from
         ::Meetings::CopyService
           .new(user: current_user, model: @copy_from)
-          .call(attributes: @converted_params, copy_agenda: params[:copy_agenda] == '1')
+          .call(attributes: @converted_params, **copy_attributes)
       else
         ::Meetings::CreateService
           .new(user: current_user)
@@ -334,5 +334,12 @@ class MeetingsController < ApplicationController
     @copy_from = Meeting.visible.find(params[:copied_from_meeting_id])
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def copy_attributes
+    {
+      copy_agenda: params[:copy_agenda] == '1',
+      copy_attachments: params[:copy_attachments] == '1',
+    }
   end
 end

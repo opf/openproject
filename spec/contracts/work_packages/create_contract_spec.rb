@@ -161,7 +161,7 @@ RSpec.describe WorkPackages::CreateContract do
       let(:user) { build_stubbed(:admin) }
 
       it_behaves_like "can write", :created_at, 1.day.ago
-      it_behaves_like "can write", :updated_at, 1.day.ago
+      it_behaves_like "can not write", :updated_at, 1.day.ago
       it_behaves_like "can write", :author_id, 1234
     end
 
