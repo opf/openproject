@@ -66,10 +66,10 @@ When you bookmark your OpenProject environment’s URL, you will see that the up
 
 Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment. 
 
-To do this change the color values (entered as color hex code) in the *Custom Colors* section. In order to find the right hex code for a color, you can use a website, such as [color-hex.com](https://www.color-hex.com/).
+To do this change the color values (entered as color hex code) in the *Advanced settings* section. In order to find the right hex code for a color, you can use a website, such as [color-hex.com](https://www.color-hex.com/).
  You can see the selected color in the preview area next to the color hex code. Therefore, it is possible to see the selected color before saving the changes.
 
-![Advanced color settings in OpenProject](openproject_system_guide_design_advanced_settings.png)
+![Advanced color settings in OpenProject](openproject_system_guide_design_advanced_settings_primer.png)
 
 As soon as you press the **Save** button your changes are applied and the colors of your OpenProject environment are adjusted accordingly.
 

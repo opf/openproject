@@ -1818,9 +1818,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_ascending: "Ascending"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
-  label_attachment_delete: "Delete file"
-  label_attachment_new: "New file"
-  label_attachment_plural: "Files"
+  label_attachment_plural: "Attachments"
   label_attribute: "Attribute"
   label_attribute_plural: "Attributes"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -2452,6 +2450,35 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
@@ -2903,7 +2930,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
     If enabled, the API will allow administrators to write static read-only attributes during creation,
-    such as createdAt and updatedAt timestamps.
+    such as createdAt and author.
     <br/>
     <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows
     administrators to impersonate the creation of items as other users. All creation requests are being

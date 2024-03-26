@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if copy_from.present? %>
     <%= f.hidden_field :type, value: copy_from.type %>
     <%= hidden_field_tag "copied_from_meeting_id", copy_from.id %>
-    <div class="form--field -required">
+    <div class="form--field">
       <%= styled_label_tag 'copy_agenda', t('meeting.copy.agenda') %>
       <div class="form--field-container">
         <%= styled_check_box_tag 'copy_agenda',
@@ -50,6 +50,19 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
       <div class="form--field-instructions">
         <%= t('meeting.copy.agenda_text') %>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= styled_label_tag 'copy_attachments', t('meeting.copy.attachments') %>
+      <div class="form--field-container">
+        <%= styled_check_box_tag 'copy_attachments',
+                                 1,
+                                 false,
+                                 no_label: true,
+                                 class: 'radio-button' %>
+      </div>
+      <div class="form--field-instructions">
+        <%= t('meeting.copy.attachments_text') %>
       </div>
     </div>
   <% elsif @meeting.new_record? %>

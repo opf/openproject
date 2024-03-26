@@ -97,7 +97,7 @@ OpenProject::Static::Homescreen.manage :links do |links|
 
   if impressum_link = link_hash[:impressum]
     links.push({
-                 label: impressum_link[:label],
+                 label: :impressum,
                  url: impressum_link[:href],
                  icon: "icon-context icon-info1"
                })

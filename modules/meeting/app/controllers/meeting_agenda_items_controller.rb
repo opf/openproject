@@ -197,7 +197,7 @@ class MeetingAgendaItemsController < ApplicationController
   def meeting_agenda_item_params
     params
       .require(:meeting_agenda_item)
-      .permit(:title, :duration_in_minutes, :notes, :work_package_id, :lock_version)
+      .permit(:title, :duration_in_minutes, :presenter_id, :notes, :work_package_id, :lock_version)
   end
 
   def generic_call_failure_response(call)

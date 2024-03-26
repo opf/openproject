@@ -32,7 +32,7 @@
                    notification_url: @url,
                    open_in_browser_path: @url
                  } do %>
-        <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
+        <table <%= placeholder_table_styles(width: '100%', style: 'width:100%;') %>>
           <tr>
             <td style="<%= placeholder_text_styles %>">
               <%
@@ -47,15 +47,19 @@
         </table>
       <% end %>
 
-      <%= render partial: 'mailer/notification_settings_table' %>
+      <%= render partial: 'mailer/notification_settings_table',
+                 locals: {
+                   button_url: my_reminders_url,
+                   button_text: I18n.t(:'mail.notification.settings')
+                 } %>
 
       <% if @shared_with_user.invited? %>
-        <table  <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
+        <table  <%= placeholder_table_styles(width: '100%', style: 'width:100%;') %>>
           <tr>
             <%= placeholder_cell('20px', vertical: false) %>
           </tr>
           <tr>
-            <td style="color: #333333;font-size: 16px;">
+            <td style="color: #333333; font-size: 16px;">
               <%= t('mail.sharing.work_packages.create_account', instance: Setting.app_title) %>
             </td>
           </tr>

@@ -73,6 +73,15 @@ RSpec.describe RootSeeder,
       expect(count_by_version.values).to contain_exactly(1, 8, 7)
     end
 
+    it "adds the backlogs, board, costs, meetings, and reporting modules to the default_projects_modules setting" do
+      default_modules = Setting.find_by(name: "default_projects_modules").value
+      expect(default_modules).to include("backlogs")
+      expect(default_modules).to include("board_view")
+      expect(default_modules).to include("costs")
+      expect(default_modules).to include("meetings")
+      expect(default_modules).to include("reporting_module")
+    end
+
     it "creates different types of queries" do
       count_by_type = View.group(:type).count
       expect(count_by_type).to eq(
@@ -233,7 +242,13 @@ RSpec.describe RootSeeder,
     shared_let(:root_seeder) { described_class.new(seed_development_data: true) }
 
     before_all do
-      root_seeder.seed_data!
+      RSpec::Mocks.with_temporary_scope do
+        # opportunistic way to add a test for bug #53611 without extending the testing time
+        allow(Settings::Definition["default_projects_modules"])
+          .to receive(:writable?).and_return(false)
+
+        root_seeder.seed_data!
+      end
     end
 
     it "creates 1 additional admin user with German locale" do

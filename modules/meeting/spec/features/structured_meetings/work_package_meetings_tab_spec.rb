@@ -381,7 +381,7 @@ RSpec.describe "Open the Meetings tab", :js do
 
           meetings_tab.open_add_to_meeting_dialog
 
-          click_button("Save")
+          click_on("Save")
 
           expect(page).to have_content("Meeting can't be blank")
         end

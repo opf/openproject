@@ -88,7 +88,7 @@ module Pages::Meetings
 
     def click_edit
       within ".meeting--main-toolbar .toolbar-items" do
-        click_link "Edit"
+        click_on "Edit"
       end
     end
 
