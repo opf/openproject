@@ -160,7 +160,7 @@ git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-b
 
 You can find the latest LTS version here: [nodejs.org/en/download/](https://nodejs.org/en/download/)
 
-At the time of writing this is v16.13.1 Install and activate it with:
+At the time of writing this is v20.9.0 Install and activate it with:
 
 ```shell
 nodenv install 20.9.0
