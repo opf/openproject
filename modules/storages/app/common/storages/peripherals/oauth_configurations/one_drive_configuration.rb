@@ -58,12 +58,12 @@ module Storages
             client_id: @oauth_client.client_id,
             client_secret: @oauth_client.client_secret,
             issuer: @oauth_uri,
-            scope: %w[https://graph.microsoft.com/.default]
+            scope:
           )
         end
 
         def scope
-          %w[https://graph.microsoft.com/.default]
+          %w[https://graph.microsoft.com/.default offline_access]
         end
 
         def basic_rack_oauth_client
