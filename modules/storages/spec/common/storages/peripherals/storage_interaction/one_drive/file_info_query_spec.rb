@@ -143,7 +143,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
     it "must return not found" do
       result = subject.call(auth_strategy:, file_id:)
       expect(result).to be_failure
-      expect(result.error_source).to be_a(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
+      expect(result.error_source).to be(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
 
       result.match(
         on_failure: ->(error) { expect(error.code).to eq(:not_found) },
