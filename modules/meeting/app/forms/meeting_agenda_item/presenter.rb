@@ -30,7 +30,7 @@ class MeetingAgendaItem::Presenter < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.autocompleter(
       name: :presenter_id,
-      label: I18n.t("attributes.presenter"),
+      label: MeetingAgendaItem.human_attribute_name(:presenter),
       visually_hide_label: true,
       autocomplete_options: {
         defaultData: true,
