@@ -33,9 +33,13 @@ class API::V3::Storages::StorageOpenAPI < API::OpenProjectAPI
 
   resources :open do
     get do
+      auth_strategy = Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+                        .strategy
+                        .with_user(current_user)
+
       Storages::Peripherals::Registry
         .resolve("#{@storage.short_provider_type}.queries.open_storage")
-        .call(storage: @storage, user: current_user)
+        .call(storage: @storage, auth_strategy:)
         .match(
           on_success: ->(url) do
             redirect url, body: "The requested resource can be viewed at #{url}"

@@ -107,13 +107,18 @@ module ::Query::Results::Sums
   end
 
   def sums_work_package_scope_selects(grouped)
-    select = if grouped
-               ["#{query.group_by_statement} id"]
-             else
-               []
-             end
+    group_statement =
+      if grouped
+        [Queries::WorkPackages::Selects::WorkPackageSelect.select_group_by(query.group_by_statement)]
+      else
+        []
+      end
 
-    select + query.summed_up_columns.filter_map(&:summable_work_packages_select).map { |c| "SUM(#{c}) #{c}" }
+    group_statement + summed_columns
+  end
+
+  def summed_columns
+    query.summed_up_columns.filter_map(&:summable_work_packages_select).map { |c| "SUM(#{c}) #{c}" }
   end
 
   def callable_summed_up_columns

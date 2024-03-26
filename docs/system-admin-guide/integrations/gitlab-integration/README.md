@@ -58,6 +58,8 @@ Finally you will need to activate the GitLab module under [Project settings](../
 
 Seeing the **GitLab** tab requires **Show GitLab content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab. 
 
+![Grant permission to show GitLab content to user roles in OpenProject](openproject-system-guide-gitlab-integration-gitlab-content-role-permission.png)
+
 ### GitLab
 
 In GitLab you have to set up a webhook in each repository to be integrated with OpenProject. For that navigate to **Settings** -> **Webhooks** and click on **Add new webhook**.

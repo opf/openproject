@@ -35,7 +35,7 @@ module OpenProject::Boards::Patches::SettingSeederPatch
     def data
       original_data = super
 
-      unless original_data["default_projects_modules"].include? "board_view"
+      if original_data["default_projects_modules"]&.exclude? "board_view"
         original_data["default_projects_modules"] << "board_view"
       end
 

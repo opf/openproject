@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -27,27 +25,17 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module WorkPackage::Exports
+  module Formatters
+    class DoneRatio < ::Exports::Formatters::Default
+      def self.apply?(name, _export_format)
+        name.to_sym == :done_ratio
+      end
 
-module Storages
-  module Peripherals
-    module StorageInteraction
-      module Nextcloud
-        class OpenStorageQuery
-          def self.call(storage:, auth_strategy:)
-            new(storage).call(auth_strategy:)
-          end
-
-          def initialize(storage)
-            @storage = storage
-          end
-
-          # rubocop:disable Lint/UnusedMethodArgument
-          def call(auth_strategy:)
-            ServiceResult.success(result: Util.join_uri_path(@storage.uri, "index.php/apps/files"))
-          end
-
-          # rubocop:enable Lint/UnusedMethodArgument
-        end
+      def format(work_package, **)
+        derived_done_ratio = work_package.derived_done_ratio
+        derived  = derived_done_ratio > 0 ? " · Σ #{derived_done_ratio}%" : ""
+        "#{work_package.done_ratio}%#{derived}"
       end
     end
   end

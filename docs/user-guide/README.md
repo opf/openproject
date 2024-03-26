@@ -41,6 +41,7 @@ Please choose the module or feature you want to learn more about.
 | [Forums](forums)                                             | How to manage forums to discuss and comment on topics.       |
 | [Gantt chart](gantt-chart)                                   | How to create and manage a project plan in a Gantt chart.    |
 | [GitHub](../system-admin-guide/integrations/github-integration/) | How to manage the GitHub integration.                        |
+| [GitLab](../system-admin-guide/integrations/gitlab-integration/) | How to manage the GitLab integration.                        |
 | [Meetings](meetings)                                         | How to manage meetings to create and share meeting agenda and meeting minutes. |
 | [Members](members)                                           | How to manage Members in a project.                          |
 | [News](news)                                                 | How to create and manage News for your projects.             |
@@ -53,3 +54,4 @@ Please choose the module or feature you want to learn more about.
 | [Time and costs](time-and-costs)                             | How to track time and costs in OpenProject and report spent time and costs. |
 | [Wiki](wiki)                                                 | How to create and manage a wiki to collaboratively document and share information. |
 | [Work packages](work-packages)                               | How to manage your work in a project.                        |
+

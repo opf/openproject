@@ -60,6 +60,11 @@ RSpec.describe RootSeeder,
       expect(Boards::Grid.count).to eq 2
     end
 
+    it "adds the BIM module to the default_projects_modules setting" do
+      default_modules = Setting.find_by(name: "default_projects_modules").value
+      expect(default_modules).to include("bim")
+    end
+
     it "creates follows and parent-child relations" do
       expect(Relation.follows.count).to eq 35
       expect(WorkPackage.where.not(parent: nil).count).to eq 55
@@ -210,7 +215,13 @@ RSpec.describe RootSeeder,
 
     before_all do
       with_edition("bim") do
-        root_seeder.seed_data!
+        RSpec::Mocks.with_temporary_scope do
+          # opportunistic way to add a test for bug #53611 without extending the testing time
+          allow(Settings::Definition["default_projects_modules"])
+              .to receive(:writable?).and_return(false)
+
+          root_seeder.seed_data!
+        end
       end
     end
 

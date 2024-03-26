@@ -115,6 +115,8 @@ en:
   meeting:
     copy:
       title: "Copy meeting %{title}"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Copy agenda"
       agenda_text: "Copy the agenda of the old meeting"
     email:

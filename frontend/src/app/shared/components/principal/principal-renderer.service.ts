@@ -151,6 +151,7 @@ export class PrincipalRendererService {
     }
 
     const image = new Image();
+    image.classList.add('op-principal--avatar');
     image.classList.add('op-avatar');
     image.classList.add(`op-avatar_${options.size}`);
     image.src = url;

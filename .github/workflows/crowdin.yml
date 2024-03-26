@@ -18,7 +18,7 @@ jobs:
       run: |
         BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
           https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-          jq -r .[].name | grep "release/" | sort -r | head -1
+          jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
         )
         if [ "$BRANCH" = "" ]; then
           echo "Invalid release branch found: $BRANCH"
@@ -88,4 +88,4 @@ jobs:
           echo "Updating combined translations"
           git ls-files -m -o | grep 'crowdin\/.*\.yml$' | xargs git add
           git diff --staged --name-only
-          git diff --staged --exit-code --quiet || ( git commit -m "update locales from crowdin [ci skip]" && git pull --rebase && git push origin $BRANCH )
+          git diff --staged --exit-code --quiet || ( git commit -m "update locales from crowdin [ci skip]" && git pull --rebase origin "$BRANCH" && git push origin "$BRANCH" )

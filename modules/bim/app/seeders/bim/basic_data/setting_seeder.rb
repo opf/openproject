@@ -30,7 +30,7 @@ module Bim
     class SettingSeeder < ::BasicData::SettingSeeder
       def data
         super.tap do |original_data|
-          unless original_data["default_projects_modules"].include? "bim"
+          if original_data["default_projects_modules"]&.exclude? "bim"
             original_data["default_projects_modules"] << "bim"
           end
 

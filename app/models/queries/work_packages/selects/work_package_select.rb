@@ -48,6 +48,13 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     new
   end
 
+  def self.select_group_by(group_by_statement)
+    group_by = group_by_statement
+    group_by = group_by.first if group_by.is_a?(Array)
+
+    "#{group_by} id"
+  end
+
   def self.scoped_column_sum(scope, select, group_by)
     scope = scope
               .except(:order, :select)
@@ -55,7 +62,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     if group_by
       scope
         .group(group_by)
-        .select("#{group_by} id", select)
+        .select(select_group_by(group_by), select)
     else
       scope
         .select(select)
