@@ -1,5 +1,5 @@
 #English strings go here
-pt:
+pt-BR:
   plugin_openproject_avatars:
     name: "Imagens do perfil"
     description: >-

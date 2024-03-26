@@ -80,16 +80,16 @@ zh-TW:
       buttons:
         upgrade: "立即更新"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "是企業版功能 <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 。"
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
         link: "webhook"
   announcements:
-    show_until: 顯示直到
+    show_until: 只顯示到
     is_active: 當前已顯示
-    is_inactive: 當前未顯示
+    is_inactive: 尚未顯示
   antivirus_scan:
     not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
     quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
@@ -205,7 +205,7 @@ zh-TW:
       description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
     text_add_new_custom_field: >
-      要加入自訂欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
+      要加入客製欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
     is_enabled_globally: "已全域啟用"
     enabled_in_project: "已在專案中啟用"
     contained_in_type: "已包含在類型中"
@@ -213,9 +213,9 @@ zh-TW:
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     instructions:
-      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
-      is_for_all: "將自訂欄位標記為「所有現有專案」和「新專案」中可用。"
-      searchable: "Include the field values when using the global search functionality."
+      is_required: "將此欄位定義成必填。\n"
+      is_for_all: "將客製欄位標記為「所有現有專案」和「新專案」中可用。"
+      searchable: "使用全域搜尋功能時包含此欄位。"
       editable: "允許使用者自行編輯此欄位"
       visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
@@ -284,7 +284,7 @@ zh-TW:
         no_results_title_text: 目前沒有工作項目類別
         no_results_content_text: 建立一個新工作項目類別
       custom_fields:
-        no_results_title_text: 目前沒有自訂欄位可用。
+        no_results_title_text: 目前沒有客製欄位可用。
       types:
         no_results_title_text: 目前沒有可用的類型
         form:
@@ -488,7 +488,7 @@ zh-TW:
   activerecord:
     attributes:
       announcements:
-        show_until: "顯示直到"
+        show_until: "只顯示到"
       attachment:
         attachment_content: "附件內容"
         attachment_file_name: "附件檔案名稱"
@@ -529,7 +529,7 @@ zh-TW:
         min_length: "最小長度"
         multi_value: "允許多選"
         possible_values: "可能的值"
-        regexp: "正則運算式"
+        regexp: "正規表示式"
         searchable: "搜索"
         visible: "可見"
       custom_value:
@@ -852,7 +852,7 @@ zh-TW:
           group_by_hierarchies_exclusive: "與按照 \"%{group_by}\" 分組的群組相互排斥。不能同時啟動兩者。"
           filters:
             custom_fields:
-              inexistent: "篩選條件沒有自訂欄位。"
+              inexistent: "篩選條件無客製欄位。"
         queries/filters/base:
           attributes:
             values:
@@ -983,9 +983,9 @@ zh-TW:
               ungrantable: "has an unassignable role."
               more_than_one: "has more than one role."
             principal:
-              unassignable: "cannot be assigned to a project."
+              unassignable: "無法分派到專案。"
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "該版本無法刪除，因為包含工作項目。"
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
@@ -999,7 +999,7 @@ zh-TW:
       category: "類別"
       comment: "留言"
       custom_action: "自訂動作"
-      custom_field: "自訂欄位"
+      custom_field: "客製欄位"
       "doorkeeper/application": "Oauth 應用程式"
       forum: "討論區"
       global_role: "Global role"
@@ -1058,8 +1058,8 @@ zh-TW:
   #common attributes of all models
   attributes:
     active: "啟用"
-    assigned_to: "負責執行者"
-    assignee: "負責執行者"
+    assigned_to: "執行者"
+    assignee: "執行者"
     attachments: "附加檔"
     author: "作者"
     base: "一般錯誤:"
@@ -1071,17 +1071,17 @@ zh-TW:
     color: "顏色"
     created_at: "建立於"
     custom_options: "可能的值"
-    custom_values: "自訂欄位"
+    custom_values: "客製欄位"
     date: "日期"
     default_columns: "預設欄"
     description: "說明"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Total work"
+    derived_estimated_hours: "總工時"
     derived_start_date: "Derived start date"
     display_sums: "顯示加總"
     due_date: "完成日期"
-    estimated_hours: "Work"
-    estimated_time: "Work"
+    estimated_hours: "工時"
+    estimated_time: "工時"
     expires_at: "過期於"
     firstname: "名字"
     group: "群組"
@@ -1099,7 +1099,7 @@ zh-TW:
     password: "密碼"
     priority: "優先等級"
     project: "專案"
-    responsible: "可信賴的"
+    responsible: "負責人"
     role: "角色"
     roles: "角色"
     start_date: "起始日期"
@@ -1130,7 +1130,7 @@ zh-TW:
       implications: >
         Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        您將需要產生備份token才能建立備份。 每次您想要請求備份時，您都必須提供此token。 您可以刪除備份token以停用該備份。
       verification: >
         Enter %{word} to confirm you want to %{action} the backup token.
       verification_word_reset: 重置
@@ -1216,15 +1216,15 @@ zh-TW:
   consent:
     checkbox_label: 我已注意到並同意上述情況。
     failure_message: 同意失敗, 無法繼續。
-    title: 使用者同意資料使用
+    title: 使用者同意個資意向書
     decline_warning_message: 您已拒絕同意並已登出。
     user_has_consented: 使用者已同意您在給定時間配置的語句。
     not_yet_consented: 使用者尚未同意, 將在下次登錄時請求。
-    contact_mail_instructions: 使用者可以提出更改或移除郵寄地址。
+    contact_mail_instructions: 使用者可透過系統更改或移除郵寄地址。
     contact_your_administrator: 如果您想刪除您的帳戶, 請與您的管理員聯繫。
     contact_this_mail_address: 如果要刪除帳戶, 請聯繫 %{mail_address}。
-    text_update_consent_time: 若更改上述資訊時，請使用者再次允許。
-    update_consent_last_time: "允許時間: %{update_time}"
+    text_update_consent_time: 若更改上述資訊時，請使用者再次同意。
+    update_consent_last_time: "同意日期: %{update_time}"
   copy_project:
     title: '複製專案 %{source_project_name}'
     started: '開始複製專案從「%{source_project_name}」到 「%{target_project_name}」。當「%{target_project_name}」 可以使用以後，我們會盡快用郵件通知您。'
@@ -1232,7 +1232,7 @@ zh-TW:
     failed_internal: "內部錯誤導致複製失敗。"
     succeeded: "專案 %{target_project_name} 建立成功"
     errors: "錯誤"
-    project_custom_fields: "專案上的自訂欄位"
+    project_custom_fields: "專案上的客製欄位"
     x_objects_of_this_type:
       zero: "No objects of this type"
       one: "One object of this type"
@@ -1384,7 +1384,7 @@ zh-TW:
   error_auth_source_sso_failed: "單一登入 (SSO) 使用者 '%{value}' 失敗"
   error_can_not_archive_project: "這個專案無法封存：%{errors}"
   error_can_not_delete_entry: "無法刪除項目"
-  error_can_not_delete_custom_field: "無法刪除自訂欄位"
+  error_can_not_delete_custom_field: "無法刪除客製欄位"
   error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
   error_can_not_delete_in_use_archived_work_packages: "There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}"
   error_can_not_delete_type:
@@ -1685,7 +1685,7 @@ zh-TW:
   label_calendars_and_dates: "行事曆與日期"
   label_calendar_show: "顯示行事曆"
   label_category: "類別"
-  label_consent_settings: "使用者同意"
+  label_consent_settings: "使用者同意個資意向書"
   label_wiki_menu_item: 維基選單項目
   label_select_main_menu_item: 選擇新的主選單項目
   label_required_disk_storage: "所使用的磁碟空間"
@@ -1731,8 +1731,8 @@ zh-TW:
   label_current_status: "目前狀態"
   label_current_version: "目前版本"
   label_custom_field_add_no_type: "新增此欄位至一個工作項目類別"
-  label_custom_field_new: "新自訂欄位"
-  label_custom_field_plural: "自訂欄位"
+  label_custom_field_new: "新增欄位"
+  label_custom_field_plural: "客製欄位"
   label_custom_field_default_type: "空類型"
   label_custom_style: "設計"
   label_dashboard: "儀表板"
@@ -1748,7 +1748,7 @@ zh-TW:
   label_delete_user: "刪除使用者"
   label_delete_project: "刪除專案"
   label_deleted: "刪除線"
-  label_deleted_custom_field: "(已刪除的自訂欄位)"
+  label_deleted_custom_field: "(已刪除的客製欄位)"
   label_deleted_custom_option: "(deleted option)"
   label_empty_element: "(空)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
@@ -1773,7 +1773,7 @@ zh-TW:
   label_edit: "編輯"
   label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "取用複選"
-  label_enabled_project_custom_fields: "開啟自訂欄位"
+  label_enabled_project_custom_fields: "開啟客製欄位"
   label_enabled_project_modules: "啟用的模組"
   label_enabled_project_activities: "啟用的時間追蹤活動"
   label_end_to_end: "尾端到尾端"
@@ -1879,11 +1879,11 @@ zh-TW:
   label_logged_as: "登入為"
   label_login: "登入"
   label_custom_logo: "自訂logo"
-  label_custom_export_logo: "Custom export logo"
+  label_custom_export_logo: "客製匯出的Logo"
   label_custom_export_cover: "Custom export cover background"
   label_custom_export_cover_overlay: "Custom export cover background overlay"
   label_custom_export_cover_text_color: "文字顏色"
-  label_custom_pdf_export_settings: "Custom PDF export settings"
+  label_custom_pdf_export_settings: "匯出PDF設定"
   label_custom_favicon: "自訂圖示"
   label_custom_touch_icon: "自訂觸控圖示"
   label_logout: "登出"
@@ -2272,7 +2272,7 @@ zh-TW:
         create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "開啟工作項目"
         subject: "有個工作項目 #%{id} 分享給您"
-        enterprise_text: "Share work packages with users who are not members of the project."
+        enterprise_text: "與不是專案成員的使用者共用工作項目。"
         summary:
           user: "%{user} 分享一個工作項目給您，權限：%{role_rights}\""
           group: "%{user} 分享一個工作項目給您所在的群組： %{group}"
@@ -2413,7 +2413,7 @@ zh-TW:
   notice_automatic_set_of_standard_type: "自動設定標準類型"
   notice_logged_out: "您已登出"
   notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
-  notice_project_cannot_update_custom_fields: "無法更新專案的可用自訂欄位。專案無效：%{errors}"
+  notice_project_cannot_update_custom_fields: "無法更新專案的可用客製欄位。專案無效：%{errors}"
   notice_attachment_migration_wiki_page: >
     此頁面是因為更新 OpenProject 而自動產生的。他包含了所有之前與 %{container_type} "%{container_name}" 有關聯的附加檔案。
   #Default format for numbers
@@ -2566,9 +2566,9 @@ zh-TW:
   #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "啟用或封存"
-    assigned_to_role: "負責執行者的角色"
+    assigned_to_role: "執行者的角色"
     assignee_or_group: "被指派或所屬的人或群組"
-    member_of_group: "負責執行者的群組"
+    member_of_group: "執行者的群組"
     name_or_identifier: "名稱或識別碼"
     only_subproject_id: "只限子專案"
     shared_with_user: "分配給成員"
@@ -2723,16 +2723,16 @@ zh-TW:
   setting_brute_force_block_minutes: "使用者被禁止的時間"
   setting_cache_formatted_text: "快取格式化文字"
   setting_use_wysiwyg_description: "勾選此選項可在預設情況下為所有使用者啟用 CKEditor5 所見即所得 (WYSIWYG) 編輯器。CKEditor 對 GFM Markdown的功能有限。"
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "預設工作項目欄位"
   setting_commit_fix_keywords: "固定的關鍵字"
   setting_commit_logs_encoding: "Commit 訊息的編碼"
   setting_commit_logtime_activity_id: "紀錄時間的動作"
   setting_commit_logtime_enabled: "啟用時間日誌"
   setting_commit_ref_keywords: "參照關鍵字"
-  setting_consent_time: "允許時間"
+  setting_consent_time: "同意日期"
   setting_consent_info: "條文"
   setting_consent_required: "是否需要使用者允許"
-  setting_consent_decline_mail: "允許列在通訊錄"
+  setting_consent_decline_mail: "同意郵件列在通訊錄"
   setting_cross_project_work_package_relations: "允許跨專案的工作項目關聯"
   setting_first_week_of_year: "一年的第一週從哪一天開始"
   setting_date_format: "日期"
@@ -2902,9 +2902,9 @@ zh-TW:
   text_comment_wiki_page: "Wiki 頁面（%{page}）的評論"
   text_custom_field_possible_values_info: "每個值一行"
   text_custom_field_hint_activate_per_project: >
-    當使用自訂欄位：請留意自訂欄位需要分別被每個專案個別啟用。
+    當使用客製欄位：請留意欄位需要依專案個別啟用。
   text_custom_field_hint_activate_per_project_and_type: >
-    自訂欄位需要個別被工作項目類別和專案啟用。
+    客製欄位需要個別被工作項目類別和專案啟用。
   text_wp_status_read_only_html: >
     企業版將提供額外模組到工作項目：<br> <ul> <li><b>允許將特定狀態的工作項目設定為唯讀</b></li> </ul>
   text_project_custom_field_html: >
@@ -2912,13 +2912,13 @@ zh-TW:
   text_custom_logo_instructions: >
     建議使用背景透明的白色標誌。為了確保在一般及視網膜螢幕上有最佳效果，請確保您的圖片解析度在 460px X 60px。
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    這是出現在 PDF 匯出中的Logo。 它必須是 PNG 或 JPEG 影像檔。 建議在透明或白色背景上使用黑色或彩色標誌。
   text_custom_export_cover_instructions: >
-    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
+    這是出現在 PDF 匯出的封面背景中的圖像。 它需要是大約 800 像素寬 x 500 像素高大小的 PNG 或 JPEG 影像檔案。
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    這是顯示在您的瀏覽器視窗/標籤頁的標題旁邊的小圖示。它必需要是 32px X 32px 大小背景透明的 PNG 圖像檔。
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    這個圖示將會顯示在您的手機或平板的主畫面中。它必須是 180px X 180px 大小的 PNG 圖檔。請確保圖片的背景不是透明的，否則在 iOS 上會看起來很醜。
   text_database_allows_tsv: "資料庫允許 TSVector (非必要)"
   text_default_administrator_account_changed: "預設管理者帳號已更改"
   text_default_encoding: "預設值: UTF-8"
@@ -3136,7 +3136,7 @@ zh-TW:
         view: "檢視"
         view_description: "查看此工作項目"
       remove: "刪除"
-      share: "分享"
+      share: "共享"
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "此工作項目尚未與任何人分享"
@@ -3156,7 +3156,7 @@ zh-TW:
         invite_resent: "已重傳邀請"
         not_project_member: "非專案的成員"
         project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
+        not_project_group: "成員共享群組"
         additional_privileges_project: "Might have additional privileges (as project member)"
         additional_privileges_group: "Might have additional privileges (as group member)"
         additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"

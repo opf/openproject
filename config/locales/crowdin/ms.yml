@@ -541,10 +541,10 @@ ms:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Halaman"
+        row_count: "Bilangan baris"
+        column_count: "Bilangan lajur"
+        widgets: "Widget"
       oauth_client:
         client: "Client ID"
       relation:
@@ -786,9 +786,9 @@ ms:
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: "overlap."
-          outside: "is outside of the grid."
-          end_before_start: "end value needs to be larger than the start value."
+          overlaps: "bertindih."
+          outside: "luar daripada grid"
+          end_before_start: "nilai akhir perlu lebih besar daripada nilai mula."
         ical_token_query_assignment:
           attributes:
             name:
@@ -1066,7 +1066,7 @@ ms:
     base: "General Error:"
     blocks_ids: "IDs of blocked work packages"
     category: "Category"
-    comment: "Comment"
+    comment: "Komen"
     comments: "Comment"
     content: "Content"
     color: "Color"
@@ -1668,7 +1668,7 @@ ms:
   label_api_doc: "API documentation"
   label_backup: "Backup"
   label_backup_code: "Backup code"
-  label_between: "between"
+  label_between: "antara"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_blog: "Blog"
@@ -1822,7 +1822,7 @@ ms:
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
   label_greater_or_equal: ">="
-  label_group_by: "Group by"
+  label_group_by: "Kumpulkan mengikut"
   label_group_new: "New group"
   label_group: "Group"
   label_group_named: "Group %{name}"
@@ -2032,7 +2032,7 @@ ms:
   label_remove_columns: "Remove selected columns"
   label_renamed: "renamed"
   label_reply_plural: "Replies"
-  label_report: "Report"
+  label_report: "Laporan"
   label_report_bug: "Report a bug"
   label_report_plural: "Reports"
   label_reported_work_packages: "Reported work packages"
@@ -2115,7 +2115,7 @@ ms:
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
-  label_user: "User"
+  label_user: "Pengguna"
   label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}'s activity"

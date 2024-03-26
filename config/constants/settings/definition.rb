@@ -742,6 +742,20 @@ module Settings
         allowed: (0..),
         default: 3
       },
+      httpx_operation_timeout: {
+        description: '',
+        format: :float,
+        writable: false,
+        allowed: (0..),
+        default: 10
+      },
+      httpx_request_timeout: {
+        description: '',
+        format: :float,
+        writable: false,
+        allowed: (0..),
+        default: 10
+      },
       httpx_read_timeout: {
         description: '',
         format: :float,

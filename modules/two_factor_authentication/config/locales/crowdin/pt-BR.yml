@@ -1,5 +1,5 @@
 #English strings go here for Rails i18n
-pt:
+pt-BR:
   plugin_openproject_two_factor_authentication:
     name: "Autenticação de dois fatores do OpenProject"
     description: >-
@@ -118,8 +118,8 @@ pt:
       2fa_from_webauthn: Forneça o dispositivo WebAuthn <strong>%{device_name}</strong>. Se for do tipo USB certifique-se de conectá-lo e tocá-lo. Em seguida, clique no botão de login.
       webauthn:
         title: "WebAuthn"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: Utilize a autenticação da Web para registrar um dispositivo FIDO2 (como uma YubiKey) ou o enclave seguro do seu dispositivo móvel como um segundo fator de autenticação.
+        further_steps: Após escolher um nome, basta clicar no botão "Continuar". O navegador vai pedir para você apresentar o dispositivo WebAuthn. Depois disso, o registro do dispositivo estará concluído.
       totp:
         title: "Use seu aplicativo de autenticação base"
         provisioning_uri: "Posicione o URI"

@@ -32,7 +32,7 @@ You can download the installer from the [Typora website](https://typora.io). Fol
 
 You can install the software GitHub Desktop on any [supported operating systems](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/supported-operating-systems). To install GitHub Desktop navigate to [https://desktop.github.com](https://desktop.github.com) and download the appropriate version for your operating system. Follow the prompts to complete the installation.
 
-## Step 4: Sign in into Github.com in GitHub Desktop
+## Step 4: Sign in into GitHub.com in GitHub Desktop
 
 To exchange data between your local repository and remote repositories you need to first sign (File -> Options -> Sign in).
 
@@ -196,7 +196,7 @@ In GitHub Desktop **at Current branch the old branch is visible [1]** . After yo
 
 #### C) Change remote repository back to the forked repository (ORIGIN)
 
-In Github Desktop choose menu "Repository -> Repository settings". This will open a new window (screenshot below). Enter the URL of your forked OpenProject repository (e.g. https://github.com/adam-op/openproject.git). Confirm with **Save**
+In GitHub Desktop choose menu "Repository -> Repository settings". This will open a new window (screenshot below). Enter the URL of your forked OpenProject repository (e.g. https://github.com/adam-op/openproject.git). Confirm with **Save**
 
 ![rebase-your-fork-step-3](rebase-your-fork-step-3.png)
 

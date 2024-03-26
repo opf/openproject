@@ -28,7 +28,7 @@ OpenProject 11.4.0 adds packaged installation support for Debian 11 "Bullseye".
 - Fixed: Wiki menu item scrolling does not work with two main wiki items \[[#38878](https://community.openproject.org/wp/38878)\]
 - Fixed: Imminent user limit warning shown prematurely \[[#38893](https://community.openproject.org/wp/38893)\]
 - Fixed: Custom S3 compatible upload providers blocked by CSP \[[#38900](https://community.openproject.org/wp/38900)\]
-- Fixed: [Github Integration] Webhook fails for pull_request event without body \[[#38919](https://community.openproject.org/wp/38919)\]
+- Fixed: [GitHub Integration] Webhook fails for pull_request event without body \[[#38919](https://community.openproject.org/wp/38919)\]
 - Fixed: IFC upload not working since attachment whitelisting \[[#38954](https://community.openproject.org/wp/38954)\]
 - Fixed: BIM seed are missing snapshots \[[#39009](https://community.openproject.org/wp/39009)\]
 - Fixed: Regression: Typing S while focus in viewer opens the OP global search \[[#39029](https://community.openproject.org/wp/39029)\]
