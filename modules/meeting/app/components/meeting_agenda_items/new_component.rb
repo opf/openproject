@@ -36,9 +36,19 @@ module MeetingAgendaItems
       super
 
       @meeting = meeting
-      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting:, author: User.current)
+      @meeting_agenda_item = meeting_agenda_item || build_agenda_item
       @hidden = hidden
       @type = type
+    end
+
+    private
+
+    def build_agenda_item
+      MeetingAgendaItem.new(
+        meeting: @meeting,
+        author: User.current,
+        presenter: User.current
+      )
     end
   end
 end
