@@ -39,7 +39,7 @@ module Queries
       # or user saving public queries
       if model.public_was
         user_allowed_to_change_public
-        user_allowed_to_change_query_to_private unless model.public?
+        user_allowed_to_change_query_to_private if model.public_changed?
       else
         user_allowed_to_change_query
         user_allowed_to_change_public if model.public?
