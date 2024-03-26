@@ -135,7 +135,7 @@ RSpec.describe "Meetings", :js do
 
         it "can not edit the minutes" do
           visit meeting_path(meeting)
-          click_link "Minutes"
+          click_on "Minutes"
           expect(page).not_to have_test_selector("op-meeting--meeting_minutes", text: "Edit")
           expect(page).to have_test_selector("op-meeting--meeting_minutes",
                                              text: "There is currently nothing to display")
@@ -166,7 +166,7 @@ RSpec.describe "Meetings", :js do
 
           field.set_value("This is what we talked about")
 
-          click_button "Save"
+          click_on "Save"
 
           expect(page)
             .to have_css(".op-uc-container",

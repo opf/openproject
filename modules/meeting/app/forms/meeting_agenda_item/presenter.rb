@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,27 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Peripherals
-    module StorageInteraction
-      module Nextcloud
-        class OpenStorageQuery
-          def self.call(storage:, auth_strategy:)
-            new(storage).call(auth_strategy:)
-          end
+class MeetingAgendaItem::Presenter < ApplicationForm
+  form do |agenda_item_form|
+    agenda_item_form.autocompleter(
+      name: :presenter_id,
+      label: MeetingAgendaItem.human_attribute_name(:presenter),
+      visually_hide_label: true,
+      autocomplete_options: {
+        defaultData: true,
+        component: "opce-user-autocompleter",
+        url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+        filters: [{ name: "type", operator: "=", values: %w[User Group] },
+                  { name: "member", operator: "=", values: [@builder.object.meeting.project_id] },
+                  { name: "status", operator: "=", values: [Principal.statuses[:active], Principal.statuses[:invited]] }],
+        searchKey: "any_name_attribute",
+        resource: "principals",
+        focusDirectly: false,
+        multiple: false,
+        appendTo: "body",
+        disabled: @disabled
+      }
+    )
+  end
 
-          def initialize(storage)
-            @storage = storage
-          end
-
-          # rubocop:disable Lint/UnusedMethodArgument
-          def call(auth_strategy:)
-            ServiceResult.success(result: Util.join_uri_path(@storage.uri, "index.php/apps/files"))
-          end
-
-          # rubocop:enable Lint/UnusedMethodArgument
-        end
-      end
-    end
+  def initialize(disabled: false)
+    super()
+    @disabled = disabled
   end
 end

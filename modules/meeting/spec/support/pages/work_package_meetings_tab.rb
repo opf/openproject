@@ -104,7 +104,7 @@ module Pages
       page.find(".ng-option-marked").click
       page.find(".ck-editor__editable").set(notes)
 
-      click_button("Save")
+      click_on("Save")
     end
 
     private
