@@ -26,43 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "base"
-require_relative "show"
+class MeetingAgendaItem::Presenter < ApplicationForm
+  form do |agenda_item_form|
+    agenda_item_form.autocompleter(
+      name: :presenter_id,
+      label: MeetingAgendaItem.human_attribute_name(:presenter),
+      visually_hide_label: true,
+      autocomplete_options: {
+        defaultData: true,
+        component: "opce-user-autocompleter",
+        url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+        filters: [{ name: "type", operator: "=", values: %w[User Group] },
+                  { name: "member", operator: "=", values: [@builder.object.meeting.project_id] },
+                  { name: "status", operator: "=", values: [Principal.statuses[:active], Principal.statuses[:invited]] }],
+        searchKey: "any_name_attribute",
+        resource: "principals",
+        focusDirectly: false,
+        multiple: false,
+        appendTo: "body",
+        disabled: @disabled
+      }
+    )
+  end
 
-module Pages::Meetings
-  class Edit < Base
-    attr_accessor :meeting
-
-    def initialize(meeting)
-      self.meeting = meeting
-    end
-
-    def expect_available_participant(user)
-      expect(page)
-        .to have_field("#{user} invited")
-    end
-
-    def expect_not_available_participant(user)
-      expect(page)
-        .to have_no_field("#{user} invited")
-    end
-
-    def invite(user)
-      check("#{user} invited")
-    end
-
-    def uninvite(user)
-      uncheck("#{user} invited")
-    end
-
-    def click_save
-      click_on("Save")
-
-      Pages::Meetings::Show.new(meeting)
-    end
-
-    def path
-      edit_meeting_path(meeting)
-    end
+  def initialize(disabled: false)
+    super()
+    @disabled = disabled
   end
 end

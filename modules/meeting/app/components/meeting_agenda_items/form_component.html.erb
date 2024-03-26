@@ -19,6 +19,10 @@
           render(MeetingAgendaItem::Duration.new(f))
         end
 
+        grid.with_area(:presenter) do
+          render(MeetingAgendaItem::Presenter.new(f))
+        end
+
         grid.with_area(:notes,
                        display: display_notes_input_value,
                        data: { 'meeting-agenda-item-form-target': "notesInput" }) do

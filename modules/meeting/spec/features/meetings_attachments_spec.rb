@@ -32,7 +32,7 @@ RSpec.describe "Add an attachment to a meeting (agenda)", :js, with_cuprite: fal
     visit "/meetings/#{meeting.id}"
 
     within "#tab-content-agenda .toolbar" do
-      click_link "Edit"
+      click_on "Edit"
     end
   end
 
