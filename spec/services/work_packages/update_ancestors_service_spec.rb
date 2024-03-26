@@ -60,44 +60,12 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       shared_let(:new_status_with_done_ratio) { create(:status, default_done_ratio: 100) }
       shared_let(:new_status_without_done_ratio) { create(:status, default_done_ratio: nil) }
 
-      shared_examples "updates % complete of ancestors" do
-        it "considers the work package as the % complete " \
-           "attached to the status and sets the " \
-           "derived % complete value of the ancestors accordingly" do
-          expect(child.done_ratio)
-            .to eq(new_status_with_done_ratio.default_done_ratio)
-
-          expect do
-            updated_attributes = child.changes.keys.map(&:to_sym)
-            described_class.new(user:, work_package: child)
-                           .call(updated_attributes)
-            parent.reload
-          end
-            .to change(parent, :derived_done_ratio).from(0).to(33)
-        end
-      end
-
-      shared_examples "does not update % complete of ancestors" do
-        it "does not consider the closed status a special value and " \
-           "does not set % complete of the work package or set the " \
-           "derived % complete value of the ancestors accordingly" do
-          expect(child.done_ratio).to eq(0)
-
-          expect do
-            updated_attributes = child.changes.keys.map(&:to_sym)
-            described_class.new(user:, work_package: child)
-                           .call(updated_attributes)
-            parent.reload
-          end
-            .not_to change(parent, :derived_done_ratio)
-        end
-      end
-
       context 'when using the "status-based" % complete mode',
               with_settings: { work_package_done_ratio: "status" } do
         context "with both parent and children having estimated hours set" do
           shared_let(:parent) do
             create(:work_package,
+                   subject: "parent",
                    estimated_hours: 10.0,
                    remaining_hours: 10.0,
                    derived_estimated_hours: 15.0,
@@ -106,45 +74,59 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           end
           shared_let(:child) do
             create(:work_package,
+                   subject: "child",
                    parent:,
                    estimated_hours: 5.0,
                    remaining_hours: 5.0,
                    status: open_status)
           end
 
-          context "when the new status has its default done ratio set" do
-            context "with the status field" do
-              before do
-                set_attributes_on(child, status: new_status_with_done_ratio)
+          def call_update_ancestors_service(work_package)
+            changed_attributes = work_package.changes.keys.map(&:to_sym)
+            described_class.new(user:, work_package:)
+                           .call(changed_attributes)
+          end
+          context "when changing child status to a status with a default done ratio" do
+            %i[status status_id].each do |field|
+              context "with the #{field} field" do
+                it "recomputes child remaining work and update ancestors total % complete accordingly" do
+                  value =
+                    case field
+                    when :status then new_status_with_done_ratio
+                    when :status_id then new_status_with_done_ratio.id
+                    end
+                  set_attributes_on(child, field => value)
+                  call_update_ancestors_service(child)
+
+                  expect_work_packages([parent, child], <<~TABLE)
+                    | subject | work | total work | remaining work | total remaining work | % complete | total % complete |
+                    | parent  |  10h |        15h |            10h |                  10h |         0% |              33% |
+                    | child   |   5h |         5h |             0h |                      |       100% |                  |
+                  TABLE
+                end
               end
-
-              include_examples "updates % complete of ancestors"
-            end
-
-            context "with the status_id field" do
-              before do
-                set_attributes_on(child, status_id: new_status_with_done_ratio.id)
-              end
-
-              include_examples "updates % complete of ancestors"
             end
           end
 
-          context "when the closed status has no default done ratio set" do
-            context "with the status field" do
-              before do
-                set_attributes_on(child, status: new_status_without_done_ratio)
+          context "when changing child status to a status without any default done ratio" do
+            %i[status status_id].each do |field|
+              context "with the #{field} field" do
+                it "unsets child remaining work and update ancestors total % complete accordingly" do
+                  value =
+                    case field
+                    when :status then new_status_without_done_ratio
+                    when :status_id then new_status_without_done_ratio.id
+                    end
+                  set_attributes_on(child, field => value)
+                  call_update_ancestors_service(child)
+
+                  expect_work_packages([parent, child], <<~TABLE)
+                    | subject | work | total work | remaining work | total remaining work | % complete | total % complete |
+                    | parent  |  10h |        15h |            10h |                  10h |         0% |              33% |
+                    | child   |   5h |         5h |                |                      |            |                  |
+                  TABLE
+                end
               end
-
-              include_examples "does not update % complete of ancestors"
-            end
-
-            context "with the status_id field" do
-              before do
-                set_attributes_on(child, status_id: new_status_without_done_ratio.id)
-              end
-
-              include_examples "does not update % complete of ancestors"
             end
           end
         end
