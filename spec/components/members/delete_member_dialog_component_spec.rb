@@ -50,34 +50,65 @@ RSpec.describe Members::DeleteMemberDialogComponent, type: :component do
   let(:administration_settings_link) { "[administration settings link]" }
   let(:may_manage_user?) { true }
 
-  before do
-    allow(member).to receive(:inherited_shared_work_packages_count?).and_return(true)
-  end
-
   context "when project membership and work package shares can be deleted" do
     let(:stubs) { { can_delete?: true, can_delete_roles?: true, can_delete_shares?: true } }
 
-    it "renders dialog" do
-      render_inline(described_class.new(member, row:))
+    context "when principal is a User" do
+      let(:principal) { build_stubbed(:user) }
 
-      expect(page).to have_css "dialog"
-      expect(page).to have_css "h1", text: "Remove member"
+      before do
+        allow(member).to receive(:inherited_shared_work_packages_count?).and_return(true)
+      end
 
-      expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
-        This will remove the user’s role from this project. However, [shared work packages link] have also been shared with this user.
-        A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?
-        (This will not affect work packages shared with their group).
-      TEXT
+      it "renders dialog" do
+        render_inline(described_class.new(member, row:))
 
-      expect(page).to have_button "Cancel"
-      expect(page).to have_css "a.Button", count: 2
-      expect(page).to have_css "a.Button", text: "Remove member"
-      expect(page).to have_css "a.Button", text: "Remove member and shares"
+        expect(page).to have_css "dialog"
+        expect(page).to have_css "h1", text: "Remove member"
+
+        expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
+          This will remove the user’s role from this project.
+          However, [shared work packages link] have also been shared with this user.
+          A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?
+          (This will not affect work packages shared with their group).
+        TEXT
+
+        expect(page).to have_button "Cancel"
+        expect(page).to have_css "a.Button", count: 2
+        expect(page).to have_css "a.Button", text: "Remove member"
+        expect(page).to have_css "a.Button", text: "Remove member and shares"
+      end
+    end
+
+    context "when principal is a Group" do
+      let(:principal) { build_stubbed(:group) }
+
+      it "renders dialog" do
+        render_inline(described_class.new(member, row:))
+
+        expect(page).to have_css "dialog"
+        expect(page).to have_css "h1", text: "Remove member"
+
+        expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
+          This will remove the group role from this project.
+          However, [shared work packages link] have also been shared with this group.
+          A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?
+        TEXT
+
+        expect(page).to have_button "Cancel"
+        expect(page).to have_css "a.Button", count: 2
+        expect(page).to have_css "a.Button", text: "Remove member"
+        expect(page).to have_css "a.Button", text: "Remove member and shares"
+      end
     end
   end
 
   context "when project roles and work package shares can be deleted, but not project membership" do
     let(:stubs) { { can_delete?: false, can_delete_roles?: true, can_delete_shares?: true } }
+
+    before do
+      allow(member).to receive(:inherited_shared_work_packages_count?).and_return(true)
+    end
 
     it "renders dialog" do
       render_inline(described_class.new(member, row:))
