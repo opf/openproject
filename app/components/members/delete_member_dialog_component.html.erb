@@ -30,17 +30,16 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Primer::Alpha::Dialog.new(id:, title: scoped_t(:title), size: :large)) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
 
-  <% if can_delete_roles? && can_delete_shares? %>
-    <% if can_delete? %>
-      <% dialog.with_body do %>
+  <% case %>
+  <% when can_delete_roles? && can_delete_shares? %>
+    <% dialog.with_body do %>
+      <% if can_delete? %>
         <%= paragraph { scoped_t(:will_remove_the_users_role_html, shared_work_packages_link:) } %>
         <%= paragraph do %>
           <%= scoped_t(:would_you_like_to_remove_the_shares_too) %>
           <%= scoped_t(:will_not_affect_inherited_shares) if inherited_shared_work_packages_count? %>
         <% end %>
-      <% end %>
-    <% else %>
-      <% dialog.with_body do %>
+      <% else %>
         <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_role) } %>
         <%= paragraph { scoped_t(:also_user_has_shares_html, shared_work_packages_link:) } %>
         <%= paragraph do %>
@@ -55,31 +54,27 @@ See COPYRIGHT and LICENSE files for more details.
       <%= button(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete }) { t(:button_remove_member) } %>
       <%= button(scheme: :danger, tag: :a, href: delete_url(project: true, work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_remove_member_and_shares) } %>
     <% end %>
-  <% else %>
-    <% if can_delete_roles? %>
+  <% when can_delete_roles? %>
+    <% dialog.with_body do %>
       <% if can_delete? %>
-        <% dialog.with_body do %>
-          <%= paragraph { scoped_t(:will_remove_all_access_priveleges) } %>
-        <% end %>
+        <%= paragraph { scoped_t(:will_remove_all_access_priveleges) } %>
       <% else %>
-        <% dialog.with_body do %>
-          <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_role) } %>
-        <% end %>
+        <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_role) } %>
       <% end %>
+    <% end %>
 
-      <% dialog.with_footer do %>
-        <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
-        <%= button(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete }) { t(:button_remove) } %>
-      <% end %>
-    <% else %>
-      <% dialog.with_body do %>
-        <%= paragraph { scoped_t(:cannot_delete_group_member) } %>
-        <%= paragraph { scoped_t(:cannot_delete_group_member_note_html, administration_settings_link:) } %>
-      <% end %>
+    <% dialog.with_footer do %>
+      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+      <%= button(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete }) { t(:button_remove) } %>
+    <% end %>
+  <% else %>
+    <% dialog.with_body do %>
+      <%= paragraph { scoped_t(:cannot_delete_group_member) } %>
+      <%= paragraph { scoped_t(:cannot_delete_group_member_note_html, administration_settings_link:) } %>
+    <% end %>
 
-      <% dialog.with_footer do %>
-        <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
-      <% end %>
+    <% dialog.with_footer do %>
+      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
     <% end %>
   <% end %>
 <% end %>
