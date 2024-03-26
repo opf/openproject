@@ -39,6 +39,7 @@ module Queries
       # or user saving public queries
       if model.public_was
         user_allowed_to_change_public
+        user_allowed_to_change_query_to_private unless model.public?
       else
         user_allowed_to_change_query
         user_allowed_to_change_public if model.public?
@@ -66,6 +67,12 @@ module Queries
         user.allowed_in_project?(:save_queries, model.project)
       else
         user.allowed_in_any_project?(:save_queries)
+      end
+    end
+
+    def user_allowed_to_change_query_to_private
+      if model.user.is_a? DeletedUser
+        errors.add :base, :error_unauthorized
       end
     end
   end

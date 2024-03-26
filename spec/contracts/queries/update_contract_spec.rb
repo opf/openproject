@@ -109,6 +109,12 @@ RSpec.describe Queries::UpdateContract do
         end
 
         it_behaves_like "contract is valid"
+
+        context "when the query user is deleted" do
+          let(:user) { DeletedUser.first }
+
+          it_behaves_like "contract user is unauthorized"
+        end
       end
     end
 
