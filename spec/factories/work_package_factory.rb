@@ -131,6 +131,10 @@ FactoryBot.define do
         work_package.done_ratio = (work_package.estimated_hours - work_package.remaining_hours) \
                                   / work_package.estimated_hours * 100
       end
+      if work_package.derived_estimated_hours.present? && work_package.derived_remaining_hours.present?
+        work_package.derived_done_ratio = (work_package.derived_estimated_hours - work_package.derived_remaining_hours) \
+                                          / work_package.derived_estimated_hours * 100
+      end
     end
   end
 end

@@ -48,7 +48,7 @@ export class CompoundProgressDisplayField extends DisplayField {
 
     this.renderActual(element, displayText);
 
-    if (this.hasChildren()) {
+    if (this.derivedValue !== null && this.hasChildren()) {
       this.renderSeparator(element);
       this.renderDerived(element, this.derivedValueString);
     }
@@ -84,6 +84,13 @@ export class CompoundProgressDisplayField extends DisplayField {
     span.ariaHidden = 'true';
 
     element.appendChild(span);
+  }
+
+  public isEmpty():boolean {
+    const { value } = this;
+    const derived = this.derivedValue;
+
+    return (value === null) && (derived === null);
   }
 
   public get value():number|null {

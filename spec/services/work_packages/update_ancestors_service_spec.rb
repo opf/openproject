@@ -58,7 +58,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     context "when setting the status of a work package" do
       shared_let(:open_status) { create(:status) }
       shared_let(:new_status_with_done_ratio) { create(:status, default_done_ratio: 100) }
-      shared_let(:new_status_without_done_ratio) { create(:status) }
+      shared_let(:new_status_without_done_ratio) { create(:status, default_done_ratio: nil) }
 
       shared_examples "updates % complete of ancestors" do
         it "considers the work package as the % complete " \
@@ -281,7 +281,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                 nil # zero-values aren't accounted for
               end
               let(:aggregate_done_ratio) do
-                0
+                nil
               end
             end
           end
@@ -302,7 +302,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                 nil
               end
               let(:aggregate_done_ratio) do
-                0
+                nil
               end
             end
           end
@@ -323,7 +323,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                 nil
               end
               let(:aggregate_done_ratio) do
-                0
+                nil
               end
             end
           end
@@ -488,7 +488,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                 nil # zero-values aren't accounted for
               end
               let(:aggregate_done_ratio) do
-                0
+                nil
               end
             end
           end
@@ -509,7 +509,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                 nil
               end
               let(:aggregate_done_ratio) do
-                0
+                nil
               end
             end
           end
@@ -530,7 +530,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                 nil
               end
               let(:aggregate_done_ratio) do
-                0
+                nil
               end
             end
           end
@@ -842,12 +842,12 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
 
       it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours " \
-         "of the former parent to 0" do
+         "of the former parent to nil" do
         expect do
           subject
           old_parent.reload
         end
-          .to change(old_parent, :derived_done_ratio).to(0)
+          .to change(old_parent, :derived_done_ratio).to(nil)
           .and change(old_parent, :derived_estimated_hours).to(nil)
           .and change(old_parent, :derived_remaining_hours).to(nil)
       end
