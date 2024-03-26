@@ -35,6 +35,12 @@ RSpec.describe Members::DeleteService, type: :model do
     before do
       model_instance.principal = principal
 
+      allow(model_instance).to receive(:destroy) do
+        allow(model_instance).to receive(:destroyed?).and_return(model_destroy_result)
+
+        model_destroy_result
+      end
+
       allow(OpenProject::Notifications)
         .to receive(:send)
     end
@@ -119,6 +125,19 @@ RSpec.describe Members::DeleteService, type: :model do
 
         it "is successful" do
           expect(subject).to be_success
+        end
+
+        it "calls the cleanup service" do
+          service_call
+
+          expect(cleanup_service_instance)
+            .to have_received(:call)
+        end
+
+        it "doesn't send a notification" do
+          service_call
+
+          expect(OpenProject::Notifications).not_to have_received(:send)
         end
       end
     end

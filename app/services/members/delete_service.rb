@@ -44,7 +44,7 @@ class Members::DeleteService < BaseServices::Delete
       member = call.result
 
       cleanup_for_group(member)
-      send_notification(member)
+      send_notification(member) if member.destroyed?
     end
   end
 
