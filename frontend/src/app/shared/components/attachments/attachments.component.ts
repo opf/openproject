@@ -82,8 +82,6 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
   @Input() public showTimestamp = true;
 
-  @Input() public dropZoneText:string|null = null;
-
   public attachments$:Observable<IAttachment[]>;
 
   public draggingOverDropZone = false;

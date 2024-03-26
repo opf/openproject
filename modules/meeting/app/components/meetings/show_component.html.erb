@@ -26,7 +26,8 @@
             agenda.with_row(mt: 3, classes: 'hidden-for-desktop') do
               resource = ::API::V3::Meetings::MeetingRepresenter.new(@meeting, current_user: User.current, embed_links: false)
               concat render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t(:label_attachment_plural) }
-              concat helpers.list_attachments(resource, 'data-allow-uploading': true)
+              concat helpers.list_attachments(resource,
+                                              inputs: { allowUploading: true })
             end
           end
         end

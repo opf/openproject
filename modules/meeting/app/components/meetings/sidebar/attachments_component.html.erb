@@ -7,10 +7,11 @@
     attachments_container.with_row(mt: 2) do
       resource = ::API::V3::Meetings::MeetingRepresenter.new(@meeting, current_user: User.current, embed_links: false)
       helpers.list_attachments(resource,
-                               'data-allow-uploading': true,
-                               'data-show-timestamp': false,
-                               'data-drop-zone-text': I18n.t('meeting.attachments.dropzone_text').to_json,
-                               'data-external-upload-button': "#meetings-add-attachments".to_json)
+                               inputs: {
+                                 allowUploading: true,
+                                 showTimestamp: false,
+                                 externalUploadButton: "#meetings-add-attachments"
+                               })
     end
 
     attachments_container.with_row(mt: 1) do
