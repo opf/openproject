@@ -86,22 +86,13 @@ See COPYRIGHT and LICENSE files for more details.
       <%= cancel_button %>
       <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_revoke_access) } %>
     <% end %>
-  <% when other_shared_work_packages_count? %>
-    <% dialog.with_body do %>
-      <%= paragraph { scoped_t(:cannot_remove_inherited_with_role, shared_role_name:) } %>
-      <% if may_manage_user? %>
-        <%= paragraph { scoped_t(:cannot_remove_inherited_note_admin_html, administration_settings_link:) } %>
-      <% else %>
-        <%= paragraph { scoped_t(:cannot_remove_inherited_note_non_admin) } %>
-      <% end %>
-    <% end %>
-
-    <% dialog.with_footer do %>
-      <%= cancel_button %>
-    <% end %>
   <% else %>
     <% dialog.with_body do %>
-      <%= paragraph { scoped_t(:cannot_remove_inherited, shared_role_name:) } %>
+      <% if other_shared_work_packages_count? %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_with_role, shared_role_name:) } %>
+      <% else %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited, shared_role_name:) } %>
+      <% end %>
       <% if may_manage_user? %>
         <%= paragraph { scoped_t(:cannot_remove_inherited_note_admin_html, administration_settings_link:) } %>
       <% else %>
