@@ -27,19 +27,22 @@
 #++
 
 class MeetingAgendaItem::Presenter < ApplicationForm
-  form do |f|
-    f.autocompleter(
+  form do |agenda_item_form|
+    agenda_item_form.autocompleter(
       name: :presenter_id,
       label: I18n.t("attributes.presenter"),
       visually_hide_label: true,
       autocomplete_options: {
+        defaultData: true,
+        component: "opce-user-autocompleter",
         url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
         filters: [{ name: "type", operator: "=", values: %w[User Group] },
                   { name: "member", operator: "=", values: [@builder.object.meeting.project_id] },
                   { name: "status", operator: "=", values: [Principal.statuses[:active], Principal.statuses[:invited]] }],
         searchKey: "any_name_attribute",
-        multiple: false,
+        resource: "principals",
         focusDirectly: false,
+        multiple: false,
         appendTo: "body",
         disabled: @disabled
       }
@@ -47,6 +50,7 @@ class MeetingAgendaItem::Presenter < ApplicationForm
   end
 
   def initialize(disabled: false)
+    super()
     @disabled = disabled
   end
 end
