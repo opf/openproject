@@ -120,15 +120,11 @@ export default class MembersFormController extends Controller {
   }
 
   toggleMembershipEdit({ params: { togglingClass } }:{ params:{ togglingClass:string } }) {
-    const targetedForm = this.membershipEditFormTargets.find((form:HTMLElement) => form.className === togglingClass);
-
-    if (targetedForm !== undefined) {
-      if (targetedForm.style.display === 'none') {
-        targetedForm.style.display = '';
-      } else {
-        targetedForm.style.display = 'none';
+    this.membershipEditFormTargets.forEach((form:HTMLElement) => {
+      if (form.className === togglingClass) {
+        form.style.display = form.style.display === 'none' ? '' : 'none';
       }
-    }
+    });
   }
 
   focusAutocompleter():void {
