@@ -359,7 +359,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       groups: "Groups"
     delete_member_dialog:
       title: "Remove member"
-      will_remove_the_users_role_html: "This will remove the user’s role from this project. However, %{shared_work_packages_link} have also been shared with this user."
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      however_shares_with_user_html: "However, %{shared_work_packages_link} have also been shared with this user."
       would_you_like_to_remove_the_shares_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
       will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
       can_remove_direct_but_not_shared_role: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."

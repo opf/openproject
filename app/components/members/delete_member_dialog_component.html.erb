@@ -34,7 +34,10 @@ See COPYRIGHT and LICENSE files for more details.
   <% when can_delete_roles? && can_delete_shares? %>
     <% dialog.with_body do %>
       <% if can_delete? %>
-        <%= paragraph { scoped_t(:will_remove_the_users_role_html, shared_work_packages_link:) } %>
+        <%= paragraph do %>
+          <%= scoped_t(:will_remove_the_users_role) %>
+          <%= scoped_t(:however_shares_with_user_html, shared_work_packages_link:) %>
+        <% end %>
         <%= paragraph do %>
           <%= scoped_t(:would_you_like_to_remove_the_shares_too) %>
           <%= scoped_t(:will_not_affect_inherited_shares) if inherited_shared_work_packages_count? %>
