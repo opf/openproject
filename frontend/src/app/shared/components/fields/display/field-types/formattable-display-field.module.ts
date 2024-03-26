@@ -55,13 +55,13 @@ export class FormattableDisplayField extends DisplayField {
     element.innerHTML = '';
     element.appendChild(div);
 
-    const mermaids = element.querySelectorAll('pre[lang="mermaid"]') as NodeListOf<HTMLElement>;
+    const mermaids = Array.from(element.querySelectorAll('pre[lang="mermaid"]'));
     if (mermaids.length > 0) {
        mermaid.initialize({
          securityLevel: 'strict',
-         startOnLoad: false
+         startOnLoad: false,
        });
-       mermaid.run({ nodes: mermaids }).catch(console.error);
+       mermaid.run({ nodes: mermaids as HTMLElement[] }).catch(console.error);
     }
 
     // Allow embeddable rendered content
