@@ -28,8 +28,8 @@
 
 class MeetingAgendaItem::Presenter < ApplicationForm
   form do |f|
-    f.user_autocompleter(
-      name: :responsible_id,
+    f.autocompleter(
+      name: :presenter_id,
       label: I18n.t("attributes.presenter"),
       visually_hide_label: true,
       autocomplete_options: {
