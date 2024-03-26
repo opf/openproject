@@ -338,7 +338,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
               direction: "desc"
             }
           ],
-          selects: %w[created_at name]
+          selects: %w[description name]
         }
       end
 
@@ -364,7 +364,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
 
       it "has the selects" do
         expect(find.selects.map(&:attribute))
-          .to eq(%i[created_at name])
+          .to eq(%i[description name])
       end
     end
 
@@ -460,7 +460,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
       let(:id) { nil }
       let(:params) do
         {
-          selects: %w[created_at project_status]
+          selects: %w[description project_status]
         }
       end
 
@@ -486,7 +486,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
 
       it "has the selects overwritten" do
         expect(find.selects.map(&:attribute))
-          .to eq(%i[created_at project_status])
+          .to eq(%i[description project_status])
       end
     end
 
@@ -582,7 +582,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
       let(:id) { 42 }
       let(:params) do
         {
-          selects: %w[created_at project_status]
+          selects: %w[description project_status]
         }
       end
 
@@ -608,7 +608,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
 
       it "has the selects specified by the params" do
         expect(find.selects.map(&:attribute))
-          .to eq(%i[created_at project_status])
+          .to eq(%i[description project_status])
       end
     end
 

@@ -34,6 +34,7 @@ module Queries::BaseQuery
     include Queries::Selects::AvailableSelects
     include Queries::Orders::AvailableOrders
     include Queries::GroupBys::AvailableGroupBys
+    include Queries::ValidSubset
     include ActiveModel::Validations
 
     validate :filters_valid,

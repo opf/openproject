@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,42 +24,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require "spec_helper"
+module Queries
+  module ValidSubset
+    extend ActiveSupport::Concern
 
-RSpec.describe Queries::Projects::Filters::CreatedAtFilter do
-  it_behaves_like "basic query filter" do
-    let(:class_key) { :created_at }
-    let(:type) { :datetime_past }
-    let(:model) { Project }
-    let(:attribute) { :created_at }
-    let(:values) { ["3"] }
-    let(:admin) { build_stubbed(:admin) }
-    let(:user) { build_stubbed(:user) }
+    def valid_subset!
+      valid_filters_subset!
+      valid_selects_subset!
+    end
 
-    describe "#available?" do
-      context "for an admin" do
-        before do
-          login_as admin
-        end
+    private
 
-        it "is true" do
-          expect(instance)
-            .to be_available
-        end
+    def valid_filters_subset!
+      filters.each(&:valid_values!).select! do |filter|
+        filter.available? && filter.valid?
       end
+    end
 
-      context "for non admin" do
-        before do
-          login_as user
-        end
-
-        it "is false" do
-          expect(instance)
-            .not_to be_available
-        end
-      end
+    def valid_selects_subset!
+      selects.select!(&:available?)
     end
   end
 end
