@@ -107,7 +107,7 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesInfo do
               other: m.other_shared_work_packages_count,
               direct: m.direct_shared_work_packages_count,
               inherited: m.inherited_shared_work_packages_count,
-              total: m.total_shared_work_packages_count
+              total: m.all_shared_work_packages_count
             }
           ]
         end

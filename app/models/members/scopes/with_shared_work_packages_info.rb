@@ -40,7 +40,7 @@ module Members::Scopes
           .select("COALESCE(members_sums.other_shared_work_packages_count, 0) AS other_shared_work_packages_count")
           .select("COALESCE(members_sums.direct_shared_work_packages_count, 0) AS direct_shared_work_packages_count")
           .select("COALESCE(members_sums.inherited_shared_work_packages_count, 0) AS inherited_shared_work_packages_count")
-          .select("COALESCE(members_sums.total_shared_work_packages_count, 0) AS total_shared_work_packages_count")
+          .select("COALESCE(members_sums.all_shared_work_packages_count, 0) AS all_shared_work_packages_count")
       end
 
       private
@@ -52,7 +52,7 @@ module Members::Scopes
               members_sums.user_id,
               members_sums.project_id,
               #{shared_work_packages_role_selectors(only_role_id)},
-              COUNT(distinct entity_id) AS total_shared_work_packages_count
+              COUNT(distinct entity_id) AS all_shared_work_packages_count
             FROM #{Member.quoted_table_name} members_sums
             LEFT JOIN #{MemberRole.quoted_table_name} members_roles
               ON members_sums.id = members_roles.member_id

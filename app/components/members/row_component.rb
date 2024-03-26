@@ -96,8 +96,10 @@ module Members
       end
     end
 
+    def all_shared_work_packages_count = member.all_shared_work_packages_count
+
     def all_shared_work_packages_link
-      link_to I18n.t(:label_x_work_packages, count: member.total_shared_work_packages_count),
+      link_to I18n.t(:label_x_work_packages, count: all_shared_work_packages_count),
               all_shared_work_packages_url,
               target: "_blank",
               rel: "noopener"
