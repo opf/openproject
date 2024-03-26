@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Responsible < ApplicationForm
+class MeetingAgendaItem::Presenter < ApplicationForm
   form do |f|
     f.user_autocompleter(
       name: :responsible_id,
-      label: I18n.t("attributes.responsible"),
+      label: I18n.t("attributes.presenter"),
       visually_hide_label: true,
       autocomplete_options: {
         url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,

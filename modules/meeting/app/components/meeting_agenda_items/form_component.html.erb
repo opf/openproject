@@ -19,8 +19,8 @@
           render(MeetingAgendaItem::Duration.new(f))
         end
 
-        grid.with_area(:responsible) do
-          render(MeetingAgendaItem::Responsible.new(f))
+        grid.with_area(:presenter) do
+          render(MeetingAgendaItem::Presenter.new(f))
         end
 
         grid.with_area(:notes,

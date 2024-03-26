@@ -50,11 +50,11 @@
         end
       end
 
-      if @meeting_agenda_item.responsible
-        grid.with_area(:responsible, tag: :div, classes: 'ellipsis') do
+      if @meeting_agenda_item.presenter
+        grid.with_area(:presenter, tag: :div, classes: 'ellipsis') do
           flex_layout do |flex|
             flex.with_column(classes: 'ellipsis') do
-              render(Users::AvatarComponent.new(user: @meeting_agenda_item.responsible, size: 'mini', title:, classes: 'op-principal_flex'))
+              render(Users::AvatarComponent.new(user: @meeting_agenda_item.presenter, size: 'mini', title:, classes: 'op-principal_flex'))
             end
           end
         end
