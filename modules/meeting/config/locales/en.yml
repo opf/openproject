@@ -113,6 +113,8 @@ en:
   label_start_date: "Start date"
 
   meeting:
+    attachments:
+      dropzone_text: "Click or drop files here or into agenda item notes to attach them to the meeting."
     copy:
       title: "Copy meeting %{title}"
       attachments: "Copy attachments"

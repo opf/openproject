@@ -43,12 +43,12 @@
   <span
     *ngIf="(attachments$ | async).length > 0"
     class="op-file-section--drop-box-text"
-    [textContent]="text.dropFiles"
+    [textContent]="dropZoneText || text.dropFiles"
   ></span>
   <span
     *ngIf="(attachments$ | async).length === 0"
     class="op-file-section--drop-box-text"
-    [textContent]="text.dropClickFiles"
+    [textContent]="dropZoneText || text.dropClickFiles"
   ></span>
 </button>
 

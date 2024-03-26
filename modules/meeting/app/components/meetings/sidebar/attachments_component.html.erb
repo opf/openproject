@@ -9,6 +9,7 @@
       helpers.list_attachments(resource,
                                'data-allow-uploading': true,
                                'data-show-timestamp': false,
+                               'data-drop-zone-text': I18n.t('meeting.attachments.dropzone_text').to_json,
                                'data-external-upload-button': "#meetings-add-attachments".to_json)
     end
 
