@@ -33,7 +33,7 @@ class WorkPackages::ProgressController < ApplicationController
   before_action :set_work_package
 
   def edit
-    render WorkPackages::Progress::ModalBodyComponent.new(@work_package)
+    render WorkPackages::Progress::ModalBodyComponent.new(@work_package, focused_field: params[:field])
   end
 
   def update

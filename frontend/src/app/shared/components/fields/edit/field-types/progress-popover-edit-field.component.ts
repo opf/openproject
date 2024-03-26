@@ -90,8 +90,12 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
 
   ngOnInit() {
     super.ngOnInit();
+    /*
+      Append clicked field name to URL query props
+      in order to indicate which field should be focused on load.
+    */
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    this.frameSrc = this.pathHelper.workPackageProgressModalPath(this.resource.id as string);
+    this.frameSrc = `${this.pathHelper.workPackageProgressModalPath(this.resource.id as string)}?field=${this.name}`;
     this.frameId = 'work_package_progress_modal';
   }
 

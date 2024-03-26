@@ -27,25 +27,31 @@
 # ++
 
 class WorkPackages::ProgressForm < ApplicationForm
-  include OpenProject::StaticRouting::UrlHelpers
+  def initialize(focused_field:)
+    super()
+
+    @focused_field = focused_field
+  end
 
   form do |query_form|
     query_form.group(layout: :horizontal) do |group|
       group.text_field(
         name: :estimated_hours,
-        label: "Work"
+        label: "Work",
+        autofocus: @focused_field == :estimated_hours
       )
 
       group.text_field(
         name: :remaining_hours,
-        label: "Remaining work"
+        label: "Remaining work",
+        autofocus: @focused_field == :remaining_hours
       )
 
       group.text_field(
         name: :done_ratio,
         label: "% Complete",
         readonly: true,
-        classes: "boob"
+        classes: "input--readonly"
       )
     end
   end
