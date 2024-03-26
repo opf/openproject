@@ -8,7 +8,9 @@ keywords: contribution, documentation, documentation process
 
 # Contribute to the OpenProject documentation
 
+## How do I get access to the OpenProject Community installation?
 
+To get an account for community.openproject.org, please write an email with the subject 'Joining community' to [support@openproject.com](mailto:support@openproject.com), if you would like to join our Community. We will then invite you as soon as possible.
 
 ## What does the OpenProject documentation entail?
 
