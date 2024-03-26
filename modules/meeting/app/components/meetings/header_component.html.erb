@@ -43,7 +43,7 @@
                   end
                 end
 
-                menu.with_item(label: t("label_meeting_history"),
+                menu.with_item(label: t(:label_history),
                                tag: :button,
                                content_arguments: { "data-show-dialog-id": "meetings-history-dialog" },
                                value: ""
@@ -64,14 +64,15 @@
           end
         end
 
-        show_header.with_row do # this should not show up separately
-          render(Primer::Alpha::Dialog.new(
-            id: "meetings-history-dialog", title: 'Meeting history',
-            size: :large
-          )) do |dialog|
-            dialog.with_show_button(icon: :clock, 'aria-label': 'History', scheme: :invisible)
-            render(Meetings::HistoryComponent.new(meeting: @meeting))
-           end
+        show_header.with_row do
+          render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
+            id: "meetings-history-dialog",
+            src: history_meeting_path(@meeting),
+            size: :xlarge,
+            header_variant: :large,
+            title: I18n.t(:label_history),
+            hide_button: true
+          ))
         end
 
         show_header.with_row do

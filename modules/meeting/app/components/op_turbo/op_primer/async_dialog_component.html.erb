@@ -5,9 +5,13 @@
       title: @title,
       size: @size
     )) do |dialog|
-      dialog.with_show_button(**merged_button_attributes) do |button|
-        button.with_leading_visual_icon(icon: @button_icon) if @button_icon
-        @button_text
+      dialog.with_header(variant: @header_variant)
+
+      unless @hide_button
+        dialog.with_show_button(**merged_button_attributes) do |button|
+          button.with_leading_visual_icon(icon: @button_icon) if @button_icon
+          @button_text
+        end
       end
 
       content_tag("turbo-frame",

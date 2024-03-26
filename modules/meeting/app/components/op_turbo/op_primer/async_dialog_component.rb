@@ -32,13 +32,16 @@ module OpTurbo
       include ApplicationHelper
       include ::OpPrimer::ComponentHelpers
 
-      def initialize(id:, src:, title:, button_icon: nil, button_text: nil, button_attributes: {}, size: :auto)
+      def initialize(id:, src:, title:, size: :auto, header_variant: :medium,
+                     hide_button: false, button_icon: nil, button_text: nil, button_attributes: {})
         super
 
         @id = id
         @src = src
         @title = title
+        @header_variant = header_variant
         @size = size
+        @hide_button = hide_button
         @button_icon = button_icon
         @button_text = button_text
         @button_attributes = button_attributes
