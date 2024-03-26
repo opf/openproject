@@ -5,8 +5,13 @@ services:
   backend:
     environment:
       OPENPROJECT_CLI_PROXY: "http://localhost:${PORT}"
+      DISABLE_PRY_RAILS: 0
     ports:
       - "3000:3000"
+
+  backend-test:
+    environment:
+      START_GUARD: 0
 
   frontend:
     ports:

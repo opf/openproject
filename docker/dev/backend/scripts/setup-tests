@@ -14,5 +14,10 @@ echo "to start the full suite, or "
 echo "  bin/compose exec backend-test bundle exec rspec path/to/some_spec.rb"
 echo "to run a subset"
 
-# Keep this container online
-while true; do sleep 1000; done;
+if [ ${START_GUARD} = "1" ]; then
+  echo "or use Guard gem events to run a specific tests.\n"
+  bundle exec guard start --no-bundler-warning
+else
+  # Keep this container online
+  while true; do sleep 1000; done;
+fi
