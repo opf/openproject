@@ -33,7 +33,7 @@ class API::V3::FileLinks::FileLinksOpenAPI < API::OpenProjectAPI
 
   resources :open do
     get do
-      auth_strategy = Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+      auth_strategy = Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
                         .strategy
                         .with_user(current_user)
 

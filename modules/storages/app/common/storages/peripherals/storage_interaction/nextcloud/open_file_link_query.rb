@@ -33,12 +33,12 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class OpenFileLinkQuery
-          def initialize(storage)
-            @storage = storage.uri
-          end
-
           def self.call(storage:, auth_strategy:, file_id:, open_location: false)
             new(storage).call(auth_strategy:, file_id:, open_location:)
+          end
+
+          def initialize(storage)
+            @storage = storage
           end
 
           # rubocop:disable Lint/UnusedMethodArgument
