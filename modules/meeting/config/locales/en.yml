@@ -186,6 +186,7 @@ en:
 
   text_agenda_item_title: 'Agenda item "%{title}"'
 
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
 

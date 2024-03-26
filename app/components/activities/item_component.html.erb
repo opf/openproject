@@ -31,6 +31,8 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="op-activity-list--item-title">
     <% if meeting_agenda_item? -%>
       <%= agenda_item_title %>
+    <% elsif initial_meeting_activity? -%>
+      <%= initial_meeting_activity_title %>
     <% elsif meeting_activity? -%>
       <%= meeting_activity_title %>
     <% else %>

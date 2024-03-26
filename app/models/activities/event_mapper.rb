@@ -40,7 +40,7 @@ module Activities
           event_description: journal.notes,
           event_datetime: journal.updated_at,
           event_title: event_title(additional_mapper.call(journal).with_indifferent_access),
-          event_author: journal.data.author,
+          event_author: journal.user,
           project: journal.project,
           journal:
         }

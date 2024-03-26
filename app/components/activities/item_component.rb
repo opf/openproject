@@ -106,7 +106,11 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
   end
 
   def meeting_activity?
-    @event.controller_flag && !@event.journal.initial?
+    @event.controller_flag
+  end
+
+  def initial_meeting_activity?
+    meeting_activity? && @event.journal.initial?
   end
 
   def initial_agenda_item?
@@ -161,5 +165,9 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
 
   def meeting_activity_title
     I18n.t("label_meeting_details")
+  end
+
+  def initial_meeting_activity_title
+    I18n.t("label_initial_meeting_details")
   end
 end
