@@ -5,6 +5,10 @@
     end
 
     attachments_container.with_row(mt: 2) do
+      render(Primer::Beta::Text.new(color: :subtle)) { I18n.t('meeting.attachments.text') }
+    end
+
+    attachments_container.with_row(mt: 2) do
       resource = ::API::V3::Meetings::MeetingRepresenter.new(@meeting, current_user: User.current, embed_links: false)
       helpers.list_attachments(resource,
                                inputs: {
