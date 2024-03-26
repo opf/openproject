@@ -33,17 +33,17 @@ See COPYRIGHT and LICENSE files for more details.
   <% if can_delete_roles? && can_delete_shares? %>
     <% if can_delete? %>
       <% dialog.with_body do %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:will_remove_the_users_role_html, shared_work_packages_link:) } %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+        <%= paragraph { scoped_t(:will_remove_the_users_role_html, shared_work_packages_link:) } %>
+        <%= paragraph do %>
           <%= scoped_t(:would_you_like_to_remove_the_shares_too) %>
           <%= scoped_t(:will_not_affect_inherited_shares) if inherited_shared_work_packages_count? %>
         <% end %>
       <% end %>
     <% else %>
       <% dialog.with_body do %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:can_remove_direct_but_not_shared_role) } %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:also_user_has_shares_html, shared_work_packages_link:) } %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+        <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_role) } %>
+        <%= paragraph { scoped_t(:also_user_has_shares_html, shared_work_packages_link:) } %>
+        <%= paragraph do %>
           <%= scoped_t(:remove_just_user_or_shares_too) %>
           <%= scoped_t(:will_not_affect_inherited_shares) if inherited_shared_work_packages_count? %>
         <% end %>
@@ -51,34 +51,34 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% dialog.with_footer do %>
-      <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
-      <%= render(Primer::Beta::Button.new(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete })) { t(:button_remove_member) } %>
-      <%= render(Primer::Beta::Button.new(scheme: :danger, tag: :a, href: delete_url(project: true, work_package_shares_role_id: "all"), data: { method: :delete })) { t(:button_remove_member_and_shares) } %>
+      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+      <%= button(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete }) { t(:button_remove_member) } %>
+      <%= button(scheme: :danger, tag: :a, href: delete_url(project: true, work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_remove_member_and_shares) } %>
     <% end %>
   <% else %>
     <% if can_delete_roles? %>
       <% if can_delete? %>
         <% dialog.with_body do %>
-          <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:will_remove_all_access_priveleges) } %>
+          <%= paragraph { scoped_t(:will_remove_all_access_priveleges) } %>
         <% end %>
       <% else %>
         <% dialog.with_body do %>
-          <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:can_remove_direct_but_not_shared_role) } %>
+          <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_role) } %>
         <% end %>
       <% end %>
 
       <% dialog.with_footer do %>
-        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
-        <%= render(Primer::Beta::Button.new(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete })) { t(:button_remove) } %>
+        <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+        <%= button(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete }) { t(:button_remove) } %>
       <% end %>
     <% else %>
       <% dialog.with_body do %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_delete_group_member) } %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_delete_group_member_note_html, administration_settings_link:) } %>
+        <%= paragraph { scoped_t(:cannot_delete_group_member) } %>
+        <%= paragraph { scoped_t(:cannot_delete_group_member_note_html, administration_settings_link:) } %>
       <% end %>
 
       <% dialog.with_footer do %>
-        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
+        <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
       <% end %>
     <% end %>
   <% end %>

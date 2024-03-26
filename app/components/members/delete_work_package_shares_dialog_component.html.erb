@@ -34,18 +34,18 @@ See COPYRIGHT and LICENSE files for more details.
     <% if direct_shared_work_packages_count? %>
       <% if inherited_shared_work_packages_count? %>
         <% dialog.with_body do %>
-          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+          <%= paragraph do %>
             <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
             <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, shared_role_name:) %>
           <% end %>
-          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+          <%= paragraph do %>
             <%= scoped_t(:revoke_all_or_with_role, shared_role_name:) %>
             <%= scoped_t(:will_not_affect_inherited_shares) %>
           <% end %>
         <% end %>
       <% else %>
         <% dialog.with_body do %>
-          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+          <%= paragraph do %>
             <% if principal.is_a?(Group) %>
               <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:) %>
             <% else %>
@@ -53,37 +53,37 @@ See COPYRIGHT and LICENSE files for more details.
             <% end %>
             <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, shared_role_name:) %>
           <% end %>
-          <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:revoke_all_or_with_role, shared_role_name:) } %>
+          <%= paragraph { scoped_t(:revoke_all_or_with_role, shared_role_name:) } %>
         <% end %>
       <% end %>
 
       <% dialog.with_footer do %>
-        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
-        <%= render(Primer::Beta::Button.new(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete })) { t(:button_revoke_all) } %>
-        <%= render(Primer::Beta::Button.new(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: shared_role_id), data: { method: :delete })) { t(:button_revoke_only, shared_role_name:) } %>
+        <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+        <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_revoke_all) } %>
+        <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: shared_role_id), data: { method: :delete }) { t(:button_revoke_only, shared_role_name:) } %>
       <% end %>
     <% else %>
       <% dialog.with_body do %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_remove_inherited_with_role, shared_role_name:) } %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_remove_inherited_note_html, administration_settings_link:) } %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_with_role, shared_role_name:) } %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_note_html, administration_settings_link:) } %>
       <% end %>
 
       <% dialog.with_footer do %>
-        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
+        <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
       <% end %>
     <% end %>
   <% else %>
     <% if direct_shared_work_packages_count? %>
       <% if inherited_shared_work_packages_count? %>
         <% dialog.with_body do %>
-          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+          <%= paragraph do %>
             <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
             <%= scoped_t(:will_revoke_access_but_for_inherited) %>
           <% end %>
         <% end %>
       <% else %>
         <% dialog.with_body do %>
-          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+          <%= paragraph do %>
             <% if principal.is_a?(Group) %>
               <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:) %>
             <% else %>
@@ -95,17 +95,17 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
 
       <% dialog.with_footer do %>
-        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
-        <%= render(Primer::Beta::Button.new(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete })) { t(:button_revoke_access) } %>
+        <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+        <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_revoke_access) } %>
       <% end %>
     <% else %>
       <% dialog.with_body do %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_remove_inherited, shared_role_name:) } %>
-        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_remove_inherited_note_html, administration_settings_link:) } %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited, shared_role_name:) } %>
+        <%= paragraph { scoped_t(:cannot_remove_inherited_note_html, administration_settings_link:) } %>
       <% end %>
 
       <% dialog.with_footer do %>
-        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
+        <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
       <% end %>
     <% end %>
   <% end %>

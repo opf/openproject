@@ -43,6 +43,9 @@ module Members
              :inherited_shared_work_packages_count?,
              to: :model
 
+    def paragraph(&) = render(Primer::Beta::Text.new(tag: "p"), &)
+    def button(**, &) = render(Primer::Beta::Button.new(**), &)
+
     def scoped_t(key, **)
       t(key, scope: "members.delete_member_dialog", **)
     end
