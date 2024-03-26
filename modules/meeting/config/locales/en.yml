@@ -113,6 +113,8 @@ en:
   label_start_date: "Start date"
 
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
     copy:
       title: "Copy meeting %{title}"
       attachments: "Copy attachments"

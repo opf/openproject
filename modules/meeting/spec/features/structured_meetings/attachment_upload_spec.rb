@@ -40,6 +40,7 @@ RSpec.describe "Upload attachment to meetings", :js do
   let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
   let(:editor) { Components::WysiwygEditor.new "#content", "opce-ckeditor-augmented-textarea" }
   let(:wiki_page_content) { project.wiki.pages.first.text }
+  let(:attachment_list) { Components::AttachmentsList.new("#content") }
 
   let(:meeting) { create(:structured_meeting, project:) }
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
@@ -58,12 +59,12 @@ RSpec.describe "Upload attachment to meetings", :js do
     # adding an image
     editor.drag_attachment image_fixture.path, "Image uploaded the first time"
 
-    editor.attachments_list.expect_attached("image.png")
+    attachment_list.expect_attached("image.png")
     editor.wait_until_upload_progress_toaster_cleared
 
     click_on "Save"
     expect(page).to have_css("#meeting-agenda-items-list-component img", count: 1)
     expect(page).to have_content("Image uploaded the first time")
-    editor.attachments_list.expect_attached("image.png")
+    attachment_list.expect_attached("image.png")
   end
 end
