@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% dialog.with_footer do %>
-      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+      <%= cancel_button %>
       <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_revoke_all) } %>
       <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: shared_role_id), data: { method: :delete }) { t(:button_revoke_only, shared_role_name:) } %>
     <% end %>
@@ -83,7 +83,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% dialog.with_footer do %>
-      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+      <%= cancel_button %>
       <%= button(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_revoke_access) } %>
     <% end %>
   <% when other_shared_work_packages_count? %>
@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% dialog.with_footer do %>
-      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+      <%= cancel_button %>
     <% end %>
   <% else %>
     <% dialog.with_body do %>
@@ -102,7 +102,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% dialog.with_footer do %>
-      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+      <%= cancel_button %>
     <% end %>
   <% end %>
 <% end %>

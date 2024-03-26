@@ -51,6 +51,8 @@ module Members
     def paragraph(&) = render(Primer::Beta::Text.new(tag: "p"), &)
     def button(**, &) = render(Primer::Beta::Button.new(**), &)
 
+    def cancel_button = button(data: { close_dialog_id: id }) { t(:button_cancel) }
+
     def scoped_t(key, **)
       t(key, scope: "members.delete_work_package_shares_dialog", **)
     end

@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% dialog.with_footer do %>
-      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+      <%= cancel_button %>
       <%= button(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete }) { t(:button_remove_member) } %>
       <%= button(scheme: :danger, tag: :a, href: delete_url(project: true, work_package_shares_role_id: "all"), data: { method: :delete }) { t(:button_remove_member_and_shares) } %>
     <% end %>
@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% dialog.with_footer do %>
-      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+      <%= cancel_button %>
       <%= button(scheme: :danger, tag: :a, href: delete_url(project: true), data: { method: :delete }) { t(:button_remove) } %>
     <% end %>
   <% else %>
@@ -74,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% dialog.with_footer do %>
-      <%= button(data: { close_dialog_id: id }) { t(:button_cancel) } %>
+      <%= cancel_button %>
     <% end %>
   <% end %>
 <% end %>
