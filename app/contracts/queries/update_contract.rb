@@ -37,15 +37,17 @@ module Queries
     def user_allowed_to_change
       # Check user self-saving their own queries
       # or user saving public queries
-      if model.public?
+      if model.public_was
         user_allowed_to_change_public
+        user_allowed_to_change_query_to_private if model.public_changed?
       else
         user_allowed_to_change_query
+        user_allowed_to_change_public if model.public?
       end
     end
 
     def user_allowed_to_change_query
-      unless (model.user == user || model.user.nil?) && user_allowed_to_save_queries?
+      unless model.user == user && user_allowed_to_save_queries?
         errors.add :base, :error_unauthorized
       end
     end
@@ -65,6 +67,12 @@ module Queries
         user.allowed_in_project?(:save_queries, model.project)
       else
         user.allowed_in_any_project?(:save_queries)
+      end
+    end
+
+    def user_allowed_to_change_query_to_private
+      if model.user.is_a? DeletedUser
+        errors.add :base, :error_unauthorized
       end
     end
   end
