@@ -295,9 +295,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     if WorkPackage.use_status_for_done_ratio?
       return unless model.status_id_changed?
 
-      if model.status&.default_done_ratio
-        model.done_ratio = model.status.default_done_ratio
-      end
+      model.done_ratio = model.status.default_done_ratio
     else
       return unless work_package.remaining_hours_changed? || work_package.estimated_hours_changed?
 

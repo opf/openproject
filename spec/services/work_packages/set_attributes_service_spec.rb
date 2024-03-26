@@ -239,7 +239,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           it_behaves_like "service call", description: "sets the % complete value to the status default % complete value"
         end
 
-        context "when another status with no % complete value is set", skip: "TODO: not implemented yet" do
+        context "when another status with no % complete value is set" do
           let(:call_attributes) { { status: status_no_pct_complete } }
           let(:expected_attributes) { { done_ratio: nil } }
 
