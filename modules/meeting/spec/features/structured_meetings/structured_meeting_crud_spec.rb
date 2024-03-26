@@ -221,7 +221,7 @@ RSpec.describe "Structured meetings CRUD",
     it "can export the meeting as ICS" do
       click_on("op-meetings-header-action-trigger")
 
-      click_link I18n.t(:label_icalendar_download)
+      click_on I18n.t(:label_icalendar_download)
 
       expect(subject).to end_with ".ics"
     end
@@ -264,7 +264,7 @@ RSpec.describe "Structured meetings CRUD",
     show_page.cancel_add_form
 
     click_on("op-meetings-header-action-trigger")
-    click_link "Copy"
+    click_on "Copy"
 
     expect(page).to have_current_path "/meetings/#{meeting.id}/copy"
 

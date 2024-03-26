@@ -76,11 +76,11 @@ RSpec.describe "Meetings copy", :js, :with_cuprite do
   it "copying a meeting" do
     visit project_meetings_path(project)
 
-    click_link meeting.title
+    click_on meeting.title
 
     find_test_selector("meetings-more-dropdown-menu").click
     page.within(".menu-drop-down-container") do
-      click_link "Copy"
+      click_on "Copy"
     end
 
     expect(page)
@@ -119,12 +119,12 @@ RSpec.describe "Meetings copy", :js, :with_cuprite do
       .to have_content "Attendees:"
 
     # Copies the agenda
-    click_link "Agenda"
+    click_on "Agenda"
     expect(page)
       .to have_content agenda_text
 
     # Adds an entry to the history
-    click_link "History"
+    click_on "History"
     expect(page)
       .to have_content("Copied from Meeting ##{meeting.id}")
   end

@@ -39,7 +39,7 @@ module Pages::StructuredMeeting
     def add_agenda_item(type: MeetingAgendaItem, save: true, &)
       page.within("#meeting-agenda-items-new-button-component") do
         click_on I18n.t(:button_add)
-        click_link type.model_name.human
+        click_on type.model_name.human
       end
 
       in_agenda_form do
@@ -50,14 +50,14 @@ module Pages::StructuredMeeting
 
     def cancel_add_form
       page.within("#meeting-agenda-items-new-component") do
-        click_link I18n.t(:button_cancel)
+        click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
       end
     end
 
     def cancel_edit_form(item)
       page.within("#meeting-agenda-items-item-component-#{item.id}") do
-        click_link I18n.t(:button_cancel)
+        click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
       end
     end

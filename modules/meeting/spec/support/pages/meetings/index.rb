@@ -40,7 +40,7 @@ module Pages::Meetings
 
     def click_create_new
       within ".toolbar-items" do
-        click_link "Meeting"
+        click_on "Meeting"
       end
 
       New.new(project)
@@ -84,7 +84,7 @@ module Pages::Meetings
 
     def set_sidebar_filter(filter_name)
       within "#main-menu" do
-        click_link text: filter_name
+        click_on text: filter_name
       end
     end
 
@@ -154,21 +154,21 @@ module Pages::Meetings
 
     def to_page(number)
       within ".op-pagination--pages" do
-        click_link number.to_s
+        click_on number.to_s
       end
     end
 
     def navigate_by_project_menu
       visit project_path(project)
       within "#main-menu" do
-        click_link "Meetings", match: :first
+        click_on "Meetings", match: :first
       end
     end
 
     def navigate_by_global_menu
       visit root_path
       within "#main-menu" do
-        click_link "Meetings", match: :first
+        click_on "Meetings", match: :first
       end
     end
 
