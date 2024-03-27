@@ -383,16 +383,6 @@ default:
   #     user: admin
   #     password: admin
 
-  # Overriding LDAP TLS configuration
-  # You can set other TLS options for the LDAP auth source connection
-  # They are passed as the `tls_options` to the Net::LDAP gem
-  # see the following resources for more information
-  # https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb
-  # https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html
-  # For example, to specify a CA file
-  # ldap_tls_options:
-  #   ca_file: "/path/to/the/root-ca.crt"
-
   # By default, the APIv3 allows authentication through basic auth.
   # Uncomment the following line to restrict APIv3 access to session.
   # apiv3_enable_basic_auth: false
