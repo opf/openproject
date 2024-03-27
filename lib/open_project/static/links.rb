@@ -65,7 +65,7 @@ module OpenProject
           if impressum_link = OpenProject::Configuration.impressum_link
             dynamic[:impressum] = {
               href: impressum_link,
-              label: :impressum
+              label: "homescreen.links.impressum"
             }
           end
 
