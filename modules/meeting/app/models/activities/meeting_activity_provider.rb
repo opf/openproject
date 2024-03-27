@@ -47,6 +47,7 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
     when :meeting
       [
         activity_journal_projection_statement(:title, 'meeting_title'),
+        activity_journal_projection_statement(:date, 'meeting_start_time'),
         activity_journal_projection_statement(:start_time, 'meeting_start_time'),
         activity_journal_projection_statement(:duration, 'meeting_duration'),
         activity_journal_projection_statement(:project_id, 'project_id')

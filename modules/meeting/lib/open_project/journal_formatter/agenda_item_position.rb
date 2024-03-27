@@ -26,34 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meeting::Journalized
-  extend ActiveSupport::Concern
+class OpenProject::JournalFormatter::AgendaItemPosition < JournalFormatter::Base
+  def render(_key, values, options = { html: true })
+    label_text = 'Order'
+    label_text = content_tag(:strong, label_text) if options[:html]
 
-  included do
-    acts_as_journalized
+    value = value(values.first, values.last)
 
-    acts_as_event title: Proc.new { |o|
-                           "#{I18n.t(:label_meeting)}: #{o.title} \
-          #{format_date o.start_time} \
-          #{format_time o.start_time, false}-#{format_time o.end_time, false})"
-                         },
-                  url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
-                  author: Proc.new(&:user),
-                  description: ''
+    I18n.t(:text_journal_of, label: label_text, value:)
+  end
 
-    register_journal_formatted_fields(:plaintext, 'title')
-    register_journal_formatted_fields(:fraction, 'duration')
-    register_journal_formatted_fields(:datetime, 'start_date')
-    register_journal_formatted_fields(:meeting_start_time, 'start_time')
-    register_journal_formatted_fields(:plaintext, 'location')
+  private
 
-    register_journal_formatted_fields(:plaintext, 'notes')
-    register_journal_formatted_fields(:agenda_item_duration, 'duration_in_minutes')
-    register_journal_formatted_fields(:agenda_item_position, 'position')
-
-    def touch_and_save_journals
-      update_column(:updated_at, Time.current)
-      save_journals
+  def value(old_value, value)
+    if old_value && value
+      I18n.t(:'activity.item.meeting_agenda_item.position.updated')
     end
   end
 end

@@ -52,6 +52,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
   register_journal_formatter :cause, OpenProject::JournalFormatter::Cause
   register_journal_formatter :file_link, OpenProject::JournalFormatter::FileLink
+  register_journal_formatter :meeting_start_time, OpenProject::JournalFormatter::MeetingStartTime
   register_journal_formatter :agenda_item_position, OpenProject::JournalFormatter::AgendaItemPosition
   register_journal_formatter :agenda_item_duration, OpenProject::JournalFormatter::AgendaItemDuration
 

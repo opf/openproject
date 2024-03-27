@@ -26,34 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meeting::Journalized
-  extend ActiveSupport::Concern
-
-  included do
-    acts_as_journalized
-
-    acts_as_event title: Proc.new { |o|
-                           "#{I18n.t(:label_meeting)}: #{o.title} \
-          #{format_date o.start_time} \
-          #{format_time o.start_time, false}-#{format_time o.end_time, false})"
-                         },
-                  url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
-                  author: Proc.new(&:user),
-                  description: ''
-
-    register_journal_formatted_fields(:plaintext, 'title')
-    register_journal_formatted_fields(:fraction, 'duration')
-    register_journal_formatted_fields(:datetime, 'start_date')
-    register_journal_formatted_fields(:meeting_start_time, 'start_time')
-    register_journal_formatted_fields(:plaintext, 'location')
-
-    register_journal_formatted_fields(:plaintext, 'notes')
-    register_journal_formatted_fields(:agenda_item_duration, 'duration_in_minutes')
-    register_journal_formatted_fields(:agenda_item_position, 'position')
-
-    def touch_and_save_journals
-      update_column(:updated_at, Time.current)
-      save_journals
+class OpenProject::JournalFormatter::MeetingStartTime < JournalFormatter::Attribute
+  def format_values(values)
+    values.map do |v|
+      if v.nil?
+        nil
+      else
+        format_time(v)
+      end
     end
   end
 end

@@ -51,8 +51,8 @@ en:
         participants_invited: "Invitees"
         project: "Project"
         start_date: "Date"
-        start_time: "Time"
-        start_time_hour: "Starting time"
+        start_time: "Start time"
+        start_time_hour: "Start time"
       meeting_agenda_items:
         title: "Title"
         author: "Responsible"
