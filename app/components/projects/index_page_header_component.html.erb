@@ -1,38 +1,33 @@
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% if show_state? %>
     <% header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title } %>
+    <% header.with_breadcrumbs([{href: projects_path, text: t('en.types.edit.projects')}, page_title])%>
 
-    <% header.with_actions do %>
+
       <% if query_saveable? %>
-        <%= render(
-              Primer::Beta::Text.new(tag: :span,
+        <% header.with_action_text(tag: :span,
+                                      mr: BUTTON_MARGIN_RIGHT,
+                                      color: :muted) { t('lists.can_be_saved_as') } %>
+
+        <% header.with_action_button(mobile_icon: "op-save", mobile_label: t('button_save_as'),
+                                     scheme: :invisible,
+                                     size: :medium,
                                      mr: BUTTON_MARGIN_RIGHT,
-                                     color: :muted)) do
-            t('lists.can_be_saved_as')
-          end
-        %>
-
-        <%= render(
-              Primer::Beta::Button.new(scheme: :invisible,
-                                       size: :medium,
-                                       mr: BUTTON_MARGIN_RIGHT,
-                                       tag: :a,
-                                       href: new_projects_query_path,
-                                       data: {
-                                         controller: "params-from-query",
-                                         'application-target': "dynamic",
-                                         'params-from-query-allowed-value': '["filters", "columns"]'
-                                       },
-                                       classes: 'Button--invisibleOP')) do |button|
-          button.with_leading_visual_icon(icon: :'op-save')
-
+                                     tag: :a,
+                                     href: new_projects_query_path,
+                                     data: {
+                                       controller: "params-from-query",
+                                       'application-target': "dynamic",
+                                       'params-from-query-allowed-value': '["filters", "columns"]'
+                                     },
+                                     classes: 'Button--invisibleOP') do |button|%>
+          <% button.with_leading_visual_icon(icon: "op-save") %>
           t('button_save_as')
-        end %>
+        <% end %>
+
       <% end %>
 
-      <%= render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
-
+      <%= header.with_action_menu(menu_arguments: { anchor_align: :end }, button_arguments: { icon: "op-kebab-vertical", "aria-label": t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' } })  do |menu, button|
         if gantt_portfolio_project_ids.any?
           menu.with_item(
             tag: :a,
@@ -94,7 +89,6 @@
         end
       end
       %>
-    <% end %>
 
   <% else %>
       <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
