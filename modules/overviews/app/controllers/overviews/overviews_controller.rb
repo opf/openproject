@@ -2,8 +2,8 @@ module ::Overviews
   class OverviewsController < ::Grids::BaseInProjectController
     include OpTurbo::ComponentStream
 
-    before_action :authorize
     before_action :jump_to_project_menu_item
+    before_action :set_sidebar_enabled
 
     menu_item :overview
 
@@ -55,6 +55,10 @@ module ::Overviews
 
     def find_project_custom_field_section
       ProjectCustomFieldSection.find(params[:section_id])
+    end
+
+    def set_sidebar_enabled
+      @sidebar_enabled = @project.project_custom_fields.visible.any?
     end
 
     def handle_errors(project_with_errors, section)
