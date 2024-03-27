@@ -106,13 +106,16 @@ RSpec.describe "Update ancestors", :js, :with_cuprite do
       expect do
         wp_table.update_work_package_attributes(child, estimatedTime: child.estimated_hours + 1)
         parent.reload
-      end.to change(parent, :derived_estimated_hours).by(1)
-        .and change(parent, :derived_done_ratio).to(42) # 12h total work and 7h total remaining work => 42% complete
+        child.reload
+        # binding.irb
+      end.to change(child, :remaining_hours).by(1) # remaining work increased as a side effect of increasing work
+        .and change(parent, :derived_estimated_hours).by(1)
+        .and change(parent, :derived_done_ratio).to(33) # 12h total work and 8h total remaining work => 33% complete
       expect do
         wp_table.update_work_package_attributes(child, remainingTime: child.remaining_hours + 2)
         parent.reload
       end.to change(parent, :derived_remaining_hours).by(2)
-        .and change(parent, :derived_done_ratio).to(25) # 12h total work and 9h total remaining work => 25% complete
+        .and change(parent, :derived_done_ratio).to(17) # 12h total work and 10h total remaining work => 17% complete
     end
   end
 
