@@ -32,8 +32,10 @@ class WorkPackages::ProgressController < ApplicationController
   layout false
   before_action :set_work_package
 
+  helper_method :modal_class
+
   def edit
-    render WorkPackages::Progress::ModalBodyComponent.new(@work_package, focused_field: params[:field])
+    render modal_class.new(@work_package, focused_field: params[:field])
   end
 
   def update
@@ -61,12 +63,20 @@ class WorkPackages::ProgressController < ApplicationController
 
   private
 
+  def modal_class
+    if WorkPackage.use_status_for_done_ratio?
+      WorkPackages::Progress::StatusBased::ModalBodyComponent
+    else
+      WorkPackages::Progress::WorkBased::ModalBodyComponent
+    end
+  end
+
   def set_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
   end
 
   def work_package_params
     params.require(:work_package)
-          .permit(%i[estimated_hours remaining_hours done_ratio])
+          .permit(%i[estimated_hours remaining_hours status_id done_ratio])
   end
 end

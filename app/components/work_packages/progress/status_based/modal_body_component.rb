@@ -30,39 +30,44 @@
 
 module WorkPackages
   module Progress
-    class ModalBodyComponent < ApplicationComponent
-      include ApplicationHelper
-      include Turbo::FramesHelper
-      include OpPrimer::ComponentHelpers
+    module StatusBased
+      # rubocop:disable OpenProject/AddPreviewForViewComponent
+      class ModalBodyComponent < ApplicationComponent
+        # rubocop:enable OpenProject/AddPreviewForViewComponent
+        include ApplicationHelper
+        include Turbo::FramesHelper
+        include OpPrimer::ComponentHelpers
 
-      attr_reader :work_package, :focused_field
+        attr_reader :work_package, :mode, :focused_field
 
-      FIELD_MAP = {
-        "estimatedTime" => :estimated_hours,
-        "remainingTime" => :remaining_hours
-      }.freeze
+        FIELD_MAP = {
+          "estimatedTime" => :estimated_hours,
+          "remainingTime" => :remaining_hours
+        }.freeze
 
-      def initialize(work_package, focused_field:)
-        super()
+        def initialize(work_package, focused_field: nil)
+          super()
 
-        @work_package = work_package
-        @focused_field = map_field(focused_field)
-      end
+          @work_package = work_package
+          @mode = :status_based
+          @focused_field = map_field(focused_field)
+        end
 
-      private
+        private
 
-      def map_field(field)
-        # Scenarios when a field is not provided occur after a
-        # form submission since the last focused element
-        # was the submit button. In this case, don't focus on
-        # an element by default.
-        return nil if field.nil?
+        def map_field(field)
+          # Scenarios when a field is not provided occur after a
+          # form submission since the last focused element
+          # was the submit button. In this case, don't focus on
+          # an element by default.
+          return nil if field.nil?
 
-        field = FIELD_MAP[field.to_s]
+          field = FIELD_MAP[field.to_s]
 
-        return field if field.present?
+          return field if field.present?
 
-        raise ArgumentError, "The selected field is not one of #{FIELD_MAP.keys.join(', ')}."
+          raise ArgumentError, "The selected field is not one of #{FIELD_MAP.keys.join(', ')}."
+        end
       end
     end
   end

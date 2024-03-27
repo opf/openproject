@@ -30,8 +30,15 @@ module OpenProject
   module Progress
     # @logical_path OpenProject/Progress
     class ModalPreview < Lookbook::Preview
+      def work_based
+        work_package = FactoryBot.build_stubbed(:work_package,
+                                                estimated_hours: 5.0,
+                                                remaining_hours: 2.5,
+                                                done_ratio: 50)
+        render_with_template(locals: { work_package: })
+      end
 
-      def default
+      def status_based
         work_package = FactoryBot.build_stubbed(:work_package,
                                                 estimated_hours: 5.0,
                                                 remaining_hours: 2.5,
