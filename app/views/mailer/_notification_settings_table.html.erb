@@ -1,7 +1,7 @@
 <table <%= placeholder_table_styles(style: 'font-size:14px;') %>>
   <tr>
     <td>
-      <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
+      <table <%= placeholder_table_styles(width: '100%', style: 'width:100%;') %>>
         <tr>
           <td>
             <%= yield %>
@@ -11,7 +11,10 @@
     </td>
     <%= placeholder_cell('10px', vertical: true) %>
     <td>
-      <%= render partial: 'mailer/notification_settings_button' %>
+      <%= render partial: 'mailer/notification_settings_button', locals: {
+        url: button_url,
+        text: button_text
+      } %>
     </td>
   </tr>
 </table>

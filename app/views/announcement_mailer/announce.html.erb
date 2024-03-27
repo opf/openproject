@@ -44,5 +44,9 @@
     </tr>
   </table>
 
-  <%= render partial: 'mailer/notification_settings_table' %>
+  <%= render partial: 'mailer/notification_settings_table',
+             locals: {
+               button_url: my_reminders_url,
+               button_text: I18n.t(:'mail.notification.settings')
+             } %>
 <% end %>

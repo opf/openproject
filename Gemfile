@@ -292,7 +292,7 @@ end
 group :development do
   gem "listen", "~> 3.9.0" # Use for event-based reloaders
 
-  gem "letter_opener"
+  gem 'letter_opener_web'
 
   gem "spring"
   gem "spring-commands-rspec"

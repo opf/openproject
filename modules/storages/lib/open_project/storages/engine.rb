@@ -73,6 +73,7 @@ module OpenProject::Storages
             ::Storages::ManageNextcloudIntegrationJob.debounce
           end
         end
+
         OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_UPDATED
         ) do |payload|
@@ -80,6 +81,7 @@ module OpenProject::Storages
             ::Storages::ManageNextcloudIntegrationJob.debounce
           end
         end
+
         OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_DESTROYED
         ) do |payload|
@@ -99,6 +101,18 @@ module OpenProject::Storages
               ::Storages::ManageNextcloudIntegrationJob.disable_cron_job_if_needed
             end
           end
+        end
+
+        OpenProject::Notifications.subscribe(
+          ::OpenProject::Events::STORAGE_TURNED_UNHEALTHY
+        ) do |payload|
+          Storages::HealthService.new(storage: payload[:storage]).unhealthy(reason: payload[:reason])
+        end
+
+        OpenProject::Notifications.subscribe(
+          ::OpenProject::Events::STORAGE_TURNED_HEALTHY
+        ) do |payload|
+          Storages::HealthService.new(storage: payload[:storage]).healthy
         end
       end
     end

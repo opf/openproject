@@ -14,7 +14,7 @@ export class OverviewComponent extends GridPageComponent {
   }
 
   protected isTurboFrameSidebarEnabled():boolean {
-    return true;
+    return this.currentProject.customFieldsCount !== '0';
   }
 
   protected turboFrameSidebarSrc():string {

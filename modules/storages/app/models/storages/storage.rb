@@ -113,28 +113,6 @@ module Storages
       end
     end
 
-    def mark_as_unhealthy(reason: nil)
-      if health_status == 'unhealthy' && reason_is_same(reason)
-        touch(:health_checked_at)
-      else
-        update(health_status: 'unhealthy',
-               health_changed_at: Time.now.utc,
-               health_checked_at: Time.now.utc,
-               health_reason: reason)
-      end
-    end
-
-    def mark_as_healthy
-      if health_status == 'healthy'
-        touch(:health_checked_at)
-      else
-        update(health_status: 'healthy',
-               health_changed_at: Time.now.utc,
-               health_checked_at: Time.now.utc,
-               health_reason: nil)
-      end
-    end
-
     def automatically_managed?
       ActiveSupport::Deprecation.warn(
         '`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. ' \
@@ -204,12 +182,6 @@ module Storages
 
     def health_reason_description
       @health_reason_description ||= self.class.extract_part_from_piped_string(health_reason, 1)
-    end
-
-    private
-
-    def reason_is_same(new_health_reason)
-      health_reason_identifier == self.class.extract_part_from_piped_string(new_health_reason, 0)
     end
   end
 end

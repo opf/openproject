@@ -32,7 +32,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentProjectService {
-  private current:{ id:string, identifier:string, name:string };
+  private current:{ id:string, identifier:string, name:string, customFieldsCount:string };
 
   constructor(
     private PathHelper:PathHelperService,
@@ -73,7 +73,11 @@ export class CurrentProjectService {
     return this.getCurrent('identifier');
   }
 
-  private getCurrent(key:'id'|'identifier'|'name') {
+  public get customFieldsCount():string|null {
+    return this.getCurrent('customFieldsCount');
+  }
+
+  private getCurrent(key:'id'|'identifier'|'name'|'customFieldsCount') {
     if (this.current && this.current[key]) {
       return this.current[key].toString();
     }
@@ -91,6 +95,7 @@ export class CurrentProjectService {
         id: element.dataset.projectId!,
         name: element.dataset.projectName!,
         identifier: element.dataset.projectIdentifier!,
+        customFieldsCount: element.dataset.projectCustomFieldsCount!,
       };
     }
   }
