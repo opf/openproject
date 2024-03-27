@@ -34,27 +34,27 @@ See COPYRIGHT and LICENSE files for more details.
   <% when can_delete_roles? && can_delete_shares? %>
     <% dialog.with_body do %>
       <% if !can_delete? %>
-        <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_role) } %>
-        <%= paragraph { scoped_t(:also_user_has_shares_html, shared_work_packages_link:, count: shared_work_packages_count) } %>
+        <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_roles) } %>
+        <%= paragraph { scoped_t(:also_work_packages_shared_with_user_html, shared_work_packages_link:, count: shared_work_packages_count) } %>
         <%= paragraph do %>
-          <%= scoped_t(:remove_just_user_or_shares_too) %>
+          <%= scoped_t(:remove_project_membership_or_work_package_shares_too) %>
           <%= scoped_t(:will_not_affect_inherited_shares) if inherited_shared_work_packages_count? %>
         <% end %>
       <% elsif principal.is_a?(Group) %>
         <%= paragraph do %>
           <%= scoped_t(:will_remove_the_groups_role) %>
-          <%= scoped_t(:however_shares_with_group_html, shared_work_packages_link:, count: shared_work_packages_count) %>
+          <%= scoped_t(:however_work_packages_shared_with_group_html, shared_work_packages_link:, count: shared_work_packages_count) %>
         <% end %>
         <%= paragraph do %>
-          <%= scoped_t(:would_you_like_to_remove_the_shares_with_group_too) %>
+          <%= scoped_t(:remove_work_packages_shared_with_group_too) %>
         <% end %>
       <% else %>
         <%= paragraph do %>
           <%= scoped_t(:will_remove_the_users_role) %>
-          <%= scoped_t(:however_shares_with_user_html, shared_work_packages_link:, count: shared_work_packages_count) %>
+          <%= scoped_t(:however_work_packages_shared_with_user_html, shared_work_packages_link:, count: shared_work_packages_count) %>
         <% end %>
         <%= paragraph do %>
-          <%= scoped_t(:would_you_like_to_remove_the_shares_with_user_too) %>
+          <%= scoped_t(:remove_work_packages_shared_with_user_too) %>
           <%= scoped_t(:will_not_affect_inherited_shares) if inherited_shared_work_packages_count? %>
         <% end %>
       <% end %>
@@ -68,11 +68,11 @@ See COPYRIGHT and LICENSE files for more details.
   <% when can_delete_roles? %>
     <% dialog.with_body do %>
       <% if !can_delete? %>
-        <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_role) } %>
+        <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_roles) } %>
       <% elsif principal.is_a?(Group) %>
-        <%= paragraph { scoped_t(:will_remove_all_access_priveleges_group) } %>
+        <%= paragraph { scoped_t(:will_remove_all_group_access_priveleges) } %>
       <% else %>
-        <%= paragraph { scoped_t(:will_remove_all_access_priveleges_user) } %>
+        <%= paragraph { scoped_t(:will_remove_all_user_access_priveleges) } %>
       <% end %>
     <% end %>
 
@@ -82,11 +82,11 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% else %>
     <% dialog.with_body do %>
-      <%= paragraph { scoped_t(:cannot_delete_group_member) } %>
+      <%= paragraph { scoped_t(:cannot_delete_inherited_membership) } %>
       <% if may_manage_user? %>
-        <%= paragraph { scoped_t(:cannot_delete_group_member_note_admin_html, administration_settings_link:) } %>
+        <%= paragraph { scoped_t(:cannot_delete_inherited_membership_note_admin_html, administration_settings_link:) } %>
       <% else %>
-        <%= paragraph { scoped_t(:cannot_delete_group_member_note_non_admin) } %>
+        <%= paragraph { scoped_t(:cannot_delete_inherited_membership_note_non_admin) } %>
       <% end %>
     <% end %>
 
