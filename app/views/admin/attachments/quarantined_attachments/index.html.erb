@@ -3,6 +3,9 @@
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title(variant: :large) { t('antivirus_scan.quarantined_attachments.title') }
+    header.with_breadcrumbs([{href: admin_index_path, text: t('label_administration')},
+                             {href: admin_settings_attachments_path, text: t('attributes.attachments')},
+                             t('antivirus_scan.quarantined_attachments.title')])
   end
 %>
 
