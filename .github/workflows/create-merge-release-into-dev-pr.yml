@@ -88,8 +88,7 @@ jobs:
                 --head "$RELEASE_BRANCH" \
                 --title "Merge $RELEASE_BRANCH into $BASE_BRANCH" \
                 --body 'Created by GitHub action' \
-                --label create-merge-release-into-dev-pr \
-                --reviewer opf/backend
+                --label create-merge-release-into-dev-pr
               echo "Created a PR to merge $RELEASE_BRANCH into $BASE_BRANCH"
             fi
           fi
