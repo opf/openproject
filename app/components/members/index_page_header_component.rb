@@ -32,8 +32,6 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include ApplicationHelper
 
-  BUTTON_MARGIN_RIGHT = 2
-
   def initialize(project: nil)
     super
     @project = project
@@ -56,5 +54,11 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
       "members-form-target": "filterMemberButton",
       action: "members-form#toggleMemberFilter"
     }
+  end
+
+  def breadcrumbs_items
+    [{ href: project_overview_path(@project.id), text: @project.name },
+     { href: project_members_path(@project), text: t(:label_member_plural) },
+     "test"]
   end
 end
