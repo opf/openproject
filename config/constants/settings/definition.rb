@@ -592,11 +592,6 @@ module Settings
         format: :boolean,
         default: false
       },
-      ldap_tls_options: {
-        format: :hash,
-        default: {},
-        writable: true
-      },
       log_level: {
         description: "Set the OpenProject logger level",
         default: Rails.env.development? ? "debug" : "info",
