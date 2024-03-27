@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'Time entries widget on dashboard', :js do
+RSpec.describe "Time entries widget on dashboard", :js do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:other_project) { create(:project, types: [type]) }
@@ -47,7 +47,7 @@ RSpec.describe 'Time entries widget on dashboard', :js do
            user:,
            spent_on: Date.today,
            hours: 6,
-           comments: 'My comment')
+           comments: "My comment")
   end
   let!(:other_visible_time_entry) do
     create(:time_entry,
@@ -56,7 +56,7 @@ RSpec.describe 'Time entries widget on dashboard', :js do
            user: other_user,
            spent_on: Date.today - 1.day,
            hours: 5,
-           comments: 'Another`s comment')
+           comments: "Another`s comment")
   end
   let!(:invisible_time_entry) do
     create(:time_entry,
@@ -95,37 +95,37 @@ RSpec.describe 'Time entries widget on dashboard', :js do
     dashboard.visit!
   end
 
-  it 'adds the widget and checks the displayed entries' do
+  it "adds the widget and checks the displayed entries" do
     # within top-right area, add an additional widget
     dashboard.add_widget(1, 1, :within, 'Spent time \(last 7 days\)')
 
-    spent_time_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    spent_time_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
     within spent_time_widget.area do
       expect(page)
         .to have_content "Total: 11 h"
 
       expect(page)
-        .to have_content Date.today.strftime('%m/%d/%Y')
+        .to have_content Date.today.strftime("%m/%d/%Y")
       expect(page)
-        .to have_css('.activity', text: visible_time_entry.activity.name)
+        .to have_css(".activity", text: visible_time_entry.activity.name)
       expect(page)
-        .to have_css('.subject', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+        .to have_css(".subject", text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
       expect(page)
-        .to have_css('.comments', text: visible_time_entry.comments)
+        .to have_css(".comments", text: visible_time_entry.comments)
       expect(page)
-        .to have_css('.hours', text: visible_time_entry.hours)
+        .to have_css(".hours", text: visible_time_entry.hours)
 
       expect(page)
-        .to have_content((Date.today - 1.day).strftime('%m/%d/%Y'))
+        .to have_content((Date.today - 1.day).strftime("%m/%d/%Y"))
       expect(page)
-        .to have_css('.activity', text: other_visible_time_entry.activity.name)
+        .to have_css(".activity", text: other_visible_time_entry.activity.name)
       expect(page)
-        .to have_css('.subject', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+        .to have_css(".subject", text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
       expect(page)
-        .to have_css('.comments', text: other_visible_time_entry.comments)
+        .to have_css(".comments", text: other_visible_time_entry.comments)
       expect(page)
-        .to have_css('.hours', text: other_visible_time_entry.hours)
+        .to have_css(".hours", text: other_visible_time_entry.hours)
 
       # Allows to edit
       page.find_test_selector("edit-time-entry-#{visible_time_entry.id}").click
@@ -135,15 +135,15 @@ RSpec.describe 'Time entries widget on dashboard', :js do
 
     time_logging_modal.expect_work_package work_package.subject
 
-    time_logging_modal.update_field 'hours', 4
+    time_logging_modal.update_field "hours", 4
 
     sleep(0.1)
 
-    time_logging_modal.perform_action 'Save'
+    time_logging_modal.perform_action "Save"
     time_logging_modal.is_visible false
 
     within spent_time_widget.area do
-      expect(page).to have_css('.hours', text: 4)
+      expect(page).to have_css(".hours", text: 4)
     end
 
     visible_time_entry.reload

@@ -407,14 +407,14 @@ module API
           index :role
           show :role
 
-          index :project_role, 'roles'
-          show :project_role, 'role'
+          index :project_role, "roles"
+          show :project_role, "role"
 
-          index :global_role, 'roles'
-          show :global_role, 'role'
+          index :global_role, "roles"
+          show :global_role, "role"
 
-          index :work_package_role, 'roles'
-          show :work_package_role, 'roles'
+          index :work_package_role, "roles"
+          show :work_package_role, "roles"
 
           def self.show_revision(project_id, identifier)
             show_revision_project_repository_path(project_id, identifier)
@@ -553,7 +553,7 @@ module API
                 "#{project_id}-#{type_id}"
               end
 
-              filter = [{ id: { operator: '=', values: } }]
+              filter = [{ id: { operator: "=", values: } }]
 
               path + "?filters=#{CGI.escape(filter.to_s)}"
             end
@@ -605,7 +605,7 @@ module API
 
             root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
 
-            root_url.gsub(duplicate_regexp, '') + send(path, arguments)
+            root_url.gsub(duplicate_regexp, "") + send(path, arguments)
           end
         end
 

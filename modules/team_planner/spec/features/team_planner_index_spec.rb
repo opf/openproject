@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planner_view] do
+RSpec.describe "Team planner index", :js, :with_cuprite, with_ee: %i[team_planner_view] do
   shared_let(:project) do
     create(:project)
   end
@@ -45,7 +45,7 @@ RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planne
   end
   shared_let(:user_with_limited_permissions) do
     create(:user,
-           firstname: 'Bernd',
+           firstname: "Bernd",
            member_with_permissions: { project => %w[view_work_packages view_team_planner] })
   end
 
@@ -58,24 +58,24 @@ RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planne
     visit project_team_planners_path(project)
   end
 
-  it 'shows a create button' do
+  it "shows a create button" do
     team_planner.expect_create_button
   end
 
-  it 'can create an action through the sidebar' do
-    find_test_selector('team-planner--create-button').click
+  it "can create an action through the sidebar" do
+    find_test_selector("team-planner--create-button").click
 
     team_planner.expect_no_toaster
     team_planner.expect_title
   end
 
-  context 'with no views' do
-    it 'shows an empty index action' do
+  context "with no views" do
+    it "shows an empty index action" do
       team_planner.expect_no_views_rendered
     end
   end
 
-  context 'with existing views' do
+  context "with existing views" do
     shared_let(:query) do
       create(:public_query, user: user_with_full_permissions, project:)
     end
@@ -97,19 +97,19 @@ RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planne
       create(:view_team_planner, query: private_query)
     end
 
-    context 'as a user with full permissions within a project' do
+    context "as a user with full permissions within a project" do
       let(:current_user) { user_with_full_permissions }
 
-      it 'shows views' do
+      it "shows views" do
         team_planner.expect_views_rendered(query, private_query, other_query)
       end
 
-      it 'shows management buttons' do
+      it "shows management buttons" do
         team_planner.expect_delete_buttons_for(query, private_query, other_query)
       end
 
-      context 'and as the author of a private view' do
-        it 'shows my private view' do
+      context "and as the author of a private view" do
+        it "shows my private view" do
           team_planner.expect_views_rendered(query, private_query, other_query)
 
           team_planner.expect_delete_buttons_for(query, private_query, other_query)
@@ -117,15 +117,15 @@ RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planne
       end
     end
 
-    context 'as a user with limited permissions within a project' do
+    context "as a user with limited permissions within a project" do
       let(:current_user) { user_with_limited_permissions }
 
-      it 'does not show the management buttons' do
+      it "does not show the management buttons" do
         team_planner.expect_no_create_button
         team_planner.expect_no_delete_buttons_for(query, other_query)
       end
 
-      it 'shows public views only' do
+      it "shows public views only" do
         team_planner.expect_views_rendered(query, other_query)
       end
     end

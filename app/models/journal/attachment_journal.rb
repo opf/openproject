@@ -27,5 +27,5 @@
 #++
 
 class Journal::AttachmentJournal < Journal::BaseJournal
-  self.table_name = 'attachment_journals'
+  self.table_name = "attachment_journals"
 end

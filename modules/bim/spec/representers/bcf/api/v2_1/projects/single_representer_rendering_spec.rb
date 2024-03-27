@@ -26,29 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../shared_examples'
+require_relative "../shared_examples"
 
-RSpec.describe Bim::Bcf::API::V2_1::Projects::SingleRepresenter, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::Projects::SingleRepresenter, "rendering" do
   let(:project) { build_stubbed(:project) }
 
   let(:instance) { described_class.new(project) }
 
   subject { instance.to_json }
 
-  describe 'attributes' do
-    context 'project_id' do
-      it_behaves_like 'attribute' do
+  describe "attributes" do
+    context "project_id" do
+      it_behaves_like "attribute" do
         let(:value) { project.id }
-        let(:path) { 'project_id' }
+        let(:path) { "project_id" }
       end
     end
 
-    context 'name' do
-      it_behaves_like 'attribute' do
+    context "name" do
+      it_behaves_like "attribute" do
         let(:value) { project.name }
-        let(:path) { 'name' }
+        let(:path) { "name" }
       end
     end
   end

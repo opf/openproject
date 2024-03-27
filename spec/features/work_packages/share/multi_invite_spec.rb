@@ -28,18 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package sharing',
+RSpec.describe "Work package sharing",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
   shared_let(:edit_work_package_role) { create(:edit_work_package_role) }
 
-  shared_let(:not_shared_yet_with_user) { create(:user, firstname: 'Not shared Yet', lastname: 'User') }
-  shared_let(:another_not_shared_yet_with_user) { create(:user, firstname: 'Another not yet shared', lastname: 'User') }
-  shared_let(:richard) { create(:user, firstname: 'Richard', lastname: 'Hendricks') }
+  shared_let(:not_shared_yet_with_user) { create(:user, firstname: "Not shared Yet", lastname: "User") }
+  shared_let(:another_not_shared_yet_with_user) { create(:user, firstname: "Another not yet shared", lastname: "User") }
+  shared_let(:richard) { create(:user, firstname: "Richard", lastname: "Hendricks") }
 
   shared_let(:not_shared_yet_with_group) { create(:group, members: [richard]) }
   shared_let(:empty_group) { create(:group, members: []) }
@@ -64,7 +64,7 @@ RSpec.describe 'Work package sharing',
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
 
-  current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
+  current_user { create(:user, firstname: "Signed in", lastname: "User") }
 
   def shared_principals
     Principal.where(id: Member.of_work_package(work_package).select(:user_id))
@@ -74,8 +74,8 @@ RSpec.describe 'Work package sharing',
     MemberRole.where(inherited_from: MemberRole.where(member_id: group.memberships))
   end
 
-  context 'when having share permission' do
-    it 'allows seeing and administrating sharing' do
+  context "when having share permission" do
+    it "allows seeing and administrating sharing" do
       work_package_page.visit!
 
       # Clicking on the share button opens a modal which lists all of the users a work package
@@ -87,12 +87,12 @@ RSpec.describe 'Work package sharing',
         share_modal.expect_shared_count_of(1)
 
         # Inviting multiple users at once
-        share_modal.invite_users([not_shared_yet_with_user, another_not_shared_yet_with_user], 'Edit')
+        share_modal.invite_users([not_shared_yet_with_user, another_not_shared_yet_with_user], "Edit")
 
         share_modal.expect_shared_count_of(3)
 
-        share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit', position: 1)
-        share_modal.expect_shared_with(another_not_shared_yet_with_user, 'Edit', position: 2)
+        share_modal.expect_shared_with(not_shared_yet_with_user, "Edit", position: 1)
+        share_modal.expect_shared_with(another_not_shared_yet_with_user, "Edit", position: 2)
 
         # They can be removed again
         share_modal.remove_user(not_shared_yet_with_user)
@@ -103,12 +103,12 @@ RSpec.describe 'Work package sharing',
         share_modal.expect_shared_count_of(1)
 
         # Groups can be added simultaneously as well
-        share_modal.invite_users([not_shared_yet_with_group, empty_group], 'Comment')
+        share_modal.invite_users([not_shared_yet_with_group, empty_group], "Comment")
 
         share_modal.expect_shared_count_of(3)
 
-        share_modal.expect_shared_with(not_shared_yet_with_group, 'Comment', position: 1)
-        share_modal.expect_shared_with(empty_group, 'Comment', position: 2)
+        share_modal.expect_shared_with(not_shared_yet_with_group, "Comment", position: 1)
+        share_modal.expect_shared_with(empty_group, "Comment", position: 2)
 
         # They can be removed again
         share_modal.remove_user(not_shared_yet_with_group)
@@ -118,12 +118,12 @@ RSpec.describe 'Work package sharing',
         share_modal.expect_shared_count_of(1)
 
         # We can also mix
-        share_modal.invite_users([not_shared_yet_with_user, empty_group], 'View')
+        share_modal.invite_users([not_shared_yet_with_user, empty_group], "View")
 
         share_modal.expect_shared_count_of(3)
 
-        share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 1)
-        share_modal.expect_shared_with(empty_group, 'View', position: 2)
+        share_modal.expect_shared_with(not_shared_yet_with_user, "View", position: 1)
+        share_modal.expect_shared_with(empty_group, "View", position: 2)
 
         # They can be removed again
         share_modal.remove_user(not_shared_yet_with_user)
@@ -138,7 +138,7 @@ RSpec.describe 'Work package sharing',
 
       aggregate_failures "Re-opening the modal after changes performed" do
         # This user preserved
-        share_modal.expect_shared_with(richard, 'Edit', position: 1)
+        share_modal.expect_shared_with(richard, "Edit", position: 1)
 
         # The users have been removed
         share_modal.expect_not_shared_with(not_shared_yet_with_user)
@@ -153,7 +153,7 @@ RSpec.describe 'Work package sharing',
     end
   end
 
-  context 'when starting with no shares yet' do
+  context "when starting with no shares yet" do
     let(:work_package) { create(:work_package, project:) }
     let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manager_user }
@@ -163,18 +163,18 @@ RSpec.describe 'Work package sharing',
       work_package_page.click_share_button
     end
 
-    it 'allows adding multiple users and updates the modal correctly' do
+    it "allows adding multiple users and updates the modal correctly" do
       share_modal.expect_open
       share_modal.expect_blankslate
 
-      share_modal.invite_users([not_shared_yet_with_user, another_not_shared_yet_with_user], 'Edit')
+      share_modal.invite_users([not_shared_yet_with_user, another_not_shared_yet_with_user], "Edit")
 
       share_modal.expect_shared_count_of(2)
 
       # Due to the exception of starting from a blankslate, the whole modal is re-rendered.
       # Thus the principals are sorted alphabetically, and not by the time there were added
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'Edit', position: 2)
-      share_modal.expect_shared_with(another_not_shared_yet_with_user, 'Edit', position: 1)
+      share_modal.expect_shared_with(not_shared_yet_with_user, "Edit", position: 2)
+      share_modal.expect_shared_with(another_not_shared_yet_with_user, "Edit", position: 1)
 
       # They can be removed again
       share_modal.remove_user(not_shared_yet_with_user)
@@ -186,11 +186,11 @@ RSpec.describe 'Work package sharing',
     end
   end
 
-  context 'when having global invite permission' do
+  context "when having global invite permission" do
     let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manager_user }
 
-    it 'allows creating multiple users at once' do
+    it "allows creating multiple users at once" do
       work_package_page.visit!
       work_package_page.click_share_button
 
@@ -198,7 +198,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_count_of(1)
 
       # Invite two users that does not exist yet
-      share_modal.invite_users(['hello@world.de', 'aloha@world.de'], 'Comment')
+      share_modal.invite_users(["hello@world.de", "aloha@world.de"], "Comment")
 
       # New user is shown in the list of shares
       share_modal.expect_shared_count_of(3)
@@ -206,20 +206,20 @@ RSpec.describe 'Work package sharing',
       # New user is created
       new_users = User.last(2)
 
-      share_modal.expect_shared_with(new_users[0], 'Comment', position: 1)
-      share_modal.expect_shared_with(new_users[1], 'Comment', position: 2)
+      share_modal.expect_shared_with(new_users[0], "Comment", position: 1)
+      share_modal.expect_shared_with(new_users[1], "Comment", position: 2)
 
       # The new users can be interacted with
-      share_modal.change_role(new_users[0], 'View')
-      share_modal.expect_shared_with(new_users[0], 'View', position: 1)
-      share_modal.change_role(new_users[1], 'View')
-      share_modal.expect_shared_with(new_users[1], 'View', position: 2)
+      share_modal.change_role(new_users[0], "View")
+      share_modal.expect_shared_with(new_users[0], "View", position: 1)
+      share_modal.change_role(new_users[1], "View")
+      share_modal.expect_shared_with(new_users[1], "View", position: 2)
       share_modal.expect_shared_count_of(3)
 
       # The new users can be updated simultaneously
-      share_modal.invite_user(new_users, 'Edit')
-      share_modal.expect_shared_with(new_users[0], 'Edit', position: 1)
-      share_modal.expect_shared_with(new_users[1], 'Edit', position: 2)
+      share_modal.invite_user(new_users, "Edit")
+      share_modal.expect_shared_with(new_users[0], "Edit", position: 1)
+      share_modal.expect_shared_with(new_users[1], "Edit", position: 2)
       share_modal.expect_shared_count_of(3)
 
       # The new users can be deleted
@@ -230,7 +230,7 @@ RSpec.describe 'Work package sharing',
       share_modal.expect_shared_count_of(1)
     end
 
-    it 'allows sharing with an existing user and creating a new one at the same time' do
+    it "allows sharing with an existing user and creating a new one at the same time" do
       work_package_page.visit!
       work_package_page.click_share_button
 
@@ -241,9 +241,9 @@ RSpec.describe 'Work package sharing',
       share_modal.select_existing_user not_shared_yet_with_user
       share_modal.select_not_existing_user_option "hello@world.de"
 
-      share_modal.select_invite_role('View')
+      share_modal.select_invite_role("View")
       within share_modal.modal_element do
-        click_button 'Share'
+        click_button "Share"
       end
 
       # Two users are added
@@ -252,11 +252,11 @@ RSpec.describe 'Work package sharing',
       # New user is created
       new_user = User.last
 
-      share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 1)
-      share_modal.expect_shared_with(new_user, 'View', position: 2)
+      share_modal.expect_shared_with(not_shared_yet_with_user, "View", position: 1)
+      share_modal.expect_shared_with(new_user, "View", position: 2)
     end
 
-    context 'and an instance user limit' do
+    context "and an instance user limit" do
       before do
         allow(OpenProject::Enterprise).to receive_messages(
           user_limit: 10,
@@ -264,7 +264,7 @@ RSpec.describe 'Work package sharing',
         )
       end
 
-      it 'shows a warning as soon as you reach the user limit' do
+      it "shows a warning as soon as you reach the user limit" do
         work_package_page.visit!
         work_package_page.click_share_button
 

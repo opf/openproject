@@ -45,15 +45,15 @@ class Queries::Principals::Filters::MentionableOnWorkPackageFilter <
 
   def scope
     case operator
-    when '='
+    when "="
       principals_with_a_membership
-    when '!'
+    when "!"
       visible_scope.where.not(id: principals_with_a_membership.select(:id))
     end
   end
 
   def where
-    '1=1'
+    "1=1"
   end
 
   private

@@ -124,7 +124,7 @@ Set a higher number of web workers to allow more processes to be handled at the 
 
 There are two different types of emails in OpenProject: One sent directly within the request to the server (this includes the test mail) and one sent asynchronously, via a background job from the backend. The majority of mail sending jobs is run asynchronously to facilitate a faster response time for server request.
 
-Use a browser to call your domain name followed by "health_checks/all" (e.g. `https://myopenproject.com/health_checks/all`). There should be entries about "delayed_jobs_backed_up" and "delayed_jobs_never_ran". If PASSED is written behind it, everything is good.
+Use a browser to call your domain name followed by "health_checks/all" (e.g. `https://myopenproject.com/health_checks/all`). There should be entries about "worker" and "worker_backed_up". If PASSED is written behind it, everything is good.
 
 If the health check does not return satisfying results, have a look if the background worker is running by entering `ps aux | grep jobs` on the server. If it is not running, no entry is returned. If it is running an entry with "jobs:work" at the end is displayed.
 

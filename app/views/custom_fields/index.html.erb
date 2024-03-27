@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t(:label_custom_field_plural) do %>
   <li class="toolbar-item">
     <%= link_to new_custom_field_path(type: selected_tab(custom_fields_tabs)[:name]),
-                { class: 'button -alt-highlight',
+                { class: 'button -primary',
                   aria: {label: t(:label_custom_field_new)},
                   title: t(:label_custom_field_new)} do %>
       <%= op_icon('button--icon icon-add') %>

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::ActiveStatus do
   let(:instance) { described_class.new(build(:project_journal)) }

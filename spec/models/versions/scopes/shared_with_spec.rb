@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Versions::Scopes::SharedWith do
   shared_let(:root_project) { create(:project) }
@@ -38,16 +38,16 @@ RSpec.describe Versions::Scopes::SharedWith do
   shared_let(:child_project) { create(:project, parent: project) }
   shared_let(:grand_child_project) { create(:project, parent: child_project) }
 
-  describe '.shared_with' do
-    context 'with the version not being shared' do
-      let!(:version) { create(:version, project:, sharing: 'none') }
+  describe ".shared_with" do
+    context "with the version not being shared" do
+      let!(:version) { create(:version, project:, sharing: "none") }
 
-      it 'is visible within the original project' do
+      it "is visible within the original project" do
         expect(Version.shared_with(project))
           .to contain_exactly(version)
       end
 
-      it 'is not visible in any other project' do
+      it "is not visible in any other project" do
         [parent_project,
          root_project,
          other_root_project,
@@ -61,10 +61,10 @@ RSpec.describe Versions::Scopes::SharedWith do
       end
     end
 
-    context 'with the version being shared with descendants' do
-      let!(:version) { create(:version, project:, sharing: 'descendants') }
+    context "with the version being shared with descendants" do
+      let!(:version) { create(:version, project:, sharing: "descendants") }
 
-      it 'is visible within the original project and it`s descendants' do
+      it "is visible within the original project and it`s descendants" do
         [project,
          child_project,
          grand_child_project].each do |p|
@@ -73,7 +73,7 @@ RSpec.describe Versions::Scopes::SharedWith do
         end
       end
 
-      it 'is not visible in any other project' do
+      it "is not visible in any other project" do
         [parent_project,
          root_project,
          other_root_project,
@@ -84,7 +84,7 @@ RSpec.describe Versions::Scopes::SharedWith do
         end
       end
 
-      it 'is not visible in any other project if the project is inactive' do
+      it "is not visible in any other project if the project is inactive" do
         project.update(active: false)
 
         [parent_project,
@@ -100,10 +100,10 @@ RSpec.describe Versions::Scopes::SharedWith do
       end
     end
 
-    context 'with the version being shared with hierarchy' do
-      let!(:version) { create(:version, project:, sharing: 'hierarchy') }
+    context "with the version being shared with hierarchy" do
+      let!(:version) { create(:version, project:, sharing: "hierarchy") }
 
-      it 'is visible within the original project and it`s descendants and ancestors' do
+      it "is visible within the original project and it`s descendants and ancestors" do
         [project,
          parent_project,
          root_project,
@@ -114,7 +114,7 @@ RSpec.describe Versions::Scopes::SharedWith do
         end
       end
 
-      it 'is not visible in any other project' do
+      it "is not visible in any other project" do
         [other_root_project,
          aunt_project,
          sibling_project].each do |p|
@@ -123,7 +123,7 @@ RSpec.describe Versions::Scopes::SharedWith do
         end
       end
 
-      it 'is not visible in any other project if the project is inactive' do
+      it "is not visible in any other project if the project is inactive" do
         project.update(active: false)
 
         [parent_project,
@@ -139,10 +139,10 @@ RSpec.describe Versions::Scopes::SharedWith do
       end
     end
 
-    context 'with the version being shared with tree' do
-      let(:version) { create(:version, project:, sharing: 'tree') }
+    context "with the version being shared with tree" do
+      let(:version) { create(:version, project:, sharing: "tree") }
 
-      it 'is visible within the original project and every project within the same tree' do
+      it "is visible within the original project and every project within the same tree" do
         [project,
          parent_project,
          root_project,
@@ -155,14 +155,14 @@ RSpec.describe Versions::Scopes::SharedWith do
         end
       end
 
-      it 'is not visible projects outside of the tree' do
+      it "is not visible projects outside of the tree" do
         [other_root_project].each do |p|
           expect(Version.shared_with(p))
             .to be_empty
         end
       end
 
-      it 'is not visible in any other project if the project is inactive' do
+      it "is not visible in any other project if the project is inactive" do
         project.update(active: false)
 
         [parent_project,
@@ -178,10 +178,10 @@ RSpec.describe Versions::Scopes::SharedWith do
       end
     end
 
-    context 'with the version being shared with system' do
-      let(:version) { create(:version, project:, sharing: 'system') }
+    context "with the version being shared with system" do
+      let(:version) { create(:version, project:, sharing: "system") }
 
-      it 'is visible in all projects' do
+      it "is visible in all projects" do
         [project,
          parent_project,
          root_project,
@@ -195,7 +195,7 @@ RSpec.describe Versions::Scopes::SharedWith do
         end
       end
 
-      it 'is not visible in any other project if the project is inactive' do
+      it "is not visible in any other project if the project is inactive" do
         project.update(active: false)
 
         [parent_project,

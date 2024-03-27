@@ -34,7 +34,7 @@ class Storages::Admin::StoragesController < ApplicationController
   include FlashMessagesHelper
 
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
-  layout 'admin'
+  layout "admin"
 
   # specify which model #find_model_object should look up
   model_object Storages::Storage
@@ -198,7 +198,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # Breadcrumbs is something like OpenProject > Admin > Storages.
   # This returns the name of the last part (Storages admin page)
   def default_breadcrumb
-    if action_name == 'index'
+    if action_name == "index"
       t(:project_module_storages)
     else
       ActionController::Base.helpers.link_to(t(:project_module_storages), admin_settings_storages_path)
@@ -216,7 +216,7 @@ class Storages::Admin::StoragesController < ApplicationController
   def ensure_valid_provider_type_selected
     short_provider_type = params[:provider]
     if short_provider_type.blank? || (@provider_type = ::Storages::Storage::PROVIDER_TYPE_SHORT_NAMES[short_provider_type]).blank?
-      flash[:primer_banner] = { message: I18n.t('storages.error_invalid_provider_type'), scheme: :danger }
+      flash[:primer_banner] = { message: I18n.t("storages.error_invalid_provider_type"), scheme: :danger }
       redirect_to admin_settings_storages_path
     end
   end
@@ -230,14 +230,14 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params(model_parameter_name = storage_provider_parameter_name)
     params
       .require(model_parameter_name)
-      .permit('name',
-              'provider_type',
-              'host',
-              'oauth_client_id',
-              'oauth_client_secret',
-              'tenant_id',
-              'drive_id',
-              'automatic_management_enabled')
+      .permit("name",
+              "provider_type",
+              "host",
+              "oauth_client_id",
+              "oauth_client_secret",
+              "tenant_id",
+              "drive_id",
+              "automatic_management_enabled")
   end
 
   def storage_provider_parameter_name

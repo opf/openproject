@@ -45,7 +45,7 @@ newest version.
 
 #### Contributions
 
-Thanks to GitHub users @storm2513 and @akasparas for providing bugfixes
+Thanks to Github users @storm2513 and @akasparas for providing bugfixes
 as pull requests [on our GitHub
 project](https://github.com/opf/openproject).  A big thanks to community
 members for reporting bugs and helping us identifying and providing

@@ -25,15 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require_relative '../shared_expectations'
+require "spec_helper"
+require_relative "../shared_expectations"
 
 RSpec.describe CustomActions::Conditions::Type do
-  it_behaves_like 'associated custom condition' do
+  it_behaves_like "associated custom condition" do
     let(:key) { :type }
 
-    describe '#allowed_values' do
-      it 'is the list of all types' do
+    describe "#allowed_values" do
+      it "is the list of all types" do
         types = [build_stubbed(:type),
                  build_stubbed(:type)]
         allow(Type)
@@ -46,11 +46,11 @@ RSpec.describe CustomActions::Conditions::Type do
       end
     end
 
-    describe '#fulfilled_by?' do
-      let(:work_package) { double('work_package', type_id: 1) }
-      let(:user) { double('not relevant') }
+    describe "#fulfilled_by?" do
+      let(:work_package) { double("work_package", type_id: 1) }
+      let(:user) { double("not relevant") }
 
-      it 'is true if values are empty' do
+      it "is true if values are empty" do
         instance.values = []
 
         expect(instance.fulfilled_by?(work_package, user))

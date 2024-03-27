@@ -326,7 +326,7 @@ module WorkPackages::Scopes
           unions << existing_relation_of_type_lateral(relation_type, ignored_relation:)
         end
 
-        unions.join(' UNION ')
+        unions.join(" UNION ")
       end
 
       # rubocop:disable Metrics/PerceivedComplexity
@@ -334,8 +334,8 @@ module WorkPackages::Scopes
         canonical_type = Relation.canonical_type(relation_type)
 
         is_canonical = canonical_type == relation_type
-        true_on_canonical = is_canonical ? 'TRUE' : 'FALSE'
-        false_on_canonical = is_canonical ? 'FALSE' : 'TRUE'
+        true_on_canonical = is_canonical ? "TRUE" : "FALSE"
+        false_on_canonical = is_canonical ? "FALSE" : "TRUE"
 
         direction1, direction2 = if is_canonical
                                    %w[from_id to_id]
@@ -344,9 +344,9 @@ module WorkPackages::Scopes
                                  end
 
         direction_limit = if limit_direction && is_canonical
-                            'related.includes_to_relation'
+                            "related.includes_to_relation"
                           elsif limit_direction
-                            'related.includes_from_relation'
+                            "related.includes_from_relation"
                           end
 
         sql = <<~SQL.squish
@@ -400,7 +400,7 @@ module WorkPackages::Scopes
         when Relation::TYPE_PARENT, Relation::TYPE_CHILD
           "NOT includes_hierarchy"
         else
-          '1 = 1'
+          "1 = 1"
         end
       end
 
@@ -419,8 +419,8 @@ module WorkPackages::Scopes
       def relatable_ensure_single_relation(ignored_relation, work_package)
         if ignored_relation && (!ignored_relation.is_a?(Relation) ||
           (ignored_relation.from_id != work_package.id && ignored_relation.to_id != work_package.id))
-          raise ArgumentError, 'only a single relation with from_id or to_id pointing ' \
-                               'to the work package for which relatable is queried for is supported'
+          raise ArgumentError, "only a single relation with from_id or to_id pointing " \
+                               "to the work package for which relatable is queried for is supported"
         end
       end
     end

@@ -52,6 +52,7 @@ module OpenProject
     # And old connections will not be closed properly which could lead to EMFILE error.
     Thread.current[:httpx_session] ||= begin
       session = HTTPX
+        .plugin(:oauth)
         .plugin(:basic_auth)
         .plugin(:webdav)
         .with(

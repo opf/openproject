@@ -26,6 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context 'ng-select-autocomplete helpers' do
+RSpec.shared_context "ng-select-autocomplete helpers" do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 end

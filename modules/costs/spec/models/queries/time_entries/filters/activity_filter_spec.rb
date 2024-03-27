@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::TimeEntries::Filters::ActivityFilter do
   let(:time_entry_activity1) { build_stubbed(:time_entry_activity) }
@@ -60,18 +60,18 @@ RSpec.describe Queries::TimeEntries::Filters::ActivityFilter do
       .and_return(activities.map { |x| [x.name, x.id] })
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :activity_id }
     let(:type) { :list_optional }
     let(:name) { TimeEntry.human_attribute_name(:activity) }
 
-    describe '#allowed_values' do
-      it 'is a list of the possible values' do
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
         expect(instance.allowed_values).to match_array(activities.map { |x| [x.name, x.id] })
       end
     end
 
-    it_behaves_like 'list_optional query filter' do
+    it_behaves_like "list_optional query filter" do
       let(:attribute) { :activity_id }
       let(:model) { TimeEntry }
       let(:valid_values) { activities.map { |a| a.id.to_s } }

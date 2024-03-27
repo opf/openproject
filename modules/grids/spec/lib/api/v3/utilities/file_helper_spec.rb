@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Utilities::PathHelper do
   let(:helper) { Class.new.tap { |c| c.extend(API::V3::Utilities::PathHelper) }.api_v3_paths }
 
-  context 'attachments paths' do
-    describe '#attachments_by_grid' do
+  context "attachments paths" do
+    describe "#attachments_by_grid" do
       subject { helper.attachments_by_grid 1 }
 
-      it 'provides the path' do
-        expect(subject).to match('/grids/1/attachments')
+      it "provides the path" do
+        expect(subject).to match("/grids/1/attachments")
       end
     end
   end

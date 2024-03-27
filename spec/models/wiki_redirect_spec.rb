@@ -25,95 +25,95 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WikiRedirect do
   let(:wiki) { create(:wiki) }
-  let(:wiki_page) { create(:wiki_page, wiki:, title: 'Original title') }
+  let(:wiki_page) { create(:wiki_page, wiki:, title: "Original title") }
 
-  context 'when renaming the page' do
+  context "when renaming the page" do
     before do
-      wiki_page.title = 'New title'
+      wiki_page.title = "New title"
       wiki_page.save
     end
 
-    it 'creates a redirect' do
+    it "creates a redirect" do
       expect(wiki.redirects)
-        .to exist(title: 'original-title')
+        .to exist(title: "original-title")
     end
 
-    it 'allows to still find the page via the original title' do
-      expect(wiki.find_page('Original title'))
+    it "allows to still find the page via the original title" do
+      expect(wiki.find_page("Original title"))
         .to eq wiki_page
     end
 
-    it 'allows to still find the page via the original title even with a different case' do
-      expect(wiki.find_page('ORIGINAL title'))
+    it "allows to still find the page via the original title even with a different case" do
+      expect(wiki.find_page("ORIGINAL title"))
         .to eq wiki_page
     end
   end
 
-  context 'when renaming twice' do
+  context "when renaming twice" do
     before do
-      wiki_page.title = 'New old title'
+      wiki_page.title = "New old title"
       wiki_page.save
 
-      wiki_page.title = 'New title'
+      wiki_page.title = "New title"
       wiki_page.save
     end
 
-    it 'allows to still find the page via the original title' do
-      expect(wiki.find_page('Original title'))
+    it "allows to still find the page via the original title" do
+      expect(wiki.find_page("Original title"))
         .to eq wiki_page
     end
 
-    it 'allows to still find the page via the intermediate title' do
-      expect(wiki.find_page('New old title'))
+    it "allows to still find the page via the intermediate title" do
+      expect(wiki.find_page("New old title"))
         .to eq wiki_page
     end
 
-    it 'allows to still find the page via the current title' do
-      expect(wiki.find_page('New title'))
+    it "allows to still find the page via the current title" do
+      expect(wiki.find_page("New title"))
         .to eq wiki_page
     end
   end
 
-  context 'when reversing the rename' do
+  context "when reversing the rename" do
     before do
-      wiki_page.title = 'New title'
+      wiki_page.title = "New title"
       wiki_page.save
 
-      wiki_page.title = 'Original title'
+      wiki_page.title = "Original title"
       wiki_page.save
     end
 
-    it 'allows to find the page via the original title' do
-      expect(wiki.find_page('Original title'))
+    it "allows to find the page via the original title" do
+      expect(wiki.find_page("Original title"))
         .to eq wiki_page
     end
 
-    it 'allows to still find the page via the intermediate title' do
-      expect(wiki.find_page('New title'))
+    it "allows to still find the page via the intermediate title" do
+      expect(wiki.find_page("New title"))
         .to eq wiki_page
     end
   end
 
-  context 'when an equally named redirect already exists' do
+  context "when an equally named redirect already exists" do
     before do
-      WikiRedirect.create!(wiki:, title: 'an-old-page', redirects_to: 'other-page')
+      WikiRedirect.create!(wiki:, title: "an-old-page", redirects_to: "other-page")
 
-      wiki_page.title = 'An old page'
+      wiki_page.title = "An old page"
       wiki_page.save
     end
 
-    it 'overwrite the old redirect' do
-      expect(wiki.find_page('An old page'))
+    it "overwrite the old redirect" do
+      expect(wiki.find_page("An old page"))
         .to eq wiki_page
     end
   end
 
-  it 'is removed when deleting the page' do
-    redirect = WikiRedirect.create(wiki:, title: 'an-old-page', redirects_to: wiki_page.slug)
+  it "is removed when deleting the page" do
+    redirect = WikiRedirect.create(wiki:, title: "an-old-page", redirects_to: wiki_page.slug)
 
     wiki_page.destroy
     expect(WikiRedirect)

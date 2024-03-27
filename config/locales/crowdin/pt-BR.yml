@@ -26,15 +26,14 @@ pt-BR:
       no_results_title_text: Não há nenhuma atividade no projeto neste período de tempo.
   admin:
     plugins:
-      no_results_title_text: Atualmente, não existem plugins disponíveis.
+      no_results_title_text: Atualmente, não existem plugins instalados.
+      no_results_content_text: Confira nossa página de integrações e plugins para obter mais informações.
     custom_styles:
       color_theme: "Tema Colorido"
       color_theme_custom: "(Personalizado)"
       colors:
-        alternative-color: "Alternativo"
-        content-link-color: "Fonte do link"
-        primary-color: "Primário"
-        primary-color-dark: "Primário (escuro)"
+        primary-button-color: "Botão primário"
+        accent-color: "Destaque"
         header-bg-color: "Fundo do cabeçalho"
         header-item-bg-hover-color: "Fundo do cabeçalho ao passar o mouse"
         header-item-font-color: "Fonte do cabeçalho"
@@ -53,10 +52,8 @@ pt-BR:
       enterprise_more_info: "Obs.: o logotipo usado pode ser acessado publicamente."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
-        alternative-color: "Cor de destaque forte, normalmente usada para o botão mais importante na tela."
-        content-link-color: "Cor da fonte da maioria dos links."
-        primary-color: "Cor principal."
-        primary-color-dark: "Normalmente, uma versão mais escura da cor principal usada para efeitos de foco."
+        primary-button-color: "Cor de destaque forte, usada para o botão mais importante na tela."
+        accent-color: "Cor para os links e outros elementos destacados adequadamente."
         header-item-bg-hover-color: "Cor de fundo dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
         header-item-font-color: "Cor da fonte dos itens clicáveis do cabeçalho."
         header-item-font-hover-color: "Cor da fonte dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
@@ -1531,6 +1528,7 @@ pt-BR:
       postgres_migration: "Migrando sua instalação para PostgreSQL"
       user_guides: "Guias do usuário"
       faq: "Perguntas Freqüentes"
+      impressum: "Aviso legal"
       glossary: "Glossário"
       shortcuts: "Atalhos"
       blog: "Blog do OpenProject"
@@ -1541,6 +1539,7 @@ pt-BR:
   journals:
     changes_retracted: "As mudanças foram retraídas."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Data modificada"
       system_update: "Atualização do sistema OpenProject:"
     cause_descriptions:
@@ -1862,7 +1861,6 @@ pt-BR:
   label_subject_or_id: "Assunto ou ID"
   label_calendar_subscriptions: "Assinaturas do calendários"
   label_identifier: "Identificador"
-  label_impressum: "Aviso legal"
   label_in: "em"
   label_in_less_than: "em menos de"
   label_in_more_than: "em mais de"
@@ -2718,6 +2716,9 @@ pt-BR:
   setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    Se ativada, a API permitirá que os administradores escrevam atributos estáticos somente leitura durante a criação, como os campos data/hora createdAt e updatedAt. <br/> <strong>Aviso:</strong> Esta configuração tem um caso de uso para, por exemplo, importar dados, mas permite que os administradores personifiquem a criação de itens como outros usuários. No entanto, todas as solicitações de criação estão sendo registradas com o verdadeiro autor. </br> Para obter mais informações sobre atributos e recursos compatíveis, consulte o site %{api_documentation_link}.
   setting_apiv3_max_page_size: "Tamanho máximo da página de API"
   setting_apiv3_max_page_instructions_html: >
     Defina o tamanho máximo de página com o qual a API responderá. Não será possível realizar solicitações de API que retornem mais valores em uma única página. <br/> <strong>Aviso:</strong> Somente altere este valor se tiver certeza do motivo de sua necessidade. Definir um valor alto resultará em impactos significativos no desempenho, enquanto um valor menor que as opções por página causará erros nas visualizações paginadas.
@@ -3096,6 +3097,7 @@ pt-BR:
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Mudança de situação"
     text_change_disabled_for_provider_login: "O nome é definido por seu fornecedor de início de sessão e, desta forma, não pode ser alterado."
+    text_change_disabled_for_ldap_login: "O nome e o e-mail são definidos pelo LDAP e, portanto, não podem ser alterados."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear e redefinir logins com falha"
   version_status_closed: "fechado"

@@ -580,7 +580,7 @@ flowchart LR
 
   subgraph openproject[OpenProject]
    direction TB
-  	opgithubintegration[GitHub integration] --- workpackagesmodule[Work packages module]
+  	opgithubintegration[Github integration] --- workpackagesmodule[Work packages module]
 	end
   
   
@@ -635,7 +635,7 @@ flowchart LR
 #### Purpose
 
 - Connect merge requests in GitLab with work packages in OpenProject.
-- Connect issues in GitLab with work packages in OpenProject.
+- Connect issues in GitLab with work packages in OpenPrject.
 - Show the status of merge requests in related work packages.
 
 #### Processed data

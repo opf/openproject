@@ -54,46 +54,46 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::Files do
-  describe 'build_uploaded_file' do
-    let(:original_filename) { 'test.png' }
-    let(:content_type) { 'image/png' }
+  describe "build_uploaded_file" do
+    let(:original_filename) { "test.png" }
+    let(:content_type) { "image/png" }
     let(:file) do
       OpenProject::Files.create_temp_file(name: original_filename)
     end
 
     subject { OpenProject::Files.build_uploaded_file(file, content_type) }
 
-    it 'has the original file name' do
+    it "has the original file name" do
       expect(subject.original_filename).to eql(original_filename)
     end
 
-    it 'has the given content type' do
+    it "has the given content type" do
       expect(subject.content_type).to eql(content_type)
     end
 
-    context 'with custom file name' do
-      let(:file_name) { 'my-custom-filename.png' }
+    context "with custom file name" do
+      let(:file_name) { "my-custom-filename.png" }
 
       subject { OpenProject::Files.build_uploaded_file(file, content_type, file_name:) }
 
-      it 'has the custom file name' do
+      it "has the custom file name" do
         expect(subject.original_filename).to eql(file_name)
       end
     end
   end
 
-  describe 'create_uploaded_file' do
-    context 'without parameters' do
+  describe "create_uploaded_file" do
+    context "without parameters" do
       let(:file) { OpenProject::Files.create_uploaded_file }
 
       it 'creates a file with the default name "test.txt"' do
-        expect(file.original_filename).to eq 'test.txt'
+        expect(file.original_filename).to eq "test.txt"
       end
 
-      it 'creates distinct files even with identical names' do
+      it "creates distinct files even with identical names" do
         file_2 = OpenProject::Files.create_uploaded_file
 
         expect(file.original_filename).to eq file_2.original_filename
@@ -101,18 +101,18 @@ RSpec.describe OpenProject::Files do
       end
 
       it 'writes some default content "test content"' do
-        expect(file.read).to eq 'test content'
+        expect(file.read).to eq "test content"
       end
 
       it 'set default content type "text/plain"' do
-        expect(file.content_type).to eq 'text/plain'
+        expect(file.content_type).to eq "text/plain"
       end
     end
 
-    context 'with a custom name, content and content type' do
-      let(:name)         { 'foo.jpg' }
-      let(:content)      { 'not-really-a-jpg' }
-      let(:content_type) { 'image/jpeg' }
+    context "with a custom name, content and content type" do
+      let(:name)         { "foo.jpg" }
+      let(:content)      { "not-really-a-jpg" }
+      let(:content_type) { "image/jpeg" }
 
       let(:file) do
         OpenProject::Files.create_uploaded_file name:,
@@ -124,7 +124,7 @@ RSpec.describe OpenProject::Files do
         expect(file.original_filename).to eq name
       end
 
-      it 'writes the custom content' do
+      it "writes the custom content" do
         expect(file.read).to eq content
       end
 
@@ -133,19 +133,19 @@ RSpec.describe OpenProject::Files do
       end
     end
 
-    context 'with binary content' do
+    context "with binary content" do
       let(:content) { "\xD1\x9B\x86".b }
       let(:binary)  { false }
       let(:file)    { OpenProject::Files.create_uploaded_file content:, binary: }
 
-      it 'fails when the content is not marked as binary' do
+      it "fails when the content is not marked as binary" do
         expect { file }.to raise_error(Encoding::UndefinedConversionError)
       end
 
-      context 'with the file denoted as binary' do
+      context "with the file denoted as binary" do
         let(:binary) { true }
 
-        it 'succeeds' do
+        it "succeeds" do
           expect(file.read).to eq content
         end
       end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wiki page', :js do
+RSpec.describe "Wiki page", :js do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
     create(:user, member_with_permissions: { project => %i[view_wiki_pages rename_wiki_pages] })
@@ -36,24 +36,24 @@ RSpec.describe 'Wiki page', :js do
   let!(:wiki_page) do
     create(:wiki_page, wiki: project.wiki, title: initial_name)
   end
-  let(:initial_name) { 'Initial name' }
-  let(:rename_name) { 'Rename name' }
+  let(:initial_name) { "Initial name" }
+  let(:rename_name) { "Rename name" }
 
   before do
     login_as(user)
   end
 
-  it 'allows renaming' do
+  it "allows renaming" do
     visit project_wiki_path(project, wiki_page)
 
     SeleniumHubWaiter.wait
-    click_link 'More'
-    click_link 'Rename'
+    click_link "More"
+    click_link "Rename"
 
     SeleniumHubWaiter.wait
-    fill_in 'Title', with: rename_name
+    fill_in "Title", with: rename_name
 
-    click_button 'Rename'
+    click_button "Rename"
 
     expect(page)
       .to have_content(rename_name)
@@ -61,7 +61,7 @@ RSpec.describe 'Wiki page', :js do
     # One can still use the former name to find the wiki page
     visit project_wiki_path(project, initial_name)
 
-    within('#content') do
+    within("#content") do
       expect(page)
         .to have_content(rename_name)
     end
@@ -70,6 +70,6 @@ RSpec.describe 'Wiki page', :js do
     click_link rename_name
 
     expect(page)
-      .to have_current_path(project_wiki_path(project, 'rename-name'))
+      .to have_current_path(project_wiki_path(project, "rename-name"))
   end
 end

@@ -150,7 +150,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Fixed: Users can't select public template projects in new project dialog \[[#40918](https://community.openproject.org/wp/40918)\]
 - Fixed: Meeting Time in iCalendar is wrong \[[#40941](https://community.openproject.org/wp/40941)\]
 - Fixed: Toolbar icons should be rendered in the "old" style and not the new rounded style (which is a work in progress) \[[#40957](https://community.openproject.org/wp/40957)\]
-- Fixed: [Docker] - GitLab integration plugin \[[#40959](https://community.openproject.org/wp/40959)\]
+- Fixed: [Docker] - Gitlab integration plugin \[[#40959](https://community.openproject.org/wp/40959)\]
 - Fixed: Project dropdown no longer autofocused \[[#40978](https://community.openproject.org/wp/40978)\]
 - Fixed: Not possible to copy work package to another project \[[#41005](https://community.openproject.org/wp/41005)\]
 - Fixed: Changed calendar styles applied to time entries component \[[#41013](https://community.openproject.org/wp/41013)\]

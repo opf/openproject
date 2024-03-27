@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Admin::OAuthClientInfoComponent, type: :component do # rubocop:disable RSpec/SpecFilePathFormat
-  describe '#edit_icon_button_options' do
-    context 'with oauth client configured' do
-      it 'returns false, does not render view component' do
+  describe "#edit_icon_button_options" do
+    context "with oauth client configured" do
+      it "returns false, does not render view component" do
         storage = build_stubbed(:nextcloud_storage,
                                 oauth_client: build_stubbed(:oauth_client))
         component = described_class.new(storage:, oauth_client: storage.oauth_client)
@@ -46,8 +46,8 @@ RSpec.describe Storages::Admin::OAuthClientInfoComponent, type: :component do # 
       end
     end
 
-    context 'without oauth client' do
-      it 'returns true, renders view component' do
+    context "without oauth client" do
+      it "returns true, renders view component" do
         storage = build_stubbed(:nextcloud_storage)
         component = described_class.new(storage:, oauth_client: nil)
 

@@ -37,8 +37,8 @@ module OpenProject::Backlogs::Patches::SettingSeederPatch
     def data
       original_data = super
 
-      if original_data['default_projects_modules']&.exclude? 'backlogs'
-        original_data['default_projects_modules'] << 'backlogs'
+      if original_data["default_projects_modules"]&.exclude? "backlogs"
+        original_data["default_projects_modules"] << "backlogs"
       end
 
       original_data

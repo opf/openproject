@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
+require "spec_helper"
+require "services/base_services/behaves_like_update_service"
 
 RSpec.describe CustomFields::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service'
+  it_behaves_like "BaseServices update service"
 end

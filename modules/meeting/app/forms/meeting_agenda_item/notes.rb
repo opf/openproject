@@ -36,6 +36,7 @@ class MeetingAgendaItem::Notes < ApplicationForm
       disabled: @disabled,
       rich_text_options: {
         resource:,
+        showAttachments: false
       }
     )
   end

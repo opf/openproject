@@ -39,7 +39,7 @@ class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackag
   end
 
   def caption
-    I18n.t(:'activerecord.attributes.query.relations_to_type_column',
+    I18n.t(:"activerecord.attributes.query.relations_to_type_column",
            type: type.name)
   end
 

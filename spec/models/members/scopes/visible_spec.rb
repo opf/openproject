@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Members::Scopes::Visible do
   def create_member(project:, permissions:)
@@ -72,13 +72,13 @@ RSpec.describe Members::Scopes::Visible do
     create_work_package_share(project: view_shared_work_packages_project)
   end
 
-  describe '.visible' do
+  describe ".visible" do
     subject { Member.visible(user) }
 
-    context 'for admin' do
+    context "for admin" do
       let(:admin) { true }
 
-      it 'returns all members' do
+      it "returns all members" do
         expect(subject).to contain_exactly view_members_member,
                                            manage_members_member,
                                            view_shared_work_packages_member,
@@ -88,10 +88,10 @@ RSpec.describe Members::Scopes::Visible do
       end
     end
 
-    context 'for non admin' do
+    context "for non admin" do
       let(:admin) { false }
 
-      it 'returns only members allowed by permissions' do
+      it "returns only members allowed by permissions" do
         expect(subject).to contain_exactly view_members_member,
                                            manage_members_member,
                                            view_shared_work_packages_work_package_share

@@ -40,22 +40,22 @@ module Components
                 :user_field
 
     def initialize
-      @activity_field = EditField.new(page, 'activity')
-      @comment_field = EditField.new(page, 'comment')
-      @hours_field = EditField.new(page, 'hours')
-      @spent_on_field = EditField.new(page, 'spentOn')
-      @work_package_field = EditField.new(page, 'workPackage')
-      @user_field = EditField.new(page, 'user')
+      @activity_field = EditField.new(page, "activity")
+      @comment_field = EditField.new(page, "comment")
+      @hours_field = EditField.new(page, "hours")
+      @spent_on_field = EditField.new(page, "spentOn")
+      @work_package_field = EditField.new(page, "workPackage")
+      @user_field = EditField.new(page, "user")
     end
 
     def is_visible(visible)
       if visible
         within modal_container do
           expect(page)
-            .to have_text(I18n.t('js.button_log_time'))
+            .to have_text(I18n.t("js.button_log_time"))
         end
       else
-        expect(page).to have_no_css '.spot-modal'
+        expect(page).to have_no_css ".spot-modal"
       end
     end
 
@@ -67,7 +67,7 @@ module Components
 
     def expect_work_package(subject)
       within modal_container do
-        expect(page).to have_css('.ng-value', text: subject, wait: 10)
+        expect(page).to have_css(".ng-value", text: subject, wait: 10)
       end
     end
 
@@ -83,7 +83,7 @@ module Components
 
     def update_field(field_name, value)
       field = field_object field_name
-      if field_name == 'user'
+      if field_name == "user"
         field.unset_value
         field.autocomplete value
       else
@@ -96,8 +96,8 @@ module Components
       work_package_field.input_element.click
 
       if recent
-        within('.ng-dropdown-header') do
-          click_link(I18n.t('js.label_recent'))
+        within(".ng-dropdown-header") do
+          click_link(I18n.t("js.label_recent"))
         end
       end
 
@@ -113,21 +113,21 @@ module Components
     def work_package_is_missing(missing)
       if missing
         expect(page)
-          .to have_content(I18n.t('js.time_entry.work_package_required'))
+          .to have_content(I18n.t("js.time_entry.work_package_required"))
       else
         expect(page)
-          .to have_no_content(I18n.t('js.time_entry.work_package_required'))
+          .to have_no_content(I18n.t("js.time_entry.work_package_required"))
       end
     end
 
     def field_identifier(field_name)
       case field_name
-      when 'spent_on'
-        'wp-new-inline-edit--field-spentOn'
-      when 'work_package'
-        'wp-new-inline-edit--field-workPackage'
-      when 'user'
-        'wp-new-inline-edit--field-user'
+      when "spent_on"
+        "wp-new-inline-edit--field-spentOn"
+      when "work_package"
+        "wp-new-inline-edit--field-workPackage"
+      when "user"
+        "wp-new-inline-edit--field-user"
       end
     end
 
@@ -138,7 +138,7 @@ module Components
     end
 
     def modal_container
-      page.find('.spot-modal')
+      page.find(".spot-modal")
     end
   end
 end

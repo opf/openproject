@@ -26,37 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + "/../spec_helper"
 
-RSpec.describe 'MeetingMinutes' do
+RSpec.describe "MeetingMinutes" do
   before do
     @min = build(:meeting_minutes)
   end
 
   # meeting minutes are editable when the meeting agenda is locked
-  describe '#editable?' do
+  describe "#editable?" do
     before do
       @mee = build(:meeting)
       @min.meeting = @mee
     end
 
-    describe 'with no agenda present' do
-      it 'is not editable' do
+    describe "with no agenda present" do
+      it "is not editable" do
         expect(@min.editable?).to be_falsey
       end
     end
 
-    describe 'with an agenda present' do
+    describe "with an agenda present" do
       before do
         @a = build(:meeting_agenda)
         @mee.agenda = @a
       end
 
-      it 'is not editable when the agenda is open' do
+      it "is not editable when the agenda is open" do
         expect(@min.editable?).to be_falsey
       end
 
-      it 'is editable when the agenda is closed' do
+      it "is editable when the agenda is closed" do
         @a.lock!
         expect(@min.editable?).to be_truthy
       end

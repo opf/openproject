@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CustomValue::VersionStrategy do
   let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
-    double('CustomValue',
+    double("CustomValue",
            value:,
            custom_field:,
            customized:)
   end
-  let(:customized) { double('customized') }
+  let(:customized) { double("customized") }
   let(:custom_field) { build(:custom_field) }
   let(:version) { build_stubbed(:version) }
 
-  describe '#parse_value/#typed_value' do
+  describe "#parse_value/#typed_value" do
     subject { instance }
 
-    context 'with a version' do
+    context "with a version" do
       let(:value) { version }
 
-      it 'returns the version and sets it for later retrieval' do
+      it "returns the version and sets it for later retrieval" do
         expect(Version)
           .not_to receive(:find_by)
 
@@ -56,10 +56,10 @@ RSpec.describe CustomValue::VersionStrategy do
       end
     end
 
-    context 'with an id string' do
+    context "with an id string" do
       let(:value) { version.id.to_s }
 
-      it 'returns the string and has to later find the version' do
+      it "returns the string and has to later find the version" do
         allow(Version)
           .to receive(:find_by)
           .with(id: version.id.to_s)
@@ -71,10 +71,10 @@ RSpec.describe CustomValue::VersionStrategy do
       end
     end
 
-    context 'value is blank' do
-      let(:value) { '' }
+    context "value is blank" do
+      let(:value) { "" }
 
-      it 'is nil and does not look for the version' do
+      it "is nil and does not look for the version" do
         expect(Version)
           .not_to receive(:find_by)
 
@@ -84,10 +84,10 @@ RSpec.describe CustomValue::VersionStrategy do
       end
     end
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
-      it 'is nil and does not look for the version' do
+      it "is nil and does not look for the version" do
         expect(Version)
           .not_to receive(:find_by)
 
@@ -98,13 +98,13 @@ RSpec.describe CustomValue::VersionStrategy do
     end
   end
 
-  describe '#formatted_value' do
+  describe "#formatted_value" do
     subject { instance.formatted_value }
 
-    context 'with a version' do
+    context "with a version" do
       let(:value) { version }
 
-      it 'is the version to_s (without db access)' do
+      it "is the version to_s (without db access)" do
         expect(Version)
           .not_to receive(:find_by)
 
@@ -114,10 +114,10 @@ RSpec.describe CustomValue::VersionStrategy do
       end
     end
 
-    context 'with an id string' do
+    context "with an id string" do
       let(:value) { version.id.to_s }
 
-      it 'is the version to_s (with db access)' do
+      it "is the version to_s (with db access)" do
         allow(Version)
           .to receive(:find_by)
           .with(id: version.id.to_s)
@@ -127,30 +127,30 @@ RSpec.describe CustomValue::VersionStrategy do
       end
     end
 
-    context 'value is blank' do
-      let(:value) { '' }
+    context "value is blank" do
+      let(:value) { "" }
 
-      it 'is blank and does not look for the version' do
+      it "is blank and does not look for the version" do
         expect(Version)
           .not_to receive(:find_by)
 
-        expect(subject).to eql ''
+        expect(subject).to eql ""
       end
     end
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
-      it 'is blank and does not look for the version' do
+      it "is blank and does not look for the version" do
         expect(Version)
           .not_to receive(:find_by)
 
-        expect(subject).to eql ''
+        expect(subject).to eql ""
       end
     end
   end
 
-  describe '#validate_type_of_value' do
+  describe "#validate_type_of_value" do
     subject { instance.validate_type_of_value }
 
     let(:allowed_ids) { %w(12 13) }
@@ -159,18 +159,18 @@ RSpec.describe CustomValue::VersionStrategy do
       allow(custom_field).to receive(:possible_values).with(customized).and_return(allowed_ids)
     end
 
-    context 'value is id of included element' do
-      let(:value) { '12' }
+    context "value is id of included element" do
+      let(:value) { "12" }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end
 
-    context 'value is id of non included element' do
-      let(:value) { '10' }
+    context "value is id of non included element" do
+      let(:value) { "10" }
 
-      it 'rejects' do
+      it "rejects" do
         expect(subject).to be(:inclusion)
       end
     end

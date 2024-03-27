@@ -34,7 +34,7 @@ module Accounts::UserConsent
 
   def consent
     if user_consent_required? && consenting_user&.consent_expired?
-      render 'account/consent'
+      render "account/consent"
     else
       consent_finished
     end
@@ -51,12 +51,12 @@ module Accounts::UserConsent
   end
 
   def decline_consent
-    message = I18n.t('consent.decline_warning_message') + "\n"
+    message = I18n.t("consent.decline_warning_message") + "\n"
     message <<
       if Setting.consent_decline_mail.present?
-        I18n.t('consent.contact_this_mail_address', mail_address: Setting.consent_decline_mail)
+        I18n.t("consent.contact_this_mail_address", mail_address: Setting.consent_decline_mail)
       else
-        I18n.t('consent.contact_your_administrator')
+        I18n.t("consent.contact_your_administrator")
       end
 
     flash[:error] = message
@@ -77,7 +77,7 @@ module Accounts::UserConsent
   end
 
   def reject_consent!
-    flash[:error] = I18n.t('consent.failure_message')
+    flash[:error] = I18n.t("consent.failure_message")
     redirect_to authentication_stage_failure_path :consent
   end
 end

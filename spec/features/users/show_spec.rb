@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'index users', :js, :with_cuprite do
+RSpec.describe "index users", :js, :with_cuprite do
   current_user { create(:admin) }
 
   let(:index_page) { Pages::Admin::Users::Index.new }
 
-  it 'displays the user activity list', with_settings: { journal_aggregation_time_minutes: 0 } do
+  it "displays the user activity list", with_settings: { journal_aggregation_time_minutes: 0 } do
     # create some activities
     project = create(:project_with_types)
-    project.update(name: 'new name', description: 'new project description')
+    project.update(name: "new name", description: "new project description")
 
     work_package = create(:work_package, author: current_user, project:)
-    work_package.update(subject: 'new subject', description: 'new work package description')
+    work_package.update(subject: "new subject", description: "new work package description")
 
     visit user_path(current_user)
 
-    expect(page).to have_css('li', text: "Project: #{project.name}")
+    expect(page).to have_css("li", text: "Project: #{project.name}")
     expected_work_package_title = "#{work_package.type.name} ##{work_package.id}: #{work_package.subject} " \
                                   "(Project: #{work_package.project.name})"
-    expect(page).to have_css('li', text: expected_work_package_title)
+    expect(page).to have_css("li", text: expected_work_package_title)
   end
 end

@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../../support/pages/my/page'
+require_relative "../../support/pages/my/page"
 
-RSpec.describe 'My page documents widget', :js do
+RSpec.describe "My page documents widget", :js do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
   let!(:visible_document) do
     create(:document,
            project:,
-           description: 'blubs')
+           description: "blubs")
   end
   let!(:invisible_document) do
     create(:document,
@@ -59,11 +59,11 @@ RSpec.describe 'My page documents widget', :js do
     my_page.visit!
   end
 
-  it 'can add the widget and see the visible documents' do
+  it "can add the widget and see the visible documents" do
     # within top-right area, add an additional widget
-    my_page.add_widget(1, 1, :within, 'Documents')
+    my_page.add_widget(1, 1, :within, "Documents")
 
-    document_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    document_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
     document_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
@@ -71,7 +71,7 @@ RSpec.describe 'My page documents widget', :js do
     expect(page)
       .to have_content visible_document.description
     expect(page)
-      .to have_content visible_document.created_at.strftime('%m/%d/%Y')
+      .to have_content visible_document.created_at.strftime("%m/%d/%Y")
 
     expect(page)
       .to have_no_content invisible_document.title

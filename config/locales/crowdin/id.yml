@@ -26,15 +26,14 @@ id:
       no_results_title_text: Belum ada kegiatan untuk proyek dalam jangka waktu ini.
   admin:
     plugins:
-      no_results_title_text: Tidak ada plugin yang tersedia saat ini.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Warna tema"
       color_theme_custom: "Kustomisasi"
       colors:
-        alternative-color: "Alternatif"
-        content-link-color: "Tautan huruf"
-        primary-color: "Primer"
-        primary-color-dark: "Primer (gelap)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Latar Belakang Header"
         header-item-bg-hover-color: "Latar belakang header melayang"
         header-item-font-color: "Bentuk huruf Judul"
@@ -53,10 +52,8 @@ id:
       enterprise_more_info: "Catatan: logo yang digunakan akan dapat diakses publik."
       manage_colors: "Edit warna pilih opsi"
       instructions:
-        alternative-color: "Warna cerah, umumnya dipakai sebagai penanda tombol penting pada layar monitor."
-        content-link-color: "Warna font sebagian besar tautan."
-        primary-color: "Warna utama."
-        primary-color-dark: "Warna yang lebih gelap dari warna utama biasanya dipakai sebagai efek lintasan kursor."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Warna latar belakang \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
         header-item-font-color: "Warna font item header yang bisa diklik."
         header-item-font-hover-color: "Warna font \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
@@ -1498,6 +1495,7 @@ id:
       postgres_migration: "Migrasi instalasi anda ke PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1508,6 +1506,7 @@ id:
   journals:
     changes_retracted: "Perubahan ditarik kembali."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1802,7 +1801,7 @@ id:
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
   label_filter: "Filters"
-  label_filter_plural: "Penyaring"
+  label_filter_plural: "Filter"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
   label_folder: "Folder"
@@ -1829,7 +1828,6 @@ id:
   label_subject_or_id: "Subyek atau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Pernyataan hukum"
   label_in: "dalam"
   label_in_less_than: "kurang dari"
   label_in_more_than: "lebih dari"
@@ -2681,6 +2679,9 @@ id:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) memungkinkan asal"
   setting_apiv3_cors_origins_text_html: >
     Jika CORS diaktifkan, ini adalah asal yang diizinkan untuk mengakses OpenProject API. <br/> Harap periksa <a href="%{origin_link}" target="_blank">Dokumentasi pada header Asal</a> tentang cara menentukan nilai yang diharapkan.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Ukuran halaman API maksimum"
   setting_apiv3_max_page_instructions_html: >
     Tetapkan ukuran halaman maksimum yang akan ditanggapi oleh API. Tidak mungkin melakukan permintaan API yang mengembalikan lebih banyak nilai pada satu halaman. <br/> <strong>Peringatan:</strong> Ubah nilai ini hanya jika Anda yakin mengapa Anda membutuhkannya. Menyetel ke nilai tinggi akan menghasilkan dampak kinerja yang signifikan, sedangkan nilai yang lebih rendah dari opsi per halaman akan menyebabkan kesalahan dalam tampilan paginasi.
@@ -3058,6 +3059,7 @@ id:
     status_user_and_brute_force: "%{user} dan %{brute_force}"
     status_change: "Perubahan status"
     text_change_disabled_for_provider_login: "Nama ditetapkan oleh penyedia login Anda dan karenanya tidak dapat diubah."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock dan reset gagal login"
   version_status_closed: "berakhir"

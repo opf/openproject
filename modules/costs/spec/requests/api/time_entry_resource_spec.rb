@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 time_entry resource' do
+RSpec.describe "API v3 time_entry resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -57,7 +57,7 @@ RSpec.describe 'API v3 time_entry resource' do
   let(:custom_field) { create(:time_entry_custom_field) }
   let(:custom_value) do
     CustomValue.create(custom_field:,
-                       value: '1234',
+                       value: "1234",
                        customized: time_entry)
   end
   let(:activity) do
@@ -72,10 +72,10 @@ RSpec.describe 'API v3 time_entry resource' do
     OpenProject::Cache.clear
   end
 
-  describe 'GET api/v3/time_entries' do
+  describe "GET api/v3/time_entries" do
     let(:path) { api_v3_paths.time_entries }
 
-    context 'without params' do
+    context "without params" do
       before do
         time_entry
         invisible_time_entry
@@ -84,22 +84,22 @@ RSpec.describe 'API v3 time_entry resource' do
         get path
       end
 
-      it 'responds 200 OK' do
+      it "responds 200 OK" do
         expect(subject.status).to eq(200)
       end
 
-      it 'returns a collection of time entries containing only the visible time entries' do
+      it "returns a collection of time entries containing only the visible time entries" do
         expect(subject.body)
-          .to be_json_eql('Collection'.to_json)
-          .at_path('_type')
+          .to be_json_eql("Collection".to_json)
+          .at_path("_type")
 
         expect(subject.body)
-          .to be_json_eql('1')
-          .at_path('total')
+          .to be_json_eql("1")
+          .at_path("total")
 
         expect(subject.body)
           .to be_json_eql(time_entry.id.to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path("_embedded/elements/0/id")
 
         expect(subject.body)
           .to be_json_eql(custom_value.value.to_json)
@@ -107,7 +107,7 @@ RSpec.describe 'API v3 time_entry resource' do
       end
     end
 
-    context 'with pageSize, offset and sortBy' do
+    context "with pageSize, offset and sortBy" do
       let(:path) { "#{api_v3_paths.time_entries}?pageSize=1&offset=2&sortBy=#{[%i(id asc)].to_json}" }
 
       before do
@@ -118,33 +118,33 @@ RSpec.describe 'API v3 time_entry resource' do
         get path
       end
 
-      it 'returns a slice of the visible time entries' do
+      it "returns a slice of the visible time entries" do
         expect(subject.body)
-          .to be_json_eql('Collection'.to_json)
-          .at_path('_type')
+          .to be_json_eql("Collection".to_json)
+          .at_path("_type")
 
         expect(subject.body)
-          .to be_json_eql('2')
-          .at_path('total')
+          .to be_json_eql("2")
+          .at_path("total")
 
         expect(subject.body)
-          .to be_json_eql('1')
-          .at_path('count')
+          .to be_json_eql("1")
+          .at_path("count")
 
         expect(subject.body)
           .to be_json_eql(other_time_entry.id.to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path("_embedded/elements/0/id")
       end
     end
 
-    context 'filtering by user' do
+    context "filtering by user" do
       let(:invisible_time_entry) do
         create(:time_entry, project: other_project, work_package: other_work_package, user: other_user)
       end
       let(:path) do
-        filter = [{ 'user' => {
-          'operator' => '=',
-          'values' => [other_user.id]
+        filter = [{ "user" => {
+          "operator" => "=",
+          "values" => [other_user.id]
         } }]
 
         "#{api_v3_paths.time_entries}?#{{ filters: filter.to_json }.to_query}"
@@ -158,18 +158,18 @@ RSpec.describe 'API v3 time_entry resource' do
         get path
       end
 
-      it 'contains only the filtered time entries in the response' do
+      it "contains only the filtered time entries in the response" do
         expect(subject.body)
-          .to be_json_eql('1')
-          .at_path('total')
+          .to be_json_eql("1")
+          .at_path("total")
 
         expect(subject.body)
           .to be_json_eql(other_time_entry.id.to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path("_embedded/elements/0/id")
       end
     end
 
-    context 'filtering by work package' do
+    context "filtering by work package" do
       let(:unwanted_work_package) do
         create(:work_package, project:, type: project.types.first)
       end
@@ -179,9 +179,9 @@ RSpec.describe 'API v3 time_entry resource' do
       end
 
       let(:path) do
-        filter = [{ 'work_package' => {
-          'operator' => '=',
-          'values' => [work_package.id]
+        filter = [{ "work_package" => {
+          "operator" => "=",
+          "values" => [work_package.id]
         } }]
 
         "#{api_v3_paths.time_entries}?#{{ filters: filter.to_json }.to_query}"
@@ -195,25 +195,25 @@ RSpec.describe 'API v3 time_entry resource' do
         get path
       end
 
-      it 'contains only the filtered time entries in the response' do
+      it "contains only the filtered time entries in the response" do
         expect(subject.body)
-          .to be_json_eql('1')
-          .at_path('total')
+          .to be_json_eql("1")
+          .at_path("total")
 
         expect(subject.body)
           .to be_json_eql(time_entry.id.to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path("_embedded/elements/0/id")
       end
     end
 
-    context 'filtering by project' do
+    context "filtering by project" do
       let(:other_time_entry) do
         create(:time_entry, project: other_project, work_package: other_work_package, user: current_user)
       end
       let(:path) do
-        filter = [{ 'project' => {
-          'operator' => '=',
-          'values' => [other_project.id]
+        filter = [{ "project" => {
+          "operator" => "=",
+          "values" => [other_project.id]
         } }]
 
         "#{api_v3_paths.time_entries}?#{{ filters: filter.to_json }.to_query}"
@@ -231,27 +231,27 @@ RSpec.describe 'API v3 time_entry resource' do
         get path
       end
 
-      it 'contains only the filtered time entries in the response' do
+      it "contains only the filtered time entries in the response" do
         expect(subject.body)
-          .to be_json_eql('1')
-          .at_path('total')
+          .to be_json_eql("1")
+          .at_path("total")
 
         expect(subject.body)
           .to be_json_eql(other_time_entry.id.to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path("_embedded/elements/0/id")
       end
     end
 
-    context 'filtering by global activity' do
+    context "filtering by global activity" do
       let(:activity) do
         create(:time_entry_activity)
       end
       let(:path) do
         filter = [
           {
-            'activity_id' => {
-              'operator' => '=',
-              'values' => [activity.id]
+            "activity_id" => {
+              "operator" => "=",
+              "values" => [activity.id]
             }
           }
         ]
@@ -291,26 +291,26 @@ RSpec.describe 'API v3 time_entry resource' do
         get path
       end
 
-      it 'contains only the filtered time entries in the response' do
+      it "contains only the filtered time entries in the response" do
         expect(subject.body)
-          .to be_json_eql('2')
-          .at_path('total')
+          .to be_json_eql("2")
+          .at_path("total")
 
         expect(subject.body)
           .to be_json_eql(time_entry.id.to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path("_embedded/elements/0/id")
 
         expect(subject.body)
           .to be_json_eql(other_time_entry.id.to_json)
-          .at_path('_embedded/elements/1/id')
+          .at_path("_embedded/elements/1/id")
       end
     end
 
-    context 'invalid filter' do
+    context "invalid filter" do
       let(:path) do
-        filter = [{ 'bogus' => {
-          'operator' => '=',
-          'values' => ['1']
+        filter = [{ "bogus" => {
+          "operator" => "=",
+          "values" => ["1"]
         } }]
 
         "#{api_v3_paths.time_entries}?#{{ filters: filter.to_json }.to_query}"
@@ -322,17 +322,17 @@ RSpec.describe 'API v3 time_entry resource' do
         get path
       end
 
-      it 'returns an error' do
+      it "returns an error" do
         expect(subject.status).to eq(400)
 
         expect(subject.body)
-          .to be_json_eql('urn:openproject-org:api:v3:errors:InvalidQuery'.to_json)
-          .at_path('errorIdentifier')
+          .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
+          .at_path("errorIdentifier")
       end
     end
   end
 
-  describe 'GET /api/v3/time_entries/:id' do
+  describe "GET /api/v3/time_entries/:id" do
     let(:path) { api_v3_paths.time_entry(time_entry.id) }
 
     before do
@@ -342,36 +342,36 @@ RSpec.describe 'API v3 time_entry resource' do
       get path
     end
 
-    it 'returns 200 OK' do
+    it "returns 200 OK" do
       expect(subject.status)
         .to be(200)
     end
 
-    it 'returns the time entry' do
+    it "returns the time entry" do
       expect(subject.body)
-        .to be_json_eql('TimeEntry'.to_json)
-        .at_path('_type')
+        .to be_json_eql("TimeEntry".to_json)
+        .at_path("_type")
 
       expect(subject.body)
         .to be_json_eql(time_entry.id.to_json)
-        .at_path('id')
+        .at_path("id")
 
       expect(subject.body)
         .to be_json_eql(custom_value.value.to_json)
         .at_path("customField#{custom_field.id}/raw")
     end
 
-    context 'when lacking permissions' do
+    context "when lacking permissions" do
       let(:permissions) { [] }
 
-      it 'returns 404 NOT FOUND' do
+      it "returns 404 NOT FOUND" do
         expect(subject.status)
           .to be(404)
       end
     end
   end
 
-  describe 'POST api/v3/time_entries' do
+  describe "POST api/v3/time_entries" do
     let(:permissions) { %i(view_time_entries log_time view_work_packages) }
     let(:path) { api_v3_paths.time_entries }
     let(:params) do
@@ -387,13 +387,13 @@ RSpec.describe 'API v3 time_entry resource' do
             href: api_v3_paths.work_package(work_package.id)
           }
         },
-        hours: 'PT5H',
+        hours: "PT5H",
         comment: {
           raw: "some comment"
         },
         spentOn: "2017-07-28",
         custom_field.attribute_name(:camel_case) => {
-          raw: 'some cf text'
+          raw: "some cf text"
         }
       }
     end
@@ -404,14 +404,14 @@ RSpec.describe 'API v3 time_entry resource' do
 
       additional_setup.call
 
-      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      post path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    it 'responds 201 CREATED' do
+    it "responds 201 CREATED" do
       expect(subject.status).to eq(201)
     end
 
-    it 'creates another time entry with the provided values' do
+    it "creates another time entry with the provided values" do
       expect(TimeEntry.count)
         .to be 1
 
@@ -439,26 +439,26 @@ RSpec.describe 'API v3 time_entry resource' do
         .to eql Date.parse("2017-07-28")
 
       expect(new_entry.send(custom_field.attribute_getter))
-        .to eql 'some cf text'
+        .to eql "some cf text"
     end
 
-    context 'when lacking permissions' do
+    context "when lacking permissions" do
       let(:permissions) { %i(view_time_entries view_work_packages) }
 
-      it 'returns 403' do
+      it "returns 403" do
         expect(subject.status)
           .to be(403)
       end
     end
 
-    context 'if sending an activity the project disables' do
+    context "if sending an activity the project disables" do
       let(:disable_activity) do
         TimeEntryActivitiesProject.insert({ activity_id: activity.id, project_id: project.id, active: false })
       end
 
       let(:additional_setup) { -> { disable_activity } }
 
-      it 'returns 422 and complains about the activity' do
+      it "returns 422 and complains about the activity" do
         expect(subject.status)
           .to be(422)
 
@@ -468,7 +468,7 @@ RSpec.describe 'API v3 time_entry resource' do
       end
     end
 
-    context 'when sending invalid params' do
+    context "when sending invalid params" do
       let(:params) do
         {
           _links: {
@@ -482,16 +482,16 @@ RSpec.describe 'API v3 time_entry resource' do
               href: api_v3_paths.work_package(work_package.id + 1)
             }
           },
-          hours: 'PT5H',
+          hours: "PT5H",
           comment: "some comment",
           spentOn: "2017-07-28",
           custom_field.attribute_name(:camel_case) => {
-            raw: 'some cf text'
+            raw: "some cf text"
           }
         }
       end
 
-      it 'returns 422 and complains about work packages' do
+      it "returns 422 and complains about work packages" do
         expect(subject.status)
           .to be(422)
 
@@ -502,13 +502,13 @@ RSpec.describe 'API v3 time_entry resource' do
     end
   end
 
-  describe 'PATCH api/v3/time_entries/:id' do
+  describe "PATCH api/v3/time_entries/:id" do
     let(:path) { api_v3_paths.time_entry(time_entry.id) }
     let(:permissions) { %i(edit_time_entries view_time_entries view_work_packages) }
 
     let(:params) do
       {
-        hours: 'PT10H',
+        hours: "PT10H",
         activity: {
           href: api_v3_paths.time_entries_activity(activity.id)
         }
@@ -523,10 +523,10 @@ RSpec.describe 'API v3 time_entry resource' do
 
       additional_setup.call
 
-      patch path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      patch path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    it 'updates the time entry' do
+    it "updates the time entry" do
       expect(subject.status).to eq(200)
 
       time_entry.reload
@@ -535,23 +535,23 @@ RSpec.describe 'API v3 time_entry resource' do
       expect(time_entry.activity).to eq activity
     end
 
-    context 'when lacking permissions' do
+    context "when lacking permissions" do
       let(:permissions) { %i(view_time_entries) }
 
-      it 'returns 403' do
+      it "returns 403" do
         expect(subject.status)
           .to be(403)
       end
     end
 
-    context 'if sending an activity the project disables' do
+    context "if sending an activity the project disables" do
       let(:disable_activity) do
         TimeEntryActivitiesProject.insert({ activity_id: activity.id, project_id: project.id, active: false })
       end
 
       let(:additional_setup) { -> { disable_activity } }
 
-      it 'returns 422 and complains about the activity' do
+      it "returns 422 and complains about the activity" do
         expect(subject.status)
           .to be(422)
 
@@ -561,7 +561,7 @@ RSpec.describe 'API v3 time_entry resource' do
       end
     end
 
-    context 'when sending invalid params' do
+    context "when sending invalid params" do
       let(:params) do
         {
           _links: {
@@ -572,7 +572,7 @@ RSpec.describe 'API v3 time_entry resource' do
         }
       end
 
-      it 'returns 422 and complains about work packages' do
+      it "returns 422 and complains about work packages" do
         expect(subject.status)
           .to be(422)
 
@@ -583,7 +583,7 @@ RSpec.describe 'API v3 time_entry resource' do
     end
   end
 
-  describe 'DELETE api/v3/time_entries/:id' do
+  describe "DELETE api/v3/time_entries/:id" do
     let(:path) { api_v3_paths.time_entry(time_entry.id) }
     let(:permissions) { %i(edit_own_time_entries view_time_entries view_work_packages) }
     let(:params) {}
@@ -593,17 +593,17 @@ RSpec.describe 'API v3 time_entry resource' do
       other_time_entry
       custom_value
 
-      delete path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      delete path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    it 'deleted the time entry' do
+    it "deleted the time entry" do
       expect(subject.status).to eq(204)
     end
 
-    context 'when lacking permissions' do
+    context "when lacking permissions" do
       let(:permissions) { %i(view_time_entries) }
 
-      it 'returns 403' do
+      it "returns 403" do
         expect(subject.status)
           .to be(403)
       end
@@ -611,41 +611,41 @@ RSpec.describe 'API v3 time_entry resource' do
 
     subject(:response) { last_response }
 
-    shared_examples_for 'deletes the time_entry' do
-      it 'responds with HTTP No Content' do
+    shared_examples_for "deletes the time_entry" do
+      it "responds with HTTP No Content" do
         expect(subject.status).to eq 204
       end
 
-      it 'removes the time_entry from the DB' do
+      it "removes the time_entry from the DB" do
         expect(TimeEntry.exists?(time_entry.id)).to be_falsey
       end
     end
 
-    shared_examples_for 'does not delete the time_entry' do |status = 403|
+    shared_examples_for "does not delete the time_entry" do |status = 403|
       it "responds with #{status}" do
         expect(subject.status).to eq status
       end
 
-      it 'does not delete the time_entry' do
+      it "does not delete the time_entry" do
         expect(TimeEntry.exists?(time_entry.id)).to be_truthy
       end
     end
 
-    context 'with the user being the author' do
-      it_behaves_like 'deletes the time_entry'
+    context "with the user being the author" do
+      it_behaves_like "deletes the time_entry"
     end
 
-    context 'with the user not being the author' do
+    context "with the user not being the author" do
       let(:time_entry) { other_time_entry }
 
-      context 'but permission to edit all time entries' do
+      context "but permission to edit all time entries" do
         let(:permissions) { %i(edit_time_entries view_time_entries view_work_packages) }
 
-        it_behaves_like 'deletes the time_entry'
+        it_behaves_like "deletes the time_entry"
       end
 
-      context 'with permission to delete own time entries' do
-        it_behaves_like 'does not delete the time_entry', 403
+      context "with permission to delete own time entries" do
+        it_behaves_like "does not delete the time_entry", 403
       end
     end
   end

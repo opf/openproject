@@ -4,7 +4,7 @@
   </tr>
 </table>
 
-<table <%= placeholder_table_styles(width:'100%',style: 'width:100%;max-width:700px;') %>>
+<table <%= placeholder_table_styles(width: '100%', style: 'width:100%;max-width:700px;') %>>
   <tr>
     <%= placeholder_cell('12px', vertical: true) %>
     <td>
@@ -40,7 +40,11 @@
         <% end %>
       <% end %>
 
-      <%= render layout: 'mailer/notification_settings_table' do %>
+      <%= render layout: 'mailer/notification_settings_table',
+                 locals: {
+                   button_url: my_reminders_url,
+                   button_text: I18n.t(:'mail.notification.settings')
+                 } do %>
         <% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
           <table>
             <tr>

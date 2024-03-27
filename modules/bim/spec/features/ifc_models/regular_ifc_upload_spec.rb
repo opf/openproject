@@ -26,11 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative 'ifc_upload_shared_examples'
+require "spec_helper"
+require_relative "ifc_upload_shared_examples"
 
-RSpec.describe 'IFC upload', :js, with_config: { edition: 'bim' } do
-  it_behaves_like 'can upload an IFC file' do
-    let(:model_name) { 'minimal.ifc' }
+RSpec.describe "IFC upload", :js, with_config: { edition: "bim" } do
+  it_behaves_like "can upload an IFC file" do
+    let(:model_name) { "minimal.ifc" }
   end
 end

@@ -28,21 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Seeder do
   subject(:seeder) { described_class.new }
 
   let(:seed_data) { Source::SeedData.new({}) }
 
-  describe '#admin_user' do
-    it 'returns the admin created from the seeding' do
+  describe "#admin_user" do
+    it "returns the admin created from the seeding" do
       expect(seeder.admin_user).to be_nil
       AdminUserSeeder.new(seed_data).seed!
       expect(seeder.admin_user).to be_a(User)
     end
 
-    it 'does not return the system user' do
+    it "does not return the system user" do
       expect { User.system }.to change { User.admin.count }.by(1)
       expect(seeder.admin_user).to be_nil
     end

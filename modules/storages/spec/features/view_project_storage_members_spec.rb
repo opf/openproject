@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'Project storage members connection status view' do
+RSpec.describe "Project storage members connection status view" do
   let(:user) { create(:user) }
   let(:admin_user) { create(:admin) }
   let(:connected_user) { create(:user) }
@@ -49,34 +49,34 @@ RSpec.describe 'Project storage members connection status view' do
                                                  connected_no_permissions_user])
   end
 
-  it 'cannot be accessed without being logged in' do
+  it "cannot be accessed without being logged in" do
     visit project_settings_project_storage_members_path(project, project_storage_id: project_storage.id)
 
-    expect(page).to have_title('Sign in | OpenProject')
-    expect(page).to have_no_text('Members connection status')
+    expect(page).to have_title("Sign in | OpenProject")
+    expect(page).to have_no_text("Members connection status")
   end
 
-  it 'lists project members connection statuses' do
+  it "lists project members connection statuses" do
     login_as user
 
     # Go to Projects -> Settings -> File Storages
     visit project_settings_project_storages_path(project)
 
-    expect(page).to have_title('File storages')
+    expect(page).to have_title("File storages")
     expect(page).to have_text(storage.name)
-    page.find('.icon.icon-group').click
+    page.find(".icon.icon-group").click
 
     # Members connection status page
     expect(page).to have_current_path project_settings_project_storage_members_path(project_id: project,
                                                                                     project_storage_id: project_storage)
 
-    aggregate_failures 'Verifying Connection Statuses' do
+    aggregate_failures "Verifying Connection Statuses" do
       [
-        [user, 'Not connected. The user should login to the storage via the following link.'],
-        [admin_user, 'Connected'],
-        [connected_user, 'Connected'],
-        [connected_no_permissions_user, 'User role has no storages permissions'],
-        [disconnected_user, 'Not connected. The user should login to the storage via the following link.']
+        [user, "Not connected. The user should login to the storage via the following link."],
+        [admin_user, "Connected"],
+        [connected_user, "Connected"],
+        [connected_no_permissions_user, "User role has no storages permissions"],
+        [disconnected_user, "Not connected. The user should login to the storage via the following link."]
       ].each do |(principal, status)|
         expect(page).to have_css("#member-#{principal.id} .name", text: principal.name)
         expect(page).to have_css("#member-#{principal.id} .status", text: status)
@@ -84,7 +84,7 @@ RSpec.describe 'Project storage members connection status view' do
     end
   end
 
-  it 'lists no results when there are no project members' do
+  it "lists no results when there are no project members" do
     login_as admin_user
     project_no_members = create(:project, enabled_module_names: %i[storages])
     project_storage_no_members = create(:project_storage, :as_automatically_managed, project: project_no_members, storage:)
@@ -92,16 +92,16 @@ RSpec.describe 'Project storage members connection status view' do
     # Go to Projects -> Settings -> File Storages
     visit project_settings_project_storages_path(project_no_members)
 
-    expect(page).to have_title('File storages')
+    expect(page).to have_title("File storages")
     expect(page).to have_text(storage.name)
-    page.find('.icon.icon-group').click
+    page.find(".icon.icon-group").click
 
     # Members connection status page
     expected_current_path = project_settings_project_storage_members_path(project_id: project_no_members,
                                                                           project_storage_id: project_storage_no_members)
     expect(page).to have_current_path(expected_current_path)
 
-    expect(page).to have_text('No members to display.')
+    expect(page).to have_text("No members to display.")
   end
 
   def create_project_with_storage_and_members

@@ -1,8 +1,8 @@
 class DownloadList
   SHARED_PATH = Pathname.new(
-    ENV.fetch("CAPYBARA_DOWNLOADED_FILE_DIR", Rails.root.join('tmp/test/downloads'))
+    ENV.fetch("CAPYBARA_DOWNLOADED_FILE_DIR", Rails.root.join("tmp/test/downloads"))
   ).join(
-    ENV.fetch('TEST_ENV_NUMBER', '1')
+    ENV.fetch("TEST_ENV_NUMBER", "1")
   ).tap(&:mkpath)
 
   def initialize

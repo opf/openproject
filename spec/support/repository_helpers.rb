@@ -38,24 +38,24 @@ def with_filesystem_repository(vendor, command = nil)
   fixture = Rails.root.join("spec/fixtures/repositories/#{vendor}_repository.tar.gz")
 
   before do
-    skip_if_commands_unavailable('tar', command)
+    skip_if_commands_unavailable("tar", command)
   end
 
   after(:all) do
     FileUtils.remove_dir repo_dir
   end
 
-  skip_if_command_unavailable('tar')
+  skip_if_command_unavailable("tar")
   system "tar -xzf #{fixture} -C #{repo_dir}"
   yield(repo_dir)
 end
 
 def with_subversion_repository(&)
-  with_filesystem_repository('subversion', 'svn', &)
+  with_filesystem_repository("subversion", "svn", &)
 end
 
 def with_git_repository(&)
-  with_filesystem_repository('git', 'git', &)
+  with_filesystem_repository("git", "git", &)
 end
 
 ##
@@ -68,7 +68,7 @@ def with_virtual_subversion_repository
   let(:repository) { create(:repository_subversion) }
 
   before do
-    allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
+    allow(Setting).to receive(:enabled_scm).and_return(["subversion"])
   end
 
   yield

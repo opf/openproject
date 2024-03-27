@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true } do
   include API::V3::Utilities::PathHelper

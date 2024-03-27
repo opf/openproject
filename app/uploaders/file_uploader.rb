@@ -93,7 +93,7 @@ module FileUploader
 
   module ClassMethods
     def cache_dir
-      @cache_dir ||= File.join(Dir.tmpdir, 'op_uploaded_files')
+      @cache_dir ||= File.join(Dir.tmpdir, "op_uploaded_files")
     end
   end
 end

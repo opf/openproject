@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work Package table relations', :js, with_ee: %i[work_package_query_relation_columns] do
+RSpec.describe "Work Package table relations", :js, with_ee: %i[work_package_query_relation_columns] do
   let(:user) { create(:admin) }
 
   let(:type) { create(:type) }
@@ -29,7 +29,7 @@ RSpec.describe 'Work Package table relations', :js, with_ee: %i[work_package_que
   end
   let!(:query) do
     query              = build(:query, user:, project:)
-    query.column_names = ['subject']
+    query.column_names = ["subject"]
     query.filters.clear
 
     query.save!
@@ -37,14 +37,14 @@ RSpec.describe 'Work Package table relations', :js, with_ee: %i[work_package_que
   end
 
   let(:type_column_id) { "relationsToType#{type.id}" }
-  let(:type_column_follows) { 'relationsOfTypeFollows' }
+  let(:type_column_follows) { "relationsOfTypeFollows" }
 
   before do
     login_as(user)
   end
 
-  describe 'with relation columns allowed by the enterprise token' do
-    it 'displays expandable relation columns' do
+  describe "with relation columns allowed by the enterprise token" do
+    it "displays expandable relation columns" do
       # Now visiting the query for category
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_from, wp_to, wp_to2)
@@ -56,8 +56,8 @@ RSpec.describe 'Work Package table relations', :js, with_ee: %i[work_package_que
       wp_from_to = wp_table.row(wp_to)
 
       # Expect count for wp_from in both columns to be one
-      expect(wp_from_row).to have_css(".#{type_column_id} .wp-table--relation-count", text: '2')
-      expect(wp_from_row).to have_css(".#{type_column_follows} .wp-table--relation-count", text: '2')
+      expect(wp_from_row).to have_css(".#{type_column_id} .wp-table--relation-count", text: "2")
+      expect(wp_from_row).to have_css(".#{type_column_follows} .wp-table--relation-count", text: "2")
 
       # Expect count for wp_to in both columns to be not rendered
       expect(wp_from_to).to have_no_css(".#{type_column_id} .wp-table--relation-count")
@@ -67,7 +67,7 @@ RSpec.describe 'Work Package table relations', :js, with_ee: %i[work_package_que
       wp_from_row.find(".#{type_column_id} .wp-table--relation-indicator").click
       expect(page).to have_css(".__relations-expanded-from-#{wp_from.id}", count: 2)
       related_row = page.first(".__relations-expanded-from-#{wp_from.id}")
-      expect(related_row).to have_css('td.wp-table--relation-cell-td', text: "Precedes")
+      expect(related_row).to have_css("td.wp-table--relation-cell-td", text: "Precedes")
 
       # Collapse
       wp_from_row.find(".#{type_column_id} .wp-table--relation-indicator").click
@@ -77,16 +77,16 @@ RSpec.describe 'Work Package table relations', :js, with_ee: %i[work_package_que
       wp_from_row.find(".#{type_column_follows} .wp-table--relation-indicator").click
       expect(page).to have_css(".__relations-expanded-from-#{wp_from.id}", count: 2)
       related_row = page.first(".__relations-expanded-from-#{wp_from.id}")
-      expect(related_row).to have_css('.wp-table--relation-cell-td', text: wp_to.type)
+      expect(related_row).to have_css(".wp-table--relation-cell-td", text: wp_to.type)
     end
   end
 
-  describe 'with relation columns disallowed by the enterprise token', with_ee: false do
-    it 'has no relation columns available for selection' do
+  describe "with relation columns disallowed by the enterprise token", with_ee: false do
+    it "has no relation columns available for selection" do
       # Now visiting the query for category
       wp_table.visit_query(query)
 
-      columns.expect_column_not_available 'follows relations'
+      columns.expect_column_not_available "follows relations"
       columns.expect_column_not_available "Relations to #{type.name}"
     end
   end

@@ -37,7 +37,7 @@ module OAuth
     prepend_before_action :extend_content_security_policy
 
     skip_before_action :check_if_login_required
-    layout 'only_logo'
+    layout "only_logo"
 
     def extend_content_security_policy
       return unless pre_auth&.authorizable?
@@ -51,13 +51,13 @@ module OAuth
 
     def application_http_redirect_uris
       registered_redirect_uris
-        .select { |url| url.start_with?('http') }
-        .map { |url| URI.join(url, '/').to_s }
+        .select { |url| url.start_with?("http") }
+        .map { |url| URI.join(url, "/").to_s }
     end
 
     def application_native_redirect_uris
       registered_redirect_uris
-        .reject { |url| url.start_with?('http', 'urn') }
+        .reject { |url| url.start_with?("http", "urn") }
         .map(&method(:parse_native_redirect_uri))
         .compact
     end

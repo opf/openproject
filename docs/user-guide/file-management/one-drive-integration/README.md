@@ -33,7 +33,7 @@ To begin using this integration, you will need to first connect your OpenProject
 
 1. Select any work package. Go to the **Files tab** and, within the correct file storage section, click on **Storage login** button.
    
-   ![Login to SharePoint storage from an OpenProject work package](openproject_onedrive_login_to_storage.png)
+   ![Login to Sharepoint storage from an OpenProject work package](openproject_onedrive_login_to_storage.png)
    
 2. You will see a Microsoft login prompt asking you to log in. Enter your credentials and log in. 
 3. Once you have logged in, you will automatically return to the work package in OpenProject and see that you can now start uploading and linking files.
@@ -71,7 +71,7 @@ Once you have selected or dropped the files you would like to upload, you will n
 
 > **Info**: The default location that opens in the file picker is the file root of the configured OneDrive/SharePoint drive.
 
-![Selection a SharePoint location to upload a file from OpenProject](openproject_onedrive_select_location.png)
+![Selection a Sharepoint location to upload a file from OpenProject](openproject_onedrive_select_location.png)
 
 You can click on folders you see to navigate to them. Helpful breadcrumbs show you where you are in the folder hierarchy.
 
@@ -83,7 +83,7 @@ To save the files you uploaded to the currently open folder, click on the **Choo
 
 The selected file is uploaded to your OneDrive/SharePoint instance and linked to the current work package. It appears under the name of the file storage.
 
-![File successfully uploaded to SharePoint storage](openproject_onedrive_file_uploaded.png)
+![File successfully uploaded to Sharepoint storage](openproject_onedrive_file_uploaded.png)
 
 If a file has been deleted on the OneDrive/SharePoint file storage it will still be displayed under the **Files** tab. However it will not be selectable. If you hover over a deleted file you will see the message indicating that the file could not be found.
 
@@ -95,7 +95,7 @@ If a file has been deleted on the OneDrive/SharePoint file storage it will still
 
 If you wish to unlink any linked file or folder, hover it in the list of linked files and click on the **Unlink** icon.
 
-![Unlink a linked SharePoint file from an OpenProject work package](openproject_onedrive_download_file.png)
+![Unlink a linked Sharepoint file from an OpenProject work package](openproject_onedrive_download_file.png)
 
 Respectively in order to download a file, click on the **Download icon** in the context menu of the file link in the list of the linked files.
 

@@ -26,35 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'CSP appends on login form from oauth',
+RSpec.describe "CSP appends on login form from oauth",
                type: :rails_request do
-  let!(:redirect_uri) { 'https://foobar.com' }
+  let!(:redirect_uri) { "https://foobar.com" }
   let!(:oauth_app) { create(:oauth_application, redirect_uri:) }
   let(:oauth_path) do
     "/oauth/authorize?response_type=code&client_id=#{oauth_app.uid}&redirect_uri=#{CGI.escape(redirect_uri)}&scope=api_v3"
   end
 
-  context 'when login required', with_settings: { login_required: true } do
-    it 'appends given CSP appends from flash' do
+  context "when login required", with_settings: { login_required: true } do
+    it "appends given CSP appends from flash" do
       get oauth_path
 
-      csp = response.headers['Content-Security-Policy']
+      csp = response.headers["Content-Security-Policy"]
       expect(csp).to include "form-action 'self' https://foobar.com/;"
 
-      location = response.headers['Location']
+      location = response.headers["Location"]
       expect(location).to include("/login?back_url=#{CGI.escape(oauth_path)}")
     end
   end
 
-  context 'with redirect-uri being a custom scheme' do
-    let(:redirect_uri) { 'myscheme://custom-foobar' }
+  context "with redirect-uri being a custom scheme" do
+    let(:redirect_uri) { "myscheme://custom-foobar" }
 
-    it 'appends given CSP appends from flash' do
+    it "appends given CSP appends from flash" do
       get oauth_path
 
-      csp = response.headers['Content-Security-Policy']
+      csp = response.headers["Content-Security-Policy"]
       expect(csp).to include "form-action 'self' myscheme:"
     end
   end

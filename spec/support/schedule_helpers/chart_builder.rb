@@ -67,7 +67,7 @@ module ScheduleHelpers
     private
 
     def parse_header(header)
-      _, week_days = header.split(' | ', 2)
+      _, week_days = header.split(" | ", 2)
       unless week_days.include?(Chart::WEEK_DAYS_TEXT)
         raise ArgumentError,
               "First header line of schedule chart must contain #{Chart::WEEK_DAYS_TEXT} to indicate day names and have an origin"
@@ -78,7 +78,7 @@ module ScheduleHelpers
 
     def parse_line(line)
       case line
-      when ''
+      when ""
         # noop
       when / \| /
         parse_work_package_line(line)
@@ -88,13 +88,13 @@ module ScheduleHelpers
     end
 
     def parse_work_package_line(line)
-      name, timespan, properties = line.split(' | ', 3)
+      name, timespan, properties = line.split(" | ", 3)
       name.strip!
       attributes = { subject: name }
       attributes.update(parse_timespan(timespan))
       chart.add_work_package(attributes)
 
-      properties.to_s.split(',').map(&:strip).each do |property|
+      properties.to_s.split(",").map(&:strip).each do |property|
         parse_properties(name, property)
       end
     end
@@ -129,15 +129,15 @@ module ScheduleHelpers
             "working days include weekends"
           ]
         )
-        suggestions = spell_checker.correct(property).map(&:inspect).join(' ')
+        suggestions = spell_checker.correct(property).map(&:inspect).join(" ")
         did_you_mean = " Did you mean #{suggestions} instead?" if suggestions.present?
         raise "unable to parse property #{property.inspect} for line #{name.inspect}.#{did_you_mean}"
       end
     end
 
     def parse_timespan(timespan)
-      start_pos = timespan.index('[') || timespan.index('X')
-      due_pos = timespan.rindex(']') || timespan.rindex('X')
+      start_pos = timespan.index("[") || timespan.index("X")
+      due_pos = timespan.rindex("]") || timespan.rindex("X")
       {
         start_date: start_pos && (chart.monday - @nb_days_from_origin_monday + start_pos),
         due_date: due_pos && (chart.monday - @nb_days_from_origin_monday + due_pos)

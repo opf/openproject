@@ -32,14 +32,11 @@ module StorageLoginHelper
   def storage_login_input(storage)
     return {} if storage&.oauth_client.blank?
 
-    connection_manager = ::OAuthClients::ConnectionManager
-                           .new(user: current_user, configuration: storage.oauth_configuration)
-
     {
       storageId: storage.id,
       storageType: API::V3::Storages::STORAGE_TYPE_URN_MAP[storage.provider_type],
       authorizationLink: {
-        href: connection_manager.get_authorization_uri
+        href: storage.oauth_configuration.authorization_uri
       }
     }
   end

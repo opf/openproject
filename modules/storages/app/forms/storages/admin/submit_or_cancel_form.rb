@@ -48,7 +48,7 @@ module Storages::Admin
       {
         name: :submit,
         scheme: :primary,
-        label: I18n.t('storages.buttons.save_and_continue'),
+        label: I18n.t("storages.buttons.save_and_continue"),
         disabled: false
       }
     end
@@ -58,8 +58,8 @@ module Storages::Admin
         name: :cancel,
         scheme: :default,
         tag: :a,
-        href: Rails.application.routes.url_helpers.admin_settings_storages_path,
-        label: I18n.t('button_cancel')
+        href: OpenProject::StaticRouting::StaticRouter.new.url_helpers.admin_settings_storages_path,
+        label: I18n.t("button_cancel")
       }
     end
   end

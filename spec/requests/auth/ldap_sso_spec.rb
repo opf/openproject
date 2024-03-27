@@ -26,17 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'LDAP authentication',
+RSpec.describe "LDAP authentication",
                :skip_2fa_stage,
                :skip_csrf,
                type: :rails_request do
+  include_context "with temporary LDAP"
 
-  include_context 'with temporary LDAP'
-
-  let(:username) { 'aa729' }
-  let(:password) { 'smada' }
+  let(:username) { "aa729" }
+  let(:password) { "smada" }
   let(:params) { { username:, password: } }
 
   subject do
@@ -44,51 +43,68 @@ RSpec.describe 'LDAP authentication',
     response
   end
 
-  context 'when LDAP is onthefly_register' do
+  context "when LDAP is onthefly_register" do
     let(:onthefly_register) { true }
 
-    it 'creates the user on the fly' do
-      expect(User.find_by(login: 'aa729')).to be_nil
+    it "creates the user on the fly" do
+      expect(User.find_by(login: "aa729")).to be_nil
 
       expect { subject }.to change(User.not_builtin.active, :count).by(1)
 
-      user = User.find_by(login: 'aa729')
+      user = User.find_by(login: "aa729")
       expect(user).to be_present
       expect(user).to be_active
       expect(session[:user_id]).to eq user.id
-      expect(subject).to redirect_to '/?first_time_user=true'
+      expect(subject).to redirect_to "/?first_time_user=true"
     end
 
-    context 'when not all attributes present' do
+    context 'with a user that has umlauts in their name' do
+      let(:username) { 'bölle' }
+      let(:password) { 'bólle' }
+
+      it 'creates a user with umlauts on the fly' do
+        expect(User.find_by(login: 'bölle')).to be_nil
+
+        expect { subject }.to change(User.not_builtin.active, :count).by(1)
+
+        user = User.find_by(login: 'bölle')
+        expect(user).to be_present
+        expect(user).to be_active
+        expect(session[:user_id]).to eq user.id
+        expect(subject).to redirect_to '/?first_time_user=true'
+      end
+    end
+
+    context "when not all attributes present" do
       let(:attr_mail) { nil }
 
-      it 'does not save the user, but forwards to registration form' do
-        expect(User.find_by(login: 'aa729')).to be_nil
+      it "does not save the user, but forwards to registration form" do
+        expect(User.find_by(login: "aa729")).to be_nil
 
         expect { subject }.not_to change(User.not_builtin.active, :count)
-        expect(subject).to render_template 'account/register'
+        expect(subject).to render_template "account/register"
         expect(subject.body).to have_text "Email can't be blank"
       end
     end
 
-    context 'with user limit reached' do
+    context "with user limit reached" do
       before do
         allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
       end
 
-      it 'shows the user limit error' do
+      it "shows the user limit error" do
         expect(subject.body).to have_text "User limit reached"
         expect(subject.body).to include "/account/register"
       end
     end
 
-    context 'with password login disabled' do
+    context "with password login disabled" do
       before do
         allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       end
 
-      describe 'login' do
-        it 'is not found' do
+      describe "login" do
+        it "is not found" do
           expect(subject).to have_http_status :not_found
         end
       end

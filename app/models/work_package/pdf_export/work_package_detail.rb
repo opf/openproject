@@ -115,7 +115,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
     column_objects
       .reject { |column| column.name == :subject }
       .map do |column|
-      { label: column.caption || '', name: column.name }
+      { label: column.caption || "", name: column.name }
     end
   end
 
@@ -137,7 +137,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def form_key_to_column_entries(form_key, work_package)
     if CustomField.custom_field_attribute? form_key
-      id = form_key.to_s.sub('custom_field_', '').to_i
+      id = form_key.to_s.sub("custom_field_", "").to_i
       cf = CustomField.find_by(id:)
       return [] if cf.nil? || cf.formattable?
 
@@ -165,7 +165,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def build_columns_table_cells(attribute_data)
-    return ['', ''] if attribute_data.nil?
+    return ["", ""] if attribute_data.nil?
 
     # get work package attribute table cell data: [label, value]
     [

@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list }
     let(:class_key) { :type_id }
 
-    describe '#available?' do
-      context 'within a project' do
+    describe "#available?" do
+      context "within a project" do
         before do
           allow(project)
             .to receive_message_chain(:rolled_up_types, :exists?)
             .and_return true
         end
 
-        it 'is true' do
+        it "is true" do
           expect(instance).to be_available
         end
 
-        it 'is false without a type' do
+        it "is false without a type" do
           allow(project)
             .to receive_message_chain(:rolled_up_types, :exists?)
             .and_return false
@@ -54,7 +54,7 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
         end
       end
 
-      context 'without a project' do
+      context "without a project" do
         let(:project) { nil }
 
         before do
@@ -63,11 +63,11 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
             .and_return true
         end
 
-        it 'is true' do
+        it "is true" do
           expect(instance).to be_available
         end
 
-        it 'is false without a type' do
+        it "is false without a type" do
           allow(Type)
             .to receive_message_chain(:order, :exists?)
             .and_return false
@@ -77,23 +77,23 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
       end
     end
 
-    describe '#allowed_values' do
+    describe "#allowed_values" do
       let(:type) { build_stubbed(:type) }
 
-      context 'within a project' do
+      context "within a project" do
         before do
           allow(project)
             .to receive(:rolled_up_types)
             .and_return [type]
         end
 
-        it 'returns an array of type options' do
+        it "returns an array of type options" do
           expect(instance.allowed_values)
             .to contain_exactly([type.name, type.id.to_s])
         end
       end
 
-      context 'without a project' do
+      context "without a project" do
         let(:project) { nil }
 
         before do
@@ -102,21 +102,21 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
             .and_return [type]
         end
 
-        it 'returns an array of type options' do
+        it "returns an array of type options" do
           expect(instance.allowed_values)
             .to contain_exactly([type.name, type.id.to_s])
         end
       end
     end
 
-    describe '#ar_object_filter?' do
-      it 'is true' do
+    describe "#ar_object_filter?" do
+      it "is true" do
         expect(instance)
           .to be_ar_object_filter
       end
     end
 
-    describe '#value_objects' do
+    describe "#value_objects" do
       let(:type1) { build_stubbed(:type) }
       let(:type2) { build_stubbed(:type) }
 
@@ -128,7 +128,7 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
         instance.values = [type1.id.to_s, type2.id.to_s]
       end
 
-      it 'returns an array of types' do
+      it "returns an array of types" do
         expect(instance.value_objects)
           .to contain_exactly(type1, type2)
       end

@@ -1,4 +1,4 @@
-require_relative 'edit_field'
+require_relative "edit_field"
 
 class TextEditorField < EditField
   def ckeditor
@@ -6,7 +6,7 @@ class TextEditorField < EditField
   end
 
   def input_selector
-    '.ck-content'
+    ".ck-content"
   end
 
   def expect_save_button(enabled: true)
@@ -64,7 +64,7 @@ class TextEditorField < EditField
   end
 
   def control_link(action = :save)
-    raise 'Invalid link' unless %i[save cancel].include?(action)
+    raise "Invalid link" unless %i[save cancel].include?(action)
 
     ".inplace-edit--control--#{action}:not([disabled])"
   end

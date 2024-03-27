@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Meetings::CopyService, 'integration', type: :model do
+RSpec.describe Meetings::CopyService, "integration", type: :model do
   shared_let(:project) { create(:project, enabled_module_names: %i[meetings]) }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i(view_meetings create_meetings) })
   end
-  shared_let(:meeting) { create(:structured_meeting, project:, start_time: Time.parse('2013-03-27T15:35:00Z')) }
+  shared_let(:meeting) { create(:structured_meeting, project:, start_time: Time.parse("2013-03-27T15:35:00Z")) }
 
   let(:instance) { described_class.new(model: meeting, user:) }
   let(:attributes) { {} }
@@ -42,18 +42,18 @@ RSpec.describe Meetings::CopyService, 'integration', type: :model do
   let(:service_result) { instance.call(attributes:, **params) }
   let(:copy) { service_result.result }
 
-  it 'copies the meeting as is' do
+  it "copies the meeting as is" do
     expect(service_result).to be_success
     expect(copy.author).to eq(user)
     expect(copy.start_time).to eq(meeting.start_time + 1.week)
   end
 
-  describe 'with participants' do
+  describe "with participants" do
     let(:invited_user) { create(:user, member_with_permissions: { project => %i(view_meetings) }) }
     let(:attending_user) { create(:user, member_with_permissions: { project => %i(view_meetings) }) }
     let(:invalid_user) { create(:user) }
 
-    it 'copies applicable participants, resetting attended status' do
+    it "copies applicable participants, resetting attended status" do
       meeting.participants.create!(user: invited_user, invited: true, attended: false)
       meeting.participants.create!(user: attending_user, invited: true, attended: true)
       meeting.participants.create!(user: invalid_user, invited: true, attended: true)
@@ -73,10 +73,10 @@ RSpec.describe Meetings::CopyService, 'integration', type: :model do
     end
   end
 
-  describe 'when not saving' do
+  describe "when not saving" do
     let(:params) { { save: false } }
 
-    it 'builds the meeting' do
+    it "builds the meeting" do
       expect(service_result).to be_success
       expect(copy.author).to eq(user)
       expect(copy.start_time).to eq(meeting.start_time + 1.week)
@@ -84,14 +84,14 @@ RSpec.describe Meetings::CopyService, 'integration', type: :model do
     end
   end
 
-  context 'with agenda items' do
+  context "with agenda items" do
     shared_let(:agenda_item) do
       create(:meeting_agenda_item,
              meeting:,
              notes: "hello there")
     end
 
-    it 'copies the agenda item' do
+    it "copies the agenda item" do
       expect(copy.agenda_items.length)
         .to eq 1
 
@@ -99,16 +99,16 @@ RSpec.describe Meetings::CopyService, 'integration', type: :model do
         .to eq agenda_item.notes
     end
 
-    context 'when asking not to copy agenda' do
+    context "when asking not to copy agenda" do
       let(:params) { { copy_agenda: false } }
 
-      it 'does not copy agenda items' do
+      it "does not copy agenda items" do
         expect(copy.agenda_items).to be_empty
       end
     end
   end
 
-  context 'with attachments' do
+  context "with attachments" do
     shared_let(:attachment) do
       create(:attachment,
              container: meeting)
@@ -119,21 +119,24 @@ RSpec.describe Meetings::CopyService, 'integration', type: :model do
              notes: "![](/api/v3/attachments/#{attachment.id}/content")
     end
 
-    it 'copies the attachment' do
-      expect(copy.attachments.length)
-        .to eq 1
+    context "when asking to copy attachments" do
+      let(:params) { { copy_attachments: true } }
+      it "copies the attachment" do
+        expect(copy.attachments.length)
+          .to eq 1
 
-      expect(copy.attachments.first.id)
-        .not_to eq attachment.id
+        expect(copy.attachments.first.id)
+          .not_to eq attachment.id
 
-      expect(copy.agenda_items.count).to eq(1)
-      expect(copy.agenda_items.first.notes).to include "attachments/#{copy.attachments.first.id}/content"
+        expect(copy.agenda_items.count).to eq(1)
+        expect(copy.agenda_items.first.notes).to include "attachments/#{copy.attachments.first.id}/content"
+      end
     end
 
-    context 'when asking not to copy attachments' do
+    context "when asking not to copy attachments" do
       let(:params) { { copy_attachments: false } }
 
-      it 'does not copy attachments' do
+      it "does not copy attachments" do
         expect(copy.attachments).to be_empty
         expect(copy.agenda_items.first.notes).to include "attachments/#{attachment.id}/content"
       end

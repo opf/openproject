@@ -29,14 +29,14 @@
 # TODO: check if this can be postponed and if some plugins can make use of the ActiveSupport.on_load hooks
 
 # Loads the core plugins located in lib_static/plugins
-Dir.glob(Rails.root.join('lib_static/plugins/*')).each do |directory|
+Dir.glob(Rails.root.join("lib_static/plugins/*")).each do |directory|
   if File.directory?(directory)
-    lib = File.join(directory, 'lib')
+    lib = File.join(directory, "lib")
 
     $:.unshift lib
     Rails.configuration.paths.add lib, eager_load: true, glob: "**[^test]/*"
 
-    initializer = File.join(directory, 'init.rb')
+    initializer = File.join(directory, "init.rb")
     if File.file?(initializer)
       eval(File.read(initializer), binding, initializer)
     end

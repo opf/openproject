@@ -64,7 +64,7 @@ module Users
 
     def reduce_writable_attributes(attributes)
       super.tap do |writable|
-        writable << 'password' if password_writable?
+        writable << "password" if password_writable?
       end
     end
 

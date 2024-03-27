@@ -28,20 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::FileLinks::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = instance_double(Storages::Storages::BaseContract, 'contract_instance')
+    contract = instance_double(Storages::Storages::BaseContract, "contract_instance")
     allow(contract)
       .to receive_messages(validate: contract_valid, errors: contract_errors)
     contract
   end
 
-  let(:contract_errors) { instance_double(ActiveModel::Errors, 'contract_errors') }
+  let(:contract_errors) { instance_double(ActiveModel::Errors, "contract_errors") }
   let(:contract_valid) { true }
   let(:model_valid) { true }
 
@@ -70,34 +70,34 @@ RSpec.describe Storages::FileLinks::SetAttributesService, type: :model do
 
   subject { instance.call(params) }
 
-  it 'returns the instance as the result' do
+  it "returns the instance as the result" do
     expect(subject.result)
       .to eql model_instance
   end
 
-  it 'is a success' do
+  it "is a success" do
     expect(subject)
       .to be_success
   end
 
-  context 'with params' do
+  context "with params" do
     let(:params) do
       {
-        name: 'Foobar'
+        name: "Foobar"
       }
     end
 
-    it 'assigns the params' do
+    it "assigns the params" do
       subject
 
-      expect(model_instance.name).to eq 'Foobar'
+      expect(model_instance.name).to eq "Foobar"
     end
   end
 
-  context 'with an invalid contract' do
+  context "with an invalid contract" do
     let(:contract_valid) { false }
 
-    it 'returns failure' do
+    it "returns failure" do
       expect(subject).not_to be_success
     end
 

@@ -37,7 +37,7 @@ module API
             end
           end
 
-          route_param :id, type: Integer, desc: 'Message ID' do
+          route_param :id, type: Integer, desc: "Message ID" do
             get do
               ::API::V3::Posts::PostRepresenter.new(post,
                                                     current_user:,

@@ -12,7 +12,7 @@ module Acts::Journalized
       def journal_class
         namespace = name.deconstantize
 
-        if namespace == 'Journal'
+        if namespace == "Journal"
           self
         else
           "Journal::#{base_class.name}Journal".constantize

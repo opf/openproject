@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'digest/sha1'
+require "digest/sha1"
 
 module ::Widget
   class Base < Widget::ReportingWidget
@@ -56,9 +56,9 @@ module ::Widget
     # Write a string to the canvas. The string is marked as html_safe.
     # This will write twice, if @cache_output is set.
     def write(str)
-      str ||= ''
-      @output ||= ''.html_safe
-      @output = @output + '' if @output.frozen? # Rails 2 freezes tag strings
+      str ||= ""
+      @output ||= "".html_safe
+      @output = @output + "" if @output.frozen? # Rails 2 freezes tag strings
       @output.concat str.html_safe
       @cache_output.concat(str.html_safe) if @cache_output
       str.html_safe
@@ -116,7 +116,7 @@ module ::Widget
     # Set the canvas. If the canvas object isn't a string (e.g. cannot be cached easily),
     # a @cache_output String is created, that will mirror what is being written to the canvas.
     def set_canvas(canvas)
-      @cache_output = ''.html_safe
+      @cache_output = "".html_safe
       @output = canvas
     end
   end

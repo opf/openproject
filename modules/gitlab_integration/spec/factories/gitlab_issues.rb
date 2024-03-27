@@ -32,7 +32,7 @@ FactoryBot.define do
 
     sequence(:number)
     sequence(:gitlab_id)
-    state { 'opened' }
+    state { "opened" }
     gitlab_html_url { "https://gitlab.com/test_user/test_repo/issues/#{number}" }
 
     labels { [] }
@@ -46,11 +46,11 @@ FactoryBot.define do
     end
 
     trait :open do
-      state { 'opened' }
+      state { "opened" }
     end
 
     trait :closed do
-      state { 'closed' }
+      state { "closed" }
     end
   end
 end

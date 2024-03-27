@@ -27,7 +27,54 @@
 #++
 
 class ReorderProjectChildren < ActiveRecord::Migration[6.1]
+  class ProjectMigration < ApplicationRecord
+    include ::Projects::Hierarchy
+    self.table_name = "projects"
+  end
+
   def up
-    ::Projects::ReorderHierarchyJob.perform_later
+    Rails.logger.info { "Resorting siblings by name in the project's nested set." }
+    ProjectMigration.transaction { reorder! }
+  end
+
+  def down
+    # Nothing to do
+  end
+
+  private
+
+  def reorder!
+    # Reorder the project roots
+    reorder_siblings ProjectMigration.roots
+
+    # Reorder every project hierarchy
+    ProjectMigration
+      .where(id: unique_parent_ids)
+      .find_each { |project| reorder_siblings(project.children) }
+  end
+
+  def unique_parent_ids
+    ProjectMigration
+      .where.not(parent_id: nil)
+      .select(:parent_id)
+      .distinct
+  end
+
+  def reorder_siblings(siblings)
+    return unless siblings.many?
+
+    # Resort children manually
+    sorted = siblings.sort_by { |project| project.name.downcase }
+
+    # Get the current first child
+    first = siblings.first
+
+    sorted.each_with_index do |child, i|
+      if i == 0
+        child.move_to_left_of(first) unless child == first
+      else
+        child.move_to_right_of(sorted[i - 1])
+      end
+    end
   end
 end

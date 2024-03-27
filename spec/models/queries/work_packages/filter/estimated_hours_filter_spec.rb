@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::EstimatedHoursFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :integer }
     let(:class_key) { :estimated_hours }
 
-    describe '#available?' do
-      it 'is true' do
+    describe "#available?" do
+      it "is true" do
         expect(instance).to be_available
       end
     end
 
-    describe '#allowed_values' do
-      it 'is nil' do
+    describe "#allowed_values" do
+      it "is nil" do
         expect(instance.allowed_values).to be_nil
       end
     end
 
-    it_behaves_like 'non ar filter'
+    it_behaves_like "non ar filter"
 
-    describe '#where' do
+    describe "#where" do
       let!(:work_package_zero_hour) { create(:work_package, estimated_hours: 0) }
       let!(:work_package_no_hours) { create(:work_package, estimated_hours: nil) }
       let!(:work_package_with_hours) { create(:work_package, estimated_hours: 1) }
@@ -57,7 +57,7 @@ RSpec.describe Queries::WorkPackages::Filter::EstimatedHoursFilter do
           instance.operator = Queries::Operators::None.to_sym.to_s
         end
 
-        it 'finds zero and none values' do
+        it "finds zero and none values" do
           expect(WorkPackage.where(instance.where)).to contain_exactly(work_package_zero_hour, work_package_no_hours)
         end
       end

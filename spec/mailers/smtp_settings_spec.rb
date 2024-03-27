@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe "SMTP settings" do
   let(:smtp_settings) { {} }
@@ -128,11 +128,11 @@ RSpec.describe "SMTP settings" do
 
     context "with SSL enabled and verification disabled" do
       let(:ssl) { true }
-      let(:openssl_verify_mode) { 'none' }
+      let(:openssl_verify_mode) { "none" }
 
       before do
         expect(smtp_settings[:ssl]).to be true
-        expect(smtp_settings[:openssl_verify_mode]).to eq 'none'
+        expect(smtp_settings[:openssl_verify_mode]).to eq "none"
 
         expect_any_instance_of(Net::SMTP).to receive(:start) do |instance|
           expect(instance).to be_tls

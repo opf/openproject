@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Roles::UpdateContract do
-  it_behaves_like 'roles contract' do
+  it_behaves_like "roles contract" do
     let(:work_package_role) do
       build_stubbed(:work_package_role,
-                    name: 'Some name') do |r|
+                    name: "Some name") do |r|
         r.name = role_name
         r.permissions = role_permissions
       end
@@ -41,7 +41,7 @@ RSpec.describe Roles::UpdateContract do
 
     let(:role) do
       build_stubbed(:project_role,
-                    name: 'Some name') do |r|
+                    name: "Some name") do |r|
         r.name = role_name
         r.permissions = role_permissions
       end
@@ -49,7 +49,7 @@ RSpec.describe Roles::UpdateContract do
 
     let(:global_role) do
       build_stubbed(:global_role,
-                    name: 'Some name') do |r|
+                    name: "Some name") do |r|
         r.name = role_name
         r.permissions = role_permissions
       end
@@ -57,13 +57,13 @@ RSpec.describe Roles::UpdateContract do
 
     subject(:contract) { described_class.new(role, current_user) }
 
-    describe 'validation' do
-      context 'with the type set manually' do
+    describe "validation" do
+      context "with the type set manually" do
         before do
-          role.type = 'GlobalRole'
+          role.type = "GlobalRole"
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, type: %i(error_readonly))
         end
       end

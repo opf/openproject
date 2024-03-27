@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/overview'
+require_relative "../support/pages/overview"
 
-RSpec.describe 'Overview page on the fly creation if user lacks :mange_overview permission', :js do
+RSpec.describe "Overview page on the fly creation if user lacks :mange_overview permission", :js do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:open_status) { create(:default_status) }
@@ -53,10 +53,10 @@ RSpec.describe 'Overview page on the fly creation if user lacks :mange_overview 
     overview_page.visit!
   end
 
-  it 'renders the default view, allows altering and saving' do
-    description_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    details_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
-    overview_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+  it "renders the default view, allows altering and saving" do
+    description_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
+    details_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
+    overview_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(3)")
 
     description_area.expect_to_exist
     details_area.expect_to_exist

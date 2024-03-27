@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CopyProjectJob, type: :model do
-  let(:params) { { name: 'Copy', identifier: 'copy' } }
-  let(:maildouble) { double('Mail::Message', deliver: true) }
+  let(:params) { { name: "Copy", identifier: "copy" } }
+  let(:maildouble) { double("Mail::Message", deliver: true) }
 
   before do
     allow(maildouble).to receive(:deliver_later)
   end
 
-  describe 'copy localizes error message' do
+  describe "copy localizes error message" do
     let(:user_de) { create(:admin, language: :de) }
     let(:source_project) { create(:project) }
     let(:target_project) { create(:project) }
@@ -45,7 +45,7 @@ RSpec.describe CopyProjectJob, type: :model do
       described_class.new
     end
 
-    it 'sets locale correctly' do
+    it "sets locale correctly" do
       expect(copy_job)
         .to receive(:create_project_copy)
               .and_wrap_original do |m, *args, &block|
@@ -60,15 +60,15 @@ RSpec.describe CopyProjectJob, type: :model do
     end
   end
 
-  describe 'copy project succeeds with errors' do
+  describe "copy project succeeds with errors" do
     let(:admin) { create(:admin) }
     let(:source_project) { create(:project, types: [type]) }
     let!(:work_package) { create(:work_package, project: source_project, type:) }
     let(:type) { create(:type_bug) }
     let(:custom_field) do
       create(:work_package_custom_field,
-             name: 'required_field',
-             field_format: 'text',
+             name: "required_field",
+             field_format: "text",
              is_required: true,
              is_for_all: true)
     end
@@ -84,7 +84,7 @@ RSpec.describe CopyProjectJob, type: :model do
       described_class.new(**job_args).tap(&:perform_now)
     end
 
-    let(:params) { { name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
+    let(:params) { { name: "Copy", identifier: "copy", type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
     let(:expected_error_message) do
       "#{WorkPackage.model_name.human} '#{work_package.type.name} ##{work_package.id}: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}."
     end
@@ -100,22 +100,22 @@ RSpec.describe CopyProjectJob, type: :model do
       @errors = copy_job.errors
     end
 
-    it 'copies the project', :aggregate_failures do
+    it "copies the project", :aggregate_failures do
       expect(Project.find_by(identifier: params[:identifier])).to eq(@copied_project)
       expect(@errors.first).to eq(expected_error_message)
 
       # expect to create a status
       expect(copy_job.job_status).to be_present
-      expect(copy_job.job_status[:status]).to eq 'success'
-      expect(copy_job.job_status[:payload]['redirect']).to include '/projects/copy'
+      expect(copy_job.job_status[:status]).to eq "success"
+      expect(copy_job.job_status[:payload]["redirect"]).to include "/projects/copy"
 
-      expected_link = { 'href' => "/api/v3/projects/#{@copied_project.id}", 'title' => @copied_project.name }
-      expect(copy_job.job_status[:payload]['_links']['project']).to eq(expected_link)
+      expected_link = { "href" => "/api/v3/projects/#{@copied_project.id}", "title" => @copied_project.name }
+      expect(copy_job.job_status[:payload]["_links"]["project"]).to eq(expected_link)
     end
   end
   # rubocop:enable RSpec/InstanceVariable
 
-  describe 'project has an invalid repository' do
+  describe "project has an invalid repository" do
     let(:admin) { create(:admin) }
     let(:source_project) do
       project = create(:project)
@@ -140,7 +140,7 @@ RSpec.describe CopyProjectJob, type: :model do
       allow(User).to receive(:current).and_return(admin)
     end
 
-    it 'saves without the repository' do
+    it "saves without the repository" do
       expect(source_project).not_to be_valid
 
       copied_project = copy_job.target_project
@@ -149,11 +149,11 @@ RSpec.describe CopyProjectJob, type: :model do
       expect(errors).to be_empty
       expect(copied_project).to be_valid
       expect(copied_project.repository).to be_nil
-      expect(copied_project.enabled_module_names).not_to include 'repository'
+      expect(copied_project.enabled_module_names).not_to include "repository"
     end
   end
 
-  describe 'copy project fails with internal error' do
+  describe "copy project fails with internal error" do
     let(:admin) { create(:admin) }
     let(:source_project) { create(:project) }
     let(:copy_job) do
@@ -165,31 +165,31 @@ RSpec.describe CopyProjectJob, type: :model do
       end
     end
 
-    let(:params) { { name: 'Copy', identifier: 'copy' } }
+    let(:params) { { name: "Copy", identifier: "copy" } }
 
     before do
       allow(User).to receive(:current).and_return(admin)
-      allow(ProjectMailer).to receive(:copy_project_succeeded).and_raise 'error message not meant for user'
+      allow(ProjectMailer).to receive(:copy_project_succeeded).and_raise "error message not meant for user"
     end
 
-    it 'renders a error when unexpected errors occur' do
+    it "renders a error when unexpected errors occur" do
       expect(ProjectMailer)
         .to receive(:copy_project_failed)
-              .with(admin, source_project, 'Copy', [I18n.t('copy_project.failed_internal')])
+              .with(admin, source_project, "Copy", [I18n.t("copy_project.failed_internal")])
               .and_return maildouble
 
       expect { copy_job }.not_to raise_error
 
       # expect to create a status
       expect(copy_job.job_status).to be_present
-      expect(copy_job.job_status[:status]).to eq 'failure'
+      expect(copy_job.job_status[:status]).to eq "failure"
       expect(copy_job.job_status[:message]).to include "Cannot copy project #{source_project.name}"
-      expect(copy_job.job_status[:payload]).to eq('title' => 'Copy project')
+      expect(copy_job.job_status[:payload]).to eq("title" => "Copy project")
     end
   end
 
-  context 'when project has work package hierarchies with derived values' do
-    shared_let(:source_project) { create(:project, name: 'Source project') }
+  context "when project has work package hierarchies with derived values" do
+    shared_let(:source_project) { create(:project, name: "Source project") }
 
     before_all do
       set_factory_default(:project, source_project)
@@ -197,7 +197,7 @@ RSpec.describe CopyProjectJob, type: :model do
     end
 
     let(:admin) { create(:admin) }
-    let(:params) { { name: 'Copy', identifier: 'copy' } }
+    let(:params) { { name: "Copy", identifier: "copy" } }
 
     let_work_packages(<<~TABLE)
       hierarchy   | work | start date | end date
@@ -211,7 +211,7 @@ RSpec.describe CopyProjectJob, type: :model do
         .call(%i[estimated_hours remaining_hours ignore_non_working_days])
     end
 
-    it 'copies the project without any errord (Bug #52384)' do
+    it "copies the project without any errord (Bug #52384)" do
       allow(OpenProject.logger).to receive(:error)
 
       copy_job = described_class.new
@@ -220,18 +220,18 @@ RSpec.describe CopyProjectJob, type: :model do
                        target_project_params: params,
                        associations_to_copy: [:work_packages]
 
-      expect(copy_job.job_status.status).to eq 'success'
+      expect(copy_job.job_status.status).to eq "success"
       expect(copy_job.errors).to be_empty
       expect(OpenProject.logger).not_to have_received(:error)
     end
   end
 
-  describe 'perform' do
+  describe "perform" do
     let(:project) { create(:project, public: false) }
     let(:user) { create(:user) }
     let(:role) { create(:project_role, permissions: [:copy_projects]) }
 
-    shared_context 'copy project' do
+    shared_context "copy project" do
       before do
         described_class.new.tap do |job|
           job.perform user_id: user.id,
@@ -247,8 +247,8 @@ RSpec.describe CopyProjectJob, type: :model do
       expect(User).to receive(:current=).with(user).at_least(:once)
     end
 
-    describe 'subproject' do
-      let(:params) { { name: 'Copy', identifier: 'copy' } }
+    describe "subproject" do
+      let(:params) { { name: "Copy", identifier: "copy" } }
       let(:subproject) do
         create(:project, parent: project).tap do |p|
           create(:member,
@@ -258,14 +258,14 @@ RSpec.describe CopyProjectJob, type: :model do
         end
       end
 
-      subject { Project.find_by(identifier: 'copy') }
+      subject { Project.find_by(identifier: "copy") }
 
-      describe 'user without add_subprojects permission in parent' do
-        include_context 'copy project' do
+      describe "user without add_subprojects permission in parent" do
+        include_context "copy project" do
           let(:project_to_copy) { subproject }
         end
 
-        it 'copies the project without the parent being set' do
+        it "copies the project without the parent being set" do
           expect(subject).not_to be_nil
           expect(subject.parent).to be_nil
 
@@ -284,14 +284,14 @@ RSpec.describe CopyProjectJob, type: :model do
         end
       end
 
-      describe 'user without add_subprojects permission in parent and when explicitly setting that parent' do
-        let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
+      describe "user without add_subprojects permission in parent and when explicitly setting that parent" do
+        let(:params) { { name: "Copy", identifier: "copy", parent_id: project.id } }
 
-        include_context 'copy project' do
+        include_context "copy project" do
           let(:project_to_copy) { subproject }
         end
 
-        it 'does not copy the project' do
+        it "does not copy the project" do
           expect(subject).to be_nil
         end
 
@@ -300,12 +300,12 @@ RSpec.describe CopyProjectJob, type: :model do
 
           mail = ActionMailer::Base.deliveries.first
           expect(mail).to be_present
-          expect(mail.subject).to eq I18n.t('copy_project.failed', source_project_name: subproject.name)
+          expect(mail.subject).to eq I18n.t("copy_project.failed", source_project_name: subproject.name)
           expect(mail.to).to eq [user.mail]
         end
       end
 
-      describe 'user with add_subprojects permission in parent' do
+      describe "user with add_subprojects permission in parent" do
         let(:role_add_subproject) { create(:project_role, permissions: [:add_subprojects]) }
         let(:member_add_subproject) do
           create(:member,
@@ -318,11 +318,11 @@ RSpec.describe CopyProjectJob, type: :model do
           member_add_subproject
         end
 
-        include_context 'copy project' do
+        include_context "copy project" do
           let(:project_to_copy) { subproject }
         end
 
-        it 'copies the project' do
+        it "copies the project" do
           expect(subject).not_to be_nil
           expect(subject.parent).to eql(project)
 

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::ProjectStorage do
@@ -44,7 +44,7 @@ RSpec.describe Storages::ProjectStorage do
     }
   end
 
-  describe '#create' do
+  describe "#create" do
     it "creates an instance" do
       project_storage = described_class.create attributes
       expect(project_storage).to be_valid
@@ -63,7 +63,7 @@ RSpec.describe Storages::ProjectStorage do
     end
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     let(:project_storage_to_destroy) { described_class.create(attributes) }
     let(:work_package) { create(:work_package, project:) }
     let(:file_link) { create(:file_link, storage:, container_id: work_package.id) }
@@ -81,10 +81,10 @@ RSpec.describe Storages::ProjectStorage do
     end
   end
 
-  describe '#automatic_management_possible?' do
+  describe "#automatic_management_possible?" do
     let(:project_storage) { build_stubbed(:project_storage, storage:) }
 
-    context 'when the storage is not a NextcloudStorage' do
+    context "when the storage is not a NextcloudStorage" do
       let(:storage) { build_stubbed(:storage, :as_generic) }
 
       it "returns false" do
@@ -92,16 +92,16 @@ RSpec.describe Storages::ProjectStorage do
       end
     end
 
-    context 'when the storage is a NextcloudStorage' do
+    context "when the storage is a NextcloudStorage" do
       let(:storage) { build_stubbed(:nextcloud_storage) }
 
-      context 'when the storage is not automatically managed' do
+      context "when the storage is not automatically managed" do
         it "returns false" do
           expect(project_storage.automatic_management_possible?).to be false
         end
       end
 
-      context 'when the storage is automatically managed' do
+      context "when the storage is automatically managed" do
         before do
           storage.automatically_managed = true
         end
@@ -113,18 +113,18 @@ RSpec.describe Storages::ProjectStorage do
     end
   end
 
-  describe '#project_folder_mode' do
+  describe "#project_folder_mode" do
     let(:project_storage) { build(:project_storage) }
 
     it do
       expect(project_storage).to define_enum_for(:project_folder_mode)
-        .with_values(inactive: 'inactive', manual: 'manual', automatic: 'automatic')
+        .with_values(inactive: "inactive", manual: "manual", automatic: "automatic")
         .with_prefix(:project_folder)
         .backed_by_column_of_type(:string)
     end
   end
 
-  describe '#open' do
+  describe "#open" do
     let(:user) { create(:user, member_with_permissions: { project => permissions }) }
     let(:permissions) { %i[] }
     let(:project_storage) do
@@ -136,56 +136,56 @@ RSpec.describe Storages::ProjectStorage do
     end
     let(:project_folder_id) { nil }
 
-    context 'when inactive' do
-      let(:project_folder_mode) { 'inactive' }
+    context "when inactive" do
+      let(:project_folder_mode) { "inactive" }
 
-      it 'opens storage' do
+      it "opens storage" do
         expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
       end
     end
 
-    context 'when manual' do
-      let(:project_folder_mode) { 'manual' }
+    context "when manual" do
+      let(:project_folder_mode) { "manual" }
 
-      context 'when project_folder_id is missing' do
-        it 'opens storage' do
+      context "when project_folder_id is missing" do
+        it "opens storage" do
           expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
         end
       end
 
-      context 'when project_folder_id is present' do
-        let(:project_folder_id) { '123' }
+      context "when project_folder_id is present" do
+        let(:project_folder_id) { "123" }
 
-        it 'opens project_folder' do
+        it "opens project_folder" do
           expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/f/123?openfile=1")
         end
       end
     end
 
-    context 'when automatic' do
-      let(:project_folder_mode) { 'automatic' }
+    context "when automatic" do
+      let(:project_folder_mode) { "automatic" }
 
-      context 'when user has no permissions to read files in storage' do
-        let(:project_folder_mode) { 'automatic' }
+      context "when user has no permissions to read files in storage" do
+        let(:project_folder_mode) { "automatic" }
 
-        it 'opens storage' do
+        it "opens storage" do
           expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
         end
       end
 
-      context 'when user has permissions to read files in storage' do
+      context "when user has permissions to read files in storage" do
         let(:permissions) { %i[read_files] }
 
-        context 'when project_folder_id is missing' do
-          it 'opens storage' do
+        context "when project_folder_id is missing" do
+          it "opens storage" do
             expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/apps/files")
           end
         end
 
-        context 'when project_folder_id is present' do
-          let(:project_folder_id) { '123' }
+        context "when project_folder_id is present" do
+          let(:project_folder_id) { "123" }
 
-          it 'opens project_folder' do
+          it "opens project_folder" do
             expect(project_storage.open(user).result).to eq("#{storage.host}/index.php/f/123?openfile=1")
           end
         end

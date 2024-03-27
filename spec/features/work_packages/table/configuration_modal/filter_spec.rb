@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work Package table configuration modal filters spec', :js do
+RSpec.describe "Work Package table configuration modal filters spec", :js do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -12,7 +12,7 @@ RSpec.describe 'Work Package table configuration modal filters spec', :js do
 
   let!(:query) do
     query = build(:query, user:, project:)
-    query.column_names = ['subject', 'done_ratio']
+    query.column_names = ["subject", "done_ratio"]
 
     query.save!
     query
@@ -22,7 +22,7 @@ RSpec.describe 'Work Package table configuration modal filters spec', :js do
     login_as(user)
   end
 
-  context 'by version in project' do
+  context "by version in project" do
     let(:version) { create(:version, project:) }
     let(:work_package_with_version) { create(:work_package, project:, version:) }
     let(:work_package_without_version) { create(:work_package, project:) }
@@ -34,22 +34,22 @@ RSpec.describe 'Work Package table configuration modal filters spec', :js do
       wp_table.visit!
     end
 
-    it 'allows filtering, saving, retrieving and altering the saved filter' do
+    it "allows filtering, saving, retrieving and altering the saved filter" do
       wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
       filters.open
 
       filters.expect_filter_count 2
-      filters.add_filter_by('Version', 'is (OR)', version.name)
+      filters.add_filter_by("Version", "is (OR)", version.name)
       filters.save
 
       wp_table.expect_work_package_listed work_package_with_version
       wp_table.ensure_work_package_not_listed! work_package_without_version
 
-      wp_table.save_as('Some query name')
+      wp_table.save_as("Some query name")
 
       filters.open
       filters.expect_filter_count 3
-      filters.remove_filter 'version'
+      filters.remove_filter "version"
       filters.save
 
       loading_indicator_saveguard

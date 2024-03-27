@@ -38,7 +38,7 @@ class Source::SeedDataLoader
 
   class << self
     def get_data(edition: nil, only: nil)
-      edition ||= OpenProject::Configuration['edition']
+      edition ||= OpenProject::Configuration["edition"]
       loader = new(seed_name: edition, only:)
       loader.seed_data
     end
@@ -46,7 +46,7 @@ class Source::SeedDataLoader
 
   attr_reader :seed_name, :locale, :only
 
-  def initialize(seed_name: 'standard', locale: I18n.locale, only: nil)
+  def initialize(seed_name: "standard", locale: I18n.locale, only: nil)
     @seed_name = seed_name
     @locale = locale
     @only = only
@@ -67,7 +67,7 @@ class Source::SeedDataLoader
   private
 
   def seed_files
-    Source::SeedFile.with_names(seed_name, 'common')
+    Source::SeedFile.with_names(seed_name, "common")
   end
 
   def translate_seed_file(seed_file)

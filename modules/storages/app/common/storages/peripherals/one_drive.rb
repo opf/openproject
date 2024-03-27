@@ -32,6 +32,7 @@ module Storages
   module Peripherals
     OneDrive = Dry::Container::Namespace.new('one_drive') do
       namespace('queries') do
+        register(:auth_check, StorageInteraction::OneDrive::AuthCheckQuery)
         register(:download_link, StorageInteraction::OneDrive::DownloadLinkQuery)
         register(:files, StorageInteraction::OneDrive::FilesQuery)
         register(:file_info, StorageInteraction::OneDrive::FileInfoQuery)

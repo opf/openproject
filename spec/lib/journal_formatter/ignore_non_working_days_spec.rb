@@ -37,8 +37,8 @@ RSpec.describe OpenProject::JournalFormatter::IgnoreNonWorkingDays do
   let(:instance) { klass.new(journal) }
   let(:key) { :ignore_non_working_days }
 
-  describe '#render' do
-    context 'when setting the old value to false, and the new value to true' do
+  describe "#render" do
+    context "when setting the old value to false, and the new value to true" do
       let(:expected) do
         I18n.t(:text_journal_set_to,
                label: "<strong>Working days</strong>",
@@ -48,7 +48,7 @@ RSpec.describe OpenProject::JournalFormatter::IgnoreNonWorkingDays do
       it { expect(instance.render(key, [false, true])).to eq(expected) }
     end
 
-    context 'when setting the old value to true, and the new value to false' do
+    context "when setting the old value to true, and the new value to false" do
       let(:expected) do
         I18n.t(:text_journal_set_to,
                label: "<strong>Working days</strong>",

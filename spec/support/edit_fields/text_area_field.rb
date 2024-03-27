@@ -1,8 +1,8 @@
-require_relative 'edit_field'
+require_relative "edit_field"
 
 class TextAreaField < EditField
   def input_selector
-    'textarea'
+    "textarea"
   end
 
   def expect_save_button(enabled: true)
@@ -34,11 +34,11 @@ class TextAreaField < EditField
   end
 
   def field_type
-    'textarea'
+    "textarea"
   end
 
   def control_link(action = :save)
-    raise 'Invalid link' unless %i[save cancel].include?(action)
+    raise "Invalid link" unless %i[save cancel].include?(action)
 
     ".inplace-edit--control--#{action}"
   end

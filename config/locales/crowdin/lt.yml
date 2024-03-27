@@ -26,15 +26,14 @@ lt:
       no_results_title_text: Šiuo periodu projekte nieko neįvyko.
   admin:
     plugins:
-      no_results_title_text: Nėra jokių pasiekiamų plėtinių.
+      no_results_title_text: Šio metu nėra įdiegtų priedų.
+      no_results_content_text: Daugiau informacijos rasite mūsų integracijų ir priedų puslapyje.
     custom_styles:
       color_theme: "Spalvų tema"
       color_theme_custom: "(Pasirinktinis)"
       colors:
-        alternative-color: "Alternatyva"
-        content-link-color: "Nuorodų šriftas"
-        primary-color: "Pagrindinė"
-        primary-color-dark: "Pagrindinė (tamsi)"
+        primary-button-color: "Pagrindinis mygtukas"
+        accent-color: "Akcentas"
         header-bg-color: "Antraštės fonas"
         header-item-bg-hover-color: "Atraštės fonas užvedus pelę"
         header-item-font-color: "Antraštės šriftas"
@@ -53,10 +52,8 @@ lt:
       enterprise_more_info: "Pastaba: panaudotas logotipas bus viešai prieinamas."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
-        alternative-color: "Stipri, akį rėžianti spalva, įprastai naudojama svarbiausiam mygtukui ekrane."
-        content-link-color: "Šrifto spalva daugeliui nuorodų."
-        primary-color: "Pagrindinė spalva."
-        primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama žymeklio užvedimo efektui sukurti."
+        primary-button-color: "Stipraus akcento spalva, naudojama svarbiausiam ekrano mygtukui."
+        accent-color: "Spalvos nuorodoms ir kitiems dalinai paryškintiems elementams."
         header-item-bg-hover-color: "Antraštės fono spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
         header-item-font-color: "Šrifto spalva galimiems paspausti antraštės įrašams."
         header-item-font-hover-color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
@@ -1583,6 +1580,7 @@ lt:
       postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
       user_guides: "Vartotojo vadovai"
       faq: "D.U.K"
+      impressum: "Teisinė informacija"
       glossary: "Aiškinamasis terminų žodynas"
       shortcuts: "Nuorodos"
       blog: "OpenProject blogas"
@@ -1593,6 +1591,7 @@ lt:
   journals:
     changes_retracted: "Pakeitimai buvo atšaukti."
     caused_changes:
+      default_attribute_written: "Tik-skaitymo atributai įrašyti"
       dates_changed: "Datos pasikeitė"
       system_update: "OpenProject sistemos atnaujinimas"
     cause_descriptions:
@@ -1914,7 +1913,6 @@ lt:
   label_subject_or_id: "Tema arba ID"
   label_calendar_subscriptions: "Kalendoriaus prenumeratos"
   label_identifier: "Identifikatorius"
-  label_impressum: "Teisinė informacija"
   label_in: " "
   label_in_less_than: "mažiau nei"
   label_in_more_than: "daugiau nei"
@@ -2772,6 +2770,9 @@ lt:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) leidžiami kilmės domenai"
   setting_apiv3_cors_origins_text_html: >
     Jei CORS yra įgalinta, tai yra kilmės domenai, kuriems leidžiama pasiekti OpenProject API. <br/> Kaip nurodyti reikšmes aprašoma <a href="%{origin_link}" target="_blank">Origin antraštės dokumentacijoje</a>.
+  setting_apiv3_write_readonly_attributes: "Rašymo prieiga prie tik skaitymui skirtų atributų"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    Įjungus API leis administratoriams kūrimo metu rašyti statinius tik skaitymui skirtus atributus, tokiu kaip createdAt ir updatedAt laiko žymas. <br/> <strong>Įspėjimas:</strong> Šis nustatymas naudojamas pavyzdžiui importuojant duomenis, bet leidžia administratoriams apsimesti, kad elementus sukuria kiti naudotojai. Visos kūrimo užklausos žurnalizuojamos su tikru autoriumi. </br> Daugiau informacijos apie atributus ir palaikomus resursus rasite %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maksimalus API puslapio dydis"
   setting_apiv3_max_page_instructions_html: >
     Nustatykite maksimalų API atsakymo puslapio dydį. Bus neįmanoma vykdyti API užklausas, kurios grąžina daugiau reikšmių viename puslapyje. <br/> <strong>Įspėjimas</strong> Prašome keisti šią reikšmę jei jums to tikrai reikia. Nustatyta didelė reikšmė stipriai įtakos greitaveiką, o maža reikšmė mažesnė už puslapiavimo parinktis reikš klaida puslapiuojamuose vaizduose.
@@ -3152,6 +3153,7 @@ lt:
     status_user_and_brute_force: "%{user} ir %{brute_force}"
     status_change: "Būsenos keitimas"
     text_change_disabled_for_provider_login: "Vardą nustatė jūsų prisijungimo tarnyba, todėl jis negali būti pakeistas."
+    text_change_disabled_for_ldap_login: "Vardą ir e-paštą nustato LDAP ir todėl to negalima keisti."
     unlock: "Atrakinti"
     unlock_and_reset_failed_logins: "Atrakintiir iš naujo nustatyti nepavykusius prisijungimus"
   version_status_closed: "uždarytas"

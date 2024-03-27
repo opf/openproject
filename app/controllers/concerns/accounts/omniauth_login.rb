@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'uri'
+require "uri"
 
 ##
 # Intended to be used by the AccountController to handle omniauth logins
@@ -47,10 +47,10 @@ module Accounts::OmniauthLogin
   end
 
   def omniauth_login
-    params[:back_url] = request.env['omniauth.origin'] if remember_back_url?
+    params[:back_url] = request.env["omniauth.origin"] if remember_back_url?
 
     # Extract auth info and perform check / login or activate user
-    auth_hash = request.env['omniauth.auth']
+    auth_hash = request.env["omniauth.auth"]
     handle_omniauth_authentication(auth_hash)
   end
 
@@ -75,7 +75,7 @@ module Accounts::OmniauthLogin
 
   # Avoid remembering the back_url if we're coming from the login page
   def remember_back_url?
-    provided_back_url = request.env['omniauth.origin']
+    provided_back_url = request.env["omniauth.origin"]
     return if provided_back_url.blank?
 
     account_routes = /\/(login|account)/
@@ -84,7 +84,7 @@ module Accounts::OmniauthLogin
 
   def show_error(error)
     flash[:error] = error
-    redirect_to action: 'login'
+    redirect_to action: "login"
   end
 
   def register_via_omniauth(session, user_attributes)
@@ -93,7 +93,7 @@ module Accounts::OmniauthLogin
 
   def handle_omniauth_authentication(auth_hash, user_params: nil)
     call = ::Authentication::OmniauthService
-      .new(strategy: request.env['omniauth.strategy'], auth_hash:, controller: self)
+      .new(strategy: request.env["omniauth.strategy"], auth_hash:, controller: self)
       .call(user_params)
 
     if call.success?

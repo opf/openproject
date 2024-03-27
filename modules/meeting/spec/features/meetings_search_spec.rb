@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Meeting search', :js do
+RSpec.describe "Meeting search", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
   let(:project) { create(:project) }
   let(:role) { create(:project_role, permissions: %i(view_meetings view_work_packages)) }
@@ -43,35 +43,35 @@ RSpec.describe 'Meeting search', :js do
     visit project_path(project)
   end
 
-  context 'global search' do
-    it 'works with a title' do
-      select_autocomplete(page.find('.top-menu-search--input'),
+  context "global search" do
+    it "works with a title" do
+      select_autocomplete(page.find(".top-menu-search--input"),
                           query: "Meeting",
                           select_text: "In this project ↵",
                           wait_dropdown_open: false)
 
       page.find('[data-qa-tab-id="meetings"]').click
-      expect(page.find_by_id('search-results')).to have_text(meeting.title)
+      expect(page.find_by_id("search-results")).to have_text(meeting.title)
     end
 
-    it 'works with an agenda item title' do
-      select_autocomplete(page.find('.top-menu-search--input'),
+    it "works with an agenda item title" do
+      select_autocomplete(page.find(".top-menu-search--input"),
                           query: agenda_item.title,
                           select_text: "In this project ↵",
                           wait_dropdown_open: false)
 
       page.find('[data-qa-tab-id="meetings"]').click
-      expect(page.find_by_id('search-results')).to have_text(meeting.title)
+      expect(page.find_by_id("search-results")).to have_text(meeting.title)
     end
 
-    it 'works with an agenda item notes' do
-      select_autocomplete(page.find('.top-menu-search--input'),
+    it "works with an agenda item notes" do
+      select_autocomplete(page.find(".top-menu-search--input"),
                           query: agenda_item.notes,
                           select_text: "In this project ↵",
                           wait_dropdown_open: false)
 
       page.find('[data-qa-tab-id="meetings"]').click
-      expect(page.find_by_id('search-results')).to have_text(meeting.title)
+      expect(page.find_by_id("search-results")).to have_text(meeting.title)
     end
   end
 end

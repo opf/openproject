@@ -96,7 +96,10 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
 
       default_int_field.expect_value default_int_custom_field.default_value.to_s
       default_string_field.expect_value 'Overwritten'
-      no_default_string_field.expect_value ''
+
+      # The custom field without default value should not be shown
+      # as it didn't got activated with a value during project creation
+      expect(page).to have_no_css("[data-qa-field-name='customField#{no_default_string_custom_field.id}']")
     end
   end
 
@@ -105,6 +108,11 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
       create(:text_project_custom_field)
     end
     let(:editor) { Components::WysiwygEditor.new "[data-qa-field-name='customField#{custom_field.id}']" }
+
+    before do
+      # enable the custom field for the project
+      project.project_custom_fields << custom_field
+    end
 
     it 'allows settings the project boolean CF (regression #26313)' do
       visit project_settings_general_path(project.id)
@@ -196,6 +204,11 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
       create(:boolean_project_custom_field)
     end
 
+    before do
+      # enable the custom field for the project
+      project.project_custom_fields << custom_field
+    end
+
     it 'allows settings the project boolean CF (regression #26313)' do
       visit project_settings_general_path(project.id)
       field = page.find(identifier)
@@ -256,6 +269,8 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
     end
 
     it 'allows inviting a new user immediately (regression #39166)' do
+      project.project_custom_fields << custom_field # enable the custom field for the project
+
       visit project_settings_general_path(project.id)
 
       cf_field.expect_visible

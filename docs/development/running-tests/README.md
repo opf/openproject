@@ -837,7 +837,7 @@ OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 
 # Now access your server from http://<your local ip>:3000 with code reloading
 ```
 
-You might have to also update your host name setting `bundle exec rake setting:set[host_name=your-ip]`.
+You might have to also update your host name setting `bundle exec rake setting:set[host_name=yourip]`.
 
 ## Legacy LDAP tests
 

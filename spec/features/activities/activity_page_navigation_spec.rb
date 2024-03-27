@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Activity page navigation', :js, :with_cuprite do
+RSpec.describe "Activity page navigation", :js, :with_cuprite do
   include ActiveSupport::Testing::TimeHelpers
 
-  shared_let(:project) { create(:project, enabled_module_names: Setting.default_projects_modules + ['activity']) }
+  shared_let(:project) { create(:project, enabled_module_names: Setting.default_projects_modules + ["activity"]) }
   shared_let(:subproject) do
-    create(:project, parent: project, enabled_module_names: Setting.default_projects_modules + ['activity'])
+    create(:project, parent: project, enabled_module_names: Setting.default_projects_modules + ["activity"])
   end
   shared_let(:user) do
     create(:user,
-           lastname: 'the user',
+           lastname: "the user",
            member_with_permissions: {
              project => [:view_work_packages],
              subproject => [:view_work_packages]
@@ -47,13 +47,13 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
     create(:work_package,
            project:,
            author: user,
-           subject: 'Work package for parent project')
+           subject: "Work package for parent project")
   end
   shared_let(:subproject_work_package) do
     create(:work_package,
            project: subproject,
            author: user,
-           subject: 'Work package for subproject')
+           subject: "Work package for subproject")
   end
 
   shared_let(:project_older_work_package) do
@@ -61,7 +61,7 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
     create(:work_package,
            project:,
            author: user,
-           subject: 'Work package older for parent project')
+           subject: "Work package older for parent project")
   ensure
     travel_back
   end
@@ -71,34 +71,34 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
     create(:work_package,
            project: subproject,
            author: user,
-           subject: 'Work package older for subproject')
+           subject: "Work package older for subproject")
   ensure
     travel_back
   end
 
   current_user { user }
 
-  describe 'global menu item' do
-    it 'allows navigating to the global activity page' do
+  describe "global menu item" do
+    it "allows navigating to the global activity page" do
       visit root_path
 
-      within '#main-menu' do
-        click_link 'Activity'
+      within "#main-menu" do
+        click_link "Activity"
       end
 
       expect(page).to have_current_path(activity_index_path)
     end
   end
 
-  it 'stays on the same period when changing filters' do
+  it "stays on the same period when changing filters" do
     visit project_activity_index_path(project)
-    click_link('Previous')
+    click_link("Previous")
 
     expect(page)
       .to have_link(text: /#{subproject_older_work_package.subject}/)
 
-    uncheck 'Include subprojects'
-    click_button 'Apply'
+    uncheck "Include subprojects"
+    click_button "Apply"
 
     # Still on the same page. Filters applied. subproject work package created
     # 45 days ago should not be visible anymore
@@ -106,11 +106,11 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
       .to have_no_link(text: /#{subproject_older_work_package.subject}/)
   end
 
-  context 'when filtering per user' do
+  context "when filtering per user" do
     shared_let(:another_user) do
       create(:user,
-             firstname: 'Gizmo',
-             lastname: 'the other user',
+             firstname: "Gizmo",
+             lastname: "the other user",
              member_with_permissions: {
                project => [:view_work_packages],
                subproject => [:view_work_packages]
@@ -120,7 +120,7 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
       create(:work_package,
              project:,
              author: another_user,
-             subject: 'Work package for parent project')
+             subject: "Work package for parent project")
     end
 
     def fix_work_package_journal_author(user)
@@ -134,10 +134,10 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
       fix_work_package_journal_author(another_user)
     end
 
-    it 'can filter by user' do
+    it "can filter by user" do
       # using the user filter through the activity link on the user profile page
       visit user_path(user.id)
-      click_on('Activity')
+      click_on("Activity")
 
       expect(page).to have_heading("#{user.name}'s activity")
       expect(page).to have_link(user.name)
@@ -145,16 +145,16 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
     end
   end
 
-  shared_examples 'subprojects checkbox state is preserved' do
-    it 'keeps Subprojects checked/unchecked when navigating between pages' do
+  shared_examples "subprojects checkbox state is preserved" do
+    it "keeps Subprojects checked/unchecked when navigating between pages" do
       visit project_activity_index_path(project)
 
       aggregate_failures do
         # Subprojects is initially checked or not depending on a setting
         if Setting.display_subprojects_work_packages?
-          expect(page).to have_checked_field('Include subprojects')
+          expect(page).to have_checked_field("Include subprojects")
         else
-          expect(page).to have_unchecked_field('Include subprojects')
+          expect(page).to have_unchecked_field("Include subprojects")
         end
 
         # work packages for both projects are visible
@@ -164,11 +164,11 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
           .to have_link(text: /#{subproject_work_package.subject}/)
       end
 
-      uncheck 'Include subprojects'
-      click_button 'Apply'
+      uncheck "Include subprojects"
+      click_button "Apply"
 
       aggregate_failures do
-        expect(page).to have_unchecked_field('Include subprojects')
+        expect(page).to have_unchecked_field("Include subprojects")
         expect(page)
           .to have_link(text: /#{project_work_package.subject}/)
         # work packages for subproject is not visible anymore
@@ -176,11 +176,11 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
           .to have_no_link(text: /#{subproject_work_package.subject}/)
       end
 
-      click_link('Previous')
+      click_link("Previous")
 
       aggregate_failures do
         # Subprojects should still be unchecked, bug #45348
-        expect(page).to have_unchecked_field('Include subprojects')
+        expect(page).to have_unchecked_field("Include subprojects")
         expect(page)
           .to have_link(text: /#{project_older_work_package.subject}/)
 
@@ -189,11 +189,11 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
           .to have_no_link(text: /#{subproject_older_work_package.subject}/)
       end
 
-      click_link('Next')
+      click_link("Next")
 
       aggregate_failures do
         # Subprojects should still be unchecked, bug #45348
-        expect(page).to have_unchecked_field('Include subprojects')
+        expect(page).to have_unchecked_field("Include subprojects")
         expect(page)
           .to have_link(text: /#{project_work_package.subject}/)
 
@@ -204,18 +204,18 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
     end
   end
 
-  context 'with subprojects included by default', with_setting: { display_subprojects_work_packages: true } do
-    include_examples 'subprojects checkbox state is preserved'
+  context "with subprojects included by default", with_setting: { display_subprojects_work_packages: true } do
+    include_examples "subprojects checkbox state is preserved"
   end
 
-  context 'with subprojects NOT included by default', with_setting: { display_subprojects_work_packages: false } do
-    include_examples 'subprojects checkbox state is preserved'
+  context "with subprojects NOT included by default", with_setting: { display_subprojects_work_packages: false } do
+    include_examples "subprojects checkbox state is preserved"
   end
 
-  context 'when navigating to a diff' do
-    context 'for a project status explanation' do
+  context "when navigating to a diff" do
+    context "for a project status explanation" do
       before do
-        project.update(status_explanation: 'New status explanation')
+        project.update(status_explanation: "New status explanation")
       end
 
       def ensure_project_attributes_filter_is_checked
@@ -224,8 +224,8 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
         # to other activity pages will persist this setting
 
         if page.current_path == activities_path
-          check 'Project attributes'
-          click_button 'Apply'
+          check "Project attributes"
+          click_button "Apply"
         end
       end
 
@@ -235,20 +235,20 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
 
         ensure_project_attributes_filter_is_checked
 
-        expect(page).to have_link(text: 'Details')
+        expect(page).to have_link(text: "Details")
         expect(page.text).to include("Project status description set (Details)")
-        within '.op-activity-list' do
-          click_link('Details')
+        within ".op-activity-list" do
+          click_link("Details")
         end
 
         # on diff page, click the back button
-        expect(page).to have_link(text: 'Back')
-        click_link('Back')
+        expect(page).to have_link(text: "Back")
+        click_link("Back")
 
         expect(page.current_url).to eq(activity_page_url)
       end
 
-      it 'Back button navigates to the previously seen activity page' do
+      it "Back button navigates to the previously seen activity page" do
         [
           activities_path,
           project_activities_path(project),
@@ -259,27 +259,27 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
       end
     end
 
-    context 'for a work package description' do
+    context "for a work package description" do
       before do
-        project_work_package.update(description: 'New work package description')
+        project_work_package.update(description: "New work package description")
       end
 
       def assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
         visit(activity_page)
         activity_page_url = page.current_url
 
-        expect(page).to have_link(text: 'Details')
+        expect(page).to have_link(text: "Details")
         expect(page.text).to include("Description changed (Details)")
-        click_link('Details')
+        click_link("Details")
 
         # on diff page, click the back button
-        expect(page).to have_link(text: 'Back')
-        click_link('Back')
+        expect(page).to have_link(text: "Back")
+        click_link("Back")
 
         expect(page.current_url).to eq(activity_page_url)
       end
 
-      it 'Back button navigates to the previously seen activity page' do
+      it "Back button navigates to the previously seen activity page" do
         [
           activities_path,
           project_activities_path(project),
@@ -290,7 +290,7 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
       end
 
       # work package activity page is rendered by Angular, so it needs js: true
-      it 'Back button navigates to the previously seen work package page', :js do
+      it "Back button navigates to the previously seen work package page", :js do
         activity_page = work_package_path(project_work_package)
         assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
       end

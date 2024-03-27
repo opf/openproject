@@ -88,7 +88,7 @@ module API
         polymorphic_resource :resource
 
         def _type
-          'Notification'
+          "Notification"
         end
 
         self.to_eager_load = %i[project actor journal]

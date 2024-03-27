@@ -28,34 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolderCommand, :vcr, :webmock do
   shared_let(:storage) { create(:sharepoint_dev_drive_storage) }
 
-  let(:delete_command) { Storages::Peripherals::Registry.resolve('one_drive.commands.delete_folder') }
-  let(:folder_path) { 'Földer CreatedBy Çommand' }
+  let(:delete_command) { Storages::Peripherals::Registry.resolve("one_drive.commands.delete_folder") }
+  let(:folder_path) { "Földer CreatedBy Çommand" }
 
   shared_let(:original_ids) do
     WebMock.enable! && VCR.turn_on!
-    VCR.use_cassette('one_drive/create_folder_setup') { original_files }
+    VCR.use_cassette("one_drive/create_folder_setup") { original_files }
   ensure
     VCR.turn_off! && WebMock.disable!
   end
 
-  it 'responds to .call with correct parameters' do
+  it "responds to .call with correct parameters" do
     expect(described_class).to respond_to(:call)
 
     method = described_class.method(:call)
     expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq folder_path])
   end
 
-  it 'is registered as create_folder' do
-    expect(Storages::Peripherals::Registry.resolve('one_drive.commands.create_folder')).to eq(described_class)
+  it "is registered as create_folder" do
+    expect(Storages::Peripherals::Registry.resolve("one_drive.commands.create_folder")).to eq(described_class)
   end
 
-  it 'creates a folder and responds with a success', vcr: 'one_drive/create_folder_base' do
+  it "creates a folder and responds with a success", vcr: "one_drive/create_folder_base" do
     result = described_class.call(storage:, folder_path:)
     expect(result).to be_success
     expect(result.message).to eq("Folder was successfully created.")
@@ -65,7 +65,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
     delete_created_files
   end
 
-  it 'creates a sub folder', vcr: 'one_drive/create_folder_sub_folder' do
+  it "creates a sub folder", vcr: "one_drive/create_folder_sub_folder" do
     folder = described_class.call(storage:, folder_path:).result
     sub_folder = described_class.new(storage).call(folder_path: "Another Folder", parent_location: folder.id).result
 
@@ -75,8 +75,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
     delete_created_files
   end
 
-  context 'when the folder already exists', vcr: 'one_drive/create_folder_already_exists' do
-    it 'returns a failure' do
+  context "when the folder already exists", vcr: "one_drive/create_folder_already_exists" do
+    it "returns a failure" do
       described_class.call(storage:, folder_path:)
 
       result = described_class.call(storage:, folder_path:)
@@ -85,7 +85,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
 
       error_data = result.errors.data
       expect(error_data.payload.status).to eq(409)
-      expect(error_data.payload.json.dig('error', 'code')).to match /nameAlreadyExists/
+      expect(error_data.payload.json.dig("error", "code")).to match /nameAlreadyExists/
     ensure
       delete_created_files
     end

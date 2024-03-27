@@ -36,7 +36,7 @@ module HomescreenHelper
   ##
   # Homescreen organization icon
   def organization_icon
-    op_icon('icon-context icon-enterprise')
+    op_icon("icon-context icon-enterprise")
   end
 
   ##
@@ -48,7 +48,7 @@ module HomescreenHelper
     link_to label,
             link[:href],
             title: label,
-            target: '_blank', rel: 'noopener'
+            target: "_blank", rel: "noopener"
   end
 
   ##

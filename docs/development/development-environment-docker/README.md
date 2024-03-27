@@ -141,14 +141,7 @@ system's resources.
 ```shell
 # Start the worker service and let it run continuously
 docker compose up -d worker
-
-# Start the worker service to work off all delayed jobs and shut it down afterwards
-docker compose run --rm worker rake jobs:workoff
 ```
-
-The testing containers are excluded as well, while they are harmless to start, but take up system resources again and
-clog your logs while running. The delayed_job background worker reloads the application for every job in development
-mode. This is a know issue and documented here: https://github.com/collectiveidea/delayed_job/issues/823
 
 This process can take quite a long time on the first run where all gems are installed for the first time. However, these
 are cached in a docker volume. Meaning that from the 2nd run onwards it will start a lot quicker.
@@ -396,7 +389,7 @@ docker compose --project-directory docker/dev/tls up -d
 
 ## GitLab CE Service
 
-Within `docker/dev/gitlab` a compose file is provided for running local GitLab instance with TLS support. This provides
+Within `docker/dev/gitlab` a compose file is provided for running local Gitlab instance with TLS support. This provides
 a production like environment for testing the OpenProject GitLab integration against a community edition GitLab instance
 accessible on `https://gitlab.local`.
 

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Projects::Scopes::Visible do
   shared_let(:activity) { create(:time_entry_activity) }
@@ -74,50 +74,50 @@ RSpec.describe Projects::Scopes::Visible do
 
   subject { Project.visible(current_user) }
 
-  context 'for an admin user' do
+  context "for an admin user" do
     let(:current_user) { admin_user }
 
-    it 'list all projects' do
+    it "list all projects" do
       expect(subject).to contain_exactly(shared_in_project, project, public_project)
     end
   end
 
-  context 'for a user a work package is shared with and who has a memberships' do
+  context "for a user a work package is shared with and who has a memberships" do
     let(:current_user) { shared_user }
 
-    it 'list all projects' do
+    it "list all projects" do
       expect(subject).to contain_exactly(shared_in_project, project, public_project)
     end
   end
 
-  context 'for a user having only a project membership' do
+  context "for a user having only a project membership" do
     let(:current_user) { only_project_user }
 
-    it 'list only the project in which the user has the membership and the public project' do
+    it "list only the project in which the user has the membership and the public project" do
       expect(subject).to contain_exactly(project, public_project)
     end
   end
 
-  context 'for a user only having a share' do
+  context "for a user only having a share" do
     let(:current_user) { only_shared_user }
 
-    it 'list only the project in which the shared work package is and the public project' do
+    it "list only the project in which the shared work package is and the public project" do
       expect(subject).to contain_exactly(shared_in_project, public_project)
     end
   end
 
-  context 'for a user without any permission' do
+  context "for a user without any permission" do
     let(:current_user) { no_membership_user }
 
-    it 'list only the public project' do
+    it "list only the public project" do
       expect(subject).to contain_exactly(public_project)
     end
   end
 
-  context 'for an anonymous user' do
+  context "for an anonymous user" do
     let(:current_user) { create(:anonymous) }
 
-    it 'list only the public project' do
+    it "list only the public project" do
       expect(subject).to contain_exactly(public_project)
     end
   end

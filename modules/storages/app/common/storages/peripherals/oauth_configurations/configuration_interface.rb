@@ -32,23 +32,14 @@ module Storages
   module Peripherals
     module OAuthConfigurations
       class ConfigurationInterface
-        def authorization_state_check(_) = raise ::Storages::Errors::SubclassResponsibility
-
         def scope = raise ::Storages::Errors::SubclassResponsibility
 
         def basic_rack_oauth_client = raise ::Storages::Errors::SubclassResponsibility
 
-        private
+        def to_httpx_oauth_config = raise ::Storages::Errors::SubclassResponsibility
 
-        def authorization_check_wrapper
-          case yield
-          in { status: 200..299 }
-            :success
-          in { status: 401 | 403 }
-            :refresh_needed
-          else
-            :error
-          end
+        def authorization_uri(state: nil)
+          basic_rack_oauth_client.authorization_uri(scope:, state:)
         end
       end
     end

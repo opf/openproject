@@ -1,6 +1,6 @@
 # load custom translation rules, as stored in config/locales/plurals.rb
 # to be aware of e.g. Japanese not having a plural from for nouns
-require 'open_project/translations/pluralization_backend'
+require "open_project/translations/pluralization_backend"
 I18n::Backend::Simple.include OpenProject::Translations::PluralizationBackend
 
 # Adds fallback to default locale for untranslated strings

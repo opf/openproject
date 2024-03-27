@@ -1,4 +1,4 @@
-require_relative 'migration_utils/utils'
+require_relative "migration_utils/utils"
 
 class EnableGanttModuleForAllProjects < ActiveRecord::Migration[7.0]
   include ::Migration::Utils

@@ -34,10 +34,10 @@ module OpenProject
       # @param dialog_title
       # @param dialog_id
       # @param form_id
-      def form(button_text: 'Show form dialog',
-               dialog_title: 'Dialog title',
-               dialog_id: 'dialog-id',
-               form_id: 'form-id')
+      def form(button_text: "Show form dialog",
+               dialog_title: "Dialog title",
+               dialog_id: "dialog-id",
+               form_id: "form-id")
         render_with_template(locals: { button_text:, dialog_title:, dialog_id:, form_id: })
       end
 
@@ -45,10 +45,10 @@ module OpenProject
       # @param dialog_title
       # @param dialog_id
       # @param message
-      def confirmation(button_text: 'Show confirmation dialog',
-                       dialog_title: 'Do the action',
-                       dialog_id: 'dialog-id',
-                       message: 'Are you sure?')
+      def confirmation(button_text: "Show confirmation dialog",
+                       dialog_title: "Do the action",
+                       dialog_id: "dialog-id",
+                       message: "Are you sure?")
         render_with_template(locals: { button_text:, dialog_title:, dialog_id:, message: })
       end
 
@@ -56,10 +56,10 @@ module OpenProject
       # @param dialog_title
       # @param dialog_id
       # @param message
-      def confirm_deletion(button_text: 'Delete XYZ',
-                           dialog_title: 'Delete XYZ',
-                           dialog_id: 'dialog-id',
-                           message: 'Are you sure you want to delete the item?')
+      def confirm_deletion(button_text: "Delete XYZ",
+                           dialog_title: "Delete XYZ",
+                           dialog_id: "dialog-id",
+                           message: "Are you sure you want to delete the item?")
         render_with_template(locals: { button_text:, dialog_title:, dialog_id:, message: })
       end
     end

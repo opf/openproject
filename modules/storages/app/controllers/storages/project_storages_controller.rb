@@ -110,7 +110,7 @@ class Storages::ProjectStoragesController < ApplicationController
       project_overview_path(project_id: @project.identifier),
       flash: {
         modal: {
-          type: 'Storages::OpenProjectStorageModalComponent',
+          type: "Storages::OpenProjectStorageModalComponent",
           parameters: {
             project_storage_open_url: request.path,
             redirect_url: api_v3_project_storage_open,

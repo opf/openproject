@@ -236,7 +236,7 @@ The following factors can have an impact on the duration of the export:
 - Number of columns in the export (less of an impact)
 
 To identify how many background jobs have run or are delayed, enter "/health_checks/full" after the URL (e.g. myopenprojectinstance.com/health_checks/full).
-This provides an overview of "delayed_jobs_never_ran" which shows the number of background jobs that could not get ran within the last 10 minutes. If there are multiple entries, this can indicate that the number of web workers should be increased.
+This provides an overview of "worker_backed_up" which shows the number of background jobs that could not get ran within the last 5 minutes. If there are multiple entries, this can indicate that the number of web workers should be increased.
 
 For a documentation of how to do this, please refer to [these instructions](../../../installation-and-operations/operation/control) (see section "Scaling the number of web workers").
 

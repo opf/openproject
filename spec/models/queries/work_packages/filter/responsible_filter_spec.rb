@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
   let(:instance) do
@@ -36,27 +36,27 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
     filter
   end
 
-  let(:operator) { '=' }
+  let(:operator) { "=" }
   let(:values) { [] }
 
-  describe 'where filter results' do
+  describe "where filter results" do
     let(:work_package) { create(:work_package, responsible:) }
     let(:responsible) { create(:user) }
     let(:group) { create(:group) }
 
     subject { WorkPackage.where(instance.where) }
 
-    context 'for the user value' do
+    context "for the user value" do
       let(:values) { [responsible.id.to_s] }
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(subject)
           .to contain_exactly(work_package)
       end
     end
 
-    context 'for the me value with the user being logged in' do
-      let(:values) { ['me'] }
+    context "for the me value with the user being logged in" do
+      let(:values) { ["me"] }
 
       before do
         allow(User)
@@ -64,22 +64,22 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
           .and_return(responsible)
       end
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(subject)
           .to contain_exactly(work_package)
       end
 
-      it 'returns the corrected value object' do
+      it "returns the corrected value object" do
         objects = instance.value_objects
 
         expect(objects.size).to eq(1)
-        expect(objects.first.id).to eq 'me'
-        expect(objects.first.name).to eq 'me'
+        expect(objects.first.id).to eq "me"
+        expect(objects.first.name).to eq "me"
       end
     end
 
-    context 'for the me value with another user being logged in' do
-      let(:values) { ['me'] }
+    context "for the me value with another user being logged in" do
+      let(:values) { ["me"] }
 
       before do
         allow(User)
@@ -87,16 +87,16 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
           .and_return(create(:user))
       end
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
     end
 
-    context 'for me and user values' do
+    context "for me and user values" do
       let(:user) { create(:user) }
       let(:responsible2) { create(:user) }
-      let(:values) { [responsible.id, user.id, 'me', responsible2.id] }
+      let(:values) { [responsible.id, user.id, "me", responsible2.id] }
 
       before do
         # Order is important here for ids,
@@ -111,40 +111,40 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
           .and_return(user)
       end
 
-      it 'returns the mapped value' do
+      it "returns the mapped value" do
         objects = instance.value_objects
 
         # The first value is guaranteed to be 'me'.
         # There is no order on the other values.
-        expect(objects.map(&:id)[0]).to eql 'me'
+        expect(objects.map(&:id)[0]).to eql "me"
         expect(objects.map(&:id)[1..-1]).to contain_exactly(responsible.id, responsible2.id)
       end
     end
 
-    context 'for a group value with the group being assignee' do
+    context "for a group value with the group being assignee" do
       let(:responsible) { group }
       let(:values) { [group.id.to_s] }
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(subject)
           .to contain_exactly(work_package)
       end
     end
 
-    context 'for a group value with a group member being assignee' do
+    context "for a group value with a group member being assignee" do
       let(:values) { [group.id.to_s] }
       let(:group) { create(:group, members: responsible) }
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
     end
 
-    context 'for a group value with no group member being assignee' do
+    context "for a group value with no group member being assignee" do
       let(:values) { [group.id.to_s] }
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
@@ -156,7 +156,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
       let(:user) { create(:user) }
       let(:group) { create(:group, members: user) }
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
@@ -167,30 +167,30 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
       let(:responsible) { group }
       let(:user) { create(:user) }
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
     end
 
-    context 'for an unmatched value' do
-      let(:values) { ['0'] }
+    context "for an unmatched value" do
+      let(:values) { ["0"] }
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
     end
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list_optional }
     let(:class_key) { :responsible_id }
 
     let(:user_1) { build_stubbed(:user) }
 
     let(:principal_loader) do
-      loader = double('principal_loader')
+      loader = double("principal_loader")
       allow(loader)
         .to receive(:principal_values)
         .and_return([])
@@ -205,7 +205,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
         .and_return(principal_loader)
     end
 
-    describe '#available?' do
+    describe "#available?" do
       let(:logged_in) { true }
 
       before do
@@ -214,12 +214,12 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
           .and_return(logged_in)
       end
 
-      context 'when being logged in' do
-        it 'is true if no other user is available' do
+      context "when being logged in" do
+        it "is true if no other user is available" do
           expect(instance).to be_available
         end
 
-        it 'is true if there is another user selectable' do
+        it "is true if there is another user selectable" do
           allow(principal_loader)
             .to receive(:principal_values)
             .and_return([nil, user_1.id.to_s])
@@ -228,14 +228,14 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
         end
       end
 
-      context 'when not being logged in' do
+      context "when not being logged in" do
         let(:logged_in) { false }
 
-        it 'is false if no other user is available' do
+        it "is false if no other user is available" do
           expect(instance).not_to be_available
         end
 
-        it 'is true if there is another user selectable' do
+        it "is true if there is another user selectable" do
           allow(principal_loader)
             .to receive(:principal_values)
             .and_return([[nil, user_1.id.to_s]])
@@ -245,7 +245,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
       end
     end
 
-    describe '#allowed_values' do
+    describe "#allowed_values" do
       let(:logged_in) { true }
       let(:group) { build_stubbed(:group) }
 
@@ -260,31 +260,31 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
                        [nil, group.id.to_s]])
       end
 
-      context 'when being logged in' do
-        it 'returns the me value, the available users, and groups' do
+      context "when being logged in" do
+        it "returns the me value, the available users, and groups" do
           expect(instance.allowed_values)
-            .to contain_exactly([I18n.t(:label_me), 'me'], [nil, user_1.id.to_s], [nil, group.id.to_s])
+            .to contain_exactly([I18n.t(:label_me), "me"], [nil, user_1.id.to_s], [nil, group.id.to_s])
         end
       end
 
-      context 'when not being logged in' do
+      context "when not being logged in" do
         let(:logged_in) { false }
 
-        it 'returns the available users' do
+        it "returns the available users" do
           expect(instance.allowed_values)
             .to contain_exactly([nil, user_1.id.to_s], [nil, group.id.to_s])
         end
       end
     end
 
-    describe '#ar_object_filter?' do
-      it 'is true' do
+    describe "#ar_object_filter?" do
+      it "is true" do
         expect(instance)
           .to be_ar_object_filter
       end
     end
 
-    describe '#value_objects' do
+    describe "#value_objects" do
       let(:user) { build_stubbed(:user) }
       let(:user2) { build_stubbed(:user) }
 
@@ -297,7 +297,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
         instance.values = [user.id.to_s, user2.id.to_s]
       end
 
-      it 'returns an array of objects' do
+      it "returns an array of objects" do
         expect(instance.value_objects)
           .to contain_exactly(user, user2)
       end

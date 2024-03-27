@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
+RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   let(:scope) do
@@ -59,14 +59,14 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
       .new(
         scope,
         current_user:,
-        url_query: { select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} } }
+        url_query: { select: { "id" => {}, "_type" => {}, "self" => {}, "action" => {}, "context" => {}, "principal" => {} } }
       )
       .walk(described_class)
       .to_json
   end
 
-  context 'with a project and user' do
-    it 'renders as expected' do
+  context "with a project and user" do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql({
           id: "activities/read/p#{context.id}-#{principal.id}",
@@ -91,13 +91,13 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     end
   end
 
-  context 'with a project and group' do
+  context "with a project and group" do
     let(:principal) do
       create(:group,
              member_with_permissions: { project => %i[view_members] })
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql({
           id: "memberships/read/p#{context.id}-#{principal.id}",
@@ -122,7 +122,7 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     end
   end
 
-  context 'with a global permission' do
+  context "with a global permission" do
     let(:principal) do
       create(:user,
              global_permissions: %i[create_user],
@@ -130,7 +130,7 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     end
     let(:context) { nil }
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql({
           id: "users/create/g-#{principal.id}",
@@ -138,7 +138,7 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
           _links: {
             context: {
               href: api_v3_paths.capabilities_contexts_global,
-              title: 'Global'
+              title: "Global"
             },
             principal: {
               href: api_v3_paths.user(principal.id),

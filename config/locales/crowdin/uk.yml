@@ -26,15 +26,14 @@ uk:
       no_results_title_text: Протягом цього часу не було жодної діяльності для проекту.
   admin:
     plugins:
-      no_results_title_text: Наразі немає доступних плагінів.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Колірна тема"
       color_theme_custom: "(Власний)"
       colors:
-        alternative-color: "Альтернативний"
-        content-link-color: "Шрифт посилання"
-        primary-color: "Основний"
-        primary-color-dark: "Основний (темний)"
+        primary-button-color: "Основна кнопка"
+        accent-color: "Акцент"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка в разі наведення курсора"
         header-item-font-color: "Шрифт заголовка"
@@ -53,10 +52,8 @@ uk:
       enterprise_more_info: "Примітка: використаний логотип буде загальнодоступний."
       manage_colors: "Редагувати параметри вибору кольору"
       instructions:
-        alternative-color: "Насичений акцентний колір зазвичай використовується для більшості важливих кнопок на екрані."
-        content-link-color: "Колір шрифту більшості посилань."
-        primary-color: "Основний колір."
-        primary-color-dark: "Зазвичай темний варіант основного кольору, який використовується для ефектів наведення."
+        primary-button-color: "Насичений акцентний колір використовується для більшості важливих кнопок на екрані."
+        accent-color: "Колір для посилань та інших елементів, які має бути виділено."
         header-item-bg-hover-color: "Колір фону в заголовках інтерактивних елементів під курсором миші."
         header-item-font-color: "Колір шрифту в заголовках інтерактивних елементів."
         header-item-font-hover-color: "Колір шрифту в заголовках інтерактивних елементів під курсором миші."
@@ -1581,6 +1578,7 @@ uk:
       postgres_migration: "Міграція інсталяції в PostgreSQL"
       user_guides: "Посібники користувача"
       faq: "ЧаПи"
+      impressum: "Юридична інформація"
       glossary: "Глосарій"
       shortcuts: "Ярлики"
       blog: "Openproject блог"
@@ -1591,6 +1589,7 @@ uk:
   journals:
     changes_retracted: "Зміни було відхилено."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Дати змінено"
       system_update: "Оновлення системи OpenProject"
     cause_descriptions:
@@ -1912,7 +1911,6 @@ uk:
   label_subject_or_id: "Тема або ідентифікатор"
   label_calendar_subscriptions: "Підписки на календарі"
   label_identifier: "Ідентифікатор"
-  label_impressum: "Правове повідомлення"
   label_in: "в"
   label_in_less_than: "менш ніж"
   label_in_more_than: "більше ніж"
@@ -1923,7 +1921,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції із встановлення"
+  label_installation_guides: "Інструкції зі встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -2771,6 +2769,9 @@ uk:
   setting_apiv3_cors_origins: "Дозволені джерела CORS (Cross-Origin Resource Sharing) в API версії 3"
   setting_apiv3_cors_origins_text_html: >
     Якщо CORS увімкнено, це джерела, які можуть отримувати доступ до OpenProject API. <br/>Щоб дізнатися, як указати очікувані значення, ознайомтеся з <a href="%{origin_link}" target="_blank">Документацією щодо заголовка джерела</a>.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Максимальний розмір сторінки API"
   setting_apiv3_max_page_instructions_html: >
     Встановіть максимальний розмір сторінки, яка відповідатиме API. Неможливо виконати запити API, які повертають більше значень на сторінці. Увага: Будь ласка, змінюйте значення тільки у тому разі, якщо ви впевнені у необхідності цієї дії.  Внаслідок встановлення високого значення спостерігатиметься значний вплив на продуктивність, тоді як значення, що є меншим за сторінку, призведе до появи помилок у переглядах сторінок.
@@ -3151,6 +3152,7 @@ uk:
     status_user_and_brute_force: "%{user} і %{brute_force}"
     status_change: "Зміна стану"
     text_change_disabled_for_provider_login: "Це ім’я встановив ваш постачальник облікових даних, тому його не можна змінити."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Розблокувати"
     unlock_and_reset_failed_logins: "Розблокувати та скинути помилки входу до системи"
   version_status_closed: "зачинено"

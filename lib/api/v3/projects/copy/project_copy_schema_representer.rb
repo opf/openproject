@@ -39,7 +39,7 @@ module API
             name_source = dep[:name_source]
 
             schema :"copy_#{identifier}",
-                   type: 'Boolean',
+                   type: "Boolean",
                    name_source:,
                    has_default: true,
                    writable: true,
@@ -47,13 +47,13 @@ module API
                    description: -> do
                      count = dep[:count_source].call(represented.model, current_user)
 
-                     I18n.t('copy_project.x_objects_of_this_type', count: count.to_i)
+                     I18n.t("copy_project.x_objects_of_this_type", count: count.to_i)
                    end,
                    location: :meta
           end
 
           schema :send_notifications,
-                 type: 'Boolean',
+                 type: "Boolean",
                  name_source: ->(*) { I18n.t(:label_project_copy_notifications) },
                  has_default: true,
                  writable: true,

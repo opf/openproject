@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'baseline query saving',
+RSpec.describe "baseline query saving",
                :js,
                :with_cuprite,
                with_ee: %i[baseline_comparison],
-               with_settings: { date_format: '%Y-%m-%d' } do
+               with_settings: { date_format: "%Y-%m-%d" } do
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
 
@@ -43,7 +43,7 @@ RSpec.describe 'baseline query saving',
 
   shared_let(:berlin_user) do
     create(:user,
-           preferences: { time_zone: 'Europe/Berlin' },
+           preferences: { time_zone: "Europe/Berlin" },
            member_with_permissions: { project => %i[view_work_packages save_queries manage_public_queries] })
   end
 
@@ -56,7 +56,7 @@ RSpec.describe 'baseline query saving',
 
   shared_let(:tokyo_user) do
     create(:user,
-           preferences: { time_zone: 'Asia/Tokyo' },
+           preferences: { time_zone: "Asia/Tokyo" },
            member_with_permissions: { project => %i[view_work_packages save_queries manage_public_queries] })
   end
   # always 9 as Japan does not observe daylight saving time
@@ -66,7 +66,7 @@ RSpec.describe 'baseline query saving',
   # always "UTC+9"
   shared_let(:tokyo_utc_offset) { "UTC+#{tokyo_hours_offset}" }
 
-  it 'shows a warning when an incompatible filter is used' do
+  it "shows a warning when an incompatible filter is used" do
     login_as berlin_user
     wp_table.visit!
 
@@ -74,30 +74,30 @@ RSpec.describe 'baseline query saving',
     baseline.expect_no_legends
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
-    baseline_modal.expect_selected '-'
+    baseline_modal.expect_selected "-"
 
-    baseline_modal.select_filter 'yesterday'
-    baseline_modal.set_time '09:00'
+    baseline_modal.select_filter "yesterday"
+    baseline_modal.set_time "09:00"
     baseline_modal.expect_offset berlin_utc_offset
     baseline_modal.apply
 
     loading_indicator_saveguard
 
     filters.open
-    filters.add_filter_by('Watcher', 'is (OR)', 'me')
+    filters.add_filter_by("Watcher", "is (OR)", "me")
 
     loading_indicator_saveguard
 
     expect(page).to have_css(
-      '.op-toast.-warning',
-      text: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+      ".op-toast.-warning",
+      text: "Baseline mode is on but some of your active filters are not included in the comparison."
     )
-    page.within('#filter_watcher') do
-      expect(page).to have_test_selector('query-filter-baseline-incompatible')
+    page.within("#filter_watcher") do
+      expect(page).to have_test_selector("query-filter-baseline-incompatible")
     end
   end
 
-  it 'can configure and save baseline queries' do
+  it "can configure and save baseline queries" do
     login_as berlin_user
     wp_table.visit!
 
@@ -105,10 +105,10 @@ RSpec.describe 'baseline query saving',
     baseline.expect_no_legends
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
-    baseline_modal.expect_selected '-'
+    baseline_modal.expect_selected "-"
 
-    baseline_modal.select_filter 'yesterday'
-    baseline_modal.set_time '09:00'
+    baseline_modal.select_filter "yesterday"
+    baseline_modal.set_time "09:00"
     baseline_modal.expect_offset berlin_utc_offset
     baseline_modal.apply
 
@@ -116,20 +116,20 @@ RSpec.describe 'baseline query saving',
 
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
-    baseline_modal.expect_selected 'yesterday'
+    baseline_modal.expect_selected "yesterday"
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_closed
     baseline.expect_legends
     baseline.expect_legend_text "Changes since yesterday (#{Date.yesterday.iso8601} 9:00 AM #{berlin_utc_offset})"
-    expect(page).to have_css(".op-baseline-legends--details-added", text: 'Now meets filter criteria (1)')
-    expect(page).to have_css(".op-baseline-legends--details-removed", text: 'No longer meets filter criteria (0)')
-    expect(page).to have_css(".op-baseline-legends--details-changed", text: 'Maintained with changes (0)')
+    expect(page).to have_css(".op-baseline-legends--details-added", text: "Now meets filter criteria (1)")
+    expect(page).to have_css(".op-baseline-legends--details-removed", text: "No longer meets filter criteria (0)")
+    expect(page).to have_css(".op-baseline-legends--details-changed", text: "Maintained with changes (0)")
 
-    wp_table.save_as 'Baseline query'
-    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+    wp_table.save_as "Baseline query"
+    wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
-    query = retry_block { Query.find_by! name: 'Baseline query' }
-    expect(query.timestamps.map(&:to_s)).to eq ["oneDayAgo@09:00#{berlin_time_offset}", 'PT0S']
+    query = retry_block { Query.find_by! name: "Baseline query" }
+    expect(query.timestamps.map(&:to_s)).to eq ["oneDayAgo@09:00#{berlin_time_offset}", "PT0S"]
     query.update! public: true
 
     login_as tokyo_user
@@ -142,41 +142,41 @@ RSpec.describe 'baseline query saving',
     baseline_modal.expect_closed
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
-    baseline_modal.expect_selected 'yesterday'
-    baseline_modal.expect_selected_time '09:00'
+    baseline_modal.expect_selected "yesterday"
+    baseline_modal.expect_selected_time "09:00"
     baseline_modal.expect_offset berlin_utc_offset
-    baseline_modal.select_filter '-'
+    baseline_modal.select_filter "-"
 
-    baseline_modal.select_filter 'yesterday'
+    baseline_modal.select_filter "yesterday"
     baseline_modal.expect_offset tokyo_utc_offset
-    baseline_modal.select_filter '-'
+    baseline_modal.select_filter "-"
 
     baseline_modal.apply
     baseline.expect_no_legends
 
     loading_indicator_saveguard
     wp_table.save
-    wp_table.expect_and_dismiss_toaster(message: 'Successful update.')
+    wp_table.expect_and_dismiss_toaster(message: "Successful update.")
 
     query.reload
-    expect(query.timestamps).to eq ['PT0S']
+    expect(query.timestamps).to eq ["PT0S"]
 
     baseline_modal.expect_closed
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
-    baseline_modal.select_filter 'a specific date'
+    baseline_modal.select_filter "a specific date"
     baseline_modal.expect_offset tokyo_utc_offset
-    baseline_modal.set_time '06:00'
-    baseline_modal.set_date '2023-05-20'
+    baseline_modal.set_time "06:00"
+    baseline_modal.set_date "2023-05-20"
     baseline_modal.apply
 
     loading_indicator_saveguard
 
     wp_table.save
-    wp_table.expect_and_dismiss_toaster(message: 'Successful update.')
+    wp_table.expect_and_dismiss_toaster(message: "Successful update.")
 
     query.reload
-    expect(query.timestamps.map(&:to_s)).to eq ['2023-05-20T06:00+09:00', 'PT0S']
+    expect(query.timestamps.map(&:to_s)).to eq ["2023-05-20T06:00+09:00", "PT0S"]
 
     login_as berlin_user
     wp_table.visit_query query
@@ -186,11 +186,11 @@ RSpec.describe 'baseline query saving',
     baseline_modal.expect_closed
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
-    baseline_modal.expect_selected 'a specific date'
-    baseline_modal.expect_selected_time '06:00'
-    baseline_modal.expect_offset 'UTC+9'
+    baseline_modal.expect_selected "a specific date"
+    baseline_modal.expect_selected_time "06:00"
+    baseline_modal.expect_offset "UTC+9"
     baseline_modal.expect_time_help_text "In your local time: 2023-05-19 11:00 PM"
-    baseline_modal.select_filter 'between two specific dates'
+    baseline_modal.select_filter "between two specific dates"
 
     # TODO: on the 2023-05-19, utc offset is +2 hours. But when current date is
     # outside of DST (from November to February for instance), then on time
@@ -198,17 +198,17 @@ RSpec.describe 'baseline query saving',
     # would be better to change the offset depending on the selected date: here
     # UTC+2 offset should be used so that 8:00 is really 8:00 in Berlin on this
     # date, and not 9:00 (because 8:00 UTC+1 is 9:00 UTC+2).
-    baseline_modal.set_between_dates from: '2023-05-19',
-                                     to: '2023-05-25',
-                                     from_time: '08:00',
-                                     to_time: '20:00'
+    baseline_modal.set_between_dates from: "2023-05-19",
+                                     to: "2023-05-25",
+                                     from_time: "08:00",
+                                     to_time: "20:00"
 
     baseline_modal.apply
 
     loading_indicator_saveguard
 
     wp_table.save
-    wp_table.expect_and_dismiss_toaster(message: 'Successful update.')
+    wp_table.expect_and_dismiss_toaster(message: "Successful update.")
 
     query.reload
     expect(query.timestamps.map(&:to_s)).to eq ["2023-05-19T08:00#{berlin_time_offset}", "2023-05-25T20:00#{berlin_time_offset}"]
@@ -224,11 +224,11 @@ RSpec.describe 'baseline query saving',
     baseline_modal.expect_closed
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
-    baseline_modal.expect_selected 'between two specific dates'
-    baseline_modal.expect_between_dates from: '2023-05-19',
-                                        to: '2023-05-25',
-                                        from_time: '08:00',
-                                        to_time: '20:00'
+    baseline_modal.expect_selected "between two specific dates"
+    baseline_modal.expect_between_dates from: "2023-05-19",
+                                        to: "2023-05-25",
+                                        from_time: "08:00",
+                                        to_time: "20:00"
 
     baseline_modal.expect_offset berlin_utc_offset, count: 2
   end

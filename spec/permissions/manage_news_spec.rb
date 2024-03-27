@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'support/permission_specs'
+require "spec_helper"
+require "support/permission_specs"
 
-RSpec.describe NewsController, 'manage_news permission', type: :controller do
+RSpec.describe NewsController, "manage_news permission", type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for('news#preview', :manage_news)
+  check_permission_required_for("news#preview", :manage_news)
 end

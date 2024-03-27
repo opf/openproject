@@ -32,15 +32,15 @@ module RbCommonHelper
   end
 
   def assignee_name_or_empty(story)
-    story.blank? || story.assigned_to.blank? ? '' : "#{story.assigned_to.firstname} #{story.assigned_to.lastname}"
+    story.blank? || story.assigned_to.blank? ? "" : "#{story.assigned_to.firstname} #{story.assigned_to.lastname}"
   end
 
   def blocks_ids(ids)
-    ids.sort.join(',')
+    ids.sort.join(",")
   end
 
   def build_inline_style(task)
-    is_assigned_task?(task) ? color_style(task) : ''
+    is_assigned_task?(task) ? color_style(task) : ""
   end
 
   def color_style(task)
@@ -51,9 +51,9 @@ module RbCommonHelper
 
   def color_contrast_class(task)
     if is_assigned_task?(task)
-      color_contrast(background_color_hex(task)) ? 'light' : 'dark'
+      color_contrast(background_color_hex(task)) ? "light" : "dark"
     else
-      ''
+      ""
     end
   end
 
@@ -95,7 +95,7 @@ module RbCommonHelper
 
   def background_color_hex(task)
     background_color = get_backlogs_preference(task.assigned_to, :task_color)
-    background_color_hex = background_color.sub("#", '0x').hex
+    background_color_hex = background_color.sub("#", "0x").hex
   end
 
   def id_or_empty(item)
@@ -108,7 +108,7 @@ module RbCommonHelper
   end
 
   def work_package_link_or_empty(work_package)
-    modal_link_to_work_package(work_package.id, work_package, class: 'prevent_edit') unless work_package.new_record?
+    modal_link_to_work_package(work_package.id, work_package, class: "prevent_edit") unless work_package.new_record?
   end
 
   def modal_link_to_work_package(title, work_package, options = {})
@@ -117,21 +117,21 @@ module RbCommonHelper
 
   def modal_link_to(title, path, options = {})
     html_id = "modal_work_package_#{SecureRandom.hex(10)}"
-    link_to(title, path, options.merge(id: html_id, target: '_blank'))
+    link_to(title, path, options.merge(id: html_id, target: "_blank"))
   end
 
   def sprint_link_or_empty(item)
     item_id = item.id.to_s
     text = (item_id.length > 8 ? "#{item_id[0..1]}...#{item_id[-4..-1]}" : item_id)
     if item.new_record?
-      ''
+      ""
     else
-      link_to(text, backlogs_project_sprint_path(id: item.id, project_id: item.project.identifier), class: 'prevent_edit')
+      link_to(text, backlogs_project_sprint_path(id: item.id, project_id: item.project.identifier), class: "prevent_edit")
     end
   end
 
   def mark_if_closed(story)
-    !story.new_record? && work_package_status_for_id(story.status_id).is_closed? ? 'closed' : ''
+    !story.new_record? && work_package_status_for_id(story.status_id).is_closed? ? "closed" : ""
   end
 
   def story_points_or_empty(story)
@@ -147,11 +147,11 @@ module RbCommonHelper
   end
 
   def sprint_html_id_or_empty(sprint)
-    sprint.id.nil? ? '' : "sprint_#{sprint.id}"
+    sprint.id.nil? ? "" : "sprint_#{sprint.id}"
   end
 
   def story_html_id_or_empty(story)
-    story.id.nil? ? '' : "story_#{story.id}"
+    story.id.nil? ? "" : "story_#{story.id}"
   end
 
   def type_id_or_empty(story)
@@ -159,22 +159,22 @@ module RbCommonHelper
   end
 
   def type_name_or_empty(story)
-    return '' if story.type_id.nil?
+    return "" if story.type_id.nil?
 
     type = backlogs_types_by_id[story.type_id]
-    return '' if type.nil?
+    return "" if type.nil?
 
     h(type.name)
   end
 
   def date_string_with_milliseconds(d, add = 0)
-    return '' if d.blank?
+    return "" if d.blank?
 
-    d.strftime('%B %d, %Y %H:%M:%S') + '.' + ((d.to_f % 1) + add).to_s.split('.')[1]
+    d.strftime("%B %d, %Y %H:%M:%S") + "." + ((d.to_f % 1) + add).to_s.split(".")[1]
   end
 
   def remaining_hours(item)
-    item.remaining_hours.blank? || item.remaining_hours == 0 ? '' : item.remaining_hours
+    item.remaining_hours.blank? || item.remaining_hours == 0 ? "" : item.remaining_hours
   end
 
   def available_story_types
@@ -204,9 +204,9 @@ module RbCommonHelper
   end
 
   def show_burndown_link(project, sprint)
-    link_to(I18n.t('backlogs.show_burndown_chart'),
+    link_to(I18n.t("backlogs.show_burndown_chart"),
             backlogs_project_sprint_burndown_chart_path(project.identifier, sprint),
-            class: 'show_burndown_chart button',
+            class: "show_burndown_chart button",
             target: :_blank, rel: :noopener)
   end
 
@@ -242,15 +242,15 @@ module RbCommonHelper
   end
 
   def all_work_package_status
-    @all_work_package_status ||= Status.order(Arel.sql('position ASC'))
+    @all_work_package_status ||= Status.order(Arel.sql("position ASC"))
   end
 
   def backlogs_types
     @backlogs_types ||= begin
-      backlogs_ids = Setting.plugin_openproject_backlogs['story_types']
-      backlogs_ids << Setting.plugin_openproject_backlogs['task_type']
+      backlogs_ids = Setting.plugin_openproject_backlogs["story_types"]
+      backlogs_ids << Setting.plugin_openproject_backlogs["task_type"]
 
-      Type.where(id: backlogs_ids).order(Arel.sql('position ASC'))
+      Type.where(id: backlogs_ids).order(Arel.sql("position ASC"))
     end
   end
 
@@ -263,7 +263,7 @@ module RbCommonHelper
 
   def story_types
     @story_types ||= begin
-      backlogs_type_ids = Setting.plugin_openproject_backlogs['story_types'].map(&:to_i)
+      backlogs_type_ids = Setting.plugin_openproject_backlogs["story_types"].map(&:to_i)
 
       backlogs_types.select { |t| backlogs_type_ids.include?(t.id) }
     end
@@ -277,7 +277,7 @@ module RbCommonHelper
   end
 
   def get_backlogs_preference(assignee, attr)
-    assignee.is_a?(User) ? assignee.backlogs_preference(attr) : '#24B3E7'
+    assignee.is_a?(User) ? assignee.backlogs_preference(attr) : "#24B3E7"
   end
 
   def template_story

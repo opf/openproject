@@ -1,4 +1,4 @@
-require_relative 'edit_field'
+require_relative "edit_field"
 
 class DateEditField < EditField
   attr_accessor :milestone, :is_table
@@ -41,7 +41,7 @@ class DateEditField < EditField
   end
 
   def input_selector
-    if property_name == 'combinedDate'
+    if property_name == "combinedDate"
       "input[name=startDate]"
     else
       "input[name=#{property_name}]"
@@ -50,7 +50,7 @@ class DateEditField < EditField
 
   def property_name
     if milestone
-      'date'
+      "date"
     else
       super
     end

@@ -34,11 +34,11 @@ module Queries::Storages::Projects::Filter
     private
 
     def filter_column
-      'host'
+      "host"
     end
 
     def where_values
-      values.map { |host| CGI.unescape(host).gsub(/\/+$/, '') }
+      values.map { |host| CGI.unescape(host).gsub(/\/+$/, "") }
     end
   end
 end

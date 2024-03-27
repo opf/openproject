@@ -66,11 +66,11 @@ module Users
         # The autologin expiry is checked on validating the token
         # but still expire the cookie to avoid unnecessary retries
         expires: expires_on,
-        path: OpenProject::Configuration['autologin_cookie_path'],
+        path: OpenProject::Configuration["autologin_cookie_path"],
         secure: OpenProject::Configuration.https?,
         httponly: true
       }
-      cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
+      cookies[OpenProject::Configuration["autologin_cookie_name"]] = cookie_options
     end
 
     def successful_login

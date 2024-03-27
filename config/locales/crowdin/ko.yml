@@ -26,15 +26,14 @@ ko:
       no_results_title_text: 이 시간 프레임 내에서 프로젝트에 대한 활동이 없습니다.
   admin:
     plugins:
-      no_results_title_text: 사용 가능한 플러그인이 없습니다.
+      no_results_title_text: 현재 설치된 플러그인이 없습니다.
+      no_results_content_text: 자세한 내용은 통합 및 플러그인 페이지를 참조하세요.
     custom_styles:
       color_theme: "컬러 테마"
       color_theme_custom: "(사용자 지정)"
       colors:
-        alternative-color: "대안"
-        content-link-color: "링크 글꼴"
-        primary-color: "기본"
-        primary-color-dark: "기본(진함)"
+        primary-button-color: "기본 버튼"
+        accent-color: "강조 색"
         header-bg-color: "헤더 배경"
         header-item-bg-hover-color: "가리킬 때 헤더 배경"
         header-item-font-color: "헤더 글꼴"
@@ -53,10 +52,8 @@ ko:
       enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
-        alternative-color: "강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다."
-        content-link-color: "대부분 링크의 글꼴색입니다."
-        primary-color: "주 색상"
-        primary-color-dark: "일반적으로 메인 색상의 어두운 버전은 호버 효과에 사용됩니다."
+        primary-button-color: "강한 강조 색은 화면의 가장 중요한 버튼에 사용됩니다."
+        accent-color: "링크 및 기타 적절하게 강조 표시된 요소의 색상을 지정하세요."
         header-item-bg-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 배경색입니다."
         header-item-font-color: "클릭 가능한 헤더 항목의 글꼴색입니다."
         header-item-font-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 글꼴색입니다."
@@ -1504,6 +1501,7 @@ ko:
       postgres_migration: "설치를 PostgreSQL로 마이그레이션"
       user_guides: "사용자 가이드"
       faq: "FAQ"
+      impressum: "법적 고지"
       glossary: "용어집"
       shortcuts: "바로가기 "
       blog: "OpenProject 블로그"
@@ -1514,6 +1512,7 @@ ko:
   journals:
     changes_retracted: "변경 사항이 취소되었습니다."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "변경된 날짜"
       system_update: "OpenProject 시스템 업데이트:"
     cause_descriptions:
@@ -1835,7 +1834,6 @@ ko:
   label_subject_or_id: "제목 또는 ID"
   label_calendar_subscriptions: "캘린더 구독"
   label_identifier: "식별자"
-  label_impressum: "법적 고지"
   label_in: "-"
   label_in_less_than: "보다 작음"
   label_in_more_than: "보다 큼"
@@ -2688,6 +2686,9 @@ ko:
   setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "최대 API 페이지 크기"
   setting_apiv3_max_page_instructions_html: >
     API가 응답할 최대 페이지 크기를 설정하세요. 단일 페이지에서 더 많은 값을 반환하는 API 요청을 수행할 수 없습니다. <br/> <strong>경고:</strong> 이 값이 필요한 이유가 확실한 경우에만 이 값을 변경하세요. 높은 값으로 설정하면 성능에 상당한 영향을 미치고, 페이지당 옵션보다 낮은 값은 페이지가 매겨진 보기에서 오류를 일으킵니다.
@@ -3065,6 +3066,7 @@ ko:
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: "상태 변경"
     text_change_disabled_for_provider_login: "이 이름은 로그인 공급자가 설정하므로 변경 가능하지 않습니다."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "잠금 해제"
     unlock_and_reset_failed_logins: "실패한 로그인 잠금 해제 및 재설정"
   version_status_closed: "닫음"

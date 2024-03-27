@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'custom_styles/show' do
+RSpec.describe "custom_styles/show" do
   let(:user) { build(:admin) }
 
   before do
@@ -38,12 +38,12 @@ RSpec.describe 'custom_styles/show' do
   context "no custom logo yet" do
     before do
       assign(:custom_style, CustomStyle.new)
-      assign(:current_theme, '')
-      allow(view).to receive(:options_for_select).and_return('')
+      assign(:current_theme, "")
+      allow(view).to receive(:options_for_select).and_return("")
       render
     end
 
-    it 'shows an upload button' do
+    it "shows an upload button" do
       expect(rendered).to include "Upload"
     end
   end
@@ -51,12 +51,12 @@ RSpec.describe 'custom_styles/show' do
   context "with existing custom logo" do
     before do
       assign(:custom_style, build(:custom_style_with_logo))
-      assign(:current_theme, '')
-      allow(view).to receive(:options_for_select).and_return('')
+      assign(:current_theme, "")
+      allow(view).to receive(:options_for_select).and_return("")
       render
     end
 
-    it 'shows a replace button' do
+    it "shows a replace button" do
       expect(rendered).to include "Replace"
     end
   end

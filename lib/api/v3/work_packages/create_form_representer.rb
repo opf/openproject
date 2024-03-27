@@ -67,8 +67,8 @@ module API
           if represented.project && current_user.allowed_in_project?(:select_custom_fields, represented.project)
             {
               href: project_settings_custom_fields_path(represented.project.identifier),
-              type: 'text/html',
-              title: I18n.t('label_custom_field_plural')
+              type: "text/html",
+              title: I18n.t("label_custom_field_plural")
             }
           end
         end
@@ -78,8 +78,8 @@ module API
              represented.type_id &&
              represented.type_id != 0
             {
-              href: edit_type_path(represented.type_id, tab: 'form_configuration'),
-              type: 'text/html',
+              href: edit_type_path(represented.type_id, tab: "form_configuration"),
+              type: "text/html",
               title: "Configure form"
             }
           end

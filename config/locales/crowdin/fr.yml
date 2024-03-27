@@ -26,15 +26,14 @@ fr:
       no_results_title_text: Il n’y a pas eu d'activité pour le projet pendant cette période.
   admin:
     plugins:
-      no_results_title_text: Il n'y a actuellement aucun plugin disponible.
+      no_results_title_text: Aucun plugin n'est actuellement installé.
+      no_results_content_text: Consultez notre page sur les intégrations et les plugins pour plus d'informations.
     custom_styles:
       color_theme: "Thème de couleur"
       color_theme_custom: "(Personnalisé)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Police des liens"
-        primary-color: "Principale"
-        primary-color-dark: "Principale (sombre)"
+        primary-button-color: "Bouton principal"
+        accent-color: "Couleur d'accentuation"
         header-bg-color: "Fond de l'en-tête"
         header-item-bg-hover-color: "Fond d’en-tête au survol"
         header-item-font-color: "Police de l'en-tête"
@@ -53,10 +52,8 @@ fr:
       enterprise_more_info: "Remarque : le logo utilisé sera accessible publiquement."
       manage_colors: "Modifier les options du sélecteur de couleur"
       instructions:
-        alternative-color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
-        content-link-color: "Couleur de la police de la plupart des liens."
-        primary-color: "Couleur principale."
-        primary-color-dark: "Généralement une version plus sombre de la couleur principale utilisée pour les effets de survol."
+        primary-button-color: "Couleur d'accentuation, utilisée pour le bouton le plus important à l'écran."
+        accent-color: "Couleur pour les liens et autres éléments correctement mis en évidence."
         header-item-bg-hover-color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
         header-item-font-color: "Couleur de la police des éléments de l’en-tête cliquables."
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
@@ -1532,6 +1529,7 @@ fr:
       postgres_migration: "Migration de votre installation vers PostgreSQL"
       user_guides: "Guides d'utilisation"
       faq: "FAQ"
+      impressum: "Mentions légales"
       glossary: "Lexique"
       shortcuts: "Raccourcis"
       blog: "Blog OpenProject"
@@ -1542,6 +1540,7 @@ fr:
   journals:
     changes_retracted: "Les modifications ont été retirées."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates modifiées"
       system_update: "Mise à jour du système OpenProject :"
     cause_descriptions:
@@ -1863,7 +1862,6 @@ fr:
   label_subject_or_id: "Objet ou ID"
   label_calendar_subscriptions: "Abonnements au calendrier"
   label_identifier: "Identifiant"
-  label_impressum: "Mentions légales"
   label_in: "dans"
   label_in_less_than: "dans moins de"
   label_in_more_than: "dans plus de"
@@ -2721,6 +2719,9 @@ fr:
   setting_apiv3_cors_origins: "Origines autorisées de l'API V3 Cross-Origin Resource Sharing (CORS)"
   setting_apiv3_cors_origins_text_html: >
     Si CORS est activé, ce sont les origines qui sont autorisées à accéder à l'API OpenProject. <br/> Veuillez vérifier la <a href="%{origin_link}" target="_blank">documentation sur l'en-tête Origin</a> sur la façon de spécifier les valeurs attendues.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Taille maximale de page d'API"
   setting_apiv3_max_page_instructions_html: >
     Définissez la taille maximale de la page avec laquelle l'API répondra. Il ne sera pas possible d'effectuer des requêtes API qui retournent plus de valeurs sur une seule page. <br/> <strong>Avertissement :</strong> veuillez modifier cette valeur uniquement si vous êtes sûr de savoir pourquoi vous en avez besoin. Définir à une valeur élevée entraînera des impacts significatifs sur les performances, alors qu'une valeur inférieure aux options de chaque page provoquera des erreurs dans les vues paginées.
@@ -3099,6 +3100,7 @@ fr:
     status_user_and_brute_force: "%{user} et %{brute_force}"
     status_change: "Changement de statut"
     text_change_disabled_for_provider_login: "Le nom est défini par votre fournisseur de connexion et ne peut donc pas être modifié."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Déverrouiller"
     unlock_and_reset_failed_logins: "Déverrouiller et réinitialiser les échecs de connexion"
   version_status_closed: "clôturé"

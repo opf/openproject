@@ -104,12 +104,12 @@ properties:
   createdAt:
     type: string
     format: date-time
-    description: Time of creation
+    description: Time of creation. Can be writable by admins with the `apiv3_write_readonly_attributes` setting enabled.
     readOnly: true
   updatedAt:
     type: string
     format: date-time
-    description: Time of the most recent change to the work package
+    description: Time of the most recent change to the work package.
     readOnly: true
   _links:
     type: object

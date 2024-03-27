@@ -26,66 +26,66 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackage do
-  describe 'validations' do
+  describe "validations" do
     let(:work_package) do
       build(:work_package)
     end
 
-    describe 'story points' do
+    describe "story points" do
       before do
-        work_package.project.enabled_module_names += ['backlogs']
+        work_package.project.enabled_module_names += ["backlogs"]
       end
 
-      it 'allows empty values' do
+      it "allows empty values" do
         expect(work_package.story_points).to be_nil
         expect(work_package).to be_valid
       end
 
-      it 'allows values greater than or equal to 0' do
-        work_package.story_points = '0'
+      it "allows values greater than or equal to 0" do
+        work_package.story_points = "0"
         expect(work_package).to be_valid
 
-        work_package.story_points = '1'
-        expect(work_package).to be_valid
-      end
-
-      it 'allows values less than 10.000' do
-        work_package.story_points = '9999'
+        work_package.story_points = "1"
         expect(work_package).to be_valid
       end
 
-      it 'disallows negative values' do
-        work_package.story_points = '-1'
+      it "allows values less than 10.000" do
+        work_package.story_points = "9999"
+        expect(work_package).to be_valid
+      end
+
+      it "disallows negative values" do
+        work_package.story_points = "-1"
         expect(work_package).not_to be_valid
       end
 
-      it 'disallows greater or equal than 10.000' do
-        work_package.story_points = '10000'
+      it "disallows greater or equal than 10.000" do
+        work_package.story_points = "10000"
         expect(work_package).not_to be_valid
 
-        work_package.story_points = '10001'
-        expect(work_package).not_to be_valid
-      end
-
-      it 'disallows string values, that are not numbers' do
-        work_package.story_points = 'abc'
+        work_package.story_points = "10001"
         expect(work_package).not_to be_valid
       end
 
-      it 'disallows non-integers' do
-        work_package.story_points = '1.3'
+      it "disallows string values, that are not numbers" do
+        work_package.story_points = "abc"
+        expect(work_package).not_to be_valid
+      end
+
+      it "disallows non-integers" do
+        work_package.story_points = "1.3"
         expect(work_package).not_to be_valid
       end
     end
   end
 
-  describe 'definition of done' do
+  describe "definition of done" do
     before do
-      @status_resolved = build(:status, name: 'Resolved', is_default: false)
-      @status_open = build(:status, name: 'Open', is_default: true)
+      @status_resolved = build(:status, name: "Resolved", is_default: false)
+      @status_open = build(:status, name: "Open", is_default: true)
       @project = build(:project)
       @project.done_statuses = [@status_resolved]
       @project.types = [build(:type_feature)]
@@ -111,23 +111,23 @@ RSpec.describe WorkPackage do
     end
   end
 
-  describe 'backlogs_enabled?' do
+  describe "backlogs_enabled?" do
     let(:project) { build(:project) }
     let(:work_package) { build(:work_package) }
 
-    it 'is false without a project' do
+    it "is false without a project" do
       work_package.project = nil
       expect(work_package).not_to be_backlogs_enabled
     end
 
-    it 'is true with a project having the backlogs module' do
-      project.enabled_module_names = project.enabled_module_names + ['backlogs']
+    it "is true with a project having the backlogs module" do
+      project.enabled_module_names = project.enabled_module_names + ["backlogs"]
       work_package.project = project
 
       expect(work_package).to be_backlogs_enabled
     end
 
-    it 'is false with a project not having the backlogs module' do
+    it "is false with a project not having the backlogs module" do
       work_package.project = project
       work_package.project.enabled_module_names = nil
 

@@ -28,7 +28,7 @@ Pull request activities will also show up in the Activity tab when the pull requ
 * merged
 * closed
 
-![GitHub comments on work package](workpackage-github-comments.png)
+![Github comments on work package](workpackage-github-comments.png)
 
 ## Create a pull request
 

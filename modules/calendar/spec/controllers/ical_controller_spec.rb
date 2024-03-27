@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Calendar::ICalController do
   shared_let(:project) { create(:project) }
@@ -82,18 +82,18 @@ RSpec.describe Calendar::ICalController do
 
   # the ical urls are intended to be used without a logged in user from a calendar client app
   # before { login_as(user) }
-  describe '#show' do
-    shared_examples_for 'success' do
+  describe "#show" do
+    shared_examples_for "success" do
       subject { response }
 
       it { is_expected.to be_successful }
 
-      it 'returns a valid ical file' do
+      it "returns a valid ical file" do
         expected_file_name = "openproject_calendar_#{DateTime.now.to_i}.ics"
         expected_utf8_file_name = "UTF-8''#{expected_file_name}"
 
-        expect(response.headers['Content-Type']).to eq('text/calendar')
-        expect(response.headers['Content-Disposition']).to eq(
+        expect(response.headers["Content-Type"]).to eq("text/calendar")
+        expect(response.headers["Content-Disposition"]).to eq(
           "attachment; filename=\"#{expected_file_name}\"; filename*=#{expected_utf8_file_name}"
         )
         expect(subject.body).to match(/BEGIN:VCALENDAR/)
@@ -105,12 +105,12 @@ RSpec.describe Calendar::ICalController do
       end
     end
 
-    shared_examples_for 'failure' do
+    shared_examples_for "failure" do
       subject { response }
 
       it { is_expected.not_to be_successful }
 
-      it 'does not return a valid ical file' do
+      it "does not return a valid ical file" do
         expect(subject.body).not_to match(/BEGIN:VCALENDAR/)
         expect(subject.body).not_to match(/END:VCALENDAR/)
 
@@ -120,7 +120,7 @@ RSpec.describe Calendar::ICalController do
       end
     end
 
-    context 'with valid params and permissions when targeting own query' do
+    context "with valid params and permissions when targeting own query" do
       before do
         get :show, params: {
           project_id: project.id,
@@ -129,10 +129,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'success'
+      it_behaves_like "success"
     end
 
-    context 'with valid params and permissions with a query having a parent filter (bug #49726)' do
+    context "with valid params and permissions with a query having a parent filter (bug #49726)" do
       before do
         User.execute_as(user) do
           parent_work_package = create(:work_package, project:, children: work_packages)
@@ -147,10 +147,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'success'
+      it_behaves_like "success"
     end
 
-    context 'with valid params and permissions when targeting own query when globally disabled',
+    context "with valid params and permissions when targeting own query when globally disabled",
             with_settings: { ical_enabled: false } do
       before do
         get :show, params: {
@@ -160,10 +160,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'
+      it_behaves_like "failure"
     end
 
-    context 'with valid params and permissions when targeting own query with login required set to `true`',
+    context "with valid params and permissions when targeting own query with login required set to `true`",
             with_settings: { login_required: true } do
       before do
         get :show, params: {
@@ -173,10 +173,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'success'
+      it_behaves_like "success"
     end
 
-    context 'with valid params and permissions when targeting a public query of somebody else' do
+    context "with valid params and permissions when targeting a public query of somebody else" do
       let(:user2) do
         create(:user,
                member_with_permissions: { project => sufficient_permissions })
@@ -199,10 +199,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'success'
+      it_behaves_like "success"
     end
 
-    context 'with valid params and permissions when targeting a public query of somebody else',
+    context "with valid params and permissions when targeting a public query of somebody else",
             with_settings: { ical_enabled: false } do
       let(:user2) do
         create(:user,
@@ -226,10 +226,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'
+      it_behaves_like "failure"
     end
 
-    context 'with valid params and permissions when targeting a public query of somebody else with login required set to `true`',
+    context "with valid params and permissions when targeting a public query of somebody else with login required set to `true`",
             with_settings: { login_required: true } do
       let(:user2) do
         create(:user,
@@ -253,10 +253,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'success'
+      it_behaves_like "success"
     end
 
-    context 'with valid params and permissions when targeting a private query of somebody else' do
+    context "with valid params and permissions when targeting a private query of somebody else" do
       let(:user2) do
         create(:user,
                member_with_permissions: { project => sufficient_permissions })
@@ -279,10 +279,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'
+      it_behaves_like "failure"
     end
 
-    context 'with valid params and permissions when not part of the project (anymore)' do
+    context "with valid params and permissions when not part of the project (anymore)" do
       let(:project2) { create(:project) }
       let(:user) do
         create(:user,
@@ -297,10 +297,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'
+      it_behaves_like "failure"
     end
 
-    context 'with valid params and missing permissions' do
+    context "with valid params and missing permissions" do
       let(:user) do
         create(:user,
                member_with_permissions: { project => insufficient_permissions })
@@ -314,10 +314,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'
+      it_behaves_like "failure"
     end
 
-    context 'with invalid token' do
+    context "with invalid token" do
       before do
         get :show, params: {
           project_id: project.id,
@@ -326,10 +326,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'
+      it_behaves_like "failure"
     end
 
-    context 'with invalid query' do
+    context "with invalid query" do
       before do
         get :show, params: {
           project_id: project.id,
@@ -338,10 +338,10 @@ RSpec.describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'
+      it_behaves_like "failure"
     end
 
-    context 'with invalid project' do
+    context "with invalid project" do
       before do
         get :show, params: {
           project_id: SecureRandom.hex,
@@ -352,10 +352,10 @@ RSpec.describe Calendar::ICalController do
 
       # TODO: the project id is actually irrelevant - the query id is enough
       # should the project id still be used in the ical url anyways?
-      it_behaves_like 'success'
+      it_behaves_like "success"
     end
 
-    context 'with invalid project', with_settings: { ical_enabled: false } do
+    context "with invalid project", with_settings: { ical_enabled: false } do
       before do
         get :show, params: {
           project_id: SecureRandom.hex,
@@ -366,7 +366,7 @@ RSpec.describe Calendar::ICalController do
 
       # TODO: the project id is actually irrelevant - the query id is enough
       # should the project id still be used in the ical url anyways?
-      it_behaves_like 'failure'
+      it_behaves_like "failure"
     end
   end
 end

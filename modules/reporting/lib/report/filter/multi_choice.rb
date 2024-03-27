@@ -29,7 +29,7 @@
 class Report::Filter
   class MultiChoice < Base
     dont_inherit :available_operators
-    use '='
+    use "="
 
     def self.is_multiple_choice?
       true

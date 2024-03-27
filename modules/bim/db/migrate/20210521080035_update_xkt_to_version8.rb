@@ -27,17 +27,17 @@
 #++
 
 class UpdateXktToVersion8 < ActiveRecord::Migration[6.1]
-  SEEDED_MODEL_DATA = { 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)' => 'hospital_architecture',
-                        'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)' => 'hospital_structural',
-                        'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)' => 'hospital_mechanical' }.freeze
+  SEEDED_MODEL_DATA = { "Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)" => "hospital_architecture",
+                        "Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)" => "hospital_structural",
+                        "Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)" => "hospital_mechanical" }.freeze
 
   # Note: rails 7.1 breaks the class' ancestor chain, and raises an error, when a class
   # with an enum definition without a database field is being referenced.
   # Re-defining the IfcModel class without the enum to avoid the issue.
   class IfcModel < ApplicationRecord
-    has_many :attachments, -> { where(container_type: 'Bim::IfcModels::IfcModel') },
+    has_many :attachments, -> { where(container_type: "Bim::IfcModels::IfcModel") },
              foreign_key: :container_id,
-             class_name: 'Attachment'
+             class_name: "Attachment"
   end
 
   def up
@@ -72,18 +72,18 @@ class UpdateXktToVersion8 < ActiveRecord::Migration[6.1]
       cleanup_metadata_attachment(ifc_model)
       # We have seeded models that do not have an IFC attachment. They cannot get converted as an IFC file is
       # necessary.
-      next if ifc_model.attachments.find_by(description: 'ifc').nil?
+      next if ifc_model.attachments.find_by(description: "ifc").nil?
 
       ::Bim::IfcModels::IfcConversionJob.perform_later(ifc_model)
     end
   end
 
   def cleanup_metadata_attachment(ifc_model)
-    ifc_model.attachments.find_by(description: 'metadata')&.destroy
+    ifc_model.attachments.find_by(description: "metadata")&.destroy
   end
 
   def update_demo_xkt_models
-    project = Project.find_by(identifier: 'demo-bcf-management-project')
+    project = Project.find_by(identifier: "demo-bcf-management-project")
     return unless project
 
     ifc_models = project.ifc_models.joins(:attachments)

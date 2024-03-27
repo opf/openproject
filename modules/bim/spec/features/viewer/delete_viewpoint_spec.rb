@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../../spec_helper'
+require_relative "../../spec_helper"
 
-RSpec.describe 'Delete viewpoint in model viewer', :js, with_config: { edition: 'bim' } do
+RSpec.describe "Delete viewpoint in model viewer", :js, with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:user) { create(:admin) }
 
   let!(:work_package) { create(:work_package, project:) }
   let!(:bcf) { create(:bcf_issue, work_package:) }
-  let!(:viewpoint) { create(:bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one') }
+  let!(:viewpoint) { create(:bcf_viewpoint, issue: bcf, viewpoint_name: "minimal_hidden_except_one") }
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           title: 'minimal',
+           title: "minimal",
            project:,
            uploader: user)
   end
@@ -51,7 +51,7 @@ RSpec.describe 'Delete viewpoint in model viewer', :js, with_config: { edition: 
     bcf_details.visit!
   end
 
-  it 'can delete the viewpoint through the gallery' do
+  it "can delete the viewpoint through the gallery" do
     bcf_details.ensure_page_loaded
     bcf_details.expect_viewpoint_count 1
     bcf_details.show_current_viewpoint

@@ -26,15 +26,14 @@ hu:
       no_results_title_text: Nem volt semmilyen tevékenység a projektben ebben az időszakban.
   admin:
     plugins:
-      no_results_title_text: Nem állnak rendelkezésre pluginek.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Színséma"
       color_theme_custom: "(Egyéni)"
       colors:
-        alternative-color: "Alternatíva"
-        content-link-color: "Hivatkozás betűkészlete"
-        primary-color: "Elsődleges"
-        primary-color-dark: "Elsődleges (sötét)"
+        primary-button-color: "Elsődleges gomb"
+        accent-color: "Kiemelőszín"
         header-bg-color: "Fejléc háttér"
         header-item-bg-hover-color: "Fejléc háttere, ha az egér rajta áll"
         header-item-font-color: "Fejléc betűtípus"
@@ -53,10 +52,8 @@ hu:
       enterprise_more_info: "Megjegyzés: a használt logó nyilvánosan elérhető lesz."
       manage_colors: "A színválasztás beállításainak módosítása"
       instructions:
-        alternative-color: "Kiemelt szín, tipikusan a képernyőn megjelenő legfontosabb gomb esetén."
-        content-link-color: "A legtöbb hivatkozás színe."
-        primary-color: "Fő szín."
-        primary-color-dark: "Általában az alap szín sötétebb verzióját használjuk a hover effekthez."
+        primary-button-color: "Kiemelt szín, tipikusan a képernyőn megjelenő legfontosabb gomb esetén."
+        accent-color: "Szín a linkekhez és más kiemelt elemekhez."
         header-item-bg-hover-color: "Kattintható fejléc háttérszíne egér hatására."
         header-item-font-color: "Kattintható fejléc betűszíne."
         header-item-font-hover-color: "Kattintható fejléc betűszíne egér hatására."
@@ -1529,6 +1526,7 @@ hu:
       postgres_migration: "A rendszer költöztetése PostreSQL-re"
       user_guides: "Felhasználói útmutató"
       faq: "GY. I. K."
+      impressum: "Jogi nyilatkozat"
       glossary: "Szószedet"
       shortcuts: "Parancsikonok"
       blog: "OpenProject blog"
@@ -1539,6 +1537,7 @@ hu:
   journals:
     changes_retracted: "A módosítások visszavonásra kerültek."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dátum módosítva"
       system_update: "OpenProject rendszerfrissítés:"
     cause_descriptions:
@@ -1860,7 +1859,6 @@ hu:
   label_subject_or_id: "Tárgy, vagy azonosító"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Jogi nyilatkozat"
   label_in: "in"
   label_in_less_than: "kevesebb, mint"
   label_in_more_than: "több mint"
@@ -2717,6 +2715,9 @@ hu:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) engedélyezett származások"
   setting_apiv3_cors_origins_text_html: >
     Ha a CORS engedélyezve van, ezek azok az eredetiek, amelyek hozzáférhetnek az OpenProject API-hoz. <br/> Kérjük, olvassa el a <a href="%{origin_link}" target="_blank">Dokumentáció az Origin fejlécről</a> című dokumentumot az elvárt értékek megadásáról.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API oldal méret"
   setting_apiv3_max_page_instructions_html: >
     Állítsa be azt a maximális oldalméretet, amellyel az API válaszolni fog. Nem lehet végrehajtani olyan API-kéréseket, amelyek több értéket adnak vissza egyetlen oldalon. <br/> <strong>Figyelem:</strong> Kérjük, csak akkor módosítsa ezt az értéket, ha biztos benne, hogy miért van szüksége rá. A magas érték beállítása jelentős hatást gyakorol a teljesítményre, míg az oldalankénti beállításoknál alacsonyabb érték hibákat okoz a lapozott nézetekben.
@@ -3095,6 +3096,7 @@ hu:
     status_user_and_brute_force: "%{user} és %{brute_force}"
     status_change: "Állapot változás"
     text_change_disabled_for_provider_login: "A nevet a bejelentkezési szolgáltató állítja be, és így nem módosítható.\n"
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "A zárolás feloldása"
     unlock_and_reset_failed_logins: "Zárolás felodása és alaphelyzetbe állitása sikertelen bejelentkezéskor"
   version_status_closed: "lezárt"

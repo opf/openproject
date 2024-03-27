@@ -26,96 +26,96 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Values::Schemas::ValueSchemaAPI,
-               'show',
+               "show",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
   current_user { build_stubbed(:user) }
 
   let(:path) { api_v3_paths.value_schema(schema_id) }
-  let(:schema_id) { 'bogus' }
+  let(:schema_id) { "bogus" }
 
   before do
     get path
   end
 
-  context 'for a logged in user' do
-    context 'for a startDate' do
-      let(:schema_id) { 'startDate' }
+  context "for a logged in user" do
+    context "for a startDate" do
+      let(:schema_id) { "startDate" }
 
-      it 'returns the schema', :aggregate_failures do
+      it "returns the schema", :aggregate_failures do
         expect(last_response.status)
           .to eq 200
 
         expect(last_response.body)
-          .to be_json_eql('Schema'.to_json)
-                .at_path('_type')
+          .to be_json_eql("Schema".to_json)
+                .at_path("_type")
 
         expect(last_response.body)
-          .to be_json_eql('Date'.to_json)
-                .at_path('value/type')
+          .to be_json_eql("Date".to_json)
+                .at_path("value/type")
 
         expect(last_response.body)
-          .to be_json_eql('Start date'.to_json)
-                .at_path('value/name')
+          .to be_json_eql("Start date".to_json)
+                .at_path("value/name")
       end
     end
 
-    context 'for a dueDate' do
-      let(:schema_id) { 'dueDate' }
+    context "for a dueDate" do
+      let(:schema_id) { "dueDate" }
 
-      it 'returns the schema', :aggregate_failures do
+      it "returns the schema", :aggregate_failures do
         expect(last_response.status)
           .to eq 200
 
         expect(last_response.body)
-          .to be_json_eql('Schema'.to_json)
-                .at_path('_type')
+          .to be_json_eql("Schema".to_json)
+                .at_path("_type")
 
         expect(last_response.body)
-          .to be_json_eql('Date'.to_json)
-                .at_path('value/type')
+          .to be_json_eql("Date".to_json)
+                .at_path("value/type")
 
         expect(last_response.body)
-          .to be_json_eql('Finish date'.to_json)
-                .at_path('value/name')
+          .to be_json_eql("Finish date".to_json)
+                .at_path("value/name")
       end
     end
 
-    context 'for a date' do
-      let(:schema_id) { 'date' }
+    context "for a date" do
+      let(:schema_id) { "date" }
 
-      it 'returns the schema', :aggregate_failures do
+      it "returns the schema", :aggregate_failures do
         expect(last_response.status)
           .to eq 200
 
         expect(last_response.body)
-          .to be_json_eql('Schema'.to_json)
-                .at_path('_type')
+          .to be_json_eql("Schema".to_json)
+                .at_path("_type")
 
         expect(last_response.body)
-          .to be_json_eql('Date'.to_json)
-                .at_path('value/type')
+          .to be_json_eql("Date".to_json)
+                .at_path("value/type")
 
         expect(last_response.body)
-          .to be_json_eql('Date'.to_json)
-                .at_path('value/name')
+          .to be_json_eql("Date".to_json)
+                .at_path("value/name")
       end
     end
 
-    context 'for a non existing property' do
-      let(:schema_id) { 'bogus' }
+    context "for a non existing property" do
+      let(:schema_id) { "bogus" }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'for an underscore property' do
-      let(:schema_id) { 'start_date' }
+    context "for an underscore property" do
+      let(:schema_id) { "start_date" }
 
-      it_behaves_like 'param validation error'
+      it_behaves_like "param validation error"
     end
   end
 end

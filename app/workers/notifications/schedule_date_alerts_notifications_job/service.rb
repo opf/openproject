@@ -61,7 +61,7 @@ class Notifications::ScheduleDateAlertsNotificationsJob::Service
 
   def is_1am?(time, time_zone)
     local_time = time.in_time_zone(time_zone)
-    local_time.strftime('%H:%M') == '01:00'
+    local_time.strftime("%H:%M") == "01:00"
   end
 
   def users_at_1am_with_notification_settings

@@ -42,7 +42,7 @@ module OpenProject::Bim::Patches::TypePatch
     private
 
     def default_attribute?(active_cfs, key)
-      super(active_cfs, key) && key != 'bcf_thumbnail'
+      super(active_cfs, key) && key != "bcf_thumbnail"
     end
   end
 end

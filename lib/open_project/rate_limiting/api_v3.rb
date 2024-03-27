@@ -16,7 +16,7 @@ module OpenProject
       protected
 
       def discriminator(req)
-        if req.post? && req.path.start_with?('/api/v3/') && req.path.end_with?('/form')
+        if req.post? && req.path.start_with?("/api/v3/") && req.path.end_with?("/form")
           session_id(req.env) || http_auth(req.env)
         end
       end

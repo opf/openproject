@@ -60,7 +60,7 @@ module Bim
       end
 
       def set_title
-        model.title ||= model.ifc_attachment&.file&.filename&.gsub(/\.\w+$/, '')
+        model.title ||= model.ifc_attachment&.file&.filename&.gsub(/\.\w+$/, "")
       end
 
       def set_ifc_attachment(ifc_attachment)
@@ -76,7 +76,7 @@ module Bim
         else
           ::Attachments::BuildService
             .bypass_whitelist(user:)
-            .call(file: ifc_attachment, container: model, filename: ifc_attachment.original_filename, description: 'ifc')
+            .call(file: ifc_attachment, container: model, filename: ifc_attachment.original_filename, description: "ifc")
         end
       end
     end

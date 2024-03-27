@@ -29,7 +29,7 @@
 class LaborBudgetItem < ApplicationRecord
   belongs_to :budget
   belongs_to :user
-  belongs_to :principal, foreign_key: 'user_id'
+  belongs_to :principal, foreign_key: "user_id"
 
   include ::Costs::DeletedUserFallback
 

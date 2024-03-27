@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe API::V3::StorageFiles::StorageFileRepresenter do
@@ -39,14 +39,14 @@ RSpec.describe API::V3::StorageFiles::StorageFileRepresenter do
   let(:file) do
     Storages::StorageFile.new(
       id: 42,
-      name: 'readme.md',
+      name: "readme.md",
       size: 4096,
-      mime_type: 'text/plain',
+      mime_type: "text/plain",
       created_at:,
       last_modified_at:,
-      created_by_name: 'admin',
-      last_modified_by_name: 'admin',
-      location: '/readme.md',
+      created_by_name: "admin",
+      last_modified_by_name: "admin",
+      location: "/readme.md",
       permissions: %i[readable writeable]
     )
   end
@@ -54,56 +54,56 @@ RSpec.describe API::V3::StorageFiles::StorageFileRepresenter do
 
   subject { representer.to_json }
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
+  describe "properties" do
+    it_behaves_like "property", :_type do
       let(:value) { representer._type }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { file.id }
     end
 
-    it_behaves_like 'property', :name do
+    it_behaves_like "property", :name do
       let(:value) { file.name }
     end
 
-    it_behaves_like 'property', :size do
+    it_behaves_like "property", :size do
       let(:value) { file.size }
     end
 
-    it_behaves_like 'property', :mimeType do
+    it_behaves_like "property", :mimeType do
       let(:value) { file.mime_type }
     end
 
-    it_behaves_like 'datetime property', :createdAt do
+    it_behaves_like "datetime property", :createdAt do
       let(:value) { file.created_at }
     end
 
-    it_behaves_like 'datetime property', :lastModifiedAt do
+    it_behaves_like "datetime property", :lastModifiedAt do
       let(:value) { file.last_modified_at }
     end
 
-    it_behaves_like 'property', :createdByName do
+    it_behaves_like "property", :createdByName do
       let(:value) { file.created_by_name }
     end
 
-    it_behaves_like 'property', :lastModifiedByName do
+    it_behaves_like "property", :lastModifiedByName do
       let(:value) { file.last_modified_by_name }
     end
 
-    it_behaves_like 'property', :location do
+    it_behaves_like "property", :location do
       let(:value) { file.location }
     end
 
-    it_behaves_like 'property', :permissions do
+    it_behaves_like "property", :permissions do
       let(:value) { file.permissions }
     end
   end
 
-  describe '_links' do
-    describe 'self' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
+  describe "_links" do
+    describe "self" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
         let(:href) { "/api/v3/storages/#{storage.id}/files/#{file.id}" }
         let(:title) { file.name }
       end

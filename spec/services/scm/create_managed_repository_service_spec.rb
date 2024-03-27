@@ -25,9 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable: 'svnadmin' do
+RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable: "svnadmin" do
   let(:user) { build(:user) }
   let(:config) { {} }
   let(:project) { build(:project) }
@@ -38,21 +38,21 @@ RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable:
 
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
-    allow(OpenProject::Configuration).to receive(:[]).with('scm').and_return(config)
+    allow(OpenProject::Configuration).to receive(:[]).with("scm").and_return(config)
   end
 
-  shared_examples 'does not create a filesystem repository' do
-    it 'does not create a filesystem repository' do
+  shared_examples "does not create a filesystem repository" do
+    it "does not create a filesystem repository" do
       expect(repository.managed?).to be false
       expect(service.call).to be false
     end
   end
 
-  context 'with no managed configuration' do
-    it_behaves_like 'does not create a filesystem repository'
+  context "with no managed configuration" do
+    it_behaves_like "does not create a filesystem repository"
   end
 
-  context 'with managed repository' do
+  context "with managed repository" do
     # Must not .create a managed repository, or it will call this service itself!
     let(:repository) do
       repo = Repository::Subversion.new(scm_type: :managed)
@@ -60,20 +60,20 @@ RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable:
       repo
     end
 
-    context 'but no managed config' do
-      it 'does not create a filesystem repository' do
+    context "but no managed config" do
+      it "does not create a filesystem repository" do
         expect(repository.managed?).to be true
         expect(service.call).to be false
       end
     end
   end
 
-  context 'with managed local config' do
-    include_context 'with tmpdir'
+  context "with managed local config" do
+    include_context "with tmpdir"
     let(:config) do
       {
-        subversion: { manages: File.join(tmpdir, 'svn') },
-        git: { manages: File.join(tmpdir, 'git') }
+        subversion: { manages: File.join(tmpdir, "svn") },
+        git: { manages: File.join(tmpdir, "git") }
       }
     end
 
@@ -95,54 +95,54 @@ RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable:
         .to receive(:repository).and_return(repository)
     end
 
-    it 'creates the repository' do
+    it "creates the repository" do
       expect(service.call).to be true
       perform_enqueued_jobs
       expect(File.directory?(repository.root_url)).to be true
     end
 
-    context 'with pre-existing path on filesystem' do
+    context "with pre-existing path on filesystem" do
       before do
         allow(File).to receive(:directory?).and_return(true)
       end
 
-      it 'does not create the repository' do
+      it "does not create the repository" do
         expect(service.call).to be false
         expect(service.localized_rejected_reason)
-          .to eq(I18n.t('repositories.errors.exists_on_filesystem'))
+          .to eq(I18n.t("repositories.errors.exists_on_filesystem"))
       end
     end
 
-    context 'with a permission error occurring in the Job' do
+    context "with a permission error occurring in the Job" do
       before do
         allow(SCM::CreateLocalRepositoryJob)
           .to receive(:new).and_raise(Errno::EACCES)
       end
 
-      it 'returns the correct error' do
+      it "returns the correct error" do
         expect(service.call).to be false
         expect(service.localized_rejected_reason)
-          .to eq(I18n.t('repositories.errors.path_permission_failed',
+          .to eq(I18n.t("repositories.errors.path_permission_failed",
                         path: repository.root_url))
       end
     end
 
-    context 'with an OS error occurring in the Job' do
+    context "with an OS error occurring in the Job" do
       before do
         allow(SCM::CreateLocalRepositoryJob)
           .to receive(:new).and_raise(Errno::ENOENT)
       end
 
-      it 'returns the correct error' do
+      it "returns the correct error" do
         expect(service.call).to be false
         expect(service.localized_rejected_reason)
-          .to include('An error occurred while accessing the repository in the filesystem')
+          .to include("An error occurred while accessing the repository in the filesystem")
       end
     end
   end
 
-  context 'with managed remote config', :webmock do
-    let(:url) { 'http://myreposerver.example.com/api/' }
+  context "with managed remote config", :webmock do
+    let(:url) { "http://myreposerver.example.com/api/" }
     let(:config) do
       {
         subversion: { manages: url }
@@ -156,14 +156,14 @@ RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable:
       repo
     end
 
-    it 'detects the remote config' do
+    it "detects the remote config" do
       expect(repository.class.managed_remote.to_s).to eq(url)
       expect(repository.class).to be_manages_remote
     end
 
-    context 'with a remote callback' do
-      let(:returned_url) { 'file:///tmp/some/url/to/repo' }
-      let(:root_url) { '/tmp/some/url/to/repo' }
+    context "with a remote callback" do
+      let(:returned_url) { "file:///tmp/some/url/to/repo" }
+      let(:root_url) { "/tmp/some/url/to/repo" }
 
       before do
         stub_request(:post, url)
@@ -173,7 +173,7 @@ RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable:
           )
       end
 
-      shared_examples 'calls the callback' do
+      shared_examples "calls the callback" do
         before do
           # Avoid setting up a second call to the remote during save
           # since we only templated the repository, not created one!
@@ -190,16 +190,16 @@ RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable:
 
           expect(WebMock)
             .to have_requested(:post, url)
-            .with(body: hash_including(action: 'create'))
+            .with(body: hash_including(action: "create"))
         end
       end
 
-      context 'with http' do
-        it_behaves_like 'calls the callback'
+      context "with http" do
+        it_behaves_like "calls the callback"
       end
 
-      context 'with https' do
-        let(:url) { 'https://myreposerver.example.com/api/' }
+      context "with https" do
+        let(:url) { "https://myreposerver.example.com/api/" }
         let(:config) do
           {
             subversion: { manages: url, insecure: }
@@ -209,20 +209,20 @@ RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable:
         let(:instance) { SCM::CreateRemoteRepositoryJob.new }
         let(:job_call) { instance.perform(repository) }
 
-        context 'with insecure option' do
+        context "with insecure option" do
           let(:insecure) { true }
 
-          it_behaves_like 'calls the callback'
-          it 'uses the insecure option' do
+          it_behaves_like "calls the callback"
+          it "uses the insecure option" do
             job_call
             expect(instance.send(:configured_verification)).to eq(OpenSSL::SSL::VERIFY_NONE)
           end
         end
 
-        context 'without insecure option' do
+        context "without insecure option" do
           let(:insecure) { false }
 
-          it 'uses the insecure option' do
+          it "uses the insecure option" do
             job_call
             expect(instance.send(:configured_verification)).to eq(OpenSSL::SSL::VERIFY_PEER)
           end
@@ -230,13 +230,13 @@ RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable:
       end
     end
 
-    context 'with a faulty remote callback' do
+    context "with a faulty remote callback" do
       before do
         stub_request(:post, url)
-          .to_return(status: 400, body: { success: false, message: 'An error occurred' }.to_json)
+          .to_return(status: 400, body: { success: false, message: "An error occurred" }.to_json)
       end
 
-      it 'calls the callback' do
+      it "calls the callback" do
         expect(SCM::CreateRemoteRepositoryJob)
           .to receive(:new).and_call_original
 
@@ -245,7 +245,7 @@ RSpec.describe SCM::CreateManagedRepositoryService, skip_if_command_unavailable:
           .to eq("Calling the managed remote failed with message 'An error occurred' (Code: 400)")
         expect(WebMock)
           .to have_requested(:post, url)
-                .with(body: hash_including(action: 'create'))
+                .with(body: hash_including(action: "create"))
       end
     end
   end

@@ -35,10 +35,11 @@ class MeetingAgendaItem < ApplicationRecord
 
   enum item_type: ITEM_TYPES
 
-  belongs_to :meeting, class_name: 'StructuredMeeting'
-  belongs_to :work_package, class_name: '::WorkPackage'
+  belongs_to :meeting, class_name: "StructuredMeeting"
+  belongs_to :work_package, class_name: "::WorkPackage"
   has_one :project, through: :meeting
-  belongs_to :author, class_name: 'User', optional: false
+  belongs_to :author, class_name: "User", optional: false
+  belongs_to :presenter, class_name: "User", optional: true
 
   acts_as_list scope: :meeting
   default_scope { order(:position) }
@@ -91,6 +92,6 @@ class MeetingAgendaItem < ApplicationRecord
   end
 
   def copy_attributes
-    attributes.except('id', 'meeting_id')
+    attributes.except("id", "meeting_id")
   end
 end

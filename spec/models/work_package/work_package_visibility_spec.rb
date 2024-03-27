@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'WorkPackage-Visibility' do
+RSpec.describe "WorkPackage-Visibility" do
   shared_let(:admin) { create(:admin) }
   let(:anonymous) { create(:anonymous) }
   let(:user) { create(:user) }
@@ -38,10 +38,10 @@ RSpec.describe 'WorkPackage-Visibility' do
   let(:view_work_packages) { create(:project_role, permissions: [:view_work_packages]) }
   let(:view_work_packages_role2) { create(:project_role, permissions: [:view_work_packages]) }
 
-  describe 'of public projects' do
+  describe "of public projects" do
     subject { create(:work_package, project: public_project) }
 
-    it 'is viewable by anonymous, with the view_work_packages permission' do
+    it "is viewable by anonymous, with the view_work_packages permission" do
       # it is not really clear, where these kind of "preconditions" belong to: This setting
       # is a default in Redmine::DefaultData::Loader - but this not loaded in the tests: here we
       # just make sure, that the work package is visible, when this permission is set
@@ -50,18 +50,18 @@ RSpec.describe 'WorkPackage-Visibility' do
     end
   end
 
-  describe 'of private projects' do
+  describe "of private projects" do
     subject { create(:work_package, project: private_project) }
 
-    it 'is visible for the admin, even if the project is private' do
+    it "is visible for the admin, even if the project is private" do
       expect(WorkPackage.visible(admin)).to contain_exactly(subject)
     end
 
-    it 'is not visible for anonymous users, when the project is private' do
+    it "is not visible for anonymous users, when the project is private" do
       expect(WorkPackage.visible(anonymous)).to be_empty
     end
 
-    it 'is visible for members of the project, with the view_work_packages permission' do
+    it "is visible for members of the project, with the view_work_packages permission" do
       create(:member,
              user:,
              project: private_project,
@@ -70,7 +70,7 @@ RSpec.describe 'WorkPackage-Visibility' do
       expect(WorkPackage.visible(user)).to contain_exactly(subject)
     end
 
-    it 'is only returned once for members with two roles having view_work_packages permission' do
+    it "is only returned once for members with two roles having view_work_packages permission" do
       subject
 
       create(:member,
@@ -82,11 +82,11 @@ RSpec.describe 'WorkPackage-Visibility' do
       expect(WorkPackage.visible(user).pluck(:id)).to contain_exactly(subject.id)
     end
 
-    it 'is not visible for non-members of the project without the view_work_packages permission' do
+    it "is not visible for non-members of the project without the view_work_packages permission" do
       expect(WorkPackage.visible(user)).to be_empty
     end
 
-    it 'is not visible for members of the project, without the view_work_packages permission' do
+    it "is not visible for members of the project, without the view_work_packages permission" do
       no_permission = create(:project_role, permissions: [:no_permission])
       create(:member,
              user:,

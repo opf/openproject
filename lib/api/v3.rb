@@ -28,7 +28,7 @@
 
 module API
   module V3
-    URN_PREFIX = 'urn:openproject-org:api:v3:'.freeze
+    URN_PREFIX = "urn:openproject-org:api:v3:".freeze
     URN_ERROR_PREFIX = "#{URN_PREFIX}errors:".freeze
     # For resources invisible to the user, a resource (including a payload) will contain
     # an "undisclosed uri" instead of a url. This indicates the existence of a value

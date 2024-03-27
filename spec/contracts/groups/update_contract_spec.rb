@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Groups::UpdateContract do
-  it_behaves_like 'group contract' do
+  it_behaves_like "group contract" do
     let(:group) do
       build_stubbed(:group,
                     name: group_name,
@@ -39,15 +39,15 @@ RSpec.describe Groups::UpdateContract do
 
     let(:contract) { described_class.new(group, current_user) }
 
-    describe 'validations' do
+    describe "validations" do
       let(:current_user) { build_stubbed(:admin) }
 
-      describe 'type' do
+      describe "type" do
         before do
-          group.type = 'A new type'
+          group.type = "A new type"
         end
 
-        it_behaves_like 'contract is invalid', type: :error_readonly
+        it_behaves_like "contract is invalid", type: :error_readonly
       end
     end
   end

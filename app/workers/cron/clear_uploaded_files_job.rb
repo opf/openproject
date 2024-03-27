@@ -27,14 +27,11 @@
 #++
 
 module Cron
-  class ClearUploadedFilesJob < CronJob
+  class ClearUploadedFilesJob < ApplicationJob
     include ::RakeJob
 
-    # Runs 23pm fridays
-    self.cron_expression = '0 23 * * 5'
-
     def perform
-      super('attachments:clear')
+      super("attachments:clear")
     end
   end
 end

@@ -48,7 +48,7 @@ module Components
     end
 
     def modal_container
-      container.find('.attribute-help-text--modal')
+      container.find(".attribute-help-text--modal")
     end
 
     def open!
@@ -59,10 +59,10 @@ module Components
 
     def close!
       # make backdrop click an the pixel x:10,y:10
-      page.find('.spot-modal-overlay').tap do |element|
+      page.find(".spot-modal-overlay").tap do |element|
         if RSpec.current_example.metadata[:with_cuprite]
-          width = element.style('width')["width"].to_i
-          height = element.style('height')["height"].to_i
+          width = element.style("width")["width"].to_i
+          height = element.style("height")["height"].to_i
         else
           width = element.native.size.width
           height = element.native.size.height
@@ -74,14 +74,14 @@ module Components
 
     def expect_edit(editable:)
       if editable
-        expect(page).to have_css('.help-text--edit-button')
+        expect(page).to have_css(".help-text--edit-button")
       else
-        expect(page).to have_no_css('.help-text--edit-button')
+        expect(page).to have_no_css(".help-text--edit-button")
       end
     end
 
     def edit_button
-      page.find('.help-text--edit-button')
+      page.find(".help-text--edit-button")
     end
   end
 end

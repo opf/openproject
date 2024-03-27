@@ -26,23 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe RbImpedimentsController do
-  describe 'routing' do
+  describe "routing" do
     it {
-      expect(post('/projects/project_42/sprints/21/impediments')).to route_to(controller: 'rb_impediments',
-                                                                              action: 'create',
-                                                                              project_id: 'project_42',
-                                                                              sprint_id: '21')
+      expect(post("/projects/project_42/sprints/21/impediments")).to route_to(controller: "rb_impediments",
+                                                                              action: "create",
+                                                                              project_id: "project_42",
+                                                                              sprint_id: "21")
     }
 
     it {
-      expect(put('/projects/project_42/sprints/21/impediments/85')).to route_to(controller: 'rb_impediments',
-                                                                                action: 'update',
-                                                                                project_id: 'project_42',
-                                                                                sprint_id: '21',
-                                                                                id: '85')
+      expect(put("/projects/project_42/sprints/21/impediments/85")).to route_to(controller: "rb_impediments",
+                                                                                action: "update",
+                                                                                project_id: "project_42",
+                                                                                sprint_id: "21",
+                                                                                id: "85")
     }
   end
 end
