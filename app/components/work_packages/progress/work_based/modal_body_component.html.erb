@@ -6,7 +6,7 @@
         id: 'progress-form') do |f| %>
     <%= flex_layout do |modal_body| %>
       <% modal_body.with_row do |_fields| %>
-        <%= render(WorkPackages::ProgressForm.new(f, focused_field: focused_field)) %>
+        <%= render(WorkPackages::ProgressForm.new(f, work_package:, mode:, focused_field:)) %>
       <% end %>
 
       <% modal_body.with_row(mt: 3) do |_tooltip| %>

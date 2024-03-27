@@ -27,32 +27,93 @@
 # ++
 
 class WorkPackages::ProgressForm < ApplicationForm
-  def initialize(focused_field:)
+  def initialize(work_package:,
+                 mode: :work_based,
+                 focused_field: :remaining_hours)
     super()
 
-    @focused_field = focused_field
+    @work_package = work_package
+    @mode = mode
+    @focused_field = focused_field_by_selection(focused_field) || focused_field_by_error
+  end
+
+  def focused_field_by_selection(field)
+    if field == :remaining_hours && @work_package.remaining_hours.nil?
+      :estimated_hours
+    else
+      field
+    end
+  end
+
+  # Primer form fields don't seem to be accepting
+  # autofocus on a field that has an inline error on it.
+  # This method remains here to ensure that down-the-line
+  # when this is fixed, we get this behavior for free as am
+  # accessibility boost.
+  def focused_field_by_error
+    %i[estimated_hours remaining_hours done_ratio].each do |field_name|
+      break if @focused_field
+
+      @focused_field = field_name if @work_package.errors.map(&:attribute).include?(field_name)
+    end
+
+    @focused_field
   end
 
   form do |query_form|
-    query_form.group(layout: :horizontal) do |group|
-      group.text_field(
-        name: :estimated_hours,
-        label: "Work",
-        autofocus: @focused_field == :estimated_hours
-      )
+    if @mode == :status_based
+      query_form.group(layout: :horizontal) do |group|
+        group.select_list(
+          name: :status_id,
+          label: "% Complete"
+        ) do |select_list|
+          Status.find_each do |status|
+            select_list.option(
+              label: "#{status.name} (#{status.default_done_ratio}%)",
+              value: status.id
+            )
+          end
+        end
 
-      group.text_field(
-        name: :remaining_hours,
-        label: "Remaining work",
-        autofocus: @focused_field == :remaining_hours
-      )
+        group.text_field(
+          name: :estimated_hours,
+          label: "Work",
+          autofocus: @focused_field == :estimated_hours
+        )
 
-      group.text_field(
-        name: :done_ratio,
-        label: "% Complete",
-        readonly: true,
-        classes: "input--readonly"
-      )
+        group.text_field(
+          name: :remaining_hours,
+          label: "Remaining work",
+          readonly: true,
+          classes: "input--readonly",
+          autofocus: @focused_field == :remaining_hours,
+          placeholder: "-"
+        )
+      end
+    else
+      query_form.group(layout: :horizontal) do |group|
+        group.text_field(
+          name: :estimated_hours,
+          label: "Work",
+          autofocus: @focused_field == :estimated_hours
+        )
+
+        group.text_field(
+          name: :remaining_hours,
+          label: "Remaining work",
+          autofocus: @focused_field == :remaining_hours,
+          disabled: @work_package.estimated_hours.nil?
+        )
+
+        group.text_field(
+          name: :done_ratio,
+          label: "% Complete",
+          readonly: true,
+          classes: "input--readonly",
+          autofocus: @focused_field == :done_ratio,
+          placeholder: "-"
+        )
+      end
     end
   end
 end
