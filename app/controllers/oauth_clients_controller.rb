@@ -31,8 +31,6 @@
 # This controller handles OAuth2 Authorization Code Grant redirects from a Authorization Server to
 # "callback" endpoint.
 class OAuthClientsController < ApplicationController
-  include FlashMessagesHelper
-
   before_action :require_login
   before_action :set_oauth_state, only: [:callback]
   before_action :find_oauth_client, only: [:callback]
@@ -127,12 +125,10 @@ class OAuthClientsController < ApplicationController
       service_result.errors = service_result.errors.to_active_model_errors
     end
 
-    error_messages = ["#{t(:"oauth_client.errors.oauth_authorization_code_grant_had_errors")}:"]
+    flash[:error] = ["#{t(:"oauth_client.errors.oauth_authorization_code_grant_had_errors")}:"]
     service_result.errors.each do |error|
-      error_messages << "#{t(:"oauth_client.errors.oauth_reported")}: #{error.full_message}"
+      flash[:error] << "#{t(:"oauth_client.errors.oauth_reported")}: #{error.full_message}"
     end
-
-    flash[:primer_banner] = { message: join_flash_messages(error_messages), scheme: :danger } # rubocop:disable Rails/ActionControllerFlashBeforeRender
   end
 
   def set_code
