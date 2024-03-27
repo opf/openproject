@@ -143,8 +143,9 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
                        .call(permitted_storage_settings_params)
 
     if service_result.success?
+      @project_storage = service_result.result
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_project_storages_path
+      redirect_to_project_storages_path_with_oauth_access_grant_confirmation
     else
       @project_storage = @object
       render "/storages/project_settings/edit"
