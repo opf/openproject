@@ -56,6 +56,7 @@ import {
 } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 @Component({
   templateUrl: './progress-popover-edit-field.component.html',
@@ -84,6 +85,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     readonly injector:Injector,
     readonly pathHelper:PathHelperService,
     private halEvents:HalEventsService,
+    private toastService:ToastService,
   ) {
     super(I18n, elementRef, change, schema, handler, cdRef, injector);
   }
@@ -125,6 +127,8 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
         this.resource as WorkPackageResource,
         { eventType: 'updated' },
       );
+
+      this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
     }
   }
 
