@@ -27,12 +27,19 @@
 #++
 
 require "spec_helper"
-require_module_spec_helper
+require_relative "../../../modules/storages/spec/spec_helper"
 
 RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :webmock do
   shared_let(:user) { create(:user) }
   shared_let(:storage) { create(:nextcloud_storage, :with_oauth_client) }
   shared_let(:oauth_client) { storage.oauth_client }
+
+  before do
+    Storages::Peripherals::Registry.stub(
+      "#{storage.short_provider_type}.queries.auth_check",
+      ->(_) { ServiceResult.success }
+    )
+  end
 
   describe "#ensure_connection" do
     context "when user is not logged in" do
@@ -52,10 +59,15 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
       end
 
       context "when storage_id parameter is present" do
-        context 'when user is not "connected"' do
+        context "when user is not 'connected'" do
           let(:nonce) { "57a17c3f-b2ed-446e-9dd8-651ba3aec37d" }
 
           before do
+            Storages::Peripherals::Registry.stub(
+              "#{storage.short_provider_type}.queries.auth_check",
+              ->(_) { ServiceResult.failure(errors: Storages::StorageError.new(code: :unauthorized)) }
+            )
+
             allow(SecureRandom).to receive(:uuid).and_call_original.ordered
             allow(SecureRandom).to receive(:uuid).and_return(nonce).ordered
           end
@@ -72,7 +84,9 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                 "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
                 "callback&response_type=code&state=#{nonce}"
               )
-              expect(last_response.cookies["oauth_state_#{nonce}"]).to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
+              expect(last_response.cookies["oauth_state_#{nonce}"])
+                .to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com" \
+                        "%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
             end
           end
 
@@ -91,7 +105,9 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                   "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
                   "callback&response_type=code&state=#{nonce}"
                 )
-                expect(last_response.cookies["oauth_state_#{nonce}"]).to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com%2F123%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
+                expect(last_response.cookies["oauth_state_#{nonce}"])
+                  .to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com" \
+                          "%2F123%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
               end
             end
 
@@ -109,13 +125,15 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                   "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
                   "callback&response_type=code&state=#{nonce}"
                 )
-                expect(last_response.cookies["oauth_state_#{nonce}"]).to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
+                expect(last_response.cookies["oauth_state_#{nonce}"])
+                  .to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com" \
+                          "%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
               end
             end
           end
         end
 
-        context 'when user is "connected"' do
+        context "when user is 'connected'" do
           let!(:oauth_client_token) do
             create(:oauth_client_token, oauth_client:, user:)
           end

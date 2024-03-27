@@ -56,7 +56,7 @@ module Pages::Meetings
     end
 
     def click_save
-      click_button("Save")
+      click_on("Save")
 
       Pages::Meetings::Show.new(meeting)
     end

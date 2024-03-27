@@ -190,6 +190,15 @@ Rails.application.routes.draw do
         resource :general, only: %i[show], controller: "general"
         resource :modules, only: %i[show update]
         resource :types, only: %i[show update]
+        resource :project_custom_fields, only: %i[show] do
+          member do
+            post :toggle
+          end
+          collection do
+            put :enable_all_of_section
+            put :disable_all_of_section
+          end
+        end
         resource :custom_fields, only: %i[show update]
         resource :repository, only: %i[show], controller: "repository"
         resource :versions, only: %i[show]
@@ -435,6 +444,22 @@ Rails.application.routes.draw do
       resource :mail_notifications, controller: "/admin/settings/mail_notifications_settings", only: %i[show update]
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
       resource :work_packages, controller: "/admin/settings/work_packages_settings", only: %i[show update]
+      resource :projects, controller: "/admin/settings/projects_settings", only: %i[show update]
+      resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+          put :move
+          put :drop
+        end
+      end
+      resources :project_custom_field_sections, controller: "/admin/settings/project_custom_field_sections",
+                                                only: %i[create update destroy] do
+        member do
+          put :move
+          put :drop
+        end
+      end
       resource :working_days, controller: "/admin/settings/working_days_settings", only: %i[show update]
       resource :users, controller: "/admin/settings/users_settings", only: %i[show update]
       resource :date_format, controller: "/admin/settings/date_format_settings", only: %i[show update]

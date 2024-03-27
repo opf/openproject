@@ -183,10 +183,6 @@ RSpec.describe 'custom fields', :js, :with_cuprite do
     end
   end
 
-  describe 'projects' do
-    it_behaves_like "creating a new custom field", 'Projects'
-  end
-
   describe 'work packages' do
     it_behaves_like "creating a new custom field", 'Work packages'
   end

@@ -131,5 +131,31 @@ RSpec.describe Acts::Journalized::JournableDiffer do
           )
       end
     end
+
+    context "with a default custom value" do
+      let(:original) do
+        build(:work_package,
+              custom_values: [
+                build_stubbed(:work_package_custom_value, custom_field_id: nil, value: nil),
+                build_stubbed(:work_package_custom_value, custom_field_id: nil, value: ""),
+                build_stubbed(:work_package_custom_value, custom_field_id: 2, value: 1)
+              ])
+      end
+
+      let(:changed) do
+        build(:work_package,
+              custom_values: [
+                build_stubbed(:work_package_custom_value, custom_field_id: 1, value: "t"),
+                build_stubbed(:work_package_custom_value, custom_field_id: 2, value: 2)
+              ])
+      end
+
+      it "returns the changes" do
+        params = [original, changed, "custom_values", "custom_field", :custom_field_id, :value]
+        expect(described_class.association_changes(*params))
+          .to eql("custom_field_1" => [nil, "t"],
+                  "custom_field_2" => ["1", "2"])
+      end
+    end
   end
 end

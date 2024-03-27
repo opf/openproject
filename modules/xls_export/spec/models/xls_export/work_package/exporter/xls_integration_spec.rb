@@ -325,7 +325,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "adapts the datetime fields to the user time zone" do
       work_package.reload
       estimated_cell = sheet.rows.last.to_a.last
-      expect(estimated_cell).to eq "(15.0 h)"
+      expect(estimated_cell).to eq "· Σ 15.0 h"
     end
   end
 
@@ -344,7 +344,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "outputs both values" do
       work_package.reload
       estimated_cell = sheet.rows.last.to_a.last
-      expect(estimated_cell).to eq "0.0 h (15.0 h)"
+      expect(estimated_cell).to eq "0.0 h · Σ 15.0 h"
     end
   end
 end

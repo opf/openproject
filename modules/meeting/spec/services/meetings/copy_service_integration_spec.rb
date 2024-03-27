@@ -119,15 +119,18 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
              notes: "![](/api/v3/attachments/#{attachment.id}/content")
     end
 
-    it "copies the attachment" do
-      expect(copy.attachments.length)
-        .to eq 1
+    context "when asking to copy attachments" do
+      let(:params) { { copy_attachments: true } }
+      it "copies the attachment" do
+        expect(copy.attachments.length)
+          .to eq 1
 
-      expect(copy.attachments.first.id)
-        .not_to eq attachment.id
+        expect(copy.attachments.first.id)
+          .not_to eq attachment.id
 
-      expect(copy.agenda_items.count).to eq(1)
-      expect(copy.agenda_items.first.notes).to include "attachments/#{copy.attachments.first.id}/content"
+        expect(copy.agenda_items.count).to eq(1)
+        expect(copy.agenda_items.first.notes).to include "attachments/#{copy.attachments.first.id}/content"
+      end
     end
 
     context "when asking not to copy attachments" do

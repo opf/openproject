@@ -33,24 +33,24 @@ FactoryBot.define do
       # when using traits. They are not meant to be set externally.
       _format_name do
         [
-          multi_value ? 'multi-' : nil,
+          multi_value ? "multi-" : nil,
           field_format
         ].compact.join
       end
       _type_name { instance.class.name.underscore.humanize(capitalize: false) }
     end
     sequence(:name) do |n, _e|
-      [_format_name, _type_name, n.to_s].join(' ').capitalize
+      [_format_name, _type_name, n.to_s].join(" ").capitalize
     end
-    regexp { '' }
+    regexp { "" }
     is_required { false }
     min_length { false }
-    default_value { '' }
+    default_value { "" }
     max_length { false }
     editable { true }
-    possible_values { '' }
+    possible_values { "" }
     visible { true }
-    field_format { 'bool' }
+    field_format { "bool" }
 
     after(:create) do
       # As the request store keeps track of the created custom fields
@@ -58,29 +58,29 @@ FactoryBot.define do
     end
 
     trait :boolean do
-      _format_name { 'boolean' }
-      field_format { 'bool' }
+      _format_name { "boolean" }
+      field_format { "bool" }
     end
 
     trait :string do
-      field_format { 'string' }
+      field_format { "string" }
     end
 
     trait :text do
-      field_format { 'text' }
+      field_format { "text" }
     end
 
     trait :integer do
-      _format_name { 'integer' }
-      field_format { 'int' }
+      _format_name { "integer" }
+      field_format { "int" }
     end
 
     trait :float do
-      field_format { 'float' }
+      field_format { "float" }
     end
 
     trait :date do
-      field_format { 'date' }
+      field_format { "date" }
     end
 
     trait :list do
@@ -88,9 +88,9 @@ FactoryBot.define do
         default_option { nil }
         default_options { nil }
       end
-      field_format { 'list' }
+      field_format { "list" }
       multi_value { false }
-      possible_values { ['A', 'B', 'C', 'D', 'E', 'F', 'G'] }
+      possible_values { ["A", "B", "C", "D", "E", "F", "G"] }
 
       # update custom options default value from the default_option transient
       # field for non-multiselect field
@@ -140,24 +140,42 @@ FactoryBot.define do
     end
 
     trait :version do
-      field_format { 'version' }
+      field_format { "version" }
     end
 
     trait :multi_version do
-      field_format { 'version' }
+      field_format { "version" }
       multi_value { true }
     end
 
     trait :user do
-      field_format { 'user' }
+      field_format { "user" }
     end
 
     trait :multi_user do
-      field_format { 'user' }
+      field_format { "user" }
       multi_value { true }
     end
 
-    factory :project_custom_field, class: 'ProjectCustomField' do
+    factory :project_custom_field, class: "ProjectCustomField" do
+      project_custom_field_section
+
+      transient do
+        projects { [] }
+      end
+
+      # enable the the custom_field for the given projects
+      after(:create) do |custom_field, evaluator|
+        projects = Array(evaluator.projects)
+        next if projects.blank?
+
+        projects.each do |project|
+          unless project.project_custom_fields.include?(custom_field)
+            create(:project_custom_field_project_mapping, project:, project_custom_field: custom_field)
+          end
+        end
+      end
+
       factory :boolean_project_custom_field, traits: [:boolean]
       factory :string_project_custom_field, traits: [:string]
       factory :text_project_custom_field, traits: [:text]
@@ -169,12 +187,12 @@ FactoryBot.define do
       factory :user_project_custom_field, traits: [:user]
     end
 
-    factory :user_custom_field, class: 'UserCustomField'
+    factory :user_custom_field, class: "UserCustomField"
 
-    factory :group_custom_field, class: 'GroupCustomField'
+    factory :group_custom_field, class: "GroupCustomField"
 
-    factory :wp_custom_field, class: 'WorkPackageCustomField' do
-      _type_name { 'WP custom field' }
+    factory :wp_custom_field, class: "WorkPackageCustomField" do
+      _type_name { "WP custom field" }
       is_filter { true }
 
       transient do
@@ -198,16 +216,16 @@ FactoryBot.define do
       factory :user_wp_custom_field, traits: [:user]
     end
 
-    factory :issue_custom_field, class: 'WorkPackageCustomField' do
-      _type_name { 'issue custom field' }
+    factory :issue_custom_field, class: "WorkPackageCustomField" do
+      _type_name { "issue custom field" }
     end
 
-    factory :time_entry_custom_field, class: 'TimeEntryCustomField' do
-      field_format { 'text' }
+    factory :time_entry_custom_field, class: "TimeEntryCustomField" do
+      field_format { "text" }
     end
 
-    factory :version_custom_field, class: 'VersionCustomField' do
-      field_format { 'text' }
+    factory :version_custom_field, class: "VersionCustomField" do
+      field_format { "text" }
     end
   end
 end

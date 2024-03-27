@@ -315,6 +315,18 @@ en:
         no_results_content_text: Create a new work package category
       custom_fields:
         no_results_title_text: There are currently no custom fields available.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes.
+Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       types:
         no_results_title_text: There are currently no types available.
         form:
@@ -709,6 +721,8 @@ en:
         redirect_existing_links: "Redirect existing links"
       planning_element_type_color:
         hexcode: Hex code
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -1801,9 +1815,7 @@ en:
   label_ascending: "Ascending"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
-  label_attachment_delete: "Delete file"
-  label_attachment_new: "New file"
-  label_attachment_plural: "Files"
+  label_attachment_plural: "Attachments"
   label_attribute: "Attribute"
   label_attribute_plural: "Attributes"
   label_ldap_auth_source_new: "New LDAP connection"
@@ -1950,6 +1962,7 @@ en:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
+  label_expand: "Expand"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
@@ -2157,7 +2170,10 @@ en:
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
   label_project_plural: "Projects"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Project settings"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
@@ -2704,6 +2720,7 @@ en:
   permission_save_queries: "Save views"
   permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Select project modules"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Select types"
@@ -2755,6 +2772,10 @@ en:
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
 
   project_module_activity: "Activity"
   project_module_forums: "Forums"
@@ -2906,7 +2927,7 @@ en:
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
     If enabled, the API will allow administrators to write static read-only attributes during creation,
-    such as createdAt and updatedAt timestamps.
+    such as createdAt and author.
     <br/>
     <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows
     administrators to impersonate the creation of items as other users. All creation requests are being
@@ -3113,6 +3134,20 @@ en:
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Other"
     passwords: "Passwords"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"

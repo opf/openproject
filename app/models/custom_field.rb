@@ -236,6 +236,7 @@ class CustomField < ApplicationRecord
 
   def attribute_name(format = nil)
     return "customField#{id}" if format == :camel_case
+    return "custom-field-#{id}" if format == :kebab_case
 
     "custom_field_#{id}"
   end
