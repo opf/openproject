@@ -2,85 +2,85 @@
 ms:
   js:
     boards:
-      create_new: 'Create new board'
-      label_unnamed_board: 'Unnamed board'
-      label_unnamed_list: 'Unnamed list'
-      label_board_type: 'Board type'
+      create_new: 'Cipta board baru'
+      label_unnamed_board: 'Board tanpa nama'
+      label_unnamed_list: 'Senarai tanpa nama'
+      label_board_type: "Jenis board\n"
       upsale:
         teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
+        upgrade: 'Naik taraf sekarang'
       lists:
-        delete: 'Delete list'
+        delete: 'Padam senarai'
       version:
-        is_locked: 'Version is locked. No items can be added to this version.'
-        is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'Show version'
-        locked: 'Locked'
-        closed: 'Closed'
-      new_board: 'New board'
-      add_list: 'Add list to board'
-      add_card: 'Add card'
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      error_loading_the_list: "Error loading the list: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
-      click_to_remove_list: "Click to remove this list"
+        is_locked: 'Versi ini dikunci. Tiada item yang dapat ditambah kedalam versi ini.'
+        is_closed: 'Versi ini ditutup. Tiada item yang dapat ditambah kedalam versi ini.'
+        close_version: 'Versi tertutup'
+        open_version: 'Versi terbuka'
+        lock_version: 'Versi terkunci'
+        unlock_version: 'Versi dibuka'
+        edit_version: 'Versi edit'
+        show_version: 'Papar versi'
+        locked: 'Terkunci'
+        closed: 'Ditutup'
+      new_board: 'Papan baru'
+      add_list: 'Tambah senarai ke board'
+      add_card: 'Tambah kad'
+      error_attribute_not_writable: "Pakej kerja tidak boleh digerakkan, %{attribute} tidak boleh ditulis."
+      error_loading_the_list: "Ralat memuat senarai: %{error_message}"
+      error_permission_missing: "Kebenaran untuk membuat pertanyaan awam tidak wujud"
+      error_cannot_move_into_self: "Anda tidak boleh memindahkan pakej kerja ke dalam lajur sendiri."
+      text_hidden_list_warning: "Tidak semua senarai dipaparkan kerana anda tidak mempunyai kebenaran. Hubungi pengurus anda untut maklumat lanjut."
+      click_to_remove_list: "Klik untuk hapuskan senarai ini"
       board_type:
-        text: 'Board type'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        text: "Jenis board\n"
+        free: "asas\n"
+        select_board_type: 'Sila pilih jenis board yang anda perlukan.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+          Bermula dari awal dengan board yang kosong. Tambah kad dan lajur kepada board ini secara manual.
+        action: 'Board tindakan'
+        action_by_attribute: 'Board tindakan (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Board dengan senarai yang disaring di atribut %{attribute}. Pemindahan pakej kerja ke senarai lain akan mengemas kini atribut mereka.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Board dengan kolum automatik untuk subprojek. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Board dengan kolum automatik untuk sub-elements. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Board gaya kanban asas dengan kolum untuk status seperti Untuk Dilakukan, Dalam Pelaksanaan, Selesai.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Board dengan kolum automatik berdasarkan pengguna yang ditentukan. Ideal untuk penghantaran pakej kerja.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Board dengan kolum automatik berdasarkan versi atribut. Ideal untuk merancang pembangunan produk.
         action_type:
-          assignee: assignee
+          assignee: wakil
           status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          version: versi
+          subproject: subprojek
+          subtasks: ibu bapa-anak
         board_type_title:
-          assignee: Assignee
+          assignee: Wakil
           status: Status
-          version: Version
-          subproject: Subproject
+          version: Versi
+          subproject: Subprojek
           subtasks: Parent-child
-          basic: Basic
-        select_attribute: "Action attribute"
+          basic: "Asas\n"
+        select_attribute: "Atribut tindakan"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Pilih pengguna untuk ditambah sebagai senarai wakil baru
+          status: Pilih status untuk ditambah sebagai senarai baru
+          version: Pilih versi untuk ditambah sebagai senarai baru
+          subproject: Pilih subprojek untuk ditambah sebagai senarai baru
+          subtasks: Pilih pakej kerja untuk ditambah sebagai senarai baru
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            Tiada status yang tersedia pada masa ini. <br>
+            Sama ada sudah tiada atau semua sudah ditambah ke board.
+          assignee: Tiada ahli yang sepadan dengan nilai penyaringan anda.  <br>
+          no_member: Projek ini tidak mempunyai ahli yang boleh ditambah masa ini.  <br>
+          add_members: <a href="%{link}">Tambah ahli baru ke projek ini</a> untuk pilih pengguna lagi.
       configuration_modal:
         title: 'Configure this board'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "Paparkan sebagai kad"
+          table_mode: "Paparkan sebagai jadual"

@@ -31,7 +31,7 @@ module API
     module CustomActions
       class CustomActionsAPI < ::API::OpenProjectAPI
         resources :custom_actions do
-          route_param :id, type: Integer, desc: 'Custom action ID' do
+          route_param :id, type: Integer, desc: "Custom action ID" do
             helpers do
               def custom_action
                 @custom_action ||= CustomAction.find(params[:id])
@@ -49,7 +49,7 @@ module API
                                                                     current_user:)
             end
 
-            namespace 'execute' do
+            namespace "execute" do
               helpers do
                 def parsed_params
                   @parsed_params ||= begin

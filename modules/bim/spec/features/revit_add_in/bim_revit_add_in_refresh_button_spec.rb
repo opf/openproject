@@ -26,10 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../../spec_helper'
+require_relative "../../spec_helper"
 
-RSpec.describe 'BIM Revit Add-in navigation spec', :js,
-               driver: :chrome_revit_add_in, with_config: { edition: 'bim' } do
+RSpec.describe "BIM Revit Add-in navigation spec", :js,
+               driver: :chrome_revit_add_in, with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
@@ -50,17 +50,17 @@ RSpec.describe 'BIM Revit Add-in navigation spec', :js,
     model_page.visit!
   end
 
-  it 'click on refresh button reloads information' do
+  it "click on refresh button reloads information" do
     # Context BCF cards view
     model_page.page_shows_a_filter_button(true)
-    work_package.update_attribute(:subject, 'Refreshed while in cards view')
+    work_package.update_attribute(:subject, "Refreshed while in cards view")
     model_page.click_refresh_button
-    expect(page).to have_text('Refreshed while in cards view')
+    expect(page).to have_text("Refreshed while in cards view")
 
     # Context BCF full view
     model_page.click_info_icon(work_package)
-    work_package.update_attribute(:subject, 'Refreshed while in full view')
+    work_package.update_attribute(:subject, "Refreshed while in full view")
     model_page.click_refresh_button
-    expect(page).to have_text('Refreshed while in full view')
+    expect(page).to have_text("Refreshed while in full view")
   end
 end

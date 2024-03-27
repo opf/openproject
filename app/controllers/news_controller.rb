@@ -77,9 +77,9 @@ class NewsController < ApplicationController
     @news.attributes = permitted_params.news
     if @news.save
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to controller: '/news', action: 'index', project_id: @project
+      redirect_to controller: "/news", action: "index", project_id: @project
     else
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -87,16 +87,16 @@ class NewsController < ApplicationController
     @news.attributes = permitted_params.news
     if @news.save
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'show', id: @news
+      redirect_to action: "show", id: @news
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
   def destroy
     @news.destroy
     flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to action: 'index', project_id: @project
+    redirect_to action: "index", project_id: @project
   end
 
   private

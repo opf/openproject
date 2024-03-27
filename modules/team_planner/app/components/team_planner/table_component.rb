@@ -37,9 +37,9 @@ module TeamPlanner
 
     def headers
       [
-        ['name', { caption: I18n.t(:label_name) }],
-        ['assignees', { caption: I18n.t('team_planner.label_assignees') }],
-        ['created_at', { caption: I18n.t('attributes.created_at') }]
+        ["name", { caption: I18n.t(:label_name) }],
+        ["assignees", { caption: I18n.t("team_planner.label_assignees") }],
+        ["created_at", { caption: I18n.t("attributes.created_at") }]
       ]
     end
   end

@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe TabsHelper do
   include described_class
 
   let(:given_tab) do
-    { name: 'avatar',
-      partial: 'avatars/users/avatar_tab',
+    { name: "avatar",
+      partial: "avatars/users/avatar_tab",
       path: ->(params) { edit_user_path(params[:user], tab: :avatar) },
       label: :label_avatar }
   end
 
   let(:expected_tab) do
-    { name: 'avatar',
-      partial: 'avatars/users/avatar_tab',
-      path: '/users/2/edit/avatar',
+    { name: "avatar",
+      partial: "avatars/users/avatar_tab",
+      path: "/users/2/edit/avatar",
       label: :label_avatar }
   end
 
-  describe 'render_extensible_tabs' do
+  describe "render_extensible_tabs" do
     let(:current_user) { build(:user) }
     let(:user) { build(:user, id: 2) }
 

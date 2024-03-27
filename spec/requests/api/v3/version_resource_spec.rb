@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Version resource', content_type: :json do
+RSpec.describe "API v3 Version resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -44,28 +44,28 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
   let(:version_in_other_project) do
     build(:version,
           project: other_project,
-          sharing: 'system',
+          sharing: "system",
           custom_field_values: { int_cf.id => 123 })
   end
 
   subject(:response) { last_response }
 
-  describe 'GET api/v3/versions/:id' do
+  describe "GET api/v3/versions/:id" do
     let(:get_path) { api_v3_paths.version version_in_project.id }
 
-    shared_examples_for 'successful response' do
-      it 'responds with 200' do
+    shared_examples_for "successful response" do
+      it "responds with 200" do
         expect(last_response.status).to eq(200)
       end
 
-      it 'returns the version' do
+      it "returns the version" do
         expect(last_response.body)
-          .to be_json_eql('Version'.to_json)
-          .at_path('_type')
+          .to be_json_eql("Version".to_json)
+          .at_path("_type")
 
         expect(last_response.body)
           .to be_json_eql(expected_version.id.to_json)
-          .at_path('id')
+          .at_path("id")
 
         expect(last_response.body)
           .to be_json_eql(123.to_json)
@@ -73,7 +73,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
       end
     end
 
-    context 'logged in user with permissions' do
+    context "logged in user with permissions" do
       before do
         version_in_project.save!
         login_as current_user
@@ -81,12 +81,12 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         get get_path
       end
 
-      it_behaves_like 'successful response' do
+      it_behaves_like "successful response" do
         let(:expected_version) { version_in_project }
       end
     end
 
-    context 'logged in user with permission on project a version is shared with' do
+    context "logged in user with permission on project a version is shared with" do
       let(:get_path) { api_v3_paths.version version_in_other_project.id }
 
       before do
@@ -96,12 +96,12 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         get get_path
       end
 
-      it_behaves_like 'successful response' do
+      it_behaves_like "successful response" do
         let(:expected_version) { version_in_other_project }
       end
     end
 
-    context 'logged in user without permission' do
+    context "logged in user without permission" do
       let(:permissions) { [] }
 
       before do
@@ -111,20 +111,20 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 
-  describe 'PATCH api/v3/versions' do
+  describe "PATCH api/v3/versions" do
     let(:path) { api_v3_paths.version(version.id) }
     let(:version) do
       create(:version,
-             name: 'Old name',
-             description: 'Old description',
-             start_date: '2017-06-01',
-             effective_date: '2017-07-01',
-             status: 'open',
-             sharing: 'none',
+             name: "Old name",
+             description: "Old description",
+             start_date: "2017-06-01",
+             effective_date: "2017-07-01",
+             status: "open",
+             sharing: "none",
              project:,
              custom_field_values: { int_cf.id => 123,
                                     list_cf.id => list_cf.custom_options.first.id })
@@ -133,9 +133,9 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
     let!(:list_cf) { create(:version_custom_field, :list) }
     let(:body) do
       {
-        name: 'New name',
+        name: "New name",
         description: {
-          raw: 'New description'
+          raw: "New description"
         },
         "customField#{int_cf.id}": 5,
         startDate: "2018-01-01",
@@ -156,48 +156,48 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
       patch path, body
     end
 
-    it 'responds with 200' do
+    it "responds with 200" do
       expect(last_response.status).to eq(200)
     end
 
-    it 'updates the version' do
-      expect(Version.find_by(name: 'New name'))
+    it "updates the version" do
+      expect(Version.find_by(name: "New name"))
         .to be_present
     end
 
-    it 'returns the updated version' do
+    it "returns the updated version" do
       expect(last_response.body)
-        .to be_json_eql('Version'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Version".to_json)
+        .at_path("_type")
 
       expect(last_response.body)
-        .to be_json_eql('New name'.to_json)
-        .at_path('name')
+        .to be_json_eql("New name".to_json)
+        .at_path("name")
 
       expect(last_response.body)
-        .to be_json_eql('<p>New description</p>'.to_json)
-        .at_path('description/html')
+        .to be_json_eql("<p>New description</p>".to_json)
+        .at_path("description/html")
 
       expect(last_response.body)
-        .to be_json_eql('2018-01-01'.to_json)
-        .at_path('startDate')
+        .to be_json_eql("2018-01-01".to_json)
+        .at_path("startDate")
 
       expect(last_response.body)
-        .to be_json_eql('2018-01-09'.to_json)
-        .at_path('endDate')
+        .to be_json_eql("2018-01-09".to_json)
+        .at_path("endDate")
 
       expect(last_response.body)
-        .to be_json_eql('closed'.to_json)
-        .at_path('status')
+        .to be_json_eql("closed".to_json)
+        .at_path("status")
 
       expect(last_response.body)
-        .to be_json_eql('descendants'.to_json)
-        .at_path('sharing')
+        .to be_json_eql("descendants".to_json)
+        .at_path("sharing")
 
       # unchanged
       expect(last_response.body)
         .to be_json_eql(project.name.to_json)
-        .at_path('_links/definingProject/title')
+        .at_path("_links/definingProject/title")
 
       expect(last_response.body)
         .to be_json_eql(api_v3_paths.custom_option(list_cf.custom_options.last.id).to_json)
@@ -208,7 +208,7 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         .at_path("customField#{int_cf.id}")
     end
 
-    context 'if attempting to switch the project' do
+    context "if attempting to switch the project" do
       let(:other_project) do
         create(:project).tap do |p|
           create(:member,
@@ -231,22 +231,22 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         }.to_json
       end
 
-      it_behaves_like 'read-only violation', 'project', Version
+      it_behaves_like "read-only violation", "project", Version
     end
 
-    context 'if lacking the manage permissions' do
+    context "if lacking the manage permissions" do
       let(:permissions) { [:view_work_packages] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
 
-    context 'if lacking the manage permissions' do
+    context "if lacking the manage permissions" do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'if having the manage permission in a different project' do
+    context "if having the manage permission in a different project" do
       let(:other_membership) do
         create(:member,
                project: create(:project),
@@ -260,19 +260,19 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         [:view_work_packages]
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 
-  describe 'POST api/v3/versions' do
+  describe "POST api/v3/versions" do
     let(:path) { api_v3_paths.versions }
     let!(:int_cf) { create(:version_custom_field, :integer) }
     let!(:list_cf) { create(:version_custom_field, :list) }
     let(:body) do
       {
-        name: 'New version',
+        name: "New version",
         description: {
-          raw: 'A new description'
+          raw: "A new description"
         },
         "customField#{int_cf.id}": 5,
         startDate: "2018-01-01",
@@ -296,47 +296,47 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
       post path, body
     end
 
-    it 'responds with 201' do
+    it "responds with 201" do
       expect(last_response.status).to eq(201)
     end
 
-    it 'creates the version' do
-      expect(Version.find_by(name: 'New version'))
+    it "creates the version" do
+      expect(Version.find_by(name: "New version"))
         .to be_present
     end
 
-    it 'returns the newly created version' do
+    it "returns the newly created version" do
       expect(last_response.body)
-        .to be_json_eql('Version'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Version".to_json)
+        .at_path("_type")
 
       expect(last_response.body)
-        .to be_json_eql('New version'.to_json)
-        .at_path('name')
+        .to be_json_eql("New version".to_json)
+        .at_path("name")
 
       expect(last_response.body)
-        .to be_json_eql('<p>A new description</p>'.to_json)
-        .at_path('description/html')
+        .to be_json_eql("<p>A new description</p>".to_json)
+        .at_path("description/html")
 
       expect(last_response.body)
-        .to be_json_eql('2018-01-01'.to_json)
-        .at_path('startDate')
+        .to be_json_eql("2018-01-01".to_json)
+        .at_path("startDate")
 
       expect(last_response.body)
-        .to be_json_eql('2018-01-09'.to_json)
-        .at_path('endDate')
+        .to be_json_eql("2018-01-09".to_json)
+        .at_path("endDate")
 
       expect(last_response.body)
-        .to be_json_eql('closed'.to_json)
-        .at_path('status')
+        .to be_json_eql("closed".to_json)
+        .at_path("status")
 
       expect(last_response.body)
-        .to be_json_eql('descendants'.to_json)
-        .at_path('sharing')
+        .to be_json_eql("descendants".to_json)
+        .at_path("sharing")
 
       expect(last_response.body)
         .to be_json_eql(project.name.to_json)
-        .at_path('_links/definingProject/title')
+        .at_path("_links/definingProject/title")
 
       expect(last_response.body)
         .to be_json_eql(api_v3_paths.custom_option(list_cf.custom_options.first.id).to_json)
@@ -347,13 +347,13 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         .at_path("customField#{int_cf.id}")
     end
 
-    context 'if lacking the manage permissions' do
+    context "if lacking the manage permissions" do
       let(:permissions) { [] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
 
-    context 'if having the manage permission in a different project' do
+    context "if having the manage permission in a different project" do
       let(:other_membership) do
         create(:member,
                project: create(:project),
@@ -367,11 +367,11 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         [:view_work_packages]
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 
-  describe 'GET api/v3/versions' do
+  describe "GET api/v3/versions" do
     let(:get_path) { api_v3_paths.versions }
     let(:response) { last_response }
     let(:versions) { [version_in_project] }
@@ -383,44 +383,44 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
       get get_path
     end
 
-    it 'succeeds' do
+    it "succeeds" do
       expect(last_response.status)
         .to be(200)
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'Version'
+    it_behaves_like "API V3 collection response", 1, 1, "Version"
 
-    it 'is the version the user has permission in' do
+    it "is the version the user has permission in" do
       expect(response.body)
         .to be_json_eql(api_v3_paths.version(version_in_project.id).to_json)
-        .at_path('_embedded/elements/0/_links/self/href')
+        .at_path("_embedded/elements/0/_links/self/href")
     end
 
-    context 'filtering for project by sharing' do
+    context "filtering for project by sharing" do
       let(:shared_version_in_project) do
-        build(:version, project:, sharing: 'system')
+        build(:version, project:, sharing: "system")
       end
       let(:versions) { [version_in_project, shared_version_in_project] }
 
       let(:filter_query) do
-        [{ sharing: { operator: '=', values: ['system'] } }]
+        [{ sharing: { operator: "=", values: ["system"] } }]
       end
 
       let(:get_path) do
         "#{api_v3_paths.versions}?filters=#{CGI.escape(JSON.dump(filter_query))}"
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'Version'
+      it_behaves_like "API V3 collection response", 1, 1, "Version"
 
-      it 'returns the shared version' do
+      it "returns the shared version" do
         expect(response.body)
           .to be_json_eql(api_v3_paths.version(shared_version_in_project.id).to_json)
-          .at_path('_embedded/elements/0/_links/self/href')
+          .at_path("_embedded/elements/0/_links/self/href")
       end
     end
   end
 
-  describe 'DELETE /api/v3/versions/:id' do
+  describe "DELETE /api/v3/versions/:id" do
     let(:path) { api_v3_paths.version(version.id) }
     let(:version) do
       create(:version,
@@ -435,23 +435,23 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
 
     subject { last_response }
 
-    context 'with required permissions' do
-      it 'responds with HTTP No Content' do
+    context "with required permissions" do
+      it "responds with HTTP No Content" do
         expect(subject.status).to eq 204
       end
 
-      it 'deletes the version' do
+      it "deletes the version" do
         expect(Version.exists?(version.id)).to be_falsey
       end
 
-      context 'for a non-existent version' do
+      context "for a non-existent version" do
         let(:path) { api_v3_paths.version 1337 }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
     end
 
-    context 'with work packages attached to it' do
+    context "with work packages attached to it" do
       let(:version) do
         create(:version,
                project:).tap do |v|
@@ -461,28 +461,28 @@ RSpec.describe 'API v3 Version resource', content_type: :json do
         end
       end
 
-      it 'returns a 422' do
+      it "returns a 422" do
         expect(subject.status)
           .to be 422
       end
 
-      it 'does not delete the version' do
+      it "does not delete the version" do
         expect(Version.exists?(version.id)).to be_truthy
       end
     end
 
-    context 'without permission to see versions' do
+    context "without permission to see versions" do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'without permission to delete versions' do
+    context "without permission to delete versions" do
       let(:permissions) { [:view_work_packages] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
 
-      it 'does not delete the version' do
+      it "does not delete the version" do
         expect(Version.exists?(version.id)).to be_truthy
       end
     end

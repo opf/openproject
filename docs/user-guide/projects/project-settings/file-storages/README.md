@@ -60,6 +60,8 @@ The SharePoint file storage is now available to all work packages in this projec
 
 > **Note:** Please refer to the [OneDrive/SharePoint user guide](../../../file-management/one-drive-integration) for further instructions on using the integration at a user level.
 
+
+
 ## Add a Nextcloud storage to a project
 
 If you have selected the Nextcloud option in the previous step of storage selection, you will now see the **Project folder** options.
@@ -80,7 +82,11 @@ Click on **Add** to add your new Nextcloud file storage to this project.
 
 The Nextcloud file storage is now available to all work packages in this project. 
 
-> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../file-management/nextcloud-integration/).
+> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../file-management/nextcloud-integration/). 
+
+If you do not yet have an access token for the file storage in a project, you will be prompted to log into your file storage. You can choose to login immediately to establish the connection or to do it later.
+
+![OAuth for file storages in OpenProject project settings](file-storages-oauth-nudge-nextcloud.png)
 
 
 ### Project folder member connection status

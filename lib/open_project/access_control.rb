@@ -50,7 +50,7 @@ module OpenProject
       def sorted_module_names(include_disabled: true)
         modules
           .reject { |mod| !include_disabled && disabled_project_modules.include?(mod[:name]) }
-          .sort_by { |a| [-a[:order], l_or_humanize(a[:name], prefix: 'project_module_')] }
+          .sort_by { |a| [-a[:order], l_or_humanize(a[:name], prefix: "project_module_")] }
           .map { |entry| entry[:name].to_s }
       end
 
@@ -206,7 +206,7 @@ module OpenProject
       private
 
       def normalized_controller_action_string(action)
-        controller = if action[:controller]&.to_s&.starts_with?('/')
+        controller = if action[:controller]&.to_s&.starts_with?("/")
                        action[:controller][1..]
                      else
                        action[:controller]

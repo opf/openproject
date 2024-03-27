@@ -31,7 +31,7 @@ class AdminUserSeeder < Seeder
     if user.save!(validate: false)
       seed_data.store_reference(:openproject_admin, user)
     else
-      print_error 'Seeding admin failed:'
+      print_error "Seeding admin failed:"
       user.errors.full_messages.each do |msg|
         print_error "  #{msg}"
       end
@@ -47,15 +47,15 @@ class AdminUserSeeder < Seeder
   end
 
   def not_applicable_message
-    'No need to seed an admin as there already is one.'
+    "No need to seed an admin as there already is one."
   end
 
   def new_admin
     User.new.tap do |user|
       user.admin = true
-      user.login = 'admin'
+      user.login = "admin"
       user.password = Setting.seed_admin_user_password
-      first, last = Setting.seed_admin_user_name.split(' ', 2)
+      first, last = Setting.seed_admin_user_name.split(" ", 2)
       user.firstname = first
       user.lastname = last
       user.mail = Setting.seed_admin_user_mail

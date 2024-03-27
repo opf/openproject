@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'users/index' do
+RSpec.describe "users/index" do
   shared_let(:admin) { create(:admin) }
   let!(:user) { create(:user, firstname: "Scarlet", lastname: "Scallywag") }
 
@@ -46,7 +46,7 @@ RSpec.describe 'users/index' do
 
   subject { rendered.squish }
 
-  it 'renders the user table' do
+  it "renders the user table" do
     render
 
     expect(subject).to have_text("#{admin.firstname}   #{admin.lastname}")

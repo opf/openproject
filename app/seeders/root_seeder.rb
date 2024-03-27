@@ -43,7 +43,7 @@ class RootSeeder < Seeder
   # Returns the demo data in the default language.
   def seed_data
     @seed_data ||= begin
-      raise 'cannot generate demo seed data without setting locale first' unless @locale_set
+      raise "cannot generate demo seed data without setting locale first" unless @locale_set
 
       Source::SeedDataLoader.get_data
     end
@@ -90,7 +90,7 @@ class RootSeeder < Seeder
   end
 
   def load_engine_seeders(engine)
-    engine.root.glob('app/seeders/**/*.rb')
+    engine.root.glob("app/seeders/**/*.rb")
       .each { |file| require file }
   end
 
@@ -128,23 +128,23 @@ class RootSeeder < Seeder
   end
 
   def seed_admin_user
-    print_status '*** Seeding admin user'
+    print_status "*** Seeding admin user"
     AdminUserSeeder.new(seed_data).seed!
   end
 
   def seed_demo_data
-    print_status '*** Seeding demo data'
+    print_status "*** Seeding demo data"
     DemoDataSeeder.new(seed_data).seed!
   end
 
   def seed_env_data
-    print_status '*** Seeding data from environment variables'
+    print_status "*** Seeding data from environment variables"
     EnvDataSeeder.new(seed_data).seed!
   end
 
   def seed_development_data
-    print_status '*** Seeding development data'
-    require 'factory_bot'
+    print_status "*** Seeding development data"
+    require "factory_bot"
     # Load FactoryBot factories
     begin
       ::FactoryBot.find_definitions
@@ -163,7 +163,7 @@ class RootSeeder < Seeder
   end
 
   def desired_lang
-    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', Setting.default_language)
+    desired_lang = ENV.fetch("OPENPROJECT_SEED_LOCALE", Setting.default_language)
 
     if Redmine::I18n.all_languages.exclude?(desired_lang)
       if raise_on_unknown_language

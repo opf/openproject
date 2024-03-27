@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/messages/base'
+require "support/pages/messages/base"
 
 module Pages::Messages
   class Show < Pages::Messages::Base
@@ -37,15 +37,15 @@ module Pages::Messages
     end
 
     def expect_subject(subject)
-      expect(page).to have_css('.title-container', text: subject)
+      expect(page).to have_css(".title-container", text: subject)
     end
 
     def expect_content(content)
-      expect(page).to have_css('.forum-message .wiki', text: content)
+      expect(page).to have_css(".forum-message .wiki", text: content)
     end
 
     def expect_no_replies
-      expect(page).to have_no_content('Replies')
+      expect(page).to have_no_content("Replies")
     end
 
     def expect_num_replies(num)
@@ -53,11 +53,11 @@ module Pages::Messages
     end
 
     def reply(text)
-      find('.ck-content').base.send_keys text
+      find(".ck-content").base.send_keys text
 
-      click_button 'Submit'
+      click_button "Submit"
 
-      expect(page).to have_css('.forum-message--comments', text:)
+      expect(page).to have_css(".forum-message--comments", text:)
 
       Message.last
     end
@@ -65,36 +65,36 @@ module Pages::Messages
     def quote(content:, quoted_message: nil, subject: nil)
       if quoted_message
         within "#message-#{quoted_message.id} .contextual" do
-          click_on 'Quote'
+          click_on "Quote"
         end
       else
         within ".toolbar-items" do
-          click_on 'Quote'
+          click_on "Quote"
         end
       end
 
       sleep 1
 
-      scroll_to_element find('.ck-content')
-      fill_in 'reply_subject', with: subject if subject
+      scroll_to_element find(".ck-content")
+      fill_in "reply_subject", with: subject if subject
 
-      editor = find('.ck-content')
+      editor = find(".ck-content")
       editor.base.send_keys content
 
       # For some reason, capybara will click on
       # the button to add another attachment when being told to click on "Submit".
       # Therefor, submitting by enter key.
-      subject_field = find_by_id('reply_subject')
+      subject_field = find_by_id("reply_subject")
       subject_field.native.send_keys(:return)
 
       text = (quoted_message || Message.first).content
-      expect(page).to have_css('.forum-message--comments blockquote', text:)
+      expect(page).to have_css(".forum-message--comments blockquote", text:)
 
       Message.last
     end
 
     def expect_reply(subject:, content:, reply: nil)
-      selector = '.comment'
+      selector = ".comment"
       selector += "#message-#{reply.id}" if reply
 
       within(selector) do
@@ -109,7 +109,7 @@ module Pages::Messages
     end
 
     def click_save
-      click_button 'Save'
+      click_button "Save"
     end
 
     def path

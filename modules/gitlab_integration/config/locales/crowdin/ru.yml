@@ -27,13 +27,13 @@ ru:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "должен быть массив хэшей с помощью ключей: цвет, заголовок"
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
-  project_module_gitlab: "Gitlab"
-  permission_show_gitlab_content: "Show Gitlab content"
+              invalid_schema: "должен быть массив хэшей с помощью ключей: цвет, заголовок"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "Show GitLab content"
   gitlab_integration:
     merge_request_opened_comment: >
       **MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
@@ -54,7 +54,7 @@ ru:
     note_issue_commented_comment: >
       **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
     note_snippet_referenced_comment: >
-      **Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}
+      **Ссылка в сниппете:** [%{gitlab_user}](%{gitlab_user_url}) ссылается на этот WP в сниппете %{snippet_number} [%{snippet_title}](%{snippet_url}) на [%{repository}](%{repository_url}): %{snippet_note}
     issue_opened_referenced_comment: >
       **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >

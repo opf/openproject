@@ -36,8 +36,8 @@ module API
           FilterDependencyRepresenter
           def href_callback
             params = [
-              allows_becoming_assignee: { operator: '=', values: ['t'] },
-              grantable: { operator: '=', values: ['t'] }
+              allows_becoming_assignee: { operator: "=", values: ["t"] },
+              grantable: { operator: "=", values: ["t"] }
             ]
             escaped = CGI.escape(::JSON.dump(params))
             "#{api_v3_paths.roles}?filters=#{escaped}"

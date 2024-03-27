@@ -26,7 +26,8 @@ da:
       no_results_title_text: Der har ikke været nogen aktivitet for projektet i tidsperioden.
   admin:
     plugins:
-      no_results_title_text: Der er i øjeblikket ingen plugins installeret.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Farvetema"
       color_theme_custom: "(Tilpas)"
@@ -1526,6 +1527,7 @@ da:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Brugervejledninger"
       faq: "Spørgsmål & Svar"
+      impressum: "Legal notice"
       glossary: "Ordliste"
       shortcuts: "Genveje "
       blog: "OpenProject blog"
@@ -1536,6 +1538,7 @@ da:
   journals:
     changes_retracted: "Ændringerne blev trukket tilbage."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1857,7 +1860,6 @@ da:
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Legal notice"
   label_in: "i"
   label_in_less_than: "på mindre end"
   label_in_more_than: "på mere end"
@@ -2713,6 +2715,9 @@ da:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -3091,6 +3096,7 @@ da:
     status_user_and_brute_force: "%{user} og %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "Navnet er angivet af din login-udbyder og kan derfor ikke ændres."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Ophæv spærring"
     unlock_and_reset_failed_logins: "Lås mislykkede forsøg på at logge ind op, og nulstil dem"
   version_status_closed: "lukket"

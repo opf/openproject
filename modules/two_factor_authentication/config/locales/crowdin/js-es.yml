@@ -23,4 +23,4 @@ es:
   js:
     two_factor_authentication:
       errors:
-        aborted: "The authentication was cancelled. Please try again."
+        aborted: "Se ha cancelado la autenticación. Inténtelo de nuevo."

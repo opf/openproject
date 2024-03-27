@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 module TableHelpers
   RSpec.describe TableData do
-    describe '.for' do
-      it 'reads a table representation and stores its data' do
+    describe ".for" do
+      it "reads a table representation and stores its data" do
         table = <<~TABLE
           | subject      | remaining work |
           | work package |             3h |
@@ -43,13 +43,13 @@ module TableHelpers
         table_data = described_class.for(table)
         expect(table_data.work_packages_data.size).to eq(2)
         expect(table_data.columns.size).to eq(2)
-        expect(table_data.headers).to eq([' subject      ', ' remaining work '])
+        expect(table_data.headers).to eq([" subject      ", " remaining work "])
         expect(table_data.work_package_identifiers).to eq(%i[work_package another_one])
       end
     end
 
-    describe '.from_work_packages' do
-      it 'reads data from work packages according to the given columns' do
+    describe ".from_work_packages" do
+      it "reads data from work packages according to the given columns" do
         table = <<~TABLE
           | subject      | remaining work |
           | work package |             3h |
@@ -57,19 +57,19 @@ module TableHelpers
         TABLE
         columns = described_class.for(table).columns
 
-        work_package = build(:work_package, subject: 'work package', remaining_hours: 3)
-        another_one = build(:work_package, subject: 'another one')
+        work_package = build(:work_package, subject: "work package", remaining_hours: 3)
+        another_one = build(:work_package, subject: "another one")
 
         table_data = described_class.from_work_packages([work_package, another_one], columns)
         expect(table_data.work_packages_data.size).to eq(2)
         expect(table_data.columns.size).to eq(2)
-        expect(table_data.headers).to eq(['subject', 'remaining work'])
+        expect(table_data.headers).to eq(["subject", "remaining work"])
         expect(table_data.work_package_identifiers).to eq(%i[work_package another_one])
       end
     end
 
-    describe '#values_for_attribute' do
-      it 'returns all the values of the work packages for the given attribute' do
+    describe "#values_for_attribute" do
+      it "returns all the values of the work packages for the given attribute" do
         table = <<~TABLE
           | subject      | remaining work |
           | work package |             3h |
@@ -78,7 +78,7 @@ module TableHelpers
 
         table_data = described_class.for(table)
         expect(table_data.values_for_attribute(:remaining_hours)).to eq([3.0, nil])
-        expect(table_data.values_for_attribute(:subject)).to eq(['work package', 'another one'])
+        expect(table_data.values_for_attribute(:subject)).to eq(["work package", "another one"])
       end
     end
   end

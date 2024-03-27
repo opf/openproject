@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative "../spec_helper"
 
 RSpec.describe TwoFactorAuthentication::LoginToken, :with_2fa_ee do
   shared_let(:user) { create(:user) }

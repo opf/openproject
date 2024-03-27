@@ -26,7 +26,8 @@ si:
       no_results_title_text: මෙම කාල රාමුව තුළ ව්යාපෘතිය සඳහා කිසිදු ක්රියාකාරකමක් සිදු වී නොමැත.
   admin:
     plugins:
-      no_results_title_text: දැනට ප්ලගින නොමැත.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "වර්ණ තේමාව"
       color_theme_custom: "(අභිරුචි)"
@@ -1528,6 +1529,7 @@ si:
       postgres_migration: "ඔබගේ ස්ථාපනය PostgreSQL වෙත සංක්රමණය කිරීම"
       user_guides: "පරිශීලක මාර්ගෝපදේශ"
       faq: "නිතර අසන ප්රශ්න"
+      impressum: "Legal notice"
       glossary: "පාරිභාෂික ශබ්ද මාලාව"
       shortcuts: "කෙටිමං"
       blog: "OpenProject බ්ලොග්"
@@ -1538,6 +1540,7 @@ si:
   journals:
     changes_retracted: "The changes were retracted."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1859,7 +1862,6 @@ si:
   label_subject_or_id: "විෂය හෝ හැඳුනුම්පත"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "නීතිමය දැනුම්දීම"
   label_in: "තුළ"
   label_in_less_than: "වඩා අඩු"
   label_in_more_than: "වඩා වැඩි"
@@ -2717,6 +2719,9 @@ si:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -3095,6 +3100,7 @@ si:
     status_user_and_brute_force: "%{user} සහ %{brute_force}"
     status_change: "තත්ත්වය වෙනස්"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "අගුළු ඇරීමට"
     unlock_and_reset_failed_logins: "අසමත් වූ පිවිසුම් අගුළු ඇරීමට සහ නැවත සකස් කිරීමට"
   version_status_closed: "වසා"

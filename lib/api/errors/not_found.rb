@@ -29,7 +29,7 @@
 module API
   module Errors
     class NotFound < ErrorBase
-      identifier 'NotFound'
+      identifier "NotFound"
       code 404
 
       def initialize(_message = nil, exception: nil, model: nil)
@@ -43,9 +43,9 @@ module API
 
       def not_found_message(model)
         if model.present?
-          I18n.t("api_v3.errors.not_found.#{model}", default: I18n.t('api_v3.errors.code_404'))
+          I18n.t("api_v3.errors.not_found.#{model}", default: I18n.t("api_v3.errors.code_404"))
         else
-          I18n.t('api_v3.errors.code_404')
+          I18n.t("api_v3.errors.code_404")
         end
       end
     end

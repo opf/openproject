@@ -1,5 +1,5 @@
 #English strings go here
-pt:
+pt-BR:
   js:
     team_planner:
       add_existing: 'Adicionar existente'
@@ -12,6 +12,8 @@ pt:
       remove_assignee: 'Remover responsável'
       two_weeks: '2 semanas'
       one_week: '1 semana'
+      four_weeks: '4 semanas'
+      eight_weeks: '8 semanas'
       work_week: 'Semana de trabalho'
       today: 'Hoje'
       drag_here_to_remove: 'Arraste aqui para remover o responsável e as datas de início e término.'

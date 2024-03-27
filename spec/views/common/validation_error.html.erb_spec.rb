@@ -26,29 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'common/_validation_error' do
-  let(:base_error_messages) { ['Something went completely wrong!'] }
-  let(:fields_error_messages) { ['This field is incorrect.', 'This cannot be blank.'] }
+RSpec.describe "common/_validation_error" do
+  let(:base_error_messages) { ["Something went completely wrong!"] }
+  let(:fields_error_messages) { ["This field is incorrect.", "This cannot be blank."] }
 
   before do
-    view.content_for(:error_details, 'Clear this!')
+    view.content_for(:error_details, "Clear this!")
 
-    render partial: 'common/validation_error',
+    render partial: "common/validation_error",
            locals: { base_error_messages:,
                      fields_error_messages:,
-                     object_name: 'Test' }
+                     object_name: "Test" }
   end
 
-  it 'flushes the buffer before rendering' do
+  it "flushes the buffer before rendering" do
     # that means the same partial can be called multiple times without side effects
-    expect(rendered).not_to include('Clear this!')
+    expect(rendered).not_to include("Clear this!")
   end
 
-  it 'includes all given error messages' do
-    expect(rendered).to include('Something went completely wrong!')
-    expect(rendered).to include('This field is incorrect.')
-    expect(rendered).to include('This cannot be blank.')
+  it "includes all given error messages" do
+    expect(rendered).to include("Something went completely wrong!")
+    expect(rendered).to include("This field is incorrect.")
+    expect(rendered).to include("This cannot be blank.")
   end
 end

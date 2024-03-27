@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'mini_magick'
+require "mini_magick"
 
 module WorkPackage::PDFExport::Attachments
   def resize_image(file_path)
-    tmp_file = Tempfile.new(['temp_image', File.extname(file_path)])
+    tmp_file = Tempfile.new(["temp_image", File.extname(file_path)])
     @resized_images = [] if @resized_images.nil?
 
     @resized_images << tmp_file

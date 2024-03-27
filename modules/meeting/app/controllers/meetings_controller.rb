@@ -79,7 +79,7 @@ class MeetingsController < ApplicationController
       if @copy_from
         ::Meetings::CopyService
           .new(user: current_user, model: @copy_from)
-          .call(attributes: @converted_params, copy_agenda: params[:copy_agenda] == '1')
+          .call(attributes: @converted_params, **copy_attributes)
       else
         ::Meetings::CreateService
           .new(user: current_user)
@@ -463,18 +463,10 @@ class MeetingsController < ApplicationController
     render_404
   end
 
-  def copy_meeting_agenda # rubocop:disable Metrics/AbcSize
-    return unless params[:copy_agenda] == '1' && @copy_from
-
-    if @meeting.is_a?(StructuredMeeting)
-      @meeting.agenda_items_attributes = @copy_from.agenda_items.map(&:copy_attributes)
-    else
-      @meeting.agenda = MeetingAgenda.new(
-        author: current_user,
-        text: @copy_from.agenda&.text,
-        journal_notes: I18n.t('meeting.copied', id: params[:copied_from_meeting_id])
-      )
-      @meeting.agenda.author = current_user
-    end
+  def copy_attributes
+    {
+      copy_agenda: params[:copy_agenda] == '1',
+      copy_attachments: params[:copy_attachments] == '1',
+    }
   end
 end

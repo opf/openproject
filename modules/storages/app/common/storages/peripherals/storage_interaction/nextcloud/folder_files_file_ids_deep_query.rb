@@ -35,7 +35,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         .resolve("nextcloud.queries.propfind")
         .call(
           storage:,
-          depth: 'infinity',
+          depth: "infinity",
           path: folder.path,
           # nc:acl-list is only required to avoid https://community.openproject.org/wp/49628. See comment #4.
           props: %w[oc:fileid nc:acl-list]

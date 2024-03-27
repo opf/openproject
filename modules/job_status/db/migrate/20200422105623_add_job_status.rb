@@ -40,7 +40,7 @@ class AddJobStatus < ActiveRecord::Migration[6.0]
       t.timestamps
     end
 
-    add_column :delayed_job_statuses, :status, :delayed_job_status, default: 'in_queue'
+    add_column :delayed_job_statuses, :status, :delayed_job_status, default: "in_queue"
   end
 
   def down

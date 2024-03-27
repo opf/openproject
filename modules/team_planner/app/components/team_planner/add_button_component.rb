@@ -44,15 +44,15 @@ module TeamPlanner
     end
 
     def id
-      'add-team-planner-button'
+      "add-team-planner-button"
     end
 
     def accessibility_label_text
-      I18n.t('team_planner.label_create_new_team_planner')
+      I18n.t("team_planner.label_create_new_team_planner")
     end
 
     def label_text
-      t(:'team_planner.label_team_planner')
+      t(:"team_planner.label_team_planner")
     end
   end
 end

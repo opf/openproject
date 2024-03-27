@@ -28,7 +28,7 @@
 
 module Settings
   class Definition
-    ENV_PREFIX = 'OPENPROJECT_'.freeze
+    ENV_PREFIX = "OPENPROJECT_".freeze
     AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
     DEFINITIONS = {
       activity_days_default: {
@@ -36,34 +36,38 @@ module Settings
       },
       after_first_login_redirect_url: {
         format: :string,
-        description: 'URL users logging in for the first time will be redirected to (e.g., a help screen)',
+        description: "URL users logging in for the first time will be redirected to (e.g., a help screen)",
         default: nil
       },
       after_login_default_redirect_url: {
-        description: 'Override URL to which logged in users are redirected instead of the My page',
+        description: "Override URL to which logged in users are redirected instead of the My page",
         format: :string,
         default: nil
       },
       apiv3_cors_enabled: {
-        description: 'Enable CORS headers for APIv3 server responses',
+        description: "Enable CORS headers for APIv3 server responses",
         default: false
       },
       apiv3_cors_origins: {
         default: []
       },
       apiv3_docs_enabled: {
-        description: 'Enable interactive APIv3 documentation as part of the application',
+        description: "Enable interactive APIv3 documentation as part of the application",
         default: true
       },
       apiv3_enable_basic_auth: {
-        description: 'Enable API token or global basic authentication for APIv3 requests',
+        description: "Enable API token or global basic authentication for APIv3 requests",
         default: true
       },
       apiv3_max_page_size: {
         default: 1000
       },
+      apiv3_write_readonly_attributes: {
+        description: "Allow overriding readonly attributes (e.g. createdAt, updatedAt, author) during the creation of resources via the REST API",
+        default: false
+      },
       app_title: {
-        default: 'OpenProject'
+        default: "OpenProject"
       },
       attachment_max_size: {
         default: 5120
@@ -76,41 +80,41 @@ module Settings
       # Carrierwave storage type. Possible values are, among others, :file and :fog.
       # The latter requires further configuration.
       attachments_storage: {
-        description: 'File storage configuration',
+        description: "File storage configuration",
         default: :file,
         format: :symbol,
         allowed: %i[file fog],
         writable: false
       },
       attachments_storage_path: {
-        description: 'File storage disk location (only applicable for local file storage)',
+        description: "File storage disk location (only applicable for local file storage)",
         format: :string,
         default: nil,
         writable: false
       },
       attachments_grace_period: {
-        description: 'Time in minutes to wait before uploaded files not attached to any container are removed',
+        description: "Time in minutes to wait before uploaded files not attached to any container are removed",
         default: 180
       },
       antivirus_scan_mode: {
-        description: 'Virus scanning option for files uploaded to OpenProject',
+        description: "Virus scanning option for files uploaded to OpenProject",
         format: :symbol,
         default: :disabled,
         allowed: %i[disabled clamav_socket clamav_host]
       },
       antivirus_scan_target: {
-        description: 'The socket or hostname to connect to ClamAV',
+        description: "The socket or hostname to connect to ClamAV",
         format: :string,
         default: nil
       },
       antivirus_scan_action: {
-        description: 'Virus scanning action for found infected files',
+        description: "Virus scanning action for found infected files",
         format: :symbol,
         default: :quarantine,
         allowed: %i[quarantine delete]
       },
       auth_source_sso: {
-        description: 'Configuration for Header-based Single Sign-On',
+        description: "Configuration for Header-based Single Sign-On",
         format: :hash,
         default: nil,
         writable: false # config is cached globally so let's make it not writable
@@ -123,7 +127,7 @@ module Settings
       #     user: admin
       #     password: 123456
       authentication: {
-        description: 'Configuration options for global basic auth',
+        description: "Configuration options for global basic auth",
         format: :hash,
         default: nil
       },
@@ -138,12 +142,12 @@ module Settings
         allowed: [1, 7, 14, 30, 60, 90, 365]
       },
       autologin_cookie_name: {
-        description: 'Cookie name for autologin cookie',
-        default: 'autologin'
+        description: "Cookie name for autologin cookie",
+        default: "autologin"
       },
       autologin_cookie_path: {
-        description: 'Cookie path for autologin cookie',
-        default: '/'
+        description: "Cookie path for autologin cookie",
+        default: "/"
       },
       available_languages: {
         format: :array,
@@ -153,33 +157,33 @@ module Settings
         allowed: -> { Redmine::I18n.all_languages }
       },
       avatar_link_expiry_seconds: {
-        description: 'Cache duration for avatar image API responses',
+        description: "Cache duration for avatar image API responses",
         default: 24.hours.to_i
       },
       # Allow users with the required permissions to create backups via the web interface or API.
       backup_enabled: {
-        description: 'Enable application backups through the UI',
+        description: "Enable application backups through the UI",
         default: true
       },
       backup_daily_limit: {
-        description: 'Maximum number of application backups allowed per day',
+        description: "Maximum number of application backups allowed per day",
         default: 3
       },
       backup_initial_waiting_period: {
-        description: 'Wait time before newly created backup tokens are usable',
+        description: "Wait time before newly created backup tokens are usable",
         default: 24.hours,
         format: :integer
       },
       backup_include_attachments: {
-        description: 'Allow inclusion of attachments in application backups',
+        description: "Allow inclusion of attachments in application backups",
         default: true
       },
       backup_attachment_size_max_sum_mb: {
-        description: 'Maximum limit of attachment size to include into application backups',
+        description: "Maximum limit of attachment size to include into application backups",
         default: 1024
       },
       blacklisted_routes: {
-        description: 'Blocked routes to prevent access to certain modules or pages',
+        description: "Blocked routes to prevent access to certain modules or pages",
         default: [],
         writable: false # used in initializer
       },
@@ -187,19 +191,19 @@ module Settings
         default: true
       },
       boards_demo_data_available: {
-        description: 'Internal setting determining availability of demo seed data',
+        description: "Internal setting determining availability of demo seed data",
         default: false
       },
       brute_force_block_minutes: {
-        description: 'Number of minutes to block users after presumed brute force attack',
+        description: "Number of minutes to block users after presumed brute force attack",
         default: 30
       },
       brute_force_block_after_failed_logins: {
-        description: 'Number of login attempts per user before assuming brute force attack',
+        description: "Number of login attempts per user before assuming brute force attack",
         default: 20
       },
       cache_expires_in_seconds: {
-        description: 'Expiration time for memcache entries, empty for no expiry be default',
+        description: "Expiration time for memcache entries, empty for no expiry be default",
         format: :integer,
         default: nil,
         writable: false
@@ -209,40 +213,40 @@ module Settings
       },
       # use dalli defaults for memcache
       cache_memcache_server: {
-        description: 'The memcache server host and IP',
+        description: "The memcache server host and IP",
         format: :string,
         default: nil,
         writable: false
       },
       cache_redis_url: {
-        description: 'URL to the redis cache server',
+        description: "URL to the redis cache server",
         format: :string,
         default: nil,
         writable: false
       },
       cache_namespace: {
         format: :string,
-        description: 'Namespace for cache keys, useful when multiple applications use a single memcache server',
+        description: "Namespace for cache keys, useful when multiple applications use a single memcache server",
         default: nil,
         writable: false
       },
       commit_fix_done_ratio: {
-        description: 'Progress to apply when commit fixes work package',
+        description: "Progress to apply when commit fixes work package",
         default: 100
       },
       commit_fix_keywords: {
-        description: 'Keywords to look for in commit for fixing work packages',
-        default: 'fixes,closes'
+        description: "Keywords to look for in commit for fixing work packages",
+        default: "fixes,closes"
       },
       commit_fix_status_id: {
-        description: 'Assigned status when fixing keyword is found',
+        description: "Assigned status when fixing keyword is found",
         format: :integer,
         default: nil,
         allowed: -> { Status.pluck(:id) + [nil] }
       },
       commit_logs_encoding: {
         description: "Encoding used to convert commit logs to UTF-8",
-        default: 'UTF-8'
+        default: "UTF-8"
       },
       commit_logtime_activity_id: {
         description: :setting_commit_logtime_activity_id,
@@ -256,7 +260,7 @@ module Settings
       },
       commit_ref_keywords: {
         description: "Keywords used in commits for referencing work packages",
-        default: 'refs,references,IssueID'
+        default: "refs,references,IssueID"
       },
       consent_decline_mail: {
         format: :string,
@@ -283,7 +287,7 @@ module Settings
         default: true
       },
       database_cipher_key: {
-        description: 'Encryption key for repository credentials',
+        description: "Encryption key for repository credentials",
         format: :string,
         default: nil,
         writable: false
@@ -292,28 +296,28 @@ module Settings
         format: :string,
         default: nil,
         allowed: [
-          '%Y-%m-%d',
-          '%d/%m/%Y',
-          '%d.%m.%Y',
-          '%d-%m-%Y',
-          '%m/%d/%Y',
-          '%d %b %Y',
-          '%d %B %Y',
-          '%b %d, %Y',
-          '%B %d, %Y'
+          "%Y-%m-%d",
+          "%d/%m/%Y",
+          "%d.%m.%Y",
+          "%d-%m-%Y",
+          "%m/%d/%Y",
+          "%d %b %Y",
+          "%d %B %Y",
+          "%b %d, %Y",
+          "%B %d, %Y"
         ].freeze
       },
       default_auto_hide_popups: {
-        description: 'Whether to automatically hide success notifications by default',
+        description: "Whether to automatically hide success notifications by default",
         default: true
       },
       # user configuration
       default_comment_sort_order: {
-        description: 'Default sort order for activities',
-        default: 'asc'
+        description: "Default sort order for activities",
+        default: "asc"
       },
       default_language: {
-        default: 'en',
+        default: "en",
         allowed: -> { Redmine::I18n.all_languages }
       },
       default_projects_modules: {
@@ -333,7 +337,7 @@ module Settings
         default: false
       },
       development_highlight_enabled: {
-        description: 'Enable highlighting of development environment',
+        description: "Enable highlighting of development environment",
         default: -> { Rails.env.development? },
         format: :boolean
       },
@@ -341,18 +345,18 @@ module Settings
         default: 1500
       },
       direct_uploads: {
-        description: 'Enable direct uploads to AWS S3. Only applicable with enabled Fog / AWS S3 configuration',
+        description: "Enable direct uploads to AWS S3. Only applicable with enabled Fog / AWS S3 configuration",
         default: true,
         writable: false
       },
       disable_browser_cache: {
-        description: 'Prevent browser from caching any logged-in responses for security reasons',
+        description: "Prevent browser from caching any logged-in responses for security reasons",
         default: true,
         writable: false
       },
       # allow to disable default modules
       disabled_modules: {
-        description: 'A list of module names to prevent access to in the application',
+        description: "A list of module names to prevent access to in the application",
         default: [],
         allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) },
         writable: false # setting stored in global variable
@@ -362,48 +366,48 @@ module Settings
         default: false
       },
       disable_password_login: {
-        description: 'Disable internal logins and instead only allow SSO through OmniAuth.',
+        description: "Disable internal logins and instead only allow SSO through OmniAuth.",
         default: false
       },
       display_subprojects_work_packages: {
         default: true
       },
       drop_old_sessions_on_logout: {
-        description: 'Destroy all sessions for current_user on logout',
+        description: "Destroy all sessions for current_user on logout",
         default: true
       },
       drop_old_sessions_on_login: {
-        description: 'Destroy all sessions for current_user on login',
+        description: "Destroy all sessions for current_user on login",
         default: false
       },
       edition: {
         format: :string,
-        default: 'standard',
-        description: 'OpenProject edition mode',
+        default: "standard",
+        description: "OpenProject edition mode",
         writable: false,
         allowed: %w[standard bim]
       },
       ee_manager_visible: {
-        description: 'Show or hide the Enterprise configuration page and enterprise banners',
+        description: "Show or hide the Enterprise configuration page and enterprise banners",
         default: true,
         writable: false
       },
       enable_internal_assets_server: {
-        description: 'Serve assets through the Rails internal asset server',
+        description: "Serve assets through the Rails internal asset server",
         default: false,
         writable: false
       },
       # email configuration
       email_delivery_configuration: {
-        default: 'inapp',
+        default: "inapp",
         allowed: %w[inapp legacy],
         writable: false,
-        env_alias: 'EMAIL_DELIVERY_CONFIGURATION'
+        env_alias: "EMAIL_DELIVERY_CONFIGURATION"
       },
       email_delivery_method: {
         format: :symbol,
         default: nil,
-        env_alias: 'EMAIL_DELIVERY_METHOD'
+        env_alias: "EMAIL_DELIVERY_METHOD"
       },
       emails_salutation: {
         allowed: %w[firstname name],
@@ -411,12 +415,12 @@ module Settings
       },
       emails_footer: {
         default: {
-          'en' => ''
+          "en" => ""
         }
       },
       emails_header: {
         default: {
-          'en' => ''
+          "en" => ""
         }
       },
       # use email address as login, hide login in registration form
@@ -432,18 +436,18 @@ module Settings
       },
       # Allow connections for trial creation and booking
       enterprise_trial_creation_host: {
-        description: 'Host for EE trial service',
-        default: 'https://start.openproject.com',
+        description: "Host for EE trial service",
+        default: "https://start.openproject.com",
         writable: false
       },
       enterprise_chargebee_site: {
-        description: 'Site name for EE trial service',
-        default: 'openproject-enterprise',
+        description: "Site name for EE trial service",
+        default: "openproject-enterprise",
         writable: false
       },
       enterprise_plan: {
-        description: 'Default EE selected plan',
-        default: 'enterprise-on-premises---euro---1-year',
+        description: "Default EE selected plan",
+        default: "enterprise-on-premises---euro---1-year",
         writable: false
       },
       feeds_enabled: {
@@ -463,54 +467,54 @@ module Settings
         allowed: [1, 4]
       },
       fog: {
-        description: 'Configure fog, e.g. when using an S3 uploader',
+        description: "Configure fog, e.g. when using an S3 uploader",
         default: {}
       },
       fog_download_url_expires_in: {
-        description: 'Expiration time in seconds of created shared presigned URLs',
+        description: "Expiration time in seconds of created shared presigned URLs",
         default: 21600 # 6h by default as 6 hours is max in S3 when using IAM roles
       },
       # Additional / overridden help links
       force_help_link: {
-        description: 'You can set a custom URL for the help button in application header menu.',
+        description: "You can set a custom URL for the help button in application header menu.",
         format: :string,
         default: nil
       },
       force_formatting_help_link: {
-        description: 'You can set a custom URL for the help button in the WYSIWYG editor.',
+        description: "You can set a custom URL for the help button in the WYSIWYG editor.",
         format: :string,
         default: nil
       },
       forced_single_page_size: {
-        description: 'Forced page size for manually sorted work package views',
+        description: "Forced page size for manually sorted work package views",
         default: 250
       },
       good_job_queues: {
-        description: '',
+        description: "",
         format: :string,
         writable: false,
-        default: '*'
+        default: "*"
       },
       good_job_max_threads: {
-        description: '',
+        description: "",
         format: :integer,
         writable: false,
         default: 20
       },
       good_job_max_cache: {
-        description: '',
+        description: "",
         format: :integer,
         writable: false,
         default: 10_000
       },
       good_job_enable_cron: {
-        description: '',
+        description: "",
         format: :boolean,
         writable: false,
         default: true
       },
       good_job_cleanup_preserved_jobs_before_seconds_ago: {
-        description: '',
+        description: "",
         format: :integer,
         writable: false,
         default: 7.days
@@ -520,40 +524,40 @@ module Settings
       },
       # Health check configuration
       health_checks_authentication_password: {
-        description: 'Add an authentication challenge for the /health_check endpoint',
+        description: "Add an authentication challenge for the /health_check endpoint",
         format: :string,
         default: nil
       },
       ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       health_checks_jobs_never_ran_minutes_ago: {
-        description: 'Set threshold of outstanding background jobs to fail health check',
+        description: "Set threshold of outstanding background jobs to fail health check",
         format: :integer,
         default: 5
       },
       ## Maximum number of unprocessed requests in puma's backlog.
       health_checks_backlog_threshold: {
-        description: 'Set threshold of outstanding HTTP requests to fail health check',
+        description: "Set threshold of outstanding HTTP requests to fail health check",
         format: :integer,
         default: 20
       },
       # Default gravatar image, set to something other than 404
       # to ensure a default is returned
       gravatar_fallback_image: {
-        description: 'Set default gravatar image fallback',
-        default: '404'
+        description: "Set default gravatar image fallback",
+        default: "404"
       },
       hidden_menu_items: {
-        description: 'Hide menu items in the menu sidebar for each main menu (such as Administration and Projects).',
+        description: "Hide menu items in the menu sidebar for each main menu (such as Administration and Projects).",
         default: {},
         writable: false # cached in global variable
       },
       impressum_link: {
-        description: 'Impressum link to be set, hidden by default',
+        description: "Impressum link to be set, hidden by default",
         format: :string,
         default: nil
       },
       installation_type: {
-        default: 'manual',
+        default: "manual",
         writable: false
       },
       installation_uuid: {
@@ -561,7 +565,7 @@ module Settings
         default: nil
       },
       internal_password_confirmation: {
-        description: 'Require password confirmations for certain administrative actions',
+        description: "Require password confirmations for certain administrative actions",
         default: true
       },
       invitation_expiration_days: {
@@ -571,20 +575,20 @@ module Settings
         default: 5
       },
       ldap_force_no_page: {
-        description: 'Force LDAP to respond as a single page, in case paged responses do not work with your server.',
+        description: "Force LDAP to respond as a single page, in case paged responses do not work with your server.",
         format: :string,
         default: nil
       },
       ldap_groups_disable_sync_job: {
-        description: 'Deactivate regular synchronization job for groups in case scheduled as a separate cronjob',
+        description: "Deactivate regular synchronization job for groups in case scheduled as a separate cronjob",
         default: false
       },
       ldap_users_disable_sync_job: {
-        description: 'Deactivate user attributes synchronization from LDAP',
+        description: "Deactivate user attributes synchronization from LDAP",
         default: false
       },
       ldap_users_sync_status: {
-        description: 'Enable user status (locked/unlocked) synchronization from LDAP',
+        description: "Enable user status (locked/unlocked) synchronization from LDAP",
         format: :boolean,
         default: false
       },
@@ -594,8 +598,8 @@ module Settings
         writable: true
       },
       log_level: {
-        description: 'Set the OpenProject logger level',
-        default: Rails.env.development? ? 'debug' : 'info',
+        description: "Set the OpenProject logger level",
+        default: Rails.env.development? ? "debug" : "info",
         allowed: %w[debug info warn error fatal],
         writable: false
       },
@@ -603,14 +607,14 @@ module Settings
         default: false
       },
       lograge_enabled: {
-        description: 'Use lograge formatter for outputting logs',
+        description: "Use lograge formatter for outputting logs",
         default: true,
         format: :boolean,
         writable: false
       },
       lograge_formatter: {
-        description: 'Lograge formatter to use for outputting logs',
-        default: 'key_value',
+        description: "Lograge formatter to use for outputting logs",
+        default: "key_value",
         format: :string,
         writable: false
       },
@@ -618,42 +622,42 @@ module Settings
         default: true
       },
       lookbook_enabled: {
-        description: 'Enable the Lookbook component documentation tool. Discouraged for production environments.',
+        description: "Enable the Lookbook component documentation tool. Discouraged for production environments.",
         default: -> { Rails.env.development? },
         format: :boolean
       },
       lost_password: {
-        description: 'Activate or deactivate lost password form',
+        description: "Activate or deactivate lost password form",
         default: true
       },
       mail_from: {
-        default: 'openproject@example.net'
+        default: "openproject@example.net"
       },
       mail_handler_api_key: {
         format: :string,
         default: nil
       },
       mail_handler_body_delimiters: {
-        default: ''
+        default: ""
       },
       mail_handler_body_delimiter_regex: {
-        default: ''
+        default: ""
       },
       mail_handler_ignore_filenames: {
-        default: 'signature.asc'
+        default: "signature.asc"
       },
       mail_suffix_separators: {
-        default: '+'
+        default: "+"
       },
       main_content_language: {
-        default: 'english',
-        description: 'Main content language for PostgreSQL full text features',
+        default: "english",
+        description: "Main content language for PostgreSQL full text features",
         writable: false,
         allowed: %w[danish dutch english finnish french german hungarian
                     italian norwegian portuguese romanian russian simple spanish swedish turkish]
       },
       migration_check_on_exceptions: {
-        description: 'Check for missing migrations in internal errors',
+        description: "Check for missing migrations in internal errors",
         default: true,
         writable: false
       },
@@ -671,12 +675,12 @@ module Settings
         default: 60000
       },
       oauth_allow_remapping_of_existing_users: {
-        description: 'When set to false, prevent users from other identity providers to take over accounts connected ' \
-                     'to another identity provider.',
+        description: "When set to false, prevent users from other identity providers to take over accounts connected " \
+                     "to another identity provider.",
         default: true
       },
       omniauth_direct_login_provider: {
-        description: 'Clicking on login sends a login request to the specified OmniAuth provider.',
+        description: "Clicking on login sends a login request to the specified OmniAuth provider.",
         format: :string,
         default: nil
       },
@@ -687,11 +691,11 @@ module Settings
         writable: false # this changes a global variable and must therefore not be writable at runtime
       },
       onboarding_video_url: {
-        description: 'Onboarding guide instructional video URL',
-        default: 'https://player.vimeo.com/video/163426858?autoplay=1'
+        description: "Onboarding guide instructional video URL",
+        default: "https://player.vimeo.com/video/163426858?autoplay=1"
       },
       onboarding_enabled: {
-        description: 'Enable or disable onboarding guided tour for new users',
+        description: "Enable or disable onboarding guided tour for new users",
         default: true
       },
       password_active_rules: {
@@ -714,7 +718,7 @@ module Settings
       # Requires a migration to be written
       # replace Setting#per_page_options_array
       per_page_options: {
-        default: '20, 100'
+        default: "20, 100"
       },
       plain_text_mail: {
         default: false
@@ -724,63 +728,77 @@ module Settings
         format: :string
       },
       rails_asset_host: {
-        description: 'Custom asset hostname for serving assets (e.g., Cloudfront)',
+        description: "Custom asset hostname for serving assets (e.g., Cloudfront)",
         format: :string,
         default: nil,
         writable: false
       },
       rails_cache_store: {
-        description: 'Set cache store implemenation to use with OpenProject',
+        description: "Set cache store implemenation to use with OpenProject",
         format: :symbol,
         default: :file_store,
         writable: false,
         allowed: %i[file_store memcache redis]
       },
       rails_relative_url_root: {
-        description: 'Set a URL prefix / base path to run OpenProject under, e.g., host.tld/openproject',
-        default: '',
+        description: "Set a URL prefix / base path to run OpenProject under, e.g., host.tld/openproject",
+        default: "",
         writable: false
       },
       https: {
-        description: 'Set assumed connection security for the Rails processes',
+        description: "Set assumed connection security for the Rails processes",
         format: :boolean,
         default: -> { Rails.env.production? },
         writable: false
       },
       hsts: {
-        description: 'Allow disabling of HSTS headers and http -> https redirects',
+        description: "Allow disabling of HSTS headers and http -> https redirects",
         format: :boolean,
         default: true,
         writable: false
       },
       home_url: {
-        description: 'Override default link when clicking on the top menu logo (Homescreen by default).',
+        description: "Override default link when clicking on the top menu logo (Homescreen by default).",
         format: :string,
         default: nil
       },
       httpx_connect_timeout: {
-        description: '',
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),
         default: 3
       },
-      httpx_read_timeout: {
+      httpx_operation_timeout: {
         description: '',
+        format: :float,
+        writable: false,
+        allowed: (0..),
+        default: 10
+      },
+      httpx_request_timeout: {
+        description: '',
+        format: :float,
+        writable: false,
+        allowed: (0..),
+        default: 10
+      },
+      httpx_read_timeout: {
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),
         default: 3
       },
       httpx_write_timeout: {
-        description: '',
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),
         default: 3
       },
       httpx_keep_alive_timeout: {
-        description: '',
+        description: "",
         format: :float,
         writable: false,
         allowed: (0..),
@@ -788,27 +806,27 @@ module Settings
       },
       rate_limiting: {
         default: {},
-        description: 'Configure rate limiting for various endpoint rules. See configuration documentation for details.'
+        description: "Configure rate limiting for various endpoint rules. See configuration documentation for details."
       },
       registration_footer: {
         default: {
-          'en' => ''
+          "en" => ""
         }
       },
       remote_storage_upload_host: {
         format: :string,
         default: nil,
         writable: false,
-        description: 'Host the frontend uses to upload files to, which has to be added to the CSP.'
+        description: "Host the frontend uses to upload files to, which has to be added to the CSP."
       },
       remote_storage_download_host: {
         format: :string,
         default: nil,
         writable: false,
-        description: 'Host the frontend uses to download files, which has to be added to the CSP.'
+        description: "Host the frontend uses to download files, which has to be added to the CSP."
       },
       report_incoming_email_errors: {
-        description: 'Respond to incoming mails with error details',
+        description: "Respond to incoming mails with error details",
         default: true
       },
       repositories_automatic_managed_vendor: {
@@ -854,7 +872,7 @@ module Settings
         writable: false
       },
       scm_local_checkout_path: {
-        default: 'repositories', # relative to OpenProject directory
+        default: "repositories", # relative to OpenProject directory
         writable: false
       },
       scm_subversion_command: {
@@ -867,32 +885,32 @@ module Settings
         default: true
       },
       security_badge_url: {
-        description: 'URL of the update check badge',
+        description: "URL of the update check badge",
         default: "https://releases.openproject.com/v1/check.svg",
         writable: false
       },
       seed_admin_user_password: {
         description: 'Password to set for the initially created admin user (Login remains "admin").',
-        default: 'admin',
+        default: "admin",
         writable: false
       },
       seed_admin_user_mail: {
-        description: 'E-mail to set for the initially created admin user.',
-        default: 'admin@example.net',
+        description: "E-mail to set for the initially created admin user.",
+        default: "admin@example.net",
         writable: false
       },
       seed_admin_user_name: {
-        description: 'Name to set for the initially created admin user.',
-        default: 'OpenProject Admin',
+        description: "Name to set for the initially created admin user.",
+        default: "OpenProject Admin",
         writable: false
       },
       seed_admin_user_password_reset: {
-        description: 'Whether to force a password reset for the initially created admin user.',
+        description: "Whether to force a password reset for the initially created admin user.",
         default: true,
         writable: false
       },
       seed_ldap: {
-        description: 'Provide an LDAP connection and sync settings through ENV',
+        description: "Provide an LDAP connection and sync settings through ENV",
         writable: false,
         default: nil,
         format: :hash
@@ -901,12 +919,12 @@ module Settings
         default: 2
       },
       sendmail_arguments: {
-        description: 'Arguments to call sendmail with in case it is configured as outgoing email setup',
+        description: "Arguments to call sendmail with in case it is configured as outgoing email setup",
         format: :string,
         default: "-i"
       },
       sendmail_location: {
-        description: 'Location of sendmail to call if it is configured as outgoing email setup',
+        description: "Location of sendmail to call if it is configured as outgoing email setup",
         format: :string,
         default: "/usr/sbin/sendmail"
       },
@@ -914,11 +932,11 @@ module Settings
       appsignal_frontend_key: {
         format: :string,
         default: nil,
-        description: 'Appsignal API key for JavaScript error reporting'
+        description: "Appsignal API key for JavaScript error reporting"
       },
       session_cookie_name: {
-        description: 'Set session cookie name',
-        default: '_open_project_session'
+        description: "Set session cookie name",
+        default: "_open_project_session"
       },
       session_ttl_enabled: {
         default: false
@@ -927,44 +945,44 @@ module Settings
         default: 120
       },
       show_community_links: {
-        description: 'Enable or disable links to OpenProject community instances',
+        description: "Enable or disable links to OpenProject community instances",
         default: true
       },
       show_product_version: {
-        description: 'Show product version information in the administration section',
+        description: "Show product version information in the administration section",
         default: true
       },
       show_pending_migrations_warning: {
-        description: 'Enable or disable warning bar in case of pending migrations',
+        description: "Enable or disable warning bar in case of pending migrations",
         default: true,
         writable: false
       },
       show_setting_mismatch_warning: {
-        description: 'Show mismatched protocol/hostname warning. In cases where they must differ this can be disabled',
+        description: "Show mismatched protocol/hostname warning. In cases where they must differ this can be disabled",
         default: true
       },
       # Render storage information
       show_storage_information: {
-        description: 'Show available and taken storage information under administration / info',
+        description: "Show available and taken storage information under administration / info",
         default: true
       },
       show_warning_bars: {
-        description: 'Render warning bars (pending migrations, deprecation, unsupported browsers)',
+        description: "Render warning bars (pending migrations, deprecation, unsupported browsers)",
         # Hide warning bars by default in tests as they might overlay other elements
         default: -> { !Rails.env.test? }
       },
       smtp_authentication: {
         format: :string,
-        default: 'plain',
-        env_alias: 'SMTP_AUTHENTICATION'
+        default: "plain",
+        env_alias: "SMTP_AUTHENTICATION"
       },
       smtp_enable_starttls_auto: {
         format: :boolean,
         default: false,
-        env_alias: 'SMTP_ENABLE_STARTTLS_AUTO'
+        env_alias: "SMTP_ENABLE_STARTTLS_AUTO"
       },
       smtp_openssl_verify_mode: {
-        description: 'Globally set verify mode for OpenSSL. Careful: Setting to none will disable any SSL verification!',
+        description: "Globally set verify mode for OpenSSL. Careful: Setting to none will disable any SSL verification!",
         format: :string,
         default: "peer",
         allowed: %w[none peer client_once fail_if_no_peer_cert],
@@ -973,43 +991,43 @@ module Settings
       smtp_ssl: {
         format: :boolean,
         default: false,
-        env_alias: 'SMTP_SSL'
+        env_alias: "SMTP_SSL"
       },
       smtp_address: {
         format: :string,
-        default: '',
-        env_alias: 'SMTP_ADDRESS'
+        default: "",
+        env_alias: "SMTP_ADDRESS"
       },
       smtp_domain: {
         format: :string,
-        default: 'your.domain.com',
-        env_alias: 'SMTP_DOMAIN'
+        default: "your.domain.com",
+        env_alias: "SMTP_DOMAIN"
       },
       smtp_user_name: {
         format: :string,
-        default: '',
-        env_alias: 'SMTP_USER_NAME'
+        default: "",
+        env_alias: "SMTP_USER_NAME"
       },
       smtp_port: {
         format: :integer,
         default: 587,
-        env_alias: 'SMTP_PORT'
+        env_alias: "SMTP_PORT"
       },
       smtp_password: {
         format: :string,
-        default: '',
-        env_alias: 'SMTP_PASSWORD'
+        default: "",
+        env_alias: "SMTP_PASSWORD"
       },
       software_name: {
-        description: 'Override software application name',
-        default: 'OpenProject'
+        description: "Override software application name",
+        default: "OpenProject"
       },
       software_url: {
-        description: 'Override software application URL',
-        default: 'https://www.openproject.org/'
+        description: "Override software application URL",
+        default: "https://www.openproject.org/"
       },
       sql_slow_query_threshold: {
-        description: 'Time limit in ms after which queries will be logged as slow queries',
+        description: "Time limit in ms after which queries will be logged as slow queries",
         default: 2000,
         writable: false
       },
@@ -1019,19 +1037,19 @@ module Settings
         allowed: [1, 6, 7]
       },
       statsd: {
-        description: 'enable statsd metrics (currently puma only) by configuring host',
+        description: "enable statsd metrics (currently puma only) by configuring host",
         default: {
-          'host' => nil,
-          'port' => 8125
+          "host" => nil,
+          "port" => 8125
         },
         writable: false
       },
       sys_api_enabled: {
-        description: 'Enable internal system API for setting up managed repositories',
+        description: "Enable internal system API for setting up managed repositories",
         default: false
       },
       sys_api_key: {
-        description: 'Internal system API key for setting up managed repositories',
+        description: "Internal system API key for setting up managed repositories",
         default: nil,
         format: :string
       },
@@ -1039,8 +1057,8 @@ module Settings
         format: :string,
         default: nil,
         allowed: [
-          '%H:%M',
-          '%I:%M %p'
+          "%H:%M",
+          "%I:%M %p"
         ].freeze
       },
       user_default_timezone: {
@@ -1052,10 +1070,10 @@ module Settings
         default: false
       },
       user_default_theme: {
-        default: 'light',
+        default: "light",
         format: :string,
         allowed: -> do
-          UserPreferences::Schema.schema.dig('definitions', 'UserPreferences', 'properties', 'theme', 'enum')
+          UserPreferences::Schema.schema.dig("definitions", "UserPreferences", "properties", "theme", "enum")
         end
       },
       users_deletable_by_self: {
@@ -1066,13 +1084,13 @@ module Settings
         allowed: -> { User::USER_FORMATS_STRUCTURE.keys }
       },
       web: {
-        description: 'Web worker count and threads configuration',
+        description: "Web worker count and threads configuration",
         default: {
-          'workers' => 2,
-          'timeout' => 120,
-          'wait_timeout' => 10,
-          'min_threads' => 4,
-          'max_threads' => 16
+          "workers" => 2,
+          "timeout" => 120,
+          "wait_timeout" => 10,
+          "min_threads" => 4,
+          "max_threads" => 16
         },
         writable: false
       },
@@ -1088,7 +1106,7 @@ module Settings
         default: false
       },
       work_package_done_ratio: {
-        default: 'field',
+        default: "field",
         allowed: %w[field status disabled]
       },
       work_packages_projects_export_limit: {
@@ -1105,7 +1123,7 @@ module Settings
       },
       work_package_list_default_highlighting_mode: {
         format: :string,
-        default: -> { EnterpriseToken.allows_to?(:conditional_highlighting) ? 'inline' : 'none' },
+        default: -> { EnterpriseToken.allows_to?(:conditional_highlighting) ? "inline" : "none" },
         allowed: -> { Query::QUERY_HIGHLIGHTING_MODES.map(&:to_s) },
         writable: -> { EnterpriseToken.allows_to?(:conditional_highlighting) }
       },
@@ -1117,14 +1135,14 @@ module Settings
         default: false
       },
       working_days: {
-        description: 'Set working days of the week (Array of 1 to 7, where 1=Monday, 7=Sunday)',
+        description: "Set working days of the week (Array of 1 to 7, where 1=Monday, 7=Sunday)",
         format: :array,
         allowed: Array(1..7),
         default: Array(1..5) # Sat, Sun being non-working days,
       },
       youtube_channel: {
-        description: 'Link to YouTube channel in help menu',
-        default: 'https://www.youtube.com/c/OpenProjectCommunity'
+        description: "Link to YouTube channel in help menu",
+        default: "https://www.youtube.com/c/OpenProjectCommunity"
       }
     }.freeze
 
@@ -1289,7 +1307,7 @@ module Settings
 
       def file_config
         @file_config ||= begin
-          filename = Rails.root.join('config/configuration.yml')
+          filename = Rails.root.join("config/configuration.yml")
 
           file_config = {}
 
@@ -1314,8 +1332,8 @@ module Settings
       end
 
       def override_value_from_file(definition)
-        envs = ['default', Rails.env]
-        envs.delete('default') if Rails.env.test? # The test setup should govern the configuration
+        envs = ["default", Rails.env]
+        envs.delete("default") if Rails.env.test? # The test setup should govern the configuration
         envs.each do |env|
           next unless (env_config = file_config[env])
           next unless env_config.has_key?(definition.name)
@@ -1379,7 +1397,7 @@ module Settings
       end
 
       def unescape_underscores(path_segment)
-        path_segment.gsub '__', '_'
+        path_segment.gsub "__", "_"
       end
 
       def find_env_var_override(definition)
@@ -1449,7 +1467,7 @@ module Settings
       def extract_value_from_env(env_var_name, env_var_value)
         # YAML parses '' as false, but empty ENV variables will be passed as that.
         # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
-        return env_var_value if env_var_value == ''
+        return env_var_value if env_var_value == ""
 
         parsed = load_yaml(env_var_value)
 

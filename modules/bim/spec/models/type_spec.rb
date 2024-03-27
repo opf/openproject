@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Type do
   let(:type) { create(:type, name: "Issue") }
 
-  it 'bcf_thumbnail is available as a WorkPackageRepresenter attribute' do
+  it "bcf_thumbnail is available as a WorkPackageRepresenter attribute" do
     expect(API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs.keys).to(
-      include('bcf_thumbnail')
+      include("bcf_thumbnail")
     )
   end
 
-  it 'bcf_thumbnail is not within the attributes of the default form configuration' do
-    expect(type.attribute_groups.map(&:attributes).flatten).not_to include('bcf_thumbnail')
+  it "bcf_thumbnail is not within the attributes of the default form configuration" do
+    expect(type.attribute_groups.map(&:attributes).flatten).not_to include("bcf_thumbnail")
   end
 end

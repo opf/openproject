@@ -70,7 +70,7 @@ module API
         end
 
         def _type
-          'AggregatedCostEntry'
+          "AggregatedCostEntry"
         end
 
         def model_required?

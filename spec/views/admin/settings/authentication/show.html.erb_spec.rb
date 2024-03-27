@@ -26,36 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'admin/settings/authentication_settings/show' do
-  context 'with password login enabled' do
+RSpec.describe "admin/settings/authentication_settings/show" do
+  context "with password login enabled" do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
       render
     end
 
-    it 'shows password settings' do
-      expect(rendered).to have_text I18n.t('label_password_lost')
+    it "shows password settings" do
+      expect(rendered).to have_text I18n.t("label_password_lost")
     end
 
-    it 'shows automated user blocking options' do
-      expect(rendered).to have_text I18n.t('settings.brute_force_prevention')
+    it "shows automated user blocking options" do
+      expect(rendered).to have_text I18n.t("settings.brute_force_prevention")
     end
   end
 
-  context 'with password login disabled' do
+  context "with password login disabled" do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       render
     end
 
-    it 'does not show password settings' do
-      expect(rendered).to have_no_text I18n.t('label_password_lost')
+    it "does not show password settings" do
+      expect(rendered).to have_no_text I18n.t("label_password_lost")
     end
 
-    it 'does not show automated user blocking options' do
-      expect(rendered).to have_no_text I18n.t('settings.brute_force_prevention')
+    it "does not show automated user blocking options" do
+      expect(rendered).to have_no_text I18n.t("settings.brute_force_prevention")
     end
   end
 end

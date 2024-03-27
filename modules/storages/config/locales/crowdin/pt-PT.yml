@@ -1,4 +1,4 @@
-pt:
+pt-PT:
   activerecord:
     attributes:
       storages/file_link:
@@ -53,8 +53,8 @@ pt:
       complete_without_setup: Concluir sem isso
       done_complete_setup: Concluído, terminar configuração
       done_continue: Concluído, continuar
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: Substituir OpenProject OAuth
+      replace_oauth_client: Substituir OAuth %{provider_type}
       save_and_continue: Guardar e continuar
       select_folder: Selecionar pasta
     configuration_checks:
@@ -63,8 +63,8 @@ pt:
         one_drive: Permitir que o OpenProject aceda aos dados do Azure utilizando o OAuth para ligar o OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Conclua a configuração com o redirecionamento correto da URI.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: Esta ação irá repor as credenciais OAuth atuais. Após a confirmação, terá de voltar a introduzir as credenciais no fornecedor de armazenamento e todos os utilizadores remotos terão de autorizar novamente o OpenProject. Tem a certeza de que pretende continuar?
+    confirm_replace_oauth_client: Esta ação irá repor as credenciais OAuth atuais. Depois de confirmar, terá de introduzir novas credenciais do fornecedor de armazenamento e todos os utilizadores terão de autorizar novamente em %{provider_type}. Tem a certeza de que pretende continuar?
     delete_warning:
       input_delete_confirmation: Introduza o nome do ficheiro de armazenamento %{file_storage} para confirmar a eliminação.
       irreversible_notice: A eliminação de um ficheiro de armazenamento é uma ação irreversível.

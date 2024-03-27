@@ -32,7 +32,7 @@ module API
       module Columns
         class QueryPropertyColumnRepresenter < QueryColumnRepresenter
           def _type
-            'QueryColumn::Property'
+            "QueryColumn::Property"
           end
         end
       end

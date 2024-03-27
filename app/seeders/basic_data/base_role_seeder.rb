@@ -32,10 +32,10 @@ module BasicData
     def model_attributes(role_data)
       {
         type:,
-        name: role_data['name'],
-        position: role_data['position'],
-        permissions: role_data['permissions'].uniq,
-        builtin: builtin(role_data['builtin'])
+        name: role_data["name"],
+        position: role_data["position"],
+        permissions: role_data["permissions"].uniq,
+        builtin: builtin(role_data["builtin"])
       }
     end
 
@@ -63,8 +63,8 @@ module BasicData
     end
 
     def update_permissions_with_modules_data(role_data)
-      role_reference, role_permissions = role_data.values_at('reference', 'permissions')
-      role_data['permissions'] =
+      role_reference, role_permissions = role_data.values_at("reference", "permissions")
+      role_data["permissions"] =
         permissions(role_permissions) \
         + permissions_to_add(role_reference) \
         - permissions_to_remove(role_reference)
@@ -98,12 +98,12 @@ module BasicData
     end
 
     def process_modules_permissions_data
-      seed_data.each('modules_permissions') do |(_module, module_permissions_data)|
+      seed_data.each("modules_permissions") do |(_module, module_permissions_data)|
         module_permissions_data.each do |role_permissions_data|
-          role_reference = role_permissions_data['role']
+          role_reference = role_permissions_data["role"]
           permission_changes = permission_changes_by_role[role_reference]
-          permission_changes[:add].concat(Array(role_permissions_data['add']))
-          permission_changes[:remove].concat(Array(role_permissions_data['remove']))
+          permission_changes[:add].concat(Array(role_permissions_data["add"]))
+          permission_changes[:remove].concat(Array(role_permissions_data["remove"]))
         end
       end
     end

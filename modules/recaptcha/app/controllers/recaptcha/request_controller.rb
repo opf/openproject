@@ -1,9 +1,9 @@
-require 'recaptcha'
+require "recaptcha"
 
 module ::Recaptcha
   class RequestController < ApplicationController
     # Include global layout helper
-    layout 'no_menu'
+    layout "no_menu"
 
     # User is not yet logged in, so skip login required check
     skip_before_action :check_if_login_required
@@ -38,7 +38,7 @@ module ::Recaptcha
         save_recaptcha_verification_success!
         complete_stage_redirect
       else
-        fail_recaptcha I18n.t('recaptcha.error_captcha')
+        fail_recaptcha I18n.t("recaptcha.error_captcha")
       end
     end
 
@@ -63,7 +63,7 @@ module ::Recaptcha
     end
 
     def recaptcha_version
-      case recaptcha_settings['recaptcha_type']
+      case recaptcha_settings["recaptcha_type"]
       when ::OpenProject::Recaptcha::TYPE_DISABLED
         0
       when ::OpenProject::Recaptcha::TYPE_V2, ::OpenProject::Recaptcha::TYPE_HCAPTCHA
@@ -76,9 +76,9 @@ module ::Recaptcha
     ##
     #
     def valid_recaptcha?
-      call_args = { secret_key: recaptcha_settings['secret_key'] }
+      call_args = { secret_key: recaptcha_settings["secret_key"] }
       if recaptcha_version == 3
-        call_args[:action] = 'login'
+        call_args[:action] = "login"
       end
 
       verify_recaptcha call_args
@@ -105,7 +105,7 @@ module ::Recaptcha
     end
 
     def skip_if_disabled
-      if recaptcha_settings['recaptcha_type'] == ::OpenProject::Recaptcha::TYPE_DISABLED
+      if recaptcha_settings["recaptcha_type"] == ::OpenProject::Recaptcha::TYPE_DISABLED
         complete_stage_redirect
       end
     end

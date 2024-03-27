@@ -26,7 +26,8 @@ cs:
       no_results_title_text: V tomto časovém rámci nebyla pro projekt žádná aktivita.
   admin:
     plugins:
-      no_results_title_text: V současné době nejsou k dispozici žádné pluginy.
+      no_results_title_text: V současné době nejsou nainstalovány žádné pluginy.
+      no_results_content_text: Pro více informací se podívejte na stránku pro integraci a pluginy.
     custom_styles:
       color_theme: "Barevné téma"
       color_theme_custom: "Vlastní"
@@ -1582,6 +1583,7 @@ cs:
       postgres_migration: "Migrujte vaši instalaci na PostgreSQL"
       user_guides: "Uživatelské příručky"
       faq: "FAQ - často kladené dotazy"
+      impressum: "Právní ustanovení"
       glossary: "Glossary"
       shortcuts: "Klávesové zkratky"
       blog: "OpenProject blog"
@@ -1592,6 +1594,7 @@ cs:
   journals:
     changes_retracted: "Změny byly staženy."
     caused_changes:
+      default_attribute_written: "Zápis atributů pouze pro čtení"
       dates_changed: "Data změněna"
       system_update: "Aktualizace systému OpenProject:"
     cause_descriptions:
@@ -1643,7 +1646,7 @@ cs:
         disabled_text: "API tokeny nejsou administrátorem povoleny. Pro použití této funkce kontaktujte svého správce."
       ical:
         title: "iCalendar"
-        text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
+        text_hint: 'Tokeny iCalendar umožňují uživatelům <a href="%{path}" target="_blank">přihlásit se k odběru kalendářů OpenProject</a> a zobrazovat aktuální informace o pracovních balíčcích od externích klientů.'
         disabled_text: "iCalendar odběr není administrátorem povolen. Pro použití této funkce kontaktujte svého správce."
         empty_text_hint: "Chcete-li přidat token iCalendar, přihlaste se do nového nebo existujícího kalendáře v rámci modulu kalendáře projektu. Musíte mít potřebná oprávnění."
       oauth:
@@ -1913,7 +1916,6 @@ cs:
   label_subject_or_id: "Předmět nebo ID"
   label_calendar_subscriptions: "Předplatné kalendáře"
   label_identifier: "Identifikátor"
-  label_impressum: "Právní oznámení"
   label_in: "v"
   label_in_less_than: "za méně než"
   label_in_more_than: "za více než"
@@ -2774,6 +2776,9 @@ cs:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) povolené počátky"
   setting_apiv3_cors_origins_text_html: >
     Pokud je funkce CORS povolena, je to původ, který má přístup k OpenProject API. <br/> Zkontrolujte <a href="%{origin_link}" target="_blank">Dokumentaci na záhlaví Origin</a> o tom, jak specifikovat očekávané hodnoty.
+  setting_apiv3_write_readonly_attributes: "Přístup k atributům pouze pro čtení"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    Pokud je tato možnost povolena, rozhraní API umožní správcům zapisovat při vytváření statické atributy pouze pro čtení, například časová razítka createdAt a updatedAt. <br/> <strong>Upozornění:</strong> Toto nastavení má využití např. při importu dat, ale umožňuje správcům vydávat se při vytváření položek za jiné uživatele. Všechny požadavky na vytvoření se však zaznamenávají se skutečným autorem. </br> Další informace o atributech a podporovaných zdrojích naleznete na adrese %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximální velikost stránky API"
   setting_apiv3_max_page_instructions_html: >
     Nastavte maximální velikost stránky, se kterou bude API reagovat. Nebude možné provádět API požadavky, které vracejí více hodnot na jedné stránce. <br/> <strong>Varování:</strong> Změňte tuto hodnotu pouze pokud jste si jisti, proč ji potřebujete. Nastavení na vysokou hodnotu bude mít výrazný dopad na výkon, zatímco hodnota nižší, než jsou možnosti na stránce, způsobí chyby v stránkovaných zobrazeních.
@@ -2903,7 +2908,7 @@ cs:
       remaining_quarantined_files_html: >
         Antivirová kontrola byla zrušena. %{file_count} zůstává v karanténě. Chcete-li si prohlédnout soubory v karanténě, navštivte tento odkaz: %{link}
       remaining_scan_complete_html: >
-        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+        Zbývající soubory byly zkontrolovány. V karanténě je %{file_count} . Jste přesměrováni na stránku karantény. Tuto stránku použijte k odstranění nebo přepsání souborů v karanténě.
       remaining_rescanned_files: >
         Virus byl úspěšně aktivován. Existuje %{file_count} , které byly nahrány dříve a stále je třeba skenovat. Tento proces byl naplánován na pozadí. Soubory zůstanou přístupné během skenování.
       upsale:
@@ -2914,10 +2919,10 @@ cs:
         instructions_html: >
           Vyberte akci, která se má provést u souborů, u nichž byl zjištěn virus: <br/>. <ul> <li><strong>%{quarantine_option}</strong>: Umístěte soubor do karantény a zabraňte uživatelům v přístupu k němu. Správci mohou soubory v karanténě kontrolovat a odstraňovat v administraci.</li> <li><strong>%{delete_option}</strong>: Okamžité odstranění souboru.</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
-        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        clamav_socket_html: Zadejte soket démona clamd, např. %{example}.
+        clamav_host_html: Zadejte název hostitele a port démona clamd oddělený dvojtečkou. např. %{example}
         description_html: >
-          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
+          Vyberte režim, ve kterém by měla fungovat integrace antivirového scanneru. <br/> <ul> <li><strong>%{disabled_option}</strong>: Nahrané soubory nejsou naskenovány pro viry.</li> <li><strong>%{socket_option}</strong>: Nastavili jste ClamAV na stejném serveru jako OpenProject a scan daemon clamd běží na pozadí</li> <li><strong>%{host_option}</strong>: Vysíláte soubory do externího hostitele pro skenování virů.</li> </ul>
     brute_force_prevention: "Automatizované blokování uživatelů"
     date_format:
       first_date_of_week_and_year_set: >
@@ -3154,6 +3159,7 @@ cs:
     status_user_and_brute_force: "%{user} a %{brute_force}"
     status_change: "Změna stavu"
     text_change_disabled_for_provider_login: "Jméno je nastaveno vaším administrátorem přihlášení, a proto jej nelze změnit."
+    text_change_disabled_for_ldap_login: "Jméno a e-mail jsou nastaveny pomocí LDAP, a nelze je tedy měnit."
     unlock: "Odemknout"
     unlock_and_reset_failed_logins: "Odemknout a resetovat nezdařené přihlášení"
   version_status_closed: "uzavřeno"
@@ -3227,7 +3233,7 @@ cs:
       text_empty_search_header: "Nenašli jsme žádné odpovídající výsledky."
       text_empty_state_description: "Pracovní balíček zatím nebyl s nikým sdílen."
       text_empty_state_header: "Není sdíleno"
-      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached: "Přidáním dalších uživatelů bude aktuální limit překročen. Pro zvýšení limitu uživatelů kontaktujte správce, abyste zajistili přístup externích uživatelů k tomuto pracovnímu balíčku."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.

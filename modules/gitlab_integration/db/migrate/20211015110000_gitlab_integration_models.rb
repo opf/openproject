@@ -50,7 +50,7 @@ class GitlabIntegrationModels < ActiveRecord::Migration[6.1]
     end
 
     create_join_table :gitlab_merge_requests, :work_packages do |t|
-      t.index :gitlab_merge_request_id, name: 'gitlab_mr_wp_mr_id'
+      t.index :gitlab_merge_request_id, name: "gitlab_mr_wp_mr_id"
       t.index %i[gitlab_merge_request_id work_package_id],
               unique: true,
               name: "unique_index_gl_mrs_wps_on_gl_mr_id_and_wp_id"

@@ -37,12 +37,12 @@ module API
                  .new(model: Member,
                       # excluding entity memberships. Those can be requested via the Shares API
                       scope: -> { Member.where(entity: nil).includes(MembershipRepresenter.to_eager_load) },
-                      api_name: 'Membership')
+                      api_name: "Membership")
                  .mount
 
           post &::API::V3::Utilities::Endpoints::Create
                   .new(model: Member,
-                       api_name: 'Membership',
+                       api_name: "Membership",
                        params_modifier: ->(params) {
                          params.except(:meta).merge(params.fetch(:meta, {}).to_h)
                        })
@@ -52,22 +52,22 @@ module API
           mount ::API::V3::Memberships::Schemas::MembershipSchemaAPI
           mount ::API::V3::Memberships::CreateFormAPI
 
-          route_param :id, type: Integer, desc: 'Member ID' do
+          route_param :id, type: Integer, desc: "Member ID" do
             after_validation do
               @member = ::Queries::Members::MemberQuery
                         .new(user: current_user)
                         .results
-                        .find(params['id'])
+                        .find(params["id"])
             end
 
             get &::API::V3::Utilities::Endpoints::Show
                    .new(model: Member,
-                        api_name: 'Membership')
+                        api_name: "Membership")
                    .mount
 
             patch &::API::V3::Utilities::Endpoints::Update
                      .new(model: Member,
-                          api_name: 'Membership',
+                          api_name: "Membership",
                           params_modifier: ->(params) {
                             params.except(:meta).merge(params.fetch(:meta, {}).to_h)
                           })

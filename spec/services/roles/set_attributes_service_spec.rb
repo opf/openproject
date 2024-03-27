@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Roles::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = instance_double(Roles::CreateContract, 'contract_instance')
+    contract = instance_double(Roles::CreateContract, "contract_instance")
     allow(contract).to receive(:validate).and_return(contract_valid)
     allow(contract).to receive(:errors).and_return(contract_errors)
     contract
   end
 
-  let(:contract_errors) { instance_double(ActiveModel::Errors, 'contract_errors') }
+  let(:contract_errors) { instance_double(ActiveModel::Errors, "contract_errors") }
   let(:contract_valid) { true }
   let(:model_valid) { true }
 
@@ -61,15 +61,15 @@ RSpec.describe Roles::SetAttributesService, type: :model do
 
   subject { instance.call(params) }
 
-  it 'returns the instance as the result' do
+  it "returns the instance as the result" do
     expect(subject.result).to eql model_instance
   end
 
-  it 'is a success' do
+  it "is a success" do
     expect(subject).to be_success
   end
 
-  context 'with params' do
+  context "with params" do
     let(:params) do
       {
         permissions:
@@ -81,57 +81,57 @@ RSpec.describe Roles::SetAttributesService, type: :model do
       subject
     end
 
-    context 'with a ProjectRole' do
-      it 'assigns the params with the public permissions' do
+    context "with a ProjectRole" do
+      it "assigns the params with the public permissions" do
         expect(model_instance.permissions).to match_array(OpenProject::AccessControl.public_permissions.map(&:name) + permissions)
       end
 
-      context 'when no permissions are given' do
+      context "when no permissions are given" do
         let(:permissions) { [] }
 
-        it 'assigns the permissions the non member role has' do
+        it "assigns the permissions the non member role has" do
           expect(model_instance.permissions).to match_array(ProjectRole.non_member.permissions) # public permissions are included via the factory
         end
       end
     end
 
-    context 'with a GlobalRole' do
+    context "with a GlobalRole" do
       let(:model_instance) { GlobalRole.new }
 
-      it 'assigns the params' do
+      it "assigns the params" do
         expect(model_instance.permissions).to match_array(permissions)
       end
 
-      context 'when no permissions are given' do
+      context "when no permissions are given" do
         let(:permissions) { [] }
 
-        it 'assigns nothing' do
+        it "assigns nothing" do
           expect(model_instance.permissions).to be_empty
         end
       end
     end
 
-    context 'with a WorkPackageRole' do
+    context "with a WorkPackageRole" do
       let(:model_instance) { WorkPackageRole.new }
 
-      it 'assigns the params' do
+      it "assigns the params" do
         expect(model_instance.permissions).to match_array(permissions)
       end
 
-      context 'when no permissions are given' do
+      context "when no permissions are given" do
         let(:permissions) { [] }
 
-        it 'assigns nothing' do
+        it "assigns nothing" do
           expect(model_instance.permissions).to be_empty
         end
       end
     end
   end
 
-  context 'with an invalid contract' do
+  context "with an invalid contract" do
     let(:contract_valid) { false }
 
-    it 'returns failure' do
+    it "returns failure" do
       expect(subject).not_to be_success
     end
 

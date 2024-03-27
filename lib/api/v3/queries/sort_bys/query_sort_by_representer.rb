@@ -63,7 +63,7 @@ module API
           end
 
           def _type
-            'QuerySortBy'
+            "QuerySortBy"
           end
 
           def json_cache_key

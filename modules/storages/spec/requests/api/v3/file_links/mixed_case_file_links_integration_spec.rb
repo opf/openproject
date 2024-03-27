@@ -28,11 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 # We want to check the case of file_links from multiple storages
-RSpec.describe 'API v3 file links resource' do
+RSpec.describe "API v3 file links resource" do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }
@@ -72,8 +72,8 @@ RSpec.describe 'API v3 file links resource' do
   # No token for oauth_client_notoken!
 
   let(:file_link_happy) { create(:file_link, origin_id: "24", storage: storage_good, container: work_package) }
-  let(:file_link_other_user) { create(:file_link, origin_id: '25', storage: storage_good, container: work_package) }
-  let(:file_link_deleted) { create(:file_link, origin_id: '26', storage: storage_good, container: work_package) }
+  let(:file_link_other_user) { create(:file_link, origin_id: "25", storage: storage_good, container: work_package) }
+  let(:file_link_deleted) { create(:file_link, origin_id: "26", storage: storage_good, container: work_package) }
 
   let(:file_link_unauth_happy) { create(:file_link, origin_id: "28", storage: storage_unauth, container: work_package) }
   let(:file_link_error_happy) { create(:file_link, origin_id: "29", storage: storage_error, container: work_package) }
@@ -129,16 +129,16 @@ RSpec.describe 'API v3 file links resource' do
     login_as user
   end
 
-  describe 'GET /api/v3/work_packages/:work_package_id/file_links', :webmock do
+  describe "GET /api/v3/work_packages/:work_package_id/file_links", :webmock do
     let(:path) { api_v3_paths.file_links(work_package.id) }
     let(:response_host_happy) do
       {
         ocs: {
           meta: ocs_meta_s200,
           data: {
-            '24': file_info_happy,
-            '25': file_info_s403,
-            '26': file_info_s404
+            "24": file_info_happy,
+            "25": file_info_s403,
+            "26": file_info_s404
           }
         }
       }.to_json
@@ -148,12 +148,12 @@ RSpec.describe 'API v3 file links resource' do
       oauth_client_token_good
 
       # https://host-good/: Simulate a successfully authorized reply with updates from Nextcloud
-      stub_request(:post, File.join(host_good, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
-        .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response_host_happy)
+      stub_request(:post, File.join(host_good, "/ocs/v1.php/apps/integration_openproject/filesinfo"))
+        .to_return(status: 200, headers: { "Content-Type": "application/json" }, body: response_host_happy)
 
       # https://host-unauth/: Simulates a Nextcloud with Bearer token expired or non existing
-      stub_request(:post, File.join(host_unauth, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
-        .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response_host_happy)
+      stub_request(:post, File.join(host_unauth, "/ocs/v1.php/apps/integration_openproject/filesinfo"))
+        .to_return(status: 200, headers: { "Content-Type": "application/json" }, body: response_host_happy)
 
       # https://host-error/: Simulates a Nextcloud with network timeout
       stub_request(:post, host_error).to_return(status: 500)
@@ -162,14 +162,14 @@ RSpec.describe 'API v3 file links resource' do
       stub_request(:post, host_timeout).to_timeout
 
       # https://host-notoken/: Simulate a Nextcloud with no oauth_token yet
-      stub_request(:post, File.join(host_notoken, '/ocs/v1.php/apps/integration_openproject/filesinfo'))
-        .to_return(status: 200, headers: { 'Content-Type': 'application/json' }, body: response_host_happy)
+      stub_request(:post, File.join(host_notoken, "/ocs/v1.php/apps/integration_openproject/filesinfo"))
+        .to_return(status: 200, headers: { "Content-Type": "application/json" }, body: response_host_happy)
 
       get path
     end
 
     # total, count, element_type, collection_type = 'Collection'
-    it_behaves_like 'API V3 collection response', 6, 6, 'FileLink', 'Collection' do
+    it_behaves_like "API V3 collection response", 6, 6, "FileLink", "Collection" do
       let(:elements) do
         [
           file_link_timeout_happy,
@@ -182,7 +182,7 @@ RSpec.describe 'API v3 file links resource' do
       end
     end
 
-    it 'returns the file_links with correct Nextcloud data applied' do
+    it "returns the file_links with correct Nextcloud data applied" do
       # GET returns a collection of FileLinks in "_embedded/elements"
       elements = JSON.parse(subject.body).dig("_embedded", "elements")
 
@@ -199,7 +199,7 @@ RSpec.describe 'API v3 file links resource' do
       # The deleted_file_link should not even appear in the Database anymore
       deleted_file_link = elements.detect { |e| e["originData"]["id"] == "27" }
       expect(deleted_file_link).to be_nil
-      expect(Storages::FileLink.where(origin_id: '27').count).to be 0
+      expect(Storages::FileLink.where(origin_id: "27").count).to be 0
 
       # The FileLink from a Nextcloud with error should have origin_status=:error
       error_file_link = elements.detect { |e| e["originData"]["id"] == "29" }

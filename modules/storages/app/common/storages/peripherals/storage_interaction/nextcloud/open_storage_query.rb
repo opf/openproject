@@ -33,17 +33,17 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class OpenStorageQuery
-          def initialize(storage)
-            @uri = storage.uri
+          def self.call(storage:, auth_strategy:)
+            new(storage).call(auth_strategy:)
           end
 
-          def self.call(storage:, user:)
-            new(storage).call(user:)
+          def initialize(storage)
+            @storage = storage
           end
 
           # rubocop:disable Lint/UnusedMethodArgument
-          def call(user:)
-            ServiceResult.success(result: Util.join_uri_path(@uri, 'index.php/apps/files'))
+          def call(auth_strategy:)
+            ServiceResult.success(result: Util.join_uri_path(@storage.uri, "index.php/apps/files"))
           end
 
           # rubocop:enable Lint/UnusedMethodArgument

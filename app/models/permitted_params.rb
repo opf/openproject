@@ -187,8 +187,13 @@ class PermittedParams
   end
 
   def user(additional_params = [])
-    permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
-    permitted_params.merge(custom_field_values(:user))
+    if params[:user].present?
+      permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
+      permitted_params.merge(custom_field_values(:user))
+    else
+      # This happens on the Profile page for LDAP user, no "user" hash is sent.
+      {}.merge(custom_field_values(:user, required: false))
+    end
   end
 
   def placeholder_user
@@ -286,6 +291,11 @@ class PermittedParams
     end
 
     whitelist.merge(custom_field_values(:project))
+  end
+
+  def project_custom_field_project_mapping
+    params.require(:project_custom_field_project_mapping)
+      .permit(*self.class.permitted_attributes[:project_custom_field_project_mapping])
   end
 
   def news
@@ -470,6 +480,7 @@ class PermittedParams
           :possible_values,
           :multi_value,
           :content_right_to_left,
+          :custom_field_section_id,
           :allow_non_open_versions,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
@@ -551,6 +562,11 @@ class PermittedParams
           :name,
           { type_ids: [] }
         ],
+        project_custom_field_project_mapping: %i(
+          project_id
+          custom_field_id
+          custom_field_section_id
+        ),
         query: %i(
           name
           display_sums

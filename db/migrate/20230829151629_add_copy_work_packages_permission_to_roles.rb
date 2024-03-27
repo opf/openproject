@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'migration_utils/permission_adder'
+require_relative "migration_utils/permission_adder"
 
 class AddCopyWorkPackagesPermissionToRoles < ActiveRecord::Migration[7.0]
   # Decouple ActiveRecord model from Migration
   class MigrationRolePermission < ApplicationRecord
-    self.table_name = 'role_permissions'
+    self.table_name = "role_permissions"
   end
 
   def up
@@ -43,6 +43,6 @@ class AddCopyWorkPackagesPermissionToRoles < ActiveRecord::Migration[7.0]
   end
 
   def down
-    MigrationRolePermission.where(permission: 'copy_work_packages').delete_all
+    MigrationRolePermission.where(permission: "copy_work_packages").delete_all
   end
 end

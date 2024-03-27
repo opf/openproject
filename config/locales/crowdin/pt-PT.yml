@@ -19,20 +19,21 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-pt:
+pt-PT:
   no_results_title_text: Atualmente, não há nada para exibir.
   activities:
     index:
       no_results_title_text: Não ocorreu nenhuma atividade neste projeto dentro deste espaço de tempo.
   admin:
     plugins:
-      no_results_title_text: Atualmente, não existem extensões disponíveis.
+      no_results_title_text: Atualmente não há plugins instalados.
+      no_results_content_text: Para mais informações, consulte a nossa página de integrações e plugins.
     custom_styles:
       color_theme: "Cores do tema"
       color_theme_custom: "(Personalizado)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        primary-button-color: "Botão principal"
+        accent-color: "Destaque"
         header-bg-color: "Fundo do cabeçalho"
         header-item-bg-hover-color: "Fundo do cabeçalho ao passar o rato"
         header-item-font-color: "Fonte do cabeçalho"
@@ -51,8 +52,8 @@ pt:
       enterprise_more_info: "Nota: o logótipo usado estará acessível ao público."
       manage_colors: "Editar opções de selecção de cor"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        primary-button-color: "Cor de contraste forte, utilizada no botão mais importante de um ecrã."
+        accent-color: "Cor para as ligações e outros elementos bem realçados."
         header-item-bg-hover-color: "Cor de fundo de itens do cabeçalho clicáveis quando se passa com o rato por cima."
         header-item-font-color: "Cor da fonte dos itens clicáveis do cabeçalho."
         header-item-font-hover-color: "Cor da fonte de itens clicáveis do cabeçalho quando se passa com o mouse por cima."
@@ -1526,6 +1527,7 @@ pt:
       postgres_migration: "A migrar a sua instalação para PostgreSQL"
       user_guides: "Guia do Utilizador"
       faq: "FAQ (Perguntas Mais Frequentes)"
+      impressum: "Aviso legal"
       glossary: "Glossário"
       shortcuts: "Atalhos"
       blog: "Blog de OpenProject"
@@ -1536,6 +1538,7 @@ pt:
   journals:
     changes_retracted: "As mudanças foram retraídas."
     caused_changes:
+      default_attribute_written: "Escrita de atributos só de leitura"
       dates_changed: "Datas alteradas"
       system_update: "Atualização do sistema OpenProject:"
     cause_descriptions:
@@ -1857,7 +1860,6 @@ pt:
   label_subject_or_id: "ID ou Assunto"
   label_calendar_subscriptions: "Subscrições do calendário"
   label_identifier: "Identificador"
-  label_impressum: "Aviso legal"
   label_in: "em"
   label_in_less_than: "em menos de"
   label_in_more_than: "em mais de"
@@ -1917,7 +1919,7 @@ pt:
   label_member_new: "Novo Membro"
   label_member_all_admin: "(Todas as funções devidas ao status do administrador)"
   label_member_plural: "Membros"
-  label_membership_plural: "Memberships"
+  label_membership_plural: "Associações"
   lable_membership_added: "Membro adicionado"
   lable_membership_updated: "Membro atualizado"
   label_menu_badge:
@@ -2712,6 +2714,9 @@ pt:
   setting_apiv3_cors_origins: "Partilha de recursos entre origens (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, estas são as origens que têm permissão para aceder ao API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação no cabeçalho da Origem </a> sobre como especificar os valores esperados.
+  setting_apiv3_write_readonly_attributes: "Acesso de escrita a atributos só de leitura"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    Se estiver ativada, a API irá permitir que os administradores escrevam atributos estáticos só de leitura durante a criação, como os carimbos de data/hora createdAt e updatedAt. <br/> <strong>Aviso:</strong> esta definição tem um caso de utilização para, por exemplo, importar dados, mas permite que os administradores se façam passar por outros utilizadores na criação de itens. No entanto, todos os pedidos de criação são registados com o verdadeiro autor. </br> Para obter mais informações sobre os atributos e os recursos suportados, consulte a %{api_documentation_link}.
   setting_apiv3_max_page_size: "Tamanho máximo da página de API"
   setting_apiv3_max_page_instructions_html: >
     Defina o tamanho máximo de página com a qual a API vai responder. Não será possível fazer solicitações de API que retornem mais valores numa única página. <br/> <strong>Aviso:</strong> Altere este valor apenas se tiver certeza do motivo pelo qual precisa de o fazer. Definir um valor alto resulta em impactos significativos no desempenho, enquanto um valor menor que as opções por página causa erros nas visualizações paginadas.
@@ -2735,7 +2740,7 @@ pt:
   setting_app_subtitle: "Subtítulo da aplicação"
   setting_app_title: "Título da aplicação"
   setting_attachment_max_size: "Tamanho máx. do anexo"
-  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_mode: "Modo de digitalização"
   setting_antivirus_scan_action: "Ação para ficheiro infetado"
   setting_autofetch_changesets: "Alterações do repositório autofetch"
   setting_autologin: "Autologin"
@@ -2745,7 +2750,7 @@ pt:
   setting_brute_force_block_minutes: "Tempo de bloqueio do utilizador"
   setting_cache_formatted_text: "Colocar formatação do texto na memória cache"
   setting_use_wysiwyg_description: "Selecione para ativar o editor WYSIWYG CKEditor5 para todos os utilizadores por padrão. CKEditor tem funcionalidade limitada para GFM Markdown."
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "Colunas de listas de pacotes de trabalho predefinidas"
   setting_commit_fix_keywords: "Palavras-chave fixas"
   setting_commit_logs_encoding: "Codificação das mensagens de confirmação"
   setting_commit_logtime_activity_id: "Atividade para tempo registado"
@@ -2767,7 +2772,7 @@ pt:
   setting_emails_header: "Cabeçalho de e-mails"
   setting_email_login: "Utilizar o email como início de sessão"
   setting_enabled_scm: "SCM ativado"
-  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
+  setting_enabled_projects_columns: "Colunas numa lista de projetos apresentadas por predefinição"
   setting_feeds_enabled: "Permitir Feeds"
   setting_ical_enabled: "Ativar subscrições do iCalendar"
   setting_feeds_limit: "Limite de conteúdo feed"
@@ -2837,25 +2842,25 @@ pt:
         Defina uma lista de extensões de ficheiros e/ou de tipos mime para ficheiros carregados. <br/> Insira extensões de ficheiro (por exemplo, <code>%{ext_example}</code>) ou tipos mime (ex., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de ficheiro seja carregado. Vários valores permitidos (uma linha para cada valor).
     antivirus:
       title: "Verificação de vírus"
-      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      clamav_ping_failed: "Não foi possível ligar o daemon do ClamAV. Verifique novamente a configuração e tente novamente."
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        A verificação de vírus foi desativada. %{file_count} permanece(m) em quarentena. Para rever os ficheiros colocados em quarentena, aceda a esta ligação: %{link}
       remaining_scan_complete_html: >
-        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+        Os restantes ficheiros foram verificados. %{file_count} encontram-se em quarentena. Está a ser redirecionado para a página de quarentena. Utilize esta página para eliminar ou substituir ficheiros em quarentena.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        A verificação de vírus foi ativada com êxito. Existem %{file_count} que foram carregados anteriormente e que ainda precisam de ser verificados. Este processo foi agendado em segundo plano. Os ficheiros permanecerão acessíveis durante a verificação.
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "Assegure-se que os ficheiros carregados no OpenProject são verificados quanto à presença de vírus antes de serem acessíveis a outros utilizadores."
       actions:
         delete: "Eliminar ficheiro"
         quarantine: "Colocar o ficheiro em quarentena"
         instructions_html: >
           Seleccione a ação a executar para os ficheiros em que foi detectado um vírus: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Coloque o ficheiro em quarentena, impedindo os utilizadores de lhe acederem. Os administradores podem rever e eliminar ficheiros em quarentena na administração.</li> <li><strong>%{delete_option}</strong>: Elimine o ficheiro imediatamente.</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
-        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        clamav_socket_html: Introduza o socket para o daemon clamd, por exemplo, %{example}
+        clamav_host_html: Introduza o nome do anfitrião e a porta para o daemon clamd separados por dois pontos. Por exemplo, %{example}
         description_html: >
-          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
+          Selecione o modo em que a integração do scanner antivírus deve funcionar. <br/> <ul> <li><strong>%{disabled_option}</strong>: os ficheiros carregados não são verificados quanto a vírus.</li> <li><strong>%{socket_option}</strong>: configurou o ClamAV no mesmo servidor que o OpenProject e o daemon de verificação clamd está a ser executado em segundo plano</li> <li><strong>%{host_option}</strong>: está a transmitir ficheiros para um anfitrião externo de verificação de vírus.</li> </ul>
     brute_force_prevention: "Bloqueio de utilizador automatizado"
     date_format:
       first_date_of_week_and_year_set: >
@@ -3090,6 +3095,7 @@ pt:
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Alteração de estado"
     text_change_disabled_for_provider_login: "O nome é definido pelo seu fornecedor de início de sessão, e portanto, não pode ser alterado."
+    text_change_disabled_for_ldap_login: "O nome e o e-mail são definidos pelo LDAP e não podem, portanto, ser alterados."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear e redefinir logins errados"
   version_status_closed: "fechado"

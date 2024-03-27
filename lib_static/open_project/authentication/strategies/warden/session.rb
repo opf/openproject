@@ -1,4 +1,4 @@
-require 'open_project/authentication/session_expiry'
+require "open_project/authentication/session_expiry"
 
 module OpenProject
   module Authentication
@@ -31,15 +31,15 @@ module OpenProject
           end
 
           def xml_request_header_set?
-            request.env['HTTP_X_REQUESTED_WITH'.freeze] == 'XMLHttpRequest'.freeze
+            request.env["HTTP_X_REQUESTED_WITH".freeze] == "XMLHttpRequest".freeze
           end
 
           def user_id
-            Hash(session)['user_id']
+            Hash(session)["user_id"]
           end
 
           def session
-            env['rack.session']
+            env["rack.session"]
           end
         end
       end

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require_relative 'budget_form'
+require "support/pages/page"
+require_relative "budget_form"
 
 module Pages
   class EditBudget < Page
@@ -40,14 +40,14 @@ module Pages
     end
 
     def click_copy
-      within '.toolbar-items' do
-        click_link 'Copy'
+      within ".toolbar-items" do
+        click_link "Copy"
       end
     end
 
     def click_delete
-      within '.toolbar-items' do
-        click_link 'Delete'
+      within ".toolbar-items" do
+        click_link "Delete"
       end
     end
 

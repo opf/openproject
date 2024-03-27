@@ -20,7 +20,7 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
-pt:
+pt-BR:
   plugin_openproject_meeting:
     name: "Reunião do OpenProject"
     description: >-
@@ -96,9 +96,9 @@ pt:
   label_start_date: "Data de início"
   meeting:
     copy:
-      title: "Copy meeting %{title}"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      title: "Copiar reunião %{title}"
+      agenda: "Copiar agenda"
+      agenda_text: "Copiar a agenda da antiga reunião"
     email:
       open_meeting_link: "Abrir reunião"
       invited:

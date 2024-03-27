@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Calendar::CreateICalService, type: :model do
   let(:project) { create(:project) }
@@ -83,7 +83,7 @@ RSpec.describe Calendar::CreateICalService, type: :model do
   end
 
   # rubocop:disable RSpec/ExampleLength
-  it 'converts work_packages to an ical string which contains all required ical fields in the correct format and order' do
+  it "converts work_packages to an ical string which contains all required ical fields in the correct format and order" do
     expected_ical_string = <<~EOICAL.gsub("\r ", "").delete("\r")
       BEGIN:VCALENDAR
       VERSION:2.0
@@ -134,12 +134,12 @@ RSpec.describe Calendar::CreateICalService, type: :model do
   end
   # rubocop:enable RSpec/ExampleLength
 
-  it 'is a success' do
+  it "is a success" do
     expect(subject)
       .to be_success
   end
 
-  describe 'stripped and truncated workpackage description' do
+  describe "stripped and truncated workpackage description" do
     let(:work_package_with_rich_text_description) do
       create(:work_package, project:,
                             due_date: Time.zone.today + 7.days, assigned_to: user,
@@ -168,21 +168,21 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       ]
     end
 
-    it 'strips html tags from the description' do
+    it "strips html tags from the description" do
       expect(formatted_result).to include("test description") # no <b> tags
       expect(formatted_result).to include("\nfoo\nbar\nbaz") # no <br> tags or <ol> tags
     end
 
-    it 'strips images from the description' do
+    it "strips images from the description" do
       expect(formatted_result).to include("test image") # no <img> tags
     end
 
-    it 'truncates the description at 250 chars' do
+    it "truncates the description at 250 chars" do
       expect(formatted_result).to include("sanctus est ...")
     end
   end
 
-  describe 'sanitized attributes' do
+  describe "sanitized attributes" do
     # the iCalendar gem takes care of escaping malicious values
     # following specs double check on this behaviour
     let(:work_package_with_malicious_subject) do
@@ -201,12 +201,12 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       ]
     end
 
-    it 'escapes malicious workpackage subject values' do
+    it "escapes malicious workpackage subject values" do
       expect(formatted_result).not_to include("<script>alert('Subject');</script>")
       expect(formatted_result).to include("&lt\\;script&gt\\;alert('Subject')\\;&lt\\;/script&gt\\;")
     end
 
-    it 'escapes malicious workpackage description values' do
+    it "escapes malicious workpackage description values" do
       expect(formatted_result).not_to include("<script>alert('Description');</script>")
       expect(formatted_result).to include("&lt\\;script&gt\\;alert('Description')\\;&lt\\;/script&gt\\;")
     end

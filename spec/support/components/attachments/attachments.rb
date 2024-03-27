@@ -14,7 +14,7 @@ module Components
       JS
 
       if stopover.is_a?(Array) && !stopover.all?(String)
-        raise ArgumentError, 'In case the stopover is an array, it must contain only string selectors.'
+        raise ArgumentError, "In case the stopover is an array, it must contain only string selectors."
       end
 
       element =
@@ -29,24 +29,24 @@ module Components
       page.execute_script(
         js_drop_files,
         element,
-        'temporary_attachment_files',
+        "temporary_attachment_files",
         position.to_s,
         stopover,
         cancel_drop,
         delay_dragleave
       )
 
-      attach_file_on_input(path, 'temporary_attachment_files')
+      attach_file_on_input(path, "temporary_attachment_files")
     end
 
     ##
     # Attach a file to the hidden file input
-    def attach_file_on_input(path, name = 'attachment_files')
+    def attach_file_on_input(path, name = "attachment_files")
       page.attach_file(name, path, visible: :all)
     end
 
     def js_drop_files
-      @js_file ||= File.read(File.expand_path('attachments_input.js', __dir__))
+      @js_file ||= File.read(File.expand_path("attachments_input.js", __dir__))
     end
   end
 end

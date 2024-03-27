@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'carrierwave/storage/fog'
+require "carrierwave/storage/fog"
 
 class FogFileUploader < CarrierWave::Uploader::Base
   include FileUploader
@@ -64,7 +64,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
 
     return super if content_type.blank?
 
-    super.merge 'Content-Type': content_type
+    super.merge "Content-Type": content_type
   end
 
   ##

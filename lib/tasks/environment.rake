@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-namespace 'environment' do
-  desc 'Force application to eager load if configured (does not happen by default for rake tasks)'
+namespace "environment" do
+  desc "Force application to eager load if configured (does not happen by default for rake tasks)"
   task :full do
     warn "Forcefully loading the application. Use :environment to avoid eager loading."
 
@@ -36,7 +36,7 @@ namespace 'environment' do
     Rails.application.require_environment!
   end
 
-  desc 'Eager load the application (only applicable in dev mode)'
+  desc "Eager load the application (only applicable in dev mode)"
   task eager_load: :environment do
     Zeitwerk::Loader.eager_load_all if Rails.env.development?
   end

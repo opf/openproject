@@ -11,8 +11,8 @@
         <%= styled_text_field_tag 'backup_code', nil, required: true, autocomplete: 'off', size: 20, maxlength: 20, tabindex: 1, autofocus: true  %>
       </div>
     </div>
-
-    <input type="submit" name="login" value="<%=t(:button_submit)%>" class="button -primary button_no-margin" tabindex="2" />
+    <div class="login-form--footer">
+      <input type="submit" name="login" value="<%=t(:button_submit)%>" class="button -primary button_no-margin" tabindex="2" />
+    </div>
   <% end %>
-  </div>
 </div>

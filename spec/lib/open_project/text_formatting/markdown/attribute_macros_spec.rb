@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
 RSpec.describe OpenProject::TextFormatting,
-               'Attribute macros' do
-  include_context 'expected markdown modules'
+               "Attribute macros" do
+  include_context "expected markdown modules"
 
-  describe 'attribute label macros' do
-    it_behaves_like 'format_text produces' do
+  describe "attribute label macros" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           # My headline
@@ -72,8 +72,8 @@ RSpec.describe OpenProject::TextFormatting,
     end
   end
 
-  describe 'attribute value macros' do
-    it_behaves_like 'format_text produces' do
+  describe "attribute value macros" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           # My headline

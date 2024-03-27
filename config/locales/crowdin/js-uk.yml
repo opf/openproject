@@ -31,7 +31,7 @@ uk:
         Справді видалити цей файл? Цю дію не можна скасувати.
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Цей файл перенесено в карантин, оскільки в ньому знайдено вірус. Його не можна завантажити."
     autocomplete_ng_select:
       add_tag: "Додати елемент"
       clear_all: "Очистити все"
@@ -352,7 +352,7 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li>Інтеграція з GitLab (розроблена членами спільноти)</li> <li>Розширені можливості роботи з користувацькими списками проєктів</li> <li>Розширені можливості роботи з модулем «Наради»</li> <li>Можливіть перевірки на віруси за допомогою ClamAV (доповнення версії Enterprise)</li> <li>Екпорт PDF: підтримка списків у клітинках таблиці</li> <li>WebAuthn / FIDO / U2F додано як другий фактор</li> <li>Розширено список мов набору за умовчанням</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -444,7 +444,7 @@ uk:
     label_less_than_ago: "менше, ніж день тому"
     label_loading: "Завантаження..."
     label_mail_notification: "Email сповіщення"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Керування стовпцями і їх перевпорядкування"
     label_me: "мені"
     label_meeting_agenda: "Порядок денний"
     label_meeting_minutes: "Хвилини"
@@ -483,7 +483,7 @@ uk:
     label_report: "Звіт"
     label_repository_plural: "Репозиторії"
     label_save_as: "Зберегти як"
-    label_search_columns: "Search a column"
+    label_search_columns: "Пошук стовпця"
     label_select_project: "Виберіть проєкт"
     label_select_watcher: "Виберіть спостерігача..."
     label_selected_filter_list: "Вибрані фільтри"
@@ -1003,7 +1003,7 @@ uk:
         all_open: "Всі відкрити"
         summary: "Резюме"
         shared_with_users: "Надано доступ користувачам"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Доступ надано мені"
       jump_marks:
         pagination: "Перейти до розбиття таблиці на сторінки"
         label_pagination: "Клацніть тут, щоб пропустити пакунки робіт і перейти до розбивки на сторінки"

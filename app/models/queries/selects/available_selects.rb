@@ -30,7 +30,14 @@ module Queries
   module Selects
     module AvailableSelects
       def select_for(key)
-        (find_available_select(key) || ::Queries::Selects::NotExistingSelect).new(key.to_sym)
+        select = (find_available_select(key) || ::Queries::Selects::NotExistingSelect)
+          .new(key.to_sym)
+
+        # It might be that while the class of selects is available, the instantiated select isn't.
+        # This can e.g. be the case for custom fields that had once been available and have a key that
+        # leads to them being found by the find_available_select but when instantiated, the custom
+        # field they refer to is no longer available.
+        select.available? ? select : ::Queries::Selects::NotExistingSelect.new(key.to_sym)
       end
 
       def available_selects

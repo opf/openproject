@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
                  } %>
     </div>
     <% if EnterpriseToken.allows_to? :conditional_highlighting %>
-      <div class="form--field -indented -vertical settings--primaryed-attributes" style="<%= 'display: none' unless Setting[:work_package_list_default_highlighting_mode] == 'inline' %>">
+      <div class="form--field -indented -vertical settings--highlighted-attributes" style="<%= 'display: none' unless Setting[:work_package_list_default_highlighting_mode] == 'inline' %>">
         <%= setting_multiselect :work_package_list_default_highlighted_attributes,
                               Query.available_columns(nil).select(&:highlightable).map { |column|
                                 [column.caption, column.name.to_s]

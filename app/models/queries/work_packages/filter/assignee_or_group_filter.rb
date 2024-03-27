@@ -40,7 +40,7 @@ class Queries::WorkPackages::Filter::AssigneeOrGroupFilter <
   end
 
   def human_name
-    I18n.t('query_fields.assignee_or_group')
+    I18n.t("query_fields.assignee_or_group")
   end
 
   def self.key
@@ -51,7 +51,7 @@ class Queries::WorkPackages::Filter::AssigneeOrGroupFilter <
     operator_strategy.sql_for_field(
       values_replaced,
       self.class.model.table_name,
-      'assigned_to_id'
+      "assigned_to_id"
     )
   end
 

@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_delete_service'
+require "spec_helper"
+require "services/base_services/behaves_like_delete_service"
 
 RSpec.describe Roles::DeleteService, type: :model do
-  it_behaves_like 'BaseServices delete service' do
+  it_behaves_like "BaseServices delete service" do
     let(:factory) { :project_role }
   end
 
-  it 'sends a delete notification' do
+  it "sends a delete notification" do
     allow(OpenProject::Notifications).to(receive(:send))
 
     existing_permissions = %i[view_files view_work_packages view_calender]

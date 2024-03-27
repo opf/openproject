@@ -284,7 +284,7 @@ module API
                     :self_link
 
       def _type
-        'Schema'
+        "Schema"
       end
 
       def _dependencies

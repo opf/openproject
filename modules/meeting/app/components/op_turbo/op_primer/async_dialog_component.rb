@@ -33,7 +33,7 @@ module OpTurbo
       include ::OpPrimer::ComponentHelpers
 
       def initialize(id:, src:, title:, size: :auto, header_variant: :medium,
-                     hide_button: false, button_icon: nil, button_text: nil, button_attributes: {})
+                     hide_button: false, button_icon: nil, button_icon_label: nil, button_text: nil, button_attributes: {})
         super
 
         @id = id
@@ -43,6 +43,7 @@ module OpTurbo
         @size = size
         @hide_button = hide_button
         @button_icon = button_icon
+        @button_icon_label = button_icon_label
         @button_text = button_text
         @button_attributes = button_attributes
       end
@@ -56,13 +57,19 @@ module OpTurbo
         }
       end
 
-      def merged_button_attributes
+      def merged_text_button_attributes
         stimuls_action_ref = 'click->op-turbo-op-primer-async-dialog#reinitFrame'
 
         @button_attributes[:data] = {} if @button_attributes[:data].nil?
         @button_attributes[:data][:action] = stimuls_action_ref
 
         @button_attributes
+      end
+
+      def merged_icon_button_attributes
+        merged_text_button_attributes.merge(
+          icon: @button_icon, 'aria-label': @button_icon_label
+        )
       end
     end
   end

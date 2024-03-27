@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require 'capybara-screenshot'
-require 'capybara-screenshot/rspec'
+require "capybara-screenshot"
+require "capybara-screenshot/rspec"
 
 # Remove old images automatically
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
 # Set up S3 uploads if desired
-if ENV['CAPYBARA_AWS_ACCESS_KEY_ID'].present?
+if ENV["CAPYBARA_AWS_ACCESS_KEY_ID"].present?
   Capybara::Screenshot.s3_configuration = {
     s3_client_credentials: {
-      access_key_id: ENV.fetch('CAPYBARA_AWS_ACCESS_KEY_ID'),
-      secret_access_key: ENV.fetch('CAPYBARA_AWS_SECRET_ACCESS_KEY'),
-      region: ENV.fetch('CAPYBARA_AWS_REGION', 'eu-west-1')
+      access_key_id: ENV.fetch("CAPYBARA_AWS_ACCESS_KEY_ID"),
+      secret_access_key: ENV.fetch("CAPYBARA_AWS_SECRET_ACCESS_KEY"),
+      region: ENV.fetch("CAPYBARA_AWS_REGION", "eu-west-1")
     },
-    bucket_name: ENV.fetch('CAPYBARA_AWS_BUCKET', 'openproject-ci-public-logs')
+    bucket_name: ENV.fetch("CAPYBARA_AWS_BUCKET", "openproject-ci-public-logs")
   }
   Capybara::Screenshot.s3_object_configuration = {
-    acl: 'public-read'
+    acl: "public-read"
   }
 end
 
@@ -44,7 +44,7 @@ class Capybara::ScreenshotAdditions
       return unless screenshot = example.metadata[:screenshot]
 
       info = {
-        message: 'Screenshot captured for failed feature test',
+        message: "Screenshot captured for failed feature test",
         test_id: example.id,
         test_location: example.location
       }.merge(screenshot)

@@ -351,7 +351,7 @@ cs:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                Verze obsahuje různé nové funkce a vylepšení: <br> <ul class="%{list_styling_class}"> <li>Integrace s GitLabem (původně vyvinutá přispěvateli komunity)</li> <li>Pokročilé funkce pro vlastní seznamy projektů</li> <li>Rozšířené funkce pro modul Schůzky</li> <li>Funkce antivirové kontroly pomocí ClamAV (doplněk pro podniky)</li> <li>Export do formátu PDF: Podporovány jsou seznamy v buňkách tabulky</li> <li>Jako druhý faktor je přidán WebAuthn/FIDO/U2F</li> <li>Do výchozí dostupné sady přidány další jazyky</li> </ul>
     ical_sharing_modal:
       title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."

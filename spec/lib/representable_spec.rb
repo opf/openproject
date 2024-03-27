@@ -25,11 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require 'representable/json'
+require "spec_helper"
+require "representable/json"
 
 RSpec.describe Representable do
-  let(:object) { Struct.new(:title).new('test') }
+  let(:object) { Struct.new(:title).new("test") }
 
   class ReverseNamingStrategy
     def call(name)
@@ -37,7 +37,7 @@ RSpec.describe Representable do
     end
   end
 
-  describe 'as_strategy with lambda' do
+  describe "as_strategy with lambda" do
     class UpcaseRepresenter < Representable::Decorator
       include Representable::JSON
 
@@ -49,7 +49,7 @@ RSpec.describe Representable do
     it { expect(UpcaseRepresenter.new(object).to_json).to eql('{"TITLE":"test"}') }
   end
 
-  describe 'as_strategy with class responding to #call?' do
+  describe "as_strategy with class responding to #call?" do
     class ReverseRepresenter < Representable::Decorator
       include Representable::JSON
 
@@ -61,8 +61,8 @@ RSpec.describe Representable do
     it { expect(ReverseRepresenter.new(object).to_json).to eql('{"eltit":"test"}') }
   end
 
-  describe 'as_strategy with class not responding to #call?' do
-    it 'raises error' do
+  describe "as_strategy with class not responding to #call?" do
+    it "raises error" do
       expect do
         class FailRepresenter < Representable::Decorator
           include Representable::JSON

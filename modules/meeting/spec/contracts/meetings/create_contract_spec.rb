@@ -28,31 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe Meetings::CreateContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   shared_let(:project) { create(:project) }
   let(:meeting) { build(:structured_meeting, project:) }
   let(:contract) { described_class.new(meeting, user) }
 
-  context 'with permission' do
+  context "with permission" do
     let(:user) do
       create(:user, member_with_permissions: { project => %i[view_meetings create_meetings] })
     end
 
-    it_behaves_like 'contract is valid'
+    it_behaves_like "contract is valid"
   end
 
-  context 'without permission' do
+  context "without permission" do
     let(:user) { build_stubbed(:user) }
 
-    it_behaves_like 'contract is invalid', base: :error_unauthorized
+    it_behaves_like "contract is invalid", base: :error_unauthorized
   end
 
-  include_examples 'contract reuses the model errors' do
+  include_examples "contract reuses the model errors" do
     let(:user) { build_stubbed(:user) }
   end
 end

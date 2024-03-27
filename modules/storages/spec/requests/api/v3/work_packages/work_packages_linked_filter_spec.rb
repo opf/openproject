@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'API v3 work packages resource with filters for linked storage file',
+RSpec.describe "API v3 work packages resource with filters for linked storage file",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -81,208 +81,208 @@ RSpec.describe 'API v3 work packages resource with filters for linked storage fi
     login_as current_user
   end
 
-  describe 'GET /api/v3/work_packages' do
+  describe "GET /api/v3/work_packages" do
     let(:path) { api_v3_paths.path_for :work_packages, filters: }
 
     before do
       get path
     end
 
-    context 'with single filter for file id' do
+    context "with single filter for file id" do
       let(:origin_id_value) { file_link1.origin_id.to_s }
       let(:filters) do
         [
           {
             file_link_origin_id: {
-              operator: '=',
+              operator: "=",
               values: [origin_id_value]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+      it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [work_package1, work_package3] }
       end
 
-      context 'if one project has not sufficient permissions' do
+      context "if one project has not sufficient permissions" do
         let(:role2) { create(:project_role, permissions: %i(view_work_packages)) }
 
-        it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package1] }
         end
       end
 
-      context 'if a project has the storages module deactivated' do
+      context "if a project has the storages module deactivated" do
         let(:project1) { create(:project, disable_modules: :storages, members: { current_user => role1 }) }
 
-        it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package3] }
         end
       end
 
-      context 'if the filter is set to an unknown file id from origin' do
+      context "if the filter is set to an unknown file id from origin" do
         let(:origin_id_value) { "1337" }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [] }
         end
       end
 
-      context 'if the filter is set to a file linked to a work package in an unlinked project' do
+      context "if the filter is set to a file linked to a work package in an unlinked project" do
         let(:origin_id_value) { file_link4.origin_id.to_s }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [] }
         end
       end
 
-      context 'if using signaling' do
-        let(:path) { api_v3_paths.path_for :work_packages, select: 'total,count,_type,elements/*', filters: }
+      context "if using signaling" do
+        let(:path) { api_v3_paths.path_for :work_packages, select: "total,count,_type,elements/*", filters: }
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package1, work_package3] }
         end
       end
     end
 
-    context 'with single filter for storage id' do
+    context "with single filter for storage id" do
       let(:storage_id_value) { storage1.id.to_s }
       let(:filters) do
         [
           {
             storage_id: {
-              operator: '=',
+              operator: "=",
               values: [storage_id_value]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+      it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [work_package1, work_package2] }
       end
 
-      context 'if one project has not sufficient permissions' do
+      context "if one project has not sufficient permissions" do
         let(:role1) { create(:project_role, permissions: %i(view_work_packages)) }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [] }
         end
       end
 
-      context 'if the filter is set to an unknown storage id' do
+      context "if the filter is set to an unknown storage id" do
         let(:storage_id_value) { "1337" }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [] }
         end
       end
     end
 
-    context 'with single filter for storage url' do
+    context "with single filter for storage url" do
       let(:storage_url_value) { CGI.escape(storage2.host) }
       let(:filters) do
         [
           {
             storage_url: {
-              operator: '=',
+              operator: "=",
               values: [storage_url_value]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+      it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [work_package3] }
       end
 
-      context 'if any of the matching work packages is in a project without a mapping to that storage' do
+      context "if any of the matching work packages is in a project without a mapping to that storage" do
         let(:storage_url_value) { CGI.escape(storage1.host) }
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package1, work_package2] }
         end
       end
 
-      context 'if one project has not sufficient permissions' do
+      context "if one project has not sufficient permissions" do
         let(:role2) { create(:project_role, permissions: %i(view_work_packages)) }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [] }
         end
       end
 
-      context 'if the filter is set to an unknown storage url' do
+      context "if the filter is set to an unknown storage url" do
         let(:storage_url_value) { "https://not.my-domain.org" }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [] }
         end
       end
     end
 
-    context 'with combined filter of file id and storage id' do
+    context "with combined filter of file id and storage id" do
       let(:origin_id_value) { file_link1.origin_id }
       let(:storage_id_value) { storage1.id }
       let(:filters) do
         [
           {
             file_link_origin_id: {
-              operator: '=',
+              operator: "=",
               values: [origin_id_value]
             }
           },
           {
             storage_id: {
-              operator: '=',
+              operator: "=",
               values: [storage_id_value]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+      it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [work_package1] }
       end
 
-      context 'if just the storage id is switched' do
+      context "if just the storage id is switched" do
         let(:storage_id_value) { storage2.id }
 
-        it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package3] }
         end
       end
     end
 
-    context 'with combined filter of file id and storage url' do
+    context "with combined filter of file id and storage url" do
       let(:origin_id_value) { file_link1.origin_id }
       let(:storage_url_value) { CGI.escape(storage1.host) }
       let(:filters) do
         [
           {
             file_link_origin_id: {
-              operator: '=',
+              operator: "=",
               values: [origin_id_value]
             }
           },
           {
             storage_url: {
-              operator: '=',
+              operator: "=",
               values: [storage_url_value]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+      it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [work_package1] }
       end
 
-      context 'if just the storage url is switched' do
+      context "if just the storage url is switched" do
         let(:storage_url_value) { CGI.escape(storage2.host) }
 
-        it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package3] }
         end
       end

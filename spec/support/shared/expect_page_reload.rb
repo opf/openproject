@@ -30,11 +30,11 @@
 # due to a page reload
 
 def expect_page_reload
-  current_render = Time.parse page.find('body')['data-rendered-at']
+  current_render = Time.parse page.find("body")["data-rendered-at"]
 
   yield
 
-  expect(page).to have_css('body') { |body|
-    Time.parse(body['data-rendered-at']) > current_render
+  expect(page).to have_css("body") { |body|
+    Time.parse(body["data-rendered-at"]) > current_render
   }
 end

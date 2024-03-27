@@ -26,25 +26,25 @@ hu:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Kérdések"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Egyesítési kérelmek (merge requests)"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: MR létrehozása
+          description: Egyesítési kérelem (merge request) létrehozása
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git snippetek
+          description: "Git snippetek másolása a vágólapra\n"
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Branch neve
+          commit_message: Commit üzenet
+          cmd: Branch létrehozása üres committal
+          title: Gyors snippetek a Githez
+          copy_success: '✅ Másolva!'
+          copy_error: '❌ Másolás sikertelen!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Még nincsenek kapcsolódó kérdések. Hivatkozzon egy meglévő kérdésre a kérdés címében/leírásában található <code>OP#%{wp_id}</code> (vagy <code>PP#%{wp_id}</code> a privát hivatkozások esetében) kód használatával, vagy hozzon létre egy új kérdést.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
-      gitlab_pipelines: Pipelines
-      updated_on: Updated on
+        empty: 'Még nincsenek hozzákapcsolt egyesítési kérelmek (merge requests). Linkelj egy meglévő MR-t az <code>OP#%{wp_id}</code> (vagy a <code>PP#%{wp_id}</code> a privát linkekhez) kód használatával az MR címében/leírásában, vagy hozz létre egy új MR-t.'
+      gitlab_pipelines: Pipeline-ok
+      updated_on: Frissítve ekkor

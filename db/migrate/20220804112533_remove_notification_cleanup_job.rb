@@ -30,7 +30,7 @@ class RemoveNotificationCleanupJob < ActiveRecord::Migration[7.0]
   def up
     execute("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Notifications::CleanupJob%'")
     Setting
-      .where(name: 'notification_retention_period_days')
+      .where(name: "notification_retention_period_days")
       .delete_all
   end
 end

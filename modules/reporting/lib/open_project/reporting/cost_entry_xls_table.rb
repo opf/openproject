@@ -19,7 +19,7 @@ class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsVie
     @unit_id = unit_id
 
     if @unit_id != 0
-      @query.filter :cost_type_id, operator: '=', value: @unit_id.to_s
+      @query.filter :cost_type_id, operator: "=", value: @unit_id.to_s
       @cost_type = CostType.find(unit_id) if unit_id.positive?
     end
   end
@@ -53,7 +53,7 @@ class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsVie
   end
 
   def cost_row(result)
-    current_cost_type_id = result.fields['cost_type_id'].to_i
+    current_cost_type_id = result.fields["cost_type_id"].to_i
 
     cost_entry_attributes
       .map { |field| show_field field, result.fields[field.to_s] }
@@ -67,7 +67,7 @@ class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsVie
   end
 
   def build_footer
-    footer = [''] * cost_entry_attributes.size
+    footer = [""] * cost_entry_attributes.size
     footer += if show_result(query, 0) == show_result(query)
                 multiple_unit_types_footer
               else
@@ -77,11 +77,11 @@ class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsVie
   end
 
   def one_unit_type_footer
-    [show_result(query), '', show_result(query, 0)]
+    [show_result(query), "", show_result(query, 0)]
   end
 
   def multiple_unit_types_footer
-    ['', '', show_result(query)]
+    ["", "", show_result(query)]
   end
 
   def headers
@@ -99,8 +99,8 @@ class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsVie
     query
       .each_direct_result
       .map(&:itself)
-      .group_by { |r| DateTime.parse(r.fields['spent_on']) }
+      .group_by { |r| DateTime.parse(r.fields["spent_on"]) }
       .sort
-      .flat_map { |_, date_results| date_results.sort_by { |r| r.fields['id'] } }
+      .flat_map { |_, date_results| date_results.sort_by { |r| r.fields["id"] } }
   end
 end

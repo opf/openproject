@@ -36,18 +36,18 @@ module CustomActions
 
     def headers
       [
-        ['name', { caption: CustomAction.human_attribute_name(:name) }],
-        ['description', { caption: CustomAction.human_attribute_name(:description) }],
-        ['sort', { caption: I18n.t(:label_sort) }]
+        ["name", { caption: CustomAction.human_attribute_name(:name) }],
+        ["description", { caption: CustomAction.human_attribute_name(:description) }],
+        ["sort", { caption: I18n.t(:label_sort) }]
       ]
     end
 
     def inline_create_link
       link_to new_custom_action_path,
-              aria: { label: t('custom_actions.new') },
-              class: 'wp-inline-create--add-link',
-              title: t('custom_actions.new') do
-        helpers.op_icon('icon icon-add')
+              aria: { label: t("custom_actions.new") },
+              class: "wp-inline-create--add-link",
+              title: t("custom_actions.new") do
+        helpers.op_icon("icon icon-add")
       end
     end
   end

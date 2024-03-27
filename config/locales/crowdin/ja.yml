@@ -26,7 +26,8 @@ ja:
       no_results_title_text: この期間内にプロジェクトの活動はありませんでした。
   admin:
     plugins:
-      no_results_title_text: 現在利用可能なプラグインはありません。
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "カラーテーマ"
       color_theme_custom: "（カスタム）"
@@ -1497,6 +1498,7 @@ ja:
       postgres_migration: "PostgreSQL にインストールを移行しています"
       user_guides: "ユーザーガイド"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "用語集"
       shortcuts: "ショートカット"
       blog: "OpenProject ブログ"
@@ -1507,6 +1509,7 @@ ja:
   journals:
     changes_retracted: "変更は取り下げられました。"
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1828,7 +1831,6 @@ ja:
   label_subject_or_id: "タイトルまたはID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "法的情報"
   label_in: "今日から○日後"
   label_in_less_than: "今日から○日後以前"
   label_in_more_than: "今日から○日後以降"
@@ -2684,6 +2686,9 @@ ja:
   setting_apiv3_cors_origins: "API V3のオリジン間リソース共有 (CORS) が許可されています"
   setting_apiv3_cors_origins_text_html: >
     CORS が有効になっている場合、これらは OpenProject API へのアクセスが許可されている起源です。 <br/> 期待される値を指定する方法については、 <a href="%{origin_link}" target="_blank">Origin ヘッダー</a> のドキュメントを確認してください。
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -3061,6 +3066,7 @@ ja:
     status_user_and_brute_force: "%{user}かつ%{brute_force}"
     status_change: "ステータスの変更"
     text_change_disabled_for_provider_login: "名前はログインプロバイダーによって設定されるため、変更できません。"
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "ロックを解除"
     unlock_and_reset_failed_logins: "ロックを解除して、失敗したログイン数をリセットする"
   version_status_closed: "完了"

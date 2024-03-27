@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'md_to_pdf/core'
+require "md_to_pdf/core"
 
 module WorkPackage::PDFExport::Markdown
   class MD2PDF
@@ -64,7 +64,7 @@ module WorkPackage::PDFExport::Markdown
       if tag.text.blank?
         # <mention class="mention" data-id="46012" data-type="work_package" data-text="#46012"></mention>
         # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">
-        text = tag.attr('data-text')
+        text = tag.attr("data-text")
         if text.present? && !node.next.respond_to?(:string_content) && node.next.string_content != text
           return [text_hash(text, opts)]
         end
@@ -74,7 +74,7 @@ module WorkPackage::PDFExport::Markdown
     end
 
     def handle_unknown_inline_html_tag(tag, node, opts)
-      result = if tag.name == 'mention'
+      result = if tag.name == "mention"
                  handle_mention_html_tag(tag, node, opts)
                else
                  # unknown/unsupported html tags eg. <foo>hi</foo> are ignored

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'support/permission_specs'
+require "spec_helper"
+require "support/permission_specs"
 
-RSpec.describe MessagesController, 'edit_messages permission', type: :controller do
+RSpec.describe MessagesController, "edit_messages permission", type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for('messages#preview', :edit_messages)
+  check_permission_required_for("messages#preview", :edit_messages)
 end

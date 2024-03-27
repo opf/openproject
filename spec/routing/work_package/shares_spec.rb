@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'work package share routes' do
-  it 'connects DELETE /work_packages/shares/:id to work_packages/shares#delete' do
-    expect(delete('/work_packages/shares/5')).to route_to(controller: 'work_packages/shares',
-                                                          action: 'destroy',
-                                                          id: '5')
+RSpec.describe "work package share routes" do
+  it "connects DELETE /work_packages/shares/:id to work_packages/shares#delete" do
+    expect(delete("/work_packages/shares/5")).to route_to(controller: "work_packages/shares",
+                                                          action: "destroy",
+                                                          id: "5")
   end
 
-  it 'connects PATCH /work_packages/shares/:id to work_packages/shares#update' do
-    expect(patch('/work_packages/shares/5')).to route_to(controller: 'work_packages/shares',
-                                                         action: 'update',
-                                                         id: '5')
+  it "connects PATCH /work_packages/shares/:id to work_packages/shares#update" do
+    expect(patch("/work_packages/shares/5")).to route_to(controller: "work_packages/shares",
+                                                         action: "update",
+                                                         id: "5")
   end
 end

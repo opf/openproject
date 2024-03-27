@@ -1,4 +1,4 @@
-require_relative 'form_field'
+require_relative "form_field"
 
 module FormFields
   class EditorFormField < FormField

@@ -5,18 +5,18 @@ ms:
     description: "This module provides recaptcha checks during login."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
-    error_captcha: "Your account could not be verified. Please contact an administrator."
+    button_please_wait: 'Sila tunggu ...'
+    verify_account: "Sahkan akaun anda"
+    error_captcha: "Akaun anda tidak dapat disahkan. Sila hubungi pengurus."
     settings:
       website_key: 'Website key'
-      response_limit: 'Response limit for HCaptcha'
+      response_limit: 'Had tindak balas untuk Hcaptcha'
       response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
       secret_key: 'Secret key'
       secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
-      type: 'Use reCAPTCHA'
-      type_disabled: 'Disable reCAPTCHA'
+      type: 'Gunakan reCAPTCHA'
+      type_disabled: 'Nyahaktifkan reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       type_hcaptcha: 'HCaptcha'

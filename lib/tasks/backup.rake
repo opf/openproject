@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'pathname'
+require "pathname"
 
 namespace :backup do
   namespace :database do
-    desc 'Creates a database dump which can be used as a backup.'
+    desc "Creates a database dump which can be used as a backup."
     task :create, [:path_to_backup] => [:environment] do |_task, args|
       args.with_defaults(path_to_backup: default_db_filename)
       Pathname(args[:path_to_backup]).dirname.mkpath
@@ -48,9 +48,9 @@ namespace :backup do
       Kernel.system(pg_env, *pg_dump_call)
     end
 
-    desc 'Restores a database dump created by the :create task.'
+    desc "Restores a database dump created by the :create task."
     task :restore, [:path_to_backup] => [:environment] do |_task, args|
-      raise 'You must provide the path to the database dump' unless args[:path_to_backup]
+      raise "You must provide the path to the database dump" unless args[:path_to_backup]
       raise "File '#{args[:path_to_backup]}' is not readable" unless File.readable?(args[:path_to_backup])
 
       include OpenProject::PostgresEnvironment
@@ -73,19 +73,19 @@ namespace :backup do
 
     def default_db_filename
       filename = "openproject-#{Rails.env}-db-#{date_string}.backup"
-      Rails.root.join('backup', sanitize_filename(filename))
+      Rails.root.join("backup", sanitize_filename(filename))
     end
 
     def date_string
-      Time.now.strftime('%Y%m%dT%H%M%S%z') # e.g. "20141020T165335+0200"
+      Time.now.strftime("%Y%m%dT%H%M%S%z") # e.g. "20141020T165335+0200"
     end
 
     def sanitize_filename(filename)
-      filename.gsub(/[^0-9A-Za-z.-]/, '_')
+      filename.gsub(/[^0-9A-Za-z.-]/, "_")
     end
   end
 
-  desc 'Allows user-initiated backups right away, skipping the cooldown period after a new token was created.'
+  desc "Allows user-initiated backups right away, skipping the cooldown period after a new token was created."
   task allow_now: :environment do
     date = DateTime.now - OpenProject::Configuration.backup_initial_waiting_period
 

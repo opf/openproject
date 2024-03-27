@@ -20,31 +20,31 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-pt:
+pt-BR:
   js:
     gitlab_integration:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Problemas"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Solicitações de combinação"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Criar SC
+          description: Criar uma Solicitação de Combinação
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Trechos de código Git
+          description: Copiar trechos de código git para área de transferência
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Nome da ramificação
+          commit_message: Mensagem de confirmação
+          cmd: Criar ramificação com a confirmação vazia
+          title: Trechos de código rápido para Git
+          copy_success: '✅ Copiado!'
+          copy_error: '❌ Falha ao copiar!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Ainda não há problemas vinculados. Para vincular um problema existente, use o código <code>OP#%{wp_id}</code> (ou <code>PP#%{wp_id}</code> para links privados) no título ou descrição do problema. Você também pode criar um novo problema.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
+        empty: 'Ainda não há solicitações de combinação vinculadas. Para vincular uma SC existente, use o código <code>OP#%{wp_id}</code> (ou <code>PP#%{wp_id}</code> para links privados) no título ou descrição da SC. Você também pode criar um nova SC.'
       gitlab_pipelines: Pipelines
-      updated_on: Updated on
+      updated_on: Atualizado em

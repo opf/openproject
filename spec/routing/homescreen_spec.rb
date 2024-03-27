@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'homescreen routes' do
-  it '/ routes to homscreen#index' do
-    expect(get('/')).to route_to('homescreen#index')
+RSpec.describe "homescreen routes" do
+  it "/ routes to homscreen#index" do
+    expect(get("/")).to route_to("homescreen#index")
   end
 end

@@ -19,7 +19,7 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-pt:
+pt-BR:
   plugin_openproject_backlogs:
     name: "Backlogs OpenProject"
     description: "Este módulo acrescenta recursos que permitem que as equipes ágeis trabalhem com o OpenProject em projetos Scrum."

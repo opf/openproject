@@ -50,7 +50,7 @@ module ActionView
         def erroneous_object_identifier(id, method)
           # select boxes use name_id whereas the validation uses name
           # we have to cut the '_id' of in order for the field to match
-          id + '_' + method.gsub('_id', '') + '_error'
+          id + "_" + method.gsub("_id", "") + "_error"
         end
       end
 
@@ -60,11 +60,11 @@ module ActionView
             error_messages = []
 
             object.errors.each_error do |attr, error|
-              unless attr == 'custom_values'
+              unless attr == "custom_values"
                 # Generating unique identifier in order to jump directly to the field with the error
                 object_identifier = erroneous_object_identifier(object.object_id.to_s, attr)
 
-                error_messages << [object.class.human_attribute_name(attr) + ' ' + error.message, object_identifier]
+                error_messages << [object.class.human_attribute_name(attr) + " " + error.message, object_identifier]
               end
             end
 
@@ -76,7 +76,7 @@ module ActionView
                 value.errors.map do |attr, msg|
                   # Generating unique identifier in order to jump directly to the field with the error
                   object_identifier = erroneous_object_identifier(value.object_id.to_s, attr)
-                  error_messages << [value.custom_field.name + ' ' + msg, object_identifier]
+                  error_messages << [value.custom_field.name + " " + msg, object_identifier]
                 end
               end
             end
@@ -96,8 +96,8 @@ module ActionView
             content_tag :li do
               content_tag :a,
                           ERB::Util.html_escape(msg),
-                          href: '#' + identifier,
-                          class: 'afocus'
+                          href: "#" + identifier,
+                          class: "afocus"
             end
           end
         end
@@ -111,7 +111,7 @@ module ActionView
         to_date = to_date.to_date if to_date.respond_to?(:to_date)
         distance_in_days = (to_date - from_date).abs
 
-        I18n.with_options locale: options[:locale], scope: :'datetime.distance_in_words' do |locale|
+        I18n.with_options locale: options[:locale], scope: :"datetime.distance_in_words" do |locale|
           case distance_in_days
           when 0..60     then locale.t :x_days,             count: distance_in_days.round
           when 61..720   then locale.t :about_x_months,     count: (distance_in_days / 30).round
@@ -124,7 +124,7 @@ module ActionView
 end
 
 ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
-  if html_tag.include?('<label')
+  if html_tag.include?("<label")
     html_tag.to_s
   else
     ActionView::Base.wrap_with_error_span(html_tag, instance.object, instance.method_name)

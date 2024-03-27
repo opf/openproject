@@ -32,7 +32,7 @@ class BackfillTimeEntriesWithLoggedById < ActiveRecord::Migration[7.0]
       .where.not(user_id: User.select(:id))
       .update_all(user_id: DeletedUser.first.id)
 
-    TimeEntry.all.update_all('logged_by_id = user_id')
+    TimeEntry.all.update_all("logged_by_id = user_id")
   end
 
   def down

@@ -26,7 +26,8 @@ bg:
       no_results_title_text: There has not been any activity for the project within this time frame.
   admin:
     plugins:
-      no_results_title_text: В момента има няма плъгини на разположение.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Цвят на темата"
       color_theme_custom: "Потребителски"
@@ -1528,6 +1529,7 @@ bg:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Ръководства за потребителя"
       faq: "Често задавани въпроси"
+      impressum: "Legal notice"
       glossary: "Терминологичен речник"
       shortcuts: "Кратки клавишни комбинации"
       blog: "OpenProject блог"
@@ -1538,6 +1540,7 @@ bg:
   journals:
     changes_retracted: "The changes were retracted."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1859,7 +1862,6 @@ bg:
   label_subject_or_id: "Тема или №"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Legal notice"
   label_in: "в"
   label_in_less_than: "в по-малко от"
   label_in_more_than: "в повече от"
@@ -2717,6 +2719,9 @@ bg:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) позволява разрешения"
   setting_apiv3_cors_origins_text_html: >
     Ако CORS е активиран, това са източниците, на които е разрешен достъп до API на OpenProject. <br/> Моля, проверете <a href="%{origin_link}" target="_blank"> Документацията в заглавието Origin </a> за това как да посочите очакваните стойности.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -3095,6 +3100,7 @@ bg:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Отключване"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "затворен"

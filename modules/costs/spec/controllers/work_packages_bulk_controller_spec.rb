@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackages::BulkController do
   let(:project) { create(:project_with_types) }
@@ -39,8 +39,8 @@ RSpec.describe WorkPackages::BulkController do
     allow(User).to receive(:current).and_return user
   end
 
-  describe '#update' do
-    context 'when a cost report is assigned' do
+  describe "#update" do
+    context "when a cost report is assigned" do
       before do
         put :update, params: { ids: [work_package.id],
                                work_package: { budget_id: budget.id } }

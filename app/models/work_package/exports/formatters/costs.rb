@@ -38,9 +38,9 @@ module WorkPackage::Exports
 
       def number_format_string
         # [$CUR] makes sure we have an actually working currency format with arbitrary currencies
-        curr = "[$CUR]".gsub "CUR", ERB::Util.h(Setting.plugin_costs['costs_currency'])
-        format = ERB::Util.h Setting.plugin_costs['costs_currency_format']
-        number = '#,##0.00'
+        curr = "[$CUR]".gsub "CUR", ERB::Util.h(Setting.plugin_costs["costs_currency"])
+        format = ERB::Util.h Setting.plugin_costs["costs_currency_format"]
+        number = "#,##0.00"
 
         format.gsub("%n", number).gsub("%u", curr)
       end

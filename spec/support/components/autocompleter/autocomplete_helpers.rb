@@ -40,7 +40,7 @@ module Components::Autocompleter
       ##
       # Find the open dropdown
       list =
-        page.find(results_selector || '.ng-dropdown-panel-items', wait: 10)
+        page.find(results_selector || ".ng-dropdown-panel-items", wait: 10)
 
       scroll_to_element(list)
       list
@@ -58,7 +58,7 @@ module Components::Autocompleter
       query_element = if item_selector
                         target_dropdown.find(item_selector, text:)
                       else
-                        target_dropdown.find('.ng-option', text:)
+                        target_dropdown.find(".ng-option", text:)
                       end
       query_element.click
     end

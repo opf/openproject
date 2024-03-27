@@ -28,10 +28,10 @@
 
 class RenameCostObjectToBudget < ActiveRecord::Migration[6.0]
   def up
-    if primary_key_index_name(:cost_objects) != 'cost_objects_pkey'
+    if primary_key_index_name(:cost_objects) != "cost_objects_pkey"
       warn "Found unexpected primary key name. Fixing primary key names..."
 
-      require './db/migrate/20190502102512_ensure_postgres_index_names'
+      require "./db/migrate/20190502102512_ensure_postgres_index_names"
 
       EnsurePostgresIndexNames.new.up
     end
@@ -69,8 +69,8 @@ class RenameCostObjectToBudget < ActiveRecord::Migration[6.0]
       WHERE container_type = 'CostObject'
     SQL
 
-    rename_in_queries('cost_object', 'budget')
-    rename_in_cost_queries('CostObject', 'Budget')
+    rename_in_queries("cost_object", "budget")
+    rename_in_cost_queries("CostObject", "Budget")
 
     rename_column :budgets, :created_on, :created_at
     rename_column :budgets, :updated_on, :updated_at
@@ -100,8 +100,8 @@ class RenameCostObjectToBudget < ActiveRecord::Migration[6.0]
     rename_column :budgets, :created_at, :created_on
     rename_column :budgets, :updated_at, :updated_on
 
-    rename_in_queries('budget', 'cost_object')
-    rename_in_cost_queries('Budget', 'CostObject')
+    rename_in_queries("budget", "cost_object")
+    rename_in_cost_queries("Budget", "CostObject")
 
     execute <<~SQL.squish
       UPDATE attachments
@@ -189,6 +189,6 @@ class RenameCostObjectToBudget < ActiveRecord::Migration[6.0]
     table = connection.quote table_name
     sql = "SELECT indexname FROM pg_indexes WHERE tablename = #{table} AND indexdef LIKE '%(id)';"
 
-    connection.execute(sql).pluck('indexname').compact.first
+    connection.execute(sql).pluck("indexname").compact.first
   end
 end

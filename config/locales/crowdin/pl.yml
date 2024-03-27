@@ -26,13 +26,14 @@ pl:
       no_results_title_text: W tym okresie nie było żadnych działań związanych z projektem.
   admin:
     plugins:
-      no_results_title_text: Aktualnie nie ma dostępnych żadnych dodatków.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Kolor motywu"
       color_theme_custom: "(Niestandardowe)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        primary-button-color: "Przycisk główny"
+        accent-color: "Akcent"
         header-bg-color: "Tło nagłówka"
         header-item-bg-hover-color: "Tło nagłowka po najechaniu myszą"
         header-item-font-color: "Czcionka nagłówka"
@@ -51,8 +52,8 @@ pl:
       enterprise_more_info: "Uwaga: użyte logo będzie ogólnodostępne."
       manage_colors: "Edytuj kolor wybranych opcji"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        primary-button-color: "Silnie zaakcentowany kolor, stosowany do najważniejszego przycisku na ekranie."
+        accent-color: "Kolor linków i innych ostatnio wyróżnionych elementów."
         header-item-bg-hover-color: "Kolor tła nagłówkowych elementów po najechaniu myszą."
         header-item-font-color: "Kolor czcionki elementów nagłówkowych."
         header-item-font-hover-color: "Kolor czcionki elementów nagłówkowych po najechaniu myszą."
@@ -265,8 +266,8 @@ pl:
       new:
         placeholder: "Nowa lista projektów"
       delete_modal:
-        title: "Delete project list"
-        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
+        title: "Usuń listę projektów"
+        text: "To działanie nie spowoduje usunięcia żadnego projektu znajdującego się na liście. Czy na pewno chcesz usunąć tę listę projektów?"
     settings:
       change_identifier: Identyfikator zmiany
       activities:
@@ -289,7 +290,7 @@ pl:
       storage:
         no_results_title_text: Nie ma dodatkowego zarejestrowanego miejsca na dysku zużytego przez ten projekt.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    can_be_saved_as: "Modyfikacje można zapisać tylko na nowej liście."
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
@@ -843,8 +844,8 @@ pl:
               forbidden: "Znaczniki czasu zawierają niedozwolone wartości: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: "The 'Name' column needs to be included"
-              nonexistent: "The column '%{column}' does not exist."
+              name_not_included: "Należy uwzględnić kolumnę „Nazwa”"
+              nonexistent: "Kolumna „%{column}” nie istnieje."
               format: "%{message}"
           group_by_hierarchies_exclusive: "wzajemnie się wykluczają w ramach grupowania wg \"%{group_by}\". Nie można aktywować równocześnie."
           filters:
@@ -1214,7 +1215,7 @@ pl:
   button_reset: "Reset"
   button_rollback: "Wycofaj do tej wersji"
   button_save: "Zapisz"
-  button_save_as: "Save as"
+  button_save_as: "Zapisz jako"
   button_apply_changes: "Zastosuj zmiany"
   button_save_back: "Zapisz i wróć"
   button_show: "Pokaż"
@@ -1579,6 +1580,7 @@ pl:
       postgres_migration: "Migrowanie instalacji do PostgreSQL"
       user_guides: "Przewodniki"
       faq: "Najczęściej Zadawane Pytania"
+      impressum: "Informacje prawne"
       glossary: "Słownik"
       shortcuts: "Podpowiedzi"
       blog: "Blog OpenProject"
@@ -1589,6 +1591,7 @@ pl:
   journals:
     changes_retracted: "Zmiany zostały wycofane."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Daty zostały zmienione"
       system_update: "Aktualizacja systemu OpenProjekt:"
     cause_descriptions:
@@ -1835,7 +1838,7 @@ pl:
   label_diff_side_by_side: "Obok siebie"
   label_digital_accessibility: "Dostępność cyfrowa (DE)"
   label_disabled: "wyłączone"
-  label_disabled_uppercase: "Disabled"
+  label_disabled_uppercase: "Wyłączono"
   label_display: "Wyświetlanie"
   label_display_per_page: "Na stronę: %{value}"
   label_display_used_statuses_only: "Tylko wyświetla statusy, które są używane przez ten typ"
@@ -1910,7 +1913,6 @@ pl:
   label_subject_or_id: "Temat lub identyfikator"
   label_calendar_subscriptions: "Subskrypcje Kalendarza"
   label_identifier: "Identyfikator"
-  label_impressum: "Informacje prawne"
   label_in: "w"
   label_in_less_than: "w mniej niż"
   label_in_more_than: "w ponad"
@@ -2063,7 +2065,7 @@ pl:
   label_precedes: "Poprzedza"
   label_preferences: "Preferencje"
   label_preview: "Podgląd"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "(Podgląd niedostępny)"
   label_previous: "Poprzedni"
   label_previous_week: "Poprzedni tygodzień"
   label_principal_invite_via_email: " lub zaproś nowych użytkowników przez email"
@@ -2653,7 +2655,7 @@ pl:
     name_or_identifier: "Nazwa lub identyfikator"
     only_subproject_id: "Tylko podprojekt"
     shared_with_user: "Udostępniono użytkownikowi"
-    shared_with_me: "Shared with me"
+    shared_with_me: "Udostępnione dla mnie"
     subproject_id: "Uwzględniając podprojekt"
   repositories:
     at_identifier: "w %{identifier}"
@@ -2769,6 +2771,9 @@ pl:
   setting_apiv3_cors_origins: "Dozwolone źródła mechanizmu Cross-Origin Resource Sharing (CORS) interfejsu API V3"
   setting_apiv3_cors_origins_text_html: >
     Jeśli mechanizm CORS jest włączony, są to źródła, których dostęp do interfejsu API OpenProject jest dozwolony. <br/> Sprawdź w <a href="%{origin_link}" target="_blank">dokumentacji nagłówka origin</a> jak należy określić oczekiwane wartości.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maksymalny rozmiar strony interfejsu API"
   setting_apiv3_max_page_instructions_html: >
     Ustaw maksymalny rozmiar strony, którą będzie odpowiadać interfejs API. Nie będzie możliwe wykonanie żądań interfejsu API, które zwracają więcej wartości na jednej stronie. <br/> <strong>Ostrzeżenie:</strong> zmień tę wartość tylko mając pewność, dlaczego jej potrzebujesz. Ustawienie wysokiej wartości będzie mieć znaczące skutki dla wydajności, podczas gdy wartość niższa niż opcje liczby elementów na stronie spowodują błędy w widokach stronicowanych.
@@ -2802,7 +2807,7 @@ pl:
   setting_brute_force_block_minutes: "Czas, kiedy użytkownik jest zablokowany"
   setting_cache_formatted_text: "Tekst sformatowany w pamięci podręcznej"
   setting_use_wysiwyg_description: "Wybierz, aby włączyć edytor WYSIWYG CKEditor5 domyślnie dla wszystkich użytkowników. CKEditor ma ograniczną funkcjonalność w przypadku dialektu GFM Markdown."
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "Domyślne kolumny listy pakietów roboczych"
   setting_commit_fix_keywords: "Stałe słowa kluczowe"
   setting_commit_logs_encoding: "Commit messages encoding"
   setting_commit_logtime_activity_id: "Aktywność dla logowania czasu pracy"
@@ -2824,7 +2829,7 @@ pl:
   setting_emails_header: "Nagłówek wiadomości e-mail"
   setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
-  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
+  setting_enabled_projects_columns: "Kolumny wyświetlane domyślnie na liście projektów"
   setting_feeds_enabled: "Włącz kanały"
   setting_ical_enabled: "Włącz subskrypcje iCalendar"
   setting_feeds_limit: "Feed content limit"
@@ -2900,7 +2905,7 @@ pl:
       remaining_scan_complete_html: >
         Pozostałe pliki zostały przeskanowane. W kwarantannie znajduje się %{file_count} plików. Zostaną Państwo przekierowani na stronę kwarantanny. Proszę użyć tej strony, aby usunąć lub zastąpić pliki poddane kwarantannie.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Skanowanie antywirusowe zostało włączone. Niektóre pliki (%{file_count}) zostały przesłane wcześniej i nadal wymagają skanowania. Proces ten został zaplanowany w tle. Pliki pozostaną dostępne podczas skanowania.
       upsale:
         description: "Upewnij się, że przesłane do OpenProject pliki  są przeskanowane pod kątem wirusów, zanim będą dostępne dla innych użytkowników."
       actions:
@@ -2942,7 +2947,7 @@ pl:
     projects:
       missing_dependencies: "Sprawdzono moduł projektu %{module}, który zależy od %{dependencies}. Musisz sprawdzić również te zależności."
       section_new_projects: "Ustawienia nowych projektów"
-      section_project_overview: "Settings for project lists"
+      section_project_overview: "Ustawienia list projektów"
     session: "Sesja"
     user:
       default_preferences: "Ustawienia domyślne"
@@ -3108,11 +3113,11 @@ pl:
   queries:
     apply_filter: Zastosuj wstępny filtr
     configure_view:
-      heading: Configure view
+      heading: Konfiguruj widok
       columns:
-        input_label: "Add columns"
-        input_placeholder: "Select a column"
-        drag_area_label: "Manage and reorder columns"
+        input_label: "Dodaj kolumny"
+        input_placeholder: "Wybierz kolumnę"
+        drag_area_label: "Zarządzaj kolumnami i zmieniaj ich kolejność"
   top_menu:
     additional_resources: "Dodatkowe zasoby"
     getting_started: "Pierwsze kroki"
@@ -3149,6 +3154,7 @@ pl:
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Zmiana statusu"
     text_change_disabled_for_provider_login: "Nazwa jest ustawiana przez dostawcę usług logowania i dlatego nie można jej zmienić."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Odblokuj"
     unlock_and_reset_failed_logins: "Odblokuj i resetuj nieudane logowania"
   version_status_closed: "Zamknięte"

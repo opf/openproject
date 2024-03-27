@@ -19,7 +19,7 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-pt:
+pt-PT:
   js:
     ajax:
       hide: "Ocultar"
@@ -352,7 +352,7 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                A versão contém uma série de novas funcionalidades e melhorias: <br> <ul class="%{list_styling_class}"> <li>Integração com o GitLab (originalmente desenvolvido por colaboradores da Comunidade)</li> <li>Funcionalidades avançadas para listas de projetos personalizadas</li> <li>Funcionalidades avançadas para o módulo Reuniões</li> <li>Funcionalidade de verificação de vírus com o ClamAV (suplemento Enterprise)</li> <li>Exportação de PDF: são suportadas listas em células de tabela</li> <li>O WebAuthn/FIDO/U2F foi adicionado como um segundo fator</li> <li>Foram adicionados mais idiomas ao conjunto disponível por defeito</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."

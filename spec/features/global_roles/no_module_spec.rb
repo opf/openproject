@@ -26,23 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'mock_global_permissions'
+require "spec_helper"
+require_relative "mock_global_permissions"
 
-RSpec.describe 'Global role: No module', :js, :with_cuprite do
+RSpec.describe "Global role: No module", :js, :with_cuprite do
   let(:admin) { create(:admin) }
   let(:project) { create(:project) }
   let!(:role) { create(:project_role) }
 
   # Scenario:
   # Given there is the global permission "glob_test" of the module "global"
-  include_context 'with mocked global permissions', [['global_perm1', { project_module: :global }]]
+  include_context "with mocked global permissions", [["global_perm1", { project_module: :global }]]
 
   before do
     login_as admin
   end
 
-  it 'Global Rights Modules do not exist as Project -> Settings -> Modules' do
+  it "Global Rights Modules do not exist as Project -> Settings -> Modules" do
     # And there is 1 project with the following:
     # | name       | test |
     # | identifier | test |
@@ -51,7 +51,7 @@ RSpec.describe 'Global role: No module', :js, :with_cuprite do
     #                                                     Then I should not see "Global"
     visit project_settings_modules_path(project)
 
-    expect(page).to have_text 'Activity'
-    expect(page).to have_no_text 'Foo'
+    expect(page).to have_text "Activity"
+    expect(page).to have_no_text "Foo"
   end
 end

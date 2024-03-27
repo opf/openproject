@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Workflow copy' do
+RSpec.describe "Workflow copy" do
   let(:role) { create(:project_role) }
   let(:type) { create(:type) }
   let(:admin)  { create(:admin) }
@@ -45,16 +45,16 @@ RSpec.describe 'Workflow copy' do
   current_user { admin }
 
   before do
-    visit url_for(controller: '/workflows', action: :copy)
+    visit url_for(controller: "/workflows", action: :copy)
   end
 
-  it 'shows existing types and roles' do
+  it "shows existing types and roles" do
     select(role.name, from: :source_role_id)
-    within('#source_role_id') do
+    within("#source_role_id") do
       expect(page).to have_content(role.name)
       expect(page).to have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
     end
-    within('#source_type_id') do
+    within("#source_type_id") do
       expect(page).to have_content(type.name)
       expect(page).to have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
     end

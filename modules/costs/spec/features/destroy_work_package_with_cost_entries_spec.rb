@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
-RSpec.describe 'Deleting time entries', :js do
+RSpec.describe "Deleting time entries", :js do
   let(:project) { work_package.project }
   let(:user) do
     create(:user,
@@ -44,7 +44,7 @@ RSpec.describe 'Deleting time entries', :js do
   let(:work_package) { create(:work_package) }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
   let(:cost_type) do
-    type = create(:cost_type, name: 'Translations')
+    type = create(:cost_type, name: "Translations")
     create(:cost_rate,
            cost_type: type,
            rate: 7.00)
@@ -63,7 +63,7 @@ RSpec.describe 'Deleting time entries', :js do
            user:)
   end
 
-  it 'allows to move the time entry to a different work package' do
+  it "allows to move the time entry to a different work package" do
     login_as(user)
 
     work_package
@@ -74,18 +74,18 @@ RSpec.describe 'Deleting time entries', :js do
     wp_page.visit!
 
     SeleniumHubWaiter.wait
-    find_by_id('action-show-more-dropdown-menu').click
+    find_by_id("action-show-more-dropdown-menu").click
 
-    click_link(I18n.t('js.button_delete'))
+    click_link(I18n.t("js.button_delete"))
 
     destroy_modal.expect_listed(work_package)
     destroy_modal.confirm_deletion
 
     SeleniumHubWaiter.wait
-    choose 'to_do_action_reassign'
-    fill_in 'to_do_reassign_to_id', with: other_work_package.id
+    choose "to_do_action_reassign"
+    fill_in "to_do_reassign_to_id", with: other_work_package.id
 
-    click_button(I18n.t('button_delete'))
+    click_button(I18n.t("button_delete"))
 
     table = Pages::WorkPackagesTable.new(project)
     table.expect_current_path
@@ -93,6 +93,6 @@ RSpec.describe 'Deleting time entries', :js do
     other_wp_page = Pages::FullWorkPackage.new(other_work_package)
     other_wp_page.visit!
 
-    wp_page.expect_attributes costs_by_type: '2 Translations'
+    wp_page.expect_attributes costs_by_type: "2 Translations"
   end
 end

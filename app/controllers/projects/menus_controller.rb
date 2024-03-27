@@ -41,9 +41,9 @@ module Projects
       [
         OpenProject::Menu::MenuGroup.new(header: nil,
                                          children: static_filters),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t(:'projects.lists.my_private'),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"projects.lists.my_private"),
                                          children: my_filters),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t(:'activerecord.attributes.project.status_code'),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:"activerecord.attributes.project.status_code"),
                                          children: static_status_filters)
       ]
     end

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe API::V3::ProjectStorages::ProjectStorageRepresenter do
@@ -37,73 +37,73 @@ RSpec.describe API::V3::ProjectStorages::ProjectStorageRepresenter do
 
   let(:user) { build_stubbed(:user) }
 
-  let(:project_storage) { build_stubbed(:project_storage, project_folder_mode: 'manual', project_folder_id: '1337') }
+  let(:project_storage) { build_stubbed(:project_storage, project_folder_mode: "manual", project_folder_id: "1337") }
 
   let(:representer) { described_class.new(project_storage, current_user: user) }
 
   subject { representer.to_json }
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
+  describe "properties" do
+    it_behaves_like "property", :_type do
       let(:value) { representer._type }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { project_storage.id }
     end
 
-    it_behaves_like 'datetime property', :createdAt do
+    it_behaves_like "datetime property", :createdAt do
       let(:value) { project_storage.created_at }
     end
 
-    it_behaves_like 'datetime property', :updatedAt do
+    it_behaves_like "datetime property", :updatedAt do
       let(:value) { project_storage.updated_at }
     end
 
-    it_behaves_like 'property', :projectFolderMode do
+    it_behaves_like "property", :projectFolderMode do
       let(:value) { project_storage.project_folder_mode }
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'storage' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "storage" }
       let(:href) { api_v3_paths.storage(project_storage.storage.id) }
       let(:title) { project_storage.storage.name }
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'project' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "project" }
       let(:href) { api_v3_paths.project(project_storage.project.id) }
       let(:title) { project_storage.project.name }
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'creator' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "creator" }
       let(:href) { api_v3_paths.user(project_storage.creator.id) }
       let(:title) { project_storage.creator.name }
     end
 
-    it_behaves_like 'has an untitled link' do
-      let(:link) { 'projectFolder' }
+    it_behaves_like "has an untitled link" do
+      let(:link) { "projectFolder" }
       let(:href) { api_v3_paths.storage_file(project_storage.storage.id, project_storage.project_folder_id) }
     end
 
-    it_behaves_like 'has an untitled link' do
-      let(:link) { 'open' }
+    it_behaves_like "has an untitled link" do
+      let(:link) { "open" }
       let(:href) { api_v3_paths.project_storage_open(project_storage.id) }
     end
 
-    context 'when storage is not configured' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'openWithConnectionEnsured' }
+    context "when storage is not configured" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "openWithConnectionEnsured" }
         let(:href) { nil }
       end
     end
 
-    context 'when storage is not configured' do
+    context "when storage is not configured" do
       before { project_storage.storage = create(:nextcloud_storage_configured) }
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'openWithConnectionEnsured' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "openWithConnectionEnsured" }
         let(:href) { ensure_connection_path(project_storage) }
       end
     end

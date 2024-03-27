@@ -1,4 +1,4 @@
-pt:
+pt-PT:
   plugin_openproject_ldap_groups:
     name: "Grupos LDAP do OpenProject"
     description: "Sincronização de associações de grupos LDAP."

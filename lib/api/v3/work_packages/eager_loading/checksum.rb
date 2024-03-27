@@ -48,7 +48,7 @@ module API
               WorkPackage
                 .where(id: work_packages.map(&:id).uniq)
                 .left_joins(*checksum_associations)
-                .pluck('work_packages.id', Arel.sql(md5_concat.squish))
+                .pluck("work_packages.id", Arel.sql(md5_concat.squish))
                 .to_h
             end
 
@@ -73,9 +73,9 @@ module API
             def md5_checksum_table_name(association_name)
               case association_name
               when :responsible
-                'responsibles_work_packages'
+                "responsibles_work_packages"
               when :assigned_to
-                'assigned_tos_work_packages'
+                "assigned_tos_work_packages"
               else
                 association_class(association_name).table_name
               end

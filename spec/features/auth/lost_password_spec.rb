@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Lost password' do
+RSpec.describe "Lost password" do
   let!(:user) { create(:user) }
   let(:new_password) { "new_PassW0rd!" }
 
-  it 'allows logging in after having lost the password' do
+  it "allows logging in after having lost the password" do
     visit account_lost_password_path
 
     # shows same flash for invalid and existing users
-    fill_in 'mail', with: 'invalid mail'
-    click_on 'Submit'
+    fill_in "mail", with: "invalid mail"
+    click_on "Submit"
 
-    expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+    expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_account_lost_email_sent))
 
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to be 0
 
-    fill_in 'mail', with: user.mail
-    click_on 'Submit'
-    expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+    fill_in "mail", with: user.mail
+    click_on "Submit"
+    expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_account_lost_email_sent))
 
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to be 1
@@ -55,12 +55,12 @@ RSpec.describe 'Lost password' do
     token = Token::Recovery.first
     visit account_lost_password_path(token: token.value)
 
-    fill_in 'New password', with: new_password
-    fill_in 'Confirmation', with: new_password
+    fill_in "New password", with: new_password
+    fill_in "Confirmation", with: new_password
 
-    click_button 'Save'
+    click_button "Save"
 
-    expect(page).to have_css('.op-toast.-info', text: I18n.t(:notice_account_password_updated))
+    expect(page).to have_css(".op-toast.-info", text: I18n.t(:notice_account_password_updated))
 
     login_with user.login, new_password
 
@@ -68,44 +68,44 @@ RSpec.describe 'Lost password' do
       .to have_current_path(my_page_path)
   end
 
-  context 'when user has an auth source' do
-    let!(:ldap_auth_source) { create(:ldap_auth_source, name: 'Foo') }
+  context "when user has an auth source" do
+    let!(:ldap_auth_source) { create(:ldap_auth_source, name: "Foo") }
     let!(:user) { create(:user, ldap_auth_source:) }
 
-    it 'sends an email with external auth info' do
+    it "sends an email with external auth info" do
       visit account_lost_password_path
 
       # shows same flash for invalid and existing users
-      fill_in 'mail', with: user.mail
-      click_on 'Submit'
+      fill_in "mail", with: user.mail
+      click_on "Submit"
 
-      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_account_lost_email_sent))
 
       perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.size).to be 1
       mail = ActionMailer::Base.deliveries.first
-      expect(mail.subject).to eq I18n.t('mail_password_change_not_possible.title')
-      expect(mail.body.parts.first.body.to_s).to include 'Foo'
+      expect(mail.subject).to eq I18n.t("mail_password_change_not_possible.title")
+      expect(mail.body.parts.first.body.to_s).to include "Foo"
     end
   end
 
-  context 'when user has identity_url' do
-    let!(:user) { create(:user, identity_url: 'saml:foobar') }
+  context "when user has identity_url" do
+    let!(:user) { create(:user, identity_url: "saml:foobar") }
 
-    it 'sends an email with external auth info' do
+    it "sends an email with external auth info" do
       visit account_lost_password_path
 
       # shows same flash for invalid and existing users
-      fill_in 'mail', with: user.mail
-      click_on 'Submit'
+      fill_in "mail", with: user.mail
+      click_on "Submit"
 
-      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_account_lost_email_sent))
 
       perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.size).to be 1
       mail = ActionMailer::Base.deliveries.first
-      expect(mail.subject).to eq I18n.t('mail_password_change_not_possible.title')
-      expect(mail.body.parts.first.body.to_s).to include 'Saml'
+      expect(mail.subject).to eq I18n.t("mail_password_change_not_possible.title")
+      expect(mail.body.parts.first.body.to_s).to include "Saml"
     end
   end
 end

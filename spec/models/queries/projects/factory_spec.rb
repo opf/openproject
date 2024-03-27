@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_columns: %w[name project_status] } do
   let!(:query_finder) do
@@ -46,8 +46,26 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
   let(:persisted_query) do
     build_stubbed(:project_query) do |query|
       query.order(id: :asc)
-      query.where(:project_status, '=', [Project.status_codes[:on_track].to_s])
+      query.where(:project_status, "=", [Project.status_codes[:on_track].to_s])
       query.select(:project_status, :name, :created_at)
+    end
+  end
+  let(:custom_field) do
+    build_stubbed(:project_custom_field, id: 1) do |cf|
+      scope = instance_double(ActiveRecord::Relation)
+
+      allow(ProjectCustomField)
+        .to receive(:visible)
+              .and_return(scope)
+
+      allow(scope)
+        .to receive(:find_by)
+              .and_return nil
+
+      allow(scope)
+        .to receive(:find_by)
+              .with(id: cf.id.to_s)
+              .and_return(cf)
     end
   end
 
@@ -56,385 +74,389 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
 
   current_user { build_stubbed(:user) }
 
-  describe '.find' do
+  describe ".find" do
     subject(:find) { described_class.find(id, params:, user: current_user) }
 
-    context 'without id' do
-      it 'returns a project query' do
+    context "without id" do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has a name' do
+      it "has a name" do
         expect(find.name)
-          .to eql(I18n.t('projects.lists.active'))
+          .to eql(I18n.t("projects.lists.active"))
       end
 
-      it 'has a filter for active projects' do
+      it "has a filter for active projects" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:active, '=', ['t']]])
+          .to eq([[:active, "=", ["t"]]])
       end
 
-      it 'is ordered by lft asc' do
+      it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([['lft', :asc]])
+          .to eq([["lft", :asc]])
       end
 
-      it 'has the enabled project columns columns as selects' do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'without id and with ee and admin privileges',
+    context "without id and with ee and admin privileges",
             with_ee: %i[custom_fields_in_projects_list],
             with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
       current_user { build_stubbed(:admin) }
 
-      it 'has the enabled project columns columns as selects' do
+      before do
+        custom_field
+      end
+
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'with the \'active\' id' do
-      let(:id) { 'active' }
+    context "with the 'active' id" do
+      let(:id) { "active" }
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has a name' do
+      it "has a name" do
         expect(find.name)
-          .to eql(I18n.t('projects.lists.active'))
+          .to eql(I18n.t("projects.lists.active"))
       end
 
-      it 'has a filter for active projects' do
+      it "has a filter for active projects" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:active, '=', ['t']]])
+          .to eq([[:active, "=", ["t"]]])
       end
 
-      it 'is ordered by lft asc' do
+      it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([['lft', :asc]])
+          .to eq([["lft", :asc]])
       end
 
-      it 'has the enabled project columns columns as selects' do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'with the \'my\' id' do
-      let(:id) { 'my' }
+    context "with the 'my' id" do
+      let(:id) { "my" }
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has a name' do
+      it "has a name" do
         expect(find.name)
-          .to eql(I18n.t('projects.lists.my'))
+          .to eql(I18n.t("projects.lists.my"))
       end
 
-      it 'has a filter for projects the user is a member of' do
+      it "has a filter for projects the user is a member of" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:member_of, '=', ['t']]])
+          .to eq([[:member_of, "=", ["t"]]])
       end
 
-      it 'is ordered by lft asc' do
+      it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([['lft', :asc]])
+          .to eq([["lft", :asc]])
       end
 
-      it 'has the enabled project columns columns as selects' do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'with the \'archived\' id' do
-      let(:id) { 'archived' }
+    context "with the 'archived' id" do
+      let(:id) { "archived" }
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has a name' do
+      it "has a name" do
         expect(find.name)
-          .to eql(I18n.t('projects.lists.archived'))
+          .to eql(I18n.t("projects.lists.archived"))
       end
 
-      it 'has a filter for archived projects' do
+      it "has a filter for archived projects" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:active, '=', ['f']]])
+          .to eq([[:active, "=", ["f"]]])
       end
 
-      it 'is ordered by lft asc' do
+      it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([['lft', :asc]])
+          .to eq([["lft", :asc]])
       end
 
-      it 'has the enabled project columns columns as selects' do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'with the \'on_track\' id' do
-      let(:id) { 'on_track' }
+    context "with the 'on_track' id" do
+      let(:id) { "on_track" }
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has a name' do
+      it "has a name" do
         expect(find.name)
-          .to eql(I18n.t('activerecord.attributes.project.status_codes.on_track'))
+          .to eql(I18n.t("activerecord.attributes.project.status_codes.on_track"))
       end
 
       it 'has a filter for projects that are "on track"' do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:project_status_code, '=', [Project.status_codes[:on_track].to_s]]])
+          .to eq([[:project_status_code, "=", [Project.status_codes[:on_track].to_s]]])
       end
 
-      it 'is ordered by lft asc' do
+      it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([['lft', :asc]])
+          .to eq([["lft", :asc]])
       end
 
-      it 'has the enabled project columns columns as selects' do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'with the \'off_track\' id' do
-      let(:id) { 'off_track' }
+    context "with the 'off_track' id" do
+      let(:id) { "off_track" }
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has a name' do
+      it "has a name" do
         expect(find.name)
-          .to eql(I18n.t('activerecord.attributes.project.status_codes.off_track'))
+          .to eql(I18n.t("activerecord.attributes.project.status_codes.off_track"))
       end
 
       it 'has a filter for projects that are "off track"' do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:project_status_code, '=', [Project.status_codes[:off_track].to_s]]])
+          .to eq([[:project_status_code, "=", [Project.status_codes[:off_track].to_s]]])
       end
 
-      it 'is ordered by lft asc' do
+      it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([['lft', :asc]])
+          .to eq([["lft", :asc]])
       end
 
-      it 'has the enabled project columns columns as selects' do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'with the \'at_risk\' id' do
-      let(:id) { 'at_risk' }
+    context "with the 'at_risk' id" do
+      let(:id) { "at_risk" }
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has a name' do
+      it "has a name" do
         expect(find.name)
-          .to eql(I18n.t('activerecord.attributes.project.status_codes.at_risk'))
+          .to eql(I18n.t("activerecord.attributes.project.status_codes.at_risk"))
       end
 
       it 'has a filter for projects that are "at risk"' do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:project_status_code, '=', [Project.status_codes[:at_risk].to_s]]])
+          .to eq([[:project_status_code, "=", [Project.status_codes[:at_risk].to_s]]])
       end
 
-      it 'is ordered by lft asc' do
+      it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([['lft', :asc]])
+          .to eq([["lft", :asc]])
       end
 
-      it 'has the enabled project columns columns as selects' do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'with an integer id for which the user has a query' do
+    context "with an integer id for which the user has a query" do
       let(:id) { 42 }
 
-      it 'returns the persisted query' do
+      it "returns the persisted query" do
         expect(find)
           .to eql(persisted_query)
       end
     end
 
-    context 'with an integer id for which the user does not have a persisted query' do
+    context "with an integer id for which the user does not have a persisted query" do
       let(:id) { 42 }
       let(:persisted_query) { nil }
 
-      it 'returns nil' do
+      it "returns nil" do
         expect(find)
           .to be_nil
       end
     end
 
-    context 'without an id and with params' do
+    context "without an id and with params" do
       let(:id) { nil }
       let(:params) do
         {
           filters: [
             {
-              attribute: 'active',
-              operator: '=',
-              values: ['f']
+              attribute: "active",
+              operator: "=",
+              values: ["f"]
             },
             {
-              attribute: 'member_of',
-              operator: '=',
-              values: ['t']
+              attribute: "member_of",
+              operator: "=",
+              values: ["t"]
             }
           ],
           orders: [
             {
-              attribute: 'id',
-              direction: 'asc'
+              attribute: "id",
+              direction: "asc"
             },
             {
-              attribute: 'name',
-              direction: 'desc'
+              attribute: "name",
+              direction: "desc"
             }
           ],
           selects: %w[created_at name]
         }
       end
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has no name' do
+      it "has no name" do
         expect(find.name)
           .to be_nil
       end
 
-      it 'has the filters applied' do
+      it "has the filters applied" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:active, '=', ['f']], [:member_of, '=', ['t']]])
+          .to eq([[:active, "=", ["f"]], [:member_of, "=", ["t"]]])
       end
 
-      it 'has the orders applied' do
+      it "has the orders applied" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([['id', :asc], ['name', :desc]])
+          .to eq([["id", :asc], ["name", :desc]])
       end
 
-      it 'has the selects' do
+      it "has the selects" do
         expect(find.selects.map(&:attribute))
           .to eq(%i[created_at name])
       end
     end
 
-    context 'with the \'active\' id and with order params' do
-      let(:id) { 'active' }
+    context "with the 'active' id and with order params" do
+      let(:id) { "active" }
       let(:params) do
         {
           orders: [
             {
-              attribute: 'id',
-              direction: 'asc'
+              attribute: "id",
+              direction: "asc"
             },
             {
-              attribute: 'name',
-              direction: 'desc'
+              attribute: "name",
+              direction: "desc"
             }
           ]
         }
       end
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has no name' do
+      it "has no name" do
         expect(find.name)
           .to be_nil
       end
 
-      it 'has the filters of the default \'active\' query applied' do
+      it "has the filters of the default 'active' query applied" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:active, '=', ['t']]])
+          .to eq([[:active, "=", ["t"]]])
       end
 
-      it 'has the orders overwritten' do
+      it "has the orders overwritten" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([['id', :asc], ['name', :desc]])
+          .to eq([["id", :asc], ["name", :desc]])
       end
 
-      it 'has the enabled project columns columns as selects' do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'with the \'active\' id and with filter params' do
+    context "with the 'active' id and with filter params" do
       let(:id) { nil }
       let(:params) do
         {
           filters: [
             {
-              attribute: 'active',
-              operator: '=',
-              values: ['f']
+              attribute: "active",
+              operator: "=",
+              values: ["f"]
             },
             {
-              attribute: 'member_of',
-              operator: '=',
-              values: ['t']
+              attribute: "member_of",
+              operator: "=",
+              values: ["t"]
             }
           ]
         }
       end
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has no name' do
+      it "has no name" do
         expect(find.name)
           .to be_nil
       end
 
-      it 'has the filters overwritten' do
+      it "has the filters overwritten" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:active, '=', ['f']], [:member_of, '=', ['t']]])
+          .to eq([[:active, "=", ["f"]], [:member_of, "=", ["t"]]])
       end
 
-      it 'has the orders of the default \'active\' query applied' do
+      it "has the orders of the default 'active' query applied" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([%i[lft asc]])
       end
 
-      it 'has the enabled project columns columns as selects' do
+      it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
-    context 'with the \'active\' id and with select params' do
+    context "with the 'active' id and with select params" do
       let(:id) { nil }
       let(:params) do
         {
@@ -442,121 +464,121 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
         }
       end
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'has no name' do
+      it "has no name" do
         expect(find.name)
           .to be_nil
       end
 
-      it 'has the filters of the default \'active\' query applied' do
+      it "has the filters of the default 'active' query applied" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:active, '=', ['t']]])
+          .to eq([[:active, "=", ["t"]]])
       end
 
-      it 'has the orders of the default \'active\' query applied' do
+      it "has the orders of the default 'active' query applied" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([%i[lft asc]])
       end
 
-      it 'has the selects overwritten' do
+      it "has the selects overwritten" do
         expect(find.selects.map(&:attribute))
           .to eq(%i[created_at project_status])
       end
     end
 
-    context 'with an integer id for which the user has a query and with filter params' do
+    context "with an integer id for which the user has a query and with filter params" do
       let(:id) { 42 }
       let(:params) do
         {
           filters: [
             {
-              attribute: 'active',
-              operator: '=',
-              values: ['f']
+              attribute: "active",
+              operator: "=",
+              values: ["f"]
             },
             {
-              attribute: 'member_of',
-              operator: '=',
-              values: ['t']
+              attribute: "member_of",
+              operator: "=",
+              values: ["t"]
             }
           ]
         }
       end
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'keeps the name' do
+      it "keeps the name" do
         expect(find.name)
           .to eql(persisted_query.name)
       end
 
-      it 'has the filters overwritten' do
+      it "has the filters overwritten" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-          .to eq([[:active, '=', ['f']], [:member_of, '=', ['t']]])
+          .to eq([[:active, "=", ["f"]], [:member_of, "=", ["t"]]])
       end
 
-      it 'has the orders of the persisted query' do
+      it "has the orders of the persisted query" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq(persisted_query.orders.map { |order| [order.attribute, order.direction] })
       end
 
-      it 'has the selects of the persisted query' do
+      it "has the selects of the persisted query" do
         expect(find.selects.map(&:attribute))
           .to eq(persisted_query.selects.map(&:attribute))
       end
     end
 
-    context 'with an integer id for which the user has a query and with order params' do
+    context "with an integer id for which the user has a query and with order params" do
       let(:id) { 42 }
       let(:params) do
         {
           orders: [
             {
-              attribute: 'id',
-              direction: 'asc'
+              attribute: "id",
+              direction: "asc"
             },
             {
-              attribute: 'name',
-              direction: 'desc'
+              attribute: "name",
+              direction: "desc"
             }
           ]
         }
       end
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'keeps the name' do
+      it "keeps the name" do
         expect(find.name)
           .to eql(persisted_query.name)
       end
 
-      it 'has the filters of the persisted query' do
+      it "has the filters of the persisted query" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
           .to eq(persisted_query.filters.map { |filter| [filter.field, filter.operator, filter.values] })
       end
 
-      it 'has the orders overwritten' do
+      it "has the orders overwritten" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq [["id", :asc], ["name", :desc]]
       end
 
-      it 'has the selects of the persisted query' do
+      it "has the selects of the persisted query" do
         expect(find.selects.map(&:attribute))
           .to eq(persisted_query.selects.map(&:attribute))
       end
     end
 
-    context 'with an integer id for which the user has a query and with select params' do
+    context "with an integer id for which the user has a query and with select params" do
       let(:id) { 42 }
       let(:params) do
         {
@@ -564,238 +586,251 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
         }
       end
 
-      it 'returns a project query' do
+      it "returns a project query" do
         expect(find)
           .to be_a(Queries::Projects::ProjectQuery)
       end
 
-      it 'keeps the name' do
+      it "keeps the name" do
         expect(find.name)
           .to eql(persisted_query.name)
       end
 
-      it 'has the filters of the persisted query' do
+      it "has the filters of the persisted query" do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
           .to eq(persisted_query.filters.map { |filter| [filter.field, filter.operator, filter.values] })
       end
 
-      it 'has the orders of the persisted query' do
+      it "has the orders of the persisted query" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq(persisted_query.orders.map { |order| [order.attribute, order.direction] })
       end
 
-      it 'has the selects specified by the params' do
+      it "has the selects specified by the params" do
         expect(find.selects.map(&:attribute))
           .to eq(%i[created_at project_status])
       end
     end
 
-    context 'with an integer id for which the user does not have a query and with params' do
+    context "with an integer id for which the user does not have a query and with params" do
       let(:id) { 42 }
       let(:persisted_query) { nil }
       let(:params) do
         {
           filters: [
             {
-              attribute: 'active',
-              operator: '=',
-              values: ['f']
+              attribute: "active",
+              operator: "=",
+              values: ["f"]
             },
             {
-              attribute: 'member_of',
-              operator: '=',
-              values: ['t']
+              attribute: "member_of",
+              operator: "=",
+              values: ["t"]
             }
           ],
           orders: [
             {
-              attribute: 'id',
-              direction: 'asc'
+              attribute: "id",
+              direction: "asc"
             },
             {
-              attribute: 'name',
-              direction: 'desc'
+              attribute: "name",
+              direction: "desc"
             }
           ]
         }
       end
 
-      it 'returns nil' do
+      it "returns nil" do
         expect(find)
           .to be_nil
       end
     end
+
+    context "without id, as non admin and with a non existing custom field id",
+            with_ee: %i[custom_fields_in_projects_list],
+            with_settings: { enabled_projects_columns: %w[name created_at cf_1 cf_42] } do
+      before do
+        custom_field
+      end
+
+      it "has only the available fields (non admin only and only existing cf)" do
+        expect(find.selects.map(&:attribute))
+          .to eq(%i[name cf_1]) # rubocop:disable Naming/VariableNumber
+      end
+    end
   end
 
-  describe '.static_query_active' do
+  describe ".static_query_active" do
     subject(:find) { described_class.static_query_active }
 
-    it 'returns a project query' do
+    it "returns a project query" do
       expect(find)
         .to be_a(Queries::Projects::ProjectQuery)
     end
 
-    it 'has a name' do
+    it "has a name" do
       expect(find.name)
-        .to eql(I18n.t('projects.lists.active'))
+        .to eql(I18n.t("projects.lists.active"))
     end
 
-    it 'has a filter for active projects' do
+    it "has a filter for active projects" do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:active, '=', ['t']]])
+        .to eq([[:active, "=", ["t"]]])
     end
 
-    it 'is ordered by lft asc' do
+    it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([['lft', :asc]])
+        .to eq([["lft", :asc]])
     end
 
-    it 'has the enabled project columns columns as selects' do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
   end
 
-  describe '.static_query_my' do
+  describe ".static_query_my" do
     subject(:find) { described_class.static_query_my }
 
-    it 'returns a project query' do
+    it "returns a project query" do
       expect(find)
         .to be_a(Queries::Projects::ProjectQuery)
     end
 
-    it 'has a name' do
+    it "has a name" do
       expect(find.name)
-        .to eql(I18n.t('projects.lists.my'))
+        .to eql(I18n.t("projects.lists.my"))
     end
 
-    it 'has a filter for projects the user is a member of' do
+    it "has a filter for projects the user is a member of" do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:member_of, '=', ['t']]])
+        .to eq([[:member_of, "=", ["t"]]])
     end
 
-    it 'is ordered by lft asc' do
+    it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([['lft', :asc]])
+        .to eq([["lft", :asc]])
     end
 
-    it 'has the enabled project columns columns as selects' do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
   end
 
-  describe '.static_query_archived' do
+  describe ".static_query_archived" do
     subject(:find) { described_class.static_query_archived }
 
-    it 'returns a project query' do
+    it "returns a project query" do
       expect(find)
         .to be_a(Queries::Projects::ProjectQuery)
     end
 
-    it 'has a name' do
+    it "has a name" do
       expect(find.name)
-        .to eql(I18n.t('projects.lists.archived'))
+        .to eql(I18n.t("projects.lists.archived"))
     end
 
-    it 'has a filter for archived projects' do
+    it "has a filter for archived projects" do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:active, '=', ['f']]])
+        .to eq([[:active, "=", ["f"]]])
     end
 
-    it 'is ordered by lft asc' do
+    it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([['lft', :asc]])
+        .to eq([["lft", :asc]])
     end
 
-    it 'has the enabled project columns columns as selects' do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
   end
 
-  describe '.static_query_status_on_track' do
+  describe ".static_query_status_on_track" do
     subject(:find) { described_class.static_query_status_on_track }
 
-    it 'returns a project query' do
+    it "returns a project query" do
       expect(find)
         .to be_a(Queries::Projects::ProjectQuery)
     end
 
-    it 'has a name' do
+    it "has a name" do
       expect(find.name)
-        .to eql(I18n.t('activerecord.attributes.project.status_codes.on_track'))
+        .to eql(I18n.t("activerecord.attributes.project.status_codes.on_track"))
     end
 
     it 'has a filter for project that are "on track"' do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:project_status_code, '=', [Project.status_codes[:on_track].to_s]]])
+        .to eq([[:project_status_code, "=", [Project.status_codes[:on_track].to_s]]])
     end
 
-    it 'is ordered by lft asc' do
+    it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([['lft', :asc]])
+        .to eq([["lft", :asc]])
     end
 
-    it 'has the enabled project columns columns as selects' do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
   end
 
-  describe '.static_query_status_off_track' do
+  describe ".static_query_status_off_track" do
     subject(:find) { described_class.static_query_status_off_track }
 
-    it 'returns a project query' do
+    it "returns a project query" do
       expect(find)
         .to be_a(Queries::Projects::ProjectQuery)
     end
 
-    it 'has a name' do
+    it "has a name" do
       expect(find.name)
-        .to eql(I18n.t('activerecord.attributes.project.status_codes.off_track'))
+        .to eql(I18n.t("activerecord.attributes.project.status_codes.off_track"))
     end
 
     it 'has a filter for projects that are "off track"' do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:project_status_code, '=', [Project.status_codes[:off_track].to_s]]])
+        .to eq([[:project_status_code, "=", [Project.status_codes[:off_track].to_s]]])
     end
 
-    it 'is ordered by lft asc' do
+    it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([['lft', :asc]])
+        .to eq([["lft", :asc]])
     end
 
-    it 'has the enabled project columns columns as selects' do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
   end
 
-  describe '.static_query_status_at_risk' do
+  describe ".static_query_status_at_risk" do
     subject(:find) { described_class.static_query_status_at_risk }
 
-    it 'returns a project query' do
+    it "returns a project query" do
       expect(find)
         .to be_a(Queries::Projects::ProjectQuery)
     end
 
-    it 'has a name' do
+    it "has a name" do
       expect(find.name)
-        .to eql(I18n.t('activerecord.attributes.project.status_codes.at_risk'))
+        .to eql(I18n.t("activerecord.attributes.project.status_codes.at_risk"))
     end
 
     it 'has a filter for projects that are "at risk"' do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
-        .to eq([[:project_status_code, '=', [Project.status_codes[:at_risk].to_s]]])
+        .to eq([[:project_status_code, "=", [Project.status_codes[:at_risk].to_s]]])
     end
 
-    it 'is ordered by lft asc' do
+    it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([['lft', :asc]])
+        .to eq([["lft", :asc]])
     end
 
-    it 'has the enabled project columns columns as selects' do
+    it "has the enabled_project_columns columns as selects" do
       expect(find.selects.map(&:attribute))
         .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end

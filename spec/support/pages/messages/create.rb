@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/messages/base'
+require "support/pages/messages/base"
 
 module Pages::Messages
   class Create < ::Pages::Messages::Base
@@ -37,15 +37,15 @@ module Pages::Messages
     end
 
     def set_subject(subject)
-      fill_in 'Subject', with: subject
+      fill_in "Subject", with: subject
     end
 
     def add_text(text)
-      find('.ck-content').base.send_keys text
+      find(".ck-content").base.send_keys text
     end
 
     def click_save
-      click_button 'Create'
+      click_button "Create"
     end
 
     def created_message

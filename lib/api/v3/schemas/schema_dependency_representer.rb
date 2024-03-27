@@ -48,7 +48,7 @@ module API
         alias :dependencies :represented
 
         def _type
-          'SchemaDependency'
+          "SchemaDependency"
         end
       end
     end

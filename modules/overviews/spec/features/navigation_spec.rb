@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Navigate to overview', :js do
+RSpec.describe "Navigate to overview", :js do
   let(:project) { create(:project) }
   let(:permissions) { [] }
   let(:user) do
@@ -40,16 +40,16 @@ RSpec.describe 'Navigate to overview', :js do
     login_as user
   end
 
-  it 'can visit the overview page' do
+  it "can visit the overview page" do
     visit project_path(project)
 
-    within '#menu-sidebar' do
+    within "#menu-sidebar" do
       click_link "Overview"
     end
 
-    within '#content' do
+    within "#content" do
       expect(page)
-        .to have_content('Overview')
+        .to have_content("Overview")
     end
   end
 end

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe "POST /api/v3/grids/form for Board Grids", content_type: :json do
   include Rack::Test::Methods
@@ -55,15 +55,15 @@ RSpec.describe "POST /api/v3/grids/form for Board Grids", content_type: :json do
     login_as(current_user)
   end
 
-  describe '#post' do
+  describe "#post" do
     before do
-      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      post path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    context 'with a valid boards scope' do
+    context "with a valid boards scope" do
       let(:params) do
         {
-          name: 'foo',
+          name: "foo",
           _links: {
             scope: {
               href: project_work_package_boards_path(project)
@@ -72,12 +72,12 @@ RSpec.describe "POST /api/v3/grids/form for Board Grids", content_type: :json do
         }
       end
 
-      it 'contains default data in the payload' do
+      it "contains default data in the payload" do
         expected = {
           rowCount: 1,
           columnCount: 4,
           widgets: [],
-          name: 'foo',
+          name: "foo",
           options: {},
           _links: {
             attachments: [],
@@ -90,23 +90,23 @@ RSpec.describe "POST /api/v3/grids/form for Board Grids", content_type: :json do
 
         expect(subject.body)
           .to be_json_eql(expected.to_json)
-          .at_path('_embedded/payload')
+          .at_path("_embedded/payload")
       end
 
-      it 'has no validationErrors' do
+      it "has no validationErrors" do
         expect(subject.body)
           .to be_json_eql({}.to_json)
-          .at_path('_embedded/validationErrors')
+          .at_path("_embedded/validationErrors")
       end
 
-      it 'has a commit link' do
+      it "has a commit link" do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.grids.to_json)
-          .at_path('_links/commit/href')
+          .at_path("_links/commit/href")
       end
     end
 
-    context 'with boards scope for which the user does not have the necessary permissions' do
+    context "with boards scope for which the user does not have the necessary permissions" do
       let(:current_user) { prohibited_user }
       let(:params) do
         {
@@ -118,14 +118,14 @@ RSpec.describe "POST /api/v3/grids/form for Board Grids", content_type: :json do
         }
       end
 
-      it 'has a validationError on scope' do
+      it "has a validationError on scope" do
         expect(subject.body)
           .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
-          .at_path('_embedded/validationErrors/scope/message')
+          .at_path("_embedded/validationErrors/scope/message")
       end
     end
 
-    context 'with an invalid boards scope' do
+    context "with an invalid boards scope" do
       let(:params) do
         {
           _links: {
@@ -136,17 +136,17 @@ RSpec.describe "POST /api/v3/grids/form for Board Grids", content_type: :json do
         }
       end
 
-      it 'has a validationError on scope' do
+      it "has a validationError on scope" do
         expect(subject.body)
           .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
-          .at_path('_embedded/validationErrors/scope/message')
+          .at_path("_embedded/validationErrors/scope/message")
       end
     end
 
-    context 'with an unsupported widget identifier' do
+    context "with an unsupported widget identifier" do
       let(:params) do
         {
-          name: 'foo',
+          name: "foo",
           _links: {
             attachments: [],
             scope: {
@@ -167,10 +167,10 @@ RSpec.describe "POST /api/v3/grids/form for Board Grids", content_type: :json do
         }
       end
 
-      it 'has a validationError on widget' do
+      it "has a validationError on widget" do
         expect(subject.body)
           .to be_json_eql("Widgets is not set to one of the allowed values.".to_json)
-          .at_path('_embedded/validationErrors/widgets/message')
+          .at_path("_embedded/validationErrors/widgets/message")
       end
     end
   end

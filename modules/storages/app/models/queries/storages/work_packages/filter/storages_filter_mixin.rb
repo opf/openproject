@@ -68,7 +68,7 @@ module Queries::Storages::WorkPackages::Filter::StoragesFilterMixin
   end
 
   def additional_where_condition
-    ''
+    ""
   end
 
   def joins
@@ -76,6 +76,6 @@ module Queries::Storages::WorkPackages::Filter::StoragesFilterMixin
   end
 
   def unescape_hosts(hosts)
-    hosts.map { |host| CGI.unescape(host).gsub(/\/+$/, '') }
+    hosts.map { |host| CGI.unescape(host).gsub(/\/+$/, "") }
   end
 end

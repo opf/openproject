@@ -7,728 +7,728 @@ ms:
     bim:
       priorities:
         item_0:
-          name: Low
+          name: Rendah
         item_1:
           name: Normal
         item_2:
-          name: High
+          name: Tinggi
         item_3:
-          name: Critical
+          name: Penting
       statuses:
         item_0:
-          name: New
+          name: Baharu
         item_1:
-          name: In progress
+          name: Dalam proses
         item_2:
-          name: Resolved
+          name: Diselesaikan
         item_3:
-          name: Closed
+          name: Tutup
       time_entry_activities:
         item_0:
-          name: Management
+          name: Pengurusan
         item_1:
-          name: Specification
+          name: Spesifikasi
         item_2:
-          name: Other
+          name: Lain-lain
       types:
         item_0:
-          name: Task
+          name: Tugasan
         item_1:
-          name: Milestone
+          name: Pencapaian
         item_2:
-          name: Phase
+          name: Fasa
         item_3:
-          name: Issue
+          name: Isu
         item_4:
-          name: Remark
+          name: Ulasan
         item_5:
-          name: Request
+          name: Permintaan
         item_6:
-          name: Clash
+          name: Konflik
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'Jadual tetap: Kanak-kanak'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: Children
+              group_name: Kanak-kanak
       groups:
         item_0:
-          name: Architects
+          name: Arkitek
         item_1:
-          name: BIM Coordinators
+          name: Penyelaras BIM
         item_2:
-          name: BIM Managers
+          name: Pengurus BIM
         item_3:
-          name: BIM Modellers
+          name: Pemodel BIM
         item_4:
-          name: Lead BIM Coordinators
+          name: Ketua penyelaras BIM
         item_5:
-          name: MEP Engineers
+          name: Jurutera MEP
         item_6:
-          name: Planners
+          name: Perancang
         item_7:
-          name: Structural Engineers
+          name: Jurutera Struktur
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Selamat datang ke OpenProject edisi BIM!
         text: |
-          Checkout the demo projects to get started with some examples.
+          Lihat demo projek untuk mula dengan beberapa contoh.
 
-          * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
-              * [(Demo) Planning & constructing]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Classical planning and construction management.
-              * [(Demo) Bim project]({{opSetting:base_url}}/projects/demo-bim-project): BIM process and coordination.
-                  * [(Demo) BCF management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF management.
+          * [(Demo) Projek Pembinaan]({{opSetting:base_url}}/projects/demo-construction-project): Perancangan, proses BIM, pengurusan BCF, dan pembinaan, semua sepintas lalu.
+              * [(Demo) Perancangan & pembinaan]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Perancangan klasik dan pengurusan pembinaan.
+              * [(Demo) Projek BIM]({{opSetting:base_url}}/projects/demo-bim-project): Proses dan koordinasi BIM.
+                  * [(Demo) Pengurusan BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project): Pengurusan BCF.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          Anda juga boleh mencipta [projek baru]({{opSetting:base_url}}/projects/new) yang baru.
 
-          Never stop collaborating. With open source and open mind.
+          Jangan berhenti bekerjasama. Dengan sumber dan minda terbuka.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Anda boleh mengubah teks ucapan selamat datang ini [sini]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Demo) Projek pembinaan"
+          status_explanation: Semua tugasan dan sub-projek mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini lengkap sepenuhnya.
+          description: Ini adalah ringkasan pendek matlamat projek pembinaan demo ini.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Selamat datang ke projek demo anda
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Kami gembira anda menyertai.
+                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan.
+              description: Berita sebenar
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (untuk diubah dalam seting Projek)
           queries:
             item_0:
-              name: Project plan
+              name: Pelan projek
             item_1:
-              name: Milestones
+              name: Pencapaian
             item_2:
-              name: Tasks
+              name: Tugasan
             item_3:
-              name: Team planner
+              name: Perancang pasukan
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Aliran kerja tarik dan lepas yang ringkas
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
-                  name: Getting started
+                  name: Sedang bermula
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Kami gembira anda menyertai! Kami cadangkan beberapa perkara untuk bermula di OpenProject.
 
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+                    Sebelum anda teruskan, anda harus tahu projek contoh ini terbahagi kepada dua projek yang berbeza:
 
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+                    1.  [Projek Pembinaan]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Disini anda akan jumpa peranan klasik, beberapa aliran kerja dan pakej kerja untuk projek pembinaan anda.
+                    2.  [Mencipta Model BIM]({{opSetting:base_url}}/projects/demo-bim-project): Projek ini juga menawarkan peranan, aliran kerja dan pakej kerja tetapi secara khususnya dalam konteks BIM.
 
-                    _Try the following steps:_
+                    _Cuba ikuti langkah berikut:_
 
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    1.  _Jemput ahli baru ke projek anda_: → Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-construction-project/members) dalam navigasi projek.
+                    2.  _Paparkan kerja di dalam projek anda_: → Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    3.  _Cipta pakej pekerjaan yang baru_: → Pergi ke [Pakej kerja → Cipta]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Cipta dan kemaskini carta Gantt_: → Pergi ke [Carta Gantt]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    5.  _Mengaktifkan modul lanjutan_: → Pergi ke [Seting projek → Modul]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
+                    6.  _Lihat paparan til untuk dapatkan gambar keseluruhan isu BCF anda:_ → Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    7.  _Pemangkin kerja? Semak board kami yang baru:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Disini anda akan jumpa [Panduan Pengguna](https://www.openproject.org/docs/user-guide/) kami.
+                    Sila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan sokongan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: Ahli
               item_5:
                 options:
-                  name: Work packages
+                  name: Pakej kerja
               item_6:
                 options:
-                  name: Milestones
+                  name: Pencapaian
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "(Demo) Perancangan & pembinaan"
+          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini lengkap sepenuhnya.
+          description: Ini adalah ringkasan pendek matlamat projek demo pembinaan dan pembangunan ini.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Selamat datang ke projek demo anda
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Kami gembira anda menyertai.
+                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan.
+              description: Berita sebenar
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (untuk diubah dalam seting Projek)
           queries:
             item_0:
-              name: Project plan
+              name: Pelan projek
             item_1:
-              name: Milestones
+              name: Pencapaian
             item_2:
-              name: Tasks
+              name: Tugasan
             item_3:
-              name: Team planner
+              name: Perancang pasukan
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
-                  name: Getting started
+                  name: Sedang bermula
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Kami gembira anda menyertai! Kami cadangkan beberapa perkara untuk bermula di OpenProject.
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    Disini anda akan menjumpai peranan klasik, beberapa aliran kerja dan pakej kerja untuk projek pembinaan anda.
 
-                    _Try the following steps:_
+                    _Cuba ikuti langkah berikut:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Jemput ahli baru ke projek anda:_ → Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) dalam navigasi projek.
+                    2.  _Lihat kerja dalam projek anda:_ → Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    3.  _Cipta satu pakej kerja baru:_ → Pergi ke [Pakej kerja → Cipta]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Cipta dan kemaskini carta Gantt:_ → Pergi ke [Carta Gantt]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    5.  _Aktifkan modul lanjutan:_ → Pergi ke [Seting Projek → Modul]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    6.  _Pemangkin kerja? Cipta satu board baharu:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Di sini anda akan menemui [Panduan Pengguna](https://www.openproject.org/docs/user-guide/) kami.
+                    Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: Ahli
               item_5:
                 options:
-                  name: Work packages
+                  name: Pakej kerja
               item_6:
                 options:
-                  name: Milestones
+                  name: Pencapaian
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Permulaan projek dengan projek pembinaan
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                Permulaan projek menandakan permulaan projek di dalam syarikat anda. Setiap orang yang menjadi sebahagian daripada projek ini perlu dijemput untuk menyertai taklimat pertama projek.
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Langkah seterusnya adalah menyemak jadual waktu dan menyesuaikan temujanji dengan melihat [Carta Gantt]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Basic evaluation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Penilaian asas
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Pengumpulan maklumat projek pertama
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    *   Menetapkan tugasan mengikut keperluan pelanggan
+                    *   Penganggaran jangka waktu dan kos akan ditetapkan
 
-                    ## Description
+                    ## Huraian
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    *   Mengenalpasti keperluan pelanggan dengan mengadakan bengkel bersama mereka
+                    *   Setiap keperluan akan mewakili satu tugasan dengan pakej tugasan yang sepadan
+                    *   Menyimpulkan anggaran kos dan jangka waktu
                 item_1:
-                  subject: Summarize the results
+                  subject: Simpulkan hasil
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Cipta rumusan hasil yang bermanfaat
+                    *   Periksa apa yang telah dilakukan dan ringkaskan hasil
+                    *   Menyampaikan hasil berkaitan kepada pelanggan
+                    *   Mengenal pasti asas kondisi garis sempadan projek ini
 
-                    ## Description
+                    ## Huraian
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Setiap topik dapat rumusan sendiri yang akan digunakan untuk katalog result
+                    *   Rumusan ini memberitahu semua peserta tentang keputusan yang dilakukan
                     *   ...
                 item_2:
-                  subject: End of basic evaluation
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Penghujung penilaian asas
+                  description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_2:
-              subject: Preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Perancangan awal
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
               children:
                 item_0:
-                  subject: Developing first draft
+                  subject: Pembinaan draf pertama
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Cipta rumusan hasil yang bermanfaat
+                    *   Periksa apa yang telah dilakukan dan ringkaskan hasil
+                    *   Menyampaikan hasil berkaitan kepada pelanggan
+                    *   Mengenal pasti asas kondisi batas projek ini
 
-                    ## Description
+                    ## Huraian
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Setiap topik dapat rumusan sendiri yang akan digunakan untuk katalog result
+                    *   Rumusan ini memberitahu semua peserta tentang keputusan yang dilakukan
                     *   ...
                 item_1:
-                  subject: Summarize results
+                  subject: Simpulkan hasil
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   Cipta rumusan hasil yang bermanfaat
+                    *   Periksa apa yang telah dilakukan dan ringkaskan hasil
+                    *   Menyampaikan hasil berkaitan kepada pelanggan
+                    *   Mengenal pasti asas kondisi batas projek ini
 
-                    ## Description
+                    ## Huraian
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   Setiap topik dapat rumusan sendiri yang akan digunakan untuk katalog result
+                    *   Rumusan ini memberitahu semua peserta tentang keputusan yang dilakukan
                     *   ...
             item_3:
-              subject: Passing of preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Keluluskan perancangan awal
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_4:
-              subject: Design planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Perancangan reka bentuk
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
               children:
                 item_0:
-                  subject: Finishing design
+                  subject: Reka bentuk terakhir
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Design is done
-                    *   All parties are happy with the results of the design planning phase
+                    *   Reka bentuk selesai
+                    *   Semua pihak berpuas hati dengan hasil fasa perancangan reka bentuk
 
-                    ## Description
+                    ## Huraian
 
-                    *   The design of the project will be finished
-                    *   All parties agree on the design
-                    *   The owner is happy with the results
+                    *   Reka bentuk projek akan disiapkan
+                    *   Semua pihak bersetuju dengan reka bentuk
+                    *   Pemilik berpuas hati dengan dengan hasil
                     *   ...
                 item_1:
-                  subject: Design freeze
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Pembekuan reka bentuk
+                  description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_5:
-              subject: Construction phase
+              subject: Fasa pembinaan
               children:
                 item_0:
-                  subject: Start constructing
+                  subject: Mulakan pembinaan
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Ground breaking ceremony
-                    *   Setting up the construction site
+                    *   Majlis pecah tanah
+                    *   Menyediakan tapak pembinaan
                     *   ...
 
-                    ## Description
+                    ## Huraian
 
-                    *   Preparing the site for the project
-                    *   Get the team together
+                    *   Menyediakan tapak untuk projek
+                    *   Kumpulkan pasukan
                     *   ...
                 item_1:
-                  subject: Foundation
+                  subject: Asas
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Laying of the foundation stone
+                    *   Penempatan batu asas
                     *   ...
 
-                    ## Description
+                    ## Huraian
 
-                    *   Setting up the concrete mixer
-                    *   Setting up the supply chain for the concrete
+                    *   Pemasangan pengadun konkrit
+                    *   Pengurusan rantai bekalan bagi konkrit
                     *   ...
                 item_2:
-                  subject: Building construction
+                  subject: Pembinaan bangunan
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Topping out ceremony
-                    *   Walls and ceilings are done
+                    *   Upacara penamat
+                    *   Dinding dan siling siap dilakukan
                     *   ...
 
-                    ## Description
+                    ## Huraian
 
-                    *   Creating all structural levels of the building
-                    *   Installing doors and windows
-                    *   Finishing the roof structure
+                    *   Mencipta struktur bangunan semua aras
+                    *   Memasang pintu dan tingkap
+                    *   Menyiapkan struktur bumbung
                     *   ...
                 item_3:
-                  subject: Finishing the facade
+                  subject: Menyiapkan muka bangunan
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Facade is done
-                    *   Whole building is waterproof
+                    *   Muka bangunan siap
+                    *   Seluruh bangunan adalah tahan air
                     *   ...
 
-                    ## Description
+                    ## Huraian
 
-                    *   Install all elements for the facade
-                    *   Finish the roof
+                    *   Pasang semua elemen untuk muka bangunan
+                    *   Siapkan bumbung
                     *   ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Pemasangan sistem perkhidmatan bangunan
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   All building service systems are ready to be used
+                    *   Semua sistem perkhidmatan bangunan sedia untuk digunakan
 
-                    ## Description
+                    ## Huraian
 
-                    *   Installing the heating system
-                    *   Installing the climate system
-                    *   Electrical installation
+                    *   Pemasangan sistem haba
+                    *   Pemasangan sistem cuaca
+                    *   Pemasangan elektrik
                     *   ...
                 item_5:
-                  subject: Final touches
+                  subject: Sentuhan terakhir
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Handover of the keys
-                    *   The customer is happy with his building
+                    *   Penyerahan kunci
+                    *   Pelanggan berpuas hati dengan bangunannya
                     *   ...
 
-                    ## Description
+                    ## Huraian
 
-                    *   Finishing the installation of the building service systems
-                    *   Finishing the interior construction
-                    *   Finishing the facade
+                    *   Menyiapkan pemasangan sistem perkhidmatan bangunan
+                    *   Menyiapkan pembinaan dalaman
+                    *   Menyiapkan muka bangunan
                     *   ...
                 item_6:
-                  subject: House warming party
+                  subject: Majlis perasmian rumah baru
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Have a blast!
+                    *   Nikmatilah!
 
-                    ## Description
+                    ## Huraian
 
-                    *   Invite the construction team
-                    *   Invite your friends
-                    *   Bring some drinks, snacks and your smile
+                    *   Jemput ahli pembinaan
+                    *   Jemput rakan-rakan anda
+                    *   Bawa minuman, snek, dan senyuman anda
         demo-bim-project:
-          name: "(Demo) BIM project"
-          status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BIM project.
+          name: "(Demo) Projek BIM"
+          status_explanation: Semua tugasan dan sub-projek mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini lengkap sepenuhnya.
+          description: Ini adalah ringkasan singkat matlamat projek demo BIM ini.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Selamat datang ke projek demo anda
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Kami gembira anda menyertai.
+                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan.
+              description: Berita sebenar
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (untuk diubah dalam seting Projek)
           queries:
             item_0:
-              name: Project plan
+              name: Pelan projek
             item_1:
-              name: Milestones
+              name: Pencapaian
             item_2:
-              name: Tasks
+              name: Tugasan
             item_3:
-              name: Team planner
+              name: Perancang pasukan
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
-                  name: Getting started
+                  name: Bermula
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Kami gembira anda menyertai! Kami cadangkan beberapa perkara untuk bermula di OpenProject.
 
-                    This demo project offers roles, workflows and work packages that are specialized for BIM.
+                    Projek demo ini menawarkan peranan, aliran kerja dan pakej pekerjaan yang mengkhususkan kepada BIM.
 
-                    _Try the following steps:_
+                    _Cuba ikuti langkah berikut:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    1.  _Jemput ahli baru ke projek anda:_ → Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-bim-project/members) dalam navigasi projek.
+                    2.  _Muat naik dan paparkan model 3d dalam format IFC:_ → Pergi ke [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) dalam navigasi projek.
+                    3.  _Cipta dan urus isu BCF yang berkaitan dalam model IFC:_ → Pergi ke [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Cipta.
+                    4.  _Lihat kerja dalam projek anda:_ → Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    5.  _Cipta satu pakej pekerjaan baharu:_ → Pergi ke [Pakej kerja → Cipta]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    6.  _Cipta dan kemaskini carta Gantt:_ → Pergi ke [Carta Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dalam navigasi projek.
+                    7.  _Aktifkan modul lanjutan:_ → Pergi ke [Seting Projek → Modul]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
+                    8.  _Semak paparan til untuk mendapatkan gambaran keseluruhan mengenai isu-isu BCF anda:_ → Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Pemangkin kerja? Cipta satu panel baru:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Di sini anda akan menemui [Panduan pengguna](https://www.openproject.org/docs/user-guide/) kami.
+                    Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: Ahli
               item_5:
                 options:
-                  name: Work packages
+                  name: Pakej pekerjaan
               item_6:
                 options:
-                  name: Milestones
+                  name: Pencapaian
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: Memulakan projek dengan mencipta model BIM
               description: |-
-                The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+                Permulaan projek menandakan permulaan projek di dalam syarikat anda. Setiap orang yang menjadi sebahagian daripada projek ini perlu dijemput untuk menyertai taklimat pertama projek.
 
-                The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Langkah seterusnya adalah menyemak jadual waktu dan menyesuaikan temujanji dengan melihat [Carta Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Project preparation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Penyediaan projek
+              description: Jenis ini adalah induk bagi jenis &quot;Clash&quot; dan &quot;Request&quot;, oleh itu mewakili catatan umum.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Mengumpulkan data khusus projek dan maklumat untuk model BIM
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    *   Kenal pasti strategi maklumat untuk pelanggan (seperti dengan menggunakan soalan mudah difahami)
+                    *   Jika disediakan, analisis keperluan dan matlamat pelanggan untuk menggunakan model BIM
+                    *   Definisikan strategi penghantaran maklumat berdasarkan keperluan pelanggan
 
-                    ## Description
+                    ## Huraian
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
+                    *   Menganalisis keperluan dan matlamat pelanggan untuk menggunakan model BIM
+                    *   Hasil tugasan ini sepatutnya:
+                    *   Keperluan untuk projek ini
+                    *   Satu strategi untuk fasa penyampaian
                     *   ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: Mencipta pelan pelaksanaan BIM
                   description: |-
-                    # Goal
+                    # Matlamat
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    *   Satu pelan pelaksanaan BIM akan ditakrifkan mengikut Spesifikasi Keperluan Pertukaran (ERS)
+                    *   Semua ahli pasukan dan rakan kongsi mempunyai rancangan untuk mencapai matlamat projek
 
-                    # Description
+                    # Huraian
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
+                    *   Berdasarkan pada kes penggunaan yang dikenal pasti, Manual Penghantaran Maklumat individu akan ditakrifkan
+                    *   Untuk mengendalikan antara muka teknologi, topologi perisian akan ditakrifkan, dianalisis, dan disahkan
                     *   ...
                 item_2:
-                  subject: Completion of the BIM execution plan
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Penyempurnaan pelan pelaksanaan BIM
+                  description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_2:
-              subject: End of preparation phase
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Pengakhiran fasa penyediaan
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_3:
-              subject: Creating initial BIM model
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Mencipta model BIM awal
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Pemodelan model BIM awal
                   description: |-
-                    # Goal
+                    # Matlamat
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    *   Pemodelan model BIM awal
+                    *   Mencipta model BIM untuk seluruh pasukan projek
 
-                    # Description
+                    # Huraian
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
+                    *   Berdasarkan data yang dikumpulkan daripada pelanggan, model awal akan dimodelkan
+                    *   Model tersebut akan dimodelkan mengikut matriks LOD dan mengandungi maklumat yang diperlukan
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Semakan model awal dalaman dan pembetulan
                   description: |-
-                    # Goal
+                    # Matlamat
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   Menghantar model BIM mengikut piawaian yang ditakrifkan
 
-                    # Description
+                    # Huraian
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
+                    *   Model berikut akan diperiksa, mengikut piawaian yang ditakrifkan (konvensyen, LOD, ...) dan disemak
                     *   ...
                 item_2:
-                  subject: Submitting initial BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Menghantar model BIM awal
+                  description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_4:
-              subject: Modelling, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Pemodelan, kitaran pertama
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
               children:
                 item_0:
-                  subject: Referencing external BIM models
+                  subject: Merujuk model BIM luaran
                   description: |-
-                    # Goal
+                    # Matlamat
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    *   Mempunyai asas untuk membangunkan model dalaman/ menawarkan jawapan
+                    *   Menggunakan model luaran untuk menghasilkan model dalaman
 
-                    # Description
+                    # Huraian
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+                    *   Model luaran akan dirujuk dalam platform BIM, kemudian digunakan untuk pemodelan
                     *   ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: Pemodelan model BIM
                   description: |-
-                    # Goal
+                    # Matlamat
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    *   Mencipta model BIM untuk projek
+                    *   Mencipta model BIM untuk seluruh pasukan projek
 
-                    # Description
+                    # Huraian
 
-                    *   The model will be created according to the BIM execution plan
+                    *   Model berikut akan dicipta mengikut pelan pelaksaan BIM
                     *   ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: Kitaran pertama, semakan model dalaman dan pembetulan
                   description: |-
-                    # Goal
+                    # Matlamat
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   Menghantar model BIM mengikut piawaian yang ditakrifkan
 
-                    # Description
+                    # Huraian
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
+                    *   Model berikut akan diperiksa, mengikut piawaian yang ditakrifkan (konvensyen, LOD, ...) dan disemak.
                     *   ...
                 item_3:
-                  subject: Submitting BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Menghantar model BIM
+                  description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_5:
-              subject: Coordination, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Penyelarasan, kitaran pertama
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
               children:
                 item_0:
-                  subject: Coordinate the different BIM models
+                  subject: Penyelarasan model BIM yang berbeza
                   description: |-
-                    # Goal
+                    # Matlamat
 
-                    *   Assemble the different BIM models of the whole project team
-                    *   Coordinate the identified issues
+                    *   Kumpulkan pelbagai model BIM dari seluruh pasukan projek
+                    *   Penyelarasan isu yang dikenal pasti
 
-                    # Description
+                    # Huraian
 
-                    *   The different BIM models will be assembled and checked
-                    *   The identified model specific issues will be communicated via BCF files
+                    *   Model BIM yang pelbagai berikut akan dihimpun dan disemak
+                    *   Isu-isu khusus model yang dikenal pasti akan disampaikan melalui fail BCF
                     *   ...
                 item_1:
-                  subject: Issue management, first cycle
+                  subject: Pengurusan isu, kitaran pertama
                 item_2:
-                  subject: Finishing coordination, first cycle
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Koordinasi penyelesaian, kitaran pertama
+                  description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_6:
-              subject: Modelling & coordinating, second cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Pemodelan & penyelarasan, kitaran kedua
+              description: "## Matlamat\r\n\r\n*   ...\r\n\r\n## Huraian\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Pemodelan & penyelarasan, kitaran ...
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Pemodelan & penyelarasan, kitaran (n-th minus 1)
+              description: "## Matlamat\r\n\r\n*   ...\r\n\r\n## Huraian\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Pemodelan & penyelarasan kitaran n-th
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Penyempurnaan pemodelan & penyelarasan, kitaran n-th
+              description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_11:
-              subject: Use model for construction phase
+              subject: Guna model untuk fasa pembinaan
               children:
                 item_0:
-                  subject: Handover model for construction crew
+                  subject: Penyerahan model ke krew pembinaan
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
+                    *   Semua tahu berkenaan model dan tugasan mereka
+                    *   Semua orang mendapat maklumat yang relevan, berdasarkan model
                     *   ...
 
-                    ## Description
+                    ## Huraian
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
+                    *   Permulaan ditapak pembinaan termasuk pengenalan kepada model
+                    *   Semua objek perlu ada maklumat yang diperlukan untuk tugasan. JIka tidak, penambahan data model perlu dilakukan
                     *   ...
                 item_1:
-                  subject: Construct the building
+                  subject: Bina bangunan
                   description: |-
-                    ## Goal
+                    ## Matlamat
 
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
+                    *   Isu baharu yang terwujud ditapak pembinaan akan dikendalikan mengikut model
+                    *   Isu-isu akan didokumenkan dengan menggunakan fail BCF dan model BIM
 
-                    ## Description
+                    ## Huraian
 
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
+                    *   Isu baharu akan didokumenkan menggunakan fail BCF sebagai nota pelekat untuk model
+                    *   Fail BCF ini akan digunakan untuk menugaskan, mengesan dan membetulkan isu-isu
                     *   ...
                 item_2:
-                  subject: Finish construction
+                  subject: Selesai pembinaan
             item_12:
-              subject: Issue management, construction phase
+              subject: Isu pengurusan, fasa pembinaan
             item_13:
-              subject: Handover for Facility Management
+              subject: Penyerahan untuk Pengurusan Fasiliti
               description: |-
-                ## Goal
+                ## Matlamat
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
+                *   Model BIM akan digunakan untuk Pengurusan Fasiliti
+                *   Model tersebut menyediakan semua maklumat yang berkaitan untuk pentauliahan dan pengendalian model bangunan
                 *   ...
 
-                ## Description
+                ## Huraian
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
+                *   Model tersebut mengandungi maklumat yang berkaitan untuk pengurus fasiliti
+                *   Model tersebut akan digunakan untuk sistem operasi bangunan
                 *   ...
             item_14:
-              subject: Asset Management
-              description: Enjoy your building :)
+              subject: Pengurusan Aset
+              description: Selamat menikmati bangunan anda :)
         demo-bcf-management-project:
-          name: "(Demo) BCF management"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BCF management project.
+          name: "(Demo) Pengurusan BCF"
+          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini lengkap sepenuhnya.
+          description: Ini adalah ringkasan singkat matlamat projek demo pengurusan BCF ini.
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: Hospital - Seni Bina (cc-by-sa-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
+              name: Hospital - Struktural (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Hospital - Mekanikal (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (untuk diubah dalam seting Projek)
           queries:
             item_0:
-              name: Issues
+              name: Isu
             item_1:
-              name: Clashes
+              name: Konflik
             item_2:
-              name: Requests
+              name: Permintaan
             item_3:
-              name: Remarks
+              name: Ulasan
             item_4:
-              name: Project plan
+              name: Pelan projek
             item_5:
-              name: Milestones
+              name: Pencapaian
             item_6:
-              name: Tasks
+              name: Tugasan
             item_7:
-              name: Team planner
+              name: Perancang pasukan
           boards:
             bcf:
-              name: BCF issues
+              name: Isu BCF
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
-                  name: Getting started
+                  name: Sedang bermula
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Kami gembira anda menyertai! Kami cadangkan beberapa perkara untuk bermula di OpenProject.
 
-                    This demo project shows BCF management functionalities.
+                    Demo projek ini menunjukkan fungsi pengurusan BCF.
 
-                    _Try the following steps:_
+                    _Cuba ikuti langkah berikut:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
-                    5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    1.  _Jemput ahli baru ke projek anda:_ → Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) dalam navigasi projek.
+                    2.  _Muat naik dan lihat model 3d dalam format IFC:_ → Pergi ke [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) dalam navigasi projek.
+                    3.  _Cipta dan urus isu BCF yang dihubung secara langsung dalam model IFC:_ → Pergi ke [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Cipta.
+                    4.  _Lihat fail BCF dalam projek anda:_ → Pergi ke  [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) dalam navigasi projek.
+                    5.  _Muatkan fail BCF anda:_ → Pergi ke [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
+                    6.  _Cipta dan kemas kini Carta Gantt:_ → Pergi ke [Carta Gantt]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) dalam navigasi projek.
+                    7.  _Aktifkan modul lanjutan:_ → Pergi ke [Seting Projek → Modul.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
+                    8.  _Anda suka pendekatan yang pantas ini? Cipta Board:_ → Pergi ke [Board]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Disini anda akan menemui [Panduan pengguna](https://www.openproject.org/docs/user-guide/) kami.
+                    Sila beritahu kami untuk sebarang soalan atau bantuan. Hubungi kami: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: Ahli
               item_5:
                 options:
-                  name: Work packages
+                  name: Pakej kerja

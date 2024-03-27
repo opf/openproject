@@ -26,7 +26,8 @@ nl:
       no_results_title_text: Er is geen activiteit voor deze projecten binnen deze periode.
   admin:
     plugins:
-      no_results_title_text: Er zijn momenteel geen plugins beschikbaar.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Kleurenschema"
       color_theme_custom: "(Custom)"
@@ -1525,6 +1526,7 @@ nl:
       postgres_migration: "Uw installatie overzetten naar PostgreSQL"
       user_guides: "Gebruikershandleidingen"
       faq: "Veelgestelde vragen (FAQ)"
+      impressum: "Legal notice"
       glossary: "Woordenlijst"
       shortcuts: "Snelkoppelingen"
       blog: "OpenProject blog"
@@ -1535,6 +1537,7 @@ nl:
   journals:
     changes_retracted: "De wijzigingen werden teruggedraaid."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1856,7 +1859,6 @@ nl:
   label_subject_or_id: "Onderwerp of ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Juridische mededeling"
   label_in: "in"
   label_in_less_than: "in minder dan"
   label_in_more_than: "in meer dan"
@@ -2713,6 +2715,9 @@ nl:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) toegestane oorsprong"
   setting_apiv3_cors_origins_text_html: >
     Als CORS is ingeschakeld, zijn dit de oorsprong die toegang heeft tot OpenProject API. <br/> Bekijk de <a href="%{origin_link}" target="_blank">Documentatie op de Oorsprongshoofd</a> over hoe u de verwachte waarden kunt opgeven.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximale API pagina grootte"
   setting_apiv3_max_page_instructions_html: >
     Stel de maximale pagina grootte in waarmee de API zal reageren. Het is niet mogelijk om API-verzoeken uit te voeren die meer waarden op een enkele pagina weergeven. <br/> <strong>Waarschuwing:</strong> Wijzig deze waarde alleen als u zeker weet waarom u het nodig heeft. Het instellen op een hoge waarde zal aanzienlijke prestatieeffecten hebben, terwijl een waarde lager is dan de per pagina opties fouten veroorzaakt in gepagineerde weergaven.
@@ -3091,6 +3096,7 @@ nl:
     status_user_and_brute_force: "%{user} en %{brute_force}"
     status_change: "Statuswijziging"
     text_change_disabled_for_provider_login: "De naam is ingesteld door uw login provider en kan dus niet worden gewijzigd."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Ontgrendelen"
     unlock_and_reset_failed_logins: "Openen en herstellen mislukte aanmeldingen"
   version_status_closed: "gesloten"

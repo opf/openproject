@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
 RSpec.describe HourlyRatesController do
   shared_let(:admin) { create(:admin) }
@@ -34,13 +34,13 @@ RSpec.describe HourlyRatesController do
   let(:user) { create(:user) }
   let(:default_rate) { create(:default_hourly_rate, user:) }
 
-  describe 'PUT update' do
-    describe 'WHEN trying to update with an invalid rate value' do
+  describe "PUT update" do
+    describe "WHEN trying to update with an invalid rate value" do
       let(:params) do
         {
           id: user.id,
-          user: { 'existing_rate_attributes' => { default_rate.id.to_s => { 'valid_from' => default_rate.valid_from.to_s,
-                                                                            'rate' => '2d5' } } }
+          user: { "existing_rate_attributes" => { default_rate.id.to_s => { "valid_from" => default_rate.valid_from.to_s,
+                                                                            "rate" => "2d5" } } }
         }
       end
 
@@ -50,13 +50,13 @@ RSpec.describe HourlyRatesController do
         end
       end
 
-      it 'renders the edit template' do
-        expect(response).to render_template('edit')
+      it "renders the edit template" do
+        expect(response).to render_template("edit")
       end
 
-      it 'displays an error message' do
+      it "displays an error message" do
         actual_message = assigns(:user).default_rates.first.errors.messages[:rate].first
-        expect(actual_message).to eq(I18n.t('activerecord.errors.messages.not_a_number'))
+        expect(actual_message).to eq(I18n.t("activerecord.errors.messages.not_a_number"))
       end
     end
   end

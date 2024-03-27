@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Query, "manual sorting " do
   shared_let(:user) { create(:admin) }
@@ -47,8 +47,8 @@ RSpec.describe Query, "manual sorting " do
     login_as user
   end
 
-  describe '#ordered_work_packages' do
-    it 'keeps the current set of ordered work packages' do
+  describe "#ordered_work_packages" do
+    it "keeps the current set of ordered work packages" do
       expect(query.ordered_work_packages).to eq []
 
       expect(OrderedWorkPackage.where(query_id: query.id).count).to eq 0
@@ -65,7 +65,7 @@ RSpec.describe Query, "manual sorting " do
     end
   end
 
-  describe 'with a second query on the same work package' do
+  describe "with a second query on the same work package" do
     let(:query2) { create(:query, user:, project:) }
 
     before do
@@ -76,12 +76,12 @@ RSpec.describe Query, "manual sorting " do
       OrderedWorkPackage.create(query: query2, work_package: wp_2, position: 3)
     end
 
-    it 'returns the correct number of work packages' do
-      query.add_filter('manual_sort', 'ow', [])
-      query2.add_filter('manual_sort', 'ow', [])
+    it "returns the correct number of work packages" do
+      query.add_filter("manual_sort", "ow", [])
+      query2.add_filter("manual_sort", "ow", [])
 
-      query.sort_criteria = [[:manual_sorting, 'asc']]
-      query2.sort_criteria = [[:manual_sorting, 'asc']]
+      query.sort_criteria = [[:manual_sorting, "asc"]]
+      query2.sort_criteria = [[:manual_sorting, "asc"]]
 
       expect(query.results.work_packages.pluck(:id)).to eq [wp_1.id, wp_2.id]
       expect(query2.results.work_packages.pluck(:id)).to eq [wp_2.id, wp_1.id]

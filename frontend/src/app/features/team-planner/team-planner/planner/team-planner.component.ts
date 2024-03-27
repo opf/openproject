@@ -114,6 +114,7 @@ import {
   removeBackgroundEvents,
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
 import * as moment from 'moment-timezone';
+import allLocales from '@fullcalendar/core/locales-all';
 
 export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks'|'resourceTimelineFourWeeks'|'resourceTimelineEightWeeks';
 export type TeamPlannerViewOptions = { [K in TeamPlannerViewOptionKey]:RawOptionsFromRefiners<Required<ViewOptionRefiners>> };
@@ -483,12 +484,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions({
+            locales: allLocales,
             locale: this.I18n.locale,
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             selectable: true,
             plugins: [resourceTimelinePlugin, interactionPlugin],
             titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
-            buttonText: { today: this.text.today },
             initialView: this.initialCalendarView,
             headerToolbar: {
               left: '',

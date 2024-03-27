@@ -6,7 +6,7 @@ zh-TW:
     attributes:
       webhooks/webhook:
         url: 'Payload URL'
-        secret: 'Signature secret'
+        secret: '簽章金鑰'
         events: '事件'
         projects: '已啟用的專案'
       webhooks/log:

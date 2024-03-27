@@ -42,7 +42,7 @@ RSpec.describe 'API v3 file links resource' do
   def disable_module(project, modul)
     # Avoid project.enabled_module_names and a subsequent save as that would create an AnonymousUser in an
     # after(:all) block, which persists the user in the RequestStore.
-    project.enabled_modules.detect { |m| m.name == modul }.destroy
+    project.enabled_modules.where(name: modul).destroy_all
   end
 
   shared_association_default(:priority) { create(:priority) }
@@ -65,7 +65,7 @@ RSpec.describe 'API v3 file links resource' do
   shared_let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
 
   shared_let(:project_storage) { create(:project_storage, project:, storage:) }
-  let!(:another_project_storage) { nil } # create(:project_storage, project:, storage: another_storage)
+  let!(:another_project_storage) { nil }
 
   let(:file_link) do
     create(:file_link, creator: current_user, container: work_package, storage:)
@@ -79,20 +79,11 @@ RSpec.describe 'API v3 file links resource' do
     create(:file_link, creator: current_user, container: work_package, storage: another_storage)
   end
 
-  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
   let(:sync_service) { instance_double(Storages::FileLinkSyncService) }
 
   subject(:response) { last_response }
 
   before do
-    # Mock ConnectionManager to behave as if connected
-    allow(OAuthClients::ConnectionManager)
-      .to receive(:new).and_return(connection_manager)
-    allow(connection_manager)
-      .to receive_messages(get_access_token: ServiceResult.success(result: oauth_client_token), authorization_state: :connected,
-                           get_authorization_uri: 'https://example.com/authorize')
-
-    # Mock FileLinkSyncService as if Nextcloud would respond positively
     allow(Storages::FileLinkSyncService)
       .to receive(:new).and_return(sync_service)
     allow(sync_service).to receive(:call) do |file_links|

@@ -20,48 +20,48 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
-pt:
+pt-BR:
   activerecord:
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "deve ser um array de hashes com as chaves: cor, título"
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
-  project_module_gitlab: "Gitlab"
-  permission_show_gitlab_content: "Show Gitlab content"
+              invalid_schema: "deve ser um array de hashes com as chaves: cor, título"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "Exibir conteúdo GitLab"
   gitlab_integration:
     merge_request_opened_comment: >
-      **MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR Aberto:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi aberta por [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_closed_comment: >
-      **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      **SC Fechada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fechada por [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_merged_comment: >
-      **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).
+      **SC Combinada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi combinado por [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_reopened_comment: >
-      **MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      **SC Reaberta:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi reaberta por [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}
+      **Referenciado em Confirmação:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em uma Nota de Confirmação %{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}): %{commit_note}
     note_mr_referenced_comment: >
-      **Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      **Referenciado na SC:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}
     note_mr_commented_comment: >
-      **Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      **Comentado na SC:** [%{gitlab_user}](%{gitlab_user_url}) comentado este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}
     note_issue_referenced_comment: >
-      **Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      **Referenciado em Problema:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}
     note_issue_commented_comment: >
-      **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      **Comentou em Problema:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}
     note_snippet_referenced_comment: >
-      **Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}
+      **Referenciou em Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) em [%{repository}](%{repository_url}): %{snippet_note}
     issue_opened_referenced_comment: >
-      **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      **Problema Aberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
-      **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      **Problema Fechado:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).
     issue_reopened_referenced_comment: >
-      **Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      **Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu várias confirmações [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}

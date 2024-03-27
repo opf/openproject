@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackage do
   let(:work_package) do
@@ -67,43 +67,43 @@ RSpec.describe WorkPackage do
                         cost_type:)
   end
 
-  describe '#cleanup_action_required_before_destructing?' do
-    describe 'w/ the work package having a cost entry' do
+  describe "#cleanup_action_required_before_destructing?" do
+    describe "w/ the work package having a cost entry" do
       before do
         work_package
         cost_entry
       end
 
-      it 'is true' do
+      it "is true" do
         expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_truthy
       end
     end
 
-    describe 'w/ two work packages having a cost entry' do
+    describe "w/ two work packages having a cost entry" do
       before do
         work_package
         cost_entry
         cost_entry2
       end
 
-      it 'is true' do
+      it "is true" do
         expect(WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2])).to be_truthy
       end
     end
 
-    describe 'w/o the work package having a cost entry' do
+    describe "w/o the work package having a cost entry" do
       before do
         work_package
       end
 
-      it 'is false' do
+      it "is false" do
         expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_falsey
       end
     end
   end
 
-  describe '#associated_classes_to_address_before_destructing?' do
-    describe 'w/ the work package having a cost entry' do
+  describe "#associated_classes_to_address_before_destructing?" do
+    describe "w/ the work package having a cost entry" do
       before do
         work_package
         cost_entry
@@ -114,44 +114,44 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/o the work package having a cost entry' do
+    describe "w/o the work package having a cost entry" do
       before do
         work_package
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to be_empty
       end
     end
   end
 
-  describe '#cleanup_associated_before_destructing_if_required' do
+  describe "#cleanup_associated_before_destructing_if_required" do
     before do
       work_package.save!
 
       cost_entry
     end
 
-    describe 'w/o a cleanup being necessary' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign') }
+    describe "w/o a cleanup being necessary" do
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign") }
 
       before do
         cost_entry.destroy
       end
 
-      it 'returns true' do
+      it "returns true" do
         expect(action).to be_truthy
       end
     end
 
     describe 'w/ "destroy" as action' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'destroy') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "destroy") }
 
-      it 'returns true' do
+      it "returns true" do
         expect(action).to be_truthy
       end
 
-      it 'does not touch the cost_entry' do
+      it "does not touch the cost_entry" do
         action
 
         cost_entry.reload
@@ -159,14 +159,14 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/o an action' do
+    describe "w/o an action" do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user) }
 
-      it 'returns true' do
+      it "returns true" do
         expect(action).to be_truthy
       end
 
-      it 'does not touch the cost_entry' do
+      it "does not touch the cost_entry" do
         action
 
         cost_entry.reload
@@ -175,30 +175,30 @@ RSpec.describe WorkPackage do
     end
 
     describe 'w/ "nullify" as action' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'nullify') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "nullify") }
 
-      it 'returns false' do
+      it "returns false" do
         expect(action).to be_falsey
       end
 
-      it 'does not alter the work_package_id of all cost entries' do
+      it "does not alter the work_package_id of all cost entries" do
         action
 
         cost_entry.reload
         expect(cost_entry.work_package_id).to eq(work_package.id)
       end
 
-      it 'sets an error on work packages' do
+      it "sets an error on work packages" do
         action
 
-        expect(work_package.errors[:base]).to eq([I18n.t(:'activerecord.errors.models.work_package.nullify_is_not_valid_for_cost_entries')])
+        expect(work_package.errors[:base]).to eq([I18n.t(:"activerecord.errors.models.work_package.nullify_is_not_valid_for_cost_entries")])
       end
     end
 
     describe 'w/ "reassign" as action
               w/ reassigning to a valid work_package' do
       let(:action) do
-        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign',
+        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign",
                                                                                           reassign_to_id: work_package2.id)
       end
 
@@ -209,11 +209,11 @@ RSpec.describe WorkPackage do
         member2.save!
       end
 
-      it 'returns true' do
+      it "returns true" do
         expect(action).to be_truthy
       end
 
-      it 'sets the work_package_id of all cost entries to the new work package' do
+      it "sets the work_package_id of all cost entries to the new work package" do
         action
 
         cost_entry.reload
@@ -231,7 +231,7 @@ RSpec.describe WorkPackage do
     describe 'w/ "reassign" as action
               w/ reassigning to a work_package the user is not allowed to see' do
       let(:action) do
-        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign',
+        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign",
                                                                                           reassign_to_id: work_package2.id)
       end
 
@@ -239,11 +239,11 @@ RSpec.describe WorkPackage do
         work_package2.save!
       end
 
-      it 'returns true' do
+      it "returns true" do
         expect(action).to be_falsey
       end
 
-      it 'does not alter the work_package_id of all cost entries' do
+      it "does not alter the work_package_id of all cost entries" do
         action
 
         cost_entry.reload
@@ -254,14 +254,14 @@ RSpec.describe WorkPackage do
     describe 'w/ "reassign" as action
               w/ reassigning to a non existing work package' do
       let(:action) do
-        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: 0)
+        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign", reassign_to_id: 0)
       end
 
-      it 'returns true' do
+      it "returns true" do
         expect(action).to be_falsey
       end
 
-      it 'does not alter the work_package_id of all cost entries' do
+      it "does not alter the work_package_id of all cost entries" do
         action
 
         cost_entry.reload
@@ -271,13 +271,13 @@ RSpec.describe WorkPackage do
 
     describe 'w/ "reassign" as action
               w/o providing a reassignment id' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign") }
 
-      it 'returns true' do
+      it "returns true" do
         expect(action).to be_falsey
       end
 
-      it 'does not alter the work_package_id of all cost entries' do
+      it "does not alter the work_package_id of all cost entries" do
         action
 
         cost_entry.reload
@@ -285,18 +285,18 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'w/ an invalid option' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'bogus') }
+    describe "w/ an invalid option" do
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "bogus") }
 
-      it 'returns false' do
+      it "returns false" do
         expect(action).to be_falsey
       end
     end
 
-    describe 'w/ nil as invalid option' do
+    describe "w/ nil as invalid option" do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, nil) }
 
-      it 'returns false' do
+      it "returns false" do
         expect(action).to be_falsey
       end
     end

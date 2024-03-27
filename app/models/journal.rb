@@ -66,6 +66,7 @@ class Journal < ApplicationRecord
     work_package_children_changed_times
     work_package_related_changed_times
     working_days_changed
+    default_attribute_written
     system_update
   ].freeze
 

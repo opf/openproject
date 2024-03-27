@@ -43,7 +43,7 @@ module API
           mount ::API::V3::TimeEntries::AvailableProjectsAPI
           mount ::API::V3::TimeEntries::AvailableWorkPackagesOnCreateAPI
 
-          route_param :id, type: Integer, desc: 'Time entry ID' do
+          route_param :id, type: Integer, desc: "Time entry ID" do
             after_validation do
               @time_entry = TimeEntry
                             .visible

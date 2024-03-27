@@ -34,8 +34,8 @@ module OpenProject
       module ParamsHelper
         private
 
-        EMPTY_AVATAR_URL = 'https://www.gravatar.com/avatar/?d=mp'
-        EMPTY_DESCRIPTION = 'No description provided'
+        EMPTY_AVATAR_URL = "https://www.gravatar.com/avatar/?d=mp"
+        EMPTY_DESCRIPTION = "No description provided"
 
         def avatar_url(raw_url)
           raw_url.presence || EMPTY_AVATAR_URL

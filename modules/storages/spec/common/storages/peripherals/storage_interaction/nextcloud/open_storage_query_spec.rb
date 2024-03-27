@@ -28,30 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::OpenStorageQuery do
-  let(:storage) { create(:nextcloud_storage, host: 'https://example.com') }
-  let(:user) { create(:user) }
+  let(:storage) { create(:nextcloud_storage, host: "https://example.com") }
+  let(:auth_strategy) { Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy }
 
-  it 'responds to .call' do
+  it "responds to .call" do
     expect(described_class).to respond_to(:call)
 
     method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user])
+    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy])
   end
 
-  it 'returns the url for opening the file on storage' do
-    url = described_class.call(storage:, user:).result
+  it "returns the url for opening the file on storage" do
+    url = described_class.call(storage:, auth_strategy:).result
     expect(url).to eq("#{storage.host}/index.php/apps/files")
   end
 
-  context 'with a storage with host url with a sub path' do
-    let(:storage) { create(:nextcloud_storage, host: 'https://example.com/html') }
+  context "with a storage with host url with a sub path" do
+    let(:storage) { create(:nextcloud_storage, host: "https://example.com/html") }
 
-    it 'returns the url for opening the file on storage' do
-      url = described_class.call(storage:, user:).result
+    it "returns the url for opening the file on storage" do
+      url = described_class.call(storage:, auth_strategy:).result
       expect(url).to eq("#{storage.host}/index.php/apps/files")
     end
   end

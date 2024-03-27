@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + "/../spec_helper"
 
-RSpec.describe 'MeetingAgenda' do
+RSpec.describe "MeetingAgenda" do
   before do
     @a = build(:meeting_agenda, text: "Some content...\n\nMore content!\n\nExtraordinary content!!")
   end
 
   # TODO: Test the right user and messages are set in the history
-  describe '#lock!' do
-    it 'locks the agenda' do
+  describe "#lock!" do
+    it "locks the agenda" do
       @a.save
       @a.reload
       @a.lock!
@@ -44,8 +44,8 @@ RSpec.describe 'MeetingAgenda' do
     end
   end
 
-  describe '#unlock!' do
-    it 'unlocks the agenda' do
+  describe "#unlock!" do
+    it "unlocks the agenda" do
       @a.locked = true
       @a.save
       @a.reload
@@ -56,13 +56,13 @@ RSpec.describe 'MeetingAgenda' do
   end
 
   # a meeting agenda is editable when it is not locked
-  describe '#editable?' do
-    it 'is editable when not locked' do
+  describe "#editable?" do
+    it "is editable when not locked" do
       @a.locked = false
       expect(@a.editable?).to be_truthy
     end
 
-    it 'is not editable when locked' do
+    it "is not editable when locked" do
       @a.locked = true
       expect(@a.editable?).to be_falsey
     end

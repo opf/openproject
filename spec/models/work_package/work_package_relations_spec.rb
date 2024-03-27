@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackage do
-  describe '#relation' do
+  describe "#relation" do
     let(:closed_state) do
       create(:status,
              is_closed: true)
     end
 
-    describe '#duplicate' do
+    describe "#duplicate" do
       let(:status) { create(:status) }
       let(:type) { create(:type) }
       let(:original) do
@@ -66,7 +66,7 @@ RSpec.describe WorkPackage do
 
       current_user { create(:user) }
 
-      context 'closes duplicates' do
+      context "closes duplicates" do
         let(:dup_2) do
           create(:work_package,
                  project:,
@@ -99,13 +99,13 @@ RSpec.describe WorkPackage do
           dup_2.reload
         end
 
-        it 'only duplicates are closed' do
+        it "only duplicates are closed" do
           expect(dup_1).to be_closed
           expect(dup_2).to be_closed
         end
       end
 
-      context 'duplicated is not closed' do
+      context "duplicated is not closed" do
         before do
           relation_org_dup_1
 
@@ -121,7 +121,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe '#soonest_start' do
+    describe "#soonest_start" do
       let(:predecessor) do
         create(:work_package,
                due_date: predecessor_due_date)
@@ -159,83 +159,83 @@ RSpec.describe WorkPackage do
         relations
       end
 
-      context 'without a predecessor' do
+      context "without a predecessor" do
         let(:work_packages) { [successor] }
         let(:relations) { [] }
 
         it { expect(successor.soonest_start).to be_nil }
       end
 
-      context 'with a predecessor' do
+      context "with a predecessor" do
         let(:work_packages) { [predecessor, successor] }
 
-        context 'start date exists in predecessor' do
+        context "start date exists in predecessor" do
           let(:predecessor_due_date) { Date.today }
 
           it { expect(successor_child.soonest_start).to eq(predecessor.due_date + 1) }
         end
 
-        context 'no date in predecessor' do
+        context "no date in predecessor" do
           it { expect(successor_child.soonest_start).to be_nil }
         end
       end
 
-      context 'with the parent having a predecessor' do
+      context "with the parent having a predecessor" do
         let(:work_packages) { [predecessor, successor, successor_child] }
 
-        context 'start date exists in predecessor' do
+        context "start date exists in predecessor" do
           let(:predecessor_due_date) { Date.today }
 
           it { expect(successor_child.soonest_start).to eq(predecessor.due_date + 1) }
 
-          context 'with the parent manually scheduled' do
+          context "with the parent manually scheduled" do
             let(:successor_schedule_manually) { true }
 
             it { expect(successor_child.soonest_start).to be_nil }
           end
         end
 
-        context 'no start date exists in related work packages' do
+        context "no start date exists in related work packages" do
           it { expect(successor_child.soonest_start).to be_nil }
         end
       end
 
-      context 'with the grandparent having a predecessor' do
+      context "with the grandparent having a predecessor" do
         let(:work_packages) { [predecessor, successor, successor_child, successor_grandchild] }
 
-        context 'start date exists in predecessor' do
+        context "start date exists in predecessor" do
           let(:predecessor_due_date) { Date.today }
 
           it { expect(successor_grandchild.soonest_start).to eq(predecessor.due_date + 1) }
 
-          context 'with the grandparent manually scheduled' do
+          context "with the grandparent manually scheduled" do
             let(:successor_schedule_manually) { true }
 
             it { expect(successor_grandchild.soonest_start).to be_nil }
           end
 
-          context 'with the parent manually scheduled' do
+          context "with the parent manually scheduled" do
             let(:successor_child_schedule_manually) { true }
 
             it { expect(successor_grandchild.soonest_start).to be_nil }
           end
         end
 
-        context 'no start date exists in related work packages' do
+        context "no start date exists in related work packages" do
           it { expect(successor_grandchild.soonest_start).to be_nil }
         end
       end
     end
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     let(:work_package) { create(:work_package) }
     let(:other_work_package) { create(:work_package) }
 
-    context 'for a work package with a relation as to' do
+    context "for a work package with a relation as to" do
       let!(:to_relation) { create(:follows_relation, from: other_work_package, to: work_package) }
 
-      it 'removes the relation as well as the work package' do
+      it "removes the relation as well as the work package" do
         work_package.destroy
 
         expect(Relation)
@@ -243,10 +243,10 @@ RSpec.describe WorkPackage do
       end
     end
 
-    context 'for a work package with a relation as from' do
+    context "for a work package with a relation as from" do
       let!(:from_relation) { create(:follows_relation, to: other_work_package, from: work_package) }
 
-      it 'removes the relation as well as the work package' do
+      it "removes the relation as well as the work package" do
         work_package.destroy
 
         expect(Relation)

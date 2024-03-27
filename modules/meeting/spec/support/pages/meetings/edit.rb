@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
-require_relative 'show'
+require_relative "base"
+require_relative "show"
 
 module Pages::Meetings
   class Edit < Base
@@ -56,7 +56,7 @@ module Pages::Meetings
     end
 
     def click_save
-      click_button('Save')
+      click_on("Save")
 
       Pages::Meetings::Show.new(meeting)
     end

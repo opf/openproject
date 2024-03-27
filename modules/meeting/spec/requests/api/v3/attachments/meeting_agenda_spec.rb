@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'requests/api/v3/attachments/attachment_resource_shared_examples'
+require "spec_helper"
+require "requests/api/v3/attachments/attachment_resource_shared_examples"
 
 RSpec.describe "meeting agenda attachments" do
   it_behaves_like "an APIv3 attachment resource" do

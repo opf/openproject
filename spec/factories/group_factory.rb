@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :group, parent: :principal, class: 'Group' do
+  factory :group, parent: :principal, class: "Group" do
     # groups have lastnames? hmm...
     sequence(:lastname) { |g| "Group #{g}" }
 
