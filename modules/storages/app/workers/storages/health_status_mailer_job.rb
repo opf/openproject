@@ -30,6 +30,15 @@
 
 module Storages
   class HealthStatusMailerJob < ApplicationJob
+    include GoodJob::ActiveJobExtensions::Concurrency
+
+    good_job_control_concurrency_with(
+      total_limit: 1,
+      enqueue_limit: 1,
+      perform_limit: 1,
+      key: self.class.name
+    )
+
     def perform(storage:)
       return unless Storages::Storage.exists?(storage.id)
 
@@ -56,7 +65,7 @@ module Storages
 
     def admin_users
       User.where(admin: true)
-          .where.not(mail: [nil, ''])
+          .where.not(mail: [nil, ""])
     end
   end
 end

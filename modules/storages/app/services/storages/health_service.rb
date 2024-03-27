@@ -71,7 +71,7 @@ module Storages
         notify_unhealthy_admin_users
       end
 
-      schedule_mail_job(@storage) unless mail_job_exists?
+      schedule_mail_job(@storage)
     end
 
     private
@@ -89,10 +89,6 @@ module Storages
 
     def schedule_mail_job(storage)
       ::Storages::HealthStatusMailerJob.schedule(storage:)
-    end
-
-    def mail_job_exists?
-      Delayed::Job.where("handler LIKE ?", "%job_class: Storages::HealthStatusMailerJob%").any?
     end
 
     def reason_is_same(new_health_reason)
