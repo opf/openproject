@@ -70,25 +70,17 @@
 
           if @meeting.location.present?
             details.with_row(mt: 2) do
-              flex_layout(align_items: :center) do |location|
-                location.with_column do
-                  if @meeting.location.include?("http")
-                    render_meeting_attribute_row(:link) do
-                      render(Primer::Beta::Link.new(href: @meeting.location, target: "_blank")) do
-                        render_truncated_location
-                      end
-                    end
-                  else
-                    render_meeting_attribute_row(:location) do
-                      render(Primer::Beta::Text.new) do
-                        render_truncated_location
-                      end
-                    end
+              if @meeting.location.include?("http")
+                render_meeting_attribute_row(:link) do
+                  render(Primer::Beta::Link.new(href: @meeting.location, target: "_blank")) do
+                    render_truncated_location
                   end
                 end
-                location.with_column(ml: 1) do
-                  render(Primer::Beta::ClipboardCopy.new(value: @meeting.location,
-                                                         "aria-label": I18n.t(:button_copy_to_clipboard)))
+              else
+                render_meeting_attribute_row(:location) do
+                  render(Primer::Beta::Text.new) do
+                    render_truncated_location
+                  end
                 end
               end
             end
