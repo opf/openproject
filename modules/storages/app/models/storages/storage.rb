@@ -41,8 +41,8 @@
 module Storages
   class Storage < ApplicationRecord
     PROVIDER_TYPES = [
-      PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage',
-      PROVIDER_TYPE_ONE_DRIVE = 'Storages::OneDriveStorage'
+      PROVIDER_TYPE_NEXTCLOUD = "Storages::NextcloudStorage",
+      PROVIDER_TYPE_ONE_DRIVE = "Storages::OneDriveStorage"
     ].freeze
 
     PROVIDER_TYPE_SHORT_NAMES = {
@@ -54,12 +54,12 @@ module Storages
 
     store_attribute :provider_fields, :automatically_managed, :boolean
 
-    has_many :file_links, class_name: 'Storages::FileLink'
-    belongs_to :creator, class_name: 'User'
-    has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+    has_many :file_links, class_name: "Storages::FileLink"
+    belongs_to :creator, class_name: "User"
+    has_many :project_storages, dependent: :destroy, class_name: "Storages::ProjectStorage"
     has_many :projects, through: :project_storages
     has_one :oauth_client, as: :integration, dependent: :destroy
-    has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
+    has_one :oauth_application, class_name: "::Doorkeeper::Application", as: :integration, dependent: :destroy
 
     validates_uniqueness_of :host, allow_nil: true
     validates_uniqueness_of :name
@@ -83,9 +83,9 @@ module Storages
     scope :automatic_management_enabled, -> { where("provider_fields->>'automatically_managed' = 'true'") }
 
     enum health_status: {
-      pending: 'pending',
-      healthy: 'healthy',
-      unhealthy: 'unhealthy'
+      pending: "pending",
+      healthy: "healthy",
+      unhealthy: "unhealthy"
     }.freeze, _prefix: :health
 
     def self.shorten_provider_type(provider_type)
@@ -107,17 +107,17 @@ module Storages
     def self.extract_part_from_piped_string(text, index)
       return if text.nil?
 
-      split_reason = text.split('|')
+      split_reason = text.split("|")
       if split_reason.length > index
         split_reason[index].strip
       end
     end
 
     def mark_as_unhealthy(reason: nil)
-      if health_status == 'unhealthy' && reason_is_same(reason)
+      if health_status == "unhealthy" && reason_is_same(reason)
         touch(:health_checked_at)
       else
-        update(health_status: 'unhealthy',
+        update(health_status: "unhealthy",
                health_changed_at: Time.now.utc,
                health_checked_at: Time.now.utc,
                health_reason: reason)
@@ -125,10 +125,10 @@ module Storages
     end
 
     def mark_as_healthy
-      if health_status == 'healthy'
+      if health_status == "healthy"
         touch(:health_checked_at)
       else
-        update(health_status: 'healthy',
+        update(health_status: "healthy",
                health_changed_at: Time.now.utc,
                health_checked_at: Time.now.utc,
                health_reason: nil)
@@ -137,8 +137,8 @@ module Storages
 
     def automatically_managed?
       ActiveSupport::Deprecation.warn(
-        '`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. ' \
-        'NOTE: The new method name better reflects the actual behavior of the storage. ' \
+        "`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. " \
+        "NOTE: The new method name better reflects the actual behavior of the storage. " \
         "It's not the storage that is automatically managed, rather the Project (Storage) Folder is. " \
         "A storage only has this feature enabled or disabled."
       )

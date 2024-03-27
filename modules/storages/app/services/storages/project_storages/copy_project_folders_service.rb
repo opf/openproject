@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,34 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  # Creates date alert jobs for users whose local time is 1:00 am.
-  class ScheduleDateAlertsNotificationsJob < ApplicationJob
-    def perform
-      return unless EnterpriseToken.allows_to?(:date_alerts)
+module Storages
+  module ProjectStorages
+    class CopyProjectFoldersService
+      def self.call(source:, target:)
+        new.call(source, target)
+      end
 
-      Service.new(times_from_scheduled_to_execution).call
-    end
+      def initialize
+        @data = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder
+          .new(id: nil, polling_url: nil, requires_polling: false)
+      end
 
-    # Returns times from scheduled execution time to current time in 15 minutes
-    # steps.
-    #
-    # As scheduled execution time can be different from current time by more
-    # than 15 minutes when workers are busy, all times at 15 minutes interval
-    # between scheduled time and current time need to be considered to match
-    # with 1:00am in a time zone.
-    def times_from_scheduled_to_execution
-      time = scheduled_time
-      times = []
-      begin
-        times << time
-        time += 15.minutes
-      end while time < Time.current
-      times
-    end
+      def call(source, target)
+        return ServiceResult.success(result: @data) if source.project_folder_inactive?
+        return ServiceResult.success(result: @data.with(id: source.project_folder_id)) if source.project_folder_manual?
 
-    def scheduled_time
-      job_scheduled_at.then { |t| t.change(min: t.min / 15 * 15) }
+        Peripherals::Registry
+          .resolve("#{source.storage.short_provider_type}.commands.copy_template_folder")
+          .call(storage: source.storage,
+                source_path: source.project_folder_location,
+                destination_path: target.managed_project_folder_path)
+      end
     end
   end
 end
