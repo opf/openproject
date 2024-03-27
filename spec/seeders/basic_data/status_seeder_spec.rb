@@ -48,6 +48,7 @@ RSpec.describe BasicData::StatusSeeder do
         - reference: :status_new
           name: New
           color_name: cyan-7
+          default_done_ratio: 0
           is_closed: false
           is_default: true
           position: 1
@@ -58,6 +59,7 @@ RSpec.describe BasicData::StatusSeeder do
         - reference: :status_closed
           name: Closed
           color_name: gray-3
+          default_done_ratio: 100
           is_closed: true
           position: 3
       SEEDING_DATA_YAML
@@ -68,11 +70,13 @@ RSpec.describe BasicData::StatusSeeder do
       expect(Status.find_by(name: 'New')).to have_attributes(
         is_closed: false,
         is_default: true,
+        default_done_ratio: 0,
         position: 1
       )
       expect(Status.find_by(name: 'Closed')).to have_attributes(
         is_closed: true,
         is_default: false,
+        default_done_ratio: 100,
         position: 3
       )
     end
@@ -81,6 +85,12 @@ RSpec.describe BasicData::StatusSeeder do
       expect(Status.find_by(name: 'In progress')).to have_attributes(
         is_closed: false,
         is_default: false
+      )
+    end
+
+    it 'sets default_done_ratio to nil if not specified' do
+      expect(Status.find_by(name: 'In progress')).to have_attributes(
+        default_done_ratio: nil
       )
     end
 

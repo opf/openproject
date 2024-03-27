@@ -39,6 +39,7 @@ module BasicData
       {
         name: status_data['name'],
         color_id: color_id(status_data['color_name']),
+        default_done_ratio: status_data['default_done_ratio'],
         is_closed: true?(status_data['is_closed']),
         is_default: true?(status_data['is_default']),
         position: status_data['position']
