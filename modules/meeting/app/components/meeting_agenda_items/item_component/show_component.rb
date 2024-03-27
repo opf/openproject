@@ -106,7 +106,8 @@ module MeetingAgendaItems
     end
 
     def delete_action_item(menu)
-      menu.with_item(label: t("text_destroy"),
+      label = @meeting_agenda_item.work_package_id.present? ? t(:label_agenda_item_remove) : t(:text_destroy)
+      menu.with_item(label:,
                      scheme: :danger,
                      href: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                      form_arguments: {
