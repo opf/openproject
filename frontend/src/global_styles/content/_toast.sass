@@ -72,6 +72,10 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   @include icon-mixin-checkmark
   color: $nm-color-success-icon
 
+%nm-icon-notification
+  @include icon-mixin-bell
+  color: $nm-pb-background-color
+
 %nm-icon-warning
   @include icon-mixin-warning
   color: $nm-color-warning-icon
@@ -145,30 +149,35 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error
     @extend %error-placeholder
 
-    &::before
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-error
 
   &.-success
     @extend %success-placeholder
 
-    &::before
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-success
 
   &.-warning
     @extend %warning-placeholder
 
-    &::before
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-warning
 
   &.-info
     @extend %info-placeholder
 
-    &::before
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-info
+
+  &.-notification-icon
+    &::before
+      @include messages-icon
+      @extend %nm-icon-notification
 
   &.-loading
     @extend %info-placeholder
