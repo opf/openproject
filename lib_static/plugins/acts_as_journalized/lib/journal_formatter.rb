@@ -105,7 +105,9 @@ module JournalFormatter
 
     return if formatter.nil?
 
-    formatter.render(field, values, options).html_safe # rubocop:disable Rails/OutputSafety
+    formatter
+      .render(field, values, options)
+      &.html_safe # rubocop:disable Rails/OutputSafety
   end
 
   def formatter_instance(field)

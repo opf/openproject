@@ -30,39 +30,56 @@ module Activities
   class EventMapper
     include Redmine::I18n
 
-    def self.map_to_events(journable, additional_mapper)
-      journable
-        .journals
-        .includes(:data)
-        .all
-        .map do |journal|
-        params = {
-          event_description: journal.notes,
-          event_datetime: journal.updated_at,
-          event_title: event_title(additional_mapper.call(journal).with_indifferent_access),
-          event_author: journal.user,
-          project: journal.project,
-          journal:
-        }
+    attr_reader :journable
 
-        Activities::Event.new(**params)
-      end
+    def initialize(journable)
+      @journable = journable
     end
 
-    # duplicates necessary behaviour from Activites::Fetcher
-    def self.event_title(params)
-      start_time = if params['meeting_start_time'].is_a?(String)
-                     DateTime.parse(params['meeting_start_time'])
-                   else
-                     params['meeting_start_time']
-                   end
-      end_time = start_time + params['meeting_duration'].to_f.hours
+    def map_to_events
+      journable
+        .journals
+        .includes(*journals_includes)
+        .all
+        .flat_map { |journal| map_to_event(journal) }
+    end
 
-      fstart_with = format_date start_time
-      fstart_without = format_time start_time, false
-      fend_without = format_time end_time, false
+    protected
 
-      "#{I18n.t(:label_meeting)}: #{params['meeting_title']} (#{fstart_with} #{fstart_without}-#{fend_without})"
+    def journals_includes
+      %i[data]
+    end
+
+    def map_to_event(journal)
+      params = mapped_params(journal)
+      create_event(params)
+    end
+
+    def create_event(params)
+      Activities::Event.new(**params)
+    end
+
+    def mapped_params(journal)
+      data = event_data(journal)
+
+      {
+        event_description: journal.notes,
+        event_datetime: journal.updated_at,
+        event_author: journal.user,
+        project: journal.project,
+        project_id: journal.project&.id,
+        journal:,
+        data:,
+        event_title: event_title(journal, data)
+      }
+    end
+
+    def event_data(journal)
+      raise NotImplementedError
+    end
+
+    def event_title(journal, data)
+      raise NotImplementedError
     end
   end
 end

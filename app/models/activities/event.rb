@@ -39,8 +39,7 @@ module Activities
                      :event_type,
                      :event_path,
                      :event_url,
-                     :controller_flag,
-                     :meeting_agenda_item_data,
+                     :data,
                      # attributes below are eager loaded by Activities::Fetcher
                      :event_author,
                      :journal,

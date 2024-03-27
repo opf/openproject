@@ -55,17 +55,17 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
 
   def display_details?
     journal = @event.journal
-    return false if (journal.initial? && journal.journable_type != 'TimeEntry') || initial_agenda_item? || deleted_agenda_item?
+    return false if (journal.initial? && journal.journable_type != 'TimeEntry') || initial? || deletion?
 
     rendered_details.present?
   end
 
   def rendered_details
-    if meeting_agenda_item?
-      agenda_items_details
+    if @event.data && @event.data[:details]
+      render_event_details
     else
       # this doesn't do anything for details of type "agenda_items_10_title"
-      filter_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
+      filter_journal_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
     end
   end
 
@@ -87,6 +87,14 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
     @event.event_url
   end
 
+  def initial?
+    @event.journal.initial? || @event.data[:initial]
+  end
+
+  def deletion?
+    @event.data[:deleted]
+  end
+
   private
 
   def activity?(type)
@@ -101,12 +109,8 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
     @current_project && (@event.project != @current_project)
   end
 
-  def meeting_agenda_item?
-    @event.meeting_agenda_item_data
-  end
-
   def meeting_activity?
-    @event.controller_flag
+    @event.data.key?(:meeting_title)
   end
 
   def initial_meeting_activity?
@@ -114,18 +118,10 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
   end
 
   def initial_agenda_item?
-    return false unless meeting_agenda_item? && @event.meeting_agenda_item_data.last["position"]
-
-    @event.meeting_agenda_item_data.last["position"].first.nil?
+    @event.data.dig(:meeting_agenda_item, :initial)
   end
 
-  def deleted_agenda_item?
-    return false unless meeting_agenda_item? && @event.meeting_agenda_item_data.last["position"]
-
-    @event.meeting_agenda_item_data.last["position"].last.nil?
-  end
-
-  def filter_details
+  def filter_journal_details
     details = @event.journal.details
 
     details.delete(:user_id) if details[:logged_by_id] == details[:user_id]
@@ -141,26 +137,10 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
     details.delete(field) if details[field] && details[field].first.nil?
   end
 
-  def agenda_items_details
-    rendered_details = []
-    @event.meeting_agenda_item_data.last.each do |detail|
-      rendered_details << @event.journal.render_detail(detail, activity_page: @activity_page)
+  def render_event_details
+    @event.data[:details].filter_map do |detail|
+      @event.journal.render_detail(detail, activity_page: @activity_page)
     end
-
-    rendered_details
-  end
-
-  def agenda_item_title # rubocop:disable Metrics/AbcSize
-    agenda_item = MeetingAgendaItem.find(@event.meeting_agenda_item_data.first)
-
-    if agenda_item.item_type == "work_package"
-      link_to agenda_item.work_package.to_s, agenda_item.work_package
-    else
-      I18n.t("text_agenda_item_title", title: agenda_item.title)
-    end
-  rescue ActiveRecord::RecordNotFound
-    agenda_item_title_field = @event.meeting_agenda_item_data.last['title']
-    I18n.t("text_agenda_item_title", title: agenda_item_title_field.last || agenda_item_title_field.first)
   end
 
   def meeting_activity_title

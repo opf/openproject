@@ -28,10 +28,11 @@
 
 class OpenProject::JournalFormatter::AgendaItemPosition < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-    label_text = 'Order'
+    label_text = MeetingAgendaItem.human_attribute_name(:position)
     label_text = content_tag(:strong, label_text) if options[:html]
 
     value = value(values.first, values.last)
+    return if value.nil?
 
     I18n.t(:text_journal_of, label: label_text, value:)
   end

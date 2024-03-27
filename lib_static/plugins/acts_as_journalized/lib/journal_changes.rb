@@ -78,7 +78,7 @@ module JournalChanges
           'agenda_item_journals',
           'agenda_items',
           :agenda_item_id,
-          [:title, :duration_in_minutes, :notes, :position]
+          [:title, :duration_in_minutes, :notes, :position, :work_package_id]
         )
       )
     end

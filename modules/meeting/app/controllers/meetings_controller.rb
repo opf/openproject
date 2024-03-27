@@ -138,7 +138,7 @@ class MeetingsController < ApplicationController
 
   def history
     @events = get_events
-    separate_events_for_history
+    #separate_events_for_history
 
     render :history
   rescue ActiveRecord::RecordNotFound => e
@@ -365,17 +365,9 @@ class MeetingsController < ApplicationController
   end
 
   def get_events
-    Activities::EventMapper.map_to_events(
-      @meeting,
-      ->(journal) do
-        {
-          meeting_title: journal.data.title,
-          meeting_start_time: journal.data.start_time,
-          meeting_duration: journal.data.duration,
-          project_id: journal.data.project_id
-        }
-      end
-    )
+    Activities::MeetingEventMapper
+      .new(@meeting)
+      .map_to_events
   end
 
   def activity_scope
@@ -386,7 +378,10 @@ class MeetingsController < ApplicationController
     @days = 31 # Setting.activity_days_default.to_i
 
     if params[:from]
-      begin; @date_to = params[:from].to_date + 1.day; rescue StandardError; end
+      begin
+        ; @date_to = params[:from].to_date + 1.day;
+      rescue StandardError;
+      end
     end
 
     @date_to ||= User.current.today + 1.day
@@ -433,7 +428,7 @@ class MeetingsController < ApplicationController
         agenda_item_only_check(event, events_dup, details_count)
       end
 
-      event.controller_flag = true
+      #event.controller_flag = true
     end
 
     @events = events_dup
