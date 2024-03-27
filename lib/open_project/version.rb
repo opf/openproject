@@ -108,15 +108,15 @@ module OpenProject
           path = Rails.root.join("RELEASE_DATE")
           if File.exist? path
             s = File.read(path)
-            Date.parse(s)
+            Time.zone.parse(s)
           end
         end
       end
 
       def release_date_from_git
         cached_or_block(:@release_date_from_git) do
-          date, = Open3.capture3("git", "log", "-1", "--format=%cd", "--date=short")
-          Date.parse(date) if date
+          date, = Open3.capture3("git", "log", "-1", "--format=%cd", "--date=iso8601")
+          Time.zone.parse(date) if date
         end
       end
 
