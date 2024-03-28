@@ -1,7 +1,7 @@
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t(:label_member_plural) }
-    header.with_breadcrumbs(breadcrumbs_items)
+    header.with_breadcrumbs(breadcrumb_items)
     header.with_action_button(scheme: :primary,
                               mobile_icon: :plus,
                               mobile_label: t('activerecord.models.member'),

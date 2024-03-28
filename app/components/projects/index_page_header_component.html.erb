@@ -1,109 +1,108 @@
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% if show_state? %>
     <% header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title } %>
-    <% header.with_breadcrumbs([{href: projects_path, text: t('en.types.edit.projects')}, page_title])%>
+    <% header.with_breadcrumbs(breadcrumb_items)%>
 
+    <% if query_saveable? %>
+      <% header.with_action_text(tag: :span,
+                                    mr: BUTTON_MARGIN_RIGHT,
+                                    color: :muted) { t('lists.can_be_saved_as') } %>
 
-      <% if query_saveable? %>
-        <% header.with_action_text(tag: :span,
-                                      mr: BUTTON_MARGIN_RIGHT,
-                                      color: :muted) { t('lists.can_be_saved_as') } %>
-
-        <% header.with_action_button(mobile_icon: "op-save", mobile_label: t('button_save_as'),
-                                     scheme: :invisible,
-                                     size: :medium,
-                                     mr: BUTTON_MARGIN_RIGHT,
-                                     tag: :a,
-                                     href: new_projects_query_path,
-                                     data: {
-                                       controller: "params-from-query",
-                                       'application-target': "dynamic",
-                                       'params-from-query-allowed-value': '["filters", "columns"]'
-                                     },
-                                     classes: 'Button--invisibleOP') do |button|%>
-          <% button.with_leading_visual_icon(icon: "op-save") %>
-          t('button_save_as')
-        <% end %>
-
+      <% header.with_action_button(mobile_icon: "op-save", mobile_label: t('button_save_as'),
+                                   scheme: :invisible,
+                                   size: :medium,
+                                   mr: BUTTON_MARGIN_RIGHT,
+                                   tag: :a,
+                                   href: new_projects_query_path,
+                                   data: {
+                                     controller: "params-from-query",
+                                     'application-target': "dynamic",
+                                     'params-from-query-allowed-value': '["filters", "columns"]'
+                                   },
+                                   classes: 'Button--invisibleOP') do |button|%>
+        <% button.with_leading_visual_icon(icon: "op-save") %>
+        t('button_save_as')
       <% end %>
 
-      <%= header.with_action_menu(menu_arguments: { anchor_align: :end }, button_arguments: { icon: "op-kebab-vertical", "aria-label": t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' } })  do |menu, button|
-        if gantt_portfolio_project_ids.any?
-          menu.with_item(
-            tag: :a,
-            label: t('projects.index.open_as_gantt'),
-            href: gantt_portfolio_query_link,
-            id: 'projects-index-open-as-gantt',
-            content_arguments: { target: '_blank' }
-          ) do |item|
-            item.with_leading_visual_icon(icon: 'op-view-timeline')
-          end
-        end
+    <% end %>
 
+    <%= header.with_action_menu(menu_arguments: { anchor_align: :end }, button_arguments: { icon: "op-kebab-vertical", "aria-label": t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' } })  do |menu, button|
+      if gantt_portfolio_project_ids.any?
         menu.with_item(
           tag: :a,
-          label: t(:label_overall_activity),
-          href: activities_path
+          label: t('projects.index.open_as_gantt'),
+          href: gantt_portfolio_query_link,
+          id: 'projects-index-open-as-gantt',
+          content_arguments: { target: '_blank' }
         ) do |item|
-          item.with_leading_visual_icon(icon: 'tasklist')
-        end
-
-        if query_saveable?
-          menu.with_item(
-            label: t('button_save_as'),
-            href: new_projects_query_path,
-            content_arguments: {
-            data: {
-              controller: "params-from-query",
-              'application-target': "dynamic",
-              'params-from-query-allowed-value': '["filters", "columns"]'
-            }
-          }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :'op-save')
-          end
-        end
-
-        menu.with_item(
-          label: t('js.label_export'),
-          content_arguments: { 'data-show-dialog-id': Projects::ExportListModalComponent::MODAL_ID }
-        ) do |item|
-          item.with_leading_visual_icon(icon: 'sign-out')
-        end
-
-        menu.with_item(
-          label: t(:'queries.configure_view.heading'),
-          content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :gear)
-        end
-
-        if query.persisted?
-          menu.with_item(
-            label: t(:button_delete),
-            scheme: :danger,
-            content_arguments: { 'data-show-dialog-id': Projects::DeleteListModalComponent::MODAL_ID }
-          ) do |item|
-            item.with_leading_visual_icon(icon: 'trash')
-          end
+          item.with_leading_visual_icon(icon: 'op-view-timeline')
         end
       end
-      %>
+
+      menu.with_item(
+        tag: :a,
+        label: t(:label_overall_activity),
+        href: activities_path
+      ) do |item|
+        item.with_leading_visual_icon(icon: 'tasklist')
+      end
+
+      if query_saveable?
+        menu.with_item(
+          label: t('button_save_as'),
+          href: new_projects_query_path,
+          content_arguments: {
+          data: {
+            controller: "params-from-query",
+            'application-target': "dynamic",
+            'params-from-query-allowed-value': '["filters", "columns"]'
+          }
+        }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :'op-save')
+        end
+      end
+
+      menu.with_item(
+        label: t('js.label_export'),
+        content_arguments: { 'data-show-dialog-id': Projects::ExportListModalComponent::MODAL_ID }
+      ) do |item|
+        item.with_leading_visual_icon(icon: 'sign-out')
+      end
+
+      menu.with_item(
+        label: t(:'queries.configure_view.heading'),
+        content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :gear)
+      end
+
+      if query.persisted?
+        menu.with_item(
+          label: t(:button_delete),
+          scheme: :danger,
+          content_arguments: { 'data-show-dialog-id': Projects::DeleteListModalComponent::MODAL_ID }
+        ) do |item|
+          item.with_leading_visual_icon(icon: 'trash')
+        end
+      end
+    end
+    %>
 
   <% else %>
-      <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
-        primer_form_with(model: query,
-                         url: projects_queries_path,
-                         scope: 'query',
-                         data: {
-                           controller: "params-from-query",
-                           'application-target': "dynamic",
-                           'params-from-query-allowed-value': '["filters", "columns"]'
-                         },
-                         id: 'project-save-form') do |f|
-          render(Queries::Projects::Create.new(f))
-        end
-      end %>
+    <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
+      primer_form_with(model: query,
+                       url: projects_queries_path,
+                       scope: 'query',
+                       data: {
+                         controller: "params-from-query",
+                         'application-target': "dynamic",
+                         'params-from-query-allowed-value': '["filters", "columns"]'
+                       },
+                       id: 'project-save-form') do |f|
+        render(Queries::Projects::Create.new(f))
+      end
+    end %>
   <% end %>
 <% end %>
 

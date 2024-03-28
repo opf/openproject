@@ -69,12 +69,15 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   def page_title
     query.name || t(:label_project_plural)
   end
-
   def query_saveable?
     current_user.logged? && query.name.blank?
   end
 
   def show_state?
     state == :show
+  end
+
+  def breadcrumb_items
+    [{ href: projects_path, text: t("en.types.edit.projects") }, page_title]
   end
 end

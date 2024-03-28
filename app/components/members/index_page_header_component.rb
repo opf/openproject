@@ -56,9 +56,7 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
     }
   end
 
-  def breadcrumbs_items
-    [{ href: project_overview_path(@project.id), text: @project.name },
-     { href: project_members_path(@project), text: t(:label_member_plural) },
-     "test"]
+  def breadcrumb_items
+    [{ href: project_overview_path(@project.id), text: @project.name }, t(:label_member_plural)]
   end
 end
