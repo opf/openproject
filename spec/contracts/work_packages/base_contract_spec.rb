@@ -35,6 +35,7 @@ RSpec.describe WorkPackages::BaseContract do
                   type:,
                   done_ratio: 50,
                   estimated_hours: 6.0,
+                  remaining_hours: 3.0,
                   project:)
   end
   let(:project) { build_stubbed(:project) }
@@ -294,6 +295,7 @@ RSpec.describe WorkPackages::BaseContract do
 
     before do
       work_package.estimated_hours = estimated_hours
+      work_package.remaining_hours = nil
     end
 
     context "when > 0" do

@@ -290,6 +290,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     elsif only_percent_complete_initially_set?
       update_remaining_hours_from_percent_complete
     else
+      update_estimated_hours
       update_remaining_hours
       update_done_ratio
     end
@@ -302,11 +303,8 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     work_package.estimated_hours_changed? && work_package.estimated_hours.present?
   end
 
-  def only_remaining_work_initially_set?
-    return false if work_package.remaining_hours.nil?
-    return false if work_package.done_ratio.present?
-
-    work_package.estimated_hours_was.nil?
+  def work_was_unset_and_remaining_work_is_set?
+    work_package.estimated_hours_was.nil? && work_package.remaining_hours.present?
   end
 
   # Compute and update +done_ratio+ if its dependent attributes are being modified.
@@ -341,11 +339,39 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def compute_done_ratio
+    # do not change done ratio if the values are invalid
+    if invalid_progress_values?
+      return work_package.done_ratio
+    end
+
     completed_work = work_package.estimated_hours - work_package.remaining_hours
     completion_ratio = completed_work.to_f / work_package.estimated_hours
 
     (completion_ratio * 100).round(2)
   end
+
+  def invalid_progress_values?
+    work = work_package.estimated_hours
+    remaining_work = work_package.remaining_hours
+
+    return true if work.negative?
+    return true if remaining_work.negative?
+
+    work && remaining_work && remaining_work > work
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def update_estimated_hours
+    return unless WorkPackage.use_field_for_done_ratio?
+    return if work_package.estimated_hours_changed?
+    return if work_package.estimated_hours.present?
+    return unless work_package.remaining_hours_changed?
+
+    if work_package.remaining_hours.present? && work_package.done_ratio.present?
+      work_package.estimated_hours = estimated_hours_from_done_ratio_and_remaining_hours
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
 
   # When in "Status-based" mode for % Complete, remaining hours are based
   # on the computation of it derived from the status's default done ratio
@@ -358,7 +384,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     elsif WorkPackage.use_field_for_done_ratio? &&
           work_package.estimated_hours_changed?
       return if work_package.remaining_hours_changed?
-      return if only_remaining_work_initially_set?
+      return if work_was_unset_and_remaining_work_is_set? # remaining work is kept and % complete will be set
 
       if work_package.estimated_hours.nil? || work_package.remaining_hours.nil?
         work_package.remaining_hours = work_package.estimated_hours
@@ -369,6 +395,11 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
   end
   # rubocop:enable Metrics/AbcSize,Metrics/PerceivedComplexity
+
+  def estimated_hours_from_done_ratio_and_remaining_hours
+    remaining_ratio = 1.0 - (work_package.done_ratio / 100.0)
+    work_package.remaining_hours / remaining_ratio
+  end
 
   def remaining_hours_from_done_ratio_and_estimated_hours
     return nil if work_package.done_ratio.nil? || work_package.estimated_hours.nil?
