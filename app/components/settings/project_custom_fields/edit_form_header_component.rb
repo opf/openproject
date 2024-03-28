@@ -34,6 +34,11 @@ module Settings
 
         @custom_field = custom_field
       end
+
+      def breadcrumbs_items
+        [{ href: project_overview_path(@project.id), text: @project.name },
+         t("settings.project_attributes.heading")]
+      end
     end
   end
 end

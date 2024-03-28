@@ -32,6 +32,10 @@ module Settings
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      def breadcrumbs_items
+        [{ href: admin_index_path, text: t("label_administration") },
+         t("settings.project_attributes.heading")]
+      end
     end
   end
 end
