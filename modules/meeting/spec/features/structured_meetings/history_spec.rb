@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../../support/pages/meetings/new'
-require_relative '../../support/pages/structured_meeting/show'
+require_relative "../../support/pages/meetings/new"
+require_relative "../../support/pages/structured_meeting/show"
 
-RSpec.describe 'history',
+RSpec.describe "history",
                :js,
                :with_cuprite do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
@@ -40,18 +40,18 @@ RSpec.describe 'history',
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   shared_let(:user) do
     create(:user,
-           lastname: 'First',
+           lastname: "First",
            member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings manage_agendas
                                                     view_work_packages] })
   end
   shared_let(:view_only_user) do
     create(:user,
-           lastname: 'Second',
+           lastname: "Second",
            member_with_permissions: { project => %i[view_meetings view_work_packages] })
   end
   shared_let(:no_member_user) do
     create(:user,
-           lastname: 'Third')
+           lastname: "Third")
   end
   shared_let(:meeting) do
     create(:structured_meeting,
@@ -68,15 +68,15 @@ RSpec.describe 'history',
 
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
 
-  it 'for a user with view permissions', with_settings: { journal_aggregation_time_minutes: 0 } do
+  it "for a user with view permissions", with_settings: { journal_aggregation_time_minutes: 0 } do
     login_as view_only_user
     show_page.visit!
 
-    click_button('op-meetings-header-action-trigger')
-    click_button 'History'
+    click_button("op-meetings-header-action-trigger")
+    click_button "History"
 
     within("li.op-activity-list--item", match: :first) do
-      expect(page).to have_css('.op-activity-list--item-title', text: "Meeting", exact_text: true)
+      expect(page).to have_css(".op-activity-list--item-title", text: "Meeting", exact_text: true)
       # expect(page).to have_css('.op-activity-list--item-subtitle', text: "created by #{current_user.name} on #{format_time(datetime)}") # formatting issues?
     end
 
@@ -93,27 +93,27 @@ RSpec.describe 'history',
     page.refresh
     login_as view_only_user
 
-    click_button('op-meetings-header-action-trigger')
-    click_button 'History'
+    click_button("op-meetings-header-action-trigger")
+    click_button "History"
 
     binding.pry
 
     within("li.op-activity-list--item", match: :first) do
-      expect(page).to have_css('.op-activity-list--item-title', text: "Meeting details")
+      expect(page).to have_css(".op-activity-list--item-title", text: "Meeting details")
       # expect(page).to have_css('.op-activity-list--item-subtitle', text: "updated by #{current_user.name} on #{format_time(datetime)}")
-      expect(page).to have_css('li', text: 'Title changed from Some title to Updated')
-      expect(page).to have_css('li', text: 'Location changed from https://some-url.com to Wakanda')
-      expect(page).to have_css('li', text: 'Time changed from 13:30 to 14:30')
-      expect(page).to have_css('li', text: 'Date changed from 28.03.2024 to 29.03.2024')
+      expect(page).to have_css("li", text: "Title changed from Some title to Updated")
+      expect(page).to have_css("li", text: "Location changed from https://some-url.com to Wakanda")
+      expect(page).to have_css("li", text: "Time changed from 13:30 to 14:30")
+      expect(page).to have_css("li", text: "Date changed from 28.03.2024 to 29.03.2024")
     end
   end
 
-  it 'for a user with no permissions', with_settings: { journal_aggregation_time_minutes: 0 } do
+  it "for a user with no permissions", with_settings: { journal_aggregation_time_minutes: 0 } do
     login_as no_member_user
 
     visit history_meeting_path(meeting)
 
-    expected = '[Error 403] You are not authorized to access this page.'
-    expect(page).to have_css('.op-toast.-error', text: expected)
+    expected = "[Error 403] You are not authorized to access this page."
+    expect(page).to have_css(".op-toast.-error", text: expected)
   end
 end

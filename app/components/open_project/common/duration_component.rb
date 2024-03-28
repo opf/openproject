@@ -42,9 +42,11 @@ module OpenProject
       end
 
       def call
-        render(Primer::Beta::Text.new) do
-          localized_parts.join(separator)
-        end
+        render(Primer::Beta::Text.new) { text }
+      end
+
+      def text
+        localized_parts.join(separator)
       end
 
       private
