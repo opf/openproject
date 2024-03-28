@@ -138,7 +138,6 @@ class MeetingsController < ApplicationController
 
   def history
     @events = get_events
-    #separate_events_for_history
 
     render :history
   rescue ActiveRecord::RecordNotFound => e
@@ -390,64 +389,6 @@ class MeetingsController < ApplicationController
 
   def determine_author
     @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
-  end
-
-  def separate_events_for_history # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
-    events_dup = @events.clone
-
-    @events.each do |event|
-      match = false
-      event.journal.details.each_key do |key|
-        if key.match? /agenda_items_\d+/
-          match = true
-        end
-      end
-
-      if match == true
-        results = { agenda_items: Hash.new { |h, k| h[k] = {} } }
-
-        event.journal.details.each_with_object(results) do |(key, values), res|
-          if key.match? /agenda_items_\d+/
-            id, attribute = key.gsub("agenda_items_", "").split("_")
-            attribute = "duration_in_minutes" if attribute == "duration"
-            res[:agenda_items][id.to_i][attribute] = values
-          else
-            res[key] = values
-          end
-        end
-
-        details_count = 0
-
-        results[:agenda_items].each do |item_data|
-          copy = event.clone
-          copy.meeting_agenda_item_data = item_data
-          events_dup << copy if work_package_agenda_item_exists?(copy)
-          details_count += item_data.last.count
-        end
-
-        agenda_item_only_check(event, events_dup, details_count)
-      end
-
-      #event.controller_flag = true
-    end
-
-    @events = events_dup
-  end
-
-  def agenda_item_only_check(event, events_dup, count)
-    if event.journal.details.count == count
-      events_dup.delete(event)
-    else
-      events_dup
-    end
-  end
-
-  def work_package_agenda_item_exists?(event)
-    return true if event.meeting_agenda_item_data.last["title"]&.last || event.meeting_agenda_item_data.last["title"]&.first
-
-    MeetingAgendaItem.find(event.meeting_agenda_item_data.first)
-  rescue ActiveRecord::RecordNotFound
-    false
   end
 
   def find_copy_from_meeting

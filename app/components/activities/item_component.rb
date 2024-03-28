@@ -109,18 +109,6 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
     @current_project && (@event.project != @current_project)
   end
 
-  def meeting_activity?
-    @event.data.key?(:meeting_title)
-  end
-
-  def initial_meeting_activity?
-    meeting_activity? && @event.journal.initial?
-  end
-
-  def initial_agenda_item?
-    @event.data.dig(:meeting_agenda_item, :initial)
-  end
-
   def filter_journal_details
     details = @event.journal.details
 
@@ -141,13 +129,5 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
     @event.data[:details].filter_map do |detail|
       @event.journal.render_detail(detail, activity_page: @activity_page)
     end
-  end
-
-  def meeting_activity_title
-    I18n.t("label_meeting_details")
-  end
-
-  def initial_meeting_activity_title
-    I18n.t("label_initial_meeting_details")
   end
 end
