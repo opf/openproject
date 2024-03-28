@@ -59,9 +59,9 @@ module Components
       expect(editor_element.text).to eq(value)
     end
 
-    def expect_supports_no_macros
+    def expect_supports_macros
       expect(container)
-          .to have_no_css(".ck-button", visible: :all, text: "Macros")
+          .to have_css(".ck-button", visible: :all, text: "Macros")
     end
 
     def within_enabled_preview

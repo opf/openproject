@@ -45,7 +45,10 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
   public get ckEditorContext():ICKEditorContext {
     return {
       type: this.templateOptions.editorType,
-      macros: 'none',
+      // This is a very project resource specific hack to allow macros on description and statusExplanation but
+      // disable it for custom fields. As the formly based approach is currently limited to projects, and that is to be removed,
+      // such a "pragmatic" approach should be ok.
+      macros: (this.templateOptions.property as string).startsWith('customField') ? 'none' : 'resource',
       options: { rtl: this.templateOptions?.rtl },
     };
   }
