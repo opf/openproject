@@ -32,16 +32,20 @@ module OpenProject
     class AttributeComponent < Primer::Component
       attr_reader :id,
                   :name,
-                  :description
+                  :description,
+                  :lines,
+                  :background_reference_id
 
       PARAGRAPH_CSS_CLASS = "op-uc-p".freeze
 
-      def initialize(id, name, description, **args)
+      def initialize(id, name, description, lines: 1, background_reference_id: "content", **args)
         super
         @id = id
         @name = name
         @description = description
         @system_arguments = args
+        @lines = lines
+        @background_reference_id = background_reference_id
       end
 
       def short_text
@@ -62,6 +66,10 @@ module OpenProject
 
       def text_color
         :muted if multi_type?
+      end
+
+      def max_height
+        "#{lines * 1.6}em"
       end
 
       private
@@ -88,7 +96,7 @@ module OpenProject
       end
 
       def multi_type?
-        first_paragraph.include?("figure") || first_paragraph.include?("macro")
+        first_paragraph.include?("figure") || first_paragraph.include?("macro") || (body_children.any? && first_paragraph.blank?)
       end
     end
   end

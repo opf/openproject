@@ -169,7 +169,9 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
         within_custom_field_container(boolean_project_custom_field) do
           expect_unchecked_state
 
-          page.find("[data-qa-selector='toggle-project-custom-field-mapping-#{boolean_project_custom_field.id}'] > button").click
+          page
+            .find("[data-test-selector='toggle-project-custom-field-mapping-#{boolean_project_custom_field.id}'] > button")
+            .click
 
           expect_checked_state # without reloading the page
         end
@@ -194,7 +196,7 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
       visit project_settings_project_custom_fields_path(project)
 
       within_custom_field_section_container(section_for_input_fields) do
-        page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
+        page.find("[data-test-selector='enable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
 
         within_custom_field_container(boolean_project_custom_field) do
           expect_checked_state
@@ -221,7 +223,7 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
       visit project_settings_project_custom_fields_path(project)
 
       within_custom_field_section_container(section_for_input_fields) do
-        page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
+        page.find("[data-test-selector='enable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
 
         within_custom_field_container(boolean_project_custom_field) do
           expect_checked_state
@@ -244,7 +246,7 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
       end
 
       within_custom_field_section_container(section_for_input_fields) do
-        page.find("[data-qa-selector='disable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
+        page.find("[data-test-selector='disable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
 
         within_custom_field_container(boolean_project_custom_field) do
           expect_unchecked_state
@@ -362,7 +364,9 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
 
         it 'includeds the invisible project custom fields in the bulk actions' do
           within_custom_field_section_container(section_with_invisible_fields) do
-            page.find("[data-qa-selector='disable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']").click
+            page
+              .find("[data-test-selector='disable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']")
+              .click
 
             within_custom_field_container(visible_project_custom_field) do
               expect_unchecked_state
@@ -371,7 +375,9 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
               expect_unchecked_state
             end
 
-            page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']").click
+            page
+              .find("[data-test-selector='enable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']")
+              .click
 
             within_custom_field_container(visible_project_custom_field) do
               expect_checked_state
@@ -398,7 +404,9 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
 
         it 'does not include the invisible project custom fields in the bulk actions' do
           within_custom_field_section_container(section_with_invisible_fields) do
-            page.find("[data-qa-selector='disable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']").click
+            page
+              .find("[data-test-selector='disable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']")
+              .click
 
             within_custom_field_container(visible_project_custom_field) do
               expect_unchecked_state
@@ -410,7 +418,7 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
             # disable manually
             project.project_custom_field_project_mappings.find_by(custom_field_id: invisible_project_custom_field.id).destroy!
 
-            page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']").click
+            page.find("[data-test-selector='enable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']").click
 
             within_custom_field_container(visible_project_custom_field) do
               expect_checked_state
@@ -425,7 +433,7 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
   end
 
   def expect_type(type)
-    within "[data-qa-selector='custom-field-type']" do
+    within "[data-test-selector='custom-field-type']" do
       expect(page).to have_content(type)
     end
   end
@@ -439,10 +447,10 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
   end
 
   def within_custom_field_section_container(section, &)
-    within("[data-qa-selector='project-custom-field-section-#{section.id}']", &)
+    within("[data-test-selector='project-custom-field-section-#{section.id}']", &)
   end
 
   def within_custom_field_container(custom_field, &)
-    within("[data-qa-selector='project-custom-field-#{custom_field.id}']", &)
+    within("[data-test-selector='project-custom-field-#{custom_field.id}']", &)
   end
 end

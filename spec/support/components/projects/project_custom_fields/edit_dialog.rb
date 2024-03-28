@@ -50,7 +50,7 @@ module Components
         end
 
         def async_content_container_css_selector
-          "#{dialog_css_selector} [data-qa-selector='async-dialog-content']"
+          "#{dialog_css_selector} [data-test-selector='async-dialog-content']"
         end
 
         def within_dialog(&)
@@ -77,7 +77,7 @@ module Components
 
         def submit
           within(dialog_css_selector) do
-            page.find("[data-qa-selector='save-project-attributes-button']").click
+            page.find("[data-test-selector='save-project-attributes-button']").click
           end
         end
 
@@ -104,7 +104,7 @@ module Components
         def within_custom_field_input_container(custom_field, &)
           # wrapping in `within_async_content` to make sure the container is properly loaded
           within_async_content do
-            within("[data-qa-selector='project-custom-field-input-container-#{custom_field.id}']", &)
+            within("[data-test-selector='project-custom-field-input-container-#{custom_field.id}']", &)
           end
         end
       end
