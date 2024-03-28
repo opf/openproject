@@ -161,7 +161,6 @@ module Members
     def can_delete? = may_delete? && member.project_role? && member.deletable?
     def can_delete_roles? = may_delete? && member.project_role? && member.some_roles_deletable?
     def can_view_shared_work_packages? = may_view_shared_work_packages? && shared_work_packages?
-    def can_delete_shares? = may_delete_shares? && shared_work_packages?
 
     def button_links
       return [] if actions.empty?
@@ -191,7 +190,7 @@ module Members
         actions << edit_action_options if can_update?
         actions << view_work_package_shares_action_options if can_view_shared_work_packages?
         actions << delete_action_options if may_delete? && member.project_role?
-        actions << delete_work_package_shares_action_options if can_delete_shares?
+        actions << delete_work_package_shares_action_options if may_delete_shares? && shared_work_packages?
       end
     end
 

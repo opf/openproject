@@ -51,7 +51,7 @@ RSpec.describe Members::DeleteMemberDialogComponent, type: :component do
   let(:may_manage_user?) { true }
 
   context "when project membership and work package shares can be deleted" do
-    let(:stubs) { { can_delete?: true, can_delete_roles?: true, can_delete_shares?: true } }
+    let(:stubs) { { can_delete?: true, can_delete_roles?: true, may_delete_shares?: true, shared_work_packages?: true } }
 
     context "when principal is a User" do
       let(:principal) { build_stubbed(:user) }
@@ -104,7 +104,7 @@ RSpec.describe Members::DeleteMemberDialogComponent, type: :component do
   end
 
   context "when project roles and work package shares can be deleted, but not project membership" do
-    let(:stubs) { { can_delete?: false, can_delete_roles?: true, can_delete_shares?: true } }
+    let(:stubs) { { can_delete?: false, can_delete_roles?: true, may_delete_shares?: true, shared_work_packages?: true } }
 
     before do
       allow(member).to receive(:inherited_shared_work_packages_count?).and_return(true)
@@ -131,7 +131,7 @@ RSpec.describe Members::DeleteMemberDialogComponent, type: :component do
   end
 
   context "when project membership can be deleted, but not work package shares" do
-    let(:stubs) { { can_delete?: true, can_delete_roles?: true, can_delete_shares?: false } }
+    let(:stubs) { { can_delete?: true, can_delete_roles?: true, may_delete_shares?: false } }
 
     it "renders dialog" do
       render_inline(described_class.new(member, row:))
@@ -150,7 +150,7 @@ RSpec.describe Members::DeleteMemberDialogComponent, type: :component do
   end
 
   context "when project roles can be deleted, but not project membership or work package shares" do
-    let(:stubs) { { can_delete?: false, can_delete_roles?: true, can_delete_shares?: false } }
+    let(:stubs) { { can_delete?: false, can_delete_roles?: true, may_delete_shares?: false } }
 
     it "renders dialog" do
       render_inline(described_class.new(member, row:))

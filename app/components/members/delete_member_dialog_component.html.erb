@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% dialog.with_header(variant: :large) %>
 
   <% case %>
-  <% when can_delete_roles? && can_delete_shares? %>
+  <% when can_delete_roles? && may_delete_shares? && shared_work_packages? %>
     <% dialog.with_body do %>
       <% if !can_delete? %>
         <%= paragraph { scoped_t(:can_remove_direct_but_not_shared_roles) } %>
