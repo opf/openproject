@@ -153,6 +153,7 @@ class Activities::MeetingEventMapper < Activities::EventMapper
     mapped_params(journal)
       .merge(
         {
+          event_title: journal.initial? ? I18n.t(:label_initial_meeting_details) : I18n.t(:label_meeting_details),
           data: {
             details: filtered_meeting_details(journal.details)
           }
