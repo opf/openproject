@@ -28,10 +28,18 @@
 
 class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-    label_text = 'Duration'
+    label_text = Meeting.human_attribute_name(:duration)
     label_text = content_tag(:strong, label_text) if options[:html]
 
-    value = value(values.first, values.last)
+    mapped = values.map do |v|
+      if v.blank?
+        nil
+      else
+        ::OpenProject::Common::DurationComponent.new(v.to_i, :hours, abbreviated: true).text
+      end
+    end
+
+    value = value(mapped.first, mapped.last)
 
     I18n.t(:text_journal_of, label: label_text, value:)
   end
@@ -44,7 +52,7 @@ class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
     elsif value.nil?
       I18n.t(:'activity.item.meeting_agenda_item.duration.removed')
     else
-      I18n.t(:'activity.item.meeting_agenda_item.duration.updated', value:)
+      I18n.t(:'activity.item.meeting_agenda_item.duration.updated', value:, old_value:)
     end
   end
 end
