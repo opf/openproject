@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require_relative '../bcf/create_split'
+require "support/pages/page"
+require_relative "../bcf/create_split"
 
 module Pages
   module IfcModels
@@ -65,24 +65,24 @@ module Pages
       end
 
       def finished_loading
-        expect(page).to have_css('.xeokit-busy-modal', visible: :all, wait: 30)
+        expect(page).to have_css(".xeokit-busy-modal", visible: :all, wait: 30)
       end
 
       def model_viewer_visible(visible)
         # Ensure the canvas is present
-        canvas_selector = '.op-ifc-viewer--model-canvas'
+        canvas_selector = ".op-ifc-viewer--model-canvas"
         expect(page).to(visible ? have_selector(canvas_selector, wait: 10) : have_no_selector(canvas_selector, wait: 10))
         # Ensure Xeokit is initialized. Only then the toolbar is generated.
-        toolbar_selector = '.xeokit-toolbar'
+        toolbar_selector = ".xeokit-toolbar"
         expect(page).to(visible ? have_selector(toolbar_selector, wait: 10) : have_no_selector(toolbar_selector, wait: 10))
       end
 
       def model_viewer_shows_a_toolbar(visible)
-        selector = '.xeokit-btn'
+        selector = ".xeokit-btn"
 
         if visible
           within('[data-test-selector="op-ifc-viewer--toolbar-container"]') do
-            expect(page).to have_selector(selector, count: 8)
+            expect(page).to have_selector(selector, count: 12)
           end
         else
           expect(page).to have_no_selector(selector)
@@ -92,47 +92,47 @@ module Pages
 
       def page_shows_a_toolbar(visible)
         toolbar_items.each do |button|
-          expect(page).to have_conditional_selector(visible, '.toolbar-item', text: button)
+          expect(page).to have_conditional_selector(visible, ".toolbar-item", text: button)
         end
       end
 
       def page_has_a_toolbar
-        expect(page).to have_css('.toolbar-container')
+        expect(page).to have_css(".toolbar-container")
       end
 
       def page_shows_a_filter_button(visible)
-        expect(page).to have_conditional_selector(visible, '.toolbar-item', text: 'Filter')
+        expect(page).to have_conditional_selector(visible, ".toolbar-item", text: "Filter")
       end
 
       def page_shows_a_refresh_button(visible)
-        expect(page).to have_conditional_selector(visible, '.toolbar-item a.refresh-button')
+        expect(page).to have_conditional_selector(visible, ".toolbar-item a.refresh-button")
       end
 
       def click_refresh_button
-        page.find('.toolbar-item a.refresh-button').click
+        page.find(".toolbar-item a.refresh-button").click
       end
 
       def switch_view(value)
         retry_block do
-          page.find_by_id('bcf-view-toggle-button').click
-          within('#bcf-view-context-menu') do
-            page.find('.menu-item', text: value, exact_text: true).click
+          page.find_by_id("bcf-view-toggle-button").click
+          within("#bcf-view-context-menu") do
+            page.find(".menu-item", text: value, exact_text: true).click
           end
         end
       end
 
       def expect_view_toggle_at(value)
-        expect(page).to have_css('#bcf-view-toggle-button', text: value)
+        expect(page).to have_css("#bcf-view-toggle-button", text: value)
       end
 
       def has_no_menu_item_with_text?(value)
-        expect(page).to have_no_css('.menu-item', text: value)
+        expect(page).to have_no_css(".menu-item", text: value)
       end
 
       private
 
       def toolbar_items
-        ['IFC models']
+        ["IFC models"]
       end
 
       def create_page_class_instance(type)

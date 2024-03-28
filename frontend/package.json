@@ -106,7 +106,7 @@
     "@uirouter/rx": "^1.0.0",
     "@vusion/webfonts-generator": "^0.8.0",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
-    "@xeokit/xeokit-bim-viewer": "2.3.10",
+    "@xeokit/xeokit-bim-viewer": "2.5.1-beta-18",
     "autoprefixer": "^10.4.16",
     "byte-base64": "^1.1.0",
     "chart.js": "4.3.0",

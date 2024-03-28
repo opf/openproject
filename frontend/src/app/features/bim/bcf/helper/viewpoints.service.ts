@@ -70,6 +70,7 @@ export class ViewpointsService {
         map(({ viewpoint, selection, visibility }) => {
           const data = viewpoint as BcfViewpointData;
           data.components = {
+            coloring: [],
             selection: selection.selection,
             visibility: visibility.visibility,
           };
