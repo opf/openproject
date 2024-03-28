@@ -30,6 +30,8 @@ require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe WorkPackages::BaseContract do
+  include_context "ModelContract shared context"
+
   let(:work_package) do
     build_stubbed(:work_package,
                   type:,
@@ -65,8 +67,6 @@ RSpec.describe WorkPackages::BaseContract do
   end
 
   subject(:contract) { described_class.new(work_package, current_user) }
-
-  include_context "ModelContract shared context"
 
   shared_examples_for "invalid if changed" do |attribute|
     before do
@@ -290,76 +290,58 @@ RSpec.describe WorkPackages::BaseContract do
     end
   end
 
-  describe "estimated hours" do
+  describe "work (estimated hours)" do
     let(:estimated_hours) { 1 }
+    let(:remaining_hours) { 0 }
 
     before do
       work_package.estimated_hours = estimated_hours
-      work_package.remaining_hours = nil
+      work_package.remaining_hours = remaining_hours
+      work_package.clear_remaining_hours_change
     end
 
     context "when > 0" do
       let(:estimated_hours) { 1 }
 
-      it "is valid" do
-        contract.validate
-
-        expect(subject.errors.symbols_for(:estimated_hours))
-          .to be_empty
-      end
+      include_examples "contract is valid"
     end
 
     context "when 0" do
       let(:estimated_hours) { 0 }
 
-      it "is valid" do
-        contract.validate
-
-        expect(subject.errors.symbols_for(:estimated_hours))
-          .to be_empty
-      end
+      include_examples "contract is valid"
     end
 
-    context "when nil" do
+    context "when nil while remaining work is nil" do
       let(:estimated_hours) { nil }
+      let(:remaining_hours) { nil }
 
-      it "is valid" do
-        contract.validate
+      include_examples "contract is valid"
+    end
 
-        expect(subject.errors.symbols_for(:estimated_hours))
-          .to be_empty
-      end
+    context "when nil while remaining work is set" do
+      let(:estimated_hours) { nil }
+      let(:remaining_hours) { 2.0 }
+
+      include_examples "contract is invalid", estimated_hours: :must_be_set_when_remaining_work_is_set
     end
 
     context "when < 0" do
       let(:estimated_hours) { -1 }
+      let(:remaining_hours) { -2 }
 
-      it "is invalid" do
-        contract.validate
-
-        expect(subject.errors.symbols_for(:estimated_hours))
-          .to contain_exactly(:only_values_greater_or_equal_zeroes_allowed)
-      end
+      include_examples "contract is invalid", estimated_hours: :only_values_greater_or_equal_zeroes_allowed
     end
 
-    context "when inferior to remaining_hours" do
+    context "when inferior to remaining work" do
       let(:estimated_hours) { 5.0 }
+      let(:remaining_hours) { 7.0 }
 
-      before do
-        work_package.remaining_hours = 6.0
-        allow(work_package).to receive(:changed).and_return(%w[estimated_hours])
-      end
-
-      it "is invalid" do
-        contract.validate
-
-        expect(subject.errors.symbols_for(:estimated_hours))
-          .to contain_exactly(:cant_be_inferior_to_remaining_work)
-      end
+      include_examples "contract is invalid", estimated_hours: :cant_be_inferior_to_remaining_work
     end
   end
 
-  describe "derived estimated hours" do
+  describe "total work (derived estimated hours)" do
     let(:changed_values) { [] }
     let(:attribute) { :derived_estimated_hours }
 
@@ -384,63 +366,47 @@ RSpec.describe WorkPackages::BaseContract do
     end
   end
 
-  describe "remaining hours" do
+  describe "remaining work (remaining hours)" do
     before do
       work_package.estimated_hours = 5.0
+      work_package.clear_remaining_hours_change
       work_package.remaining_hours = remaining_hours
-
-      allow(work_package).to receive(:changed).and_return(%w[remaining_hours])
     end
 
-    context "when it's the same as estimated_hours" do
+    context "when it's the same as work" do
       let(:remaining_hours) { 5.0 }
 
-      it "is valid" do
-        contract.validate
-
-        expect(subject.errors.symbols_for(:remaining_hours))
-          .to be_empty
-      end
+      include_examples "contract is valid"
     end
 
-    context "when it's less than estimated_hours" do
+    context "when it's less than work" do
       let(:remaining_hours) { 4.0 }
 
-      it "is valid" do
-        contract.validate
-
-        expect(subject.errors.symbols_for(:remaining_hours))
-          .to be_empty
-      end
+      include_examples "contract is valid"
     end
 
-    context "when it's greater than estimated_hours" do
+    context "when it's greater than work" do
       let(:remaining_hours) { 6.0 }
 
-      it "is invalid" do
-        contract.validate
+      include_examples "contract is invalid", remaining_hours: :cant_exceed_work
+    end
 
-        expect(subject.errors.symbols_for(:remaining_hours))
-          .to contain_exactly(:cant_exceed_work)
-      end
+    context "when unset" do
+      let(:remaining_hours) { nil }
+
+      include_examples "contract is invalid", remaining_hours: :must_be_set_when_work_is_set
     end
   end
 
-  describe "estimated_hours and remaining_hours" do
-    context "when changing both and remaining_hours exceeds estimated_hours" do
+  describe "work and remaining work" do
+    context "when changing both and remaining work exceeds work" do
       before do
         work_package.estimated_hours = 5.0
         work_package.remaining_hours = 6.0
       end
 
-      it "is invalid" do
-        contract.validate
-
-        expect(subject.errors.symbols_for(:estimated_hours))
-          .to contain_exactly(:cant_be_inferior_to_remaining_work)
-        expect(subject.errors.symbols_for(:remaining_hours))
-          .to contain_exactly(:cant_exceed_work)
-      end
+      include_examples "contract is invalid", estimated_hours: :cant_be_inferior_to_remaining_work,
+                                              remaining_hours: :cant_exceed_work
     end
   end
 
