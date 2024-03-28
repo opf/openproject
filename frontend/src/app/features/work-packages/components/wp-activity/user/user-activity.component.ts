@@ -49,6 +49,7 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import mermaid from 'mermaid';
 
 @Component({
   selector: 'user-activity',
@@ -249,6 +250,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   deactivate(focus:boolean):void {
     super.deactivate(focus);
 
+    this.updateCommentText();
+
     if (focus) {
       this.focusEditIcon();
     }
@@ -256,5 +259,20 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   private updateCommentText() {
     this.postedComment = this.activity.comment.html;
+    setTimeout(() => this.checkMermaid(), 100);
+  }
+
+  private checkMermaid() {
+    if (!this.elementRef.nativeElement) {
+      return;
+    }
+    const mermaids = Array.from(document.querySelectorAll('pre[lang="mermaid"]'));
+    if (mermaids.length > 0) {
+      mermaid.initialize({
+        securityLevel: 'strict',
+        startOnLoad: false,
+      });
+      mermaid.run({ nodes: mermaids as HTMLElement[] }).catch(console.error);
+    }
   }
 }
