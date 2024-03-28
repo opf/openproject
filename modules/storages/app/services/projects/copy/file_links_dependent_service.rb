@@ -31,11 +31,11 @@
 module Projects::Copy
   class FileLinksDependentService < Dependency
     def self.human_name
-      I18n.t(:'projects.copy.work_package_file_links')
+      I18n.t(:"projects.copy.work_package_file_links")
     end
 
     def source_count
-      source.work_packages.joins(:file_links).count('file_links.id')
+      source.work_packages.joins(:file_links).count("file_links.id")
     end
 
     protected
@@ -55,11 +55,11 @@ module Projects::Copy
         tmp = state
                 .copied_project_storages
                 .find { |item| item["source"].storage_id == storage_id }
-        source_project_storage = tmp['source']
-        target_project_storage = tmp['target']
+        source_project_storage = tmp["source"]
+        target_project_storage = tmp["target"]
         storage = source_project_storage.storage
 
-        if source_project_storage.project_folder_mode == 'automatic'
+        if source_project_storage.project_folder_mode == "automatic"
           files_info_query_result = files_info_query(storage:,
                                                      file_ids: source_file_links.map(&:origin_id))
           folder_files_file_ids_deep_query_result = folder_files_file_ids_deep_query(
@@ -71,7 +71,7 @@ module Projects::Copy
               storage_id: old_file_link.storage_id,
               creator_id: User.current.id,
               container_id: state.work_package_id_lookup[old_file_link.container_id.to_s],
-              container_type: 'WorkPackage',
+              container_type: "WorkPackage",
               origin_name: old_file_link.origin_name,
               origin_mime_type: old_file_link.origin_mime_type
             }
@@ -80,7 +80,7 @@ module Projects::Copy
                                        .find { |i| i.id.to_i == old_file_link.origin_id.to_i }
                                        .location
 
-            attributes['origin_id'] =
+            attributes["origin_id"] =
               if source_project_storage.file_inside_project_folder?(original_file_location)
                 new_file_location = original_file_location.gsub(
                   source_project_storage.project_folder_path_escaped,
@@ -99,7 +99,7 @@ module Projects::Copy
               storage_id: old_file_link.storage_id,
               creator_id: User.current.id,
               container_id: state.work_package_id_lookup[old_file_link.container_id.to_s],
-              container_type: 'WorkPackage',
+              container_type: "WorkPackage",
               origin_name: old_file_link.origin_name,
               origin_mime_type: old_file_link.origin_mime_type,
               origin_id: old_file_link.origin_id
@@ -116,7 +116,7 @@ module Projects::Copy
     def files_info_query(storage:, file_ids:)
       Storages::Peripherals::Registry
         .resolve("#{storage.short_provider_type}.queries.files_info")
-        .call(storage:, user: User.current, file_ids:)
+        .call(storage:, auth_strategy:, file_ids:)
         .on_failure { |r| add_error!("files_info_query", r.to_active_model_errors) }
         .result
     end
@@ -127,6 +127,14 @@ module Projects::Copy
         .call(storage:, folder: Storages::Peripherals::ParentFolder.new(location))
         .on_failure { |r| add_error!("folder_files_file_ids_deep_query", r.to_active_model_errors) }
         .result
+    end
+
+    private
+
+    def auth_strategy
+      Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+        .strategy
+        .with_user(User.current)
     end
   end
 end

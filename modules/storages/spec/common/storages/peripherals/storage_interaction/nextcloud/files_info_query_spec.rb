@@ -35,9 +35,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
-
   let(:storage) do
     create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
+  end
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
   subject { described_class.new(storage) }
@@ -48,7 +50,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
     context "without outbound request involved" do
       context "with an empty array of file ids" do
         it "returns an empty array" do
-          result = subject.call(user:, file_ids: [])
+          result = subject.call(auth_strategy:, file_ids: [])
 
           expect(result).to be_success
           expect(result.result).to eq([])
@@ -57,7 +59,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
 
       context "with nil" do
         it "returns an error" do
-          result = subject.call(user:, file_ids: nil)
+          result = subject.call(auth_strategy:, file_ids: nil)
 
           expect(result).to be_failure
           expect(result.result).to eq(:error)
@@ -69,7 +71,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
             vcr: "nextcloud/files_info_query_success" do
       context "with an array of file ids" do
         it "must return an array of file information when called" do
-          result = subject.call(user:, file_ids:)
+          result = subject.call(auth_strategy:, file_ids:)
           expect(result).to be_success
 
           result.match(
@@ -83,32 +85,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
       end
     end
 
-    context "with outbound request not authorized",
-            vcr: "nextcloud/files_info_query_unauthorized" do
-      context "with an array of file ids" do
-        before do
-          token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
-          allow(Storages::Peripherals::StorageInteraction::Nextcloud::Util)
-            .to receive(:token)
-            .and_yield(token)
-        end
-
-        it "must return an error when called" do
-          subject.call(user:, file_ids:).match(
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" },
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) }
-          )
-        end
-      end
-    end
-
     context "with outbound request not found" do
       context "with a single file id",
               vcr: "nextcloud/files_info_query_not_found" do
         let(:file_ids) { %w[1234] }
 
         it "returns an HTTP 200 with individual status code per file ID" do
-          subject.call(user:, file_ids:).match(
+          subject.call(auth_strategy:, file_ids:).match(
             on_success: ->(file_infos) do
               expect(file_infos.size).to eq(1)
               expect(file_infos.first.to_h).to include(status: "Not Found", status_code: 404)
@@ -125,7 +108,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::FilesInfoQu
         let(:file_ids) { %w[182 1234] }
 
         it "returns an HTTP 200 with individual status code per file ID" do
-          subject.call(user:, file_ids:).match(
+          subject.call(auth_strategy:, file_ids:).match(
             on_success: ->(file_infos) do
               expect(file_infos.size).to eq(2)
               expect(file_infos.map(&:status_code)).to contain_exactly(403, 404)

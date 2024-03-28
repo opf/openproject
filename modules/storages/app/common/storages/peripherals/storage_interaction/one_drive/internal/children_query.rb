@@ -34,11 +34,7 @@ module Storages
       module OneDrive
         module Internal
           class ChildrenQuery
-            UTIL = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
-
-            def self.call(storage:, http:, folder:, fields: [])
-              new(storage).call(http:, folder:, fields:)
-            end
+            Util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
 
             def initialize(storage)
               @storage = storage
@@ -47,7 +43,7 @@ module Storages
 
             def call(http:, folder:, fields: [])
               select_url_query = if fields.empty?
-                                   ''
+                                   ""
                                  else
                                    "?$select=#{fields.join(',')}"
                                  end
@@ -58,7 +54,7 @@ module Storages
             private
 
             def make_children_request(folder, http, select_url_query)
-              response = http.get(UTIL.join_uri_path(@uri, uri_path_for(folder) + select_url_query))
+              response = http.get(Util.join_uri_path(@uri, uri_path_for(folder) + select_url_query))
               handle_responses(response)
             end
 
@@ -68,13 +64,13 @@ module Storages
                 ServiceResult.success(result: response.json(symbolize_keys: true))
               in { status: 404 }
                 ServiceResult.failure(result: :not_found,
-                                      errors: UTIL.storage_error(response:, code: :not_found, source: self))
+                                      errors: Util.storage_error(response:, code: :not_found, source: self))
               in { status: 403 }
                 ServiceResult.failure(result: :forbidden,
-                                      errors: UTIL.storage_error(response:, code: :forbidden, source: self))
+                                      errors: Util.storage_error(response:, code: :forbidden, source: self))
               in { status: 401 }
                 ServiceResult.failure(result: :unauthorized,
-                                      errors: UTIL.storage_error(response:, code: :unauthorized, source: self))
+                                      errors: Util.storage_error(response:, code: :unauthorized, source: self))
               else
                 data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
                 ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))

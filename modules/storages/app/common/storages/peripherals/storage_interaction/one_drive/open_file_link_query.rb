@@ -34,9 +34,10 @@ module Storages
       module OneDrive
         class OpenFileLinkQuery
           using ::Storages::Peripherals::ServiceResultRefinements
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
 
-          def self.call(storage:, user:, file_id:, open_location: false)
-            new(storage).call(user:, file_id:, open_location:)
+          def self.call(storage:, auth_strategy:, file_id:, open_location: false)
+            new(storage).call(auth_strategy:, file_id:, open_location:)
           end
 
           def initialize(storage)
@@ -44,29 +45,27 @@ module Storages
             @delegate = Internal::DriveItemQuery.new(storage)
           end
 
-          def call(user:, file_id:, open_location: false)
-            @user = user
-
-            Util.using_user_token(@storage, user) do |token|
+          def call(auth_strategy:, file_id:, open_location: false)
+            Auth[auth_strategy].call(storage: @storage) do |http|
               if open_location
-                request_parent_id(token).call(file_id) >> request_web_url(token)
+                request_parent_id(http).call(file_id) >> request_web_url(http)
               else
-                request_web_url(token).call(file_id)
+                request_web_url(http).call(file_id)
               end
             end
           end
 
           private
 
-          def request_web_url(token)
+          def request_web_url(http)
             ->(file_id) do
-              @delegate.call(token:, drive_item_id: file_id, fields: %w[webUrl]).map(&web_url)
+              @delegate.call(http:, drive_item_id: file_id, fields: %w[webUrl]).map(&web_url)
             end
           end
 
-          def request_parent_id(token)
+          def request_parent_id(http)
             ->(file_id) do
-              @delegate.call(token:, drive_item_id: file_id, fields: %w[parentReference]).map(&parent_id)
+              @delegate.call(http:, drive_item_id: file_id, fields: %w[parentReference]).map(&parent_id)
             end
           end
 

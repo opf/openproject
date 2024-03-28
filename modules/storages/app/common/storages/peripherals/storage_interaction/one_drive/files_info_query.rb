@@ -35,28 +35,27 @@ module Storages
         class FilesInfoQuery
           using ServiceResultRefinements
 
-          def self.call(storage:, user:, file_ids: [])
-            new(storage).call(user:, file_ids:)
+          def self.call(storage:, auth_strategy:, file_ids: [])
+            new(storage).call(auth_strategy:, file_ids:)
           end
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def call(user:, file_ids:)
+          def call(auth_strategy:, file_ids:)
             if file_ids.nil?
               return ServiceResult.failure(
                 result: :error,
-                errors: ::Storages::StorageError.new(code: :error, log_message: 'File IDs can not be nil')
+                errors: ::Storages::StorageError.new(code: :error, log_message: "File IDs can not be nil")
               )
             end
 
             result = file_ids.map do |file_id|
-              file_info_result = FileInfoQuery.call(storage: @storage, user:, file_id:)
+              file_info_result = FileInfoQuery.call(storage: @storage, auth_strategy:, file_id:)
               if file_info_result.failure? &&
-                file_info_result.error_source.is_a?(::OAuthClients::ConnectionManager)
-                # errors in the connection manager must short circuit the query and return the error
+                file_info_result.error_source.module_parent == AuthenticationStrategies
+                # errors in the authentication strategies must short circuit the query and return the error
                 return file_info_result
               end
 

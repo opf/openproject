@@ -33,18 +33,18 @@ module Storages
     module StorageInteraction
       module Nextcloud
         class OpenFileLinkQuery
-          def initialize(storage)
-            @uri = storage.uri
+          def self.call(storage:, auth_strategy:, file_id:, open_location: false)
+            new(storage).call(auth_strategy:, file_id:, open_location:)
           end
 
-          def self.call(storage:, user:, file_id:, open_location: false)
-            new(storage).call(user:, file_id:, open_location:)
+          def initialize(storage)
+            @storage = storage
           end
 
           # rubocop:disable Lint/UnusedMethodArgument
-          def call(user:, file_id:, open_location: false)
+          def call(auth_strategy:, file_id:, open_location: false)
             location_flag = open_location ? 0 : 1
-            ServiceResult.success(result: Util.join_uri_path(@uri, "index.php/f/#{file_id}?openfile=#{location_flag}"))
+            ServiceResult.success(result: Util.join_uri_path(@storage.uri, "index.php/f/#{file_id}?openfile=#{location_flag}"))
           end
 
           # rubocop:enable Lint/UnusedMethodArgument

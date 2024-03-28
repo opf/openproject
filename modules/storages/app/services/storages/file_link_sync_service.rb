@@ -55,7 +55,7 @@ class Storages::FileLinkSyncService
     storage = ::Storages::Storage.find(storage_id)
     ::Storages::Peripherals::Registry
       .resolve("#{storage.short_provider_type}.queries.files_info")
-      .call(storage:, user: @user, file_ids: file_links.map(&:origin_id))
+      .call(storage:, auth_strategy:, file_ids: file_links.map(&:origin_id))
       .map { |file_infos| to_hash(file_infos) }
       .match(
         on_success: set_file_link_status(file_links),
@@ -66,6 +66,12 @@ class Storages::FileLinkSyncService
           end)
         }
       )
+  end
+
+  def auth_strategy
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+      .strategy
+      .with_user(@user)
   end
 
   def to_hash(file_infos)
