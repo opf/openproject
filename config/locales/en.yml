@@ -1147,7 +1147,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         duration:
           added: "set to %{value} minutes"
           removed: "removed"
-          updated: "modified to %{value} minutes"
+          updated: "changed from %{old_value} to %{value}"
         position:
           updated: "reordered"
     filter:

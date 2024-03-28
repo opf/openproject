@@ -56,12 +56,12 @@ RSpec.describe "history",
   shared_let(:meeting) do
     create(:structured_meeting,
            project:,
-           start_time: Time.current + 2.days,
+           start_time: DateTime.parse("2024-03-28T13:30:00Z"),
            title: "Some title",
            author: user, # why does the corresponding journal list user as anonyous instead?
            duration: 1.5).tap do |m|
-            create(:meeting_participant, :invitee, meeting: m, user: view_only_user)
-          end
+      create(:meeting_participant, :invitee, meeting: m, user: view_only_user)
+    end
   end
 
   let(:datetime) { Time.current }
@@ -81,14 +81,10 @@ RSpec.describe "history",
     end
 
     login_as user
-    meeting_data =
-    {
-      start_time: meeting.start_time + 1.day + 1.hour,
-      duration: 1,
-      title: "Updated",
-      location: "Wakanda"
-    }
-    meeting.update!(meeting_data)
+    meeting.update!(start_time: DateTime.parse("2024-03-29T14:00:00Z"),
+                    duration: 1,
+                    title: "Updated",
+                    location: "Wakanda")
 
     page.refresh
     login_as view_only_user
@@ -96,15 +92,12 @@ RSpec.describe "history",
     click_button("op-meetings-header-action-trigger")
     click_button "History"
 
-    binding.pry
-
     within("li.op-activity-list--item", match: :first) do
       expect(page).to have_css(".op-activity-list--item-title", text: "Meeting details")
-      # expect(page).to have_css('.op-activity-list--item-subtitle', text: "updated by #{current_user.name} on #{format_time(datetime)}")
       expect(page).to have_css("li", text: "Title changed from Some title to Updated")
       expect(page).to have_css("li", text: "Location changed from https://some-url.com to Wakanda")
-      expect(page).to have_css("li", text: "Time changed from 13:30 to 14:30")
-      expect(page).to have_css("li", text: "Date changed from 28.03.2024 to 29.03.2024")
+      expect(page).to have_css("li", text: "Start time changed from 03/28/2024 01:30 PM to 03/29/2024 02:00 PM")
+      expect(page).to have_css("li", text: "Duration changed from 1 hour, 30 minutes to 1 hour")
     end
   end
 
