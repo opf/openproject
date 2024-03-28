@@ -143,14 +143,14 @@ RSpec.describe User do
         end
       end
 
-      context 'with other letter char classes' do
+      context "with other letter char classes" do
         let(:login) { "célîneüberölig" }
 
-        it 'is valid' do
+        it "is valid" do
           expect(user).to be_valid
         end
 
-        it 'may be stored in the database' do
+        it "may be stored in the database" do
           expect(user.save).to be_truthy
         end
       end

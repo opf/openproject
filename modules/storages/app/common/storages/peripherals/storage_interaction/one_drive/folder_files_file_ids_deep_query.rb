@@ -108,7 +108,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive
       response = http.get(Util.join_uri_path(@storage.uri, "#{uri_path}?$select=id,name,parentReference"))
       handle_responses(response).map do |json|
         if folder.root?
-          { '/' => Storages::StorageFileInfo.from_id(json[:id]) }
+          { "/" => Storages::StorageFileInfo.from_id(json[:id]) }
         else
           parse_drive_item_info(json)[:entry]
         end

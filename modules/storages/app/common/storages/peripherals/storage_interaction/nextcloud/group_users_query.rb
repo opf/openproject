@@ -47,7 +47,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
-                   .with(headers: { 'OCS-APIRequest' => 'true' })
+                   .with(headers: { "OCS-APIRequest" => "true" })
                    .get(Util.join_uri_path(@uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)))
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
@@ -55,19 +55,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       case response
       in { status: 200..299 }
         group_users = Nokogiri::XML(response.body.to_s)
-                        .xpath('/ocs/data/users/element')
+                        .xpath("/ocs/data/users/element")
                         .map(&:text)
         ServiceResult.success(result: group_users)
       in { status: 405 }
-        Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
+        Util.error(:not_allowed, "Outbound request method not allowed", error_data)
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
+        Util.error(:unauthorized, "Outbound request not authorized", error_data)
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
+        Util.error(:not_found, "Outbound request destination not found", error_data)
       in { status: 409 }
         Util.error(:conflict, error_text_from_response(response), error_data)
       else
-        Util.error(:error, 'Outbound request failed', error_data)
+        Util.error(:error, "Outbound request failed", error_data)
       end
     end
 

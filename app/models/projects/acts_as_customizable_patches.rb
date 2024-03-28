@@ -35,9 +35,9 @@ module Projects::ActsAsCustomizablePatches
   # not needed for now, but might be relevant if we want to have edit dialogs just for one custom field
 
   included do
-    has_many :project_custom_field_project_mappings, class_name: 'ProjectCustomFieldProjectMapping', foreign_key: :project_id,
+    has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping", foreign_key: :project_id,
                                                      dependent: :destroy, inverse_of: :project
-    has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: 'ProjectCustomField'
+    has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: "ProjectCustomField"
 
     # we need to reset the query_available_custom_fields_on_global_level already after validation
     # as the update service just calls .valid? and returns if invalid
@@ -86,7 +86,7 @@ module Projects::ActsAsCustomizablePatches
     def reject_section_scoped_validation_for_creation
       if _limit_custom_fields_validation_to_section_id.present?
         raise ArgumentError,
-              'Section scoped validation is not supported for project creation, only for project updates'
+              "Section scoped validation is not supported for project creation, only for project updates"
       end
     end
 

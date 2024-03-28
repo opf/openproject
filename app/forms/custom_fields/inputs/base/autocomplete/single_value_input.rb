@@ -31,7 +31,7 @@ class CustomFields::Inputs::Base::Autocomplete::SingleValueInput < CustomFields:
     base_input_attributes.merge(
       autocomplete_options:,
       wrapper_data_attributes: {
-        'qa-field-name': qa_field_name
+        "qa-field-name": qa_field_name
       }
     )
   end

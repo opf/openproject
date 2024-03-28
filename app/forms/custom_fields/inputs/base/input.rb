@@ -40,7 +40,7 @@ class CustomFields::Inputs::Base::Input < ApplicationForm
   def input_attributes
     base_input_attributes.merge(
       {
-        data: { 'qa-field-name': qa_field_name },
+        data: { "qa-field-name": qa_field_name },
         value:
       }
     )
@@ -55,6 +55,6 @@ class CustomFields::Inputs::Base::Input < ApplicationForm
   end
 
   def validation_message
-    custom_value.errors.full_messages.join(', ') if invalid?
+    custom_value.errors.full_messages.join(", ") if invalid?
   end
 end

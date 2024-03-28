@@ -49,7 +49,7 @@ module Storages
                   @uri,
                   uri_path_for(file_link.origin_id)
                 ),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
+                headers: { "Authorization" => "Bearer #{token.access_token}" }
               )
 
               handle_errors(response)
@@ -61,7 +61,7 @@ module Storages
           def handle_errors(response)
             case response
             in { status: 300..399 }
-              ServiceResult.success(result: response.headers['Location'])
+              ServiceResult.success(result: response.headers["Location"])
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data: response))

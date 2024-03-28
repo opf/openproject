@@ -2,7 +2,7 @@ class CreateProjectCustomFieldProjectMappings < ActiveRecord::Migration[7.0]
   def up
     create_table :project_custom_field_project_mappings do |t|
       t.references :custom_field, foreign_key: true, index: {
-        name: 'index_project_cf_project_mappings_on_custom_field_id'
+        name: "index_project_cf_project_mappings_on_custom_field_id"
       }
       t.references :project, foreign_key: true
 

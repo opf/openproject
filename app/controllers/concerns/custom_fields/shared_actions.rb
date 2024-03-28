@@ -32,7 +32,7 @@ module CustomFields
 
     included do
       def index_path(custom_field, params = {})
-        if custom_field.type == 'ProjectCustomField'
+        if custom_field.type == "ProjectCustomField"
           admin_settings_project_custom_fields_path(**params)
         else
           custom_fields_path(**params)
@@ -40,7 +40,7 @@ module CustomFields
       end
 
       def edit_path(custom_field, params = {})
-        if custom_field.type == 'ProjectCustomField'
+        if custom_field.type == "ProjectCustomField"
           admin_settings_project_custom_field_path(**params)
         else
           edit_custom_field_path(**params)
@@ -58,7 +58,7 @@ module CustomFields
           redirect_to index_path(call.result, tab: call.result.class.name)
         else
           @custom_field = call.result || new_custom_field
-          render action: 'new'
+          render action: "new"
         end
       end
 
@@ -76,7 +76,7 @@ module CustomFields
           call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
           redirect_back_or_default(edit_path(@custom_field, id: @custom_field.id))
         else
-          render action: 'edit'
+          render action: "edit"
         end
       end
 

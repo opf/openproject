@@ -30,27 +30,27 @@ module WorkPackages::Share
     form do |user_invite_form|
       user_invite_form.autocompleter(
         name: :user_id,
-        label: I18n.t('work_package.sharing.label_search'),
+        label: I18n.t("work_package.sharing.label_search"),
         visually_hide_label: true,
-        data: { 'work-packages--share--user-limit-target': 'autocompleter' },
+        data: { "work-packages--share--user-limit-target": "autocompleter" },
         autocomplete_options: {
-          component: 'opce-user-autocompleter',
+          component: "opce-user-autocompleter",
           defaultData: false,
           id: "op-share-wp-invite-autocomplete",
-          placeholder: I18n.t('work_package.sharing.label_search_placeholder'),
+          placeholder: I18n.t("work_package.sharing.label_search_placeholder"),
           data: {
-            'test-selector': 'op-share-wp-invite-autocomplete'
+            "test-selector": "op-share-wp-invite-autocomplete"
           },
           url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
-          filters: [{ name: 'type', operator: '=', values: %w[User Group] },
-                    { name: 'id', operator: '!', values: [::Queries::Filters::MeValue::KEY] },
-                    { name: 'status', operator: '=', values: [Principal.statuses[:active], Principal.statuses[:invited]] }],
-          searchKey: 'any_name_attribute',
+          filters: [{ name: "type", operator: "=", values: %w[User Group] },
+                    { name: "id", operator: "!", values: [::Queries::Filters::MeValue::KEY] },
+                    { name: "status", operator: "=", values: [Principal.statuses[:active], Principal.statuses[:invited]] }],
+          searchKey: "any_name_attribute",
           addTag: User.current.allowed_globally?(:create_user),
-          addTagText: I18n.t('members.send_invite_to'),
+          addTagText: I18n.t("members.send_invite_to"),
           multiple: true,
           focusDirectly: true,
-          appendTo: 'body',
+          appendTo: "body",
           disabled: @disabled
         }
       )

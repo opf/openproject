@@ -101,7 +101,7 @@ class BaseContract < Disposable::Twin
     private
 
     def add_writable(attribute, writable)
-      attribute_name = attribute.to_s.delete_suffix('_id')
+      attribute_name = attribute.to_s.delete_suffix("_id")
 
       unless writable == false
         writable_attributes << attribute_name
@@ -260,7 +260,7 @@ class BaseContract < Disposable::Twin
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     attributes.reject do |attribute|
-      canonical_attribute = attribute.delete_suffix('_id')
+      canonical_attribute = attribute.delete_suffix("_id")
 
       permissions = attribute_permissions[canonical_attribute] ||
         attribute_permissions["#{canonical_attribute}_id"] ||

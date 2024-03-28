@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ProjectCustomFieldProjectMapping do
-  describe 'uniqueness by project' do
+  describe "uniqueness by project" do
     let!(:project) { create(:project) }
     let!(:project_custom_field) { create(:project_custom_field) }
 
-    it 'a project custom field can only be mapped to a project once' do
+    it "a project custom field can only be mapped to a project once" do
       project.project_custom_fields << project_custom_field
 
       expect(described_class).to exist(custom_field_id: project_custom_field.id,

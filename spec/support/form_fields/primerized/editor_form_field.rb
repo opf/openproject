@@ -1,4 +1,4 @@
-require_relative 'form_field'
+require_relative "form_field"
 
 module FormFields
   module Primerized
@@ -37,7 +37,7 @@ module FormFields
 
       def expect_error(string = nil)
         sleep 2 # quick fix for stale element error
-        expect(field_container).to have_css('.FormControl-inlineValidation')
+        expect(field_container).to have_css(".FormControl-inlineValidation")
         expect(field_container).to have_content(string) if string
       end
     end

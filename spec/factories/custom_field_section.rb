@@ -32,6 +32,6 @@ FactoryBot.define do
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
 
-    factory :project_custom_field_section, class: 'ProjectCustomFieldSection'
+    factory :project_custom_field_section, class: "ProjectCustomFieldSection"
   end
 end

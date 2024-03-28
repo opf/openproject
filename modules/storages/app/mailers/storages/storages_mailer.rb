@@ -30,7 +30,7 @@
 
 module Storages
   class StoragesMailer < ApplicationMailer
-    layout 'mailer'
+    layout "mailer"
 
     include MessagesHelper
     include MailNotificationHelper
@@ -43,7 +43,7 @@ module Storages
       @storage = storage
       @reason = storage.health_reason
       @url = edit_admin_settings_storage_url(storage)
-      subject = I18n.t('mail.storages.health.unhealthy.subject', name: @storage.name)
+      subject = I18n.t("mail.storages.health.unhealthy.subject", name: @storage.name)
       mail(to: admin.mail, subject:)
     end
 
@@ -52,7 +52,7 @@ module Storages
       @storage = storage
       @reason = reason
       @url = edit_admin_settings_storage_url(storage)
-      subject = I18n.t('mail.storages.health.healthy.subject', name: @storage.name)
+      subject = I18n.t("mail.storages.health.healthy.subject", name: @storage.name)
       mail(to: admin.mail, subject:)
     end
   end

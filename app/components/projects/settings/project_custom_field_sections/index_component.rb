@@ -45,8 +45,8 @@ module Projects
 
         def wrapper_data_attributes
           {
-            controller: 'projects--settings--project-custom-fields-mapping-filter',
-            'application-target': 'dynamic'
+            controller: "projects--settings--project-custom-fields-mapping-filter",
+            "application-target": "dynamic"
           }
         end
       end

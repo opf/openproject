@@ -26,75 +26,75 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context 'with seeded project custom fields' do
+RSpec.shared_context "with seeded project custom fields" do
   shared_let(:admin) { create(:admin) }
   shared_let(:non_admin) { create(:user) }
 
-  shared_let(:section_for_input_fields) { create(:project_custom_field_section, name: 'Input fields') }
-  shared_let(:section_for_select_fields) { create(:project_custom_field_section, name: 'Select fields') }
-  shared_let(:section_for_multi_select_fields) { create(:project_custom_field_section, name: 'Multi select fields') }
+  shared_let(:section_for_input_fields) { create(:project_custom_field_section, name: "Input fields") }
+  shared_let(:section_for_select_fields) { create(:project_custom_field_section, name: "Select fields") }
+  shared_let(:section_for_multi_select_fields) { create(:project_custom_field_section, name: "Multi select fields") }
 
   let!(:boolean_project_custom_field) do
-    create(:boolean_project_custom_field, name: 'Boolean field',
+    create(:boolean_project_custom_field, name: "Boolean field",
                                           project_custom_field_section: section_for_input_fields)
   end
 
   let!(:string_project_custom_field) do
-    create(:string_project_custom_field, name: 'String field',
+    create(:string_project_custom_field, name: "String field",
                                          project_custom_field_section: section_for_input_fields)
   end
 
   let!(:integer_project_custom_field) do
-    create(:integer_project_custom_field, name: 'Integer field',
+    create(:integer_project_custom_field, name: "Integer field",
                                           project_custom_field_section: section_for_input_fields)
   end
 
   let!(:float_project_custom_field) do
-    create(:float_project_custom_field, name: 'Float field',
+    create(:float_project_custom_field, name: "Float field",
                                         project_custom_field_section: section_for_input_fields)
   end
 
   let!(:date_project_custom_field) do
-    create(:date_project_custom_field,  name: 'Date field',
+    create(:date_project_custom_field,  name: "Date field",
                                         project_custom_field_section: section_for_input_fields)
   end
 
   let!(:text_project_custom_field) do
-    create(:text_project_custom_field,  name: 'Text field',
+    create(:text_project_custom_field,  name: "Text field",
                                         project_custom_field_section: section_for_input_fields)
   end
 
   let!(:list_project_custom_field) do
-    create(:list_project_custom_field,  name: 'List field',
+    create(:list_project_custom_field,  name: "List field",
                                         project_custom_field_section: section_for_select_fields,
-                                        possible_values: ['Option 1', 'Option 2', 'Option 3'])
+                                        possible_values: ["Option 1", "Option 2", "Option 3"])
   end
 
   let!(:version_project_custom_field) do
-    create(:version_project_custom_field, name: 'Version field',
+    create(:version_project_custom_field, name: "Version field",
                                           project_custom_field_section: section_for_select_fields)
   end
 
   let!(:user_project_custom_field) do
-    create(:user_project_custom_field,  name: 'User field',
+    create(:user_project_custom_field,  name: "User field",
                                         project_custom_field_section: section_for_select_fields)
   end
 
   let!(:multi_list_project_custom_field) do
-    create(:list_project_custom_field,  name: 'Multi list field',
+    create(:list_project_custom_field,  name: "Multi list field",
                                         project_custom_field_section: section_for_multi_select_fields,
-                                        possible_values: ['Option 1', 'Option 2', 'Option 3'],
+                                        possible_values: ["Option 1", "Option 2", "Option 3"],
                                         multi_value: true)
   end
 
   let!(:multi_version_project_custom_field) do
-    create(:version_project_custom_field, name: 'Multi version field',
+    create(:version_project_custom_field, name: "Multi version field",
                                           project_custom_field_section: section_for_multi_select_fields,
                                           multi_value: true)
   end
 
   let!(:multi_user_project_custom_field) do
-    create(:user_project_custom_field, name: 'Multi user field',
+    create(:user_project_custom_field, name: "Multi user field",
                                        project_custom_field_section: section_for_multi_select_fields,
                                        multi_value: true)
   end

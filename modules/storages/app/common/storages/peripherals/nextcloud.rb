@@ -30,8 +30,8 @@
 
 module Storages
   module Peripherals
-    Nextcloud = Dry::Container::Namespace.new('nextcloud') do
-      namespace('queries') do
+    Nextcloud = Dry::Container::Namespace.new("nextcloud") do
+      namespace("queries") do
         register(:auth_check, StorageInteraction::Nextcloud::AuthCheckQuery)
         register(:download_link, StorageInteraction::Nextcloud::DownloadLinkQuery)
         register(:file_ids, StorageInteraction::Nextcloud::FileIdsQuery)
@@ -46,7 +46,7 @@ module Storages
         register(:open_storage, StorageInteraction::Nextcloud::OpenStorageQuery)
       end
 
-      namespace('commands') do
+      namespace("commands") do
         register(:add_user_to_group, StorageInteraction::Nextcloud::AddUserToGroupCommand)
         register(:copy_template_folder, StorageInteraction::Nextcloud::CopyTemplateFolderCommand)
         register(:create_folder, StorageInteraction::Nextcloud::CreateFolderCommand)
@@ -57,11 +57,11 @@ module Storages
         register(:set_permissions, StorageInteraction::Nextcloud::SetPermissionsCommand)
       end
 
-      namespace('contracts') do
+      namespace("contracts") do
         register(:storage, ::Storages::Storages::NextcloudContract)
       end
 
-      namespace('models') do
+      namespace("models") do
         register(:managed_folder_identifier, ManagedFolderIdentifier::Nextcloud)
       end
     end
