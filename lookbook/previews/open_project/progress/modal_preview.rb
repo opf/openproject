@@ -30,20 +30,28 @@ module OpenProject
   module Progress
     # @logical_path OpenProject/Progress
     class ModalPreview < Lookbook::Preview
-      def work_based
+      # @param estimated_hours [Float]
+      # @param remaining_hours [Float]
+      # @param focused_field select { choices: [~, estimatedTime, remainingTime] }
+      def work_based(estimated_hours: nil,
+                     remaining_hours: nil,
+                     focused_field: nil)
         work_package = FactoryBot.build_stubbed(:work_package,
-                                                estimated_hours: 5.0,
-                                                remaining_hours: 2.5,
-                                                done_ratio: 50)
-        render_with_template(locals: { work_package: })
+                                                estimated_hours:,
+                                                remaining_hours:)
+        render_with_template(locals: { work_package:, focused_field: })
       end
 
-      def status_based
+      # @param estimated_hours [Float]
+      # @param remaining_hours [Float]
+      # @param focused_field select { choices: [~, status_id, estimatedTime] }
+      def status_based(estimated_hours: nil,
+                       remaining_hours: nil,
+                       focused_field: nil)
         work_package = FactoryBot.build_stubbed(:work_package,
-                                                estimated_hours: 5.0,
-                                                remaining_hours: 2.5,
-                                                done_ratio: 50)
-        render_with_template(locals: { work_package: })
+                                                estimated_hours:,
+                                                remaining_hours:)
+        render_with_template(locals: { work_package:, focused_field: })
       end
     end
   end

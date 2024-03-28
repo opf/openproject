@@ -37,36 +37,14 @@ class WorkPackages::ProgressForm < ApplicationForm
     @focused_field = focused_field_by_selection(focused_field) || focused_field_by_error
   end
 
-  def focused_field_by_selection(field)
-    if field == :remaining_hours && @work_package.remaining_hours.nil?
-      :estimated_hours
-    else
-      field
-    end
-  end
-
-  # Primer form fields don't seem to be accepting
-  # autofocus on a field that has an inline error on it.
-  # This method remains here to ensure that down-the-line
-  # when this is fixed, we get this behavior for free as am
-  # accessibility boost.
-  def focused_field_by_error
-    %i[estimated_hours remaining_hours done_ratio].each do |field_name|
-      break if @focused_field
-
-      @focused_field = field_name if @work_package.errors.map(&:attribute).include?(field_name)
-    end
-
-    @focused_field
-  end
-
   form do |query_form|
-    if @mode == :status_based
-      query_form.group(layout: :horizontal) do |group|
-        group.select_list(
-          name: :status_id,
-          label: "% Complete"
-        ) do |select_list|
+    query_form.group(layout: :horizontal) do |group|
+      if @mode == :status_based
+        select_field_options = { name: :status_id, label: "% Complete" }.tap do |options|
+          options.reverse_merge!(default_field_options(:status_id))
+        end
+
+        group.select_list(**select_field_options) do |select_list|
           Status.find_each do |status|
             select_list.option(
               label: "#{status.name} (#{status.default_done_ratio}%)",
@@ -75,45 +53,83 @@ class WorkPackages::ProgressForm < ApplicationForm
           end
         end
 
-        group.text_field(
-          name: :estimated_hours,
-          label: "Work",
-          autofocus: @focused_field == :estimated_hours
-        )
-
-        group.text_field(
-          name: :remaining_hours,
-          label: "Remaining work",
-          readonly: true,
-          classes: "input--readonly",
-          autofocus: @focused_field == :remaining_hours,
-          placeholder: "-"
-        )
+        render_text_field(group, name: :estimated_hours, label: "Work")
+        render_readonly_text_field(group, name: :remaining_hours, label: "Remaining work")
+      else
+        render_text_field(group, name: :estimated_hours, label: "Work")
+        render_text_field(group, name: :remaining_hours, label: "Remaining work", disabled: @work_package.estimated_hours.nil?)
+        render_readonly_text_field(group, name: :done_ratio, label: "% Complete")
       end
+    end
+  end
+
+  private
+
+  def focused_field_by_selection(field)
+    if field == :remaining_hours && @work_package.estimated_hours.nil?
+      :estimated_hours
     else
-      query_form.group(layout: :horizontal) do |group|
-        group.text_field(
-          name: :estimated_hours,
-          label: "Work",
-          autofocus: @focused_field == :estimated_hours
-        )
+      field
+    end
+  end
 
-        group.text_field(
-          name: :remaining_hours,
-          label: "Remaining work",
-          autofocus: @focused_field == :remaining_hours,
-          disabled: @work_package.estimated_hours.nil?
-        )
+  # First field with an error is focused. If it's readonly or disabled, then the
+  # field before it will be focused
+  def focused_field_by_error
+    fields = if @mode == :work_based
+               %i[estimated_hours remaining_hours done_ratio]
+             else
+               %i[status_id estimated_hours remaining_hours]
+             end
 
-        group.text_field(
-          name: :done_ratio,
-          label: "% Complete",
-          readonly: true,
-          classes: "input--readonly",
-          autofocus: @focused_field == :done_ratio,
-          placeholder: "-"
-        )
-      end
+    fields.each do |field_name|
+      break if @focused_field
+
+      @focused_field = field_name if @work_package.errors.map(&:attribute).include?(field_name)
+    end
+
+    @focused_field
+  end
+
+  def render_text_field(group,
+                        name:,
+                        label:,
+                        disabled: false,
+                        placeholder: nil)
+    text_field_options = {
+      name:,
+      label:,
+      disabled:,
+      placeholder:
+    }
+    text_field_options.reverse_merge!(default_field_options(name))
+
+    group.text_field(**text_field_options)
+  end
+
+  def render_readonly_text_field(group,
+                                 name:,
+                                 label:,
+                                 disabled: false,
+                                 placeholder: true)
+    text_field_options = {
+      name:,
+      label:,
+      readonly: true,
+      disabled:,
+      classes: "input--readonly",
+      placeholder: ("-" if placeholder)
+    }
+    text_field_options.reverse_merge!(default_field_options(name))
+
+    group.text_field(**text_field_options)
+  end
+
+  def default_field_options(name)
+    if @focused_field == name
+      { data: { "work-packages--progress--focus-field-target": "fieldToFocus" } }
+    else
+      {}
     end
   end
 end

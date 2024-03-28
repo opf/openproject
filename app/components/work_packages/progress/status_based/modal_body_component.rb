@@ -41,8 +41,8 @@ module WorkPackages
         attr_reader :work_package, :mode, :focused_field
 
         FIELD_MAP = {
-          "estimatedTime" => :estimated_hours,
-          "remainingTime" => :remaining_hours
+          "status_id" => :status_id,
+          "estimatedTime" => :estimated_hours
         }.freeze
 
         def initialize(work_package, focused_field: nil)

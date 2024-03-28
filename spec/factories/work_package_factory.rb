@@ -126,15 +126,18 @@ FactoryBot.define do
       end
     end
 
-    callback(:after_build) do |work_package, _evaluator|
+    set_done_ratios = ->(work_package, _evaluator) do
       if work_package.estimated_hours.present? && work_package.remaining_hours.present?
         work_package.done_ratio = (work_package.estimated_hours - work_package.remaining_hours) \
-                                  / work_package.estimated_hours * 100
+          / work_package.estimated_hours.to_f * 100
       end
       if work_package.derived_estimated_hours.present? && work_package.derived_remaining_hours.present?
         work_package.derived_done_ratio = (work_package.derived_estimated_hours - work_package.derived_remaining_hours) \
-                                          / work_package.derived_estimated_hours * 100
+          / work_package.derived_estimated_hours.to_f * 100
       end
     end
+
+    callback(:after_build, &set_done_ratios)
+    callback(:after_stub, &set_done_ratios)
   end
 end

@@ -9,6 +9,6 @@
     </button>
   </div>
   <div class="spot-modal--body spot-container">
-    <%= render(WorkPackages::Progress::StatusBased::ModalBodyComponent.new(work_package)) %>
+    <%= render(WorkPackages::Progress::StatusBased::ModalBodyComponent.new(work_package, focused_field:)) %>
   </div>
 </div>
