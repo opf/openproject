@@ -208,7 +208,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # See: default_breadcrum above
   # Defines whether to show breadcrumbs on the page or not.
   def show_local_breadcrumb
-    true
+    false
   end
 
   private

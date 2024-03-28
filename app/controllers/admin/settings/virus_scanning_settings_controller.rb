@@ -33,10 +33,9 @@ module Admin::Settings
     before_action :require_ee
     before_action :check_clamav, only: %i[update], if: -> { scan_enabled? }
 
-    def default_breadcrumb
-      t("settings.antivirus.title")
+    def show_local_breadcrumb
+      false
     end
-
     def av_form
       selected = params.dig(:settings, :antivirus_scan_mode)&.to_sym || :disabled
 
@@ -102,5 +101,12 @@ module Admin::Settings
                        file_count: t(:label_x_files, count: Attachment.status_quarantined.count))
       redirect_to action: :show
     end
+
+    def breadcrumb_items
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_attachments_path, text: t("attributes.attachments") },
+       t("settings.antivirus.title")]
+    end
+    helper_method :breadcrumb_items
   end
 end

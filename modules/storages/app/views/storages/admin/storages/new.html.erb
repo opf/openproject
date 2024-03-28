@@ -12,11 +12,9 @@
     <%= label_new_file_storage %>
   <% end %>
 
-  <% header.with_back_button(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) %>
-
-  <% header.with_parent_link(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) do %>
-    <%= t(:project_module_storages) %>
-  <% end %>
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration")},
+                              { href: admin_settings_storages_path, text: t(:project_module_storages) },
+                              label_new_file_storage]) %>
 
   <% header.with_description(test_selector: 'storage-new-page-header--description') do %>
     <%=
