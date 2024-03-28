@@ -28,20 +28,9 @@
 
 class OpenProject::JournalFormatter::AgendaItemPosition < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-    label_text = MeetingAgendaItem.human_attribute_name(:position)
+    label_text = I18n.t(:label_agenda_items)
     label_text = content_tag(:strong, label_text) if options[:html]
 
-    value = value(values.first, values.last)
-    return if value.nil?
-
-    I18n.t(:text_journal_of, label: label_text, value:)
-  end
-
-  private
-
-  def value(old_value, value)
-    if old_value && value
-      I18n.t(:'activity.item.meeting_agenda_item.position.updated')
-    end
+    I18n.t(:text_journal_of, label: label_text, value: I18n.t(:label_agenda_items_reordered))
   end
 end

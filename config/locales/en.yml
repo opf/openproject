@@ -1149,7 +1149,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
           removed: "removed"
           updated: "modified to %{value} minutes"
         position:
-          updated: "changed"
+          updated: "reordered"
     filter:
       changeset: "Changesets"
       message: "Forums"
