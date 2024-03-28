@@ -60,12 +60,9 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
   # Show a HTML page with a form in order to create a new ProjectStorage
   # Called by: When a user clicks on the "+New" button in Project -> Settings -> File Storages
-  # rubocop:disable Metrics/AbcSize
   def new
     @available_storages = available_storages
-    project_folder_mode = Storages::ProjectStorage.project_folder_modes.values.find do |mode|
-      mode == params.dig(:storages_project_storage, :project_folder_mode)
-    end
+    project_folder_mode = project_folder_mode_from_params
     storage = @available_storages.find { |s| s.id.to_s == params.dig(:storages_project_storage, :storage_id) }
     @project_storage =
       ::Storages::ProjectStorages::SetAttributesService
@@ -76,8 +73,6 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
     render template: "/storages/project_settings/new"
   end
-
-  # rubocop:enable Metrics/AbcSize
 
   # Create a new ProjectStorage object.
   # Called by: The new page above with form-data from that form.
@@ -124,6 +119,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
     # @object was calculated in before_action :find_model_object (see comments above).
     # @project_storage is used in the view in order to render the form for a new object
     @project_storage = @object
+    @project_storage.project_folder_mode = project_folder_mode_from_params if project_folder_mode_from_params.present?
 
     @last_project_folders = Storages::LastProjectFolder
                               .where(project_storage: @project_storage)
@@ -184,6 +180,12 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
       .permit("storage_id", "project_folder_mode", "project_folder_id")
       .to_h
       .reverse_merge(project_id: @project.id)
+  end
+
+  def project_folder_mode_from_params
+    Storages::ProjectStorage.project_folder_modes.values.find do |mode|
+      mode == params.dig(:storages_project_storage, :project_folder_mode)
+    end
   end
 
   def available_storages
