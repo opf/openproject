@@ -90,7 +90,7 @@
 # This default means that all columns will be referenced in INSERT queries
 # regardless of whether they have a default or not.
 # Previous versions had true. Rails 7.0+ default is false.
-# Rails.application.config.active_record.partial_inserts = false
+Rails.application.config.active_record.partial_inserts = false
 
 # https://guides.rubyonrails.org/configuring.html#config-action-controller-raise-on-open-redirects
 # Protect from open redirect attacks in `redirect_back_or_to` and `redirect_to`.

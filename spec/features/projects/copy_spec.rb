@@ -366,7 +366,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
       editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value "some text cf"
 
-      click_button "Save"
+      click_on "Save"
 
       wait_for_copy_to_finish
 
@@ -491,7 +491,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
 
       fill_in "Name", with: "Copied project"
 
-      click_button "Save"
+      click_on "Save"
 
       expect(page).to have_text "The job has been queued and will be processed shortly."
 

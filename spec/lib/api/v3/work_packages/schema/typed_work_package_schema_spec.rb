@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   let(:project) { build(:project) }
@@ -41,48 +41,48 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     mock_permissions_for(current_user, &:allow_everything)
   end
 
-  it 'has the project set' do
+  it "has the project set" do
     expect(subject.project).to eql(project)
   end
 
-  it 'has the type set' do
+  it "has the type set" do
     expect(subject.type).to eql(type)
   end
 
-  it 'does not know assignable statuses' do
+  it "does not know assignable statuses" do
     expect(subject.assignable_values(:status, current_user)).to be_nil
   end
 
-  it 'does not know assignable versions' do
+  it "does not know assignable versions" do
     expect(subject.assignable_values(:version, current_user)).to be_nil
   end
 
-  describe '#writable?' do
-    it 'percentage done is writable' do
-      expect(subject).to be_writable(:done_ratio)
+  describe "#writable?" do
+    it "percentage done is not writable" do
+      expect(subject).not_to be_writable(:done_ratio)
     end
 
-    it 'work is writable' do
+    it "work is writable" do
       expect(subject).to be_writable(:estimated_hours)
     end
 
-    it 'start date is writable' do
+    it "start date is writable" do
       expect(subject).to be_writable(:start_date)
     end
 
-    it 'finish date is writable' do
+    it "finish date is writable" do
       expect(subject).to be_writable(:due_date)
     end
   end
 
-  describe '#milestone?' do
+  describe "#milestone?" do
     before do
       allow(type)
         .to receive(:is_milestone?)
               .and_return(true)
     end
 
-    it 'is the value the type has' do
+    it "is the value the type has" do
       expect(subject).to be_milestone
 
       allow(type)
@@ -92,20 +92,20 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       expect(subject).not_to be_milestone
     end
 
-    it 'has a writable date' do
+    it "has a writable date" do
       expect(subject).to be_writable(:date)
     end
   end
 
-  describe '#assignable_custom_field_values' do
+  describe "#assignable_custom_field_values" do
     let(:list_cf) { build_stubbed(:list_wp_custom_field) }
     let(:version_cf) { build_stubbed(:version_wp_custom_field) }
 
-    it 'is nil for a list cf' do
+    it "is nil for a list cf" do
       expect(subject.assignable_custom_field_values(list_cf)).to be_nil
     end
 
-    it 'is nil for a version cf' do
+    it "is nil for a version cf" do
       expect(subject.assignable_custom_field_values(version_cf)).to be_nil
     end
   end

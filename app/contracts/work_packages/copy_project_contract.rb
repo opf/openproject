@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "work_packages/create_contract"
+require "work_packages/copy_contract"
 
 # Can be used to copy all of a project's work packages. As the
 # work packages can be old, some of the validations that would
 # apply to newly created work packages need not apply there, e.g
 # on copying, it is ok for work packages to have closed versions
 module WorkPackages
-  class CopyProjectContract < CreateContract
+  class CopyProjectContract < CopyContract
     include WorkPackages::SkipAuthorizationChecks
 
     # let the contract be used in error messages

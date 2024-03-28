@@ -48,7 +48,7 @@ export class CompoundProgressDisplayField extends DisplayField {
 
     this.renderActual(element, displayText);
 
-    if (this.hasChildren()) {
+    if (this.derivedValue !== null && this.hasChildren()) {
       this.renderSeparator(element);
       this.renderDerived(element, this.derivedValueString);
     }
@@ -86,8 +86,15 @@ export class CompoundProgressDisplayField extends DisplayField {
     element.appendChild(span);
   }
 
-  public get value():number {
-    return this.resource[this.name] as number || 0;
+  public isEmpty():boolean {
+    const { value } = this;
+    const derived = this.derivedValue;
+
+    return (value === null) && (derived === null);
+  }
+
+  public get value():number|null {
+    return this.resource[this.name] as number|null;
   }
 
   public get valueString() {
@@ -98,15 +105,18 @@ export class CompoundProgressDisplayField extends DisplayField {
     return `derived${_.upperFirst(this.name)}`;
   }
 
-  private get derivedValue() {
-    return this.resource[this.derivedPropertyName] as number;
+  private get derivedValue():number|null {
+    return this.resource[this.derivedPropertyName] as number|null;
   }
 
   private get derivedValueString():string {
     return this.formatAsPercentage(this.derivedValue);
   }
 
-  private formatAsPercentage(value:number) {
+  private formatAsPercentage(value:number|null) {
+    if (value === null) {
+      return this.placeholder;
+    }
     return `${value}%`;
   }
 

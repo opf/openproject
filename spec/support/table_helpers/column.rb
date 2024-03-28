@@ -46,12 +46,16 @@ module TableHelpers
         raise ArgumentError, 'Please use "remaining work" instead of "remaining hours"'
       when /\A\s*work/i
         Duration.new(header:, attribute: :estimated_hours)
-      when /derived work/i
+      when /derived work|total work/i
         Duration.new(header:, attribute: :derived_estimated_hours)
       when /\A\s*remaining work/i
         Duration.new(header:, attribute: :remaining_hours)
-      when /derived remaining work/i
+      when /derived remaining work|total remaining work/i
         Duration.new(header:, attribute: :derived_remaining_hours)
+      when /\A\s*% complete/i
+        Percentage.new(header:, attribute: :done_ratio)
+      when /total % complete/i
+        Percentage.new(header:, attribute: :derived_done_ratio)
       when /end date/i
         Generic.new(header:, attribute: :due_date)
       when /subject/
@@ -141,6 +145,24 @@ module TableHelpers
 
       def parse(raw_value)
         raw_value.blank? ? nil : raw_value.to_f
+      end
+    end
+
+    class Percentage < Generic
+      def text_align
+        :rjust
+      end
+
+      def format(value)
+        if value.nil?
+          ""
+        else
+          "%s%%" % value.to_i
+        end
+      end
+
+      def parse(raw_value)
+        raw_value.blank? ? nil : raw_value.to_i
       end
     end
 

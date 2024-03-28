@@ -114,6 +114,10 @@ RSpec.configure do |config|
   # Use colored output
   config.color = true
 
+  # Display the full backtrace of causing exceptions (limited to first line in
+  # default configuration).
+  config.full_cause_backtrace = true
+
   # Have the FactoryBot methods like #create and #build_stubbed without
   # having to call it on FactoryBot.
   config.include FactoryBot::Syntax::Methods

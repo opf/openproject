@@ -29,30 +29,28 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::CopyService, "integration", type: :model do
-  let(:user) do
-    create(:user, member_with_roles: { project => role })
-  end
-  let(:role) do
-    create(:project_role,
-           permissions:)
-  end
-
-  let(:permissions) do
-    %i(view_work_packages add_work_packages manage_subtasks)
-  end
-
-  let(:type) do
+  shared_let(:custom_field) { create(:work_package_custom_field) }
+  shared_let(:type) do
     create(:type_standard,
            custom_fields: [custom_field])
   end
-  let(:project) { create(:project, types: [type]) }
-  let(:work_package) do
-    create(:work_package,
-           project:,
-           type:)
+  shared_let(:project) { create(:project, types: [type]) }
+  shared_let(:user) do
+    create(:user, member_with_permissions: { project => %i[view_work_packages add_work_packages manage_subtasks] })
   end
+
+  before_all do
+    set_factory_default(:project, project)
+    set_factory_default(:project_with_types, project)
+    set_factory_default(:type, type)
+    set_factory_default(:user, user)
+  end
+
+  shared_let(:work_package) do
+    create(:work_package, author: user, project:, type:)
+  end
+
   let(:instance) { described_class.new(work_package:, user:) }
-  let(:custom_field) { create(:work_package_custom_field) }
   let(:custom_value) do
     create(:work_package_custom_value,
            custom_field:,
@@ -151,18 +149,48 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
       end
 
       context "required custom field in the target project" do
-        let(:custom_field) do
-          create(
-            :work_package_custom_field,
+        let(:target_custom_fields) { [custom_field] }
+
+        before do
+          custom_field.update(
             field_format: "text",
             is_required: true,
             is_for_all: false
           )
         end
-        let(:target_custom_fields) { [custom_field] }
 
         it "does not copy the work package" do
           expect(service_result).to be_failure
+        end
+      end
+
+      context "with work, remaining work, and % complete set in the source work package" do
+        before do
+          work_package.update(
+            estimated_hours: 10.0,
+            remaining_hours: 6.0,
+            done_ratio: 40
+          )
+        end
+
+        it "copies them all values over" do
+          expect(copy.estimated_hours).to eq(10.0)
+          expect(copy.remaining_hours).to eq(6.0)
+          expect(copy.done_ratio).to eq(40)
+        end
+      end
+
+      context "with only % complete set in the source work package" do
+        before do
+          work_package.update(
+            estimated_hours: nil,
+            remaining_hours: nil,
+            done_ratio: 40
+          )
+        end
+
+        it "copies the % complete value over" do
+          expect(copy.done_ratio).to eq(40)
         end
       end
 

@@ -138,6 +138,7 @@ module Pages
     def expect_no_attribute(label)
       expect(page).to have_no_css(".inline-edit--container.#{label.downcase}")
     end
+
     alias :expect_attribute_hidden :expect_no_attribute
 
     def expect_activity(user, number: nil)
@@ -213,10 +214,12 @@ module Pages
         work_package_custom_field(key, $1)
       when :date, :startDate, :dueDate, :combinedDate
         DateEditField.new container, key, is_milestone: work_package&.milestone?
+      when :estimatedTime, :remainingTime
+        ProgressEditModal.new key
       when :description
         TextEditorField.new container, key
-      # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
-      # because the status field on the create pages is a simple EditField.
+        # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
+        # because the status field on the create pages is a simple EditField.
       when :status
         if create_page?
           EditField.new container, key, create_form: true

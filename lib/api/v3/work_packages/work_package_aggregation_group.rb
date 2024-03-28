@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -60,7 +62,7 @@ module API
 
         def value
           if query.group_by_column.name == :done_ratio
-            "#{represented}%"
+            represented ? "#{represented}%" : nil
           else
             super
           end
