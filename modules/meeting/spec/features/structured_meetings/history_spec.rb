@@ -30,6 +30,7 @@ require "spec_helper"
 
 require_relative "../../support/pages/meetings/new"
 require_relative "../../support/pages/structured_meeting/show"
+require_relative "../../support/pages/structured_meeting/history"
 
 RSpec.describe "history",
                :js,
@@ -41,12 +42,14 @@ RSpec.describe "history",
   shared_let(:user) do
     create(:user,
            lastname: "First",
+           preferences: { time_zone: "Europe/London" },
            member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings manage_agendas
                                                     view_work_packages] })
   end
   shared_let(:view_only_user) do
     create(:user,
            lastname: "Second",
+           preferences: { time_zone: "Europe/London" },
            member_with_permissions: { project => %i[view_meetings view_work_packages] })
   end
   shared_let(:no_member_user) do
@@ -54,43 +57,44 @@ RSpec.describe "history",
            lastname: "Third")
   end
   shared_let(:meeting) do
-    create(:structured_meeting,
-           project:,
-           start_time: DateTime.parse("2024-03-28T13:30:00Z"),
-           title: "Some title",
-           author: user, # why does the corresponding journal list user as anonyous instead?
-           duration: 1.5).tap do |m|
-      create(:meeting_participant, :invitee, meeting: m, user: view_only_user)
+    User.execute_as(user) do
+      create(:structured_meeting,
+             project:,
+             start_time: DateTime.parse("2024-03-28T13:30:00Z"),
+             title: "Some title",
+             duration: 1.5).tap do |m|
+        create(:meeting_participant, :invitee, meeting: m, user: view_only_user)
+      end
     end
   end
 
-  let(:datetime) { Time.current }
-
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+  let(:history_page) { Pages::StructuredMeeting::History.new(meeting) }
 
   it "for a user with view permissions", with_settings: { journal_aggregation_time_minutes: 0 } do
     login_as view_only_user
     show_page.visit!
 
-    click_button("op-meetings-header-action-trigger")
-    click_button "History"
+    history_page.open_history_modal
+    history_page.expect_event("Meeting",
+                              actor: user.name,
+                              timestamp: format_time(meeting.created_at.utc),
+                              action: "created by")
 
-    within("li.op-activity-list--item", match: :first) do
-      expect(page).to have_css(".op-activity-list--item-title", text: "Meeting", exact_text: true)
-      # expect(page).to have_css('.op-activity-list--item-subtitle', text: "created by #{current_user.name} on #{format_time(datetime)}") # formatting issues?
+    User.execute_as(user) do
+      meeting.update!(start_time: DateTime.parse("2024-03-29T14:00:00Z"),
+                      duration: 1,
+                      title: "Updated",
+                      location: "Wakanda")
     end
 
-    login_as user
-    meeting.update!(start_time: DateTime.parse("2024-03-29T14:00:00Z"),
-                    duration: 1,
-                    title: "Updated",
-                    location: "Wakanda")
-
     page.refresh
-    login_as view_only_user
 
-    click_button("op-meetings-header-action-trigger")
-    click_button "History"
+    history_page.open_history_modal
+    history_page.expect_event("Meeting details",
+                              actor: user.name,
+                              timestamp: format_time(meeting.created_at.utc),
+                              action: "created by")
 
     within("li.op-activity-list--item", match: :first) do
       expect(page).to have_css(".op-activity-list--item-title", text: "Meeting details")
@@ -99,6 +103,29 @@ RSpec.describe "history",
       expect(page).to have_css("li", text: "Start time changed from 03/28/2024 01:30 PM to 03/29/2024 02:00 PM")
       expect(page).to have_css("li", text: "Duration changed from 1 hour, 30 minutes to 1 hour")
     end
+
+
+    # Try to add a method to the history component that allows you to select details
+    # and then test for the ancestor title
+    #
+    #detail = page.find('li.activity', text: 'Title changed from Some title to Updated')
+    #detail.ancestors('op-activity-list--item-title', text 'Meeting details')
+
+    # Add agenda item
+    show_page.add_agenda_item do
+      fill_in "Title", with: "My agenda item"
+      fill_in "Duration (min)", with: "25"
+    end
+
+    # Change position, expect only one change
+
+    # Update agenda item
+
+    # Remove agenda item
+
+    # Remove linked work package
+
+    # With a work package linked in another project
   end
 
   it "for a user with no permissions", with_settings: { journal_aggregation_time_minutes: 0 } do
