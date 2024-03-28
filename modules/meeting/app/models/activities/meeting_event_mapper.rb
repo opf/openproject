@@ -137,7 +137,8 @@ class Activities::MeetingEventMapper < Activities::EventMapper
   end
 
   def only_agenda_item_changes?(journal)
-    journal.details.all? { |key, _| key.start_with?("agenda_items_") && !key.end_with?("_position") }
+    journal.details.all? { |key, _| key.start_with?("agenda_items_") } &&
+      !journal.details.all? { |key, _| key.end_with?("_position") }
   end
 
   def event_data(journal)
