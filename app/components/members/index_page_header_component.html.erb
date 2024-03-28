@@ -2,6 +2,16 @@
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t(:label_member_plural) }
     header.with_breadcrumbs(breadcrumb_items)
+
+    header.with_action_icon_button(mobile_icon: "filter",
+                                   scheme: :default,
+                                   icon: 'filter',
+                                   label: I18n.t(:description_filter),
+                                   id: 'filter-member-button',
+                                   aria: { label: I18n.t(:description_filter) },
+                                   class: 'toggle-member-filter-link',
+                                   data: filter_button_data_attributes)
+
     header.with_action_button(scheme: :primary,
                               mobile_icon: :plus,
                               mobile_label: t('activerecord.models.member'),
@@ -13,13 +23,5 @@
       button.with_leading_visual_icon(icon: :plus)
       t('activerecord.models.member')
     end
-    header.with_action_icon_button(mobile_icon: "filter",
-                                   scheme: :default,
-                                   icon: 'filter',
-                                   label: I18n.t(:description_filter),
-                                   id: 'filter-member-button',
-                                   aria: { label: I18n.t(:description_filter) },
-                                   class: 'toggle-member-filter-link',
-                                   data: filter_button_data_attributes)
-    end
+  end
 %>
