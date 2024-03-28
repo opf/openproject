@@ -89,11 +89,21 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
 
     it description || "sets the value" do
-      next if !defined?(expected_attributes) || expected_attributes.blank?
+      all_expected_attributes = {}
+      all_expected_attributes.merge!(expected_attributes) if defined?(expected_attributes)
+      if defined?(expected_kept_attributes)
+        kept = work_package.attributes.slice(*expected_kept_attributes)
+        if kept.size != expected_kept_attributes.size
+          raise ArgumentError, "expected_kept_attributes contains attributes that are not present in the work_package: " \
+                               "#{expected_kept_attributes - kept.keys} not present in #{work_package.attributes}"
+        end
+        all_expected_attributes.merge!(kept)
+      end
+      next if all_expected_attributes.blank?
 
       subject
 
-      expect(work_package).to have_attributes(expected_attributes)
+      expect(work_package).to have_attributes(all_expected_attributes)
     end
 
     it "does not persist the work_package" do
@@ -313,17 +323,30 @@ RSpec.describe WorkPackages::SetAttributesService,
         context "when remaining work is changed" do
           let(:call_attributes) { { remaining_hours: 2 } }
           let(:expected_attributes) { { done_ratio: 80 } }
+          let(:expected_kept_attributes) { %w[estimated_hours] }
 
           it_behaves_like "service call", description: "updates % complete accordingly"
         end
 
-        context "when remaining work is changed to a value greater than work", skip: "TODO: not implemented yet" do
-          let(:call_attributes) { { remaining_hours: 200.0 } }
-          let(:expected_attributes) { "error" }
+        context "when work and remaining work are both changed to negative values" do
+          let(:call_attributes) { { estimated_hours: -10, remaining_hours: -5 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
 
-          # open question: should it be capped or produce an error?
-          # I would opt for the error which would then be displayed in the popover
-          it_behaves_like "service call", description: "produces an error"
+          it_behaves_like "service call", description: "is an error state (to be detected by contract), and % Complete is kept"
+        end
+
+        context "when remaining work is changed to a value greater than work" do
+          let(:call_attributes) { { remaining_hours: 200.0 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "is an error state (to be detected by contract), and % Complete is kept"
+        end
+
+        context "when remaining work is changed to a negative value" do
+          let(:call_attributes) { { remaining_hours: -1.0 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "is an error state (to be detected by contract), and % Complete is kept"
         end
 
         context "when both work and remaining work are changed" do
@@ -331,6 +354,56 @@ RSpec.describe WorkPackages::SetAttributesService,
           let(:expected_attributes) { call_attributes.merge(done_ratio: 90) }
 
           it_behaves_like "service call", description: "updates % complete accordingly"
+        end
+      end
+
+      context "given a work package with work and % complete being set, and remaining work being unset" do
+        before do
+          work_package.estimated_hours = 10
+          work_package.remaining_hours = nil
+          work_package.done_ratio = 30
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when work is changed" do
+          let(:call_attributes) { { estimated_hours: 20.0 } }
+          let(:expected_attributes) { { remaining_hours: 14.0 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "% complete is kept and remaining work is updated accordingly"
+        end
+
+        context "when remaining work is set" do
+          let(:call_attributes) { { remaining_hours: 1.0 } }
+          let(:expected_attributes) { call_attributes.merge(done_ratio: 90.0) }
+          let(:expected_kept_attributes) { %w[estimated_hours] }
+
+          it_behaves_like "service call", description: "work is kept and % complete is updated accordingly"
+        end
+      end
+
+      context "given a work package with remaining work and % complete being set, and work being unset" do
+        before do
+          work_package.estimated_hours = nil
+          work_package.remaining_hours = 2.0
+          work_package.done_ratio = 50
+          work_package.send(:clear_changes_information)
+        end
+
+        context "when remaining work is changed" do
+          let(:call_attributes) { { remaining_hours: 10.0 } }
+          let(:expected_attributes) { call_attributes.merge(estimated_hours: 20.0) }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "% complete is kept and work is updated accordingly"
+        end
+
+        context "when work is set" do
+          let(:call_attributes) { { estimated_hours: 10.0 } }
+          let(:expected_attributes) { call_attributes.merge(done_ratio: 80.0) }
+          let(:expected_kept_attributes) { %w[remaining_hours] }
+
+          it_behaves_like "service call", description: "remaining work is kept and % complete is updated accordingly"
         end
       end
 
@@ -360,7 +433,8 @@ RSpec.describe WorkPackages::SetAttributesService,
 
         context "when work is set" do
           let(:call_attributes) { { estimated_hours: 10.0 } }
-          let(:expected_attributes) { { remaining_hours: 6.0, done_ratio: 40 } }
+          let(:expected_attributes) { { done_ratio: 40 } }
+          let(:expected_kept_attributes) { %w[remaining_hours] }
 
           it_behaves_like "service call",
                           description: "remaining work is kept to the same value and % complete is updated accordingly"
@@ -377,11 +451,17 @@ RSpec.describe WorkPackages::SetAttributesService,
 
         context "when work is set" do
           let(:call_attributes) { { estimated_hours: 10.0 } }
-          let(:expected_attributes) do
-            { remaining_hours: 4.0, done_ratio: 60 }
-          end
+          let(:expected_attributes) { { remaining_hours: 4.0 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
 
           it_behaves_like "service call", description: "% complete is kept and remaining work is updated accordingly"
+        end
+
+        context "when work and remaining work are set" do
+          let(:call_attributes) { { estimated_hours: 10.0, remaining_hours: 0 } }
+          let(:expected_attributes) { call_attributes.merge(done_ratio: 100) }
+
+          it_behaves_like "service call", description: "% complete is updated accordingly"
         end
       end
 
