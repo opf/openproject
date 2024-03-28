@@ -39,16 +39,8 @@ module Admin::Settings
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
 
-    def default_breadcrumb
-      if action_name == "index"
-        t("label_project_attribute_plural")
-      else
-        ActionController::Base.helpers.link_to(t("label_project_attribute_plural"), admin_settings_project_custom_fields_path)
-      end
-    end
-
     def show_local_breadcrumb
-      true
+      false
     end
 
     def index
