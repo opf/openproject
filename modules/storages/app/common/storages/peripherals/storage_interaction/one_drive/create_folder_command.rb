@@ -66,7 +66,7 @@ module Storages
             case response
             in { status: 200..299 }
               ServiceResult.success(result: file_info_for(MultiJson.load(response.body, symbolize_keys: true)),
-                                    message: 'Folder was successfully created.')
+                                    message: "Folder was successfully created.")
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data:))
@@ -101,7 +101,7 @@ module Storages
             {
               name: folder_path,
               folder: {},
-              '@microsoft.graph.conflictBehavior' => "fail"
+              "@microsoft.graph.conflictBehavior" => "fail"
             }.to_json
           end
 
