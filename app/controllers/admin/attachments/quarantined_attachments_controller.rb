@@ -51,12 +51,8 @@ module Admin
         redirect_to action: :index
       end
 
-      def default_breadcrumb
-        t("antivirus_scan.quarantined_attachments.title")
-      end
-
       def show_local_breadcrumb
-        true
+        false
       end
 
       private
@@ -78,6 +74,13 @@ module Admin
       rescue ActiveRecord::RecordNotFound
         render_404
       end
+
+      def breadcrumb_items
+        [{ href: admin_index_path, text: t("label_administration") },
+         { href: admin_settings_attachments_path, text: t("attributes.attachments") },
+         t("antivirus_scan.quarantined_attachments.title")]
+      end
+      helper_method :breadcrumb_items
     end
   end
 end
