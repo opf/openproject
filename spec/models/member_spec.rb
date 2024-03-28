@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Member do
   let(:user) { create(:user) }
@@ -37,7 +37,7 @@ RSpec.describe Member do
 
   subject(:member) { build(:global_member, user:, roles: [global_role]) }
 
-  describe 'relations' do
+  describe "relations" do
     it { expect(member).to have_many(:member_roles).dependent(:destroy) }
     it { expect(member).to belong_to(:project).optional }
     it { expect(member).to have_many(:roles).through(:member_roles) }
@@ -49,25 +49,47 @@ RSpec.describe Member do
     end
   end
 
-  describe 'validations' do
+  describe "validations" do
     it { expect(member).to validate_uniqueness_of(:user_id).scoped_to(%i[project_id entity_type entity_id]) }
     it { expect(member).to validate_inclusion_of(:entity_type).in_array(["WorkPackage"]).allow_blank }
   end
 
-  describe '#deletable?' do
-    it 'is deletable, when no roles are inherited' do
+  describe "#deletable?" do
+    it "is true, when no roles are inherited" do
       member.member_roles.first.inherited_from = nil
       expect(member).to be_deletable
     end
 
-    it 'is not deletable, when roles are inherited' do
+    it "is false, when roles are inherited" do
       member.member_roles.first.inherited_from = 1
       expect(member).not_to be_deletable
     end
   end
 
-  describe '#deletable_role?' do
-    it 'can delete directly assigned roles, but not if role is inherited through a group membership' do
+  describe "#some_roles_deletable?" do
+    before do
+      member.roles << project_role
+    end
+
+    it "is true, when no roles are inherited" do
+      member.member_roles.first.inherited_from = nil
+      expect(member).to be_some_roles_deletable
+    end
+
+    it "is true, when not all roles are inherited" do
+      member.member_roles.first.inherited_from = 1
+      expect(member).to be_some_roles_deletable
+    end
+
+    it "is false, when all roles are inherited" do
+      member.member_roles.first.inherited_from = 1
+      member.member_roles.second.inherited_from = 1
+      expect(member).not_to be_some_roles_deletable
+    end
+  end
+
+  describe "#deletable_role?" do
+    it "can delete directly assigned roles, but not if role is inherited through a group membership" do
       # user has the global_role by directly being assigned
       member.save
 
@@ -93,23 +115,23 @@ RSpec.describe Member do
     end
   end
 
-  describe '.can_be_member_of?' do
-    it 'returns true when a whitelisted entity is passed in' do
+  describe ".can_be_member_of?" do
+    it "returns true when a whitelisted entity is passed in" do
       result = described_class.can_be_member_of?(build(:work_package))
       expect(result).to be_truthy
     end
 
-    it 'returns true when the class name of a whitelisted entity is passed in' do
+    it "returns true when the class name of a whitelisted entity is passed in" do
       result = described_class.can_be_member_of?(WorkPackage)
       expect(result).to be_truthy
     end
 
-    it 'returns false when a non-whitelisted entity is passed in' do
+    it "returns false when a non-whitelisted entity is passed in" do
       result = described_class.can_be_member_of?(build(:user))
       expect(result).to be_falsey
     end
 
-    it 'returns false when the class name of a whitelisted entity is passed in' do
+    it "returns false when the class name of a whitelisted entity is passed in" do
       result = described_class.can_be_member_of?(User)
       expect(result).to be_falsey
     end

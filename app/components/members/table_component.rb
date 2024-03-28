@@ -29,8 +29,16 @@
 #++
 
 module Members
-  class TableComponent < ::TableComponent
-    options :authorize_update, :available_roles, :is_filtered, :project
+  class TableComponent < ::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    options :authorize_update,
+            :authorize_delete,
+            :authorize_work_package_shares_view,
+            :authorize_work_package_shares_delete,
+            :authorize_manage_user,
+            :available_roles,
+            :is_filtered,
+            :shared_role_name,
+            :project
     columns :name, :mail, :roles, :groups, :shared, :status
     sortable_columns :name, :mail, :status
 
@@ -40,7 +48,7 @@ module Members
 
     def apply_member_scopes(model)
       model
-        .with_shared_work_packages_count(only_role_id:)
+        .with_shared_work_packages_info(only_role_id: shared_role_id)
         # This additional select is necessary for removing "duplicate" memberships in the members table
         # In reality, we want to show distinct principals in the members page, but are filtering on the members
         # table which now has multiplpe entries per user if they are the recipient of multiple shares,
@@ -52,22 +60,27 @@ module Members
       Member
         .where(
           id: model
-            .reselect('DISTINCT ON (members.user_id) members.id')
-            .reorder('members.user_id, members.entity_type NULLS FIRST')
+            .reselect("DISTINCT ON (members.user_id) members.id")
+            .reorder("members.user_id, members.entity_type NULLS FIRST")
         )
     end
 
-    def only_role_id
-      case params[:shared_role_id]
-      when 'all', nil
-        nil
-      else
-        params[:shared_role_id]
-      end
+    def shared_role_id
+      params[:shared_role_id] if params[:shared_role_id].present? && params[:shared_role_id] != "all"
     end
 
     def initial_sort
       %i[name asc]
+    end
+
+    def hide_roles? = params[:shared_role_id].present?
+
+    def columns
+      if hide_roles?
+        super - [:roles]
+      else
+        super
+      end
     end
 
     def headers
@@ -80,7 +93,7 @@ module Members
       caption =
         case name
         when :shared
-          I18n.t('members.columns.shared')
+          I18n.t("members.columns.shared")
         else
           User.human_attribute_name(name)
         end
@@ -103,7 +116,7 @@ module Members
       if is_filtered
         I18n.t :notice_no_principals_found
       else
-        I18n.t :'members.index.no_results_title_text'
+        I18n.t :"members.index.no_results_title_text"
       end
     end
   end

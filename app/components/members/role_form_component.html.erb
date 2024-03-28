@@ -27,11 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= form_with model: member,
+<%= form_with model: member.new_record? ? [member.project, member] : member,
               builder: TabularFormBuilder,
               html: form_html_options do |f| %>
   <%= hidden_field_tag :page, params[:page].to_i %>
   <%= hidden_field_tag :per_page, params[:per_page].to_i %>
+
+  <%= hidden_field_tag f.field_name(:user_ids), member.principal.id if member.new_record? %>
 
   <p>
     <% roles.each do |role| %>
@@ -40,6 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
                                    role.id,
                                    member.roles.include?(role),
                                    role.name,
+                                   disabled: role_disabled?(role),
                                    no_label: true
         %>
         <%= role %>
@@ -48,13 +51,13 @@ See COPYRIGHT and LICENSE files for more details.
   </p>
 
   <p>
-    <%= f.submit t(:button_change), class: "button -primary -small" %>
+    <%= f.submit t(member.new_record? ? :button_add : :button_change), class: "button -primary -small" %>
     <%= link_to t(:button_cancel),
-                '#',
+                "#",
                 data: {
-                  action: 'members-form#toggleMembershipEdit',
-                  'members-form-toggling-class-param': row.toggle_item_class_name
+                  action: "members-form#toggleMembershipEdit",
+                  "members-form-toggling-class-param": row.toggle_item_class_name
                 },
-                class: 'button -small toggle-membership-button' %>
+                class: "button -small toggle-membership-button" %>
   </p>
 <% end %>

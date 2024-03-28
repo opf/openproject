@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -27,15 +29,45 @@
 #++
 
 module Members
-  class DeleteContract < ::DeleteContract
-    delete_permission :manage_members
+  class DeleteMemberDialogComponent < ::ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    options :row
 
-    validate :member_is_deletable
+    delegate :shared_work_packages_count,
+             :shared_work_packages_link,
+             :administration_settings_link,
+             :can_delete?,
+             :can_delete_roles?,
+             :may_delete_shares?,
+             :shared_work_packages?,
+             :may_manage_user?,
+             to: :row
 
-    private
+    delegate :principal,
+             :inherited_shared_work_packages_count?,
+             to: :model
 
-    def member_is_deletable
-      errors.add(:base, :not_deletable) unless model.some_roles_deletable?
+    def paragraph(&) = render(Primer::Beta::Text.new(tag: "p"), &)
+    def button(**, &) = render(Primer::Beta::Button.new(**), &)
+
+    def cancel_button = button(data: { close_dialog_id: id }) { t(:button_cancel) }
+
+    def scoped_t(key, **)
+      t(key, scope: "members.delete_member_dialog", **)
+    end
+
+    def id
+      "principal-#{principal.id}-delete-member-dialog"
+    end
+
+    def delete_url(project: nil, work_package_shares_role_id: nil)
+      url_for(
+        controller: "/members",
+        action: "destroy_by_principal",
+        project_id: row.project,
+        principal_id: row.principal,
+        project:,
+        work_package_shares_role_id:
+      )
     end
   end
 end

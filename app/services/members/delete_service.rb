@@ -29,6 +29,14 @@
 class Members::DeleteService < BaseServices::Delete
   include Members::Concerns::CleanedUp
 
+  def destroy(object)
+    if object.member_roles.where.not(inherited_from: nil).empty?
+      super
+    else
+      object.member_roles.where(inherited_from: nil).destroy_all
+    end
+  end
+
   protected
 
   def after_perform(service_call)
@@ -36,7 +44,7 @@ class Members::DeleteService < BaseServices::Delete
       member = call.result
 
       cleanup_for_group(member)
-      send_notification(member)
+      send_notification(member) if member.destroyed?
     end
   end
 

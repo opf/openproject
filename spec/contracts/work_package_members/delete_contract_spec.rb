@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe WorkPackageMembers::DeleteContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   let(:contract) { described_class.new(member, current_user) }
   let(:member) do
@@ -45,14 +45,14 @@ RSpec.describe WorkPackageMembers::DeleteContract do
   let(:principal) { build_stubbed(:user) }
   let(:entity) { build_stubbed(:work_package) }
 
-  context 'when member is deletable' do
-    it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  context "when member is deletable" do
+    it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-    include_examples 'contract reuses the model errors' do
+    include_examples "contract reuses the model errors" do
       let(:current_user) { build_stubbed(:user) }
     end
 
-    context 'when user has permission' do
+    context "when user has permission" do
       let(:current_user) { build_stubbed(:user) }
 
       before do
@@ -61,22 +61,22 @@ RSpec.describe WorkPackageMembers::DeleteContract do
         end
       end
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
   end
 
-  context 'when member is not deletable' do
+  context "when member is not deletable" do
     before do
-      allow(member).to receive(:deletable?).and_return(false)
+      allow(member).to receive(:some_roles_deletable?).and_return(false)
     end
 
-    context 'for admin' do
+    context "for admin" do
       let(:current_user) { build_stubbed(:admin) }
 
-      it_behaves_like 'contract is invalid'
+      it_behaves_like "contract is invalid"
     end
 
-    context 'when user has permission' do
+    context "when user has permission" do
       let(:current_user) { build_stubbed(:user) }
 
       before do
@@ -85,7 +85,7 @@ RSpec.describe WorkPackageMembers::DeleteContract do
         end
       end
 
-      it_behaves_like 'contract is invalid'
+      it_behaves_like "contract is invalid"
     end
   end
 end
