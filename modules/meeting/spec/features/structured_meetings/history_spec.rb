@@ -99,6 +99,20 @@ RSpec.describe "history",
       expect(page).to have_css("li", text: "Start time changed from 03/28/2024 01:30 PM to 03/29/2024 02:00 PM")
       expect(page).to have_css("li", text: "Duration changed from 1 hour, 30 minutes to 1 hour")
     end
+
+    # Add agenda item
+
+    # Add work package item
+
+    # Change position, expect only one change
+
+    # Update agenda item
+
+    # Remove agenda item
+
+    # Remove linked work package
+
+    # With a work package linked in another project
   end
 
   it "for a user with no permissions", with_settings: { journal_aggregation_time_minutes: 0 } do
