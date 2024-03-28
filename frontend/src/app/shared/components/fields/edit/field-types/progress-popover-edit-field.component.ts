@@ -132,6 +132,8 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
 
       void this.apiV3Service.work_packages.id(this.resource as WorkPackageResource).refresh();
 
+      this.onModalClosed();
+
       this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
     }
   }
