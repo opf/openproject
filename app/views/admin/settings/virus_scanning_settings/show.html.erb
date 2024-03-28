@@ -32,9 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% header.with_title do %>
     <%= t('settings.antivirus.title') %>
   <% end %>
-  <%  header.with_breadcrumbs([{href: admin_index_path, text: t('label_administration')},
-                               {href: admin_settings_attachments_path, text: t('attributes.attachments')},
-                               t('settings.antivirus.title')])%>
+  <%  header.with_breadcrumbs(breadcrumb_items)%>
 <% end %>
 
 <%= styled_form_tag(
