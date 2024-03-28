@@ -17,6 +17,10 @@ module OpenProject
       def iso8601
         render OpenProject::Common::DurationComponent.new("P3DT12H5M", :seconds, color: :subtle)
       end
+
+      def plain_text
+        render_with_template
+      end
     end
   end
 end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,43 +26,60 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ItemSubtitleComponent < ViewComponent::Base
-  def initialize(user:, datetime:, is_creation:, is_deletion:, journable_type:)
-    super()
-    @user = user
-    @datetime = datetime
-    @is_creation = is_creation
-    @is_deletion = is_deletion
-    @journable_type = journable_type
-  end
+module Activities
+  class EventMapper
+    include Redmine::I18n
 
-  def user_html
-    return unless @user
+    attr_reader :journable
 
-    [
-      helpers.avatar(@user, size: 'mini'),
-      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
-    ].join(' ')
-  end
+    def initialize(journable)
+      @journable = journable
+    end
 
-  def datetime_html
-    helpers.format_time(@datetime)
-  end
+    def map_to_events
+      journable
+        .journals
+        .includes(*journals_includes)
+        .all
+        .flat_map { |journal| map_to_event(journal) }
+    end
 
-  def time_entry?
-    @journable_type == 'TimeEntry'
-  end
+    protected
 
-  def i18n_key
-    i18n_key = 'activity.item.'.dup
-    i18n_key << (if @is_deletion
-                   'deleted_'
-                 else
-                   (@is_creation ? 'created_' : 'updated_')
-                 end)
-    i18n_key << 'by_' if @user
-    i18n_key << 'on'
-    i18n_key << '_time_entry' if time_entry?
-    i18n_key
+    def journals_includes
+      %i[data]
+    end
+
+    def map_to_event(journal)
+      params = mapped_params(journal)
+      create_event(params)
+    end
+
+    def create_event(params)
+      Activities::Event.new(**params)
+    end
+
+    def mapped_params(journal)
+      data = event_data(journal)
+
+      {
+        event_description: journal.notes,
+        event_datetime: journal.updated_at,
+        event_author: journal.user,
+        project: journal.project,
+        project_id: journal.project&.id,
+        journal:,
+        data:,
+        event_title: event_title(journal, data)
+      }
+    end
+
+    def event_data(journal)
+      raise NotImplementedError
+    end
+
+    def event_title(journal, data)
+      raise NotImplementedError
+    end
   end
 end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,43 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ItemSubtitleComponent < ViewComponent::Base
-  def initialize(user:, datetime:, is_creation:, is_deletion:, journable_type:)
-    super()
-    @user = user
-    @datetime = datetime
-    @is_creation = is_creation
-    @is_deletion = is_deletion
-    @journable_type = journable_type
-  end
+class OpenProject::JournalFormatter::AgendaItemPosition < JournalFormatter::Base
+  def render(_key, values, options = { html: true })
+    label_text = I18n.t(:label_agenda_items)
+    label_text = content_tag(:strong, label_text) if options[:html]
 
-  def user_html
-    return unless @user
-
-    [
-      helpers.avatar(@user, size: 'mini'),
-      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
-    ].join(' ')
-  end
-
-  def datetime_html
-    helpers.format_time(@datetime)
-  end
-
-  def time_entry?
-    @journable_type == 'TimeEntry'
-  end
-
-  def i18n_key
-    i18n_key = 'activity.item.'.dup
-    i18n_key << (if @is_deletion
-                   'deleted_'
-                 else
-                   (@is_creation ? 'created_' : 'updated_')
-                 end)
-    i18n_key << 'by_' if @user
-    i18n_key << 'on'
-    i18n_key << '_time_entry' if time_entry?
-    i18n_key
+    I18n.t(:text_journal_of, label: label_text, value: I18n.t(:label_agenda_items_reordered))
   end
 end

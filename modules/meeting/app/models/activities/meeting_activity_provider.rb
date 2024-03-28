@@ -47,6 +47,7 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
     when :meeting
       [
         activity_journal_projection_statement(:title, 'meeting_title'),
+        activity_journal_projection_statement(:date, 'meeting_start_time'),
         activity_journal_projection_statement(:start_time, 'meeting_start_time'),
         activity_journal_projection_statement(:duration, 'meeting_duration'),
         activity_journal_projection_statement(:project_id, 'project_id')
@@ -137,6 +138,20 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
     id = activity_id(event)
 
     url_helpers.meeting_url(id)
+  end
+
+  def event_selection_query(user, from, to, options)
+    query = journals_with_data_query
+    query = extend_event_query(query)
+    query = filter_for_event_datetime(query, from, to)
+    query = restrict_user(query, options)
+    query = restrict_meeting(query, options)
+    restrict_projects(query, user, options)
+  end
+
+  def restrict_meeting(query, options)
+    query = query.where(journals_table[:journable_id].eq(options[:meeting].id)) if options[:meeting]
+    query
   end
 
   private

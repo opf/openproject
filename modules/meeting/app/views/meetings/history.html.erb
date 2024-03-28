@@ -1,0 +1,9 @@
+<%= content_tag("turbo-frame",
+                id: "meetings-history-dialog-frame",
+                class: 'Overlay-form',
+                data: { 'op-turbo-op-primer-async-dialog-target': "frameElement" }) do
+  render(Primer::Alpha::Dialog::Body.new) do
+    render(Activities::DaysComponent.new(events: @events, current_project: @project, activity_page: @activity_page))
+  end
+end
+%>

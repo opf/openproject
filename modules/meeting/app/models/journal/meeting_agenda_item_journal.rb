@@ -32,6 +32,7 @@ class Journal::MeetingAgendaItemJournal < Journal::BaseJournal
   enum item_type: MeetingAgendaItem::ITEM_TYPES
 
   belongs_to :meeting
+  belongs_to :work_package, optional: true
   belongs_to :author, class_name: "User"
   belongs_to :agenda_item, class_name: "MeetingAgendaItem"
 
