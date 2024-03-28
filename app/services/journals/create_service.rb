@@ -49,6 +49,27 @@ module Journals
     end
 
     def call(notes: '', cause: {})
+      journal = Journal.new
+      journal.notes = notes
+      journal.user = journable.author
+      journal.extend Mixins::RestrictLinks
+
+      def journal.restricted_attributes
+        %i(notes)
+      end
+
+      def journal.link_author
+        user
+      end
+
+      journal.restricted_links
+
+      if !journal.errors.empty?
+        journable.errors.add :notes, :forbidden_link
+
+        return ServiceResult.failure(errors: journable.errors)
+      end
+
       # JSON columns read from the database always have string keys. As we do not know what is passed in here,
       # and we want to compare it to values read from the DB, we need to stringify the keys here as well
       normalized_cause = cause.deep_stringify_keys
