@@ -29,6 +29,8 @@ jobs:
       DOCKER_BUILDKIT: 1
       CI_RETRY_COUNT: 3
     steps:
+    - name: Collect Workflow Telemetry
+      uses: catchpoint/workflow-telemetry-action@v2
     - uses: actions/checkout@v4
     - name: Cache DOCKER
       id: cache_docker
