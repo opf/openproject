@@ -1,0 +1,23 @@
+<% html_title t(:label_administration), t(:project_module_github) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title do
+      t(:project_module_github)
+    end
+  end
+%>
+
+<%=
+  render(Primer::Beta::Text.new(tag: :div, mb: 1)) { I18n.t(:'github_integration.settings.reference_documentation') }
+%>
+
+<%=
+  render(Primer::Beta::Text.new(tag: :div, mb: 4)) { I18n.t(:'github_integration.settings.explanation_on_actions') }
+%>
+
+<%=
+  primer_form_with(url: admin_settings_github_integration_path, method: :patch) do |f|
+    render(Admin::Settings::GithubIntegrationSettingsForm.new(f))
+  end
+%>

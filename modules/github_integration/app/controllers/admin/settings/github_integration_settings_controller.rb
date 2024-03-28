@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,17 +24,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-en:
-  plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
-    description: "Integrates OpenProject and GitHub for a better workflow"
+class Admin::Settings::GithubIntegrationSettingsController < ApplicationController
+  layout "admin"
+  menu_item :admin_github_integration
 
-  project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
+  before_action :require_admin
 
-  github_integration:
-    settings:
-      reference_documentation: "OpenProject can be linked to the one or many GitHub repositories. The documentation explains how to set up the integration."
-      explanation_on_actions: "Aside from updates in the form of comments and linking a pull request to a work package, every action on a pull request can also trigger additional updates on a work package, e.g. updating a status and setting a date value. To do this, define a custom action and assign it to be executed on a GitHub action."
+  def show; end
+
+  def update
+    Setting.plugin_openproject_github_integration = update_settings
+    flash[:notice] = I18n.t(:notice_successful_update)
+
+    redirect_to action: :show
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
+  def default_breadcrumb
+    I18n.t(:project_module_github)
+  end
+
+  private
+
+  def update_settings
+    @update_settings ||= params.permit(custom_field_mappings: {}).to_h
+  end
+end
