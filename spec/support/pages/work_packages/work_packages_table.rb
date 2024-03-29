@@ -367,7 +367,7 @@ module Pages
       when :date, :startDate, :dueDate, :combinedDate
         DateEditField.new container, key, is_milestone: work_package.milestone?, is_table: true
       when :estimatedTime, :remainingTime
-        ProgressEditModal.new container, key
+        ProgressEditField.new container, key
       else
         EditField.new container, key
       end

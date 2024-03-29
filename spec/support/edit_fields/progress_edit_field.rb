@@ -30,70 +30,34 @@
 
 require_relative "edit_field"
 
-class ProgressEditModal
-  include Capybara::DSL
-  include Capybara::RSpecMatchers
-  include RSpec::Matchers
-
-  MODAL_ID = "work_package_progress_modal"
+class ProgressEditField < EditField
+  MODAL_SELECTOR = "#work_package_progress_modal"
   FIELD_NAME_MAP = {
     "estimatedTime" => :estimated_hours,
     "remainingTime" => :remaining_hours
   }.freeze
 
-  def initialize(container,
+  def initialize(context,
                  property_name,
                  selector: nil)
-    # This is the container for the display field. The input field is in the
-    # modal, attached to the page.
-    @container = container
-    @property_name = property_name.to_s
-    @field_name = "work_package_#{FIELD_NAME_MAP[@property_name]}"
-    @selector = selector || ".inline-edit--display-field.#{@property_name}"
+    super(context, property_name, selector:)
+    @field_name = "work_package_#{FIELD_NAME_MAP.fetch(@property_name)}"
   end
 
-  # Generate
   def update(value, save: true, expect_failure: false)
-    retry_block do
-      activate_modal
-
-      within_modal do
-        set_value value
-        save! if save
-        expect_state! open: expect_failure || !save
-      end
-    end
+    super
   end
 
-  private
-
-  attr_reader :container,
-              :property_name,
-              :field_name,
-              :selector
-
-  def activate_modal
-    display_field.click
-  end
-
-  def display_field
-    container.find(selector)
-  end
-
-  def within_modal(&)
-    within(modal, &)
-  end
-
-  def modal
-    page.find_by_id(MODAL_ID)
+  def active?
+    page.has_selector?(MODAL_SELECTOR, wait: 1)
   end
 
   def set_value(value)
     page.fill_in field_name, with: value
   end
 
-  def field
-    page.find_field(field_name)
+  def input_element
+    modal_element.find_field(field_name)
   end
 
   def save!
@@ -101,14 +65,22 @@ class ProgressEditModal
   end
 
   def submit_by_enter
-    field.native.send_keys :return
+    input_element.native.send_keys :return
   end
 
-  def expect_state!(open:)
-    if open
-      expect(page).to have_css("##{MODAL_ID}", :visible)
-    else
-      expect(page).to have_no_css("##{MODAL_ID}", wait: 0)
-    end
+  def expect_active!
+    expect(page).to have_css(MODAL_SELECTOR, :visible)
+  end
+
+  def expect_inactive!
+    expect(page).to have_no_css(MODAL_SELECTOR)
+  end
+
+  private
+
+  attr_reader :field_name
+
+  def modal_element
+    page.find(MODAL_SELECTOR)
   end
 end

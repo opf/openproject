@@ -4,9 +4,9 @@ class EditField
   include RSpec::Matchers
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
-  attr_reader :selector,
+  attr_reader :context,
               :property_name,
-              :context
+              :selector
 
   attr_accessor :field_type
 
