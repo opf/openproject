@@ -246,8 +246,8 @@ RSpec.describe WorkPackages::SetAttributesService,
       context "given a work package with work, remaining work, and % complete being set" do
         before do
           work_package.estimated_hours = 10.0
-          work_package.remaining_hours = 6.0
-          work_package.done_ratio = 40
+          work_package.remaining_hours = 3.0
+          work_package.done_ratio = 70
           work_package.send(:clear_changes_information)
         end
 
@@ -276,7 +276,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           # work changed by +10h
           let(:call_attributes) { { estimated_hours: 10.0 + 10.0 } }
           let(:expected_attributes) do
-            { remaining_hours: 6.0 + 10.0, done_ratio: 20 }
+            { remaining_hours: 3.0 + 10.0, done_ratio: 35 }
           end
 
           it_behaves_like "service call",
@@ -287,7 +287,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           # work changed by -2h
           let(:call_attributes) { { estimated_hours: 10.0 - 2.0 } }
           let(:expected_attributes) do
-            { remaining_hours: 6.0 - 2.0, done_ratio: 50 }
+            { remaining_hours: 3.0 - 2.0, done_ratio: 87 }
           end
 
           it_behaves_like "service call",
@@ -339,6 +339,14 @@ RSpec.describe WorkPackages::SetAttributesService,
           let(:expected_attributes) { call_attributes.merge(done_ratio: 90) }
 
           it_behaves_like "service call", description: "updates % complete accordingly"
+        end
+
+        context "when work is changed and remaining work is unset" do
+          let(:call_attributes) { { estimated_hours: 8.0, remaining_hours: nil } }
+          let(:expected_attributes) { { remaining_hours: 2.4 } } # would be 2.4000000000000004 without rounding
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "% complete is kept and remaining work is recomputed (and rounded)"
         end
       end
 

@@ -403,7 +403,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return nil if work_package.done_ratio.nil? || work_package.estimated_hours.nil?
 
     completed_work = work_package.estimated_hours * work_package.done_ratio / 100.0
-    work_package.estimated_hours - completed_work
+    (work_package.estimated_hours - completed_work).round(2)
   end
 
   def set_version_to_nil
