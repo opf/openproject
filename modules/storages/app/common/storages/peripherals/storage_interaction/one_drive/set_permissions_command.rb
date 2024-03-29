@@ -124,8 +124,8 @@ module Storages
               permission[:id]
             end.curry
 
-            write_permissions = permission_set.filter_map(&filter.call('write'))
-            read_permissions = permission_set.filter_map(&filter.call('read'))
+            write_permissions = permission_set.filter_map(&filter.call("write"))
+            read_permissions = permission_set.filter_map(&filter.call("read"))
 
             { read: read_permissions, write: write_permissions }
           end
