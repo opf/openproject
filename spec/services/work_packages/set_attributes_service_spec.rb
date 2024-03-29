@@ -466,6 +466,13 @@ RSpec.describe WorkPackages::SetAttributesService,
 
           it_behaves_like "service call", description: "remaining work is set to the same value and % complete is set to 0%"
         end
+
+        context "when remaining work is set" do
+          let(:call_attributes) { { remaining_hours: 10.0 } }
+          let(:expected_attributes) { { estimated_hours: 10.0, done_ratio: 0 } }
+
+          it_behaves_like "service call", description: "work is set to the same value and % complete is set to 0%"
+        end
       end
     end
   end
