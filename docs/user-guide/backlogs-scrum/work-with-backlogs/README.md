@@ -81,7 +81,7 @@ In a sprint, you can directly document necessary effort as story points. The ove
 
 You can easily edit story points directly from the backlogs view. In order to do so, simply click in the line of the work package you want to edit, and make the desired changes.
 
-In the same way, you can also edit the name, start and end date and status of a work package. To confirm your changes, press “*Enter*” on your keyboard. To cancel your changes, press **Escape*”.
+In the same way, you can also edit the name, start and end date and status of a work package. To confirm your changes, press “*Enter*” on your keyboard. To cancel your changes, press “*Escape*”.
 
 ![User-guide-backlogs-edit-story-points](User-guide-backlogs-edit-story-points.png)
 
@@ -110,7 +110,7 @@ The remaining story points per sprint are displayed in the chart. Optionally, th
 
 ![Burndown chart graph](17_BurndownChart2.png)
 
-​    
+​
 
 ## Print story cards
 
