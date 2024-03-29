@@ -57,12 +57,15 @@ module WorkPackages
     attribute :derived_done_ratio,
               writable: false
 
-    attribute :estimated_hours
+    attribute :estimated_hours do
+      validate_work_is_set_when_remaining_work_is_set
+    end
     attribute :derived_estimated_hours,
               writable: false
 
     attribute :remaining_hours do
-      validate_remaining_hours_doesnt_exceed_estimated_hours
+      validate_remaining_work_is_lower_than_work
+      validate_remaining_work_is_set_when_work_is_set
     end
     attribute :derived_remaining_hours,
               writable: false
@@ -320,8 +323,8 @@ module WorkPackages
       end
     end
 
-    def validate_remaining_hours_doesnt_exceed_estimated_hours
-      if both_remaining_and_estimated_hours_present? && remaining_work_exceeds_work?
+    def validate_remaining_work_is_lower_than_work
+      if work_set? && remaining_work_set? && remaining_work_exceeds_work?
         if model.changed.include?("estimated_hours")
           errors.add(:estimated_hours, :cant_be_inferior_to_remaining_work)
         end
@@ -332,8 +335,24 @@ module WorkPackages
       end
     end
 
-    def both_remaining_and_estimated_hours_present?
-      model.remaining_hours.present? && model.estimated_hours.present?
+    def validate_remaining_work_is_set_when_work_is_set
+      if work_set? && !remaining_work_set?
+        errors.add(:remaining_hours, :must_be_set_when_work_is_set)
+      end
+    end
+
+    def validate_work_is_set_when_remaining_work_is_set
+      if remaining_work_set? && !work_set?
+        errors.add(:estimated_hours, :must_be_set_when_remaining_work_is_set)
+      end
+    end
+
+    def work_set?
+      model.estimated_hours.present?
+    end
+
+    def remaining_work_set?
+      model.remaining_hours.present?
     end
 
     def remaining_work_exceeds_work?

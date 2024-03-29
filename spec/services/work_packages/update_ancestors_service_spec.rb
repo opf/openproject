@@ -56,9 +56,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
   describe "done_ratio/estimated_hours/remaining_hours propagation" do
     context "when setting the status of a work package" do
-      shared_let(:open_status) { create(:status) }
-      shared_let(:new_status_with_done_ratio) { create(:status, default_done_ratio: 100) }
-      shared_let(:new_status_without_done_ratio) { create(:status, default_done_ratio: nil) }
+      shared_let(:open_status) { create(:status, name: "open", default_done_ratio: 0) }
+      shared_let(:complete_status_with_100p_done_ratio) { create(:status, name: "complete", default_done_ratio: 100) }
 
       context 'when using the "status-based" % complete mode',
               with_settings: { work_package_done_ratio: "status" } do
@@ -92,8 +91,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                 it "recomputes child remaining work and update ancestors total % complete accordingly" do
                   value =
                     case field
-                    when :status then new_status_with_done_ratio
-                    when :status_id then new_status_with_done_ratio.id
+                    when :status then complete_status_with_100p_done_ratio
+                    when :status_id then complete_status_with_100p_done_ratio.id
                     end
                   set_attributes_on(child, field => value)
                   call_update_ancestors_service(child)
@@ -102,28 +101,6 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                     | subject | work | total work | remaining work | total remaining work | % complete | total % complete |
                     | parent  |  10h |        15h |            10h |                  10h |         0% |              33% |
                     | child   |   5h |         5h |             0h |                      |       100% |                  |
-                  TABLE
-                end
-              end
-            end
-          end
-
-          context "when changing child status to a status without any default done ratio" do
-            %i[status status_id].each do |field|
-              context "with the #{field} field" do
-                it "unsets child remaining work and update ancestors total % complete accordingly" do
-                  value =
-                    case field
-                    when :status then new_status_without_done_ratio
-                    when :status_id then new_status_without_done_ratio.id
-                    end
-                  set_attributes_on(child, field => value)
-                  call_update_ancestors_service(child)
-
-                  expect_work_packages([parent, child], <<~TABLE)
-                    | subject | work | total work | remaining work | total remaining work | % complete | total % complete |
-                    | parent  |  10h |        15h |            10h |                  10h |         0% |              33% |
-                    | child   |   5h |         5h |                |                      |            |                  |
                   TABLE
                 end
               end

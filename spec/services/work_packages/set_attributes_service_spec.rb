@@ -30,7 +30,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackages::SetAttributesService,
                type: :model do
-  shared_let(:status_no_pct_complete) { create(:status, default_done_ratio: nil, name: "no % complete") }
+  shared_let(:status_0_pct_complete) { create(:status, default_done_ratio: 0, name: "0% complete") }
   shared_let(:status_50_pct_complete) { create(:status, default_done_ratio: 50, name: "50% complete") }
   shared_let(:status_70_pct_complete) { create(:status, default_done_ratio: 70, name: "70% complete") }
 
@@ -43,7 +43,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     p
   end
   let(:work_package) do
-    wp = build_stubbed(:work_package, project:, status: status_no_pct_complete)
+    wp = build_stubbed(:work_package, project:, status: status_0_pct_complete)
     wp.type = initial_type
     wp.send(:clear_changes_information)
 
@@ -184,33 +184,25 @@ RSpec.describe WorkPackages::SetAttributesService,
           it_behaves_like "service call", description: "recomputes remaining work accordingly"
         end
 
-        context "when another status with a default % complete value is set" do
+        context "when another status is set" do
           let(:call_attributes) { { status: status_70_pct_complete } }
           let(:expected_attributes) { { remaining_hours: 3.0 } }
 
           it_behaves_like "service call",
                           description: "recomputes remaining work according to the % complete value of the new status"
         end
-
-        context "when another status without any default % complete value is set" do
-          let(:call_attributes) { { status: status_no_pct_complete } }
-          let(:expected_attributes) { { remaining_hours: nil } }
-
-          it_behaves_like "service call",
-                          description: "unsets remaining work"
-        end
       end
 
-      context "given a work package with work and remaining work unset, and a status with no % complete" do
+      context "given a work package with work and remaining work unset, and a status with 0% complete" do
         before do
-          work_package.status = status_no_pct_complete
+          work_package.status = status_0_pct_complete
           work_package.done_ratio = work_package.status.default_done_ratio
           work_package.estimated_hours = nil
           work_package.remaining_hours = nil
           work_package.send(:clear_changes_information)
         end
 
-        context "when another status with a default % complete value is set" do
+        context "when another status with another % complete value is set" do
           let(:call_attributes) { { status: status_70_pct_complete } }
           let(:expected_attributes) { { remaining_hours: nil } }
 
@@ -220,10 +212,10 @@ RSpec.describe WorkPackages::SetAttributesService,
 
         context "when work is set" do
           let(:call_attributes) { { estimated_hours: 10.0 } }
-          let(:expected_attributes) { { remaining_hours: nil } }
+          let(:expected_attributes) { { remaining_hours: 10.0 } }
 
           it_behaves_like "service call",
-                          description: "remaining work remains unset"
+                          description: "remaining work is updated accordingly from work and % complete value of the status"
         end
       end
     end
@@ -246,13 +238,6 @@ RSpec.describe WorkPackages::SetAttributesService,
 
           it_behaves_like "service call", description: "sets the % complete value to the status default % complete value"
         end
-
-        context "when another status with no % complete value is set" do
-          let(:call_attributes) { { status: status_no_pct_complete } }
-          let(:expected_attributes) { { done_ratio: nil } }
-
-          it_behaves_like "service call", description: "unsets the % complete value"
-        end
       end
     end
 
@@ -261,8 +246,8 @@ RSpec.describe WorkPackages::SetAttributesService,
       context "given a work package with work, remaining work, and % complete being set" do
         before do
           work_package.estimated_hours = 10.0
-          work_package.remaining_hours = 6.0
-          work_package.done_ratio = 40
+          work_package.remaining_hours = 3.0
+          work_package.done_ratio = 70
           work_package.send(:clear_changes_information)
         end
 
@@ -291,7 +276,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           # work changed by +10h
           let(:call_attributes) { { estimated_hours: 10.0 + 10.0 } }
           let(:expected_attributes) do
-            { remaining_hours: 6.0 + 10.0, done_ratio: 20 }
+            { remaining_hours: 3.0 + 10.0, done_ratio: 35 }
           end
 
           it_behaves_like "service call",
@@ -302,7 +287,7 @@ RSpec.describe WorkPackages::SetAttributesService,
           # work changed by -2h
           let(:call_attributes) { { estimated_hours: 10.0 - 2.0 } }
           let(:expected_attributes) do
-            { remaining_hours: 6.0 - 2.0, done_ratio: 50 }
+            { remaining_hours: 3.0 - 2.0, done_ratio: 87 }
           end
 
           it_behaves_like "service call",
@@ -354,6 +339,14 @@ RSpec.describe WorkPackages::SetAttributesService,
           let(:expected_attributes) { call_attributes.merge(done_ratio: 90) }
 
           it_behaves_like "service call", description: "updates % complete accordingly"
+        end
+
+        context "when work is changed and remaining work is unset" do
+          let(:call_attributes) { { estimated_hours: 8.0, remaining_hours: nil } }
+          let(:expected_attributes) { { remaining_hours: 2.4 } } # would be 2.4000000000000004 without rounding
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call", description: "% complete is kept and remaining work is recomputed (and rounded)"
         end
       end
 
@@ -480,6 +473,13 @@ RSpec.describe WorkPackages::SetAttributesService,
           end
 
           it_behaves_like "service call", description: "remaining work is set to the same value and % complete is set to 0%"
+        end
+
+        context "when remaining work is set" do
+          let(:call_attributes) { { remaining_hours: 10.0 } }
+          let(:expected_attributes) { { estimated_hours: 10.0, done_ratio: 0 } }
+
+          it_behaves_like "service call", description: "work is set to the same value and % complete is set to 0%"
         end
       end
     end
