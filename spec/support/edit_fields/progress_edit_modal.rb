@@ -41,8 +41,12 @@ class ProgressEditModal
     "remainingTime" => :remaining_hours
   }.freeze
 
-  def initialize(property_name,
+  def initialize(container,
+                 property_name,
                  selector: nil)
+    # This is the container for the display field. The input field is in the
+    # modal, attached to the page.
+    @container = container
     @property_name = property_name.to_s
     @field_name = "work_package_#{FIELD_NAME_MAP[@property_name]}"
     @selector = selector || ".inline-edit--display-field.#{@property_name}"
@@ -63,7 +67,8 @@ class ProgressEditModal
 
   private
 
-  attr_reader :property_name,
+  attr_reader :container,
+              :property_name,
               :field_name,
               :selector
 
@@ -72,7 +77,7 @@ class ProgressEditModal
   end
 
   def display_field
-    page.find(selector)
+    container.find(selector)
   end
 
   def within_modal(&)
