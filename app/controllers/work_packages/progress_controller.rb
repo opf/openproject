@@ -38,6 +38,31 @@ class WorkPackages::ProgressController < ApplicationController
     render modal_class.new(@work_package, focused_field: params[:field])
   end
 
+  def create
+    service_call = WorkPackages::SetAttributesService
+                     .new(user: current_user,
+                          model: @work_package,
+                          contract_class: WorkPackages::CreateContract)
+                     .call(work_package_params)
+
+    if service_call.errors
+                   .map(&:attribute)
+                   .intersect?(%i[status_id estimated_hours remaining_hours done_ratio])
+      respond_to do |format|
+        format.turbo_stream do
+          # Bundle 422 status code into stream response so
+          # Angular has context as to the success or failure of
+          # the request in order to fetch the new set of Work Package
+          # attributes in the ancestry solely on success.
+          render :update, status: :unprocessable_entity
+        end
+      end
+    else
+      render json: { estimatedTime: formatted_duration(@work_package.estimated_hours),
+                     remainingTime: formatted_duration(@work_package.remaining_hours) }
+    end
+  end
+
   def update
     service_call = WorkPackages::UpdateService
                      .new(user: current_user,
@@ -73,10 +98,17 @@ class WorkPackages::ProgressController < ApplicationController
 
   def set_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
+  rescue ActiveRecord::RecordNotFound
+    @work_package = WorkPackage.new(work_package_params)
   end
 
   def work_package_params
     params.require(:work_package)
-          .permit(%i[estimated_hours remaining_hours status_id done_ratio])
+          .permit(%i[estimated_hours remaining_hours])
+          .compact_blank
+  end
+
+  def formatted_duration(hours)
+    API::V3::Utilities::DateTimeFormatter.format_duration_from_hours(hours)
   end
 end

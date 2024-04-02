@@ -55,6 +55,10 @@ module WorkPackages
 
         private
 
+        def submit_path
+          work_package.persisted? ? work_package_progress_path(work_package) : work_package_progress_path
+        end
+
         def map_field(field)
           # Scenarios when a field is not provided occur after a
           # form submission since the last focused element

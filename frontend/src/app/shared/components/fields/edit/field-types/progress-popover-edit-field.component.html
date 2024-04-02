@@ -9,6 +9,7 @@
     class="spot-input"
     (click)="onInputClick($event)"
     (focus)="showProgressModal()"
+    [value]="formatter(value)"
   />
 
   <ng-container slot="body">
@@ -35,7 +36,7 @@
       <turbo-frame
         #frameElement
         id="work_package_progress_modal"
-        src="{{this.frameSrc}}">
+        [attr.src]="this.frameSrc">
         <op-content-loader
           viewBox="0 0 180 80"
         >

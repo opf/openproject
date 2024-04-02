@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "work_package_progress_modal" do %>
   <%= primer_form_with(
         model: work_package,
-        url: work_package_progress_path(work_package),
+        url: submit_path,
         class: "progress-form",
         id: "progress-form",
         data: { "application-target": "dynamic",

@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   get "/api/docs" => "api_docs#index"
 
   # Redirect deprecated issue links to new work packages uris
-  get "/issues(/)"    => redirect("#{rails_relative_url_root}/work_packages")
+  get "/issues(/)" => redirect("#{rails_relative_url_root}/work_packages")
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
   get "/issues/*rest" => redirect { |params, _req|
@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   match "/assets/compiler.js.map", to: proc { [404, {}, [""]] }, via: :all
 
   # Redirect wp short url for work packages to full URL
-  get "/wp(/)"    => redirect("#{rails_relative_url_root}/work_packages")
+  get "/wp(/)" => redirect("#{rails_relative_url_root}/work_packages")
   get "/wp/*rest" => redirect { |params, _req|
     "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
   }
@@ -112,8 +112,8 @@ Rails.application.routes.draw do
 
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
-  get   "/types/:id/edit/:tab" => "types#edit",
-        as: "edit_type_tab"
+  get "/types/:id/edit/:tab" => "types#edit",
+      as: "edit_type_tab"
   match "/types/:id/update/:tab" => "types#update",
         as: "update_type_tab",
         via: %i[post patch]
@@ -524,7 +524,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :progress, only: %i[edit update], controller: 'work_packages/progress'
+    resource :progress, only: %i[create edit update], controller: "work_packages/progress"
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"

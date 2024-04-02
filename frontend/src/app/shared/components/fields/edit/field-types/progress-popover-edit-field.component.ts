@@ -58,6 +58,8 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import * as moment from 'moment/moment';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   templateUrl: './progress-popover-edit-field.component.html',
@@ -69,6 +71,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
   text = {
     title: this.I18n.t('js.work_packages.progress.title'),
     button_close: this.I18n.t('js.button_close'),
+    placeholder: '-',
   };
 
   public frameSrc:string;
@@ -88,6 +91,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     private halEvents:HalEventsService,
     private toastService:ToastService,
     private apiV3Service:ApiV3Service,
+    private timeZoneService:TimezoneService,
   ) {
     super(I18n, elementRef, change, schema, handler, cdRef, injector);
   }
@@ -107,7 +111,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     this
       .frameElement
       .nativeElement
-      .addEventListener('turbo:submit-end', this.propagateSuccessfulUpdate.bind(this));
+      .addEventListener('turbo:submit-end', this.contextBasedListener.bind(this));
   }
 
   ngOnDestroy() {
@@ -116,7 +120,54 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     this
       .frameElement
       .nativeElement
-      .removeEventListener('turbo:submit-end', this.propagateSuccessfulUpdate.bind(this));
+      .removeEventListener('turbo:submit-end', this.contextBasedListener.bind(this));
+  }
+
+  // HELP!
+  public get asHours():string {
+    if (this.value) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      this.timezoneService.formattedDuration(this.value);
+    }
+
+    return this.text.placeholder;
+  }
+
+  public formatter(value:null|string):string {
+    if (value === null) {
+      return '';
+    }
+    return moment.duration(value).asHours().toFixed(2);
+  }
+
+  private contextBasedListener(event:CustomEvent) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (this.resource.id === 'new') {
+      void this.propagateSuccessfulCreate(event);
+    } else {
+      this.propagateSuccessfulUpdate(event);
+    }
+  }
+
+  private async propagateSuccessfulCreate(event:CustomEvent) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { fetchResponse } = event.detail;
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (fetchResponse.succeeded) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+      const JSONresponse = await this.extractJSONFromResponse(fetchResponse.response.body);
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+      this.resource.estimatedTime = JSONresponse.estimatedTime;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+      this.resource.remainingTime = JSONresponse.remainingTime;
+
+      this.change.push();
+      this.onModalClosed();
+
+      this.cdRef.detectChanges();
+    }
   }
 
   private propagateSuccessfulUpdate(event:CustomEvent) {
@@ -138,11 +189,37 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     }
   }
 
+  private async extractJSONFromResponse(response:ReadableStream) {
+    const readStream = await response.getReader().read();
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return JSON.parse(new TextDecoder('utf-8').decode(new Uint8Array(readStream.value as ArrayBufferLike)));
+  }
+
+  private updateFrameSrc():void {
+    const url = new URL(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      this.pathHelper.workPackageProgressModalPath(this.resource.id as string),
+      window.location.origin,
+    );
+
+    url.searchParams.set('field', this.name);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+    url.searchParams.set('work_package[estimated_hours]', this.formatter(this.resource.estimatedTime));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+    url.searchParams.set('work_package[remaining_hours]', this.formatter(this.resource.remainingTime));
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    this.frameSrc = url.toString();
+    // this.frameElement.nativeElement.src = this.frameSrc;
+  }
+
   public onInputClick(event:MouseEvent) {
     event.stopPropagation();
   }
 
   public showProgressModal():void {
+    this.updateFrameSrc();
     this.opened = true;
     this.cdRef.detectChanges();
   }
@@ -160,7 +237,10 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
   }
 
   public cancel():void {
-    this.handler.reset();
+    if (!this.handler.inEditMode) {
+      this.handler.deactivate(false);
+      this.handler.reset();
+    }
     this.onModalClosed();
   }
 }
