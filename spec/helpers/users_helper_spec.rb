@@ -93,7 +93,7 @@ RSpec.describe UsersHelper do
         end
 
         it "contains a single button" do
-          expect(buttons.scan("<input").count).to eq(1)
+          expect(buttons.scan("<button").count).to eq(1)
         end
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe UsersHelper do
       end
 
       it "returns inputs (buttons)" do
-        expect(buttons.scan("<input").count).to eq(2)
+        expect(buttons.scan("<button").count).to eq(2)
       end
 
       it "contains 'Lock' and 'Reset Failed logins'" do
