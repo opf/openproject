@@ -51,5 +51,12 @@ module Pages::StructuredMeeting
         page.within(details, &)
       end
     end
+
+    def find_item(detail)
+      detail = page.find("li.op-activity-list--item-detail", text: detail)
+      item = detail.ancestor(".op-activity-list--item-details").ancestor(".op-activity-list--item")
+
+      item
+    end
   end
 end

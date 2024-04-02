@@ -35,7 +35,7 @@ class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
       if v.blank?
         nil
       else
-        ::OpenProject::Common::DurationComponent.new(v.to_i, :hours, abbreviated: true).text
+        ::OpenProject::Common::DurationComponent.new(v.to_i, :hours, abbreviated: true).text # throws errors without the .to_i
       end
     end
 
