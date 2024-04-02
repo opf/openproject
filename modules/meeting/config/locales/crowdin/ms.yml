@@ -43,9 +43,10 @@ ms:
         start_time_hour: "Masa mula"
       meeting_agenda_items:
         title: "Tajuk"
-        author: "Bertanggungjawab"
+        author: "Author"
         duration_in_minutes: "Tempoh (minit)"
         description: "Nota"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "bukan masa yang sah. Format yang diperlukan: JJ:MM"
@@ -94,8 +95,12 @@ ms:
   label_time_zone: "Zon waktu"
   label_start_date: "Tarikh mula"
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
     copy:
       title: "Salin mesyuarat %{title}"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Salin agenda"
       agenda_text: "Salin agenda mesyuarat lama"
     email:
@@ -110,11 +115,11 @@ ms:
         new_date_time: "Tarikh/masa baru"
     label_mail_all_participants: "Hantar emel ke semua peserta"
     types:
-      classic: 'Klasik'
-      classic_text: 'Susun mesyuarat anda dalam agenda teks boleh format dan protokol.'
-      structured: 'Dinamik'
-      structured_text: 'Susun mesyuarat anda sebagai senarai butiran agenda, secara pilihan menghubungnya kepada pakej kerja.'
-      structured_text_copy: 'Menyalin mesyuarat pada masa ini tidak akan menyalin item agenda mesyuarat yang berkaitan, hanya butiran sahaja'
+      classic: "Klasik"
+      classic_text: "Susun mesyuarat anda dalam agenda teks boleh format dan protokol."
+      structured: "Dinamik"
+      structured_text: "Susun mesyuarat anda sebagai senarai butiran agenda, secara pilihan menghubungnya kepada pakej kerja."
+      structured_text_copy: "Menyalin mesyuarat pada masa ini tidak akan menyalin item agenda mesyuarat yang berkaitan, hanya butiran sahaja"
     copied: "Salin dari mesyuarat #%{id}"
   notice_successful_notification: "Pemberitahuan berjaya dihantar"
   notice_timezone_missing: Tiada zon waktu yang ditetapkan dan %{zone} adalah andaian.Untuk pilih zon waktu anda, sila klik sini.
@@ -142,7 +147,7 @@ ms:
   text_notificiation_invited: "Mel ini mengandungi kemasukan ics untuk mesyuarat dibawah:"
   text_meeting_empty_heading: "Mesyuarat anda kosong"
   text_meeting_empty_description_1: "Mula dengan menambah item agenda dibawah. Setiap item boleh jadi seringkas tajuk, tapi anda juga boleh tambah butiran tambahan seperti jangka masa dan nota."
-  text_meeting_empty_description_2: "Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukan, nota berkaitan secara automatik akan boleh dilihat dalam tab \"Mesyuarat\" pakej kerja."
+  text_meeting_empty_description_2: 'Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukan, nota berkaitan secara automatik akan boleh dilihat dalam tab "Mesyuarat" pakej kerja.'
   label_meeting_empty_action: "Tambah item agenda"
   label_meeting_actions: "Tindakan mesyuarat"
   label_meeting_edit_title: "Edit tajuk mesyuarat"
@@ -179,5 +184,5 @@ ms:
   text_agenda_item_no_notes: "Tiada nota disediakan"
   text_agenda_item_not_editable_anymore: "Item agenda tidak boleh diedit lagi."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Pakej kerja ini belum dijadualkan dalam mana-mana agenda mesyuarat akan datang lagi."
-  text_work_package_add_to_meeting_hint: "Guna butang \"Tambah ke mesyuarat\" untuk tambah pakej kerja ini ke mesyuarat akan datang."
+  text_work_package_add_to_meeting_hint: 'Guna butang "Tambah ke mesyuarat" untuk tambah pakej kerja ini ke mesyuarat akan datang.'
   text_work_package_has_no_past_meeting_agenda_items: "Pakej kerja ini masih belum diutarakan dalam mesyuarat yang lalu."

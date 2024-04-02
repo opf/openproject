@@ -31,7 +31,7 @@ de:
         Sind Sie sicher, dass Sie diese Datei löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld, um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Die Datei wurde unter Quarantäne gestellt, da ein Virus gefunden wurde. Sie ist nicht zum Herunterladen verfügbar."
     autocomplete_ng_select:
       add_tag: "Eintrag hinzufügen"
       clear_all: "Eingabe löschen"
@@ -231,8 +231,8 @@ de:
           status_label: "Status: "
           status_confirmed: "bestätigt"
           status_waiting: "E-Mail gesendet - Warten auf Bestätigung"
-          test_ee: "Testen Sie die Enterprise edition 14 Tage kostenlos"
-          quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise edition."
+          test_ee: "Testen Sie die Enterprise Edition 14 Tage kostenlos"
+          quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise Edition."
         upsale:
           become_hero: "Werde zum Held!"
           enterprise_info_html: "%{feature_title} ist ein Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Add-on."
@@ -258,7 +258,7 @@ de:
           text: >
             Die OpenProject Enterprise Edition baut auf der Community Edition auf. Sie umfasst Enterprise Add-ons und professionelle Unterstützung und richtet sich primär an Organisationen mit mehr als 10 Benutzern, die unternehmenskritische Projekte mit OpenProject verwalten.
           unlimited: "Unbegrenzt"
-          you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
+          you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise Edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
       working_days:
         calendar:
           empty_state_header: "Arbeitsfreie Tage"
@@ -351,7 +351,7 @@ de:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>GitLab-Integration (ursprünglich von der Gemeinschaft entwickelt)</li> <li>Erweiterte Funktionen für benutzerdefinierte Projektlisten</li> <li>Erweiterte Funktionen für das Besprechungsmodul</li> <li>Virenscan-Funktionalität mit ClamAV (Unternehmens-Addon)</li> <li>PDF-Export: Listen in Tabellenzellen werden unterstützt</li> <li>WebAuthn/FIDO/U2F wurde als zweiter Faktor hinzugefügt</li> <li>Weitere Sprachen zum standardmäßig verfügbaren Satz hinzugefügt</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -443,7 +443,7 @@ de:
     label_less_than_ago: "vor weniger Tagen als"
     label_loading: "Wird geladen…"
     label_mail_notification: "Email-Benachrichtigungen"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Spalten verwalten und neu anordnen"
     label_me: "ich"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Protokoll"
@@ -482,7 +482,7 @@ de:
     label_report: "Auswertung"
     label_repository_plural: "Projektarchive"
     label_save_as: "Speichern unter"
-    label_search_columns: "Search a column"
+    label_search_columns: "Spalte suchen"
     label_select_project: "Projekt auswählen"
     label_select_watcher: "Beobachter auswählen ..."
     label_selected_filter_list: "Ausgewählte Filter"
@@ -1000,7 +1000,7 @@ de:
         all_open: "Alle offenen"
         summary: "Zusammenfassung"
         shared_with_users: "Geteilt mit Benutzern"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Mit mir geteilt"
       jump_marks:
         pagination: "Zur Seitennavigation springen"
         label_pagination: "Hier klicken, um über die Tabelle der Arbeitspakete hinweg zur Seitennavigation zu springen"
@@ -1083,7 +1083,7 @@ de:
         upsale:
           attribute_highlighting: "Sollen bestimmte Arbeitspakete aus der Menge herausstechen?"
           relation_columns: "Möchten Sie Beziehungen als Spalten in der Arbeitspaketliste sehen können?"
-          check_out_link: "Schauen Sie sich die Enterprise edition an."
+          check_out_link: "Schauen Sie sich die Enterprise Edition an."
         relation_filters:
           filter_work_packages_by_relation_type: "Arbeitspakete nach Beziehungs-Typ filtern"
       tabs:
@@ -1230,7 +1230,7 @@ de:
           title: "Platzhalter-Benutzer"
           title_no_ee: "Platzhalter-Benutzer (Enterprise Edition Add-on)"
           description: "Hat keinen Zugriff auf das Projekt und es werden keine E-Mails verschickt."
-          description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise edition an</a>'
+          description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise Edition an</a>'
       principal:
         label:
           name_or_email: "Name oder E-Mail-Adresse"

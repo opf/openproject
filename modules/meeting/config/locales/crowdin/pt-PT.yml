@@ -44,9 +44,10 @@ pt-PT:
         start_time_hour: "Horário de início"
       meeting_agenda_items:
         title: "Título"
-        author: "Responsável"
+        author: "Author"
         duration_in_minutes: "Duração (min)"
         description: "Notas"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "não é uma hora válida. Formato exigido: HH:MM"
@@ -95,8 +96,12 @@ pt-PT:
   label_time_zone: "Fuso horário"
   label_start_date: "Data de início"
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
     copy:
       title: "Copiar reunião %{title}"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Copiar agenda"
       agenda_text: "Copiar agenda da reunião anterior"
     email:
@@ -111,11 +116,11 @@ pt-PT:
         new_date_time: "Nova data/hora"
     label_mail_all_participants: "Enviar e-mail a todos os participantes"
     types:
-      classic: 'Clássico'
-      classic_text: 'Organize a sua reunião numa agenda e protocolo de texto formatáveis.'
-      structured: 'Dinâmico'
-      structured_text: 'Organize a sua reunião como uma lista de itens da agenda, associando-os opcionalmente a um pacote de trabalho.'
-      structured_text_copy: 'Atualmente, a cópia de uma reunião não copia os itens associados da agenda da reunião, apenas os detalhes'
+      classic: "Clássico"
+      classic_text: "Organize a sua reunião numa agenda e protocolo de texto formatáveis."
+      structured: "Dinâmico"
+      structured_text: "Organize a sua reunião como uma lista de itens da agenda, associando-os opcionalmente a um pacote de trabalho."
+      structured_text_copy: "Atualmente, a cópia de uma reunião não copia os itens associados da agenda da reunião, apenas os detalhes"
     copied: "Copiado da reunião #%{id}"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Sem fuso horário definido, presume-se %{zone}. Para escolher o seu fuso horário, por favor clique aqui.
@@ -143,7 +148,7 @@ pt-PT:
   text_notificiation_invited: "Este e-mail contém uma entrada de ics para a reunião abaixo:"
   text_meeting_empty_heading: "A sua reunião está vazia"
   text_meeting_empty_description_1: "Comece por adicionar os itens da agenda abaixo. Cada item pode ser tão simples como um título, mas também pode adicionar detalhes adicionais, como a duração e notas."
-  text_meeting_empty_description_2: "Também pode adicionar referências a pacotes de trabalho existentes. Ao fazê-lo, as notas relacionadas ficarão automaticamente visíveis no separador \"Reuniões\" do pacote de trabalho."
+  text_meeting_empty_description_2: 'Também pode adicionar referências a pacotes de trabalho existentes. Ao fazê-lo, as notas relacionadas ficarão automaticamente visíveis no separador "Reuniões" do pacote de trabalho.'
   label_meeting_empty_action: "Adicionar item da agenda"
   label_meeting_actions: "Ações da reunião"
   label_meeting_edit_title: "Editar título da reunião"
@@ -180,5 +185,5 @@ pt-PT:
   text_agenda_item_no_notes: "Nenhuma nota fornecida."
   text_agenda_item_not_editable_anymore: "Este item da agenda não pode ser mais editado."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Este pacote de trabalho ainda não está agendado em uma reunião futura."
-  text_work_package_add_to_meeting_hint: "Use o botão \"Adicionar à reunião\" para adicionar este pacote de trabalho a uma reunião futura."
+  text_work_package_add_to_meeting_hint: 'Use o botão "Adicionar à reunião" para adicionar este pacote de trabalho a uma reunião futura.'
   text_work_package_has_no_past_meeting_agenda_items: "Este pacote de trabalho não foi mencionado numa reunião anterior."
