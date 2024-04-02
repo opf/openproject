@@ -53,8 +53,8 @@
       complete_without_setup: Fullfør uten
       done_complete_setup: Ferdig, fullfør oppsett
       done_continue: Ferdig, fortsett
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: Erstatt OpenProject OAuth
+      replace_oauth_client: Erstatt %{provider_type} OAuth
       save_and_continue: Lagre og fortsett
       select_folder: Velg mappe
     configuration_checks:
@@ -63,8 +63,8 @@
         one_drive: Gi OpenProject tilgang til Azure data med OAuth for å koble til OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Fullfør oppsettet med riktig URI omdirigering.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: Denne handlingen vil tilbakestille gjeldende OAuth legitimasjon. Etter å ha bekreftet vil du måtte skrive inn innloggingsdetaljene hos lagringsleverandøren, og alle eksterne brukere må autorisere mot OpenProject igjen. Er du sikker på at du vil fortsette?
+    confirm_replace_oauth_client: Denne handlingen vil tilbakestille gjeldende OAuth legitimasjon. Etter bekreftelse må du skrive inn ny påloggingsinformasjon fra leverandøren, og alle brukere må autorisere mot %{provider_type} igjen. Er du sikker på at du vil fortsette?
     delete_warning:
       input_delete_confirmation: Skriv inn navnet til lagringsstedet %{file_storage} for å bekrefte sletting.
       irreversible_notice: Sletting av fillager kan ikke angres.
@@ -179,12 +179,12 @@
       for hvert ønsket prosjekt for å bruke den.
     oauth_grant_nudge_modal:
       access_granted: Tilgang gitt
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
+      access_granted_screen_reader: Tilgang gitt. Du er nå klar til å bruke %{storage}.
       body: For å få tilgang til prosjektmappen må du logge inn til %{storage}.
       cancel_button_label: Jeg gjør det senere
-      confirm_button_aria_label: Login to %{storage}
+      confirm_button_aria_label: Logg på  %{storage}
       confirm_button_label: Innlogging
-      requesting_access_to: Requesting access to %{storage}
+      requesting_access_to: Ber om tilgang til %{storage}
       storage_ready: Du er nå klar til å bruke %{storage}
       title: Ett steg igjen...
     open_project_storage_modal:

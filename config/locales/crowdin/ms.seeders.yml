@@ -7,410 +7,410 @@ ms:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Biru (gelap)
         item_1:
-          name: Blue
+          name: Biru
         item_2:
-          name: Blue (light)
+          name: Biru (muda)
         item_3:
-          name: Green (light)
+          name: Hijau (muda)
         item_4:
-          name: Green (dark)
+          name: Hijau (gelap)
         item_5:
-          name: Yellow
+          name: Kuning
         item_6:
-          name: Orange
+          name: Jingga
         item_7:
-          name: Red
+          name: Merah
         item_8:
           name: Magenta
         item_9:
-          name: White
+          name: Putih
         item_10:
-          name: Grey (light)
+          name: Kelabu (muda)
         item_11:
-          name: Grey
+          name: Kelabu
         item_12:
-          name: Grey (dark)
+          name: Kelabu (gelap)
         item_13:
-          name: Black
+          name: Hitam
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentasi
         item_1:
-          name: Specification
+          name: Spesifikasi
         item_2:
-          name: Other
+          name: Lain-lain
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Pengedit pakej kerja
         item_1:
-          name: Work package commenter
+          name: Pengulas pakej kerja
         item_2:
-          name: Work package viewer
+          name: Pemerhati pakej kerja
       project_roles:
         item_0:
-          name: Non member
+          name: Bukan ahli
         item_1:
-          name: Anonymous
+          name: Anonim
         item_2:
-          name: Member
+          name: Ahli
         item_3:
-          name: Reader
+          name: Pembaca
         item_4:
-          name: Project admin
+          name: Pentadbir projek
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Kakitangan dan pengurus projek
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Rendah
         item_1:
           name: Normal
         item_2:
-          name: High
+          name: Tinggi
         item_3:
-          name: Immediate
+          name: Segera
       statuses:
         item_0:
-          name: New
+          name: Baharu
         item_1:
-          name: In specification
+          name: Dalam spesifikasi
         item_2:
-          name: Specified
+          name: Tertentu
         item_3:
-          name: Confirmed
+          name: Disahkan
         item_4:
-          name: To be scheduled
+          name: Untuk dijadualkan
         item_5:
-          name: Scheduled
+          name: Dijadualkan
         item_6:
-          name: In progress
+          name: Dalam proses
         item_7:
-          name: Developed
+          name: Dibangunkan
         item_8:
-          name: In testing
+          name: Dalam pengujian
         item_9:
-          name: Tested
+          name: Telah diuji
         item_10:
-          name: Test failed
+          name: Ujian gagal
         item_11:
-          name: Closed
+          name: Ditutup
         item_12:
-          name: On hold
+          name: Ditangguhkan
         item_13:
-          name: Rejected
+          name: Ditolak
       time_entry_activities:
         item_0:
-          name: Management
+          name: Pengurusan
         item_1:
-          name: Specification
+          name: Spesifikasi
         item_2:
-          name: Development
+          name: Pembangunan
         item_3:
-          name: Testing
+          name: Menguji
         item_4:
-          name: Support
+          name: Sokongan
         item_5:
-          name: Other
+          name: Lain-lain
       types:
         item_0:
-          name: Task
+          name: Tugasan
         item_1:
-          name: Milestone
+          name: Pencapaian
         item_2:
-          name: Phase
+          name: Fasa
         item_3:
-          name: Feature
+          name: Ciri-ciri
         item_4:
-          name: Epic
+          name: Epik
         item_5:
-          name: User story
+          name: Cerita pengguna
         item_6:
           name: Bug
       welcome:
-        title: Welcome to OpenProject!
+        title: Selamat datang ke OpenProject!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject adalah perisian pengurusan projek sumber terbuka terkemuka. Ia menyokong pengurusan projek klasik, agile serta hibrid dan akan memberi anda kawalan sepenuhnya terhadap data anda.
 
-          Core features and use cases:
+          Ciri-ciri teras dan kes penggunaan:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Pengurusan Portfolio Projek](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Perancangan dan Penjadualan Projek](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Pengurusan Tugasan dan Penjejakan Isu](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Board Agile (Scrum dan Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Pengurusan Keperluan dan Perancangan Pelepasan](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Penjejakan Masa dan Kos, Anggaran](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Kolaborasi Pasukan dan Dokumentasi](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          Selamat datang ke masa hadapan pengurusan projek.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Untuk Admin: Anda boleh menukar teks selamat datang ini [di sini]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          name: Projek demo
+          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini lengkap sepenuhnya.
+          description: Ini adalah ringkasan singkat matlamat projek demo ini.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Selamat datang ke projek demo anda
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Kami gembira anda menyertai.
+                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan.
+              description: Berita sebenar
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (untuk diubah dalam seting Projek)
           queries:
             item_0:
-              name: Project plan
+              name: Pelan projek
             item_1:
-              name: Milestones
+              name: Pencapaian
             item_2:
-              name: Tasks
+              name: Tugasan
             item_3:
-              name: Team planner
+              name: Perancang pasukan
           boards:
             kanban:
-              name: Kanban board
+              name: Board Kanban
             basic:
-              name: Basic board
+              name: Board asas
               lists:
                 item_0:
-                  name: Wish list
+                  name: Senarai keinginan
                 item_1:
-                  name: Short list
+                  name: Senarai pendek
                 item_2:
-                  name: Priority list for today
+                  name: Senarai keutamaan untuk hari ini
                 item_3:
-                  name: Never
+                  name: Tidak akan
             parent_child:
-              name: Work breakdown structure
+              name: Struktur pecahan kerja
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
-                  name: Getting started
+                  name: Sedang bermula
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Kami gembira anda menyertai! Kami cadangkan beberapa perkara untuk bermula di OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    Temui ciri paling penting dengan [Lawatan Berpandu]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) kami.
 
-                    _Try the following steps:_
+                    _Cuba ikuti langkah berikut:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *Jemput ahli baru ke projek anda*: &rightarrow; Pergi ke [Ahli]({{opSetting:base_url}}/projects/demo-project/members) dalam navigasi projek.
+                    2. *Lihat kerja dalam projek anda*: &rightarrow; Pergi ke [Pakej kerja]({{opSetting:base_url}}/projects/demo-project/work_packages) dalam navigasi projek.
+                    3. *Cipta satu pakej pekerjaan baharu*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Cipta]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
+                    4. *Cipta dan kemaskini pelan projek*: &rightarrow; Pergi ke [Pelan projek]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) dalam navigasi projek.
+                    5. *Aktifkan modul lanjutan*: &rightarrow; Pergi ke [Seting projek &rightarrow; Modul]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    6. *Lengkapkan tugasan anda dalam projek*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Tugasan]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Di sini anda akan menemui [Panduan Pengguna](https://www.openproject.org/docs/user-guide/).
+                    Sila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan bantuan. Hubungi kami: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pakej kerja
               item_6:
                 options:
-                  name: Milestones
+                  name: Pencapaian
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Permulaan projek
             item_1:
-              subject: Organize open source conference
+              subject: Anjurkan persidangan sumber terbuka
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Tetapkan tarikh dan lokasi persidangan
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Hantar jemputan ke penceramah
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Hubungi rakan penaja
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Cipta brosur penajaan dan risalah
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Jemput peserta ke persidangan
                 item_2:
-                  subject: Setup conference website
+                  subject: Sediakan laman web persidangan
             item_2:
-              subject: Conference
+              subject: Persidangan
             item_3:
-              subject: Follow-up tasks
+              subject: Tugasan susulan
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Muat naik pembentangan ke laman web
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Parti untuk penyokong persidangan :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Bir
+                    *   [ ] Snek
+                    *   [ ] Lagu
+                    *   [ ] Lagi banyak bir
             item_4:
-              subject: End of project
+              subject: Akhir projek
         scrum-project:
-          name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          name: Scrum Projek
+          status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu tugasan mereka. Sistem ini lengkap sepenuhnya.
+          description: Ini adalah ringkasan singkat matlamat projek demo Scrum ini.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Selamat datang ke projek demo Scrum anda
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Kami gembira anda menyertai.
+                Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Bug Tunggakan
             item_1:
-              name: Product Backlog
+              name: Tunggakan produk
             item_2:
-              name: Sprint 1
+              name: Pecutan 1
               wiki:
-                title: Sprint 1
+                title: Pecutan 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Pecutan pelan mesyuarat
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Sila dokumen di sini topik untuk Pecutan perancangan mesyuarat_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Kotak masa (8 j)
+                  * Input: Tunggakan Produk
+                  * Output: Tunggakan Pecutan
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Dibahagi kepada dua kotak masa tambahan selama 4 j:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum meeting
-
-                  _Please document here topics to the Daily Scrum meeting_
-
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                      * Pemilik produk menyampaikan [Tunggakan Produk]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan keutamaan kepada pasukan dan menjelaskan Matlamat Pecutan, yang mana pasukan harus bersetuju. Bersama-sama, mereka mengutamakan topik dari Tunggakan Produk yang akan ditangani dalam pecutan seterusnya. Pasukan memberi komitmen terhadap penghantaran yang telah dibincangkan.
+                      * Pasukan merancang secara autonomi (tanpa pemilik produk) dengan terperinci dan memecahkan tugas-tugas dari keperluan yang dibincangkan untuk menyusun sebuah [Tunggakan Pecutan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-                  ### Sprint Retrospective
+                  ### Mesyuarat Harian Scrum
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _Sila dokumen di sini topik untuk mesyuarat Harian Scrum_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Pendek, status harian mesyuarat pasukan.
+                  * Kotak masa (maks. 15 minit).
+                  * Mesyuarat stand-up untuk membincangkan topik-topik berikut dari [Board tugasan](##sprint:scrum_project__version__sprint_1).
+                      * Apa yang saya rancang untuk lakukan sehingga mesyuarat harian Scrum?
+                      * Apa yang telah menghalang kerja saya (Halangan)?
+                  * Ketua Scrum menyelia dan mencatat [Halangan Pecutan](##sprint:scrum_project__version__sprint_1).
+                  * Pemilik produk boleh mengambil bahagian untuk kekal dimaklumkan.
+
+                  ### Mesyuarat Semakan Pecutan
+
+                  _Sila dokumen di sini topik untuk mesyuarat Semakan Pecutan_
+
+                  * Kotak masa (4 j).
+                  * Maksimum 1 jam masa persediaan bagi setiap orang.
+                  * Pasukan menunjukkan kepada pemilik produk dan orang lain yang berminat tentang apa yang telah dicapai dalam pecutan ini.
+                  * Penting: tiada model dan tiada PowerPoint! Hanya fungsi (Peningkatan) perlu dipamerkan.
+                  * Maklum balas Pemilik Produk, pihak berkepentingan, dan orang lain dikehendaki dan akan dimasukkan dalam kerja seterusnya.
+                  * Berdasarkan kefungsian yang ditunjukkan, Pemilik Produk memutuskan untuk mengimplementasikan peningkatan ini atau untuk membangunkannya lebih lanjut. Kemungkinan ini membolehkan Pulangan Pelaburan (ROI) lebih awal.
+
+
+                  ### Retrospektif Pecutan
+
+                  _Sila dokumen di sini topik untuk mesyuarat Retrospektif Pecutan_
+
+                  * Kotak masa (3 j).
+                  * Setelah Semakan Pecutan, akan dimoderasi oleh Ketua Scrum.
+                  * Pasukan membincangkan pecutan: apa yang berjalan lancar, apa yang perlu diperbaiki untuk menjadi lebih produktif untuk pecutan seterusnya atau lebih menyeronokkan.
             item_3:
-              name: Sprint 2
+              name: Pecutan 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (untuk diubah dalam seting Projek)
           queries:
             item_0:
-              name: Project plan
+              name: Pelan projek
             item_1:
-              name: Product backlog
+              name: Tunggakan produk
             item_2:
-              name: Sprint 1
+              name: Pecutan 1
             item_3:
-              name: Tasks
+              name: Tugasan
           boards:
             kanban:
-              name: Kanban board
+              name: Board Kanban
             basic:
-              name: Task board
+              name: Board tugasan
               lists:
                 item_0:
-                  name: Wish list
+                  name: Senarai keinginan
                 item_1:
-                  name: Short list
+                  name: Senarai pendek
                 item_2:
-                  name: Priority list for today
+                  name: Senarai keutamaan untuk hari ini
                 item_3:
-                  name: Never
+                  name: Tidak akan
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Selamat datang
               item_1:
                 options:
-                  name: Getting started
+                  name: Sedang bermula
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Kami gembira anda menyertai! Kami cadangkan beberapa perkara untuk bermula di OpenProject.
 
-                    _Try the following steps:_
+                    _Cuba ikuti langkah berikut:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Jemput ahli baru ke projek anda*: &rightarrow; Pergi ke [Ahli]({{opSetting:base_url}}/projects/your-scrum-project/members) dalam navigasi produk.
+                    2. *Lihat Tunggakan Produk dan Tunggakan Pecutan anda*: &rightarrow; Pergi ke [Tunggakan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dalam navigasi projek.
+                    3. *Lihat Board tugasan anda*: &rightarrow; Pergi ke [Tunggakan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klik anak panah kanan di Pecutan &rightarrow; Pilih [Board Tugasan](##sprint:scrum_project__version__sprint_1).
+                    4. *Cipta satu pakej kerja baru*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Cipta]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Cipta dan kemas kini pelan projek*: &rightarrow; Pergi ke [Pelan projek](##query:scrum_project__query__project_plan) dalam navigasi projek.
+                    6. *Cipta Pecutan wiki*: &rightarrow; Pergi ke [Tunggakan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan buka pecutan wiki dari menu juntai bawah sebelah kanan di pecutan. Anda boleh edit [templat wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) berdasarkan keperluan anda.
+                    7. *Aktifkan modul lanjutan*: &rightarrow; Pergi ke [Seting projek &rightarrow; Modul]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Disini anda akan menemui [Panduan Pengguna](https://www.openproject.org/docs/user-guide/) kami.
+                    Sila beritahu kami jika anda mempunyai sebarang soalan atau memerlukan bantuan. Hubungi kami: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pakej kerja
               item_6:
                 options:
-                  name: Project plan
+                  name: Pelan projek
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Skrin log masuk baharu
             item_1:
-              subject: Password reset does not send email
+              subject: Set semula kata laluan tidak menghantar e-mel
             item_2:
-              subject: New website
+              subject: Laman web baharu
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Borang pendaftaran buletin
                 item_1:
-                  subject: Implement product tour
+                  subject: Melaksanakan lawatan produk
                 item_2:
-                  subject: New landing page
+                  subject: Laman arahan baharu
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Cipta skema laman arahan untuk laman arahan baru
             item_3:
-              subject: Contact form
+              subject: Borang hubungan
             item_4:
-              subject: Feature carousel
+              subject: Ciri-ciri karusel
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Buat tangkapan skrin untuk lawatan ciri
             item_5:
-              subject: Wrong hover color
+              subject: Warna hover yang salah
             item_6:
-              subject: SSL certificate
+              subject: Sijil SSL
             item_7:
-              subject: Set-up Staging environment
+              subject: Sediakan Staging environment
             item_8:
-              subject: Choose a content management system
+              subject: Pilih sistem pengurusan kandungan
             item_9:
-              subject: Website navigation structure
+              subject: Struktur navigasi laman web
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Sediakan konsep navigasi untuk laman web.
             item_10:
-              subject: Internal link structure
+              subject: Struktur pautan dalaman
             item_11:
               subject: Develop v1.0
             item_12:
@@ -424,48 +424,48 @@ ms:
             item_16:
               subject: Release v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Mesyuarat perancangan pecutan
 
-            _Please document here topics to the Sprint planning meeting_
+            _Sila dokumen di sini topik untuk Mesyuarat perancangan pecutan_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * Kotak Masa (8 j)
+            * Input: Tunggakan Produk
+            * Output: Tunggakan Pecutan
 
-            * Divided into two additional time boxes of 4 h:
+            * Dibahagi kepada dua kotak masa tambahan selama 4 j:
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                * Pemilik produk menyampaikan [Tunggakan Produk]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan keutamaan kepada pasukan dan menjelaskan Matlamat Pecutan, yang mana pasukan harus bersetuju. Bersama-sama, mereka mengutamakan topik dari Tunggakan Produk yang akan ditangani dalam pecutan seterusnya. Pasukan memberi komitmen terhadap penghantaran yang telah dibincangkan.
+                * Pasukan merancang secara autonomi (tanpa pemilik produk) dengan terperinci dan memecahkan tugas-tugas dari keperluan yang dibincangkan untuk menyusun sebuah [Tunggakan Pecutan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-            ### Sprint Retrospective
+            ### Mesyuarat Harian Scrum
 
-            _Please document here topics to the Sprint Retrospective meeting_
+            _Sila dokumen di sini topik untuk mesyuarat Harian Scrum_
 
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Pendek, status harian mesyuarat pasukan.
+            * TKotak masa (maks. 15 minit).
+            * Mesyuarat stand-up untuk membincangkan topik-topik berikut dari Board tugasan.
+                * Apa yang saya rancang untuk lakukan sehingga mesyuarat harian Scrum berikutnya?
+                * Apa yang telah menghalang kerja saya (Halangan)?
+            * Ketua Scrum menyelia dan mencatat Halangan Pecutan.
+            * Pemilik produk boleh mengambil bahagian untuk kekal dimaklumkan.
+
+            ### Mesyuarat Semakan Pecutan
+
+            _Sila dokumen di sini topik untuk mesyuarat Semakan Pecutan_
+
+            * Kotak masa (4 j).
+            * Maksimum 1 jam masa persediaan bagi setiap orang.
+            * Pasukan menunjukkan kepada pemilik produk dan orang lain yang berminat tentang apa yang telah dicapai dalam pecutan ini.
+            * Penting: tiada model dan tiada PowerPoint! Hanya fungsi (Peningkatan) perlu dipamerkan.
+            * Maklum balas Pemilik Produk, pihak berkepentingan, dan orang lain dikehendaki dan akan dimasukkan dalam kerja seterusnya.
+            * Berdasarkan kefungsian yang ditunjukkan, Pemilik Produk memutuskan untuk mengimplementasikan peningkatan ini atau untuk membangunkannya lebih lanjut. Kemungkinan ini membolehkan Pulangan Pelaburan (ROI) lebih awal.
+
+
+            ### Retrospektif Pecutan
+
+            _Sila dokumen disini topik untuk mesyuarat Retrospektif Pecutan_
+
+            * Kotak masa (3 j).
+            * Setelah Semakan Pecutan, akan dimoderasi oleh Ketua Scrum.
+            * Pasukan membincangkan pecutan: apa yang berjalan lancar, apa yang perlu diperbaiki untuk menjadi lebih produktif untuk pecutan seterusnya atau lebih menyeronokkan.

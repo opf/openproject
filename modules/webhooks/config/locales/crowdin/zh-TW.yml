@@ -32,7 +32,7 @@ zh-TW:
         updated: "已更新"
       explanation:
         text: >
-          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
+          當建立或更新工作項目的"事件"發生時，OpenProject 將會傳送 POST 請求。 通常，事件是在 %{link} 過之後發送.。
         link: configured aggregation period
       status:
         enabled: 'Webhook 已啟用'
