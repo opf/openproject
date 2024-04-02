@@ -43,7 +43,7 @@ class WorkPackages::ProgressController < ApplicationController
                      .new(user: current_user,
                           model: @work_package,
                           contract_class: WorkPackages::CreateContract)
-                     .call(work_package_params)
+                     .call(create_work_package_params)
 
     if service_call.errors
                    .map(&:attribute)
@@ -67,7 +67,7 @@ class WorkPackages::ProgressController < ApplicationController
     service_call = WorkPackages::UpdateService
                      .new(user: current_user,
                           model: @work_package)
-                     .call(work_package_params)
+                     .call(update_work_package_params)
 
     if service_call.success?
       respond_to do |format|
@@ -99,13 +99,18 @@ class WorkPackages::ProgressController < ApplicationController
   def set_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
   rescue ActiveRecord::RecordNotFound
-    @work_package = WorkPackage.new(work_package_params)
+    @work_package = WorkPackage.new(create_work_package_params)
   end
 
-  def work_package_params
+  def create_work_package_params
     params.require(:work_package)
           .permit(%i[estimated_hours remaining_hours])
           .compact_blank
+  end
+
+  def update_work_package_params
+    params.require(:work_package)
+          .permit(%i[estimated_hours remaining_hours])
   end
 
   def formatted_duration(hours)
