@@ -81,7 +81,7 @@ module WorkPackage::Journalized
     register_journal_formatted_fields(:fraction,
                                       "estimated_hours", "derived_estimated_hours",
                                       "remaining_hours", "derived_remaining_hours")
-    register_journal_formatted_fields(:decimal, "done_ratio")
+    register_journal_formatted_fields(:percentage, "done_ratio")
     register_journal_formatted_fields(:diff, "description")
     register_journal_formatted_fields(:schedule_manually, "schedule_manually")
     register_journal_formatted_fields(:attachment, /attachments_?\d+/)
