@@ -76,6 +76,14 @@ class ProgressEditField < EditField
     expect(page).to have_no_css(MODAL_SELECTOR)
   end
 
+  # Spot drop modals don't have a span tag that can be
+  # interacted with. Hence, we adapt the display_selector
+  # to conform to the spot-drop-modal's element that can
+  # be interacted with.
+  def display_selector
+    ".inline-edit--active-field"
+  end
+
   private
 
   attr_reader :field_name

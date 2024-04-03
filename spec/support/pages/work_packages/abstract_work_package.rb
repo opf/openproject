@@ -208,6 +208,15 @@ module Pages
       end
     end
 
+    def set_progress_attributes(key_value_map, save_intermediate_updates: true, save: !create_page?)
+      key_value_map.each_with_index.map do |(key, value)|
+        field = work_package_field(key)
+        field.update(value, save: save_intermediate_updates)
+      end
+
+      ensure_no_conflicting_modifications if save
+    end
+
     def work_package_field(key)
       case key
       when /customField(\d+)$/

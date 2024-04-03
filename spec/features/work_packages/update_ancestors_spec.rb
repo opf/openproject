@@ -157,7 +157,11 @@ RSpec.describe "Update ancestors", :js, :with_cuprite do
       context_menu.choose(I18n.t("js.relation_buttons.add_new_child"))
 
       split_view_create = Pages::SplitWorkPackageCreate.new(project:)
-      split_view_create.set_attributes({ subject: "new child", estimatedTime: 3, remainingTime: 1 })
+      split_view_create.set_attributes({ subject: "new child" })
+      # Need a better way to deal with interacting with the
+      # Progress Modal due to the intermediate updates it is
+      # capable of.
+      split_view_create.set_progress_attributes({ estimatedTime: 3, remainingTime: 1 })
       split_view_create.save!
       split_view_create.expect_and_dismiss_toaster message: "Successful creation"
 
