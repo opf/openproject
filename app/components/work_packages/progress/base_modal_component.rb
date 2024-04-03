@@ -50,7 +50,6 @@ module WorkPackages
         super()
 
         @work_package = work_package
-        @mode = :work_based
         @focused_field = map_field(focused_field)
       end
 

@@ -37,6 +37,14 @@ RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent,
   include_examples "progress modal validations"
   include_examples "progress modal submit path"
 
+  describe "#mode" do
+    subject(:component) { described_class.new(WorkPackage.new) }
+
+    it "returns :work_based" do
+      expect(component.mode).to eq(:work_based)
+    end
+  end
+
   describe "#focused_field" do
     subject(:component) { described_class.new(work_package, focused_field:) }
 
