@@ -66,7 +66,7 @@ module Pages::Meetings
 
     def expect_date_time(expected)
       expect(page)
-        .to have_content("Time: #{expected}")
+        .to have_content("Start time: #{expected}")
     end
 
     def expect_link_to_location(location)
