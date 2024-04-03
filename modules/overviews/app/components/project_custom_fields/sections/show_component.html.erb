@@ -28,7 +28,7 @@
       @project_custom_fields.each do |project_custom_field|
         details_container.with_row(mb: 3) do
           render(ProjectCustomFields::Sections::ProjectCustomFields::ShowComponent.new(
-            project_custom_field: project_custom_field,
+            project_custom_field: ,
             project_custom_field_values: get_eager_loaded_project_custom_field_values_for(project_custom_field.id)
           ))
         end
