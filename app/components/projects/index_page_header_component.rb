@@ -31,6 +31,7 @@
 class Projects::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Primer::FetchOrFallbackHelper
+  include Menus::ProjectsHelper
 
   attr_accessor :current_user,
                 :query,
@@ -77,6 +78,23 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   end
 
   def breadcrumb_items
-    [{ href: projects_path, text: t(:label_project_plural) }, page_title]
+    [
+      { href: projects_path, text: t(:label_project_plural) },
+      current_breadcrumb_element
+    ]
+  end
+
+  def current_breadcrumb_element
+    return page_title if query.name.blank?
+
+    current_object = first_level_menu_items.find do |section|
+      section.children.find { |menu_query| menu_query.title == query.name }.present?
+    end
+
+    if current_object && current_object.header.present?
+      I18n.t("menus.breadcrumb.nested_element", section_header: current_object.header, title: query.name).html_safe
+    else
+      page_title
+    end
   end
 end
