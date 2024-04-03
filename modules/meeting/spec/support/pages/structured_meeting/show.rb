@@ -75,7 +75,8 @@ module Pages::StructuredMeeting
 
     def remove_agenda_item(item)
       accept_confirm(I18n.t("text_are_you_sure")) do
-        select_action item, I18n.t(:button_delete)
+        action = item.work_package ? I18n.t(:label_agenda_item_remove) : I18n.t(:button_delete)
+        select_action(item, action)
       end
 
       title = item.work_package ? item.work_package.subject : item.title
