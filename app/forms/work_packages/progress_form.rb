@@ -42,6 +42,7 @@ class WorkPackages::ProgressForm < ApplicationForm
       if @mode == :status_based
         select_field_options = { name: :status_id, label: "% Complete" }.tap do |options|
           options.reverse_merge!(default_field_options(:status_id))
+          options.merge!(disabled: @work_package.new_record?)
         end
 
         group.select_list(**select_field_options) do |select_list|
