@@ -34,11 +34,12 @@ module OpenProject
                   :name,
                   :description,
                   :lines,
-                  :background_reference_id
+                  :background_reference_id,
+                  :formatted
 
       PARAGRAPH_CSS_CLASS = "op-uc-p".freeze
 
-      def initialize(id, name, description, lines: 1, background_reference_id: "content", **args)
+      def initialize(id, name, description, lines: 1, background_reference_id: "content", formatted: false, **args)
         super
         @id = id
         @name = name
@@ -46,6 +47,7 @@ module OpenProject
         @system_arguments = args
         @lines = lines
         @background_reference_id = background_reference_id
+        @formatted = formatted
       end
 
       def short_text
@@ -57,7 +59,7 @@ module OpenProject
       end
 
       def full_text
-        @full_text ||= helpers.format_text(description)
+        @full_text ||= formatted ? description : helpers.format_text(description)
       end
 
       def display_expand_button_value
