@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render Meetings::AddButtonComponent.new(current_project: @project) %>
 <% end %>
 
-<%= render(Meetings::MeetingFiltersComponent.new(query: @query)) %>
+<%= render(Meetings::MeetingFiltersComponent.new(query: @query, output_format: 'json')) %>
 
 <% if @meetings.empty? -%>
   <%= no_results_box %>

@@ -31,6 +31,12 @@
 
 import { Controller } from '@hotwired/stimulus';
 
+interface InternalFilterValue {
+  name:string;
+  operator:string;
+  value:string[];
+}
+
 export default class FiltersController extends Controller {
   static targets = [
     'filterFormToggle',
@@ -60,9 +66,11 @@ export default class FiltersController extends Controller {
 
   static values = {
     displayFilters: { type: Boolean, default: false },
+    outputFormat: { type: String, default: 'params' },
   };
 
   declare displayFiltersValue:boolean;
+  declare outputFormatValue:string;
 
   toggleDisplayFilters() {
     this.displayFiltersValue = !this.displayFiltersValue;
@@ -191,7 +199,16 @@ export default class FiltersController extends Controller {
     const orderParam = this.getUrlParameter('sortBy');
     const columnParam = this.getUrlParameter('columns');
     const idParam = this.getUrlParameter('query_id');
-    let queryString = `?filters=${encodeURIComponent(filters.join('&'))}`;
+    let filterParam;
+
+    if (this.outputFormatValue === 'json') {
+      filterParam =JSON.stringify(filters.map((filter) => { return this.buildFilterJSON(filter); }));
+    } else {
+      filterParam = filters.map((filter) => { return this.buildFilterString(filter); }).join('&');
+    }
+
+    let queryString = `?filters=${encodeURIComponent(filterParam)}`;
+
     if (orderParam) {
       queryString = `${queryString}&sortBy=${encodeURIComponent(orderParam)}`;
     }
@@ -205,9 +222,9 @@ export default class FiltersController extends Controller {
     window.location.href = window.location.pathname + queryString;
   }
 
-  private parseFilters() {
+  private parseFilters():InternalFilterValue[] {
     const advancedFilters = this.filterTargets.filter((filter) => !filter.classList.contains('hidden'));
-    const filters:string[] = [];
+    const filters:InternalFilterValue[] = [];
 
     advancedFilters.forEach((filter) => {
       const filterName = filter.getAttribute('filter-name');
@@ -218,14 +235,22 @@ export default class FiltersController extends Controller {
         const parsedValue = this.parseFilterValue(filterName, filterType, parsedOperator) as string[]|null;
 
         if (parsedValue) {
-          const valuesString = parsedValue.length > 1 ? `[${parsedValue.map((v) => `"${this.replaceDoubleQuotes(v)}"`).join(',')}]` : `"${this.replaceDoubleQuotes(parsedValue[0])}"`;
-
-          filters.push(`${filterName} ${parsedOperator} ${valuesString}`);
+          filters.push({ name: filterName, operator: parsedOperator, value: parsedValue });
         }
       }
     });
 
     return filters;
+  }
+
+  private buildFilterString(filter:InternalFilterValue) {
+    const valuesString = filter.value.length > 1 ? `[${filter.value.map((v) => `"${this.replaceDoubleQuotes(v)}"`).join(',')}]` : `"${this.replaceDoubleQuotes(filter.value[0])}"`;
+
+    return `${filter.name} ${filter.operator} ${valuesString}`;
+  }
+
+  private buildFilterJSON(filter:InternalFilterValue) {
+    return { [filter.name]: { operator: filter.operator, values: filter.value } };
   }
 
   private replaceDoubleQuotes(value:string) {
