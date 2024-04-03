@@ -61,7 +61,7 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
   end
 
   def rendered_details
-    if @event.data && @event.data[:details]
+    if data[:details]
       render_event_details
     else
       # this doesn't do anything for details of type "agenda_items_10_title"
@@ -88,11 +88,15 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
   end
 
   def initial?
-    @event.journal.initial? || @event.data[:initial]
+    @event.journal.initial? || data[:initial]
   end
 
   def deletion?
-    @event.data[:deleted]
+    data[:deleted]
+  end
+
+  def data
+    @event.data || {}
   end
 
   private
@@ -126,7 +130,7 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
   end
 
   def render_event_details
-    @event.data[:details].filter_map do |detail|
+    data[:details].filter_map do |detail|
       @event.journal.render_detail(detail, activity_page: @activity_page)
     end
   end

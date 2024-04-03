@@ -30,7 +30,7 @@ class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
   def render(key, values, options = { html: true })
     label_text = Meeting.human_attribute_name(:duration)
     label_text = content_tag(:strong, label_text) if options[:html]
-    unit = key == :duration ? :hours : :minutes
+    unit = key.to_s == "duration" ? :hours : :minutes
 
     mapped = values.map do |v|
       if v.blank?
