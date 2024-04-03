@@ -5,7 +5,6 @@
 %>
 
 <% html_title t(:label_administration), t("project_module_storages"), label_new_file_storage %>
-<% local_assigns[:additional_breadcrumb] = label_new_file_storage %>
 
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% header.with_title(test_selector: 'storage-new-page-header--title') do %>
