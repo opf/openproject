@@ -91,7 +91,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     private halEvents:HalEventsService,
     private toastService:ToastService,
     private apiV3Service:ApiV3Service,
-    private timeZoneService:TimezoneService,
+    private timezoneService:TimezoneService,
   ) {
     super(I18n, elementRef, change, schema, handler, cdRef, injector);
   }
@@ -123,11 +123,10 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
       .removeEventListener('turbo:submit-end', this.contextBasedListener.bind(this));
   }
 
-  // HELP!
   public get asHours():string {
     if (this.value) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      this.timezoneService.formattedDuration(this.value);
+      return this.timezoneService.formattedDuration(this.value);
     }
 
     return this.text.placeholder;

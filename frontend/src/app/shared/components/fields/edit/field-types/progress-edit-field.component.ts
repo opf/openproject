@@ -28,14 +28,11 @@
 
 import { Directive, Injector, OnDestroy, OnInit } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Directive()
 export abstract class ProgressEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
-  @InjectField() readonly timezoneService:TimezoneService;
-
   @InjectField() deviceService:DeviceService;
 
   @InjectField() injector:Injector;
