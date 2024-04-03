@@ -27,14 +27,35 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
+require "spec_helper"
+require_relative "../shared_modal_examples"
 
-module WorkPackages
-  module Progress
-    module WorkBased
-      # rubocop:disable OpenProject/AddPreviewForViewComponent
-      class ModalBodyComponent < BaseModalComponent; end
+RSpec.describe WorkPackages::Progress::WorkBased::ModalBodyComponent,
+               type: :component do
+  include OpenProject::StaticRouting::UrlHelpers
 
-      # rubocop:enable OpenProject/AddPreviewForViewComponent
+  include_examples "progress modal validations"
+  include_examples "progress modal submit path"
+
+  describe "#focused_field" do
+    subject(:component) { described_class.new(work_package, focused_field:) }
+
+    let(:work_package) { build(:work_package) }
+
+    context "when given estimatedTime" do
+      let(:focused_field) { "estimatedTime" }
+
+      it "returns :estimated_hours" do
+        expect(component.focused_field).to eq(:estimated_hours)
+      end
+    end
+
+    context "when given remainingTime" do
+      let(:focused_field) { "remainingTime" }
+
+      it "returns :remaining_hours" do
+        expect(component.focused_field).to eq(:remaining_hours)
+      end
     end
   end
 end

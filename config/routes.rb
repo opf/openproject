@@ -524,7 +524,13 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :progress, only: %i[create edit update], controller: "work_packages/progress"
+    resource :progress, only: %i[edit update], controller: "work_packages/progress"
+    collection do
+      resource :progress,
+               only: :create,
+               controller: "work_packages/progress",
+               as: :work_package_progress
+    end
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
