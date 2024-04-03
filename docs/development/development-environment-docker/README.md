@@ -422,11 +422,10 @@ docker compose --project-directory docker/dev/gitlab exec -it gitlab gitlab-rake
 
 ## Keycloak Service
 
-> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development, we need to have an `Enterprise Edition Token` for development which is restricted to the domain `openproject.local`
+> NOTE: OpenID connect is an enterprise feature in OpenProject. So, to be able to use this feature for development setup, we need to have an `Enterprise Edition Token` which is restricted to the domain `openproject.local`
 
 Within `docker/dev/keycloak` a compose file is provided for running local keycloak instance with TLS support. This provides
-a production like environment for testing the OpenProject Keycloak integration against a keycloak instance.
-accessible on `https://keycloak.local`.
+a production like environment for testing the OpenProject Keycloak integration against a keycloak instance accessible on `https://keycloak.local`.
 
 > NOTE: Configure [TLS Support](#tls-support) first before starting the Keycloak service
 
@@ -444,8 +443,7 @@ and login with initial username and password as `admin`.
 Keycloak being an OpenID connect provider, we need to setup an OIDC integration for OpenProject.
 [Setup OIDC (keycloak) integration for OpenProject](https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/#keycloak)
 
-Once the above setup is completed, In the root `docker-compose.override.yml` file, uncomment all the environment in `backend` service and set the values according to configuration
-done in keycloak for OpenProject Integration.
+Once the above setup is completed, In the root `docker-compose.override.yml` file, uncomment all the environment in `backend` service for keycloak and set the values according to configuration done in keycloak for OpenProject Integration.
 
 ```shell
 # Stop all the service if already running
