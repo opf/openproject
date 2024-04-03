@@ -87,7 +87,8 @@ RSpec.describe 'List project custom fields', :js do
         end
       end
 
-      expect(page).to have_no_css("[data-qa-selector='project-custom-field-section-container-#{section_for_multi_select_fields.id}']")
+      expect(page)
+        .to have_no_css("[data-test-selector='project-custom-field-section-container-#{section_for_multi_select_fields.id}']")
     end
 
     it 'allows to edit a section' do
@@ -188,7 +189,7 @@ RSpec.describe 'List project custom fields', :js do
           end
         end
 
-        expect(page).to have_no_css("[data-qa-selector='project-custom-field-container-#{boolean_project_custom_field.id}']")
+        expect(page).to have_no_css("[data-test-selector='project-custom-field-container-#{boolean_project_custom_field.id}']")
       end
 
       it 'redirects to the custom field edit page via menu item' do
@@ -208,14 +209,14 @@ RSpec.describe 'List project custom fields', :js do
       end
 
       it 'redirects to the custom field new page via header menu button' do
-        page.find("[data-qa-selector='new-project-custom-field-button']").click
+        page.find("[data-test-selector='new-project-custom-field-button']").click
 
         expect(page).to have_current_path(new_admin_settings_project_custom_field_path(type: 'ProjectCustomField'))
       end
 
       it 'redirects to the custom field new page via button in empty sections' do
         within_project_custom_field_section_container(section_for_multi_select_fields) do
-          expect(page).to have_no_css("[data-qa-selector='new-project-custom-field-button']")
+          expect(page).to have_no_css("[data-test-selector='new-project-custom-field-button']")
         end
 
         multi_list_project_custom_field.destroy
@@ -225,7 +226,7 @@ RSpec.describe 'List project custom fields', :js do
         visit admin_settings_project_custom_fields_path
 
         within_project_custom_field_section_container(section_for_multi_select_fields) do
-          page.find("[data-qa-selector='new-project-custom-field-button']").click
+          page.find("[data-test-selector='new-project-custom-field-button']").click
         end
 
         expect(page).to have_current_path(new_admin_settings_project_custom_field_path(
@@ -239,12 +240,12 @@ RSpec.describe 'List project custom fields', :js do
   # helper methods:
 
   def within_project_custom_field_section_container(section, &block)
-    within("[data-qa-selector='project-custom-field-section-container-#{section.id}']", &block)
+    within("[data-test-selector='project-custom-field-section-container-#{section.id}']", &block)
   end
 
   def within_project_custom_field_section_menu(section, &block)
     within_project_custom_field_section_container(section) do
-      page.find("[data-qa-selector='project-custom-field-section-action-menu']").click
+      page.find("[data-test-selector='project-custom-field-section-action-menu']").click
       within('anchored-position', &block)
     end
   end
@@ -257,12 +258,12 @@ RSpec.describe 'List project custom fields', :js do
   end
 
   def within_project_custom_field_container(custom_field, &block)
-    within("[data-qa-selector='project-custom-field-container-#{custom_field.id}']", &block)
+    within("[data-test-selector='project-custom-field-container-#{custom_field.id}']", &block)
   end
 
   def within_project_custom_field_menu(section, &block)
     within_project_custom_field_container(section) do
-      page.find("[data-qa-selector='project-custom-field-action-menu']").click
+      page.find("[data-test-selector='project-custom-field-action-menu']").click
       within('anchored-position', &block)
     end
   end

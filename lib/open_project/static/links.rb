@@ -65,7 +65,7 @@ module OpenProject
           if impressum_link = OpenProject::Configuration.impressum_link
             dynamic[:impressum] = {
               href: impressum_link,
-              label: :impressum
+              label: "homescreen.links.impressum"
             }
           end
 
@@ -276,10 +276,10 @@ module OpenProject
                 href: "https://apps.nextcloud.com/apps/integration_openproject"
               },
               one_drive_oauth_application: {
-                href: 'https://portal.azure.com/'
+                href: "https://portal.azure.com/"
               },
               troubleshooting: {
-                href: 'https://www.openproject.org/docs/user-guide/file-management/nextcloud-integration/#possible-errors-and-troubleshooting'
+                href: "https://www.openproject.org/docs/user-guide/file-management/nextcloud-integration/#possible-errors-and-troubleshooting"
               }
             },
             ical_docs: {

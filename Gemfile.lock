@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: f9a7261a3c44cead8b40cbc4353c242a2b0ca388
+  revision: 755b3d9b43695aeaae7edb09a24da0e3cda97ee4
   branch: main
   specs:
     capybara_accessible_selectors (0.11.0)
@@ -349,8 +349,8 @@ GEM
       activerecord (>= 4.0.0, < 7.2)
     awrence (1.2.1)
     aws-eventstream (1.3.0)
-    aws-partitions (1.899.0)
-    aws-sdk-core (3.191.4)
+    aws-partitions (1.901.0)
+    aws-sdk-core (3.191.5)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
@@ -1023,7 +1023,7 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     secure_headers (6.5.0)
-    selenium-devtools (0.122.0)
+    selenium-devtools (0.123.0)
       selenium-webdriver (~> 4.2)
     selenium-webdriver (4.18.1)
       base64 (~> 0.2)

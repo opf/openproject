@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Project resource show', content_type: :json do
+RSpec.describe "API v3 Project resource show", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -50,7 +50,7 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
   end
   let(:custom_value) do
     CustomValue.create(custom_field:,
-                       value: '1234',
+                       value: "1234",
                        customized: project)
   end
   let(:invisible_custom_field) do
@@ -58,7 +58,7 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
   end
   let(:invisible_custom_value) do
     CustomValue.create(custom_field: invisible_custom_field,
-                       value: '1234',
+                       value: "1234",
                        customized: project)
   end
 
@@ -84,27 +84,27 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
     last_response
   end
 
-  context 'for a logged in user' do
-    it 'responds with 200 OK' do
+  context "for a logged in user" do
+    it "responds with 200 OK" do
       expect(subject.status).to eq(200)
     end
 
-    it 'responds with the correct project' do
-      expect(subject.body).to include_json('Project'.to_json).at_path('_type')
-      expect(subject.body).to be_json_eql(project.identifier.to_json).at_path('identifier')
+    it "responds with the correct project" do
+      expect(subject.body).to include_json("Project".to_json).at_path("_type")
+      expect(subject.body).to be_json_eql(project.identifier.to_json).at_path("identifier")
     end
 
-    it 'links to the parent/ancestor project' do
+    it "links to the parent/ancestor project" do
       expect(subject.body)
         .to be_json_eql(api_v3_paths.project(parent_project.id).to_json)
-              .at_path('_links/parent/href')
+              .at_path("_links/parent/href")
 
       expect(subject.body)
         .to be_json_eql(api_v3_paths.project(parent_project.id).to_json)
-              .at_path('_links/ancestors/0/href')
+              .at_path("_links/ancestors/0/href")
     end
 
-    it 'includes only visible custom fields' do
+    it "includes only visible custom fields" do
       custom_value
       invisible_custom_value
 
@@ -116,10 +116,10 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
         .not_to have_json_path("customField#{invisible_custom_field.id}/raw")
     end
 
-    context 'with admin permissions' do
+    context "with admin permissions" do
       current_user { admin }
 
-      it 'includes invisible custom fields' do
+      it "includes invisible custom fields" do
         custom_value
         invisible_custom_value
 
@@ -133,7 +133,7 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
       end
     end
 
-    it 'includes the project status' do
+    it "includes the project status" do
       expect(subject.body)
         .to be_json_eql(project.status_explanation.to_json)
               .at_path("statusExplanation/raw")
@@ -143,69 +143,69 @@ RSpec.describe 'API v3 Project resource show', content_type: :json do
               .at_path("_links/status/href")
     end
 
-    context 'when requesting nonexistent project' do
+    context "when requesting nonexistent project" do
       let(:get_path) { api_v3_paths.project 9999 }
 
       before do
         response
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'when requesting project without sufficient permissions' do
+    context "when requesting project without sufficient permissions" do
       let(:get_path) { api_v3_paths.project other_project.id }
 
       before do
         response
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'when not being allowed to see the parent project' do
+    context "when not being allowed to see the parent project" do
       let!(:parent_memberships) do
         # no parent memberships
       end
 
-      it 'shows the `undisclosed` uri' do
+      it "shows the `undisclosed` uri" do
         expect(subject.body)
           .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json)
-                .at_path('_links/parent/href')
+                .at_path("_links/parent/href")
       end
     end
 
-    context 'with the project being archived/inactive' do
+    context "with the project being archived/inactive" do
       let(:project_active) { false }
 
-      context 'with the user being admin' do
+      context "with the user being admin" do
         current_user { admin }
 
-        it 'responds with 200 OK' do
+        it "responds with 200 OK" do
           expect(subject.status).to eq(200)
         end
 
-        it 'responds with the correct project' do
-          expect(subject.body).to include_json('Project'.to_json).at_path('_type')
-          expect(subject.body).to be_json_eql(project.identifier.to_json).at_path('identifier')
+        it "responds with the correct project" do
+          expect(subject.body).to include_json("Project".to_json).at_path("_type")
+          expect(subject.body).to be_json_eql(project.identifier.to_json).at_path("identifier")
         end
       end
 
-      context 'with the user being no admin' do
-        it 'responds with 404' do
+      context "with the user being no admin" do
+        it "responds with 404" do
           expect(subject.status).to eq(404)
         end
       end
     end
   end
 
-  context 'for a not logged in user' do
+  context "for a not logged in user" do
     current_user { create(:anonymous) }
 
     before do
       get get_path
     end
 
-    it_behaves_like 'not found response based on login_required'
+    it_behaves_like "not found response based on login_required"
   end
 end

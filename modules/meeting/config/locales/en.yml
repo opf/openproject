@@ -181,6 +181,7 @@ en:
   label_agenda_items: "Agenda items"
   label_agenda_items_reordered: "reordered"
 
+  label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Deleted work package reference"
   label_agenda_item_actions: "Agenda items actions"
