@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <li class="op-activity-list--item">
   <div class="op-activity-list--item-title">
     <% if @event.event_path %>
-      <%= link_to @event.event_title, @event.event_path %>
+      <%= link_to @event.event_title.squish, @event.event_path %>
     <% else %>
       <%= @event.event_title %>
     <% end %>
