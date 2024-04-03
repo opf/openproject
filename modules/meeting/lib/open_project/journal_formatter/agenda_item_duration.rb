@@ -27,15 +27,16 @@
 #++
 
 class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
-  def render(_key, values, options = { html: true })
+  def render(key, values, options = { html: true })
     label_text = Meeting.human_attribute_name(:duration)
     label_text = content_tag(:strong, label_text) if options[:html]
+    unit = key == :duration ? :hours : :minutes
 
     mapped = values.map do |v|
       if v.blank?
         nil
       else
-        ::OpenProject::Common::DurationComponent.new(v.to_i, :hours, abbreviated: true).text # throws errors without the .to_i
+        ::OpenProject::Common::DurationComponent.new(v.to_f, unit, abbreviated: true).text
       end
     end
 
@@ -48,11 +49,11 @@ class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
 
   def value(old_value, value)
     if old_value.nil?
-      I18n.t(:'activity.item.meeting_agenda_item.duration.added', value:)
+      I18n.t(:"activity.item.meeting_agenda_item.duration.added", value:)
     elsif value.nil?
-      I18n.t(:'activity.item.meeting_agenda_item.duration.removed')
+      I18n.t(:"activity.item.meeting_agenda_item.duration.removed")
     else
-      I18n.t(:'activity.item.meeting_agenda_item.duration.updated', value:, old_value:)
+      I18n.t(:"activity.item.meeting_agenda_item.duration.updated", value:, old_value:)
     end
   end
 end
