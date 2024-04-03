@@ -6,25 +6,30 @@
     <% if query_saveable? %>
       <% header.with_action_text { t('lists.can_be_saved_as') } %>
 
-      <% header.with_action_button(mobile_icon: "op-save", mobile_label: t('button_save_as'),
-                                   scheme: :invisible,
-                                   size: :medium,
-                                   mr: BUTTON_MARGIN_RIGHT,
-                                   tag: :a,
-                                   href: new_projects_query_path,
-                                   data: {
-                                     controller: "params-from-query",
-                                     'application-target': "dynamic",
-                                     'params-from-query-allowed-value': '["filters", "columns"]'
-                                   },
-                                   classes: 'Button--invisibleOP') do |button|%>
-        <% button.with_leading_visual_icon(icon: "op-save") %>
-        t('button_save_as')
+      <% header.with_action_link(mobile_icon: nil, # Do not show on mobile as it is already part of the menu
+                                 mobile_label: nil,
+                                 href: new_projects_query_path,
+                                 data: {
+                                   controller: "params-from-query",
+                                   'application-target': "dynamic",
+                                   'params-from-query-allowed-value': '["filters", "columns"]'
+                                 }) do %>
+        <% render(Primer::Beta::Octicon.new(icon: "op-save",
+                                            align_self: :center,
+                                            "aria-label": I18n.t("button_save_as"),
+                                            mr: 1)
+            ) + content_tag(:span, t("button_save_as")) %>
       <% end %>
-
     <% end %>
 
-    <%= header.with_action_menu(menu_arguments: { anchor_align: :end }, button_arguments: { icon: "op-kebab-vertical", "aria-label": t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' } })  do |menu, button|
+    <%= header.with_action_menu(menu_arguments: {
+                                  anchor_align: :end
+                                },
+                                button_arguments: {
+                                  icon: "op-kebab-vertical",
+                                  "aria-label": t(:label_more),
+                                  data: { "test-selector": "project-more-dropdown-menu" }
+                                })  do |menu, button|
       if gantt_portfolio_project_ids.any?
         menu.with_item(
           tag: :a,
