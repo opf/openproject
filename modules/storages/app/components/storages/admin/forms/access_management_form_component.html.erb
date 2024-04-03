@@ -11,7 +11,9 @@
         end
 
         access_management_row.with_row(mb: 3) do
-          render(Primer::Beta::Text.new) { I18n.t(:'storages.file_storage_view.access_management.description') }
+          render(Primer::Beta::Text.new(test_selector: 'storage-access-management-description')) do
+            I18n.t(:'storages.file_storage_view.access_management.description')
+          end
         end
 
         access_management_row.with_row do

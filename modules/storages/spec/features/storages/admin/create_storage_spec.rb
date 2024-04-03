@@ -227,6 +227,13 @@ RSpec.describe "Admin Create a new file storage",
                                                  "doing the setup. In the portal, you also need to register an " \
                                                  "Azure application or use an existing one for authentication.")
 
+        # Access Management
+        wait_for(page).to have_test_selector("access-management-label", text: "Access management")
+        expect(page).not_to have_test_selector("label-access_management_configured-status")
+        expect(page).to have_text("Select the type of management of user access and folder creation.")
+        expect(page).to have_test_selector("access-management-description",
+                                           text: "Select the type of management of user access and folder creation.")
+
         # OAuth client
         wait_for(page).to have_test_selector("storage-oauth-client-label", text: "Azure OAuth")
         expect(page).not_to have_test_selector("label-storage_oauth_client_configured-status")
@@ -249,9 +256,27 @@ RSpec.describe "Admin Create a new file storage",
           click_on "Save and continue"
         end
 
-        wait_for(page).to have_test_selector("label-host_name_configured-storage_tenant_drive_configured-status",
+        wait_for(page).to have_test_selector("label-name_configured-storage_tenant_drive_configured-status",
                                              text: "Completed")
         expect(page).to have_test_selector("storage-description", text: "OneDrive/SharePoint - My OneDrive")
+      end
+
+      aggregate_failures "Access Management" do
+        within_test_selector("storage-access-management-form") do
+          expect(page).to have_test_selector("storage-access-management-description",
+                                             text: "Select the type of management of user access and folder " \
+                                                   "creation. We recommend to use the Automatically managed access " \
+                                                   "to have a more organised structure and guarantee access to all " \
+                                                   "relevant users.")
+          expect(page).to have_checked_field("Automatically managed access and folders")
+          expect(page).to have_unchecked_field("Manually managed access and folders")
+
+          choose "Manually managed access and folders"
+          click_on "Save and continue"
+        end
+
+        wait_for(page).to have_test_selector("label-access_management_configured-status", text: "Completed")
+        expect(page).to have_test_selector("access-management-description", text: "Manually managed access and folders")
       end
 
       aggregate_failures "OAuth Client" do

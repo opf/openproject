@@ -85,7 +85,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def select_provider
     @object = Storages::Storage.new(provider_type: @provider_type)
-    service_result = ::Storages::Storages::SetProviderFieldsAttributesService
+    service_result = ::Storages::Storages::SetAttributesService
                        .new(user: current_user,
                             model: @object,
                             contract_class: EmptyContract)
