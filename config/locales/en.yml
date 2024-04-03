@@ -1699,6 +1699,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
 
   my_account:
     access_tokens:
