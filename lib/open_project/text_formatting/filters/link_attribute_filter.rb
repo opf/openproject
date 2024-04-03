@@ -38,7 +38,7 @@ module OpenProject::TextFormatting
       end
 
       def links
-        doc.xpath(".//a[contains(@href,'/')]")
+        doc.css('a[href^="/"]')
       end
     end
   end

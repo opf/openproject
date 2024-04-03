@@ -316,7 +316,7 @@ RSpec.describe OpenProject::TextFormatting,
                           <li class="op-uc-list--item">
                             <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
                             <span>asdfasdfasdf </span>
-                            <a class="op-uc-link" target="_top" href="https://example.com/" rel="noopener noreferrer">
+                            <a class="op-uc-link" href="https://example.com/" rel="noopener noreferrer">
                               <span>foobar</span>
                             </a>
                           </li>
