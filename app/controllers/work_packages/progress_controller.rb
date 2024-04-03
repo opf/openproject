@@ -29,25 +29,28 @@
 # ++
 
 class WorkPackages::ProgressController < ApplicationController
+  ERROR_PRONE_ATTRIBUTES = %i[status_id
+                              estimated_hours
+                              remaining_hours
+                              done_ratio].freeze
+
   layout false
   before_action :set_work_package
 
   helper_method :modal_class
 
   def edit
+    build_up_new_work_package
+
     render modal_class.new(@work_package, focused_field: params[:field])
   end
 
   def create
-    service_call = WorkPackages::SetAttributesService
-                     .new(user: current_user,
-                          model: @work_package,
-                          contract_class: WorkPackages::CreateContract)
-                     .call(create_work_package_params)
+    service_call = build_up_new_work_package
 
     if service_call.errors
                    .map(&:attribute)
-                   .intersect?(%i[status_id estimated_hours remaining_hours done_ratio])
+                   .intersect?(ERROR_PRONE_ATTRIBUTES)
       respond_to do |format|
         format.turbo_stream do
           # Bundle 422 status code into stream response so
@@ -99,18 +102,34 @@ class WorkPackages::ProgressController < ApplicationController
   def set_work_package
     @work_package = WorkPackage.find(params[:work_package_id])
   rescue ActiveRecord::RecordNotFound
-    @work_package = WorkPackage.new(create_work_package_params)
+    @work_package = WorkPackage.new
   end
 
   def create_work_package_params
     params.require(:work_package)
-          .permit(%i[estimated_hours remaining_hours])
+          .permit(allowed_params)
           .compact_blank
   end
 
   def update_work_package_params
     params.require(:work_package)
-          .permit(%i[estimated_hours remaining_hours])
+          .permit(allowed_params)
+  end
+
+  def allowed_params
+    if WorkPackage.use_status_for_done_ratio?
+      %i[estimated_hours status_id]
+    else
+      %i[estimated_hours remaining_hours]
+    end
+  end
+
+  def build_up_new_work_package
+    WorkPackages::SetAttributesService
+      .new(user: current_user,
+           model: @work_package,
+           contract_class: WorkPackages::CreateContract)
+      .call(create_work_package_params)
   end
 
   def formatted_duration(hours)
