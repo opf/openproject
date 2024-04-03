@@ -43,15 +43,16 @@ RSpec.describe Storages::OneDriveStorage do
 
   describe "#configured?" do
     context "with a complete configuration" do
-      let(:storage) { build(:one_drive_storage, oauth_client: build(:oauth_client)) }
+      let(:storage) { build(:one_drive_storage, :as_not_automatically_managed, oauth_client: build(:oauth_client)) }
 
       it "returns true" do
         expect(storage.configured?).to be(true)
 
         aggregate_failures "configuration_checks" do
           expect(storage.configuration_checks)
-            .to eq(host_name_configured: true,
+            .to eq(name_configured: true,
                    storage_oauth_client_configured: true,
+                   access_management_configured: true,
                    storage_tenant_drive_configured: true)
         end
       end
