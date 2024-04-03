@@ -54,8 +54,14 @@ export default class AttributeController extends Controller {
     }
   }
 
+  // When the displayed field contains a macro only, the ellipsis is being shown all the time,
+  // in this case, we should take the textHiderTarget's width into account, otherwise the
+  // text will overflow the ellipsis icon. When a text with the exact size of the column is
+  // displayed, the textHiderTarget is hidden having the offsedWidth 0. This means we will allow
+  // the full width of the column to be used for the text, and not truncate it unnecessarily.
   private isEllipssed(e:HTMLElement) {
-    return (e.offsetWidth < e.scrollWidth || e.offsetHeight < e.scrollHeight);
+    return (e.offsetWidth - this.textHiderTarget.offsetWidth) < e.scrollWidth
+      || e.offsetHeight < e.scrollHeight;
   }
 
   // Sets the background of the text hider element (the one below the expand button) to the background of the reference.
