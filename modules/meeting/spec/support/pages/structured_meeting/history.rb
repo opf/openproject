@@ -34,8 +34,16 @@ module Pages::StructuredMeeting
     end
 
     def open_history_modal
-      click_link_or_button "op-meetings-header-action-trigger"
-      click_link_or_button "History"
+      retry_block do
+        click_link_or_button "op-meetings-header-action-trigger"
+        click_link_or_button "History"
+      end
+    end
+
+    def close_history_modal
+      if page.has_selector?(".Overlay-closeButton", wait: 0)
+        page.find(".Overlay-closeButton").click
+      end
     end
 
     def expect_event(title, action:, actor:, timestamp: nil, &)
@@ -50,6 +58,10 @@ module Pages::StructuredMeeting
         details = title.find(".op-activity-list--item-details")
         page.within(details, &)
       end
+    end
+
+    def first_item
+      page.first(".op-activity-list--item")
     end
 
     def find_item(detail)

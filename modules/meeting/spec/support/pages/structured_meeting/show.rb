@@ -78,7 +78,8 @@ module Pages::StructuredMeeting
         select_action item, I18n.t(:button_delete)
       end
 
-      expect_no_agenda_item(title: item.title)
+      title = item.work_package ? item.work_package.subject : item.title
+      expect_no_agenda_item(title:)
     end
 
     def expect_agenda_item(title:)
