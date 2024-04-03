@@ -5,7 +5,7 @@ ms:
         origin_id: Origin Id
       storages/storage:
         creator: Pencipta
-        drive: Drive ID
+        drive: ID Pemacu
         host: Hos
         name: Nama
         provider_type: Jenis provider
@@ -205,19 +205,19 @@ ms:
           most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
           to the %{drive_id_link_text}.
         subtitle: |-
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
-          member always has the correct access permissions.
-        subtitle_short: Let OpenProject create folders per project automatically.
-        title: Automatically managed project folders
+          Biarkan OpenProject mencipta folder mengikut projek secara automatik. Ini disyorkan kerana ia memastikan setiap ahli
+          pasukan sentiasa mempunyai kebenaran akses yang betul.
+        subtitle_short: Biarkan OpenProject mencipta folder mengikut projek secara automatik.
+        title: Folder projek yang dikendalikan secara automatik
       project_settings:
         delete: Delete file storage
         edit: Edit the file storage to this project
         index: File storages available in this project
-        members_connection_status: Members connection status
+        members_connection_status: Status sambungan ahli
         new: Add a file storage to this project
       project_storage_members:
         subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
-        title: Members connection status
+        title: Status sambungan ahli
     provider_types:
       label: Provider type
       nextcloud:
