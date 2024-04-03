@@ -4,9 +4,7 @@
     <% header.with_breadcrumbs(breadcrumb_items)%>
 
     <% if query_saveable? %>
-      <% header.with_action_text(tag: :span,
-                                    mr: BUTTON_MARGIN_RIGHT,
-                                    color: :muted) { t('lists.can_be_saved_as') } %>
+      <% header.with_action_text { t('lists.can_be_saved_as') } %>
 
       <% header.with_action_button(mobile_icon: "op-save", mobile_label: t('button_save_as'),
                                    scheme: :invisible,
