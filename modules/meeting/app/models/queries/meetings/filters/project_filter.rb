@@ -28,4 +28,9 @@
 
 class Queries::Meetings::Filters::ProjectFilter < Queries::Meetings::Filters::MeetingFilter
   include Queries::Filters::Shared::ProjectFilter
+
+  def allowed_values
+    # We don't care for the first value as we do not display the values visibly
+    @allowed_values ||= ::Project.visible.pluck(:name, :id)
+  end
 end
