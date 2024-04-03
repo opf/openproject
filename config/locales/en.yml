@@ -1687,6 +1687,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the
           Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_changed: >
+          Progress calculation updated.
 
   links:
     configuration_guide: "Configuration guide"

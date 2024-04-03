@@ -1107,7 +1107,7 @@ module Settings
       },
       work_package_done_ratio: {
         default: "field",
-        allowed: %w[field status disabled]
+        allowed: %w[field status]
       },
       work_packages_projects_export_limit: {
         default: 500

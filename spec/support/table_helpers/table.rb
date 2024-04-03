@@ -37,6 +37,10 @@ module TableHelpers
       @work_packages_by_identifier[name]
     end
 
+    def work_packages
+      @work_packages_by_identifier.values
+    end
+
     private
 
     def normalize_name(name)
