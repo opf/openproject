@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,48 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  class OneDriveStorage < Storage
-    PROVIDER_FIELDS_DEFAULTS = {
-      automatic_management_enabled: true
-    }.freeze
+module Storages::Admin
+  class AccessManagementForm < ApplicationForm
+    form do |access_management_form|
+      access_management_form.radio_button_group(name: :access_management) do |radio_buttons|
+        radio_buttons.radio_button(
+          name: :automatic_management_enabled,
+          value: true,
+          checked: @storage.automatic_management_enabled?,
+          label: I18n.t("storages.file_storage_view.access_management.automatic_management"),
+          caption: I18n.t("storages.file_storage_view.access_management.automatic_management_description"),
+          visually_hide_label: false
+        )
 
-    store_attribute :provider_fields, :tenant_id, :string
-    store_attribute :provider_fields, :drive_id, :string
-
-    using ::Storages::Peripherals::ServiceResultRefinements
-
-    def configuration_checks
-      {
-        storage_oauth_client_configured: oauth_client.present?,
-        storage_tenant_drive_configured: tenant_id.present? && drive_id.present?,
-        host_name_configured: name.present?
-      }
-    end
-
-    def automatic_management_new_record?
-      if provider_fields_changed?
-        previous_configuration = provider_fields_change.first
-        previous_configuration.values_at("automatically_managed").compact.empty?
-      else
-        automatic_management_unspecified?
+        radio_buttons.radio_button(
+          name: :automatic_management_enabled,
+          value: false,
+          checked: !@storage.automatic_management_enabled?,
+          label: I18n.t("storages.file_storage_view.access_management.manual_management"),
+          caption: I18n.t("storages.file_storage_view.access_management.manual_management_description"),
+          visually_hide_label: false
+        )
       end
     end
 
-    def oauth_configuration
-      Peripherals::OAuthConfigurations::OneDriveConfiguration.new(self)
-    end
-
-    def uri
-      @uri ||= URI("https://graph.microsoft.com").normalize
-    end
-
-    def connect_src
-      %w[https://*.sharepoint.com https://*.up.1drv.com]
-    end
-
-    def provider_fields_defaults
-      PROVIDER_FIELDS_DEFAULTS
+    def initialize(storage:)
+      super()
+      @storage = storage
     end
   end
 end

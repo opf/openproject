@@ -62,6 +62,20 @@
       component.with_row(scheme: :neutral, color: :muted) do
         grid_layout('op-storage-view--row', tag: :div, align_items: :center) do |grid|
           grid.with_area(:item, tag: :div, mr: 3) do
+            render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1)) { I18n.t('storages.file_storage_view.access_management.title') }
+          end
+        end
+      end
+
+      component.with_row(scheme: :default) do
+        render(OpTurbo::FrameComponent.new(id: :access_management_section)) do
+          render(Storages::Admin::AccessManagementComponent.new(storage))
+        end
+      end
+
+      component.with_row(scheme: :neutral, color: :muted) do
+        grid_layout('op-storage-view--row', tag: :div, align_items: :center) do |grid|
+          grid.with_area(:item, tag: :div, mr: 3) do
             render(Primer::Beta::Text.new(font_weight: :semibold, mr: 1)) { I18n.t('storages.file_storage_view.oauth_applications') }
           end
         end
