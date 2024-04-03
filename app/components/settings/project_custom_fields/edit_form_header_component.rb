@@ -36,8 +36,7 @@ module Settings
       end
 
       def breadcrumbs_items
-        [
-          { href: admin_index_path, text: t("label_administration") },
+        [{ href: admin_index_path, text: t("label_administration") },
           { href: admin_settings_project_custom_fields_path, text: t("label_project_plural") },
           { href: admin_settings_project_custom_fields_path, text: t("settings.project_attributes.heading") },
           @custom_field.name
