@@ -47,7 +47,7 @@ module Storages
 
             remote_urls = build_origin_urls(**valid_input_result.result)
 
-            remote_folder_does_not_exist?(remote_urls[:destination_url]).on_failure { |failure| return failure }
+            ensure_remote_folder_does_not_exist(remote_urls[:destination_url]).on_failure { |failure| return failure }
 
             copy_folder(**remote_urls).on_failure { |failure| return failure }
 
@@ -87,7 +87,7 @@ module Storages
             { source_url:, destination_url: }
           end
 
-          def remote_folder_does_not_exist?(destination_url)
+          def ensure_remote_folder_does_not_exist(destination_url)
             response = OpenProject.httpx.basic_auth(@storage.username, @storage.password).head(destination_url)
 
             case response

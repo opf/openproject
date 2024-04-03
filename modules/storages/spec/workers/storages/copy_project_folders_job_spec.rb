@@ -128,7 +128,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
         })
 
       Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.queries.files_info", ->(storage:, user:, file_ids:) {
+        .stub("#{storage.short_provider_type}.queries.files_info", ->(storage:, auth_strategy:, file_ids:) {
           ServiceResult.success(result: source_file_infos)
         })
 
@@ -182,7 +182,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock, with_good_job_ba
         })
 
       Storages::Peripherals::Registry
-        .stub("#{storage.short_provider_type}.queries.files_info", ->(storage:, user:, file_ids:) {
+        .stub("#{storage.short_provider_type}.queries.files_info", ->(storage:, auth_strategy:, file_ids:) {
           ServiceResult.success(result: source_file_infos)
         })
 

@@ -45,8 +45,6 @@ module Storages
       end
 
       def call
-        OpenProject.logger.error "STORAGE CLASS: #{@source.storage.class}, #{@target.storage.class}"
-
         source_file_links = FileLink
           .includes(:creator)
           .where(storage: @source.storage,
@@ -54,7 +52,7 @@ module Storages
                  container_type: "WorkPackage")
 
         with_locale_for(@user) do
-          if @source.project_folder_mode == "automatic"
+          if @source.project_folder_automatic?
             create_managed_file_links(source_file_links)
           else
             create_unmanaged_file_links(source_file_links)
@@ -101,11 +99,17 @@ module Storages
         end
       end
 
+      def auth_strategy
+        Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+          .strategy
+          .with_user(@user)
+      end
+
       # Known issue, this can lead to 403s.
       def source_files_info(source_file_links)
         Peripherals::Registry
           .resolve("#{@source.storage.short_provider_type}.queries.files_info")
-          .call(storage: @source.storage, user: @user, file_ids: source_file_links.pluck(:origin_id))
+          .call(storage: @source.storage, auth_strategy:, file_ids: source_file_links.pluck(:origin_id))
       end
 
       def target_files_map
