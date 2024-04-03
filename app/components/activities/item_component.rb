@@ -55,7 +55,7 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
 
   def display_details?
     journal = @event.journal
-    return false if (journal.initial? && journal.journable_type != 'TimeEntry') || initial? || deletion?
+    return false if (initial? && journal.journable_type != "TimeEntry") || deletion?
 
     rendered_details.present?
   end
