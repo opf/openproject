@@ -28,7 +28,7 @@
 
 class ProjectCustomFieldProjectMapping < ApplicationRecord
   belongs_to :project
-  belongs_to :project_custom_field, class_name: 'ProjectCustomField', foreign_key: 'custom_field_id',
+  belongs_to :project_custom_field, class_name: "ProjectCustomField", foreign_key: "custom_field_id",
                                     inverse_of: :project_custom_field_project_mappings
 
   validates :custom_field_id, uniqueness: { scope: :project_id }

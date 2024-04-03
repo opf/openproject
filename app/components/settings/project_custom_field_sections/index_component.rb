@@ -47,23 +47,23 @@ module Settings
 
       def wrapper_data_attributes
         {
-          controller: 'generic-drag-and-drop',
-          'application-target': 'dynamic'
+          controller: "generic-drag-and-drop",
+          "application-target": "dynamic"
         }
       end
 
       def drop_target_config
         {
-          'is-drag-and-drop-target': true,
-          'target-allowed-drag-type': 'section' # the type of dragged items which are allowed to be dropped in this target
+          "is-drag-and-drop-target": true,
+          "target-allowed-drag-type": "section" # the type of dragged items which are allowed to be dropped in this target
         }
       end
 
       def draggable_item_config(section)
         {
-          'draggable-id': section.id,
-          'draggable-type': 'section',
-          'drop-url': drop_admin_settings_project_custom_field_section_path(section)
+          "draggable-id": section.id,
+          "draggable-type": "section",
+          "drop-url": drop_admin_settings_project_custom_field_section_path(section)
         }
       end
     end

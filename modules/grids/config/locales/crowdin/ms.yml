@@ -12,5 +12,5 @@ ms:
       models:
         grids/grid:
           overlaps: 'bertindih.'
-          outside: 'luar daripada grid'
+          outside: 'luar daripada grid.'
           end_before_start: 'nilai akhir perlu lebih besar daripada nilai mula.'

@@ -76,7 +76,7 @@
       button_register_mobile_phone_for_user: "Registrer mobiltelefon"
       text_2fa_enabled: "Ved hver pålogging vil denne brukeren bli bedt om å legge inn en OTP-nøkkel fra standard 2FA-enheten."
       text_2fa_disabled: "Brukeren har ikke satt opp en 2FA-enhet via sin «Min konto side»"
-      only_sms_allowed: "Only SMS delivery can be set up for other users."
+      only_sms_allowed: "Bare SMS-levering kan angis for andre brukere."
     upsale:
       title: "Tofaktorautentisering"
       description: "Styrk sikkerheten til OpenProject ved å tilby (eller håndheve) godkjenning av tofaktor for alle prosjektmedlemmer."
@@ -114,12 +114,12 @@
       failed_to_delete: "Kunne ikke slette 2FA-enheten."
       is_default_cannot_delete: "Enheten er merket som standard og kan ikke slettes på grunn av en aktiv sikkerhetspolicy. Merk en annen enhet som standard før du sletter."
       not_existing: "Ingen 2FA-enhet er registrert for kontoen din."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      2fa_from_input: Skriv inn koden fra din <strong>%{device_name}</strong> for å bekrefte identiteten din.
+      2fa_from_webauthn: Oppgi WebAuthn enheten <strong>%{device_name}</strong>. Hvis den er USB-basert, sørg for å koble den inn og trykke på den. Klikk deretter på påloggingsknappen.
       webauthn:
         title: "WebAuthn"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: Bruk Web Autentisering til å registrere en FIDO2-enhet (som en YubiKey) eller sikker kobling på din mobil-enhet som en andrefaktor.
+        further_steps: Etter at du har valgt et navn, kan du klikke på fortsett-knappen. Nettleseren vil be deg om å vise WebAuthn enheten. Når du har gjort dette, er du ferdig med å registrere enheten.
       totp:
         title: "Bruk appbasert godkjenning"
         provisioning_uri: "Levering av URI"

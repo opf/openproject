@@ -268,7 +268,14 @@ def get_workflow_run(run_id)
   end
 end
 
-Report = Data.define(:errors, :failures_explanation)
+class Report
+  attr_accessor :errors,
+                :failures_explanation,
+                :head_branch,
+                :head_sha,
+                :commit_message,
+                :merge_branch_sha
+end
 
 class Error
   attr_accessor :location, :page_html, :page_screenshot, :tests_group, :loading_error
@@ -301,15 +308,19 @@ class JobErrorsFinder
   SPEC_LOADING_ERRORS_PATTERN = %r{^\S+ An error occurred while loading (\S+)\.\r?$}
   SCREENSHOT_PATTERN = /\{"message":"Screenshot captured for failed feature test"[^\n]+$/
   TESTS_GROUP_PATTERN = /Process \d+: TEST_ENV_NUMBER=\d+ [^\n]+$/
+  BRANCH_MERGE_PATTERN = /Merge \w{40} into (\w{40})$/
 
-  attr_reader :failures_explanation
+  attr_reader :failures_explanation, :merge_branch_sha
 
-  def self.scan_logs(logs)
+  def self.scan_logs(report, logs)
     finder = new
     logs.each do |log|
       finder.scan_log(log)
     end
-    Report.new(errors: finder.errors, failures_explanation: finder.failures_explanation)
+    report.errors = finder.errors
+    report.failures_explanation = finder.failures_explanation
+    report.merge_branch_sha = finder.merge_branch_sha
+    report
   end
 
   def scan_log(log)
@@ -318,6 +329,7 @@ class JobErrorsFinder
     find_loading_errors(log)
     find_screenshots(log)
     find_tests_groups(log)
+    find_merge_branch_info(log)
   end
 
   def errors
@@ -406,6 +418,11 @@ class JobErrorsFinder
     end
   end
 
+  def find_merge_branch_info(log)
+    merge_branch_sha = log.scan(BRANCH_MERGE_PATTERN).flatten.first
+    @merge_branch_sha = merge_branch_sha if merge_branch_sha
+  end
+
   def build_tests_group_from_command(line)
     tests_group = TestsGroup.new
     parts = line.split
@@ -432,10 +449,13 @@ class Formatter
     @compact
   end
 
-  def display_workflow_run_info(workflow_run)
-    warn "  Branch: #{workflow_run['head_branch'].bold}"
-    warn "  Commit SHA: #{workflow_run['head_sha'].bold}"
-    warn "  Commit message: #{commit_message(workflow_run).bold}"
+  def display_workflow_run_info(report, workflow_run)
+    report.head_branch = workflow_run["head_branch"]
+    report.head_sha = workflow_run["head_sha"]
+    report.commit_message = commit_message(workflow_run)
+    warn "  Branch: #{report.head_branch.bold}"
+    warn "  Commit SHA: #{report.head_sha.bold}"
+    warn "  Commit message: #{report.commit_message.bold}"
     display_pull_request_info(workflow_run)
   end
 
@@ -449,6 +469,7 @@ class Formatter
 
   def display_report(report)
     display_failures_explanation(report.failures_explanation)
+    display_checkout_test_commit_information(report) if Options.display_rerun_info
     display_errors(report.errors)
   end
 
@@ -536,6 +557,27 @@ class Formatter
     ].join
   end
 
+  def display_checkout_test_commit_information(report)
+    if report.merge_branch_sha
+      warn <<~INSTRUCTIONS.white.dark
+        To be with the exact same source files as CI, use these commands:
+          git branch --force repro/head_branch #{report.head_sha}
+          git branch --force repro/merge_branch #{report.merge_branch_sha}
+          git checkout repro/merge_branch
+          git merge --no-commit --no-verify repro/head_branch
+          git checkout --detach
+          git branch --delete repro/head_branch
+          git branch --delete repro/merge_branch
+      INSTRUCTIONS
+    else
+      warn <<~INSTRUCTIONS.white.dark
+        To be with the exact same source files as CI, use this command:
+          git checkout #{report.head_sha}
+      INSTRUCTIONS
+    end
+    warn # empty line
+  end
+
   def display_tests_group_info(tests_group)
     return unless tests_group
 
@@ -603,10 +645,10 @@ class Formatter
   end
 end
 
-def get_failed_jobs_logs_from_github(formatter)
+def get_failed_jobs_logs_from_github(report, formatter)
   workflow_run = get_workflow_run(Options.run_id)
 
-  formatter.display_workflow_run_info(workflow_run)
+  formatter.display_workflow_run_info(report, workflow_run)
 
   formatter.display_workflow_status(workflow_run)
   get_jobs(workflow_run)
@@ -622,22 +664,24 @@ def get_failed_jobs_logs_from_args
   Options.failed_jobs_logs.map { |path| File.read(path) }
 end
 
-def get_failed_jobs_logs(formatter)
+def get_failed_jobs_logs(report, formatter)
   if Options.failed_jobs_logs.any?
     get_failed_jobs_logs_from_args
   else
-    get_failed_jobs_logs_from_github(formatter)
+    get_failed_jobs_logs_from_github(report, formatter)
   end
 end
 
 ##########
 
+# report stores all found information about the workflow run
+report = Report.new
 formatter = Formatter.new(compact: Options.compact)
 
-failed_jobs_logs = get_failed_jobs_logs(formatter)
+failed_jobs_logs = get_failed_jobs_logs(report, formatter)
 
 is_successful = failed_jobs_logs.none?
-report = JobErrorsFinder.scan_logs(failed_jobs_logs)
+JobErrorsFinder.scan_logs(report, failed_jobs_logs)
 
 if is_successful
   warn "All jobs successful 🎉"

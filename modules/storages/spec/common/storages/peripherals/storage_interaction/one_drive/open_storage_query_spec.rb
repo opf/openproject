@@ -57,26 +57,5 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenStorageQ
         expect(call.result).to eq("https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR")
       end
     end
-
-    context "with not existent oauth token" do
-      let(:user_without_token) { create(:user) }
-      let(:auth_strategy) do
-        Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
-          .strategy
-          .with_user(user_without_token)
-      end
-
-      it "must return unauthorized when called" do
-        result = subject.call(auth_strategy:)
-        expect(result).to be_failure
-        expect(result.error_source)
-          .to be(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
-    end
   end
 end

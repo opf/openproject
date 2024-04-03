@@ -30,8 +30,8 @@
 
 module Storages
   module Peripherals
-    OneDrive = Dry::Container::Namespace.new('one_drive') do
-      namespace('queries') do
+    OneDrive = Dry::Container::Namespace.new("one_drive") do
+      namespace("queries") do
         register(:auth_check, StorageInteraction::OneDrive::AuthCheckQuery)
         register(:download_link, StorageInteraction::OneDrive::DownloadLinkQuery)
         register(:files, StorageInteraction::OneDrive::FilesQuery)
@@ -43,18 +43,18 @@ module Storages
         register(:upload_link, StorageInteraction::OneDrive::UploadLinkQuery)
       end
 
-      namespace('commands') do
+      namespace("commands") do
         register(:create_folder, StorageInteraction::OneDrive::CreateFolderCommand)
         register(:delete_folder, StorageInteraction::OneDrive::DeleteFolderCommand)
         register(:rename_file, StorageInteraction::OneDrive::RenameFileCommand)
         register(:set_permissions, StorageInteraction::OneDrive::SetPermissionsCommand)
       end
 
-      namespace('contracts') do
+      namespace("contracts") do
         register(:storage, ::Storages::Storages::OneDriveContract)
       end
 
-      namespace('models') do
+      namespace("models") do
         register(:managed_folder_identifier, ManagedFolderIdentifier::OneDrive)
       end
     end
