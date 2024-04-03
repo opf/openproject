@@ -12,7 +12,7 @@ ms:
       no_connection: "Tiada sambungan %{storageType}"
       open_storage: "Buka %{storageType}"
       select_location: "Pilih lokasi"
-      choose_location: "Choose location"
+      choose_location: "Pilih lokasi"
       types:
         nextcloud: "Nextcloud"
         one_drive: "OneDrive/SharePoint"
@@ -22,8 +22,8 @@ ms:
           Beberapa seting %{storageType} tidak berfungsi. Sila hubungi pentadbir anda %{storageType}.
         live_data_error: "Masalah dalam mengambil butiran fail"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Beberapa data %{storageType} tidak dapat diperolehi. Sila cuba untuk memuat semula halaman ini atau hubungi pentadbir %{storageType} anda.
+        no_file_links: "Untuk mengaitkan fail-fail kepada pakej kerja ini, sila lakukan melalui %{storageType}."
         not_logged_in: >
           Untuk tambah pautan, lihat atau muat naik fail berkaitan dengan pakej kerja ini, sila log masuk ke %{storageType}.
       files:
@@ -39,7 +39,7 @@ ms:
         project_folder_no_access: >
           Anda tidak mempunyai akses ke folder projek. Sila hubungi pentadbir anda untuk mendapatkan akses atau muat naik file ke lokasi yang berbeza.
         managed_project_folder_not_available: >
-          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+          Folder yang dikendalikan secara automatik belum ditemui lagi. Sila tunggu sebentar, muat semula halaman untuk dapatkan data terkini, dan cuba lagi.
         managed_project_folder_no_access: >
           Anda masih belum mempunyai akses ke folder projek yang dikendali. Sila tunggu sebentar dan cuba lagi.
         upload_keep_both: "Simpan kedua-duanya"

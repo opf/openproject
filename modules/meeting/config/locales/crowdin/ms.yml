@@ -43,10 +43,10 @@ ms:
         start_time_hour: "Masa mula"
       meeting_agenda_items:
         title: "Tajuk"
-        author: "Author"
+        author: "Pengarang"
         duration_in_minutes: "Tempoh (minit)"
         description: "Nota"
-        presenter: "Presenter"
+        presenter: "Penyampai"
     errors:
       messages:
         invalid_time_format: "bukan masa yang sah. Format yang diperlukan: JJ:MM"
@@ -96,11 +96,11 @@ ms:
   label_start_date: "Tarikh mula"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Fail yang dilampirkan boleh diakses oleh semua peserta mesyuarat. Anda juga boleh menarik dan lepaskan fail tersebut ke dalam catatan item agenda."
     copy:
       title: "Salin mesyuarat %{title}"
-      attachments: "Copy attachments"
-      attachments_text: "Copy over all attached files to the new meeting"
+      attachments: "Salin lampiran"
+      attachments_text: "Salin semua fail yang dilampirkan ke dalam mesyuarat baru"
       agenda: "Salin agenda"
       agenda_text: "Salin agenda mesyuarat lama"
     email:
