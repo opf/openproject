@@ -37,8 +37,6 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
                 :state,
                 :params
 
-  BUTTON_MARGIN_RIGHT = 2
-
   STATE_DEFAULT = :show
   STATE_EDIT = :edit
   STATE_OPTIONS = [STATE_DEFAULT, STATE_EDIT].freeze
@@ -69,6 +67,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   def page_title
     query.name || t(:label_project_plural)
   end
+
   def query_saveable?
     current_user.logged? && query.name.blank?
   end
@@ -78,6 +77,6 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   end
 
   def breadcrumb_items
-    [{ href: projects_path, text: t("en.types.edit.projects") }, page_title]
+    [{ href: projects_path, text: t(:label_project_plural) }, page_title]
   end
 end
