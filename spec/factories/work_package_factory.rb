@@ -32,6 +32,7 @@ FactoryBot.define do
       custom_values { nil }
       days { WorkPackages::Shared::Days.for(self) }
       journals { nil }
+      now { Time.zone.now }
     end
 
     priority
@@ -40,8 +41,8 @@ FactoryBot.define do
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user
-    created_at { Time.zone.now }
-    updated_at { Time.zone.now }
+    created_at { now }
+    updated_at { now }
     start_date do
       # derive start date if due date and duration were provided
       next unless %i[due_date duration].all? { |field| __override_names__.include?(field) }
