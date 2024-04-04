@@ -77,8 +77,8 @@ module Redmine
         def custom_fields=(values)
           values_to_hash = values.inject({}) do |hash, v|
             v = v.stringify_keys
-            if v['id'] && v.has_key?('value')
-              hash[v['id']] = v['value']
+            if v["id"] && v.has_key?("value")
+              hash[v["id"]] = v["value"]
             end
             hash
           end

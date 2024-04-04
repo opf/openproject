@@ -12,7 +12,7 @@ end %>
       header.with_action_button(tag: :a,
                                 href: new_admin_settings_project_custom_field_path(type: "ProjectCustomField"),
                                 scheme: :primary,
-                                data: { turbo: "false", qa_selector: "new-project-custom-field-button" },
+                                data: { turbo: "false", test_selector: "new-project-custom-field-button" },
                                 mobile_icon: :plus,
                                 mobile_label: t("settings.project_attributes.label_new_attribute")) do |button|
         button.with_leading_visual_icon(icon: :plus)
@@ -21,7 +21,7 @@ end %>
 
       header.with_action_dialog(mobile_icon: :plus,
                                 mobile_label: t('settings.project_attributes.label_new_section'),
-                                dialog_arguments: {id: "project-custom-field-section-dialog", title: t('settings.project_attributes.label_new_section', size: :medium_portrait)},
+                                dialog_arguments: {id: "project-custom-field-section-dialog", title: t('settings.project_attributes.label_new_section', size: :medium_portrait), size: :medium_portrait},
                                 button_arguments: {'aria-label': t('settings.project_attributes.label_new_section'), button_block: button_block}) do |dialog|
         dialog.with_body do
           render(Settings::ProjectCustomFieldSections::DialogBodyFormComponent.new)

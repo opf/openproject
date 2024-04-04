@@ -50,13 +50,12 @@
         end
       end
 
-      grid.with_area(:author, tag: :div, classes: 'ellipsis') do
-        title = I18n.t(:label_added_time_by,
-                       author: @meeting_agenda_item.author.name,
-                       age: helpers.distance_of_time_in_words(Time.zone.now, @meeting_agenda_item.created_at))
-        flex_layout do |flex|
-          flex.with_column(classes: 'ellipsis') do
-            render(Users::AvatarComponent.new(user: @meeting_agenda_item.author, size: 'mini', title:, classes: 'op-principal_flex'))
+      if @meeting_agenda_item.presenter
+        grid.with_area(:presenter, tag: :div, classes: 'ellipsis') do
+          flex_layout do |flex|
+            flex.with_column(classes: 'ellipsis') do
+              render(Users::AvatarComponent.new(user: @meeting_agenda_item.presenter, size: 'mini', title:, classes: 'op-principal_flex'))
+            end
           end
         end
       end
