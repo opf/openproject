@@ -26,8 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Include hook code here
-require File.dirname(__FILE__) + "/lib/acts_as_watchable"
-require File.dirname(__FILE__) + "/lib/acts_as_watchable/routes.rb"
+module OpenProject
+  module Acts
+    module Watchable
+      module Registry
+        def self.models
+          @models ||= Set.new
+        end
 
-ActiveRecord::Base.include Redmine::Acts::Watchable
+        def self.exists?(model)
+          models.include?(model)
+        end
+
+        def self.instance(model_name)
+          models.detect { |cls| cls.name == model_name }
+        end
+
+        def self.add(*models)
+          models.each do |model|
+            unless model.ancestors.include?(::OpenProject::Acts::Watchable)
+              raise ArgumentError.new("Model #{model} does not include acts_as_watchable")
+            end
+
+            self.models << model
+          end
+        end
+      end
+    end
+  end
+end

@@ -26,10 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# ActsAsWatchable
-module Redmine
+module OpenProject
   module Acts
-    module Watchable
+    module Favorable
       def self.included(base)
         base.extend ClassMethods
       end
@@ -53,7 +52,7 @@ module Redmine
         #                 is allowed to watch
 
         def acts_as_watchable(options = {})
-          return if included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
+          return if included_modules.include?(::OpenProject::Acts::Watchable::InstanceMethods)
 
           acts_as_watchable_enforce_project_association
 
@@ -71,7 +70,7 @@ module Redmine
             self.acts_as_watchable_options = options
           end
 
-          send :prepend, Redmine::Acts::Watchable::InstanceMethods
+          send :prepend, OpenProject::OpenProject::Acts::Watchable::InstanceMethods
         end
 
         def acts_as_watchable_enforce_project_association
@@ -112,10 +111,10 @@ module Redmine
           active_scope = Principal.not_locked.user
 
           allowed_scope = if project.public?
-                            User.allowed(self.class.acts_as_watchable_permission, project)
-                          else
-                            User.allowed_members_on_work_package(self.class.acts_as_watchable_permission, self)
-                          end
+            User.allowed(self.class.acts_as_watchable_permission, project)
+          else
+            User.allowed_members_on_work_package(self.class.acts_as_watchable_permission, self)
+          end
 
           active_scope.where(id: allowed_scope)
         end
@@ -158,7 +157,7 @@ module Redmine
         def watched_by?(user)
           user.present? &&
             ((watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id }) ||
-             watcher_user_ids.any? { |uid| uid == user.id })
+              watcher_user_ids.any? { |uid| uid == user.id })
         end
 
         module ClassMethods

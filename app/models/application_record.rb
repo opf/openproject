@@ -1,4 +1,6 @@
 class ApplicationRecord < ActiveRecord::Base
+  include ::OpenProject::Acts::Watchable
+
   self.abstract_class = true
 
   ##
