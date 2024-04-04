@@ -5,14 +5,19 @@
       title: @title,
       size: @size
     )) do |dialog|
-      if @button_text
-        dialog.with_show_button(**merged_text_button_attributes) do |button|
-          button.with_leading_visual_icon(icon: @button_icon) if @button_icon
-          @button_text
+      dialog.with_header(variant: @header_variant)
+
+      unless @hide_button
+        if @button_text
+          dialog.with_show_button(**merged_text_button_attributes) do |button|
+            button.with_leading_visual_icon(icon: @button_icon) if @button_icon
+            @button_text
+          end
+        else
+          dialog.with_show_button(**merged_icon_button_attributes)
         end
-      else
-        dialog.with_show_button(**merged_icon_button_attributes)
       end
+
       content_tag("turbo-frame",
                   id: "#{@id}-frame",
                   loading: :lazy,

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,43 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ItemSubtitleComponent < ViewComponent::Base
-  def initialize(user:, datetime:, is_creation:, is_deletion:, journable_type:)
-    super()
-    @user = user
-    @datetime = datetime
-    @is_creation = is_creation
-    @is_deletion = is_deletion
-    @journable_type = journable_type
+class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
+  def render(key, values, options = { html: true })
+    label_text = Meeting.human_attribute_name(:duration)
+    label_text = content_tag(:strong, label_text) if options[:html]
+    unit = key.to_s == "duration" ? :hours : :minutes
+
+    mapped = values.map do |v|
+      if v.blank?
+        nil
+      else
+        ::OpenProject::Common::DurationComponent.new(v.to_f, unit, abbreviated: true).text
+      end
+    end
+
+    value = value(mapped.first, mapped.last)
+
+    I18n.t(:text_journal_of, label: label_text, value:)
   end
 
-  def user_html
-    return unless @user
+  private
 
-    [
-      helpers.avatar(@user, size: 'mini'),
-      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
-    ].join(' ')
-  end
-
-  def datetime_html
-    helpers.format_time(@datetime)
-  end
-
-  def time_entry?
-    @journable_type == 'TimeEntry'
-  end
-
-  def i18n_key
-    i18n_key = 'activity.item.'.dup
-    i18n_key << (if @is_deletion
-                   'deleted_'
-                 else
-                   (@is_creation ? 'created_' : 'updated_')
-                 end)
-    i18n_key << 'by_' if @user
-    i18n_key << 'on'
-    i18n_key << '_time_entry' if time_entry?
-    i18n_key
+  def value(old_value, value)
+    if old_value.nil?
+      I18n.t(:"activity.item.meeting_agenda_item.duration.added", value:)
+    elsif value.nil?
+      I18n.t(:"activity.item.meeting_agenda_item.duration.removed")
+    else
+      I18n.t(:"activity.item.meeting_agenda_item.duration.updated", value:, old_value:)
+    end
   end
 end

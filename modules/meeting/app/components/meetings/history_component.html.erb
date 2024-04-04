@@ -1,0 +1,6 @@
+<%=
+  component_wrapper do
+    render(OpTurbo::FrameComponent.new(@meeting, context: :meeting_history, lazy: true, lazy_source: history_meeting_path(@meeting.id))) do
+    end
+  end
+%>
