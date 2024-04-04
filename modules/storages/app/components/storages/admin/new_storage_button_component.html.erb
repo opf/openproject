@@ -1,10 +1,12 @@
+<% button_block = lambda do |button|
+  button.with_leading_visual_icon(icon: :plus)
+  button.with_trailing_action_icon(icon: :"triangle-down")
+  label
+end %>
+
 <%=
-  render(Primer::Alpha::ActionMenu.new(test_selector: 'storages-select-provider-action-menu')) do |menu|
-    menu.with_show_button(**show_button_options) do |button|
-      button.with_leading_visual_icon(icon: :plus)
-      button.with_trailing_action_icon(icon: :"triangle-down")
-      label
-    end
+  @header.with_action_menu(menu_arguments: { test_selector: 'storages-select-provider-action-menu', anchor_align: :end },
+                          button_arguments: { **show_button_options, button_block: button_block }) do |menu|
 
     ::Storages::Storage::PROVIDER_TYPES.each do |provider_type|
       short_provider_type = ::Storages::Storage.shorten_provider_type(provider_type)

@@ -33,6 +33,11 @@ module Storages::Admin
     options scheme: :primary,
             size: :medium
 
+    def initialize(header, **options)
+      @header = header
+      super
+    end
+
     def show_button_options
       { scheme:,
         size:,
