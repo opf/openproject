@@ -39,11 +39,11 @@ module Meetings
 
     def allowed_filter?(filter)
       allowlist = [
-        Queries::Meetings::Filters::ProjectFilter
+        Queries::Meetings::Filters::ProjectFilter,
         # Queries::Meetings::Filters::TimeFilter,
         # Queries::Meetings::Filters::AttendedUserFilter,
         # Queries::Meetings::Filters::InvitedUserFilter,
-        # Queries::Meetings::Filters::AuthorFilter
+        Queries::Meetings::Filters::AuthorFilter
         # Queries::Meetings::Filters::DatesIntervalFilter
       ]
 
