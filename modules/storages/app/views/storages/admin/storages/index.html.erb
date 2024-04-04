@@ -10,10 +10,9 @@
     <%= t("storages.page_titles.file_storages.subtitle") %>
   <% end %>
 
-  <% header.with_breadcrumbs(breadcrumb_paths(
-                                link_to(t(:label_administration), admin_index_path),
-                                default_breadcrumb
-                              )) %>
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
+                              t("project_module_storages")]) %>
+
   <% header.with_action_button(mobile_icon: "star", mobile_label: "Star") do %>
     <%= render(Storages::Admin::NewStorageButtonComponent.new) %>
   <% end %>
