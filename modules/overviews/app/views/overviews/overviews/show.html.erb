@@ -1,3 +1,41 @@
 <% content_for :header_tags do %>
   <meta name="sidebar_enabled" data-enabled="<%= @sidebar_enabled %>">
 <% end -%>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(variant: :medium) { t("overviews.label") }
+    header.with_breadcrumbs(
+      [
+        { href: project_path(@project), text: @project.name },
+        t("overviews.label")
+      ]
+    )
+
+    header.with_actions do
+      if OpenProject::FeatureDecisions.favorite_projects_active?
+        favored = @project.favored_by?(User.current)
+        primer_form_with(
+          url: favorite_path(object_id: @project.id, object_type: @project.model_name.route_key),
+          method: favored ? :delete : :post
+        ) do |_form|
+          render(
+            Primer::Beta::IconButton.new(
+              icon: favored ? "star-fill" : "star",
+              size: :medium,
+              color: favored ? :attention : :default,
+              type: :submit,
+              aria: { label: favored ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
+              test_selector: 'project-favorite-button'
+            )
+          ) do |button|
+            button.with_leading_visual_icon(icon: :trash)
+            I18n.t('button_delete')
+          end
+        end
+      end
+    end
+  end
+%>
+
+<openproject-base></openproject-base>

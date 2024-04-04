@@ -153,6 +153,10 @@ module Projects
       end
     end
 
+    def favored_projects
+      @favored_projects ||= Favorite.where(user: current_user, favored_type: 'Project').pluck(:favored_id)
+    end
+
     def sorted_by_lft?
       query.orders.first&.attribute == :lft
     end

@@ -26,42 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  ::Queries::Register.register(ProjectQuery) do
-    filter Filters::AncestorFilter
-    filter Filters::TypeFilter
-    filter Filters::ActiveFilter
-    filter Filters::TemplatedFilter
-    filter Filters::PublicFilter
-    filter Filters::NameFilter
-    filter Filters::NameAndIdentifierFilter
-    filter Filters::MemberOfFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::CustomFieldFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::LatestActivityAtFilter
-    filter Filters::PrincipalFilter
-    filter Filters::ParentFilter
-    filter Filters::IdFilter
-    filter Filters::ProjectStatusFilter
-    filter Filters::UserActionFilter
-    filter Filters::VisibleFilter
-    filter Filters::FavoredFilter
+class Queries::Projects::Filters::FavoredFilter < Queries::Projects::Filters::ProjectFilter
+  include Queries::Filters::Shared::BooleanFilter
 
-    order Orders::DefaultOrder
-    order Orders::LatestActivityAtOrder
-    order Orders::RequiredDiskSpaceOrder
-    order Orders::CustomFieldOrder
-    order Orders::ProjectStatusOrder
-    order Orders::NameOrder
-    order Orders::TypeaheadOrder
+  def self.key
+    :favored
+  end
 
-    select Selects::CreatedAt
-    select Selects::CustomField
-    select Selects::Default
-    select Selects::LatestActivityAt
-    select Selects::RequiredDiskSpace
-    select Selects::Status
-    select Selects::Favored
+  def available?
+    User.current.logged?
+  end
+
+  def scope
+    if values.first == OpenProject::Database::DB_VALUE_TRUE
+      super.where(id: favored_project_ids)
+    else
+      super.where.not(id: favored_project_ids)
+    end
+  end
+
+  # Handled by scope
+  def where
+    "1=1"
+  end
+
+  def favored_project_ids
+    Favorite
+      .where(favored_type: "Project", user_id: User.current.id)
+      .select(:favored_id)
   end
 end

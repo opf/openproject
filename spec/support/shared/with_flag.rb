@@ -42,6 +42,12 @@ RSpec.configure do |config|
   config.include WithFlagMixin
 
   config.before :example, :with_flag do |example|
-    with_flags(example.metadata[:with_flag])
+    value = example.metadata[:with_flag]
+    case value
+    when Symbol
+      with_flags(value => true)
+    else
+      with_flags(value)
+    end
   end
 end

@@ -100,7 +100,7 @@ class Queries::Projects::Factory
     def list_with(name)
       Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
         query.order("lft" => "asc")
-        query.select(*(["name"] + Setting.enabled_projects_columns).uniq, add_not_existing: false)
+        query.select(*(["favored", "name"] + Setting.enabled_projects_columns).uniq, add_not_existing: false)
 
         yield query
       end
