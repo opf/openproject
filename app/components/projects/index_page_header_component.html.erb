@@ -93,7 +93,7 @@
     %>
 
   <% else %>
-    <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
+    <% header.with_title(data: { 'test-selector': 'project-query-name'}) do
       primer_form_with(model: query,
                        url: projects_queries_path,
                        scope: 'query',
@@ -106,6 +106,7 @@
         render(Queries::Projects::Create.new(f))
       end
     end %>
+    <% header.with_breadcrumbs(breadcrumb_items)%>
   <% end %>
 <% end %>
 

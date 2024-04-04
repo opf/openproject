@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title(variant: :medium) { @custom_field.name }
+    header.with_title { @custom_field.name }
     header.with_description { t("settings.project_attributes.edit.description") }
     header.with_breadcrumbs(breadcrumbs_items)
   end
