@@ -40,6 +40,14 @@ export default class FocusFieldController extends Controller {
   connect() {
     if (this.fieldToFocusTarget) {
       this.fieldToFocusTarget.focus();
+      this.setCursorPositionToEndOfInput();
     }
+  }
+
+  private setCursorPositionToEndOfInput() {
+    this.fieldToFocusTarget.setSelectionRange(
+      this.fieldToFocusTarget.value.length,
+      this.fieldToFocusTarget.value.length,
+    );
   }
 }
