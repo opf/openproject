@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: 755b3d9b43695aeaae7edb09a24da0e3cda97ee4
+  revision: 347bbe06cb420416855e80bb4e3a3016b2d5872c
   branch: main
   specs:
     capybara_accessible_selectors (0.11.0)
@@ -728,6 +728,7 @@ GEM
     mime-types-data (3.2024.0305)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.5)
     minitest (5.22.3)
     msgpack (1.7.2)
     multi_json (1.15.0)
@@ -750,6 +751,7 @@ GEM
       net-protocol
     nio4r (2.7.0)
     nokogiri (1.16.3)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oj (3.16.3)
       bigdecimal (>= 3.0)
@@ -832,7 +834,7 @@ GEM
       pry (>= 0.12.0)
     psych (5.1.2)
       stringio
-    public_suffix (5.0.4)
+    public_suffix (5.0.5)
     puffing-billy (4.0.0)
       addressable (~> 2.5)
       em-http-request (~> 1.1, >= 1.1.0)
