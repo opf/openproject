@@ -32,7 +32,9 @@ module Storages
   class CopyProjectFoldersJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Batches
 
-    retry_on Errors::PollingRequired, wait: 3, attempts: :unlimited
+    retry_on Errors::PollingRequired, attempts: 50, wait: ->(executions) do
+      (executions**2) + (Kernel.rand * (executions**2) * 0.15) + 2
+    end
     discard_on HTTPX::HTTPError
 
     def perform(source:, target:, work_packages_map:)
