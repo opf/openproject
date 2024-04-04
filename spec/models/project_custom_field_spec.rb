@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ProjectCustomField do
-  describe 'activation in projects' do
-    context 'when creating a new required project custom field' do
+  describe "activation in projects" do
+    context "when creating a new required project custom field" do
       let!(:project) { create(:project) }
       let!(:another_project) { create(:project) }
 
-      it 'activates the required project custom fields in all projects' do
+      it "activates the required project custom fields in all projects" do
         project_custom_field = create(:project_custom_field, is_required: true)
 
         expect(ProjectCustomFieldProjectMapping).to exist(custom_field_id: project_custom_field.id,
@@ -44,14 +44,14 @@ RSpec.describe ProjectCustomField do
       end
     end
 
-    context 'when setting an existing project custom field to required' do
+    context "when setting an existing project custom field to required" do
       let!(:project_custom_field) { create(:string_project_custom_field) } # optional now
       let!(:project) do
         create(:project, custom_field_values: { "#{project_custom_field.id}": "foo" })
       end
       let!(:another_project) { create(:project) } # not using the custom field
 
-      it 'activates the required project custom fields in all projects where it is not already activated' do
+      it "activates the required project custom fields in all projects where it is not already activated" do
         expect(ProjectCustomFieldProjectMapping).to exist(custom_field_id: project_custom_field.id,
                                                           project_id: project.id)
         expect(ProjectCustomFieldProjectMapping).not_to exist(custom_field_id: project_custom_field.id,
@@ -65,7 +65,7 @@ RSpec.describe ProjectCustomField do
                                                           project_id: another_project.id)
       end
 
-      it 'does not disabled project custom fields when set to optional' do
+      it "does not disabled project custom fields when set to optional" do
         project_custom_field.update!(is_required: true) # required now
         project_custom_field.update!(is_required: false) # optional again
 
@@ -75,7 +75,7 @@ RSpec.describe ProjectCustomField do
                                                           project_id: another_project.id)
       end
 
-      it 'does not create duplicate mappings' do
+      it "does not create duplicate mappings" do
         project_custom_field.update!(is_required: true) # required now
 
         # mapping existed before, should not be duplicated
@@ -84,13 +84,13 @@ RSpec.describe ProjectCustomField do
       end
     end
 
-    context 'when deleting a project custom field' do
+    context "when deleting a project custom field" do
       let!(:project_custom_field) { create(:string_project_custom_field) }
       let!(:project) do
         create(:project, custom_field_values: { "#{project_custom_field.id}": "foo" })
       end
 
-      it 'deletes the project custom field mappings' do
+      it "deletes the project custom field mappings" do
         expect(ProjectCustomFieldProjectMapping).to exist(custom_field_id: project_custom_field.id,
                                                           project_id: project.id)
 

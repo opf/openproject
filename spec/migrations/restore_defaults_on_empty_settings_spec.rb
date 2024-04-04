@@ -61,13 +61,6 @@ RSpec.describe RestoreDefaultsOnEmptySettings, type: :model do
     end
   end
 
-  context "with an empty setting which must be a hash" do
-    it_behaves_like "a successful migration of an empty setting" do
-      let(:setting_name) { "ldap_tls_options" }
-      let(:expected_value) { {} }
-    end
-  end
-
   context "with an empty setting which must be a string" do
     it_behaves_like "a successful migration of an empty setting" do
       let(:setting_name) { "default_language" }

@@ -75,14 +75,16 @@ module JournalFormatter
   end
 
   def self.default_formatters
-    { datetime: JournalFormatter::Datetime,
+    {
+      datetime: JournalFormatter::Datetime,
       day_count: JournalFormatter::DayCount,
       decimal: JournalFormatter::Decimal,
       fraction: JournalFormatter::Fraction,
       id: JournalFormatter::Id,
       named_association: JournalFormatter::NamedAssociation,
       percentage: JournalFormatter::Percentage,
-      plaintext: JournalFormatter::Plaintext }
+      plaintext: JournalFormatter::Plaintext
+    }
   end
 
   self.formatters = default_formatters
@@ -105,7 +107,9 @@ module JournalFormatter
 
     return if formatter.nil?
 
-    formatter.render(field, values, options).html_safe # rubocop:disable Rails/OutputSafety
+    formatter
+      .render(field, values, options)
+      &.html_safe # rubocop:disable Rails/OutputSafety
   end
 
   def formatter_instance(field)
