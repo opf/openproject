@@ -34,7 +34,8 @@ class ProgressEditField < EditField
   MODAL_SELECTOR = "#work_package_progress_modal"
   FIELD_NAME_MAP = {
     "estimatedTime" => :estimated_hours,
-    "remainingTime" => :remaining_hours
+    "remainingTime" => :remaining_hours,
+    "percentageDone" => :done_ratio
   }.freeze
 
   def initialize(context,
@@ -87,6 +88,34 @@ class ProgressEditField < EditField
     else
       super
     end
+  end
+
+  # Checks if the modal field is in focus.
+  # It compares the active element in the page (the element in focus) with the input element of the modal.
+  # If they are the same, it means the modal field is in focus.
+  # @return [Boolean] true if the modal field is in focus, false otherwise.
+  def expect_modal_field_in_focus
+    input_element == page.evaluate_script("document.activeElement")
+  end
+
+  # Checks if the cursor is at the end of the input in the modal field.
+  # It compares the cursor position (selectionStart) with the length of the value in the input field.
+  # If they are the same, it means the cursor is at the end of the input.
+  # @return [Boolean] true if the cursor is at the end of the input, false otherwise.
+  def expect_cursor_at_end_of_input
+    input_element.evaluate_script("this.selectionStart == this.value.length;")
+  end
+
+  def expect_modal_field_disabled
+    expect(page).to have_field(@field_name, disabled: true)
+  end
+
+  def expect_read_only_modal_field
+    expect(input_element).to be_readonly
+  end
+
+  def expect_modal_field_value(value)
+    expect(input_element.value).to eq(value.to_s)
   end
 
   private
