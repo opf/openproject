@@ -89,33 +89,20 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   end
 
   def fix_remaining_work_exceeding_work
-    # avoid a division by zero when work and remaining work are both zero in
-    # `#derive_p_complete_from_work_and_remaining_work` method.
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET done_ratio = 0
-      WHERE remaining_hours = estimated_hours
-    SQL
-    execute(<<~SQL.squish)
-      UPDATE temp_wp_progress_values
-      SET remaining_hours = estimated_hours,
-          done_ratio = 0
+      SET remaining_hours = CASE
+          WHEN done_ratio IS NULL THEN estimated_hours
+          ELSE ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+        END
       WHERE remaining_hours > estimated_hours
-        AND done_ratio IS NULL
-    SQL
-    execute(<<~SQL.squish)
-      UPDATE temp_wp_progress_values
-      SET remaining_hours = ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
-      WHERE remaining_hours > estimated_hours
-        AND done_ratio IS NOT NULL
     SQL
   end
 
   def fix_only_work_being_set
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET remaining_hours = estimated_hours,
-          done_ratio = 0
+      SET remaining_hours = estimated_hours
       WHERE estimated_hours IS NOT NULL
         AND remaining_hours IS NULL
         AND done_ratio IS NULL
@@ -125,8 +112,7 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   def fix_only_remaining_work_being_set
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET estimated_hours = remaining_hours,
-          done_ratio = 0
+      SET estimated_hours = remaining_hours
       WHERE estimated_hours IS NULL
         AND remaining_hours IS NOT NULL
         AND done_ratio IS NULL
@@ -156,12 +142,12 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   def derive_p_complete_from_work_and_remaining_work
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET done_ratio = (estimated_hours - remaining_hours) * 100 / estimated_hours
-      WHERE estimated_hours IS NOT NULL
-        AND remaining_hours IS NOT NULL
-        AND (
-          done_ratio IS NULL OR (estimated_hours > remaining_hours)
-        )
+      SET done_ratio = CASE
+          WHEN estimated_hours = 0 THEN NULL
+          ELSE (estimated_hours - remaining_hours) * 100 / estimated_hours
+        END
+      WHERE estimated_hours >= 0
+        AND remaining_hours >= 0
     SQL
   end
 

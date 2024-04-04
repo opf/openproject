@@ -283,6 +283,16 @@ RSpec.describe WorkPackages::SetAttributesService,
                           description: "remaining work is increased by the same amount, and % complete is updated accordingly"
         end
 
+        context "when work is set to 0h" do
+          let(:call_attributes) { { estimated_hours: 0 } }
+          let(:expected_attributes) do
+            { remaining_hours: 0, done_ratio: nil }
+          end
+
+          it_behaves_like "service call",
+                          description: "remaining work is set to 0h and % Complete is unset"
+        end
+
         context "when work is decreased" do
           # work changed by -2h
           let(:call_attributes) { { estimated_hours: 10.0 - 2.0 } }

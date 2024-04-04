@@ -200,7 +200,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
             subject                   | work | remaining work | % complete
             wp only w set             |  10h |            10h |         0%
             wp both w and pc set      |  10h |            10h |         0%
-            wp only w set 0h          |   0h |             0h |         0%
+            wp only w set 0h          |   0h |             0h |
           TABLE
         )
       end
@@ -219,7 +219,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
             subject                   | work | remaining work | % complete
             wp only rw set            |   4h |             4h |         0%
             wp both rw and pc set     |   4h |             4h |         0%
-            wp only rw set 0h         |   0h |             0h |         0%
+            wp only rw set 0h         |   0h |             0h |
           TABLE
         )
       end
@@ -259,9 +259,9 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           to: <<~TABLE
             subject                   | work | remaining work | % complete
             wp both w and rw set      |  10h |            10h |         0%
-            wp both w and rw set 0h   |   0h |             0h |         0%
+            wp both w and rw set 0h   |   0h |             0h |
             wp all set inconsistent   |  10h |            10h |         0%
-            wp all set inconsistent 0h|   0h |             0h |         0%
+            wp all set inconsistent 0h|   0h |             0h |
           TABLE
         )
       end
@@ -318,7 +318,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           to: <<~TABLE
             subject                   | work | remaining work | % complete
             wp only w set             |  10h |            10h |         0%
-            wp only w set 0h          |   0h |             0h |         0%
+            wp only w set 0h          |   0h |             0h |
           TABLE
         )
       end
@@ -335,7 +335,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           to: <<~TABLE
             subject                   | work | remaining work | % complete
             wp only rw set            |   4h |             4h |         0%
-            wp only rw set 0h         |   0h |             0h |         0%
+            wp only rw set 0h         |   0h |             0h |
           TABLE
         )
       end
@@ -367,7 +367,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           to: <<~TABLE
             subject                   | work | remaining work | % complete
             wp both w and pc set      |  10h |             4h |        60%
-            wp both w and pc set 0h   |   0h |             0h |         0%
+            wp both w and pc set 0h   |   0h |             0h |
           TABLE
         )
       end
@@ -388,7 +388,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
             wp both rw and pc set     |    10h |             4h |        60%
             wp both rw and pc set 0%  |     4h |             4h |         0%
             wp both rw and pc set dec | 12.12h |             4h |        67%
-            wp both rw and pc set 0h  |     0h |             0h |         0%
+            wp both rw and pc set 0h  |     0h |             0h |
           TABLE
         )
       end
@@ -437,7 +437,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           to: <<~TABLE
             subject                   | work | remaining work | % complete
             wp both w and rw set     |  10h |            10h |         0%
-            wp both w and rw set 0h  |   0h |             0h |         0%
+            wp both w and rw set 0h  |   0h |             0h |
           TABLE
         )
       end
@@ -488,7 +488,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
             subject                   | work | remaining work | % complete
             wp all set consistent     |  10h |            10h |         0%
             wp all set inconsistent   |  10h |            10h |         0%
-            wp all set 0h             |   0h |             0h |         0%
+            wp all set 0h             |   0h |             0h |
           TABLE
         )
       end
