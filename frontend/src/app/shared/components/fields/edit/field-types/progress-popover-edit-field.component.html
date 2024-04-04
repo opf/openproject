@@ -10,6 +10,8 @@
     (click)="onInputClick($event)"
     (focus)="showProgressModal()"
     [value]="asHours"
+    [disabled]="inFlight"
+    [id]="handler.htmlId"
   />
 
   <ng-container slot="body">
