@@ -39,4 +39,6 @@ class EnableCurrentProjectCustomFieldsColumns < ActiveRecord::Migration[6.0]
   def down
     # Nothing to do as setting is not used
   end
+
+  class ProjectCustomField < CustomField; end
 end
