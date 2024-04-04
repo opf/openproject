@@ -26,42 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  ::Queries::Register.register(ProjectQuery) do
-    filter Filters::AncestorFilter
-    filter Filters::TypeFilter
-    filter Filters::ActiveFilter
-    filter Filters::TemplatedFilter
-    filter Filters::PublicFilter
-    filter Filters::NameFilter
-    filter Filters::NameAndIdentifierFilter
-    filter Filters::MemberOfFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::CustomFieldFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::LatestActivityAtFilter
-    filter Filters::PrincipalFilter
-    filter Filters::ParentFilter
-    filter Filters::IdFilter
-    filter Filters::ProjectStatusFilter
-    filter Filters::UserActionFilter
-    filter Filters::VisibleFilter
-    filter Filters::FavoredFilter
+require "spec_helper"
+require_relative "../../support/pages/my/page"
 
-    order Orders::DefaultOrder
-    order Orders::LatestActivityAtOrder
-    order Orders::RequiredDiskSpaceOrder
-    order Orders::CustomFieldOrder
-    order Orders::ProjectStatusOrder
-    order Orders::NameOrder
-    order Orders::TypeaheadOrder
 
-    select Selects::CreatedAt
-    select Selects::CustomField
-    select Selects::Default
-    select Selects::LatestActivityAt
-    select Selects::RequiredDiskSpace
-    select Selects::Status
-    select Selects::Favored
+RSpec.describe "Project favorites",
+               :js,
+               with_flag: :favorite_projects do
+  shared_let(:project) { create(:project, name: 'My favorite!', enabled_module_names: []) }
+  let(:permissions) { %i(edit_project select_project_modules view_work_packages) }
+  let(:projects_page) { Pages::Projects::Index.new }
+
+  current_user do
+    create(:user, member_with_permissions: { project => permissions })
+  end
+
+  it "allows favoriting and unfavoriting projects" do
+    visit project_path(project)
+    expect(page).to have_selector :button, accessible_name: "Mark as favorite"
+
+    click_link_or_button(accessible_name: "Mark as favorite")
+
+    expect(page).to have_selector :button, accessible_name: "Remove from favorite"
+
+    project.reload
+    expect(project).to be_favored_by(current_user)
+
+    projects_page.visit!
+    projects_page.open_filters
+    projects_page.filter_by_favored "yes"
+
+    expect(page).to have_text 'My favorite!'
+
+    projects_page.visit!
+    projects_page.open_filters
+    projects_page.filter_by_favored "no"
+
+    expect(page).to have_no_text 'My favorite!'
   end
 end

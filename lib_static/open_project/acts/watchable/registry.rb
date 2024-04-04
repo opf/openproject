@@ -39,7 +39,7 @@ module OpenProject
         end
 
         def self.instance(model_name)
-          models.detect { |cls| cls.name == model_name }
+          models.detect { |cls| cls.name == model_name.singularize.camelize }
         end
 
         def self.add(*models)

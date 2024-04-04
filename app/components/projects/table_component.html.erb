@@ -64,7 +64,11 @@ See COPYRIGHT and LICENSE files for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= column.caption %>
+                      <% if column.attribute == :favored %>
+                        <%= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favoured))) %>
+                      <% else %>
+                        <%= column.caption %>
+                      <% end %>
                     </span>
                   </div>
                 </div>

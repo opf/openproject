@@ -108,6 +108,7 @@ RSpec.describe Queries::Projects::ProjectQuery do
     it "lists registered selects" do
       expect(instance.available_selects.map(&:attribute))
         .to contain_exactly(:name,
+                            :favored,
                             :public,
                             :description,
                             :hierarchy,
@@ -122,6 +123,7 @@ RSpec.describe Queries::Projects::ProjectQuery do
         expect(instance.available_selects.map(&:attribute))
           .to contain_exactly(:name,
                               :public,
+                              :favored,
                               :description,
                               :hierarchy,
                               :project_status,
@@ -139,6 +141,7 @@ RSpec.describe Queries::Projects::ProjectQuery do
         expect(instance.available_selects.map(&:attribute))
           .to contain_exactly(:name,
                               :public,
+                              :favored,
                               :description,
                               :hierarchy,
                               :project_status,

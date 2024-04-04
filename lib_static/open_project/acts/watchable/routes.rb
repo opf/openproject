@@ -34,7 +34,7 @@ module OpenProject
         def self.matches?(request)
           params = request.path_parameters
 
-          Registry.exists?(params[:object_type]) &&
+          Registry.instance(params[:object_type]) &&
             /\d+/.match(params[:object_id])
         end
       end

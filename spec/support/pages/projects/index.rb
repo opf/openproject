@@ -172,6 +172,15 @@ module Pages
         click_button "Apply"
       end
 
+      def filter_by_favored(value)
+        set_filter("favored",
+                   "Favored",
+                   "is",
+                   [value])
+
+        click_button "Apply"
+      end
+
       def filter_by_membership(value)
         set_filter("member_of",
                    "I am member",
@@ -366,7 +375,7 @@ module Pages
       private
 
       def boolean_filter?(filter)
-        %w[active member_of public templated].include?(filter.to_s)
+        %w[active member_of favored public templated].include?(filter.to_s)
       end
     end
   end
