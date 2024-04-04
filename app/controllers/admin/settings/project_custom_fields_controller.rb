@@ -111,7 +111,6 @@ module Admin::Settings
     def set_sections
       @project_custom_field_sections = ProjectCustomFieldSection
         .includes(custom_fields: :project_custom_field_project_mappings)
-        .order("custom_fields.position_in_custom_field_section ASC")
         .all
     end
 
