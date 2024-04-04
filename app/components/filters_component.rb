@@ -44,15 +44,9 @@ class FiltersComponent < ApplicationComponent
   # Returns filters, active and inactive.
   # In case a filter is active, the active one will be preferred over the inactive one.
   def each_filter
-    allowed_filters.map do |filter|
+    allowed_filters.each do |filter|
       active_filter = query.find_active_filter(filter.name)
-      filter_active = active_filter.present?
-
-      if filter_active
-        yield active_filter, filter_active
-      else
-        yield filter, filter_active
-      end
+      yield active_filter.presence || filter, active_filter.present?
     end
   end
 
