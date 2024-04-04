@@ -18,8 +18,6 @@ class CreateProjectCustomFieldProjectMappings < ActiveRecord::Migration[7.0]
 
   private
 
-  class ProjectCustomField < CustomField; end
-
   def create_default_mapping
     project_ids = Project.pluck(:id)
     custom_field_ids = ProjectCustomField.pluck(:id)
