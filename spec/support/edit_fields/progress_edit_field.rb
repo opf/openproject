@@ -139,8 +139,14 @@ class ProgressEditField < EditField
     expect(input_element).to be_readonly
   end
 
-  def expect_modal_field_value(value)
-    expect(input_element.value).to eq(value.to_s)
+  def expect_modal_field_value(value, disabled: false, readonly: false)
+    within modal_element do
+      if @property_name == "percentageDone" && value.to_s == "-"
+        expect(page).to have_field(field_name, readonly:, placeholder: value.to_s)
+      else
+        expect(page).to have_field(field_name, disabled:, readonly:, with: value.to_s)
+      end
+    end
   end
 
   private

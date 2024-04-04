@@ -136,7 +136,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     if (value === null) {
       return '';
     }
-    return moment.duration(value).asHours().toFixed(2);
+    return moment.duration(value).asHours().toFixed(1);
   }
 
   private contextBasedListener(event:CustomEvent) {
