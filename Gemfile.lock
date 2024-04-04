@@ -1011,7 +1011,7 @@ GEM
       activesupport (>= 3.0.0)
       i18n
       iso8601
-    ruby-ole (1.2.12.2)
+    ruby-ole (1.2.13.1)
     ruby-prof (1.7.0)
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
