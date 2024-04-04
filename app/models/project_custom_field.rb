@@ -38,6 +38,8 @@ class ProjectCustomField < CustomField
 
   validates :custom_field_section_id, presence: true
 
+  default_scope { order(position_in_custom_field_section: :asc) }
+
   def type_name
     :label_project_plural
   end
