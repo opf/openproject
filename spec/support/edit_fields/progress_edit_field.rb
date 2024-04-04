@@ -39,8 +39,10 @@ class ProgressEditField < EditField
 
   def initialize(context,
                  property_name,
-                 selector: nil)
-    super(context, property_name, selector:)
+                 selector: nil,
+                 create_form: false)
+    super
+
     @field_name = "work_package_#{FIELD_NAME_MAP.fetch(@property_name)}"
   end
 
@@ -69,19 +71,22 @@ class ProgressEditField < EditField
   end
 
   def expect_active!
-    expect(page).to have_css(MODAL_SELECTOR, :visible)
+    expect(page).to have_css(MODAL_SELECTOR)
   end
 
   def expect_inactive!
     expect(page).to have_no_css(MODAL_SELECTOR)
   end
 
-  # Spot drop modals don't have a span tag that can be
-  # interacted with. Hence, we adapt the display_selector
-  # to conform to the spot-drop-modal's element that can
-  # be interacted with.
+  # The selector for create contexts varies from that
+  # of update contexts where the work package already
+  # exists.
   def display_selector
-    ".inline-edit--active-field"
+    if create_form?
+      ".inline-edit--active-field"
+    else
+      super
+    end
   end
 
   private

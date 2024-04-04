@@ -224,7 +224,7 @@ module Pages
       when :date, :startDate, :dueDate, :combinedDate
         DateEditField.new container, key, is_milestone: work_package&.milestone?
       when :estimatedTime, :remainingTime
-        ProgressEditField.new container, key
+        ProgressEditField.new container, key, create_form: create_page?
       when :description
         TextEditorField.new container, key
         # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
