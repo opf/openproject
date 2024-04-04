@@ -2294,7 +2294,7 @@ zh-CN:
             summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
             error-solved-on: "Solved On"
             recommendation: "我们将继续监测该系统，确保其保持良好的健康状态。若出现任何故障，我们将通知您。"
-            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+            details: "如需了解更多详情或进行必要的修改，请访问您的存储配置"
           unhealthy:
             summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
             error-details: "错误详情"
@@ -2306,14 +2306,14 @@ zh-CN:
         see_storage_settings: "See storage settings"
         healthy:
           subject: "Storage \"%{name}\" is now healthy!"
-          solved_at: "solved at"
+          solved_at: "解决时间"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
           subject: "Storage \"%{name}\" is unhealthy!"
           since: "since"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
-            text: "For more information, check file storages"
+            text: "如需了解更多信息，请检查文件存储"
             link_text: "故障排除文档"
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"

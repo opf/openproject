@@ -48,17 +48,17 @@ ms:
     text_2fa_disabled: "Untuk membolehkan pengesahan dua faktor, guna butang di atas untuk daftar peranti 2FA yang baru. Jika anda sudah mempunyai peranti, anda perlu menjadikannya default."
     login:
       enter_backup_code_title: Masukkan kod sokongan
-      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      other_device: "Use another device or backup code"
+      enter_backup_code_text: Sila masukkan kod sokongan yang sah daripada senarai kod anda sekiranya anda tidak lagi dapat mengakses peranti 2FA berdaftar anda.
+      other_device: "Guna peranti lain atau kod sokongan"
     settings:
-      title: "2FA settings"
-      current_configuration: "Current configuration"
+      title: "Seting 2FA"
+      current_configuration: "Konfigurasi semasa"
       label_active_strategies: "Active 2FA strategies"
       label_enforced: "Enforce 2FA"
-      label_remember: "Remember 2FA login"
+      label_remember: "Ingat log masuk 2FA"
       text_configuration: |
         Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
+      text_configuration_guide: Untuk maklumat lanjut, sila semak panduan konfigurasi.
       text_enforced: "Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration."
       text_remember: |
         Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
@@ -73,29 +73,29 @@ ms:
       all_devices_deleted: "All 2FA devices of this user have been deleted"
       delete_all_are_you_sure: "Adakah anda pasti anda ingin membuang semua peranti 2FA untuk pengguna ini?"
       button_delete_all_devices: "Buang peranti 2FA berdaftar"
-      button_register_mobile_phone_for_user: "Register mobile phone"
-      text_2fa_enabled: "Upon every login, this user will be requested to enter a OTP token from their default 2FA device."
-      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
+      button_register_mobile_phone_for_user: "Daftar telefon bimbit"
+      text_2fa_enabled: "Setiap kali log masuk, pengguna ini akan diminta untuk memasukkan token OTP daripada peranti 2FA asas mereka."
+      text_2fa_disabled: "Pengguna ini tidak menyediakan peranti 2FA melalui 'Laman akaun saya'"
       only_sms_allowed: "Only SMS delivery can be set up for other users."
     upsale:
-      title: "Two-factor authentication"
+      title: "Pengesahan dua faktor"
       description: "Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members."
     backup_codes:
       none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
-      your_codes: for your %{app_name} account %{login}
+      singular: Kod sokongan
+      plural: Kod sokongan
+      your_codes: untuk %{login} akaun %{app_name} anda
       overview_description: |
         If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
         Use the following button to generate a new set of backup codes.
       generate:
-        title: Generate backup codes
-        keep_safe_as_password: "Important! Treat these codes as passwords."
+        title: Hasilkan kod sokongan
+        keep_safe_as_password: "Penting! Perlakukan kod-kod ini sebagai kata laluan."
         keep_safe_warning: "Either save them in your password manager, or print this page and put in a safe place."
-        regenerate_warning: "Warning: If you have created backup codes before, they will be invalidated and will no longer work."
+        regenerate_warning: "Amaran: Jika anda telah mencipta kod sandaran sebelum ini, mereka akan dibatalkan dan tidak akan berfungsi lagi."
     devices:
-      add_new: "Add new 2FA device"
-      register: "Register device"
+      add_new: "Tambah peranti 2FA baharu"
+      register: "Daftar peranti"
       confirm_default: "Sahkan perubahan peranti asal"
       confirm_device: "Sahkan peranti"
       confirm_now: "Tidak disahkan, klik sini untuk mengaktifkan"
@@ -107,10 +107,10 @@ ms:
       registration_failed_token_invalid: "Pendaftaran peranti 2FA gagal, token berikut tidak sah."
       registration_failed_update: "Pendaftaran peranti 2FA gagal, token berikut adalah sah tetapi peranti tidak boleh dikemas kini."
       confirm_send_failed: "Pengesahan peranti 2FA gagal."
-      button_complete_registration: "Complete 2FA registration"
+      button_complete_registration: "Lengkapkan pendaftaran 2FA"
       text_confirm_to_complete_html: "Sila lengkapkan pendaftaran peranti <strong>%{identifier}</strong> anda dengan memasukkan kata laluan satu kali dari peranti default anda."
       text_confirm_to_change_default_html: "Sila sahkan perubahan peranti default ke <strong>%{new_identifier}</strong> dengan memasukkan kata laluan satu kali dari peranti default semasa anda."
-      text_identifier: "You can give the device a custom identifier using this field."
+      text_identifier: "Anda boleh berikan peranti pengecam tersuai menggunakan medan ini."
       failed_to_delete: "Gagal untuk memadam peranti 2FA."
       is_default_cannot_delete: "The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting."
       not_existing: "Tiada peranti 2FA yang berdaftar untuk akaun anda."
@@ -138,7 +138,7 @@ ms:
           Common examples are Google Authenticator or Authy.
       sms:
         title: "Guna telefon bimbit anda"
-        redacted_identifier: "Mobile device (%{redacted_number})"
+        redacted_identifier: "Peranti (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, kami telah menghantarkan kod pengesahan melalui %{delivery_channel}"
         description: |
           Daftar nombor telefon bimbit anda untuk penghantaran kata laluan satu kali OpenProject.
