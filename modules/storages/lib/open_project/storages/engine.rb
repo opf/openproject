@@ -73,6 +73,7 @@ module OpenProject::Storages
             ::Storages::ManageNextcloudIntegrationJob.debounce
           end
         end
+
         OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_UPDATED
         ) do |payload|
@@ -80,6 +81,7 @@ module OpenProject::Storages
             ::Storages::ManageNextcloudIntegrationJob.debounce
           end
         end
+
         OpenProject::Notifications.subscribe(
           OpenProject::Events::ROLE_DESTROYED
         ) do |payload|
@@ -99,6 +101,18 @@ module OpenProject::Storages
               ::Storages::ManageNextcloudIntegrationJob.disable_cron_job_if_needed
             end
           end
+        end
+
+        OpenProject::Notifications.subscribe(
+          ::OpenProject::Events::STORAGE_TURNED_UNHEALTHY
+        ) do |payload|
+          Storages::HealthService.new(storage: payload[:storage]).unhealthy(reason: payload[:reason])
+        end
+
+        OpenProject::Notifications.subscribe(
+          ::OpenProject::Events::STORAGE_TURNED_HEALTHY
+        ) do |payload|
+          Storages::HealthService.new(storage: payload[:storage]).healthy
         end
       end
     end
@@ -125,10 +139,10 @@ module OpenProject::Storages
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/project_storages': %i[index members new
+                   { "storages/admin/project_storages": %i[index members new
                                                            edit update create oauth_access_grant
                                                            destroy destroy_info set_permissions],
-                     'storages/project_settings/project_storage_members': %i[index] },
+                     "storages/project_settings/project_storage_members": %i[index] },
                    permissible_on: :project,
                    dependencies: %i[]
 
@@ -165,14 +179,14 @@ module OpenProject::Storages
                              (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
             next if hide_from_menu
 
-            icon = storage.provider_type_nextcloud? ? 'nextcloud-circle' : 'hosting'
+            icon = storage.provider_type_nextcloud? ? "nextcloud-circle" : "hosting"
             menu.push(
               :"storage_#{storage.id}",
               prj_storage.open_with_connection_ensured,
               caption: storage.name,
               before: :members,
               icon:,
-              icon_after: 'external-link',
+              icon_after: "external-link",
               skip_permissions_check: true
             )
           end
@@ -288,12 +302,12 @@ module OpenProject::Storages
 
     add_cron_jobs do
       {
-        'Storages::CleanupUncontaineredFileLinksJob': {
+        "Storages::CleanupUncontaineredFileLinksJob": {
           cron: "06 22 * * *",
           class: ::Storages::CleanupUncontaineredFileLinksJob.name
         },
 
-        'Storages::ManageNextcloudIntegrationJob': {
+        "Storages::ManageNextcloudIntegrationJob": {
           cron: "1 * * * *",
           class: ::Storages::ManageNextcloudIntegrationJob.name
         }

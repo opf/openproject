@@ -102,7 +102,7 @@ zh-TW:
   label_include_deleted: "包含已刪除的"
   label_work_package_filter_add: "新增工作項目篩選條件"
   label_kind: "類型"
-  label_less_or_equal: "<="
+  label_less_or_equal: "之後"
   label_log_costs: "紀錄支出單位"
   label_no: "否"
   label_option_plural: "選項"

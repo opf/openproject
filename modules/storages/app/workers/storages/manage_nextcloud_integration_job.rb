@@ -38,14 +38,14 @@ module Storages
       key: "ManageNextcloudIntegrationJob"
     )
     SINGLE_THREAD_DEBOUNCE_TIME = 4.seconds.freeze
-    KEY = :manage_nextcloud_integration_job_debounce_happend_at
-    CRON_JOB_KEY = :'Storages::ManageNextcloudIntegrationJob'
+    KEY = :manage_nextcloud_integration_job_debounce_happened_at
+    CRON_JOB_KEY = :"Storages::ManageNextcloudIntegrationJob"
 
     queue_with_priority :above_normal
 
     class << self
       def debounce
-        if debounce_happend_in_current_thread_recently?
+        if debounce_happened_in_current_thread_recently?
           false
         else
           # TODO:
@@ -73,7 +73,7 @@ module Storages
 
       private
 
-      def debounce_happend_in_current_thread_recently?
+      def debounce_happened_in_current_thread_recently?
         timestamp = RequestStore.store[KEY]
         timestamp.present? && (timestamp + SINGLE_THREAD_DEBOUNCE_TIME) > Time.current
       end
@@ -82,10 +82,13 @@ module Storages
     def perform
       find_storages do |storage|
         next unless storage.configured?
+
         result = service_for(storage).call(storage)
         result.match(
-          on_success: ->(_) { storage.mark_as_healthy },
-          on_failure: ->(errors) { storage.mark_as_unhealthy(reason: errors.to_s) }
+          on_success: ->(_) { OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_HEALTHY, storage:) },
+          on_failure: ->(errors) do
+            OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_UNHEALTHY, storage:, reason: errors.to_s)
+          end
         )
       end
     end
@@ -103,7 +106,7 @@ module Storages
       return NextcloudGroupFolderPropertiesSyncService if storage.provider_type_nextcloud?
       return OneDriveManagedFolderSyncService if storage.provider_type_one_drive?
 
-      raise 'Unknown Storage'
+      raise "Unknown Storage"
     end
   end
 end

@@ -78,14 +78,18 @@ module Storages
     end
 
     def open(user)
+      auth_strategy = Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+                        .strategy
+                        .with_user(user)
+
       if project_folder_not_accessible?(user)
         Peripherals::Registry
           .resolve("#{storage.short_provider_type}.queries.open_storage")
-          .call(storage:, user:)
+          .call(storage:, auth_strategy:)
       else
         Peripherals::Registry
           .resolve("#{storage.short_provider_type}.queries.open_file_link")
-          .call(storage:, user:, file_id: project_folder_id)
+          .call(storage:, auth_strategy:, file_id: project_folder_id)
       end
     end
 

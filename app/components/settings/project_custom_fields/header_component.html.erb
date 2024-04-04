@@ -1,6 +1,6 @@
 
 <%=
-  component_wrapper do  
+  component_wrapper do
     render Primer::OpenProject::PageHeader.new do |header|
       header.with_title(variant: :default) { t('settings.project_attributes.heading') }
       header.with_description { t('settings.project_attributes.heading_description') }
@@ -11,7 +11,7 @@
               tag: :a,
               href: new_admin_settings_project_custom_field_path(type: "ProjectCustomField"),
               scheme: :primary,
-              data: { turbo: "false", qa_selector: "new-project-custom-field-button" }
+              data: { turbo: "false", test_selector: "new-project-custom-field-button" }
             )) do |button|
               button.with_leading_visual_icon(icon: :plus)
               t('settings.project_attributes.label_new_attribute')

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenStorageQuery, :webmock do
@@ -36,73 +36,25 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenStorageQ
 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+  end
 
   subject { described_class.new(storage) }
 
-  describe '#call' do
-    it 'responds with correct parameters' do
+  describe "#call" do
+    it "responds with correct parameters" do
       expect(described_class).to respond_to(:call)
 
       method = described_class.method(:call)
-      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user])
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy])
     end
 
-    context 'with outbound requests successful', vcr: 'one_drive/open_storage_query_success' do
-      it 'returns the url for opening the storage' do
-        call = subject.call(user:)
+    context "with outbound requests successful", vcr: "one_drive/open_storage_query_success" do
+      it "returns the url for opening the storage" do
+        call = subject.call(auth_strategy:)
         expect(call).to be_success
-        expect(call.result).to eq('https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR')
-      end
-    end
-
-    context 'with not existent oauth token' do
-      let(:user_without_token) { create(:user) }
-
-      it 'must return unauthorized when called' do
-        result = subject.call(user: user_without_token)
-        expect(result).to be_failure
-        expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
-    end
-
-    context 'with invalid oauth token', vcr: 'one_drive/open_storage_query_invalid_token' do
-      before do
-        token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
-        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
-          .to receive(:using_user_token)
-                .and_yield(token)
-      end
-
-      it 'must return unauthorized' do
-        result = subject.call(user:)
-        expect(result).to be_failure
-        expect(result.error_source).to be_a(described_class)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
-    end
-
-    context 'with network errors' do
-      before do
-        request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
-        httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
-
-        allow(OpenProject).to receive(:httpx).and_return(httpx_double)
-      end
-
-      it 'must return an error with wrapped network error response' do
-        error = subject.call(user:)
-        expect(error).to be_failure
-        expect(error.result).to eq(:error)
-        expect(error.error_payload).to be_a(HTTPX::ErrorResponse)
+        expect(call.result).to eq("https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR")
       end
     end
   end

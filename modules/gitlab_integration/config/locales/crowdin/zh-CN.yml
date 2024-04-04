@@ -33,7 +33,7 @@ zh-CN:
             labels:
               invalid_schema: "必须是键为“颜色，标题”的哈希数组"
   project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Show GitLab content"
+  permission_show_gitlab_content: "显示 GitLab 内容"
   gitlab_integration:
     merge_request_opened_comment: >
       **合并请求已打开**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 打开。

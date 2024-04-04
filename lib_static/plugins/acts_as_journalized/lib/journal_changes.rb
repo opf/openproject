@@ -70,6 +70,18 @@ module JournalChanges
       )
     end
 
+    if journable.respond_to?(:agenda_items)
+      @changes.merge!(
+        ::Acts::Journalized::JournableDiffer.association_changes_multiple_attributes(
+          predecessor,
+          self,
+          'agenda_item_journals',
+          'agenda_items',
+          :agenda_item_id,
+          [:title, :duration_in_minutes, :notes, :position, :work_package_id]
+        )
+      )
+    end
     @changes
   end
 end

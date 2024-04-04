@@ -82,7 +82,8 @@ module Settings
         menu.with_item(label: label_text,
                        href: move_admin_settings_project_custom_field_section_path(@project_custom_field_section, move_to:),
                        form_arguments: {
-                         method: :put, data: { "turbo-stream": true, qa_selector: "project-custom-field-section-move-#{move_to}" }
+                         method: :put, data: { "turbo-stream": true,
+                                               test_selector: "project-custom-field-section-move-#{move_to}" }
                        }) do |item|
           item.with_leading_visual_icon(icon:)
         end
@@ -100,7 +101,7 @@ module Settings
                        tag: :button,
                        content_arguments: {
                          "data-show-dialog-id": "project-custom-field-section-dialog#{@project_custom_field_section.id}",
-                         "data-qa-selector": "project-custom-field-section-edit"
+                         "data-test-selector": "project-custom-field-section-edit"
                        },
                        value: "") do |item|
           item.with_leading_visual_icon(icon: :pencil)
@@ -113,7 +114,7 @@ module Settings
                        href: admin_settings_project_custom_field_section_path(@project_custom_field_section),
                        form_arguments: {
                          method: :delete, data: { confirm: t("text_are_you_sure"), "turbo-stream": true,
-                                                  qa_selector: "project-custom-field-section-delete" }
+                                                  test_selector: "project-custom-field-section-delete" }
                        }) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end

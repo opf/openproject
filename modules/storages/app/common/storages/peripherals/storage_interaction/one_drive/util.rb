@@ -33,7 +33,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
 
   class << self
     def mime_type(json)
-      json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
+      json.dig(:file, :mimeType) || (json.key?(:folder) ? "application/x-op-directory" : nil)
     end
 
     def using_user_token(storage, user, &)
@@ -52,7 +52,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
               errors: ::Storages::StorageError.new(
                 code: :unauthorized,
                 data: ::Storages::StorageErrorData.new(source: connection_manager),
-                log_message: 'Query could not be created! No access token found!'
+                log_message: "Query could not be created! No access token found!"
               )
             )
           end
@@ -78,7 +78,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
 
       token_result = begin
         Rails.cache.fetch("storage.#{storage.id}.access_token", expires_in: 50.minutes) do
-          ServiceResult.success(result: oauth_client.access_token!(scope: 'https://graph.microsoft.com/.default'))
+          ServiceResult.success(result: oauth_client.access_token!(scope: "https://graph.microsoft.com/.default"))
         end
       rescue Rack::OAuth2::Client::Error => e
         ServiceResult.failure(errors: ::Storages::StorageError.new(
@@ -93,16 +93,16 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
           yield OpenProject.httpx.with(origin: storage.uri,
                                        headers: { authorization: "Bearer #{token.access_token}",
                                                   accept: "application/json",
-                                                  'content-type': 'application/json' })
+                                                  "content-type": "application/json" })
         end,
         on_failure: ->(errors) { ServiceResult.failure(result: :unauthorized, errors:) }
       )
     end
 
-    def extract_location(parent_reference, file_name = '')
-      location = parent_reference[:path].gsub(/.*root:/, '')
+    def extract_location(parent_reference, file_name = "")
+      location = parent_reference[:path].gsub(/.*root:/, "")
 
-      appendix = file_name.blank? ? '' : "/#{file_name}"
+      appendix = file_name.blank? ? "" : "/#{file_name}"
       location.empty? ? "/#{file_name}" : "#{location}#{appendix}"
     end
   end

@@ -28,7 +28,7 @@ ms:
       work_package:
         position: "Kedudukan"
         story_points: "Titik cerita"
-        backlogs_work_package_type: "Jenis tunggakan"
+        backlogs_work_package_type: "Jenis tunggakan kerja"
     errors:
       models:
         work_package:

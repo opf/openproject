@@ -25,7 +25,7 @@ zh-TW:
         storages/storage:
           attributes:
             host:
-              authorization_header_missing: 未完全設置。Nextcloud 實例不會收到「Authorization」標頭，這是基於 Bearer 令牌的 API 請求授權所必需的。請仔細檢查您的 HTTP 服務器配置。
+              authorization_header_missing: 未完全設置。Nextcloud 實例不會收到「Authorization」標頭，這是基於 Bearer 權杖(Token)API 請求授權所必需的。請仔細檢查您的 HTTP 服務器配置。
               cannot_be_connected_to: 無法連接。
               minimal_nextcloud_version_unmet: 未滿足最低版本要求（必須為 Nextcloud 23 或更高版本）
               not_nextcloud_server: 不是一個 Nextcloud 的服務器

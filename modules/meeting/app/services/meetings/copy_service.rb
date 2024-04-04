@@ -42,7 +42,7 @@ module Meetings
       self.contract_class = contract_class
     end
 
-    def call(send_notifications: nil, save: true, copy_agenda: true, copy_attachments: true, attributes: {})
+    def call(send_notifications: nil, save: true, copy_agenda: true, copy_attachments: false, attributes: {})
       if save
         create(meeting, attributes, send_notifications:, copy_agenda:, copy_attachments:)
       else

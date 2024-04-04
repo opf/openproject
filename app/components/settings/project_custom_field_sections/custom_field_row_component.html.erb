@@ -1,5 +1,5 @@
 <%=
-  component_wrapper(class: "op-project-custom-field-container", data: { qa_selector: "project-custom-field-container-#{@project_custom_field.id}" }) do
+  component_wrapper(class: "op-project-custom-field-container", data: { test_selector: "project-custom-field-container-#{@project_custom_field.id}" }) do
     flex_layout(justify_content: :space_between, align_items: :center) do |main_container|
       main_container.with_column(flex_layout: true, align_items: :center) do |content_container|
         content_container.with_column(mr: 2) do
@@ -36,7 +36,7 @@
         end
       end
       main_container.with_column do
-        render(Primer::Alpha::ActionMenu.new(data: { qa_selector: "project-custom-field-action-menu" })) do |menu|
+        render(Primer::Alpha::ActionMenu.new(data: { test_selector: "project-custom-field-action-menu" })) do |menu|
           menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_project_custom_field_actions"), scheme: :invisible)
           edit_action_item(menu)
           move_actions(menu)

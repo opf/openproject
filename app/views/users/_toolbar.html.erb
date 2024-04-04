@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   <% if current_user.admin? %>
     <% unless current_user.id == @user.id %>
-      <li class="toolbar-item hidden-for-tablet">
+      <li class="toolbar-item">
         <%= form_for @user,
                      :url => { :action => :change_status },
                      :method => :post do %>

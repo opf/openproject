@@ -28,9 +28,13 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new create]
+  before_action :find_optional_project, only: %i[index new create history]
+  before_action :verify_activities_module_activated, only: %i[history]
+  before_action :determine_date_range, only: %i[history]
+  before_action :determine_author, only: %i[history]
   before_action :build_meeting, only: %i[new]
   before_action :find_meeting, except: %i[index new create]
+  before_action :set_activity, only: %i[history]
   before_action :find_copy_from_meeting, only: %i[create]
   before_action :convert_params, only: %i[create update update_participants]
   before_action :authorize, except: %i[index new create update_title update_details update_participants change_state]
@@ -75,7 +79,7 @@ class MeetingsController < ApplicationController
       if @copy_from
         ::Meetings::CopyService
           .new(user: current_user, model: @copy_from)
-          .call(attributes: @converted_params, copy_agenda: params[:copy_agenda] == '1')
+          .call(attributes: @converted_params, **copy_attributes)
       else
         ::Meetings::CreateService
           .new(user: current_user)
@@ -88,7 +92,7 @@ class MeetingsController < ApplicationController
         link = I18n.t(:notice_timezone_missing, zone: Time.zone)
         text += " #{view_context.link_to(link, { controller: '/my', action: :account }, class: 'link_to_profile')}"
       end
-      flash[:notice] = text.html_safe
+      flash[:notice] = text.html_safe # rubocop:disable Rails/OutputSafety
 
       redirect_to action: 'show', id: call.result
     else
@@ -130,6 +134,15 @@ class MeetingsController < ApplicationController
         render :edit
       end
     end
+  end
+
+  def history
+    @events = get_events
+
+    render :history
+  rescue ActiveRecord::RecordNotFound => e
+    op_handle_warning "Failed to find all resources in activities: #{e.message}"
+    render_404 I18n.t(:error_can_not_find_all_resources)
   end
 
   def cancel_edit
@@ -328,11 +341,68 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def meeting_type(given_type)
+    case given_type
+    when 'dynamic'
+      'StructuredMeeting'
+    else
+      'Meeting'
+    end
+  end
+
+  def verify_activities_module_activated
+    render_403 if @project && !@project.module_enabled?('activity')
+  end
+
+  def set_activity
+    @activity = Activities::Fetcher.new(User.current,
+                                        project: @project,
+                                        with_subprojects: @with_subprojects,
+                                        author: @author,
+                                        scope: activity_scope,
+                                        meeting: @meeting)
+  end
+
+  def get_events
+    Activities::MeetingEventMapper
+      .new(@meeting)
+      .map_to_events
+  end
+
+  def activity_scope
+    ["meetings", "meeting_agenda_items"]
+  end
+
+  def determine_date_range
+    @days = 31 # Setting.activity_days_default.to_i
+
+    if params[:from]
+      begin
+        ; @date_to = params[:from].to_date + 1.day;
+      rescue StandardError;
+      end
+    end
+
+    @date_to ||= User.current.today + 1.day
+    @date_from = @date_to - @days
+  end
+
+  def determine_author
+    @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
+  end
+
   def find_copy_from_meeting
     return unless params[:copied_from_meeting_id]
 
     @copy_from = Meeting.visible.find(params[:copied_from_meeting_id])
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def copy_attributes
+    {
+      copy_agenda: params[:copy_agenda] == '1',
+      copy_attachments: params[:copy_attachments] == '1',
+    }
   end
 end

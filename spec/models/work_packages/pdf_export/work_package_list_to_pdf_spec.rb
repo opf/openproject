@@ -148,7 +148,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
 
   def pdf_eq_ignore_spacing(strings)
-    expect(pdf.strings.join(' ')).to eq(strings.join(' '))
+    expect(pdf.strings.join(" ")).to eq(strings.join(" "))
   end
 
   describe "with a request for a PDF table" do

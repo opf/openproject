@@ -1,6 +1,6 @@
 <%=
   content_tag("turbo-frame", id: "edit-project-custom-fields-dialog-#{@project_custom_field_section.id}-frame") do
-    component_wrapper(data: { qa_selector: 'async-dialog-content' }) do
+    component_wrapper(data: { test_selector: 'async-dialog-content' }) do
       primer_form_with(
         model: @project,
         method: :put,
@@ -28,7 +28,7 @@
                 scheme: :primary,
                 type: :submit,
                 data: {
-                  qa_selector: 'save-project-attributes-button'
+                  test_selector: 'save-project-attributes-button'
                 }
               )) do
                 t("button_save")

@@ -109,6 +109,21 @@ class Meeting < ApplicationRecord
     closed: 5
   }
 
+  # => {"agenda_items_7"=>{"title"=>["New agenda item edited", "New agenda item edited again"], "duration_in_minutes"=>["5", "3"], "notes"=>["Notes added as well", "Notes edited"]}}
+
+#   => {"project_id"=>[nil, 14],
+#  "user_id"=>[nil, 9],
+#  "work_package_id"=>[nil, 48211],
+#  "hours"=>[nil, 1.0],
+#  "comments"=>[nil, "Alex"],
+#  "activity_id"=>[nil, 8],
+#  "spent_on"=>[nil, Mon, 31 Jul 2023],
+#  "tyear"=>[nil, 2023],
+#  "tmonth"=>[nil, 7],
+#  "tweek"=>[nil, 31],
+#  "costs"=>[nil, 0.0],
+#  "logged_by_id"=>[nil, 9]}
+
   ##
   # Return the computed start_time when changed
   def start_time

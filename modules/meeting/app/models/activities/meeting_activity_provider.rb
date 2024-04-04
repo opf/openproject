@@ -139,6 +139,20 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
     url_helpers.meeting_url(id)
   end
 
+  def event_selection_query(user, from, to, options)
+    query = journals_with_data_query
+    query = extend_event_query(query)
+    query = filter_for_event_datetime(query, from, to)
+    query = restrict_user(query, options)
+    query = restrict_meeting(query, options)
+    restrict_projects(query, user, options)
+  end
+
+  def restrict_meeting(query, options)
+    query = query.where(journals_table[:journable_id].eq(options[:meeting].id)) if options[:meeting]
+    query
+  end
+
   private
 
   def meetings_table
