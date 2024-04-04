@@ -31,6 +31,7 @@
 class Members::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include ApplicationHelper
+  include Menus::MembersHelper
 
   def initialize(project: nil)
     super
@@ -57,6 +58,38 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
   end
 
   def breadcrumb_items
-    [{ href: project_overview_path(@project.id), text: @project.name }, t(:label_member_plural)]
+    [{ href: project_overview_path(@project.id), text: @project.name },
+     current_breadcrumb_element]
+  end
+
+  def current_breadcrumb_element
+    # Rework this, when the Members page actually works with queries
+    query = current_query
+    query_name = query[:query_name]
+    menu_header = query[:menu_header]
+
+    if query && query_name
+      if menu_header.present?
+        I18n.t("menus.breadcrumb.nested_element", section_header: menu_header, title: query_name).html_safe
+      else
+        query_name
+      end
+    else
+      t(:label_member_plural)
+    end
+  end
+
+  def current_query
+    current_query_name = I18n.t(:label_member_plural)
+    current_object = first_level_menu_items.find do |section|
+      section.children.find do |menu_query|
+        if !!menu_query.selected
+          current_query_name = menu_query.title
+          menu_query
+        end
+      end
+    end
+
+    { query_name: current_query_name, menu_header: current_object&.header }
   end
 end
