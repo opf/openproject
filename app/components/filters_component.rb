@@ -46,7 +46,9 @@ class FiltersComponent < ApplicationComponent
   def each_filter
     allowed_filters.each do |filter|
       active_filter = query.find_active_filter(filter.name)
-      yield active_filter.presence || filter, active_filter.present?
+      additional_attributes = additional_filter_attributes(filter)
+
+      yield active_filter.presence || filter, active_filter.present?, additional_attributes
     end
   end
 
@@ -57,5 +59,11 @@ class FiltersComponent < ApplicationComponent
 
   def filters_count
     query.filters.count
+  end
+
+  protected
+
+  def additional_filter_attributes(_filter)
+    {}
   end
 end

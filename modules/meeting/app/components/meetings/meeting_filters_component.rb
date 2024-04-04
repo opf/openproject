@@ -35,6 +35,31 @@ module Meetings
         .sort_by(&:human_name)
     end
 
+    protected
+
+    def additional_filter_attributes(filter)
+      case filter
+      when Queries::Meetings::Filters::ProjectFilter
+        {
+          autocomplete_options: {
+            resource: "projects",
+            component: "opce-autocompleter",
+            url: ::API::V3::Utilities::PathHelper::ApiV3Path.projects
+          }
+        }
+      when Queries::Meetings::Filters::AuthorFilter
+        {
+          autocomplete_options: {
+            resource: "principals",
+            component: "opce-user-autocompleter",
+            url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals
+          }
+        }
+      else
+        {}
+      end
+    end
+
     private
 
     def allowed_filter?(filter)

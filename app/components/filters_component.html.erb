@@ -32,7 +32,7 @@
         data-action="filters#toggleDisplayFilters"></a>
       <legend><%= t(:label_filter_plural) %></legend>
       <ul class="advanced-filters--filters">
-        <% each_filter do |filter, filter_active| %>
+        <% each_filter do |filter, filter_active, additional_options| %>
           <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
 
           <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
