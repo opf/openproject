@@ -73,6 +73,73 @@ RSpec.describe UpdateProgressCalculation, type: :model do
     table.work_packages
   end
 
+  describe "journal creation" do
+    before do
+      Setting.work_package_done_ratio = "field"
+    end
+
+    context "when a work package progress values are not changed" do
+      let_work_packages(<<~TABLE)
+        subject                   | work | remaining work | % complete
+        wp all unset              |      |                |
+        wp only pc set            |      |                |        60%
+        wp all set consistent     |  10h |             4h |        60%
+      TABLE
+
+      before do
+        run_migration
+      end
+
+      it "does not create a journal entry" do
+        table_work_packages.each do |wp|
+          expect(wp.journals.count).to eq(1)
+        end
+      end
+    end
+
+    context "when some work package progress values are changed" do
+      let_work_packages(<<~TABLE)
+        hierarchy                 | work | remaining work | % complete
+        wp only w set             |  10h |                |
+        wp only rw set            |      |             4h |
+        wp both w and pc set      |  10h |                |        60%
+        wp all set inconsistent   |  10h |             1h |        10%
+      TABLE
+
+      before do
+        run_migration
+      end
+
+      it "creates one and only one additional journal entry" do
+        table_work_packages.each do |wp|
+          expect(wp.journals.count).to eq(2)
+        end
+      end
+
+      it "the journal author is the system user" do
+        journal = WorkPackage.last.last_journal
+        expect(journal.user).to eq(User.system)
+      end
+
+      it "changes the lock_version of the work package" do
+        previous_lock_version = wp_only_w_set.lock_version
+        wp_only_w_set.reload
+        expect(wp_only_w_set.lock_version).not_to eq(previous_lock_version)
+      end
+
+      it "changes the updated_at of the work package" do
+        wp_only_w_set.reload
+        expect(wp_only_w_set.updated_at).not_to eq(wp_only_w_set.created_at)
+        first_journal = wp_only_w_set.journals.first
+        expect(wp_only_w_set.updated_at).not_to eq(first_journal.updated_at)
+
+        expect(wp_only_w_set.updated_at).to be > wp_only_w_set.created_at
+        last_journal = wp_only_w_set.journals.last
+        expect(wp_only_w_set.updated_at).to eq(last_journal.updated_at)
+      end
+    end
+  end
+
   context "when in disabled mode" do
     before do
       Setting.work_package_done_ratio = "disabled"
