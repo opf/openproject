@@ -167,9 +167,7 @@ Rails.application.routes.draw do
     resource :wiki_menu_item, only: %i[edit update]
   end
 
-  # generic route for adding/removing watchers.
-  # Models declared as acts_as_watchable will be automatically added to
-  # OpenProject::Acts::Watchable::Routes.watched
+  # generic route for adding/removing watchers and favorites.
   scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::Routes do
     post "/watch" => "watchers#watch"
     delete "/unwatch" => "watchers#unwatch"
