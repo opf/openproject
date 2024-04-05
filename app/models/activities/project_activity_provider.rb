@@ -40,43 +40,6 @@ class Activities::ProjectActivityProvider < Activities::BaseActivityProvider
 
   protected
 
-  # rubocop:disable Metrics/AbcSize
-  def extend_event_query(query)
-    enabled_custom_fields = ProjectCustomFieldProjectMapping
-      .where(custom_field_mapping_table[:project_id].eq(projects_table[:id]))
-      .select(:custom_field_id)
-      .arel
-
-    enabled_customizable_journals = Journal::CustomizableJournal
-      .where(
-        customizable_journals_table[:journal_id].eq(journals_table[:id])
-        .and(customizable_journals_table[:custom_field_id].in(enabled_custom_fields))
-      )
-      .arel
-      .exists
-
-    no_customizable_journals = Journal::CustomizableJournal
-      .where(customizable_journals_table[:journal_id].eq(journals_table[:id]))
-      .arel
-      .exists.not
-
-    # Filter out the journals that contain only disabled custom field changes,
-    # journals with no custom fields or with enabled custom fields changes are returned.
-    # This filtering is necessary for 2 reasons:
-    #   1. The disabled fields will be filtered out in the ActivityEagerLoadingWrapper, which can
-    #      lead to displaying empty journals, if only a disabled custom field change is journaled.
-    #   2. The empty journals cannot be dropped in the ActivityEagerLoadingWrapper, because
-    #      that would lead to not respecting the limit parameter. For example, if the results
-    #      are limited to 10 journals and 1 empty journal is dropped, then the number of
-    #      returned journals would be 9 instead of 10.
-    #      To avoid this issue, the journals that have only disabled custom field changes
-    #      should be excluded from the query.
-    #
-    # TODO: Handle the case when the project title is changed alongside a disabled custom field.
-    query.where(enabled_customizable_journals.or(no_customizable_journals))
-  end
-  # rubocop:enable Metrics/AbcSize
-
   def projects_reference_table
     journals_table
   end
