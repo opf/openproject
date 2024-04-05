@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ItemComponent < ViewComponent::Base
+class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProject/AddPreviewForViewComponent
   with_collection_parameter :event
   strip_trailing_whitespace
 
@@ -54,13 +54,19 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def display_details?
-    return false if @event.journal.initial? && @event.journal.journable_type != 'TimeEntry'
+    journal = @event.journal
+    return false if (initial? && journal.journable_type != "TimeEntry") || deletion?
 
     rendered_details.present?
   end
 
   def rendered_details
-    filter_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
+    if data[:details]
+      render_event_details
+    else
+      # this doesn't do anything for details of type "agenda_items_10_title"
+      filter_journal_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
+    end
   end
 
   def comment
@@ -81,6 +87,18 @@ class Activities::ItemComponent < ViewComponent::Base
     @event.event_url
   end
 
+  def initial?
+    @event.journal.initial? || data[:initial]
+  end
+
+  def deletion?
+    data[:deleted]
+  end
+
+  def data
+    @event.data || {}
+  end
+
   private
 
   def activity?(type)
@@ -95,7 +113,7 @@ class Activities::ItemComponent < ViewComponent::Base
     @current_project && (@event.project != @current_project)
   end
 
-  def filter_details
+  def filter_journal_details
     details = @event.journal.details
 
     details.delete(:user_id) if details[:logged_by_id] == details[:user_id]
@@ -109,5 +127,11 @@ class Activities::ItemComponent < ViewComponent::Base
 
   def delete_detail(details, field)
     details.delete(field) if details[field] && details[field].first.nil?
+  end
+
+  def render_event_details
+    data[:details].filter_map do |detail|
+      @event.journal.render_detail(detail, activity_page: @activity_page)
+    end
   end
 end

@@ -280,6 +280,17 @@ es:
         no_results_content_text: Crear una nueva categoria de paquete de trabajo
       custom_fields:
         no_results_title_text: Actualmente no hay campos personalizados disponibles.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       types:
         no_results_title_text: Actualmente no hay tipos disponibles.
         form:
@@ -636,6 +647,8 @@ es:
         redirect_existing_links: "Redirigir los enlaces existentes"
       planning_element_type_color:
         hexcode: Código hexadecimal
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Inicio de la inserción"
         begin_deletion: "Inicio de la eliminación"
@@ -1039,6 +1052,8 @@ es:
       updated_by_on_time_entry: "hora registrada actualizada por %{user} en %{datetime}"
       updated_on: "actualizado el %{datetime}"
       updated_on_time_entry: "hora registrada actualizada el %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Subproyecto"
       parent_no_longer: "Ya no es subproyecto de"
       time_entry:
@@ -1050,6 +1065,13 @@ es:
           other: "<i>%{count} horas</i>"
         updated: "cambiado de %{old_value} a %{value}"
         logged_for: "Registrado para"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Conjuntos de cambios"
       message: "Foros"
@@ -1672,14 +1694,13 @@ es:
   label_ascending: "Ascendente"
   label_assigned_to_me_work_packages: "Paquetes de trabajo asignados a mí"
   label_associated_revisions: "Revisiones asociadas"
-  label_attachment_delete: "Borrar archivo"
-  label_attachment_new: "Archivo nuevo"
-  label_attachment_plural: "Archivos"
+  label_attachment_plural: "Attachments"
   label_attribute: "Atributo"
   label_attribute_plural: "Atributos"
   label_ldap_auth_source_new: "Nueva conexión LDAP"
   label_ldap_auth_source: "Conexión LDAP"
   label_ldap_auth_source_plural: "Conexiones LDAP"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentificación"
   label_available_global_roles: "Roles globales disponibles"
   label_available_project_forums: "Foros disponibles"
@@ -1821,6 +1842,7 @@ es:
   label_ifc_model_plural: "Modelos de Ifc"
   label_import: "Importar"
   label_export_to: "También disponible en:"
+  label_expand: "Expand"
   label_expanded_click_to_collapse: "Expandido. Haga clic para contraer"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
@@ -2011,7 +2033,7 @@ es:
   label_precedes: "precede"
   label_preferences: "Preferencias"
   label_preview: "Vista preliminar"
-  label_preview_not_available: "(Vista previa no disponible)"
+  label_preview_not_available: "Preview not available"
   label_previous: "Anterior"
   label_previous_week: "Semana anterior"
   label_principal_invite_via_email: " o invitar nuevos usuarios vía email"
@@ -2028,7 +2050,10 @@ es:
   label_project_hierarchy: "Jerarquía del proyecto"
   label_project_new: "Nuevo proyecto"
   label_project_plural: "Proyectos"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Configuración del proyecto"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Almacenes de archivos"
   label_project_storage_project_folder: "Almacenes de archivos: Carpetas de proyectos"
   label_projects_storage_information: "%{count} proyectos utilizando %{storage} de almacenamiento en disco"
@@ -2300,6 +2325,35 @@ es:
         summary:
           user: "%{user} ha compartido un paquete de trabajo contigo con permisos de %{role_rights}"
           group: "%{user} ha compartido un paquete de trabajo con el grupo %{group} del que eres miembro"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "Ha registrado un nuevo usuario (%{value}). La cuenta está pendiente de aprobación:"
   mail_body_account_information: "Información de su cuenta"
   mail_body_account_information_external: "Puede usar su %{value} cuenta para ingresar."
@@ -2530,6 +2584,7 @@ es:
   permission_save_queries: "Guardar vistas"
   permission_search_project: "Buscar proyecto"
   permission_select_custom_fields: "Seleccionar campos personalizados"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Seleccionar módulos de proyecto"
   permission_share_work_packages: "Compartir paquetes de trabajo"
   permission_manage_types: "Seleccionar Tipos"
@@ -2578,6 +2633,10 @@ es:
     archive:
       are_you_sure: "¿Está seguro que desea archivar el proyecto '%{name}'?"
       archived: "Archivado"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "Actividad"
   project_module_forums: "Foros"
   project_module_work_package_tracking: "Paquetes de trabajo"
@@ -2717,7 +2776,7 @@ es:
     Si CORS está habilitado, estos son los orígenes que tienen permiso para acceder a la API de OpenProject. <br/> Consulte la <a href="%{origin_link}" target="_blank">documentación sobre el encabezado Origin</a> para obtener información sobre cómo especificar los valores esperados.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Tamaño máximo de página API"
   setting_apiv3_max_page_instructions_html: >
     Establecer el tamaño máximo de página con el que responderá la API. No será posible realizar peticiones API que devuelvan más valores en una sola página. <br/> <strong>Advertencia:</strong> Por favor, cambie este valor sólo si está seguro de por qué lo necesita. Un ajuste alto impactará significativamente el rendimiento, mientras que un valor inferior a las opciones por página causará errores en las vistas paginadas.
@@ -2888,6 +2947,20 @@ es:
       delay_minutes_explanation: "El envío de correos electrónicos se puede retrasar para permitir que los usuarios que reciban notificaciones en la aplicación puedan confirmarlas desde la aplicación antes de que se envíe un correo. Los usuarios que lean notificaciones en la aplicación no recibirán correos electrónicos de las notificaciones ya leídas."
     other: "Otros"
     passwords: "Contraseñas"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Se ha comprobado el módulo de proyecto %{module} que depende de %{dependencies}. Necesitas comprobar estas dependencias también."
       section_new_projects: "Configuración para nuevos proyectos"
@@ -3364,7 +3437,7 @@ es:
       label_request_token: "Solicitar token"
       label_refresh_token: "Regenerar token"
     errors:
-      oauth_authorization_code_grant_had_errors: "Hay un error en el OAuth2 "
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "Proveedor reportado del OAuth2 "
       oauth_returned_error: "Hay un error en el OAuth2 "
       oauth_returned_json_error: "Hay un error de JSON en el OAuth2 "

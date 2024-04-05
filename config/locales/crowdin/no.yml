@@ -26,14 +26,14 @@
       no_results_title_text: Det har ikke vært noen aktivitet i dette prosjektet i valgt periode
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Det er for tiden ingen utvidelser installert
+      no_results_content_text: Se siden vår for integrasjoner og utvidelser for mer informasjon.
     custom_styles:
       color_theme: "Fargetema"
       color_theme_custom: "Egendefinert"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        primary-button-color: "Primærknapp"
+        accent-color: "Uthevet"
         header-bg-color: "Topp bakgrunn"
         header-item-bg-hover-color: "Topp bakgrunn på hover"
         header-item-font-color: "Header font"
@@ -52,8 +52,8 @@
       enterprise_more_info: "Merk: den brukte logoen vil være offentlig tilgjengelig."
       manage_colors: "Endre alternativer for fargevalg"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        primary-button-color: "Sterk uthevingsfarge, vanligvis brukt på den viktigste knappen på en skjerm."
+        accent-color: "Farge på lenker og andre moderat uthevede elementer"
         header-item-bg-hover-color: "Bakgrunnsfarge for klikkbare toppelementer når du peker med musen."
         header-item-font-color: "Skriftfarge på klikkbare toppelementer."
         header-item-font-hover-color: "Skriftfarge for klikkbare toppelementer når du peker med musen."
@@ -269,8 +269,8 @@
       new:
         placeholder: "Ny prosjektliste"
       delete_modal:
-        title: "Delete project list"
-        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
+        title: "Slett prosjektliste"
+        text: "Denne handlingen vil ikke slette noen av prosjektene på listen. Er du sikker på at du vil slette denne prosjektlisten?"
     settings:
       change_identifier: Endre identifier
       activities:
@@ -283,6 +283,17 @@
         no_results_content_text: Opprett en ny kategori for arbeidspakker
       custom_fields:
         no_results_title_text: Det er ingen egendefinerte felt tilgjengelig.
+      project_custom_fields:
+        header:
+          title: "Prosjektegenskaper"
+          description: "Disse prosjektegenskapene vil bli vist i din <a href=%{overview_url} target=\"_blank\">oversiktsside for prosjekt</a> under deres respektive seksjoner.  Du kan aktivere eller deaktivere individuelle egenskaper.  Prosjektegenskaper og seksjoner er definert i  <a href=%{admin_settings_url} target=\"_blank\">administrasjonsinnstillingene</a> av en administrator."
+        filter:
+          label: "Søk etter prosjektegenskap"
+        actions:
+          label_enable_single: "Aktivert i dette prosjektet, klikk for å deaktivere"
+          label_disable_single: "Deaktivert i dette prosjektet, klikk for å aktivere"
+          label_enable_all: "Aktiver alle"
+          label_disable_all: "Deaktiver alle"
       types:
         no_results_title_text: Det finnes ingen tilgjengelige typer.
         form:
@@ -293,7 +304,7 @@
       storage:
         no_results_title_text: Det er ingen ekstra registrert diskplass brukt av dette prosjektet.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    can_be_saved_as: "Endringene kan bare lagres i en ny liste."
   members:
     index:
       no_results_title_text: Det er ingen medlemmer i prosjektet.
@@ -569,7 +580,7 @@
           false: "privat"
         queries: "Spørringer"
         status_code: "Prosjektstatus"
-        description: "Description"
+        description: "Beskrivelse"
         status_explanation: "Prosjekt statusbeskrivelse"
         status_codes:
           not_started: "Ikke påbegynt"
@@ -639,6 +650,8 @@
         redirect_existing_links: "Omdirigere eksisterende lenker"
       planning_element_type_color:
         hexcode: Hexadesimalkode
+      project_custom_field:
+        custom_field_section: Seksjon
       work_package:
         begin_insertion: "Begynnelsen av innsettingen"
         begin_deletion: "Begynnelsen av slettingen"
@@ -845,8 +858,8 @@
               forbidden: "Tidsstempler inneholder forbudte verdier: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: "The 'Name' column needs to be included"
-              nonexistent: "The column '%{column}' does not exist."
+              name_not_included: "Kolonnen 'Navn' må inkluderes"
+              nonexistent: "Kolonnen '%{column}' eksisterer ikke."
               format: "%{message}"
           group_by_hierarchies_exclusive: "er gjensidig eksklusiv med grupper med '%{group_by}'. Du kan ikke aktivere begge."
           filters:
@@ -1042,6 +1055,8 @@
       updated_by_on_time_entry: "logget tid oppdatert av %{user} på %{datetime}"
       updated_on: "oppdatert den %{datetime}"
       updated_on_time_entry: "logget tid oppdatert på %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Underprosjekt"
       parent_no_longer: "Ikke lenger underprosjekt for"
       time_entry:
@@ -1053,6 +1068,13 @@
           other: "<i>%{count} timer</i>"
         updated: "endret fra %{old_value} til %{value}"
         logged_for: "Logget for"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Changesets"
       message: "Forum"
@@ -1200,7 +1222,7 @@
   button_reset: "Nullstill"
   button_rollback: "Rull tilbake til denne versjonen"
   button_save: "Lagre"
-  button_save_as: "Save as"
+  button_save_as: "Lagre som"
   button_apply_changes: "Bruk endringer"
   button_save_back: "Lagre og tilbake"
   button_show: "Vis"
@@ -1529,7 +1551,7 @@
       postgres_migration: "Overføre installasjonen til PostgreSQL"
       user_guides: "Brukerveiledning"
       faq: "FAQ"
-      impressum: "Legal notice"
+      impressum: "Juridisk merknad"
       glossary: "Ordliste"
       shortcuts: "Snarveier"
       blog: "OpenProject blogg"
@@ -1540,7 +1562,7 @@
   journals:
     changes_retracted: "Endringene er trukket tilbake."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
+      default_attribute_written: "Skrivebeskyttet attributter skrevet"
       dates_changed: "Datoer endret"
       system_update: "OpenProject system oppdatering:"
     cause_descriptions:
@@ -1675,14 +1697,13 @@
   label_ascending: "Stigende"
   label_assigned_to_me_work_packages: "Arbeidspakker tildelt meg"
   label_associated_revisions: "Tilknyttede revisjoner"
-  label_attachment_delete: "Slett fil"
-  label_attachment_new: "Ny fil"
-  label_attachment_plural: "Filer"
+  label_attachment_plural: "Vedlegg"
   label_attribute: "Attributt"
   label_attribute_plural: "Attributter"
   label_ldap_auth_source_new: "Ny LDAP-forbindelse"
   label_ldap_auth_source: "LDAP-tilkobling"
   label_ldap_auth_source_plural: "LDAP-forbindelser"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentisering"
   label_available_global_roles: "Tilgjengelige globale roller"
   label_available_project_forums: "Tilgjengelige forum"
@@ -1787,7 +1808,7 @@
   label_diff_side_by_side: "side ved side"
   label_digital_accessibility: "Digital tilgjengelighet (DE)"
   label_disabled: "deaktivert"
-  label_disabled_uppercase: "Disabled"
+  label_disabled_uppercase: "Deaktivert"
   label_display: "Vis"
   label_display_per_page: "Pr. side: %{value}"
   label_display_used_statuses_only: "Bare vis statuser som brukes av denne typen"
@@ -1824,6 +1845,7 @@
   label_ifc_model_plural: "Ifc modeller"
   label_import: "Importer"
   label_export_to: "Også tilgjengelig i:"
+  label_expand: "Utvid"
   label_expanded_click_to_collapse: "Utvidet. Klikk for å skjule"
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
@@ -2014,7 +2036,7 @@
   label_precedes: "kommer før"
   label_preferences: "Innstillinger"
   label_preview: "Forhåndsvis"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "Preview not available"
   label_previous: "Forrige"
   label_previous_week: "Forrige uke"
   label_principal_invite_via_email: " eller inviter nye brukere via e-post"
@@ -2031,7 +2053,10 @@
   label_project_hierarchy: "Prosjekthierarki"
   label_project_new: "Nytt prosjekt"
   label_project_plural: "Prosjekter"
+  label_project_attributes_plural: "Prosjektegenskaper"
+  label_project_custom_field_plural: "Prosjektegenskaper"
   label_project_settings: "Prosjektinnstillinger"
+  label_project_attributes_settings: "Innstillinger for prosjektegenskaper"
   label_project_storage_plural: "Fillagringer"
   label_project_storage_project_folder: "Fillagringer: Prosjektmapper"
   label_projects_storage_information: "%{count} prosjekter som bruker %{storage} lagringsplass"
@@ -2303,6 +2328,35 @@
         summary:
           user: "%{user} delte en arbeidspakke med deg %{role_rights} rettigheter"
           group: "%{user} delte en arbeidspakke med gruppen %{group} du er medlem av"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "En ny bruker (%{value}) har registrert seg. Kontoen venter på din godkjennelse:"
   mail_body_account_information: "Din kontoinformasjon"
   mail_body_account_information_external: "Du kan bruke din %{value}-konto for innlogging."
@@ -2534,6 +2588,7 @@
   permission_save_queries: "Lagre visninger"
   permission_search_project: "Søk i prosjekt"
   permission_select_custom_fields: "Velg egendefinerte felt"
+  permission_select_project_custom_fields: "Velg prosjektegenskaper"
   permission_select_project_modules: "Velg prosjektmoduler"
   permission_share_work_packages: "Del arbeidspakker"
   permission_manage_types: "Velg typer"
@@ -2582,6 +2637,10 @@
     archive:
       are_you_sure: "Er du sikker på at du vil arkivere prosjektet%{name}'?"
       archived: "Arkivert"
+    count:
+      zero: "0 prosjekter"
+      one: "1 prosjekt"
+      other: "%{count} prosjekter"
   project_module_activity: "Aktivitet"
   project_module_forums: "Forum"
   project_module_work_package_tracking: "Arbeidspakker"
@@ -2601,7 +2660,7 @@
     name_or_identifier: "Navn eller identifikator"
     only_subproject_id: "Bare underprosjekt"
     shared_with_user: "Delt med bruker"
-    shared_with_me: "Shared with me"
+    shared_with_me: "Delt med meg"
     subproject_id: "Inkludert underprosjekt"
   repositories:
     at_identifier: "%{identifier}"
@@ -2719,9 +2778,9 @@
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) tillatte opprinnelser"
   setting_apiv3_cors_origins_text_html: >
     Hvis CORS er aktivert, er dette opprinnelsen som har tilgang til OpenProject API. <br/> Kontroller <a href="%{origin_link}" target="_blank">Dokumentasjonen på Origin header</a> på hvordan angi de forventede verdiene.
-  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes: "Skrivetilgang til skrivebeskyttede egenskaper"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    Hvis aktivert, vil API-et tillate at administratorer skriver statiske skrivebeskyttede egenskaper under oppretting, som OpprettetPå og forfatter. <br/> <strong>Advarsel:</strong> Denne innstillingen har et brukstilfelle for f.eks importere data, men lar administratorer personliggjøre etableringen av elementer som andre brukere. Alle forespørsler om opprettelse blir imidlertid logget med virkelig forfatter. </br> For mer informasjon om egenskaper og støttede ressurser, se %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maksimal størrelse på API side"
   setting_apiv3_max_page_instructions_html: >
     Angi den maksimale sidestørrelsen API vil svare med. (Automatic Translation) Det vil ikke være mulig å utføre API-forespørsler som returnerer flere verdier på én side. <br/> <strong>Advarsel:</strong> Endre denne verdien hvis du er sikker på hvorfor du trenger den. Ved å sette en høy verdi vil det ha betydelig innvirkning på ytelsen, mens en verdi lavere enn per sidealternativer vil forårsake feil i sidevisning
@@ -2755,7 +2814,7 @@
   setting_brute_force_block_minutes: "Tiden brukeren er blokkert for"
   setting_cache_formatted_text: "Mellomlagring av formattert tekst"
   setting_use_wysiwyg_description: "Velg for å aktivere CKEditor5 WYSIWYG editor for alle brukere som standard. CKEditor har begrenset funksjonalitet for GFM Markdown."
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "Standard kolonner arbeidspakkelister "
   setting_commit_fix_keywords: "Retting av nøkkelord"
   setting_commit_logs_encoding: "Lagre meldingskoding"
   setting_commit_logtime_activity_id: "Aktivitet for tidsrapport"
@@ -2777,7 +2836,7 @@
   setting_emails_header: "Topptekst for e-post"
   setting_email_login: "Bruk e-post som innlogging"
   setting_enabled_scm: "SCM aktivert"
-  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
+  setting_enabled_projects_columns: "Kolonner i en prosjektliste som vises som standard"
   setting_feeds_enabled: "Aktiver Feeds"
   setting_ical_enabled: "Aktiver iCalendar abonnementer"
   setting_feeds_limit: "Innholdsgrense for Feed"
@@ -2853,7 +2912,7 @@
       remaining_scan_complete_html: >
         Gjenværende filer er skannet. Det er %{file_count} i karantene. Du blir omdirigert til karantensiden. Bruk denne siden til å slette eller overstyre karantenes filer.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Vellykket skanning av virus har blitt aktivert. Det er %{file_count} som ble lastet opp tidligere og som fortsatt må skannes. Prosessen er planlagt i bakgrunnen. Filene forblir tilgjengelige under skanningen.
       upsale:
         description: "Sikre at opplastede filer i OpenProject blir skannet for virus før de er tilgjengelige for andre brukere."
       actions:
@@ -2892,10 +2951,24 @@
       delay_minutes_explanation: "E-postsending kan utsettes for å tillate brukere som har konfigurert varsling i appen å bekrefte varselet i appen før en e-post sendes ut. Brukere som leser et varsel i appen vil ikke motta en e-post for den allerede leste meldingen."
     other: "Øvrig"
     passwords: "Passord"
+    project_attributes:
+      heading: "Prosjektegenskaper"
+      label_new_attribute: "Prosjektegenskaper"
+      label_new_section: "Seksjon"
+      label_edit_section: "Rediger tittel"
+      label_section_actions: "Seksjon handlinger"
+      heading_description: "Disse prosjektegenskapene vises på oversiktsiden for hvert prosjekt. Du kan legge til nye egenskaper, gruppere dem i seksjoner og reorganisere dem etter hvert som du ønsker. Disse egenskapene kan aktiveres eller deaktiveres, men ikke sorteres på et prosjektnivå."
+      label_project_custom_field_actions: "Prosjektegenskaper, handlinger"
+      label_no_project_custom_fields: "Ingen prosjektegenskaper definert i denne seksjonen"
+      edit:
+        description: "Endringer i denne prosjektegenskapen gjenspeiles i alle prosjekter der det er aktivert. Påkrevde egenskaper kan ikke deaktiveres per prosjekt."
+      new:
+        heading: "Ny egenskap"
+        description: "Endringer i denne prosjektegenskapen gjenspeiles i alle prosjekter der det er aktivert. Påkrevde egenskaper kan ikke deaktiveres per prosjekt."
     projects:
       missing_dependencies: "Prosjektmodul %{module} ble valgt, og denne avhenger av %{dependencies}. Du må også sjekke disse avhengighetene."
       section_new_projects: "Innstillinger for nye prosjekter"
-      section_project_overview: "Settings for project lists"
+      section_project_overview: "Innstillinger for prosjektlister"
     session: "Sesjon"
     user:
       default_preferences: "Standardinnstillinger"
@@ -3061,11 +3134,11 @@
   queries:
     apply_filter: Bruk forhåndskonfigurert filter
     configure_view:
-      heading: Configure view
+      heading: Konfigurer visning
       columns:
-        input_label: "Add columns"
-        input_placeholder: "Select a column"
-        drag_area_label: "Manage and reorder columns"
+        input_label: "Legg til kolonner"
+        input_placeholder: "Velg en kolonne"
+        drag_area_label: "Behandle og endre rekkefølgen på kolonner"
   top_menu:
     additional_resources: "Tilleggsressurser"
     getting_started: "Komme i gang"
@@ -3100,7 +3173,7 @@
     status_user_and_brute_force: "%{user} og %{brute_force}"
     status_change: "Endre status"
     text_change_disabled_for_provider_login: "Navnet er angitt av påloggingsleverandøren og kan dermed ikke endres."
-    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
+    text_change_disabled_for_ldap_login: "Navnet og e-postadressen er satt av LDAP og kan dermed ikke endres."
     unlock: "Lås opp"
     unlock_and_reset_failed_logins: "Lås opp og nullstill mislykkede innloggingsforsøk"
   version_status_closed: "lukket"
@@ -3369,7 +3442,7 @@
       label_request_token: "Be om nøkkel"
       label_refresh_token: "Oppdater nøkkel"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returnerte en feil"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 leverandør rapportert"
       oauth_returned_error: "OAuth2 returnerte en feil"
       oauth_returned_json_error: "OAuth2 returnerte en JSON-feil"

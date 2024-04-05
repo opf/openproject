@@ -181,9 +181,9 @@ zh-CN:
       access_granted_screen_reader: 已经授予访问权限。您现在可以使用%{storage}了。
       body: 要获取对项目文件夹的访问权限，您需要登录 %{storage}。
       cancel_button_label: 稍后再操作
-      confirm_button_aria_label: 登录%{存储}
+      confirm_button_aria_label: 登录到 %{storage}
       confirm_button_label: 登录
-      requesting_access_to: 请求访问%{存储}
+      requesting_access_to: 请求访问 %{storage}
       storage_ready: 您现在已准备就绪，可以使用 %{storage} 了
       title: 还有一步…
     open_project_storage_modal:

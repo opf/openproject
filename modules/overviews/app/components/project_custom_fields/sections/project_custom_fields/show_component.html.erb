@@ -1,13 +1,16 @@
 <%=
-  flex_layout(align_items: :flex_start, justify_content: :space_between, classes: 'op-project-custom-field-container', data: {
-      qa_selector: "project-custom-field-#{@project_custom_field.id}"
-    }) do |custom_field_value_container|
+  flex_layout(align_items: :flex_start,
+              justify_content: :space_between,
+              classes: 'op-project-custom-field-container',
+              data: {
+                test_selector: "project-custom-field-#{@project_custom_field.id}"
+              }) do |custom_field_value_container|
     # temporarily using inline styles in order to align the content as desired
     custom_field_value_container.with_row(mb: 1) do
       render(Primer::Beta::Text.new(font_weight: :bold)) { @project_custom_field.name }
     end
 
-    custom_field_value_container.with_row do
+    custom_field_value_container.with_row(w: :full) do
       if not_set?
         render(Primer::Beta::Text.new()) { t('placeholders.default') }
       else

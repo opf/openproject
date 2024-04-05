@@ -1130,6 +1130,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1141,6 +1143,13 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1821,6 +1830,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Authentication"
   label_available_global_roles: "Available global roles"
   label_available_project_forums: "Available forums"
@@ -2153,7 +2163,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_precedes: "precedes"
   label_preferences: "Preferences"
   label_preview: "Preview"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "Preview not available"
   label_previous: "Previous"
   label_previous_week: "Previous week"
   label_principal_invite_via_email: " or invite new users via email"
@@ -3706,7 +3716,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 provider reported"
       oauth_returned_error: "OAuth2 returned an error"
       oauth_returned_json_error: "OAuth2 returned a JSON error"

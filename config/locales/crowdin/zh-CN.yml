@@ -26,8 +26,8 @@ zh-CN:
       no_results_title_text: 在这个时间范围内没有任何项目的活动。
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: 目前没有安装插件。
+      no_results_content_text: 更多信息，请参阅我们的集成和插件页面。
     custom_styles:
       color_theme: "主题颜色"
       color_theme_custom: "（自定义）"
@@ -280,6 +280,17 @@ zh-CN:
         no_results_content_text: 创建一个新的工作包类别
       custom_fields:
         no_results_title_text: 目前没有可用的自定义字段。
+      project_custom_fields:
+        header:
+          title: "项目属性"
+          description: "这些项目属性将显示在<a href=%{overview_url} target=\"_blank\">项目概览页面</a> 的相应部分下。您可以启用或禁用单个属性。项目属性和部分由实例管理员在 <a href=%{admin_settings_url} target=\"_blank\"> 管理设置</a> 中定义。 "
+        filter:
+          label: "搜索项目属性"
+        actions:
+          label_enable_single: "在此项目中处于活动状态，点击禁用"
+          label_disable_single: "在此项目中未启用，点击启用"
+          label_enable_all: "全部启用"
+          label_disable_all: "全部禁用"
       types:
         no_results_title_text: 目前有可用的类型。
         form:
@@ -634,13 +645,15 @@ zh-CN:
         redirect_existing_links: "将现有的链接重定向"
       planning_element_type_color:
         hexcode: 十六进制代码
+      project_custom_field:
+        custom_field_section: 单元
       work_package:
         begin_insertion: "开始插入"
         begin_deletion: "开始删除"
         children: "子元素"
-        derived_done_ratio: "总完成度"
-        derived_remaining_hours: "总剩余小时"
-        derived_remaining_time: "总剩余时间"
+        derived_done_ratio: "总完成度%"
+        derived_remaining_hours: "总剩余工作总量"
+        derived_remaining_time: "总剩余工作总量"
         done_ratio: "% 完成"
         duration: "持续时间"
         end_insertion: "结束插入"
@@ -1031,6 +1044,8 @@ zh-CN:
       updated_by_on_time_entry: "%{user} 在 %{datetime} 更新了记录的时间"
       updated_on: "在 %{datetime} 更新"
       updated_on_time_entry: "在 %{datetime} 更新了记录的时间"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "子项目"
       parent_no_longer: "不再是该项目的子项目："
       time_entry:
@@ -1040,6 +1055,13 @@ zh-CN:
           other: "<i>%{count} 小时</i>"
         updated: "从 %{old_value} 更改为 %{value}"
         logged_for: "已登录"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "更改集"
       message: "论坛"
@@ -1070,7 +1092,7 @@ zh-CN:
     default_columns: "默认的列"
     description: "描述"
     derived_due_date: "派生的完成日期"
-    derived_estimated_hours: "总工作"
+    derived_estimated_hours: "总工作量"
     derived_start_date: "派生的开始日期"
     display_sums: "显示汇总"
     due_date: "完成日期"
@@ -1509,7 +1531,7 @@ zh-CN:
   journals:
     changes_retracted: "更改已撤回。"
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
+      default_attribute_written: "已写入只读属性"
       dates_changed: "日期已更改"
       system_update: "OpenProject 系统更新："
     cause_descriptions:
@@ -1644,14 +1666,13 @@ zh-CN:
   label_ascending: "升序"
   label_assigned_to_me_work_packages: "分配给我的工作包"
   label_associated_revisions: "关联的修订版本"
-  label_attachment_delete: "删除文件"
-  label_attachment_new: "新的文件"
-  label_attachment_plural: "文件"
+  label_attachment_plural: "附件"
   label_attribute: "属性"
   label_attribute_plural: "属性"
   label_ldap_auth_source_new: "新建 LDAP 连接"
   label_ldap_auth_source: "LDAP 连接"
   label_ldap_auth_source_plural: "LDAP 连接"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "身份验证"
   label_available_global_roles: "可用的全局角色"
   label_available_project_forums: "可用论坛"
@@ -1793,6 +1814,7 @@ zh-CN:
   label_ifc_model_plural: "Ifc 模型"
   label_import: "导入"
   label_export_to: "同时支持："
+  label_expand: "展开"
   label_expanded_click_to_collapse: "展开。点击折叠"
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
@@ -1983,7 +2005,7 @@ zh-CN:
   label_precedes: "之前"
   label_preferences: "首选项"
   label_preview: "预览"
-  label_preview_not_available: "（预览不可用）"
+  label_preview_not_available: "Preview not available"
   label_previous: "上一个"
   label_previous_week: "前一周"
   label_principal_invite_via_email: " 或通过电子邮件邀请新用户"
@@ -2000,7 +2022,10 @@ zh-CN:
   label_project_hierarchy: "项目层次结构"
   label_project_new: "新的项目"
   label_project_plural: "项目"
+  label_project_attributes_plural: "项目属性"
+  label_project_custom_field_plural: "项目属性"
   label_project_settings: "项目设置"
+  label_project_attributes_settings: "项目属性设置"
   label_project_storage_plural: "文件存储区"
   label_project_storage_project_folder: "文件存储区：项目文件夹"
   label_projects_storage_information: "%{count} 项目使用 %{storage} 磁盘存储"
@@ -2271,6 +2296,35 @@ zh-CN:
         summary:
           user: "%{user} 向您共享了一个拥有 %{role_rights} 权限的工作包"
           group: "%{user} 向您所属的 %{group} 组共享了一个工作包。"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "我们将继续监测该系统，确保其保持良好的健康状态。若出现任何故障，我们将通知您。"
+            details: "如需了解更多详情或进行必要的修改，请访问您的存储配置"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "错误详情"
+            error-message: "错误消息"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "解决时间"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "如需了解更多信息，请检查文件存储"
+            link_text: "故障排除文档"
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
@@ -2497,6 +2551,7 @@ zh-CN:
   permission_save_queries: "保存界面设置"
   permission_search_project: "搜索项目"
   permission_select_custom_fields: "选择自定义字段"
+  permission_select_project_custom_fields: "选择项目属性"
   permission_select_project_modules: "选择项目模块"
   permission_share_work_packages: "共享工作包"
   permission_manage_types: "选择类型"
@@ -2545,6 +2600,10 @@ zh-CN:
     archive:
       are_you_sure: "是否确定想要归档项目 '%{name}'？"
       archived: "已存档"
+    count:
+      zero: "0 个项目"
+      one: "1个项目"
+      other: "%{count} 个项目"
   project_module_activity: "活动"
   project_module_forums: "论坛"
   project_module_work_package_tracking: "工作包"
@@ -2680,9 +2739,9 @@ zh-CN:
   setting_apiv3_cors_origins: "API v3 跨域资源共享 (CORS) 允许的域"
   setting_apiv3_cors_origins_text_html: >
     如果启用了 CORS ，这些是允许访问 OpenProject API 的源。<br/>请查看<a href="%{origin_link}" target="_blank">有关“源”标题的文档</a>，了解如何指定预期值。
-  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes: "对只读属性的写访问权限"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    如果启用，API 将允许管理员在创建时写入静态只读属性，如 createdAt 和 author。 <br/> <strong>警告：</strong>此设置的用例包括导入数据，但允许管理员冒充其他用户创建项目。不过，所有创建请求都将以真实作者的身份记录。 </br> 有关属性和支持资源的更多信息，请参阅 %{api_documentation_link}。
   setting_apiv3_max_page_size: "最大 API 页面大小"
   setting_apiv3_max_page_instructions_html: >
     设置 API 将响应的最大页面大小。将无法执行在单个页面上返回更多值的 API 请求。<br/> <strong>警告</strong>：请仅在您确定为何需要更改的情况下更改此值。设置为较高的值将对性能造成显著影响，而值低于每页选项时将导致分页视图出错。
@@ -2853,6 +2912,20 @@ zh-CN:
       delay_minutes_explanation: "电子邮件发送可以延迟，以使应用通知中配置的用户能够在邮件发出之前确认应用程序中的通知。在应用程序中阅读过通知的用户不会接收到已阅读通知的电子邮件。"
     other: "其他"
     passwords: "密码"
+    project_attributes:
+      heading: "项目属性"
+      label_new_attribute: "项目属性"
+      label_new_section: "单元"
+      label_edit_section: "编辑标题"
+      label_section_actions: "单元动作"
+      heading_description: "这些项目属性会出现在每个项目的概述页面。您可以添加新的属性，将它们归类到不同的部分，并随意重新排序。这些属性可以启用或禁用，但不能在项目层面重新排序。"
+      label_project_custom_field_actions: "项目属性动作"
+      label_no_project_custom_fields: "本单元未定义项目属性"
+      edit:
+        description: "对该项目属性的更改将反映在启用该属性的所有项目中。不能按项目禁用必填属性。"
+      new:
+        heading: "新建属性"
+        description: "对该项目属性的更改将反映在启用该属性的所有项目中。不能按项目禁用必填属性。"
     projects:
       missing_dependencies: "已检查依赖于 %{dependencies} 的项目模块 %{module}。您也需要检查这些依赖项。"
       section_new_projects: "新项目的设置"
@@ -3060,7 +3133,7 @@ zh-CN:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "状态更改"
     text_change_disabled_for_provider_login: "名称由您的登录提供商设置，因此无法更改。"
-    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
+    text_change_disabled_for_ldap_login: "姓名和电子邮件由 LDAP 设置，因此无法更改。"
     unlock: "解锁​​​​"
     unlock_and_reset_failed_logins: "解锁和重置失败的帐户"
   version_status_closed: "关闭"
@@ -3327,7 +3400,7 @@ zh-CN:
       label_request_token: "请求令牌"
       label_refresh_token: "刷新令牌"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 返回错误"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 提供程序报告"
       oauth_returned_error: "OAuth2 返回错误"
       oauth_returned_json_error: "OAuth2 返回 JSON 错误"

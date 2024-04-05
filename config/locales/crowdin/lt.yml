@@ -280,6 +280,17 @@ lt:
         no_results_content_text: Sukurti naują darbų paketo kategoriją
       custom_fields:
         no_results_title_text: Šiuo metu nėra prieinamų pasirinktinų laukų.
+      project_custom_fields:
+        header:
+          title: "Projekto atributai"
+          description: "Šie projekto atributai bus rodomi jūsų <a href=%{overview_url} target=\"_blank\">projekto apžvalgos puslapyje</a> savo atitinkamose skiltyse. Galite įjungti ar išjungti konkrečius atributus. Projekto atributus ir skiltys egzemplioriaus administratorius apibrėžia <a href=%{admin_settings_url} target=\"_blank\">administravimo nustatymuose</a>. "
+        filter:
+          label: "Ieškoti projekto atributo"
+        actions:
+          label_enable_single: "Aktyvus šiame projekte, spauskite, jei norite išjungti"
+          label_disable_single: "Neakvyus šiame projekte, spauskite, jei norite įjungti"
+          label_enable_all: "Įjungti visus"
+          label_disable_all: "Išjungti visus"
       types:
         no_results_title_text: Nėra prieinamų tipų.
         form:
@@ -638,6 +649,8 @@ lt:
         redirect_existing_links: "Peradresuoti egzistuojančias nuorodas"
       planning_element_type_color:
         hexcode: Šešioliktainis kodas
+      project_custom_field:
+        custom_field_section: Skiltis
       work_package:
         begin_insertion: "Įterpimo pradžioje"
         begin_deletion: "Ištrynimo pradžioje"
@@ -1053,6 +1066,8 @@ lt:
       updated_by_on_time_entry: "registruotą laiką pakeitė %{user} %{datetime}"
       updated_on: "pakeitė %{datetime}"
       updated_on_time_entry: "registruotą laiką atnaujino %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Sub-projektas"
       parent_no_longer: "Nebėra dalis"
       time_entry:
@@ -1068,6 +1083,13 @@ lt:
           other: "<i>%{count} valandos</i>"
         updated: "pakeitė iš %{old_value} į %{value}"
         logged_for: "Registruota"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Pakeitimų paketai"
       message: "Forumai"
@@ -1726,14 +1748,13 @@ lt:
   label_ascending: "Didėjančia tvarka"
   label_assigned_to_me_work_packages: "Man priskirti darbų paketai"
   label_associated_revisions: "Susijusios revizijos"
-  label_attachment_delete: "Ištrinti failą"
-  label_attachment_new: "Naujas failas"
-  label_attachment_plural: "Failai"
+  label_attachment_plural: "Priedai"
   label_attribute: "Atributas"
   label_attribute_plural: "Atributai"
   label_ldap_auth_source_new: "Nauja LDAP jungtis"
   label_ldap_auth_source: "LDAP jungtis"
   label_ldap_auth_source_plural: "LDAP jungtis"
+  label_attribute_expand_text: "Pilnas tekstas, skirtas „%{attribute}“"
   label_authentication: "Autentifikacija"
   label_available_global_roles: "Galimi globalūs vaidmenys"
   label_available_project_forums: "Galimi forumai"
@@ -1875,6 +1896,7 @@ lt:
   label_ifc_model_plural: "Ifc modeliai"
   label_import: "Importuoti"
   label_export_to: "Taip pat galima rasti:"
+  label_expand: "Išskleisti"
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
   label_f_hour: "%{value} valanda"
   label_f_hour_plural: "%{value} valandų(-os)"
@@ -2065,7 +2087,7 @@ lt:
   label_precedes: "ankstesnis"
   label_preferences: "Parinktys"
   label_preview: "Peržiūra"
-  label_preview_not_available: "(peržiūra negalima)"
+  label_preview_not_available: "Peržiūra negalima"
   label_previous: "Ankstesnis"
   label_previous_week: "Ankstesnė savaitė"
   label_principal_invite_via_email: " arba pakviesti naujus vartotojus naudojant el. paštą"
@@ -2082,7 +2104,10 @@ lt:
   label_project_hierarchy: "Projekto hierarchija"
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
+  label_project_attributes_plural: "Projekto atributai"
+  label_project_custom_field_plural: "Projekto atributai"
   label_project_settings: "Projekto nustatymai"
+  label_project_attributes_settings: "Projekto atributų nustatymai"
   label_project_storage_plural: "Failų saugyklos"
   label_project_storage_project_folder: "Failų saugyklos: projekto aplankai"
   label_projects_storage_information: "%{count} projektai(-as, -ų) naudoja %{storage} disko vietos"
@@ -2356,6 +2381,35 @@ lt:
         summary:
           user: "%{user} bendrino darbo paketą su jumis su teisėmis %{role_rights}"
           group: "%{user} bendrino darbo paketą su grupe %{group}, kurios narys esate ir jūs"
+    storages:
+      health:
+        plaintext:
+          storage: "Saugykla"
+          healthy:
+            summary: "Geros naujienos! Jūsų saugyklos „%{storage_name}“ būsena dabar rodoma kaip „Sveika“."
+            error-solved-on: "Išspręsta"
+            recommendation: "Mes ir toliau stebėsime sistemą, kad įsitikintumėme, kad ji išlieka geroje būklėje. Jei pastebėsime kažką negero, pranešime jums."
+            details: "Jei norite daugiau informacijos arba padaryti kokius nors pakeitimus, galite aplankyti saugyklos konfigūraciją"
+          unhealthy:
+            summary: "Šiuo metu jūsų saugyklos „%{storage_name}“ būsena rodoma kaip „Klaida“. Aptikome problemą, kuriai gali prireikti jūsų dėmesio."
+            error-details: "Klaidos informacija"
+            error-message: "Klaidos pranešimas"
+            error-occurred-on: "Įvyko"
+            recommendation: "Mes siūlome eiti į saugyklos konfigūracijos puslapį ir spręsti šią problemą"
+            unsubscribe: "Jei daugiau nenorite gauti šių pranešimų, galite bet kokiu metu jų atsisakyti. Norėdami atsisakyti, prašome sekite šiame puslapyje pateikiamas instrukcijas"
+        email_notification_settings: "Saugyklos e-pašto pranešimų nustatymai"
+        see_storage_settings: "Žiūrėkite saugyklos nustatymus"
+        healthy:
+          subject: "Saugykla „%{name}“ dabar sveika!"
+          solved_at: "išspręsta"
+          summary: "Problema su jūsų saugyklos „%{storage_name}“ integracija dabar išspręsta"
+        unhealthy:
+          subject: "Saugykla „%{name}“ nesveika!"
+          since: "nuo"
+          summary: "Yra problema su jūsų saugyklos „%{storage_name}“ integracija"
+          troubleshooting:
+            text: "Daugiau informacijos rasite failų saugyklose"
+            link_text: "problemų identifikavimo dokumentacija"
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
@@ -2587,6 +2641,7 @@ lt:
   permission_save_queries: "Įrašyti vaizdus"
   permission_search_project: "Ieškoti projekte"
   permission_select_custom_fields: "Parinkite savo laukus"
+  permission_select_project_custom_fields: "Parinkite projekto atributus"
   permission_select_project_modules: "Parinkti projekto modulius"
   permission_share_work_packages: "Bendrinti darbo paketus"
   permission_manage_types: "Pasirinkti tipus"
@@ -2635,6 +2690,10 @@ lt:
     archive:
       are_you_sure: "Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?"
       archived: "Suarchyvuotas"
+    count:
+      zero: "0 projektų"
+      one: "1 projektas"
+      other: "%{count} projektai"
   project_module_activity: "Veikla"
   project_module_forums: "Forumai"
   project_module_work_package_tracking: "Darbų paketai"
@@ -2772,7 +2831,7 @@ lt:
     Jei CORS yra įgalinta, tai yra kilmės domenai, kuriems leidžiama pasiekti OpenProject API. <br/> Kaip nurodyti reikšmes aprašoma <a href="%{origin_link}" target="_blank">Origin antraštės dokumentacijoje</a>.
   setting_apiv3_write_readonly_attributes: "Rašymo prieiga prie tik skaitymui skirtų atributų"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    Įjungus API leis administratoriams kūrimo metu rašyti statinius tik skaitymui skirtus atributus, tokiu kaip createdAt ir updatedAt laiko žymas. <br/> <strong>Įspėjimas:</strong> Šis nustatymas naudojamas pavyzdžiui importuojant duomenis, bet leidžia administratoriams apsimesti, kad elementus sukuria kiti naudotojai. Visos kūrimo užklausos žurnalizuojamos su tikru autoriumi. </br> Daugiau informacijos apie atributus ir palaikomus resursus rasite %{api_documentation_link}.
+    Įjungus API leis administratoriams kūrimo metu rašyti statinius tik skaitymui skirtus atributus, tokius kaip createdAt ir author. <br/> <strong>Įspėjimas:</strong> Šis nustatymas naudojamas pavyzdžiui importuojant duomenis, bet leidžia administratoriams apsimesti, kad elementus sukuria kiti naudotojai. Visos kūrimo užklausos žurnalizuojamos su tikru autoriumi. </br> Daugiau informacijos apie atributus ir palaikomus resursus rasite %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maksimalus API puslapio dydis"
   setting_apiv3_max_page_instructions_html: >
     Nustatykite maksimalų API atsakymo puslapio dydį. Bus neįmanoma vykdyti API užklausas, kurios grąžina daugiau reikšmių viename puslapyje. <br/> <strong>Įspėjimas</strong> Prašome keisti šią reikšmę jei jums to tikrai reikia. Nustatyta didelė reikšmė stipriai įtakos greitaveiką, o maža reikšmė mažesnė už puslapiavimo parinktis reikš klaida puslapiuojamuose vaizduose.
@@ -2943,6 +3002,20 @@ lt:
       delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas, kad būtų leista naudotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje, patvirtinti iki to, kol bus išsiųstas laiškas. Naudotojai, kurie perskaitė pranešimus programoje, negaus tų laiškų, kurių pranešimus jau bus perskaitę."
     other: "Kita"
     passwords: "Slaptažodžiai"
+    project_attributes:
+      heading: "Projekto atributai"
+      label_new_attribute: "Projekto atributas"
+      label_new_section: "Skiltis"
+      label_edit_section: "Keisti pavadinimą"
+      label_section_actions: "Skilčių veiksmai"
+      heading_description: "Šie projekto atributai rodomi kiekvieno projekto apžvalgos puslapyje. Jūs galite pridėti naujus atributus, grupuoti juos į skiltis ir perrikiuoti kaip norite. Projekto lygmenyje šiuos atributus galima įjungti ar išjungti, bet ne perrikiuoti."
+      label_project_custom_field_actions: "Projekto atributų veiksmai"
+      label_no_project_custom_fields: "Šioje skiltyje nėra apibrėžtų projekto atributų"
+      edit:
+        description: "Šio projekto atributų pakeitimai matysis visuose projektuose, kur jie įjungti. Privalomų atributų negalima išjungti konkrečiame projekte."
+      new:
+        heading: "Naujas atributas"
+        description: "Šio projekto atributo pakeitimas matysis visuose projektuose, kur jis įjungtas. Privalomų atributų negalima išjungti konkrečiame projekte."
     projects:
       missing_dependencies: "Parinktas projekto modulis %{module}, kuris priklauso nuo %{dependencies}. Jums reikia pažymėti ir šias priklausomybes."
       section_new_projects: "Naujų projektų nustatymai"
@@ -3423,7 +3496,7 @@ lt:
       label_request_token: "Užklausos žetonas"
       label_refresh_token: "Atnaujinti žetoną"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 grąžino klaidą"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 tiekėjas pranešė"
       oauth_returned_error: "OAuth2 grąžino klaidą"
       oauth_returned_json_error: "OAuth2 grąžino JSON klaidą"

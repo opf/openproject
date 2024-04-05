@@ -283,6 +283,17 @@ ko:
         no_results_content_text: 새 작업 패키지 구분 생성
       custom_fields:
         no_results_title_text: 사용 가능한 사용자 필드가 없습니다.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       types:
         no_results_title_text: 사용 가능한 타입이 없습니다.
         form:
@@ -637,6 +648,8 @@ ko:
         redirect_existing_links: "기존 링크 리디렉션"
       planning_element_type_color:
         hexcode: 16진수 코드
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "삽입 시작"
         begin_deletion: "삭제 시작"
@@ -1034,6 +1047,8 @@ ko:
       updated_by_on_time_entry: "%{datetime}, %{user} 님이 기록한 시간을 업데이트함"
       updated_on: "%{datetime} 업데이트함"
       updated_on_time_entry: "%{datetime}, 기록한 시간을 업데이트함"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "하위 프로젝트"
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
       time_entry:
@@ -1043,6 +1058,13 @@ ko:
           other: "<i>%{count}시간</i>"
         updated: "%{old_value}에서 %{value}(으)로 변경됨"
         logged_for: "기록함 -"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "변경 집합"
       message: "포럼"
@@ -1647,14 +1669,13 @@ ko:
   label_ascending: "오름차순"
   label_assigned_to_me_work_packages: "내게 할당된 작업 패키지"
   label_associated_revisions: "연결된 수정"
-  label_attachment_delete: "파일 삭제"
-  label_attachment_new: "새 파일"
-  label_attachment_plural: "파일"
+  label_attachment_plural: "Attachments"
   label_attribute: "특성"
   label_attribute_plural: "특성"
   label_ldap_auth_source_new: "새로운 LDAP 연결"
   label_ldap_auth_source: "LDAP 연결"
   label_ldap_auth_source_plural: "LDAP 연결"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "인증"
   label_available_global_roles: "사용 가능한 글로벌 역할"
   label_available_project_forums: "사용 가능한 포럼"
@@ -1796,6 +1817,7 @@ ko:
   label_ifc_model_plural: "Ifc 모델"
   label_import: "가져오기"
   label_export_to: "다음에서도 사용 가능:"
+  label_expand: "Expand"
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
@@ -1986,7 +2008,7 @@ ko:
   label_precedes: "선행"
   label_preferences: "기본 설정"
   label_preview: "미리 보기"
-  label_preview_not_available: "(미리 보기를 사용할 수 없음)"
+  label_preview_not_available: "Preview not available"
   label_previous: "이전"
   label_previous_week: "이전 주"
   label_principal_invite_via_email: " 또는 이메일을 통해 새 사용자 초대하기"
@@ -2003,7 +2025,10 @@ ko:
   label_project_hierarchy: "프로젝트 계층 구조"
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "프로젝트 설정"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "파일 저장소"
   label_project_storage_project_folder: "파일 저장소: 프로젝트 폴더"
   label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
@@ -2274,6 +2299,35 @@ ko:
         summary:
           user: "%{user} 님이 %{role_rights} 권한으로 작업 패키지를 귀하와 공유했습니다."
           group: "%{user} 님이 귀하가 속한 %{group} 그룹과 작업 패키지를 공유했습니다"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
@@ -2503,6 +2557,7 @@ ko:
   permission_save_queries: "보기 저장"
   permission_search_project: "프로젝트 검색"
   permission_select_custom_fields: "사용자 지정 필드 선택"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "프로젝트 모듈 선택"
   permission_share_work_packages: "작업 패키지 공유"
   permission_manage_types: "유형 선택"
@@ -2551,6 +2606,10 @@ ko:
     archive:
       are_you_sure: "프로젝트 '%{name}'을(를) 보관하시겠습니까?"
       archived: "보관됨"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "활동"
   project_module_forums: "포럼"
   project_module_work_package_tracking: "작업 패키지"
@@ -2688,7 +2747,7 @@ ko:
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "최대 API 페이지 크기"
   setting_apiv3_max_page_instructions_html: >
     API가 응답할 최대 페이지 크기를 설정하세요. 단일 페이지에서 더 많은 값을 반환하는 API 요청을 수행할 수 없습니다. <br/> <strong>경고:</strong> 이 값이 필요한 이유가 확실한 경우에만 이 값을 변경하세요. 높은 값으로 설정하면 성능에 상당한 영향을 미치고, 페이지당 옵션보다 낮은 값은 페이지가 매겨진 보기에서 오류를 일으킵니다.
@@ -2859,6 +2918,20 @@ ko:
       delay_minutes_explanation: "인앱 알림이 구성된 사용자가 메일이 전송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
     other: "기타"
     passwords: "암호"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "%{dependencies}에 의존하는 프로젝트 모듈 %{module}이(가) 확인되었습니다. 이러한 종속성도 확인해야 합니다."
       section_new_projects: "새 프로젝트의 설정"
@@ -3334,7 +3407,7 @@ ko:
       label_request_token: "토큰 요청"
       label_refresh_token: "토큰 새로고침"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2가 오류를 반환했습니다."
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 공급자가 다음을 보고했습니다:"
       oauth_returned_error: "OAuth2가 오류를 반환했습니다."
       oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."

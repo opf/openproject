@@ -89,7 +89,7 @@ module Storages
       else
         Peripherals::Registry
           .resolve("#{storage.short_provider_type}.queries.open_file_link")
-          .call(storage:, user:, file_id: project_folder_id)
+          .call(storage:, auth_strategy:, file_id: project_folder_id)
       end
     end
 

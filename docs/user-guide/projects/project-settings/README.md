@@ -21,6 +21,7 @@ Open a project via the Select a project drop-down menu and navigate to -> *Proje
 | Topic                                                  | Content                                                      |
 | ------------------------------------------------------ | ------------------------------------------------------------ |
 | [Project information](project-information)             | Define project name, subproject, description, project status, and much more. |
+| [Project attributes](project-attributes)               | View and edit project attributes in a project.               |
 | [Modules](modules)                                     | Activate or deactivate modules in a project.                 |
 | [Work package types](work-package-types)               | Activate or deactivate work package types in a project.      |
 | [Work package categories](work-package-categories)     | Create and manage work package categories.                   |

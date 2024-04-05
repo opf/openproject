@@ -8,7 +8,7 @@ class EnableRequiredProjectCustomFieldsInAllProjects < ActiveRecord::Migration[7
     missing_custom_field_attributes =
       Project
         .includes(:project_custom_field_project_mappings)
-        .pluck(:id, 'project_custom_field_project_mappings.custom_field_id')
+        .pluck(:id, "project_custom_field_project_mappings.custom_field_id")
         .group_by(&:first)
         .transform_values { |values| values.map(&:last) }
         .reduce([]) do |acc, (project_id, custom_field_ids)|

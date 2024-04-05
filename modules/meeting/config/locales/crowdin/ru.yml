@@ -42,13 +42,14 @@ ru:
         participants_invited: "Приглашенные"
         project: "Проект"
         start_date: "Дата"
-        start_time: "Время"
-        start_time_hour: "Время начала"
-      meeting_agenda_items:
-        title: "Заголовок"
-        author: "Ответственный"
-        duration_in_minutes: "Длительность (мин)"
-        description: "Заметки"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "Duration (min)"
+        description: "Notes"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "недопустимое время. Требуемый формат: ЧЧ:ММ"
@@ -97,8 +98,12 @@ ru:
   label_time_zone: "Часовой пояс"
   label_start_date: "Дата начала"
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
     copy:
       title: "Копировать встречу %{title}"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Копировать повестку дня"
       agenda_text: "Копировать повестку дня старой встречи"
     email:
@@ -113,11 +118,11 @@ ru:
         new_date_time: "Новые дата/время"
     label_mail_all_participants: "Отправить письмо всем участникам"
     types:
-      classic: 'Классический'
-      classic_text: 'Организуйте своё совещание с помощью форматируемой текстовой повестки и протокола.'
-      structured: 'Динамический'
-      structured_text: 'Организуйте своё совещание в виде списка пунктов повестки, при необходимости связав их с пакетом работ.'
-      structured_text_copy: 'При копировании совещания в настоящее время не скопируются связанные с ним пункты повестки, будут скопированы только детали'
+      classic: "Классический"
+      classic_text: "Организуйте своё совещание с помощью форматируемой текстовой повестки и протокола."
+      structured: "Динамический"
+      structured_text: "Организуйте своё совещание в виде списка пунктов повестки, при необходимости связав их с пакетом работ."
+      structured_text_copy: "При копировании совещания в настоящее время не скопируются связанные с ним пункты повестки, будут скопированы только детали"
     copied: "Скопировано со встречи #%{id}"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
@@ -145,13 +150,16 @@ ru:
   text_notificiation_invited: "Это сообщение содержит запись ics для совещания ниже:"
   text_meeting_empty_heading: "Совещание пусто"
   text_meeting_empty_description_1: "Начните с добавления пунктов повестки ниже. Каждый пункт может быть простым, как заголовок, но вы также можете добавить дополнительные сведения, такие как продолжительность и примечания."
-  text_meeting_empty_description_2: "Вы также можете добавить ссылки на существующие пакеты работ. Когда вы это сделаете, соответствующие заметки будут автоматически отображаться на вкладке «Встречи» пакета работ."
+  text_meeting_empty_description_2: 'Вы также можете добавить ссылки на существующие пакеты работ. Когда вы это сделаете, соответствующие заметки будут автоматически отображаться на вкладке «Встречи» пакета работ.'
   label_meeting_empty_action: "Добавить пункт повестки"
   label_meeting_actions: "Действия совещания"
   label_meeting_edit_title: "Изменить название совещания"
   label_meeting_delete: "Удалить совещание"
   label_meeting_created_by: "Автор"
   label_meeting_last_updated: "Последнее обновление"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Пакет работ #%{id} невидим"
   label_agenda_item_deleted_wp: "Ссылка на удалённый пакет работ"
   label_agenda_item_actions: "Действия по пунктам повестки"
@@ -160,6 +168,11 @@ ru:
   label_agenda_item_move_up: "Вверх"
   label_agenda_item_move_down: "Вниз"
   label_agenda_item_add_notes: "Добавить заметки"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "Детали совещания"
   label_meeting_details_edit: "Изменить сведения о совещании"
   label_meeting_state_open: "Открыть"
@@ -182,5 +195,5 @@ ru:
   text_agenda_item_no_notes: "Примечания отсутствуют"
   text_agenda_item_not_editable_anymore: "Этот пункт повестки больше не редактируется."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Этот пакет работ пока не включен в повестку предстоящего совещания."
-  text_work_package_add_to_meeting_hint: "Используйте кнопку \"Добавить к совещанию\", чтобы добавить этот пакет работ к предстоящему совещанию."
+  text_work_package_add_to_meeting_hint: 'Используйте кнопку "Добавить к совещанию", чтобы добавить этот пакет работ к предстоящему совещанию.'
   text_work_package_has_no_past_meeting_agenda_items: "Этот пакет работ не упоминался на прошлом совещании."

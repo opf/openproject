@@ -52,7 +52,7 @@ module Storages
                                             data:)
             end
 
-            opts = http_options.merge({ headers: { "Authorization" => "Bearer #{current_token.access_token}" } })
+            opts = http_options.deep_merge({ headers: { "Authorization" => "Bearer #{current_token.access_token}" } })
             response_with_current_token = yield OpenProject.httpx.with(opts)
 
             if response_with_current_token.success? || response_with_current_token.result != :unauthorized
@@ -82,10 +82,9 @@ module Storages
                                         .with_access_token
                                         .with(http_options)
             rescue HTTPX::HTTPError => e
-              data = ::Storages::StorageErrorData.new(source: self.class, payload: e.response.json)
               return Failures::Builder.call(code: :unauthorized,
                                             log_message: "Error while refreshing OAuth token.",
-                                            data:)
+                                            data: error_data_from_response(e.response))
             end
 
             response = yield http_session
@@ -104,6 +103,20 @@ module Storages
           end
 
           # rubocop:enable Metrics/AbcSize
+
+          def error_data_from_response(response)
+            payload =
+              case response
+              in { content_type: { mime_type: "application/json" } }
+                response.json
+              in { content_type: { mime_type: "text/xml" } }
+                response.xml
+              else
+                response.body.to_s
+              end
+
+            ::Storages::StorageErrorData.new(source: self.class, payload:)
+          end
 
           def update_refreshed_token(token, http_session)
             oauth = http_session.instance_variable_get(:@options).oauth_session

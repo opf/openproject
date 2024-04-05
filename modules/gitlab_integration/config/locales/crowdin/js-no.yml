@@ -26,25 +26,25 @@
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Utfordringer"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Slå sammen forespørsler"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Opprett MR
+          description: Opprett en fletteforespørsel
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: Kopier git snippets til utklippstavle
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
+          branch_name: Navn på filial
+          commit_message: Send inn meldingen
           cmd: Create branch with empty commit
           title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Kopiert!'
+          copy_error: '❌ Kopiering mislyktes!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Det er ingen saker koblet til ennå. Koble til et eksisterende problem ved å benytte koden <code>OP#%{wp_id}</code> (eller <code>PP#%{wp_id}</code> for private lenker) i sakens tittel/beskrivelse eller opprett et nytt problem.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
+        empty: 'Det er ingen fletteforespørsler koblet ennå. Koble til en eksisterende MR ved å bruke koden <code>OP#%{wp_id}</code> (eller <code>PP#%{wp_id}</code> for private lenker) i MR tittelen/beskrivelsen eller opprett en ny MR.'
       gitlab_pipelines: Pipelines
-      updated_on: Updated on
+      updated_on: Oppdatert den

@@ -280,6 +280,17 @@ nl:
         no_results_content_text: Maak een nieuwe werkpakket categorie
       custom_fields:
         no_results_title_text: Momenteel zijn er geen aangepaste velden beschikbaar.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       types:
         no_results_title_text: Er zijn momenteel geen types beschikbaar.
         form:
@@ -636,6 +647,8 @@ nl:
         redirect_existing_links: "Bestaande koppelingen omleiden"
       planning_element_type_color:
         hexcode: Hexadecimale code
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Begin van het invoegen"
         begin_deletion: "Begin van de verwijdering"
@@ -1039,6 +1052,8 @@ nl:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "bijgewerkt op %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "Niet langer subproject van"
       time_entry:
@@ -1050,6 +1065,13 @@ nl:
           other: "<i>%{count} uur</i>"
         updated: "veranderd van %{old_value} naar %{value}"
         logged_for: "Logged for"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Wijzigingensets"
       message: "Fora"
@@ -1672,14 +1694,13 @@ nl:
   label_ascending: "Oplopend"
   label_assigned_to_me_work_packages: "Werkpakketten toegewezen aan mij"
   label_associated_revisions: "Bijbehorende revisies"
-  label_attachment_delete: "Bestand verwijderen"
-  label_attachment_new: "Nieuw bestand"
-  label_attachment_plural: "Bestanden"
+  label_attachment_plural: "Attachments"
   label_attribute: "Kenmerk"
   label_attribute_plural: "Kenmerken"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "LDAP verbinding"
   label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Verificatie"
   label_available_global_roles: "Available global roles"
   label_available_project_forums: "Beschikbare forums"
@@ -1821,6 +1842,7 @@ nl:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importeren"
   label_export_to: "Ook verkrijgbaar in:"
+  label_expand: "Expand"
   label_expanded_click_to_collapse: "Uitgebreid. Klik op samenvouwen"
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} uren"
@@ -2011,7 +2033,7 @@ nl:
   label_precedes: "voorafgaand aan"
   label_preferences: "Voorkeuren"
   label_preview: "Voorbeeld"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "Preview not available"
   label_previous: "Vorige"
   label_previous_week: "Vorige week"
   label_principal_invite_via_email: " of nieuwe gebruikers uitnodigen via e-mail"
@@ -2028,7 +2050,10 @@ nl:
   label_project_hierarchy: "Projecthiërarchie"
   label_project_new: "Nieuw project"
   label_project_plural: "Projecten"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Project Instellingen"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "Bestandsopslag"
   label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projecten die %{storage}-schijfopslag gebruiken"
@@ -2300,6 +2325,35 @@ nl:
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "Een nieuwe gebruiker (%{value}) heeft zich geregistreerd. Het account wacht op uw goedkeuring:"
   mail_body_account_information: "Uw accountinformatie"
   mail_body_account_information_external: "U kunt uw account %{value} gebruiken om in te loggen."
@@ -2530,6 +2584,7 @@ nl:
   permission_save_queries: "Weergaves opslaan"
   permission_search_project: "Search project"
   permission_select_custom_fields: "Aangepaste velden selecteren"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Selecteer project modules"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Selecteer typen"
@@ -2578,6 +2633,10 @@ nl:
     archive:
       are_you_sure: "Weet u zeker dat u dit project '%{name}' wilt archiveren?"
       archived: "Gearchiveerd"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "Activiteit"
   project_module_forums: "Fora"
   project_module_work_package_tracking: "Werkpakketten"
@@ -2717,7 +2776,7 @@ nl:
     Als CORS is ingeschakeld, zijn dit de oorsprong die toegang heeft tot OpenProject API. <br/> Bekijk de <a href="%{origin_link}" target="_blank">Documentatie op de Oorsprongshoofd</a> over hoe u de verwachte waarden kunt opgeven.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximale API pagina grootte"
   setting_apiv3_max_page_instructions_html: >
     Stel de maximale pagina grootte in waarmee de API zal reageren. Het is niet mogelijk om API-verzoeken uit te voeren die meer waarden op een enkele pagina weergeven. <br/> <strong>Waarschuwing:</strong> Wijzig deze waarde alleen als u zeker weet waarom u het nodig heeft. Het instellen op een hoge waarde zal aanzienlijke prestatieeffecten hebben, terwijl een waarde lager is dan de per pagina opties fouten veroorzaakt in gepagineerde weergaven.
@@ -2888,6 +2947,20 @@ nl:
       delay_minutes_explanation: "Het verzenden van e-mail kan worden vertraagd zodat gebruikers met in app geconfigureerde melding binnen de applicatie de melding kunnen bevestigen voordat er een e-mail wordt verzonden. Gebruikers die een melding binnen de applicatie lezen ontvangen geen e-mail voor de reeds gelezen melding."
     other: "Overige"
     passwords: "Wachtwoorden"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Instellingen voor nieuwe projecten"
@@ -3364,7 +3437,7 @@ nl:
       label_request_token: "Verzoek token"
       label_refresh_token: "Token vernieuwen"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 heeft een fout teruggestuurd"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 leverancier gerapporteerd"
       oauth_returned_error: "OAuth2 heeft een fout teruggestuurd"
       oauth_returned_json_error: "OAuth2 heeft een JSON-fout teruggestuurd"

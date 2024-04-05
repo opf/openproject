@@ -50,7 +50,7 @@ module ProjectCustomFields
         def render_value
           case @project_custom_field.field_format
           when "text"
-            render_rich_text
+            render_long_text
           when "user"
             render_user
           else
@@ -62,39 +62,11 @@ module ProjectCustomFields
           end
         end
 
-        def render_rich_text
-          truncation_length = 100
-
-          if @project_custom_field_values.first&.value&.length.to_i > truncation_length
-            render_truncated_preview_and_dialog_for_rich_text_value(truncation_length)
-          else
-            render(Primer::Beta::Text.new) do
-              format_value(@project_custom_field_values.first&.value, @project_custom_field)
-            end
-          end
-        end
-
-        def render_truncated_preview_and_dialog_for_rich_text_value(truncation_length)
-          flex_layout do |rich_text_preview_container|
-            rich_text_preview_container.with_row do
-              render(Primer::Beta::Text.new(classes: 'project-custom-fields-rich-text-preview')) do
-                format_value(
-                  @project_custom_field_values.first&.value&.truncate(truncation_length),
-                  @project_custom_field
-                )
-              end + render_dialog
-            end
-          end
-        end
-
-        def render_dialog
-          render(Primer::Alpha::Dialog.new(size: :medium_portrait, title: @project_custom_field.name)) do |dialog|
-            dialog.with_show_button(scheme: :link) { t(:label_expand) }
-            # TODO: remove inline style
-            dialog.with_body(style: "max-height: 500px;") do
-              format_value(@project_custom_field_values.first&.value, @project_custom_field)
-            end
-          end
+        def render_long_text
+          render OpenProject::Common::AttributeComponent.new("dialog-cf-#{@project_custom_field.id}",
+                                                             @project_custom_field.name,
+                                                             @project_custom_field_values&.first&.value,
+                                                             lines: 3)
         end
 
         def render_user

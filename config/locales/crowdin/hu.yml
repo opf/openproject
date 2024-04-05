@@ -282,6 +282,17 @@ hu:
         no_results_content_text: Hozzon létre egy új munkacsomag kategóriát
       custom_fields:
         no_results_title_text: Jelenleg nincs elérhető egyedi mező.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       types:
         no_results_title_text: Jelenleg nincs elérhető típus.
         form:
@@ -636,6 +647,8 @@ hu:
         redirect_existing_links: "A létező link átirányítása"
       planning_element_type_color:
         hexcode: Hexa kód
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Beillesztés kezdete"
         begin_deletion: "Törlés kezdete"
@@ -1039,6 +1052,8 @@ hu:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Alprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1050,6 +1065,13 @@ hu:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Commit-ok"
       message: "Fórumok"
@@ -1672,14 +1694,13 @@ hu:
   label_ascending: "Növekvő"
   label_assigned_to_me_work_packages: "Magamhoz rendelt feladatcsoportok"
   label_associated_revisions: "Kapcsolódó módosítások"
-  label_attachment_delete: "Fájl törlése"
-  label_attachment_new: "Új fájl"
-  label_attachment_plural: "Fájlok"
+  label_attachment_plural: "Attachments"
   label_attribute: "Attribútum"
   label_attribute_plural: "Attribútumok"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "LDAP csatlakozás"
   label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Hitelesítés"
   label_available_global_roles: "Available global roles"
   label_available_project_forums: "Elérhető fórumok"
@@ -1821,6 +1842,7 @@ hu:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importálás"
   label_export_to: "Is elérhető:"
+  label_expand: "Expand"
   label_expanded_click_to_collapse: "Kinyitva. Kattintson az összecsukáshoz"
   label_f_hour: "%{value} óra"
   label_f_hour_plural: "%{value} óra"
@@ -2011,7 +2033,7 @@ hu:
   label_precedes: "Megelőzi"
   label_preferences: "Tulajdonságok"
   label_preview: "Előnézet"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "Preview not available"
   label_previous: "Korábbi"
   label_previous_week: "Előző héten"
   label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
@@ -2028,7 +2050,10 @@ hu:
   label_project_hierarchy: "Projekt-hierarchia"
   label_project_new: "Új projekt"
   label_project_plural: "Projektek"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Projekt beállítások"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{storage} lemezterületet %{count} projekt használja"
@@ -2300,6 +2325,35 @@ hu:
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"
   mail_body_account_information: "A fiókod adatai"
   mail_body_account_information_external: "A %{value} fiók használatával jelentkezzen be."
@@ -2530,6 +2584,7 @@ hu:
   permission_save_queries: "Nézet mentése"
   permission_search_project: "Search project"
   permission_select_custom_fields: "Egyedi mezők kiválasztása"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Projekt modulok kiválasztása"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Jelölje ki a típust"
@@ -2578,6 +2633,10 @@ hu:
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
       archived: "Archiválva"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "Tevékenység"
   project_module_forums: "Fórumok"
   project_module_work_package_tracking: "Munkacsomagok"
@@ -2717,7 +2776,7 @@ hu:
     Ha a CORS engedélyezve van, ezek azok az eredetiek, amelyek hozzáférhetnek az OpenProject API-hoz. <br/> Kérjük, olvassa el a <a href="%{origin_link}" target="_blank">Dokumentáció az Origin fejlécről</a> című dokumentumot az elvárt értékek megadásáról.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API oldal méret"
   setting_apiv3_max_page_instructions_html: >
     Állítsa be azt a maximális oldalméretet, amellyel az API válaszolni fog. Nem lehet végrehajtani olyan API-kéréseket, amelyek több értéket adnak vissza egyetlen oldalon. <br/> <strong>Figyelem:</strong> Kérjük, csak akkor módosítsa ezt az értéket, ha biztos benne, hogy miért van szüksége rá. A magas érték beállítása jelentős hatást gyakorol a teljesítményre, míg az oldalankénti beállításoknál alacsonyabb érték hibákat okoz a lapozott nézetekben.
@@ -2888,6 +2947,20 @@ hu:
       delay_minutes_explanation: "Az e -mailek küldése késleltethető, hogy az alkalmazások értesítésében beállított felhasználók megerősíthessék az értesítést az alkalmazáson belül, mielőtt levelet küldenek. Azok a felhasználók, akik elolvasták az értesítést az alkalmazáson belül, nem kapnak e -mailt a már olvasott értesítésről.\n"
     other: "Egyéb"
     passwords: "Jelszavak"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Új projekt beállításai"
@@ -3365,7 +3438,7 @@ hu:
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 provider reported"
       oauth_returned_error: "OAuth2 returned an error"
       oauth_returned_json_error: "OAuth2 returned a JSON error"

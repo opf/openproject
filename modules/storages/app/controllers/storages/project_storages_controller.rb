@@ -37,6 +37,7 @@ class Storages::ProjectStoragesController < ApplicationController
   before_action :find_project_by_project_id
   before_action :render_403, unless: -> { User.current.allowed_in_project?(:view_file_links, @project) }
 
+  # rubocop:disable Metrics/AbcSize
   def open
     if @object.project_folder_automatic?
       @storage = @object.storage
@@ -44,9 +45,7 @@ class Storages::ProjectStoragesController < ApplicationController
       if @object.project_folder_id.present?
         ::Storages::Peripherals::Registry
           .resolve("#{@storage.short_provider_type}.queries.file_info")
-          .call(storage: @storage,
-                user: current_user,
-                file_id: @object.project_folder_id)
+          .call(storage: @storage, auth_strategy:, file_id: @object.project_folder_id)
           .match(
             on_success: user_can_read_project_folder,
             on_failure: user_can_not_read_project_folder
@@ -64,7 +63,15 @@ class Storages::ProjectStoragesController < ApplicationController
     end
   end
 
+  # rubocop:enable Metrics/AbcSize
+
   private
+
+  def auth_strategy
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+      .strategy
+      .with_user(current_user)
+  end
 
   def user_can_read_project_folder
     ->(_) do

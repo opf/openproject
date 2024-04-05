@@ -16,7 +16,7 @@ ms:
           no_results: 'Tiada dokumen lagi.'
         members:
           title: 'Ahli'
-          no_results: 'Tiada ahli nyata.'
+          no_results: 'Tiada ahli dipapar.'
           view_all_members: 'Lihat semua ahli'
           add: 'Ahli'
           too_many: 'Memaparkan %{count} dari %{total} ahli.'

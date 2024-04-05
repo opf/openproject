@@ -57,7 +57,12 @@ module Projects
       custom_value = project.formatted_custom_value_for(cf)
 
       if cf.field_format == "text" && custom_value.present?
-        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-cf-#{cf.id}", cf.name, custom_value.html_safe) # rubocop:disable Rails/OutputSafety
+        render OpenProject::Common::AttributeComponent.new(
+          "dialog-#{project.id}-cf-#{cf.id}",
+          cf.name,
+          custom_value,
+          formatted: true
+        )
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ", ")
       else

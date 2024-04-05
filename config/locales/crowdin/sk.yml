@@ -283,6 +283,17 @@ sk:
         no_results_content_text: Vytvoriť novú kategóriu pracovného balíka
       custom_fields:
         no_results_title_text: Momentálne nie sú k dispozícii žiadne vlastné polia.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       types:
         no_results_title_text: Momentálne nie sú k dispozícii žiadne typy.
         form:
@@ -641,6 +652,8 @@ sk:
         redirect_existing_links: "Presmerovať existujúce prepojenia"
       planning_element_type_color:
         hexcode: Hex kód
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Začiatok vkladania"
         begin_deletion: "Začiatok odstraňovania"
@@ -1056,6 +1069,8 @@ sk:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Podprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1071,6 +1086,13 @@ sk:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Sady zmien"
       message: "Diskusie"
@@ -1729,14 +1751,13 @@ sk:
   label_ascending: "Vzostupne"
   label_assigned_to_me_work_packages: "Mne priradené pracovné balíčky"
   label_associated_revisions: "Súvisiace revízie"
-  label_attachment_delete: "Odstrániť súbor"
-  label_attachment_new: "Nový súbor"
-  label_attachment_plural: "Súbory"
+  label_attachment_plural: "Attachments"
   label_attribute: "Atribút"
   label_attribute_plural: "Atribúty"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "LDAP connection"
   label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autentifikácia"
   label_available_global_roles: "Available global roles"
   label_available_project_forums: "Available forums"
@@ -1878,6 +1899,7 @@ sk:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "K dispozícii tiež ako:"
+  label_expand: "Expand"
   label_expanded_click_to_collapse: "Rozbalené. Kliknutí zbalíte"
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodín"
@@ -2068,7 +2090,7 @@ sk:
   label_precedes: "predchádza"
   label_preferences: "Predvoľby"
   label_preview: "Náhľad"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "Preview not available"
   label_previous: "Predošlý"
   label_previous_week: "Predchádzajúci týždeň"
   label_principal_invite_via_email: " alebo pozvať nových užívateľov prostredníctvom e-mailu"
@@ -2085,7 +2107,10 @@ sk:
   label_project_hierarchy: "Hierarchia projektu"
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Nastavenia projektu"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "projekty %{count} využívajú celkom %{storage} diskového priestoru"
@@ -2359,6 +2384,35 @@ sk:
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "Bol zaregistrovaný nový používateľ (%{value}). Účet čaká na vaše schválenie:"
   mail_body_account_information: "Informácie o vašom účte"
   mail_body_account_information_external: "Môžete sa prihlásiť pomocou vášho účtu %{value}."
@@ -2591,6 +2645,7 @@ sk:
   permission_save_queries: "Uložiť zobrazenia"
   permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Vyberte typy"
@@ -2639,6 +2694,10 @@ sk:
     archive:
       are_you_sure: "Naozaj chcete archivovať projekt \"%{name}\"?"
       archived: "Archivované"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "Činnosť"
   project_module_forums: "Diskusie"
   project_module_work_package_tracking: "Pracovné balíčky"
@@ -2778,7 +2837,7 @@ sk:
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -2949,6 +3008,20 @@ sk:
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     other: "Ostatné"
     passwords: "Heslá"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
@@ -3430,7 +3503,7 @@ sk:
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 provider reported"
       oauth_returned_error: "OAuth2 returned an error"
       oauth_returned_json_error: "OAuth2 returned a JSON error"

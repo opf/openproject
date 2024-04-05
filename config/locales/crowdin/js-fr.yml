@@ -365,7 +365,7 @@ fr:
       ical_generation_error_text: "Une erreur s'est produite lors de la génération de l'URL du calendrier."
       success_message: 'L''adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l''abonnement.'
     label_activate: "Activer"
-    label_assignee: "Responsable"
+    label_assignee: "Assigné"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"

@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ProjectCustomFieldProjectMappings::BulkUpdateService do
   let!(:project) { create(:project) }
-  let!(:section_with_invisible_fields) { create(:project_custom_field_section, name: 'Section with invisible fields') }
+  let!(:section_with_invisible_fields) { create(:project_custom_field_section, name: "Section with invisible fields") }
 
   let!(:visible_project_custom_field) do
     create(:project_custom_field,
-           name: 'Visible field',
+           name: "Visible field",
            visible: true,
            project_custom_field_section: section_with_invisible_fields)
   end
 
   let!(:visible_required_project_custom_field) do
     create(:project_custom_field,
-           name: 'Visible required field',
+           name: "Visible required field",
            visible: true,
            is_required: true,
            project_custom_field_section: section_with_invisible_fields)
@@ -49,17 +49,17 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkUpdateService do
 
   let!(:invisible_project_custom_field) do
     create(:project_custom_field,
-           name: 'Admin only field',
+           name: "Admin only field",
            visible: false,
            project_custom_field_section: section_with_invisible_fields)
   end
 
   let(:instance) { described_class.new(user:, project:, project_custom_field_section: section_with_invisible_fields) }
 
-  context 'with admin permissions' do
+  context "with admin permissions" do
     let(:user) { create(:admin) }
 
-    it 'bulk enables/disables all (non-required) fields of the section, including invisible ones' do
+    it "bulk enables/disables all (non-required) fields of the section, including invisible ones" do
       expect(project.project_custom_fields).to contain_exactly(
         visible_required_project_custom_field
       )
@@ -79,11 +79,11 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkUpdateService do
     end
   end
 
-  context 'with non-admin but sufficient permissions' do
+  context "with non-admin but sufficient permissions" do
     let(:user) do
       create(:user,
-             firstname: 'Project',
-             lastname: 'Admin',
+             firstname: "Project",
+             lastname: "Admin",
              member_with_permissions: {
                project => %w[
                  view_work_packages
@@ -93,7 +93,7 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkUpdateService do
              })
     end
 
-    it 'bulk enables/disables all fields of the section, excluding invisible ones' do
+    it "bulk enables/disables all fields of the section, excluding invisible ones" do
       expect(project.project_custom_fields).to contain_exactly(
         visible_required_project_custom_field
       )
@@ -115,11 +115,11 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkUpdateService do
     end
   end
 
-  context 'with insufficient permissions' do
+  context "with insufficient permissions" do
     let(:user) do
       create(:user,
-             firstname: 'Project',
-             lastname: 'Editor',
+             firstname: "Project",
+             lastname: "Editor",
              member_with_permissions: {
                project => %w[
                  view_work_packages
@@ -128,7 +128,7 @@ RSpec.describe ProjectCustomFieldProjectMappings::BulkUpdateService do
              })
     end
 
-    it 'cannot bulk enable/disable project custom fields' do
+    it "cannot bulk enable/disable project custom fields" do
       expect(project.project_custom_fields).to contain_exactly(
         visible_required_project_custom_field
       )

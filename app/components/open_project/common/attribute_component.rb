@@ -32,16 +32,22 @@ module OpenProject
     class AttributeComponent < Primer::Component
       attr_reader :id,
                   :name,
-                  :description
+                  :description,
+                  :lines,
+                  :background_reference_id,
+                  :formatted
 
       PARAGRAPH_CSS_CLASS = "op-uc-p".freeze
 
-      def initialize(id, name, description, **args)
+      def initialize(id, name, description, lines: 1, background_reference_id: "content", formatted: false, **args)
         super
         @id = id
         @name = name
         @description = description
         @system_arguments = args
+        @lines = lines
+        @background_reference_id = background_reference_id
+        @formatted = formatted
       end
 
       def short_text
@@ -53,7 +59,7 @@ module OpenProject
       end
 
       def full_text
-        @full_text ||= helpers.format_text(description)
+        @full_text ||= formatted ? description : helpers.format_text(description)
       end
 
       def display_expand_button_value
@@ -62,6 +68,10 @@ module OpenProject
 
       def text_color
         :muted if multi_type?
+      end
+
+      def max_height
+        "#{lines * 1.6}em"
       end
 
       private
@@ -88,7 +98,7 @@ module OpenProject
       end
 
       def multi_type?
-        first_paragraph.include?("figure") || first_paragraph.include?("macro")
+        first_paragraph.include?("figure") || first_paragraph.include?("macro") || (body_children.any? && first_paragraph.blank?)
       end
     end
   end

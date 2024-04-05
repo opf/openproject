@@ -75,6 +75,7 @@ module Components
       end
 
       def expect_to_span(startRow, startColumn, endRow, endColumn)
+        expect_to_exist
         [["grid-row-start", startRow * 2],
          ["grid-column-start", startColumn * 2],
          ["grid-row-end", (endRow * 2) - 1],

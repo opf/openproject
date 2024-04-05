@@ -46,6 +46,6 @@ ms:
         states:
           opened: 'dibuka'
           closed: 'ditutup'
-          draft: 'drafted'
+          draft: 'dirangka'
           merged: "gabungkan\n"
           ready_for_review: 'tandakan bersedia untuk semakan'

@@ -255,7 +255,7 @@ ms:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
-          more_info: "More information"
+          more_info: "Maklumat lanjut"
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -435,7 +435,7 @@ ms:
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
     label_information_plural: "Information"
-    label_invalid: "Invalid"
+    label_invalid: "Tidak sah"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
@@ -602,9 +602,9 @@ ms:
         assigned: "assignee"
         responsible: "accountable"
         created: "created"
-        scheduled: "scheduled"
+        scheduled: "dijadualkan"
         commented: "commented"
-        processed: "processed"
+        processed: "diproses"
         prioritized: "prioritized"
         dateAlert: "Date alert"
         shared: "shared"
@@ -1189,7 +1189,7 @@ ms:
       current_project_and_all_descendants: "In this project + subprojects"
       current_project: "In this project"
       recently_viewed: "Recently viewed"
-      search: "Search"
+      search: "Cari"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

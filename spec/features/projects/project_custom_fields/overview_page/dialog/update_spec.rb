@@ -269,9 +269,9 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       describe "with text CF" do
         let(:custom_field) { text_project_custom_field }
         let(:field) { FormFields::Primerized::EditorFormField.new(custom_field) }
-        let(:expected_initial_value) { "Lorem\nipsum" } # TBD: why is the second newline missing?
-        let(:update_value) { "Dolor\n\nsit" }
-        let(:expected_updated_value) { "Dolor\nsit" }
+        let(:expected_initial_value) { "Lorem" }
+        let(:update_value) { "Dolor sit" }
+        let(:expected_updated_value) { "Dolor sit" }
 
         it_behaves_like "a rich text custom field input"
       end

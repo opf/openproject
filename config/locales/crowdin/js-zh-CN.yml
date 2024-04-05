@@ -351,7 +351,7 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>GitLab 集成（最初由社区贡献者开发）</li> <li>自定义项目列表的高级功能</li> <li>会议模块的高级功能</li> <li>使用 ClamAV（企业插件）的病毒扫描功能</li> <li>PDF 导出：支持表格单元格中的列表</li> <li>添加 WebAuthn/FIDO/U2F 作为双因素认证</li> <li>在默认可用语言集中添加了更多语言</li> </ul>
+                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>GitLab 集成（最初由社区贡献者开发）</li> <li>自定义项目列表的高级功能</li> <li>会议模块的高级功能</li> <li>使用 ClamAV（企业插件）的病毒扫描功能</li> <li>PDF 导出：支持表格单元格中的列表</li> <li>添加 WebAuthn/FIDO/U2F 作为双因子认证</li> <li>在默认可用语言集中添加了更多语言</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"

@@ -42,13 +42,14 @@ pl:
         participants_invited: "Zaproszone osoby"
         project: "Projekt"
         start_date: "Data"
-        start_time: "Czas"
-        start_time_hour: "Czas rozpoczęcia"
-      meeting_agenda_items:
-        title: "Tytuł"
-        author: "Odpowiedzialny"
-        duration_in_minutes: "Czas trwania (min)"
-        description: "Notatki"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "Duration (min)"
+        description: "Notes"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "nie jest prawidłowy. Wymagany format to: GG:MM"
@@ -97,8 +98,12 @@ pl:
   label_time_zone: "Strefa czasowa"
   label_start_date: "Data rozpoczęcia"
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
     copy:
       title: "Kopiuj spotkanie %{title}"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
       agenda: "Kopiuj agendę spotkania"
       agenda_text: "Skopiuj agendę starego spotkania"
     email:
@@ -113,11 +118,11 @@ pl:
         new_date_time: "Nowa data/godzina"
     label_mail_all_participants: "Wyślij wiadomość e-mail do wszystkich uczestników"
     types:
-      classic: 'Klasyczny'
-      classic_text: 'Zorganizuj spotkanie w formatowanym tekstowym planie spotkania i protokole.'
-      structured: 'Dynamiczne'
-      structured_text: 'Zorganizuj spotkanie jako listę punktów planu spotkania, opcjonalnie powiązując je z pakietem roboczym.'
-      structured_text_copy: 'Skopiowanie spotkania nie powoduje obecnie skopiowania powiązanych pozycji planu spotkania, a jedynie szczegółów'
+      classic: "Klasyczny"
+      classic_text: "Zorganizuj spotkanie w formatowanym tekstowym planie spotkania i protokole."
+      structured: "Dynamiczne"
+      structured_text: "Zorganizuj spotkanie jako listę punktów planu spotkania, opcjonalnie powiązując je z pakietem roboczym."
+      structured_text_copy: "Skopiowanie spotkania nie powoduje obecnie skopiowania powiązanych pozycji planu spotkania, a jedynie szczegółów"
     copied: "Skopiowano ze spotkania #%{id}"
   notice_successful_notification: "Powiadomienia wysłane pomyślnie"
   notice_timezone_missing: 'Została ustawiona domyślna strefa czasowa: %{zone}. Aby zmienić strefę czasową, kliknij tutaj.'
@@ -145,13 +150,16 @@ pl:
   text_notificiation_invited: "Ten mail zawiera element ics dla poniższego spotkania:"
   text_meeting_empty_heading: "Spotkanie jest puste"
   text_meeting_empty_description_1: "Zacznij od dodania pozycji planu spotkania poniżej. Każdy element może mieć prosty tytuł, ale możesz także dodać dodatkowe szczegóły, takie jak czas trwania i notatki."
-  text_meeting_empty_description_2: "Możesz również dodawać odwołania do istniejących pakietów roboczych. Jeśli to zrobisz, powiązane notatki będą automatycznie widoczne na karcie „Spotkania” pakietu roboczego."
+  text_meeting_empty_description_2: 'Możesz również dodawać odwołania do istniejących pakietów roboczych. Jeśli to zrobisz, powiązane notatki będą automatycznie widoczne na karcie „Spotkania” pakietu roboczego.'
   label_meeting_empty_action: "Dodaj punkt planu spotkania"
   label_meeting_actions: "Działania spotkania"
   label_meeting_edit_title: "Edytuj tytuł spotkania"
   label_meeting_delete: "Usuń spotkanie"
   label_meeting_created_by: "Utworzony przez"
   label_meeting_last_updated: "Ostatnia aktualizacja"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Pakiet roboczy nr %{id} nie jest widoczny"
   label_agenda_item_deleted_wp: "Usunięte odniesienie do pakietu roboczego"
   label_agenda_item_actions: "Działania punktów planu spotkania"
@@ -160,6 +168,11 @@ pl:
   label_agenda_item_move_up: "Przenieś wyżej"
   label_agenda_item_move_down: "Przenieś niżej"
   label_agenda_item_add_notes: "Dodawanie notatek"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "Szczegóły spotkania"
   label_meeting_details_edit: "Edytuj szczegóły spotkania"
   label_meeting_state_open: "Otwórz"
@@ -182,5 +195,5 @@ pl:
   text_agenda_item_no_notes: "Brak uwag"
   text_agenda_item_not_editable_anymore: "Tego punktu planu spotkania nie można już edytować."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Ten pakiet roboczy nie został jeszcze zaplanowany w planie nadchodzącego spotkania."
-  text_work_package_add_to_meeting_hint: "Użyj przycisku „Dodaj do spotkania”, aby dodać ten pakiet roboczy do nadchodzącego spotkania."
+  text_work_package_add_to_meeting_hint: 'Użyj przycisku „Dodaj do spotkania”, aby dodać ten pakiet roboczy do nadchodzącego spotkania.'
   text_work_package_has_no_past_meeting_agenda_items: "Ten pakiet roboczy nie został wspomniany na poprzednim spotkaniu."
