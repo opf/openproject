@@ -32,10 +32,8 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
 
   def perform(current_mode:, previous_mode:)
     with_temporary_progress_table do
-      if previous_mode == "disabled"
-        unset_all_percent_complete_values
-      end
       if current_mode == "field"
+        unset_all_percent_complete_values if previous_mode == "disabled"
         fix_remaining_work_set_with_100p_complete
         fix_remaining_work_exceeding_work
         fix_only_work_being_set
@@ -51,8 +49,9 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
         derive_remaining_work_from_work_and_p_complete
       end
 
-      updated_work_package_ids = copy_progress_values_to_work_packages
-      create_journals_for_updated_work_packages(updated_work_package_ids)
+      update_totals
+
+      copy_progress_values_to_work_packages_and_update_journals
     end
   end
 
@@ -73,7 +72,10 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
         status_id,
         estimated_hours,
         remaining_hours,
-        done_ratio
+        done_ratio,
+        NULL::double precision AS total_work,
+        NULL::double precision AS total_remaining_work,
+        NULL::integer AS total_p_complete
       FROM work_packages
     SQL
   end
@@ -184,12 +186,41 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
     SQL
   end
 
+  def update_totals
+    execute(<<~SQL)
+      UPDATE temp_wp_progress_values
+      SET total_work = totals.total_work,
+          total_remaining_work = totals.total_remaining_work,
+          total_p_complete = CASE
+            WHEN totals.total_work = 0 THEN NULL
+            ELSE (1 - (totals.total_remaining_work / totals.total_work)) * 100
+          END
+      FROM (
+        SELECT wp_tree.ancestor_id AS id,
+               SUM(estimated_hours) AS total_work,
+               SUM(remaining_hours) AS total_remaining_work
+        FROM work_package_hierarchies wp_tree
+          LEFT JOIN temp_wp_progress_values wp_progress ON wp_tree.descendant_id = wp_progress.id
+        GROUP BY wp_tree.ancestor_id
+      ) totals
+      WHERE temp_wp_progress_values.id = totals.id
+    SQL
+  end
+
+  def copy_progress_values_to_work_packages_and_update_journals
+    updated_work_package_ids = copy_progress_values_to_work_packages
+    create_journals_for_updated_work_packages(updated_work_package_ids)
+  end
+
   def copy_progress_values_to_work_packages
     results = execute(<<~SQL)
       UPDATE work_packages
       SET estimated_hours = temp_wp_progress_values.estimated_hours,
           remaining_hours = temp_wp_progress_values.remaining_hours,
           done_ratio = temp_wp_progress_values.done_ratio,
+          derived_estimated_hours = temp_wp_progress_values.total_work,
+          derived_remaining_hours = temp_wp_progress_values.total_remaining_work,
+          derived_done_ratio = temp_wp_progress_values.total_p_complete,
           lock_version = lock_version + 1,
           updated_at = NOW()
       FROM temp_wp_progress_values
@@ -198,6 +229,9 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
           work_packages.estimated_hours IS DISTINCT FROM temp_wp_progress_values.estimated_hours
           OR work_packages.remaining_hours IS DISTINCT FROM temp_wp_progress_values.remaining_hours
           OR work_packages.done_ratio IS DISTINCT FROM temp_wp_progress_values.done_ratio
+          OR work_packages.derived_estimated_hours IS DISTINCT FROM temp_wp_progress_values.total_work
+          OR work_packages.derived_remaining_hours IS DISTINCT FROM temp_wp_progress_values.total_remaining_work
+          OR work_packages.derived_done_ratio IS DISTINCT FROM temp_wp_progress_values.total_p_complete
         )
       RETURNING work_packages.id
     SQL

@@ -46,15 +46,15 @@ module TableHelpers
         raise ArgumentError, 'Please use "remaining work" instead of "remaining hours"'
       when /\A\s*work/i
         Duration.new(header:, attribute: :estimated_hours)
-      when /derived work|total work/i
+      when /(∑|derived|total) work/i
         Duration.new(header:, attribute: :derived_estimated_hours)
       when /\A\s*remaining work/i
         Duration.new(header:, attribute: :remaining_hours)
-      when /derived remaining work|total remaining work/i
+      when /(∑|derived|total) remaining work/i
         Duration.new(header:, attribute: :derived_remaining_hours)
       when /\A\s*% complete/i
         Percentage.new(header:, attribute: :done_ratio)
-      when /total % complete/i
+      when /(∑|derived|total) % complete/i
         Percentage.new(header:, attribute: :derived_done_ratio)
       when /end date/i
         Generic.new(header:, attribute: :due_date)

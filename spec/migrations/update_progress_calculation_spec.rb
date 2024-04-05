@@ -80,10 +80,10 @@ RSpec.describe UpdateProgressCalculation, type: :model do
 
     context "when a work package progress values are not changed" do
       let_work_packages(<<~TABLE)
-        subject                   | work | remaining work | % complete
-        wp all unset              |      |                |
-        wp only pc set            |      |                |        60%
-        wp all set consistent     |  10h |             4h |        60%
+        subject                   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+        wp all unset              |      |                |            |        |                  |
+        wp only pc set            |      |                |        60% |        |                  |
+        wp all set consistent     |  10h |             4h |        60% |    10h |               4h |          60%
       TABLE
 
       before do
@@ -643,6 +643,60 @@ RSpec.describe UpdateProgressCalculation, type: :model do
             rw 100%     | Done (100%) |  10h |             0h |       100%
             rw 0% 0h    | To do (0%)  |   0h |             0h |         0%
             rw 100% 0h  | Done (100%) |   0h |             0h |       100%
+          TABLE
+        )
+      end
+    end
+  end
+
+  describe "totals computation" do
+    context "when totals are not up-to-date" do
+      # rubocop:disable RSpec/ExampleLength
+      it "computes them" do
+        expect_migrates(
+          from: <<~TABLE,
+            hierarchy    | work | remaining work | ∑ work | ∑ remaining work | ∑ % complete
+            grandparent  |  10h |             1h |
+              parent 1   |  10h |             2h |
+                child 11 |  10h |             3h |
+                child 12 |  10h |             4h |
+                child 13 |  10h |             5h |
+              parent 2   |  10h |             6h |
+                child 21 |  10h |             7h |
+                child 22 |  10h |             8h |
+                child 23 |  10h |             9h |
+                child 24 |  10h |            10h |
+          TABLE
+          to: <<~TABLE
+            subject      | work | remaining work | ∑ work | ∑ remaining work | ∑ % complete
+            grandparent  |  10h |             1h |   100h |              55h |          45%
+              parent 1   |  10h |             2h |    40h |              14h |          65%
+                child 11 |  10h |             3h |    10h |               3h |          70%
+                child 12 |  10h |             4h |    10h |               4h |          60%
+                child 13 |  10h |             5h |    10h |               5h |          50%
+              parent 2   |  10h |             6h |    50h |              40h |          20%
+                child 21 |  10h |             7h |    10h |               7h |          30%
+                child 22 |  10h |             8h |    10h |               8h |          20%
+                child 23 |  10h |             9h |    10h |               9h |          10%
+                child 24 |  10h |            10h |    10h |              10h |           0%
+          TABLE
+        )
+      end
+      # rubocop:enable RSpec/ExampleLength
+    end
+
+    context "when total work and total remaining work are 0h" do
+      it "unset total % complete" do
+        expect_migrates(
+          from: <<~TABLE,
+            hierarchy    | work | remaining work |
+            parent       |   0h |             0h |
+              child      |   0h |             0h |
+          TABLE
+          to: <<~TABLE
+            subject      | work | remaining work | ∑ work | ∑ remaining work | ∑ % complete
+            parent       |   0h |             0h |     0h |               0h |
+              child      |   0h |             0h |     0h |               0h |
           TABLE
         )
       end
