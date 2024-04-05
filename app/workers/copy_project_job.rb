@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -27,71 +29,51 @@
 #++
 
 class CopyProjectJob < ApplicationJob
-  queue_with_priority :above_normal
   include OpenProject::LocaleHelper
+  include GoodJob::ActiveJobExtensions::Batches
 
-  attr_reader :user_id,
-              :source_project_id,
-              :target_project_params,
-              :target_project_name,
-              :target_project,
-              :errors,
-              :associations_to_copy,
-              :send_mails
+  queue_with_priority :above_normal
 
-  def perform(user_id:,
-              source_project_id:,
-              target_project_params:,
-              associations_to_copy:,
-              send_mails: false)
-    # Needs refactoring after moving to activejob
-
-    @user_id               = user_id
-    @source_project_id     = source_project_id
-    @target_project_params = target_project_params.with_indifferent_access
-    @associations_to_copy  = associations_to_copy
-    @send_mails            = send_mails
-
+  # Again error handling pushing the branch costs up
+  def perform(target_project_params:, associations_to_copy:, send_mails: false)
     User.current = user
-    @target_project_name = target_project_params[:name]
+    target_project_params = target_project_params.with_indifferent_access
 
-    @target_project, @errors = with_locale_for(user) do
-      create_project_copy
+    target_project, errors = with_locale_for(user) do
+      create_project_copy(target_project_params, associations_to_copy, send_mails)
     end
 
+    update_batch(target_project:, errors:, target_project_name: target_project_params[:name])
+
     if target_project
-      successful_status_update
-      ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_later
+      successful_status_update(target_project, errors)
     else
-      failure_status_update
-      ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_later
+      failure_status_update(errors)
     end
   rescue StandardError => e
     logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
     errors = [I18n.t("copy_project.failed_internal")]
-    failure_status_update
-    ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_later
+    update_batch(errors:)
+    failure_status_update(errors)
   end
 
-  def store_status?
-    true
-  end
+  def store_status? = true
 
-  def updates_own_status?
-    true
-  end
+  def updates_own_status? = true
 
   protected
 
-  def title
-    I18n.t(:label_copy_project)
-  end
+  def title = I18n.t(:label_copy_project)
 
   private
 
-  def successful_status_update
-    payload = redirect_payload(url_helpers.project_url(target_project))
-      .merge(hal_links(target_project))
+  def update_batch(hash)
+    batch.properties.merge!(hash)
+    batch.save
+  end
+
+  def successful_status_update(target_project, errors)
+    payload = redirect_payload(url_helpers.project_url(target_project)).merge(hal_links(target_project))
 
     if errors.any?
       payload[:errors] = errors
@@ -102,7 +84,7 @@ class CopyProjectJob < ApplicationJob
                   payload:
   end
 
-  def failure_status_update
+  def failure_status_update(errors)
     message = I18n.t("copy_project.failed", source_project_name: source_project.name)
 
     if errors
@@ -123,60 +105,66 @@ class CopyProjectJob < ApplicationJob
     }
   end
 
-  def user
-    @user ||= User.find user_id
-  end
+  def user = batch.properties[:user]
 
-  def source_project
-    @source_project ||= Project.find source_project_id
-  end
+  def source_project = batch.properties[:source_project]
 
-  def create_project_copy
+  # rubocop:disable Metrics/AbcSize
+  # Most of the cost is from handling errors, we need to check what can be moved around / removed
+  def create_project_copy(target_project_params, associations_to_copy, send_mails)
     errors = []
 
     ProjectMailer.with_deliveries(send_mails) do
-      service_call = copy_project
-      target_project = service_call.result
-      errors = service_call.errors.full_messages
+      service_result = copy_project(target_project_params, associations_to_copy, send_mails)
+      target_project = service_result.result
+      errors = service_result.errors.full_messages
 
       # We assume the copying worked "successfully" if the project was saved
-      unless target_project&.persisted?
-        target_project = nil
+      if target_project&.persisted?
+        return target_project, errors
+      else
         logger.error("Copying project fails with validation errors: #{errors.join("\n")}")
+        return nil, errors
       end
-
-      return target_project, errors
     end
   rescue ActiveRecord::RecordNotFound => e
     logger.error("Entity missing: #{e.message} #{e.backtrace.join("\n")}")
+    raise e
   rescue StandardError => e
     logger.error("Encountered an error when trying to copy project " \
-                 "'#{source_project_id}' : #{e.message} #{e.backtrace.join("\n")}")
+                 "'#{source_project.id}' : #{e.message} #{e.backtrace.join("\n")}")
+    raise e
   ensure
-    unless errors.empty?
+    if errors.any?
       logger.error("Encountered an errors while trying to copy related objects for " \
-                   "project '#{source_project_id}': #{errors.inspect}")
+                   "project '#{source_project.id}': #{errors.inspect}")
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def copy_project(target_project_params, associations_to_copy, send_notifications)
+    copy_service = ::Projects::CopyService.new(source: source_project, user:)
+    result = copy_service.call({ target_project_params:, send_notifications:, only: Array(associations_to_copy) })
+
+    enqueue_copy_project_folder_jobs(copy_service.state.copied_project_storages,
+                                     copy_service.state.work_package_id_lookup,
+                                     associations_to_copy)
+
+    result
+  end
+
+  def enqueue_copy_project_folder_jobs(copied_storages, work_packages_map, only)
+    return unless only.intersect?(%w[file_links storage_project_folders])
+
+    Array(copied_storages).each do |storage_pair|
+      batch.enqueue do
+        Storages::CopyProjectFoldersJob
+          .perform_later(source: storage_pair[:source], target: storage_pair[:target], work_packages_map:)
+      end
     end
   end
 
-  def copy_project
-    ::Projects::CopyService
-      .new(source: source_project, user:)
-      .call(copy_project_params)
-  end
+  def logger = OpenProject.logger
 
-  def copy_project_params
-    params = { target_project_params:, send_notifications: send_mails }
-    params[:only] = associations_to_copy if associations_to_copy.present?
-
-    params
-  end
-
-  def logger
-    Rails.logger
-  end
-
-  def url_helpers
-    @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
-  end
+  def url_helpers = OpenProject::StaticRouting::StaticUrlHelpers.new
 end

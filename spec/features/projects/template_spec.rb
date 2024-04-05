@@ -28,7 +28,8 @@
 
 require "spec_helper"
 
-RSpec.describe "Project templates", :js, :with_cuprite do
+RSpec.describe "Project templates", :js, :with_cuprite,
+               with_good_job_batches: [CopyProjectJob, SendCopyProjectStatusEmailJob] do
   describe "making project a template" do
     let(:project) { create(:project) }
 
@@ -134,6 +135,7 @@ RSpec.describe "Project templates", :js, :with_cuprite do
       expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue")
 
       # Run background jobs twice: the background job which itself enqueues the mailer job
+      GoodJob.perform_inline
       2.times { perform_enqueued_jobs }
 
       mail = ActionMailer::Base
