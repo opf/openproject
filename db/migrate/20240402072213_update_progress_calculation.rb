@@ -1,13 +1,15 @@
 class UpdateProgressCalculation < ActiveRecord::Migration[7.1]
   # See https://community.openproject.org/wp/40749 for migration details
   def up
-    if progress_calculation_mode == "disabled"
+    current_mode = progress_calculation_mode
+    if current_mode == "disabled"
       set_progress_calculation_mode_to_work_based
       previous_mode = "disabled"
+      current_mode = "field"
     end
 
     perform_method = Rails.env.production? ? :perform_later : :perform_now
-    WorkPackages::UpdateProgressJob.public_send(perform_method, previous_mode:)
+    WorkPackages::UpdateProgressJob.public_send(perform_method, current_mode:, previous_mode:)
   end
 
   def progress_calculation_mode

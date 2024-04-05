@@ -512,4 +512,140 @@ RSpec.describe UpdateProgressCalculation, type: :model do
       end
     end
   end
+
+  ###
+
+  context "when in status mode" do
+    shared_let(:status_0p_todo) { create(:status, name: "To do (0%)", default_done_ratio: 0) }
+    shared_let(:status_30p_doing) { create(:status, name: "Doing (30%)", default_done_ratio: 30) }
+    shared_let(:status_100p_done) { create(:status, name: "Done (100%)", default_done_ratio: 100) }
+
+    before do
+      Setting.work_package_done_ratio = "status"
+    end
+
+    context "when only % Complete is set, and is the same as its status" do
+      it "does nothing, the % Complete value is kept, work and remaining work are kept unset, and no journal is created" do
+        work_packages = expect_migrates(
+          from: <<~TABLE,
+            subject     | status      | work | remaining work | % complete
+            wp 0%       | To do (0%)  |      |                |         0%
+            wp 30%      | Doing (30%) |      |                |        30%
+            wp 100%     | Done (100%) |      |                |       100%
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete
+            wp 0%       | To do (0%)  |      |                |         0%
+            wp 30%      | Doing (30%) |      |                |        30%
+            wp 100%     | Done (100%) |      |                |       100%
+          TABLE
+        )
+
+        work_packages.each do |wp|
+          # no new journals as nothing changed
+          expect(wp.journals.count).to eq(1)
+        end
+      end
+    end
+
+    context "when % Complete is different from its status value (set or unset)" do
+      it "updates % Complete value to the status value, and a journal entry is created" do
+        work_packages = expect_migrates(
+          from: <<~TABLE,
+            subject     | status      | work | remaining work | % complete
+            wp          | Doing (30%) |      |                |
+            wp 0%       | To do (0%)  |      |                |        55%
+            wp 30%      | Doing (30%) |      |                |        55%
+            wp 100%     | Done (100%) |      |                |        55%
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete
+            wp          | Doing (30%) |      |                |        30%
+            wp 0%       | To do (0%)  |      |                |         0%
+            wp 30%      | Doing (30%) |      |                |        30%
+            wp 100%     | Done (100%) |      |                |       100%
+          TABLE
+        )
+
+        wp = work_packages.first
+        # one new journal as % complete was changed
+        expect(wp.journals.count).to eq(2)
+      end
+    end
+
+    context "when only Work is set" do
+      it "sets % Complete value to the status value, and derives Remaining work" do
+        expect_migrates(
+          from: <<~TABLE,
+            subject     | status      | work | remaining work | % complete
+            wp w 0%     | To do (0%)  |  10h |                |
+            wp w 30%    | Doing (30%) |  10h |                |
+            wp w 100%   | Done (100%) |  10h |                |
+            wp w 0% 0h  | To do (0%)  |   0h |                |
+            wp w 100% 0h| Done (100%) |   0h |                |
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete
+            wp w 0%     | To do (0%)  |  10h |            10h |         0%
+            wp w 30%    | Doing (30%) |  10h |             7h |        30%
+            wp w 100%   | Done (100%) |  10h |             0h |       100%
+            wp w 0% 0h  | To do (0%)  |   0h |             0h |         0%
+            wp w 100% 0h| Done (100%) |   0h |             0h |       100%
+          TABLE
+        )
+      end
+    end
+
+    context "when only Remaining work is set" do
+      it "sets % Complete value to the status value, and derives Work" do
+        expect_migrates(
+          from: <<~TABLE,
+            subject     | status      | work | remaining work | % complete
+            rw 0%       | To do (0%)  |      |            10h |
+            rw 30%      | Doing (30%) |      |             7h |
+            rw 100% 5h  | Done (100%) |      |             5h |
+            rw 0% 0h    | To do (0%)  |      |             0h |
+            rw 100% 0h  | Done (100%) |      |             0h |
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete
+            rw 0%       | To do (0%)  |  10h |            10h |         0%
+            rw 30%      | Doing (30%) |  10h |             7h |        30%
+            rw 100% 5h  | Done (100%) |   5h |             0h |       100%
+            rw 0% 0h    | To do (0%)  |   0h |             0h |         0%
+            rw 100% 0h  | Done (100%) |   0h |             0h |       100%
+          TABLE
+        )
+      end
+    end
+
+    context "when both Work and Remaining work are set" do
+      it "sets % Complete value to the status value, and derives Remaining work" do
+        expect_migrates(
+          from: <<~TABLE,
+            subject     | status      | work | remaining work | % complete
+            rw 0%       | To do (0%)  |  10h |            10h |
+            rw 30% 0h   | Doing (30%) |  10h |             0h |
+            rw 30% 99h  | Doing (30%) |  10h |            99h |
+            rw 30% 5h   | Doing (30%) |  10h |             5h |
+            rw 30% 10h  | Doing (30%) |  10h |            10h |
+            rw 100%     | Done (100%) |  10h |             0h |
+            rw 0% 0h    | To do (0%)  |   0h |             0h |
+            rw 100% 0h  | Done (100%) |   0h |             0h |
+          TABLE
+          to: <<~TABLE
+            subject     | status      | work | remaining work | % complete
+            rw 0%       | To do (0%)  |  10h |            10h |         0%
+            rw 30% 0h   | Doing (30%) |  10h |             7h |        30%
+            rw 30% 99h  | Doing (30%) |  10h |             7h |        30%
+            rw 30% 5h   | Doing (30%) |  10h |             7h |        30%
+            rw 30% 10h  | Doing (30%) |  10h |             7h |        30%
+            rw 100%     | Done (100%) |  10h |             0h |       100%
+            rw 0% 0h    | To do (0%)  |   0h |             0h |         0%
+            rw 100% 0h  | Done (100%) |   0h |             0h |       100%
+          TABLE
+        )
+      end
+    end
+  end
 end

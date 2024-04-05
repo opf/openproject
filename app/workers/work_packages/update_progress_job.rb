@@ -30,32 +30,47 @@
 class WorkPackages::UpdateProgressJob < ApplicationJob
   queue_with_priority :default
 
-  def perform(previous_mode: nil)
-    create_temporary_progress_table
-    if previous_mode == "disabled"
-      unset_all_percent_complete_values
-    end
-    fix_remaining_work_set_with_100p_complete
-    fix_remaining_work_exceeding_work
-    fix_only_work_being_set
-    fix_only_remaining_work_being_set
-    derive_unset_remaining_work_from_work_and_p_complete
-    derive_unset_work_from_remaining_work_and_p_complete
-    derive_p_complete_from_work_and_remaining_work
+  def perform(current_mode:, previous_mode:)
+    with_temporary_progress_table do
+      if previous_mode == "disabled"
+        unset_all_percent_complete_values
+      end
+      if current_mode == "field"
+        fix_remaining_work_set_with_100p_complete
+        fix_remaining_work_exceeding_work
+        fix_only_work_being_set
+        fix_only_remaining_work_being_set
+        derive_unset_remaining_work_from_work_and_p_complete
+        derive_unset_work_from_remaining_work_and_p_complete
+        derive_p_complete_from_work_and_remaining_work
+      end
+      if current_mode == "status"
+        set_p_complete_from_status
+        fix_remaining_work_set_with_100p_complete
+        derive_unset_work_from_remaining_work_and_p_complete
+        derive_remaining_work_from_work_and_p_complete
+      end
 
-    updated_work_package_ids = copy_progress_values_to_work_packages
-    create_journals_for_updated_work_packages(updated_work_package_ids)
-  ensure
-    drop_temporary_progress_table
+      updated_work_package_ids = copy_progress_values_to_work_packages
+      create_journals_for_updated_work_packages(updated_work_package_ids)
+    end
   end
 
   private
+
+  def with_temporary_progress_table
+    create_temporary_progress_table
+    yield
+  ensure
+    drop_temporary_progress_table
+  end
 
   def create_temporary_progress_table
     execute(<<~SQL)
       CREATE UNLOGGED TABLE temp_wp_progress_values
       AS SELECT
         id,
+        status_id,
         estimated_hours,
         remaining_hours,
         done_ratio
@@ -83,7 +98,7 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
       SET estimated_hours = remaining_hours,
           remaining_hours = 0
       WHERE estimated_hours IS NULL
-        AND remaining_hours > 0
+        AND remaining_hours IS NOT NULL
         AND done_ratio = 100
     SQL
   end
@@ -129,6 +144,15 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
     SQL
   end
 
+  def derive_remaining_work_from_work_and_p_complete
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET remaining_hours = ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+      WHERE estimated_hours IS NOT NULL
+        AND done_ratio IS NOT NULL
+    SQL
+  end
+
   def derive_unset_work_from_remaining_work_and_p_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
@@ -148,6 +172,15 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
         END
       WHERE estimated_hours >= 0
         AND remaining_hours >= 0
+    SQL
+  end
+
+  def set_p_complete_from_status
+    execute(<<~SQL.squish)
+      UPDATE temp_wp_progress_values
+      SET done_ratio = statuses.default_done_ratio
+      FROM statuses
+      WHERE temp_wp_progress_values.status_id = statuses.id
     SQL
   end
 
