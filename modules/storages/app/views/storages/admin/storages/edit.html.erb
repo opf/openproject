@@ -82,7 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% component.with_sidebar(col_placement: :end, row_placement: :end) do %>
       <%= render(Primer::OpenProject::BorderGrid.new(spacious: true)) do |grid| %>
         <% grid.with_row do %>
-          <%= render(::Storages::Admin::HealthStatusComponent.new(@storage)) %>
+          <%= render(::Storages::Admin::SidebarComponent.new(storage: @storage)) %>
         <% end %>
       <% end %>
     <% end %>
