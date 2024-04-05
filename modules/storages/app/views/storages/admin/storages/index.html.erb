@@ -28,7 +28,7 @@ end %>
         item.with_trailing_visual_icon(
           icon: "op-enterprise-addons",
           classes: "upsale-colored"
-        ) if ::Storages::Storage::one_drive_without_ee_token?(provider_type:)
+        ) if ::Storages::Storage::one_drive_without_ee_token?(provider_type)
       end
     end
   end %>

@@ -194,6 +194,12 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
+  def default_breadcrumb; end
+
+  def show_local_breadcrumb
+    false
+  end
+
   private
 
   def ensure_valid_provider_type_selected

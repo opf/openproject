@@ -2,7 +2,7 @@
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title(variant: :default) { t('antivirus_scan.quarantined_attachments.title') }
+    header.with_title { t('antivirus_scan.quarantined_attachments.title') }
     header.with_breadcrumbs(breadcrumb_items)
   end
 %>

@@ -31,6 +31,7 @@ module Settings
     class NewFormHeaderComponent < ApplicationComponent
       def breadcrumb_items
         [{ href: admin_index_path, text: t("label_administration") },
+         { href: admin_settings_project_custom_fields_path, text: t("label_project_plural") },
          { href: admin_settings_project_custom_fields_path, text:  t("settings.project_attributes.heading") },
          t("settings.project_attributes.new.heading")]
       end

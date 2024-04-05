@@ -51,6 +51,12 @@ module Admin
         redirect_to action: :index
       end
 
+      def default_breadcrumb; end
+
+      def show_local_breadcrumb
+        false
+      end
+
       private
 
       def create_journal(container, user, notes)
