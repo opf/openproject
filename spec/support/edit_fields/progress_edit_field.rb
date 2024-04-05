@@ -45,10 +45,25 @@ class ProgressEditField < EditField
     super
 
     @field_name = "work_package_#{FIELD_NAME_MAP.fetch(@property_name)}"
+    @trigger_selector = "input[id$=inline-edit--field-#{@property_name}]"
   end
 
   def update(value, save: true, expect_failure: false)
     super
+  end
+
+  def reactivate!(expect_open: true)
+    retry_block(args: { tries: 2 }) do
+      SeleniumHubWaiter.wait unless using_cuprite?
+      scroll_to_and_click(display_element)
+      SeleniumHubWaiter.wait unless using_cuprite?
+
+      if expect_open && !active?
+        raise "Expected field for attribute '#{property_name}' to be active."
+      end
+
+      self
+    end
   end
 
   def active?
@@ -61,6 +76,12 @@ class ProgressEditField < EditField
 
   def input_element
     modal_element.find_field(field_name)
+  end
+
+  def trigger_element
+    within @context do
+      page.find(@trigger_selector)
+    end
   end
 
   def save!
@@ -104,6 +125,10 @@ class ProgressEditField < EditField
   # @return [Boolean] true if the cursor is at the end of the input, false otherwise.
   def expect_cursor_at_end_of_input
     input_element.evaluate_script("this.selectionStart == this.value.length;")
+  end
+
+  def expect_trigger_field_disabled
+    expect(trigger_element).to be_disabled
   end
 
   def expect_modal_field_disabled

@@ -10,7 +10,7 @@
     (click)="onInputClick($event)"
     (focus)="showProgressModal()"
     [value]="asHours"
-    [disabled]="inFlight"
+    [disabled]="opened || inFlight"
     [id]="handler.htmlId"
   />
 

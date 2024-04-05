@@ -122,6 +122,34 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       remaining_work_edit_field.expect_modal_field_value(work_package.remaining_hours)
       percent_complete_edit_field.expect_modal_field_value(work_package.done_ratio)
     end
+
+    it "disables the field that triggered the modal" do
+      work_package_table.visit_query(progress_query)
+      work_package_table.expect_work_package_listed(work_package)
+
+      work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+
+      work_edit_field.activate!
+
+      work_edit_field.expect_trigger_field_disabled
+    end
+
+    it "allows clicking on a field other than the one that triggered the modal " \
+       "and opens the modal with said field selected" do
+      work_package_table.visit_query(progress_query)
+      work_package_table.expect_work_package_listed(work_package)
+
+      work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+      remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+      remaining_work_edit_field.activate!
+      remaining_work_edit_field.expect_modal_field_in_focus
+      remaining_work_edit_field.expect_trigger_field_disabled
+
+      work_edit_field.reactivate!
+      work_edit_field.expect_modal_field_in_focus
+      work_edit_field.expect_trigger_field_disabled
+    end
   end
 
   describe "% Complete field" do
