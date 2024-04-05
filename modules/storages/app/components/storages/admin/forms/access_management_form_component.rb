@@ -35,8 +35,16 @@ module Storages::Admin::Forms
 
     private
 
+    def form_method
+      first_time_configuration? ? :post : :patch
+    end
+
     def cancel_button_path
       edit_admin_settings_storage_path(storage)
+    end
+
+    def first_time_configuration?
+      storage.automatic_management_new_record?
     end
   end
 end

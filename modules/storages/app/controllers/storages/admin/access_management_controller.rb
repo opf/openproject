@@ -34,7 +34,7 @@ class Storages::Admin::AccessManagementController < ApplicationController
   before_action :require_admin
 
   model_object Storages::OneDriveStorage
-  before_action :find_model_object, only: %i[new create edit]
+  before_action :find_model_object, only: %i[new create edit update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -53,6 +53,20 @@ class Storages::Admin::AccessManagementController < ApplicationController
   end
 
   def create
+    service_result = call_update_service
+
+    service_result.on_success do
+      respond_to { |format| format.turbo_stream }
+    end
+
+    service_result.on_failure do
+      respond_to do |format|
+        format.turbo_stream { render :edit }
+      end
+    end
+  end
+
+  def update
     service_result = call_update_service
 
     service_result.on_success do
