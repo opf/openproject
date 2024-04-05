@@ -59,12 +59,4 @@ class Activities::ProjectActivityProvider < Activities::BaseActivityProvider
   def event_url(event)
     url_helpers.project_url(event["project_identifier"])
   end
-
-  def customizable_journals_table
-    @customizable_journals_table ||= Journal::CustomizableJournal.arel_table
-  end
-
-  def custom_field_mapping_table
-    @custom_field_mapping_table ||= ProjectCustomFieldProjectMapping.arel_table
-  end
 end
