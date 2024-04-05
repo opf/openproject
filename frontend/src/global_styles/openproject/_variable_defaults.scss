@@ -33,7 +33,8 @@
   --primary-button-color--major1: #197032;
 
   --control-checked-color: var(--accent-color--major1);
-  --control-checked-color--major1: var(--accent-color--major2);
+  --control-checked-color--major1: var(--accent-color--major1);
+  --control-checked-color--major2: var(--accent-color--major2);
   --control-checked-color--minor1: var(--accent-color--minor1);
 
   /**
