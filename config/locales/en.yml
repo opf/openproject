@@ -3019,10 +3019,12 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In work-based mode, % Complete is calculated from how much work is done in relation to total work.<br>
+    In status-based mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
