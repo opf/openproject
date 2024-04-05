@@ -59,16 +59,29 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
 
   def breadcrumb_items
     [{ href: project_overview_path(@project.id), text: @project.name },
+     { href: project_members_path(@project), text: t(:label_member_plural) },
      current_breadcrumb_element]
+  end
+
+  def page_title
+    # Rework this, when the Members page actually works with queries
+    @query ||= current_query
+    query_name = @query[:query_name]
+
+    if @query && query_name
+      query_name
+    else
+      t(:label_member_plural)
+    end
   end
 
   def current_breadcrumb_element
     # Rework this, when the Members page actually works with queries
-    query = current_query
-    query_name = query[:query_name]
-    menu_header = query[:menu_header]
+    @query ||= current_query
+    query_name = @query[:query_name]
+    menu_header = @query[:menu_header]
 
-    if query && query_name
+    if @query && query_name
       if menu_header.present?
         I18n.t("menus.breadcrumb.nested_element", section_header: menu_header, title: query_name).html_safe
       else
@@ -80,16 +93,18 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
   end
 
   def current_query
-    current_query_name = I18n.t(:label_member_plural)
-    current_object = first_level_menu_items.find do |section|
+    query_name = nil
+    menu_header = nil
+
+    first_level_menu_items.find do |section|
       section.children.find do |menu_query|
         if !!menu_query.selected
-          current_query_name = menu_query.title
-          menu_query
+          query_name = menu_query.title
+          menu_header = section.header
         end
       end
     end
 
-    { query_name: current_query_name, menu_header: current_object&.header }
+    { query_name:, menu_header: }
   end
 end

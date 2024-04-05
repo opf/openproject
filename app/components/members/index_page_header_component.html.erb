@@ -1,6 +1,6 @@
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_member_plural) }
+    header.with_title { page_title }
     header.with_breadcrumbs(breadcrumb_items)
 
     header.with_action_icon_button(mobile_icon: "filter",
