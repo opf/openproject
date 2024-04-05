@@ -1055,6 +1055,8 @@ fr:
       updated_by_on_time_entry: "temps enregistré mis à jour par %{user} le %{datetime}"
       updated_on: "mis à jour le %{datetime}"
       updated_on_time_entry: "temps enregistré mis à jour le %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Sous-projet"
       parent_no_longer: "Plus de sous-projet de"
       time_entry:
@@ -1066,6 +1068,13 @@ fr:
           other: "<i>%{count} heures</i>"
         updated: "modifié de %{old_value} à %{value}"
         logged_for: "Connecté(e) pendant"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Révisions"
       message: "Forums"
@@ -3432,7 +3441,7 @@ fr:
       label_request_token: "Demande de jeton"
       label_refresh_token: "Actualiser le jeton"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 a renvoyé une erreur"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "Fournisseur OAuth2 signalé"
       oauth_returned_error: "OAuth2 a renvoyé une erreur"
       oauth_returned_json_error: "OAuth2 a renvoyé une erreur JSON"

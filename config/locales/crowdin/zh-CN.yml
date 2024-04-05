@@ -1044,6 +1044,8 @@ zh-CN:
       updated_by_on_time_entry: "%{user} 在 %{datetime} 更新了记录的时间"
       updated_on: "在 %{datetime} 更新"
       updated_on_time_entry: "在 %{datetime} 更新了记录的时间"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "子项目"
       parent_no_longer: "不再是该项目的子项目："
       time_entry:
@@ -1053,6 +1055,13 @@ zh-CN:
           other: "<i>%{count} 小时</i>"
         updated: "从 %{old_value} 更改为 %{value}"
         logged_for: "已登录"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "更改集"
       message: "论坛"
@@ -3391,7 +3400,7 @@ zh-CN:
       label_request_token: "请求令牌"
       label_refresh_token: "刷新令牌"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 返回错误"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 提供程序报告"
       oauth_returned_error: "OAuth2 返回错误"
       oauth_returned_json_error: "OAuth2 返回 JSON 错误"

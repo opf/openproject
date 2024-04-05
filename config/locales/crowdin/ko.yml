@@ -1047,6 +1047,8 @@ ko:
       updated_by_on_time_entry: "%{datetime}, %{user} 님이 기록한 시간을 업데이트함"
       updated_on: "%{datetime} 업데이트함"
       updated_on_time_entry: "%{datetime}, 기록한 시간을 업데이트함"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "하위 프로젝트"
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
       time_entry:
@@ -1056,6 +1058,13 @@ ko:
           other: "<i>%{count}시간</i>"
         updated: "%{old_value}에서 %{value}(으)로 변경됨"
         logged_for: "기록함 -"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "변경 집합"
       message: "포럼"
@@ -3398,7 +3407,7 @@ ko:
       label_request_token: "토큰 요청"
       label_refresh_token: "토큰 새로고침"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2가 오류를 반환했습니다."
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 공급자가 다음을 보고했습니다:"
       oauth_returned_error: "OAuth2가 오류를 반환했습니다."
       oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."

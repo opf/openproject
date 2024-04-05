@@ -1051,6 +1051,8 @@ ca:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "actualitzat el %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Subprojecte"
       parent_no_longer: "Ja no és subprojecte de"
       time_entry:
@@ -1062,6 +1064,13 @@ ca:
           other: "%{count} hores</i>"
         updated: "canviat de %{old_value} a %{value}"
         logged_for: "Registrat per"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Conjunt de canvis"
       message: "Fòrums"
@@ -3422,7 +3431,7 @@ ca:
       label_request_token: "Demana el token"
       label_refresh_token: "Actualitza el token"
     errors:
-      oauth_authorization_code_grant_had_errors: "L'OAuth2 retorna un error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "El proveïdor OAuth2 ha reportat"
       oauth_returned_error: "L'OAuth2 retorna un error"
       oauth_returned_json_error: "L'OAuth2 retorna un error JSON"

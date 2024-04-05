@@ -1064,6 +1064,8 @@ uk:
       updated_by_on_time_entry: "зареєстрований час оновлено о %{datetime} користувачем %{user}"
       updated_on: "оновлено %{datetime}"
       updated_on_time_entry: "зареєстрований час оновлено о %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Підпроєкт"
       parent_no_longer: "Більше не входить у проєкт"
       time_entry:
@@ -1079,6 +1081,13 @@ uk:
           other: "<i>%{count} год</i>"
         updated: "змінено з %{old_value} на %{value}"
         logged_for: "Зареєстровано для"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Набори змін"
       message: "Форуми"
@@ -3486,7 +3495,7 @@ uk:
       label_request_token: "Маркер запиту"
       label_refresh_token: "Маркер оновлення"
     errors:
-      oauth_authorization_code_grant_had_errors: "Клієнт OAuth2 повернув помилку"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "Постачальник OAuth2 повідомив:"
       oauth_returned_error: "Клієнт OAuth2 повернув помилку"
       oauth_returned_json_error: "Клієнт OAuth2 повернув помилку JSON"

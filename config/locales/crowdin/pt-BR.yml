@@ -1054,6 +1054,8 @@ pt-BR:
       updated_by_on_time_entry: "tempo registrado atualizado por %{user} em %{datetime}"
       updated_on: "atualizado em %{datetime}"
       updated_on_time_entry: "tempo registrado atualizado em %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Subprojeto"
       parent_no_longer: "Não é mais um subprojeto de"
       time_entry:
@@ -1065,6 +1067,13 @@ pt-BR:
           other: "<i>%{count} horas</i>"
         updated: "alterado de %{old_value} para %{value}"
         logged_for: "Registrado por"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Cj de alterações"
       message: "Fóruns"
@@ -3429,7 +3438,7 @@ pt-BR:
       label_request_token: "Solicitar token"
       label_refresh_token: "Atualizar token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 retornou um erro"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "Provedor OAuth2 comunicou"
       oauth_returned_error: "OAuth2 retornou um erro"
       oauth_returned_json_error: "OAuth2 retornou um erro JSON"
