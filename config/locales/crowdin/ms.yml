@@ -2509,7 +2509,7 @@ ms:
   permission_browse_repository: "Akses baca-sahaja kepada repositori (melayari dan keluar)"
   permission_change_wiki_parent_page: ""
   permission_change_work_package_status: "Tukar status pakej kerja"
-  permission_change_work_package_status_explanation: "Benarkan penukaran status tanpa kebenaran edit pakej kerja"
+  permission_change_work_package_status_explanation: "Benarkan penukaran status tanpa kebenaran Sunting pakej kerja"
   permission_comment_news: "Komen berita"
   permission_commit_access: "Baca/tulis akses ke repositori (komit)"
   permission_copy_projects: "Salin projek"
@@ -2579,7 +2579,7 @@ ms:
   permission_view_wiki_pages: "Papar wiki"
   permission_work_package_assigned: "Menjadi penerima tugasan/bertanggungjawab"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
-  permission_view_project_activity: "Paparkan aktivti projek"
+  permission_view_project_activity: "Papar aktiviti projek"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit atribut teks bantuan"
@@ -2680,7 +2680,7 @@ ms:
       path_permission_failed: "An error occurred trying to create the following path: %{path}. Please ensure that OpenProject may write to that folder."
       unauthorized: "You're not authorized to access the repository or the credentials are invalid."
       unavailable: "Repositori tersebut tiada."
-      exception_title: "Tidak boleh mengakses repository tersebut: %{message}"
+      exception_title: "Tidak boleh mengakses repositori tersebut: %{message}"
       disabled_or_unknown_type: "The selected type %{type} is disabled or no longer available for the SCM vendor %{vendor}."
       disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
       remote_call_failed: "Calling the managed remote failed with message '%{message}' (Code: %{code})"
@@ -3148,19 +3148,19 @@ ms:
   version_status_closed: "closed"
   version_status_locked: "locked"
   version_status_open: "open"
-  note: Note
-  note_password_login_disabled: "Password login has been disabled by %{configuration}."
-  warning: Warning
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  note: Nota
+  note_password_login_disabled: "Kata laluan log masuk telah dibatalkan oleh %{configuration}."
+  warning: Amaran
+  warning_attachments_not_saved: "%{count} fail tidak dapat disimpan."
   warning_imminent_user_limit: >
-    You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
+    Anda menjemput pengguna lebih dari yang disokong pelan semasa anda. Pengguna yang dijemput mungkin tidak dapat sertai persekitaran OpenProject anda. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> atau sekat pengguna sedia ada untuk membenarkan pengguna yang dijemput dan berdaftar untuk sertai.
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+    Pengaktifan e-mel telah tamat tempoh. Kami hantar anda yang baharu ke %{email}.
+    Sila klik link di dalamnya untuk mengaktifkan akaun anda.
   warning_user_limit_reached: >
-    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+    Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses salinan ini.
   warning_user_limit_reached_admin: >
-    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
+    Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> bagi memastikan pengguna luaran dapat mengakses salinan ini.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
@@ -3174,9 +3174,9 @@ ms:
       title: "Hostname setting mismatch"
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
-  menu_item: "Menu item"
+  menu_item: "Item menu"
   menu_item_setting: "Visibility"
-  wiki_menu_item_for: 'Menu item for wikipage "%{title}"'
+  wiki_menu_item_for: 'Item menu untuk halaman wiki "%{title}"'
   wiki_menu_item_setting: "Visibility"
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
@@ -3229,83 +3229,83 @@ ms:
         locked: "Locked user"
         invited: "Invite sent. "
         resend_invite: "Resend."
-        invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
-        project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
-        additional_privileges_project: "Might have additional privileges (as project member)"
-        additional_privileges_group: "Might have additional privileges (as group member)"
-        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+        invite_resent: "Jemputan telah dihantar semula"
+        not_project_member: "Bukan ahli projek"
+        project_group: "Ahli kumpulan mungkin mempunyai keistimewaan tambahan (sebagai ahli projek)"
+        not_project_group: "Kumpulan (dikongsi dengan semua ahli)"
+        additional_privileges_project: "Mungkin mempunyai keistimewaan tambahan (sebagai ahli projek)"
+        additional_privileges_group: "Mungkin mempunyai keistimewaan tambahan (sebagai ahli kumpulan)"
+        additional_privileges_project_or_group: "Mungkin mempunyai keistimewaan tambahan (sebagai ahli projek atau kumpulan)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Hari yang tidak dipilih akan dilangkau semasa penjadualan pakej kerja (dan tidak disertakan dalam jumlah hari). Ini boleh digantikan pada peringkat pakej kerja.
     instance_wide_info: >
-      Dates added to the list below are considered non-working and skipped when scheduling work packages.
-    change_button: "Change working days"
+      Tarikh yang ditambah ke senarai dibawah diterima sebagai tidak berfungsi dan dilangkau semasa menjadualkan pakej kerja.
+    change_button: "Tukar hari bekerja"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Menukar hari mana dalam seminggu dianggap hari bekerja atau hari tidak bekerja boleh memberi kesan kepada hari permulaan dan tamat bagi semua pakej kerja dalam semua projek dalam kejadian ini. <br/> Sila ambil perhatian bahawa perubahan hanya dilaksanakan selepas anda klik butang terapkan perubahan.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Hari bekerja** telah diubah (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} kini hari bekerja"
+        non_working: "%{day} kini bukan hari bekerja"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
-  nothing_to_preview: "Nothing to preview"
+        working: "%{date} kini hari bekerja"
+        non_working: "%{date} kini bukan hari bekerja"
+  nothing_to_preview: "Tiada kandungan untuk dipratonton"
   api_v3:
     attributes:
-      lock_version: "Lock Version"
-      property: "Property"
+      lock_version: "Versi Terkunci "
+      property: "Ciri"
     errors:
       code_400: "Bad request: %{message}"
-      code_401: "You need to be authenticated to access this resource."
+      code_401: "Anda perlu disahkan untuk mengakses sumber ini."
       code_401_wrong_credentials: "You did not provide the correct credentials."
-      code_403: "You are not authorized to access this resource."
-      code_404: "The requested resource could not be found."
-      code_409: "Could not update the resource because of conflicting modifications."
-      code_429: "Too many requests. Please try again later."
-      code_500: "An internal error has occurred."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_403: "Anda tidak diberi kebenaran untuk mengakses sumber ini."
+      code_404: "Sumber yang diminta tidak dapat ditemui."
+      code_409: "Tidak dapat mengemas kini kerana perubahan yang bercanggah."
+      code_429: "Terlalu banyak permintaan. Sila cuba sebentar lagi."
+      code_500: "Sebuah ralat dalaman telah berlaku."
+      code_500_outbound_request_failure: "Satu permintaan outbound ke sumber lain telah gagal dengan kod status %{status_code}. "
       code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
-        work_package: "The work package you are looking for cannot be found or has been deleted."
+        work_package: "Pakej kerja yang anda cari tidak dapat ditemui atau telah dihapuskan."
       expected:
-        date: "YYYY-MM-DD (ISO 8601 date only)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
-        duration: "ISO 8601 duration"
-      invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
-      invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
-      invalid_json: "The request could not be parsed as JSON."
+        date: "TTTT-BB-HH (ISO 8601 tarikh sahaja)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (mana-mana tarikh masa ISO 8601 yang sesuai)"
+        duration: "Tempoh masa ISO 8601"
+      invalid_content_type: "JENIS-KANDUNGAN dijangka untuk menjadi '%{content_type}' tetapi mendapat '%{actual}'."
+      invalid_format: "Format ciri yang tidak sah '%{property}': Format yang dijangka seperti '%{expected_format}', tetapi mendapat '%{actual}'."
+      invalid_json: "Permintaan tersebut tidak dapat dibaca sebagai JSON."
       invalid_relation: "The relation is invalid."
-      invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_resource: "Untuk ciri '%{property}' sebuah pautan seperti '%{expected}' dijangkakan, tetapi mendapat '%{actual}'."
       invalid_signal:
         embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
-      invalid_user_status_transition: "The current user account status does not allow this operation."
-      missing_content_type: "not specified"
+        select: "Permintaan %{invalid} yang dipilih tersebut tidak disokong. Pilihan yang disokong adalah %{supported}."
+      invalid_user_status_transition: "Status akaun pengguna semasa tidak membenarkan operasi ini."
+      missing_content_type: "tidak ditentukan"
       missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
-      multiple_errors: "Multiple field constraints have been violated."
-      unable_to_create_attachment: "The attachment could not be created"
-      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
+      multiple_errors: "Beberapa kekangan medan telah dilanggar."
+      unable_to_create_attachment: "Lampiran tidak boleh dicipta"
+      unable_to_create_attachment_permissions: "Lampiran tidak dapat disimpan kerana kurang kebenaran sistem fail"
       render:
-        context_not_parsable: "The context provided is not a link to a resource."
-        unsupported_context: "The resource given is not supported as context."
-        context_object_not_found: "Cannot find the resource given as the context."
+        context_not_parsable: "Konteks yang diberi bukan satu pautan untuk sumber."
+        unsupported_context: "Sumber yang diberi tidak disokong sebagai konteks."
+        context_object_not_found: "Tidak dapat mencari sumber yang diberikan sebagai konteks."
       validation:
         done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
-        due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
-        invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
-        start_date: "Start date cannot be set on parent work packages."
+        due_date: "Tarikh tamat tidak boleh ditetapkan pada pakej kerja induk."
+        estimated_hours: "Kerja tidak boleh ditetapkan pada pakej kerja induk." #feel like this one should be removed eventually
+        invalid_user_assigned_to_work_package: "Pengguna yang dipilih tidak dibenarkan untuk menjadi '%{property}' untuk pakej kerja ini."
+        start_date: "Tarikh mula tidak boleh ditetapkan pada pakej kerja induk."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "adalah gzip yang tidak sah: %{message}"
+        invalid_json: "adalah json yang tidak sah: %{message}"
     resources:
-      schema: "Schema"
+      schema: "Skema"
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
@@ -3313,7 +3313,7 @@ ms:
     pre_authorization:
       status: "Pre-authorization"
     auth_url: "Auth URL"
-    access_token_url: "Access token URL"
+    access_token_url: "Akses token URL"
     errors:
       messages:
         #Common error messages
@@ -3337,44 +3337,44 @@ ms:
         unsupported_response_mode: "The authorization server does not support this response mode."
         #Access token errors
         invalid_client: "Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method."
-        invalid_grant: "The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
+        invalid_grant: "Pemberian kebenaran yang diberikan adalah tidak sah, luput, dibatalkan, tidak sepadan dengan pengalihan semula URI yang digunakan dalam permintaan kebenaran, atau dikeluarkan kepada pelanggan lain."
         unsupported_grant_type: "The authorization grant type is not supported by the authorization server."
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "Token akses telah dibatalkan"
+          expired: "Token akses telah tamat tempoh"
+          unknown: "Token akses tidak sah"
         revoke:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'Akses kepada sumber ini memerlukan skop "%{oauth_scopes}".'
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
-    message: "You may run into errors and degraded experience on this page."
-    update_message: "Please update your browser."
-    close_warning: "Ignore this warning."
+    message: "Anda mungkin mengalami ralat dan pengalaman yang terjejas pada halaman ini."
+    update_message: "Sila kemas kini pelayar anda."
+    close_warning: "Abaikan amaran ini."
   oauth:
     application:
-      singular: "OAuth application"
-      plural: "OAuth applications"
-      named: "OAuth application '%{name}'"
-      new: "New OAuth application"
-      default_scopes: "(Default scopes)"
+      singular: "Aplikasi OAuth"
+      plural: "Aplikasi OAuth"
+      named: "'%{name}' aplikasi OAuth"
+      new: "Aplikasi OAuth baharu"
+      default_scopes: "(Skop default)"
       instructions:
-        name: "The name of your application. This will be displayed to other users upon authorization."
+        name: "Nama aplikasi anda. Ini akan dipaparkan ke pengguna lain selepas kebenaran."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
         confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
         scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
-        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+        register_intro: "Jika anda sedang membangunkan aplikasi pelanggan API OAuth untuk OpenProject, anda boleh mendaftarkannya menggunakan borang ini untuk semua pengguna menggunakan."
         default_scopes: ""
-    client_id: "Client ID"
+    client_id: "ID pelanggan"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:
       authorize: "Authorize"
-      cancel: "Cancel and deny authorization."
-      prompt_html: "Benarkan <strong>%{application_name}</strong> untuk menggunakan akaun anda <em>%{login}</em> ?"
+      cancel: "Batal dan nafi kebenaran."
+      prompt_html: "Benarkan <strong>%{application_name}</strong> untuk menggunakan akaun anda <em>%{login}</em>?"
       title: "Benarkan %{application_name}"
       wants_to_access_html: >
         Aplikasi ini meminta akses ke akaun OpenProject. <br/> <strong>Ia telah meminta kebenaran yang berikut:</strong>
@@ -3382,7 +3382,7 @@ ms:
       api_v3: "Akses API v3 penuh"
       api_v3_text: "Aplikasi akan menerima akses penuh baca & tulis di OpenProject API v3 untuk melaksanakan tindakan bagi pihak anda."
     grants:
-      created_date: "Dilulukan pada"
+      created_date: "Diluluskan pada"
       scopes: "Kebenaran"
       successful_application_revocation: "Pembatalan aplikasi %{application_name} berjaya."
       none_given: "Tiada aplikasi OAuth yang telah diberi akses ke akaun anda."
@@ -3397,31 +3397,31 @@ ms:
     client_credentials_impersonation_html: >
       Secara default, OpenProject menyediakan kebenaran OAuth 2.0 melalui %{authorization_code_flow_link}. Anda boleh memilih untuk mengaktifkan %{client_credentials_flow_link}, tetapi anda mesti menyediakan pengguna yang akan mewakili permintaan.
     authorization_error: "Sebuah ralat kebenaran telah berlaku."
-    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
-    my_registered_applications: "Registered OAuth applications"
+    revoke_my_application_confirmation: "Adakah anda benar-benar mahu mengeluarkan aplikasi ini? Ini akan membatalkan %{token_count} aktif untuknya."
+    my_registered_applications: "Aplikasi OAuth berdaftar"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
-      error: "Error"
+      connected: "Disambungkan"
+      error: "Ralat"
       failed_authorization: "Authorization failed"
     labels:
-      label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
+      label_oauth_integration: "Integrasi OAuth2"
+      label_redirect_uri: "Ubah hala URI"
+      label_request_token: "Permintaan token"
       label_refresh_token: "Refresh token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
+      oauth_authorization_code_grant_had_errors: "Pemberian pengesahan OAuth2 tidak berjaya"
       oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
-      oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
-      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_returned_error: "OAuth2 kembalikan sebuah ralat"
+      oauth_returned_json_error: "OAuth2 mengembalikan ralat JSON"
+      oauth_returned_http_error: "OAuth2 kembalikan ralat rangkaian"
+      oauth_returned_standard_error: "OAuth2 kembalikan sebuah ralat dalaman"
+      wrong_token_type_returned: "Oauth2 mengembalikan jenis token yang salah, mengharapkan AksesToken::Pembawa"
+      oauth_issue_contact_admin: "OAuth2 melaporkan sebuah ralat. Sila hubungi pentadbir sistem anda."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Internal error: Called refresh_token without a previously existing token.
-      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      refresh_token_updated_failed: "Ralat semasa kemas kini OAuthClientToken"
       oauth_client_not_found_explanation: >
         This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
       oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
