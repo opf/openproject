@@ -95,7 +95,7 @@ class WorkPackages::UpdateAncestorsService
       # as a weight factor. So changes in estimated hours also have
       # to trigger a recalculation of done_ratio.
       %i[done_ratio estimated_hours status status_id] => :derive_done_ratio,
-      %i[remaining_hours] => :derive_remaining_hours,
+      %i[done_ratio estimated_hours status status_id remaining_hours] => :derive_remaining_hours,
       %i[ignore_non_working_days] => :derive_ignore_non_working_days
     }.each do |derivative_attributes, method|
       if attributes.intersect?(derivative_attributes + %i[parent parent_id])
@@ -194,6 +194,10 @@ class WorkPackages::UpdateAncestorsService
   def derive_remaining_hours(work_package, loader)
     descendants = loader.descendants_of(work_package)
 
+    if work_package.closed?
+      work_package.done_ratio = 100
+    end
+    work_package.remaining_hours = not_zero(work_package.estimated_hours.to_f * (100 - work_package.done_ratio.to_f) / 100)
     work_package.derived_remaining_hours = not_zero(all_remaining_hours([work_package] + descendants).sum.to_f)
   end
 
