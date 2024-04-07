@@ -109,6 +109,21 @@
       id="flatpickr-input"
       hidden
     />
+
+    <div class="op-datepicker-modal--forward-date-calculator">
+      <spot-form-field [label]="text.remainingWork">
+        <spot-text-field #remainingWorkField slot="input" name="remainingWork" [(ngModel)]="remainingWork" inputmode="numeric"></spot-text-field>
+      </spot-form-field>
+      <spot-form-field [label]="text.fteCount">
+        <spot-text-field #fteCountField slot="input" name="fteCount" [(ngModel)]="fteCount" inputmode="numeric"></spot-text-field>
+      </spot-form-field>
+      <spot-form-field [label]="text.forwardDurationWorkingDays">
+        <spot-text-field #fteForwardDurationField slot="input" name="forwardDuration" [(ngModel)]="forwardDuration" type="number"></spot-text-field>
+      </spot-form-field>
+      <spot-form-field [label]="text.forwardDate">
+        <spot-text-field #forwardDateField slot="input" name="forwardDate" [(ngModel)]="forwardDate" type="date" inputmode="date"></spot-text-field>
+      </spot-form-field>
+    </div>
   </div>
 
   <div class="spot-action-bar">

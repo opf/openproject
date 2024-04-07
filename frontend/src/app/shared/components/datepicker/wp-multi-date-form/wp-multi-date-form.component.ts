@@ -141,6 +141,10 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
     days: (count:number):string => this.I18n.t('js.units.day', { count }),
+    remainingWork: this.I18n.t('js.work_packages.properties.remainingWork'),
+    fteCount: this.I18n.t('js.work_packages.datepicker_modal.fteCount'),
+    forwardDurationWorkingDays: this.I18n.t('js.work_packages.datepicker_modal.forwardDurationWorkingDays'),
+    forwardDate: this.I18n.t('js.work_packages.datepicker_modal.forwardDate'),
   };
 
   scheduleManually = false;
@@ -288,6 +292,9 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
 
     this.dates.start = this.changeset.value('startDate');
     this.dates.end = this.changeset.value('dueDate');
+    if (this.changeset.value('derivedRemainingTime')) {
+      this._remainingWork = this.timezoneService.toHours(this.changeset.value('derivedRemainingTime'));
+    }
     this.setCurrentActivatedField(this.initialActivatedField);
   }
 
@@ -426,6 +433,106 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
     }
 
     return this.text.days(this.duration);
+  }
+
+  _remainingWork:number|null = null;  // get from work-package
+  _fteCount:number|null = null;  // calculate
+  _singleCapacityHoursPerDay:number = 8;  // config?
+  _workingDaysPerWeek:number = 5 // config?
+  _forwardDuration:number|null = null;  // calculate
+  _forwardDate:Date|null = null;  // calculate
+
+  get remainingWork():number|null {
+    return this._remainingWork;
+  }
+  set remainingWork(value:number|null) {
+    this._remainingWork = value;
+    this.forwardUpdateForwardDuration();
+    this.forwardUpdateForwardDate();
+  }
+
+  get fteCount():number|null {
+    if (!this._fteCount && this.remainingWork) {
+      this._fteCount = 1;
+    }
+    if (!this._fteCount) {
+      return null;
+    }
+    return Number(this._fteCount.toFixed(2));
+  }
+  set fteCount(value:number|null) {
+    this._fteCount = Number(value);
+    this.forwardUpdateForwardDuration();
+    this.forwardUpdateForwardDate();
+  }
+
+  get forwardDuration():number|null {
+    if (!this._forwardDuration) {
+      this.forwardUpdateForwardDuration();
+      this.forwardUpdateForwardDate();
+    }
+    if (!this._forwardDuration) {
+      return null;
+    }
+    return Number(this._forwardDuration.toFixed(2));
+  }
+  set forwardDuration(value:number|null) {
+    this._forwardDuration = Number(value);
+    this.backwardUpdateFteAvailable();
+    this.forwardUpdateForwardDate();
+  }
+
+  get forwardDate():string {
+    if (!this._forwardDate) {
+      this.forwardUpdateForwardDate();
+    }
+    return this.timezoneService.formattedISODate(this._forwardDate);
+  }
+  set forwardDate(value:string) {
+    if (this.timezoneService.isValidISODate(value)) {
+      this._forwardDate = this.timezoneService.parseISODate(value).toDate();
+    }
+    else {
+      this._forwardDate = null;
+    }
+    this.backwardUpdateForwardDuration();
+    this.backwardUpdateFteAvailable();
+  }
+
+  private forwardUpdateForwardDuration() {
+    if (!this._fteCount || !this._remainingWork) {
+        this._forwardDuration = null;
+        return;
+    }
+    var capacityHoursPerDay:number = this._singleCapacityHoursPerDay * this._fteCount;
+    this._forwardDuration = this._remainingWork / capacityHoursPerDay;
+  }
+
+  private forwardUpdateForwardDate() {
+    if (!this._forwardDuration) {
+        return;
+    }
+    var forwardDate = new Date();
+    forwardDate.setHours(0, 0, 0, 0);
+    forwardDate.setDate(forwardDate.getDate() + this._forwardDuration / this._workingDaysPerWeek * 7);
+    this._forwardDate = forwardDate;
+  }
+
+  private backwardUpdateFteAvailable() {
+    if (!this._forwardDuration || !this._remainingWork) {
+        this._fteCount = null;
+        return;
+    }
+    var capacityHoursPerMan:number = this._singleCapacityHoursPerDay * this._forwardDuration;
+    this._fteCount = this._remainingWork / capacityHoursPerMan;
+  }
+
+  private backwardUpdateForwardDuration() {
+    if (!this._forwardDate) {
+        this._forwardDuration = null;
+        return;
+    }
+    this._forwardDuration = (this._forwardDate.valueOf() - Date.now()) / 1000 / 3600/ 24;
   }
 
   private applyDurationChange(newValue:number|null):void {

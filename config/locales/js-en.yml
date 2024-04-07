@@ -983,6 +983,10 @@ en:
         show_relations: "Show relations"
         ignore_non_working_days:
           title: "Working days only"
+        fteCount: "FTE count"
+        forwardDurationWorkingDays: "Working days"
+        forwardDurationWeekDays: "Week days"
+        forwardDate: "Forward Date"
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
