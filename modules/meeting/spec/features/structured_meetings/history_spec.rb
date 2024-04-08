@@ -53,7 +53,9 @@ RSpec.describe "history",
   shared_let(:work_package) do
     create(:work_package, project:, subject: "Important task")
   end
-
+  shared_let(:changed_wp) do
+    create(:work_package, project:, subject: "Changed task")
+  end
   shared_let(:other_wp) do
     create(:work_package, project: other_project, subject: "Private WP")
   end
@@ -201,12 +203,12 @@ RSpec.describe "history",
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
-    # Add + Remove linked work package
+    # Add linked work package
     show_page.visit!
 
     show_page.add_agenda_item(type: WorkPackage) do
       select_autocomplete(find_test_selector("op-agenda-items-wp-autocomplete"),
-                          query: "task",
+                          query: "Important task",
                           results_selector: "body")
     end
 
@@ -220,15 +222,36 @@ RSpec.describe "history",
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "created by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
+    # Update linked work package
+    show_page.visit!
+
+    show_page.edit_agenda_item(wp_item) do
+      select_autocomplete(find_test_selector("op-agenda-items-wp-autocomplete"),
+                          query: "Changed task",
+                          results_selector: "body")
+      click_link_or_button "Save"
+    end
+
+    show_page.expect_agenda_item title: "Changed task"
+    wp_item = MeetingAgendaItem.find_by!(work_package_id: changed_wp.id)
+    expect(wp_item).to be_present
+
+    history_page.open_history_modal
+    item = history_page.first_item
+    expect(item).to have_css(".op-activity-list--item-title", text: changed_wp.to_s.strip)
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "updated by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
+    expect(item).to have_css("li", text: "Agenda item work package changed from Important task to Changed task")
+
+    # Remove linked work package
     show_page.visit!
     show_page.remove_agenda_item wp_item
     history_page.open_history_modal
 
     item = history_page.first_item
-    expect(item).to have_css(".op-activity-list--item-title", text: work_package.to_s.strip)
+    expect(item).to have_css(".op-activity-list--item-title", text: changed_wp.to_s.strip)
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
-
 
     # With a work package linked in another project
     show_page.visit!

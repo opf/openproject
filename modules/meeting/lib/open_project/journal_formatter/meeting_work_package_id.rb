@@ -1,6 +1,6 @@
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,18 +24,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module WorkPackageMembers
-  class DeleteContract < ::DeleteContract
-    delete_permission :share_work_packages
+class OpenProject::JournalFormatter::MeetingWorkPackageId < JournalFormatter::Base
+  def render(_key, values, options = { html: true })
+    label_text = I18n.t(:label_agenda_item_work_package)
+    label_text = content_tag(:strong, label_text) if options[:html]
 
-    validate :member_is_deletable
+    I18n.t(:text_journal_of, label: label_text, value: value(options[:html], values))
+  end
 
-    private
+  private
 
-    def member_is_deletable
-      errors.add(:base, :not_deletable) unless model.some_roles_deletable?
-    end
+  def value(html, values)
+    html = html ? "_html" : ""
+
+    new = visible(values.last)
+    old = visible(values.first)
+
+    I18n.t(:"activity.item.meeting_agenda_item.work_package.updated#{html}",
+           value: new ? new.name : I18n.t(:label_agenda_item_undisclosed_wp, id: values.last),
+           old_value: old ? old.name : I18n.t(:label_agenda_item_undisclosed_wp, id: values.first))
+  end
+
+  def visible(work_package_id)
+    WorkPackage.visible.find_by(id: work_package_id)
   end
 end

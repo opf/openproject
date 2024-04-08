@@ -57,6 +57,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :agenda_item_duration, OpenProject::JournalFormatter::AgendaItemDuration
   register_journal_formatter :agenda_item_diff, OpenProject::JournalFormatter::AgendaItemDiff
   register_journal_formatter :agenda_item_title, OpenProject::JournalFormatter::AgendaItemTitle
+  register_journal_formatter :meeting_work_package_id, OpenProject::JournalFormatter::MeetingWorkPackageId
 
   # Attributes related to the cause are stored in a JSONB column so we can easily add new relations and related
   # attributes without a heavy database migration. Fields will be prefixed with `cause_` but are stored in the JSONB

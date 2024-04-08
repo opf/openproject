@@ -31,7 +31,7 @@
 require "spec_helper"
 require "services/base_services/behaves_like_delete_service"
 
-RSpec.describe WorkPackageMembers::DeleteService, type: :model do
+RSpec.describe WorkPackageMembers::DeleteRoleService, type: :model do
   it_behaves_like "BaseServices delete service" do
     let(:model_class) { Member }
     let(:model_instance) { build_stubbed(:work_package_member, principal:) }
@@ -77,12 +77,42 @@ RSpec.describe WorkPackageMembers::DeleteService, type: :model do
         end
       end
 
-      context "when member has inherited member roles" do
-        let(:direct_member_role_a) { build(:member_role) }
-        let(:direct_member_role_b) { build(:member_role) }
-        let(:inherited_member_role) { build(:member_role, inherited_from: 123) }
-        let(:member_roles) { [direct_member_role_a, direct_member_role_b, inherited_member_role] }
+      context "when member has multiple member roles" do
+        let(:selected_member_role) { build(:member_role) }
+        let(:other_member_role) { build(:member_role) }
+        let(:member_roles) { [selected_member_role, other_member_role] }
         let!(:model_instance) { create(factory, principal:, member_roles:) }
+        let(:call_attributes) { { role_id: selected_member_role.role_id } }
+
+        it "does not destroy the member" do
+          service_call
+
+          expect(model_instance).not_to have_received(:destroy)
+        end
+
+        it "does not destroy non selected member role" do
+          service_call
+
+          expect { other_member_role.reload }.not_to raise_error
+        end
+
+        it "destroys the selected member role" do
+          service_call
+
+          expect { selected_member_role.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+
+        it "is successful" do
+          expect(subject).to be_success
+        end
+      end
+
+      context "when member has inherited member role" do
+        let(:direct_member_role) { build(:member_role) }
+        let(:inherited_member_role) { build(:member_role, inherited_from: 123) }
+        let(:member_roles) { [direct_member_role, inherited_member_role] }
+        let!(:model_instance) { create(factory, principal:, member_roles:) }
+        let(:call_attributes) { { role_id: direct_member_role.role_id } }
 
         it "does not destroy the member" do
           service_call
@@ -96,11 +126,10 @@ RSpec.describe WorkPackageMembers::DeleteService, type: :model do
           expect { inherited_member_role.reload }.not_to raise_error
         end
 
-        it "destroys direct member roles" do
+        it "destroys direct member role" do
           service_call
 
-          expect { direct_member_role_a.reload }.to raise_error(ActiveRecord::RecordNotFound)
-          expect { direct_member_role_b.reload }.to raise_error(ActiveRecord::RecordNotFound)
+          expect { direct_member_role.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end
 
         it "is successful" do

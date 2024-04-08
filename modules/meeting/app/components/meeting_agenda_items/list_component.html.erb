@@ -2,7 +2,7 @@
   component_wrapper(data: wrapper_data_attributes) do
     # The borderBox needs to be `position: relative` because of bug #49853
     # (The action menu items float somewhere on the page as soon as you have to scroll the Box in Firefox)
-    render(Primer::Beta::BorderBox.new(position: :relative)) do |border_box|
+    render(border_box_container) do |border_box|
       if @meeting.agenda_items.empty? && @form_hidden
         border_box.with_body(
           scheme: :default
