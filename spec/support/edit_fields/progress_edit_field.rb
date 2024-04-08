@@ -35,7 +35,8 @@ class ProgressEditField < EditField
   FIELD_NAME_MAP = {
     "estimatedTime" => :estimated_hours,
     "remainingTime" => :remaining_hours,
-    "percentageDone" => :done_ratio
+    "percentageDone" => :done_ratio,
+    "statusWithinProgressModal" => :status_id
   }.freeze
 
   def initialize(context,
@@ -92,6 +93,10 @@ class ProgressEditField < EditField
     input_element.native.send_keys :return
   end
 
+  def close!
+    page.find("[data-test-selector='op-progress-modal--close-icon']").click
+  end
+
   def expect_active!
     expect(page).to have_css(MODAL_SELECTOR)
   end
@@ -143,9 +148,17 @@ class ProgressEditField < EditField
     within modal_element do
       if @property_name == "percentageDone" && value.to_s == "-"
         expect(page).to have_field(field_name, readonly:, placeholder: value.to_s)
+      elsif @property_name == "statusWithinProgressModal"
+        expect(page).to have_select(field_name, disabled:, with_selected: value.to_s)
       else
         expect(page).to have_field(field_name, disabled:, readonly:, with: value.to_s)
       end
+    end
+  end
+
+  def expect_select_field_with_options(*expected_options)
+    within modal_element do
+      expect(page).to have_select(field_name, with_options: expected_options)
     end
   end
 

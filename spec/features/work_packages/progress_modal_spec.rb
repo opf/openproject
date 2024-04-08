@@ -32,7 +32,17 @@ require "spec_helper"
 
 RSpec.describe "Progress modal", :js, :with_cuprite do
   shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project) }
+  shared_let(:type_task) { create(:type_task) }
+  shared_let(:project) { create(:project, types: [type_task]) }
+  shared_let(:open_status_with_0p_done_ratio) do
+    create(:status, name: "open", default_done_ratio: 0)
+  end
+  shared_let(:in_progress_status_with_50p_done_ratio) do
+    create(:status, name: "in progress", default_done_ratio: 50)
+  end
+  shared_let(:complete_status_with_100p_done_ratio) do
+    create(:status, name: "complete", default_done_ratio: 100)
+  end
 
   shared_let(:estimated_hours) { 10.0 }
   shared_let(:remaining_hours) { 5.0 }
@@ -49,8 +59,6 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
                                .call(**attributes)
   end
 
-  current_user { user }
-
   let(:progress_query) do
     create(:query,
            project:,
@@ -61,21 +69,14 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       create(:view_work_packages_table, query:)
     end
   end
+
   let(:work_package_table) { Pages::WorkPackagesTable.new(project) }
   let(:work_package_row) { work_package_table.work_package_container(work_package) }
+  let(:work_package_create_page) { Pages::FullWorkPackageCreate.new(project:) }
+
+  current_user { user }
 
   describe "clicking on a field on the work package table" do
-    it "opens the modal with its work field in focus " \
-       "when clicking on the work input field" do
-      work_package_table.visit_query(progress_query)
-      work_package_table.expect_work_package_listed(work_package)
-
-      work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
-      modal = work_edit_field.activate!
-
-      modal.expect_modal_field_in_focus
-    end
-
     it "sets the cursor after the last character on the selected input field" do
       work_package_table.visit_query(progress_query)
       work_package_table.expect_work_package_listed(work_package)
@@ -87,23 +88,161 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
     end
   end
 
-  describe "clicking on the remaining work field on the work package table " \
-           "with no fields set" do
-    before do
-      update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil)
+  describe "work based mode" do
+    shared_examples_for "opens the modal with its work field in focus" do
+      it "opens the modal with its work field in focus" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        modal = work_edit_field.activate!
+
+        modal.expect_modal_field_in_focus
+      end
     end
 
-    it "opens the modal with work in focus and remaining work disabled" do
-      work_package_table.visit_query(progress_query)
-      work_package_table.expect_work_package_listed(work_package)
+    describe "clicking on the work field on the work package table " \
+             "with no fields set" do
+      before do
+        update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil)
+      end
 
-      work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
-      remaining_work_field = ProgressEditField.new(work_package_row, :remainingTime)
+      include_examples "opens the modal with its work field in focus"
+    end
 
-      remaining_work_field.activate!
+    describe "clicking on the work field on the work package table" \
+             "with all fields set" do
+      before do
+        update_work_package_with(work_package, estimated_hours: 25.0, remaining_hours: 15.0)
+      end
 
-      work_edit_field.expect_modal_field_in_focus
-      remaining_work_field.expect_modal_field_disabled
+      include_examples "opens the modal with its work field in focus"
+    end
+
+    describe "clicking on the remaining work field on the work package table " \
+             "with no fields set" do
+      before do
+        update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil)
+      end
+
+      it "opens the modal with work in focus and remaining work disabled" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        remaining_work_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+        remaining_work_field.activate!
+
+        work_edit_field.expect_modal_field_in_focus
+        remaining_work_field.expect_modal_field_disabled
+      end
+    end
+
+    describe "clicking on the remaining work field on the work package table " \
+             "with all fields set" do
+      before do
+        update_work_package_with(work_package, estimated_hours: 20.0, remaining_hours: 15.0)
+      end
+
+      it "opens the modal with remaining work in focus" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        remaining_work_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+        remaining_work_field.activate!
+
+        remaining_work_field.expect_modal_field_in_focus
+      end
+    end
+  end
+
+  describe "status based mode", with_settings: { work_package_done_ratio: "status" } do
+    describe "clicking on the work field in the work package table " \
+             "with no fields set" do
+      before { update_work_package_with(work_package, estimated_hours: nil, remaining_hours: nil) }
+
+      it "opens the modal with work in focus" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        modal = work_edit_field.activate!
+
+        modal.expect_modal_field_in_focus
+      end
+    end
+
+    describe "clicking on the work field in the work package table " \
+             "with all fields set" do
+      before { update_work_package_with(work_package, estimated_hours: 20.0, remaining_hours: 15.0) }
+
+      it "opens the modal with work in focus" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        modal = work_edit_field.activate!
+
+        modal.expect_modal_field_in_focus
+      end
+    end
+
+    describe "Remaining work field" do
+      it "is readonly" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        remaining_work_field = ProgressEditField.new(work_package_row, :remainingTime)
+        work_field.activate!
+
+        remaining_work_field.expect_read_only_modal_field
+      end
+    end
+
+    context "when on a new work package form" do
+      specify "modal renders when no default status is set for new work packages" do
+        work_package_create_page.visit!
+
+        work_field = work_package_create_page.edit_field(:estimatedTime)
+        work_field.activate!
+      end
+
+      context "with a default status set for new work packages" do
+        before { open_status_with_0p_done_ratio.update!(is_default: true) }
+
+        shared_let(:workflow) do
+          create(:workflow,
+                 type_id: type_task.id,
+                 old_status: open_status_with_0p_done_ratio,
+                 new_status: in_progress_status_with_50p_done_ratio)
+        end
+
+        it "renders the status selection field inside the modal as disabled " \
+           "and allows setting the status solely by the top-left field" do
+          work_package_create_page.visit!
+          work_package_create_page.expect_fully_loaded
+
+          work_field = work_package_create_page.edit_field(:estimatedTime)
+          modal_status_field = work_package_create_page.edit_field(:statusWithinProgressModal)
+
+          modal = work_field.activate!
+
+          modal_status_field.expect_modal_field_disabled
+          modal_status_field.expect_modal_field_value("open (0%)", disabled: true)
+
+          modal.close!
+
+          status_field = work_package_create_page.edit_field(:status)
+
+          status_field.update("in progress")
+
+          work_field.activate!
+          modal_status_field.expect_modal_field_value("in progress (50%)", disabled: true)
+        end
+      end
     end
   end
 
@@ -145,6 +284,22 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_edit_field.expect_modal_field_value("")
           remaining_work_edit_field.expect_modal_field_value("", disabled: true)
           percent_complete_edit_field.expect_modal_field_value("-", readonly: true)
+        end
+      end
+
+      describe "status field", with_settings: { work_package_done_ratio: "status" } do
+        it "renders the status options as the << status_name (percent_complete_value %) >>" do
+          work_package_table.visit_query(progress_query)
+          work_package_table.expect_work_package_listed(work_package)
+
+          work_field = ProgressEditField.new(work_package_row, :estimatedTime)
+          status_field = ProgressEditField.new(work_package_row, :statusWithinProgressModal)
+
+          work_field.activate!
+
+          status_field.expect_select_field_with_options("open (0%)",
+                                                        "in progress (50%)",
+                                                        "complete (100%)")
         end
       end
     end

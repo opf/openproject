@@ -139,6 +139,13 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     return moment.duration(value).asHours().toFixed(1);
   }
 
+  public statusFormatter(value:null|string):string {
+    if (value === null) {
+      return '';
+    }
+    return value;
+  }
+
   private contextBasedListener(event:CustomEvent) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (this.resource.id === 'new') {
@@ -208,7 +215,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     url.searchParams.set('work_package[remaining_hours]', this.formatter(this.resource.remainingTime));
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[status_id]', this.resource.status.id as string);
+    url.searchParams.set('work_package[status_id]', this.statusFormatter(this.resource.status?.id as string));
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.frameSrc = url.toString();
