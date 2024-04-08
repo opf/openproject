@@ -63,6 +63,13 @@ class FiltersComponent < ApplicationComponent
 
   protected
 
+  # With this method we can pass additional options for each type of filter into the frontend. This is especially
+  # useful when we want to pass options for the autocompleter components.
+  #
+  # When the method is overwritten in a subclass, the subclass should call super(filter) to get the default attributes.
+  #
+  # @param filter [QueryFilter] the filter for which we want to pass additional attributes
+  # @return [Hash] the additional attributes for the filter, that will be yielded in the each_filter method
   def additional_filter_attributes(filter)
     case filter
     when Queries::Filters::Shared::ProjectFilter
