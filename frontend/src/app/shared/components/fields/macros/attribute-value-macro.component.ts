@@ -49,6 +49,7 @@ import {
   SupportedAttributeModels,
 } from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
 import { firstValueFrom } from 'rxjs';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 @Component({
   templateUrl: './attribute-value-macro.html',
@@ -115,8 +116,9 @@ export class AttributeValueMacroComponent implements OnInit {
     }
 
     const schema = await this.schemaCache.ensureLoaded(resource);
-    const attribute = schema.attributeFromLocalizedName(attributeName) || attributeName;
-    const fieldSchema = schema[attribute] as IFieldSchema|undefined;
+    const proxied = this.schemaCache.proxied(resource, schema);
+    const attribute = schema.attributeFromLocalizedName(attributeName) || this.dateAttribute(resource, proxied, attributeName);
+    const fieldSchema = proxied.ofProperty(attribute) as IFieldSchema|undefined;
 
     if (fieldSchema) {
       this.resource = resource;
@@ -131,5 +133,13 @@ export class AttributeValueMacroComponent implements OnInit {
   markError(message:string) {
     this.error = this.I18n.t('js.editor.macro.error', { message });
     this.cdRef.detectChanges();
+  }
+
+  dateAttribute(resource:HalResource, proxied:ISchemaProxy, attributeName:string):string {
+    if (resource._type === 'WorkPackage' && !proxied.isMilestone && attributeName === 'date') {
+      return 'combinedDate';
+    }
+
+    return proxied.mappedName(attributeName);
   }
 }

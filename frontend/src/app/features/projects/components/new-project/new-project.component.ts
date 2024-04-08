@@ -9,7 +9,9 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
+import {
+  DynamicFormComponent,
+} from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -45,6 +47,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   hiddenFields:string[] = [
     'identifier',
     'active',
+    'createdAt',
   ];
 
   copyableTemplateFilter = new ApiV3FilterBuilder()

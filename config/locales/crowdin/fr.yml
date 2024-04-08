@@ -321,7 +321,7 @@ fr:
       invited: "Invité"
       locked: "Verrouillé"
       project_roles: "Rôle du projet"
-      wp_shares: "Répartition des lots de travaux"
+      wp_shares: "Partages du lot des travaux"
       groups: "Groupes"
   my:
     access_token:
@@ -1055,6 +1055,8 @@ fr:
       updated_by_on_time_entry: "temps enregistré mis à jour par %{user} le %{datetime}"
       updated_on: "mis à jour le %{datetime}"
       updated_on_time_entry: "temps enregistré mis à jour le %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Sous-projet"
       parent_no_longer: "Plus de sous-projet de"
       time_entry:
@@ -1066,6 +1068,13 @@ fr:
           other: "<i>%{count} heures</i>"
         updated: "modifié de %{old_value} à %{value}"
         logged_for: "Connecté(e) pendant"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Révisions"
       message: "Forums"
@@ -2314,7 +2323,7 @@ fr:
         allowed_actions: "Vous pouvez %{allowed_actions} ce lot de travaux. Cela peut changer en fonction de votre rôle dans le projet et de vos droits."
         create_account: "Pour accéder à ce paquet de travail, vous aurez besoin de créer et activer un compte sur %{instance}."
         open_work_package: "Ouvrir ce lot de travaux"
-        subject: "Paquet de travail #%{id} a été partagé avec vous"
+        subject: "Le lot des travaux #%{id} a été partagé avec vous"
         enterprise_text: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
         summary:
           user: "%{user} a partagé un lot de travaux avec vous avec les droits %{role_rights}"
@@ -2593,7 +2602,7 @@ fr:
   permission_view_news: "Voir les nouvelles"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
-  permission_view_shared_work_packages: "Voir la répartition des lots de travaux"
+  permission_view_shared_work_packages: "Voir les partages du lot des travaux"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
@@ -2650,7 +2659,7 @@ fr:
     member_of_group: "Groupe du Destinataire"
     name_or_identifier: "Nom ou identifiant"
     only_subproject_id: "Seulement le sous-projet"
-    shared_with_user: "Partagée avec l'utilisateur"
+    shared_with_user: "Partagés avec l'utilisateur"
     shared_with_me: "Partagés avec moi"
     subproject_id: "Inclure le sous-projet"
   repositories:
@@ -3236,7 +3245,7 @@ fr:
       share: "Partager"
       text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
       text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
-      text_empty_state_description: "Le lot de travaux n'a pas encore été partagé avec personne."
+      text_empty_state_description: "Le lot de travaux n'a encore été partagé avec personne."
       text_empty_state_header: "Non partagé"
       text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce lot de travaux."
       text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour pouvoir ajouter d''autres utilisateurs.'
@@ -3432,7 +3441,7 @@ fr:
       label_request_token: "Demande de jeton"
       label_refresh_token: "Actualiser le jeton"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 a renvoyé une erreur"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "Fournisseur OAuth2 signalé"
       oauth_returned_error: "OAuth2 a renvoyé une erreur"
       oauth_returned_json_error: "OAuth2 a renvoyé une erreur JSON"

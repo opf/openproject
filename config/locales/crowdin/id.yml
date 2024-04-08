@@ -1041,6 +1041,8 @@ id:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "diperbarui pada %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Sub-Project"
       parent_no_longer: "Tidak lagi menjadi subproyek dari"
       time_entry:
@@ -1050,6 +1052,13 @@ id:
           other: "Satu\n <i>%{count} jam</i>\n\n Lainnya\n <i>%{count} jam</i>"
         updated: "diubah dari %{old_value} menjadi %{value}"
         logged_for: "Masuk untuk"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Set perubahan"
       message: "Forum"
@@ -3391,7 +3400,7 @@ id:
       label_request_token: "Minta token"
       label_refresh_token: "Segarkan token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 mengembalikan kesalahan"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "Penyedia OAuth2 dilaporkan"
       oauth_returned_error: "OAuth2 mengembalikan kesalahan"
       oauth_returned_json_error: "OAuth2 mengembalikan kesalahan JSON"

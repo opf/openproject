@@ -1,5 +1,5 @@
 <%=
-  render(Primer::Beta::BorderBox.new) do |component|
+  render(border_box_container) do |component|
     component.with_header(color: :muted) do
       render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.file_storage_view.general_information') }
     end

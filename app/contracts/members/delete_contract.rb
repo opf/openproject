@@ -35,7 +35,7 @@ module Members
     private
 
     def member_is_deletable
-      errors.add(:base, :not_deletable) unless model.deletable?
+      errors.add(:base, :not_deletable) unless model.some_roles_deletable?
     end
   end
 end

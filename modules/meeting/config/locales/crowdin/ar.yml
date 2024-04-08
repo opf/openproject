@@ -44,13 +44,13 @@ ar:
         participants_invited: "المدعوّون"
         project: "مشروع"
         start_date: "التاريخ"
-        start_time: "الوقت"
-        start_time_hour: "وقت البدء"
-      meeting_agenda_items:
-        title: "العنوان"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
         author: "Author"
         duration_in_minutes: "Duration (min)"
-        description: "ملاحظات"
+        description: "Notes"
         presenter: "Presenter"
     errors:
       messages:
@@ -159,6 +159,8 @@ ar:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "أنشئ بواسطة"
   label_meeting_last_updated: "Last updated"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Deleted work package reference"
@@ -168,6 +170,11 @@ ar:
   label_agenda_item_move_up: "تحريك للأعلى"
   label_agenda_item_move_down: "تحريك للأسفل"
   label_agenda_item_add_notes: "إضافة ملاحظات"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state_open: "مفتوح"

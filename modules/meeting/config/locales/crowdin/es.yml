@@ -40,13 +40,13 @@ es:
         participants_invited: "Invitados"
         project: "Proyecto"
         start_date: "Fecha"
-        start_time: "Tiempo"
-        start_time_hour: "Hora de inicio"
-      meeting_agenda_items:
-        title: "Título"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
         author: "Author"
-        duration_in_minutes: "Duración (min)"
-        description: "Notas"
+        duration_in_minutes: "Duration (min)"
+        description: "Notes"
         presenter: "Presenter"
     errors:
       messages:
@@ -155,6 +155,8 @@ es:
   label_meeting_delete: "Eliminar reunión"
   label_meeting_created_by: "Creado por"
   label_meeting_last_updated: "Última actualización"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Paquete de trabajo #%{id} no visible"
   label_agenda_item_deleted_wp: "Referencia de paquete de trabajo eliminada"
@@ -164,6 +166,11 @@ es:
   label_agenda_item_move_up: "Mover hacia arriba"
   label_agenda_item_move_down: "Mover hacia abajo"
   label_agenda_item_add_notes: "Añadir notas"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "Detalles de la reunión"
   label_meeting_details_edit: "Editar detalles de la reunión"
   label_meeting_state_open: "Abrir"

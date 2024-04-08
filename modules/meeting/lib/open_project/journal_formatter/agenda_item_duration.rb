@@ -40,20 +40,22 @@ class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
       end
     end
 
-    value = value(mapped.first, mapped.last)
+    value = value(options[:html], mapped.first, mapped.last)
 
     I18n.t(:text_journal_of, label: label_text, value:)
   end
 
   private
 
-  def value(old_value, value)
+  def value(html, old_value, value)
+    html = html ? "_html" : ""
+
     if old_value.nil?
-      I18n.t(:"activity.item.meeting_agenda_item.duration.added", value:)
+      I18n.t(:"activity.item.meeting_agenda_item.duration.added#{html}", value:)
     elsif value.nil?
       I18n.t(:"activity.item.meeting_agenda_item.duration.removed")
     else
-      I18n.t(:"activity.item.meeting_agenda_item.duration.updated", value:, old_value:)
+      I18n.t(:"activity.item.meeting_agenda_item.duration.updated#{html}", value:, old_value:)
     end
   end
 end

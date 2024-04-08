@@ -1066,6 +1066,8 @@ pl:
       updated_by_on_time_entry: "czas zalogowania zaktualizowany przez użytkownika %{user} w dniu %{datetime}"
       updated_on: "zaktualizowano %{datetime}"
       updated_on_time_entry: "czas zalogowania zaktualizowany w dniu %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
       parent_without_of: "Podprojekt"
       parent_no_longer: "Nie jest to już podprojekt projektu"
       time_entry:
@@ -1081,6 +1083,13 @@ pl:
           other: "<i>%{count} godziny</i>"
         updated: "zmieniono z %{old_value} na %{value}"
         logged_for: "Zalogowano przez"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+        position:
+          updated: "reordered"
     filter:
       changeset: "Zestawy zmian"
       message: "Fora"
@@ -3489,7 +3498,7 @@ pl:
       label_request_token: "Żądaj tokena"
       label_refresh_token: "Odśwież token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 zwrócił błąd"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "Dostawca OAuth2 zgłosił"
       oauth_returned_error: "OAuth2 zwrócił błąd"
       oauth_returned_json_error: "OAuth2 zwrócił błąd JSON"

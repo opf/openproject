@@ -12,6 +12,7 @@
           flex_layout(align_items: :center) do |flex|
             flex.with_column(mr: 2, flex: 1, classes: 'ellipsis') do
               render(Primer::Beta::Link.new(href: work_package_path(@meeting_agenda_item.work_package), underline: false,
+                                            test_selector: 'op-meeting-agenda-title',
                                             font_size: :normal, font_weight: :bold, target: "_blank")) do
                 @meeting_agenda_item.work_package.subject
               end
@@ -30,11 +31,11 @@
             end
           end
         elsif @meeting_agenda_item.linked_work_package?
-          render(Primer::Beta::Text.new(font_size: :small, mr: 2, color: :subtle)) do
+          render(Primer::Beta::Text.new(font_size: :small, mr: 2, color: :subtle, test_selector: 'op-meeting-agenda-title')) do
             I18n.t(:label_agenda_item_undisclosed_wp, id: @meeting_agenda_item.work_package_id)
           end
         elsif @meeting_agenda_item.deleted_work_package?
-          render(Primer::Beta::Text.new(tag: :s, font_size: :small, mr: 2, color: :danger)) do
+          render(Primer::Beta::Text.new(tag: :s, font_size: :small, mr: 2, color: :danger, test_selector: 'op-meeting-agenda-title')) do
             I18n.t(:label_agenda_item_deleted_wp)
           end
         else
