@@ -125,7 +125,7 @@ RSpec.describe "history",
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
-      fill_in "Duration (min)", with: "25"
+      fill_in "min", with: "25"
     end
 
     show_page.expect_agenda_item(title: "My agenda item")
