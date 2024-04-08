@@ -92,6 +92,7 @@ class JournalsController < ApplicationController
     permission = case @journal.journable_type
                  when "WorkPackage" then :view_work_packages
                  when "Project" then :view_project
+                 when "Meeting" then :view_meetings
                  end
 
     do_authorize(permission)
@@ -104,7 +105,11 @@ class JournalsController < ApplicationController
   end
 
   def valid_field_for_diffing?
-    %w[description status_explanation].include?(field_param)
+    %w[description status_explanation].include?(field_param) || agenda_item_notes?
+  end
+
+  def agenda_item_notes?
+    field_param.match?(/\Aagenda_items_\d+_notes\z/)
   end
 
   def journals_index_title
