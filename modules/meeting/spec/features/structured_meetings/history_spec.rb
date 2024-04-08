@@ -228,8 +228,10 @@ RSpec.describe "history",
       select_autocomplete(find_test_selector("op-agenda-items-wp-autocomplete"),
                           query: "Changed task",
                           results_selector: "body")
+      click_link_or_button "Save"
     end
 
+    show_page.expect_agenda_item title: "Changed task"
     wp_item = MeetingAgendaItem.find_by!(work_package_id: changed_wp.id)
     expect(wp_item).to be_present
 
@@ -246,7 +248,7 @@ RSpec.describe "history",
     history_page.open_history_modal
 
     item = history_page.first_item
-    expect(item).to have_css(".op-activity-list--item-title", text: work_package.to_s.strip)
+    expect(item).to have_css(".op-activity-list--item-title", text: changed_wp.to_s.strip)
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
