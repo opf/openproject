@@ -24,7 +24,7 @@ post:
                       to:
                         href: "/api/v3/work_packages/3857"
                     _type: WorkPackage
-                    delay: 3
+                    lag: 3
                     description: let it rest for 3 days
                     type: follows
                   schema:
@@ -32,8 +32,8 @@ post:
                       self:
                         href: "/api/v3/relations/schema"
                     _type: Schema
-                    delay:
-                      name: Delay
+                    lag:
+                      name: Lag
                       type: Integer
                       writable: true
                     description:

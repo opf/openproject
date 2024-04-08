@@ -35,18 +35,18 @@ module WorkPackage::SchedulingRules
 
   # TODO: move into work package contract (possibly a module included into the contract)
   # Calculates the minimum date that
-  # will not violate the precedes relations (max(finish date, start date) + relation delay)
+  # will not violate the precedes relations (max(finish date, start date) + relation lag)
   # of this work package or its ancestors
   # e.g.
-  # AP(due_date: 2017/07/25)-precedes(delay: 0)-A
+  # AP(due_date: 2017/07/25)-precedes(lag: 0)-A
   #                                             |
   #                                           parent
   #                                             |
-  # BP(due_date: 2017/07/22)-precedes(delay: 2)-B
+  # BP(due_date: 2017/07/22)-precedes(lag: 2)-B
   #                                             |
   #                                           parent
   #                                             |
-  # CP(due_date: 2017/07/25)-precedes(delay: 2)-C
+  # CP(due_date: 2017/07/25)-precedes(lag: 2)-C
   #
   # Then soonest_start for:
   #   C is 2017/07/28
