@@ -31,16 +31,18 @@ class OpenProject::JournalFormatter::MeetingWorkPackageId < JournalFormatter::Ba
     label_text = I18n.t(:label_agenda_item_work_package)
     label_text = content_tag(:strong, label_text) if options[:html]
 
-    I18n.t(:text_journal_of, label: label_text, value: value(values))
+    I18n.t(:text_journal_of, label: label_text, value: value(options[:html], values))
   end
 
   private
 
-  def value(values)
+  def value(html, values)
+    html = html ? "_html" : ""
+
     new = visible(values.last)
     old = visible(values.first)
 
-    I18n.t(:"activity.item.meeting_agenda_item.work_package.updated",
+    I18n.t(:"activity.item.meeting_agenda_item.work_package.updated#{html}",
            value: new ? new.name : I18n.t(:label_agenda_item_undisclosed_wp, id: values.last),
            old_value: old ? old.name : I18n.t(:label_agenda_item_undisclosed_wp, id: values.first))
   end
