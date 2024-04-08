@@ -34,15 +34,16 @@ class Activities::MeetingEventMapper < Activities::EventMapper
   protected
 
   def map_to_event(journal)
-    count = agenda_changes(journal).count
+    agenda_changes = agenda_changes(journal)
+    count = agenda_changes.count
     total = journal.details.count
 
     if count > 0 && count < total
       # If we have a mix of meeting and agenda item journal, split it up
-      split_agenda_event(journal)
+      split_agenda_event(journal, agenda_changes)
     elsif count == total
       # All changes are related to agenda items, convert it to an agenda event
-      create_agenda_events(journal)
+      create_agenda_events(journal, agenda_changes)
     else
       create_meeting_event(journal)
     end
@@ -51,8 +52,8 @@ class Activities::MeetingEventMapper < Activities::EventMapper
   ##
   # We want to split journals into multiple events
   # if they contain meeting AND agenda item changes.
-  def split_agenda_event(journal)
-    agenda_event = create_agenda_events(journal)
+  def split_agenda_event(journal, agenda_changes)
+    agenda_event = create_agenda_events(journal, agenda_changes)
 
     # Create an agenda event
     unless only_agenda_item_changes?(journal)
@@ -70,10 +71,10 @@ class Activities::MeetingEventMapper < Activities::EventMapper
     create_event(params)
   end
 
-  def create_agenda_events(journal)
+  def create_agenda_events(journal, agenda_changes)
     params = mapped_params(journal)
 
-    agenda_changes(journal).map do |agenda_item_id, changes|
+    agenda_changes.map do |agenda_item_id, changes|
       params[:data] = {
         id: agenda_item_id,
         details: changes,
@@ -99,7 +100,13 @@ class Activities::MeetingEventMapper < Activities::EventMapper
     title_change = named_change(changes, "title")
     work_package_change = named_change(changes, "work_package_id")
 
-    (title_change && title_change.last.nil?) || (work_package_change && work_package_change.last.nil?)
+    if work_package_change
+      work_package_change.last.nil?
+    elsif title_change
+      title_change.last.nil?
+    else
+      false
+    end
   end
 
   def agenda_item_title(journal, id, details)
