@@ -39,12 +39,12 @@ module Meetings
 
     def additional_filter_attributes(filter)
       case filter
-      when Queries::Meetings::Filters::AuthorFilter
+      when Queries::Meetings::Filters::AuthorFilter,
+           Queries::Meetings::Filters::AttendedUserFilter,
+           Queries::Meetings::Filters::InvitedUserFilter
         {
           autocomplete_options: {
-            resource: "principals",
-            component: "opce-user-autocompleter",
-            url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals
+            component: "opce-user-autocompleter"
           }
         }
       else
@@ -58,8 +58,8 @@ module Meetings
       allowlist = [
         Queries::Meetings::Filters::ProjectFilter,
         # Queries::Meetings::Filters::TimeFilter,
-        # Queries::Meetings::Filters::AttendedUserFilter,
-        # Queries::Meetings::Filters::InvitedUserFilter,
+        Queries::Meetings::Filters::AttendedUserFilter,
+        Queries::Meetings::Filters::InvitedUserFilter,
         Queries::Meetings::Filters::AuthorFilter
         # Queries::Meetings::Filters::DatesIntervalFilter
       ]

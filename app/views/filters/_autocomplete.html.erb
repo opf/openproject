@@ -1,11 +1,10 @@
 <div class="advanced-filters--filter-value <%= value_visibility %>">
   <%= angular_component_tag autocomplete_options[:component],
                             inputs: {
-                              filters: autocomplete_options[:filters],
                               inputName: 'value',
                               multiple: true,
                               multipleAsSeparateInputs: false
-                            },
+                            }.merge(autocomplete_options.except(:component)),
                             class: 'form--field',
                             data: {
                               'filter-autocomplete': true,
