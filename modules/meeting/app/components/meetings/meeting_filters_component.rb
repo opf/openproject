@@ -40,11 +40,18 @@ module Meetings
     def additional_filter_attributes(filter)
       case filter
       when Queries::Meetings::Filters::ProjectFilter
+        ac_filters = [
+          { name: "active", operator: "=", values: ["t"] }
+        ]
+
+        # if query.project
+        #   ac_filters << { name: "id", operator: "=", values: [query.project.id] }
+        # end
+
         {
           autocomplete_options: {
-            resource: "projects",
-            component: "opce-autocompleter",
-            url: ::API::V3::Utilities::PathHelper::ApiV3Path.projects
+            component: "opce-project-autocompleter",
+            filters: ac_filters
           }
         }
       when Queries::Meetings::Filters::AuthorFilter

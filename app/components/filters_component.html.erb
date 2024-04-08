@@ -34,6 +34,7 @@
       <ul class="advanced-filters--filters">
         <% each_filter do |filter, filter_active, additional_options| %>
           <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
+          <% autocomplete_filter = additional_options.key?(:autocomplete_options) %>
 
           <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
               filter-name="<%= filter.name %>"
@@ -59,7 +60,12 @@
                             } %>
             <% end %>
             <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>
-            <% if filter_boolean %>
+            <% if autocomplete_filter %>
+              <%= render partial: 'filters/autocomplete',
+                        locals: { value_visibility: value_visibility,
+                                  filter: filter,
+                                  autocomplete_options: additional_options[:autocomplete_options] } %>
+            <% elsif filter_boolean %>
               <%= render partial: 'filters/boolean',
                         locals: { value_visibility: value_visibility,
                                   filter: filter } %>

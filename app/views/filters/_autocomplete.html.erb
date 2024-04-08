@@ -1,0 +1,20 @@
+<label class="advanced-filters--filter-value">
+<%= angular_component_tag autocomplete_options[:component],
+                          inputs: {
+                            filters: autocomplete_options[:filters],
+                            inputName: 'value'
+                          },
+                          class: 'form--field',
+                          data: {
+                            'filters-target': 'filterValueContainer',
+                            'filter-name': filter.name
+
+                          }
+%>
+
+</label>
+<div class="advanced-filters--filter-operator" style="visibility: hidden"></div>
+
+
+
+
