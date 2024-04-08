@@ -1150,6 +1150,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
           updated: "changed from %{old_value} to %{value}"
         position:
           updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
     filter:
       changeset: "Changesets"
       message: "Forums"
