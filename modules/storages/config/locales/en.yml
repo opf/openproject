@@ -92,6 +92,8 @@ en:
       label_error: Error
       label_healthy: Healthy
       label_pending: Pending
+      label_deactivate_email_notifications: Deactivate email notifications
+      label_reactivate_email_notifications: Reactivate email notifications
       since: since %{datetime}
       subtitle: Automatic managed project folders
       title: Health status

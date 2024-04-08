@@ -32,6 +32,7 @@
 class Storages::Admin::StoragesController < ApplicationController
   using Storages::Peripherals::ServiceResultRefinements
   include FlashMessagesHelper
+  include OpTurbo::ComponentStream
 
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout "admin"
@@ -43,7 +44,14 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object,
-                only: %i[show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
+                only: %i[show_oauth_application
+                         destroy
+                         edit
+                         edit_host
+                         confirm_destroy
+                         update
+                         set_health_notifications
+                         replace_oauth_application]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
@@ -78,6 +86,15 @@ class Storages::Admin::StoragesController < ApplicationController
     respond_to do |format|
       format.html
       format.turbo_stream
+    end
+  end
+
+  def set_health_notifications
+    health_notifications_enabled = params.dig(:storage, :health_notifications_enabled)
+    if %w[true false].include?(health_notifications_enabled)
+      @storage.update_columns(health_notifications_enabled:)
+      update_via_turbo_stream(component: Storages::Admin::HealthStatusComponent.new(@storage))
+      respond_with_turbo_streams
     end
   end
 

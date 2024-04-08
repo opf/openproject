@@ -1,29 +1,65 @@
-<%= render(Primer::Box.new) do %>
-  <%= render(Primer::Beta::Heading.new(tag: :h4, mb: 2)) { I18n.t('storages.health.title') } %>
-  <%= render(Primer::Beta::Text.new(tag: :div, mb: 2, font_weight: :bold)) { I18n.t('storages.health.subtitle') } %>
+<%= component_wrapper(nil, data: { 'turbo': true }) do
+    render(Primer::Beta::Heading.new(tag: :h4, mb: 2)) { I18n.t('storages.health.title') }
+    render(Primer::Beta::Text.new(tag: :div, mb: 2, font_weight: :bold)) { I18n.t('storages.health.subtitle') }
 
-  <%= render(Primer::Box.new(py: 1)) do %>
-    <%= render(Primer::Beta::Text.new(test_selector: "storage-health-checked-at")) {
-      I18n.t('storages.health.checked', datetime: helpers.format_time(storage.health_checked_at))
-    } %>
-    <% if storage.health_healthy? %>
-      <%= render(Primer::Beta::Label.new(scheme: :success, test_selector: "storage-health-label-healthy")) {
-        I18n.t('storages.health.label_healthy')
-      } %>
-    <% elsif storage.health_unhealthy? %>
-      <%= render(Primer::Beta::Label.new(scheme: :danger, test_selector: "storage-health-label-error")) {
-        I18n.t('storages.health.label_error')
-      } %>
-    <% else %>
-      <%= render(Primer::Beta::Label.new(scheme: :attention, test_selector: "storage-health-label-pending")) {
-        I18n.t('storages.health.label_pending')
-      } %>
-    <% end %>
-  <% end %>
+    render(Primer::Box.new(py: 1)) do
+        render(Primer::Beta::Text.new(test_selector: "storage-health-checked-at")) {I18n.t('storages.health.checked', datetime: helpers.format_time(storage.health_checked_at))
+        }
+        if storage.health_healthy?
+            render(Primer::Beta::Label.new(scheme: :success, test_selector: "storage-health-label-healthy")) {I18n.t('storages.health.label_healthy')}
+        elsif storage.health_unhealthy?
+            render(Primer::Beta::Label.new(scheme: :danger, test_selector: "storage-health-label-error")) {I18n.t('storages.health.label_error')}
+        else
+            render(Primer::Beta::Label.new(scheme: :attention, test_selector: "storage-health-label-pending")) {I18n.t('storages.health.label_pending')}
+        end
+    end
 
-  <% if storage.health_unhealthy? %>
-    <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, py: 1, test_selector: "storage-health-reason")) {
-      formatted_health_reason
-    } %>
-  <% end %>
-<% end %>
+    if storage.health_unhealthy?
+        render(Primer::Beta::Text.new(tag: :div, color: :muted, py: 1, test_selector: "storage-health-reason")) {formatted_health_reason}
+    end
+
+
+    form_for(:storage,
+             method: "put",
+             url: set_health_notifications_admin_settings_storage_path(storage),
+             data: { 'turbo-stream': 'true', 'turbo-method': 'put'}) do |f|
+                 flex_layout do |layout|
+                     if storage.health_notifications_enabled
+                         layout.with_row do
+                             f.hidden_field :health_notifications_enabled, value: "false"
+                         end
+
+                         layout.with_row do
+                             render(Primer::Beta::Button.new(
+                                 scheme: :link,
+                                 color: :default,
+                                 underline: false,
+                                 font_weight: :bold,
+                                 type: :submit
+                             )) do |button|
+                                 button.with_leading_visual_icon(icon: :'bell-slash')
+                                 t("storages.health.label_deactivate_email_notifications")
+                             end
+                         end
+                     else
+                         layout.with_row do
+                             f.hidden_field :health_notifications_enabled, value: "true"
+                         end
+
+                         layout.with_row do
+                             render(Primer::Beta::Button.new(
+                                 scheme: :link,
+                                 color: :default,
+                                 underline: false,
+                                 font_weight: :bold,
+                                 type: :submit
+                             )) do |button|
+                                 button.with_leading_visual_icon(icon: :'bell')
+                                 t("storages.health.label_reactivate_email_notifications")
+                             end
+                         end
+                     end
+                 end
+             end
+         end
+%>

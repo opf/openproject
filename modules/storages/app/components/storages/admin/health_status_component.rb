@@ -30,6 +30,9 @@
 #
 module Storages::Admin
   class HealthStatusComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
     alias_method :storage, :model
 
     # This method returns the health identifier, description and the time since when the error occurs in a

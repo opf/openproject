@@ -25,12 +25,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddHealthCheckedAtToStorages < ActiveRecord::Migration[7.0]
-  def up
-    add_column(:storages, :health_checked_at, :datetime, null: false, default: -> { "current_timestamp" })
-  end
-
-  def down
-    remove_column(:storages, :health_checked_at)
+class AddHealthNotificationsEnabledToStorages < ActiveRecord::Migration[7.1]
+  def change
+    add_column :storages, :health_notifications_enabled, :boolean, default: true, null: false
   end
 end
