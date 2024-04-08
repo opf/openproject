@@ -47,9 +47,10 @@ module Meeting::Journalized
     register_journal_formatted_fields(:meeting_start_time, "start_time")
     register_journal_formatted_fields(:plaintext, "location")
 
-    register_journal_formatted_fields(:plaintext, "notes")
     register_journal_formatted_fields(:agenda_item_duration, "duration")
-    register_journal_formatted_fields(:agenda_item_duration, "duration_in_minutes")
+    register_journal_formatted_fields(:agenda_item_diff, /agenda_items_\d+_notes/)
+    register_journal_formatted_fields(:agenda_item_title, /agenda_items_\d+_title/)
+    register_journal_formatted_fields(:agenda_item_duration, /agenda_items_\d+_duration_in_minutes/)
     register_journal_formatted_fields(:agenda_item_position, "position")
     register_journal_formatted_fields(:meeting_work_package_id, "work_package_id")
 

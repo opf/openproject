@@ -84,6 +84,7 @@ RSpec.describe "history",
 
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
   let(:history_page) { Pages::StructuredMeeting::History.new(meeting) }
+  let(:editor) { Components::WysiwygEditor.new "#content", "opce-ckeditor-augmented-textarea" }
 
   it "allows browsing the history", with_settings: { journal_aggregation_time_minutes: 0 } do
     login_as(view_only_user)
@@ -160,7 +161,7 @@ RSpec.describe "history",
     history_page.expect_event(
       'Agenda item "Updated title"',
       actor: user.name,
-      timestamp: format_time(item.updated_at.utc),
+      timestamp: format_time(item.reload.updated_at.utc),
       action: "updated by"
     )
 
@@ -300,6 +301,36 @@ RSpec.describe "history",
     expect(item).to have_css(".op-activity-list--item-title", text: I18n.t(:label_agenda_item_undisclosed_wp, id: other_wp.id))
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
+  end
+
+  it "shows the history of notes as a diff", with_settings: { journal_aggregation_time_minutes: 0 } do
+    login_as(user)
+    show_page.visit!
+
+    show_page.add_agenda_item do
+      fill_in "Title", with: "My agenda item"
+      click_on "Notes"
+    end
+
+    show_page.cancel_add_form
+    show_page.expect_agenda_item(title: "My agenda item")
+    item = MeetingAgendaItem.find_by(title: "My agenda item")
+
+    show_page.select_action(item, "Add notes")
+    editor.set_markdown "# Hello there"
+
+    show_page.in_edit_form(item) do
+      click_button "Save"
+    end
+
+    history_page.open_history_modal
+    within("li.op-activity-list--item", match: :first) do
+      expect(page).to have_css("li", text: "Notes set")
+      click_link "Details"
+    end
+
+    expect(page).to have_current_path /\/journals\/\d+\/diff\/agenda_items_\d+_notes/
+    expect(page).to have_css('ins.diffmod', text: "# Hello there")
   end
 
   it "for a user with no permissions, renders an error", with_settings: { journal_aggregation_time_minutes: 0 } do
