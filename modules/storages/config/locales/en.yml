@@ -104,6 +104,13 @@ en:
       since: since %{datetime}
       subtitle: Automatically managed project folders
       title: Health status
+    email_notifications:
+      title: Email notifications
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      description_subscribed: Email notifications for this storage have been turned on for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     instructions:

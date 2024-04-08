@@ -1,0 +1,36 @@
+<%=
+  component_wrapper(data: { turbo: true }) do
+    flex_layout do |notifications_container|
+      notifications_container.with_row do
+        render(Primer::Beta::Heading.new(tag: :h4)) { t("storages.email_notifications.title") }
+      end
+
+      notifications_container.with_row(mt: 2) do
+        form_for(@storage, method: :patch,
+                           url: change_health_email_notifications_admin_settings_storage_path(@storage),
+                           data: { turbo_stream: true }) do |f|
+          flex_layout do |notification_status_actions|
+            notification_status_actions.with_row do
+              f.hidden_field :health_notifications_enabled, value: (storage.health_notifications_enabled? ? "0" : "1")
+            end
+
+            notification_status_actions.with_row do
+              render(Primer::Beta::Button.new(
+                scheme: :default,
+                block: :true,
+                type: :submit
+              )) do |button|
+                button.with_leading_visual_icon(icon: notification_status[:icon])
+                notification_status[:label]
+              end
+            end
+          end
+        end
+      end
+
+      notifications_container.with_row(mt: 3) do
+        render(Primer::Beta::Text.new(color: :subtle)) { notification_status[:description] }
+      end
+    end
+  end
+%>
