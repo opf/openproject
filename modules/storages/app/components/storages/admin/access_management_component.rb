@@ -27,50 +27,27 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin
+  class AccessManagementComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include StorageViewInformation
 
-module Storages
-  class OneDriveStorage < Storage
-    PROVIDER_FIELDS_DEFAULTS = {
-      automatic_management_enabled: true
-    }.freeze
+    alias_method :storage, :model
 
-    store_attribute :provider_fields, :tenant_id, :string
-    store_attribute :provider_fields, :drive_id, :string
+    private
 
-    using ::Storages::Peripherals::ServiceResultRefinements
-
-    def configuration_checks
-      {
-        storage_oauth_client_configured: oauth_client.present?,
-        storage_tenant_drive_configured: tenant_id.present? && drive_id.present?,
-        access_management_configured: !automatic_management_unspecified?,
-        name_configured: name.present?
-      }
-    end
-
-    def automatic_management_new_record?
-      if provider_fields_changed?
-        previous_configuration = provider_fields_change.first
-        previous_configuration.values_at("automatically_managed").compact.empty?
-      else
-        automatic_management_unspecified?
+    def access_management_description
+      if storage.automatic_management_new_record?
+        return I18n.t("storages.file_storage_view.access_management.setup_incomplete")
       end
-    end
 
-    def oauth_configuration
-      Peripherals::OAuthConfigurations::OneDriveConfiguration.new(self)
-    end
-
-    def uri
-      @uri ||= URI("https://graph.microsoft.com").normalize
-    end
-
-    def connect_src
-      %w[https://*.sharepoint.com https://*.up.1drv.com]
-    end
-
-    def provider_fields_defaults
-      PROVIDER_FIELDS_DEFAULTS
+      case storage.automatic_management_enabled
+      when true
+        I18n.t("storages.file_storage_view.access_management.automatic_management")
+      when false
+        I18n.t("storages.file_storage_view.access_management.manual_management")
+      end
     end
   end
 end

@@ -27,50 +27,24 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+module Storages::Admin::Forms
+  class AccessManagementFormComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    alias_method :storage, :model
 
-module Storages
-  class OneDriveStorage < Storage
-    PROVIDER_FIELDS_DEFAULTS = {
-      automatic_management_enabled: true
-    }.freeze
+    private
 
-    store_attribute :provider_fields, :tenant_id, :string
-    store_attribute :provider_fields, :drive_id, :string
-
-    using ::Storages::Peripherals::ServiceResultRefinements
-
-    def configuration_checks
-      {
-        storage_oauth_client_configured: oauth_client.present?,
-        storage_tenant_drive_configured: tenant_id.present? && drive_id.present?,
-        access_management_configured: !automatic_management_unspecified?,
-        name_configured: name.present?
-      }
+    def form_method
+      first_time_configuration? ? :post : :patch
     end
 
-    def automatic_management_new_record?
-      if provider_fields_changed?
-        previous_configuration = provider_fields_change.first
-        previous_configuration.values_at("automatically_managed").compact.empty?
-      else
-        automatic_management_unspecified?
-      end
+    def cancel_button_path
+      edit_admin_settings_storage_path(storage)
     end
 
-    def oauth_configuration
-      Peripherals::OAuthConfigurations::OneDriveConfiguration.new(self)
-    end
-
-    def uri
-      @uri ||= URI("https://graph.microsoft.com").normalize
-    end
-
-    def connect_src
-      %w[https://*.sharepoint.com https://*.up.1drv.com]
-    end
-
-    def provider_fields_defaults
-      PROVIDER_FIELDS_DEFAULTS
+    def first_time_configuration?
+      storage.automatic_management_new_record?
     end
   end
 end

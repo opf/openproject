@@ -27,28 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_stream.update :storage_general_info_section do %>
-  <%= render(Storages::Admin::GeneralInfoComponent.new(@storage)) %>
-<% end %>
-
-<% if @storage.provider_type_nextcloud? %>
-  <%= turbo_stream.update :storage_openproject_oauth_section do %>
-    <%=
-      render(
-        Storages::Admin::OAuthApplicationInfoCopyComponent.new(
-          oauth_application: @oauth_application,
-          storage: @storage,
-          submit_button_options: {
-            data: { turbo_stream: true }
-          }
-        )
-      )
-    %>
-  <% end %>
-<% end %>
-
-<% if @storage.provider_type_one_drive? %>
-  <%= turbo_stream.update :access_management_section do %>
-    <%= render(Storages::Admin::Forms::AccessManagementFormComponent.new(@storage)) %>
-  <% end %>
+<%= turbo_stream.update :access_management_section do %>
+  <%= render(Storages::Admin::AccessManagementComponent.new(@storage)) %>
 <% end %>
