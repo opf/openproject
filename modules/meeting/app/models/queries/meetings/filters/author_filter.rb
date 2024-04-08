@@ -27,8 +27,6 @@
 #++
 
 class Queries::Meetings::Filters::AuthorFilter < Queries::Meetings::Filters::MeetingFilter
-  def allowed_values = []
-
   def type
     :list_optional
   end
