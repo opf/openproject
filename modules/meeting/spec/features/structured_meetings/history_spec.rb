@@ -150,7 +150,7 @@ RSpec.describe "history",
     item = MeetingAgendaItem.find_by(title: "My agenda item")
     show_page.edit_agenda_item(item) do
       fill_in "Title", with: "Updated title"
-      fill_in "Duration", with: "5"
+      fill_in "min", with: "5"
       click_on "Save"
     end
 
