@@ -1,20 +1,16 @@
-<label class="advanced-filters--filter-value">
-<%= angular_component_tag autocomplete_options[:component],
-                          inputs: {
-                            filters: autocomplete_options[:filters],
-                            inputName: 'value'
-                          },
-                          class: 'form--field',
-                          data: {
-                            'filters-target': 'filterValueContainer',
-                            'filter-name': filter.name
-
-                          }
-%>
-
-</label>
-<div class="advanced-filters--filter-operator" style="visibility: hidden"></div>
-
-
-
-
+<div class="advanced-filters--filter-value <%= value_visibility %>">
+  <%= angular_component_tag autocomplete_options[:component],
+                            inputs: {
+                              filters: autocomplete_options[:filters],
+                              inputName: 'value',
+                              multiple: true,
+                              multipleAsSeparateInputs: false
+                            },
+                            class: 'form--field',
+                            data: {
+                              'filter-autocomplete': true,
+                              'filters-target': 'filterValueContainer',
+                              'filter-name': filter.name
+                            }
+  %>
+</div>

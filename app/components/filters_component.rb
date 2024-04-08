@@ -63,7 +63,19 @@ class FiltersComponent < ApplicationComponent
 
   protected
 
-  def additional_filter_attributes(_filter)
-    {}
+  def additional_filter_attributes(filter)
+    case filter
+    when Queries::Filters::Shared::ProjectFilter
+      {
+        autocomplete_options: {
+          component: "opce-project-autocompleter",
+          filters: [
+            { name: "active", operator: "=", values: ["t"] }
+          ]
+        }
+      }
+    else
+      {}
+    end
   end
 end

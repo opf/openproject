@@ -202,7 +202,7 @@ export default class FiltersController extends Controller {
     let filterParam;
 
     if (this.outputFormatValue === 'json') {
-      filterParam =JSON.stringify(filters.map((filter) => { return this.buildFilterJSON(filter); }));
+      filterParam = JSON.stringify(filters.map((filter) => { return this.buildFilterJSON(filter); }));
     } else {
       filterParam = filters.map((filter) => { return this.buildFilterString(filter); }).join('&');
     }
@@ -266,9 +266,14 @@ export default class FiltersController extends Controller {
 
     if (valueContainer) {
       const checkbox = valueContainer.querySelector('input[type="checkbox"]') as HTMLInputElement;
+      const isAutocomplete = valueContainer.dataset.filterAutocomplete === 'true';
 
       if (checkbox) {
         return [checkbox.checked ? 't' : 'f'];
+      }
+
+      if (isAutocomplete) {
+        return (valueContainer.querySelector('input[name="value"]') as HTMLInputElement)?.value.split(',');
       }
 
       if (this.operatorsWithoutValues.includes(operator)) {
