@@ -102,8 +102,6 @@ RSpec.describe StatusesController do
 
     context "when status is not the default one" do
       before do
-        status
-
         get :edit, params: { id: status.id }
       end
 
@@ -124,8 +122,6 @@ RSpec.describe StatusesController do
     let(:name) { "Renamed Status" }
 
     before do
-      status
-
       patch :update,
             params: {
               id: status.id,
@@ -160,14 +156,12 @@ RSpec.describe StatusesController do
     end
 
     context "when destroying a status used by a work package" do
-      let(:work_package) do
+      shared_let(:work_package) do
         create(:work_package,
                status:)
       end
 
       before do
-        work_package
-
         delete :destroy, params: { id: status.id }
       end
 
@@ -183,7 +177,7 @@ RSpec.describe StatusesController do
     end
 
     context "when destroying the default status" do
-      let!(:status_default) do
+      shared_let(:status_default) do
         create(:status,
                is_default: true)
       end
@@ -205,10 +199,9 @@ RSpec.describe StatusesController do
   end
 
   describe "#update_work_package_done_ratio" do
-    context "with 'work_package_done_ratio' using 'field'" do
+    context "with 'work_package_done_ratio' using 'field'",
+            with_settings: { work_package_done_ratio: "field" } do
       before do
-        allow(Setting).to receive(:work_package_done_ratio).and_return "field"
-
         post :update_work_package_done_ratio
       end
 
@@ -217,10 +210,9 @@ RSpec.describe StatusesController do
       it_behaves_like "redirects to index page"
     end
 
-    context "with 'work_package_done_ratio' using 'status'" do
+    context "with 'work_package_done_ratio' using 'status'",
+            with_settings: { work_package_done_ratio: "status" } do
       before do
-        allow(Setting).to receive(:work_package_done_ratio).and_return "status"
-
         post :update_work_package_done_ratio
       end
 
