@@ -73,6 +73,30 @@ module TableHelpers
       end
     end
 
+    describe "#headers" do
+      it "returns headers of a table data as they were read" do
+        table = <<~TABLE
+          | subject      | remaining work | derived work |
+          | work package |             3h |           3h |
+        TABLE
+
+        table_data = described_class.for(table)
+        expect(table_data.headers).to eq([" subject      ", " remaining work ", " derived work "])
+        expect(table_data.columns.size).to eq(3)
+      end
+
+      it "returns headers even if some values are blank in the first row" do
+        table = <<~TABLE
+          | subject      | remaining work | derived work |
+          | work package |                |              |
+        TABLE
+
+        table_data = described_class.for(table)
+        expect(table_data.headers).to eq([" subject      ", " remaining work ", " derived work "])
+        expect(table_data.columns.size).to eq(3)
+      end
+    end
+
     describe "#values_for_attribute" do
       it "returns all the values of the work packages for the given attribute" do
         table = <<~TABLE
