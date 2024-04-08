@@ -69,6 +69,7 @@ class FiltersComponent < ApplicationComponent
       {
         autocomplete_options: {
           component: "opce-project-autocompleter",
+          resource: "projects",
           filters: [
             { name: "active", operator: "=", values: ["t"] }
           ]

@@ -3,7 +3,8 @@
                             inputs: {
                               inputName: 'value',
                               multiple: true,
-                              multipleAsSeparateInputs: false
+                              multipleAsSeparateInputs: false,
+                              inputValue: filter.values
                             }.merge(autocomplete_options.except(:component)),
                             class: 'form--field',
                             data: {

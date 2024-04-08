@@ -44,7 +44,8 @@ module Meetings
            Queries::Meetings::Filters::InvitedUserFilter
         {
           autocomplete_options: {
-            component: "opce-user-autocompleter"
+            component: "opce-user-autocompleter",
+            resource: "principals"
           }
         }
       else
