@@ -41,6 +41,10 @@ module Storages
         @storage = storage
       end
 
+      def render?
+        storage.automatically_managed?
+      end
+
       def notification_status
         if storage.health_notifications_enabled?
           { icon: :"bell-slash",

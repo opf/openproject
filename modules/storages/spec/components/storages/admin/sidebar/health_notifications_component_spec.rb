@@ -31,12 +31,10 @@ require_module_spec_helper
 
 RSpec.describe Storages::Admin::Sidebar::HealthNotificationsComponent, type: :component do
   context "when subscribed to email notifications" do
-    let(:health_notifications_component) { described_class.new(storage:) }
-
-    let(:storage) { build_stubbed(:nextcloud_storage, :with_health_notifications_enabled) }
+    let(:storage) { build_stubbed(:nextcloud_storage, :with_health_notifications_enabled, :as_automatically_managed) }
 
     before do
-      render_inline(health_notifications_component)
+      render_inline(described_class.new(storage:))
     end
 
     it "renders an unsubscribe option with info" do
@@ -50,12 +48,10 @@ RSpec.describe Storages::Admin::Sidebar::HealthNotificationsComponent, type: :co
   end
 
   context "when unsubscribed to email notifications" do
-    let(:health_notifications_component) { described_class.new(storage:) }
-
-    let(:storage) { build_stubbed(:nextcloud_storage, :with_health_notifications_disabled) }
+    let(:storage) { build_stubbed(:nextcloud_storage, :with_health_notifications_disabled, :as_automatically_managed) }
 
     before do
-      render_inline(health_notifications_component)
+      render_inline(described_class.new(storage:))
     end
 
     it "renders an unsubscribe option with info" do
@@ -65,6 +61,15 @@ RSpec.describe Storages::Admin::Sidebar::HealthNotificationsComponent, type: :co
         text: "Health status email notifications for this storage have been turned off for all administrators."
       )
       expect(page).to have_button("Subscribe")
+    end
+  end
+
+  context "with non-automatically managed storage" do
+    let(:storage) { build_stubbed(:nextcloud_storage, :as_not_automatically_managed) }
+
+    it "does not render" do
+      render_inline described_class.new(storage:)
+      expect(page.text).to be_empty
     end
   end
 end
