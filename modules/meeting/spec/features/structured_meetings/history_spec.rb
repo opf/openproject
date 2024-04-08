@@ -177,10 +177,10 @@ RSpec.describe "history",
     show_page.add_agenda_item do
       fill_in "Title", with: "Second"
     end
+    show_page.expect_agenda_item(title: "Second")
     second = MeetingAgendaItem.find_by(title: "Second")
     show_page.select_action(second, I18n.t(:label_sort_higher))
 
-    login_as(view_only_user)
     show_page.visit!
 
     history_page.open_history_modal
