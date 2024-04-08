@@ -26,36 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
-  def render(key, values, options = { html: true })
-    label_text = Meeting.human_attribute_name(:duration)
+class OpenProject::JournalFormatter::MeetingWorkPackageId < JournalFormatter::Base
+  def render(_key, values, options = { html: true })
+    label_text = I18n.t(:label_agenda_item_work_package)
     label_text = content_tag(:strong, label_text) if options[:html]
-    unit = key.to_s == "duration" ? :hours : :minutes
 
-    mapped = values.map do |v|
-      if v.blank?
-        nil
-      else
-        ::OpenProject::Common::DurationComponent.new(v.to_f, unit, abbreviated: true).text
-      end
-    end
-
-    value = value(options[:html], mapped.first, mapped.last)
-
-    I18n.t(:text_journal_of, label: label_text, value:)
+    I18n.t(:text_journal_of, label: label_text, value: value(options[:html], values))
   end
 
   private
 
-  def value(html, old_value, value)
+  def value(html, values)
     html = html ? "_html" : ""
 
-    if old_value.nil?
-      I18n.t(:"activity.item.meeting_agenda_item.duration.added#{html}", value:)
-    elsif value.nil?
-      I18n.t(:"activity.item.meeting_agenda_item.duration.removed")
-    else
-      I18n.t(:"activity.item.meeting_agenda_item.duration.updated#{html}", value:, old_value:)
-    end
+    new = visible(values.last)
+    old = visible(values.first)
+
+    I18n.t(:"activity.item.meeting_agenda_item.work_package.updated#{html}",
+           value: new ? new.name : I18n.t(:label_agenda_item_undisclosed_wp, id: values.last),
+           old_value: old ? old.name : I18n.t(:label_agenda_item_undisclosed_wp, id: values.first))
+  end
+
+  def visible(work_package_id)
+    WorkPackage.visible.find_by(id: work_package_id)
   end
 end
