@@ -46,22 +46,6 @@ RSpec.describe UpdateProgressCalculation, type: :model do
     set_factory_default(:status, status_new)
   end
 
-  # let_work_packages(<<~TABLE)
-  #   hierarchy                 | work | remaining work | % complete
-  #   wp all unset              |      |                |
-  #   wp only w set             |  10h |                |
-  #   wp only rw set            |      |             4h |
-  #   wp only pc set            |      |                |        60%
-  #   wp both w and rw set      |  10h |             4h |
-  #   wp both w and pc set      |  10h |                |        60%
-  #   wp both rw and pc set     |      |             4h |        60%
-  #   wp both w and big rw set  |  10h |            99h |
-  #   wp all set consistent     |  10h |             4h |        60%
-  #   wp all set inconsistent   |  10h |             1h |        10%
-  #   wp all set big wp         |  10h |            99h |        60%
-  #   wp all set big wp round   |   8h |            99h |        70%
-  # TABLE
-
   def expect_migrates(from:, to:)
     table = create_table(from)
 
@@ -99,7 +83,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
 
     context "when some work package progress values are changed" do
       let_work_packages(<<~TABLE)
-        hierarchy                 | work | remaining work | % complete
+        subject                   | work | remaining work | % complete
         wp only w set             |  10h |                |
         wp only rw set            |      |             4h |
         wp both w and pc set      |  10h |                |        60%
@@ -153,11 +137,11 @@ RSpec.describe UpdateProgressCalculation, type: :model do
     it "unset all % complete values and creates a journal entry for it" do
       work_packages = expect_migrates(
         from: <<~TABLE,
-          hierarchy                 | work | remaining work | % complete
+          subject                   | work | remaining work | % complete
           wp only pc set            |      |                |        60%
         TABLE
         to: <<~TABLE
-          hierarchy                 | work | remaining work | % complete
+          subject                   | work | remaining work | % complete
           wp only pc set            |      |                |
         TABLE
       )
