@@ -702,7 +702,7 @@ ms:
         blank: "tidak boleh dibiarkan kosong."
         blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya."
-        circular_dependency: "This relation would create a circular dependency."
+        circular_dependency: "Hubungan ini akan mencipta kebergantungan bulat."
         confirmation: "tidak sepadan dengan %{attribute}."
         could_not_be_copied: "%{dependency} tidak dapat disalin (sepenuhnya)."
         does_not_exist: "tidak wujud."
@@ -841,7 +841,7 @@ ms:
             project:
               error_not_found: "tidak dijumpai"
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- Pengguna tersebut tiada kebenaran untuk mencipta paparan awam."
             group_by:
               invalid: "Tidak dapat dikumpulkan mengikut: %{value}"
               format: "%{message}"
@@ -1047,8 +1047,8 @@ ms:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "dikemas kini pada %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
-      deleted_on: "deleted on %{datetime}"
-      deleted_by_on: "deleted by %{user} on %{datetime}"
+      deleted_on: "dipadamkan pada %{datetime}"
+      deleted_by_on: "dihapuskan oleh %{user} pada %{datetime}"
       parent_without_of: "Subprojek"
       parent_no_longer: "Bukan lagi subprojek kepada"
       time_entry:
@@ -1060,13 +1060,13 @@ ms:
         logged_for: "Dilog untuk"
       meeting_agenda_item:
         duration:
-          added: "set to %{value} minutes"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
+          added: "ditetapkan kepada %{value} minit"
+          removed: "dikeluarkan"
+          updated: "ditukar dari %{old_value} kepada %{value}"
         position:
-          updated: "reordered"
+          updated: "disusun semula"
     filter:
-      changeset: "Changesets"
+      changeset: "Set ubahsuai"
       message: "Forum-forum"
       news: "Berita"
       project_attribute: "Atribut projek"
@@ -1097,7 +1097,7 @@ ms:
     derived_due_date: "Tarikh tamat yang diperolehi"
     derived_estimated_hours: "Jumlah kerja"
     derived_start_date: "Tarikh mula yang diperolehi"
-    display_sums: "Display Sums"
+    display_sums: "Paparkan Jumlah"
     due_date: "Tarikh tamat"
     estimated_hours: "Kerja"
     estimated_time: "Kerja"
@@ -1129,7 +1129,7 @@ ms:
     type: "Jenis"
     updated_at: "Dikemas kini pada"
     updated_on: "Dikemas kini pada"
-    uploader: "Uploader"
+    uploader: "Pemuat naik\n"
     user: "Pengguna"
     value: "Nilai"
     version: "Versi"
@@ -1138,7 +1138,7 @@ ms:
     failed: "Sokongan gagal"
     label_backup_token: "Token sandaran"
     label_create_token: "Cipta token sandaran"
-    label_delete_token: "Delete backup token"
+    label_delete_token: "Padam token sokongan"
     label_reset_token: "Set semula token sokongan"
     label_token_users: "Pengguna berikut mempunyai token sandaran aktif"
     reset_token:
@@ -1147,21 +1147,21 @@ ms:
       heading_reset: "Set semula token sokongan"
       heading_create: "Cipta token sokongan"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Membolehkan sandaran akan membenarkan mana-mana pengguna dengan kebenaran yang diperlukan dan token sandaran ini untuk memuat turun sandaran yang mengandungi semua data pemasangan OpenProject ini. Ini termasuk data semua pengguna.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Anda perlu menghasilkan token sandaran untuk dapat mencipta sandaran. Setiap kali anda ingin meminta sandaran anda perlu menyediakan token ini. Anda boleh memadam token sandaran tersebut untuk menyahdayakan sandaran untuk pengguna ini.
       verification: >
         Masukkan %{word} untuk mengesahkan anda mahu %{action} token sandaran.
       verification_word_reset: set semula
       verification_word_create: cipta
       warning: >
         Apabila anda mencipta token baharu anda hanya akan dibenarkan untuk meminta sokongan selepas 24 jam. Ini adalah langkah keselamatan. Selepas itu anda boleh meminta sokongan bila-bila masa menggunakan token tersebut.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+    text_token_deleted: Token sandaran dipadam. Sandaran kini dinyahdayakan.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
+      invalid_token: Tidak sah atau token sandaran hilang
+      token_cooldown: Token sandaran ini akan sah dalam %{hours} jam.
       backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      limit_reached: Anda hanya boleh membuat %{limit} sandaran setiap hari.
   button_add: "Tambah"
   button_add_comment: "Tambah komen"
   button_add_member: Tambah ahli
@@ -1241,11 +1241,11 @@ ms:
     not_yet_consented: Pengguna belum memberi persetujuan lagi, akan diminta pada log masuk seterusnya.
     contact_mail_instructions: Tentukan alamat e-mel yang boleh dihubungi oleh pengguna untuk membuat permintaan perubahan atau pemindahan data kepada pengawal data.
     contact_your_administrator: Sila hubungi pentadbir anda jika anda mahu akaun anda dipadamkan.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: "Last update of consent: %{update_time}"
+    contact_this_mail_address: SIla hubungi %{mail_address} jika anda mahu akaun anda dipadamkan.
+    text_update_consent_time: Tanda kotak ini untuk memaksa pengguna untuk memberikan persetujuan semula. Dayakan apabila anda anda telah mengubah aspek undang-undang maklumat persetujuan di atas.
+    update_consent_last_time: "Kemas kini terakhir persetujuan: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Salin projek "%{source_project_name}"'
     started: 'Bermula untuk menyalin projek "%{source_project_name}" ke ''''%{target_project_name}". Anda akan dimaklumkan melalui mel sebaik sahaja "%{target_project_name}" tersedia.'
     failed: "Tidak dapat menyalin projek %{source_project_name}"
     failed_internal: "Penyalinan gagal disebabkan ralat dalaman."
@@ -1539,12 +1539,12 @@ ms:
       system_update: "Kemas kini sistem OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_parent_changed_times: dengan perubahan pada induk %{link}
       work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_related_changed_times: dengan perubahan pada yang berkaitan %{link}
+      unaccessable_work_package_changed: dengan perubahan pada pakej kerja berkaitan
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "dengan perubahan pada hari bekerja (%{changes})"
         days:
           working: "%{day} kini hari bekerja"
           non_working: "%{day} kini bukan hari bekerja"
@@ -1553,7 +1553,7 @@ ms:
           non_working: "%{date} kini bukan hari bekerja"
       system_update:
         file_links_journal: >
-          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+          Mulai sekarang, aktiviti berkaitan dengan pautan fail (fail-fail yang disimpan di penyimpanan luaran) akan muncul dalam tab aktiviti. Yang berikut mewakili aktiviti berkenaan pautan yang sudah sedia ada:
   links:
     configuration_guide: "Panduan konfigurasi"
     get_in_touch: "Anda mempunyai soalan? Sila hubungi kami."
@@ -1571,28 +1571,28 @@ ms:
   my_account:
     access_tokens:
       no_results:
-        title: "No access tokens to display"
-        description: "All of them have been disabled. They can be re-enabled in the administration menu."
+        title: "Tiada token akses untuk dipaparkan"
+        description: "Semuanya telah dinyahdayakan. Mereka boleh didayakan semula dalam menu pentadbiran."
       access_tokens: "Token akses"
       headers:
         action: "Tindakan"
         expiration: "Tamat tempoh"
-      indefinite_expiration: "Never"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      indefinite_expiration: "Tidak akan"
+      simple_revoke_confirmation: "Adakah anda pasti anda mahu membatalkan token ini?"
       api:
         title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "Token APi membenarkan aplikasi pihak ketiga untuk berkomunikasi dengan OpenProject ini sebagai contoh melalui REST API."
+        static_token_name: "Token API"
+        disabled_text: "Token API tidak didayakan oleh pentadbir. Sila hubungi pentadbir anda untuk menggunakan ciri ini."
       ical:
         title: "iCalendar"
-        text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        text_hint: 'Token iCalendar membenarkan pengguna untuk <a href="%{path}" target="_blank">melanggan kepada kalendar OpenProject</a> dan paparkan maklumat pakej kerja terkini daripada pelanggan luaran.'
+        disabled_text: "Langganan iCalendar tidak didayakan oleh pentadbir. Sila hubungi pentadbir anda untuk menggunakan ciri ini."
+        empty_text_hint: "Untuk tambah token iCalendar, langgan kepada kalendar baharu atau kalendar yang sedia ada dalam modul Kalendar projek. Anda perlu mempunyai kebenaran yang diperlukan."
       oauth:
         title: "OAuth"
         text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        empty_text_hint: "Tiada akses aplikasi pihak ketiga yang dikonfigurasikan dan aktif untuk anda. Sila hubungi pentadbir anda untuk aktifkan ciri ini."
       rss:
         title: "RSS"
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."

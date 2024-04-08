@@ -172,7 +172,7 @@ lt:
   text_agenda_work_package_title: '%{work_package} darbotvarkės punktas'
   text_agenda_work_package_deleted: 'Ištrinto darbo paketo darbotvarkės punktas'
   text_deleted_agenda_item: 'Ištrintas darbotvarkės punktas'
-  label_initial_meeting_details: "Meeting"
+  label_initial_meeting_details: "Susitikimas"
   label_meeting_details: "Susitikimo detalės"
   label_meeting_details_edit: "Keisti susitikimo detales"
   label_meeting_state_open: "Atidarytas"
