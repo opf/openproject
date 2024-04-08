@@ -23,8 +23,8 @@
             Primer::Beta::IconButton.new(
               icon: favored ? "star-fill" : "star",
               size: :medium,
-              color: favored ? :attention : :default,
               type: :submit,
+              classes: "op-primer--star-icon",
               aria: { label: favored ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
               test_selector: 'project-favorite-button'
             )

@@ -46,7 +46,7 @@ module Projects
 
     def favored
       if favored_projects.include?(project.id)
-        render(Primer::Beta::Octicon.new(icon: "star-fill", color: :attention, "aria-label": I18n.t(:label_favoured)))
+        render(Primer::Beta::Octicon.new(icon: "star-fill", classes: "op-primer--star-icon", "aria-label": I18n.t(:label_favoured)))
       end
     end
 
