@@ -34,7 +34,7 @@ RSpec.describe StatusesController do
 
   before { login_as(user) }
 
-  shared_examples_for "response" do
+  shared_examples_for "responds successfully" do |template:|
     subject { response }
 
     it { is_expected.to be_successful }
@@ -42,34 +42,22 @@ RSpec.describe StatusesController do
     it { is_expected.to render_template(template) }
   end
 
-  shared_examples_for "redirect" do
+  shared_examples_for "redirects to index page" do
     subject { response }
-
-    it { is_expected.to be_redirect }
 
     it { is_expected.to redirect_to(action: :index) }
   end
 
-  shared_examples_for "statuses" do
-    subject { Status.find_by(name:) }
-
-    it { is_expected.not_to be_nil }
-  end
-
   describe "#index" do
-    let(:template) { "index" }
-
     before { get :index }
 
-    it_behaves_like "response"
+    it_behaves_like "responds successfully", template: "index"
   end
 
   describe "#new" do
-    let(:template) { "new" }
-
     before { get :new }
 
-    it_behaves_like "response"
+    it_behaves_like "responds successfully", template: "new"
   end
 
   describe "#create" do
@@ -80,15 +68,15 @@ RSpec.describe StatusesController do
            params: { status: { name: } }
     end
 
-    it_behaves_like "statuses"
+    it "creates a new status" do
+      expect(Status.find_by(name:)).not_to be_nil
+    end
 
-    it_behaves_like "redirect"
+    it_behaves_like "redirects to index page"
   end
 
   describe "#edit" do
-    let(:template) { "edit" }
-
-    context "default" do
+    context "when status is the default one" do
       let!(:status_default) do
         create(:status,
                is_default: true)
@@ -99,7 +87,7 @@ RSpec.describe StatusesController do
             params: { id: status_default.id }
       end
 
-      it_behaves_like "response"
+      it_behaves_like "responds successfully", template: "edit"
 
       describe "#view" do
         render_views
@@ -112,14 +100,14 @@ RSpec.describe StatusesController do
       end
     end
 
-    context "no_default" do
+    context "when status is not the default one" do
       before do
         status
 
         get :edit, params: { id: status.id }
       end
 
-      it_behaves_like "response"
+      it_behaves_like "responds successfully", template: "edit"
 
       describe "#view" do
         render_views
@@ -145,21 +133,17 @@ RSpec.describe StatusesController do
             }
     end
 
-    it_behaves_like "statuses"
+    it "updates the status with new values" do
+      expect(Status.find_by(name:)).not_to be_nil
+    end
 
-    it_behaves_like "redirect"
+    it_behaves_like "redirects to index page"
   end
 
   describe "#destroy" do
     let(:name) { status.name }
 
-    shared_examples_for "destroyed" do
-      subject { Status.find_by(name:) }
-
-      it { is_expected.to be_nil }
-    end
-
-    context "unused" do
+    context "when destroying an unused status" do
       before do
         delete :destroy, params: { id: status.id }
       end
@@ -168,12 +152,14 @@ RSpec.describe StatusesController do
         Status.delete_all
       end
 
-      it_behaves_like "destroyed"
+      it "is destroyed" do
+        expect(Status.find_by(name:)).to be_nil
+      end
 
-      it_behaves_like "redirect"
+      it_behaves_like "redirects to index page"
     end
 
-    context "used" do
+    context "when destroying a status used by a work package" do
       let(:work_package) do
         create(:work_package,
                status:)
@@ -185,12 +171,18 @@ RSpec.describe StatusesController do
         delete :destroy, params: { id: status.id }
       end
 
-      it_behaves_like "statuses"
+      it "can not delete it" do
+        expect(Status.find_by(name:)).not_to be_nil
+      end
 
-      it_behaves_like "redirect"
+      it "display a flash error message" do
+        expect(flash[:error]).to eq(I18n.t("error_unable_delete_status"))
+      end
+
+      it_behaves_like "redirects to index page"
     end
 
-    context "default" do
+    context "when destroying the default status" do
       let!(:status_default) do
         create(:status,
                is_default: true)
@@ -200,13 +192,15 @@ RSpec.describe StatusesController do
         delete :destroy, params: { id: status_default.id }
       end
 
-      it_behaves_like "statuses"
-
-      it_behaves_like "redirect"
+      it "can not delete it" do
+        expect(Status.find_by(name:)).not_to be_nil
+      end
 
       it "shows the right flash message" do
         expect(flash[:error]).to eq(I18n.t("error_unable_delete_default_status"))
       end
+
+      it_behaves_like "redirects to index page"
     end
   end
 
@@ -220,7 +214,7 @@ RSpec.describe StatusesController do
 
       it { is_expected.to set_flash[:error].to(I18n.t("error_work_package_done_ratios_not_updated")) }
 
-      it_behaves_like "redirect"
+      it_behaves_like "redirects to index page"
     end
 
     context "with 'work_package_done_ratio' using 'status'" do
@@ -232,7 +226,7 @@ RSpec.describe StatusesController do
 
       it { is_expected.to set_flash[:notice].to(I18n.t("notice_work_package_done_ratios_updated")) }
 
-      it_behaves_like "redirect"
+      it_behaves_like "redirects to index page"
     end
   end
 end
