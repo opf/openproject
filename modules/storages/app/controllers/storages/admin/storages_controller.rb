@@ -169,7 +169,7 @@ class Storages::Admin::StoragesController < ApplicationController
     return head :forbidden unless %w[1 0].include?(permitted_storage_params[:health_notifications_enabled])
 
     if @storage.update(health_notifications_enabled: permitted_storage_params[:health_notifications_enabled])
-      update_via_turbo_stream(component: Storages::Admin::Sidebar::NotificationsComponent.new(storage: @storage.reload))
+      update_via_turbo_stream(component: Storages::Admin::Sidebar::HealthNotificationsComponent.new(storage: @storage.reload))
       respond_with_turbo_streams
     else
       flash.now[:primer_banner] = {

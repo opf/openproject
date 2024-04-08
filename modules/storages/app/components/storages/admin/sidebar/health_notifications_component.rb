@@ -28,7 +28,7 @@
 
 module Storages
   module Admin
-    class Sidebar::NotificationsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    class Sidebar::HealthNotificationsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
@@ -44,12 +44,12 @@ module Storages
       def notification_status
         if storage.health_notifications_enabled?
           { icon: :"bell-slash",
-            label: I18n.t("storages.email_notifications.unsubscribe"),
-            description: I18n.t("storages.email_notifications.description_subscribed") }
+            label: I18n.t("storages.health_email_notifications.unsubscribe"),
+            description: I18n.t("storages.health_email_notifications.description_subscribed") }
         else
           { icon: :bell,
-            label: I18n.t("storages.email_notifications.subscribe"),
-            description: I18n.t("storages.email_notifications.description_unsubscribed") }
+            label: I18n.t("storages.health_email_notifications.subscribe"),
+            description: I18n.t("storages.health_email_notifications.description_unsubscribed") }
         end
       end
     end

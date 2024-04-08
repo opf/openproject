@@ -2,7 +2,7 @@
   component_wrapper(data: { turbo: true }) do
     flex_layout do |notifications_container|
       notifications_container.with_row do
-        render(Primer::Beta::Heading.new(tag: :h4)) { t("storages.email_notifications.title") }
+        render(Primer::Beta::Heading.new(tag: :h4)) { t("storages.health_email_notifications.title") }
       end
 
       notifications_container.with_row(mt: 2) do
@@ -28,7 +28,7 @@
         end
       end
 
-      notifications_container.with_row(mt: 3) do
+      notifications_container.with_row(mt: 3, test_selector: "health-notifications-description") do
         render(Primer::Beta::Text.new(color: :subtle)) { notification_status[:description] }
       end
     end
