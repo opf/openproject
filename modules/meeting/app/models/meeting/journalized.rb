@@ -46,6 +46,7 @@ module Meeting::Journalized
     register_journal_formatted_fields(:datetime, "start_date")
     register_journal_formatted_fields(:meeting_start_time, "start_time")
     register_journal_formatted_fields(:plaintext, "location")
+    register_journal_formatted_fields(:meeting_state, "state")
 
     register_journal_formatted_fields(:plaintext, "notes")
     register_journal_formatted_fields(:agenda_item_duration, "duration")

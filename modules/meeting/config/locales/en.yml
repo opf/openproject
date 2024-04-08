@@ -202,8 +202,11 @@ en:
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
 
+  label_meeting_state: "Meeting state"
   label_meeting_state_open: "Open"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Closed"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Reopen meeting"
   label_meeting_close_action: "Close meeting"
   text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
