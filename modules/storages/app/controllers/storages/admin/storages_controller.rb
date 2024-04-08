@@ -173,7 +173,7 @@ class Storages::Admin::StoragesController < ApplicationController
       respond_with_turbo_streams
     else
       flash.now[:primer_banner] = {
-        message: I18n.t("storages.health.email_notifications.error_could_not_be_saved"), scheme: :danger
+        message: I18n.t("storages.email_notifications.error_could_not_be_saved"), scheme: :danger
       }
       render :edit
     end
