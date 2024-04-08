@@ -34,7 +34,7 @@ class Member < ApplicationRecord
   ].freeze
 
   extend DeprecatedAlias
-  belongs_to :principal, foreign_key: 'user_id', inverse_of: 'members', optional: false
+  belongs_to :principal, foreign_key: "user_id", inverse_of: "members", optional: false
   belongs_to :entity, polymorphic: true, optional: true
   belongs_to :project, optional: true
 
@@ -58,7 +58,7 @@ class Member < ApplicationRecord
          :of_any_entity,
          :of_anything_in_project,
          :visible,
-         :with_shared_work_packages_count,
+         :with_shared_work_packages_info,
          :without_inherited_roles
 
   delegate :name, to: :principal
@@ -77,7 +77,11 @@ class Member < ApplicationRecord
   end
 
   def deletable?
-    member_roles.detect(&:inherited_from).nil?
+    member_roles.none?(&:inherited_from?)
+  end
+
+  def some_roles_deletable?
+    !member_roles.all?(&:inherited_from?)
   end
 
   def project_role?

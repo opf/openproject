@@ -29,7 +29,7 @@
 #++
 
 module Members
-  class RowComponent < ::RowComponent
+  class RowComponent < ::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     property :principal
     delegate :project, to: :table
 
@@ -75,17 +75,52 @@ module Members
     end
 
     def shared
-      count = member.shared_work_packages_count
-      if count > 0
-        link_to I18n.t(:label_x_work_packages, count:),
-                helpers.project_work_packages_shared_with_path(principal, member.project),
-                target: "_blank", rel: "noopener"
+      return unless may_view_shared_work_packages?
+      return if member.shared_work_package_ids.empty?
+
+      shared_work_packages_link
+    end
+
+    def shared_work_packages_count = member.shared_work_package_ids.length
+
+    def shared_work_packages_link
+      link_to I18n.t(:label_x_work_packages, count: shared_work_packages_count),
+              shared_work_packages_url,
+              target: "_blank",
+              rel: "noopener"
+    end
+
+    def shared_work_packages_url
+      if member.other_shared_work_packages_count.zero?
+        all_shared_work_packages_url
+      else
+        helpers.project_work_packages_with_ids_path(member.shared_work_package_ids, member.project)
       end
     end
 
+    delegate :all_shared_work_packages_count, to: :member
+
+    def all_shared_work_packages_link
+      link_to I18n.t(:label_x_work_packages, count: all_shared_work_packages_count),
+              all_shared_work_packages_url,
+              target: "_blank",
+              rel: "noopener"
+    end
+
+    def all_shared_work_packages_url
+      helpers.project_work_packages_shared_with_path(principal, member.project)
+    end
+
+    def administration_settings_link
+      link_to "administration settings",
+              edit_user_path(model.principal, tab: :groups),
+              target: "_blank",
+              rel: "noopener"
+    end
+
     def roles_label
-      project_roles = member.roles.select { |role| role.is_a?(ProjectRole) }.uniq.sort
-      label = h project_roles.collect(&:name).join(', ')
+      project_roles = member.roles.grep(ProjectRole).uniq.sort
+      label = h project_roles.collect(&:name).join(", ")
 
       if principal&.admin?
         label << tag(:br) if project_roles.any?
@@ -97,7 +132,7 @@ module Members
 
     def role_form
       render Members::RoleFormComponent.new(
-        member,
+        member.project_role? ? member : Member.new(project:, principal:),
         row: self,
         params: controller.params,
         roles: table.available_roles
@@ -114,42 +149,104 @@ module Members
       helpers.translate_user_status(model.principal.status)
     end
 
-    def may_update?
-      table.authorize_update
-    end
+    def shared_work_packages? = member.shared_work_package_ids.present?
 
-    def may_delete?
-      table.authorize_update
-    end
+    def may_update? = table.authorize_update
+    def may_delete? = table.authorize_delete
+    def may_view_shared_work_packages? = table.authorize_work_package_shares_view
+    def may_delete_shares? = table.authorize_work_package_shares_delete
+    def may_manage_user? = table.authorize_manage_user
+
+    def can_update? = may_update? && !table.hide_roles?
+    def can_delete? = may_delete? && member.project_role? && member.deletable?
+    def can_delete_roles? = may_delete? && member.project_role? && member.some_roles_deletable?
+    def can_view_shared_work_packages? = may_view_shared_work_packages? && shared_work_packages?
 
     def button_links
-      if !model.project_role?
-        [share_warning]
-      elsif may_update? && may_delete?
-        [edit_link, delete_link].compact
-      elsif may_delete?
-        [delete_link].compact
+      return [] if actions.empty?
+
+      if actions.one?
+        actions.first => {label:, **button_options}
+
+        [render(Primer::Beta::IconButton.new(**button_options, size: :small, "aria-label": label))]
       else
-        []
+        [
+          render(Primer::Alpha::ActionMenu.new) do |menu|
+            menu.with_show_button(scheme: :invisible, size: :small, icon: :"kebab-horizontal", "aria-label": t(:button_actions),
+                                  tooltip_direction: :w)
+            actions.each do |action_options|
+              action_options => {scheme:, label:, icon:, **button_options}
+              menu.with_item(scheme:, label:, content_arguments: button_options) do |item|
+                item.with_leading_visual_icon(icon:)
+              end
+            end
+          end
+        ]
       end
     end
 
-    def share_warning
-      content_tag(:span,
-                  title: I18n.t('members.no_modify_on_shared')) do
-        helpers.op_icon('icon icon-info1')
+    def actions
+      @actions ||= [].tap do |actions|
+        actions << edit_action_options if can_update?
+        actions << view_work_package_shares_action_options if can_view_shared_work_packages?
+        actions << delete_action_options if may_delete? && member.project_role?
+        actions << delete_work_package_shares_action_options if may_delete_shares? && shared_work_packages?
       end
     end
 
-    def edit_link
-      link_to(
-        helpers.op_icon('icon icon-edit'),
-        '#',
-        class: "toggle-membership-button #{toggle_item_class_name}",
-        'data-action': 'members-form#toggleMembershipEdit',
-        'data-members-form-toggling-class-param': toggle_item_class_name,
-        title: t(:button_edit)
-      )
+    def edit_action_options
+      {
+        scheme: :default,
+        icon: :pencil,
+        label: I18n.t(:button_manage_roles),
+        data: {
+          action: "members-form#toggleMembershipEdit",
+          members_form_toggling_class_param: toggle_item_class_name
+        }
+      }
+    end
+
+    def delete_action_options
+      dialog = Members::DeleteMemberDialogComponent.new(member, row: self)
+
+      content_for :content_body do
+        render(dialog)
+      end
+
+      {
+        scheme: :danger,
+        icon: "op-person-remove",
+        label: I18n.t(:button_remove_member),
+        data: {
+          show_dialog_id: dialog.id
+        }
+      }
+    end
+
+    def view_work_package_shares_action_options
+      {
+        scheme: :default,
+        icon: "op-view-list",
+        label: I18n.t(:button_view_shared_work_packages),
+        href: shared_work_packages_url
+      }
+    end
+
+    def delete_work_package_shares_action_options
+      dialog = Members::DeleteWorkPackageSharesDialogComponent.new(member, row: self)
+
+      content_for :content_body do
+        render(dialog)
+      end
+
+      {
+        scheme: :danger,
+        icon: :trash,
+        label: I18n.t(:button_revoke_work_package_shares),
+        data: {
+          show_dialog_id: dialog.id
+        }
+      }
     end
 
     def roles_css_id
@@ -158,32 +255,6 @@ module Members
 
     def toggle_item_class_name
       "member-#{member.id}--edit-toggle-item"
-    end
-
-    def delete_link
-      if model.deletable?
-        link_to(
-          helpers.op_icon('icon icon-delete'),
-          { controller: '/members', action: 'destroy', id: model, page: params[:page] },
-          method: :delete,
-          data: { confirm: delete_link_confirmation, disable_with: I18n.t(:label_loading) },
-          title: delete_title
-        )
-      end
-    end
-
-    def delete_title
-      if model.disposable?
-        I18n.t(:title_remove_and_delete_user)
-      else
-        I18n.t(:button_remove)
-      end
-    end
-
-    def delete_link_confirmation
-      if !User.current.admin? && model.include?(User.current)
-        t(:text_own_membership_delete_confirmation)
-      end
     end
 
     def column_css_class(column)
