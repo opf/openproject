@@ -71,8 +71,8 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                                 protocol: Setting.protocol,
                                 host: Setting.host_name)
   end
-  let(:link) { link_to(I18n.t(:label_details), path, class: "description-details") }
-  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "description-details") }
+  let(:link) { link_to(I18n.t(:label_details), path, class: "diff-details") }
+  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "diff-details") }
 
   describe "#render" do
     describe "WITH the first value being nil, and the second a string" do
