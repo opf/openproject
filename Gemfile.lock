@@ -7,16 +7,6 @@ GIT
       capybara (~> 3.36)
 
 GIT
-  remote: https://github.com/crohr/turbo_tests.git
-  revision: b700cdb344e1ed8e100fd1f56525ec12fa792b45
-  ref: fix/runtime-info
-  specs:
-    turbo_tests (2.0.0)
-      bundler (>= 2.1)
-      parallel_tests (>= 3.3.0, < 5)
-      rspec (>= 3.10)
-
-GIT
   remote: https://github.com/honestica/clamav-client.git
   revision: 29e78ae94307cb34e79ddd29c5da79752239d8b7
   ref: 29e78ae94307cb34e79ddd29c5da79752239d8b7
@@ -65,6 +55,15 @@ GIT
   specs:
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
+
+GIT
+  remote: https://github.com/opf/turbo_tests.git
+  revision: c1c4707f536a5642a168650d273d714dfb62d842
+  ref: with-patches
+  specs:
+    turbo_tests (2.2.0)
+      parallel_tests (>= 3.3.0, < 5)
+      rspec (>= 3.10)
 
 PATH
   remote: modules/auth_plugins
@@ -794,7 +793,7 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.24.0)
-    parallel_tests (4.6.0)
+    parallel_tests (4.6.1)
       parallel
     parser (3.3.0.5)
       ast (~> 2.4.1)
