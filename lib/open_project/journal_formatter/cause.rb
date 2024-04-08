@@ -73,20 +73,6 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     I18n.t("journals.cause_descriptions.system_update.#{cause['feature']}")
   end
 
-  def related_work_package_changed_message(cause, html)
-    related_work_package = WorkPackage.includes(:project).visible(User.current).find_by(id: cause["work_package_id"])
-
-    if related_work_package
-      I18n.t(
-        "journals.cause_descriptions.#{cause['type']}",
-        link: html ? link_to_work_package(related_work_package, all_link: true) : "##{related_work_package.id}"
-      )
-
-    else
-      I18n.t("journals.cause_descriptions.unaccessable_work_package_changed")
-    end
-  end
-
   def working_days_changed_message(changed_dates)
     day_changes_messages = changed_dates["working_days"].collect do |day, working|
       working_day_change_message(day.to_i, working)
@@ -106,6 +92,20 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   def working_date_change_message(date, working)
     I18n.t("journals.cause_descriptions.working_days_changed.dates.#{working ? :working : :non_working}",
            date: I18n.l(Date.parse(date)))
+  end
+
+  def related_work_package_changed_message(cause, html)
+    related_work_package = WorkPackage.includes(:project).visible(User.current).find_by(id: cause["work_package_id"])
+
+    if related_work_package
+      I18n.t(
+        "journals.cause_descriptions.#{cause['type']}",
+        link: html ? link_to_work_package(related_work_package, all_link: true) : "##{related_work_package.id}"
+      )
+
+    else
+      I18n.t("journals.cause_descriptions.unaccessable_work_package_changed")
+    end
   end
 
   # we need to tell the url_helper that there is not controller to get url_options
