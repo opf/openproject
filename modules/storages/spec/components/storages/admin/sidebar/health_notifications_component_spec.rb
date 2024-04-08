@@ -40,8 +40,8 @@ RSpec.describe Storages::Admin::Sidebar::HealthNotificationsComponent, type: :co
     it "renders an unsubscribe option with info" do
       expect(page).to have_css("input[type=hidden][value='0']", visible: :hidden)
       expect(page).to have_test_selector(
-        "health-notifications-description",
-        text: "Email notifications for this storage have been turned on for all administrators."
+        "storage-health-notifications-description",
+        text: "All administrators will receive health status email notifications for this storage."
       )
       expect(page).to have_button("Unsubscribe")
     end
@@ -57,7 +57,7 @@ RSpec.describe Storages::Admin::Sidebar::HealthNotificationsComponent, type: :co
     it "renders an unsubscribe option with info" do
       expect(page).to have_css("input[type=hidden][value='1']", visible: :hidden)
       expect(page).to have_test_selector(
-        "health-notifications-description",
+        "storage-health-notifications-description",
         text: "Health status email notifications for this storage have been turned off for all administrators."
       )
       expect(page).to have_button("Subscribe")

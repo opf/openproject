@@ -14,7 +14,7 @@
               f.hidden_field :health_notifications_enabled, value: (storage.health_notifications_enabled? ? "0" : "1")
             end
 
-            notification_status_actions.with_row do
+            notification_status_actions.with_row(test_selector: "storage-health-notifications-button") do
               render(Primer::Beta::Button.new(
                 scheme: :default,
                 block: :true,
@@ -28,7 +28,7 @@
         end
       end
 
-      notifications_container.with_row(mt: 3, test_selector: "health-notifications-description") do
+      notifications_container.with_row(mt: 3, test_selector: "storage-health-notifications-description") do
         render(Primer::Beta::Text.new(color: :subtle)) { notification_status[:description] }
       end
     end
