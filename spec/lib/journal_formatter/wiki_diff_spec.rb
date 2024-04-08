@@ -67,7 +67,7 @@ RSpec.describe OpenProject::JournalFormatter::WikiDiff do
                                                   protocol: Setting.protocol,
                                                   host: Setting.host_name)
   end
-  let(:link) { link_to(I18n.t(:label_details), path, class: "diff-details") }
+  let(:link) { link_to(I18n.t(:label_details), path, class: "diff-details", target: "_top") }
   let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "diff-details") }
 
   describe "#render" do
@@ -78,7 +78,7 @@ RSpec.describe OpenProject::JournalFormatter::WikiDiff do
                link:)
       end
 
-      it { expect(wiki_instance.render(wiki_key, ["old value", "new value"])).to eq(expected) }
+      it { expect(wiki_instance.render(wiki_key, ["old value", "new value"])).to be_html_eql(expected) }
     end
   end
 end
