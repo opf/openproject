@@ -38,12 +38,14 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
   };
 
   interval:number;
+  networkErrorHappend:boolean;
   projectStorageOpenUrlValue:string;
   redirectUrlValue:string;
 
   connect() {
     this.element.showModal();
     this.interval = 0;
+    this.networkErrorHappend = false;
     this.load();
     this.element.addEventListener('close', () => { this.disconnect(); });
     this.element.addEventListener('cancel', () => { this.disconnect(); });
@@ -56,26 +58,47 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
   load() {
     this.interval = setTimeout(
       async () => {
-        const response = await fetch(
-          this.projectStorageOpenUrlValue,
-          {
-            headers: {
-              Accept: 'text/vnd.turbo-stream.html',
+        try {
+          const response = await fetch(
+            this.projectStorageOpenUrlValue,
+            {
+              headers: {
+                Accept: 'text/vnd.turbo-stream.html',
+              },
             },
-          },
-        );
-        if (response.status === 200) {
-          const streamActionHTML = await response.text();
-          renderStreamMessage(streamActionHTML);
-          setTimeout(
-            () => { window.location.href = this.redirectUrlValue; },
-            2000,
           );
-        } else {
-          this.load();
+          if (response.status === 200) {
+            const streamActionHTML = await response.text();
+            renderStreamMessage(streamActionHTML);
+            setTimeout(
+              () => { window.location.href = this.redirectUrlValue; },
+              2000,
+            );
+          } else {
+            if (this.networkErrorHappend === true) {
+              this.setNetworkErrorHappend(false);
+            }
+            this.load();
+          }
+        } catch (error:any) {
+          console.error('Error: ', error);
+          if (this.networkErrorHappend === false) {
+            this.setNetworkErrorHappend(true);
+          }
+          setTimeout(() => this.load(), 3000);
         }
       },
       3000,
-);
+    );
+  }
+
+  private setNetworkErrorHappend(value:boolean) {
+    const waitingSubtitle = document.getElementById('waiting_subtitle');
+    if (waitingSubtitle) {
+      waitingSubtitle.innerText = I18n.t(
+        `js.open_project_storage_modal.waiting_subtitle.network_${value ? 'off' : 'on'}`,
+      );
+    }
+    this.networkErrorHappend = value;
   }
 }
