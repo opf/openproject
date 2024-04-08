@@ -1,5 +1,5 @@
 <%=
-  render(Primer::Beta::BorderBox.new(padding: :condensed,
+  render(border_box_container(padding: :condensed,
                                      test_selector: "op-meeting-container-#{@meeting.id}")) do |border_box|
     border_box.with_header do
       flex_layout do |flex|
