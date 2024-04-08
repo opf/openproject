@@ -60,8 +60,8 @@ module Meetings
         # Queries::Meetings::Filters::TimeFilter,
         Queries::Meetings::Filters::AttendedUserFilter,
         Queries::Meetings::Filters::InvitedUserFilter,
-        Queries::Meetings::Filters::AuthorFilter
-        # Queries::Meetings::Filters::DatesIntervalFilter
+        Queries::Meetings::Filters::AuthorFilter,
+        Queries::Meetings::Filters::DatesIntervalFilter
       ]
 
       allowlist.detect { |clazz| filter.is_a? clazz }
