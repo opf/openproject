@@ -1145,7 +1145,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         logged_for: "Logged for"
       meeting_agenda_item:
         duration:
-          added: "set to %{value} minutes"
+          added: "set to %{value}"
           removed: "removed"
           updated: "changed from %{old_value} to %{value}"
         position:
