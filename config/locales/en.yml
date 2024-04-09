@@ -3023,8 +3023,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   setting_work_package_done_ratio_field: "Work-based"
   setting_work_package_done_ratio_status: "Status-based"
   setting_work_package_done_ratio_explanation_html: >
-    In work-based mode, % Complete is calculated from how much work is done in relation to total work.<br>
-    In status-based mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work.
+    In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
