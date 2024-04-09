@@ -169,9 +169,9 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
       this.resource.remainingTime = JSONresponse.remainingTime;
 
-      this.change.push();
       this.onModalClosed();
 
+      this.change.push();
       this.cdRef.detectChanges();
     }
   }
