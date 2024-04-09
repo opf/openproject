@@ -333,6 +333,32 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when a change of progress calculation mode to status-based is the cause" do
+    let(:cause) do
+      {
+        "type" => "progress_mode_changed_to_status_based"
+      }
+    end
+
+    context "when rendering HTML variant" do
+      let(:html) { true }
+
+      it do
+        expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.progress_mode_changed_to_status_based')}</strong> " \
+                              "Progress calculation mode set to status-based"
+      end
+    end
+
+    context "when rendering raw variant" do
+      let(:html) { false }
+
+      it do
+        expect(subject).to eq "#{I18n.t('journals.caused_changes.progress_mode_changed_to_status_based')} " \
+                              "Progress calculation mode set to status-based"
+      end
+    end
+  end
+
   context "when the change was caused by a system update" do
     let(:cause) do
       {

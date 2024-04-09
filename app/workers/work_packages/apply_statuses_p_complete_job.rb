@@ -29,33 +29,63 @@
 #++
 
 # rubocop:disable Rails/SquishedSQLHeredocs
-class WorkPackages::ApplyStatusPCompleteChangeJob < ApplicationJob
+class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
   queue_with_priority :default
 
-  # Updates % complete and remaining work of all work packages after a status
-  # % complete value has been changed.
+  VALID_CAUSE_TYPES = %w[
+    progress_mode_changed_to_status_based
+    status_p_complete_changed
+  ].freeze
+
+  # Updates % complete and remaining work of all work packages after a status %
+  # complete value has been changed or the progress calculation mode was set to
+  # status-based.
   #
   # It creates a journal entry with the System user describing the change.
   #
+  # @param status_name [String] The cause of the update to be put in the journal
+  #   entry. Must be one of `VALID_CAUSE_TYPES`.
   # @param status_name [String] The name of the status to apply.
   # @param status_id [Integer] The ID of the status to apply. Not used
   #   currently, but here in case we need it in a later version.
   # @param change [Object] The change object containing an array of [old, new]
   #   values of the change.
   # @return [void]
-  def perform(status_name:, status_id:, change:)
+  def perform(cause_type:, status_name: nil, status_id: nil, change: nil)
     return if WorkPackage.use_field_for_done_ratio?
+
+    journal_cause = journal_cause_from(cause_type, status_name:, status_id:, change:)
 
     with_temporary_progress_table do
       set_p_complete_from_status
       derive_remaining_work_from_work_and_p_complete
       update_totals
 
-      copy_progress_values_to_work_packages_and_update_journals(status_name:, status_id:, change:)
+      copy_progress_values_to_work_packages_and_update_journals(journal_cause)
     end
   end
 
   private
+
+  def journal_cause_from(cause_type, status_name:, status_id:, change:)
+    if VALID_CAUSE_TYPES.exclude?(cause_type)
+      raise ArgumentError, "Invalid cause type #{cause_type.inspect}. " \
+                           "Valid values are #{VALID_CAUSE_TYPES.inspect}"
+    end
+
+    case cause_type
+    when "progress_mode_changed_to_status_based"
+      { type: cause_type }
+    when "status_p_complete_changed"
+      raise ArgumentError, "status_name must be provided" if status_name.blank?
+      raise ArgumentError, "status_id must be provided" if status_id.nil?
+      raise ArgumentError, "change must be provided" if change.nil?
+
+      { type: cause_type, status_name:, status_id:, status_p_complete_change: change }
+    else
+      raise "Unable to handle cause type #{cause_type.inspect}"
+    end
+  end
 
   def with_temporary_progress_table
     create_temporary_progress_table
@@ -125,9 +155,9 @@ class WorkPackages::ApplyStatusPCompleteChangeJob < ApplicationJob
     SQL
   end
 
-  def copy_progress_values_to_work_packages_and_update_journals(status_name:, status_id:, change:)
+  def copy_progress_values_to_work_packages_and_update_journals(cause)
     updated_work_package_ids = copy_progress_values_to_work_packages
-    create_journals_for_updated_work_packages(updated_work_package_ids, status_name:, status_id:, change:)
+    create_journals_for_updated_work_packages(updated_work_package_ids, cause:)
   end
 
   def copy_progress_values_to_work_packages
@@ -152,8 +182,7 @@ class WorkPackages::ApplyStatusPCompleteChangeJob < ApplicationJob
     results.column_values(0)
   end
 
-  def create_journals_for_updated_work_packages(updated_work_package_ids, status_name:, status_id:, change:)
-    cause = { type: "status_p_complete_changed", status_name:, status_id:, status_p_complete_change: change }
+  def create_journals_for_updated_work_packages(updated_work_package_ids, cause:)
     WorkPackage.where(id: updated_work_package_ids).find_each do |work_package|
       Journals::CreateService.new(work_package, system_user)
         .call(cause:)

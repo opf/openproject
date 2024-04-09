@@ -66,6 +66,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       working_days_changed_message(cause["changed_days"])
     when "status_p_complete_changed"
       status_p_complete_changed_message(cause, html)
+    when "progress_mode_changed_to_status_based"
+      progress_mode_changed_to_status_based_message
     else
       related_work_package_changed_message(cause, html)
     end
@@ -101,6 +103,10 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     status_name = html_escape(status_name) if html
 
     I18n.t("journals.cause_descriptions.status_p_complete_changed", status_name:, old_value:, new_value:)
+  end
+
+  def progress_mode_changed_to_status_based_message
+    I18n.t("journals.cause_descriptions.progress_mode_changed_to_status_based")
   end
 
   def related_work_package_changed_message(cause, html)

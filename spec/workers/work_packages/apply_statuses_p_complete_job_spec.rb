@@ -28,7 +28,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackages::ApplyStatusPCompleteChangeJob do
+RSpec.describe WorkPackages::ApplyStatusesPCompleteJob do
   shared_let(:author) { create(:user) }
   shared_let(:priority) { create(:priority, name: "Normal") }
   shared_let(:project) { create(:project, name: "Main project") }
@@ -48,10 +48,14 @@ RSpec.describe WorkPackages::ApplyStatusPCompleteChangeJob do
 
   subject(:job) { described_class }
 
-  def expect_performing_job_changes(from:, to:, status_name: "New", status_id: 99, change: [33, 66])
+  def expect_performing_job_changes(from:, to:,
+                                    cause_type: "status_p_complete_changed",
+                                    status_name: "New",
+                                    status_id: 99,
+                                    change: [33, 66])
     table = create_table(from)
 
-    job.perform_now(status_name:, status_id:, change:)
+    job.perform_now(cause_type:, status_name:, status_id:, change:)
 
     table.work_packages.map(&:reload)
     expect_work_packages(table.work_packages, to)
@@ -153,7 +157,7 @@ RSpec.describe WorkPackages::ApplyStatusPCompleteChangeJob do
 
     describe "journals" do
       # rubocop:disable RSpec/ExampleLength
-      it "creates journal entries for modified work packages" do
+      it "creates journal entries for modified work packages on status % complete change" do
         parent, child1, child2 = expect_performing_job_changes(
           from: <<~TABLE,
             hierarchy  | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
@@ -167,6 +171,7 @@ RSpec.describe WorkPackages::ApplyStatusPCompleteChangeJob do
               child 1  | Doing (40%) |  10h |             6h |        40% |    10h |               6h |          40%
               child 2  | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
           TABLE
+          cause_type: "status_p_complete_changed",
           status_name: status_40p_doing.name,
           status_id: status_40p_doing.id,
           change: [20, 40]
@@ -185,6 +190,33 @@ RSpec.describe WorkPackages::ApplyStatusPCompleteChangeJob do
         expect(child2.journals.count).to eq 1
       end
       # rubocop:enable RSpec/ExampleLength
+
+      it "creates journal entries for modified work packages on progress calculation mode set to status-based" do
+        parent, child1, child2 = expect_performing_job_changes(
+          from: <<~TABLE,
+            hierarchy  | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent     | To do (0%)  |      |                |         0% |    20h |               8h |          60%
+              child 1  | Doing (40%) |  10h |             8h |        20% |    10h |               8h |          20%
+              child 2  | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
+          TABLE
+          to: <<~TABLE,
+            subject    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent     | To do (0%)  |      |                |         0% |    20h |               6h |          70%
+              child 1  | Doing (40%) |  10h |             6h |        40% |    10h |               6h |          40%
+              child 2  | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
+          TABLE
+          cause_type: "progress_mode_changed_to_status_based"
+        )
+        [parent, child1].each do |work_package|
+          expect(work_package.journals.count).to eq 2
+          last_journal = work_package.last_journal
+          expect(last_journal.user).to eq(User.system)
+          expect(last_journal.cause_type).to eq("progress_mode_changed_to_status_based")
+        end
+
+        # unchanged => no new journals
+        expect(child2.journals.count).to eq 1
+      end
     end
   end
 end

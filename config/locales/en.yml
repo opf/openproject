@@ -1733,9 +1733,10 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     changes_retracted: "The changes were retracted."
 
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
-      status_p_complete_changed: "Status % Complete changed"
       dates_changed: "Dates changed"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "OpenProject system update:"
 
     cause_descriptions:
@@ -1752,6 +1753,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_p_complete_changed: >-
         % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
