@@ -30,8 +30,6 @@ module Users::PermissionChecks
   extend ActiveSupport::Concern
 
   included do
-    delegate :preload_projects_allowed_to, to: :user_allowed_service
-
     # Some Ruby magic. Create methods for each entity we can have memberships on automatically
     # i.e. allowed_in_work_package? and allowed_in_any_work_package?
     Member::ALLOWED_ENTITIES.each do |entity_model_name|
