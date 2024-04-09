@@ -80,7 +80,7 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
             }
             this.load();
           }
-        } catch (error:any) {
+        } catch (error:unknown) {
           console.error('Error: ', error);
           if (this.networkErrorHappend === false) {
             this.setNetworkErrorHappend(true);
