@@ -133,7 +133,6 @@ module Activities
       .includes(:data, :customizable_journals, :attachable_journals, :bcf_comment)
       .find(journal_ids)
       .then { |journals| ::API::V3::Activities::ActivityEagerLoadingWrapper.wrap(journals) }
-      .then { |journals| exclude_disabled_project_attribute_changes(journals) }
       .index_by(&:id)
     end
 
@@ -143,25 +142,6 @@ module Activities
 
     def constantized_providers(event_type)
       self.class.constantized_providers[event_type]
-    end
-
-    def exclude_disabled_project_attribute_changes(journals)
-      project_journals = journals.filter { |j| j.journable_type == "Project" }
-      project_attribute_keys = project_attribute_keys_for(journals)
-
-      project_journals.each do |p_j|
-        allowed_keys = project_attribute_keys[p_j.journable_id] || []
-        p_j.details.delete_if { |k| k.starts_with?("custom_fields_") && !k.in?(allowed_keys) }
-      end
-
-      journals
-    end
-
-    def project_attribute_keys_for(project_journals)
-      ProjectCustomFieldProjectMapping
-        .where(project: project_journals.map(&:journable_id))
-        .group_by(&:project_id)
-        .transform_values { |v| v.map { |o| "custom_fields_#{o.custom_field_id}" } }
     end
   end
 end

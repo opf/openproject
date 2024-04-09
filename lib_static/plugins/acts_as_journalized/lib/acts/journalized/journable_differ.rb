@@ -82,7 +82,11 @@ module Acts::Journalized
 
       def get_association_changes(original, changed, association, association_name, key, value)
         new_journals = changed.send(association).map(&:attributes)
-        old_journals = original ? original.send(association).map(&:attributes) : [];
+        old_journals = original&.send(association)&.map(&:attributes) || []
+
+        journable = changed.journable
+        new_journals = allowed_attributes(journable, new_journals, key)
+        old_journals = allowed_attributes(journable, old_journals, key)
 
         changes_on_association(new_journals, old_journals, association_name, key, value)
       end
@@ -95,6 +99,20 @@ module Acts::Journalized
                     .merge(changed_references(merged_journals))
 
         to_changes_format(changes, association_name.to_s)
+      end
+
+      def allowed_attributes(journable, journals, key)
+        # Filter out Project attributes that are not enabled on the project
+        if journable.class.name == "Project" && key == :custom_field_id
+          allowed_custom_field_ids =
+            journable.project_custom_field_project_mappings.pluck(:custom_field_id)
+
+          journals.select! do |attributes|
+            attributes["custom_field_id"].in?(allowed_custom_field_ids)
+          end
+        end
+
+        journals
       end
 
       def added_references(merged_references)
