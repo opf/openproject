@@ -131,32 +131,43 @@ RSpec.describe Storages::HealthService do
       it "notifies admin users when the storage becomes healthy" do
         expect do
           health_service.healthy
-        end.to have_enqueued_mail(Storages::StoragesMailer, :notify_healthy)
-        .with(admin_user, storage, storage.health_reason).at_most(:once)
+        end.to(have_enqueued_mail(
+          Storages::StoragesMailer, :notify_healthy
+        ).with(admin_user, storage, storage.health_reason).at_most(:once)
+         .and(have_enqueued_job(Storages::HealthStatusMailerJob).with(storage:).at_most(:once)))
       end
 
       it "notifies admin users when the storage becomes unhealthy" do
         expect do
           health_service.unhealthy(reason: "thou_shall_not_pass_error")
-        end.to have_enqueued_mail(Storages::StoragesMailer, :notify_unhealthy).with(admin_user, storage).at_most(:once)
+        end.to(have_enqueued_mail(
+          Storages::StoragesMailer, :notify_unhealthy
+        ).with(admin_user, storage).at_most(:once)
+        .and(have_enqueued_job(Storages::HealthStatusMailerJob).with(storage:).at_most(:once)))
       end
     end
 
     context "when the storage has notifications disabled" do
       before do
         storage.update(health_notifications_enabled: false)
+
+        allow(Storages::HealthStatusMailerJob).to receive(:schedule).and_call_original
       end
 
       it "does not notify admin users when the storage becomes healthy" do
         expect do
           health_service.healthy
         end.not_to have_enqueued_mail(Storages::StoragesMailer, :notify_healthy)
+
+        expect(Storages::HealthStatusMailerJob).not_to have_received(:schedule)
       end
 
       it "does not notify admin users when the storage becomes unhealthy" do
         expect do
           health_service.unhealthy(reason: "thou_shall_not_pass_error")
         end.not_to have_enqueued_mail(Storages::StoragesMailer, :notify_unhealthy)
+
+        expect(Storages::HealthStatusMailerJob).not_to have_received(:schedule)
       end
     end
   end

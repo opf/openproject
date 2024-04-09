@@ -96,6 +96,8 @@ module Storages
     end
 
     def schedule_mail_job(storage)
+      return unless storage.health_notifications_enabled?
+
       ::Storages::HealthStatusMailerJob.schedule(storage:)
     end
 
