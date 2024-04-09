@@ -108,4 +108,56 @@ RSpec.describe Storages::HealthService do
     end
     # rubocop:enable RSpec/ExampleLength
   end
+
+  describe "Health notifications" do
+    let(:user) { create(:user) }
+    let(:admin_user) { create(:admin) }
+    let(:role) { create(:project_role) }
+    let(:storage) { create(:nextcloud_storage) }
+    let!(:project_storage) { create(:project_storage, project:, storage:) }
+
+    let(:project) do
+      create(:project,
+             members: { user => role,
+                        admin_user => role },
+             enabled_module_names: %i[storages])
+    end
+
+    context "when the storage has notifications enabled" do
+      before do
+        storage.update(health_notifications_enabled: true)
+      end
+
+      it "notifies admin users when the storage becomes healthy" do
+        expect do
+          health_service.healthy
+        end.to have_enqueued_mail(Storages::StorageMailer, :notify_healthy)
+        .with(admin_storage, storage, storage.health_reason).at_most(:once)
+      end
+
+      it "notifies admin users when the storage becomes unhealthy" do
+        expect do
+          health_service.unhealthy(reason: "thou_shall_not_pass_error")
+        end.to have_enqueued_mail(Storages::StoragesMailer, :notify_unhealthy).with(admin_user, storage).at_most(:once)
+      end
+    end
+
+    context "when the storage has notifications disabled" do
+      before do
+        storage.update(health_notifications_enabled: false)
+      end
+
+      it "does not notify admin users when the storage becomes healthy" do
+        expect do
+          health_service.healthy
+        end.not_to have_enqueued_mail(Storages::StoragesMailer, :notify_healthy)
+      end
+
+      it "does not notify admin users when the storage becomes unhealthy" do
+        expect do
+          health_service.unhealthy(reason: "thou_shall_not_pass_error")
+        end.not_to have_enqueued_mail(Storages::StoragesMailer, :notify_unhealthy)
+      end
+    end
+  end
 end
