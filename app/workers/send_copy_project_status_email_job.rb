@@ -27,16 +27,41 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin
-  class HealthStatusComponent < ApplicationComponent
-    alias_method :storage, :model
 
-    # This method returns the health identifier, description and the time since when the error occurs in a
-    # formatted manner. e.g. "Not found: Outbound request destination not found since 12/07/2023 03:45 PM"
-    def formatted_health_reason
-      "#{storage.health_reason_identifier.tr('_', ' ').strip.capitalize}: #{storage.health_reason_description} " +
-        I18n.t("storages.health.since", datetime: helpers.format_time(storage.health_changed_at))
+class SendCopyProjectStatusEmailJob < ApplicationJob
+  # Job is to be used as a callback to the CopyProjectJob batch
+
+  def perform(batch, _args)
+    if copy_job_succeeded?(batch) && batch.properties[:target_project]
+      send_success_email(batch)
+    else
+      send_failure_email(batch)
     end
+  end
+
+  private
+
+  def copy_job_succeeded?(batch)
+    job = batch.active_jobs.find { |batch_job| batch_job.instance_of?(CopyProjectJob) }
+
+    job.job_status.success?
+  end
+
+  def send_failure_email(batch)
+    ProjectMailer.copy_project_failed(
+      batch.properties[:user],
+      batch.properties[:source_project],
+      batch.properties[:target_project_name],
+      batch.properties[:errors]
+    ).deliver_later
+  end
+
+  def send_success_email(batch)
+    ProjectMailer.copy_project_succeeded(
+      batch.properties[:user],
+      batch.properties[:source_project],
+      batch.properties[:target_project],
+      batch.properties[:errors]
+    ).deliver_later
   end
 end

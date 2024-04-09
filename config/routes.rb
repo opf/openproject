@@ -302,8 +302,10 @@ Rails.application.routes.draw do
 
     resources :categories, except: %i[index show], shallow: true
 
-    resources :members, only: %i[index create update destroy], shallow: true do
+    resources :members, only: %i[index create update], shallow: true do
       collection do
+        delete "by_principal/:principal_id", action: :destroy_by_principal
+
         get :autocomplete_for_member
       end
     end

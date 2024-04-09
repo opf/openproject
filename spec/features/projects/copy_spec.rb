@@ -28,7 +28,8 @@
 
 require "spec_helper"
 
-RSpec.describe "Projects copy", :js, :with_cuprite do
+RSpec.describe "Projects copy", :js, :with_cuprite,
+               with_good_job_batches: [CopyProjectJob, Storages::CopyProjectFoldersJob, SendCopyProjectStatusEmailJob] do
   describe "with a full copy example" do
     let!(:project) do
       create(:project,
@@ -137,7 +138,10 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
     let(:parent_field) { FormFields::SelectFormField.new :parent }
 
     let(:storage) { create(:nextcloud_storage) }
-    let(:project_storage) { create(:project_storage, project:, storage:) }
+    let(:project_storage) do
+      create(:project_storage, project:, storage:)
+    end
+
     let(:file_link) { create(:file_link, container: work_package, storage:) }
 
     before do
@@ -495,6 +499,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
 
       expect(page).to have_text "The job has been queued and will be processed shortly."
 
+      GoodJob.perform_inline
       perform_enqueued_jobs
 
       expect(copied_project)
@@ -510,6 +515,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
     expect(page).to have_text "The job has been queued and will be processed shortly."
 
     # ensure all jobs are run especially emails which might be sent later on
+    GoodJob.perform_inline
     while perform_enqueued_jobs > 0
     end
   end

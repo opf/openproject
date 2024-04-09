@@ -1,6 +1,6 @@
 <%=
   component_wrapper do
-    render(Primer::Beta::BorderBox.new(mt: 3, classes: 'op-project-custom-field-section', data: {
+    render(border_box_container(mt: 3, classes: 'op-project-custom-field-section', data: {
         test_selector: "project-custom-field-section-#{@project_custom_field_section.id}"
       })) do |component|
       component.with_header(font_weight: :bold, py: 2) do

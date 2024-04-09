@@ -30,7 +30,7 @@ For more information, see [#40749](https://community.openproject.org/work_packag
 
 ### Removal of the commit_fix_done_ratio setting
 
-Since the now a read only value, derived from work and remaining work, the `commit_fix_done_ratio` setting has been removed as setting the done_ratio value is no longer possible.
+Since the done_ratio is now a read only value, derived from work and remaining work, the `commit_fix_done_ratio` setting has been removed.
 
 For more information, see [#40749](https://community.openproject.org/work_packages/40749)
 

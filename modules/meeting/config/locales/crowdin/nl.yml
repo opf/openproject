@@ -40,13 +40,13 @@ nl:
         participants_invited: "Genodigden"
         project: "Project"
         start_date: "Datum"
-        start_time: "Tijd"
-        start_time_hour: "Begintijd"
-      meeting_agenda_items:
-        title: "Titel"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
         author: "Author"
-        duration_in_minutes: "Tijdsduur [min]"
-        description: "Notities"
+        duration_in_minutes: "Duration (min)"
+        description: "Notes"
         presenter: "Presenter"
     errors:
       messages:
@@ -155,6 +155,8 @@ nl:
   label_meeting_delete: "Verwijder vergadering"
   label_meeting_created_by: "Gemaakt door"
   label_meeting_last_updated: "Laatst bijgewerkt"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Verwijderde verwijzing naar het werkpakket"
@@ -164,6 +166,12 @@ nl:
   label_agenda_item_move_up: "Verplaats naar boven"
   label_agenda_item_move_down: "Naar beneden verplaatsen"
   label_agenda_item_add_notes: "Notities toevoegen"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "Vergaderdetails"
   label_meeting_details_edit: "Bewerk vergader details"
   label_meeting_state_open: "Openen"

@@ -39,14 +39,14 @@ zh-TW:
         participants_invited: "受邀人員"
         project: "專案"
         start_date: "日期"
-        start_time: "時間"
-        start_time_hour: "開始時間"
-      meeting_agenda_items:
-        title: "標題"
-        author: "作者"
-        duration_in_minutes: "持續時間(分鐘)"
-        description: "備註"
-        presenter: "主持人"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "Duration (min)"
+        description: "Notes"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "不是有效時間。所需格式: HH:MM"
@@ -154,6 +154,8 @@ zh-TW:
   label_meeting_delete: "刪除會議"
   label_meeting_created_by: "建立者"
   label_meeting_last_updated: "最後更新於"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "工作項目 #%{id} 非可見"
   label_agenda_item_deleted_wp: "已將引用的工作項目刪除"
@@ -163,6 +165,12 @@ zh-TW:
   label_agenda_item_move_up: "向上移 "
   label_agenda_item_move_down: "向下移 "
   label_agenda_item_add_notes: "新增註記"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "會議詳情"
   label_meeting_details_edit: "編輯會議詳情"
   label_meeting_state_open: "開啟"

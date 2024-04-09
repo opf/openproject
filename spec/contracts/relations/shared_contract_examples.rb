@@ -51,7 +51,7 @@ RSpec.shared_examples_for "relation contract" do
   let(:relation_type) do
     Relation::TYPE_RELATES
   end
-  let(:relation_delay) { 42 }
+  let(:relation_lag) { 42 }
   let!(:wp_visible_scope) do
     instance_double(ActiveRecord::Relation).tap do |relation|
       allow(WorkPackage)

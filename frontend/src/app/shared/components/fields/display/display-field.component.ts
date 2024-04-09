@@ -38,7 +38,7 @@ export class DisplayFieldComponent implements OnInit {
       .then((schema) => {
         const proxied = this.schemaCache.proxied(this.resource, schema);
         this.fieldName = this.attributeName(this.fieldName, proxied);
-        this.render(proxied[this.fieldName] as IFieldSchema);
+        this.render(proxied.ofProperty(this.fieldName));
       });
   }
 

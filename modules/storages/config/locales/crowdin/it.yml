@@ -77,6 +77,15 @@ it:
       storage_delete_result_3: Nel caso in cui questo archivio gestisca automaticamente le cartelle di progetto, quelle e i file in esse contenuti verranno eliminati per sempre.
     error_invalid_provider_type: Seleziona un fornitore di archiviazione valido.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Cartelle gestite automaticamente
       general_information: Informazioni generali
       nextcloud_oauth: Nextcloud OAuth
@@ -143,6 +152,7 @@ it:
     label_creator: Autore
     label_delete_storage: Elimina archivio
     label_edit_storage: Modifica archivio
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Modifica cartelle gestite automaticamente dall'archivio
     label_edit_storage_host: Modifica host dell'archivio
     label_existing_manual_folder: Cartella esistente con autorizzazioni gestite manualmente
@@ -199,11 +209,6 @@ it:
         delete: Elimina archivio file
         subtitle: Aggiungi un archivio file esterno per caricare, collegare e gestire i file nelle macro-attività.
       managed_project_folders:
-        one_drive_information: |-
-          Per abilitare le cartelle di progetto gestite automaticamente in OneDrive/SharePoint, è necessaria una configurazione aggiuntiva
-          per l'unità utilizzata per l'archiviazione di questo file. Se OpenProject gestisce le autorizzazioni di questa unità,
-          molto probabilmente sarà inutilizzabile per altri casi d'uso in SharePoint. Per ulteriori informazioni e indicazioni
-          consulta il %{drive_id_link_text}.
         subtitle: |-
           Consenti a OpenProject di creare automaticamente cartelle per progetto. Questa impostazione è consigliata in quanto garantisce che ogni
           membro del team abbia sempre le autorizzazioni di accesso corrette.

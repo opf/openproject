@@ -33,7 +33,7 @@ ms:
       color_theme_custom: "(Tersuai)"
       colors:
         primary-button-color: "Butang utama"
-        accent-color: "Accent"
+        accent-color: "Aksen"
         header-bg-color: "Latar belakang pengepala"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Header font"
@@ -310,7 +310,6 @@ ms:
       no_results_content_text: Tambah ahli ke projek
     invite_by_mail: "Hantar jemputan ke %{mail}"
     send_invite_to: "Hantar jemputan ke"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
       shared: "Dikongsi"
     filters:
@@ -322,6 +321,42 @@ ms:
       project_roles: "Peranan projek"
       wp_shares: "Kongsian pakej kerja"
       groups: "Kumpulan"
+    delete_member_dialog:
+      title: "Remove member"
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      will_remove_the_groups_role: "This will remove the group role from this project."
+      however_work_packages_shared_with_user_html:
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_work_packages_shared_with_group_html:
+        other: "However, %{shared_work_packages_link} have also been shared with this group."
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+      also_work_packages_shared_with_user_html:
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
+      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
+      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
+      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+    delete_work_package_shares_dialog:
+      title: "Revoke work package shares"
+      shared_with_this_user_html:
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
       failed_to_reset_token: "Gagal set semula token akses: %{error}"
@@ -702,7 +737,7 @@ ms:
         blank: "tidak boleh dibiarkan kosong."
         blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya."
-        circular_dependency: "This relation would create a circular dependency."
+        circular_dependency: "Hubungan ini akan mencipta kebergantungan bulat."
         confirmation: "tidak sepadan dengan %{attribute}."
         could_not_be_copied: "%{dependency} tidak dapat disalin (sepenuhnya)."
         does_not_exist: "tidak wujud."
@@ -789,7 +824,7 @@ ms:
               invalid_uri: "mestilah URI yang sah."
               relative_uri: "must be an absolute URI."
               secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
-              forbidden_uri: "is forbidden by the server."
+              forbidden_uri: "adalah dilarang oleh server."
             scopes:
               not_match_configured: "tidak sepadan dengan skop yang tersedia."
         enterprise_token:
@@ -807,9 +842,9 @@ ms:
           at_least_one_channel: "Sekurang-kurangnya satu saluran untuk menghantar notifikasi perlu ditentukan."
           attributes:
             read_ian:
-              read_on_creation: "cannot be set to true on notification creation."
+              read_on_creation: "tidak boleh ditetapkan kepada benar semasa penciptaan pemberitahuan."
             mail_reminder_sent:
-              set_on_creation: "cannot be set to true on notification creation."
+              set_on_creation: "tidak boleh ditetapkan kepada benar semasa penciptaan pemberitahuan."
             reason:
               no_notification_reason: "tidak boleh kosong kerana IAN dipilih sebagai saluran."
             reason_mail_digest:
@@ -822,7 +857,7 @@ ms:
         parse_schema_filter_params_service:
           attributes:
             base:
-              unsupported_operator: "The operator is not supported."
+              unsupported_operator: "pengendali tersebut tidak disokong."
               invalid_values: "Satu nilai tidak sah."
               id_filter_required: "Saringan 'id' diperlukan."
         project:
@@ -841,7 +876,7 @@ ms:
             project:
               error_not_found: "tidak dijumpai"
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- Pengguna tersebut tiada kebenaran untuk mencipta paparan awam."
             group_by:
               invalid: "Tidak dapat dikumpulkan mengikut: %{value}"
               format: "%{message}"
@@ -917,37 +952,37 @@ ms:
           error_conflict: "Halaman wiki telah dikemas kini oleh orang lain semasa anda sedang menyuntingnya."
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "tidak boleh simpulkan daripada tajuk tersebut '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Pakej kerja #%{id} adalah sasaran yang tidak sah untuk penugasan semula kemasukan waktu."
           attributes:
             assigned_to:
               format: "%{message}"
             due_date:
-              not_start_date: "is not on start date, although this is required for milestones."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              not_start_date: "bukan pada tarikh mula, walaupun ini diperlukan untuk pencapaian."
+              cannot_be_null: "tidak boleh ditetapkan kepada kosong kerana tarikh mula dan tempoh masa diketahui."
             duration:
               larger_than_dates: "adalah lebih besar daripada selang waktu antara tarikh mula dan akhir."
               smaller_than_dates: "adalah lebih kecil daripada selang waktu antara tarikh mula dan akhir."
               not_available_for_milestones: "adalah tidak tersedia untuk pakej kerja jenis pencapaian."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              cannot_be_null: "tidak boleh ditetapkan kepada kosong kerana tarikh mula dan tarikh tamat diketahui."
             parent:
               cannot_be_milestone: "tidak boleh menjadi milestone."
               cannot_be_self_assigned: "tidak boleh ditugaskan pada dirinya."
               cannot_be_in_another_project: "tidak boleh berada dalam projek lain."
               not_a_valid_parent: "adalah tidak sah."
             start_date:
-              violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              violates_relationships: "hanya boleh ditetapkan pada %{soonest_start} atau kemudian untuk tidak mengganggu hubungan pakej kerja."
+              cannot_be_null: "tidak boleh ditetapkan kepada kosong kerana tarikh tamat dan tempoh masa diketahui."
             status_id:
-              status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
-              status_invalid_in_type: "is invalid because the current status does not exist in this type."
+              status_transition_invalid: "adalah tidak sah kerana tiada peralihan sah yang wujud daripada status lama ke baharu untuk peranan pengguna semasa."
+              status_invalid_in_type: "adalah tidak sah kerana status semasa berikut tidak wujud dalam jenis ini."
             type:
               cannot_be_milestone_due_to_children: "cannot be a milestone because this work package has children."
             priority_id:
               only_active_priorities_allowed: "perlu aktif."
             category:
-              only_same_project_categories_allowed: "The category of a work package must be within the same project as the work package."
+              only_same_project_categories_allowed: "Kategori pakej kerja mesti dalam projek yang sama dengan pakej kerja."
               does_not_exist: "Kategori yang ditentukan tidak wujud."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "perlu >= 0."
@@ -987,15 +1022,15 @@ ms:
               error_not_found: "tidak dijumpai"
         member:
           principal_blank: "Sila pilih sekurang-kurangnya satu pengguna atau kumpulan."
-          role_blank: "need to be assigned."
+          role_blank: "perlu ditugaskan."
           attributes:
             roles:
               ungrantable: "mempunyai peranan yang tidak boleh ditugaskan."
               more_than_one: "mempunyai lebih daripada satu peranan."
             principal:
-              unassignable: "cannot be assigned to a project."
+              unassignable: "tidak boleh ditugaskan pada projek."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "Versi tidak dapat dipadam kerana ia mempunyai pakej kerja yang dilampirkan padanya."
           undeletable_work_packages_attached: "Versi tidak dapat dipadam kerana ia mempunyai pakej kerja yang dilampirkan padanya."
         status:
           readonly_default_exlusive: "tidak dapat diaktifkan untuk status-status yang ditandakan sebagai default."
@@ -1047,6 +1082,8 @@ ms:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "dikemas kini pada %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "dipadamkan pada %{datetime}"
+      deleted_by_on: "dihapuskan oleh %{user} pada %{datetime}"
       parent_without_of: "Subprojek"
       parent_no_longer: "Bukan lagi subprojek kepada"
       time_entry:
@@ -1056,8 +1093,20 @@ ms:
           other: "<i>%{count} jam</i>"
         updated: "diubah dari %{old_value} kepada %{value}"
         logged_for: "Dilog untuk"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "dikeluarkan"
+          updated: "ditukar dari %{old_value} kepada %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "disusun semula"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
-      changeset: "Changesets"
+      changeset: "Set ubahsuai"
       message: "Forum-forum"
       news: "Berita"
       project_attribute: "Atribut projek"
@@ -1088,7 +1137,7 @@ ms:
     derived_due_date: "Tarikh tamat yang diperolehi"
     derived_estimated_hours: "Jumlah kerja"
     derived_start_date: "Tarikh mula yang diperolehi"
-    display_sums: "Display Sums"
+    display_sums: "Paparkan Jumlah"
     due_date: "Tarikh tamat"
     estimated_hours: "Kerja"
     estimated_time: "Kerja"
@@ -1120,7 +1169,7 @@ ms:
     type: "Jenis"
     updated_at: "Dikemas kini pada"
     updated_on: "Dikemas kini pada"
-    uploader: "Uploader"
+    uploader: "Pemuat naik\n"
     user: "Pengguna"
     value: "Nilai"
     version: "Versi"
@@ -1129,7 +1178,7 @@ ms:
     failed: "Sokongan gagal"
     label_backup_token: "Token sandaran"
     label_create_token: "Cipta token sandaran"
-    label_delete_token: "Delete backup token"
+    label_delete_token: "Padam token sokongan"
     label_reset_token: "Set semula token sokongan"
     label_token_users: "Pengguna berikut mempunyai token sandaran aktif"
     reset_token:
@@ -1138,21 +1187,22 @@ ms:
       heading_reset: "Set semula token sokongan"
       heading_create: "Cipta token sokongan"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Membolehkan sandaran akan membenarkan mana-mana pengguna dengan kebenaran yang diperlukan dan token sandaran ini untuk memuat turun sandaran yang mengandungi semua data pemasangan OpenProject ini. Ini termasuk data semua pengguna.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Anda perlu menghasilkan token sandaran untuk dapat mencipta sandaran. Setiap kali anda ingin meminta sandaran anda perlu menyediakan token ini. Anda boleh memadam token sandaran tersebut untuk menyahdayakan sandaran untuk pengguna ini.
       verification: >
         Masukkan %{word} untuk mengesahkan anda mahu %{action} token sandaran.
       verification_word_reset: set semula
       verification_word_create: cipta
       warning: >
         Apabila anda mencipta token baharu anda hanya akan dibenarkan untuk meminta sokongan selepas 24 jam. Ini adalah langkah keselamatan. Selepas itu anda boleh meminta sokongan bila-bila masa menggunakan token tersebut.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+    text_token_deleted: Token sandaran dipadam. Sandaran kini dinyahdayakan.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
+      invalid_token: Tidak sah atau token sandaran hilang
+      token_cooldown: Token sandaran ini akan sah dalam %{hours} jam.
       backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      limit_reached: Anda hanya boleh membuat %{limit} sandaran setiap hari.
+  button_actions: "Actions"
   button_add: "Tambah"
   button_add_comment: "Tambah komen"
   button_add_member: Tambah ahli
@@ -1223,6 +1273,14 @@ ms:
   button_add_menu_entry: "Tambah item menu"
   button_configure_menu_entry: "Konfigurasi item menu"
   button_delete_menu_entry: "Padam item menu"
+  button_view_shared_work_packages: "View shared work packages"
+  button_manage_roles: "Manage roles"
+  button_remove_member: "Remove member"
+  button_remove_member_and_shares: "Remove member and shares"
+  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_access: "Revoke access"
+  button_revoke_all: "Revoke all"
+  button_revoke_only: "Revoke only %{shared_role_name}"
   consent:
     checkbox_label: Saya sudah perhatikan dan bersetuju dengan perkara di atas.
     failure_message: Persetujuan gagal, tidak boleh teruskan.
@@ -1232,39 +1290,39 @@ ms:
     not_yet_consented: Pengguna belum memberi persetujuan lagi, akan diminta pada log masuk seterusnya.
     contact_mail_instructions: Tentukan alamat e-mel yang boleh dihubungi oleh pengguna untuk membuat permintaan perubahan atau pemindahan data kepada pengawal data.
     contact_your_administrator: Sila hubungi pentadbir anda jika anda mahu akaun anda dipadamkan.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: "Last update of consent: %{update_time}"
+    contact_this_mail_address: SIla hubungi %{mail_address} jika anda mahu akaun anda dipadamkan.
+    text_update_consent_time: Tanda kotak ini untuk memaksa pengguna untuk memberikan persetujuan semula. Dayakan apabila anda anda telah mengubah aspek undang-undang maklumat persetujuan di atas.
+    update_consent_last_time: "Kemas kini terakhir persetujuan: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
-    started: 'Started to copy project "%{source_project_name}" to "%{target_project_name}". You will be informed by mail as soon as "%{target_project_name}" is available.'
-    failed: "Cannot copy project %{source_project_name}"
-    failed_internal: "Copying failed due to an internal error."
-    succeeded: "Created project %{target_project_name}"
-    errors: "Error"
-    project_custom_fields: "Custom fields on project"
+    title: 'Salin projek "%{source_project_name}"'
+    started: 'Bermula untuk menyalin projek "%{source_project_name}" ke ''''%{target_project_name}". Anda akan dimaklumkan melalui mel sebaik sahaja "%{target_project_name}" tersedia.'
+    failed: "Tidak dapat menyalin projek %{source_project_name}"
+    failed_internal: "Penyalinan gagal disebabkan ralat dalaman."
+    succeeded: "Projek yang dicipta %{target_project_name}"
+    errors: "Ralat"
+    project_custom_fields: "Medan tersuai pada projek"
     x_objects_of_this_type:
-      zero: "No objects of this type"
-      one: "One object of this type"
-      other: "%{count} objects of this type"
+      zero: "Tiada objek untuk jenis ini"
+      one: "Satu objek untuk jenis ini"
+      other: "%{count} objek untuk jenis ini"
     text:
-      failed: 'Could not copy project "%{source_project_name}" to project "%{target_project_name}".'
-      succeeded: 'Copied project "%{source_project_name}" to "%{target_project_name}".'
-  create_new_page: "Wiki page"
+      failed: 'Tidak dapat menyalin projek "%{source_project_name}" ke projek "%{target_project_name}".'
+      succeeded: 'Menyalin projek "%{source_project_name}" ke "%{target_project_name}".'
+  create_new_page: "Halaman wiki"
   date:
     abbr_day_names:
-      - "Sun"
-      - "Mon"
-      - "Tue"
-      - "Wed"
-      - "Thu"
-      - "Fri"
-      - "Sat"
+      - "Aha"
+      - "Isn"
+      - "Sel"
+      - "Rab"
+      - "Kha"
+      - "Jum"
+      - "Sab"
     abbr_month_names:
       - null
       - "Jan"
       - "Feb"
-      - "Mar"
+      - "Mac"
       - "Apr"
       - "Mei"
       - "Jun"
@@ -1325,7 +1383,7 @@ ms:
       less_than_x_seconds:
         other: "kurang dari 1 saat"
       over_x_years:
-        other: "over %{count} years"
+        other: "sepanjang 1 tahun"
       x_days:
         other: "1 hari"
       x_minutes:
@@ -1343,12 +1401,12 @@ ms:
       x_years:
         other: "1 tahun"
       x_seconds:
-        other: "%{count} seconds"
+        other: "1 saat"
       x_seconds_abbreviated:
-        other: "%{count} s"
+        other: "1 s"
     units:
       hour:
-        other: "hours"
+        other: "jam"
   description_active: "Aktif?"
   description_attachment_toggle: "Tunjuk/Sembunyi lampiran"
   description_autocomplete: >
@@ -1491,9 +1549,9 @@ ms:
   general_csv_separator: ","
   general_first_day_of_week: "7"
   general_pdf_encoding: "ISO-8859-1"
-  general_text_no: "no"
-  general_text_yes: "yes"
-  general_text_No: "No"
+  general_text_no: "tidak"
+  general_text_yes: "ya"
+  general_text_No: "Tidak"
   general_text_Yes: "Ya"
   general_text_true: "benar"
   general_text_false: "palsu"
@@ -1530,12 +1588,12 @@ ms:
       system_update: "Kemas kini sistem OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_parent_changed_times: dengan perubahan pada induk %{link}
       work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_related_changed_times: dengan perubahan pada yang berkaitan %{link}
+      unaccessable_work_package_changed: dengan perubahan pada pakej kerja berkaitan
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "dengan perubahan pada hari bekerja (%{changes})"
         days:
           working: "%{day} kini hari bekerja"
           non_working: "%{day} kini bukan hari bekerja"
@@ -1544,7 +1602,7 @@ ms:
           non_working: "%{date} kini bukan hari bekerja"
       system_update:
         file_links_journal: >
-          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+          Mulai sekarang, aktiviti berkaitan dengan pautan fail (fail-fail yang disimpan di penyimpanan luaran) akan muncul dalam tab aktiviti. Yang berikut mewakili aktiviti berkenaan pautan yang sudah sedia ada:
   links:
     configuration_guide: "Panduan konfigurasi"
     get_in_touch: "Anda mempunyai soalan? Sila hubungi kami."
@@ -1562,39 +1620,39 @@ ms:
   my_account:
     access_tokens:
       no_results:
-        title: "No access tokens to display"
-        description: "All of them have been disabled. They can be re-enabled in the administration menu."
+        title: "Tiada token akses untuk dipaparkan"
+        description: "Semuanya telah dinyahdayakan. Mereka boleh didayakan semula dalam menu pentadbiran."
       access_tokens: "Token akses"
       headers:
         action: "Tindakan"
         expiration: "Tamat tempoh"
-      indefinite_expiration: "Never"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      indefinite_expiration: "Tidak akan"
+      simple_revoke_confirmation: "Adakah anda pasti anda mahu membatalkan token ini?"
       api:
         title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
-        static_token_name: "API token"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        text_hint: "Token APi membenarkan aplikasi pihak ketiga untuk berkomunikasi dengan OpenProject ini sebagai contoh melalui REST API."
+        static_token_name: "Token API"
+        disabled_text: "Token API tidak didayakan oleh pentadbir. Sila hubungi pentadbir anda untuk menggunakan ciri ini."
       ical:
         title: "iCalendar"
-        text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        text_hint: 'Token iCalendar membenarkan pengguna untuk <a href="%{path}" target="_blank">melanggan kepada kalendar OpenProject</a> dan paparkan maklumat pakej kerja terkini daripada pelanggan luaran.'
+        disabled_text: "Langganan iCalendar tidak didayakan oleh pentadbir. Sila hubungi pentadbir anda untuk menggunakan ciri ini."
+        empty_text_hint: "Untuk tambah token iCalendar, langgan kepada kalendar baharu atau kalendar yang sedia ada dalam modul Kalendar projek. Anda perlu mempunyai kebenaran yang diperlukan."
       oauth:
         title: "OAuth"
         text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        empty_text_hint: "Tiada akses aplikasi pihak ketiga yang dikonfigurasikan dan aktif untuk anda. Sila hubungi pentadbir anda untuk aktifkan ciri ini."
       rss:
         title: "RSS"
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "Token RSS"
         disabled_text: "Token RSS tidak diaktifkan oleh pentadbir. Sila hubungi pentadbir anda untuk menggunakan ciri ini."
       storages:
-        title: "File Storages"
+        title: "Penyimpanan fail"
         text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
-        empty_text_hint: "There is no storage access linked to your account."
+        empty_text_hint: "Tiada akses penyimpanan terpaut pada akaun anda."
         revoke_token: "Adakah anda ingin membuang token ini? Anda perlu untuk log masuk semula di %{storage}"
-        removed: "File Storage token successfully removed"
+        removed: "Token Fail Penyimpanan berjaya dikeluarkan"
         failed: "Sebuah ralat telah berlaku dan token tidak dapat dipadam. Sila cuba lagi kemudian."
         unknown_storage: "Unknown storage"
   notifications:
@@ -1609,15 +1667,15 @@ ms:
         watched: "Anda sedang melihat %{work_package}"
     update_info_mail:
       body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: "Version 12.0 with Notification Center"
+        Kami gembira untuk mengumumkan pengeluaran OpenProject 12.0. Ia adalah pengeluaran besar yang diharapkan dapat meningkatkan secara ketara cara anda menggunakan OpenProject.
+        Bermula dengan pengeluaran ini, kami memperkenalkan pemberitahuan dalam aplikasi. Mulai sekarang, anda akan menerima pemberitahuan untuk kemas kini di pakej kerja secara terus dalam OpenProject. Anda boleh menanda pemberitahuan sebagai sudah dibaca, membalas komen atau mengubah suai secara terus atribut pakej kerja tanpa meninggalkan pusat pemberitahuan tersebut.
+        Ini juga bermakna kami tidak akan menggunakan e-mel sebagai pemberitahuan lagi. Kami berpendapat bahawa pusat pemberitahuan baharu ini adalah tempat yang lebih baik untuk melihat dan bertindak berdasarkan pembaharuan ini. Walaubagaimanapun, jika anda ingin terus menerima perkembangan melalui e-mel, anda boleh memilih untuk menerima peringatan e-mel setiap hari pada masa-masa tertentu yang anda pilih.
+        Sila pastikan untuk mengesahkan seting pemberitahuan asas anda, dan tetapkan pilihan anda untuk pemberitahuan dan peringatan e-mel melalui seting akaun anda. Anda boleh melakukan ini melalui butang "Tukar seting e-mel" di bawah.
+        Kami berharap anda mendapati pemberitahuan dalam aplikasi kami bermanfaat dan ianya akan membuat anda menjadi lebih produktif.
+        Sangat dihargai, Pasukan OpenProject
+      body_header: "Versi 12.0 dengan Pusat Pemberitahuan"
       body_subheader: "Berita"
-      subject: "Important changes to notifications with the release of 12.0"
+      subject: "Perubahan yang penting pada pemberitahuan dengan pelancaran 12.0"
   label_accessibility: "Accessibility"
   label_account: "Akaun"
   label_active: "Aktif"
@@ -1651,11 +1709,11 @@ ms:
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
   label_ical_access_key_description: 'Token iCalendar "%{token_name}" untuk "%{calendar_name}" dalam "%{project_name}"'
-  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_not_present: "Token iCalendar tidak ada."
   label_ical_access_key_generation_hint: "Dihasilkan secara automatik apabila melanggan ke kalendar."
   label_ical_access_key_latest: "terkini"
   label_ical_access_key_revoke: "Membatalkan"
-  label_applied_status: "Applied status"
+  label_applied_status: "Status yang dilaksanakan"
   label_archive_project: "Arkib projek"
   label_ascending: "Menaik"
   label_assigned_to_me_work_packages: "Pakej kerja yang ditugaskan pada saya"
@@ -1666,7 +1724,7 @@ ms:
   label_ldap_auth_source_new: "Sambungan LDAP baharu"
   label_ldap_auth_source: "Sambungan LDAP"
   label_ldap_auth_source_plural: "Sambungan LDAP"
-  label_attribute_expand_text: "The complete text for '%{attribute}'"
+  label_attribute_expand_text: "Teks yang lengkap untuk '%{attribute}'"
   label_authentication: "Pengesahan"
   label_available_global_roles: "Peranan global yang tersedia"
   label_available_project_forums: "Forum yang tersedia"
@@ -1676,11 +1734,11 @@ ms:
   label_available_project_work_package_types: "Jenis pakej kerja yang tersedia"
   label_available_projects: "Projek yang tersedia"
   label_api_doc: "Dokumentasi API"
-  label_backup: "Backup"
+  label_backup: "Sandaran"
   label_backup_code: "Kod sandaran"
   label_between: "antara"
-  label_blocked_by: "blocked by"
-  label_blocks: "blocks"
+  label_blocked_by: "disekat oleh"
+  label_blocks: "blok"
   label_blog: "Blog"
   label_forums_locked: "Terkunci"
   label_forum_new: "Forum baharu"
@@ -1688,28 +1746,28 @@ ms:
   label_forum_sticky: "Sticky"
   label_boolean: "Boolean"
   label_board_plural: "Board"
-  label_branch: "Branch"
+  label_branch: "Cabang"
   label_browse: "Melayari"
-  label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
+  label_bulk_edit_selected_work_packages: "Sunting secara pukal pakej kerja dipilih"
   label_bundled: "(Bundled)"
   label_calendar: "Kalendar"
-  label_calendars_and_dates: "Calendars and dates"
-  label_calendar_show: "Show Calendar"
-  label_category: "Category"
-  label_consent_settings: "User Consent"
-  label_wiki_menu_item: Wiki menu item
-  label_select_main_menu_item: Select new main menu item
+  label_calendars_and_dates: "Kalendar dan tarikh"
+  label_calendar_show: "Tunjuk Kalendar"
+  label_category: "Kategori"
+  label_consent_settings: "Persetujuan Pengguna"
+  label_wiki_menu_item: Item menu wiki
+  label_select_main_menu_item: Pilih item menu utama baharu
   label_required_disk_storage: "Required disk storage"
-  label_send_invitation: Send invitation
-  label_change_plural: "Changes"
-  label_change_properties: "Change properties"
-  label_change_status: "Change status"
-  label_change_status_of_user: "Change status of #{username}"
-  label_change_view_all: "View all changes"
-  label_changes_details: "Details of all changes"
-  label_changeset: "Changeset"
-  label_changeset_id: "Changeset ID"
-  label_changeset_plural: "Changesets"
+  label_send_invitation: Hantar jemputan
+  label_change_plural: "Perubahan"
+  label_change_properties: "Tukar ciri-ciri"
+  label_change_status: "Tukar status"
+  label_change_status_of_user: "Tukar status #{username}"
+  label_change_view_all: "Lihat semua perubahan"
+  label_changes_details: "Butiran semua perubahan"
+  label_changeset: "Set ubahsuai"
+  label_changeset_id: "ID Set Ubahsuai"
+  label_changeset_plural: "Set Ubahsuai"
   label_checked: "checked"
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
@@ -1763,7 +1821,7 @@ ms:
   label_deleted_custom_option: "(pilihan yang telah dipadam)"
   label_empty_element: "(kosong)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
-  label_descending: "Descending"
+  label_descending: "Menurun"
   label_details: "Butiran"
   label_development_roadmap: "Development roadmap"
   label_diff: "beza"
@@ -1851,7 +1909,7 @@ ms:
   label_in_less_than: "dalam kurang dari"
   label_in_more_than: "dalam lebih dari"
   label_inactive: "Tidak aktif"
-  label_incoming_emails: "Incoming emails"
+  label_incoming_emails: "E-mel masuk"
   label_includes: "termasuk"
   label_index_by_date: "Indeks mengikut tarikh"
   label_index_by_title: "Indeks mengikut tajuk"
@@ -1859,25 +1917,25 @@ ms:
   label_information_plural: "Maklumat"
   label_installation_guides: "Installation guides"
   label_integer: "Integer"
-  label_internal: "Internal"
-  label_introduction_video: "Introduction video"
-  label_invite_user: "Invite user"
-  label_share: "Share"
-  label_show_hide: "Show/hide"
-  label_show_all_registered_users: "Show all registered users"
-  label_journal: "Journal"
-  label_journal_diff: "Description Comparison"
-  label_language: "Language"
-  label_languages: "Languages"
+  label_internal: "Dalaman"
+  label_introduction_video: "Video pengenalan"
+  label_invite_user: "Jemput pengguna"
+  label_share: "Kongsi"
+  label_show_hide: "Tunjuk/sembunyi"
+  label_show_all_registered_users: "Tunjuk semua pengguna berdaftar"
+  label_journal: "Jurnal"
+  label_journal_diff: "Perbandingan Penerangan"
+  label_language: "Bahasa"
+  label_languages: "Bahasa-bahasa"
   label_jump_to_a_project: "Jump to a project..."
-  label_keyword_plural: "Keywords"
-  label_language_based: "Based on user's language"
-  label_last_activity: "Last activity"
-  label_last_change_on: "Last change on"
-  label_last_changes: "last %{count} changes"
-  label_last_login: "Last login"
-  label_last_month: "last month"
-  label_last_n_days: "last %{count} days"
+  label_keyword_plural: "Kata kunci"
+  label_language_based: "Berdasarkan bahasa pengguna"
+  label_last_activity: "Aktiviti terakhir"
+  label_last_change_on: "Perubahan terakhir pada"
+  label_last_changes: "%{count} perubahan terakhir"
+  label_last_login: "Log masuk kali terakhir"
+  label_last_month: "bulan lepas"
+  label_last_n_days: "%{count} hari yang lalu"
   label_last_week: "minggu lepas"
   label_latest_revision: "Semakan terkini"
   label_latest_revision_plural: "Semakan terkini"
@@ -1894,10 +1952,10 @@ ms:
   label_custom_export_cover: "Custom export cover background"
   label_custom_export_cover_overlay: "Custom export cover background overlay"
   label_custom_export_cover_text_color: "Warna teks"
-  label_custom_pdf_export_settings: "Seting eksport PDF tersuai"
+  label_custom_pdf_export_settings: "Paparan eksport PDF tersuai"
   label_custom_favicon: "Favicon tersuai"
   label_custom_touch_icon: "Custom touch icon"
-  label_logout: "Sign out"
+  label_logout: "Daftar keluar"
   label_main_menu: "Menu Sampingan"
   label_manage_groups: "Urus kumpulan"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
@@ -1910,7 +1968,7 @@ ms:
   lable_membership_added: "Ahli ditambah"
   lable_membership_updated: "Ahli dikemas kini"
   label_menu_badge:
-    pre_alpha: "pre-alpha"
+    pre_alpha: "pra-alpha"
     alpha: "alpha"
     beta: "beta"
   label_menu_item_name: "Nama item menu"
@@ -1928,7 +1986,7 @@ ms:
   label_module_plural: "Modul"
   label_modules: "Modul"
   label_months_from: "bulan dari"
-  label_more: "More"
+  label_more: "Lagi"
   label_more_than_ago: "lebih dari beberapa hari yang lalu"
   label_move_work_package: "Alih pakej kerja"
   label_my_account: "Akaun saya"
@@ -1948,7 +2006,7 @@ ms:
   label_news_new: "Tambah berita"
   label_news_edit: "Sunting berita"
   label_news_plural: "Berita"
-  label_news_view_all: "View all news"
+  label_news_view_all: "Paparkan semua berita"
   label_next: "Seterusnya"
   label_next_week: "Minggu depan"
   label_no_change_option: "(Tiada perubahan)"
@@ -1972,36 +2030,36 @@ ms:
   label_open_work_packages_plural: "buka"
   label_openproject_website: "Laman web OpenProject"
   label_optional_description: "Penerangan"
-  label_options: "Options"
-  label_other: "Other"
-  label_overall_activity: "Overall activity"
-  label_overview: "Overview"
-  label_page_title: "Page title"
-  label_part_of: "part of"
-  label_password_lost: "Forgot your password?"
-  label_password_rule_lowercase: "Lowercase"
-  label_password_rule_numeric: "Numeric Characters"
-  label_password_rule_special: "Special Characters"
-  label_password_rule_uppercase: "Uppercase"
+  label_options: "Pilihan"
+  label_other: "Lain"
+  label_overall_activity: "Aktiviti keseluruhan"
+  label_overview: "Ringkasan"
+  label_page_title: "Tajuk halaman"
+  label_part_of: "sebahagian daripada"
+  label_password_lost: "Lupa kata laluan anda?"
+  label_password_rule_lowercase: "Huruf Kecil"
+  label_password_rule_numeric: "Aksara Nombor"
+  label_password_rule_special: "Aksara Khas"
+  label_password_rule_uppercase: "Huruf besar"
   label_path_encoding: "Path encoding"
-  label_per_page: "Per page"
-  label_people: "People"
-  label_permissions: "Permissions"
+  label_per_page: "Setiap halaman"
+  label_people: "Orang"
+  label_permissions: "Kebenaran"
   label_permissions_report: "Permissions report"
   label_personalize_page: "Personalize this page"
-  label_placeholder_user: "Placeholder user"
+  label_placeholder_user: "Pengguna sementara"
   label_placeholder_user_new: "Pengguna gantian baharu"
   label_placeholder_user_plural: "Pengguna sementara"
   label_planning: "Perancangan"
   label_please_login: "Sila log masuk"
   label_plugins: "Plugin"
   label_modules_and_plugins: "Modul dan Plugin"
-  label_precedes: "precedes"
+  label_precedes: "mendahului"
   label_preferences: "Preferences"
-  label_preview: "Preview"
-  label_preview_not_available: "Preview not available"
-  label_previous: "Previous"
-  label_previous_week: "Previous week"
+  label_preview: "Pratonton"
+  label_preview_not_available: "Pratonton tidak tersedia"
+  label_previous: "Sebelumnya"
+  label_previous_week: "Minggu sebelumnya"
   label_principal_invite_via_email: "atau jemput pengguna baharu melalui e-mel"
   label_principal_search: "Tambah pengguna atau kumpulan sedia ada"
   label_privacy_policy: "Privasi data dan dasar keselamatan"
@@ -2020,9 +2078,9 @@ ms:
   label_project_custom_field_plural: "Atribut projek"
   label_project_settings: "Seting projek"
   label_project_attributes_settings: "Seting atribut projek"
-  label_project_storage_plural: "File Storages"
-  label_project_storage_project_folder: "File Storages: Project folders"
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_project_storage_plural: "Penyimpanan fail"
+  label_project_storage_project_folder: "Penyimpanan Fail: Folder projek"
+  label_projects_storage_information: "%{count} projek menggunakan %{storage} penyimpanan cakera"
   label_project_view_all: "Paparkan semua projek"
   label_project_show_details: "Tunjukkan butiran projek"
   label_project_hide_details: "Sembunyikan butiran projek"
@@ -2031,7 +2089,7 @@ ms:
   label_query_plural: "Custom queries"
   label_read: "Baca..."
   label_register: "Cipta akaun baru"
-  label_register_with_developer: "Register as developer"
+  label_register_with_developer: "Daftar sebagai pembangun"
   label_registered_on: "Didaftar pada"
   label_registration_activation_by_email: "Pengaktifan akaun melalui e-mel"
   label_registration_automatic_activation: "Pengaktifan akaun secara automatik"
@@ -2042,22 +2100,22 @@ ms:
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
   label_release_notes: "Release notes"
-  label_remove_columns: "Remove selected columns"
-  label_renamed: "renamed"
-  label_reply_plural: "Replies"
+  label_remove_columns: "Keluarkan lajur yang dipilih"
+  label_renamed: "menamakan semula"
+  label_reply_plural: "Balasan"
   label_report: "Laporan"
   label_report_bug: "Report a bug"
-  label_report_plural: "Reports"
+  label_report_plural: "Laporan"
   label_reported_work_packages: "Pakej kerja yang dilaporkan"
   label_reporting: "Laporan"
   label_reporting_plural: "Laporan"
   label_repository: "Repositori"
-  label_repository_root: "Repository root"
-  label_repository_plural: "Repositori"
+  label_repository_root: "Akar repositori"
+  label_repository_plural: "Repositori-repositori"
   label_required: "diperlukan"
   label_requires: "memerlukan"
   label_result_plural: "Keputusan"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Terbaharu dahulu"
   label_revision: "Semakan"
   label_revision_id: "Semakan %{value}"
   label_revision_plural: "Semakan"
@@ -2075,8 +2133,8 @@ ms:
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Hantar e-mel ujian"
   label_session: "Sesi"
-  label_setting_plural: "Seting"
-  label_system_settings: "Seting sistem"
+  label_setting_plural: "Tetapan"
+  label_system_settings: "Tetapan sistem"
   label_show_completed_versions: "Tunjuk versi lengkap"
   label_sort: "Susun"
   label_sort_by: "Sort mengikut %{value}"
@@ -2129,31 +2187,31 @@ ms:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Digunakan dalam projek"
   label_user: "Pengguna"
-  label_user_and_permission: "Users and permissions"
-  label_user_named: "User %{name}"
-  label_user_activity: "%{value}'s activity"
+  label_user_and_permission: "Pengguna dan kebenaran"
+  label_user_named: "Pengguna %{name}"
+  label_user_activity: "aktiviti %{value}"
   label_user_anonymous: "Anonymous"
   label_user_mail_option_all: "Untuk sebarang acara pada semua projek saya"
   label_user_mail_option_none: "Tiada acara"
   label_user_mail_option_only_assigned: "Hanya untuk perkara yang ditugaskan kepada saya"
-  label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
+  label_user_mail_option_only_my_events: "Hanya untuk perkara yang saya perhatikan atau yang saya terlibat dalam"
   label_user_mail_option_only_owner: "Only for things I am the owner of"
-  label_user_mail_option_selected: "For any event on the selected projects only"
-  label_user_new: "New user"
-  label_user_plural: "Users"
+  label_user_mail_option_selected: "Untuk sebarang acara pada projek terpilih sahaja"
+  label_user_new: "Pengguna baharu"
+  label_user_plural: "Pengguna"
   label_user_search: "Search for user"
-  label_user_settings: "User settings"
-  label_users_settings: "Users settings"
-  label_version_new: "New version"
-  label_version_plural: "Versions"
-  label_version_sharing_descendants: "With subprojects"
-  label_version_sharing_hierarchy: "With project hierarchy"
-  label_version_sharing_none: "Not shared"
-  label_version_sharing_system: "With all projects"
+  label_user_settings: "Tetapan pengguna"
+  label_users_settings: "Tetapan pengguna"
+  label_version_new: "Versi baharu"
+  label_version_plural: "Versi-versi"
+  label_version_sharing_descendants: "Dengan subprojek"
+  label_version_sharing_hierarchy: "Dengan hierarki projek"
+  label_version_sharing_none: "Tidak dikongsikan"
+  label_version_sharing_system: "Dengan semua projek"
   label_version_sharing_tree: "With project tree"
-  label_videos: "Videos"
-  label_view_all_revisions: "View all revisions"
-  label_view_diff: "View differences"
+  label_videos: "Video"
+  label_view_all_revisions: "Papar semua semakan"
+  label_view_diff: "Papar perbezaan"
   label_view_revisions: "View revisions"
   label_watched_work_packages: "Watched work packages"
   label_what_is_this: "What is this?"
@@ -2229,14 +2287,14 @@ ms:
   macros:
     placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
-      missing_or_invalid_parameter: "Missing or invalid macro parameter."
+      missing_or_invalid_parameter: "Parameter makro hilang atau tidak sah."
     legacy_warning:
       timeline: "This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro."
     include_wiki_page:
-      removed: "The macro does no longer exist."
+      removed: "Makro tersebut tidak lagi wujud."
     wiki_child_pages:
       errors:
-        page_not_found: "Tidak boleh menjumpai halaman wiki '%{name}'."
+        page_not_found: "Tidak dapat mencari halaman wiki '%{name}'."
     create_work_package_link:
       errors:
         no_project_context: "Calling create_work_package_link macro from outside project context."
@@ -2248,8 +2306,8 @@ ms:
     digests:
       including_mention_singular: "including a mention"
       including_mention_plural: "including %{number_mentioned} mentions"
-      unread_notification_singular: "1 pemberitahuan belum dibaca"
-      unread_notification_plural: "%{number_unread} pemberitahuan belum dibaca"
+      unread_notification_singular: "1 notifikasi belum dibaca"
+      unread_notification_plural: "%{number_unread} notifikasi belum dibaca"
       you_have: "Anda mempunyai"
     logo_alt_text: "Logo"
     mention:
@@ -2257,67 +2315,67 @@ ms:
     notification:
       center: "Ke pusat pemberitahuan"
       see_in_center: "Lihat komen dalam pusat pemberitahuan"
-      settings: "Tukar seting e-mel"
+      settings: "Tukar tetapan e-mel"
     salutation: "Helo %{user}"
     salutation_full_name: "Nama penuh"
     work_packages:
       created_at: "Dicipta pada %{timestamp} oleh %{user}"
       login_to_see_all: "Log masuk untuk melihat semua notifikasi"
-      mentioned: "You have been <b>mentioned in a comment</b>"
-      mentioned_by: "%{user} mentioned you in a comment"
+      mentioned: "Anda telah <b>disebut dalam sebuah komen</b>"
+      mentioned_by: "%{user} menyebut anda di ruang komen"
       more_to_see:
-        other: "There are %{count} more work packages with notifications."
+        other: "Terdapat 1 lagi pakej kerja dengan pemberitahuan."
       open_in_browser: "Open in browser"
       reason:
-        watched: "Watched"
-        assigned: "Assigned"
-        responsible: "Accountable"
-        mentioned: "Mentioned"
-        shared: "Shared"
-        subscribed: "all"
-        prefix: "Received because of the notification setting: %{reason}"
-        date_alert_start_date: "Date alert"
-        date_alert_due_date: "Date alert"
-      see_all: "See all"
-      updated_at: "Updated at %{timestamp} by %{user}"
+        watched: "Diawasi"
+        assigned: "Ditugaskan"
+        responsible: "Bertanggungjawab"
+        mentioned: "Disebut"
+        shared: "Dikongsi"
+        subscribed: "semua"
+        prefix: "Diterima kerana seting notifikasi: %{reason}"
+        date_alert_start_date: "Peringatan tarikh"
+        date_alert_due_date: "Peringatan tarikh"
+      see_all: "Lihat semua"
+      updated_at: "Dikemas kini pada %{timestamp} oleh %{user}"
     sharing:
       work_packages:
-        allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
-        open_work_package: "Open work package"
-        subject: "Work package #%{id} was shared with you"
-        enterprise_text: "Share work packages with users who are not members of the project."
+        allowed_actions: "Anda boleh %{allowed_actions} pakej kerja ini. Ini akan berubah bergantung kepada peranan projek anda atau kebenaran."
+        create_account: "Untuk mengakses pakej kerja ini, anda perlu membuat dan mengaktifkan akaun pada %{instance}."
+        open_work_package: "Buka pakej kerja"
+        subject: "Pakej kerja #%{id} telah dikongsi dengan anda"
+        enterprise_text: "Kongsi pakej kerja dengan pengguna yang bukan ahli projek."
         summary:
-          user: "%{user} shared a work package with you with %{role_rights} rights"
-          group: "%{user} shared a work package with the group %{group} you are a member of"
+          user: "%{user} telah berkongsi satu pakej kerja bersama anda dengan hak %{role_rights}"
+          group: "%{user} telah berkongsi pakej kerja kepada kumpulan %{group} yang anda merupakan ahli kepadanya"
     storages:
       health:
         plaintext:
           storage: "Storage"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
-            error-solved-on: "Solved On"
+            summary: "Berita gembira! Status penyimpanan anda, %{storage_name}, kini dipaparkan sebagai \"Sihat\"."
+            error-solved-on: "Diselesaikan Pada"
             recommendation: "Kami akan terus memantau sistem untuk memastikan ia berada dalam keadaan yang baik. Sekiranya terdapat perbezaan, kami akan memberi maklum balas kepada anda."
-            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+            details: "Untuk maklumat lanjut atau membuat sebarang pindaan, anda boleh melawat konfigurasi penyimpanan anda"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: "Status penyimpanan anda, %{storage_name}, kini dipaparkan sebagai \"Ralat\". Kami telah mengesan satu isu yang mungkin memerlukan perhatian anda."
             error-details: "Butiran Ralat"
             error-message: "Mesej Ralat"
             error-occurred-on: "Berlaku pada"
             recommendation: "We recommend heading over to the storage configuration page to address this issue"
             unsubscribe: "Jika anda tidak lagi ingin menerima pemberitahuan ini, anda boleh berhenti melanggan bila-bila masa. Untuk berhenti melanggan, sila ikuti arahan di laman ini"
         email_notification_settings: "Storage email notification settings"
-        see_storage_settings: "See storage settings"
+        see_storage_settings: "Lihat tetapan penyimpanan"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: "Penyimpanan \"%{name}\" kini sihat!"
           solved_at: "diselesaikan pada"
           summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
+          subject: "Penyimpanan \"%{name}\" kini tidak sihat!"
           since: "sejak"
           summary: "There is a problem with your %{storage_name} storage integration"
           troubleshooting:
-            text: "For more information, check file storages"
+            text: "Untuk maklumat lebih lanjut, periksa penyimpanan fail"
             link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "Pengguna baharu (%{value}) telah mendaftar. Akaun ini menunggu kelulusan anda:"
   mail_body_account_information: "Maklumat akaun anda"
@@ -2325,7 +2383,7 @@ ms:
   mail_body_backup_ready: "Permintaan sokongan anda sudah bersedia. Anda boleh memuat turun di sini:"
   mail_body_backup_token_reset_admin_info: Token sokongan untuk pengguna '%{user}' telah di set semula.
   mail_body_backup_token_reset_user_info: Token sokongan anda telah di set semula.
-  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_token_info: Token sebelumnya sudah tidak sah.
   mail_body_backup_waiting_period: Token baharu akan diaktifkan dalam %{hours} jam.
   mail_body_backup_token_warning: Jika ini bukan anda, log masuk ke OpenProject serta merta dan set semula.
   mail_body_incoming_email_error: E-mel yang anda hantar ke OpenProject tidak boleh proses.
@@ -2352,7 +2410,7 @@ ms:
   mail_body_wiki_page_updated: "Halaman wiki '%{id}' telah dikemas kini oleh %{author}."
   mail_subject_account_activation_request: "Permintaan pengaktifan akaun %{value}"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_token_reset: "Set semula token sandaran"
   mail_subject_incoming_email_error: "E-mel yang anda hantar ke OpenProject tidak boleh proses"
   mail_subject_lost_password: "Kata laluan %{value} anda"
   mail_subject_register: "Pengaktifan akaun %{value} anda"
@@ -2362,46 +2420,46 @@ ms:
     subject: "%{project} - Anda telah ditambah sebagai ahli"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
+        without_message: "%{user} menambah anda sebagai ahli pada projek '%{project}'."
         with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+      roles: "Anda mempunyai peranan-peranan yang berikut:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Peranan anda telah dikemas kini"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        without_message: "%{user} telah mengemas kini peranan yang anda miliki dalam projek '%{project}'."
         with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+      roles: "Anda kini mempunyai peranan yang berikut:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Kebenaran global anda telah dikemas kini"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
+        without_message: "%{user} telah mengemas kini peranan yang anda miliki secara global."
         with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+      roles: "Anda kini mempunyai peranan yang berikut:"
   mail_user_activation_limit_reached:
-    subject: User activation limit reached
+    subject: Had pengaktifan pengguna dicapai
     message: |
-      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
-      The user cannot activate their account since the user limit has been reached.
+      Pengguna baharu (%{email}) cuba mencipta satu akaun pada persekitaran OpenProject yang anda urus (%{host}).
+      Pengguna tersebut tidak dapat mengaktifkan akaun mereka kerana had pengguna telah dicapai.
     steps:
-      label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
-      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
+      label: "Untuk membenarkan pengguna untuk daftar masuk anda boleh juga: "
+      a: "Naik taraf pelan pembayaran anda ([di sini](upgrade_url))" #here turned into a link
+      b: "Lihat atau padam pengguna sedia ada ([di sini](users_url))" #here turned into a link
   more_actions: "More functions"
-  noscript_description: "You need to activate JavaScript in order to use OpenProject!"
-  noscript_heading: "JavaScript disabled"
-  noscript_learn_more: "Learn more"
+  noscript_description: "Anda perlu mengaktifkan JavaScript untuk menggunakan OpenProject!"
+  noscript_heading: "JavaScript dinyahdayakan"
+  noscript_learn_more: "Ketahui lebih lanjut"
   notice_accessibility_mode: The accessibility mode can be enabled in your [account settings](url).
-  notice_account_activated: "Your account has been activated. You can now log in."
-  notice_account_already_activated: The account has already been activated.
-  notice_account_invalid_token: Invalid activation token
-  notice_account_invalid_credentials: "Invalid user or password"
-  notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
-  notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
-  notice_account_new_password_forced: "A new password is required."
-  notice_account_password_expired: "Your password expired after %{days} days. Please set a new one."
-  notice_account_password_updated: "Password was successfully updated."
+  notice_account_activated: "Akaun anda telah diaktifkan. Anda kini boleh log masuk."
+  notice_account_already_activated: Akaun tersebut sudah diaktifkan.
+  notice_account_invalid_token: Token pengaktifan tidak sah
+  notice_account_invalid_credentials: "Pengguna atau kata laluan tidak sah"
+  notice_account_invalid_credentials_or_blocked: "Pengguna atau kata laluan tidak sah atau akaun disekat kerana beberapa cubaan log masuk yang gagal. Jika ya, ianya akan dinyahsekat secara automatik dalam masa yang singkat."
+  notice_account_lost_email_sent: "E-mel dengan arahan untuk memilih kata laluan baharu telah dihantar kepada anda."
+  notice_account_new_password_forced: "Kata laluan baru diperlukan."
+  notice_account_password_expired: "Kata laluan anda tamat tempoh selepas %{days} hari. Sila tetapkan yang baharu"
+  notice_account_password_updated: "Kata laluan telah berjaya dikemas kini."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_account_register_done: "Akaun anda berjaya dicipta. Untuk mengaktifkan akaun anda, klik pada pautan yang telah dihantar melalui e-mel kepada anda."
   notice_account_unknown_email: "Pengguna tidak diketahui."
@@ -2457,7 +2515,7 @@ ms:
   notice_automatic_set_of_standard_type: "Tetapkan jenis standard secara automatik."
   notice_logged_out: "Anda telah dilog keluar."
   notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
-  notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
+  notice_project_cannot_update_custom_fields: "Anda tidak boleh mengemas kini medan tersuai tersedia projek. Projek adalah tidak sah: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
   #Default format for numbers
@@ -2480,58 +2538,58 @@ ms:
           mb: "MB"
           tb: "TB"
   onboarding:
-    heading_getting_started: "Get an overview"
+    heading_getting_started: "Dapatkan satu rumusan"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
-    welcome: "Welcome to %{app_title}"
-    select_language: "Please select your language"
-  permission_add_work_package_notes: "Add notes"
-  permission_add_work_packages: "Add work packages"
+    welcome: "Selamat datang ke %{app_title}"
+    select_language: "Sila pilih bahasa anda"
+  permission_add_work_package_notes: "Tambah nota"
+  permission_add_work_packages: "Tambah pakej kerja"
   permission_add_messages: "Post messages"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
-  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
-  permission_archive_project: "Archive project"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
-  permission_add_subprojects: "Create subprojects"
-  permission_add_work_package_watchers: "Add watchers"
-  permission_assign_versions: "Assign versions"
-  permission_browse_repository: "Read-only access to repository (browse and checkout)"
-  permission_change_wiki_parent_page: "Change parent wiki page"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
-  permission_comment_news: "Comment news"
-  permission_commit_access: "Read/write access to repository (commit)"
-  permission_copy_projects: "Copy projects"
-  permission_copy_work_packages: "Copy work packages"
+  permission_add_work_package_attachments: "Tambah lampiran"
+  permission_add_work_package_attachments_explanation: "Benarkan penambahan lampiran tanpa kebenaran edit pakej kerja"
+  permission_archive_project: "Arkib projek"
+  permission_create_user: "Cipta pengguna"
+  permission_manage_user: "Sunting pengguna"
+  permission_manage_placeholder_user: "Cipta, edit, dan buang pengguna sementara"
+  permission_add_subprojects: "Cipta subprojek"
+  permission_add_work_package_watchers: "Tambah pemerhati"
+  permission_assign_versions: "Tetapkan versi"
+  permission_browse_repository: "Akses baca-sahaja kepada repositori (melayari dan keluar)"
+  permission_change_wiki_parent_page: ""
+  permission_change_work_package_status: "Tukar status pakej kerja"
+  permission_change_work_package_status_explanation: "Benarkan penukaran status tanpa kebenaran Sunting pakej kerja"
+  permission_comment_news: "Komen berita"
+  permission_commit_access: "Baca/tulis akses ke repositori (komit)"
+  permission_copy_projects: "Salin projek"
+  permission_copy_work_packages: "Salin pakej kerja"
   permission_create_backup: "Create backups"
-  permission_delete_work_package_watchers: "Delete watchers"
-  permission_delete_work_packages: "Delete work packages"
-  permission_delete_messages: "Delete messages"
-  permission_delete_own_messages: "Delete own messages"
-  permission_delete_reportings: "Delete reportings"
-  permission_delete_timelines: "Delete timelines"
-  permission_delete_wiki_pages: "Delete wiki pages"
-  permission_delete_wiki_pages_attachments: "Delete attachments"
-  permission_edit_work_package_notes: "Edit notes"
-  permission_edit_work_packages: "Edit work packages"
-  permission_edit_messages: "Edit messages"
-  permission_edit_own_work_package_notes: "Edit own notes"
-  permission_edit_own_messages: "Edit own messages"
-  permission_edit_own_time_entries: "Edit own time logs"
-  permission_edit_project: "Edit project"
-  permission_edit_reportings: "Edit reportings"
+  permission_delete_work_package_watchers: "Buang pemerhati"
+  permission_delete_work_packages: "Buang pakej kerja"
+  permission_delete_messages: "Padam mesej"
+  permission_delete_own_messages: "Padam mesej sendiri"
+  permission_delete_reportings: "Padam laporan"
+  permission_delete_timelines: "Padam garis masa"
+  permission_delete_wiki_pages: "Padam halaman wiki"
+  permission_delete_wiki_pages_attachments: "Padam lampiran"
+  permission_edit_work_package_notes: "Sunting nota"
+  permission_edit_work_packages: "Sunting pakej kerja"
+  permission_edit_messages: "Sunting mesej"
+  permission_edit_own_work_package_notes: "Sunting nota sendiri"
+  permission_edit_own_messages: "Sunting mesej sendiri"
+  permission_edit_own_time_entries: "Sunting log masa sendiri"
+  permission_edit_project: "Sunting projek"
+  permission_edit_reportings: "Sunting laporan"
   permission_edit_time_entries: "Edit time logs for other users"
-  permission_edit_timelines: "Edit timelines"
-  permission_edit_wiki_pages: "Edit wiki pages"
-  permission_export_work_packages: "Export work packages"
-  permission_export_wiki_pages: "Export wiki pages"
-  permission_list_attachments: "List attachments"
+  permission_edit_timelines: "Sunting garis masa"
+  permission_edit_wiki_pages: "Sunting halaman wiki"
+  permission_export_work_packages: "Eksport pakej kerja"
+  permission_export_wiki_pages: "Eksport halaman wiki"
+  permission_list_attachments: "Senarai lampiran"
   permission_log_own_time: "Log own time"
   permission_log_time: "Log time for other users"
-  permission_manage_forums: "Manage forums"
-  permission_manage_categories: "Manage work package categories"
+  permission_manage_forums: "Uruskan forum"
+  permission_manage_categories: "Urus kategori pakej kerja"
   permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Manage work package relations"
   permission_manage_members: "Manage members"
@@ -2542,49 +2600,49 @@ ms:
   permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
-  permission_manage_wiki_menu: "Manage wiki menu"
-  permission_move_work_packages: "Move work packages"
-  permission_protect_wiki_pages: "Protect wiki pages"
-  permission_rename_wiki_pages: "Rename wiki pages"
+  permission_manage_wiki_menu: "Urus menu wiki"
+  permission_move_work_packages: "Alih pakej kerja"
+  permission_protect_wiki_pages: "Lindungi halaman wiki"
+  permission_rename_wiki_pages: "Nama semula halaman wiki"
   permission_save_queries: "Save views"
-  permission_search_project: "Search project"
-  permission_select_custom_fields: "Select custom fields"
-  permission_select_project_custom_fields: "Select project attributes"
-  permission_select_project_modules: "Select project modules"
-  permission_share_work_packages: "Share work packages"
-  permission_manage_types: "Select types"
-  permission_view_project: "View projects"
-  permission_view_changesets: "View repository revisions in OpenProject"
+  permission_search_project: "Cari projek"
+  permission_select_custom_fields: "Pilih medan tersuai"
+  permission_select_project_custom_fields: "Pilih atribut projek"
+  permission_select_project_modules: "Pilih modul projek"
+  permission_share_work_packages: "Kongsi pakej kerja"
+  permission_manage_types: "Pilih jenis"
+  permission_view_project: "Paparkan projek"
+  permission_view_changesets: "Paparkan semakan repositori dalam OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "View watchers list"
-  permission_view_work_packages: "View work packages"
-  permission_view_messages: "View messages"
-  permission_view_news: "View news"
-  permission_view_members: "View members"
-  permission_view_reportings: "View reportings"
-  permission_view_shared_work_packages: "View work package shares"
-  permission_view_time_entries: "View spent time"
-  permission_view_timelines: "View timelines"
-  permission_view_wiki_edits: "View wiki history"
-  permission_view_wiki_pages: "View wiki"
-  permission_work_package_assigned: "Become assignee/responsible"
+  permission_view_work_packages: "Papar pakej kerja"
+  permission_view_messages: "Papar mesej"
+  permission_view_news: "Papar berita"
+  permission_view_members: "Papar ahli"
+  permission_view_reportings: "Papar laporan"
+  permission_view_shared_work_packages: "Papar perkongsian pakej kerja"
+  permission_view_time_entries: "Papar masa yang digunakan"
+  permission_view_timelines: "Papar garis masa"
+  permission_view_wiki_edits: "Papar sejarah wiki"
+  permission_view_wiki_pages: "Papar wiki"
+  permission_work_package_assigned: "Menjadi penerima tugasan/bertanggungjawab"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
-  permission_view_project_activity: "View project activity"
+  permission_view_project_activity: "Papar aktiviti projek"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_edit_attribute_help_texts: "Edit atribut teks bantuan"
   placeholders:
     default: "-"
   project:
     destroy:
-      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
-      project_delete_result_1: "Delete all related data."
+      confirmation: "Jika anda teruskan, projek %{identifier} tersebut akan musnah selama-lamanya. Untuk mengesahkan tindakan ini sila perkenalkan nama projek dalam medan dibawah, ini akan:"
+      project_delete_result_1: "Padam semua data berkaitan"
       project_delete_result_2: "Delete all managed project folders in the attached storages."
-      info: "Deleting the project is an irreversible action."
-      project_verification: "Enter the project's name %{name} to verify the deletion."
+      info: "Menghapuskan projek tersebut adalah tindakan yang tidak dapat dipulihkan."
+      project_verification: "Masukkan nama projek %{name} untuk mengesahkan pemadaman."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
-      title: "Delete the project %{name}"
+      title: "Hapuskan projek %{name}"
     identifier:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
@@ -2592,14 +2650,14 @@ ms:
     template:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: "Use template"
-      make_template: "Set as template"
+      use_template: "Guna templat"
+      make_template: "Tetapkan sebagai templat"
       remove_from_templates: "Remove from templates"
     archive:
-      are_you_sure: "Are you sure you want to archive the project '%{name}'?"
-      archived: "Archived"
+      are_you_sure: "Adakah anda pasti anda ingin mengarkib projek '%{name}'?"
+      archived: "Telah diarkibkan"
     count:
-      zero: "0 Projects"
+      zero: "0 Projek"
       one: "1 Project"
       other: "%{count} Projects"
   project_module_activity: "Activity"
@@ -2649,20 +2707,20 @@ ms:
       not_available: "Checkout instructions are not defined for this repository. Ask your administrator to enable them for this repository in the system settings."
     create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
     create_successful: "The repository has been registered."
-    delete_sucessful: "The repository has been deleted."
+    delete_sucessful: "Repositori telah dipadamkan."
     destroy:
       confirmation: "If you continue, this will permanently delete the managed repository."
-      info: "Deleting the repository is an irreversible action."
+      info: "Menghapuskan repositori tersebut adalah tindakan yang tidak dapat dipulihkan."
       info_not_managed: "Note: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
       managed_path_note: "The following directory will be erased: %{path}"
       repository_verification: "Enter the project's identifier %{identifier} to verify the deletion of its repository."
       subtitle: "Do you really want to delete the %{repository_type} of the project %{project_name}?"
       subtitle_not_managed: "Do you really want to remove the linked %{repository_type} %{url} from the project %{project_name}?"
       title: "Delete the %{repository_type}"
-      title_not_managed: "Remove the linked %{repository_type}?"
+      title_not_managed: "Keluarkan pautan %{repository_type}?"
     errors:
-      build_failed: "Unable to create the repository with the selected configuration. %{reason}"
-      managed_delete: "Unable to delete the managed repository."
+      build_failed: "Tidak boleh mencipta repositori dengan konfigurasi yang dipilih. %{reason}"
+      managed_delete: "Tidak boleh menghapuskan repositori yang dikendali."
       managed_delete_local: "Unable to delete the local repository on filesystem at '%{path}': %{error_message}"
       empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."
       exists_on_filesystem: "The repository directory already exists in the filesystem."
@@ -2670,8 +2728,8 @@ ms:
       not_manageable: "This repository vendor cannot be managed by OpenProject."
       path_permission_failed: "An error occurred trying to create the following path: %{path}. Please ensure that OpenProject may write to that folder."
       unauthorized: "You're not authorized to access the repository or the credentials are invalid."
-      unavailable: "The repository is unavailable."
-      exception_title: "Cannot access the repository: %{message}"
+      unavailable: "Repositori tersebut tiada."
+      exception_title: "Tidak boleh mengakses repositori tersebut: %{message}"
       disabled_or_unknown_type: "The selected type %{type} is disabled or no longer available for the SCM vendor %{vendor}."
       disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
       remote_call_failed: "Calling the managed remote failed with message '%{message}' (Code: %{code})"
@@ -2691,7 +2749,7 @@ ms:
       managed_url: "Managed URL"
       path: "Path to Git repository"
       path_encoding: "Path encoding"
-    go_to_revision: "Go to revision"
+    go_to_revision: "Pergi ke semakan"
     managed_remote: "Managed repositories for this vendor are handled remotely."
     managed_remote_note: "Information on the URL and path of this repository is not available prior to its creation."
     managed_url: "Managed URL"
@@ -2700,7 +2758,7 @@ ms:
       automatic_managed_repos: "Automatic creation of managed repositories"
       automatic_managed_repos_text: "By setting a vendor here, newly created projects will automatically receive a managed repository of this vendor."
     scm_vendor: "Source control management system"
-    scm_type: "Repository type"
+    scm_type: "Jenis repositori"
     scm_types:
       local: "Link existing local repository"
       existing: "Link existing repository"
@@ -2723,8 +2781,8 @@ ms:
       managed_title: "Subversion repository integrated into OpenProject"
       managed_introduction: "Let OpenProject create and integrate a local Subversion repository automatically."
       managed_url: "Managed URL"
-      password: "Repository Password"
-      username: "Repository username"
+      password: "Repositori Kata laluan"
+      username: "Repositori nama pengguna "
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
     named_repository: "%{vendor_name} repository"
     update_settings_successful: "The settings have been successfully saved."
@@ -3139,19 +3197,19 @@ ms:
   version_status_closed: "closed"
   version_status_locked: "locked"
   version_status_open: "open"
-  note: Note
-  note_password_login_disabled: "Password login has been disabled by %{configuration}."
-  warning: Warning
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  note: Nota
+  note_password_login_disabled: "Kata laluan log masuk telah dibatalkan oleh %{configuration}."
+  warning: Amaran
+  warning_attachments_not_saved: "%{count} fail tidak dapat disimpan."
   warning_imminent_user_limit: >
-    You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
+    Anda menjemput pengguna lebih dari yang disokong pelan semasa anda. Pengguna yang dijemput mungkin tidak dapat sertai persekitaran OpenProject anda. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> atau sekat pengguna sedia ada untuk membenarkan pengguna yang dijemput dan berdaftar untuk sertai.
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+    Pengaktifan e-mel telah tamat tempoh. Kami hantar anda yang baharu ke %{email}.
+    Sila klik link di dalamnya untuk mengaktifkan akaun anda.
   warning_user_limit_reached: >
-    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+    Menambah pengguna tambahan akan melebihi had semasa. Sila hubungi pentadbir untuk meningkatkan had pengguna bagi memastikan pengguna luaran dapat mengakses salinan ini.
   warning_user_limit_reached_admin: >
-    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
+    Menambah pengguna tambahan akan melebihi had semasa. Sila <a href="%{upgrade_url}">naik taraf pelan anda</a> bagi memastikan pengguna luaran dapat mengakses salinan ini.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
@@ -3165,9 +3223,9 @@ ms:
       title: "Hostname setting mismatch"
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
-  menu_item: "Menu item"
+  menu_item: "Item menu"
   menu_item_setting: "Visibility"
-  wiki_menu_item_for: 'Menu item for wikipage "%{title}"'
+  wiki_menu_item_for: 'Item menu untuk halaman wiki "%{title}"'
   wiki_menu_item_setting: "Visibility"
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
@@ -3220,83 +3278,83 @@ ms:
         locked: "Locked user"
         invited: "Invite sent. "
         resend_invite: "Resend."
-        invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
-        project_group: "Group members might have additional privileges (as project members)"
-        not_project_group: "Group (shared with all members)"
-        additional_privileges_project: "Might have additional privileges (as project member)"
-        additional_privileges_group: "Might have additional privileges (as group member)"
-        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
+        invite_resent: "Jemputan telah dihantar semula"
+        not_project_member: "Bukan ahli projek"
+        project_group: "Ahli kumpulan mungkin mempunyai keistimewaan tambahan (sebagai ahli projek)"
+        not_project_group: "Kumpulan (dikongsi dengan semua ahli)"
+        additional_privileges_project: "Mungkin mempunyai keistimewaan tambahan (sebagai ahli projek)"
+        additional_privileges_group: "Mungkin mempunyai keistimewaan tambahan (sebagai ahli kumpulan)"
+        additional_privileges_project_or_group: "Mungkin mempunyai keistimewaan tambahan (sebagai ahli projek atau kumpulan)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Hari yang tidak dipilih akan dilangkau semasa penjadualan pakej kerja (dan tidak disertakan dalam jumlah hari). Ini boleh digantikan pada peringkat pakej kerja.
     instance_wide_info: >
-      Dates added to the list below are considered non-working and skipped when scheduling work packages.
-    change_button: "Change working days"
+      Tarikh yang ditambah ke senarai dibawah diterima sebagai tidak berfungsi dan dilangkau semasa menjadualkan pakej kerja.
+    change_button: "Tukar hari bekerja"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Menukar hari mana dalam seminggu dianggap hari bekerja atau hari tidak bekerja boleh memberi kesan kepada hari permulaan dan tamat bagi semua pakej kerja dalam semua projek dalam kejadian ini. <br/> Sila ambil perhatian bahawa perubahan hanya dilaksanakan selepas anda klik butang terapkan perubahan.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Hari bekerja** telah diubah (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} kini hari bekerja"
+        non_working: "%{day} kini bukan hari bekerja"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
-  nothing_to_preview: "Nothing to preview"
+        working: "%{date} kini hari bekerja"
+        non_working: "%{date} kini bukan hari bekerja"
+  nothing_to_preview: "Tiada kandungan untuk dipratonton"
   api_v3:
     attributes:
-      lock_version: "Lock Version"
-      property: "Property"
+      lock_version: "Versi Terkunci "
+      property: "Ciri"
     errors:
       code_400: "Bad request: %{message}"
-      code_401: "You need to be authenticated to access this resource."
+      code_401: "Anda perlu disahkan untuk mengakses sumber ini."
       code_401_wrong_credentials: "You did not provide the correct credentials."
-      code_403: "You are not authorized to access this resource."
-      code_404: "The requested resource could not be found."
-      code_409: "Could not update the resource because of conflicting modifications."
-      code_429: "Too many requests. Please try again later."
-      code_500: "An internal error has occurred."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_403: "Anda tidak diberi kebenaran untuk mengakses sumber ini."
+      code_404: "Sumber yang diminta tidak dapat ditemui."
+      code_409: "Tidak dapat mengemas kini kerana perubahan yang bercanggah."
+      code_429: "Terlalu banyak permintaan. Sila cuba sebentar lagi."
+      code_500: "Sebuah ralat dalaman telah berlaku."
+      code_500_outbound_request_failure: "Satu permintaan outbound ke sumber lain telah gagal dengan kod status %{status_code}. "
       code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
-        work_package: "The work package you are looking for cannot be found or has been deleted."
+        work_package: "Pakej kerja yang anda cari tidak dapat ditemui atau telah dihapuskan."
       expected:
-        date: "YYYY-MM-DD (ISO 8601 date only)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
-        duration: "ISO 8601 duration"
-      invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
-      invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
-      invalid_json: "The request could not be parsed as JSON."
+        date: "TTTT-BB-HH (ISO 8601 tarikh sahaja)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (mana-mana tarikh masa ISO 8601 yang sesuai)"
+        duration: "Tempoh masa ISO 8601"
+      invalid_content_type: "JENIS-KANDUNGAN dijangka untuk menjadi '%{content_type}' tetapi mendapat '%{actual}'."
+      invalid_format: "Format ciri yang tidak sah '%{property}': Format yang dijangka seperti '%{expected_format}', tetapi mendapat '%{actual}'."
+      invalid_json: "Permintaan tersebut tidak dapat dibaca sebagai JSON."
       invalid_relation: "The relation is invalid."
-      invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_resource: "Untuk ciri '%{property}' sebuah pautan seperti '%{expected}' dijangkakan, tetapi mendapat '%{actual}'."
       invalid_signal:
         embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
-      invalid_user_status_transition: "The current user account status does not allow this operation."
-      missing_content_type: "not specified"
+        select: "Permintaan %{invalid} yang dipilih tersebut tidak disokong. Pilihan yang disokong adalah %{supported}."
+      invalid_user_status_transition: "Status akaun pengguna semasa tidak membenarkan operasi ini."
+      missing_content_type: "tidak ditentukan"
       missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
-      multiple_errors: "Multiple field constraints have been violated."
-      unable_to_create_attachment: "The attachment could not be created"
-      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
+      multiple_errors: "Beberapa kekangan medan telah dilanggar."
+      unable_to_create_attachment: "Lampiran tidak boleh dicipta"
+      unable_to_create_attachment_permissions: "Lampiran tidak dapat disimpan kerana kurang kebenaran sistem fail"
       render:
-        context_not_parsable: "The context provided is not a link to a resource."
-        unsupported_context: "The resource given is not supported as context."
-        context_object_not_found: "Cannot find the resource given as the context."
+        context_not_parsable: "Konteks yang diberi bukan satu pautan untuk sumber."
+        unsupported_context: "Sumber yang diberi tidak disokong sebagai konteks."
+        context_object_not_found: "Tidak dapat mencari sumber yang diberikan sebagai konteks."
       validation:
         done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
-        due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
-        invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
-        start_date: "Start date cannot be set on parent work packages."
+        due_date: "Tarikh tamat tidak boleh ditetapkan pada pakej kerja induk."
+        estimated_hours: "Kerja tidak boleh ditetapkan pada pakej kerja induk." #feel like this one should be removed eventually
+        invalid_user_assigned_to_work_package: "Pengguna yang dipilih tidak dibenarkan untuk menjadi '%{property}' untuk pakej kerja ini."
+        start_date: "Tarikh mula tidak boleh ditetapkan pada pakej kerja induk."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "adalah gzip yang tidak sah: %{message}"
+        invalid_json: "adalah json yang tidak sah: %{message}"
     resources:
-      schema: "Schema"
+      schema: "Skema"
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
@@ -3304,7 +3362,7 @@ ms:
     pre_authorization:
       status: "Pre-authorization"
     auth_url: "Auth URL"
-    access_token_url: "Access token URL"
+    access_token_url: "Akses token URL"
     errors:
       messages:
         #Common error messages
@@ -3328,91 +3386,91 @@ ms:
         unsupported_response_mode: "The authorization server does not support this response mode."
         #Access token errors
         invalid_client: "Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method."
-        invalid_grant: "The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
+        invalid_grant: "Pemberian kebenaran yang diberikan adalah tidak sah, luput, dibatalkan, tidak sepadan dengan pengalihan semula URI yang digunakan dalam permintaan kebenaran, atau dikeluarkan kepada pelanggan lain."
         unsupported_grant_type: "The authorization grant type is not supported by the authorization server."
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "Token akses telah dibatalkan"
+          expired: "Token akses telah tamat tempoh"
+          unknown: "Token akses tidak sah"
         revoke:
           unauthorized: "You are not authorized to revoke this token."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'Akses kepada sumber ini memerlukan skop "%{oauth_scopes}".'
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
-    message: "You may run into errors and degraded experience on this page."
-    update_message: "Please update your browser."
-    close_warning: "Ignore this warning."
+    message: "Anda mungkin mengalami ralat dan pengalaman yang terjejas pada halaman ini."
+    update_message: "Sila kemas kini pelayar anda."
+    close_warning: "Abaikan amaran ini."
   oauth:
     application:
-      singular: "OAuth application"
-      plural: "OAuth applications"
-      named: "OAuth application '%{name}'"
-      new: "New OAuth application"
-      default_scopes: "(Default scopes)"
+      singular: "Aplikasi OAuth"
+      plural: "Aplikasi OAuth"
+      named: "'%{name}' aplikasi OAuth"
+      new: "Aplikasi OAuth baharu"
+      default_scopes: "(Skop default)"
       instructions:
-        name: "The name of your application. This will be displayed to other users upon authorization."
+        name: "Nama aplikasi anda. Ini akan dipaparkan ke pengguna lain selepas kebenaran."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
         confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
         scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
-        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+        register_intro: "Jika anda sedang membangunkan aplikasi pelanggan API OAuth untuk OpenProject, anda boleh mendaftarkannya menggunakan borang ini untuk semua pengguna menggunakan."
         default_scopes: ""
-    client_id: "Client ID"
+    client_id: "ID pelanggan"
     client_secret_notice: >
-      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+      Ini adalah satu-satunya masa di mana kita boleh mencetak rahsia pelanggan, sila catat dan simpankan ia selamat. Ia perlu diperlakukan sebagai sebuah kata laluan dan tidak boleh dipulihkan oleh OpenProject pada masa kemudian.
     authorization_dialog:
-      authorize: "Authorize"
-      cancel: "Cancel and deny authorization."
-      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
-      title: "Authorize %{application_name}"
+      authorize: "Benarkan"
+      cancel: "Batal dan nafi kebenaran."
+      prompt_html: "Benarkan <strong>%{application_name}</strong> untuk menggunakan akaun anda <em>%{login}</em>?"
+      title: "Benarkan %{application_name}"
       wants_to_access_html: >
-        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+        Aplikasi ini meminta akses ke akaun OpenProject. <br/> <strong>Ia telah meminta kebenaran yang berikut:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Akses API v3 penuh"
+      api_v3_text: "Aplikasi akan menerima akses penuh baca & tulis di OpenProject API v3 untuk melaksanakan tindakan bagi pihak anda."
     grants:
-      created_date: "Approved on"
-      scopes: "Permissions"
-      successful_application_revocation: "Revocation of application %{application_name} successful."
-      none_given: "No OAuth applications have been granted access to your user account."
+      created_date: "Diluluskan pada"
+      scopes: "Kebenaran"
+      successful_application_revocation: "Pembatalan aplikasi %{application_name} berjaya."
+      none_given: "Tiada aplikasi OAuth yang telah diberi akses ke akaun anda."
     x_active_tokens:
-      other: "%{count} active token"
+      other: "satu token aktif"
     flows:
-      authorization_code: "Authorization code flow"
+      authorization_code: "Aliran kod kebenaran"
       client_credentials: "Client credentials flow"
     client_credentials: "User used for Client credentials"
     client_credentials_impersonation_set_to: "Client credentials user set to"
     client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
     client_credentials_impersonation_html: >
-      By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
-    authorization_error: "An authorization error has occurred."
-    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
-    my_registered_applications: "Registered OAuth applications"
+      Secara default, OpenProject menyediakan kebenaran OAuth 2.0 melalui %{authorization_code_flow_link}. Anda boleh memilih untuk mengaktifkan %{client_credentials_flow_link}, tetapi anda mesti menyediakan pengguna yang akan mewakili permintaan.
+    authorization_error: "Sebuah ralat kebenaran telah berlaku."
+    revoke_my_application_confirmation: "Adakah anda benar-benar mahu mengeluarkan aplikasi ini? Ini akan membatalkan %{token_count} aktif untuknya."
+    my_registered_applications: "Aplikasi OAuth berdaftar"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
-      error: "Error"
-      failed_authorization: "Authorization failed"
+      connected: "Disambungkan"
+      error: "Ralat"
+      failed_authorization: "Pengesahan gagal"
     labels:
-      label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
+      label_oauth_integration: "Integrasi OAuth2"
+      label_redirect_uri: "Ubah hala URI"
+      label_request_token: "Permintaan token"
       label_refresh_token: "Refresh token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_authorization_code_grant_had_errors: "Pemberian pengesahan OAuth2 tidak berjaya"
       oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
-      oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
-      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_returned_error: "OAuth2 kembalikan sebuah ralat"
+      oauth_returned_json_error: "OAuth2 mengembalikan ralat JSON"
+      oauth_returned_http_error: "OAuth2 kembalikan ralat rangkaian"
+      oauth_returned_standard_error: "OAuth2 kembalikan sebuah ralat dalaman"
+      wrong_token_type_returned: "Oauth2 mengembalikan jenis token yang salah, mengharapkan AksesToken::Pembawa"
+      oauth_issue_contact_admin: "OAuth2 melaporkan sebuah ralat. Sila hubungi pentadbir sistem anda."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Internal error: Called refresh_token without a previously existing token.
-      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      refresh_token_updated_failed: "Ralat semasa kemas kini OAuthClientToken"
       oauth_client_not_found_explanation: >
         This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
       oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
@@ -3422,23 +3480,23 @@ ms:
       oauth_state_not_present_explanation: >
         The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        client_secret_invalid: "Rahsia pelanggan adalah tidak sah (rahsia_pelanggan_tidak sah)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
-        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
-        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
-        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+          Pelayan Pengesahan OAuth2 menjawab dengan 'permintaan_tidak sah'. Ralat ini muncul jika anda cuba untuk mendapatkan kebenaran beberapa kali atau dalam kes masalah teknikal.
+        invalid_response: "Pelayan Pengesahan OAuth2 menyediakan respons yang tidak sah (respons_tidak sah)"
+        invalid_grant: "Pelayan Pengesahan OAuth2 tersebut meminta anda untuk mengesahkan semula (pemberian_tidak sah)."
+        invalid_client: "Pelayan Pengesahan OAuth2 tidak mengenali OpenProject (pelanggan_tidak sah)."
+        unauthorized_client: "Pelayan Pengesahan OAuth2 tersebut menolak jenis pemberian (pelanggan_tidak berkebenaran)"
+        unsupported_grant_type: "Pelayan Pengesahan OAuth2 tersebut meminta anda untuk mengesahkan semula (jenis_pemberian_tidak disokong)."
+        invalid_scope: "Anda tidak dibenarkan untuk mengakses sumber yang diminta (skop_tidak sah)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "Permintaan dari pihak pelayan gagal mengesahkan dirinya sendiri."
+      missing_authorization: "Permintaan dari pihak pelayan gagal disebabkan maklumat pengesahan yang hilang."
     response:
-      unexpected: "Unexpected response received."
-  you: you
-  link: link
+      unexpected: "Respons yang tidak dijangka diterima."
+  you: anda
+  link: pautan
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."
