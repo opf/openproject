@@ -223,7 +223,7 @@ RSpec.describe "Admin Edit File storage",
     it "renders health status information" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).to have_test_selector("storage-health-label-pending", text: "Pending")
+      expect(page).to have_test_selector("storage-health-status", text: "Pending")
     end
   end
 
@@ -233,7 +233,7 @@ RSpec.describe "Admin Edit File storage",
     it "does not render health status information" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).not_to have_test_selector("storage-health-label-pending", text: "Pending")
+      expect(page).not_to have_test_selector("storage-health-status", text: "Pending")
     end
   end
 
@@ -330,7 +330,7 @@ RSpec.describe "Admin Edit File storage",
     it "renders health status information" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).to have_test_selector("storage-health-label-pending", text: "Pending")
+      expect(page).to have_test_selector("storage-health-status", text: "Pending")
     end
   end
 
@@ -340,7 +340,7 @@ RSpec.describe "Admin Edit File storage",
     it "does not render health status information" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).not_to have_test_selector("storage-health-label-pending", text: "Pending")
+      expect(page).not_to have_test_selector("storage-health-status", text: "Pending")
     end
   end
 end
