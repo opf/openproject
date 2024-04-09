@@ -82,6 +82,8 @@ jobs:
         run: |
           script/i18n/fix_crowdin_pt_language_root_key
       - name: "Commit translations"
+        env:
+          BRANCH: ${{ matrix.branch }}
         run: |
           git config user.name "OpenProject Actions CI"
           git config user.email "operations+ci@openproject.com"
