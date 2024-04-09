@@ -104,7 +104,8 @@ RSpec.describe "history",
     meeting.update!(start_time: DateTime.parse("2024-03-29T14:00:00Z"),
                     duration: 1,
                     title: "Updated",
-                    location: "Wakanda")
+                    location: "Wakanda",
+                    state: 5)
     login_as(view_only_user)
 
     show_page.visit!
@@ -121,7 +122,10 @@ RSpec.describe "history",
       expect(page).to have_css("li", text: "Location changed from https://some-url.com to Wakanda")
       expect(page).to have_css("li", text: "Start time changed from 03/28/2024 01:30 PM to 03/29/2024 02:00 PM")
       expect(page).to have_css("li", text: "Duration changed from 1 hr, 30 mins to 1 hr")
+      expect(page).to have_css("li", text: "Meeting state set to Closed")
     end
+
+    meeting.update!(state: 0)
 
     login_as(user)
     show_page.visit!
