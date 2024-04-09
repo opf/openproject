@@ -40,7 +40,7 @@ module JournalChanges
       get_agenda_items_changes
     ].compact
 
-    @changes = changes.reduce({}, :merge!)
+    @changes = changes.reduce({}.with_indifferent_access, :merge!)
   end
 
   def get_cause_changes
