@@ -1,6 +1,6 @@
 <%=
   component_wrapper do
-    grid_layout('op-meeting-agenda-item', tag: :div) do |grid|
+    grid_layout('op-meeting-agenda-item', tag: :div, id: "item-#{@meeting_agenda_item.id}") do |grid|
       if drag_and_drop_enabled?
         grid.with_area(:'drag-handle', tag: :div) do
           render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
@@ -71,6 +71,7 @@
                                   test_selector: 'op-meeting-agenda-actions')
             edit_action_item(menu) if @meeting_agenda_item.editable?
             add_note_action_item(menu) if @meeting_agenda_item.editable? && @meeting_agenda_item.notes.blank?
+            copy_action_item(menu)
             move_actions(menu)
             delete_action_item(menu)
           end
