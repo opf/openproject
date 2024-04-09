@@ -81,18 +81,10 @@ module Acts::Journalized
       end
 
       def get_association_changes(original, changed, association, association_name, key, value)
-        if original.nil?
-          changed.send(association).each_with_object({}) do |associated_journal, h|
-            changed_attribute = "#{association_name}_#{associated_journal.send(key)}"
-            new_value = associated_journal.send(value)
-            h[changed_attribute] = [nil, new_value]
-          end
-        else
-          new_journals = changed.send(association).map(&:attributes)
-          old_journals = original.send(association).map(&:attributes)
+        new_journals = changed.send(association).map(&:attributes)
+        old_journals = original ? original.send(association).map(&:attributes) : [];
 
-          changes_on_association(new_journals, old_journals, association_name, key, value)
-        end
+        changes_on_association(new_journals, old_journals, association_name, key, value)
       end
 
       def changes_on_association(current, original, association_name, key, value)
