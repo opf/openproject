@@ -58,6 +58,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :agenda_item_diff, OpenProject::JournalFormatter::AgendaItemDiff
   register_journal_formatter :agenda_item_title, OpenProject::JournalFormatter::AgendaItemTitle
   register_journal_formatter :meeting_work_package_id, OpenProject::JournalFormatter::MeetingWorkPackageId
+  register_journal_formatter :meeting_state, OpenProject::JournalFormatter::MeetingState
   register_journal_formatter :agenda_item_diff, OpenProject::JournalFormatter::AgendaItemDiff
   register_journal_formatter :agenda_item_title, OpenProject::JournalFormatter::AgendaItemTitle
 
