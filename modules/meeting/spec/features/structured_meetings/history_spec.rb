@@ -269,7 +269,7 @@ RSpec.describe "history",
     history_page.open_history_modal
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: other_wp.to_s.strip)
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "created by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "added by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
     # Is not visible for view_only_user
@@ -279,7 +279,7 @@ RSpec.describe "history",
     history_page.open_history_modal
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: I18n.t(:label_agenda_item_undisclosed_wp, id: other_wp.id))
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "created by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "added by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
     login_as(user)
@@ -289,7 +289,7 @@ RSpec.describe "history",
 
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: other_wp.to_s.strip)
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "removed by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
     # Is not visible for view_only_user
@@ -299,7 +299,7 @@ RSpec.describe "history",
     history_page.open_history_modal
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: I18n.t(:label_agenda_item_undisclosed_wp, id: other_wp.id))
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "removed by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
   end
 
