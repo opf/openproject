@@ -1173,6 +1173,10 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
       time_entry:
