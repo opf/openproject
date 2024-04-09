@@ -22,6 +22,18 @@ This change is to align the API with the terminology used in project management 
 
 For more information, see [#44054](https://community.openproject.org/work_packages/44054)
 
+### Removal of the model_changeset_scan_commit_for_issue_ids_pre_issue_update hook
+
+The `model_changeset_scan_commit_for_issue_ids_pre_issue_update` hook has been removed completely. This was made necessary as the code around it was not making use of the proper update mechanisms (Service objects) which lead to inconsistencies in the data, i.e. ancestor work packages.
+
+For more information, see [#40749](https://community.openproject.org/work_packages/40749)
+
+### Removal of the commit_fix_done_ratio setting
+
+Since the now a read only value, derived from work and remaining work, the `commit_fix_done_ratio` setting has been removed as setting the done_ratio value is no longer possible.
+
+For more information, see [#40749](https://community.openproject.org/work_packages/40749)
+
 <!--more-->
 
 ## Bug fixes and changes
