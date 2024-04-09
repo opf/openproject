@@ -77,6 +77,15 @@ zh-CN:
       storage_delete_result_3: 如果此存储具有自动托管的项目文件夹，这些文件夹及其包含的文件将被永久删除。
     error_invalid_provider_type: 请选择一个有效的存储源。
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: 自动托管的文件夹
       general_information: 一般信息
       nextcloud_oauth: Nextcloud OAuth
@@ -143,6 +152,7 @@ zh-CN:
     label_creator: 创建者
     label_delete_storage: 删除存储
     label_edit_storage: 编辑存储
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: 编辑存储自动管理的文件夹
     label_edit_storage_host: 编辑存储主机
     label_existing_manual_folder: 具有手动管理权限的现有文件夹
@@ -198,8 +208,6 @@ zh-CN:
         delete: 删除文件存储
         subtitle: 添加外部文件存储以便在工作包中上传、链接和管理文件。
       managed_project_folders:
-        one_drive_information: |-
-          要在 OneDrive/SharePoint 中启用自动托管的项目文件夹，需要在用于此文件存储的驱动器上进行额外配置。如果 OpenProject 管理此驱动器的权限，那么它很可能无法用于 SharePoint 中的其他用例。有关更多信息和指导，请参考 %{drive_id_link_text}。
         subtitle: |-
           让 OpenProject 自动为每个项目创建文件夹。建议使用此方法，因为这样可以确保每个团队成员始终具有正确的访问权限。
         subtitle_short: 允许 OpenProject 自动创建每个项目的文件夹。

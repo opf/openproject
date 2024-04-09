@@ -29,8 +29,8 @@
 class MembersController < ApplicationController
   include MemberHelper
   model_object Member
-  before_action :find_model_object_and_project, except: [:autocomplete_for_member]
-  before_action :find_project_by_project_id, only: [:autocomplete_for_member]
+  before_action :find_model_object_and_project, except: %i[autocomplete_for_member destroy_by_principal]
+  before_action :find_project_by_project_id, only: %i[autocomplete_for_member destroy_by_principal]
   before_action :authorize
 
   def index
@@ -49,19 +49,19 @@ class MembersController < ApplicationController
     end
 
     if overall_result.empty?
-      flash[:error] = I18n.t('activerecord.errors.models.member.principal_blank')
-      redirect_to project_members_path(project_id: @project, status: 'all')
+      flash[:error] = I18n.t("activerecord.errors.models.member.principal_blank")
+      redirect_to project_members_path(project_id: @project, status: "all")
     elsif overall_result.all?(&:success?)
-      display_success(members_added_notice(overall_result.map(&:result)))
+      flash[:notice] = members_added_notice(overall_result.map(&:result))
 
-      redirect_to project_members_path(project_id: @project, status: 'all')
+      redirect_to project_members_path(project_id: @project, status: "all")
     else
-      display_error(overall_result.first)
+      display_error(overall_result.first, now: true)
 
       set_index_data!
 
       respond_to do |format|
-        format.html { render 'index' }
+        format.html { render "index" }
       end
     end
   end
@@ -72,7 +72,7 @@ class MembersController < ApplicationController
                      .call(permitted_params.member)
 
     if service_call.success?
-      display_success(I18n.t(:notice_successful_update))
+      flash[:notice] = I18n.t(:notice_successful_update)
     else
       display_error(service_call)
     end
@@ -82,13 +82,17 @@ class MembersController < ApplicationController
                                      per_page: params[:per_page])
   end
 
-  def destroy
-    service_call = Members::DeleteService
-      .new(user: current_user, model: @member)
-      .call
+  def destroy_by_principal
+    principal = Principal.find(params[:principal_id])
+
+    service_call = Members::DeleteByPrincipalService
+      .new(user: current_user, project: @project, principal:)
+      .call(params.permit(:project, :work_package_shares_role_id))
 
     if service_call.success?
-      display_success(I18n.t(:notice_member_removed, user: @member.principal.name))
+      flash[:notice] = I18n.t(:notice_member_removed, user: principal.name)
+    else
+      display_error(service_call)
     end
 
     redirect_to project_members_path(project_id: @project)
@@ -125,18 +129,26 @@ class MembersController < ApplicationController
     end
 
     if @email
-      principals << { id: @email, name: I18n.t('members.invite_by_mail', mail: @email) }
+      principals << { id: @email, name: I18n.t("members.invite_by_mail", mail: @email) }
     end
 
     principals
   end
 
   def members_table_options(roles)
+    shared_role = WorkPackageRole.find_by(id: params[:shared_role_id])
+    shared_role_name = shared_role && Members::UserFilterComponent.mapped_shared_role_name(shared_role)
+
     {
       project: @project,
       available_roles: roles,
-      authorize_update: authorize_for('members', 'update'),
-      is_filtered: Members::UserFilterComponent.filtered?(params)
+      authorize_update: authorize_for("members", :update),
+      authorize_delete: authorize_for("members", :destroy),
+      authorize_work_package_shares_view: authorize_for("work_packages/shares", :update),
+      authorize_work_package_shares_delete: authorize_for("work_packages/shares/bulk", :destroy),
+      authorize_manage_user: current_user.allowed_globally?(:manage_user),
+      is_filtered: Members::UserFilterComponent.filtered?(params),
+      shared_role_name:
     }
   end
 
@@ -177,7 +189,7 @@ class MembersController < ApplicationController
   def set_roles_and_principles!
     @roles = ProjectRole.givable
     # Check if there is at least one principal that can be added to the project
-    @principals_available = possible_members('', 1)
+    @principals_available = possible_members("", 1)
   end
 
   def possible_members(criteria, limit)
@@ -212,11 +224,13 @@ class MembersController < ApplicationController
     members.sort_by { |m| group_ids.include?(m.user_id) ? 1 : -1 }
   end
 
-  def display_error(service_call)
-    flash[:error] = service_call.errors.full_messages.compact.join(', ')
-  end
+  def display_error(service_call, now: false)
+    message = service_call.errors.full_messages.compact.join(", ")
 
-  def display_success(message)
-    flash[:notice] = message
+    if now
+      flash.now[:error] = message
+    else
+      flash[:error] = message
+    end
   end
 end

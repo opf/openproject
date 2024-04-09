@@ -158,7 +158,7 @@ lt:
   label_meeting_created_by: "Sukūrė"
   label_meeting_last_updated: "Atnaujinta"
   label_agenda_items: "Darbotvarkės klausimai"
-  label_agenda_items_reordered: "pertvarkyta"
+  label_agenda_items_reordered: "perrikiuota"
   label_agenda_item_remove: "Išimti iš plano"
   label_agenda_item_undisclosed_wp: "Darbo paketo #%{id} nematomas"
   label_agenda_item_deleted_wp: "Ištrinta darbo paketo nuoroda"
@@ -168,6 +168,7 @@ lt:
   label_agenda_item_move_up: "Aukštyn"
   label_agenda_item_move_down: "Žemyn"
   label_agenda_item_add_notes: "Pridėti pastabų"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Darbotvarkės punktas „%{title}“'
   text_agenda_work_package_title: '%{work_package} darbotvarkės punktas'
   text_agenda_work_package_deleted: 'Ištrinto darbo paketo darbotvarkės punktas'

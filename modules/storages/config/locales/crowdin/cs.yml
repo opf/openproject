@@ -77,6 +77,15 @@ cs:
       storage_delete_result_3: V případě, že toto úložiště automaticky spravuje složky projektů, budou tyto a jejich obsažené soubory navždy smazány.
     error_invalid_provider_type: Vyberte prosím platného poskytovatele úložiště.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Automaticky spravované složky
       general_information: Všeobecné informace
       nextcloud_oauth: Nextcloud OAuth
@@ -143,6 +152,7 @@ cs:
     label_creator: Vytvořil
     label_delete_storage: Smazat úložiště
     label_edit_storage:
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Upravit automaticky spravované složky úložiště
     label_edit_storage_host: Upravit host úložiště
     label_existing_manual_folder: Stávající složka s ručně spravovanými oprávněními
@@ -198,11 +208,6 @@ cs:
         delete: Odstranit úložiště souborů
         subtitle: Přidejte externí úložiště souborů pro nahrávání, propojení a správu souborů v pracovních balíčcích.
       managed_project_folders:
-        one_drive_information: |-
-          Chcete-li povolit automaticky spravované složky projektu na OneDrive/SharePoint, je potřeba další konfigurace
-          jednotku, která se používá pro toto úložiště souborů. Pokud OpenProject spravuje oprávnění tohoto disku, bude
-          s největší pravděpodobností nepoužitelné pro jiné případy použití v SharePointu. Další informace a pokyny naleznete
-          k %{drive_id_link_text}.
         subtitle: |-
           Nechat OpenProject vytvářet složky pro každý projekt automaticky. To je doporučeno proto, že každý člen týmu má vždy správná přístupová oprávnění.
         subtitle_short: Nechat OpenProject vytvářet složky pro každý projekt automaticky.

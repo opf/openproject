@@ -160,6 +160,10 @@ module Storages
       raise Errors::SubclassResponsibility
     end
 
+    def automatic_management_new_record?
+      raise Errors::SubclassResponsibility
+    end
+
     def provider_fields_defaults
       raise Errors::SubclassResponsibility
     end

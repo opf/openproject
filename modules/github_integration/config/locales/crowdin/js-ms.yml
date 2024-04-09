@@ -47,5 +47,5 @@ ms:
           opened: 'dibuka'
           closed: 'ditutup'
           draft: 'dirangka'
-          merged: "gabungkan\n"
-          ready_for_review: 'tandakan bersedia untuk semakan'
+          merged: 'digabungkan'
+          ready_for_review: 'sedia untuk disemak'

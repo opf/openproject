@@ -255,7 +255,7 @@ RSpec.describe "Admin Edit File storage",
       aggregate_failures "Storage edit view" do
         # General information
         expect(page).to have_test_selector("storage-provider-label", text: "Storage provider")
-        expect(page).to have_test_selector("label-host_name_configured-storage_tenant_drive_configured-status",
+        expect(page).to have_test_selector("label-name_configured-storage_tenant_drive_configured-status",
                                            text: "Completed")
         expect(page).to have_test_selector("storage-description", text: "OneDrive/SharePoint - Test Drive")
 

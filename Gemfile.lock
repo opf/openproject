@@ -7,16 +7,6 @@ GIT
       capybara (~> 3.36)
 
 GIT
-  remote: https://github.com/crohr/turbo_tests.git
-  revision: b700cdb344e1ed8e100fd1f56525ec12fa792b45
-  ref: fix/runtime-info
-  specs:
-    turbo_tests (2.0.0)
-      bundler (>= 2.1)
-      parallel_tests (>= 3.3.0, < 5)
-      rspec (>= 3.10)
-
-GIT
   remote: https://github.com/honestica/clamav-client.git
   revision: 29e78ae94307cb34e79ddd29c5da79752239d8b7
   ref: 29e78ae94307cb34e79ddd29c5da79752239d8b7
@@ -65,6 +55,15 @@ GIT
   specs:
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
+
+GIT
+  remote: https://github.com/opf/turbo_tests.git
+  revision: c1c4707f536a5642a168650d273d714dfb62d842
+  ref: with-patches
+  specs:
+    turbo_tests (2.2.0)
+      parallel_tests (>= 3.3.0, < 5)
+      rspec (>= 3.10)
 
 PATH
   remote: modules/auth_plugins
@@ -650,7 +649,7 @@ GEM
       reline (>= 0.4.2)
     iso8601 (0.13.0)
     jmespath (1.6.2)
-    json (2.7.1)
+    json (2.7.2)
     json-jwt (1.16.6)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -678,12 +677,13 @@ GEM
       addressable (~> 2.8)
       childprocess (~> 5.0)
     lefthook (1.6.8)
-    letter_opener (1.0.0)
-      launchy (>= 2.0.4)
-    letter_opener_web (1.4.1)
-      actionmailer (>= 3.2)
-      letter_opener (~> 1.0)
-      railties (>= 3.2)
+    letter_opener (1.10.0)
+      launchy (>= 2.2, < 4)
+    letter_opener_web (2.0.0)
+      actionmailer (>= 5.2)
+      letter_opener (~> 1.7)
+      railties (>= 5.2)
+      rexml
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -747,7 +747,7 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-smtp (0.4.0.1)
+    net-smtp (0.5.0)
       net-protocol
     nio4r (2.7.1)
     nokogiri (1.16.3)
@@ -793,7 +793,7 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.24.0)
-    parallel_tests (4.6.0)
+    parallel_tests (4.6.1)
       parallel
     parser (3.3.0.5)
       ast (~> 2.4.1)
@@ -916,7 +916,7 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
-    rake (13.1.0)
+    rake (13.2.1)
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -971,7 +971,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.13.1)
-    rubocop (1.62.1)
+    rubocop (1.63.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -1000,7 +1000,7 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-rspec (2.28.0)
+    rubocop-rspec (2.29.1)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)

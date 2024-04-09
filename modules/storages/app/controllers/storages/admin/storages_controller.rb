@@ -85,7 +85,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def select_provider
     @object = Storages::Storage.new(provider_type: @provider_type)
-    service_result = ::Storages::Storages::SetProviderFieldsAttributesService
+    service_result = ::Storages::Storages::SetAttributesService
                        .new(user: current_user,
                             model: @object,
                             contract_class: EmptyContract)
@@ -112,10 +112,12 @@ class Storages::Admin::StoragesController < ApplicationController
     end
 
     service_result.on_success do
-      service_result.on_success do
-        respond_to do |format|
-          format.turbo_stream
-        end
+      if @storage.provider_type_one_drive?
+        prepare_storage_for_access_management_form
+      end
+
+      respond_to do |format|
+        format.turbo_stream
       end
     end
   end
@@ -212,6 +214,15 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   private
+
+  def prepare_storage_for_access_management_form
+    return unless @storage.automatic_management_unspecified?
+
+    @storage = ::Storages::Storages::SetProviderFieldsAttributesService
+                 .new(user: current_user, model: @storage, contract_class: EmptyContract)
+                 .call
+                 .result
+  end
 
   def ensure_valid_provider_type_selected
     short_provider_type = params[:provider]

@@ -165,6 +165,7 @@ th:
   label_agenda_item_move_up: "เลื่อนขึ้น"
   label_agenda_item_move_down: "เลื่อนลง"
   label_agenda_item_add_notes: "เพิ่มหมายเหตุ"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
