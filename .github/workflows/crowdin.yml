@@ -92,8 +92,8 @@ jobs:
           git diff --staged --name-only
           if ! git diff --staged --exit-code --quiet; then
             git commit -m "update locales from crowdin [ci skip]"
-            echo "Run git pull --rebase"
-            git pull --rebase"
+            echo "Run git pull --rebase origin $BRANCH"
+            git pull --rebase origin "$BRANCH"
             echo "Run git push origin $BRANCH"
             git push origin "$BRANCH"
           fi
