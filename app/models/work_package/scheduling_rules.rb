@@ -39,13 +39,13 @@ module WorkPackage::SchedulingRules
   # of this work package or its ancestors
   # e.g.
   # AP(due_date: 2017/07/25)-precedes(lag: 0)-A
-  #                                             |
-  #                                           parent
-  #                                             |
+  #                                           |
+  #                                         parent
+  #                                           |
   # BP(due_date: 2017/07/22)-precedes(lag: 2)-B
-  #                                             |
-  #                                           parent
-  #                                             |
+  #                                           |
+  #                                         parent
+  #                                           |
   # CP(due_date: 2017/07/25)-precedes(lag: 2)-C
   #
   # Then soonest_start for:
