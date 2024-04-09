@@ -17,7 +17,7 @@
           end
         end
 
-        open_state.with_row(mt: 3, classes:'hidden-for-mobile') do
+        open_state.with_row(mt: 3, display: [:none, nil, :block]) do
           render(Primer::Beta::Text.new(color: :subtle)) do
             t("text_meeting_open_description")
           end
@@ -66,7 +66,7 @@
         end
 
         closed_state.with_row(mt: 3) do
-          render(Primer::Beta::Text.new(color: :subtle, classes:'hidden-for-mobile')) do
+          render(Primer::Beta::Text.new(color: :subtle, display: [:none, nil, :block])) do
             t("text_meeting_closed_description")
           end
         end
