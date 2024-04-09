@@ -167,6 +167,7 @@ ro:
   label_agenda_item_move_up: "Mută în sus"
   label_agenda_item_move_down: "Mută în jos"
   label_agenda_item_add_notes: "Adăugare note"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'

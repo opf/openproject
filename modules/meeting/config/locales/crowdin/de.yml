@@ -166,6 +166,7 @@ de:
   label_agenda_item_move_up: "Nach oben verschieben"
   label_agenda_item_move_down: "Nach unten verschieben"
   label_agenda_item_add_notes: "Notiz hinzufügen"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'

@@ -165,6 +165,7 @@ id:
   label_agenda_item_move_up: "Naikkan"
   label_agenda_item_move_down: "Pindahkan ke bawah"
   label_agenda_item_add_notes: "Tambahkan catatan"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'

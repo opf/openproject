@@ -77,6 +77,15 @@ pt-BR:
       storage_delete_result_3: Caso este armazenamento tenha pastas de projeto gerenciadas automaticamente, estas, e os seus arquivos, serão excluídos para sempre.
     error_invalid_provider_type: Selecione um provedor de armazenamento válido.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Pastas gerenciadas automaticamente
       general_information: Informações gerais
       nextcloud_oauth: OAuth Nextcloud
@@ -143,6 +152,7 @@ pt-BR:
     label_creator: Criador
     label_delete_storage: Excluir armazenamento
     label_edit_storage: Editar armazenamento
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Editar pastas gerencias automaticamente de armazenamento
     label_edit_storage_host: Editar host de armazenamento
     label_existing_manual_folder: Pasta existente com permissões gerenciadas manualmente
@@ -198,11 +208,6 @@ pt-BR:
         delete: Excluir armazenamento de arquivos
         subtitle: Adicione um armazenamento de arquivos externo para carregar, vincular e gerenciar arquivos em pacotes de trabalho.
       managed_project_folders:
-        one_drive_information: |-
-          Para ativar pastas de projetos gerenciadas automaticamente no OneDrive/SharePoint, é necessária uma configuração adicional na
-          unidade que é usada para o armazenamento deste arquivo. Se o OpenProject gerenciar as permissões desta unidade, ele
-          provavelmente ficará inutilizável para outros casos de uso no SharePoint. Para mais informações e orientações, consulte
-          o %{drive_id_link_text}.
         subtitle: |-
           Deixe o OpenProject criar pastas por projeto automaticamente. Esta ação é recomendada, pois garante que cada membro da equipe sempre tenha as permissões de acesso corretas.
         subtitle_short: Deixe o OpenProject criar pastas por projeto automaticamente.
