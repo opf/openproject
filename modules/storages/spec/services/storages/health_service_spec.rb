@@ -131,8 +131,8 @@ RSpec.describe Storages::HealthService do
       it "notifies admin users when the storage becomes healthy" do
         expect do
           health_service.healthy
-        end.to have_enqueued_mail(Storages::StorageMailer, :notify_healthy)
-        .with(admin_storage, storage, storage.health_reason).at_most(:once)
+        end.to have_enqueued_mail(Storages::StoragesMailer, :notify_healthy)
+        .with(admin_user, storage, storage.health_reason).at_most(:once)
       end
 
       it "notifies admin users when the storage becomes unhealthy" do
