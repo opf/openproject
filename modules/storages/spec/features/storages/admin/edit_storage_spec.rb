@@ -229,13 +229,13 @@ RSpec.describe "Admin Edit File storage",
 
       aggregate_failures "Health notifications" do
         expect(page).to have_test_selector("storage-health-notifications-button", text: "Unsubscribe")
-        expect(page).to have_test_selector("storage-storage-health-notifications-description",
+        expect(page).to have_test_selector("storage-health-notifications-description",
                                            text: "All administrators will receive health status email notifications for this storage.")
 
         click_on "Unsubscribe"
 
         expect(page).to have_test_selector("storage-health-notifications-button", text: "Subscribe")
-        expect(page).to have_test_selector("storage-storage-health-notifications-description",
+        expect(page).to have_test_selector("storage-health-notifications-description",
                                            text: "Health status email notifications for this storage have been turned off for all administrators.")
       end
     end
@@ -351,13 +351,13 @@ RSpec.describe "Admin Edit File storage",
 
       aggregate_failures "Health notifications" do
         expect(page).to have_test_selector("storage-health-notifications-button", text: "Unsubscribe")
-        expect(page).to have_test_selector("storage-storage-health-notifications-description",
+        expect(page).to have_test_selector("storage-health-notifications-description",
                                            text: "All administrators will receive health status email notifications for this storage.")
 
         click_on "Unsubscribe"
 
         expect(page).to have_test_selector("storage-health-notifications-button", text: "Subscribe")
-        expect(page).to have_test_selector("storage-storage-health-notifications-description",
+        expect(page).to have_test_selector("storage-health-notifications-description",
                                            text: "Health status email notifications for this storage have been turned off for all administrators.")
       end
     end
