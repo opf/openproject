@@ -49,8 +49,7 @@ module JournalChanges
     end
 
     if journable&.customizable?
-      @changes.merge!(
-        ::Acts::Journalized::JournableDiffer.association_changes(
+      customizable_changes = ::Acts::Journalized::JournableDiffer.association_changes(
           predecessor,
           self,
           'customizable_journals',
@@ -58,7 +57,12 @@ module JournalChanges
           :custom_field_id,
           :value
         )
-      )
+
+      if journable.class.name == "Project"
+        remove_disabled_project_custom_fields!(customizable_changes)
+      end
+
+      @changes.merge!(customizable_changes)
     end
 
     if has_file_links?
@@ -83,5 +87,15 @@ module JournalChanges
       )
     end
     @changes
+  end
+
+  private
+
+  def remove_disabled_project_custom_fields!(customizable_changes)
+    allowed_custom_field_keys = journable
+      .project_custom_field_project_mappings
+      .map{ |c| "custom_fields_#{c.custom_field_id}" }
+
+    customizable_changes.delete_if { |key| !key.in?(allowed_custom_field_keys) }
   end
 end
