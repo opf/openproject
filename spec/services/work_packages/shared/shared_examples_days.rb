@@ -89,8 +89,8 @@ RSpec.shared_examples "soonest working day" do |date:, expected:|
   end
 end
 
-RSpec.shared_examples "soonest working day with delay" do |date:, delay:, expected:|
-  it "soonest_working_day(#{date.to_fs(:wday_date)}, delay: #{delay.inspect}) => #{expected.to_fs(:wday_date)}" do
-    expect(subject.soonest_working_day(date, delay:)).to eq(expected)
+RSpec.shared_examples "soonest working day with lag" do |date:, lag:, expected:|
+  it "soonest_working_day(#{date.to_fs(:wday_date)}, lag: #{lag.inspect}) => #{expected.to_fs(:wday_date)}" do
+    expect(subject.soonest_working_day(date, lag:)).to eq(expected)
   end
 end

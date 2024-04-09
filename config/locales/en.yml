@@ -669,7 +669,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "Delay"
+        lag: "Lag"
         from: "Work package"
         to: "Related work package"
       status:
