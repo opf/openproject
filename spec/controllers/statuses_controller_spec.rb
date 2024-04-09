@@ -120,12 +120,13 @@ RSpec.describe StatusesController do
 
   describe "#update" do
     let(:name) { "Renamed Status" }
+    let(:status_params) { { name: } }
 
     before do
       patch :update,
             params: {
               id: status.id,
-              status: { name: }
+              status: status_params
             }
     end
 
@@ -134,6 +135,59 @@ RSpec.describe StatusesController do
     end
 
     it_behaves_like "redirects to index page"
+
+    context "when in work-based mode when changing the default % complete",
+            with_settings: { work_package_done_ratio: "field" } do
+      let(:new_default_done_ratio) { 40 }
+      let(:status_params) { { default_done_ratio: new_default_done_ratio } }
+
+      it "does not start any jobs to update work packages % complete values" do
+        expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio)
+        expect(WorkPackages::ApplyStatusPCompleteChangeJob)
+          .not_to have_been_enqueued
+      end
+    end
+
+    context "when in status-based mode",
+            with_settings: { work_package_done_ratio: "status" } do
+      context "when changing the default % complete" do
+        shared_let(:work_package) { create(:work_package, status:) }
+        let(:new_default_done_ratio) { 40 }
+        let(:status_params) { { default_done_ratio: new_default_done_ratio } }
+
+        it "starts a job to update work packages % complete values" do
+          old_default_done_ratio = status.default_done_ratio
+          expect(status.reload).to have_attributes(default_done_ratio: new_default_done_ratio)
+          expect(WorkPackages::ApplyStatusPCompleteChangeJob)
+            .to have_been_enqueued.with(status_name: status.name,
+                                        status_id: status.id,
+                                        change: [old_default_done_ratio, new_default_done_ratio])
+
+          perform_enqueued_jobs
+
+          expect(work_package.reload.read_attribute(:done_ratio)).to eq(new_default_done_ratio)
+          expect(work_package.last_journal.details["cause"].last).to include("type" => "status_p_complete_changed")
+        end
+      end
+
+      context "when changing to the same default % complete value" do
+        let(:status_params) { { default_done_ratio: status.default_done_ratio } }
+
+        it "does not start any jobs" do
+          expect(WorkPackages::ApplyStatusPCompleteChangeJob)
+            .not_to have_been_enqueued
+        end
+      end
+
+      context "when changing something else than the default % complete" do
+        let(:status_params) { { name: "Another status name" } }
+
+        it "does not start any jobs" do
+          expect(WorkPackages::ApplyStatusPCompleteChangeJob)
+            .not_to have_been_enqueued
+        end
+      end
+    end
   end
 
   describe "#destroy" do

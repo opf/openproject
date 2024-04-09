@@ -1675,6 +1675,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
 
     caused_changes:
       default_attribute_written: "Read-only attributes written"
+      status_p_complete_changed: "Status % Complete changed"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
 
@@ -1692,6 +1693,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the

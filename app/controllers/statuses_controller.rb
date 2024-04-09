@@ -63,6 +63,7 @@ class StatusesController < ApplicationController
     if @status.update(permitted_params.status)
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "index"
+      apply_status_p_complete_change
     else
       render action: "edit"
     end
@@ -103,5 +104,15 @@ class StatusesController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  def apply_status_p_complete_change
+    return unless WorkPackage.use_status_for_done_ratio?
+    return unless @status.default_done_ratio_previously_changed?
+
+    WorkPackages::ApplyStatusPCompleteChangeJob
+      .perform_later(status_name: @status.name,
+                     status_id: @status.id,
+                     change: @status.default_done_ratio_previous_change)
   end
 end

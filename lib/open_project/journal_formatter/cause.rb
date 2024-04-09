@@ -64,6 +64,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       system_update_message(cause)
     when "working_days_changed"
       working_days_changed_message(cause["changed_days"])
+    when "status_p_complete_changed"
+      status_p_complete_changed_message(cause, html)
     else
       related_work_package_changed_message(cause, html)
     end
@@ -92,6 +94,13 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   def working_date_change_message(date, working)
     I18n.t("journals.cause_descriptions.working_days_changed.dates.#{working ? :working : :non_working}",
            date: I18n.l(Date.parse(date)))
+  end
+
+  def status_p_complete_changed_message(cause, html)
+    cause.symbolize_keys => { status_name:, status_p_complete_change: [old_value, new_value]}
+    status_name = html_escape(status_name) if html
+
+    I18n.t("journals.cause_descriptions.status_p_complete_changed", status_name:, old_value:, new_value:)
   end
 
   def related_work_package_changed_message(cause, html)
