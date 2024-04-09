@@ -219,7 +219,7 @@ RSpec.describe "history",
     history_page.open_history_modal
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: work_package.to_s.strip)
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "created by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "added by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
     # Update linked work package
@@ -250,7 +250,7 @@ RSpec.describe "history",
 
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: changed_wp.to_s.strip)
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "removed by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
     # With a work package linked in another project
@@ -320,17 +320,17 @@ RSpec.describe "history",
     editor.set_markdown "# Hello there"
 
     show_page.in_edit_form(item) do
-      click_button "Save"
+      click_link_or_button "Save"
     end
 
     history_page.open_history_modal
     within("li.op-activity-list--item", match: :first) do
       expect(page).to have_css("li", text: "Notes set")
-      click_link "Details"
+      click_link_or_button "Details"
     end
 
     expect(page).to have_current_path /\/journals\/\d+\/diff\/agenda_items_\d+_notes/
-    expect(page).to have_css('ins.diffmod', text: "# Hello there")
+    expect(page).to have_css("ins.diffmod", text: "# Hello there")
   end
 
   it "for a user with no permissions, renders an error", with_settings: { journal_aggregation_time_minutes: 0 } do
