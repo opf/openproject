@@ -162,6 +162,14 @@ class ProgressEditField < EditField
     end
   end
 
+  def expect_select_field_with_no_options(*unexpected_options)
+    within modal_element do
+      expect(page).to have_no_select(field_name,
+                                     with_options: unexpected_options,
+                                     wait: 0)
+    end
+  end
+
   private
 
   attr_reader :field_name

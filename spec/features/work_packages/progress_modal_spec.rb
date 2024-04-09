@@ -32,6 +32,8 @@ require "spec_helper"
 
 RSpec.describe "Progress modal", :js, :with_cuprite do
   shared_let(:user) { create(:admin) }
+  shared_let(:role) { create(:project_role) }
+
   shared_let(:type_task) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type_task]) }
   shared_let(:open_status_with_0p_done_ratio) do
@@ -47,7 +49,10 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
   shared_let(:estimated_hours) { 10.0 }
   shared_let(:remaining_hours) { 5.0 }
   shared_let(:work_package) do
-    create(:work_package, project:) do |wp|
+    create(:work_package,
+           project:,
+           type: type_task,
+           status: open_status_with_0p_done_ratio) do |wp|
       update_work_package_with(wp, estimated_hours:, remaining_hours:)
     end
   end
@@ -202,6 +207,48 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       end
     end
 
+    describe "Status field" do
+      before { open_status_with_0p_done_ratio.update!(is_default: true) }
+
+      it "renders only assignable statuses as options" do
+        # Create a single valid transition from "open" to "in progress"
+        create(:workflow,
+               type_id: type_task.id,
+               old_status: open_status_with_0p_done_ratio,
+               new_status: in_progress_status_with_50p_done_ratio,
+               role:)
+
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        modal_status_field = ProgressEditField.new(work_package_row, :statusWithinProgressModal)
+
+        work_field.activate!
+
+        # The only defined workflow is "open" to "in progress" so "complete" must
+        # not be listed as an available option
+        modal_status_field.expect_select_field_with_options("open (0%)", "in progress (50%)")
+        modal_status_field.expect_select_field_with_no_options("complete (100%)")
+
+        # Create another valid transition from "open" to "complete"
+        create(:workflow,
+               type_id: type_task.id,
+               old_status: open_status_with_0p_done_ratio,
+               new_status: complete_status_with_100p_done_ratio,
+               role:)
+
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        modal_status_field = ProgressEditField.new(work_package_row, :statusWithinProgressModal)
+
+        work_field.activate!
+        modal_status_field.expect_select_field_with_options("open (0%)", "in progress (50%)", "complete (100%)")
+      end
+    end
+
     context "when on a new work package form" do
       specify "modal renders when no default status is set for new work packages" do
         work_package_create_page.visit!
@@ -211,13 +258,19 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       end
 
       context "with a default status set for new work packages" do
-        before { open_status_with_0p_done_ratio.update!(is_default: true) }
+        before_all do
+          open_status_with_0p_done_ratio.update!(is_default: true)
 
-        shared_let(:workflow) do
           create(:workflow,
                  type_id: type_task.id,
                  old_status: open_status_with_0p_done_ratio,
-                 new_status: in_progress_status_with_50p_done_ratio)
+                 new_status: in_progress_status_with_50p_done_ratio,
+                 role:)
+          create(:workflow,
+                 type_id: type_task.id,
+                 old_status: open_status_with_0p_done_ratio,
+                 new_status: complete_status_with_100p_done_ratio,
+                 role:)
         end
 
         it "renders the status selection field inside the modal as disabled " \
@@ -247,6 +300,19 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
   end
 
   describe "opening the progress modal" do
+    before_all do
+      create(:workflow,
+             type_id: type_task.id,
+             old_status: open_status_with_0p_done_ratio,
+             new_status: in_progress_status_with_50p_done_ratio,
+             role:)
+      create(:workflow,
+             type_id: type_task.id,
+             old_status: open_status_with_0p_done_ratio,
+             new_status: complete_status_with_100p_done_ratio,
+             role:)
+    end
+
     describe "field value format" do
       context "with all values set" do
         before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 2.5) }
