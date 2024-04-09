@@ -40,14 +40,15 @@ module Storages
     )
 
     def perform(storage:)
-      return unless Storages::Storage.exists?(storage.id)
+      return unless ::Storages::Storage.exists?(storage.id)
 
       storage.reload
 
+      return unless storage.health_notifications_enabled?
       return if storage.health_healthy?
 
       admin_users.each do |admin|
-        Storages::StoragesMailer.notify_unhealthy(admin, storage).deliver_later
+        ::Storages::StoragesMailer.notify_unhealthy(admin, storage).deliver_later
       end
 
       HealthStatusMailerJob.schedule(storage:)
