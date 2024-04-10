@@ -166,7 +166,7 @@ module WorkPackage::PDFExport::Gantt
   end
 
   def gantt_wp_color(wp)
-    wp.status.color.hexcode.sub("#", "")
+    wp.type.color.hexcode.sub("#", "")
   end
 
   def paint_gantt_wp(page, wp, index)
