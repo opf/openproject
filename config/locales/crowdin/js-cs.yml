@@ -1329,3 +1329,7 @@ cs:
       drop_modal:
         focus_grab: "Toto je ukotvení pro modaly. Stisknutím karty shift+b se vrátíte k aktivačnímu prvku modalu."
         Close: "Zavřít"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

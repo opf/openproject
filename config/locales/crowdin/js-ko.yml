@@ -1321,3 +1321,7 @@ ko:
       drop_modal:
         focus_grab: "모달용 포커스 앵커입니다. 모달 트리거 요소로 돌아가려면 shift+tab을 누르세요."
         Close: "닫기"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

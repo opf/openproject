@@ -101,7 +101,7 @@ de:
       label_healthy: Fehlerfrei
       label_pending: Ausstehend
       since: seit %{datetime}
-      subtitle: Automatisch verwaltete Projektordner
+      subtitle: Automatically managed project folders
       title: Verbindungsstatus
     help_texts:
       project_folder: Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.

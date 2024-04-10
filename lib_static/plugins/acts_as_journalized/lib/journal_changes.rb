@@ -69,7 +69,7 @@ module JournalChanges
   def get_custom_fields_changes
     return unless journable&.customizable?
 
-    ::Acts::Journalized::JournableDiffer.association_changes(
+    customizable_changes = ::Acts::Journalized::JournableDiffer.association_changes(
       predecessor,
       self,
       "customizable_journals",
@@ -77,6 +77,12 @@ module JournalChanges
       :custom_field_id,
       :value
     )
+
+    if journable.class.name == "Project"
+      remove_disabled_project_custom_fields!(customizable_changes)
+    end
+
+    customizable_changes
   end
 
   def get_file_links_changes
@@ -99,5 +105,15 @@ module JournalChanges
       :agenda_item_id,
       %i[title duration_in_minutes notes position work_package_id]
     )
+  end
+
+  private
+
+  def remove_disabled_project_custom_fields!(customizable_changes)
+    allowed_custom_field_keys = journable
+      .project_custom_field_project_mappings
+      .map { |c| "custom_fields_#{c.custom_field_id}" }
+
+    customizable_changes.delete_if { |key| !key.in?(allowed_custom_field_keys) }
   end
 end

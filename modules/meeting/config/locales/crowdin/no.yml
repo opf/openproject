@@ -45,7 +45,7 @@
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -97,7 +97,7 @@
   label_start_date: "Startdato"
   meeting:
     attachments:
-      text: "Vedlagte filer er tilgjengelige for alle møtedeltakere. Du kan også dra og slippe disse inn i til dagsorden."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Kopier møtet %{title}"
       attachments: "Kopier vedlegg"
@@ -174,8 +174,11 @@
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Møtedetaljer"
   label_meeting_details_edit: "Rediger møtedetaljer"
+  label_meeting_state: "Meeting state"
   label_meeting_state_open: "Åpne"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Stengt"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Gjenåpne møte"
   label_meeting_close_action: "Lukk møtet"
   text_meeting_open_description: "Dette møtet er åpen. Du kan legge til/fjerne punkter på dagsorden og redigere dem etter hvert som du ønsker. Etter at møtet er over, lukk det for å låse det."

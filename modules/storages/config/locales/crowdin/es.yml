@@ -101,7 +101,7 @@ es:
       label_healthy: Correcto
       label_pending: Pendiente
       since: desde %{datetime}
-      subtitle: Carpetas de proyecto gestionadas automáticamente
+      subtitle: Automatically managed project folders
       title: Estado de salud
     help_texts:
       project_folder: La carpeta del proyecto es la carpeta predeterminada para la carga de archivos de este proyecto. No obstante, los usuarios pueden subir archivos a otras ubicaciones.

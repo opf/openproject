@@ -101,7 +101,7 @@ ms:
       label_healthy: Sihat
       label_pending: Dalam proses
       since: sejak %{datetime}
-      subtitle: Automatic managed project folders
+      subtitle: Automatically managed project folders
       title: Status kesihatan
     help_texts:
       project_folder: Folder projek adalah folder default untuk muat naik fail bagi projek ini. Pengguna masih boleh muat naik fail ke lokasi lain.

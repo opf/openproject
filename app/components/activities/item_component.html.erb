@@ -68,5 +68,11 @@ See COPYRIGHT and LICENSE files for more details.
         <li class="op-activity-list--item-detail"><%= link_to "Details", @event.event_url %></li>
       <% end -%>
     </ul>
+  <% elsif noop? -%>
+    <ul class="op-activity-list--item-details">
+      <li class="op-activity-list--item-detail">
+        <em><%= I18n.t(:"journals.changes_retracted") %></em>
+      </li>
+    </ul>
   <% end -%>
 </li>

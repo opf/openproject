@@ -101,7 +101,7 @@ cs:
       label_healthy: Zdravé
       label_pending: Nevyřízeno
       since: od %{datetime}
-      subtitle: Automaticky spravované projektové složky
+      subtitle: Automatically managed project folders
       title: Zdravotní stav
     help_texts:
       project_folder: Složka projektu je výchozí složka pro nahrávání souborů pro tento projekt. Uživatelé přesto mohou nahrávat soubory do jiných umístění.

@@ -101,7 +101,7 @@
       label_healthy: Sunn
       label_pending: Ventende
       since: siden %{datetime}
-      subtitle: Automatisk administrerte prosjektmapper
+      subtitle: Automatically managed project folders
       title: Helse-status
     help_texts:
       project_folder: Prosjektmappen er standardmappen for filopplasting for dette prosjektet. Brukere kan likevel laste opp filer til andre steder.
