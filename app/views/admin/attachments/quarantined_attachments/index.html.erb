@@ -1,10 +1,5 @@
 <% html_title t('antivirus_scan.quarantined_attachments.title') %>
 
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t('antivirus_scan.quarantined_attachments.title') }
-    header.with_breadcrumbs(breadcrumb_items)
-  end
-%>
+<%= render ::Admin::QuarantinedAttachments::IndexPageHeaderComponent.new %>
 
 <%= render ::Admin::QuarantinedAttachments::TableComponent.new(rows: @attachments) %>

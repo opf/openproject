@@ -106,11 +106,4 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
         project_custom_field_section: @project_custom_field_section
       )
   end
-
-  def breadcrumb_items
-    [{ href: project_overview_path(@project.id), text: @project.name },
-     { href: project_settings_general_path(@project.id), text: I18n.t("label_project_settings") },
-     t("settings.project_attributes.heading")]
-  end
-  helper_method :breadcrumb_items
 end

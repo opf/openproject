@@ -101,12 +101,5 @@ module Admin::Settings
                        file_count: t(:label_x_files, count: Attachment.status_quarantined.count))
       redirect_to action: :show
     end
-
-    def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_attachments_path, text: t("attributes.attachments") },
-       t("settings.antivirus.title")]
-    end
-    helper_method :breadcrumb_items
   end
 end

@@ -27,17 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <div data-turbo="true">
-  <%= render Primer::OpenProject::PageHeader.new do |header| %>
-    <%= header.with_title(variant: :default) { t('projects.settings.project_custom_fields.header.title') } %>
-    <%= header.with_description { t('projects.settings.project_custom_fields.header.description',
-          overview_url: project_path(@project),
-          admin_settings_url: admin_settings_project_custom_fields_path
-        ).html_safe } %>
-    <%= header.with_breadcrumbs(breadcrumb_items) %>
-  <% end %>
+ <%= render Projects::Settings::ProjectCustomFieldSections::IndexPageHeaderComponent.new(project: @project) %>
+
   <%= render(Projects::Settings::ProjectCustomFieldSections::IndexComponent.new(
     project: @project,
     project_custom_field_sections: @project_custom_field_sections,
   )) %>
 </div>
-
