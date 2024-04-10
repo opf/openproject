@@ -21,7 +21,7 @@ example:
           href: "/api/v3/work_packages/3857"
       _type: WorkPackage
       type: follows
-      delay: 3
+      lag: 3
       description: let it rest for 3 days
     schema:
       _type: Schema
@@ -64,8 +64,8 @@ example:
         name: To work package
         type: WorkPackage
         writable: false
-      delay:
-        name: Delay
+      lag:
+        name: lag
         type: Integer
         writable: true
     validationErrors:

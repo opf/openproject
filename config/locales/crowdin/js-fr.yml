@@ -1324,3 +1324,7 @@ fr:
       drop_modal:
         focus_grab: "Il s'agit d'une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l'élément de déclenchement modal."
         Close: "Fermer"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

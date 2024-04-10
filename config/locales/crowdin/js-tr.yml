@@ -1323,3 +1323,7 @@ tr:
       drop_modal:
         focus_grab: "Bu, modallar için bir odak noktasıdır. Modal tetikleme öğesine geri dönmek için shift+tab tuşlarına basın."
         Close: "Kapat"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

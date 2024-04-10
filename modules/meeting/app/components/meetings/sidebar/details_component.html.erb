@@ -86,7 +86,7 @@
             end
           end
 
-          details.with_row(mt: 2, classes: 'meeting-detail-participants') do
+          details.with_row(mt: 2, classes: 'meeting-detail-participants', display: [nil, nil, :none]) do
             render_meeting_attribute_row(:people) do
               flex_layout do |duration|
                 duration.with_column(mr: 2) do

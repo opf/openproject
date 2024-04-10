@@ -116,13 +116,13 @@ RSpec.describe WorkPackages::Scopes::CoveringDatesAndDaysOfWeek do
         .to eq([])
     end
 
-    it "does not return work packages having follows relation with delay covering the given days of week" do
+    it "does not return work packages having follows relation with lag covering the given days of week" do
       create_schedule(<<~CHART)
         days         | MTWTFSS |
         not_covered1 | X       |
-        follower1    |     X   | follows not_covered1 with delay 3
+        follower1    |     X   | follows not_covered1 with lag 3
         not_covered2 | X       |
-        follower2    |   X     | follows not_covered2 with delay 1
+        follower2    |   X     | follows not_covered2 with lag 1
       CHART
 
       expect(WorkPackage.covering_dates_and_days_of_week(**day_args[:tuesday, :thursday]))

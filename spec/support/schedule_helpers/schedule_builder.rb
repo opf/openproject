@@ -61,7 +61,7 @@ module ScheduleHelpers
           FactoryBot.create(:follows_relation,
                             from: create_work_package(follower),
                             to: create_work_package(predecessor),
-                            delay: chart.delay_between(predecessor:, follower:))
+                            lag: chart.lag_between(predecessor:, follower:))
       end
     end
 

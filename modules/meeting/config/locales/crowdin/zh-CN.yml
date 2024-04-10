@@ -44,7 +44,7 @@ zh-CN:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -96,7 +96,7 @@ zh-CN:
   label_start_date: "开始日期"
   meeting:
     attachments:
-      text: "所有与会者都可以查看附件。您还可以将这些文件拖放到议程项目注释中。"
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "复制会议 %{title}"
       attachments: "复制附件"
@@ -165,6 +165,7 @@ zh-CN:
   label_agenda_item_move_up: "向上移动"
   label_agenda_item_move_down: "向下移动"
   label_agenda_item_add_notes: "添加备注"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
@@ -172,8 +173,11 @@ zh-CN:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "会议详情"
   label_meeting_details_edit: "编辑会议详情"
+  label_meeting_state: "Meeting state"
   label_meeting_state_open: "开放"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "已关闭"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "重新开放会议"
   label_meeting_close_action: "关闭会议"
   text_meeting_open_description: "本次会议已开放。您可以添加/移除议程项目并随时编辑它们。会议结束后，关闭它以锁定它。"

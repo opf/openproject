@@ -25,18 +25,34 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-require "spec_helper"
-require_module_spec_helper
 
-RSpec.describe Storages::Admin::NewStorageButtonComponent, type: :component do
-  include Rails.application.routes.url_helpers
+module Storages
+  module Admin
+    class Sidebar::HealthNotificationsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-  it 'renders a "New Storage" Action Menu' do
-    render_inline(described_class.new)
-    expect(page).to have_button "Storage", aria: { label: "Add new storage" }
+      def initialize(storage:)
+        super
+        @storage = storage
+      end
 
-    expect(page).to have_link "Nextcloud", href: select_provider_admin_settings_storages_path(provider: "nextcloud")
-    expect(page).to have_link "OneDrive/SharePoint", href: select_provider_admin_settings_storages_path(provider: "one_drive")
+      def render?
+        @storage.automatically_managed?
+      end
+
+      def notification_status
+        if @storage.health_notifications_should_be_sent?
+          { icon: :"bell-slash",
+            label: I18n.t("storages.health_email_notifications.unsubscribe"),
+            description: I18n.t("storages.health_email_notifications.description_subscribed") }
+        else
+          { icon: :bell,
+            label: I18n.t("storages.health_email_notifications.subscribe"),
+            description: I18n.t("storages.health_email_notifications.description_unsubscribed") }
+        end
+      end
+    end
   end
 end

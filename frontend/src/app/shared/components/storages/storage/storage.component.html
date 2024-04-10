@@ -6,12 +6,12 @@
       class="op-tab-content--header-icon spot-icon spot-icon_{{icon.storageHeader((storage | async)?._links.type.href)}} op-files-tab--icon op-files-tab--icon_primary"
     ></span>
     <span class="op-tab-content--header-text" [textContent]="(storage | async)?.name"></span>
-    <a
+    <a *ngIf="openStorageLink"
       class="op-tab-content--header-action spot-link"
-      aria-label="{{text.openStorage(storageType | async)}}"
-      [title]="text.openStorage(storageType | async)"
-      [href]="projectStorage._links.openWithConnectionEnsured.href || (storage | async)?._links.open.href"
-      target="_blank"
+       aria-label="{{text.openStorage(storageType | async)}}"
+       [title]="text.openStorage(storageType | async)"
+       [href]="openStorageLink"
+       target="_blank"
     >
       <span class="spot-icon spot-icon_external-link"></span>
     </a>

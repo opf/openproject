@@ -127,6 +127,7 @@ ignore_unused:
   - 'activerecord.{models,attributes,errors}.*'
   - 'permission_*'
   - '{devise,kaminari,will_paginate}.*'
+  - '*.permission_header_explanation'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:

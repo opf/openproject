@@ -48,6 +48,7 @@ Rails.application.routes.draw do
         member do
           get :show_oauth_application
           get :edit_host
+          patch :change_health_notifications_enabled
           get :confirm_destroy
           delete :replace_oauth_application
         end

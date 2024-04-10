@@ -56,7 +56,7 @@ en:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:

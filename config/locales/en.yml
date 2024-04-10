@@ -669,7 +669,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "Delay"
+        lag: "Lag"
         from: "Work package"
         to: "Related work package"
       status:
@@ -1173,6 +1173,10 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1763,6 +1767,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
 
   my_account:
     access_tokens:
@@ -2235,6 +2241,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
   label_project_plural: "Projects"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Project settings"
@@ -2437,6 +2444,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     other: "%{count} files"
     zero: "no files"
   label_yesterday: "yesterday"
+  label_zen_mode: "Zen mode"
   label_role_type: "Type"
   label_member_role: "Project role"
   label_global_role: "Global role"
