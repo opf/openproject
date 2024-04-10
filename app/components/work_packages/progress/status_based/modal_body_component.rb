@@ -31,15 +31,12 @@
 module WorkPackages
   module Progress
     module StatusBased
-      # rubocop:disable OpenProject/AddPreviewForViewComponent
-      class ModalBodyComponent < BaseModalComponent
+      class ModalBodyComponent < BaseModalComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         def initialize(work_package, focused_field: nil)
           super
 
           @mode = :status_based
         end
-
-        # rubocop:enable OpenProject/AddPreviewForViewComponent
       end
     end
   end
