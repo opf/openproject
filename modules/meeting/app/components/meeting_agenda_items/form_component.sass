@@ -2,17 +2,13 @@
 
 .op-meeting-agenda-item-form
   display: grid
-  grid-template-columns: 2fr 100px 1fr
+  grid-template-columns: minmax(0, 100%) 100px 1fr
   grid-template-areas: "title duration presenter" "notes notes notes" "add_note actions actions"
   grid-gap: 8px
 
   &--actions
     justify-self: end
 
-  &--title,
-  &--notes
-    overflow: hidden
-
   @media screen and (max-width: $breakpoint-md)
-    grid-template-columns: 100px auto
+    grid-template-columns: 100px minmax(0, 100%)
     grid-template-areas: "title title" "duration presenter" "notes notes" "add_note actions"
