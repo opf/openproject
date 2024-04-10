@@ -102,7 +102,7 @@ class WorkPackages::ProgressForm < ApplicationForm
                         placeholder: nil)
     text_field_options = {
       name:,
-      value: format_to_smallest_fractional_part(@work_package.send(name)),
+      value: field_value(name),
       label:,
       disabled:,
       placeholder:
@@ -119,7 +119,7 @@ class WorkPackages::ProgressForm < ApplicationForm
                                  placeholder: true)
     text_field_options = {
       name:,
-      value: format_to_smallest_fractional_part(@work_package.send(name)),
+      value: field_value(name),
       label:,
       readonly: true,
       disabled:,
@@ -129,6 +129,15 @@ class WorkPackages::ProgressForm < ApplicationForm
     text_field_options.reverse_merge!(default_field_options(name))
 
     group.text_field(**text_field_options)
+  end
+
+  def field_value(name)
+    errors = @work_package.errors.where(name)
+    if user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? }
+      user_value
+    else
+      format_to_smallest_fractional_part(@work_package.public_send(name))
+    end
   end
 
   def format_to_smallest_fractional_part(number)
