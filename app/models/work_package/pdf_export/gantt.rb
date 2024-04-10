@@ -38,11 +38,12 @@ module WorkPackage::PDFExport::Gantt
     @gantt_filter_empty = false
     @gantt_grid_color = "9b9ea3"
 
-    gantt_columns_width = pdf.bounds.width - @gantt_text_column_width
-    @gantt_columns_per_page = (gantt_columns_width / @gant_column_width).floor
+    gantt_columns_width_first_page = pdf.bounds.width - @gantt_text_column_width
+    @gantt_columns_per_first_page = (gantt_columns_width_first_page / @gant_column_width).floor
+    @gantt_columns_per_next_page = (pdf.bounds.width / @gant_column_width).floor
 
     # add space right to the first column
-    @gantt_text_column_width = pdf.bounds.width - (@gantt_columns_per_page * @gant_column_width)
+    @gantt_text_column_width = pdf.bounds.width - (@gantt_columns_per_first_page * @gant_column_width)
     gant_rows_height = pdf.bounds.height - @gantt_header_row_height
     @gantt_work_packages_per_page = (gant_rows_height / @gant_row_height).floor
 
@@ -71,7 +72,8 @@ module WorkPackage::PDFExport::Gantt
 
   def build_gantt_page(dates, index, work_packages)
     {
-      columns: dates.slice(index * @gantt_columns_per_page, @gantt_columns_per_page).each_with_index.map do |date, col_index|
+      index: index,
+      columns: dates.each_with_index.map do |date, col_index|
         build_gantt_column(col_index, date, work_packages)
       end,
       work_packages: work_packages
@@ -123,23 +125,29 @@ module WorkPackage::PDFExport::Gantt
               (start_date..end_date).map { |d| Date.new(d.year, d.month, -1) }.uniq
             end
     vertical_pages_needed = (wps.size.to_f / @gantt_work_packages_per_page.to_f).ceil
-    horizontal_pages_needed = (dates.size.to_f / @gantt_columns_per_page.to_f).ceil
     (0..vertical_pages_needed - 1)
-      .map { |v_index| build_gantt_horizontal_pages(wps, dates, v_index, horizontal_pages_needed) }
+      .map { |v_index| build_gantt_horizontal_pages(wps.slice(v_index * @gantt_work_packages_per_page, @gantt_work_packages_per_page), dates) }
       .flatten
   end
 
-  def build_gantt_horizontal_pages(work_packages, dates, v_index, horizontal_pages_needed)
-    work_package_on_horizontal_pages = work_packages.slice(v_index * @gantt_work_packages_per_page, @gantt_work_packages_per_page)
-    list = (0..horizontal_pages_needed - 1)
+  def build_gantt_horizontal_pages(work_packages, dates)
+    horizontal_pages_needed = [((dates.size - @gantt_columns_per_first_page).to_f / @gantt_columns_per_next_page.to_f).ceil, 0].max + 1
+    result = []
+    dates_on_page = dates.slice(0, @gantt_columns_per_first_page)
+    result << build_gantt_page(dates_on_page, 0, work_packages)
+
+    list = (0..horizontal_pages_needed - 2)
     list.map do |index|
-      build_gantt_page(dates, index, work_package_on_horizontal_pages)
+      dates_on_page = dates.slice(@gantt_columns_per_first_page + index * @gantt_columns_per_next_page, @gantt_columns_per_next_page)
+      result << build_gantt_page(dates_on_page, index + 1, work_packages)
     end
+    result
   end
 
-  def paint_gantt_wp_milestone(y, wp, paint_columns)
+  def paint_gantt_wp_milestone(y, page, wp, paint_columns)
     paint_column_first = paint_columns.first
-    x = @gantt_text_column_width + (paint_column_first[:index] * @gant_column_width)
+    offset = page[:index] == 0 ? @gantt_text_column_width : 0
+    x = offset + (paint_column_first[:index] * @gant_column_width)
     center_x = @pdf.bounds.left + x + @gant_column_width / 2
     center_y = @pdf.bounds.top - y - @gant_row_height / 2
     diamond_size = @gant_column_width / 3
@@ -155,13 +163,14 @@ module WorkPackage::PDFExport::Gantt
     @pdf.fill_color = current_color
   end
 
-  def paint_gantt_wp_bar(y, wp, paint_columns)
+  def paint_gantt_wp_bar(y, page, wp, paint_columns)
     paint_column_first = paint_columns.first
     paint_column_last = paint_columns.last
     start_offset = calc_start_offset(wp, paint_column_first[:date])
     end_offset = calc_end_offset(wp, paint_column_last[:date])
-    x1 = @gantt_text_column_width + (paint_column_first[:index] * @gant_column_width) + start_offset
-    x2 = @gantt_text_column_width + ((paint_column_last[:index] + 1) * @gant_column_width) - end_offset
+    offset = page[:index] == 0 ? @gantt_text_column_width : 0
+    x1 = offset + (paint_column_first[:index] * @gant_column_width) + start_offset
+    x2 = offset + ((paint_column_last[:index] + 1) * @gant_column_width) - end_offset
     paint_gant_rect(@pdf.bounds.left + x1, @pdf.bounds.top - y - @gant_bar_cell_padding, x2 - x1, @gant_row_height - @gant_bar_cell_padding * 2, gantt_wp_color(wp))
   end
 
@@ -174,15 +183,17 @@ module WorkPackage::PDFExport::Gantt
     # paint row line
     paint_gantt_line_h(0, @pdf.bounds.width, y + @gant_row_height)
     # paint row title
-    paint_gantt_text_box("#{wp.type} ##{wp.id} - #{wp.subject}", 0, y, @gantt_text_column_width, @gant_row_height,
-                         @gant_bar_cell_padding * 2, @gant_bar_cell_padding)
+    if page[:index] == 0
+      paint_gantt_text_box("#{wp.type} ##{wp.id} - #{wp.subject}", 0, y, @gantt_text_column_width, @gant_row_height,
+                           @gant_bar_cell_padding * 2, @gant_bar_cell_padding)
+    end
     # paint work package in gantt
     paint_columns = page[:columns].select { |column| column[:work_packages].include?(wp) }
     return if paint_columns.empty?
     if wp.milestone?
-      paint_gantt_wp_milestone(y, wp, paint_columns)
+      paint_gantt_wp_milestone(y, page, wp, paint_columns)
     else
-      paint_gantt_wp_bar(y, wp, paint_columns)
+      paint_gantt_wp_bar(y, page, wp, paint_columns)
     end
   end
 
@@ -204,9 +215,10 @@ module WorkPackage::PDFExport::Gantt
 
   def paint_gantt_grid(page)
     paint_gantt_line_v(0, @pdf.bounds.height, 0)
-    paint_gantt_line_v(0, @pdf.bounds.height, @gantt_text_column_width)
+    paint_gantt_line_v(0, @pdf.bounds.height, @gantt_text_column_width) if page[:index] == 0
+    offset = page[:index] == 0 ? @gantt_text_column_width : 0
     page[:columns].each_with_index do |_, index|
-      paint_gantt_line_v(@gantt_header_row_height, @pdf.bounds.height, @gantt_text_column_width + ((index + 1) * @gant_column_width))
+      paint_gantt_line_v(@gantt_header_row_height, @pdf.bounds.height, offset + ((index + 1) * @gant_column_width))
     end
     paint_gantt_line_h(0, @pdf.bounds.width, 0)
     paint_gantt_line_h(0, @pdf.bounds.width, @gantt_header_row_height)
@@ -221,9 +233,10 @@ module WorkPackage::PDFExport::Gantt
                   overflow: :shrink_to_fit, min_font_size: 5, valign: :center, size: 8, leading: 0, **additional_options)
   end
 
-  def paint_gantt_header_cell(text, columns, y, height)
-    x = @gantt_text_column_width + (columns.first[:index] * @gant_column_width)
-    x2 = @gantt_text_column_width + ((columns.last[:index] + 1) * @gant_column_width)
+  def paint_gantt_header_cell(text, page, columns, y, height)
+    offset = page[:index] == 0 ? @gantt_text_column_width : 0
+    x = offset + (columns.first[:index] * @gant_column_width)
+    x2 = offset + ((columns.last[:index] + 1) * @gant_column_width)
     paint_gantt_text_box(text, x, y, columns.size * @gant_column_width, height,
                          0, 0, { size: 8, style: :bold, align: :center })
     paint_gantt_line_h(x, x2, y + height)
@@ -231,15 +244,16 @@ module WorkPackage::PDFExport::Gantt
   end
 
   def paint_gantt_header_row(page)
-    paint_gantt_text_box(heading, 0, 0, @gantt_text_column_width, @gantt_header_row_height,
-                         @gant_bar_cell_padding * 2, 0, { size: 10, style: :bold })
-
+    if page[:index] == 0
+      paint_gantt_text_box(heading, 0, 0, @gantt_text_column_width, @gantt_header_row_height,
+                           @gant_bar_cell_padding * 2, 0, { size: 10, style: :bold })
+    end
     height = @gantt_header_row_height / 3
     y = 0
     years = page[:columns].map { |column| column[:date].year }.uniq
     years.each do |year|
       year_columns = page[:columns].select { |column| column[:date].year == year }
-      paint_gantt_header_cell(year.to_s, year_columns, y, height)
+      paint_gantt_header_cell(year.to_s, page, year_columns, y, height)
     end
 
     if @gantt_mode == :month
@@ -248,7 +262,7 @@ module WorkPackage::PDFExport::Gantt
       quarters.each do |quarter_tuple|
         quarter, year = quarter_tuple
         quarter_columns = page[:columns].select { |column| column[:date].year == year && quarter_of_date(column[:date]) == quarter }
-        paint_gantt_header_cell("Q#{quarter}", quarter_columns, y, height)
+        paint_gantt_header_cell("Q#{quarter}", page, quarter_columns, y, height)
       end
     end
 
@@ -257,14 +271,14 @@ module WorkPackage::PDFExport::Gantt
     months.each do |month_tuple|
       month, year = month_tuple
       month_columns = page[:columns].select { |column| column[:date].year == year && column[:date].month == month }
-      paint_gantt_header_cell(month_columns.first[:date].strftime("%b"), month_columns, y, height)
+      paint_gantt_header_cell(month_columns.first[:date].strftime("%b"), page, month_columns, y, height)
     end
 
     return unless @gantt_mode == :day
 
     y += height
     page[:columns].each_with_index do |column|
-      paint_gantt_header_cell(column[:date].day.to_s, [column], y, height)
+      paint_gantt_header_cell(column[:date].day.to_s, page, [column], y, height)
     end
   end
 
