@@ -46,7 +46,7 @@ class Storages::Admin::StoragesController < ApplicationController
   before_action :require_admin
   before_action :find_model_object,
                 only: %i[show_oauth_application destroy edit edit_host confirm_destroy update
-                         change_health_email_notifications replace_oauth_application]
+                         change_health_notifications_enabled replace_oauth_application]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
@@ -165,11 +165,11 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  def change_health_email_notifications
-    return head :forbidden unless %w[1 0].include?(permitted_storage_params[:health_notifications_enabled])
+  def change_health_notifications_enabled
+    return head :bad_request unless %w[1 0].include?(permitted_storage_params[:health_notifications_enabled])
 
     if @storage.update(health_notifications_enabled: permitted_storage_params[:health_notifications_enabled])
-      update_via_turbo_stream(component: Storages::Admin::Sidebar::HealthNotificationsComponent.new(storage: @storage.reload))
+      update_via_turbo_stream(component: Storages::Admin::Sidebar::HealthNotificationsComponent.new(storage: @storage))
       respond_with_turbo_streams
     else
       flash.now[:primer_banner] = {

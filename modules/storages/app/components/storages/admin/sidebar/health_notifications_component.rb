@@ -33,20 +33,17 @@ module Storages
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      attr_reader :storage
-
       def initialize(storage:)
         super
-
         @storage = storage
       end
 
       def render?
-        storage.automatically_managed?
+        @storage.automatically_managed?
       end
 
       def notification_status
-        if storage.health_notifications_enabled?
+        if @storage.health_notifications_enabled?
           { icon: :"bell-slash",
             label: I18n.t("storages.health_email_notifications.unsubscribe"),
             description: I18n.t("storages.health_email_notifications.description_subscribed") }

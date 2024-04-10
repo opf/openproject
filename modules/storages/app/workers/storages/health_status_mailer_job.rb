@@ -39,11 +39,9 @@ module Storages
       key: -> { "#{self.class.name}-#{arguments.last[:storage]}" }
     )
 
+    discard_on ActiveJob::DeserializationError
+
     def perform(storage:)
-      return unless ::Storages::Storage.exists?(storage.id)
-
-      storage.reload
-
       return unless storage.health_notifications_enabled?
       return if storage.health_healthy?
 

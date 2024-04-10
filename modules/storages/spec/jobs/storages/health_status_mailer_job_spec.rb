@@ -72,11 +72,5 @@ RSpec.describe Storages::HealthStatusMailerJob do
 
       it_behaves_like "skips sending an email"
     end
-
-    context "when the storage does not exist" do
-      let(:storage) { build(:nextcloud_storage) }
-
-      it_behaves_like "skips sending an email"
-    end
   end
 end
