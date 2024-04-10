@@ -412,4 +412,33 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       percent_complete_edit_field.expect_read_only_modal_field
     end
   end
+
+  describe "When % Complete is set + work and remaining work are unset coming from a migration" do
+    before_all do
+      work_package.estimated_hours = nil
+      work_package.remaining_hours = nil
+      work_package.done_ratio = 5.0
+      work_package.save!(validate: false)
+    end
+
+    shared_examples_for "renders a banner with a warning message" do
+      it "renders a banner with a warning message" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        modal = work_edit_field.activate!
+
+        modal.expect_migration_warning_banner
+      end
+    end
+
+    context "on work based mode" do
+      include_examples "renders a banner with a warning message"
+    end
+
+    context "on status based mode", with_settings: { work_package_done_ratio: "status" } do
+      include_examples "renders a banner with a warning message"
+    end
+  end
 end
