@@ -257,8 +257,10 @@ RSpec/ContextWording:
     - as
     - even
     - for
+    - given
     - having
     - if
+    - in
     - 'on'
     - to
     - unless
