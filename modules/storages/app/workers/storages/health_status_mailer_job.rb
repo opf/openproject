@@ -42,7 +42,7 @@ module Storages
     discard_on ActiveJob::DeserializationError
 
     def perform(storage:)
-      return unless storage.health_notifications_enabled?
+      return unless storage.health_notifications_should_be_sent?
       return if storage.health_healthy?
 
       admin_users.each do |admin|

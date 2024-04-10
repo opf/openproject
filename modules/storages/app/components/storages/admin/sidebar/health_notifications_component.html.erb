@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
                            data: { turbo_stream: true }) do |f|
           flex_layout do |notification_status_actions|
             notification_status_actions.with_row do
-              f.hidden_field :health_notifications_enabled, value: (@storage.health_notifications_enabled? ? "0" : "1")
+              f.hidden_field :health_notifications_enabled, value: (@storage.health_notifications_should_be_sent? ? "0" : "1")
             end
 
             notification_status_actions.with_row(test_selector: "storage-health-notifications-button") do

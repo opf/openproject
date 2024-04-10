@@ -43,7 +43,7 @@ module Storages
       end
 
       def notification_status
-        if @storage.health_notifications_enabled?
+        if @storage.health_notifications_should_be_sent?
           { icon: :"bell-slash",
             label: I18n.t("storages.health_email_notifications.unsubscribe"),
             description: I18n.t("storages.health_email_notifications.description_subscribed") }

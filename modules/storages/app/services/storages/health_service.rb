@@ -75,7 +75,7 @@ module Storages
     private
 
     def notify_healthy_admin_users(reason)
-      return unless @storage.health_notifications_enabled?
+      return unless @storage.health_notifications_should_be_sent?
 
       admin_users.each do |admin|
         ::Storages::StoragesMailer.notify_healthy(admin, @storage, reason).deliver_later
@@ -83,7 +83,7 @@ module Storages
     end
 
     def notify_unhealthy_admin_users
-      return unless @storage.health_notifications_enabled?
+      return unless @storage.health_notifications_should_be_sent?
 
       admin_users.each do |admin|
         ::Storages::StoragesMailer.notify_unhealthy(admin, @storage).deliver_later
