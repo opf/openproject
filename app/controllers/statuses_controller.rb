@@ -61,9 +61,9 @@ class StatusesController < ApplicationController
   def update
     @status = Status.find(params[:id])
     if @status.update(permitted_params.status)
+      apply_status_p_complete_change
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "index"
-      apply_status_p_complete_change
     else
       render action: "edit"
     end
