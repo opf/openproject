@@ -647,7 +647,7 @@ sv:
         accountable: "Huvudansvarig"
         by_project: "Unread by project"
         by_reason: "Reason"
-        inbox: "Inbox"
+        inbox: "Inkorg"
         mentioned: "Mentioned"
         watched: "Bevakare"
         date_alert: "Date alert"
@@ -1179,7 +1179,7 @@ sv:
         other: "%{count} timmar"
         zero: "0 h"
       day:
-        one: "En dag"
+        one: "1 dag"
         other: "%{count} dagar"
         zero: "0 dagar"
     zen_mode:

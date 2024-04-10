@@ -3211,9 +3211,9 @@ sv:
         one: "1 användare"
         other: "%{count} användare"
       filter:
-        project_member: "Project member"
+        project_member: "Projektmedlem"
         not_project_member: "Not project member"
-        project_group: "Project group"
+        project_group: "Projektgrupp"
         not_project_group: "Not project group"
         role: "Roll"
         type: "Typ"

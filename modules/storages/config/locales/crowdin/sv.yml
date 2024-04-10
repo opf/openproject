@@ -161,7 +161,7 @@ sv:
     label_oauth_client_id: OAuth Client ID
     label_openproject_oauth_application_id: OpenProject OAuth Client ID
     label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
-    label_project_folder: Project folder
+    label_project_folder: Projektmapp
     label_provider: Provider
     label_redirect_uri: Omdirigerings-URI
     label_show_storage_redirect_uri: Show redirect URI
