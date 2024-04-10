@@ -38,6 +38,27 @@ methods.
 
 For more information, see [#51212](https://community.openproject.org/work_packages/51212).
 
+### Reduced number of configurable design variables
+
+We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings).
+This simplifies the process of setting the desired colour scheme for users.
+It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colourblind mode in the future.
+
+The following variables have been changed:
+
+| Old name           | New name             | Notes                                                                                                                                                                      |
+|--------------------|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| primary-color      | primary-button-color | Was merged with the previous "alternative-color". The value of "alternative-color" was kept.                                                                               |
+| alternative-color  | primary-button-color | Was merged with the previous "primary-color". The value of "alternative-color" was kept.                                                                                   |
+| primary-color-dark | -                    | Will now be calculated automatically based on the "primary-button-color"                                                                                                   |
+| link-color         | accent-color         | Is not only used for links, but for all decently highlighted elements (e.g. the selection state in a datepicker).<br/>The (old) value of "primary-color" was use for this. |
+
+
+If you have developed a plugin or have custom code that uses these variables, you need to update your code to use the new
+names. The rest of the variables is unchanged.
+
+For more information, see [#53309](https://community.openproject.org/work_packages/53309).
+
 <!--more-->
 
 ## Bug fixes and changes
