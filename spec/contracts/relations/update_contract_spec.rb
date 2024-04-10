@@ -36,7 +36,7 @@ RSpec.describe Relations::UpdateContract do
                     from: relation_from,
                     to: relation_to,
                     relation_type:,
-                    delay: relation_delay)
+                    lag: relation_lag)
     end
   end
 

@@ -29,11 +29,11 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Admin::HealthStatusComponent, type: :component do
+RSpec.describe Storages::Admin::Sidebar::HealthStatusComponent, type: :component do
   include ActiveSupport::Testing::TimeHelpers
   frozen_date_time = Time.zone.local(2023, 11, 28, 1, 2, 3)
 
-  subject(:health_status_component) { described_class.new(storage) }
+  subject(:health_status_component) { described_class.new(storage:) }
 
   before do
     render_inline(health_status_component)
@@ -47,7 +47,7 @@ RSpec.describe Storages::Admin::HealthStatusComponent, type: :component do
     end
 
     it "shows a healthy status" do
-      expect(page).to have_test_selector("storage-health-label-healthy", text: "Healthy")
+      expect(page).to have_test_selector("storage-health-status", text: "Healthy")
       expect(page).to have_test_selector("storage-health-checked-at", text: "Last checked 11/28/2023 01:02 AM")
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe Storages::Admin::HealthStatusComponent, type: :component do
     end
 
     it "shows pending label" do
-      expect(page).to have_test_selector("storage-health-label-pending", text: "Pending")
+      expect(page).to have_test_selector("storage-health-status", text: "Pending")
     end
   end
 
@@ -72,8 +72,8 @@ RSpec.describe Storages::Admin::HealthStatusComponent, type: :component do
     end
 
     it "shows an error status" do
-      expect(page).to have_test_selector("storage-health-label-error", text: "Error")
-      expect(page).to have_test_selector("storage-health-reason", text: "Error code: description since 11/28/2023 01:02 AM")
+      expect(page).to have_test_selector("storage-health-status", text: "Error")
+      expect(page).to have_test_selector("storage-health-error", text: "Error code: description since 11/28/2023 01:02 AM")
     end
   end
 
@@ -85,8 +85,8 @@ RSpec.describe Storages::Admin::HealthStatusComponent, type: :component do
     end
 
     it "shows a formatted error reason" do
-      expect(page).to have_test_selector("storage-health-label-error", text: "Error")
-      expect(page).to have_test_selector("storage-health-reason",
+      expect(page).to have_test_selector("storage-health-status", text: "Error")
+      expect(page).to have_test_selector("storage-health-error",
                                          text: "Unauthorized: Outbound request not authorized since 11/28/2023 01:02 AM")
     end
   end

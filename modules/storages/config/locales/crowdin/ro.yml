@@ -77,6 +77,15 @@ ro:
       storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
     error_invalid_provider_type: Please select a valid storage provider.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Automatically managed folders
       general_information: General information
       nextcloud_oauth: Ecran Nextcloud
@@ -92,7 +101,7 @@ ro:
       label_healthy: Healthy
       label_pending: în așteptare
       since: since %{datetime}
-      subtitle: Automatic managed project folders
+      subtitle: Automatically managed project folders
       title: Health status
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
@@ -143,6 +152,7 @@ ro:
     label_creator: Creator
     label_delete_storage: Delete storage
     label_edit_storage: Edit storage
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
     label_edit_storage_host: Edit storage host
     label_existing_manual_folder: Existing folder with manually managed permissions
@@ -199,11 +209,6 @@ ro:
         delete: Delete file storage
         subtitle: Add an external file storage in order to upload, link and manage files in work packages.
       managed_project_folders:
-        one_drive_information: |-
-          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
-          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
-          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
-          to the %{drive_id_link_text}.
         subtitle: |-
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
           member always has the correct access permissions.

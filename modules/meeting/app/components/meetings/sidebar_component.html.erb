@@ -1,10 +1,10 @@
 <%=
   component_wrapper do
-    render(Primer::OpenProject::BorderGrid.new) do |border_grid|
+    render(Primer::OpenProject::BorderGrid.new(spacious: true)) do |border_grid|
       border_grid.with_row { render(Meetings::Sidebar::DetailsComponent.new(meeting: @meeting)) }
       border_grid.with_row { render(Meetings::Sidebar::StateComponent.new(meeting: @meeting)) }
-      border_grid.with_row { render(Meetings::Sidebar::ParticipantsComponent.new(meeting: @meeting)) }
-      border_grid.with_row { render(Meetings::Sidebar::AttachmentsComponent.new(meeting: @meeting)) }
+      border_grid.with_row(display: [:none, nil, :"table_cell"]) { render(Meetings::Sidebar::ParticipantsComponent.new(meeting: @meeting)) }
+      border_grid.with_row(display: [:none, nil, :"table_cell"]) { render(Meetings::Sidebar::AttachmentsComponent.new(meeting: @meeting)) }
     end
   end
 %>

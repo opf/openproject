@@ -44,7 +44,7 @@ id:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -96,7 +96,7 @@ id:
   label_start_date: "Tanggal mulai"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Copy meeting %{title}"
       attachments: "Copy attachments"
@@ -165,6 +165,7 @@ id:
   label_agenda_item_move_up: "Naikkan"
   label_agenda_item_move_down: "Pindahkan ke bawah"
   label_agenda_item_add_notes: "Tambahkan catatan"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
@@ -172,8 +173,11 @@ id:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
+  label_meeting_state: "Meeting state"
   label_meeting_state_open: "Buka"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Closed"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Reopen meeting"
   label_meeting_close_action: "Close meeting"
   text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."

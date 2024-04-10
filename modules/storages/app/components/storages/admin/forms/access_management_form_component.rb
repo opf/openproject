@@ -28,15 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Storages::Admin
-  class HealthStatusComponent < ApplicationComponent
+module Storages::Admin::Forms
+  class AccessManagementFormComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
     alias_method :storage, :model
 
-    # This method returns the health identifier, description and the time since when the error occurs in a
-    # formatted manner. e.g. "Not found: Outbound request destination not found since 12/07/2023 03:45 PM"
-    def formatted_health_reason
-      "#{storage.health_reason_identifier.tr('_', ' ').strip.capitalize}: #{storage.health_reason_description} " +
-        I18n.t("storages.health.since", datetime: helpers.format_time(storage.health_changed_at))
+    private
+
+    def form_method
+      first_time_configuration? ? :post : :patch
+    end
+
+    def cancel_button_path
+      edit_admin_settings_storage_path(storage)
+    end
+
+    def first_time_configuration?
+      storage.automatic_management_new_record?
     end
   end
 end

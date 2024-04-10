@@ -47,27 +47,27 @@ RSpec.describe WorkPackages::SetScheduleService do
 
   let(:follower1_start_date) { Time.zone.today + 1.day }
   let(:follower1_due_date) { Time.zone.today + 3.days }
-  let(:follower1_delay) { 0 }
+  let(:follower1_lag) { 0 }
   let(:following_work_package1) do
     create_follower(follower1_start_date,
                     follower1_due_date,
-                    { work_package => follower1_delay })
+                    { work_package => follower1_lag })
   end
   let(:follower2_start_date) { Time.zone.today + 4.days }
   let(:follower2_due_date) { Time.zone.today + 8.days }
-  let(:follower2_delay) { 0 }
+  let(:follower2_lag) { 0 }
   let(:following_work_package2) do
     create_follower(follower2_start_date,
                     follower2_due_date,
-                    { following_work_package1 => follower2_delay })
+                    { following_work_package1 => follower2_lag })
   end
   let(:follower3_start_date) { Time.zone.today + 9.days }
   let(:follower3_due_date) { Time.zone.today + 10.days }
-  let(:follower3_delay) { 0 }
+  let(:follower3_lag) { 0 }
   let(:following_work_package3) do
     create_follower(follower3_start_date,
                     follower3_due_date,
-                    { following_work_package2 => follower3_delay })
+                    { following_work_package2 => follower3_lag })
   end
 
   let(:parent_follower1_start_date) { follower1_start_date }
@@ -93,9 +93,9 @@ RSpec.describe WorkPackages::SetScheduleService do
                           due_date:,
                           parent:)
 
-    predecessors.map do |predecessor, delay|
+    predecessors.map do |predecessor, lag|
       create(:follows_relation,
-             delay:,
+             lag:,
              from: work_package,
              to: predecessor)
     end
@@ -273,10 +273,10 @@ RSpec.describe WorkPackages::SetScheduleService do
       it_behaves_like 'does not reschedule'
     end
 
-    context 'when moving forward with the follower having some space left and a delay' do
+    context 'when moving forward with the follower having some space left and a lag' do
       let(:follower1_start_date) { Time.zone.today + 5.days }
       let(:follower1_due_date) { Time.zone.today + 7.days }
-      let(:follower1_delay) { 3 }
+      let(:follower1_lag) { 3 }
 
       before do
         work_package.due_date = Time.zone.today + 5.days
@@ -421,7 +421,7 @@ RSpec.describe WorkPackages::SetScheduleService do
       let(:following_work_package1) do
         create_follower(follower1_start_date,
                         follower1_due_date,
-                        { work_package => follower1_delay,
+                        { work_package => follower1_lag,
                           another_successor => 0 })
       end
       let(:another_successor) do
@@ -743,20 +743,20 @@ RSpec.describe WorkPackages::SetScheduleService do
   context 'with a chain of successors with two paths leading to the same work package in the end' do
     let(:follower3_start_date) { Time.zone.today + 4.days }
     let(:follower3_due_date) { Time.zone.today + 7.days }
-    let(:follower3_delay) { 0 }
+    let(:follower3_lag) { 0 }
     let(:following_work_package3) do
       create_follower(follower3_start_date,
                       follower3_due_date,
-                      { work_package => follower3_delay })
+                      { work_package => follower3_lag })
     end
     let(:follower4_start_date) { Time.zone.today + 9.days }
     let(:follower4_due_date) { Time.zone.today + 10.days }
-    let(:follower4_delay2) { 0 }
-    let(:follower4_delay3) { 0 }
+    let(:follower4_lag2) { 0 }
+    let(:follower4_lag3) { 0 }
     let(:following_work_package4) do
       create_follower(follower4_start_date,
                       follower4_due_date,
-                      { following_work_package2 => follower4_delay2, following_work_package3 => follower4_delay3 })
+                      { following_work_package2 => follower4_lag2, following_work_package3 => follower4_lag3 })
     end
     let!(:following) do
       [following_work_package1,

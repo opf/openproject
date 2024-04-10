@@ -1,5 +1,5 @@
 <%=
-  flex_layout(classes: 'hidden-for-mobile') do |attachments_container|
+  flex_layout do |attachments_container|
     attachments_container.with_row do
       render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t(:label_attachment_plural) }
     end

@@ -233,7 +233,7 @@ group :test do
   # Test prof provides factories from code
   # and other niceties
   gem "test-prof", "~> 1.3.0"
-  gem "turbo_tests", github: "crohr/turbo_tests", ref: "fix/runtime-info"
+  gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.0"
@@ -292,7 +292,7 @@ end
 group :development do
   gem "listen", "~> 3.9.0" # Use for event-based reloaders
 
-  gem 'letter_opener_web'
+  gem "letter_opener_web"
 
   gem "spring"
   gem "spring-commands-rspec"

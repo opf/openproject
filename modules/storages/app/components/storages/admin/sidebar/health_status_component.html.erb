@@ -1,0 +1,39 @@
+<%=
+  component_wrapper do
+    flex_layout do |health_status_container|
+      health_status_container.with_row do
+        flex_layout do |heading|
+          heading.with_row do
+            render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t("storages.health.title") }
+          end
+
+          heading.with_row(mt: 2) do
+            render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.health.subtitle") }
+          end
+        end
+      end
+
+      health_status_container.with_row(mt: 2) do
+        flex_layout do |health_status_label|
+          health_status_label.with_row do
+            concat(render(Primer::Beta::Text.new(pr: 2, test_selector: "storage-health-checked-at")) do
+              I18n.t('storages.health.checked', datetime: helpers.format_time(@storage.health_checked_at))
+            end)
+
+            concat(render(Primer::Beta::Label.new(scheme: health_status_indicator[:scheme], test_selector: "storage-health-status")) do
+              health_status_indicator[:label]
+            end)
+          end
+
+          if @storage.health_unhealthy?
+            health_status_label.with_row(mt: 2) do
+              render(Primer::Beta::Text.new(color: :muted, test_selector: "storage-health-error")) do
+                formatted_health_reason
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

@@ -163,6 +163,8 @@ FactoryBot.define do
 
   factory :sharepoint_dev_drive_storage,
           parent: :one_drive_storage do
+    automatically_managed { false }
+
     transient do
       oauth_client_token_user { association :user }
     end

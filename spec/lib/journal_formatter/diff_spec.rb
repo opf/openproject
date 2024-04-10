@@ -71,8 +71,8 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                                 protocol: Setting.protocol,
                                 host: Setting.host_name)
   end
-  let(:link) { link_to(I18n.t(:label_details), path, class: "description-details") }
-  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "description-details") }
+  let(:link) { link_to(I18n.t(:label_details), path, class: "diff-details", target: "_top") }
+  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "diff-details", target: "_top") }
 
   describe "#render" do
     describe "WITH the first value being nil, and the second a string" do
@@ -82,7 +82,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link:)
       end
 
-      it { expect(instance.render(key, [nil, "new value"])).to eq(expected) }
+      it { expect(instance.render(key, [nil, "new value"])).to be_html_eql(expected) }
     end
 
     describe "WITH the first value being a string, and the second a string" do
@@ -92,7 +92,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link:)
       end
 
-      it { expect(instance.render(key, ["old value", "new value"])).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"])).to be_html_eql(expected) }
     end
 
     describe "WITH the first value being a string, and the second a string
@@ -111,7 +111,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
         I18n.locale = :en
       end
 
-      it { expect(instance.render(key, ["old value", "new value"])).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"])).to be_html_eql(expected) }
     end
 
     describe "WITH the first value being a string, and the second nil (with link)" do
@@ -121,7 +121,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link:)
       end
 
-      it { expect(instance.render(key, ["old_value", nil])).to eq(expected) }
+      it { expect(instance.render(key, ["old_value", nil])).to be_html_eql(expected) }
     end
 
     describe "WITH the first value being nil, and the second a string
@@ -132,7 +132,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link: path)
       end
 
-      it { expect(instance.render(key, [nil, "new value"], html: false)).to eq(expected) }
+      it { expect(instance.render(key, [nil, "new value"], html: false)).to be_html_eql(expected) }
     end
 
     describe "WITH the first value being a string, and the second a string
@@ -143,7 +143,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link: path)
       end
 
-      it { expect(instance.render(key, ["old value", "new value"], html: false)).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"], html: false)).to be_html_eql(expected) }
     end
 
     describe "WITH the first value being a string, and the second a string
@@ -154,7 +154,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link: full_url_link)
       end
 
-      it { expect(instance.render(key, ["old value", "new value"], only_path: false)).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"], only_path: false)).to be_html_eql(expected) }
     end
 
     describe "WITH the first value being a string, and the second nil (with url)" do
@@ -164,7 +164,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link: path)
       end
 
-      it { expect(instance.render(key, ["old_value", nil], html: false)).to eq(expected) }
+      it { expect(instance.render(key, ["old_value", nil], html: false)).to be_html_eql(expected) }
     end
   end
 end

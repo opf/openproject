@@ -95,7 +95,7 @@ RSpec.describe "Project details widget on dashboard", :js do
           .to have_content("Project details have now moved to a column on the right edge of this page.")
         expect(page).to have_content(
           <<~TEXT.strip
-            Starting with version 13.5, project attributes can be grouped \
+            Starting with version 14.0, project attributes can be grouped \
             in sections and enabled and disabled at a project level.
           TEXT
         )
@@ -121,7 +121,7 @@ RSpec.describe "Project details widget on dashboard", :js do
           .to have_content("Project details have now moved to a column on the right edge of this page.")
         expect(page).to have_content(
           <<~TEXT.strip
-            Starting with version 13.5, project attributes can be grouped \
+            Starting with version 14.0, project attributes can be grouped \
             in sections and enabled and disabled at a project level.
           TEXT
         )

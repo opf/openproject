@@ -56,10 +56,14 @@ module Pages::StructuredMeeting
     end
 
     def cancel_edit_form(item)
-      page.within("#meeting-agenda-items-item-component-#{item.id}") do
+      in_edit_form(item) do
         click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
       end
+    end
+
+    def in_edit_form(item, &)
+      page.within("#meeting-agenda-items-item-component-#{item.id}", &)
     end
 
     def in_agenda_form(&)

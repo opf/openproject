@@ -77,6 +77,15 @@
       storage_delete_result_3: Hvis denne lagringen har automatisk administrert prosjektmapper, vil disse og deres filer slettes for alltid.
     error_invalid_provider_type: Vennligst velg en gyldig lagringsleverandør.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Automatisk administrerte mapper
       general_information: Generell informasjon
       nextcloud_oauth: Nextcloud OAuth
@@ -92,7 +101,7 @@
       label_healthy: Sunn
       label_pending: Ventende
       since: siden %{datetime}
-      subtitle: Automatisk administrerte prosjektmapper
+      subtitle: Automatically managed project folders
       title: Helse-status
     help_texts:
       project_folder: Prosjektmappen er standardmappen for filopplasting for dette prosjektet. Brukere kan likevel laste opp filer til andre steder.
@@ -143,6 +152,7 @@
     label_creator: Skaper
     label_delete_storage: Slett fillagring
     label_edit_storage: Redigere fillagring
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Rediger automatisk administrerte mapper
     label_edit_storage_host: Redigere lagringsvert
     label_existing_manual_folder: Eksisterende mappe med manuelt administrerte tillatelser
@@ -199,11 +209,6 @@
         delete: Slett fillagring
         subtitle: Legg til en ekstern fillagring for å laste opp, koble og administrere filer i arbeidspakker.
       managed_project_folders:
-        one_drive_information: |-
-          For å aktivere automatisk håndterte prosjektmapper i OneDrive/SharePoint, er ytterligere konfigurasjon nødvendig på
-          stasjonen som brukes til denne fillagringen. Hvis OpenProject behandler rettighetene til denne stasjonen, vil det sannsynligvis være
-          ubrukelig for andre bruksområder i SharePoint. For mer informasjon og veiledning se
-          %{drive_id_link_text}.
         subtitle: |-
           La OpenProject opprette mapper automatisk per prosjekt. Dette anbefales fordi det sikrer at alle medlemmene i teamet
           alltid har riktige tilgangsrettigheter.

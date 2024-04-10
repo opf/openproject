@@ -16,7 +16,7 @@ $meeting-agenda-item--presenter-width: 300px
   &--actions
     justify-self: end
 
-  &--responsbile
+  &--presenter
     max-width: $meeting-agenda-item--presenter-width
     justify-self: end
 
@@ -27,8 +27,8 @@ $meeting-agenda-item--presenter-width: 300px
     @include text-shortener
 
   @media screen and (max-width: $breakpoint-lg)
-    grid-template-columns: 20px auto 1fr 50px
-    grid-template-areas: "drag-handle content content actions" ".presenter presenter duration" ".notes notes notes"
+    grid-template-columns: 20px auto 1fr calc($meeting-agenda-item--presenter-width - 50px) 50px
+    grid-template-areas: "drag-handle content content content actions" ". duration . presenter presenter" ". notes notes notes notes"
 
     &--author
       justify-self: stretch

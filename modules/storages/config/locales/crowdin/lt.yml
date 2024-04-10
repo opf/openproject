@@ -77,6 +77,15 @@ lt:
       storage_delete_result_3: Jei saugykla turi automatiškai valdomus projekto aplankus, jie ir juose esantys failai bus ištrinti visam laikui.
     error_invalid_provider_type: Prašome pažymėti tinkamą saugyklos tiekėją.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Automatiškai valdomi aplankai
       general_information: Bendra informacija
       nextcloud_oauth: Nextcloud OAuth
@@ -92,7 +101,7 @@ lt:
       label_healthy: Sveikas
       label_pending: Laukiama
       since: nuo %{datetime}
-      subtitle: Automatinio tvarkymo projekto aplankai
+      subtitle: Automatically managed project folders
       title: Sveikatos būsena
     help_texts:
       project_folder: Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
@@ -143,6 +152,7 @@ lt:
     label_creator: Kūrėjas
     label_delete_storage: Trinti saugyklą
     label_edit_storage: Keisti saugyklą
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Keisti saugyklos automatiškai tvarkomus aplankus
     label_edit_storage_host: Keisti saugyklos adresą
     label_existing_manual_folder: Esamas aplankas su rankiniu būdu valdomomis teisėmis
@@ -198,8 +208,6 @@ lt:
         delete: Trinti failų saugyklą
         subtitle: Pridėkite išorinę failų saugyklą, jei norite įkelti, susieti ir valdyti failus darbo paketuose.
       managed_project_folders:
-        one_drive_information: |-
-          Kad įjungtumėte automatiškai tvarkomus projekto OneDrive/SharePoint aplankus, reikia papildomos konfigūracijos diske, kuris naudojamas šiai failų saugyklai. Jei OpenProject tvarko šio disko teises, jis tikėtina bus naudojamas ir kitiems SharePoint tikslams. Daugiau informacijos ir instrukcijas rasite %{drive_id_link_text}.
         subtitle: |-
           Leisti OpenProject automatiškai kurti projektų aplankus. Tai rekomenduojama, nes užtikrina, kad kiekvienas komandos narys visada turi reikiamas prieigos teises.
         subtitle_short: Leisti OpenProject kurti aplankus projektams automatiškai
