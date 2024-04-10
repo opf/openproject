@@ -607,7 +607,7 @@ uk:
       oauth_client:
         client: "ID клієнта"
       relation:
-        delay: "Затримка"
+        lag: "Lag"
         from: "Пакет робіт"
         to: "Пов'язаний робочий пакет"
       status:
@@ -1119,6 +1119,10 @@ uk:
       updated_on_time_entry: "зареєстрований час оновлено о %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Підпроєкт"
       parent_no_longer: "Більше не входить у проєкт"
       time_entry:

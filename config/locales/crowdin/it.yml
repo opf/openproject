@@ -595,7 +595,7 @@ it:
       oauth_client:
         client: "ID Client"
       relation:
-        delay: "Ritardo"
+        lag: "Lag"
         from: "Macro-attività"
         to: "Macro-attività correlata"
       status:
@@ -1095,6 +1095,10 @@ it:
       updated_on_time_entry: "orario registrato aggiornato il %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Sottoprogetto"
       parent_no_longer: "Non più sottoprogetto di"
       time_entry:

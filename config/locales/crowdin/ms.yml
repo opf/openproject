@@ -590,7 +590,7 @@ ms:
       oauth_client:
         client: "ID pelanggan"
       relation:
-        delay: "Kelewatan"
+        lag: "Lag"
         from: "Pakej kerja"
         to: "Pakej kerja yang berkaitan"
       status:
@@ -1084,6 +1084,10 @@ ms:
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "dipadamkan pada %{datetime}"
       deleted_by_on: "dihapuskan oleh %{user} pada %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Subprojek"
       parent_no_longer: "Bukan lagi subprojek kepada"
       time_entry:

@@ -647,7 +647,7 @@ sv:
         accountable: "Huvudansvarig"
         by_project: "Unread by project"
         by_reason: "Reason"
-        inbox: "Inbox"
+        inbox: "Inkorg"
         mentioned: "Mentioned"
         watched: "Bevakare"
         date_alert: "Date alert"
@@ -1179,7 +1179,7 @@ sv:
         other: "%{count} timmar"
         zero: "0 h"
       day:
-        one: "En dag"
+        one: "1 dag"
         other: "%{count} dagar"
         zero: "0 dagar"
     zen_mode:
@@ -1323,3 +1323,7 @@ sv:
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "Stäng"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

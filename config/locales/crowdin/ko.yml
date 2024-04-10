@@ -590,7 +590,7 @@ ko:
       oauth_client:
         client: "클라이언트 ID"
       relation:
-        delay: "지연"
+        lag: "Lag"
         from: "작업 패키지"
         to: "관련 패키지"
       status:
@@ -1084,6 +1084,10 @@ ko:
       updated_on_time_entry: "%{datetime}, 기록한 시간을 업데이트함"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "하위 프로젝트"
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
       time_entry:

@@ -593,7 +593,7 @@ de:
       oauth_client:
         client: "Client-ID"
       relation:
-        delay: "Pufferzeit"
+        lag: "Lag"
         from: "Arbeitspaket"
         to: "Zugehöriges Arbeitspaket"
       status:
@@ -1093,6 +1093,10 @@ de:
       updated_on_time_entry: "Zeitbuchung aktualisiert am %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Unterprojekt"
       parent_no_longer: "Nicht mehr Unterprojekt von"
       time_entry:

@@ -1324,3 +1324,7 @@ ca:
       drop_modal:
         focus_grab: "Estàs en un focus ancorat per a finestres emergents. Fes clic a shift+tab per tornar a l'element que ha activat la finestra emergent."
         Close: "Tanca"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

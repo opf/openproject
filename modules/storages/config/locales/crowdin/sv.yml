@@ -101,7 +101,7 @@ sv:
       label_healthy: Healthy
       label_pending: Pending
       since: since %{datetime}
-      subtitle: Automatic managed project folders
+      subtitle: Automatically managed project folders
       title: Health status
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
@@ -171,7 +171,7 @@ sv:
     label_oauth_client_id: OAuth Client ID
     label_openproject_oauth_application_id: OpenProject OAuth Client ID
     label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
-    label_project_folder: Project folder
+    label_project_folder: Projektmapp
     label_provider: Provider
     label_redirect_uri: Omdirigerings-URI
     label_show_storage_redirect_uri: Show redirect URI

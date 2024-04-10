@@ -101,7 +101,7 @@ ru:
       label_healthy: Здоровые
       label_pending: В ожидании
       since: с %{datetime}
-      subtitle: Автоматически управляемые папки проекта
+      subtitle: Automatically managed project folders
       title: Состояние здоровья
     help_texts:
       project_folder: Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.

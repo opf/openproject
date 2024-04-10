@@ -101,7 +101,7 @@ lt:
       label_healthy: Sveikas
       label_pending: Laukiama
       since: nuo %{datetime}
-      subtitle: Automatinio tvarkymo projekto aplankai
+      subtitle: Automatically managed project folders
       title: Sveikatos būsena
     help_texts:
       project_folder: Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.

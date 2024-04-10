@@ -101,7 +101,7 @@ pt-BR:
       label_healthy: Saudável
       label_pending: Pendente
       since: desde %{datetime}
-      subtitle: Pastas do projeto gerenciadas automaticamente
+      subtitle: Automatically managed project folders
       title: Status de saúde
     help_texts:
       project_folder: A pasta do projeto é a pasta padrão para uploads de arquivos para esse projeto. No entanto, os usuários ainda podem carregar arquivos em outros locais.

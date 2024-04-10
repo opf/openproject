@@ -47,7 +47,7 @@ lt:
       meeting_agenda_item:
         title: "Pavadinimas"
         author: "Autorius"
-        duration_in_minutes: "Trukmė (min)"
+        duration_in_minutes: "min"
         description: "Pastabos"
         presenter: "Pateikėjas"
     errors:
@@ -99,7 +99,7 @@ lt:
   label_start_date: "Pradžios data"
   meeting:
     attachments:
-      text: "Prisegti failai prieinami visiems susitikimo dalyviams. Taipogi galite nutempti juos į plano elemento pastabas."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Kopijuoti susitikimą %{title}"
       attachments: "Kopijuoti priedus"
@@ -168,7 +168,7 @@ lt:
   label_agenda_item_move_up: "Aukštyn"
   label_agenda_item_move_down: "Žemyn"
   label_agenda_item_add_notes: "Pridėti pastabų"
-  label_agenda_item_work_package: "Agenda item work package"
+  label_agenda_item_work_package: "Darbotvarkės elemento darbo paketas"
   text_agenda_item_title: 'Darbotvarkės punktas „%{title}“'
   text_agenda_work_package_title: '%{work_package} darbotvarkės punktas'
   text_agenda_work_package_deleted: 'Ištrinto darbo paketo darbotvarkės punktas'
@@ -176,8 +176,11 @@ lt:
   label_initial_meeting_details: "Susitikimas"
   label_meeting_details: "Susitikimo detalės"
   label_meeting_details_edit: "Keisti susitikimo detales"
+  label_meeting_state: "Meeting state"
   label_meeting_state_open: "Atidarytas"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Uždarytas"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Iš naujo atidaryti susitikimą"
   label_meeting_close_action: "Uždaryti susitikimą"
   text_meeting_open_description: "Šis susitikimas yra atviras. Jūs galite pridėti/išimti darbotvarkės elementus bei juos keisti pagal poreikius. Pasibaigus susitikimui, uždarykite jį, kad užrakintumėte."

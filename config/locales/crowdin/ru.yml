@@ -611,7 +611,7 @@ ru:
       oauth_client:
         client: "ID клиента"
       relation:
-        delay: "Задержка"
+        lag: "Lag"
         from: "Пакет работ"
         to: "Похожий пакет работ"
       status:
@@ -1123,6 +1123,10 @@ ru:
       updated_on_time_entry: "зарегистрированное время обновлено в %{дата-время}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Подпроект"
       parent_no_longer: "Больше не подпроект"
       time_entry:

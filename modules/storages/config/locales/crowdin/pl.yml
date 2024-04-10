@@ -101,7 +101,7 @@ pl:
       label_healthy: Zdrowe
       label_pending: Oczekujący
       since: od %{datetime}
-      subtitle: Automatycznie zarządzane foldery projektu
+      subtitle: Automatically managed project folders
       title: Status kondycji
     help_texts:
       project_folder: Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.

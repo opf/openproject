@@ -597,7 +597,7 @@ sv:
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "Fördröjning"
+        lag: "Lag"
         from: "Arbetspaket"
         to: "Relaterat arbetspaketet"
       status:
@@ -1097,6 +1097,10 @@ sv:
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Delprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1289,7 +1293,7 @@ sv:
   button_configure_menu_entry: "Konfigurera menyalternativ"
   button_delete_menu_entry: "Ta bort menyalternativ"
   button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
+  button_manage_roles: "Hantera roller"
   button_remove_member: "Remove member"
   button_remove_member_and_shares: "Remove member and shares"
   button_revoke_work_package_shares: "Revoke work package shares"
@@ -3276,9 +3280,9 @@ sv:
         one: "1 användare"
         other: "%{count} användare"
       filter:
-        project_member: "Project member"
+        project_member: "Projektmedlem"
         not_project_member: "Not project member"
-        project_group: "Project group"
+        project_group: "Projektgrupp"
         not_project_group: "Not project group"
         role: "Roll"
         type: "Typ"

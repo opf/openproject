@@ -1326,3 +1326,7 @@ ro:
       drop_modal:
         focus_grab: "Aceasta este o ancoră de focalizare pentru modalități. Apăsați shift+tab pentru a reveni la elementul de declanșare modal."
         Close: "Închide"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

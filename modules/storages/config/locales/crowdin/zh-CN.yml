@@ -101,7 +101,7 @@ zh-CN:
       label_healthy: 健康
       label_pending: 待处理
       since: 自从 %{datetime}
-      subtitle: 自动托管的项目文件夹
+      subtitle: Automatically managed project folders
       title: 健康状态
     help_texts:
       project_folder: 项目文件夹是此项目上传文件的默认文件夹。用户仍然可以上传文件到其他位置。
