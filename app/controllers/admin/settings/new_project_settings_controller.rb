@@ -27,11 +27,45 @@
 #++
 
 module Admin::Settings
-  class ProjectsSettingsController < ::Admin::SettingsController
-    menu_item :project_lists_settings
+  class NewProjectSettingsController < ::Admin::SettingsController
+    menu_item :new_project_settings
+
+    before_action :validate_enabled_modules, only: :update # rubocop:disable Rails/LexicallyScopedActionFilter
 
     def default_breadcrumb
-      t(:label_project_list_plural)
+      t(:label_project_new)
     end
+
+    private
+
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    def validate_enabled_modules
+      return if settings_params[:default_projects_modules].blank?
+
+      enabled_modules = settings_params[:default_projects_modules].map(&:to_sym)
+
+      module_missing_deps = OpenProject::AccessControl
+        .modules
+        .filter_map do |m|
+          if m[:dependencies] &&
+            enabled_modules.include?(m[:name]) &&
+            (m[:dependencies] & enabled_modules) != m[:dependencies]
+
+            I18n.t(
+              "settings.projects.missing_dependencies",
+              module: I18n.t("project_module_#{m[:name]}"),
+              dependencies: m[:dependencies].map { |dep| I18n.t("project_module_#{dep}") }.join(", ")
+            )
+          end
+        end
+
+      if module_missing_deps.any?
+        flash[:error] = helpers.list_of_messages(module_missing_deps)
+
+        redirect_to action: :show
+      end
+    end
+
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end

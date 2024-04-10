@@ -2241,6 +2241,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
   label_project_plural: "Projects"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Project settings"
