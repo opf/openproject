@@ -122,7 +122,7 @@ RSpec.describe "history",
       expect(page).to have_css("li", text: "Location changed from https://some-url.com to Wakanda")
       expect(page).to have_css("li", text: "Start time changed from 03/28/2024 01:30 PM to 03/29/2024 02:00 PM")
       expect(page).to have_css("li", text: "Duration changed from 1 hr, 30 mins to 1 hr")
-      expect(page).to have_css("li", text: "Meeting state set to Closed")
+      expect(page).to have_css("li", text: "Meeting status set to Closed")
     end
 
     meeting.update!(state: 0)
