@@ -1422,7 +1422,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   create_new_page: "Wiki page"
 
   date:
-    abbr_day_names: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    abbr_day_names: [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
     abbr_month_names:
       [
         ~,
@@ -2117,6 +2117,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
   label_list: "List"
@@ -2242,6 +2243,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
   label_profile: "Profile"
+  label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
@@ -2277,6 +2279,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
   label_release_notes: "Release notes"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Remove selected columns"
   label_renamed: "renamed"
   label_reply_plural: "Replies"
@@ -2410,6 +2413,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_wiki_start: "Start page"
+  label_work: "Work"
   label_work_package: "Work package"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "New category"
@@ -3545,6 +3549,11 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
     sharing:
       count:
         zero: "0 users"

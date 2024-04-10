@@ -40,7 +40,7 @@ class WorkPackages::ProgressForm < ApplicationForm
   form do |query_form|
     query_form.group(layout: :horizontal) do |group|
       if @mode == :status_based
-        select_field_options = { name: :status_id, label: "% Complete" }.tap do |options|
+        select_field_options = { name: :status_id, label: I18n.t(:label_percent_complete) }.tap do |options|
           options.reverse_merge!(default_field_options(:status_id))
           options.merge!(disabled: @work_package.new_record?)
         end
@@ -56,12 +56,13 @@ class WorkPackages::ProgressForm < ApplicationForm
           end
         end
 
-        render_text_field(group, name: :estimated_hours, label: "Work")
-        render_readonly_text_field(group, name: :remaining_hours, label: "Remaining work")
+        render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
+        render_readonly_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
       else
-        render_text_field(group, name: :estimated_hours, label: "Work")
-        render_text_field(group, name: :remaining_hours, label: "Remaining work", disabled: @work_package.estimated_hours.nil?)
-        render_readonly_text_field(group, name: :done_ratio, label: "% Complete")
+        render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
+        render_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work),
+                                 disabled: @work_package.estimated_hours.nil?)
+        render_readonly_text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
       end
     end
   end
