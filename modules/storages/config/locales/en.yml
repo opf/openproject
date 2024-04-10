@@ -40,14 +40,14 @@ en:
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
-  permission_create_files: Create files
-  permission_delete_files: Delete files
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
   permission_manage_file_links: Manage file links
   permission_manage_storages_in_project: Manage file storages in project
-  permission_read_files: Read files
-  permission_share_files: Share files
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: View file links
-  permission_write_files: Write files
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: File storages
   storages:
     buttons:
@@ -224,6 +224,7 @@ en:
       project_storage_members:
         subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
         title: Members connection status
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: Provider type
       nextcloud:

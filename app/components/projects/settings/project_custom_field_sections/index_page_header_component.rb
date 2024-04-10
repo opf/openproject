@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
-#
-module Storages::Admin
-  class NewStorageButtonComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    options scheme: :primary,
-            size: :medium
+# ++
 
-    def show_button_options
-      { scheme:,
-        size:,
-        aria: { label: I18n.t("storages.label_add_new_storage") } }
+module Projects::Settings::ProjectCustomFieldSections
+  # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class IndexPageHeaderComponent < ApplicationComponent
+    include ApplicationHelper
+
+    def initialize(project: nil)
+      super
+      @project = project
     end
 
-    def label
-      I18n.t("storages.label_storage")
-    end
-
-    def show_ee_icon?(provider_type:)
-      ::Storages::Storage::one_drive_without_ee_token?(provider_type)
+    def breadcrumb_items
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       { href: project_settings_general_path(@project.id), text: I18n.t("label_project_settings") },
+       t("settings.project_attributes.heading")]
     end
   end
 end

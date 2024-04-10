@@ -48,8 +48,9 @@ RSpec.describe "Create project custom fields", :js do
     end
 
     it "shows a correct breadcrumb menu" do
-      within "#breadcrumb" do
+      within ".PageHeader-breadcrumbs" do
         expect(page).to have_link("Administration")
+        expect(page).to have_link("Projects")
         expect(page).to have_link("Project attributes")
         expect(page).to have_text("New attribute")
       end

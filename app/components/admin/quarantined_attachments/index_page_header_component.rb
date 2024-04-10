@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,24 +26,17 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Settings
-  module ProjectCustomFields
-    class EditFormHeaderComponent < ApplicationComponent
-      def initialize(custom_field:)
-        super
+module Admin::QuarantinedAttachments
+  # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class IndexPageHeaderComponent < ApplicationComponent
+    include ApplicationHelper
 
-        @custom_field = custom_field
-      end
-
-      def breadcrumbs_items
-        [{ href: admin_index_path, text: t("label_administration") },
-         { href: admin_settings_project_custom_fields_path, text: t("label_project_plural") },
-         { href: admin_settings_project_custom_fields_path, text: t("settings.project_attributes.heading") },
-         @custom_field.name
-        ]
-      end
+    def breadcrumb_items
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_attachments_path, text: t("attributes.attachments") },
+       t("antivirus_scan.quarantined_attachments.title")]
     end
   end
 end

@@ -196,21 +196,10 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  # Used by: admin layout
-  # Breadcrumbs is something like OpenProject > Admin > Storages.
-  # This returns the name of the last part (Storages admin page)
-  def default_breadcrumb
-    if action_name == "index"
-      t(:project_module_storages)
-    else
-      ActionController::Base.helpers.link_to(t(:project_module_storages), admin_settings_storages_path)
-    end
-  end
+  def default_breadcrumb; end
 
-  # See: default_breadcrum above
-  # Defines whether to show breadcrumbs on the page or not.
   def show_local_breadcrumb
-    true
+    false
   end
 
   private

@@ -48,8 +48,9 @@ RSpec.describe "Edit project custom fields", :js do
     end
 
     it "shows a correct breadcrumb menu" do
-      within "#breadcrumb" do
+      within ".PageHeader-breadcrumbs" do
         expect(page).to have_link("Administration")
+        expect(page).to have_link("Projects")
         expect(page).to have_link("Project attributes")
         expect(page).to have_text(boolean_project_custom_field.name)
       end
@@ -71,8 +72,9 @@ RSpec.describe "Edit project custom fields", :js do
       expect(boolean_project_custom_field.reload.name).to eq("Updated name")
       expect(boolean_project_custom_field.reload.project_custom_field_section).to eq(section_for_select_fields)
 
-      within "#breadcrumb" do
+      within ".PageHeader-breadcrumbs" do
         expect(page).to have_link("Administration")
+        expect(page).to have_link("Projects")
         expect(page).to have_link("Project attributes")
         expect(page).to have_text("Updated name")
       end

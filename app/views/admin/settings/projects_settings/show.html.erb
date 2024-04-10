@@ -26,80 +26,61 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:label_project_settings) %>
+<%= toolbar title: t(:label_project_list_plural) %>
 
 <%= styled_form_tag(admin_settings_projects_path, method: :patch) do %>
-  <section class="form--section">
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= t('settings.projects.section_new_projects') %></legend>
-      <div class="form--field"><%= setting_check_box :default_projects_public %></div>
+  <fieldset class="form--fieldset">
+    <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
       <div class="form--field">
-        <%= setting_multiselect(:default_projects_modules,
-          OpenProject::AccessControl.available_project_modules.collect {|m| [l_or_humanize(m, prefix: "project_module_"), m.to_s]}) %>
+        <%=
+        angular_component_tag 'op-enterprise-banner',
+                              inputs: {
+                                textMessage: t('text_project_custom_field_html'),
+                                collapsible: true,
+                                moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
+                              }
+        %>
       </div>
-      <div class="form--field"><%= setting_select :new_project_user_role_id,
-                        Role.givable.collect {|r| [r.name, r.id.to_s]},
-                        blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
-                        container_class: '-middle' %></div>
-    </fieldset>
-  </section>
+    <% end %>
 
-  <section class="form--section">
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= t('settings.projects.section_project_overview') %></legend>
-      <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
-        <div class="form--field">
-          <%=
-          angular_component_tag 'op-enterprise-banner',
-                                inputs: {
-                                  textMessage: t('text_project_custom_field_html'),
-                                  collapsible: true,
-                                  moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
-                                }
+
+    <div class="form--field -full-width">
+      <div class="form--text-field-container -xwide">
+        <%= angular_component_tag 'opce-draggable-autocompleter',
+                                  inputs: {
+                                    options: projects_columns_options,
+                                    selected: selected_projects_columns_options,
+                                    protected: protected_projects_columns_options,
+                                    name: 'settings[enabled_projects_columns][]',
+                                    id: 'settings_enabled_projects_columns',
+                                    inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),
+                                    inputPlaceholder: I18n.t(:'queries.configure_view.columns.input_placeholder'),
+                                    dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label')
+                                  }%>
+      </div>
+    </div>
+
+    <div class="form--field -vertical">
+      <div class="form--label -bold">
+        <%= I18n.t(:setting_project_gantt_query) %>
+      </div>
+      <span class="form--field-container">
+        <span class="form--text-field-container">
+          <%= content_tag 'editable-query-props',
+                          '',
+                          data: {
+                            name: 'settings[project_gantt_query]',
+                            id: 'settings_project_gantt_query',
+                            query: ::Projects::GanttQueryGeneratorService.current_query,
+                            'url-params': 'true'
+                          }
           %>
-        </div>
-      <% end %>
-
-
-      <div class="form--field -full-width">
-        <div class="form--text-field-container -xwide">
-          <%= angular_component_tag 'opce-draggable-autocompleter',
-                                    inputs: {
-                                      options: projects_columns_options,
-                                      selected: selected_projects_columns_options,
-                                      protected: protected_projects_columns_options,
-                                      name: 'settings[enabled_projects_columns][]',
-                                      id: 'settings_enabled_projects_columns',
-                                      inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),
-                                      inputPlaceholder: I18n.t(:'queries.configure_view.columns.input_placeholder'),
-                                      dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label')
-                                    }%>
-        </div>
-      </div>
-
-      <div class="form--field -vertical">
-        <div class="form--label -bold">
-          <%= I18n.t(:setting_project_gantt_query) %>
-        </div>
-        <span class="form--field-container">
-          <span class="form--text-field-container">
-            <%= content_tag 'editable-query-props',
-                            '',
-                            data: {
-                              name: 'settings[project_gantt_query]',
-                              id: 'settings_project_gantt_query',
-                              query: ::Projects::GanttQueryGeneratorService.current_query,
-                              'url-params': 'true'
-                            }
-            %>
-          </span>
         </span>
-        <div class="form--field-instructions">
-          <%= I18n.t(:setting_project_gantt_query_text) %>
-        </div>
+      </span>
+      <div class="form--field-instructions">
+        <%= I18n.t(:setting_project_gantt_query_text) %>
       </div>
-    </fieldset>
-  </section>
-
+    </div>
+  </fieldset>
   <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

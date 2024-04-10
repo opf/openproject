@@ -28,11 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_administration), t('settings.antivirus.title') %>
 
-<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title do %>
-    <%= t('settings.antivirus.title') %>
-  <% end %>
-<% end %>
+<%= render ::Admin::VirusScanning::IndexPageHeaderComponent.new %>
 
 <%= styled_form_tag(
       admin_settings_virus_scanning_path,

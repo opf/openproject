@@ -49,7 +49,8 @@ ul.tabnav-tabs
   margin-left: 0
 
 /* Remove margin-left: 2rem from Breadcrumbs */
-#breadcrumb
+#breadcrumb,
+page-header
   ol
     margin-left: 0
   .breadcrumb-item.breadcrumb-item-selected
@@ -63,20 +64,3 @@ ul.tabnav-tabs
 .Overlay
   &-body_autocomplete_height
     min-height: 300px
-
-/* TODO: The actions within the PageHeader are currently not aligned correctly.
-   The pageHeader itself already uses center alignment but the actions themselves default to 'normal'.
-   Will be added to our primer repository */
-.PageHeader-actions
-  align-items: center
-
-/* Primer uses the fgColor (blue) for Buttons having the :invisible schema unless they receive an trailing/leading icon.
-   Then, the color changes to gray. This seems inconsistent. An issue has been opened with Primer to discuss this behavior.
-   Until then, we will override the fgColor for the invisible schema.
-   No all invisible schema buttons are overwritten though and need to apply this modifier themselves. */
-.Button--invisibleOP,
-.Button--invisibleOP:hover:not(:disabled,.Button--inactive)
-  color: var(--button-invisible-fgColor-rest,var(--color-btn-outline-text))
-
-  .Button-visual
-    color: var(--button-invisible-fgColor-rest,var(--color-btn-outline-text))
