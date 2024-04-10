@@ -83,14 +83,19 @@ jobs:
                 gh pr close "$pr_number"
               done
 
+              TEMP_BRANCH="$RELEASE_BRANCH-$(date "+%Y%m%d%H%M%S")"
+
+              git branch "$TEMP_BRANCH" "$RELEASE_BRANCH"
+
+              git push origin "$TEMP_BRANCH"
+
               gh pr create \
                 --base "$BASE_BRANCH" \
-                --head "$RELEASE_BRANCH" \
+                --head "$TEMP_BRANCH" \
                 --title "Merge $RELEASE_BRANCH into $BASE_BRANCH" \
                 --body 'Created by GitHub action' \
-                --label create-merge-release-into-dev-pr \
-                --reviewer opf/backend
-              echo "Created a PR to merge $RELEASE_BRANCH into $BASE_BRANCH"
+                --label create-merge-release-into-dev-pr
+              echo "Created a PR to merge $RELEASE_BRANCH ($TEMP_BRANCH) into $BASE_BRANCH"
             fi
           fi
         env:
