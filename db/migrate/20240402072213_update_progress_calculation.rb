@@ -13,10 +13,11 @@ class UpdateProgressCalculation < ActiveRecord::Migration[7.1]
   end
 
   def progress_calculation_mode
-    ActiveRecord::Base.connection
+    value_from_db = ActiveRecord::Base.connection
       .execute("SELECT value FROM settings WHERE name = 'work_package_done_ratio'")
       .first
       &.fetch("value", nil)
+    value_from_db || "field"
   end
 
   def set_progress_calculation_mode_to_work_based
