@@ -106,7 +106,13 @@ class Queries::Projects::Factory
     def list_with(name)
       Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
         query.order("lft" => "asc")
-        query.select(*(["favored", "name"] + Setting.enabled_projects_columns).uniq, add_not_existing: false)
+        default_selects =
+          if OpenProject::FeatureDecisions.favorite_projects_active?
+            %w[favored name]
+          else
+            %w[name]
+          end
+        query.select(*(default_selects + Setting.enabled_projects_columns).uniq, add_not_existing: false)
 
         yield query
       end
