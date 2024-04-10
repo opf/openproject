@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -29,42 +27,32 @@
 #++
 
 module Storages
-  class HealthStatusMailerJob < ApplicationJob
-    include GoodJob::ActiveJobExtensions::Concurrency
+  module Admin
+    class Sidebar::HealthNotificationsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-    good_job_control_concurrency_with(
-      total_limit: 2,
-      enqueue_limit: 1,
-      perform_limit: 1,
-      key: -> { "#{self.class.name}-#{arguments.last[:storage]}" }
-    )
-
-    discard_on ActiveJob::DeserializationError
-
-    def perform(storage:)
-      return unless storage.health_notifications_should_be_sent?
-      return if storage.health_healthy?
-
-      admin_users.each do |admin|
-        ::Storages::StoragesMailer.notify_unhealthy(admin, storage).deliver_later
+      def initialize(storage:)
+        super
+        @storage = storage
       end
 
-      HealthStatusMailerJob.schedule(storage:)
-    end
-
-    class << self
-      def schedule(storage:)
-        next_run_time = Date.tomorrow.beginning_of_day + 2.hours
-
-        HealthStatusMailerJob.set(wait_until: next_run_time).perform_later(storage:)
+      def render?
+        @storage.automatically_managed?
       end
-    end
 
-    private
-
-    def admin_users
-      User.where(admin: true)
-          .where.not(mail: [nil, ""])
+      def notification_status
+        if @storage.health_notifications_should_be_sent?
+          { icon: :"bell-slash",
+            label: I18n.t("storages.health_email_notifications.unsubscribe"),
+            description: I18n.t("storages.health_email_notifications.description_subscribed") }
+        else
+          { icon: :bell,
+            label: I18n.t("storages.health_email_notifications.subscribe"),
+            description: I18n.t("storages.health_email_notifications.description_unsubscribed") }
+        end
+      end
     end
   end
 end
