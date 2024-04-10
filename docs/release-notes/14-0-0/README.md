@@ -22,6 +22,22 @@ This change is to align the API with the terminology used in project management 
 
 For more information, see [#44054](https://community.openproject.org/work_packages/44054)
 
+### Removed deprecated methods for permission checks
+
+In version 13.1 we have overhauled our system to handle internal permission checks by allowing permissions to not only be
+defined on project or global level, but also on resources like work packages. Therefore we have introduced new methods to
+check permissions. The old methods have been marked as deprecated and are now removed in 14.0.
+
+Affected methods are:
+- `User#allowed_to?`
+- `User#allowed_to_globally?`
+- `User#allowed_to_in_project?`
+
+If you have developed a plugin or have custom code that uses these methods, you need to update your code to use the new
+methods.
+
+For more information, see [#51212](https://community.openproject.org/work_packages/51212).
+
 <!--more-->
 
 ## Bug fixes and changes
