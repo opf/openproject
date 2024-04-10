@@ -21,7 +21,7 @@
       <% modal_body.with_row(mt: 3) do |_tooltip| %>
         <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { t("work_package.progress.label_note") } %>
         <%= render(Primer::Beta::Text.new) { t("work_package.progress.modal.status_based_help_text") } %>
-        <%= render(Primer::Beta::Link.new(href: "#")) { t(:label_learn_more) } %>
+        <%= render(Primer::Beta::Link.new(href: learn_more_href)) { t(:label_learn_more) } %>
       <% end %>
 
       <% modal_body.with_row(mt: 3) do |_actions_row| %>

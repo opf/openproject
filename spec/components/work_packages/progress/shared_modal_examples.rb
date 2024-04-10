@@ -76,3 +76,17 @@ RSpec.shared_examples_for "progress modal submit path" do
     end
   end
 end
+
+RSpec.shared_examples_for "progress modal help links" do
+  describe "#learn_more_href" do
+    subject(:component) { render_inline(described_class.new(WorkPackage.new)) }
+
+    it "returns the link to the progress tracking documentation" do
+      subject
+
+      expect(page)
+        .to have_link("Learn more",
+                      href: OpenProject::Static::Links.links[:progress_tracking_docs][:href])
+    end
+  end
+end
