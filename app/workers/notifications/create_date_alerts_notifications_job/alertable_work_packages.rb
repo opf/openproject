@@ -62,9 +62,9 @@ class Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages
               "work_packages.start_date - #{today} AS start_delta",
               "work_packages.due_date - #{today} AS due_delta",
               "#{today} - work_packages.due_date AS overdue_delta")
-      .where("work_packages.start_date IN #{alertable_dates} " \
-             "OR work_packages.due_date IN #{alertable_dates} " \
-             "OR work_packages.due_date < #{today}")
+      .where("(work_packages.start_date IN #{alertable_dates}" \
+             " OR work_packages.due_date IN #{alertable_dates}) " \
+             "AND work_packages.due_date < #{today}")
 
     <<~SQL.squish
       WITH
