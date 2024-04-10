@@ -32,7 +32,8 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
 
   def perform(current_mode:, previous_mode:)
     with_temporary_progress_table do
-      if current_mode == "field"
+      case current_mode
+      when "field"
         unset_all_percent_complete_values if previous_mode == "disabled"
         fix_remaining_work_set_with_100p_complete
         fix_remaining_work_exceeding_work
@@ -41,12 +42,13 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
         derive_unset_remaining_work_from_work_and_p_complete
         derive_unset_work_from_remaining_work_and_p_complete
         derive_p_complete_from_work_and_remaining_work
-      end
-      if current_mode == "status"
+      when "status"
         set_p_complete_from_status
         fix_remaining_work_set_with_100p_complete
         derive_unset_work_from_remaining_work_and_p_complete
         derive_remaining_work_from_work_and_p_complete
+      else
+        raise "Unknown progress calculation mode: #{current_mode}, aborting."
       end
 
       update_totals
