@@ -252,28 +252,4 @@ RSpec.describe StatusesController do
       it_behaves_like "redirects to index page"
     end
   end
-
-  describe "#update_work_package_done_ratio" do
-    context "with 'work_package_done_ratio' using 'field'",
-            with_settings: { work_package_done_ratio: "field" } do
-      before do
-        post :update_work_package_done_ratio
-      end
-
-      it { is_expected.to set_flash[:error].to(I18n.t("error_work_package_done_ratios_not_updated")) }
-
-      it_behaves_like "redirects to index page"
-    end
-
-    context "with 'work_package_done_ratio' using 'status'",
-            with_settings: { work_package_done_ratio: "status" } do
-      before do
-        post :update_work_package_done_ratio
-      end
-
-      it { is_expected.to set_flash[:notice].to(I18n.t("notice_work_package_done_ratios_updated")) }
-
-      it_behaves_like "redirects to index page"
-    end
-  end
 end

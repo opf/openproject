@@ -121,11 +121,7 @@ Rails.application.routes.draw do
     post "move/:id", action: "move", on: :collection
   end
 
-  resources :statuses, except: :show do
-    collection do
-      post "update_work_package_done_ratio"
-    end
-  end
+  resources :statuses, except: :show
 
   get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",

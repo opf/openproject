@@ -97,30 +97,6 @@ RSpec.describe Status do
     end
   end
 
-  describe ".update_done_ratios" do
-    let(:status) { create(:status, default_done_ratio: 50) }
-    let(:work_package) { create(:work_package, status:) }
-
-    context "with Setting.work_package_done_ratio using the field", with_settings: { work_package_done_ratio: "field" } do
-      it "changes nothing" do
-        done_ratio_before = work_package.done_ratio
-        described_class.update_work_package_done_ratios
-
-        expect(work_package.reload.done_ratio)
-          .to eql done_ratio_before
-      end
-    end
-
-    context "with Setting.work_package_done_ratio using the status", with_settings: { work_package_done_ratio: "status" } do
-      it "updates all of the work package's % Complete values to match their status" do
-        described_class.update_work_package_done_ratios
-
-        expect(work_package.reload.done_ratio)
-          .to eql status.default_done_ratio
-      end
-    end
-  end
-
   describe "#destroy" do
     it "cannot be destroyed if the status is in use" do
       work_package = create(:work_package)

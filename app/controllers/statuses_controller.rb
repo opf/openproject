@@ -83,15 +83,6 @@ class StatusesController < ApplicationController
     redirect_to action: "index"
   end
 
-  def update_work_package_done_ratio
-    if Status.update_work_package_done_ratios
-      flash[:notice] = I18n.t(:notice_work_package_done_ratios_updated)
-    else
-      flash[:error] = I18n.t(:error_work_package_done_ratios_not_updated)
-    end
-    redirect_to action: "index"
-  end
-
   protected
 
   def default_breadcrumb
