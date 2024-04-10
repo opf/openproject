@@ -36,7 +36,9 @@ module WorkPackages
 
       FIELD_MAP = {
         "estimatedTime" => :estimated_hours,
-        "remainingTime" => :remaining_hours
+        "work_package[estimated_hours]" => :estimated_hours,
+        "remainingTime" => :remaining_hours,
+        "work_package[remaining_hours]" => :remaining_hours,
       }.freeze
 
       include ApplicationHelper

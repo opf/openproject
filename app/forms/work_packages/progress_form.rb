@@ -147,10 +147,10 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def default_field_options(name)
+    data = { "work-packages--progress--preview-progress-target": "progressInput" }
     if @focused_field == name
-      { data: { "work-packages--progress--focus-field-target": "fieldToFocus" } }
-    else
-      {}
+      data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
     end
+    { data: }
   end
 end
