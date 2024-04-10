@@ -47,7 +47,7 @@ ru:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -99,7 +99,7 @@ ru:
   label_start_date: "Дата начала"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Копировать встречу %{title}"
       attachments: "Copy attachments"
@@ -176,8 +176,11 @@ ru:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Детали совещания"
   label_meeting_details_edit: "Изменить сведения о совещании"
+  label_meeting_state: "Meeting state"
   label_meeting_state_open: "Открыть"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Закрыто"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Открыть совещание заново"
   label_meeting_close_action: "Закрыть совещание"
   text_meeting_open_description: "Эта совещание является открытым. Вы можете добавлять/удалять пункты повестки и редактировать их по своему усмотрению. После завершения совещания закройте его, чтобы заблокировать."

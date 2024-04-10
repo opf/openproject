@@ -597,7 +597,7 @@ pt-BR:
       oauth_client:
         client: "ID do cliente"
       relation:
-        delay: "Atraso"
+        lag: "Lag"
         from: "Pacote de trabalho"
         to: "Pacote de trabalho relacionado"
       status:
@@ -1097,6 +1097,10 @@ pt-BR:
       updated_on_time_entry: "tempo registrado atualizado em %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Subprojeto"
       parent_no_longer: "Não é mais um subprojeto de"
       time_entry:

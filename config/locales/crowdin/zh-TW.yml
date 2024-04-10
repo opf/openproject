@@ -590,7 +590,7 @@ zh-TW:
       oauth_client:
         client: "客戶端 ID"
       relation:
-        delay: "延時"
+        lag: "Lag"
         from: "工作項目"
         to: "相關的工作項目"
       status:
@@ -1084,6 +1084,10 @@ zh-TW:
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "子專案"
       parent_no_longer: "No longer subproject of"
       time_entry:

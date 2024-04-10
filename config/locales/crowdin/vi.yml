@@ -593,7 +593,7 @@ vi:
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "Trì hoãn"
+        lag: "Lag"
         from: "Work Package"
         to: "Work package liên quan"
       status:
@@ -1087,6 +1087,10 @@ vi:
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Dự án con"
       parent_no_longer: "No longer subproject of"
       time_entry:

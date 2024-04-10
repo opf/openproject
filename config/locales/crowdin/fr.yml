@@ -598,7 +598,7 @@ fr:
       oauth_client:
         client: "ID client"
       relation:
-        delay: "Délai"
+        lag: "Lag"
         from: "Lot de travaux"
         to: "Lot de travaux associé"
       status:
@@ -1098,6 +1098,10 @@ fr:
       updated_on_time_entry: "temps enregistré mis à jour le %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Sous-projet"
       parent_no_longer: "Plus de sous-projet de"
       time_entry:

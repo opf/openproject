@@ -101,7 +101,7 @@ fr:
       label_healthy: Sain
       label_pending: En attente
       since: depuis %{datetime}
-      subtitle: Dossiers de projet gérés automatiquement
+      subtitle: Automatically managed project folders
       title: État de santé
     help_texts:
       project_folder: Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.

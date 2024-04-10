@@ -598,7 +598,7 @@
       oauth_client:
         client: "Klient ID"
       relation:
-        delay: "Forsinkelse"
+        lag: "Lag"
         from: "Arbeidspakke"
         to: "Relatert arbeidspakke"
       status:
@@ -1098,6 +1098,10 @@
       updated_on_time_entry: "logget tid oppdatert på %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Underprosjekt"
       parent_no_longer: "Ikke lenger underprosjekt for"
       time_entry:

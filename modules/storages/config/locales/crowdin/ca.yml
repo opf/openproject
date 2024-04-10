@@ -101,7 +101,7 @@ ca:
       label_healthy: Healthy
       label_pending: Pendent
       since: since %{datetime}
-      subtitle: Automatic managed project folders
+      subtitle: Automatically managed project folders
       title: Health status
     help_texts:
       project_folder: La carpeta de projecte és la carpeta per defecte on es carregaran els fitxers d'aquest projecte. Tot i això, els usuaris podran carregar fitxers en altres carpetes.

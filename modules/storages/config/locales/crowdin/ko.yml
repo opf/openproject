@@ -101,7 +101,7 @@ ko:
       label_healthy: 정상
       label_pending: 대기 중
       since: '%{datetime} 이후'
-      subtitle: 자동으로 관리되는 프로젝트 폴더
+      subtitle: Automatically managed project folders
       title: 상태
     help_texts:
       project_folder: 프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.

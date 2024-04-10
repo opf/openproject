@@ -101,7 +101,7 @@ pt-PT:
       label_healthy: Bom estado
       label_pending: Pendente
       since: desde %{datetime}
-      subtitle: Pastas do projeto geridas automaticamente
+      subtitle: Automatically managed project folders
       title: Estado de funcionamento atual
     help_texts:
       project_folder: A pasta do projeto é a pasta predefinida para o carregamento de ficheiros para este projeto. Os utilizadores podem, no entanto, carregar ficheiros para outras localizações.

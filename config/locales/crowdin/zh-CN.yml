@@ -587,7 +587,7 @@ zh-CN:
       oauth_client:
         client: "客户端 ID"
       relation:
-        delay: "延迟"
+        lag: "Lag"
         from: "工作包"
         to: "相关的工作包"
       status:
@@ -1081,6 +1081,10 @@ zh-CN:
       updated_on_time_entry: "在 %{datetime} 更新了记录的时间"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "子项目"
       parent_no_longer: "不再是该项目的子项目："
       time_entry:

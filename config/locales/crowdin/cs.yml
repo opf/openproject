@@ -612,7 +612,7 @@ cs:
       oauth_client:
         client: "ID klienta"
       relation:
-        delay: "Zpoždění"
+        lag: "Lag"
         from: "Pracovní balíček"
         to: "Související pracovní balíček"
       status:
@@ -1124,6 +1124,10 @@ cs:
       updated_on_time_entry: "zaznamenaný čas aktualizován na %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Podprojekt"
       parent_no_longer: "Již není podprojekt projektu"
       time_entry:

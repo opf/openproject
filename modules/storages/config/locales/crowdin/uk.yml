@@ -101,7 +101,7 @@ uk:
       label_healthy: Справність
       label_pending: Очікування
       since: з %{datetime}
-      subtitle: Папки проєкту з автоматичним керуванням
+      subtitle: Automatically managed project folders
       title: Стан справності
     help_texts:
       project_folder: Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.

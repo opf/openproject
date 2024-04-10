@@ -598,7 +598,7 @@ si:
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "ප්රමාදය"
+        lag: "Lag"
         from: "වැඩ පැකේජය"
         to: "අදාළ වැඩ පැකේජය"
       status:
@@ -1098,6 +1098,10 @@ si:
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "උප ව්යාපෘතිය"
       parent_no_longer: "No longer subproject of"
       time_entry:
