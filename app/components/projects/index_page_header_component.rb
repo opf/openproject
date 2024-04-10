@@ -88,7 +88,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     return page_title if query.name.blank?
 
     current_object = first_level_menu_items.find do |section|
-      section.children.find { |menu_query| menu_query.title == query.name }.present?
+      section.children.any?(&:selected)
     end
 
     if current_object && current_object.header.present?
