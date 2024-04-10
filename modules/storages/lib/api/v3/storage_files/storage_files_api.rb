@@ -61,9 +61,9 @@ module API::V3::StorageFiles
       end
 
       def auth_strategy
-        Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
-          .strategy
-          .with_user(current_user)
+        Storages::Peripherals::Registry
+          .resolve("#{@storage.short_provider_type}.authorization.userbound")
+          .call(user: current_user)
       end
     end
 
