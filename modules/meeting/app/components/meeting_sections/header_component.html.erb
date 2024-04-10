@@ -1,0 +1,59 @@
+<%=
+  component_wrapper(class: "op-meeting-section-container", data: { test_selector: "meeting-section-container-#{@meeting_section.id}" }) do
+    if @state == :show
+      flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
+        section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
+          content_container.with_column(mr: 2) do
+            render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
+          end
+          content_container.with_column do
+            render(Primer::Beta::Text.new(font_weight: :bold)) do
+              @meeting_section.name
+            end
+          end
+        end
+        section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
+          actions_container.with_column do
+            render(Primer::Alpha::ActionMenu.new(data: { test_selector: "meeting-section-action-menu" })) do |menu|
+              menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_section_actions"), scheme: :invisible)
+              edit_action_item(menu)
+              # move_actions(menu)
+              if @meeting_agenda_items.empty?
+                delete_action_item(menu)
+              else
+                disabled_delete_action_item(menu)
+              end
+            end
+          end
+        end
+      end
+    else
+      primer_form_with(
+        model: @meeting_section,
+        method: :put,
+        url: meeting_section_path(@meeting_section.meeting, @meeting_section),
+      ) do |f|
+        flex_layout do |editable_title_form|
+          editable_title_form.with_column(flex: 1, mr: 2) do
+            render(MeetingSection::Name.new(f))
+          end
+
+          editable_title_form.with_column(mr: 2) do
+            render(MeetingSection::Submit.new(f))
+          end
+
+          editable_title_form.with_column do
+            render(Primer::Beta::Button.new(
+              scheme: :secondary,
+              tag: :a,
+              href: cancel_edit_meeting_section_path(@meeting_section.meeting, @meeting_section),
+              data: { 'turbo-stream': true }
+            )) do |_c|
+              t("button_cancel")
+            end
+          end
+        end
+      end
+    end
+  end
+%>

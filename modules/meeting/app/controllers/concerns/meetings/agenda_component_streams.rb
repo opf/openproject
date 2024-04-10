@@ -206,6 +206,15 @@ module Meetings
         end
       end
 
+      def update_section_header_via_turbo_stream(meeting_section: @meeting_section, state: :show)
+        update_via_turbo_stream(
+          component: MeetingSections::HeaderComponent.new(
+            meeting_section:,
+            state:
+          )
+        )
+      end
+
       def update_all_via_turbo_stream
         update_header_component_via_turbo_stream
         update_sidebar_component_via_turbo_stream

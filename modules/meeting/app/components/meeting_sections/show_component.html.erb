@@ -1,0 +1,31 @@
+<%=
+  component_wrapper(class: "op-meeting-section-container", data: { test_selector: "meeting-section-container-#{@meeting_section.id}" }) do
+    render(Primer::Beta::BorderBox.new(mt: 3, data: drag_and_drop_target_config)) do |component|
+      if render_section_wrapper?
+        component.with_header(font_weight: :bold) do
+          render(MeetingSections::HeaderComponent.new(meeting_section: @meeting_section))
+        end
+      end
+      if @meeting_agenda_items.empty?
+        component.with_row(data: { 'empty-list-item': true }) do
+          flex_layout(align_items: :center, justify_content: :space_between) do |empty_list_container|
+            empty_list_container.with_column(ml: 4, mr: 2) do
+              render(Primer::Beta::Text.new(color: :subtle)) { t("settings.project_attributes.label_no_project_custom_fields") }
+            end
+          end
+        end
+      else
+        first_and_last = [@meeting_agenda_items.first, @meeting_agenda_items.last]
+        @meeting_agenda_items.each do |agenda_item|
+          render(
+            MeetingAgendaItems::ItemComponent.new(
+              meeting_agenda_item: agenda_item,
+              container: component,
+              first_and_last:
+            )
+          )
+        end
+      end
+    end
+  end
+%>

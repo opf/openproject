@@ -26,22 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include ModifiableItem
+module MeetingSections
+  class UpdateContract < BaseContract
+    validate :user_allowed_to_edit
 
-    def self.model
-      MeetingAgendaItem
+    # attribute :lock_version do
+    #   if model.lock_version.nil? || model.lock_version_changed?
+    #     errors.add :base, :error_conflict
+    #   end
+    # end
+
+    ##
+    # Meeting agenda items can currently be only edited
+    # through the project permission :manage_agendas
+    # When MeetingRole becomes available, agenda items will
+    # be edited through meeting permissions :manage_agendas
+    def user_allowed_to_edit
+      unless user.allowed_in_project?(:manage_agendas, model.project)
+        errors.add :base, :error_unauthorized
+      end
     end
-
-    attribute :meeting
-    attribute :work_package
-    attribute :meeting_section
-
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-    attribute :presenter
   end
 end

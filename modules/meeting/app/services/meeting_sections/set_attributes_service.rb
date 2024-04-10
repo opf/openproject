@@ -26,22 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include ModifiableItem
-
-    def self.model
-      MeetingAgendaItem
-    end
-
-    attribute :meeting
-    attribute :work_package
-    attribute :meeting_section
-
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-    attribute :presenter
+module MeetingSections
+  class SetAttributesService < ::BaseServices::SetAttributes
   end
 end

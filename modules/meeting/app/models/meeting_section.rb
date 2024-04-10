@@ -26,22 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include ModifiableItem
+class MeetingSection < ApplicationRecord
+  self.table_name = "meeting_sections"
 
-    def self.model
-      MeetingAgendaItem
-    end
+  belongs_to :meeting
 
-    attribute :meeting
-    attribute :work_package
-    attribute :meeting_section
+  has_many :agenda_items, dependent: :destroy, class_name: "MeetingAgendaItem"
+  has_one :project, through: :meeting
 
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-    attribute :presenter
+  validates :name, presence: true
+
+  acts_as_list scope: :meeting
+
+  default_scope { order(:position) }
+
+  def editable?
+    !meeting&.closed?
+  end
+
+  def modifiable?
+    !meeting&.closed?
   end
 end

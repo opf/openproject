@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include ModifiableItem
+module MeetingSections
+  class ShowComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
-    def self.model
-      MeetingAgendaItem
+    with_collection_parameter :meeting_section
+
+    def initialize(meeting_section:, state: :show, first_and_last: [])
+      super
+
+      @meeting_section = meeting_section
+      @meeting_agenda_items = meeting_section.agenda_items
+      @first_and_last = first_and_last
     end
 
-    attribute :meeting
-    attribute :work_package
-    attribute :meeting_section
+    private
 
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-    attribute :presenter
+    def wrapper_uniq_by
+      @meeting_section.id
+    end
+
+    def render_section_wrapper?
+      @meeting_section.meeting.sections.count > 1
+    end
+
+    def drag_and_drop_target_config
+      {
+        "is-drag-and-drop-target": true,
+        "target-container-accessor": ".Box > ul", # the accessor of the container that contains the drag and drop items
+        "target-id": @meeting_section.id, # the id of the target
+        "target-allowed-drag-type": "custom-field" # the type of dragged items which are allowed to be dropped in this target
+      }
+    end
   end
 end

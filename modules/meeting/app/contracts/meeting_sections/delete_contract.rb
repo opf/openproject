@@ -26,22 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
+module MeetingSections
+  class DeleteContract < ::DeleteContract
     include ModifiableItem
 
-    def self.model
-      MeetingAgendaItem
-    end
-
-    attribute :meeting
-    attribute :work_package
-    attribute :meeting_section
-
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-    attribute :presenter
+    delete_permission :manage_agendas
   end
 end

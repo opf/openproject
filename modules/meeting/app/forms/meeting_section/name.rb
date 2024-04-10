@@ -26,22 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include ModifiableItem
-
-    def self.model
-      MeetingAgendaItem
-    end
-
-    attribute :meeting
-    attribute :work_package
-    attribute :meeting_section
-
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-    attribute :presenter
+class MeetingSection::Name < ApplicationForm
+  form do |meeting_section_form|
+    meeting_section_form.text_field(
+      name: :name,
+      placeholder: Meeting.human_attribute_name(:title),
+      label: Meeting.human_attribute_name(:title),
+      visually_hide_label: true,
+      required: true,
+      autofocus: true
+    )
   end
 end

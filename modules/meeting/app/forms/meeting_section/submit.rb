@@ -26,22 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include ModifiableItem
-
-    def self.model
-      MeetingAgendaItem
-    end
-
-    attribute :meeting
-    attribute :work_package
-    attribute :meeting_section
-
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-    attribute :presenter
+class MeetingSection::Submit < ApplicationForm
+  form do |meeting_section_form|
+    meeting_section_form.submit(name: :submit, label: I18n.t("button_save"), scheme: :primary)
   end
 end

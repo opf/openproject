@@ -26,22 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include ModifiableItem
+module MeetingSections
+  module ModifiableItem
+    extend ActiveSupport::Concern
 
-    def self.model
-      MeetingAgendaItem
+    included do
+      validate :validate_modifiable
     end
 
-    attribute :meeting
-    attribute :work_package
-    attribute :meeting_section
+    protected
 
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-    attribute :presenter
+    def validate_modifiable
+      unless model.modifiable?
+        errors.add :base, I18n.t(:text_agenda_item_not_editable_anymore)
+      end
+    end
   end
 end
