@@ -1767,6 +1767,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
 
   my_account:
     access_tokens:
@@ -2441,6 +2443,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
     other: "%{count} files"
     zero: "no files"
   label_yesterday: "yesterday"
+  label_zen_mode: "Zen mode"
   label_role_type: "Type"
   label_member_role: "Project role"
   label_global_role: "Global role"
