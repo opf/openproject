@@ -925,6 +925,8 @@
       message_work_package_read_only: "Arbeidspakken er låst i denne statusen. Ingen egenskaper annet enn status kan endres."
       message_work_package_status_blocked: "Status for arbeidspakke er ikke skrivbar på grunn av at lukket status og lukket versjon er tildelt."
       placeholder_filter_by_text: "Emne, beskrivelse, kommentarer, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Lagt til for visning i tidsperioden for sammenligning"
         removal_label: "Fjernet fra visning i tidsperioden for sammenligning"

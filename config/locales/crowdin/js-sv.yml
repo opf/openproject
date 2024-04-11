@@ -924,6 +924,8 @@ sv:
       message_work_package_read_only: "Arbetspaketet är låst i denna status. Inget annat attribut än status kan ändras."
       message_work_package_status_blocked: "Status för arbetspaketet är inte skrivbar på grund av stängd status och stängd version tilldelas."
       placeholder_filter_by_text: "Ämne, beskrivning, kommentarer, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"

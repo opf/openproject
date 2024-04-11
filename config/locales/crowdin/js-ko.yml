@@ -924,6 +924,8 @@ ko:
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
       message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "비교 기간 내에서 보기에 추가됨"
         removal_label: "비교 기간 내에서 보기에서 제거됨"

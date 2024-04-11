@@ -925,6 +925,8 @@ si:
       message_work_package_read_only: "වැඩ පැකේජය මෙම තත්වය තුළ අගුලු දමා ඇත. තත්වය හැර වෙනත් කිසිදු ගුණාංගයක් වෙනස් කළ නොහැක."
       message_work_package_status_blocked: "සංවෘත තත්ත්වය සහ සංවෘත අනුවාදය පවරා ඇති නිසා වැඩ පැකේජ තත්ත්වය ලිවිය නොහැකි ය."
       placeholder_filter_by_text: "විෂය, විස්තරය, අදහස්,..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"

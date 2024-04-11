@@ -39,14 +39,14 @@ ca:
   api_v3:
     errors:
       too_many_elements_created_at_once: Masses elements creats alhora. S'esperen %{max} com a màxim, i s'han obtingut %{actual}.
-  permission_create_files: Crear fitxers
-  permission_delete_files: Eliminar fitxers
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
   permission_manage_file_links: Administra els enllaços del fitxer
   permission_manage_storages_in_project: Administra els emmagatzematges de fitxers en el projecte
-  permission_read_files: Llegir fitxers
-  permission_share_files: Compartir fitxers
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Veure els enllaços del fitxer
-  permission_write_files: Editar fitxers
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: Emmagatzematges de fitxers
   storages:
     buttons:
@@ -103,6 +103,13 @@ ca:
       since: since %{datetime}
       subtitle: Automatically managed project folders
       title: Health status
+    health_email_notifications:
+      description_subscribed: All administrators will receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: La carpeta de projecte és la carpeta per defecte on es carregaran els fitxers d'aquest projecte. Tot i això, els usuaris podran carregar fitxers en altres carpetes.
     instructions:
@@ -223,6 +230,7 @@ ca:
       project_storage_members:
         subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
         title: Members connection status
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: Tipus de proveïdor
       nextcloud:

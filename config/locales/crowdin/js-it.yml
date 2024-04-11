@@ -925,6 +925,8 @@ it:
       message_work_package_read_only: "Il pacchetto di lavoro è bloccato in questo stato. Nessun attributo eccetto lo stato può essere alterato."
       message_work_package_status_blocked: "Lo stato della macro-attività non è scrivibile a causa dello stato chiuso e della versione chiusa assegnata."
       placeholder_filter_by_text: "Oggetto, descrizione, commenti, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Aggiunto per la visualizzazione entro il periodo di confronto"
         removal_label: "Rimosso dalla vista entro il periodo di confronto"

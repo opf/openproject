@@ -926,6 +926,8 @@ ru:
       message_work_package_read_only: "Пакет работ заблокирован в этом статусе. Никакой атрибут, отличный от статуса, не может быть изменен."
       message_work_package_status_blocked: "Статус пакета работ недоступен для записи из-за закрытого статуса и назначенной закрытой версии."
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Добавлено для просмотра в период сравнения"
         removal_label: "Удалено из просмотра в период сравнения"

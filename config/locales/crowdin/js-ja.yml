@@ -925,6 +925,8 @@ ja:
       message_work_package_read_only: "作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。"
       message_work_package_status_blocked: "ステータスがクローズでクローズされたバージョンが割り当てられているため、ワークパッケージのステータスは書き込みできません。"
       placeholder_filter_by_text: "タイトル、説明、コメント、..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"

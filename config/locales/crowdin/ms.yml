@@ -985,7 +985,12 @@ ms:
               only_same_project_categories_allowed: "Kategori pakej kerja mesti dalam projek yang sama dengan pakej kerja."
               does_not_exist: "Kategori yang ditentukan tidak wujud."
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
+              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
               only_values_greater_or_equal_zeroes_allowed: "perlu >= 0."
+            remaining_hours:
+              cant_exceed_work: "can't exceed 'Work'."
+              must_be_set_when_work_is_set: "must be set when 'Work' is set."
           readonly_status: "Pakej kerja berada dalam status baca sahaja maka atributnya tidak dapat diubah."
         type:
           attributes:
@@ -1482,7 +1487,6 @@ ms:
   error_pdf_export_too_many_columns: "Terlalu banyak lajur dipilih untuk eksport PDF. Sila kurangkan bilangan lajur."
   error_pdf_failed_to_export: "Eksport PDF tidak dapat disimpan: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Pakej kerja tidak dijumpai atau tidak tergolong dalam projek ini"
   error_must_be_project_member: "perlu menjadi ahli projek"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1587,8 +1591,10 @@ ms:
   journals:
     changes_retracted: "Perubahan ditarik balik."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Tarikh ditukar"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "Kemas kini sistem OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1604,9 +1610,14 @@ ms:
         dates:
           working: "%{date} kini hari bekerja"
           non_working: "%{date} kini bukan hari bekerja"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           Mulai sekarang, aktiviti berkaitan dengan pautan fail (fail-fail yang disimpan di penyimpanan luaran) akan muncul dalam tab aktiviti. Yang berikut mewakili aktiviti berkenaan pautan yang sudah sedia ada:
+        progress_calculation_changed: >
+          Progress calculation updated.
   links:
     configuration_guide: "Panduan konfigurasi"
     get_in_touch: "Anda mempunyai soalan? Sila hubungi kami."
@@ -1621,6 +1632,8 @@ ms:
       api_and_webhooks: "API dan webhooks"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1944,6 +1957,7 @@ ms:
   label_latest_revision: "Semakan terkini"
   label_latest_revision_plural: "Semakan terkini"
   label_ldap_authentication: "Pengesahan LDAP"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "kurang dari beberapa hari yang lalu"
   label_list: "Senarai"
@@ -2069,6 +2083,7 @@ ms:
   label_privacy_policy: "Privasi data dan dasar keselamatan"
   label_product_version: "Versi produk"
   label_profile: "Profil"
+  label_percent_complete: "% Complete"
   label_project_activity: "Aktiviti projek"
   label_project_attribute_plural: "Atribut projek"
   label_project_count: "Jumlah bilangan projek"
@@ -2078,6 +2093,7 @@ ms:
   label_project_hierarchy: "Hierarki projek"
   label_project_new: "Projek baharu"
   label_project_plural: "Projek"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Atribut projek"
   label_project_custom_field_plural: "Atribut projek"
   label_project_settings: "Seting projek"
@@ -2104,6 +2120,7 @@ ms:
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
   label_release_notes: "Release notes"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Keluarkan lajur yang dipilih"
   label_renamed: "menamakan semula"
   label_reply_plural: "Balasan"
@@ -2182,7 +2199,6 @@ ms:
   label_type_new: "Jenis baharu"
   label_type_plural: "Jenis"
   label_ui: "User Interface"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Dikemas kini %{value} yang lalu"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Dikemas kini oleh %{author} %{age} yang lalu"
@@ -2237,6 +2253,7 @@ ms:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Tunjuk sebagai item submenu "
   label_wiki_start: "Halaman mula"
+  label_work: "Work"
   label_work_package: "Pakej kerja"
   label_work_package_attachments: "Lampiran pakej kerja"
   label_work_package_category_new: "Kategori baharu"
@@ -2280,6 +2297,7 @@ ms:
     other: "%{count} fail"
     zero: "tiada fail"
   label_yesterday: "semalam"
+  label_zen_mode: "Zen mode"
   label_role_type: "Jenis"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2486,7 +2504,6 @@ ms:
   notice_file_not_found: "Halaman yang anda cuba untuk akses tidak wujud atau telah dikeluarkan."
   notice_forced_logout: "Anda telah dilog keluar secara automatik selepas %{ttl_time} minit tidak aktif."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "% selesai dikemas kini"
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
@@ -2866,10 +2883,11 @@ ms:
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -3241,6 +3259,12 @@ ms:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 users"

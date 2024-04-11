@@ -927,6 +927,8 @@ uk:
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Додано до подання з періодом для порівняння"
         removal_label: "Вилучено з подання з періодом для порівняння"
