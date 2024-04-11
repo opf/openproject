@@ -28,9 +28,19 @@ class CreateCustomFieldSections < ActiveRecord::Migration[7.0]
       name: "Project attributes"
     )
 
-    # trigger acts_as_list callbacks via updating each record instead of bulk update
-    ProjectCustomField.find_each do |project_custom_field|
-      project_custom_field.update!(custom_field_section_id: section.id)
-    end
+    ActiveRecord::Base.connection.execute <<~SQL.squish
+       UPDATE "custom_fields"
+       SET
+         "position_in_custom_field_section" = "mapping"."new_position",
+         "custom_field_section_id" = #{section.id}
+       FROM (
+         SELECT
+           id,
+           ROW_NUMBER() OVER (ORDER BY updated_at) AS new_position
+         FROM "custom_fields"
+         WHERE "custom_fields"."type" = 'ProjectCustomField'
+       ) AS "mapping"
+       WHERE "custom_fields"."id" = "mapping"."id";
+     SQL
   end
 end
