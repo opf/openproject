@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= hidden_field_tag :page, params[:page].to_i %>
   <%= hidden_field_tag :per_page, params[:per_page].to_i %>
 
-  <%= hidden_field_tag f.field_name(:user_ids) + "[]", member.principal.id if member.new_record? %>
+  <%= hidden_field_tag f.field_name(:user_ids, multiple: true), member.principal.id if member.new_record? %>
 
   <p>
     <% roles.each do |role| %>
