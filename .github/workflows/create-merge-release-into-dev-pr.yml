@@ -83,7 +83,7 @@ jobs:
                 gh pr close "$pr_number"
               done
 
-              TEMP_BRANCH="$RELEASE_BRANCH-$(date "+%Y%m%d%H%M%S")"
+              TEMP_BRANCH="merge-$RELEASE_BRANCH-$(date "+%Y%m%d%H%M%S")"
 
               git branch "$TEMP_BRANCH" "$RELEASE_BRANCH"
 
