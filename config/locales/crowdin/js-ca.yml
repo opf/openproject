@@ -925,6 +925,8 @@ ca:
       message_work_package_read_only: "El paquet de treball està bloquejat en aquest estat. Cap atribut excepte l'estat es pot modificar."
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Afegit a la vista en el període de temps de la comparació"
         removal_label: "Eliminat de la vista en el període de temps de la comparació"

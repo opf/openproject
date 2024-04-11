@@ -927,6 +927,8 @@ lt:
       message_work_package_read_only: "Šioje būsenoje darbų paketas yra užrakintas. Negali būti keičiamas joks atributas, išskyrus būseną."
       message_work_package_status_blocked: "Darbų paketo būsena negali būti keičiama, nes dabar yra uždaryta ir uždaryta versija yra priskirta."
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Pridėta į vaizdą lyginimo laiko periode"
         removal_label: "Išimta iš vaizdo lyginimo laiko periode"

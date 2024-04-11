@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   get "/api/docs" => "api_docs#index"
 
   # Redirect deprecated issue links to new work packages uris
-  get "/issues(/)"    => redirect("#{rails_relative_url_root}/work_packages")
+  get "/issues(/)" => redirect("#{rails_relative_url_root}/work_packages")
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
   get "/issues/*rest" => redirect { |params, _req|
@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   match "/assets/compiler.js.map", to: proc { [404, {}, [""]] }, via: :all
 
   # Redirect wp short url for work packages to full URL
-  get "/wp(/)"    => redirect("#{rails_relative_url_root}/work_packages")
+  get "/wp(/)" => redirect("#{rails_relative_url_root}/work_packages")
   get "/wp/*rest" => redirect { |params, _req|
     "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
   }
@@ -112,8 +112,8 @@ Rails.application.routes.draw do
 
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
-  get   "/types/:id/edit/:tab" => "types#edit",
-        as: "edit_type_tab"
+  get "/types/:id/edit/:tab" => "types#edit",
+      as: "edit_type_tab"
   match "/types/:id/update/:tab" => "types#update",
         as: "update_type_tab",
         via: %i[post patch]
@@ -121,11 +121,7 @@ Rails.application.routes.draw do
     post "move/:id", action: "move", on: :collection
   end
 
-  resources :statuses, except: :show do
-    collection do
-      post "update_work_package_done_ratio"
-    end
-  end
+  resources :statuses, except: :show
 
   get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",
@@ -447,6 +443,7 @@ Rails.application.routes.draw do
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
       resource :work_packages, controller: "/admin/settings/work_packages_settings", only: %i[show update]
       resource :projects, controller: "/admin/settings/projects_settings", only: %i[show update]
+      resource :new_project, controller: "/admin/settings/new_project_settings", only: %i[show update]
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
@@ -524,6 +521,14 @@ Rails.application.routes.draw do
       collection do
         resource :bulk, controller: "work_packages/shares/bulk", only: %i[update destroy], as: :shares_bulk
       end
+    end
+
+    resource :progress, only: %i[edit update], controller: "work_packages/progress"
+    collection do
+      resource :progress,
+               only: :create,
+               controller: "work_packages/progress",
+               as: :work_package_progress
     end
 
     # states managed by client-side (angular) routing on work_package#show

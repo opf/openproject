@@ -990,7 +990,12 @@ it:
               only_same_project_categories_allowed: "La categoria di una macro-attività deve essere contenuta nel medesimo progetto della macro-attività."
               does_not_exist: "La categoria specificata non esiste."
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
+              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
               only_values_greater_or_equal_zeroes_allowed: "deve essere >=0."
+            remaining_hours:
+              cant_exceed_work: "can't exceed 'Work'."
+              must_be_set_when_work_is_set: "must be set when 'Work' is set."
           readonly_status: "La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati."
         type:
           attributes:
@@ -1513,7 +1518,6 @@ it:
   error_pdf_export_too_many_columns: "Troppe colonne selezionate per l'esportazione in PDF. Ridurre il numero di colonne."
   error_pdf_failed_to_export: "L'esportazione del PDF non può essere salvata: %{error}"
   error_token_authenticity: "Impossibile verificare il token di richiesta. Forse hai provato a inviare i dati da più browser o schede? Chiudi tutte le schede e riprova."
-  error_work_package_done_ratios_not_updated: "Valori di % completamento della macro-attività non aggiornati."
   error_work_package_not_found_in_project: "La macro-attività non è stata trovata o non appartiene a questo progetto"
   error_must_be_project_member: "deve essere membro del progetto"
   error_migrations_are_pending: "L'installazione di OpenProject ha migrazioni di database in sospeso. Probabilmente non hai effettuato le migrazioni durante l'ultimo aggiornamento. Controlla la documentazione sull'aggiornamento per aggiornare correttamente l'installazione."
@@ -1618,8 +1622,10 @@ it:
   journals:
     changes_retracted: "Le modifiche sono state annullate."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Date cambiate"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "Aggiornamento del sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: da modifiche al predecessore %{link}
@@ -1635,9 +1641,14 @@ it:
         dates:
           working: "%{date} è ora lavorativo"
           non_working: "%{date} è ora non lavorativo"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           D'ora in poi, l'attività relativa ai collegamenti ai file (file archiviati in archivi esterni) verrà visualizzata qui nella scheda Attività. Di seguito trovi attività riguardanti link già esistenti:
+        progress_calculation_changed: >
+          Progress calculation updated.
   links:
     configuration_guide: "Guida di configurazione"
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
@@ -1652,6 +1663,8 @@ it:
       api_and_webhooks: "API e webhooks"
     quick_add:
       label: "Apri menu di aggiunta rapida"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1975,6 +1988,7 @@ it:
   label_latest_revision: "Ultima revisione"
   label_latest_revision_plural: "Ultime revisioni"
   label_ldap_authentication: "Autenticazione LDAP"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "meno di qualche giorno fa"
   label_list: "Elenca"
@@ -2100,6 +2114,7 @@ it:
   label_privacy_policy: "Politica di privacy e sicurezza dei dati"
   label_product_version: "Versione del prodotto"
   label_profile: "Profilo"
+  label_percent_complete: "% Complete"
   label_project_activity: "Attività del progetto"
   label_project_attribute_plural: "Attributi del progetto"
   label_project_count: "Numero totale di progetti"
@@ -2109,6 +2124,7 @@ it:
   label_project_hierarchy: "Gerarchia del progetto"
   label_project_new: "Nuovo progetto"
   label_project_plural: "Progetti"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Impostazioni progetto"
@@ -2135,6 +2151,7 @@ it:
   label_relation_delete: "Eliminare la relazione"
   label_relation_new: "Nuova relazione"
   label_release_notes: "Note di rilascio"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Rimuovi le colonne selezionate"
   label_renamed: "rinominato"
   label_reply_plural: "Risposte"
@@ -2213,7 +2230,6 @@ it:
   label_type_new: "Nuovo tipo"
   label_type_plural: "Tipi"
   label_ui: "Interfaccia Utente"
-  label_update_work_package_done_ratios: "Aggiorna valori di % completamento per la macro-attività"
   label_updated_time: "Aggiornato %{value} fa"
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: "Aggiornato da %{author} %{age} fa"
@@ -2268,6 +2284,7 @@ it:
   label_wiki_show_new_page_link: "Mostra voce del sotto-menù 'Crea nuova pagina figlio'"
   label_wiki_show_submenu_item: "Mostra come voce di sottomenù di "
   label_wiki_start: "Pagina iniziale"
+  label_work: "Work"
   label_work_package: "Macro-attività"
   label_work_package_attachments: "Allegati macro-attività"
   label_work_package_category_new: "Nuova categoria"
@@ -2311,6 +2328,7 @@ it:
     other: "%{count} file"
     zero: "nessun file"
   label_yesterday: "ieri"
+  label_zen_mode: "Zen mode"
   label_role_type: "Tipo"
   label_member_role: "Ruolo del progetto"
   label_global_role: "Ruolo globale"
@@ -2518,7 +2536,6 @@ it:
   notice_file_not_found: "La pagina alla quale stavi tentando di accedere non esiste o è stata rimossa."
   notice_forced_logout: "Sei stato disconnesso automaticamente dopo %{ttl_time} minuti di inattività."
   notice_internal_server_error: "Si è verificato un errore sulla pagina alla quale hai richiesto di accedere. Se continui ad avere problemi per favore contatta il tuo amministratore %{app_title} per ricevere assistenza."
-  notice_work_package_done_ratios_updated: "% completamento aggiornata"
   notice_locking_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
   notice_locking_conflict_additional_information: "L'aggiornamento(i) proviene da %{users}."
   notice_locking_conflict_reload_page: "Si prega di ricaricare la pagina, rivedere le modifiche e riapplicare gli aggiornamenti."
@@ -2899,10 +2916,11 @@ it:
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
   setting_host_name: "Nome dell'Host"
   setting_invitation_expiration_days: "L'email di attivazione scade dopo"
-  setting_work_package_done_ratio: "Calcola la % completamento macro-attività con"
-  setting_work_package_done_ratio_field: "Il campo della macro-attività"
-  setting_work_package_done_ratio_status: "Lo stato della macro-attività"
-  setting_work_package_done_ratio_disabled: "Disabilita (nascondi il campo % completamento)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_projects_export_limit: "Limite di esportazione di macro-attività/progetti"
@@ -3275,6 +3293,12 @@ it:
     destroy:
       info: "Eliminare una macro-attività è un'operazione irreversibile."
       title: "Eliminare la macro-attività"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 utenti"

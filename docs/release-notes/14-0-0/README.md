@@ -22,6 +22,55 @@ This change is to align the API with the terminology used in project management 
 
 For more information, see [#44054](https://community.openproject.org/work_packages/44054)
 
+### Removed deprecated methods for permission checks
+
+In version 13.1 we have overhauled our system to handle internal permission checks by allowing permissions to not only be
+defined on project or global level, but also on resources like work packages. Therefore we have introduced new methods to
+check permissions. The old methods have been marked as deprecated and are now removed in 14.0.
+
+Affected methods are:
+- `User#allowed_to?`
+- `User#allowed_to_globally?`
+- `User#allowed_to_in_project?`
+
+If you have developed a plugin or have custom code that uses these methods, you need to update your code to use the new
+methods.
+
+For more information, see [#51212](https://community.openproject.org/work_packages/51212).
+
+### Reduced number of configurable design variables
+
+We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings).
+This simplifies the process of setting the desired colour scheme for users.
+It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colourblind mode in the future.
+
+The following variables have been changed:
+
+| Old name           | New name             | Notes                                                                                                                                                                      |
+|--------------------|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| primary-color      | primary-button-color | Was merged with the previous "alternative-color". The value of "alternative-color" was kept.                                                                               |
+| alternative-color  | primary-button-color | Was merged with the previous "primary-color". The value of "alternative-color" was kept.                                                                                   |
+| primary-color-dark | -                    | Will now be calculated automatically based on the "primary-button-color"                                                                                                   |
+| link-color         | accent-color         | Is not only used for links, but for all decently highlighted elements (e.g. the selection state in a datepicker).<br/>The (old) value of "primary-color" was use for this. |
+
+
+If you have developed a plugin or have custom code that uses these variables, you need to update your code to use the new
+names. The rest of the variables is unchanged.
+
+For more information, see [#53309](https://community.openproject.org/work_packages/53309).
+
+### Removal of the model_changeset_scan_commit_for_issue_ids_pre_issue_update hook
+
+The `model_changeset_scan_commit_for_issue_ids_pre_issue_update` hook has been removed completely. This was made necessary as the code around it was not making use of the proper update mechanisms (Service objects) which lead to inconsistencies in the data, i.e. ancestor work packages.
+
+For more information, see [#40749](https://community.openproject.org/work_packages/40749)
+
+### Removal of the commit_fix_done_ratio setting
+
+Since the done_ratio is now a read only value, derived from work and remaining work, the `commit_fix_done_ratio` setting has been removed.
+
+For more information, see [#40749](https://community.openproject.org/work_packages/40749)
+
 <!--more-->
 
 ## Bug fixes and changes

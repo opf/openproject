@@ -32,6 +32,7 @@ FactoryBot.define do
       custom_values { nil }
       days { WorkPackages::Shared::Days.for(self) }
       journals { nil }
+      now { Time.zone.now }
     end
 
     priority
@@ -40,8 +41,8 @@ FactoryBot.define do
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user
-    created_at { Time.zone.now }
-    updated_at { Time.zone.now }
+    created_at { now }
+    updated_at { now }
     start_date do
       # derive start date if due date and duration were provided
       next unless %i[due_date duration].all? { |field| __override_names__.include?(field) }
@@ -123,6 +124,36 @@ FactoryBot.define do
 
         work_package.update_columns(created_at: work_package.journals.minimum(:created_at),
                                     updated_at: work_package.journals.maximum(:updated_at))
+      end
+    end
+
+    set_done_ratios = ->(work_package, _evaluator) do
+      if work_package.estimated_hours.present? &&
+          work_package.remaining_hours.present? &&
+          work_package.done_ratio.nil? &&
+          work_package.estimated_hours >= work_package.remaining_hours
+        work_package.done_ratio = (work_package.estimated_hours - work_package.remaining_hours) \
+          / work_package.estimated_hours.to_f * 100
+      end
+      if work_package.derived_estimated_hours.present? &&
+          work_package.derived_remaining_hours.present? &&
+          work_package.derived_done_ratio.nil? &&
+          work_package.derived_estimated_hours >= work_package.derived_remaining_hours
+        work_package.derived_done_ratio = (work_package.derived_estimated_hours - work_package.derived_remaining_hours) \
+          / work_package.derived_estimated_hours.to_f * 100
+      end
+    end
+
+    callback(:after_build, &set_done_ratios)
+    callback(:after_stub, &set_done_ratios)
+
+    # force done_ratio in status-based mode if given done_ratio is different from status default
+    callback(:after_create) do |work_package, evaluator|
+      next unless WorkPackage.use_status_for_done_ratio?
+      next unless evaluator.__override_names__.include?(:done_ratio)
+
+      if work_package.read_attribute(:done_ratio) != evaluator.done_ratio
+        work_package.update_column(:done_ratio, evaluator.done_ratio)
       end
     end
   end

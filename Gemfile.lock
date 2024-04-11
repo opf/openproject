@@ -772,15 +772,15 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-octicons (19.8.0)
-    openproject-octicons_helper (19.8.0)
+    openproject-octicons (19.9.0)
+    openproject-octicons_helper (19.9.0)
       actionview
-      openproject-octicons (= 19.8.0)
+      openproject-octicons (= 19.9.0)
       railties
-    openproject-primer_view_components (0.23.0)
+    openproject-primer_view_components (0.28.1)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-      openproject-octicons (>= 19.8.0)
+      openproject-octicons (>= 19.9.0)
       view_component (>= 3.1, < 4.0)
     openproject-token (4.0.0)
       activemodel
@@ -971,7 +971,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.13.1)
-    rubocop (1.63.0)
+    rubocop (1.62.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -1269,10 +1269,10 @@ DEPENDENCIES
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.8.0)
-  openproject-octicons_helper (~> 19.8.0)
+  openproject-octicons (~> 19.9.0)
+  openproject-octicons_helper (~> 19.9.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.23.0)
+  openproject-primer_view_components (~> 0.28.1)
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!
@@ -1317,7 +1317,7 @@ DEPENDENCIES
   rspec (~> 3.13.0)
   rspec-rails (~> 6.1.0)
   rspec-retry (~> 0.6.1)
-  rubocop
+  rubocop (~> 1.62.1)
   rubocop-inflector
   rubocop-performance
   rubocop-rails
