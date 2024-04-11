@@ -58,6 +58,8 @@ module OpenProject::GithubIntegration
           github_system_user,
           journal_entry(pull_request, payload)
         )
+
+        execute_custom_actions(payload, work_packages, github_system_user)
       end
 
       private
@@ -107,6 +109,25 @@ module OpenProject::GithubIntegration
         return "draft" if key == "open" && payload.pull_request.draft
 
         key
+      end
+
+      def execute_custom_actions(payload, work_packages, user)
+        action_id = Setting.plugin_openproject_github_integration["custom_field_mappings"][payload.action]
+
+        return unless action_id
+
+        action = CustomAction.find_by(id: action_id)
+
+        return unless action
+
+        work_packages.each do |work_package|
+          call = CustomActions::UpdateWorkPackageService.new(
+            action:,
+            user:
+          ).call(work_package:)
+
+          call
+        end
       end
     end
   end

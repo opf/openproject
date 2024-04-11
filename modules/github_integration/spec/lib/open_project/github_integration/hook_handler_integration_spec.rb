@@ -50,13 +50,13 @@ RSpec.describe OpenProject::GithubIntegration::HookHandler do
   let(:user) { create(:user) }
   let(:role) do
     create(:project_role,
-           permissions: %i[view_work_packages add_work_package_notes])
+           permissions: %i[view_work_packages add_work_package_notes edit_work_packages])
   end
   let(:project) do
     create(:project, members: { user => role })
   end
 
-  let(:work_packages) { create_list(:work_package, 4, project:) }
+  let(:work_packages) { create_list(:work_package, 4, assigned_to: user, project:) }
   let(:journal_counts_before) { work_packages.map { |wp| wp.journals.count } }
   let(:journal_counts_after) { work_packages.map { |wp| wp.journals.count } }
 
@@ -166,6 +166,26 @@ RSpec.describe OpenProject::GithubIntegration::HookHandler do
     end
   end
 
+  shared_examples_for "executes an associated custom action" do
+    let(:custom_action) do
+      create(:custom_action,
+             actions: [CustomActions::Actions::AssignedTo.new(value: nil)])
+    end
+
+    before do
+      allow(Setting)
+        .to receive(:plugin_openproject_github_integration)
+              .and_return({ "custom_field_mappings" => { "opened" => custom_action.id } })
+    end
+
+    it "executes the action" do
+      expect { process_webhook }
+        .to change { work_packages[0].reload.assigned_to_id }
+              .from(user.id)
+              .to(nil)
+    end
+  end
+
   context "when receiving a webhook for a pull_request event" do
     let(:event) { "pull_request" }
 
@@ -211,6 +231,7 @@ RSpec.describe OpenProject::GithubIntegration::HookHandler do
 
       it_behaves_like "it comments on the first work_package"
       it_behaves_like "it creates a pull request and github user"
+      it_behaves_like "executes an associated custom action"
     end
 
     context "when opened and mentioning many work packages using URLs in the PR body" do

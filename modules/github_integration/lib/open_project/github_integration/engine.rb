@@ -37,12 +37,23 @@ module OpenProject::GithubIntegration
 
     register "openproject-github_integration",
              author_url: "https://www.openproject.org/",
-             bundled: true do
+             bundled: true,
+             settings: {
+               default: { "custom_field_mappings" => {} },
+               menu_item: :github_settings
+             } do
       project_module(:github, dependencies: :work_package_tracking) do
         permission(:show_github_content,
                    {},
                    permissible_on: %i[work_package project])
       end
+
+      menu :admin_menu,
+           :admin_github_integration,
+           { controller: "admin/settings/github_integration_settings", action: :show },
+           if: Proc.new { User.current.admin? },
+           caption: :project_module_github,
+           icon: "github"
     end
 
     initializer "github.register_hook" do
