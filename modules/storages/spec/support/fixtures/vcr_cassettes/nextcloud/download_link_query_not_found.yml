@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://nextcloud.local/ocs/v2.php/apps/dav/api/v1/direct
+    body:
+      encoding: UTF-8
+      string: '{"fileId":"DeathStarNumberThree"}'
+    headers:
+      Ocs-Apirequest:
+      - 'true'
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '33'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 08 Apr 2024 11:45:08 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.57 (Debian)
+      Set-Cookie:
+      - ocirabgzify6=a2f996f3ca668255552213b8f9f091a2; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=aIbW5xgiklv%2Fcfy4ntVIlzu3JMbuSiRJiXSk8ppLfI2gFKnJYXdBBVkte0boPAZC1p58VWSVgWFrZpFn8JNXGvMmRARg4nkegifImFgoO3njSdxgOPyt2MmBRp%2BNBTkp;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=a2f996f3ca668255552213b8f9f091a2;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocirabgzify6=a2f996f3ca668255552213b8f9f091a2;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=a2f996f3ca668255552213b8f9f091a2;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=a2f996f3ca668255552213b8f9f091a2;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=a2f996f3ca668255552213b8f9f091a2;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=a2f996f3ca668255552213b8f9f091a2;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=a2f996f3ca668255552213b8f9f091a2;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=a2f996f3ca668255552213b8f9f091a2;
+        path=/; secure; HttpOnly; SameSite=Lax
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.16
+      X-Request-Id:
+      - pmHzKTYbkUkfiUSko8Er
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '77'
+    body:
+      encoding: UTF-8
+      string: '{"ocs":{"meta":{"status":"failure","statuscode":404,"message":""},"data":[]}}'
+  recorded_at: Mon, 08 Apr 2024 11:45:08 GMT
+recorded_with: VCR 6.2.0
