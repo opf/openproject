@@ -58,7 +58,11 @@ class FiltersComponent < ApplicationComponent
   end
 
   def filters_count
-    query.filters.count
+    @filters_count ||= query
+                          .filters
+                          .map(&:class)
+                          .uniq
+                          .count
   end
 
   protected
