@@ -35,42 +35,32 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @storage.name) %>
-<% local_assigns[:additional_breadcrumb] = @storage.name %>
 
-<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title(test_selector: 'storage-new-page-header--title') do %>
-    <%= render OpTurbo::FrameComponent.new(@storage, context: :edit_storage_header) do %>
-      <%= label_storage_name_with_provider_label %>
+<%= primer_form_with(
+      model: @storage,
+      url: confirm_destroy_admin_settings_storage_path(@storage),
+      method: :get
+    ) do %>
+  <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+    <% header.with_title(test_selector: 'storage-new-page-header--title') do %>
+      <%= render OpTurbo::FrameComponent.new(@storage, context: :edit_storage_header) do %>
+        <%= label_storage_name_with_provider_label %>
+      <% end %>
     <% end %>
-  <% end %>
 
-  <% header.with_back_button(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) %>
+    <% header.with_breadcrumbs([{href: admin_index_path, text: t("label_administration")},
+                                {href: admin_settings_storages_path, text: t("project_module_storages")},
+                                @storage.name]) %>
 
-  <% header.with_parent_link(href: admin_settings_storages_path, 'aria-label':  I18n.t("button_back")) do %>
-    <%= t(:project_module_storages) %>
-  <% end %>
-
-  <% header.with_actions(test_selector: 'page-header-actions') do %>
-    <%=
-      primer_form_with(
-        model: @storage,
-        url: confirm_destroy_admin_settings_storage_path(@storage),
-        method: :get
-      ) do |_form|
-        render(
-          Primer::Beta::Button.new(
-            scheme: :danger,
-            size: :medium,
-            type: :submit,
-            aria: { label: I18n.t("storages.label_delete_storage") },
-            test_selector: 'storage-delete-button'
-          )
-        ) do |button|
+      <% header.with_action_button(scheme: :danger,
+                                   mobile_icon: :trash,
+                                   mobile_label: I18n.t("button_delete"),
+                                   type: :submit,
+                                   aria: { label: I18n.t("storages.label_delete_storage") },
+                                   test_selector: "storage-delete-button") do |button|
           button.with_leading_visual_icon(icon: :trash)
-          I18n.t('button_delete')
-        end
-      end
-    %>
+          I18n.t("button_delete")
+      end %>
   <% end %>
 <% end %>
 

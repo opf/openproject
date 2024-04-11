@@ -31,36 +31,58 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DownloadLinkQuery, :webmock do
-  let(:storage) { create(:one_drive_storage, :with_oauth_client, drive_id: "JUMBLEOFLETTERSANDNUMB3R5") }
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DownloadLinkQuery, :vcr, :webmock do
+  using Storages::Peripherals::ServiceResultRefinements
+
   let(:user) { create(:user) }
-  let(:file_link) { create(:file_link) }
-  let(:token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
-
-  subject(:download_link_query) { described_class.new(storage) }
-
-  before do
-    allow(Storages::Peripherals::StorageInteraction::OneDrive).to receive(:token).and_yield(token)
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_link.origin_id}/content")
-      .with(headers: { "Authorization" => "Bearer #{token.access_token}" })
-      .and_return(status: 302, body: nil, headers: { "Location" => "https://somecool.link/from/microsoft" })
+  let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
-  it "returns a result with a download url" do
-    download_link = download_link_query.call(user:, file_link:)
+  let(:file_link) { create(:file_link, origin_id: "01AZJL5PNDURPQGKUSGFCJQJMNNWXKTHSE") }
+  let(:not_existent_file_link) { create(:file_link, origin_id: "DeathStarNumberThree") }
 
-    expect(download_link).to be_success
-    expect(download_link.result).to eq("https://somecool.link/from/microsoft")
-  end
+  subject { described_class.new(storage) }
 
-  it "return an error if any other response is received" do
-    stub_request(:get, "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{file_link.origin_id}/content")
-      .with(headers: { "Authorization" => "Bearer #{token.access_token}" })
-      .and_return(status: 200, body: "")
+  describe "#call" do
+    it "responds with correct parameters" do
+      expect(described_class).to respond_to(:call)
 
-    download_link = download_link_query.call(user:, file_link:)
+      method = described_class.method(:call)
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq file_link])
+    end
 
-    expect(download_link).to be_failure
-    expect(download_link.result).to eq :error
+    context "without outbound request involved" do
+      context "with nil" do
+        it "returns an error" do
+          result = subject.call(auth_strategy:, file_link: nil)
+
+          expect(result).to be_failure
+          expect(result.error_source).to eq(described_class)
+          expect(result.result).to eq(:error)
+        end
+      end
+    end
+
+    context "with outbound request successful" do
+      it "returns a result with a download url", vcr: "one_drive/download_link_query_success" do
+        download_link = subject.call(auth_strategy:, file_link:)
+
+        expect(download_link).to be_success
+
+        uri = URI(download_link.result)
+        expect(uri.host).to eq("finn.sharepoint.com")
+        expect(uri.path).to eq("/sites/openprojectfilestoragetests/_layouts/15/download.aspx")
+      end
+
+      it "returns an error if the file is not found", vcr: "one_drive/download_link_query_not_found" do
+        download_link = subject.call(auth_strategy:, file_link: not_existent_file_link)
+
+        expect(download_link).to be_failure
+        expect(download_link.error_source).to eq(described_class)
+        expect(download_link.result).to eq(:not_found)
+      end
+    end
   end
 end

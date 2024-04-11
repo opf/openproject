@@ -129,23 +129,38 @@ RSpec.describe Changeset do
 
   describe "#scan_comment_for_work_package_ids",
            with_settings: {
-             commit_fix_done_ratio: "90",
              commit_ref_keywords: "refs , references, IssueID",
              commit_fix_keywords: "fixes , closes",
-             default_language: "en"
+             default_language: "en",
+             work_package_done_ratio: "status"
            } do
-    let!(:user) { create(:admin, login: "dlopper") }
+    let!(:user) do
+      create(:admin,
+             login: "dlopper",
+             member_with_roles: { repository.project => role })
+    end
     let!(:open_status) { create(:status) }
-    let!(:closed_status) { create(:closed_status) }
+    let!(:closed_status) { create(:closed_status, default_done_ratio: 90) }
+    let!(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
 
     let!(:other_work_package) { create(:work_package, status: open_status) }
+    let!(:parent_work_package) { create(:work_package, subject: "Parent wp") }
+    let!(:workflow) do
+      create(:workflow,
+             old_status: open_status,
+             new_status: closed_status,
+             role:,
+             type: work_package.type)
+    end
     let(:comments) { "Some fix made, fixes ##{work_package.id} and fixes ##{other_work_package.id}" }
 
     with_virtual_subversion_repository do
       let!(:work_package) do
         create(:work_package,
                project: repository.project,
-               status: open_status)
+               status: open_status,
+               parent: parent_work_package,
+               estimated_hours: 100)
       end
       let(:changeset) do
         create(:changeset,
@@ -291,8 +306,9 @@ RSpec.describe Changeset do
 
       expect(work_package.status).to eq closed_status
       expect(work_package.done_ratio).to eq 90
+      expect(work_package.remaining_hours).to eq 10
 
-      # issue change
+      # journal updates
       journal = work_package.journals.last
 
       expect(journal.user).to eq user
@@ -302,6 +318,13 @@ RSpec.describe Changeset do
       # due to other project
       other_work_package.reload
       expect(other_work_package.changesets).to eq []
+
+      # Expect the parent to be updated
+      parent_work_package.reload
+
+      expect(parent_work_package.done_ratio).to eq 0
+      expect(parent_work_package.derived_remaining_hours).to eq 10
+      expect(parent_work_package.derived_done_ratio).to eq 90
     end
 
     describe "with work package in parent project" do

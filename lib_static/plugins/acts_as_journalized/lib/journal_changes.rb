@@ -31,62 +31,80 @@ module JournalChanges
     return @changes if @changes
     return {} if data.nil?
 
-    @changes = ::Acts::Journalized::JournableDiffer.changes(predecessor&.data, data)
+    changes = [
+      get_cause_changes,
+      get_data_changes,
+      get_attachments_changes,
+      get_custom_fields_changes,
+      get_file_links_changes,
+      get_agenda_items_changes
+    ].compact
 
-    @changes[:cause] = [nil, cause] if cause.present?
+    @changes = changes.reduce({}.with_indifferent_access, :merge!)
+  end
 
-    if journable&.attachable?
-      @changes.merge!(
-        ::Acts::Journalized::JournableDiffer.association_changes(
-          predecessor,
-          self,
-          'attachable_journals',
-          'attachments',
-          :attachment_id,
-          :filename
-        )
-      )
+  def get_cause_changes
+    return if cause.blank?
+
+    { cause: [nil, cause] }
+  end
+
+  def get_data_changes
+    ::Acts::Journalized::JournableDiffer.changes(predecessor&.data, data)
+  end
+
+  def get_attachments_changes
+    return unless journable&.attachable?
+
+    ::Acts::Journalized::JournableDiffer.association_changes(
+      predecessor,
+      self,
+      "attachable_journals",
+      "attachments",
+      :attachment_id,
+      :filename
+    )
+  end
+
+  def get_custom_fields_changes
+    return unless journable&.customizable?
+
+    customizable_changes = ::Acts::Journalized::JournableDiffer.association_changes(
+      predecessor,
+      self,
+      "customizable_journals",
+      "custom_fields",
+      :custom_field_id,
+      :value
+    )
+
+    if journable.class.name == "Project"
+      remove_disabled_project_custom_fields!(customizable_changes)
     end
 
-    if journable&.customizable?
-      customizable_changes = ::Acts::Journalized::JournableDiffer.association_changes(
-          predecessor,
-          self,
-          'customizable_journals',
-          'custom_fields',
-          :custom_field_id,
-          :value
-        )
+    customizable_changes
+  end
 
-      if journable.class.name == "Project"
-        remove_disabled_project_custom_fields!(customizable_changes)
-      end
+  def get_file_links_changes
+    return unless has_file_links?
 
-      @changes.merge!(customizable_changes)
-    end
+    ::Acts::Journalized::FileLinkJournalDiffer.get_changes_to_file_links(
+      predecessor,
+      storable_journals
+    )
+  end
 
-    if has_file_links?
-      @changes.merge!(
-        ::Acts::Journalized::FileLinkJournalDiffer.get_changes_to_file_links(
-          predecessor,
-          storable_journals
-        )
-      )
-    end
+  def get_agenda_items_changes
+    return unless journable.respond_to?(:agenda_items)
 
-    if journable.respond_to?(:agenda_items)
-      @changes.merge!(
-        ::Acts::Journalized::JournableDiffer.association_changes_multiple_attributes(
-          predecessor,
-          self,
-          'agenda_item_journals',
-          'agenda_items',
-          :agenda_item_id,
-          [:title, :duration_in_minutes, :notes, :position, :work_package_id]
-        )
-      )
-    end
-    @changes
+    ::Acts::Journalized::JournableDiffer.association_changes_multiple_attributes(
+      predecessor,
+      self,
+      "agenda_item_journals",
+      "agenda_items",
+      :agenda_item_id,
+      %i[title duration_in_minutes notes position work_package_id]
+    )
   end
 
   private
@@ -94,7 +112,7 @@ module JournalChanges
   def remove_disabled_project_custom_fields!(customizable_changes)
     allowed_custom_field_keys = journable
       .project_custom_field_project_mappings
-      .map{ |c| "custom_fields_#{c.custom_field_id}" }
+      .map { |c| "custom_fields_#{c.custom_field_id}" }
 
     customizable_changes.delete_if { |key| !key.in?(allowed_custom_field_keys) }
   end

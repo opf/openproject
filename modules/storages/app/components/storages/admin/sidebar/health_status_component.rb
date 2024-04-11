@@ -34,8 +34,6 @@ module Storages::Admin
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    attr_reader :storage
-
     def initialize(storage:)
       super(storage)
       @storage = storage
@@ -44,7 +42,7 @@ module Storages::Admin
     private
 
     def health_status_indicator
-      case storage.health_status
+      case @storage.health_status
       when "healthy"
         { scheme: :success, label: I18n.t("storages.health.label_healthy") }
       when "unhealthy"
@@ -57,8 +55,8 @@ module Storages::Admin
     # This method returns the health identifier, description and the time since when the error occurs in a
     # formatted manner. e.g. "Not found: Outbound request destination not found since 12/07/2023 03:45 PM"
     def formatted_health_reason
-      "#{storage.health_reason_identifier.tr('_', ' ').strip.capitalize}: #{storage.health_reason_description} " +
-        I18n.t("storages.health.since", datetime: helpers.format_time(storage.health_changed_at))
+      "#{@storage.health_reason_identifier.tr('_', ' ').strip.capitalize}: #{@storage.health_reason_description} " +
+        I18n.t("storages.health.since", datetime: helpers.format_time(@storage.health_changed_at))
     end
   end
 end

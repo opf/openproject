@@ -926,6 +926,8 @@ cs:
       message_work_package_read_only: "Pracovní balíček je v tomto stavu uzamčen. Nemůže být změněn žádný jiný atribut mimo vlastního stavu balíčku."
       message_work_package_status_blocked: "Stav pracovního balíčku nelze zapisovat kvůli stavu zavření a přiřazování uzavřené verze."
       placeholder_filter_by_text: "Předmět, popis, komentáře, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Přidáno k zobrazení ve srovnávacím období"
         removal_label: "Odstraněno ze zobrazení ve srovnávacím období "

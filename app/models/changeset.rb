@@ -231,15 +231,15 @@ class Changeset < ApplicationRecord
     # don't change the status if the work package is closed
     return if work_package.status && work_package.status.is_closed?
 
-    journal_notes = I18n.t(:text_status_changed_by_changeset, value: text_tag, locale: Setting.default_language)
-    work_package.add_journal(user: user || User.anonymous, notes: journal_notes)
-    work_package.status = status
-    if Setting.commit_fix_done_ratio.present?
-      work_package.done_ratio = Setting.commit_fix_done_ratio.to_i
-    end
-    OpenProject::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
-                                changeset: self, issue: work_package)
-    if !work_package.save(validate: false) && logger
+    call = WorkPackages::UpdateService
+           .new(model: work_package,
+                user: user || User.anonymous)
+           .call(status:,
+                 journal_notes: I18n.t(:text_status_changed_by_changeset,
+                                       value: text_tag,
+                                       locale: Setting.default_language))
+
+    if call.errors.any? && logger.present?
       logger.warn("Work package ##{work_package.id} could not be saved by changeset #{id}: #{work_package.errors.full_messages}")
     end
 

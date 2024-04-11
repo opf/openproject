@@ -33,26 +33,23 @@ module Storages
     module StorageInteraction
       module OneDrive
         class DownloadLinkQuery
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+          def self.call(storage:, auth_strategy:, file_link:)
+            new(storage).call(auth_strategy:, file_link:)
+          end
+
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def self.call(storage:, user:, file_link:)
-            new(storage).call(user:, file_link:)
-          end
+          def call(auth_strategy:, file_link:)
+            if file_link.nil?
+              return failure(code: :error, payload: nil, log_message: "File link can not be nil.")
+            end
 
-          def call(user:, file_link:)
-            Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx.get(
-                Util.join_uri_path(
-                  @uri,
-                  uri_path_for(file_link.origin_id)
-                ),
-                headers: { "Authorization" => "Bearer #{token.access_token}" }
-              )
-
-              handle_errors(response)
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              handle_errors http.get(Util.join_uri_path(@storage.uri, uri_path_for(file_link.origin_id)))
             end
           end
 
@@ -63,22 +60,35 @@ module Storages
             in { status: 300..399 }
               ServiceResult.success(result: response.headers["Location"])
             in { status: 404 }
-              ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data: response))
+              failure(code: :not_found,
+                      payload: response.json(symbolize_keys: true),
+                      log_message: "Outbound request destination not found!")
             in { status: 403 }
-              ServiceResult.failure(result: :forbidden,
-                                    errors: ::Storages::StorageError.new(code: :forbidden, data: response))
+              failure(code: :forbidden,
+                      payload: response.json(symbolize_keys: true),
+                      log_message: "Outbound request forbidden!")
             in { status: 401 }
-              ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: response))
+              failure(code: :unauthorized,
+                      payload: response.json(symbolize_keys: true),
+                      log_message: "Outbound request not authorized!")
             else
-              ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data: response))
+              failure(code: :error,
+                      payload: response.json(symbolize_keys: true),
+                      log_message: "Outbound request failed with unknown error!")
             end
           end
 
           def uri_path_for(file_id)
             "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}/content"
+          end
+
+          def failure(code:, payload:, log_message:)
+            ServiceResult.failure(
+              result: code,
+              errors: ::Storages::StorageError.new(code:,
+                                                   data: StorageErrorData.new(source: self.class, payload:),
+                                                   log_message:)
+            )
           end
         end
       end

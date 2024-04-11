@@ -53,6 +53,7 @@ module Storages
     self.inheritance_column = :provider_type
 
     store_attribute :provider_fields, :automatically_managed, :boolean
+    store_attribute :provider_fields, :health_notifications_enabled, :boolean, default: true
 
     has_many :file_links, class_name: "Storages::FileLink"
     belongs_to :creator, class_name: "User"
@@ -110,6 +111,15 @@ module Storages
       split_reason = text.split("|")
       if split_reason.length > index
         split_reason[index].strip
+      end
+    end
+
+    def health_notifications_should_be_sent?
+      # it is a fallback for already created storages without health_notifications_enabled configured.
+      if health_notifications_enabled.nil?
+        automatic_management_enabled?
+      else
+        health_notifications_enabled
       end
     end
 

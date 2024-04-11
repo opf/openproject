@@ -925,6 +925,8 @@ fr:
       message_work_package_read_only: "Paquet de travail est verrouillé. Aucun attribut autre que l’État ne peut être modifié."
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Ajouté à la vue dans la période de temps de comparaison"
         removal_label: "Retiré de la vue pendant la période de temps de comparaison"

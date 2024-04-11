@@ -925,6 +925,8 @@ es:
       message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
       message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque están asignados como estado y versión cerrada."
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Añadido a la vista dentro del periodo de comparación"
         removal_label: "Eliminado de la vista dentro del periodo de tiempo de comparación"
