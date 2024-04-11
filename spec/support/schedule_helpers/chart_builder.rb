@@ -101,11 +101,11 @@ module ScheduleHelpers
 
     def parse_properties(name, property)
       case property
-      when /^follows (\w+)(?: with delay (\d+))?/
+      when /^follows (\w+)(?: with lag (\d+))?/
         chart.add_follows_relation(
           predecessor: $1.to_sym,
           follower: name.to_sym,
-          delay: $2.to_i
+          lag: $2.to_i
         )
       when /^child of (\w+)/
         chart.add_parent_relation(
@@ -122,7 +122,7 @@ module ScheduleHelpers
         spell_checker = DidYouMean::SpellChecker.new(
           dictionary: [
             "follows :wp",
-            "follows :wp with delay :int",
+            "follows :wp with lag :int",
             "child of :wp",
             "duration :int",
             "working days work week",

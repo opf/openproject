@@ -39,14 +39,14 @@ zh-CN:
   api_v3:
     errors:
       too_many_elements_created_at_once: 一次创建的元素过多。最多应为 %{max} 个，实际为 %{actual} 个。
-  permission_create_files: 创建文件
-  permission_delete_files: 删除文件
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
   permission_manage_file_links: 管理文件链接
   permission_manage_storages_in_project: 管理项目中的文件存储
-  permission_read_files: 读取文件
-  permission_share_files: 共享文件（夹）
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: 查看文件链接
-  permission_write_files: 写文件
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: 文件存储
   storages:
     buttons:
@@ -77,6 +77,15 @@ zh-CN:
       storage_delete_result_3: 如果此存储具有自动托管的项目文件夹，这些文件夹及其包含的文件将被永久删除。
     error_invalid_provider_type: 请选择一个有效的存储源。
     file_storage_view:
+      access_management:
+        automatic_management: 自动管理访问和文件夹
+        automatic_management_description: 让 OpenProject 自动为每个项目创建文件夹，并管理其用户访问权限。建议这样做，因为这样可以确保每个团队成员始终拥有正确的访问权限。
+        description: 选择用户访问和文件夹创建的管理类型。我们建议使用 "自动管理访问"，以获得更有组织的结构，并确保所有相关用户都能访问。
+        manual_management: 手动管理访问和文件夹
+        manual_management_description: 自己手动创建和管理每个项目的文件夹。您需要手动确保相关用户拥有访问权限。
+        setup_incomplete: 选择用户访问和文件夹创建的管理类型。
+        subtitle: 访问管理
+        title: 访问和项目文件夹
       automatically_managed_folders: 自动托管的文件夹
       general_information: 一般信息
       nextcloud_oauth: Nextcloud OAuth
@@ -92,8 +101,15 @@ zh-CN:
       label_healthy: 健康
       label_pending: 待处理
       since: 自从 %{datetime}
-      subtitle: 自动托管的项目文件夹
+      subtitle: 自动托管项目文件夹
       title: 健康状态
+    health_email_notifications:
+      description_subscribed: All administrators will receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: 项目文件夹是此项目上传文件的默认文件夹。用户仍然可以上传文件到其他位置。
     instructions:
@@ -143,6 +159,7 @@ zh-CN:
     label_creator: 创建者
     label_delete_storage: 删除存储
     label_edit_storage: 编辑存储
+    label_edit_storage_access_management: 编辑存储访问管理
     label_edit_storage_automatically_managed_folders: 编辑存储自动管理的文件夹
     label_edit_storage_host: 编辑存储主机
     label_existing_manual_folder: 具有手动管理权限的现有文件夹
@@ -198,8 +215,6 @@ zh-CN:
         delete: 删除文件存储
         subtitle: 添加外部文件存储以便在工作包中上传、链接和管理文件。
       managed_project_folders:
-        one_drive_information: |-
-          要在 OneDrive/SharePoint 中启用自动托管的项目文件夹，需要在用于此文件存储的驱动器上进行额外配置。如果 OpenProject 管理此驱动器的权限，那么它很可能无法用于 SharePoint 中的其他用例。有关更多信息和指导，请参考 %{drive_id_link_text}。
         subtitle: |-
           让 OpenProject 自动为每个项目创建文件夹。建议使用此方法，因为这样可以确保每个团队成员始终具有正确的访问权限。
         subtitle_short: 允许 OpenProject 自动创建每个项目的文件夹。
@@ -213,6 +228,7 @@ zh-CN:
       project_storage_members:
         subtitle: 检查所有项目成员的存储区 %{storage_name_link} 的连接状态。
         title: 成员连接状态
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: 提供商类型
       nextcloud:

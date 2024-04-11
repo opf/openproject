@@ -43,9 +43,7 @@ module Storages
                         health_checked_at: Time.now.utc,
                         health_reason: nil)
 
-        admin_users.each do |admin|
-          ::Storages::StoragesMailer.notify_healthy(admin, @storage, reason).deliver_later
-        end
+        notify_healthy_admin_users(reason)
       end
     end
 
@@ -76,7 +74,17 @@ module Storages
 
     private
 
+    def notify_healthy_admin_users(reason)
+      return unless @storage.health_notifications_should_be_sent?
+
+      admin_users.each do |admin|
+        ::Storages::StoragesMailer.notify_healthy(admin, @storage, reason).deliver_later
+      end
+    end
+
     def notify_unhealthy_admin_users
+      return unless @storage.health_notifications_should_be_sent?
+
       admin_users.each do |admin|
         ::Storages::StoragesMailer.notify_unhealthy(admin, @storage).deliver_later
       end

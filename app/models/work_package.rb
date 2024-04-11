@@ -43,7 +43,7 @@ class WorkPackage < ApplicationRecord
 
   include OpenProject::Journal::AttachmentHelper
 
-  DONE_RATIO_OPTIONS = %w(field status disabled).freeze
+  DONE_RATIO_OPTIONS = %w[field status].freeze
 
   belongs_to :project
   belongs_to :type

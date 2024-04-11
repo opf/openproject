@@ -925,6 +925,8 @@ pt-PT:
       message_work_package_read_only: "O pacote de trabalho está bloqueado no presente estado. Nenhum atributo que não seja o estado pode ser alterado."
       message_work_package_status_blocked: "O estado do pacote de trabalho não pode ser gravado devido ao estado fechado e à versão fechada estarem a ser atribuídas."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Adicionado à visualização dentro do período de comparação"
         removal_label: "Removido da visualização dentro do período de comparação"
@@ -1324,3 +1326,7 @@ pt-PT:
       drop_modal:
         focus_grab: "Esta é uma âncora de foco para modais. Pressione Shift+tab para voltar ao elemento de gatilho modal."
         Close: "Fechar"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

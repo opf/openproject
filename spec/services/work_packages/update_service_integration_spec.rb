@@ -28,9 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
+RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -105,10 +105,10 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     instance.call(**attributes.merge(send_notifications: false).symbolize_keys)
   end
 
-  describe 'updating subject' do
-    let(:attributes) { { subject: 'New subject' } }
+  describe "updating subject" do
+    let(:attributes) { { subject: "New subject" } }
 
-    it 'updates the subject' do
+    it "updates the subject" do
       expect(subject)
         .to be_success
 
@@ -117,7 +117,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  context 'when updating the project' do
+  context "when updating the project" do
     let(:target_project) do
       p = create(:project,
                  types: target_types,
@@ -135,25 +135,25 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     let(:target_parent) { nil }
     let(:target_types) { [type] }
 
-    it 'is is success and updates the project' do
+    it "is is success and updates the project" do
       expect(subject).to be_success
       expect(work_package.reload.project).to eql target_project
     end
 
-    context 'with missing permissions' do
+    context "with missing permissions" do
       let(:target_permissions) { [] }
 
-      it 'is failure' do
+      it "is failure" do
         expect(subject).to be_failure
       end
     end
 
-    describe 'time_entries' do
+    describe "time_entries" do
       let!(:time_entries) do
         create_list(:time_entry, 2, project:, work_package:)
       end
 
-      it 'moves the time entries along' do
+      it "moves the time entries along" do
         expect(subject)
           .to be_success
 
@@ -162,26 +162,26 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       end
     end
 
-    describe 'memberships' do
+    describe "memberships" do
       let(:wp_role) { create(:work_package_role, permissions: [:view_work_packages]) }
       let(:other_user) { create(:user) }
       let!(:membership) do
         create(:member, project:, entity: work_package, principal: other_user, roles: [wp_role])
       end
 
-      it 'moves memberships for the entity to the new project' do
+      it "moves memberships for the entity to the new project" do
         expect do
           subject
           membership.reload
         end.to change(membership, :project).from(project).to(target_project)
       end
 
-      describe 'when the work package has descendents' do
+      describe "when the work package has descendents" do
         let!(:child_membership) do
           create(:member, project:, entity: child_work_package, principal: other_user, roles: [wp_role])
         end
 
-        it 'moves memberships for the entity and its descendents to the new project' do
+        it "moves memberships for the entity and its descendents to the new project" do
           expect do
             subject
             membership.reload
@@ -192,7 +192,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       end
     end
 
-    describe 'categories' do
+    describe "categories" do
       let(:category) do
         create(:category,
                project:)
@@ -203,14 +203,14 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         work_package.save!
       end
 
-      context 'with equally named category' do
+      context "with equally named category" do
         let!(:target_category) do
           create(:category,
                  name: category.name,
                  project: target_project)
         end
 
-        it 'replaces the current category by the equally named one' do
+        it "replaces the current category by the equally named one" do
           expect(subject)
             .to be_success
 
@@ -219,13 +219,13 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         end
       end
 
-      context 'without a target category' do
+      context "without a target category" do
         let!(:other_category) do
           create(:category,
                  project: target_project)
         end
 
-        it 'removes the category' do
+        it "removes the category" do
           expect(subject)
             .to be_success
 
@@ -235,11 +235,11 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       end
     end
 
-    describe 'version' do
-      let(:sharing) { 'none' }
+    describe "version" do
+      let(:sharing) { "none" }
       let(:version) do
         create(:version,
-               status: 'open',
+               status: "open",
                project:,
                sharing:)
       end
@@ -249,8 +249,8 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
                project:)
       end
 
-      context 'with an unshared version' do
-        it 'removes the version' do
+      context "with an unshared version" do
+        it "removes the version" do
           expect(subject)
             .to be_success
 
@@ -259,10 +259,10 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         end
       end
 
-      context 'with a system wide shared version' do
-        let(:sharing) { 'system' }
+      context "with a system wide shared version" do
+        let(:sharing) { "system" }
 
-        it 'keeps the version' do
+        it "keeps the version" do
           expect(subject)
             .to be_success
 
@@ -271,13 +271,13 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         end
       end
 
-      context 'when moving the work package in project hierarchy' do
+      context "when moving the work package in project hierarchy" do
         let(:target_parent) do
           project
         end
 
-        context 'with an unshared version' do
-          it 'removes the version' do
+        context "with an unshared version" do
+          it "removes the version" do
             expect(subject)
               .to be_success
 
@@ -286,10 +286,10 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
           end
         end
 
-        context 'with a shared version' do
-          let(:sharing) { 'tree' }
+        context "with a shared version" do
+          let(:sharing) { "tree" }
 
-          it 'keeps the version' do
+          it "keeps the version" do
             expect(subject)
               .to be_success
 
@@ -300,7 +300,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       end
     end
 
-    describe 'type' do
+    describe "type" do
       let(:target_types) { [type, other_type] }
       let(:other_type) { create(:type) }
       let(:default_type) { type }
@@ -312,8 +312,8 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         create(:workflow, type: other_type, role:, old_status_id: status.id)
       end
 
-      context 'with the type existing in the target project' do
-        it 'keeps the type' do
+      context "with the type existing in the target project" do
+        it "keeps the type" do
           expect(subject)
             .to be_success
 
@@ -322,10 +322,10 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         end
       end
 
-      context 'with a default type existing in the target project' do
+      context "with a default type existing in the target project" do
         let(:target_types) { [other_type, default_type] }
 
-        it 'uses the default type' do
+        it "uses the default type" do
           expect(subject)
             .to be_success
 
@@ -334,10 +334,10 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         end
       end
 
-      context 'with only non default types' do
+      context "with only non default types" do
         let(:target_types) { [other_type] }
 
-        it 'uses the first type' do
+        it "uses the first type" do
           expect(subject)
             .to be_success
 
@@ -346,7 +346,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         end
       end
 
-      context 'with an invalid type being provided' do
+      context "with an invalid type being provided" do
         let(:target_types) { [type] }
 
         let(:attributes) do
@@ -354,14 +354,14 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
             type: other_type }
         end
 
-        it 'is unsuccessful' do
+        it "is unsuccessful" do
           expect(subject)
             .to be_failure
         end
       end
     end
 
-    describe 'relations' do
+    describe "relations" do
       let!(:relation) do
         create(:follows_relation,
                from: work_package,
@@ -369,8 +369,8 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
                           project:))
       end
 
-      context 'with cross project relations allowed', with_settings: { cross_project_work_package_relations: true } do
-        it 'keeps the relation' do
+      context "with cross project relations allowed", with_settings: { cross_project_work_package_relations: true } do
+        it "keeps the relation" do
           expect(subject)
             .to be_success
 
@@ -379,8 +379,8 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         end
       end
 
-      context 'with cross project relations disabled', with_settings: { cross_project_work_package_relations: false } do
-        it 'deletes the relation' do
+      context "with cross project relations disabled", with_settings: { cross_project_work_package_relations: false } do
+        it "deletes the relation" do
           expect(subject)
             .to be_success
 
@@ -391,7 +391,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'inheriting dates' do
+  describe "inheriting dates" do
     let(:attributes) { { start_date: Time.zone.today - 8.days, due_date: Time.zone.today + 12.days } }
     let(:sibling1_attributes) do
       work_package_attributes.merge(start_date: Time.zone.today - 5.days,
@@ -410,7 +410,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       sibling2_work_package
     end
 
-    it 'works and inherits' do
+    it "works and inherits" do
       expect(subject)
         .to be_success
 
@@ -444,25 +444,22 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'inheriting done_ratio' do
-    let(:attributes) { { done_ratio: 50 } }
+  describe "inheriting done_ratio" do
+    let(:attributes) { { estimated_hours: 10.0, remaining_hours: 5.0 } }
     let(:work_package_attributes) do
       { project_id: project.id,
         type_id: type.id,
         author_id: user.id,
         status_id: status.id,
-        priority:,
-        estimated_hours: 10 }
+        priority: }
     end
 
     let(:sibling1_attributes) do
-      work_package_attributes.merge(estimated_hours: nil,
-                                    done_ratio: 20,
-                                    parent: parent_work_package)
+      work_package_attributes.merge(parent: parent_work_package)
     end
     let(:sibling2_attributes) do
-      work_package_attributes.merge(done_ratio: 0,
-                                    estimated_hours: 100,
+      work_package_attributes.merge(estimated_hours: 100.0,
+                                    remaining_hours: 25.0,
                                     parent: parent_work_package)
     end
 
@@ -473,37 +470,36 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       sibling2_work_package
     end
 
-    it 'works and inherits average done ratio of leaves weighted by work values' do
+    it "works and inherits average done ratio of leaves weighted by work values" do
       expect(subject)
         .to be_success
 
-      # set to the provided values
+      # sets it to the computation between estimated_hours and remaining_hours
       expect(work_package.done_ratio)
-        .to eql(attributes[:done_ratio])
-
-      # calculated
-      # sibling1 not factored in as its estimated_hours are nil
-      calculated_ratio = ((work_package.done_ratio * work_package.estimated_hours) +
-                          (sibling2_work_package.done_ratio * sibling2_work_package.estimated_hours)) / \
-                         (work_package.done_ratio +
-                          sibling2_work_package.done_ratio)
+        .to eq(50)
 
       [parent_work_package,
        grandparent_work_package].each do |wp|
         wp.reload
 
+        # sibling1 not factored in as its estimated and remaining hours are nil
+        #
+        # Total factored in estimated_hours (work_package + sibling2) = 110
+        # Total factored in remaining_hours (work_package + sibling2) = 30
+        # Work done = 80
+        # Calculated done ratio rounded up = (80 / 110) * 100
         expect(wp.derived_done_ratio)
-          .to eql(calculated_ratio.to_i)
+          .to eq(73)
       end
 
       # unchanged
       sibling1_work_package.reload
       expect(sibling1_work_package.done_ratio)
-        .to eql(sibling1_attributes[:done_ratio])
+        .to be_nil
 
       sibling2_work_package.reload
       expect(sibling2_work_package.done_ratio)
-        .to eql(sibling2_attributes[:done_ratio])
+        .to eq(75) # Was not changed as
 
       # Returns changed work packages
       expect(subject.all_results)
@@ -511,7 +507,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'inheriting estimated_hours' do
+  describe "inheriting estimated_hours" do
     let(:attributes) { { estimated_hours: 7 } }
     let(:sibling1_attributes) do
       # no estimated hours
@@ -534,7 +530,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       child_work_package
     end
 
-    it 'works and inherits' do
+    it "works and inherits" do
       expect(subject)
         .to be_success
 
@@ -576,7 +572,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'inheriting ignore_non_working_days' do
+  describe "inheriting ignore_non_working_days" do
     let(:attributes) { { ignore_non_working_days: true } }
 
     before do
@@ -585,7 +581,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       sibling1_work_package
     end
 
-    it 'propagates the value up the ancestor chain' do
+    it "propagates the value up the ancestor chain" do
       expect(subject)
         .to be_success
 
@@ -605,7 +601,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'closing duplicates on closing status' do
+  describe "closing duplicates on closing status" do
     let(:status_closed) do
       create(:status,
              is_closed: true).tap do |status_closed|
@@ -625,7 +621,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     let(:attributes) { { status: status_closed } }
 
-    it 'works and closes duplicates' do
+    it "works and closes duplicates" do
       expect(subject)
         .to be_success
 
@@ -638,7 +634,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'rescheduling work packages along follows/hierarchy relations' do
+  describe "rescheduling work packages along follows/hierarchy relations" do
     # layout
     #                   following_parent_work_package +-follows- following2_parent_work_package   following3_parent_work_package
     #                                    |                                 |                          /                  |
@@ -662,7 +658,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
     let(:following_attributes) do
       work_package_attributes.merge(parent: following_parent_work_package,
-                                    subject: 'following',
+                                    subject: "following",
                                     start_date: Time.zone.today + 6.days,
                                     due_date: Time.zone.today + 20.days)
     end
@@ -673,7 +669,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       end
     end
     let(:following_parent_attributes) do
-      work_package_attributes.merge(subject: 'following_parent',
+      work_package_attributes.merge(subject: "following_parent",
                                     start_date: Time.zone.today + 6.days,
                                     due_date: Time.zone.today + 20.days)
     end
@@ -683,7 +679,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
     let(:following2_attributes) do
       work_package_attributes.merge(parent: following2_parent_work_package,
-                                    subject: 'following2',
+                                    subject: "following2",
                                     start_date: Time.zone.today + 21.days,
                                     due_date: Time.zone.today + 25.days)
     end
@@ -692,7 +688,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
              following2_attributes)
     end
     let(:following2_parent_attributes) do
-      work_package_attributes.merge(subject: 'following2_parent',
+      work_package_attributes.merge(subject: "following2_parent",
                                     start_date: Time.zone.today + 21.days,
                                     due_date: Time.zone.today + 25.days)
     end
@@ -703,7 +699,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       end
     end
     let(:following3_attributes) do
-      work_package_attributes.merge(subject: 'following3',
+      work_package_attributes.merge(subject: "following3",
                                     parent: following3_parent_work_package,
                                     start_date: Time.zone.today + 26.days,
                                     due_date: Time.zone.today + 30.days)
@@ -715,7 +711,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       end
     end
     let(:following3_parent_attributes) do
-      work_package_attributes.merge(subject: 'following3_parent',
+      work_package_attributes.merge(subject: "following3_parent",
                                     start_date: Time.zone.today + 26.days,
                                     due_date: Time.zone.today + 36.days)
     end
@@ -725,7 +721,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
     let(:following3_sibling_attributes) do
       work_package_attributes.merge(parent: following3_parent_work_package,
-                                    subject: 'following3_sibling',
+                                    subject: "following3_sibling",
                                     start_date: Time.zone.today + 32.days,
                                     due_date: Time.zone.today + 36.days)
     end
@@ -747,7 +743,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     # rubocop:disable RSpec/ExampleLength
     # rubocop:disable RSpec/MultipleExpectations
-    it 'propagates the changes to start/finish date along' do
+    it "propagates the changes to start/finish date along" do
       expect(subject)
         .to be_success
 
@@ -809,7 +805,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     # rubocop:enable RSpec/MultipleExpectations
   end
 
-  describe 'rescheduling work packages with a parent having a follows relation (Regression #43220)' do
+  describe "rescheduling work packages with a parent having a follows relation (Regression #43220)" do
     let(:predecessor_work_package_attributes) do
       work_package_attributes.merge(
         start_date: Time.zone.today + 1.day,
@@ -843,7 +839,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     let(:attributes) { { parent: parent_work_package } }
 
-    it 'sets the parent and child dates correctly' do
+    it "sets the parent and child dates correctly" do
       expect(subject)
         .to be_success
 
@@ -858,10 +854,10 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'changing the parent' do
+  describe "changing the parent" do
     let(:former_parent_attributes) do
       {
-        subject: 'former parent',
+        subject: "former parent",
         project_id: project.id,
         type_id: type.id,
         author_id: user.id,
@@ -878,7 +874,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     let(:former_sibling_attributes) do
       work_package_attributes.merge(
-        subject: 'former sibling',
+        subject: "former sibling",
         parent: former_parent_work_package,
         start_date: Time.zone.today + 3.days,
         due_date: Time.zone.today + 6.days
@@ -901,7 +897,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     let(:new_parent_attributes) do
       work_package_attributes.merge(
-        subject: 'new parent',
+        subject: "new parent",
         parent: nil,
         start_date: Time.zone.today + 10.days,
         due_date: Time.zone.today + 12.days
@@ -913,7 +909,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     let(:new_sibling_attributes) do
       work_package_attributes.merge(
-        subject: 'new sibling',
+        subject: "new sibling",
         parent: new_parent_work_package,
         start_date: Time.zone.today + 10.days,
         due_date: Time.zone.today + 12.days
@@ -931,7 +927,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       new_sibling_work_package.reload
     end
 
-    it 'changes the parent reference and reschedules former and new parent' do
+    it "changes the parent reference and reschedules former and new parent" do
       expect(subject)
         .to be_success
 
@@ -963,11 +959,11 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'changing the parent with the parent being restricted in moving to an earlier date' do
+  describe "changing the parent with the parent being restricted in moving to an earlier date" do
     # there is actually some time between the new parent and its predecessor
     let(:new_parent_attributes) do
       work_package_attributes.merge(
-        subject: 'new parent',
+        subject: "new parent",
         parent: nil,
         start_date: Time.zone.today + 8.days,
         due_date: Time.zone.today + 14.days
@@ -980,7 +976,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     let(:new_parent_predecessor_attributes) do
       work_package_attributes.merge(
-        subject: 'new parent predecessor',
+        subject: "new parent predecessor",
         parent: nil,
         start_date: Time.zone.today + 1.day,
         due_date: Time.zone.today + 4.days
@@ -1008,7 +1004,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       new_parent_predecessor_work_package.reload
     end
 
-    it 'reschedules the parent and the work package while adhering to the limitation imposed by the predecessor' do
+    it "reschedules the parent and the work package while adhering to the limitation imposed by the predecessor" do
       expect(subject)
         .to be_success
 
@@ -1043,7 +1039,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'removing the parent on a work package which precedes its sibling' do
+  describe "removing the parent on a work package which precedes its sibling" do
     let(:work_package_attributes) do
       { project_id: project.id,
         type_id: type.id,
@@ -1058,7 +1054,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     let(:parent_attributes) do
       { project_id: project.id,
-        subject: 'parent',
+        subject: "parent",
         type_id: type.id,
         author_id: user.id,
         status_id: status.id,
@@ -1073,7 +1069,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     let(:sibling_attributes) do
       work_package_attributes.merge(
-        subject: 'sibling',
+        subject: "sibling",
         start_date: Time.zone.today + 4.days,
         due_date: Time.zone.today + 10.days
       )
@@ -1091,7 +1087,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       sibling_work_package.reload
     end
 
-    it 'removes the parent and reschedules it' do
+    it "removes the parent and reschedules it" do
       expect(subject)
         .to be_success
 
@@ -1115,7 +1111,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'replacing the attachments' do
+  describe "replacing the attachments" do
     let!(:old_attachment) do
       create(:attachment, container: work_package)
     end
@@ -1127,7 +1123,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
 
     # rubocop:disable RSpec/ExampleLength
-    it 'reports on invalid attachments and replaces the existent with the new if everything is valid' do
+    it "reports on invalid attachments and replaces the existent with the new if everything is valid" do
       work_package.attachments.reload
 
       result = instance.call(attachment_ids: [other_users_attachment.id])
@@ -1179,7 +1175,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
   # - Child2: C
   #
   # Trying to set parent of C to B failed because parent relation is requested before change is saved.
-  describe 'Changing parent to a new one that has the same parent as the current element (Regression #27746)' do
+  describe "Changing parent to a new one that has the same parent as the current element (Regression #27746)" do
     shared_let(:admin) { create(:admin) }
     let(:user) { admin }
 
@@ -1192,34 +1188,34 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
 
     let(:attributes) { { parent: wp_b } }
 
-    it 'allows changing the parent' do
+    it "allows changing the parent" do
       expect(subject).to be_success
     end
   end
 
-  describe 'Changing type to one that does not have the current status (Regression #27780)' do
+  describe "Changing type to one that does not have the current status (Regression #27780)" do
     let(:type) { create(:type_with_workflow) }
     let(:new_type) { create(:type) }
     let(:project_types) { [type, new_type] }
     let(:attributes) { { type: new_type } }
 
-    context 'when the work package does NOT have default status' do
+    context "when the work package does NOT have default status" do
       let(:status) { create(:status) }
 
-      it 'assigns the default status' do
+      it "assigns the default status" do
         expect(subject).to be_success
 
         expect(work_package.status).to eq(Status.default)
       end
     end
 
-    context 'when the work package does have default status' do
+    context "when the work package does have default status" do
       let(:status) { create(:default_status) }
       let!(:workflow_type) do
         create(:workflow, type: new_type, role:, old_status_id: status.id)
       end
 
-      it 'does not set the status' do
+      it "does not set the status" do
         expect(subject).to be_success
 
         expect(work_package)
@@ -1228,7 +1224,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'removing an invalid parent' do
+  describe "removing an invalid parent" do
     # The parent does not have a required custom field set but will need to be touched since.
     # the dates, inherited from its children (and then the only remaining child) will have to be updated.
     let!(:parent) do
@@ -1266,7 +1262,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       }
     end
 
-    it 'removes the parent successfully and reschedules the parent' do
+    it "removes the parent successfully and reschedules the parent" do
       expect(subject).to be_success
 
       expect(work_package.reload.parent).to be_nil
@@ -1278,7 +1274,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'updating an invalid work package' do
+  describe "updating an invalid work package" do
     # The work package does not have a required custom field set.
     let(:custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
@@ -1286,11 +1282,11 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
         project.work_package_custom_fields << cf
       end
     end
-    let(:attributes) { { subject: 'A new subject' } }
+    let(:attributes) { { subject: "A new subject" } }
 
     let(:work_package_attributes) do
       {
-        subject: 'The old subject',
+        subject: "The old subject",
         project:,
         type: project.types.first
       }
@@ -1302,7 +1298,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       custom_field
     end
 
-    it 'is a failure and does not save the change' do
+    it "is a failure and does not save the change" do
       expect(subject).to be_failure
 
       expect(work_package.reload.subject)
@@ -1310,7 +1306,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
     end
   end
 
-  describe 'updating the type (custom field resetting)' do
+  describe "updating the type (custom field resetting)" do
     let(:project_types) { [type, new_type] }
     let(:new_type) { create(:type) }
     let!(:custom_field_of_current_type) do
@@ -1337,7 +1333,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       }
     end
 
-    it 'is success, removes the existing custom field value and sets the default for the new one' do
+    it "is success, removes the existing custom field value and sets the default for the new one" do
       expect(subject).to be_success
 
       expect(work_package.reload.custom_values.pluck(:custom_field_id, :value))

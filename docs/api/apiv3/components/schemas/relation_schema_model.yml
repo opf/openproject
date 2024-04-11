@@ -30,7 +30,7 @@ example:
     name: To work package
     type: WorkPackage
     writable: false
-  delay:
-    name: Delay
+  lag:
+    name: Lag
     type: Integer
     writable: true

@@ -924,6 +924,8 @@ de:
       message_work_package_read_only: "Das Arbeitspaket ist in diesem Status gesperrt. Kein Attribut außer des Status selbst kann darin verändert werden."
       message_work_package_status_blocked: "Das Arbeitspaket ist auf geschlossene Status- und Versions-Attribute gesetzt, der Status kann nicht verändert werden."
       placeholder_filter_by_text: "Titel, Beschreibung, Kommentare, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt"
         removal_label: "Innerhalb des Vergleichszeitraums aus der Ansicht entfernt"
@@ -1323,3 +1325,7 @@ de:
       drop_modal:
         focus_grab: "Dies ist ein Fokusanker für Modale. Drücken Sie Shift+Tab um zum vorherigen öffnenden Element zurückzukehren."
         Close: "Schließen"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

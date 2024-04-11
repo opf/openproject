@@ -927,6 +927,8 @@ lt:
       message_work_package_read_only: "Šioje būsenoje darbų paketas yra užrakintas. Negali būti keičiamas joks atributas, išskyrus būseną."
       message_work_package_status_blocked: "Darbų paketo būsena negali būti keičiama, nes dabar yra uždaryta ir uždaryta versija yra priskirta."
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Pridėta į vaizdą lyginimo laiko periode"
         removal_label: "Išimta iš vaizdo lyginimo laiko periode"
@@ -1330,3 +1332,7 @@ lt:
       drop_modal:
         focus_grab: "Tai fokuso inkaras modalams. Spauskite shift+tab, kad grįžtumėte į modalinių trigerių elementą."
         Close: "Uždaryti"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

@@ -924,6 +924,8 @@ ko:
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
       message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "비교 기간 내에서 보기에 추가됨"
         removal_label: "비교 기간 내에서 보기에서 제거됨"
@@ -1321,3 +1323,7 @@ ko:
       drop_modal:
         focus_grab: "모달용 포커스 앵커입니다. 모달 트리거 요소로 돌아가려면 shift+tab을 누르세요."
         Close: "닫기"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

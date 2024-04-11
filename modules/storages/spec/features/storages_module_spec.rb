@@ -73,7 +73,7 @@ RSpec.describe "Storages module", :js do
 
     context "when showing system project settings page" do
       it_behaves_like "has storages module", sections: [:content] do
-        let(:path) { admin_settings_projects_path }
+        let(:path) { admin_settings_new_project_path }
       end
     end
 

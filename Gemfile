@@ -233,7 +233,7 @@ group :test do
   # Test prof provides factories from code
   # and other niceties
   gem "test-prof", "~> 1.3.0"
-  gem "turbo_tests", github: "crohr/turbo_tests", ref: "fix/runtime-info"
+  gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.0"
@@ -292,7 +292,7 @@ end
 group :development do
   gem "listen", "~> 3.9.0" # Use for event-based reloaders
 
-  gem 'letter_opener_web'
+  gem "letter_opener_web"
 
   gem "spring"
   gem "spring-commands-rspec"
@@ -322,7 +322,7 @@ group :development, :test do
   gem "pry-rescue", "~> 1.6.0"
 
   # ruby linting
-  gem "rubocop", require: false
+  gem "rubocop", "~> 1.62.1", require: false
   gem "rubocop-inflector", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
@@ -381,6 +381,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.8.0"
-gem "openproject-octicons_helper", "~>19.8.0"
-gem "openproject-primer_view_components", "~>0.23.0"
+gem "openproject-octicons", "~>19.9.0"
+gem "openproject-octicons_helper", "~>19.9.0"
+gem "openproject-primer_view_components", "~>0.28.1"
