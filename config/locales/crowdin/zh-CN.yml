@@ -2289,29 +2289,29 @@ zh-CN:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "存储"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
-            error-solved-on: "Solved On"
+            summary: "好消息！您的存储 %{storage_name}当前显示为 \"健康\"。"
+            error-solved-on: "解决于"
             recommendation: "我们将继续监测该系统，确保其保持良好的健康状态。若出现任何故障，我们将通知您。"
             details: "如需了解更多详情或进行必要的修改，请访问您的存储配置"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            summary: "您的存储设备 %{storage_name}的状态目前显示为 \"错误\"。我们检测到一个可能需要您注意的问题。"
             error-details: "错误详情"
             error-message: "错误消息"
-            error-occurred-on: "Occurred On"
-            recommendation: "We recommend heading over to the storage configuration page to address this issue"
-            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
-        email_notification_settings: "Storage email notification settings"
-        see_storage_settings: "See storage settings"
+            error-occurred-on: "发生于"
+            recommendation: "我们建议您前往存储配置页面来解决这个问题"
+            unsubscribe: "如果您不想再收到这些通知，可以随时取消订阅。要取消订阅，请按照本页面的说明进行操作"
+        email_notification_settings: "存储电子邮件通知设置"
+        see_storage_settings: "查看存储设置"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
+          subject: "存储 \"%{name}\" 现在很健康！"
           solved_at: "解决时间"
-          summary: "The problem with your %{storage_name} storage integration is now solved"
+          summary: "%{storage_name} 存储集成的问题已经解决"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
-          since: "since"
-          summary: "There is a problem with your %{storage_name} storage integration"
+          subject: "存储 \"%{name}\" 不是健康状态！"
+          since: "从"
+          summary: "%{storage_name} 存储集成存在问题"
           troubleshooting:
             text: "如需了解更多信息，请检查文件存储"
             link_text: "故障排除文档"
