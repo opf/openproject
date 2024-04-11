@@ -926,6 +926,8 @@ sl:
       message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
       message_work_package_status_blocked: "Stanja delovnega paketa ni mogoče napisati zaradi zaprtega stanja in dodeljene zaprte različice."
       placeholder_filter_by_text: "Subjekt, opis, komentarji,... "
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -1329,3 +1331,7 @@ sl:
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "Zapri"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

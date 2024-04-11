@@ -34,7 +34,7 @@ module WorkPackage::Exports
 
       def format(work_package, **)
         derived_done_ratio = work_package.derived_done_ratio
-        derived  = derived_done_ratio > 0 ? " · Σ #{derived_done_ratio}%" : ""
+        derived = derived_done_ratio&.positive? ? " · Σ #{derived_done_ratio}%" : ""
         "#{work_package.done_ratio}%#{derived}"
       end
     end

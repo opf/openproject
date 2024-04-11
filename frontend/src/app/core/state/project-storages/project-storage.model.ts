@@ -34,7 +34,8 @@ export interface IProjectStorageHalResourceLinks extends IHalResourceLinks {
   project:IHalResourceLink;
   creator:IHalResourceLink;
   projectFolder?:IHalOptionalTitledLink;
-  openWithConnectionEnsured:IHalResourceLink;
+  open?:IHalResourceLink;
+  openWithConnectionEnsured?:IHalResourceLink;
 }
 
 export interface IProjectStorage {

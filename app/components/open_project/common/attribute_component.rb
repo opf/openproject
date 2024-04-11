@@ -76,6 +76,14 @@ module OpenProject
 
       private
 
+      def first_paragraph_content
+        return unless first_paragraph_ast
+
+        first_paragraph_ast
+          .inner_html
+          .html_safe # rubocop:disable Rails/OutputSafety
+      end
+
       def first_paragraph
         @first_paragraph ||= if body_children.any?
                                body_children
@@ -85,6 +93,13 @@ module OpenProject
                              else
                                ""
                              end
+      end
+
+      def first_paragraph_ast
+        @first_paragraph_ast ||= text_ast
+                                 .xpath("html/body")
+                                 .children
+                                 .first
       end
 
       def text_ast
@@ -98,7 +113,10 @@ module OpenProject
       end
 
       def multi_type?
-        first_paragraph.include?("figure") || first_paragraph.include?("macro") || (body_children.any? && first_paragraph.blank?)
+        @multi_type ||= (description.present? && first_paragraph_ast.nil?) ||
+          %w[opce-macro-embedded-table figure macro].include?(first_paragraph_ast.name) ||
+          first_paragraph_ast.css("figure, macro, .op-uc-toc--list, .opce-macro-embedded-table")&.any? ||
+          (body_children.any? && first_paragraph.blank?)
       end
     end
   end

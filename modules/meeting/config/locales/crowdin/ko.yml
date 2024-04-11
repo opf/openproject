@@ -44,7 +44,7 @@ ko:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -96,7 +96,7 @@ ko:
   label_start_date: "시작일"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "미팅 %{title} 복사"
       attachments: "Copy attachments"
@@ -165,6 +165,7 @@ ko:
   label_agenda_item_move_up: "위로 이동"
   label_agenda_item_move_down: "아래로 이동"
   label_agenda_item_add_notes: "메모 추가"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
@@ -172,8 +173,11 @@ ko:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "미팅 세부 정보"
   label_meeting_details_edit: "미팅 세부 정보 편집"
+  label_meeting_state: "Meeting state"
   label_meeting_state_open: "열기"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "닫음"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "미팅 다시 열기"
   label_meeting_close_action: "미팅 닫기"
   text_meeting_open_description: "이 미팅은 오픈 상태입니다. 의제 항목을 추가/제거하고 원하는 대로 편집할 수 있습니다. 미팅이 끝나면 닫아서 잠그세요."

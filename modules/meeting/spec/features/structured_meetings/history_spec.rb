@@ -53,7 +53,9 @@ RSpec.describe "history",
   shared_let(:work_package) do
     create(:work_package, project:, subject: "Important task")
   end
-
+  shared_let(:changed_wp) do
+    create(:work_package, project:, subject: "Changed task")
+  end
   shared_let(:other_wp) do
     create(:work_package, project: other_project, subject: "Private WP")
   end
@@ -82,6 +84,7 @@ RSpec.describe "history",
 
   let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
   let(:history_page) { Pages::StructuredMeeting::History.new(meeting) }
+  let(:editor) { Components::WysiwygEditor.new "#content", "opce-ckeditor-augmented-textarea" }
 
   it "allows browsing the history", with_settings: { journal_aggregation_time_minutes: 0 } do
     login_as(view_only_user)
@@ -101,7 +104,8 @@ RSpec.describe "history",
     meeting.update!(start_time: DateTime.parse("2024-03-29T14:00:00Z"),
                     duration: 1,
                     title: "Updated",
-                    location: "Wakanda")
+                    location: "Wakanda",
+                    state: 5)
     login_as(view_only_user)
 
     show_page.visit!
@@ -118,14 +122,17 @@ RSpec.describe "history",
       expect(page).to have_css("li", text: "Location changed from https://some-url.com to Wakanda")
       expect(page).to have_css("li", text: "Start time changed from 03/28/2024 01:30 PM to 03/29/2024 02:00 PM")
       expect(page).to have_css("li", text: "Duration changed from 1 hr, 30 mins to 1 hr")
+      expect(page).to have_css("li", text: "Meeting status set to Closed")
     end
+
+    meeting.update!(state: 0)
 
     login_as(user)
     show_page.visit!
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
-      fill_in "Duration (min)", with: "25"
+      fill_in "min", with: "25"
     end
 
     show_page.expect_agenda_item(title: "My agenda item")
@@ -150,7 +157,7 @@ RSpec.describe "history",
     item = MeetingAgendaItem.find_by(title: "My agenda item")
     show_page.edit_agenda_item(item) do
       fill_in "Title", with: "Updated title"
-      fill_in "Duration", with: "5"
+      fill_in "min", with: "5"
       click_on "Save"
     end
 
@@ -158,7 +165,7 @@ RSpec.describe "history",
     history_page.expect_event(
       'Agenda item "Updated title"',
       actor: user.name,
-      timestamp: format_time(item.updated_at.utc),
+      timestamp: format_time(item.reload.updated_at.utc),
       action: "updated by"
     )
 
@@ -174,10 +181,10 @@ RSpec.describe "history",
     show_page.add_agenda_item do
       fill_in "Title", with: "Second"
     end
+    show_page.expect_agenda_item(title: "Second")
     second = MeetingAgendaItem.find_by(title: "Second")
     show_page.select_action(second, I18n.t(:label_sort_higher))
 
-    login_as(view_only_user)
     show_page.visit!
 
     history_page.open_history_modal
@@ -200,12 +207,12 @@ RSpec.describe "history",
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
-    # Add + Remove linked work package
+    # Add linked work package
     show_page.visit!
 
     show_page.add_agenda_item(type: WorkPackage) do
       select_autocomplete(find_test_selector("op-agenda-items-wp-autocomplete"),
-                          query: "task",
+                          query: "Important task",
                           results_selector: "body")
     end
 
@@ -216,18 +223,39 @@ RSpec.describe "history",
     history_page.open_history_modal
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: work_package.to_s.strip)
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "created by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "added by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
+    # Update linked work package
+    show_page.visit!
+
+    show_page.edit_agenda_item(wp_item) do
+      select_autocomplete(find_test_selector("op-agenda-items-wp-autocomplete"),
+                          query: "Changed task",
+                          results_selector: "body")
+      click_link_or_button "Save"
+    end
+
+    show_page.expect_agenda_item title: "Changed task"
+    wp_item = MeetingAgendaItem.find_by!(work_package_id: changed_wp.id)
+    expect(wp_item).to be_present
+
+    history_page.open_history_modal
+    item = history_page.first_item
+    expect(item).to have_css(".op-activity-list--item-title", text: changed_wp.to_s.strip)
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "updated by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
+    expect(item).to have_css("li", text: "Agenda item work package changed from Important task to Changed task")
+
+    # Remove linked work package
     show_page.visit!
     show_page.remove_agenda_item wp_item
     history_page.open_history_modal
 
     item = history_page.first_item
-    expect(item).to have_css(".op-activity-list--item-title", text: work_package.to_s.strip)
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
+    expect(item).to have_css(".op-activity-list--item-title", text: changed_wp.to_s.strip)
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "removed by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
-
 
     # With a work package linked in another project
     show_page.visit!
@@ -245,7 +273,7 @@ RSpec.describe "history",
     history_page.open_history_modal
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: other_wp.to_s.strip)
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "created by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "added by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
     # Is not visible for view_only_user
@@ -255,7 +283,7 @@ RSpec.describe "history",
     history_page.open_history_modal
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: I18n.t(:label_agenda_item_undisclosed_wp, id: other_wp.id))
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "created by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "added by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
     login_as(user)
@@ -265,7 +293,7 @@ RSpec.describe "history",
 
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: other_wp.to_s.strip)
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "removed by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
 
     # Is not visible for view_only_user
@@ -275,8 +303,38 @@ RSpec.describe "history",
     history_page.open_history_modal
     item = history_page.first_item
     expect(item).to have_css(".op-activity-list--item-title", text: I18n.t(:label_agenda_item_undisclosed_wp, id: other_wp.id))
-    expect(item).to have_css(".op-activity-list--item-subtitle", text: "deleted by")
+    expect(item).to have_css(".op-activity-list--item-subtitle", text: "removed by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
+  end
+
+  it "shows the history of notes as a diff", with_settings: { journal_aggregation_time_minutes: 0 } do
+    login_as(user)
+    show_page.visit!
+
+    show_page.add_agenda_item do
+      fill_in "Title", with: "My agenda item"
+      click_on "Notes"
+    end
+
+    show_page.expect_agenda_item(title: "My agenda item")
+    item = MeetingAgendaItem.find_by(title: "My agenda item")
+    show_page.cancel_add_form
+
+    show_page.select_action(item, "Add notes")
+    editor.set_markdown "# Hello there"
+
+    show_page.in_edit_form(item) do
+      click_link_or_button "Save"
+    end
+
+    history_page.open_history_modal
+    within("li.op-activity-list--item", match: :first) do
+      expect(page).to have_css("li", text: "Notes set")
+      click_link_or_button "Details"
+    end
+
+    expect(page).to have_current_path /\/journals\/\d+\/diff\/agenda_items_\d+_notes/
+    expect(page).to have_css("ins.diffmod", text: "# Hello there")
   end
 
   it "for a user with no permissions, renders an error", with_settings: { journal_aggregation_time_minutes: 0 } do

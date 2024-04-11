@@ -927,6 +927,8 @@ pl:
       message_work_package_read_only: "Pakiet roboczy jest zablokowany w tym stanie. Nie można zmienić żadnego atrybutu innego niż stan."
       message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Dodano do wyświetlania w okresie objętym porównaniem"
         removal_label: "Usunięto z wyświetlania w okresie objętym porównaniem"
@@ -1330,3 +1332,7 @@ pl:
       drop_modal:
         focus_grab: "To jest kotwica fokusu okien modalnych. Naciśnij klawisze Shift+Tab, aby wrócić do elementu wyzwalającego okna modalne."
         Close: "Zamknij"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

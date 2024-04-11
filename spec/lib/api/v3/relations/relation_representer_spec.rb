@@ -36,7 +36,7 @@ RSpec.describe API::V3::Relations::RelationRepresenter do
 
   let(:type) { "follows" }
   let(:description) { "This first" }
-  let(:delay) { 3 }
+  let(:lag) { 3 }
 
   let(:relation) do
     build_stubbed(:relation,
@@ -44,7 +44,7 @@ RSpec.describe API::V3::Relations::RelationRepresenter do
                   to:,
                   relation_type: type,
                   description:,
-                  delay:)
+                  lag:)
   end
 
   let(:representer) { described_class.new relation, current_user: user }
@@ -79,7 +79,7 @@ RSpec.describe API::V3::Relations::RelationRepresenter do
       "type" => "follows",
       "reverseType" => "precedes",
       "description" => description,
-      "delay" => delay
+      "lag" => lag
     }
   end
 
@@ -95,9 +95,9 @@ RSpec.describe API::V3::Relations::RelationRepresenter do
 
     expect(rel.from_id).to eq from.id.to_s
     expect(rel.to_id).to eq to.id.to_s
-    expect(rel.delay).to eq delay
+    expect(rel.lag).to eq lag
     expect(rel.relation_type).to eq type
     expect(rel.description).to eq description
-    expect(rel.delay).to eq delay
+    expect(rel.lag).to eq lag
   end
 end

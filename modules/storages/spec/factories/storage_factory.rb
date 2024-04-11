@@ -76,6 +76,14 @@ FactoryBot.define do
       health_changed_at { Time.now.utc }
       health_checked_at { Time.now.utc }
     end
+
+    trait :with_health_notifications_enabled do
+      health_notifications_enabled { true }
+    end
+
+    trait :with_health_notifications_disabled do
+      health_notifications_enabled { false }
+    end
   end
 
   factory :nextcloud_storage,
@@ -163,6 +171,8 @@ FactoryBot.define do
 
   factory :sharepoint_dev_drive_storage,
           parent: :one_drive_storage do
+    automatically_managed { false }
+
     transient do
       oauth_client_token_user { association :user }
     end

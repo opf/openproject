@@ -53,6 +53,7 @@ module Storages
     self.inheritance_column = :provider_type
 
     store_attribute :provider_fields, :automatically_managed, :boolean
+    store_attribute :provider_fields, :health_notifications_enabled, :boolean, default: true
 
     has_many :file_links, class_name: "Storages::FileLink"
     belongs_to :creator, class_name: "User"
@@ -113,6 +114,15 @@ module Storages
       end
     end
 
+    def health_notifications_should_be_sent?
+      # it is a fallback for already created storages without health_notifications_enabled configured.
+      if health_notifications_enabled.nil?
+        automatic_management_enabled?
+      else
+        health_notifications_enabled
+      end
+    end
+
     def automatically_managed?
       ActiveSupport::Deprecation.warn(
         "`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. " \
@@ -157,6 +167,10 @@ module Storages
     end
 
     def oauth_configuration
+      raise Errors::SubclassResponsibility
+    end
+
+    def automatic_management_new_record?
       raise Errors::SubclassResponsibility
     end
 

@@ -927,6 +927,8 @@ uk:
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Додано до подання з періодом для порівняння"
         removal_label: "Вилучено з подання з періодом для порівняння"
@@ -1330,3 +1332,7 @@ uk:
       drop_modal:
         focus_grab: "Це якір фокуса для модальних вікон. Натисніть клавіші Shift + Tab, щоб повернутися до тригера модального вікна."
         Close: "Закрити"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

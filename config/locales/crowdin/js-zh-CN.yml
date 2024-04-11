@@ -923,6 +923,8 @@ zh-CN:
       message_work_package_read_only: "工作包被锁定在此状态。除状态外，其他属性均不可更改。"
       message_work_package_status_blocked: "由于处于关闭状态并且分配了关闭版本，因此工作包状态不可写。"
       placeholder_filter_by_text: "主题, 描述, 评论,..。"
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "在比较时间段内添加到视图"
         removal_label: "在比较时间段内从视图删除"
@@ -1320,3 +1322,7 @@ zh-CN:
       drop_modal:
         focus_grab: "该信息是模态框的焦点锚点。按 Shift+Tab 可以返回到模态框的触发元素。"
         Close: "关闭"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "网络有问题。"
+        network_on: "网络已恢复。我们正在努力。"

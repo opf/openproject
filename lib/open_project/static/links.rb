@@ -239,6 +239,9 @@ module OpenProject
             pricing: {
               href: "https://www.openproject.org/pricing/"
             },
+            progress_tracking_docs: {
+              href: "https://www.openproject.org/docs/user-guide/time-and-costs/progress-tracking/"
+            },
             enterprise_docs: {
               form_configuration: {
                 href: "https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on"
