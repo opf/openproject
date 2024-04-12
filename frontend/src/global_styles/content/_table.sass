@@ -34,8 +34,9 @@
 
 $input-elements: input, 'input.form--text-field', select, 'select.form--select', '.form--field-affix', 'a.button'
 
-$toolbar-height: 80px
-$toolbar-height--mobile: 100px
+// These values are based on the new Primer::OpenProject::PageHeader implementation
+$toolbar-height: 195px
+$toolbar-height--mobile: 180px
 
 .generic-table--flex-container
   display: flex
@@ -45,9 +46,6 @@ $toolbar-height--mobile: 100px
 
   @media screen and (max-width: $breakpoint-sm)
     max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height--mobile})
-
-  .generic-table--results-container
-    padding-bottom: $spot-spacing-10
 
   .generic-table--container
     display: contents
