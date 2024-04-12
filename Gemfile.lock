@@ -621,7 +621,7 @@ GEM
     http-2-next (1.0.3)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
-    httpx (1.2.3)
+    httpx (1.2.4)
       http-2-next (>= 1.0.3)
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
