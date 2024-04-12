@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
                    reason: "#{@storage.health_reason_identifier} - #{@storage.health_reason_description}"
                  }) %>
 
-      <%#= render(partial: 'mailer/notification_settings_table',
+      <%= render(partial: 'mailer/notification_settings_table',
                  locals: {
                    button_url: @url,
                    button_text: I18n.t(:'mail.storages.health.email_notification_settings')
