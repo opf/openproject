@@ -77,12 +77,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
       when :basic_auth
         ServiceResult.success(result: @storage.username)
       when :oauth_user_token
-        origin_user_id = OAuthClientToken.find_by(user_id: user, oauth_client_id: @storage.oauth_client.id)&.origin_user_id
-        origin_user_id.present? ?
-          ServiceResult.success(result: origin_user_id) :
+        origin_user_id = OAuthClientToken.find_by(user_id: user, oauth_client: @storage.oauth_client)&.origin_user_id
+        if origin_user_id.present?
+          ServiceResult.success(result: origin_user_id)
+        else
           failure(code: :error,
                   payload: nil,
                   log_message: "No origin user ID or user token found. Cannot execute query without user context.")
+        end
       else
         failure(code: :error,
                 payload: nil,
