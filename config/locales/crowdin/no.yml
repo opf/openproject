@@ -2989,7 +2989,7 @@
       remaining_scan_complete_html: >
         Gjenværende filer er skannet. Det er %{file_count} i karantene. Du blir omdirigert til karantensiden. Bruk denne siden til å slette eller overstyre karantenes filer.
       remaining_rescanned_files: >
-        Vellykket skanning av virus har blitt aktivert. Det er %{file_count} som ble lastet opp tidligere og som fortsatt må skannes. Prosessen er planlagt i bakgrunnen. Filene forblir tilgjengelige under skanningen.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Sikre at opplastede filer i OpenProject blir skannet for virus før de er tilgjengelige for andre brukere."
       actions:

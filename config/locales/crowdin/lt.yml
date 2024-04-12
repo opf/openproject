@@ -346,15 +346,15 @@ lt:
       will_remove_all_user_access_priveleges: "Išėmus šį narį taipogi bus išimtos visos naudotojo privilegijos projektui. Naudotojas vis dar egzistuos kaip šios egzemplioriaus dalis."
       will_remove_all_group_access_priveleges: "Išėmus šį narį taipogi bus išimtos visos grupės privilegijos projektui. Grupė vis dar egzistuos kaip šios egzemplioriaus dalis."
       cannot_delete_inherited_membership: "Jūs negalite ištrinti šio nario, nes jis priklauso grupei, kuri pati yra šio projekto narys."
-      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
-      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+      cannot_delete_inherited_membership_note_admin_html: "Jūs galite arba išimti grupę iš šio projekto arba konkretų narį iš grupės %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "Jūs galite arba išimti grupę iš projekto arba susisiekti su jūsų administratoriumi, kad išimtų šį konkretų narį iš grupės."
     delete_work_package_shares_dialog:
-      title: "Revoke work package shares"
+      title: "Atšaukti darbo paketų bendrinimus"
       shared_with_this_user_html:
         one: "%{all_shared_work_packages_link} has been shared with this user."
         few: "%{all_shared_work_packages_link} have been shared with this user."
         many: "%{all_shared_work_packages_link} have been shared with this user."
-        other: "%{all_shared_work_packages_link} have been shared with this user."
+        other: "%{all_shared_work_packages_link} bendrinami su šiuo naudotoju."
       shared_with_this_group_html:
         one: "%{all_shared_work_packages_link} has been shared with this group."
         few: "%{all_shared_work_packages_link} have been shared with this group."
@@ -3052,7 +3052,7 @@ lt:
       remaining_scan_complete_html: >
         Likę failai buvo patikrinti. Karantine yra %{file_count} . Esate nukreipiami į karantino puslapį. Naudokitės šiuo puslapiu norėdami ištrinti arba pakeisti karantine esančius failus.
       remaining_rescanned_files: >
-        Virusų skenavimas sėkmingai įjungtas. Yra %{file_count}, kurie buvo įkelti anksčiau ir turi būti patikrinti. Šis darbas suplanuotas fone. Failai liks prieinami tikrinimo metu.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Užtikrinkite, kad į OpenProject įkelti failai būtų patikrinti nuo virusų prieš padarant juos prieinamus kitiems naudotojams."
       actions:

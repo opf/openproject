@@ -173,7 +173,7 @@ ms:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Butiran mesyuarat"
   label_meeting_details_edit: "Edit butiran mesyuarat"
-  label_meeting_state: "Meeting state"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Buka"
   label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Ditutup"
