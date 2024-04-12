@@ -1032,7 +1032,7 @@ GEM
     secure_headers (6.5.0)
     selenium-devtools (0.123.0)
       selenium-webdriver (~> 4.2)
-    selenium-webdriver (4.18.1)
+    selenium-webdriver (4.19.0)
       base64 (~> 0.2)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -1331,7 +1331,7 @@ DEPENDENCIES
   sanitize (~> 6.1.0)
   secure_headers (~> 6.5.0)
   selenium-devtools
-  selenium-webdriver (~> 4.18.0)
+  selenium-webdriver (~> 4.19.0)
   semantic (~> 1.6.1)
   shoulda-context (~> 2.0)
   shoulda-matchers (~> 6.0)

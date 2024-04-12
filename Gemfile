@@ -264,7 +264,7 @@ group :test do
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.15.0"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.18.0"
+  gem "selenium-webdriver", "~> 4.19.0"
 
   gem "fuubar", "~> 2.5.0"
   gem "timecop", "~> 0.9.0"
