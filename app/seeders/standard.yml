@@ -80,7 +80,7 @@ statuses:
 - reference: :default_status_in_progress
   t_name: In progress
   color_name: grape-5
-  default_done_ratio: 50
+  default_done_ratio: 40
   position: 7
 - reference: :default_status_developed
   t_name: Developed
