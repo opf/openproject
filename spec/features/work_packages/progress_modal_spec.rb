@@ -415,6 +415,8 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
   describe "When % Complete is set + work and remaining work are unset coming from a migration" do
     before_all do
+      work_package.reload
+
       work_package.estimated_hours = nil
       work_package.remaining_hours = nil
       work_package.done_ratio = 5.0

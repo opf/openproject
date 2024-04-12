@@ -2985,7 +2985,7 @@ es:
       remaining_scan_complete_html: >
         Se han analizado los archivos restantes. Hay %{file_count} en cuarentena. Está siendo redirigido a la página de cuarentena. Utilice esta página para eliminar o sobreescribir los archivos en cuarentena.
       remaining_rescanned_files: >
-        El escaneado de virus se ha activado correctamente. Hay %{file_count} que se cargaron anteriormente y aún deben ser escaneados. Este proceso se ha programado en segundo plano. Los archivos permanecerán accesibles durante el escaneado.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Asegúrese de que los archivos cargados en OpenProject se analizan en busca de virus antes de que otros usuarios puedan acceder a ellos."
       actions:

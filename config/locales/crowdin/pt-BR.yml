@@ -2986,7 +2986,7 @@ pt-BR:
       remaining_scan_complete_html: >
         Os arquivos restantes foram verificados. Há %{file_count} em quarentena. Você está sendo redirecionado para a página de quarentena. Utilize essa página para excluir ou substituir arquivos em quarentena.
       remaining_rescanned_files: >
-        A verificação de vírus foi ativada com sucesso. Há %{file_count} arquivos que foram carregados anteriormente e ainda precisam ser verificados. Este processo foi agendado em segundo plano. Os arquivos permanecerão acessíveis durante a verificação.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Garantir que os arquivos carregados no OpenProject sejam verificados quanto à presença de vírus antes de serem acessados por outros usuários."
       actions:
