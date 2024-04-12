@@ -973,7 +973,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.13.1)
-    rubocop (1.62.1)
+    rubocop (1.63.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -1319,7 +1319,7 @@ DEPENDENCIES
   rspec (~> 3.13.0)
   rspec-rails (~> 6.1.0)
   rspec-retry (~> 0.6.1)
-  rubocop (~> 1.62.1)
+  rubocop (~> 1.63.0)
   rubocop-inflector
   rubocop-performance
   rubocop-rails
