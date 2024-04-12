@@ -102,17 +102,6 @@ $project-table--description-indention: 9px
     min-width: 1rem
     max-width: 1rem
 
-// Ugly hack for now, so expanded more-menus do not get cut off. Actually that
-// should be handled from the drop down implementation with absolute positions
-// just as in the work package table.
-body.controller-projects.action-index
-  #content
-    overflow: visible
-    .generic-table--container
-      min-height: 1
-      overflow: visible
-
-
 // project list in types configuration
 #type_project_ids
   ul

@@ -158,7 +158,7 @@ class TableComponent < ApplicationComponent
   end
 
   def container_class
-    self.class.container_class
+    nil
   end
 
   def columns
