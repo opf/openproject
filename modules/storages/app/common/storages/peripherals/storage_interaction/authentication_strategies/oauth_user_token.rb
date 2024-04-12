@@ -84,7 +84,7 @@ module Storages
             rescue HTTPX::HTTPError => e
               return Failures::Builder.call(code: :unauthorized,
                                             log_message: "Error while refreshing OAuth token.",
-                                            data: error_data_from_response(e.response))
+                                            data: Failures::ErrorData.new(response: e.response, source: self.class))
             end
 
             response = yield http_session
@@ -103,20 +103,6 @@ module Storages
           end
 
           # rubocop:enable Metrics/AbcSize
-
-          def error_data_from_response(response)
-            payload =
-              case response
-              in { content_type: { mime_type: "application/json" } }
-                response.json
-              in { content_type: { mime_type: "text/xml" } }
-                response.xml
-              else
-                response.body.to_s
-              end
-
-            ::Storages::StorageErrorData.new(source: self.class, payload:)
-          end
 
           def update_refreshed_token(token, http_session)
             oauth = http_session.instance_variable_get(:@options).oauth_session

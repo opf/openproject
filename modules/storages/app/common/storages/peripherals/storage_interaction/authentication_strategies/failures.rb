@@ -37,6 +37,20 @@ module Storages
             storage_error = ::Storages::StorageError.new(code:, log_message:, data:)
             ServiceResult.failure(result: code, errors: storage_error)
           end
+
+          ErrorData = ->(response:, source:) do
+            payload =
+              case response
+              in { content_type: { mime_type: "application/json" } }
+                response.json
+              in { content_type: { mime_type: "text/xml" } }
+                response.xml
+              else
+                response.body.to_s
+              end
+
+            ::Storages::StorageErrorData.new(source:, payload:)
+          end
         end
       end
     end
