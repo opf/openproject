@@ -29,42 +29,21 @@
 #++
 
 module Storages
-  class HealthStatusMailerJob < ApplicationJob
-    include GoodJob::ActiveJobExtensions::Concurrency
+  class StoragesMailerPreview < ActionMailer::Preview
+    # Preview emails at http://localhost:3000/rails/mailers/storages/storages_mailer
+    def notify_unhealthy
+      admin_user = FactoryBot.build_stubbed(:admin)
+      storage = FactoryBot.build_stubbed(:nextcloud_storage)
 
-    good_job_control_concurrency_with(
-      total_limit: 2,
-      enqueue_limit: 1,
-      perform_limit: 1,
-      key: -> { "#{self.class.name}-#{arguments.last[:storage].id}" }
-    )
-
-    discard_on ActiveJob::DeserializationError
-
-    def perform(storage:)
-      return unless storage.health_notifications_should_be_sent?
-      return if storage.health_healthy?
-
-      admin_users.each do |admin|
-        ::Storages::StoragesMailer.notify_unhealthy(admin, storage).deliver_later
-      end
-
-      HealthStatusMailerJob.schedule(storage:)
+      ::Storages::StoragesMailer.notify_unhealthy(admin_user, storage)
     end
 
-    class << self
-      def schedule(storage:)
-        next_run_time = Date.tomorrow.beginning_of_day + 2.hours
+    def notify_healthy
+      admin_user = FactoryBot.build_stubbed(:admin)
+      storage = FactoryBot.build_stubbed(:one_drive_storage)
+      reason = "thou_shall_not_pass_error"
 
-        HealthStatusMailerJob.set(wait_until: next_run_time).perform_later(storage:)
-      end
-    end
-
-    private
-
-    def admin_users
-      User.where(admin: true)
-          .where.not(mail: [nil, ""])
+      ::Storages::StoragesMailer.notify_healthy(admin_user, storage, reason)
     end
   end
 end
