@@ -157,6 +157,10 @@ class TableComponent < ApplicationComponent
     self.class.row_class
   end
 
+  def container_class
+    self.class.container_class
+  end
+
   def columns
     self.class.columns
   end
