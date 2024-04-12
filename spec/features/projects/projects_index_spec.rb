@@ -177,16 +177,13 @@ RSpec.describe "Projects index page",
         expect(page).to have_text(project.name)
 
         # Test visibility of 'more' menu list items
-        item = page.first("tbody tr .icon-show-more-horizontal", visible: :all)
-        item.hover
-        item.click
-
-        menu = page.first("tbody tr .project-actions")
-        expect(menu).to have_text("Copy")
-        expect(menu).to have_text("Project settings")
-        expect(menu).to have_text("New subproject")
-        expect(menu).to have_text("Delete")
-        expect(menu).to have_text("Archive")
+        projects_page.activate_menu_of(project) do |menu|
+          expect(menu).to have_text("Copy")
+          expect(menu).to have_text("Project settings")
+          expect(menu).to have_text("New subproject")
+          expect(menu).to have_text("Delete")
+          expect(menu).to have_text("Archive")
+        end
 
         # Test visibility of admin only properties
         within("#project-table") do
@@ -909,9 +906,9 @@ RSpec.describe "Projects index page",
 
       expect(page).to have_text(parent_project.name)
 
-      # 'More' does not become visible on hover
-      page.find("tbody tr").hover
-      expect(page).to have_no_css(".icon-show-more-horizontal")
+      # 'More' does not become visible
+      expect(page).to have_no_css('[data-test-selector="project-list-row--single-action"]')
+      expect(page).to have_no_css('[data-test-selector="project-list-row--action-menu"]')
 
       # For a project member with :copy_projects privilege the 'More' menu is visible.
       login_as(can_copy_projects_manager)
@@ -919,37 +916,15 @@ RSpec.describe "Projects index page",
 
       expect(page).to have_text(parent_project.name)
 
-      # 'More' becomes visible on hover
-      # because we use css opacity we can not test for the visibility changes
-      page.find("tbody tr").hover
-      expect(page).to have_css(".icon-show-more-horizontal")
-
       # Test visibility of 'more' menu list items
-      page.find("tbody tr .icon-show-more-horizontal").click
-      menu = page.find("tbody tr .project-actions")
-      expect(menu).to have_text("Copy")
-      expect(menu).to have_no_text("New subproject")
-      expect(menu).to have_no_text("Delete")
-      expect(menu).to have_no_text("Archive")
-      expect(menu).to have_no_text("Unarchive")
+      expect(page).to have_css('[data-test-selector="project-list-row--single-action"] .octicon-copy')
 
       # For a project member with :add_subprojects privilege the 'More' menu is visible.
       login_as(can_add_subprojects_manager)
       visit projects_path
 
-      # 'More' becomes visible on hover
-      # because we use css opacity we can not test for the visibility changes
-      page.find("tbody tr").hover
-      expect(page).to have_css(".icon-show-more-horizontal")
-
       # Test visibility of 'more' menu list items
-      page.find("tbody tr .icon-show-more-horizontal").click
-      menu = page.find("tbody tr .project-actions")
-      expect(menu).to have_text("New subproject")
-      expect(menu).to have_no_text("Copy")
-      expect(menu).to have_no_text("Delete")
-      expect(menu).to have_no_text("Archive")
-      expect(menu).to have_no_text("Unrchive")
+      expect(page).to have_css('[data-test-selector="project-list-row--single-action"] .octicon-plus')
 
       # Test admin only properties are invisible
       within("#project-table") do
@@ -1189,20 +1164,11 @@ RSpec.describe "Projects index page",
 
         expect(page).to have_text(project.name)
 
-        # 'More' becomes visible on hover
-        # because we use css opacity we can not test for the visibility changes
-        page.find("tbody tr", text: project.name).hover
-        expect(page).to have_css(".icon-show-more-horizontal")
-
-        # "Project activity" item should be displayed in the 'more' menu
-        page.find("tbody tr .icon-show-more-horizontal").click
-
-        menu = page.find("tbody tr .project-actions")
-        expect(menu).to have_text(I18n.t(:label_project_activity))
+        expect(page).to have_css('[data-test-selector="project-list-row--single-action"] .octicon-check')
 
         # Clicking the menu item should redirect to project activity page
         # with only project attributes displayed
-        menu.find_link(text: I18n.t(:label_project_activity)).click
+        page.find('[data-test-selector="project-list-row--single-action"]').click
 
         expect(page).to have_current_path(project_activity_index_path(project_with_activity_enabled), ignore_query: true)
         expect(page).to have_checked_field(id: "event_types_project_attributes")

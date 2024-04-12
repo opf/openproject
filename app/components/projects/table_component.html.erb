@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% columns.each do |column| %>
             <col <%= "opHighlightCol" unless column.attribute == :hierarchy %> >
           <% end %>
-          <col opHighlightCol>
+          <col>
         </colgroup>
         <thead class="-sticky">
         <tr>
@@ -71,8 +71,8 @@ See COPYRIGHT and LICENSE files for more details.
               </th>
             <% end %>
           <% end %>
-          <th class="-right">
-            <div class="generic-table--header-outer">
+          <th>
+            <div class="generic-table--empty-header">
             </div>
           </th>
         </tr>
