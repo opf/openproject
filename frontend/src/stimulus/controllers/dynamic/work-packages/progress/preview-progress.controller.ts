@@ -83,11 +83,25 @@ export default class PreviewProgressController extends Controller {
       ['field', field.name ?? 'estimatedTime'],
     ];
 
-    const editUrl = `${form.action}/edit?${new URLSearchParams(wpParams).toString()}`;
+    const wpPath = this.ensureValidPathname(form.action);
+
+    const editUrl = `${wpPath}/edit?${new URLSearchParams(wpParams).toString()}`;
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
 
     if (turboFrame) {
       turboFrame.src = editUrl;
     }
+  }
+
+  // Ensures that on create forms, there is an "id" for the un-persisted
+  // work package when sending requests to the edit action for previews.
+  private ensureValidPathname(formAction:string):string {
+    const wpPath = new URL(formAction);
+
+    if (wpPath.pathname === '/work_packages/progress') {
+      wpPath.pathname = '/work_packages/new/progress';
+    }
+
+    return wpPath.toString();
   }
 }
