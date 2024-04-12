@@ -52,6 +52,7 @@ export interface XeokitElements {
   busyModelBackdropElement:HTMLElement;
   enableEditModels?:boolean;
   keyboardEventsElement?:HTMLElement;
+  enableMeasurements?:boolean;
 }
 
 /**
