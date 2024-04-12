@@ -2944,7 +2944,7 @@ zh-CN:
       remaining_scan_complete_html: >
         剩余文件已扫描。%{file_count} 个文件位于隔离区。您将被重定向到隔离区页面。使用此页面可以删除或覆盖被隔离的文件。
       remaining_rescanned_files: >
-        已成功启用病毒扫描。之前上传的 %{file_count} 个文件仍需扫描。此过程已安排在后台执行。扫描期间，文件仍可访问。
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "确保在其他用户可以访问 OpenProject 中上传的文件之前对其进行病毒扫描。"
       actions:

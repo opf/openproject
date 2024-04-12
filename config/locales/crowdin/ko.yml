@@ -2950,7 +2950,7 @@ ko:
       remaining_scan_complete_html: >
         나머지 파일을 검사했습니다. %{file_count}개가 격리되었습니다. 격리 페이지로 리디렉션되는 중입니다. 이 페이지에서 격리된 파일을 삭제하거나 무시하세요.
       remaining_rescanned_files: >
-        바이러스 검사가 활성화되었습니다. 이전에 업로드되었지만 아직 검사해야 하는 %{file_count}개가 있습니다. 이 프로세스는 백그라운드에서 예약되었습니다. 검사하는 동안 파일에 계속 액세스할 수 있습니다.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "OpenProject에서 업로드된 파일은 바이러스 검사를 수행한 후에 다른 사용자가 액세스해야 합니다."
       actions:

@@ -3053,7 +3053,7 @@ pl:
       remaining_scan_complete_html: >
         Pozostałe pliki zostały przeskanowane. W kwarantannie znajduje się %{file_count} plików. Zostaną Państwo przekierowani na stronę kwarantanny. Proszę użyć tej strony, aby usunąć lub zastąpić pliki poddane kwarantannie.
       remaining_rescanned_files: >
-        Skanowanie antywirusowe zostało włączone. Niektóre pliki (%{file_count}) zostały przesłane wcześniej i nadal wymagają skanowania. Proces ten został zaplanowany w tle. Pliki pozostaną dostępne podczas skanowania.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Upewnij się, że przesłane do OpenProject pliki  są przeskanowane pod kątem wirusów, zanim będą dostępne dla innych użytkowników."
       actions:

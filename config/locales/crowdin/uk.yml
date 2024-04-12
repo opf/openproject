@@ -3051,7 +3051,7 @@ uk:
       remaining_scan_complete_html: >
         Решту файлів перевірено. Файлів на карантині: %{file_count}. Зараз ви перейдете на сторінку карантину, де можна видалити або замінити файли, перенесені в карантин.
       remaining_rescanned_files: >
-        Перевірку на віруси ввімкнено. Потрібно ще перевірити деякі вивантажені раніше файли (%{file_count}). Цей процес заплановано у фоновому режимі. Файли будуть доступні під час перевірки.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Переконайтеся, що вивантажені в OpenProject файли перевіряються на віруси перед тим, як стають доступними для інших користувачів."
       actions:

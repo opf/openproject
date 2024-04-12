@@ -3058,7 +3058,7 @@ cs:
       remaining_scan_complete_html: >
         Zbývající soubory byly zkontrolovány. V karanténě je %{file_count} . Jste přesměrováni na stránku karantény. Tuto stránku použijte k odstranění nebo přepsání souborů v karanténě.
       remaining_rescanned_files: >
-        Virus byl úspěšně aktivován. Existuje %{file_count} , které byly nahrány dříve a stále je třeba skenovat. Tento proces byl naplánován na pozadí. Soubory zůstanou přístupné během skenování.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Zajistěte, aby nahrané soubory v OpenProjectu byly před zpřístupněním ostatním uživatelům zkontrolovány na přítomnost virů."
       actions:

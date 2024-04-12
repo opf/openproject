@@ -2989,7 +2989,7 @@ fr:
       remaining_scan_complete_html: >
         Les fichiers restants ont été analysés. Il y a %{file_count} en quarantaine. Vous allez être redirigé vers la page de quarantaine. Utilisez cette page pour supprimer ou remplacer les fichiers en quarantaine.
       remaining_rescanned_files: >
-        L'analyse antivirus a été activée avec succès. %{file_count} fichiers ont été téléchargés précédemment et doivent encore être analysés. Ce processus a été planifié en arrière-plan. Les fichiers resteront accessibles pendant l'analyse.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Assurez-vous que les fichiers téléversés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs."
       actions:
