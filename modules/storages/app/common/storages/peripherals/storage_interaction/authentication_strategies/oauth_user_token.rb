@@ -84,7 +84,7 @@ module Storages
             rescue HTTPX::HTTPError => e
               return Failures::Builder.call(code: :unauthorized,
                                             log_message: "Error while refreshing OAuth token.",
-                                            data: Failures::ErrorData.new(response: e.response, source: self.class))
+                                            data: Failures::ErrorData.call(response: e.response, source: self.class))
             end
 
             response = yield http_session

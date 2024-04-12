@@ -63,7 +63,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
     after do
       Storages::Peripherals::Registry
         .resolve("one_drive.commands.delete_folder")
-        .call(storage:, location: path)
+        .call(storage:, auth_strategy: ,location: path)
     end
 
     context "when trying to access a non-existing driveItem" do
@@ -157,5 +157,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
           .json(symbolize_keys: true)
           .fetch(:value)
     end
+  end
+
+  def auth_strategy
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
   end
 end

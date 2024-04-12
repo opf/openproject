@@ -85,7 +85,7 @@ module Storages
           rescue HTTPX::HTTPError => e
             return Failures::Builder.call(code: :unauthorized,
                                           log_message: "Error while fetching OAuth access token.",
-                                          data: Failures::ErrorData.new(response: e.response, source: self.class))
+                                          data: Failures::ErrorData.call(response: e.response, source: self.class))
           end
 
           def build_failure(storage)
