@@ -38,6 +38,10 @@ module WorkPackages
 
           @mode = :work_based
         end
+
+        def should_display_migration_warning?
+          work_package.done_ratio.present? && work_package.estimated_hours.nil? && work_package.remaining_hours.nil?
+        end
       end
 
       # rubocop:enable OpenProject/AddPreviewForViewComponent

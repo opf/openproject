@@ -423,7 +423,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       work_package.save!(validate: false)
     end
 
-    shared_examples_for "renders a banner with a warning message" do
+    shared_examples_for "migration warning" do |should_render: false|
       it "renders a banner with a warning message" do
         work_package_table.visit_query(progress_query)
         work_package_table.expect_work_package_listed(work_package)
@@ -431,16 +431,16 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
         work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
         modal = work_edit_field.activate!
 
-        modal.expect_migration_warning_banner
+        modal.expect_migration_warning_banner(should_render:)
       end
     end
 
     context "on work based mode" do
-      include_examples "renders a banner with a warning message"
+      include_examples "migration warning", should_render: true
     end
 
     context "on status based mode", with_settings: { work_package_done_ratio: "status" } do
-      include_examples "renders a banner with a warning message"
+      include_examples "migration warning", should_render: false
     end
   end
 end
