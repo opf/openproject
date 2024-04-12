@@ -36,7 +36,7 @@ module Storages
       total_limit: 2,
       enqueue_limit: 1,
       perform_limit: 1,
-      key: -> { "#{self.class.name}-#{arguments.last[:storage]}" }
+      key: -> { "#{self.class.name}-#{arguments.last[:storage].id}" }
     )
 
     discard_on ActiveJob::DeserializationError
