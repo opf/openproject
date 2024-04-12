@@ -721,7 +721,7 @@ GEM
     markly (0.10.0)
     matrix (0.4.2)
     messagebird-rest (1.4.2)
-    meta-tags (2.20.0)
+    meta-tags (2.21.0)
       actionpack (>= 6.0.0, < 7.2)
     method_source (1.0.0)
     mime-types (3.5.2)
@@ -1245,7 +1245,7 @@ DEPENDENCIES
   mail (= 2.8.1)
   matrix (~> 0.4.2)
   md_to_pdf!
-  meta-tags (~> 2.20.0)
+  meta-tags (~> 2.21.0)
   mini_magick (~> 4.12.0)
   multi_json (~> 1.15.0)
   my_page!
