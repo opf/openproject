@@ -485,6 +485,16 @@ module Settings
         description: "Forced page size for manually sorted work package views",
         default: 250
       },
+      forum_allowed_link_hosts: {
+        description: "List of hosts allowed to link to in the forum. 'self' refers to OpenProject itself. * allows any host.",
+        format: :array,
+        default: [
+          "'self'",
+          "www.openproject.org",
+          "github.com",
+          "gitlab.com"
+        ]
+      },
       good_job_queues: {
         description: "",
         format: :string,

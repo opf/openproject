@@ -28,6 +28,7 @@
 
 class Message < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
+  include Mixins::RestrictLinks
 
   belongs_to :forum
   has_one :project, through: :forum
@@ -127,6 +128,10 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def restricted_attributes
+    [:content]
+  end
 
   def update_ancestors
     with_id = Message.where(id: root.id)

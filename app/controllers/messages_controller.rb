@@ -100,7 +100,10 @@ class MessagesController < ApplicationController
 
     if call.success?
       call_hook(:controller_messages_reply_after_save, params:, message: @reply)
+    else
+      flash[:error] = call.message
     end
+
     redirect_to topic_path(@topic, r: @reply)
   end
 

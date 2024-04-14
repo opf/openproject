@@ -40,6 +40,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackages::Costs
   include WorkPackages::Relations
   include ::Scopes::Scoped
+  include Mixins::RestrictLinks
 
   include OpenProject::Journal::AttachmentHelper
 
@@ -520,6 +521,10 @@ class WorkPackage < ApplicationRecord
   end
 
   private
+
+  def restricted_attributes
+    %i(subject description)
+  end
 
   def add_time_entry_for(user, attributes)
     return if time_entry_blank?(attributes)

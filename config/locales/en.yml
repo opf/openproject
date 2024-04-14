@@ -831,6 +831,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         exclusion: "is reserved."
         file_too_large: "is too large (maximum size is %{count} Bytes)."
         filter_does_not_exist: "filter does not exist."
+        forbidden_link: "contains a forbidden link"
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "must be greater than %{count}."
