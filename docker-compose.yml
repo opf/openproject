@@ -52,7 +52,7 @@ x-op-backend: &backend
     - ".:/home/dev/openproject"
     - "opdata:/var/openproject/assets"
     - "bundle:/usr/local/bundle"
-    - "tmp:/home/dev/openproject/tmp"
+    # - "tmp:/home/dev/openproject/tmp"
   networks:
     - network
 

@@ -31,7 +31,8 @@ module MetaTagsHelper
   # Use meta-tags to output title and site name
   def output_title_and_meta_tags
     display_meta_tags site: Setting.app_title,
-                      title: html_title_parts,
+                      # title: html_title_parts, title changes needs to be done from database 
+                      title: '4iiz Flow',
                       separator: ' | ', # Update the TitleService when changing this!
                       reverse: true
   end

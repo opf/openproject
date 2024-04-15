@@ -39,14 +39,14 @@ See COPYRIGHT and LICENSE files for more details.
                                       title: t('text_form_configuration') + t('text_custom_field_hint_activate_per_project'),
                                     }
           %>
-          <%= angular_component_tag 'op-enterprise-banner',
-                                    inputs: {
-                                      collapsible: true,
-                                      opReferrer: 'form-configuration',
-                                      textMessage: t('types.edit.more_info_text_html'),
-                                      moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:form_configuration][:href],
-                                    }
-          %>
+          # <%= angular_component_tag 'op-enterprise-banner',
+          #                           inputs: {
+          #                             collapsible: true,
+          #                             opReferrer: 'form-configuration',
+          #                             textMessage: t('types.edit.more_info_text_html'),
+          #                             moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:form_configuration][:href],
+          #                           }
+          # %>
         <% end %>
       </div>
     </div>
