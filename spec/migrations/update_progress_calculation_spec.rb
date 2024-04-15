@@ -31,7 +31,11 @@ require Rails.root.join("db/migrate/20240402072213_update_progress_calculation.r
 
 RSpec.describe UpdateProgressCalculation, type: :model do
   # Silencing migration logs, since we are not interested in that during testing
-  subject(:run_migration) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
+  subject(:run_migration) do
+    perform_enqueued_jobs do
+      ActiveRecord::Migration.suppress_messages { described_class.new.up }
+    end
+  end
 
   shared_let(:author) { create(:user) }
   shared_let(:priority) { create(:priority, name: "Normal") }
@@ -684,6 +688,49 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           TABLE
         )
       end
+    end
+  end
+
+  describe "error during job execution" do
+    let_work_packages(<<~TABLE)
+      subject     | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+      wp working  |      |             4h |        60% |    10h |               4h |          60%
+      wp breaking |      |             4h |        60% |    10h |               4h |          60%
+    TABLE
+
+    before do
+      Setting.work_package_done_ratio = "field"
+
+      allow(Journals::CreateService)
+        .to receive(:new)
+              .with(wp_working, User.system)
+              .and_call_original
+
+      allow(Journals::CreateService)
+              .to receive(:new)
+                    .with(wp_breaking, User.system)
+                    .and_return(nil)
+
+      ActiveRecord::Migration.suppress_messages { described_class.new.up }
+
+      begin
+        perform_enqueued_jobs
+      rescue StandardError
+      end
+    end
+
+    it "does not create a journal entry" do
+      table_work_packages.each do |wp|
+        expect(wp.journals.count).to eq(1)
+      end
+    end
+
+    it "does not update the work packages" do
+      expect_work_packages(WorkPackage.all, <<~TABLE)
+        subject     | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+        wp working  |      |             4h |        60% |    10h |               4h |          60%
+        wp breaking |      |             4h |        60% |    10h |               4h |          60%
+      TABLE
     end
   end
 end
