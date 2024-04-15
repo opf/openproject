@@ -121,7 +121,7 @@ jobs:
         run: |
           set -x
           sudo apt-get update
-          sudo apt-get install -y qemu qemu-system-ppc qemu-system linux-kvm qemu-kvm
+          sudo apt-get install -y qemu qemu-system-ppc qemu-system linux-kvm qemu-kvm qemu-user-static
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
