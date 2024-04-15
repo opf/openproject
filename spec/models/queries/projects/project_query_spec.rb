@@ -288,24 +288,24 @@ RSpec.describe Queries::Projects::ProjectQuery do
       current_user { user }
 
       before do
-        instance.select(*columns)
+        instance.select(*selects)
 
         instance.valid_subset!
       end
 
       context "with them being valid" do
         let(:current_user) { admin }
-        let(:columns) { %i(name description created_at) }
+        let(:selects) { %i(name description created_at) }
 
         it "leaves the values untouched" do
           expect(instance.selects.map(&:attribute))
-            .to eq columns
+            .to eq selects
         end
       end
 
       context "with them being invalid" do
         # No admin, hence no created_at column. CF column does not exist.
-        let(:columns) { %i(bogus created_at cf_1) } # rubocop:disable Naming/VariableNumber
+        let(:selects) { %i(bogus created_at cf_1) } # rubocop:disable Naming/VariableNumber
 
         it "removes the values" do
           expect(instance.selects.map(&:attribute))
@@ -315,11 +315,53 @@ RSpec.describe Queries::Projects::ProjectQuery do
 
       context "with them being partially invalid" do
         let(:current_user) { admin }
-        let(:columns) { %i(bogus name created_at cf_1 description) } # rubocop:disable Naming/VariableNumber
+        let(:selects) { %i(bogus name created_at cf_1 description) } # rubocop:disable Naming/VariableNumber
 
         it "removes only the offending values" do
           expect(instance.selects.map(&:attribute))
             .to eq %i(name created_at description)
+        end
+      end
+    end
+
+    context "with orders" do
+      let(:current_user) { user }
+      let(:custom_field) { create(:project_custom_field) }
+
+      current_user { user }
+
+      before do
+        instance.order(orders)
+
+        instance.valid_subset!
+      end
+
+      context "with them being valid" do
+        let(:current_user) { admin }
+        let(:orders) { { name: :asc, project_status: :desc, "cf_#{custom_field.id}": :desc } }
+
+        it "leaves the values untouched" do
+          expect(instance.orders.to_h { [_1.attribute, _1.direction] })
+            .to eq orders
+        end
+      end
+
+      context "with them being invalid" do
+        let(:orders) { { bogus: :desc, cf_1: :desc } } # rubocop:disable Naming/VariableNumber
+
+        it "removes the values" do
+          expect(instance.orders.to_h { [_1.attribute, _1.direction] })
+            .to be_empty
+        end
+      end
+
+      context "with them being partially invalid" do
+        let(:current_user) { admin }
+        let(:orders) { { bogus: :desc, name: :desc, cf_0: :desc, "cf_#{custom_field.id}": :desc } } # rubocop:disable Naming/VariableNumber
+
+        it "removes only the offending values" do
+          expect(instance.orders.to_h { [_1.attribute, _1.direction] })
+            .to eq(name: :desc, "cf_#{custom_field.id}": :desc)
         end
       end
     end

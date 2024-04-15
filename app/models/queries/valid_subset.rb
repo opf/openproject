@@ -33,6 +33,7 @@ module Queries
     def valid_subset!
       valid_filters_subset!
       valid_selects_subset!
+      valid_orders_subset!
     end
 
     private
@@ -45,6 +46,10 @@ module Queries
 
     def valid_selects_subset!
       selects.select!(&:available?)
+    end
+
+    def valid_orders_subset!
+      orders.select!(&:available?)
     end
   end
 end
