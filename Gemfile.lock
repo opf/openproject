@@ -1319,7 +1319,7 @@ DEPENDENCIES
   rspec (~> 3.13.0)
   rspec-rails (~> 6.1.0)
   rspec-retry (~> 0.6.1)
-  rubocop (~> 1.63.0)
+  rubocop
   rubocop-inflector
   rubocop-performance
   rubocop-rails
