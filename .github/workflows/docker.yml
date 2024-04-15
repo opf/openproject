@@ -77,7 +77,7 @@ jobs:
           - platform: linux/ppc64le
             bim_support: false
             target: all-in-one
-            runner: image=ubuntu22-full-x64,family=c7i.metal-24xl+m7i.metal-24xl
+            runner: family=c7i.metal-24xl+m7i.metal-24xl
           - platform: linux/arm64/v8
             bim_support: false
             target: all-in-one
