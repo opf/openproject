@@ -168,10 +168,15 @@ module Storages
           end
 
           def log_error(error)
-            OpenProject.logger.warn({ command: error.data.source,
-                                      message: error.log_message,
-                                      data: { status: error.data.payload.status,
-                                              body: error.data.payload.body.to_s } })
+            payload = error.data.payload
+            OpenProject.logger.warn(
+              command: error.data.source,
+              message: error.log_message,
+              data: {
+                status: payload.try(:status),
+                body: (payload.try(:body) || payload).to_s
+              }
+            )
           end
         end
       end
