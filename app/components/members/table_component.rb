@@ -101,6 +101,10 @@ module Members
       { caption: }
     end
 
+    def container_class
+      "generic-table--container_visible-overflow"
+    end
+
     ##
     # Adjusts the order so that users are joined to support
     # sorting by their attributes
