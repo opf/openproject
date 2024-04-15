@@ -219,4 +219,44 @@ RSpec.describe WorkPackages::ApplyStatusesPCompleteJob do
       end
     end
   end
+
+  context "with errors during job execution",
+          with_settings: { work_package_done_ratio: "status" } do
+    let_work_packages(<<~TABLE)
+      subject     | status      | % complete
+      wp          | Doing (40%) |
+      wp 0%       | To do (0%)  |        50%
+      wp 40%      | Doing (40%) |        50%
+      wp 100%     | Done (100%) |        50%
+    TABLE
+
+    before do
+      allow(Journals::CreateService)
+        .to receive(:new)
+              .and_call_original
+
+      allow(Journals::CreateService)
+        .to receive(:new)
+              .with(WorkPackage.last, User.system)
+              .and_return(nil)
+
+      begin
+        job.perform_now(cause_type: "status_p_complete_changed",
+                        status_name: "New",
+                        status_id: 99,
+                        change: [33, 66])
+      rescue StandardError
+      end
+    end
+
+    it "does not update any work package" do
+      expect_work_packages(WorkPackage.all, <<~TABLE)
+        subject     | status      | % complete
+        wp          | Doing (40%) |
+        wp 0%       | To do (0%)  |        50%
+        wp 40%      | Doing (40%) |        50%
+        wp 100%     | Done (100%) |        50%
+      TABLE
+    end
+  end
 end

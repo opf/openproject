@@ -39,14 +39,14 @@ pl:
   api_v3:
     errors:
       too_many_elements_created_at_once: Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}.
-  permission_create_files: Tworzenie plików
-  permission_delete_files: Usuwanie plików
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
   permission_manage_file_links: Zarządzaj linkami do plików
   permission_manage_storages_in_project: Zarządzaj magazynami plików w projekcie
-  permission_read_files: Odczyt plików
-  permission_share_files: Udostępnianie plików
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Wyświetl linki do plików
-  permission_write_files: Zapisywanie w plikach
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: Magazyny plików
   storages:
     buttons:
@@ -103,6 +103,13 @@ pl:
       since: od %{datetime}
       subtitle: Automatically managed project folders
       title: Status kondycji
+    health_email_notifications:
+      description_subscribed: All administrators will receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
     instructions:
@@ -221,6 +228,7 @@ pl:
       project_storage_members:
         subtitle: Sprawdź status połączenia magazynu %{storage_name_link} wszystkich członków projektu.
         title: Status połączenia członków
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: Typ dostawcy
       nextcloud:

@@ -102,7 +102,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновление"
+    button_update: "Обновить"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -926,6 +926,8 @@ ru:
       message_work_package_read_only: "Пакет работ заблокирован в этом статусе. Никакой атрибут, отличный от статуса, не может быть изменен."
       message_work_package_status_blocked: "Статус пакета работ недоступен для записи из-за закрытого статуса и назначенной закрытой версии."
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Добавлено для просмотра в период сравнения"
         removal_label: "Удалено из просмотра в период сравнения"
@@ -1255,7 +1257,8 @@ ru:
       role:
         label: "Роль в %{project}"
         no_roles_found: "Роли не найдены"
-        description: 'Это роль, которую пользователь получит при присоединении к вашему проекту. Роль определяет, какие действия им разрешено принимать и какую информацию они могут видеть. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Узнайте больше о ролях и разрешениях. </a>'
+        description: >-
+          Это роль, которую пользователь получит при присоединении к вашему проекту. Роль определяет, какие действия им разрешено принимать и какую информацию они могут видеть. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Узнайте больше о ролях и разрешениях. </a>
         required: "Пожалуйста, выберите роль"
         next_button: "Следующие"
       message:

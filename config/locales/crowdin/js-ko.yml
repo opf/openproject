@@ -924,6 +924,8 @@ ko:
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
       message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "비교 기간 내에서 보기에 추가됨"
         removal_label: "비교 기간 내에서 보기에서 제거됨"
@@ -1247,7 +1249,8 @@ ko:
       role:
         label: "%{project} 내 역할"
         no_roles_found: "역할이 없습니다"
-        description: '사용자가 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>'
+        description: >-
+          사용자가 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>
         required: "역할을 선택하십시오"
         next_button: "다음"
       message:

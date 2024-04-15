@@ -924,6 +924,8 @@ tr:
       message_work_package_read_only: "İş paketi bu durum içinde kilitli. Durumu haricinde başka bir özelliği değiştirilemez."
       message_work_package_status_blocked: "İş paketi durumu, kapalı durum ve kapalı sürüm tahsis edildiğinden dolayı yazılamaz."
       placeholder_filter_by_text: "Konu, açıklama, yorumlar, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -1249,7 +1251,8 @@ tr:
       role:
         label: "rol %{project}"
         no_roles_found: "Hiç rol bulunamadı."
-        description: 'Bu, kullanıcının projenize katıldığında alacağı roldür. Rol, hangi eylemleri yapmalarına ve hangi bilgileri görmelerine izin verildiğini tanımlar.<ahref="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/# roller-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin. </a>'
+        description: >-
+          Bu, kullanıcının projenize katıldığında alacağı roldür. Rol, hangi eylemleri yapmalarına ve hangi bilgileri görmelerine izin verildiğini tanımlar.<ahref="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/# roller-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin. </a>
         required: "Lütfen bir rol seçin."
         next_button: "Sonraki"
       message:

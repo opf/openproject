@@ -60,10 +60,12 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   private
 
   def with_temporary_progress_table
-    create_temporary_progress_table
-    yield
-  ensure
-    drop_temporary_progress_table
+    WorkPackage.transaction do
+      create_temporary_progress_table
+      yield
+    ensure
+      drop_temporary_progress_table
+    end
   end
 
   def create_temporary_progress_table
@@ -242,7 +244,8 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
 
   def create_journals_for_updated_work_packages(updated_work_package_ids)
     WorkPackage.where(id: updated_work_package_ids).find_each do |work_package|
-      Journals::CreateService.new(work_package, system_user)
+      Journals::CreateService
+        .new(work_package, system_user)
         .call(cause: { type: "system_update", feature: "progress_calculation_changed" })
     end
   end

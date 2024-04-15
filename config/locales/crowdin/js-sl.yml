@@ -926,6 +926,8 @@ sl:
       message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
       message_work_package_status_blocked: "Stanja delovnega paketa ni mogoče napisati zaradi zaprtega stanja in dodeljene zaprte različice."
       placeholder_filter_by_text: "Subjekt, opis, komentarji,... "
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -1255,7 +1257,8 @@ sl:
       role:
         label: "Vloge v %{project}"
         no_roles_found: "No roles were found"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Izberite vlogo"
         next_button: "Naprej"
       message:

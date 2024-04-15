@@ -925,6 +925,8 @@ ro:
       message_work_package_read_only: "Pachetul de lucru este blocat în acest statut. Niciun alt atribut în afară de status nu poate fi modificat."
       message_work_package_status_blocked: "Starea pachetului de lucru nu poate fi scrisă din cauza statutului închis și a versiunii închise care au fost atribuite."
       placeholder_filter_by_text: "Subiect, descriere, comentarii, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -1252,7 +1254,8 @@ ro:
       role:
         label: "Rolul în %{project}"
         no_roles_found: "Nu au fost găsite roluri"
-        description: 'This is the role that the user will receive when they join your project. Rolul definește acțiunile pe care utilizatorul are voie să le întreprindă și informațiile pe care le poate vedea. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aflați mai multe despre roluri și permisiuni. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. Rolul definește acțiunile pe care utilizatorul are voie să le întreprindă și informațiile pe care le poate vedea. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aflați mai multe despre roluri și permisiuni. </a>
         required: "Vă rugăm să selectați un rol"
         next_button: "Înainte"
       message:

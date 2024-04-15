@@ -1007,7 +1007,12 @@ sk:
               only_same_project_categories_allowed: "Kategória pracovného balíčka sa musí nachádzať v rámci rovnakého projektu ako pracovný balíček."
               does_not_exist: "Špecifikovaná kategória neexistuje."
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
+              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
               only_values_greater_or_equal_zeroes_allowed: "musí byť najmenej 0."
+            remaining_hours:
+              cant_exceed_work: "can't exceed 'Work'."
+              must_be_set_when_work_is_set: "must be set when 'Work' is set."
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -1582,7 +1587,6 @@ sk:
   error_pdf_export_too_many_columns: "Vybraných príliš veľa stĺpcov pre export do PDF. Znížte počet stĺpcov."
   error_pdf_failed_to_export: "PDF export nie je možné uložiť: %{error}"
   error_token_authenticity: "Nepodarilo sa overiť Token medzi lokalitami. Ak ste sa pokúsili uložiť údaje na viaceré karty alebo prehliadače, zatvorte ich a opätovne načítajte túto stránku a skúste to znova."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Pracovný balíček nebol nájdený alebo nepatrí k tomuto projektu"
   error_must_be_project_member: "musíte byť členom projektu"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1687,8 +1691,10 @@ sk:
   journals:
     changes_retracted: "The changes were retracted."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1704,9 +1710,14 @@ sk:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_changed: >
+          Progress calculation updated.
   links:
     configuration_guide: "Sprievodca konfiguráciou"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1721,6 +1732,8 @@ sk:
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -2044,6 +2057,7 @@ sk:
   label_latest_revision: "Posledná revízia"
   label_latest_revision_plural: "Posledné revízie"
   label_ldap_authentication: "LDAP autentifikácia"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "pred necelým dňom"
   label_list: "Zoznam"
@@ -2169,6 +2183,7 @@ sk:
   label_privacy_policy: "Ochrana osobných údajov a bezpečnostná politika"
   label_product_version: "Verzia produktu"
   label_profile: "Profil"
+  label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektov"
@@ -2178,6 +2193,7 @@ sk:
   label_project_hierarchy: "Hierarchia projektu"
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Nastavenia projektu"
@@ -2204,6 +2220,7 @@ sk:
   label_relation_delete: "Odstrániť vzťah"
   label_relation_new: "Nový vzťah"
   label_release_notes: "Zoznam zmien"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Odstrániť vybraté stĺpce"
   label_renamed: "premenované"
   label_reply_plural: "Odpovede"
@@ -2282,7 +2299,6 @@ sk:
   label_type_new: "Nový typ"
   label_type_plural: "Typy"
   label_ui: "Používateľské rozhranie"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Aktualizované pred %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Aktualizované používateľom %{author} pred %{age}"
@@ -2337,6 +2353,7 @@ sk:
   label_wiki_show_new_page_link: "Zobraziť položku submenu \"Vytvoriť novú podradenú stránku\""
   label_wiki_show_submenu_item: "Zobraziť ako položku submenu "
   label_wiki_start: "Úvodná stránka"
+  label_work: "Work"
   label_work_package: "Pracovný balíček"
   label_work_package_attachments: "Prílohy pracovného balíčka"
   label_work_package_category_new: "Nová kategória"
@@ -2380,6 +2397,7 @@ sk:
     other: "%{count} files"
     zero: "no files"
   label_yesterday: "včera"
+  label_zen_mode: "Zen mode"
   label_role_type: "Typ"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2588,7 +2606,6 @@ sk:
   notice_file_not_found: "Stránka, ktorú se pokúšate zobraziť, neexistuje, alebo bola odstránená."
   notice_forced_logout: "Boli ste automaticky odhlásení po %{ttl_time} minútach nečinnosti."
   notice_internal_server_error: "Vyskytla sa chyba na stránke, ku ktorej ste sa pokúšali pristupovať. Ak sa naďalej vyskytnú problémy, obráťte sa na správcu %{app_title} o pomoc."
-  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informácia bola medzičasom aktualizovaná aspoň jedným iným používateľom."
   notice_locking_conflict_additional_information: "Aktualizácia (-e) pochádza z %{users}."
   notice_locking_conflict_reload_page: "Znova načítajte stránku, prekontrolujte si zmeny a aplikujte svoje aktualizácie."
@@ -2971,10 +2988,11 @@ sk:
   setting_file_max_size_displayed: "Maximálna veľkosť textových súborov zobrazených priamo na stránke"
   setting_host_name: "Názov serveru (Host name)"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -3040,7 +3058,7 @@ sk:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
@@ -3349,6 +3367,12 @@ sk:
     destroy:
       info: "Odstránenie pracovného balíka je nevratná akcia."
       title: "Odstrániť pracovný balík"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 users"

@@ -927,6 +927,8 @@ pl:
       message_work_package_read_only: "Pakiet roboczy jest zablokowany w tym stanie. Nie można zmienić żadnego atrybutu innego niż stan."
       message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Dodano do wyświetlania w okresie objętym porównaniem"
         removal_label: "Usunięto z wyświetlania w okresie objętym porównaniem"
@@ -1256,7 +1258,8 @@ pl:
       role:
         label: "Rola w %{project}"
         no_roles_found: "Nie znaleziono żadnych ról"
-        description: 'To jest rola, jaką użytkownik otrzyma po dołączeniu do projektu. Rola określa, jakie działania mogą zostać podjęte i jakie informacje będą widoczne. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
+        description: >-
+          To jest rola, jaką użytkownik otrzyma po dołączeniu do projektu. Rola określa, jakie działania mogą zostać podjęte i jakie informacje będą widoczne. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>
         required: "Wybierz rolę"
         next_button: "Następny"
       message:

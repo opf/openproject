@@ -924,6 +924,8 @@ pt-BR:
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido a situação fechada e a versão fechada."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Adicionado à exibição dentro do período de comparação"
         removal_label: "Removido da exibição dentro do período de comparação"
@@ -1249,7 +1251,8 @@ pt-BR:
       role:
         label: "Papel em %{project}"
         no_roles_found: "Nenhum papel encontrado"
-        description: 'Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>'
+        description: >-
+          Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>
         required: "Selecione um papel"
         next_button: "Próxima"
       message:

@@ -88,10 +88,12 @@ class WorkPackages::ApplyStatusesPCompleteJob < ApplicationJob
   end
 
   def with_temporary_progress_table
-    create_temporary_progress_table
-    yield
-  ensure
-    drop_temporary_progress_table
+    WorkPackage.transaction do
+      create_temporary_progress_table
+      yield
+    ensure
+      drop_temporary_progress_table
+    end
   end
 
   def create_temporary_progress_table

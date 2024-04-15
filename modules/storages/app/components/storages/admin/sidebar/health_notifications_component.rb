@@ -26,13 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Storages
+  module Admin
+    class Sidebar::HealthNotificationsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-RSpec.describe "API::V3::Projects::AvailableResponsiblesAPI" do
-  include API::V3::Utilities::PathHelper
+      def initialize(storage:)
+        super
+        @storage = storage
+      end
 
-  it_behaves_like "available principals", :responsibles do
-    let(:base_permissions) { %i[view_work_packages] }
-    let(:href) { api_v3_paths.available_responsibles(project.id) }
+      def render?
+        @storage.automatically_managed?
+      end
+
+      def notification_status
+        if @storage.health_notifications_should_be_sent?
+          { icon: :"bell-slash",
+            label: I18n.t("storages.health_email_notifications.unsubscribe"),
+            description: I18n.t("storages.health_email_notifications.description_subscribed") }
+        else
+          { icon: :bell,
+            label: I18n.t("storages.health_email_notifications.subscribe"),
+            description: I18n.t("storages.health_email_notifications.description_unsubscribed") }
+        end
+      end
+    end
   end
 end

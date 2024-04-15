@@ -927,6 +927,8 @@ sk:
       message_work_package_read_only: "Pracovný balíček je v tomto stave uzamknutý. Nie je možné zmeniť iný atribút ako stav."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Predmet, popis, komentáre, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -1256,7 +1258,8 @@ sk:
       role:
         label: "Role in %{project}"
         no_roles_found: "No roles were found"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Please select a role"
         next_button: "Ďalšie"
       message:

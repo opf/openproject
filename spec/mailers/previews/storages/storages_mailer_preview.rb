@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,25 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "api/v3/users/user_collection_representer"
+module Storages
+  class StoragesMailerPreview < ActionMailer::Preview
+    # Preview emails at http://localhost:3000/rails/mailers/storages/storages_mailer
+    def notify_unhealthy
+      admin_user = FactoryBot.build_stubbed(:admin)
+      storage = FactoryBot.build_stubbed(:nextcloud_storage)
 
-module API
-  module V3
-    module Projects
-      class AvailableResponsiblesAPI < ::API::OpenProjectAPI
-        resource :available_responsibles do
-          after_validation do
-            authorize_in_any_work_package(:view_work_packages)
-          end
+      ::Storages::StoragesMailer.notify_unhealthy(admin_user, storage)
+    end
 
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Principal,
-                                                          scope: -> {
-                                                            Principal.possible_assignee(@project).includes(:preference)
-                                                          },
-                                                          render_representer: Users::UnpaginatedUserCollectionRepresenter)
-                                                     .mount
-        end
-      end
+    def notify_healthy
+      admin_user = FactoryBot.build_stubbed(:admin)
+      storage = FactoryBot.build_stubbed(:one_drive_storage)
+      reason = "thou_shall_not_pass_error"
+
+      ::Storages::StoragesMailer.notify_healthy(admin_user, storage, reason)
     end
   end
 end

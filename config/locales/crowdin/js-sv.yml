@@ -924,6 +924,8 @@ sv:
       message_work_package_read_only: "Arbetspaketet är låst i denna status. Inget annat attribut än status kan ändras."
       message_work_package_status_blocked: "Status för arbetspaketet är inte skrivbar på grund av stängd status och stängd version tilldelas."
       placeholder_filter_by_text: "Ämne, beskrivning, kommentarer, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -1249,7 +1251,8 @@ sv:
       role:
         label: "Role in %{project}"
         no_roles_found: "Inga roller hittades"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Please select a role"
         next_button: "Nästa"
       message:

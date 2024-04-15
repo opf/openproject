@@ -239,9 +239,6 @@ class Changeset < ApplicationRecord
                                        value: text_tag,
                                        locale: Setting.default_language))
 
-    # TODO: update changelog to state removal of
-    #   :model_changeset_scan_commit_for_issue_ids_pre_issue_update
-    #   and also of the setting commit_fix_done_ratio
     if call.errors.any? && logger.present?
       logger.warn("Work package ##{work_package.id} could not be saved by changeset #{id}: #{work_package.errors.full_messages}")
     end

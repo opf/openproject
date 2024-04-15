@@ -925,6 +925,8 @@ es:
       message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
       message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque están asignados como estado y versión cerrada."
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Añadido a la vista dentro del periodo de comparación"
         removal_label: "Eliminado de la vista dentro del periodo de tiempo de comparación"
@@ -1250,7 +1252,8 @@ es:
       role:
         label: "Rol en %{project}"
         no_roles_found: "No se encontraron roles"
-        description: 'Este es el role que el usuario recibirá al unirse al proyecto. El role define las acciones que són permitidas y que información pueden ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Obtén más información sobre roles y permisos. </a>'
+        description: >-
+          Este es el role que el usuario recibirá al unirse al proyecto. El role define las acciones que són permitidas y que información pueden ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Obtén más información sobre roles y permisos. </a>
         required: "Por favor, seleccione un rol"
         next_button: "Siguiente"
       message:

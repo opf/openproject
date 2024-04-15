@@ -61,7 +61,7 @@ class WorkPackages::ProgressForm < ApplicationForm
       else
         render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
         render_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work),
-                                 disabled: @work_package.estimated_hours.nil?)
+                                 disabled: disabled_remaining_work_field?)
         render_readonly_text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
       end
     end
@@ -152,5 +152,11 @@ class WorkPackages::ProgressForm < ApplicationForm
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
     end
     { data: }
+  end
+
+  # Remaining work field is enabled when work is set, or when there are errors
+  # on fields so that they can be corrected.
+  def disabled_remaining_work_field?
+    @work_package.estimated_hours.nil? && @work_package.errors.empty?
   end
 end
