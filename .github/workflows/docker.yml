@@ -62,7 +62,7 @@ jobs:
         - runs-on
         - run-id=${{ github.run_id }}
         - ${{ matrix.runner }}
-        - debug=true
+        # - debug=true
     strategy:
       matrix:
         include:
@@ -117,8 +117,16 @@ jobs:
       - name: Prepare docker files
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+      - name: Set up KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          apt-get update -qq
+          apt-get install -y qemu qemu-system-ppc qemu-system linux-kvm qemu-kvm
+          systemctl start qemu-kvm.service
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
