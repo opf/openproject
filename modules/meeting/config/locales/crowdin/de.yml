@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -21,22 +21,44 @@
 #++
 #English strings go here for Rails i18n
 de:
+  plugin_openproject_meeting:
+    name: "OpenProject Besprechung"
+    description: >-
+      Besprechungen für OpenProject
   activerecord:
     attributes:
       meeting:
+        type: "Besprechungstyp"
         location: "Ort/Raum"
         duration: "Dauer"
+        notes: "Anmerkungen"
         participants: "Teilnehmer"
+        participant:
+          one: "1 Teilnehmer"
+          other: "%{count} Teilnehmer"
         participants_attended: "Anwesend"
         participants_invited: "Eingeladen"
-        start_time: "Anfangszeit"
-        start_time_hour: "Beginn"
+        project: "Projekt"
+        start_date: "Datum"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "min"
+        description: "Notes"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "ist keine gültige Zeit. Erforderliches Format: HH:MM"
     models:
+      structured_meeting: "Besprechung (dynamisch)"
+      meeting_agenda_item: "Tagesordnungspunkt"
       meeting_agenda: "Agenda"
       meeting_minutes: "Protokoll"
+  activity:
+    filter:
+      meeting: "Besprechungen"
   description_attended: "teilgenommen"
   description_invite: "eingeladen"
   events:
@@ -58,12 +80,47 @@ de:
   label_meeting_agenda_close: "Agenda schließen um mit dem Protokoll zu beginnen"
   label_meeting_date_time: "Datum/Uhrzeit"
   label_meeting_diff: "Differenz"
+  label_upcoming_meetings: "Zukünftige Meetings"
+  label_past_meetings: "Vergangene Meetings"
+  label_upcoming_meetings_short: "Anstehend"
+  label_past_meetings_short: "Vergangen"
+  label_involvement: "Beteiligt"
+  label_upcoming_invitations: "Zukünftige Einladungen"
+  label_past_invitations: "Vergangene Einladungen"
+  label_attendee: "Teilnehmend"
+  label_author: "Erstellt"
   label_notify: "Zur Einsicht verschicken"
   label_icalendar: "iCalendar senden"
+  label_icalendar_download: "iCalendar-Termin herunterladen"
   label_version: "Version"
   label_time_zone: "Zeitzone"
   label_start_date: "Beginn"
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+    copy:
+      title: "Besprechung %{title} kopieren"
+      attachments: "Anhänge kopieren"
+      attachments_text: "Alle angehängten Dateien in die neue Besprechung kopieren"
+      agenda: "Tagesordnung kopieren"
+      agenda_text: "Tagesordnung der alten Besprechung kopieren"
+    email:
+      open_meeting_link: "Besprechung öffnen"
+      invited:
+        summary: "%{actor} hat Ihnen eine Einladung für die folgende Besprechung gesendet: %{title}"
+      rescheduled:
+        header: "Besprechung %{title} verschoben"
+        summary: "Die Besprechung %{title} wurde durch %{actor} verschoben."
+        body: "Die Besprechung %{title} wurde durch %{actor} verschoben."
+        old_date_time: "Alte(s) Datum/Zeit"
+        new_date_time: "Neue(s) Datum/Zeit"
+    label_mail_all_participants: "E-Mail an alle Teilnehmer senden"
+    types:
+      classic: "Klassisch"
+      classic_text: "Organisieren Sie Ihr Meeting in einer formatierbaren textbasierter Agenda und zugehöriges Protokoll."
+      structured: "Dynamisch"
+      structured_text: "Organisieren Sie Ihr Meeting als strukturierte Liste von Einträgen und verknüpfen Sie diese optional mit einem Arbeitspaket."
+      structured_text_copy: "Das Kopieren einer Besprechung kopiert derzeit nicht die zugehörigen Tagesordnungspunkte, sondern nur dessen Details"
     copied: "Kopiert von Meeting #%{id}"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
@@ -71,7 +128,10 @@ de:
   permission_edit_meetings: "Besprechungen bearbeiten"
   permission_delete_meetings: "Besprechungen löschen"
   permission_view_meetings: "Besprechungen ansehen"
-  permission_create_meeting_agendas: "Agenden anlegen/bearbeiten"
+  permission_create_meeting_agendas: "Agendapunkte erstellen"
+  permission_create_meeting_agendas_explanation: "Ermöglicht das Bearbeiten des Inhalts der klassischen Meetings."
+  permission_manage_agendas: "Agenden anlegen/bearbeiten"
+  permission_manage_agendas_explanation: "Ermöglicht das Bearbeiten des Inhalts der dynamischen Meetings."
   permission_close_meeting_agendas: "Agenden schließen"
   permission_send_meeting_agendas_notification: "Benachrichtigungen für Agenden verschicken"
   permission_create_meeting_minutes: "Protokolle anlegen/bearbeiten"
@@ -81,10 +141,61 @@ de:
   project_module_meetings: "Besprechungen"
   text_duration_in_hours: "Dauer in Stunden"
   text_in_hours: "in Stunden"
-  text_meeting_agenda_for_meeting: 'Agenda für die Besprechung "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Möchten Sie dieses Meeting wirklich schließen?"
+  text_meeting_agenda_for_meeting: 'die Agenda für die Besprechung "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Sind Sie sicher, dass Sie die Agenda schließen wollen?"
   text_meeting_agenda_open_are_you_sure: "Es werden alle Änderungen im Protokoll überschrieben! Wollen Sie fortfahren?"
-  text_meeting_minutes_for_meeting: 'Protokoll für die Besprechung "%{meeting}"'
-  text_review_meeting_agenda: "%{author} hat das %{link} zur Einsicht freigegeben."
-  text_review_meeting_minutes: "%{author} hat das %{link} zur Einsicht freigegeben."
+  text_meeting_minutes_for_meeting: 'das Protokoll für die Besprechung "%{meeting}"'
   text_notificiation_invited: "Diese Email enthält einen ics Eintrag für die untenstehende Besprechung:"
+  text_meeting_empty_heading: "Ihre Besprechung ist leer"
+  text_meeting_empty_description_1: "Beginnen Sie unten mit dem Hinzufügen von Tagesordnungspunkten. Jeder Eintrag kann zunächst nur aus einem Titel bestehen. Optional können Sie zusätzliche Details wie Dauer und Notizen hinzufügen."
+  text_meeting_empty_description_2: 'Sie können auch Verweise auf bestehende Arbeitspakete hinzufügen. So werden angehängte Notizen automatisch auch im "Besprechungen"-Tab des Arbeitspakets angezeigt.'
+  label_meeting_empty_action: "Tagesordnungspunkt hinzufügen"
+  label_meeting_actions: "Aktionen der Besprechung"
+  label_meeting_edit_title: "Besprechungstitel bearbeiten"
+  label_meeting_delete: "Besprechung löschen"
+  label_meeting_created_by: "Erstellt von"
+  label_meeting_last_updated: "Zuletzt aktualisiert"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Von der Tagesordnung entfernen"
+  label_agenda_item_undisclosed_wp: "Arbeitspaket #%{id} ist nicht sichtbar"
+  label_agenda_item_deleted_wp: "Referenz auf ein gelöschtes Arbeitspaket"
+  label_agenda_item_actions: "Aktionen zu Tagesordnungspunkten"
+  label_agenda_item_move_to_top: "Nach ganz oben verschieben"
+  label_agenda_item_move_to_bottom: "Nach ganz unten verschieben"
+  label_agenda_item_move_up: "Nach oben verschieben"
+  label_agenda_item_move_down: "Nach unten verschieben"
+  label_agenda_item_add_notes: "Notiz hinzufügen"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
+  label_meeting_details: "Besprechungsdetails"
+  label_meeting_details_edit: "Besprechungsdetails bearbeiten"
+  label_meeting_state: "Meeting status"
+  label_meeting_state_open: "Offen"
+  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_closed: "Geschlossen"
+  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_reopen_action: "Besprechung wiedereröffnen"
+  label_meeting_close_action: "Besprechung schließen"
+  text_meeting_open_description: "Diese Besprechung ist offen. Sie können Tagesordnungspunkte hinzufügen/entfernen und sie nach Belieben bearbeiten. Schließen Sie die Besprechung nach deren Ende, um sie zu sperren."
+  text_meeting_closed_description: "Diese Besprechung ist abgeschlossen. Sie können keine Tagesordnungspunkte mehr hinzufügen/entfernen."
+  label_meeting_manage_participants: "Teilnehmer verwalten"
+  label_meeting_no_participants: "Keine Teilnehmer"
+  label_meeting_show_hide_participants: "%{count} weitere anzeigen/ausblenden"
+  label_meeting_show_all_participants: "Alle anzeigen"
+  label_meeting_add_participants: "Teilnehmer hinzufügen"
+  text_meeting_not_editable_anymore: "Diese Besprechung ist nicht mehr bearbeitbar."
+  text_meeting_not_present_anymore: "Dieses Meeting wurde gelöscht. Bitte wählen Sie eine andere Besprechung."
+  label_add_work_package_to_meeting_dialog_title: "Arbeitspaket zur Besprechung hinzufügen"
+  label_add_work_package_to_meeting_dialog_button: "Zur Besprechung hinzufügen"
+  label_meeting_selection_caption: "Dieses Arbeitspaket kann nur zu offenen, bevorstehenden Meetings hinzugefügt werden."
+  text_add_work_package_to_meeting_description: "Ein Arbeitspaket kann zu mehreren Besprechungen hinzugefügt werden."
+  text_agenda_item_no_notes: "Keine Notizen angegeben."
+  text_agenda_item_not_editable_anymore: "Dieser Tagesordnungspunkt kann nicht mehr bearbeitet werden."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Dieses Arbeitspaket ist bisher in keiner anstehenden Besprechung enthalten."
+  text_work_package_add_to_meeting_hint: 'Über den Button "Zur Besprechung hinzufügen" können Sie dieses Arbeitspaket zu einer zukünftigen Besprechung hinzuzufügen.'
+  text_work_package_has_no_past_meeting_agenda_items: "Dieses Arbeitspaket wurde in keinen früheren Besprechungen erwähnt."

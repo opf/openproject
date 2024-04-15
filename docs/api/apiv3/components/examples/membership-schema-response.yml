@@ -1,0 +1,67 @@
+description: |-
+  A simple schema response example.
+value:
+  _type: 'Schema'
+  _dependencies: [ ]
+  id:
+    type: 'Integer'
+    name: 'ID'
+    required: true
+    hasDefault: false
+    writable: false
+    options: { }
+  createdAt:
+    type: 'DateTime'
+    name: 'Created on'
+    required: true
+    hasDefault: false
+    writable: false
+    options: { }
+  updatedAt:
+    type: 'DateTime'
+    name: 'Updated on'
+    required: true
+    hasDefault: false
+    writable: false
+    options: { }
+  notificationMessage:
+    type: 'Formattable'
+    name: 'Message'
+    required: false
+    hasDefault: false
+    writable: true
+    options: { }
+    location: '_meta'
+  project:
+    type: 'Project'
+    name: 'Project'
+    required: false
+    hasDefault: false
+    writable: true
+    location: '_links'
+    _links:
+      allowedValues:
+        href: '/api/v3/memberships/available_projects?filters=%5B%7B%22principal%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%2214%22%5D%7D%7D%5D'
+  principal:
+    type: 'Principal'
+    name: 'Principal'
+    required: true
+    hasDefault: false
+    writable: true
+    location: '_links'
+    _links:
+      allowedValues:
+        href: '/api/v3/principals?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%223%22%5D%7D%7D%2C%7B%22member%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%2221%22%5D%7D%7D%5D'
+  roles:
+    type: '[]Role'
+    name: 'Role'
+    required: true
+    hasDefault: false
+    writable: true
+    location: '_links'
+    _links:
+      allowedValues:
+        href: '/api/v3/roles'
+  _links:
+    self:
+      href: '/api/v3/memberships/schema'

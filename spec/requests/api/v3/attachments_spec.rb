@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,75 +26,88 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'attachments/attachment_resource_shared_examples'
+require "spec_helper"
+require_relative "attachments/attachment_resource_shared_examples"
 
-describe API::V3::Attachments::AttachmentsAPI, type: :request do
+RSpec.describe API::V3::Attachments::AttachmentsAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:current_user) { create(:user, member_with_roles: { project => role }) }
 
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:add_work_packages] }
 
-  context(
-    'with missing permissions',
-    with_config: {
-      attachments_storage: :fog,
-      fog: { credentials: { provider: 'AWS' } }
-    }
-  ) do
-    let(:permissions) { [] }
-
+  describe "permissions", :with_direct_uploads do
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
     let(:request_parts) { { metadata: metadata.to_json, file: } }
-    let(:metadata) { { fileName: 'cat.png' } }
-    let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
+    let(:metadata) { { fileName: "cat.png", fileSize: file.size, contentType: "image/png" } }
+    let(:file) { mock_uploaded_file(name: "original-filename.txt") }
 
     before do
+      allow(User).to receive(:current).and_return current_user
       post request_path, request_parts
     end
 
-    it 'forbids to prepare attachments' do
-      expect(last_response.status).to eq 403
+    context "with missing permissions" do
+      let(:permissions) { [] }
+
+      it "forbids to prepare attachments" do
+        expect(last_response.status).to eq 403
+      end
+    end
+
+    context "with :edit_work_packages permission" do
+      let(:permissions) { [:edit_work_packages] }
+
+      it "can prepare attachments" do
+        expect(last_response.status).to eq 201
+      end
+    end
+
+    context "with :add_work_package_attachments permission" do
+      let(:permissions) { [:add_work_package_attachments] }
+
+      it "can prepare attachments" do
+        expect(last_response.status).to eq 201
+      end
     end
   end
 
-  it_behaves_like 'it supports direct uploads' do
+  it_behaves_like "it supports direct uploads" do
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
     let(:container_href) { nil }
 
-    describe 'GET /uploaded' do
-      let(:digest) { "" }
+    describe "GET /uploaded" do
+      let(:status) { :prepared }
       let(:attachment) do
-        create :attachment, digest:, author: current_user, container: nil, container_type: nil, downloads: -1
+        create(:attachment, status:, author: current_user, container: nil, container_type: nil)
       end
 
       before do
         get "/api/v3/attachments/#{attachment.id}/uploaded"
       end
 
-      context 'with no pending attachments' do
-        let(:digest) { "0xFF" }
+      context "with no pending attachments" do
+        let(:status) { :uploaded }
 
-        it 'returns 404' do
+        it "returns 404" do
           expect(last_response.status).to eq 404
         end
       end
 
-      context 'with a pending attachment' do
-        it 'enqueues a FinishDirectUpload job' do
-          expect(::Attachments::FinishDirectUploadJob).to have_been_enqueued.at_least(1)
+      context "with a pending attachment" do
+        it "enqueues a FinishDirectUpload job" do
+          expect(Attachments::FinishDirectUploadJob).to have_been_enqueued.at_least(1)
         end
 
-        it 'responds with HTTP OK' do
+        it "responds with HTTP OK" do
           expect(last_response.status).to eq 200
         end
 
-        it 'returns the attachment representation' do
+        it "returns the attachment representation" do
           json = JSON.parse last_response.body
 
           expect(json["_type"]).to eq "Attachment"
@@ -102,4 +115,6 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
       end
     end
   end
+
+  context "with an quarantined attachments"
 end

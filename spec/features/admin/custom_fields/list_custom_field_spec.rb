@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,46 +26,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'List custom fields edit', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+RSpec.describe "List custom fields edit", :js, :with_cuprite do
+  shared_let(:admin) { create(:admin) }
 
   before do
     login_as(admin)
     visit custom_fields_path(tab: :TimeEntryCustomField)
   end
 
-  it 'can create and edit list custom fields (#37654)' do
+  it "can create and edit list custom fields (#37654)" do
     # Create CF
-    click_on 'Create a new custom field'
+    click_on "Create a new custom field"
 
-    SeleniumHubWaiter.wait
-    fill_in 'custom_field_name', with: 'My List CF'
-    select 'List', from: 'custom_field_field_format'
+    wait_for_reload
 
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_0_value')
-    fill_in 'custom_field_custom_options_attributes_0_value', with: 'A'
+    fill_in "custom_field_name", with: "My List CF"
+    select "List", from: "custom_field_field_format"
 
-    click_on 'Save'
+    expect(page).to have_field("custom_field_custom_options_attributes_0_value")
+    fill_in "custom_field_custom_options_attributes_0_value", with: "A"
+
+    click_on "Save"
 
     # Expect correct values
     cf = CustomField.last
-    expect(cf.name).to eq('My List CF')
+    expect(cf.name).to eq("My List CF")
     expect(cf.possible_values.map(&:value)).to eq %w(A)
 
     # Edit again
-    SeleniumHubWaiter.wait
-    page.find('a', text: 'My List CF').click
+    find("a", text: "My List CF").click
 
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_0_value')
-    fill_in 'custom_field_custom_options_attributes_0_value', with: 'B'
+    expect(page).to have_field("custom_field_custom_options_attributes_0_value")
+    fill_in "custom_field_custom_options_attributes_0_value", with: "B"
 
-    click_on 'Save'
+    click_on "Save"
 
     # Expect correct values again
     cf = CustomField.last
-    expect(cf.name).to eq('My List CF')
+    expect(cf.name).to eq("My List CF")
     expect(cf.possible_values.map(&:value)).to eq %w(B)
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ApplicationController, type: :controller do
-  let(:user) { create(:user, lastname: "Crazy! Name with \r\n Newline") }
+RSpec.describe ApplicationController do
+  let(:user) { create(:user, lastname: "Crazy name") }
 
   # Fake controller to test calling an action
   controller do
@@ -39,21 +39,20 @@ describe ApplicationController, type: :controller do
     end
   end
 
-  describe 'logging requesting users' do
+  describe "logging requesting users", with_settings: { login_required: false } do
     let(:user_message) do
-      "OpenProject User: #{user.firstname} Crazy! Name with ## " +
-        "Newline (#{user.login} ID: #{user.id} <#{user.mail}>)"
+      "OpenProject User: #{user.firstname} Crazy name (#{user.login} ID: #{user.id} <#{user.mail}>)"
     end
 
-    let(:anonymous_message) { 'OpenProject User: Anonymous' }
+    let(:anonymous_message) { "OpenProject User: Anonymous" }
 
-    describe 'with log_requesting_user enabled' do
+    describe "with log_requesting_user enabled" do
       before do
         allow(Rails.logger).to receive(:info)
         allow(Setting).to receive(:log_requesting_user?).and_return(true)
       end
 
-      it 'logs the current user' do
+      it "logs the current user" do
         expect(Rails.logger).to receive(:info).once.with(user_message)
 
         as_logged_in_user(user) do
@@ -61,7 +60,7 @@ describe ApplicationController, type: :controller do
         end
       end
 
-      it 'logs an anonymous user' do
+      it "logs an anonymous user" do
         expect(Rails.logger).to receive(:info).once.with(anonymous_message)
 
         # no login, so this is done as Anonymous
@@ -69,12 +68,12 @@ describe ApplicationController, type: :controller do
       end
     end
 
-    describe 'with log_requesting_user disabled' do
+    describe "with log_requesting_user disabled" do
       before do
         allow(Setting).to receive(:log_requesting_user?).and_return(false)
       end
 
-      it 'does not log the current user' do
+      it "does not log the current user" do
         expect(Rails.logger).not_to receive(:info).with(user_message)
 
         as_logged_in_user(user) do
@@ -84,8 +83,8 @@ describe ApplicationController, type: :controller do
     end
   end
 
-  describe 'unverified request' do
-    shared_examples 'handle_unverified_request resets session' do
+  describe "unverified request", with_settings: { login_required: false } do
+    shared_examples "handle_unverified_request resets session" do
       before do
         ActionController::Base.allow_forgery_protection = true
       end
@@ -94,21 +93,21 @@ describe ApplicationController, type: :controller do
         ActionController::Base.allow_forgery_protection = false
       end
 
-      it 'deletes the autologin cookie' do
-        cookies_double = double('cookies').as_null_object
+      it "deletes the autologin cookie" do
+        cookies_double = double("cookies").as_null_object
 
         allow(controller)
           .to receive(:cookies)
-          .and_return(cookies_double)
+                .and_return(cookies_double)
 
         expect(cookies_double)
           .to receive(:delete)
-          .with(OpenProject::Configuration['autologin_cookie_name'])
+                .with(OpenProject::Configuration["autologin_cookie_name"])
 
         post :index
       end
 
-      it 'logs out the user' do
+      it "logs out the user" do
         @controller.send(:logged_user=, create(:user))
         allow(@controller).to receive(:render_error)
 
@@ -118,14 +117,14 @@ describe ApplicationController, type: :controller do
       end
     end
 
-    context 'for non-API resources' do
+    context "for non-API resources" do
       before do
         allow(@controller).to receive(:api_request?).and_return(false)
       end
 
-      it_behaves_like 'handle_unverified_request resets session'
+      it_behaves_like "handle_unverified_request resets session"
 
-      it 'gives 422' do
+      it "gives 422" do
         expect(@controller).to receive(:render_error) do |options|
           expect(options[:status]).to be(422)
         end
@@ -134,14 +133,14 @@ describe ApplicationController, type: :controller do
       end
     end
 
-    context 'for API resources' do
+    context "for API resources" do
       before do
         allow(@controller).to receive(:api_request?).and_return(true)
       end
 
-      it_behaves_like 'handle_unverified_request resets session'
+      it_behaves_like "handle_unverified_request resets session"
 
-      it 'does not render an error' do
+      it "does not render an error" do
         expect(@controller).not_to receive(:render_error)
 
         @controller.send :handle_unverified_request
@@ -149,7 +148,7 @@ describe ApplicationController, type: :controller do
     end
   end
 
-  describe 'rack timeout duplicate error suppression' do
+  describe "rack timeout duplicate error suppression", with_settings: { login_required: false } do
     controller do
       include OpenProjectErrorHelper
 
@@ -161,13 +160,13 @@ describe ApplicationController, type: :controller do
     end
 
     before do
-      allow(::OpenProject.logger).to receive(:error)
+      allow(OpenProject.logger).to receive(:error)
     end
 
     it "doesn't suppress errors when there is no timeout" do
       get :index
 
-      expect(::OpenProject.logger).to have_received(:error) do |msg, _|
+      expect(OpenProject.logger).to have_received(:error) do |msg, _|
         expect(msg).to eq "fail"
       end
     end
@@ -188,14 +187,14 @@ describe ApplicationController, type: :controller do
         allow(controller.request.env).to receive(:[]).and_call_original
         allow(controller.request.env)
           .to receive(:[])
-          .with(Rack::Timeout::ENV_INFO_KEY)
-          .and_return(OpenStruct.new(state: :timed_out))
+                .with(Rack::Timeout::ENV_INFO_KEY)
+                .and_return(OpenStruct.new(state: :timed_out))
       end
 
       it "suppresses the (duplicate) error report" do
         get :index
 
-        expect(::OpenProject.logger).not_to have_received(:error)
+        expect(OpenProject.logger).not_to have_received(:error)
       end
     end
 
@@ -212,7 +211,7 @@ describe ApplicationController, type: :controller do
       it "does nothing as there is no duplicate to suppress" do
         expect { object.op_handle_error "fail" }.not_to raise_error
 
-        expect(::OpenProject.logger).to have_received(:error)
+        expect(OpenProject.logger).to have_received(:error)
       end
     end
   end

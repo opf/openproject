@@ -1,5 +1,9 @@
 #English strings go here
 hu:
+  plugin_openproject_avatars:
+    name: "Profilképek"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Profilkép"
   label_avatar_plural: "Profilképek"
   label_current_avatar: "Jelenlegi profilkép"
@@ -34,6 +38,3 @@ hu:
       enable_gravatars: 'Felhasználói gravatar profilképek engedélyezése'
       gravatar_default: "Alapértelmezett Gravatar profilkép"
       enable_local_avatars: 'Felhasználói egyéni profilképek engedélyezése'
-
-
-

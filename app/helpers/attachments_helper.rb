@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@
 module AttachmentsHelper
   def to_utf8_for_attachments(str)
     forced_str = str.dup
-    forced_str.force_encoding('UTF-8')
+    forced_str.force_encoding("UTF-8")
     return forced_str if forced_str.valid_encoding?
 
-    str.encode('UTF-8', invalid: :replace, undef: :replace, replace: '') # better replace: '?'
+    str.encode("UTF-8", invalid: :replace, undef: :replace, replace: "") # better replace: '?'
   end
 
   ##
@@ -41,11 +41,10 @@ module AttachmentsHelper
   #
   # Within ckeditor-augmented-textarea-form, this attachment list is added automatically
   # when a resource is added.
-  def list_attachments(resource)
-    content_tag 'op-attachments',
-                '',
-                'data-resource': resource.to_json,
-                'data-allow-uploading': false,
-                'data-destroy-immediately': true
+  def list_attachments(resource, options = {})
+    options[:inputs] = (options[:inputs] || {})
+      .reverse_merge(resource:, allowUploading: false, destroyImmediately: true)
+
+    angular_component_tag("op-attachments", **options)
   end
 end

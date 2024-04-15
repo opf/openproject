@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,30 +32,37 @@ class TimeEntry < ApplicationRecord
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
-  belongs_to :activity, class_name: 'TimeEntryActivity'
-  belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: 'Rate'
-  belongs_to :logged_by, class_name: 'User'
+  belongs_to :activity, class_name: "TimeEntryActivity"
+  belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: "Rate"
+  belongs_to :logged_by, class_name: "User"
 
   acts_as_customizable
 
   acts_as_journalized
 
-  validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
+  validates_presence_of :user_id, :project_id, :spent_on
+  validates_presence_of :hours, if: -> { !ongoing? }
   validates_numericality_of :hours, allow_nil: true, message: :invalid
-  validates_length_of :comments, maximum: 255, allow_nil: true
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
-  include ::Scopes::Scoped
   extend ::TimeEntries::TimeEntryScopes
+  include ::Scopes::Scoped
   include Entry::Costs
   include Entry::SplashedDates
 
   scopes :of_user_and_day,
-         :visible
+         :ongoing
 
   # TODO: move into service
   before_save :update_costs
+
+  register_journal_formatted_fields(:time_entry_hours, "hours")
+  register_journal_formatted_fields(:time_entry_named_association, "user_id")
+  register_journal_formatted_fields(:named_association, "work_package_id")
+  register_journal_formatted_fields(:named_association, "activity_id")
+  register_journal_formatted_fields(:plaintext, "comments")
+  register_journal_formatted_fields(:plaintext, "spent_on")
 
   def self.update_all(updates, conditions = nil, options = {})
     # instead of a update_all, perform an individual update during work_package#move
@@ -78,7 +85,8 @@ class TimeEntry < ApplicationRecord
 
   # Returns true if the time entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
+    (usr == user && usr.allowed_in_work_package?(:edit_own_time_entries, work_package)) ||
+      usr.allowed_in_project?(:edit_time_entries, project)
   end
 
   def current_rate
@@ -86,13 +94,13 @@ class TimeEntry < ApplicationRecord
   end
 
   def visible_by?(usr)
-    usr.allowed_to?(:view_time_entries, project) ||
-      (user_id == usr.id && usr.allowed_to?(:view_own_time_entries, project))
+    usr.allowed_in_project?(:view_time_entries, project) ||
+      (user_id == usr.id && usr.allowed_in_work_package?(:view_own_time_entries, work_package))
   end
 
   def costs_visible_by?(usr)
-    usr.allowed_to?(:view_hourly_rates, project) ||
-      (user_id == usr.id && usr.allowed_to?(:view_own_hourly_rate, project))
+    usr.allowed_in_project?(:view_hourly_rates, project) ||
+      (user_id == usr.id && usr.allowed_in_project?(:view_own_hourly_rate, project))
   end
 
   private

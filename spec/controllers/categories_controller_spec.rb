@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe CategoriesController, type: :controller do
+RSpec.describe CategoriesController do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: [:manage_categories])
   end
   let(:member) do
@@ -48,7 +48,7 @@ describe CategoriesController, type: :controller do
     allow(User).to receive(:current).and_return user
   end
 
-  shared_examples_for 'redirect' do
+  shared_examples_for "redirect" do
     subject { response }
 
     it { is_expected.to be_redirect }
@@ -56,7 +56,7 @@ describe CategoriesController, type: :controller do
     it { is_expected.to redirect_to("/projects/#{project.identifier}/settings/categories") }
   end
 
-  describe '#new' do
+  describe "#new" do
     before do
       get :new, params: { project_id: project.id }
     end
@@ -65,11 +65,11 @@ describe CategoriesController, type: :controller do
 
     it { is_expected.to be_successful }
 
-    it { is_expected.to render_template('new') }
+    it { is_expected.to render_template("new") }
   end
 
-  describe '#create' do
-    let(:category_name) { 'New category' }
+  describe "#create" do
+    let(:category_name) { "New category" }
 
     before do
       post :create,
@@ -80,7 +80,7 @@ describe CategoriesController, type: :controller do
            }
     end
 
-    describe '#categories' do
+    describe "#categories" do
       subject { Category.find_by(name: category_name) }
 
       it { expect(subject.project_id).to eq(project.id) }
@@ -88,10 +88,10 @@ describe CategoriesController, type: :controller do
       it { expect(subject.assigned_to_id).to eq(user.id) }
     end
 
-    it_behaves_like 'redirect'
+    it_behaves_like "redirect"
   end
 
-  describe '#edit' do
+  describe "#edit" do
     let(:category) do
       create(:category,
              project:)
@@ -103,24 +103,24 @@ describe CategoriesController, type: :controller do
       get :edit, params: { id: category_id }
     end
 
-    context 'valid category' do
+    context "valid category" do
       let(:category_id) { category.id }
 
       it { is_expected.to be_successful }
-      it { is_expected.to render_template('edit') }
+      it { is_expected.to render_template("edit") }
     end
 
-    context 'invalid category' do
+    context "invalid category" do
       let(:category_id) { 404 }
 
       it { is_expected.to be_not_found }
     end
   end
 
-  describe '#update' do
-    let(:name) { 'Testing' }
+  describe "#update" do
+    let(:name) { "Testing" }
 
-    context 'valid category' do
+    context "valid category" do
       let(:category) do
         create(:category,
                project:)
@@ -138,16 +138,16 @@ describe CategoriesController, type: :controller do
 
       it { is_expected.to eq(name) }
 
-      describe '#category_count' do
+      describe "#category_count" do
         subject { Category.count }
 
         it { is_expected.to eq(1) }
       end
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirect"
     end
 
-    context 'invalid category' do
+    context "invalid category" do
       before do
         post :update,
              params: {
@@ -162,7 +162,7 @@ describe CategoriesController, type: :controller do
     end
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     let(:category) do
       create(:category,
              project:)
@@ -175,23 +175,23 @@ describe CategoriesController, type: :controller do
 
     before { category }
 
-    shared_examples_for 'delete' do
+    shared_examples_for "delete" do
       subject { Category.find_by(id: category.id) }
 
       it { is_expected.to be_nil }
     end
 
-    context 'unused' do
+    context "unused" do
       before do
         delete :destroy, params: { id: category.id }
       end
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirect"
 
-      it_behaves_like 'delete'
+      it_behaves_like "delete"
     end
 
-    context 'in use' do
+    context "in use" do
       before do
         work_package
 
@@ -202,16 +202,16 @@ describe CategoriesController, type: :controller do
 
       it { is_expected.not_to be_nil }
 
-      describe '#response' do
+      describe "#response" do
         subject { response }
 
         it { is_expected.to be_successful }
 
-        it { is_expected.to render_template('destroy') }
+        it { is_expected.to render_template("destroy") }
       end
     end
 
-    describe '#reassign' do
+    describe "#reassign" do
       let(:target) do
         create(:category,
                project:)
@@ -223,7 +223,7 @@ describe CategoriesController, type: :controller do
         delete :destroy,
                params: {
                  id: category.id,
-                 todo: 'reassign',
+                 todo: "reassign",
                  reassign_to_id: target.id
                }
       end
@@ -232,19 +232,19 @@ describe CategoriesController, type: :controller do
 
       it { is_expected.to eq(target.id) }
 
-      it_behaves_like 'delete'
+      it_behaves_like "delete"
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirect"
     end
 
-    describe '#nullify' do
+    describe "#nullify" do
       before do
         work_package
 
         delete :destroy,
                params: {
                  id: category.id,
-                 todo: 'nullify'
+                 todo: "nullify"
                }
       end
 
@@ -252,9 +252,9 @@ describe CategoriesController, type: :controller do
 
       it { is_expected.to be_nil }
 
-      it_behaves_like 'delete'
+      it_behaves_like "delete"
 
-      it_behaves_like 'redirect'
+      it_behaves_like "redirect"
     end
   end
 end

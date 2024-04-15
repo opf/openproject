@@ -4,8 +4,10 @@ module ::TwoFactorAuthentication
     include ::TwoFactorAuthentication::RememberToken
     # Backup tokens functionality
     include ::TwoFactorAuthentication::BackupCodes
+    # Webauthn relying party based on domain
+    include ::TwoFactorAuthentication::WebauthnRelyingParty
     # Include global layout helper
-    layout 'no_menu'
+    layout "no_menu"
 
     # User is not yet logged in, so skip login required check
     skip_before_action :check_if_login_required
@@ -15,7 +17,7 @@ module ::TwoFactorAuthentication
 
     # Require authenticated user from the core to be present
     before_action :require_authenticated_user,
-                  only: %i(request_otp enter_backup_code verify_backup_code confirm_otp retry)
+                  only: %i(request_otp enter_backup_code verify_backup_code confirm_otp retry webauthn_challenge)
 
     before_action :ensure_valid_configuration, only: [:request_otp]
 
@@ -29,7 +31,7 @@ module ::TwoFactorAuthentication
       session[:authenticated_user_force_2fa] = service.needs_registration?
 
       if service.needs_registration?
-        flash[:info] = I18n.t('two_factor_authentication.forced_registration.required_to_add_device')
+        flash[:info] = I18n.t("two_factor_authentication.forced_registration.required_to_add_device")
         redirect_to new_forced_2fa_device_path
       elsif !service.requires_token?
         complete_stage_redirect
@@ -41,7 +43,11 @@ module ::TwoFactorAuthentication
     ##
     # Verify the validity of the entered token
     def confirm_otp
-      login_if_otp_token_valid(@authenticated_user, params[:otp])
+      login_if_otp_token_valid(
+        user: @authenticated_user,
+        otp_token: params[:otp],
+        webauthn_credential: params[:webauthn_credential]
+      )
     end
 
     ##
@@ -49,6 +55,15 @@ module ::TwoFactorAuthentication
     def retry
       service = service_from_resend_params
       perform_2fa_authentication service
+    end
+
+    def webauthn_challenge
+      device = otp_service(@authenticated_user).device
+
+      webauthn_options = device.options_for_get(webauthn_relying_party)
+      session[:webauthn_challenge] = webauthn_options.challenge
+
+      render json: webauthn_options
     end
 
     private
@@ -69,7 +84,7 @@ module ::TwoFactorAuthentication
     ##
     # Create a token service for the current user
     # with an optional override to use a non-default channel
-    def otp_service(user, use_channel: nil, use_device: nil)
+    def otp_service(user, use_channel: nil, use_device: remembered_device(user))
       session[:two_factor_authentication_device_id] = use_device.try(:id)
       ::TwoFactorAuthentication::TokenService.new user:, use_channel:, use_device:
     end
@@ -77,14 +92,16 @@ module ::TwoFactorAuthentication
     ##
     # Get the used device for verification
     def otp_service_for_verification(user)
-      use_device =
-        if session[:two_factor_authentication_device_id]
-          user.otp_devices.find(session[:two_factor_authentication_device_id])
-        end
-      otp_service(user, use_device:)
+      otp_service(user, use_device: remembered_device(user))
     rescue ActiveRecord::RecordNotFound
       render_404
       false
+    end
+
+    def remembered_device(user)
+      if session[:two_factor_authentication_device_id]
+        user.otp_devices.find(session[:two_factor_authentication_device_id])
+      end
     end
 
     ##
@@ -129,17 +146,26 @@ module ::TwoFactorAuthentication
       @active_devices = @user.otp_devices.get_active
 
       if params["back_url"]
-        render action: 'request_otp', back_url: params["back_url"]
+        render action: "request_otp", back_url: params["back_url"]
       else
-        render action: 'request_otp'
+        render action: "request_otp"
       end
     end
 
     ##
     # Check OTP string and login if valid
-    def login_if_otp_token_valid(user, token_string)
+    def login_if_otp_token_valid(user:, otp_token:, webauthn_credential:)
       service = otp_service_for_verification(user)
-      result = service.verify(token_string)
+
+      result = if service.device.class.device_type == :webauthn
+                 service.verify(
+                   JSON.parse(webauthn_credential),
+                   webauthn_challenge: session[:webauthn_challenge],
+                   webauthn_relying_party:
+                 )
+               else
+                 service.verify(otp_token)
+               end
 
       if result.success?
         set_remember_token!
@@ -184,7 +210,7 @@ module ::TwoFactorAuthentication
     # In case of mis-configuration, block all logins
     def ensure_valid_configuration
       if manager.invalid_configuration?
-        render_500 message: I18n.t('two_factor_authentication.error_is_enforced_not_active')
+        render_500 message: I18n.t("two_factor_authentication.error_is_enforced_not_active")
         false
       end
     end

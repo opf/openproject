@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,10 +44,6 @@ FactoryBot.define do
     admin { false }
     first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
 
-    transient do
-      global_permissions { [] }
-    end
-
     callback(:after_build) do |user, evaluator|
       evaluator.preferences&.each do |key, val|
         user.pref[key] = val
@@ -61,11 +57,6 @@ FactoryBot.define do
         user.notification_settings = [
           create(:notification_setting, user:)
         ]
-      end
-
-      if factory.global_permissions.present?
-        global_role = create :global_role, permissions: factory.global_permissions
-        create :global_member, principal: user, roles: [global_role]
       end
     end
 

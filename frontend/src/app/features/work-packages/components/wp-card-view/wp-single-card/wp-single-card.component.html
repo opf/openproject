@@ -1,6 +1,7 @@
 <div
   class="op-wp-single-card"
-  data-qa-selector="op-wp-single-card"
+  data-test-selector="op-wp-single-card"
+  data-tour-selector="op-wp-single-card"
   [attr.data-qa-draggable]="draggable || undefined"
   [attr.data-qa-selected]="selected || undefined"
   [ngClass]="cardClasses()"
@@ -16,11 +17,11 @@
 
   <div class="op-wp-single-card--card-actions">
     <div class="op-wp-single-card--inline-buttons hidden-for-mobile"
-         data-qa-selector="op-wp-single-card--inline-buttons">
+         data-test-selector="op-wp-single-card--inline-buttons">
       <button
         type="button"
         class="spot-link op-wp-single-card--details-button op-wp-single-card--card-action"
-        data-qa-selector="op-wp-single-card--details-button"
+        data-test-selector="op-wp-single-card--details-button"
         *ngIf="!isNewResource(workPackage) && showInfoButton"
         [title]="text.detailsView"
         (click)="emitStateLinkClicked($event, workPackage, true)">
@@ -29,7 +30,7 @@
 
       <button
         class="spot-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
-        data-qa-selector="op-wp-single-card--inline-cancel-button"
+        data-test-selector="op-wp-single-card--inline-cancel-button"
         *ngIf="isNewResource(workPackage) || showRemoveButton"
         [class.-show]="isNewResource(workPackage)"
         [title]="text.removeCard"
@@ -52,19 +53,20 @@
              *ngIf="isNewResource(workPackage)">
     <div class="op-wp-single-card-content -new">
       <op-editable-attribute-field [resource]="workPackage"
-                                [wrapperClasses]="'work-packages--type-selector'"
-                                [fieldName]="'type'"
-                                class="op-wp-single-card-content--type">
+                                   [wrapperClasses]="'work-packages--type-selector'"
+                                   [fieldName]="'type'"
+                                   class="op-wp-single-card-content--type">
       </op-editable-attribute-field>
       <op-editable-attribute-field [resource]="workPackage"
-                                fieldName="subject"
-                                class="op-wp-single-card-content--subject -bold">
+                                   fieldName="subject"
+                                   class="op-wp-single-card-content--subject -bold">
       </op-editable-attribute-field>
     </div>
   </edit-form>
 
   <div *ngIf="!isNewResource(workPackage)"
        class="op-wp-single-card--content">
+
     <span
       class="op-wp-single-card--content-project-name"
       [ngClass]="{'op-wp-single-card--content-project-name_hideable': showInfoButton || showRemoveButton}"
@@ -84,20 +86,26 @@
         *ngIf="showAsInlineCard && showStartDate"
         class="op-wp-single-card--content-inline-date"
       >
-        {{startDate(workPackage)}} -
+         <display-field
+           [resource]="workPackage"
+           [displayFieldOptions]="{ writable: false, dateFormat: 'MMM DD, YYYY', placeholder: '' }"
+           fieldName="startDate"
+           containerType="single-view">
+        </display-field>
+         -
       </span>
 
       <span
         *ngIf="!showAsInlineCard && highlightingMode !== 'type'"
         [textContent]="wpTypeAttribute(workPackage)"
         class="op-wp-single-card--content-type"
-        data-qa-selector="op-wp-single-card--content-type"
+        data-test-selector="op-wp-single-card--content-type"
         [ngClass]="typeHighlightingClass(workPackage)"
       ></span>
 
       <span
         class="op-wp-single-card--content-subject"
-        data-qa-selector="op-wp-single-card--content-subject"
+        data-test-selector="op-wp-single-card--content-subject"
         [textContent]="wpSubject(workPackage)"
       ></span>
 
@@ -105,18 +113,35 @@
         *ngIf="showAsInlineCard && showEndDate"
         class="op-wp-single-card--content-inline-date"
       >
-        - {{endDate(workPackage)}}
+        -
+        <display-field
+         [resource]="workPackage"
+         [displayFieldOptions]="{ writable: false, dateFormat: 'MMM DD, YYYY', placeholder: '' }"
+         fieldName="dueDate"
+         containerType="single-view">
+        </display-field>
       </span>
     </span>
 
     <img *ngIf="this.cardCoverImageShown(workPackage) && !showAsInlineCard"
          [src]="this.bcfSnapshotPath(workPackage)"
          class="op-wp-single-card--content-cover-image">
-    <wp-status-button *ngIf="showStatusButton"
-                      [workPackage]="workPackage"
-                      [small]="true"
-                      class="op-wp-single-card--content-status">
-    </wp-status-button>
+    <div class="op-wp-single-card--content-status-baseline">
+      <wp-status-button *ngIf="showStatusButton"
+                        [workPackage]="workPackage"
+                        [small]="true"
+                        class="op-wp-single-card--content-status"
+      >
+      </wp-status-button>
+      <span
+        *ngIf="baselineIcon(workPackage) !== ''"
+        class="spot-icon spot-icon_1 spot-icon_flex op-wp-single-card--content-baseline"
+        [ngClass]="baselineMode==='added' ? 'spot-icon_flex spot-icon_arrow-in op-table-baseline--icon-added' : (baselineMode==='removed' ? 'spot-icon_arrow-out op-table-baseline--icon-removed' : 'spot-icon_delta-triangle op-table-baseline--icon-changed')"
+        title="{{ baselineMode==='added' ? text.baseLineIconAdded : (baselineMode==='removed' ? text.baseLineIconRemoved : text.baseLineIconChanged) }}"
+      >
+      </span>
+
+    </div>
     <op-principal
       *ngIf="workPackage.assignee"
       [principal]="workPackage.assignee"
@@ -124,14 +149,16 @@
       [link]="false"
       size="mini"
       class="op-wp-single-card--content-assignee"
-      data-qa-selector="op-wp-single-card--content-assignee"
+      data-test-selector="op-wp-single-card--content-assignee"
     ></op-principal>
-    <span
+    <display-field
       *ngIf="!showAsInlineCard"
-      [textContent]="wpDates(workPackage)"
+      [resource]="workPackage"
+      [displayFieldOptions]="{ writable: false, dateFormat: 'MMM DD, YYYY', placeholder: '' }"
+      [displayClass]="combinedDateDisplayField"
+      fieldName="dueDate"
       class="op-wp-single-card--content-dates"
-      [ngClass]="wpOverDueHighlighting(workPackage)"
-    >
-    </span>
+      containerType="single-view">
+    </display-field>
   </div>
 </div>

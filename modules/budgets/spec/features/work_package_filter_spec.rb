@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Filter by budget', js: true do
-  let(:user) { create :admin }
-  let(:project) { create :project }
+RSpec.describe "Filter by budget", :js do
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:member) do
     create(:member,
            user:,
            project:,
-           roles: [create(:role)])
+           roles: [create(:project_role)])
   end
   let(:status) do
     create(:status)
@@ -70,21 +70,21 @@ describe 'Filter by budget', js: true do
     wp_table.visit!
   end
 
-  it 'allows filtering for budgets' do
+  it "allows filtering for budgets" do
     wp_table.expect_work_package_listed work_package_with_budget, work_package_without_budget
 
     filters.expect_filter_count 1
     filters.open
-    filters.add_filter_by('Budget', 'is', budget.name)
+    filters.add_filter_by("Budget", "is (OR)", budget.name)
 
     wp_table.expect_work_package_listed work_package_with_budget
     wp_table.ensure_work_package_not_listed! work_package_without_budget
 
-    wp_table.save_as('Some query name')
+    wp_table.save_as("Some query name")
 
-    wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
+    wp_table.expect_and_dismiss_toaster message: "Successful creation."
 
-    filters.remove_filter 'budget'
+    filters.remove_filter "budget"
 
     wp_table.expect_work_package_listed work_package_with_budget, work_package_without_budget
 
@@ -97,6 +97,6 @@ describe 'Filter by budget', js: true do
 
     filters.open
 
-    filters.expect_filter_by('Budget', 'is', budget.name)
+    filters.expect_filter_by("Budget", "is (OR)", budget.name)
   end
 end

@@ -11,7 +11,7 @@
 <div class="op-sidebar--footer">
   <button
     *ngIf="(canCreateCalendar$ | async)"
-    class="button -alt-highlight"
+    class="button -primary -expand"
     [uiSref]="createButton.uiSref"
     [uiParams]="createButton.uiParams"
     [title]="text.create_new_calendar"

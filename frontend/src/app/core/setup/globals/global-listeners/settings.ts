@@ -26,7 +26,7 @@ export function listenToSettingChanges() {
     }
   });
 
-  /* Javascript for Settings::TextSettingCell */
+  /* Javascript for Settings::TextSettingComponent */
   const langSelectSwitchData = function (select:any) {
     const self = jQuery(select);
     const id:string = self.attr('id') || '';
@@ -60,18 +60,7 @@ export function listenToSettingChanges() {
       data.editor.setData(storedValue);
       data.textArea.attr('name', `settings[${data.settingName}][${data.newLang}]`);
     });
-  /* end Javascript for Settings::TextSettingCell */
-
-  jQuery('.admin-settings--form').submit(() => {
-    /* Update consent time if consent required */
-    if (jQuery('#settings_consent_required').is(':checked') && jQuery('#toggle_consent_time').is(':checked')) {
-      jQuery('#settings_consent_time')
-        .val(new Date().toISOString())
-        .prop('disabled', false);
-    }
-
-    return true;
-  });
+  /* end Javascript for Settings::TextSettingComponent */
 
   /** Toggle notification settings fields */
   jQuery('#email_delivery_method_switch').on('change', function () {
@@ -106,13 +95,6 @@ export function listenToSettingChanges() {
     jQuery('.settings--highlighted-attributes').toggle(highlightingMode === 'inline');
   });
 
-  /** Initialize highlighted attributes checkboxes. If none is selected, it means we want them all. So let's
-   * show them all as selected.
-   * On submitting the form, we remove all checkboxes before sending to communicate, we actually want all and not
-   * only the selected. */
-  if (jQuery(".settings--highlighted-attributes input[type='checkbox']:checked").length === 0) {
-    jQuery(".settings--highlighted-attributes input[type='checkbox']").prop('checked', true);
-  }
   jQuery('#tab-content-work_packages form').submit(() => {
     const availableAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']");
     const selectedAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']:checked");

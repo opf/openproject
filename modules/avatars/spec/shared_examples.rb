@@ -1,4 +1,4 @@
-shared_examples_for "an action checked for required login" do
+RSpec.shared_examples_for "an action checked for required login" do
   describe "WITH no login required" do
     before do
       allow(Setting).to receive(:login_required?).and_return(false)
@@ -22,7 +22,7 @@ shared_examples_for "an action checked for required login" do
   end
 end
 
-shared_examples_for "an action requiring login" do
+RSpec.shared_examples_for "an action requiring login" do
   let(:current) { create(:user) }
 
   before do
@@ -48,7 +48,7 @@ shared_examples_for "an action requiring login" do
   end
 end
 
-shared_examples_for "an action requiring admin" do
+RSpec.shared_examples_for "an action requiring admin" do
   let(:current) { create(:admin) }
 
   before do
@@ -89,35 +89,37 @@ shared_examples_for "an action requiring admin" do
     end
   end
 end
-shared_context "there are users with and without avatars" do
-  let(:base_path) { File.expand_path 'fixtures', __dir__ }
-  let(:user_without_avatar) { create :user }
+
+RSpec.shared_context "there are users with and without avatars" do
+  let(:base_path) { File.expand_path "fixtures", __dir__ }
+  let(:user_without_avatar) { create(:user) }
   let(:user_with_avatar) do
-    u = create :user
+    u = create(:user)
     u.attachments = [build(:avatar_attachment, author: u)]
     u
   end
   let(:avatar_file) do
-    file = File.new(File.join(base_path, 'valid.jpg'), 'r')
-    testfile = Rack::Test::UploadedFile.new(file.path, 'valid.jpg')
+    file = File.new(File.join(base_path, "valid.jpg"), "r")
+    testfile = Rack::Test::UploadedFile.new(file.path, "valid.jpg")
     allow(testfile).to receive(:tempfile).and_return(file)
     testfile
   end
   let(:large_avatar_file) do
-    file = File.new(File.join(base_path, 'too_big.jpg'), 'r')
-    testfile = Rack::Test::UploadedFile.new(file.path, 'too_big.jpg')
+    file = File.new(File.join(base_path, "too_big.jpg"), "r")
+    testfile = Rack::Test::UploadedFile.new(file.path, "too_big.jpg")
     allow(testfile).to receive(:tempfile).and_return(file)
     testfile
   end
 
   let(:bogus_avatar_file) do
-    file = File.new(File.join(base_path, 'invalid.jpg'), 'r')
-    testfile = Rack::Test::UploadedFile.new(file.path, 'invalid.jpg')
+    file = File.new(File.join(base_path, "invalid.jpg"), "r")
+    testfile = Rack::Test::UploadedFile.new(file.path, "invalid.jpg")
     allow(testfile).to receive(:tempfile).and_return(file)
     testfile
   end
 end
-shared_examples_for "an action with an invalid user" do
+
+RSpec.shared_examples_for "an action with an invalid user" do
   it do
     do_action
     expect(response).not_to be_success
@@ -125,13 +127,14 @@ shared_examples_for "an action with an invalid user" do
   end
 end
 
-shared_context "an action with stubbed User.find" do
+RSpec.shared_context "an action with stubbed User.find" do
   before do
     allow(user).to receive(:save).and_return true if user
     allow(User).to receive(:find) { |id, _args| id.to_s == "0" ? nil : user }
   end
 end
-shared_examples_for "an action that deletes the user's avatar" do
+
+RSpec.shared_examples_for "an action that deletes the user's avatar" do
   it do
     expect_any_instance_of(Attachment).to receive(:destroy).and_call_original
     do_action

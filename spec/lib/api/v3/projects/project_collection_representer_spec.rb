@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Projects::ProjectCollectionRepresenter do
+RSpec.describe API::V3::Projects::ProjectCollectionRepresenter do
   shared_let(:projects) { create_list(:project, 3) }
 
-  let(:self_base_link) { '/api/v3/projects' }
+  let(:self_base_link) { "/api/v3/projects" }
   let(:current_user) { build(:user) }
   let(:representer) do
     described_class.new Project.all,
@@ -42,41 +42,41 @@ describe ::API::V3::Projects::ProjectCollectionRepresenter do
   let(:page) { 1 }
   let(:page_size) { 30 }
   let(:actual_count) { 3 }
-  let(:collection_inner_type) { 'Project' }
+  let(:collection_inner_type) { "Project" }
 
   subject { representer.to_json }
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'offset-paginated APIv3 collection', 3, 'projects', 'Project'
+    it_behaves_like "offset-paginated APIv3 collection", 3, "projects", "Project"
   end
 
-  describe 'representation formats' do
-    it_behaves_like 'has a link collection' do
-      let(:link) { 'representations' }
+  describe "representation formats" do
+    it_behaves_like "has a link collection" do
+      let(:link) { "representations" }
       let(:hrefs) do
         [
           {
-            'href' => '/projects.csv?offset=1&pageSize=30',
-            'identifier' => 'csv',
-            'type' => 'text/csv',
-            'title' => 'CSV'
+            "href" => "/projects.csv?offset=1&pageSize=30",
+            "identifier" => "csv",
+            "type" => "text/csv",
+            "title" => "CSV"
           },
           {
-            'href' => '/projects.xls?offset=1&pageSize=30',
-            'identifier' => 'xls',
-            'type' => 'application/vnd.ms-excel',
-            'title' => 'XLS'
+            "href" => "/projects.xls?offset=1&pageSize=30",
+            "identifier" => "xls",
+            "type" => "application/vnd.ms-excel",
+            "title" => "XLS"
           }
         ]
       end
     end
   end
 
-  describe '.checked_permissions' do
-    it 'lists add_work_packages' do
-      expect(described_class.checked_permissions).to match_array([:add_work_packages])
+  describe ".checked_permissions" do
+    it "lists add_work_packages and view_projects" do
+      expect(described_class.checked_permissions).to contain_exactly(:add_work_packages, :view_project)
     end
   end
 end

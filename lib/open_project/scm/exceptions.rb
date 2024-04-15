@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,7 +65,7 @@ module OpenProject
 
       # a localized exception raised when SCM could be accessed
       class SCMUnavailable < SCMError
-        def initialize(key = 'unavailable')
+        def initialize(key = "unavailable")
           @error = I18n.t("repositories.errors.#{key}")
         end
 
@@ -77,14 +77,14 @@ module OpenProject
       # raised if SCM could not be accessed due to authorization failure
       class SCMUnauthorized < SCMUnavailable
         def initialize
-          super('unauthorized')
+          super("unauthorized")
         end
       end
 
       # raised when encountering an empty (bare) repository
       class SCMEmpty < SCMUnavailable
         def initialize
-          super('empty_repository')
+          super("empty_repository")
         end
       end
     end

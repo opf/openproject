@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../filters'
+require_relative "../filters"
 
 module Components
   module WorkPackages
@@ -39,7 +39,7 @@ module Components
         end
 
         def open
-          modal.open_and_switch_to 'Filters'
+          modal.open_and_switch_to "Filters"
           expect_open
         end
 
@@ -47,13 +47,13 @@ module Components
 
         def expect_filter_count(count)
           within(modal.selector) do
-            expect(page).to have_selector('.advanced-filters--filter', count:)
+            expect(page).to have_css(".advanced-filters--filter", count:)
           end
         end
 
         def expect_open
           modal.expect_open
-          expect(page).to have_selector('.op-tab-row--link_selected', text: 'FILTERS')
+          expect(page).to have_css(".op-tab-row--link_selected", text: "FILTERS")
         end
 
         delegate :expect_closed, to: :modal

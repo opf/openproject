@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend">
-    <a href="#"><%= t(:caption_materials) %></a>
+    <%= t(:caption_materials) %>
   </legend>
   <div class="grid-block">
     <div class="grid-content medium-6">
@@ -96,7 +96,7 @@ See COPYRIGHT and LICENSE files for more details.
                 </tr>
                 <% end %>
               </tbody>
-              <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+              <% if User.current.allowed_in_project?(:view_cost_rates, @project) %>
               <tfoot>
                 <tr>
                   <td colspan="3"></td>
@@ -198,7 +198,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <% end %>
                 <% end %>
               </tbody>
-              <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+              <% if User.current.allowed_in_project?(:view_cost_rates, @project) %>
               <tfoot>
                 <tr>
                   <td colspan="3"></td>
@@ -222,7 +222,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend">
-    <a href="#"><%= t(:caption_labor) %></a>
+    <%= t(:caption_labor) %>
   </legend>
   <div class="grid-block">
     <div class="grid-content medium-6">
@@ -293,7 +293,7 @@ See COPYRIGHT and LICENSE files for more details.
                 </tr>
                 <% end %>
               </tbody>
-              <% if User.current.allowed_to?(:view_hourly_rates, @project) || User.current.allowed_to?(:view_own_hourly_rate, @project) %>
+              <% if User.current.allowed_in_project?(:view_hourly_rates, @project) || User.current.allowed_in_project?(:view_own_hourly_rate, @project) %>
               <tfoot>
                 <tr>
                   <td colspan="3"></td>
@@ -365,7 +365,12 @@ See COPYRIGHT and LICENSE files for more details.
                 </tr>
               </thead>
               <tbody>
-              <% @budget.time_entries.visible(User.current).group_by(&:work_package).each do |work_package, time_entries|
+              <% @budget
+                   .time_entries
+                   .not_ongoing
+                   .visible(User.current)
+                   .group_by(&:work_package)
+                   .each do |work_package, time_entries|
                 entries = time_entries.inject(Hash.new)  do |results, entry|
                   result = results[entry.user.id.to_s]
                   unless result

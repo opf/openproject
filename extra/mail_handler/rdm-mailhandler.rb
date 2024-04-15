@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,11 +77,11 @@
 #                   --type bug \\
 #                   --allow-override type,priority
 
-require 'net/http'
-require 'net/https'
-require 'uri'
-require 'getoptlong'
-require 'rdoc/usage'
+require "net/http"
+require "net/https"
+require "uri"
+require "getoptlong"
+require "rdoc/usage"
 
 module Net
   class HTTPS < HTTP
@@ -91,14 +91,14 @@ module Net
       request.basic_auth url.user, url.password if url.user
       request.initialize_http_header(headers)
       http = new(url.host, url.port)
-      http.use_ssl = (url.scheme == 'https')
+      http.use_ssl = (url.scheme == "https")
       http.start { |h| h.request(request) }
     end
   end
 end
 
 class RedmineMailHandler
-  VERSION = '0.1'
+  VERSION = "0.1"
 
   attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key
 
@@ -106,41 +106,42 @@ class RedmineMailHandler
     self.issue_attributes = {}
 
     opts = GetoptLong.new(
-      ['--help',           '-h', GetoptLong::NO_ARGUMENT],
-      ['--version',        '-V', GetoptLong::NO_ARGUMENT],
-      ['--verbose',        '-v', GetoptLong::NO_ARGUMENT],
-      ['--url',            '-u', GetoptLong::REQUIRED_ARGUMENT],
-      ['--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
-      ['--project',        '-p', GetoptLong::REQUIRED_ARGUMENT],
-      ['--status',         '-s', GetoptLong::REQUIRED_ARGUMENT],
-      ['--type',           '-t', GetoptLong::REQUIRED_ARGUMENT],
-      ['--category',             GetoptLong::REQUIRED_ARGUMENT],
-      ['--priority',             GetoptLong::REQUIRED_ARGUMENT],
-      ['--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
-      ['--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
-      ['--no-permission-check',  GetoptLong::NO_ARGUMENT]
+      ["--help",           "-h", GetoptLong::NO_ARGUMENT],
+      ["--version",        "-V", GetoptLong::NO_ARGUMENT],
+      ["--verbose",        "-v", GetoptLong::NO_ARGUMENT],
+      ["--url",            "-u", GetoptLong::REQUIRED_ARGUMENT],
+      ["--key",            "-k", GetoptLong::REQUIRED_ARGUMENT],
+      ["--project",        "-p", GetoptLong::REQUIRED_ARGUMENT],
+      ["--status",         "-s", GetoptLong::REQUIRED_ARGUMENT],
+      ["--type",           "-t", GetoptLong::REQUIRED_ARGUMENT],
+      ["--category",             GetoptLong::REQUIRED_ARGUMENT],
+      ["--priority",             GetoptLong::REQUIRED_ARGUMENT],
+      ["--allow-override", "-o", GetoptLong::REQUIRED_ARGUMENT],
+      ["--unknown-user",         GetoptLong::REQUIRED_ARGUMENT],
+      ["--no-permission-check",  GetoptLong::NO_ARGUMENT]
     )
 
     opts.each do |opt, arg|
       case opt
-      when '--url'
+      when "--url"
         self.url = arg.dup
-      when '--key'
+      when "--key"
         self.key = arg.dup
-      when '--help'
+      when "--help"
         usage
-      when '--verbose'
+      when "--verbose"
         self.verbose = true
-      when '--version'
-        puts VERSION; exit
-      when '--project', '--status', '--type', '--category', '--priority'
-        issue_attributes[opt.gsub(%r{^--}, '')] = arg.dup
-      when '--allow-override'
+      when "--version"
+        puts VERSION
+        exit
+      when "--project", "--status", "--type", "--category", "--priority"
+        issue_attributes[opt.gsub(%r{^--}, "")] = arg.dup
+      when "--allow-override"
         self.allow_override = arg.dup
-      when '--unknown-user'
+      when "--unknown-user"
         self.unknown_user = arg.dup
-      when '--no-permission-check'
-        self.no_permission_check = '1'
+      when "--no-permission-check"
+        self.no_permission_check = "1"
       end
     end
 
@@ -148,14 +149,14 @@ class RedmineMailHandler
   end
 
   def submit(email)
-    uri = url.gsub(%r{/*\z}, '') + '/mail_handler'
+    uri = url.gsub(%r{/*\z}, "") + "/mail_handler"
 
-    headers = { 'User-Agent' => "Redmine mail handler/#{VERSION}" }
+    headers = { "User-Agent" => "Redmine mail handler/#{VERSION}" }
 
-    data = { 'key' => key, 'email' => email,
-             'allow_override' => allow_override,
-             'unknown_user' => unknown_user,
-             'no_permission_check' => no_permission_check }
+    data = { "key" => key, "email" => email,
+             "allow_override" => allow_override,
+             "unknown_user" => unknown_user,
+             "no_permission_check" => no_permission_check }
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
 
     debug "Posting to #{uri}..."
@@ -163,7 +164,6 @@ class RedmineMailHandler
     debug "Response received: #{response.code}"
 
     case response.code.to_i
-        debug "Processed successfully"
     when 403
       warn "Request was denied by your Redmine server. " +
            "Make sure that 'WS for incoming emails' is enabled in application settings and that you provided the correct API key."

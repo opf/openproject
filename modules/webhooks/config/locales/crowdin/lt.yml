@@ -1,4 +1,7 @@
 lt:
+  plugin_openproject_webhooks:
+    name: "OpenProject žiniatinklio sąsajos"
+    description: "Teikia priedo API palaikymą OpenProject žiniatinklio sąsajoms, geresniai trečių šalių integracijai."
   activerecord:
     attributes:
       webhooks/webhook:
@@ -37,7 +40,7 @@ lt:
         enabled_text: '„Webhook“ išsiųs „krovinį“ įvykus tokiems įvykiams'
         disabled_text: 'Paspauskite „Redaguoti“ mygtuką, kad aktyvuotumėte „webhook“.'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
+        no_results_table: Šiam „webhook“ per paskutines dienas niekas nebuvo atsiųsta.
         title: 'Paskutiniai pranešimai'
         time: 'Pristatymo laikas'
       form:

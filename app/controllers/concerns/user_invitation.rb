@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,11 @@ module UserInvitation
   module Events
     class << self
       def user_invited
-        'user_invited'
+        "user_invited"
       end
 
       def user_reinvited
-        'user_reinvited'
+        "user_reinvited"
       end
     end
   end
@@ -54,7 +54,7 @@ module UserInvitation
   # @return The invited user. If the invitation failed, calling `#registered?`
   #         on the returned user will yield `false`. Check for validation errors
   #         in that case.
-  def invite_new_user(email:, login: nil, first_name: nil, last_name: nil)
+  def invite_new_user(email:, login: nil, first_name: nil, last_name: nil, send_notification: true)
     attributes = {
       mail: email,
       login:,
@@ -67,7 +67,7 @@ module UserInvitation
 
     yield user if block_given?
 
-    invite_user! user
+    invite_user! user, send_notification:
   end
 
   ##
@@ -114,10 +114,10 @@ module UserInvitation
   # Validates and saves the given user. The invitation will fail if the user is invalid.
   #
   # @return The invited user or nil if the invitation failed.
-  def invite_user!(user)
+  def invite_user!(user, send_notification: true)
     user, token = user_invitation user
 
-    if token
+    if token && send_notification
       OpenProject::Notifications.send(Events.user_invited, token)
 
       user
@@ -136,7 +136,7 @@ module UserInvitation
       user.invite
 
       if user.valid?
-        token = Token::Invitation.create! user: user
+        token = Token::Invitation.create!(user:)
         user.save!
 
         [user, token]

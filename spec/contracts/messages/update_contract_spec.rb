@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Messages::UpdateContract do
-  it_behaves_like 'message contract' do
+RSpec.describe Messages::UpdateContract do
+  it_behaves_like "message contract" do
     let(:message) do
       build_stubbed(:message).tap do |message|
         message.forum = message_forum
@@ -44,8 +44,8 @@ describe Messages::UpdateContract do
     end
     subject(:contract) { described_class.new(message, current_user) }
 
-    context 'if the author is changed' do
-      it 'is invalid' do
+    context "if the author is changed" do
+      it "is invalid" do
         message.author = other_user
         expect_valid(false, author_id: %i(error_readonly))
       end

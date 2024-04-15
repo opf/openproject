@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::Watchers < Tables::Base
   def self.table(migration)
     create_table migration do |t|
-      t.string :watchable_type, default: '', null: false
+      t.string :watchable_type, default: "", null: false
       t.integer :watchable_id, default: 0, null: false
       t.integer :user_id
 
-      t.index %i(user_id watchable_type), name: 'watchers_user_id_type'
-      t.index :user_id, name: 'index_watchers_on_user_id'
-      t.index %i(watchable_id watchable_type), name: 'index_watchers_on_watchable_id_and_watchable_type'
+      t.index %i(user_id watchable_type), name: "watchers_user_id_type"
+      t.index :user_id, name: "index_watchers_on_user_id"
+      t.index %i(watchable_id watchable_type), name: "index_watchers_on_watchable_id_and_watchable_type"
     end
   end
 end

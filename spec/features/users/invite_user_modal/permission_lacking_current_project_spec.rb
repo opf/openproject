@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Inviting user in project the current user is lacking permission in', type: :feature, js: true do
+RSpec.describe "Inviting user in project the current user is lacking permission in", :js, :with_cuprite do
   let(:modal) do
-    ::Components::Users::InviteUserModal.new project: invite_project,
-                                             principal: other_user,
-                                             role: view_role
+    Components::Users::InviteUserModal.new project: invite_project,
+                                           principal: other_user,
+                                           role: view_role
   end
-  let(:quick_add) { ::Components::QuickAddMenu.new }
+  let(:quick_add) { Components::QuickAddMenu.new }
 
   let(:view_role) do
-    create :role,
-           permissions: []
+    create(:project_role,
+           permissions: [])
   end
   let(:invite_role) do
-    create :role,
-           permissions: %i[manage_members]
+    create(:project_role,
+           permissions: %i[manage_members])
   end
 
   let!(:other_user) { create(:user) }
@@ -50,30 +50,32 @@ describe 'Inviting user in project the current user is lacking permission in', t
   let!(:invite_project) { create(:project, members: { current_user => invite_role }) }
 
   current_user do
-    create :user
+    create(:user)
   end
 
-  it 'user cannot invite in current project but for different one' do
+  specify "user cannot invite in current project but for different one" do
     visit project_path(view_project)
 
     quick_add.expect_visible
 
     quick_add.toggle
 
-    quick_add.click_link 'Invite user'
+    quick_add.click_link "Invite user"
 
-    modal.expect_help_displayed I18n.t('js.invite_user_modal.project.lacking_permission_info')
+    wait_for_network_idle
+
+    modal.expect_help_displayed I18n.t("js.invite_user_modal.project.lacking_permission_info")
 
     # Attempting to proceed without having a different project selected
 
-    modal.select_type 'User'
+    modal.select_type "User"
 
     modal.click_next
 
-    modal.expect_error_displayed I18n.t('js.invite_user_modal.project.lacking_permission')
+    modal.expect_error_displayed I18n.t("js.invite_user_modal.project.lacking_permission")
 
     # Proceeding with a different project
-    modal.autocomplete('.ng-select-container', invite_project.name)
+    modal.autocomplete(".ng-select-container", invite_project.name)
     modal.click_next
 
     # Remaining steps
@@ -82,7 +84,7 @@ describe 'Inviting user in project the current user is lacking permission in', t
     modal.expect_text "Invite user"
     modal.confirmation_step
 
-    modal.click_modal_button 'Send invitation'
+    modal.click_modal_button "Send invitation"
     modal.expect_text "#{other_user.name} was invited!"
 
     # Expect to be added to project

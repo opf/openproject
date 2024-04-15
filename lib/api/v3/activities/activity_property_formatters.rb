@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,26 +37,26 @@ module API
         end
 
         def formatted_details(journal)
-          details = render_details(journal, no_html: true)
-          html_details = render_details(journal)
+          activity_page = "work_packages/#{journal.journable.id}"
+          details = render_details(journal, html: false)
+          html_details = render_details(journal, activity_page:)
 
           details
             .zip(html_details)
-            .map { |d| { format: 'custom', raw: d[0], html: d[1] } }
+            .map { |d| { format: "custom", raw: d[0], html: d[1] } }
         end
 
         private
 
-        def render_details(journal, no_html: false)
+        def render_details(journal, html: true, activity_page: nil)
           journal
             .details
-            .map { |d| journal.render_detail(d, no_html:) }
-            .compact
+            .filter_map { |d| journal.render_detail(d, html:, activity_page:) }
         end
 
         def journal_note(journal)
           if journal.noop?
-            "_#{I18n.t(:'journals.changes_retracted')}_"
+            "_#{I18n.t(:"journals.changes_retracted")}_"
           else
             journal.notes
           end

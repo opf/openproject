@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,29 +54,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe OpenProject::FileCommandContentTypeDetector do
-  it 'returns a content type based on the content of the file' do
-    tempfile = Tempfile.new('something')
-    tempfile.write('This is a file.')
+RSpec.describe OpenProject::FileCommandContentTypeDetector do
+  it "returns a content type based on the content of the file" do
+    tempfile = Tempfile.new("something")
+    tempfile.write("This is a file.")
     tempfile.rewind
 
-    assert_equal 'text/plain', OpenProject::FileCommandContentTypeDetector.new(tempfile.path).detect
+    expect(OpenProject::FileCommandContentTypeDetector.new(tempfile.path).detect).to eq("text/plain")
 
     tempfile.close
   end
 
-  it 'returns a sensible default when the file command is missing' do
-    allow(::Open3).to receive(:capture2).and_raise 'o noes!'
-    @filename = '/path/to/something'
-    assert_equal 'application/binary',
-                 OpenProject::FileCommandContentTypeDetector.new(@filename).detect
+  it "returns a sensible default when the file command is missing" do
+    allow(Open3).to receive(:capture2).and_raise "o noes!"
+    @filename = "/path/to/something"
+    expect(OpenProject::FileCommandContentTypeDetector.new(@filename).detect).to eq("application/binary")
   end
 
-  it 'returns a sensible default on the odd chance that run returns nil' do
-    allow(::Open3).to receive(:capture2).and_return [nil, 0]
-    assert_equal 'application/binary',
-                 OpenProject::FileCommandContentTypeDetector.new('windows').detect
+  it "returns a sensible default on the odd chance that run returns nil" do
+    allow(Open3).to receive(:capture2).and_return [nil, 0]
+    expect(OpenProject::FileCommandContentTypeDetector.new("windows").detect).to eq("application/binary")
   end
 end

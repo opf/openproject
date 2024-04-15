@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Projects::CopyService, 'integration', type: :model do
-  shared_let(:source) { create :project, enabled_module_names: %w[wiki work_package_tracking] }
-  shared_let(:source_category) { create :category, project: source, name: 'Stock management' }
-  shared_let(:source_version) { create :version, project: source, name: 'Version A' }
+RSpec.describe Projects::CopyService, "integration", type: :model do
+  shared_let(:source) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
+  shared_let(:source_category) { create(:category, project: source, name: "Stock management") }
+  shared_let(:source_version) { create(:version, project: source, name: "Version A") }
 
   let(:current_user) do
     create(:user,
-           member_in_project: source,
-           member_through_role: role)
+           member_with_roles: { source => role })
   end
-  let(:role) { create :role, permissions: %i[copy_projects] }
+  let(:role) { create(:project_role, permissions: %i[copy_projects]) }
   let(:instance) do
     described_class.new(source:, user: current_user)
   end
   let(:only_args) { nil }
   let(:target_project_params) do
-    { name: 'Some name', identifier: 'some-identifier' }
+    { name: "Some name", identifier: "some-identifier" }
   end
   let(:params) do
     { target_project_params:, only: only_args }
   end
 
-  describe 'call' do
+  describe "call" do
     subject { instance.call(params) }
 
     let(:project_copy) { subject.result }
 
-    describe 'overview' do
+    describe "overview" do
       let(:widget_data) do
         [
           [[1, 1, 1, 2], "project_description", {}],
@@ -77,12 +76,12 @@ describe Projects::CopyService, 'integration', type: :model do
           )
         end
 
-        create :overview, project: source, widgets:, column_count: 2, row_count: (widgets.size / 2) + 1
+        create(:overview, project: source, widgets:, column_count: 2, row_count: (widgets.size / 2) + 1)
       end
 
       let(:overview) { Grids::Overview.find_by(project: project_copy) }
 
-      context 'when requested' do
+      context "when requested" do
         let(:only_args) { %i[work_packages overview] }
 
         before do
@@ -91,12 +90,12 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(subject).to be_success
         end
 
-        it 'is copied' do
+        it "is copied" do
           expect(overview.widgets.size).to eq original_overview.widgets.size
         end
       end
 
-      context 'when not requested' do
+      context "when not requested" do
         let(:only_args) { %i[work_packages] }
 
         before do
@@ -105,19 +104,21 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(subject).to be_success
         end
 
-        it 'is ignored' do
+        it "is ignored" do
           expect(overview).to be_nil
         end
       end
 
-      describe 'copy' do
+      describe "copy" do
+        let(:only_args) { %i[versions categories overview] }
+
         before do
           original_overview
 
           expect(subject).to be_success
         end
 
-        it 'contains the same widgets' do
+        it "contains the same widgets" do
           expect(overview.widgets.size).to eq original_overview.widgets.size
 
           fields = %i(identifier options start_row end_row start_column end_column)
@@ -127,12 +128,12 @@ describe Projects::CopyService, 'integration', type: :model do
           end
         end
 
-        context 'with references' do
-          describe 'to queries' do
+        context "with references" do
+          describe "to queries" do
             let!(:query) do
               create(:public_query, project: source).tap do |query|
-                query.add_filter 'version_id', '=', [source_version.id.to_s]
-                query.add_filter 'category_id', '=', [source_category.id.to_s]
+                query.add_filter "version_id", "=", [source_version.id.to_s]
+                query.add_filter "category_id", "=", [source_category.id.to_s]
                 query.save!
               end
             end
@@ -143,7 +144,7 @@ describe Projects::CopyService, 'integration', type: :model do
               ]
             end
 
-            it 'copies the widgets and updates references to copied queries' do
+            it "copies the widgets and updates references to copied queries" do
               expect(overview.widgets.size).to eq original_overview.widgets.size
 
               overview.widgets.zip(original_overview.widgets).each do |widget, original_widget|
@@ -158,7 +159,7 @@ describe Projects::CopyService, 'integration', type: :model do
               end
             end
 
-            it 'updates references within the copied query' do
+            it "updates references within the copied query" do
               query_copy = Query.where(name: query.name, project: project_copy).first
 
               expect(query_copy).to be_present

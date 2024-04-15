@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,9 +29,9 @@
 #++
 
 class JournalsController < ApplicationController
-  before_action :find_journal, except: [:index]
   before_action :find_optional_project, only: [:index]
-  before_action :authorize, only: [:diff]
+  before_action :find_journal, only: [:diff]
+  before_action :ensure_permitted, only: [:diff]
   accept_key_auth :index
   menu_item :issues
 
@@ -37,8 +39,8 @@ class JournalsController < ApplicationController
   include SortHelper
 
   def index
-    retrieve_query
-    sort_init 'id', 'desc'
+    @query = retrieve_query(@project)
+    sort_init "id", "desc"
     sort_update(@query.sortable_key_by_column_name)
 
     if @query.valid?
@@ -49,7 +51,7 @@ class JournalsController < ApplicationController
     respond_to do |format|
       format.atom do
         render layout: false,
-               content_type: 'application/atom+xml',
+               content_type: "application/atom+xml",
                locals: { title: journals_index_title,
                          journals: @journals }
       end
@@ -59,25 +61,19 @@ class JournalsController < ApplicationController
   end
 
   def diff
-    field = params[:field].parameterize.underscore.to_sym
+    return render_404 unless valid_field_for_diffing?
 
-    unless valid_diff?
-      return render_404
+    unless @journal.details[field_param] in [from, to]
+      return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field_param)
     end
 
-    unless @journal.details[field].is_a?(Array)
-      return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field)
-    end
-
-    from = @journal.details[field][0]
-    to = @journal.details[field][1]
-
+    @activity_page = params["activity_page"]
     @diff = Redmine::Helpers::Diff.new(to, from)
-    @journable = @journal.journable
+
     respond_to do |format|
       format.html
       format.js do
-        render partial: 'diff', locals: { diff: @diff }
+        render partial: "diff", locals: { diff: @diff }
       end
     end
   end
@@ -86,22 +82,39 @@ class JournalsController < ApplicationController
 
   def find_journal
     @journal = Journal.find(params[:id])
-    @project = @journal.journable.project
+    @journable = @journal.journable
+    @project = @journable.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  # Is this a valid field for diff'ing?
-  def valid_field?(field)
-    field.to_s.strip == 'description'
+  def ensure_permitted
+    permission = case @journal.journable_type
+                 when "WorkPackage" then :view_work_packages
+                 when "Project" then :view_project
+                 when "Meeting" then :view_meetings
+                 end
+
+    do_authorize(permission)
+  rescue Authorization::UnknownPermissionError
+    deny_access
   end
 
-  def valid_diff?
-    valid_field?(params[:field]) &&
-      @journal.journable.instance_of?(WorkPackage)
+  def field_param
+    @field_param ||= params[:field].parameterize.underscore
+  end
+
+  def valid_field_for_diffing?
+    %w[description status_explanation].include?(field_param) || agenda_item_notes?
+  end
+
+  def agenda_item_notes?
+    field_param.match?(/\Aagenda_items_\d+_notes\z/)
   end
 
   def journals_index_title
-    (@project ? @project.name : Setting.app_title) + ': ' + (@query.new_record? ? I18n.t(:label_changes_details) : @query.name)
+    subject = @project ? @project.name : Setting.app_title
+    query_name = @query.new_record? ? I18n.t(:label_changes_details) : @query.name
+    "#{subject}: #{query_name}"
   end
 end

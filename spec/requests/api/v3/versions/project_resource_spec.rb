@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe "API v3 version's projects resource" do
+RSpec.describe "API v3 version's projects resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
     user = create(:user,
-                  member_in_project: project,
-                  member_through_role: role)
+                  member_with_roles: { project => role })
 
     allow(User).to receive(:current).and_return user
 
     user
   end
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
-  let(:role_without_permissions) { create(:role, permissions: []) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+  let(:role_without_permissions) { create(:project_role, permissions: []) }
   let(:project) { create(:project, public: false) }
   let(:project2) { create(:project, public: false) }
   let(:project3) { create(:project, public: false) }
   let(:project4) { create(:project, public: false) }
-  let(:version) { create(:version, project:, sharing: 'system') }
+  let(:version) { create(:version, project:, sharing: "system") }
 
   subject(:response) { last_response }
 
-  describe '#get (index)' do
+  describe "#get (index)" do
     let(:get_path) { api_v3_paths.projects_by_version version.id }
 
-    context 'logged in user with permissions' do
+    context "logged in user with permissions" do
       before do
         current_user
 
@@ -74,16 +73,16 @@ describe "API v3 version's projects resource" do
         get get_path
       end
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'Project'
+      it_behaves_like "API V3 collection response", 3, 3, "Project"
 
-      it 'includes only the projects which the user can see' do
-        id_in_response = JSON.parse(response.body)['_embedded']['elements'].map { |p| p['id'] }
+      it "includes only the projects which the user can see" do
+        id_in_response = JSON.parse(response.body)["_embedded"]["elements"].map { |p| p["id"] }
 
-        expect(id_in_response).to match_array [project.id, project2.id, project3.id]
+        expect(id_in_response).to contain_exactly(project.id, project2.id, project3.id)
       end
     end
 
-    context 'logged in user without permissions' do
+    context "logged in user without permissions" do
       let(:role) { role_without_permissions }
 
       before do
@@ -92,7 +91,7 @@ describe "API v3 version's projects resource" do
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 end

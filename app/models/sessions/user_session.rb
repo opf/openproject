@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@
 # You can still use AR methods to delete records however.
 module Sessions
   class UserSession < ::ApplicationRecord
-    self.table_name = 'sessions'
+    self.table_name = "sessions"
 
     scope :for_user, ->(user) do
       user_id = user.is_a?(User) ? user.id : user.to_i
@@ -48,6 +48,10 @@ module Sessions
     # modify the database
     def readonly?
       true
+    end
+
+    def current?(session_object)
+      session_object.id.private_id == session_id
     end
 
     def data

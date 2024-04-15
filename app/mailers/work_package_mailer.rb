@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,12 +42,11 @@ class WorkPackageMailer < ApplicationMailer
       message_id journal, recipient
       references journal
 
-      with_locale_for(recipient) do
-        mail to: recipient.mail,
-             subject: I18n.t(:'mail.mention.subject',
-                             user_name: author.name,
-                             id: @work_package.id,
-                             subject: @work_package.subject)
+      send_localized_mail(recipient) do
+        I18n.t(:'mail.mention.subject',
+               user_name: author.name,
+               id: @work_package.id,
+               subject: @work_package.subject)
       end
     end
   end
@@ -62,8 +61,8 @@ class WorkPackageMailer < ApplicationMailer
       message_id work_package, user
       references work_package
 
-      with_locale_for(user) do
-        mail to: user.mail, subject: subject_for_work_package(work_package)
+      send_localized_mail(user) do
+        subject_for_work_package(work_package)
       end
     end
   end

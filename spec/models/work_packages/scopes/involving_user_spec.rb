@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackages::Scopes::InvolvingUser do
+RSpec.describe WorkPackages::Scopes::InvolvingUser do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:user) do
     create(
       :user,
       # project_with_types is from create_shared_association_defaults_for_work_package_factory helper
-      member_in_project: project_with_types,
-      member_with_permissions: %i[view_work_packages]
+      member_with_permissions: { project_with_types => %i[view_work_packages] }
     )
   end
 
-  it 'returns work packages for which a user is assigned to' do
+  it "returns work packages for which a user is assigned to" do
     _work_package_blank = create(:work_package)
     work_package_assigned1 = create(:work_package, assigned_to: user)
     work_package_assigned2 = create(:work_package, assigned_to: user)
@@ -49,7 +48,7 @@ describe WorkPackages::Scopes::InvolvingUser do
       .to contain_exactly(work_package_assigned1, work_package_assigned2)
   end
 
-  it 'returns work packages for which a user is accountable / responsible' do
+  it "returns work packages for which a user is accountable / responsible" do
     _work_package_blank = create(:work_package)
     work_package_responsible1 = create(:work_package, responsible: user)
     work_package_responsible2 = create(:work_package, responsible: user)
@@ -58,7 +57,7 @@ describe WorkPackages::Scopes::InvolvingUser do
       .to contain_exactly(work_package_responsible1, work_package_responsible2)
   end
 
-  it 'returns work packages for which a user is a watcher' do
+  it "returns work packages for which a user is a watcher" do
     _work_package_blank = create(:work_package)
     work_package_watched1 = create(:work_package)
     create(:watcher, watchable: work_package_watched1, user:)
@@ -69,10 +68,10 @@ describe WorkPackages::Scopes::InvolvingUser do
       .to contain_exactly(work_package_watched1, work_package_watched2)
   end
 
-  context 'when user is part of a group' do
+  context "when user is part of a group" do
     shared_let(:group) { create(:group, members: [user]) }
 
-    it 'returns work packages for which the group is assigned to' do
+    it "returns work packages for which the group is assigned to" do
       _work_package_blank = create(:work_package)
       work_package_assigned = create(:work_package, assigned_to: group)
 
@@ -80,7 +79,7 @@ describe WorkPackages::Scopes::InvolvingUser do
         .to contain_exactly(work_package_assigned)
     end
 
-    it 'returns work packages for which the group is accountable / responsible' do
+    it "returns work packages for which the group is accountable / responsible" do
       _work_package_blank = create(:work_package)
       work_package_responsible = create(:work_package, responsible: group)
 

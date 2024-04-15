@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Custom Options resource', :aggregate_failures do
+RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:modification) { nil }
 
   subject(:response) { last_response }
 
-  describe 'GET api/v3/custom_options/:id' do
+  describe "GET api/v3/custom_options/:id" do
     let(:path) { api_v3_paths.custom_option custom_option.id }
 
     before do
@@ -56,7 +54,7 @@ describe 'API v3 Custom Options resource', :aggregate_failures do
       get path
     end
 
-    describe 'WorkPackageCustomField' do
+    describe "WorkPackageCustomField" do
       shared_let(:custom_field) do
         cf = create(:list_wp_custom_field)
 
@@ -69,37 +67,37 @@ describe 'API v3 Custom Options resource', :aggregate_failures do
                custom_field:)
       end
 
-      context 'when being allowed' do
+      context "when being allowed" do
         let(:permissions) { [:view_work_packages] }
 
-        it 'is successful' do
+        it "is successful" do
           expect(subject.status)
             .to be(200)
 
           expect(response.body)
-            .to be_json_eql('CustomOption'.to_json)
-                  .at_path('_type')
+            .to be_json_eql("CustomOption".to_json)
+                  .at_path("_type")
 
           expect(response.body)
             .to be_json_eql(custom_option.id.to_json)
-                  .at_path('id')
+                  .at_path("id")
 
           expect(response.body)
             .to be_json_eql(custom_option.value.to_json)
-                  .at_path('value')
+                  .at_path("value")
         end
       end
 
-      context 'when lacking permission' do
+      context "when lacking permission" do
         let(:permissions) { [] }
 
-        it 'is 404' do
+        it "is 404" do
           expect(subject.status)
             .to be(404)
         end
       end
 
-      context 'when custom option not in project' do
+      context "when custom option not in project" do
         let(:permissions) { [:view_work_packages] }
         let(:modification) do
           -> do
@@ -108,121 +106,127 @@ describe 'API v3 Custom Options resource', :aggregate_failures do
           end
         end
 
-        it 'is 404' do
+        it "is 404" do
           expect(subject.status)
             .to be(404)
         end
       end
     end
 
-    describe 'ProjectCustomField' do
+    describe "ProjectCustomField" do
       shared_let(:custom_field) { create(:list_project_custom_field) }
       shared_let(:custom_option) { create(:custom_option, custom_field:) }
 
-      context 'when being allowed' do
+      context "when being allowed" do
         let(:permissions) { [:view_project] }
 
-        it 'is successful' do
+        it "is successful" do
           expect(subject.status)
             .to be(200)
 
           expect(response.body)
-            .to be_json_eql('CustomOption'.to_json)
-                  .at_path('_type')
+            .to be_json_eql("CustomOption".to_json)
+                  .at_path("_type")
 
           expect(response.body)
             .to be_json_eql(custom_option.id.to_json)
-                  .at_path('id')
+                  .at_path("id")
 
           expect(response.body)
             .to be_json_eql(custom_option.value.to_json)
-                  .at_path('value')
+                  .at_path("value")
         end
       end
 
-      context 'when lacking permission' do
+      context "when lacking permission" do
         let(:user) { User.anonymous }
         let(:permissions) { [] }
 
-        it 'is 404' do
-          expect(subject.status)
-            .to be(404)
+        context "when login_required", with_settings: { login_required: true } do
+          it_behaves_like "error response",
+                          401,
+                          "Unauthenticated",
+                          I18n.t("api_v3.errors.code_401")
+        end
+
+        context "when not login_required", with_settings: { login_required: false } do
+          it "is 404" do
+            expect(subject.status)
+              .to be(404)
+          end
         end
       end
     end
 
-    describe 'TimeEntryCustomField' do
-      shared_let(:custom_field) { create(:list_time_entry_custom_field) }
+    describe "TimeEntryCustomField" do
+      shared_let(:custom_field) { create(:time_entry_custom_field, :list) }
       shared_let(:custom_option) { create(:custom_option, custom_field:) }
 
-      context 'when being allowed with log_time' do
+      context "when being allowed with log_time" do
         let(:permissions) { [:log_time] }
 
-        it 'is successful' do
+        it "is successful" do
           expect(subject.status)
             .to be(200)
 
           expect(response.body)
-            .to be_json_eql('CustomOption'.to_json)
-                  .at_path('_type')
+            .to be_json_eql("CustomOption".to_json)
+                  .at_path("_type")
 
           expect(response.body)
             .to be_json_eql(custom_option.id.to_json)
-                  .at_path('id')
+                  .at_path("id")
 
           expect(response.body)
             .to be_json_eql(custom_option.value.to_json)
-                  .at_path('value')
+                  .at_path("value")
         end
       end
 
-      context 'when being allowed with log_own_time' do
+      context "when being allowed with log_own_time" do
         let(:permissions) { [:log_own_time] }
 
-        it 'is successful' do
+        it "is successful" do
           expect(subject.status)
             .to be(200)
         end
       end
 
-      context 'when lacking permission' do
+      context "when lacking permission" do
         let(:user) { User.anonymous }
         let(:permissions) { [] }
 
-        it 'is 404' do
-          expect(subject.status)
-            .to be(404)
-        end
+        it_behaves_like "not found response based on login_required"
       end
     end
 
-    describe 'UserCustomField' do
-      shared_let(:custom_field) { create(:list_user_custom_field) }
+    describe "UserCustomField" do
+      shared_let(:custom_field) { create(:user_custom_field, :list) }
       shared_let(:custom_option) { create(:custom_option, custom_field:) }
       let(:permissions) { [] }
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject.status)
           .to be(200)
       end
     end
 
-    describe 'GroupCustomField' do
-      shared_let(:custom_field) { create(:list_group_custom_field) }
+    describe "GroupCustomField" do
+      shared_let(:custom_field) { create(:group_custom_field, :list) }
       shared_let(:custom_option) { create(:custom_option, custom_field:) }
       let(:permissions) { [] }
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject.status)
           .to be(200)
       end
     end
 
-    context 'when not existing' do
+    context "when not existing" do
       let(:path) { api_v3_paths.custom_option 0 }
       let(:permissions) { [:view_work_packages] }
 
-      it 'is 404' do
+      it "is 404" do
         expect(subject.status)
           .to be(404)
       end

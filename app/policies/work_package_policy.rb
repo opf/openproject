@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,10 @@ class WorkPackagePolicy < BasePolicy
 
   def cache(work_package)
     @cache ||= Hash.new do |wp_hash, wp|
-      wp_hash[wp] = Hash.new do |project_hash, project|
-        project_hash[project] = allowed_hash(wp)
-      end
+      wp_hash[wp] = allowed_hash(wp)
     end
 
-    @cache[work_package][work_package.project]
+    @cache[work_package]
   end
 
   def allowed_hash(work_package)
@@ -51,24 +49,17 @@ class WorkPackagePolicy < BasePolicy
       delete: delete_allowed?(work_package),
       manage_subtasks: manage_subtasks_allowed?(work_package),
       comment: comment_allowed?(work_package),
+      change_status: change_status_allowed?(work_package),
       assign_version: assign_version_allowed?(work_package)
     }
   end
 
   def edit_allowed?(work_package)
-    @edit_cache ||= Hash.new do |hash, project|
-      hash[project] = work_package.persisted? && user.allowed_to?(:edit_work_packages, project)
-    end
-
-    @edit_cache[work_package.project]
+    work_package.persisted? && user.allowed_in_work_package?(:edit_work_packages, work_package)
   end
 
   def move_allowed?(work_package)
-    @move_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:move_work_packages, project)
-    end
-
-    @move_cache[work_package.project]
+    user.allowed_in_project?(:move_work_packages, work_package.project)
   end
 
   def copy_allowed?(work_package)
@@ -76,19 +67,11 @@ class WorkPackagePolicy < BasePolicy
   end
 
   def delete_allowed?(work_package)
-    @delete_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:delete_work_packages, project)
-    end
-
-    @delete_cache[work_package.project]
+    user.allowed_in_project?(:delete_work_packages, work_package.project)
   end
 
   def add_allowed?(work_package)
-    @add_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:add_work_packages, project)
-    end
-
-    @add_cache[work_package.project]
+    user.allowed_in_project?(:add_work_packages, work_package.project)
   end
 
   def type_active_in_project?(work_package)
@@ -102,27 +85,22 @@ class WorkPackagePolicy < BasePolicy
   end
 
   def manage_subtasks_allowed?(work_package)
-    @manage_subtasks_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:manage_subtasks, work_package.project, global: work_package.project.nil?)
-    end
-
-    @manage_subtasks_cache[work_package.project]
+    user.allowed_in_project?(:manage_subtasks, work_package.project)
   end
 
   def comment_allowed?(work_package)
-    @comment_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:add_work_package_notes, work_package.project) ||
-                      edit_allowed?(work_package)
-    end
-
-    @comment_cache[work_package.project]
+    user.allowed_in_work_package?(:add_work_package_notes, work_package) || edit_allowed?(work_package)
   end
 
   def assign_version_allowed?(work_package)
-    @assign_version_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:assign_versions, work_package.project)
+    user.allowed_in_project?(:assign_versions, work_package.project)
+  end
+
+  def change_status_allowed?(work_package)
+    @change_status_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_in_project?(%i[edit_work_packages change_work_package_status], work_package.project)
     end
 
-    @assign_version_cache[work_package.project]
+    @change_status_cache[work_package.project]
   end
 end

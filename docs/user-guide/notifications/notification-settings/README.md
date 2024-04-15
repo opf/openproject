@@ -37,7 +37,7 @@ You cannot disable notifications for when you are mentioned since the goal of me
 
 ## Date alerts (Enterprise add-on)
 
-Starting with 12.4, Open Project offers notification for date alerts.
+Starting with 12.4, OpenProject offers notification for date alerts.
 
 > **Note**: Date alerts are an Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
@@ -91,4 +91,4 @@ Once you do so, you will see a table with a column for that project and and the 
 
 ## Email reminders
 
-You can supplement these in-app notifications with email reminders, either at specific times of the day or immediately when someone mentions you. For more information, please read our guide on **[Email reminders](../../../getting-started/my-account#email-reminders)**.	
+You can supplement these in-app notifications with email reminders, either at specific times of the day or immediately when someone mentions you. For more information, please read our guide on [Email reminders](../../../getting-started/my-account#email-reminders).

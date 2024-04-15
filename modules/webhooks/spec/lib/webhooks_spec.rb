@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,41 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path('../spec_helper', __dir__)
+require File.expand_path("../spec_helper", __dir__)
 
-describe OpenProject::Webhooks do
-  describe '.register_hook' do
+RSpec.describe OpenProject::Webhooks do
+  describe ".register_hook" do
     after do
-      OpenProject::Webhooks.unregister_hook('testhook1')
+      OpenProject::Webhooks.unregister_hook("testhook1")
     end
 
-    it 'succeeds' do
-      OpenProject::Webhooks.register_hook('testhook1') {}
+    it "succeeds" do
+      OpenProject::Webhooks.register_hook("testhook1") {}
     end
   end
 
-  describe '.find' do
-    let!(:hook) { OpenProject::Webhooks.register_hook('testhook3') {} }
+  describe ".find" do
+    let!(:hook) { OpenProject::Webhooks.register_hook("testhook3") {} }
 
     after do
-      OpenProject::Webhooks.unregister_hook('testhook3')
+      OpenProject::Webhooks.unregister_hook("testhook3")
     end
 
-    it 'succeeds' do
-      expect(OpenProject::Webhooks.find('testhook3')).to equal(hook)
+    it "succeeds" do
+      expect(OpenProject::Webhooks.find("testhook3")).to equal(hook)
     end
   end
 
-  describe '.unregister_hook' do
+  describe ".unregister_hook" do
     let(:probe) { lambda {} }
 
     before do
-      OpenProject::Webhooks.register_hook('testhook2', &probe)
+      OpenProject::Webhooks.register_hook("testhook2", &probe)
     end
 
-    it 'results in the hook no longer being found' do
-      OpenProject::Webhooks.unregister_hook('testhook2')
-      expect(OpenProject::Webhooks.find('testhook2')).to be_nil
+    it "results in the hook no longer being found" do
+      OpenProject::Webhooks.unregister_hook("testhook2")
+      expect(OpenProject::Webhooks.find("testhook2")).to be_nil
     end
   end
 end

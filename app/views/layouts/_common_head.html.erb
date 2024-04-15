@@ -12,12 +12,10 @@
         data-project-id="<%= @project.id %>"
         data-project-identifier="<%= @project.identifier %>"/>
 <% end %>
-<% unless User.current.anonymous? %>
-  <meta name="current_user"
-        data-name="<%= User.current.name %>"
-        data-mail="<%= User.current.mail %>"
-        data-id="<%= User.current.id %>" />
-<% end %>
+<meta name="current_user"
+      data-name="<%= User.current.name %>"
+      data-logged-in="<%= User.current.logged? %>"
+      data-id="<%= User.current.id %>"/>
 
 <% if Setting.demo_projects_available %><meta name="demo_projects_available" content="true"/><% end %>
 <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"/><% end %>
@@ -43,6 +41,7 @@
 
 <%# Custom styles %>
 <%= render partial: "custom_styles/inline_css_logo" %>
+<%= render partial: 'custom_styles/primer_color_mapping' %>
 <% if apply_custom_styles? %>
   <% cache(CustomStyle.current) do %>
     <%= render partial: "custom_styles/inline_css" %>
@@ -54,4 +53,3 @@
     <% end %>
   <% end %>
 <% end %>
-<%= crowdin_in_context_translation %>

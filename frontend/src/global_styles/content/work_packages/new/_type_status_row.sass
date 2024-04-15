@@ -1,6 +1,9 @@
+@import "helpers"
+
 .wp-new-top-row
-  color: var(--content-link-color)
+  color: var(--accent-color)
   display: flex
+  align-items: center
   font-size: 24px
 
   // Add some minor margin between active status and type field
@@ -21,10 +24,11 @@
     .inline-edit--field
       min-width: 125px
 
-  .work-packages--type-selector,
-  .work-packages--status-selector
-    .-active
-      margin: 6px 6px 6px 0px
-
-.work-packages--type-selector .-active
-    margin: 6px 6px 0px 0px
+// Avoid visual jump by making them the same height as the toolbar inputs
+.work-packages--type-selector,
+.work-packages--status-selector
+  .-active
+    .ng-select-container
+      @include toolbar-input-styles
+    .ng-select input
+      height: initial !important

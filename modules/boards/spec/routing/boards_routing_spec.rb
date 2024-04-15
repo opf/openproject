@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Boards routing', type: :routing do
-  it {
+RSpec.describe "Boards routing" do
+  it do
     expect(subject)
-      .to route(:get, '/projects/foobar/boards/state')
-      .to(controller: 'boards/boards', action: 'index', project_id: 'foobar', state: 'state')
-  }
+      .to route(:get, "/boards")
+            .to(controller: "boards/boards", action: "index")
+  end
 
-  it {
+  it do
     expect(subject)
-      .to route(:get, '/boards/state')
-      .to(controller: 'boards/boards', action: 'index', state: 'state')
-  }
+      .to route(:get, "/projects/foobar/boards/1")
+            .to(controller: "boards/boards", action: "show", project_id: "foobar", id: 1)
+  end
+
+  it do
+    expect(subject)
+      .to route(:get, "/boards/new")
+            .to(controller: "boards/boards", action: "new")
+  end
+
+  it do
+    expect(subject)
+      .to route(:get, "/projects/foobar/boards/new")
+            .to(controller: "boards/boards", action: "new", project_id: "foobar")
+  end
+
+  it do
+    expect(subject)
+      .to route(:post, "/projects/foobar/boards")
+            .to(controller: "boards/boards", action: "create", project_id: "foobar")
+  end
+
+  it do
+    expect(subject)
+      .to route(:post, "/boards")
+            .to(controller: "boards/boards", action: "create")
+  end
 end

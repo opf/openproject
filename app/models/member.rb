@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,21 @@
 class Member < ApplicationRecord
   include ::Scopes::Scoped
 
+  ALLOWED_ENTITIES = [
+    "WorkPackage"
+  ].freeze
+
   extend DeprecatedAlias
-  belongs_to :principal, foreign_key: 'user_id'
+  belongs_to :principal, foreign_key: "user_id", inverse_of: "members", optional: false
+  belongs_to :entity, polymorphic: true, optional: true
+  belongs_to :project, optional: true
+
   has_many :member_roles, dependent: :destroy, autosave: true, validate: false
   has_many :roles, -> { distinct }, through: :member_roles
-  belongs_to :project
+  has_many :oauth_client_tokens, foreign_key: :user_id, primary_key: :user_id, dependent: nil # rubocop:disable Rails/InverseOf
 
-  validates :principal, presence: true
-  validates :user_id, uniqueness: { scope: :project_id }
+  validates :user_id, uniqueness: { scope: %i[project_id entity_type entity_id] }
+  validates :entity_type, inclusion: { in: ALLOWED_ENTITIES, allow_blank: true }
 
   validate :validate_presence_of_role
   validate :validate_presence_of_principal
@@ -44,8 +51,15 @@ class Member < ApplicationRecord
   scopes :assignable,
          :global,
          :not_locked,
-         :of,
-         :visible
+         :of_project,
+         :of_any_project,
+         :of_work_package,
+         :of_any_work_package,
+         :of_any_entity,
+         :of_anything_in_project,
+         :visible,
+         :with_shared_work_packages_info,
+         :without_inherited_roles
 
   delegate :name, to: :principal
 
@@ -63,7 +77,15 @@ class Member < ApplicationRecord
   end
 
   def deletable?
-    member_roles.detect(&:inherited_from).nil?
+    member_roles.none?(&:inherited_from?)
+  end
+
+  def some_roles_deletable?
+    !member_roles.all?(&:inherited_from?)
+  end
+
+  def project_role?
+    entity_id.nil?
   end
 
   def deletable_role?(role)
@@ -87,6 +109,16 @@ class Member < ApplicationRecord
   # as opposed to a group.
   def disposable?
     user? && principal&.invited? && principal.memberships.none? { |m| m.project_id != project_id }
+  end
+
+  def self.can_be_member_of?(entity_or_class)
+    checked_class = if entity_or_class.is_a?(Class)
+                      entity_or_class.name
+                    else
+                      entity_or_class.class.name
+                    end
+
+    ALLOWED_ENTITIES.include?(checked_class)
   end
 
   protected

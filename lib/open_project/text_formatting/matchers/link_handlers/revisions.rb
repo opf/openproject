@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ module OpenProject::TextFormatting::Matchers
       # Condition: Separator is r
       # Condition: Prefix is nil
       def applicable?
-        matcher.prefix.nil? && matcher.sep == 'r'
+        matcher.prefix.nil? && matcher.sep == "r"
       end
 
       #
@@ -49,9 +49,9 @@ module OpenProject::TextFormatting::Matchers
 
         if changeset
           link_to(h("#{matcher.project_prefix}r#{matcher.identifier}"),
-                  { only_path: context[:only_path], controller: '/repositories', action: 'revision', project_id: project,
+                  { only_path: context[:only_path], controller: "/repositories", action: "revision", project_id: project,
                     rev: changeset.revision },
-                  class: 'changeset',
+                  class: "changeset",
                   title: truncate_single_line(changeset.comments, length: 100))
         end
       end

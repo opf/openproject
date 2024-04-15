@@ -24,7 +24,7 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'open_project/authentication/manager'
+require "open_project/authentication/manager"
 
 module OpenProject
   ##
@@ -217,8 +217,7 @@ module OpenProject
 
         def find_all(identifiers)
           identifiers
-            .map { |ident| stages.find { |st| st.identifier == ident } }
-            .compact
+            .filter_map { |ident| stages.find { |st| st.identifier == ident } }
         end
 
         def complete_path(identifier, session:, back_url: nil)
@@ -238,7 +237,7 @@ module OpenProject
       module_function
 
       def pick_auth_scheme(supported_schemes, default_scheme, request_headers = {})
-        req_scheme = request_headers['HTTP_X_AUTHENTICATION_SCHEME']
+        req_scheme = request_headers["HTTP_X_AUTHENTICATION_SCHEME"]
 
         if supported_schemes.include? req_scheme
           req_scheme
@@ -248,11 +247,11 @@ module OpenProject
       end
 
       def default_auth_scheme
-        'Basic'
+        "Basic"
       end
 
       def default_realm
-        'OpenProject API'
+        "OpenProject API"
       end
 
       def scope_realm(scope = nil)

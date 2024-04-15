@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/users/user_collection_representer'
+require "api/v3/users/user_collection_representer"
 
 module API
   module V3
@@ -35,7 +35,7 @@ module API
         class CopyAPI < ::API::OpenProjectAPI
           resource :copy do
             after_validation do
-              authorize(:copy_projects, context: @project)
+              authorize_in_project(:copy_projects, project: @project)
             end
 
             mount ::API::V3::Projects::Copy::CreateFormAPI

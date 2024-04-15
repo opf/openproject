@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,7 @@ class Widget::Table::ReportTable < Widget::Table
     @walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>".html_safe }
 
     @walker.for_cell do |result|
-      write(' '.html_safe) # XXX: This keeps the Apache from timing out on us. Keep-Alive byte!
+      write(" ".html_safe) # XXX: This keeps the Apache from timing out on us. Keep-Alive byte!
       "<td class='normal right'>#{show_result result}#{debug_fields(result)}</td>".html_safe
     end
   end
@@ -75,11 +75,11 @@ class Widget::Table::ReportTable < Widget::Table
     render_thead
     render_tfoot
     render_tbody
-    write '</table>'
+    write "</table>"
   end
 
   def render_tbody
-    write '<tbody>'
+    write "<tbody>"
     first = true
     odd = true
     walker.body do |line|
@@ -91,7 +91,7 @@ class Widget::Table::ReportTable < Widget::Table
       write "<tr class='#{odd ? 'odd' : 'even'}'>#{line}</tr>"
       odd = !odd
     end
-    write '</tbody>'
+    write "</tbody>"
   end
 
   def mark_penultimate_column!(line)
@@ -103,48 +103,48 @@ class Widget::Table::ReportTable < Widget::Table
   def render_thead
     return if (walker.headers || true) and walker.headers_empty?
 
-    write '<thead>'
+    write "<thead>"
     walker.headers do |list, first, first_in_col, last_in_col|
-      write '<tr>' if first_in_col
+      write "<tr>" if first_in_col
       if first
         write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)) do
-          ''
+          ""
         end)
       end
       list.each do |column|
         opts = { colspan: column.final_number(:column) }
-        opts.merge!(class: 'inner') if column.final?(:column)
+        opts.merge!(class: "inner") if column.final?(:column)
         write(content_tag(:th, opts) do
           show_row column
         end)
       end
       if first
         write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)) do
-          ''
+          ""
         end)
       end
-      write '</tr>' if last_in_col
+      write "</tr>" if last_in_col
     end
-    write '</thead>'
+    write "</thead>"
   end
 
   def render_tfoot
     return if walker.headers_empty?
 
-    write '<tfoot>'
+    write "<tfoot>"
     walker.reverse_headers do |list, first, first_in_col, last_in_col|
       if first_in_col
-        write '<tr>'
+        write "<tr>"
         if first
-          write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row), class: 'top') do
-            ' '
+          write(content_tag(:th, rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row), class: "top") do
+            " "
           end)
         end
       end
 
       list.each do |column|
         opts = { colspan: column.final_number(:column) }
-        opts.merge!(class: 'inner') if first
+        opts.merge!(class: "inner") if first
         write(content_tag(:th, opts) do
           show_result(column) # {debug_fields(column)}
         end)
@@ -154,33 +154,33 @@ class Widget::Table::ReportTable < Widget::Table
           write(content_tag(:th,
                             rowspan: @subject.depth_of(:column),
                             colspan: @subject.depth_of(:row),
-                            class: 'top result') do
+                            class: "top result") do
                   show_result @subject
                 end)
         end
-        write '</tr>'
+        write "</tr>"
       end
     end
-    write '</tfoot>'
+    write "</tfoot>"
   end
 
   def debug_content
     content_tag :pre do
-      debug_pre_content = '[ Query ]' +
+      debug_pre_content = "[ Query ]" +
                           @subject.chain.each do |child|
                             "#{h child.class.inspect}, #{h child.type}"
                           end
 
-      debug_pre_content += '[ RESULT ]'
+      debug_pre_content += "[ RESULT ]"
       @subject.result.recursive_each_with_level do |level, result|
-        debug_pre_content += '>>> ' * (level + 1)
+        debug_pre_content += ">>> " * (level + 1)
         debug_pre_content += h(result.inspect)
-        debug_pre_content += '   ' * (level + 1)
+        debug_pre_content += "   " * (level + 1)
         debug_pre_content += h(result.type.inspect)
-        debug_pre_content += '   ' * (level + 1)
+        debug_pre_content += "   " * (level + 1)
         debug_pre_content += h(result.fields.inspect)
       end
-      debug_pre_content += '[ HEADER STACK ]'
+      debug_pre_content += "[ HEADER STACK ]"
       debug_pre_content += walker.header_stack.each do |l|
         ">>> #{l.inspect}"
       end

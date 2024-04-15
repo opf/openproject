@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 class Widget::Controls::Delete < Widget::Controls
   def render
-    return '' if @subject.new_record? or !@options[:can_delete]
+    return "" if @subject.new_record? or !@options[:can_delete]
 
     button = link_to(I18n.t(:button_delete),
-                     '#',
-                     id: 'query-icon-delete',
-                     class: 'button icon-context icon-delete')
-    popup = content_tag :div, id: 'delete_form', style: 'display:none', class: 'button_form' do
+                     "#",
+                     id: "query-icon-delete",
+                     class: "button icon-context icon-delete")
+    popup = content_tag :div, id: "delete_form", style: "display:none", class: "button_form" do
       question = content_tag :p, I18n.t(:label_really_delete_question)
 
       url_opts = { id: @subject.id }
@@ -42,11 +42,11 @@ class Widget::Controls::Delete < Widget::Controls
       opt1 = link_to I18n.t(:button_delete),
                      url_for(url_opts),
                      method: :delete,
-                     class: 'button -highlight icon-context icon-delete'
+                     class: "button -primary icon-context icon-delete"
       opt2 = link_to I18n.t(:button_cancel),
-                     '#',
-                     id: 'query-icon-delete-cancel',
-                     class: 'button icon-context icon-cancel'
+                     "#",
+                     id: "query-icon-delete-cancel",
+                     class: "button icon-context icon-cancel"
       opt1 + opt2
 
       question + opt1 + opt2

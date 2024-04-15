@@ -8,15 +8,63 @@ keywords: members, project participants
 
 # Manage members
 
-| Topic                                           | Content                                                         |
-|-------------------------------------------------|-----------------------------------------------------------------|
-| [Add members](#add-members)                     | How to add existing members or invite new members to a project. |
-| [Edit members](#edit-members)                   | How to change the role of a member in a project.                |
-| [Remove members](#remove-members)               | How to remove members from a project.                           |
-| [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members.                |
-| [Groups](#groups)                               | How to add members to a group and add groups to a project.      |
+| Topic                                                 | Content                                                      |
+| ----------------------------------------------------- | ------------------------------------------------------------ |
+| [Project members overview](#project-members-overview) | How to get an overview of all project members.               |
+| [Add members](#add-members)                           | How to add existing members or invite new members to a project. |
+| [Edit members](#edit-members)                         | How to change the role of a member in a project.             |
+| [Remove members](#remove-members)                     | How to remove members from a project.                        |
+| [Roles and permissions](#roles-and-permissions)       | How to manage roles and permissions for members.             |
+| [Groups](#groups)                                     | How to add members to a group and add groups to a project.   |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
+## Project members overview
+
+On the left side menu you will see **Members**. When selected, it will show a list of project members, project groups, as well as the users with whom work packages from this project have been shared. You can **edit** or **delete** a user or a group by clicking the respective icon at the end of the line listing the user or group.
+
+![Project members overview in OpenProject](members-overview.png)
+
+Standard filters on the left side menu include the following: 
+
+- **All** - returns all members and groups of the project, as well as non-members, with whom one or more work packages from this project have been shared
+
+- **Locked** - returns all locked users that are members of this project, as well as locked non-members, with whom one or more work packages from this project have been shared
+
+- **Invited** - returns all users that have been invited, but have not yet registered
+
+- **Project roles** provides filters based on all the member roles that have been assigned to users in that specific project. 
+
+- **Work package shares** provides filters based on all the roles available for sharing work packages. They include:
+  -  **All shares** - returns all users that a work package in this project has been shared with
+  - **View** - returns all users that can view, but not edit or comment on a work package that has been shared with them
+
+  - **Comment** - returns all users that are allowed to add comments to a work package that has been shared with them
+
+  - **Edit** - returns all users that are permitted to edit a work package that has been shared with them
+
+
+> Note: users, with whom work packages from a given project have been shared, can not be edited or deleted under **Members**. To edit or revoke their viewing rights you can click on the "Number of work package(s) in the column "Shared" (3 work packages in the example above). This will open an already filtered work package list of all  work packages shared with that user.
+>
+> Another way is to navigate to **Work packages**, select the **Shared with users** filter and adjust the privileges accordingly. [Read more here](../work-packages/share-work-packages/#remove-sharing-privileges).
+
+- **Groups** lists all the groups that have been added to this project. 
+
+> Note: members that are part of a group will also be displayed as members individually. In that case you can only edit the roles assigned to the users, but not delete him or her. If you want to delete a user that is a member of a group (also added to this project) you will have to delete the entire group and add group members individually if needed.
+
+![Group project member in OpenProject](members-overview-group.png)
+
+You can adjust the displayed members by clicking on the **filter icon** in the top right corner next to **+ Member** button. Once you are done adjusting your preferences, click the blue **Apply** button.
+
+![Filter project members overview](filter-project-members.png)
+
+You can adjust the project member overview based on following filters:
+
+- **Status** - allows filtering based on the user status, such as active, invited, locked or registered.
+- **Group** - allows filtering for project members that are part of an existing group (all groups available in your instance will be listed as options), even if the group itself has not been added to the project.
+- **Role** - allows filtering based on all the user roles that have been assigned to users in that specific project. The options of this filters are the same as in the left side menu.
+- **Work package shares** - provides same filters as listed in the left side menu, based on all the roles available for sharing work packages. They include all shares, view, comment, edit.
+- **Name** - allows searching for a specific user or group by typing in a user or group name.
 
 ## Add members
 
@@ -28,15 +76,15 @@ To change the role of a member within a project, select the corresponding projec
 
 To edit an existing member of a project, click the **Edit icon** in the list next to the member on the right. Choose the new role and press the blue **Change button** so save your changes.
 
-![edit-project-members](image-20210305183845729.png)
+![Edit project members in OpenProject](edit-project-member.png)
 
 
 
 ## Remove members
 
-To remove members from a project, [select the project](../../getting-started/projects/#open-an-existing-project) for which you want to remove the members. In the project menu on the left, select the **Members** module. In the members list, click the trash can icon at the right end of the row with the corresponding member name.
+To remove members from a project, [select the project](../../getting-started/projects/#open-an-existing-project) for which you want to remove the members. In the project menu on the left, select the **Members** module. In the members list, click the delete icon at the right end of the row with the corresponding member name.
 
-![remove-project-members](image-20210305184318093.png)
+![Remove project members in OpenProject](delete-project-member.png)
 
 
 
@@ -48,7 +96,7 @@ Members will have different roles with different permissions in a project. To fi
 A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's, group's or placeholder user's name and the role(s) they should assume in the project.
 </div>
 
-To assign work packages to a project member, the respective user's or placeholder user's role needs to be able to be assigned work packages. This is the default setting for default roles. You can check this setting in the [Roles and Permissions section](../../system-admin-guide/users-permissions/roles-permissions/#create-a-new-role) of the system administration.
+To assign work packages to a project member, the respective user's or placeholder user's role needs to be able to be assigned work packages. This is the default setting for default roles. You can check this setting in the [Roles and Permissions section](../../system-admin-guide/users-permissions/roles-permissions/) of the system administration.
 
 
 ## Groups

@@ -11,7 +11,7 @@ import { TEAM_PLANNER_ROUTES } from 'core-app/features/team-planner/team-planner
 import { TeamPlannerComponent } from 'core-app/features/team-planner/team-planner/planner/team-planner.component';
 import { AddAssigneeComponent } from 'core-app/features/team-planner/team-planner/assignee/add-assignee.component';
 import { TeamPlannerPageComponent } from 'core-app/features/team-planner/team-planner/page/team-planner-page.component';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { AddExistingPaneComponent } from './add-work-packages/add-existing-pane.component';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { TeamPlannerSidemenuComponent } from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
@@ -27,7 +27,7 @@ import { TeamPlannerViewSelectMenuDirective } from 'core-app/features/team-plann
     TeamPlannerViewSelectMenuDirective,
   ],
   imports: [
-    OPSharedModule,
+    OpSharedModule,
     // Routes for /team_planner
     UIRouterModule.forChild({
       states: TEAM_PLANNER_ROUTES,

@@ -2,7 +2,7 @@
 el:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Δημιουργία νέου πίνακα'
       label_unnamed_board: 'Ανώνυμος πίνακας'
       label_unnamed_list: 'Ανώνυμη λίστα'
       label_board_type: 'Τύπος πίνακα'
@@ -46,7 +46,7 @@ el:
         action_text_subtasks: >
           Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Βασικός πίνακας τύπου kanban με στήλες για την κατάσταση, όπως To Do, In Progress, Done.
         action_text_assignee: >
           Board with automated columns based on assigned users. Ideal for dispatching work packages.
         action_text_version: >

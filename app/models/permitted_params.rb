@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,8 +62,8 @@ class PermittedParams
     params.require(:attribute_help_text).permit(*self.class.permitted_attributes[:attribute_help_text])
   end
 
-  def auth_source
-    params.require(:auth_source).permit(*self.class.permitted_attributes[:auth_source])
+  def ldap_auth_source
+    params.require(:ldap_auth_source).permit(*self.class.permitted_attributes[:ldap_auth_source])
   end
 
   def forum
@@ -187,8 +187,13 @@ class PermittedParams
   end
 
   def user(additional_params = [])
-    permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
-    permitted_params.merge(custom_field_values(:user))
+    if params[:user].present?
+      permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
+      permitted_params.merge(custom_field_values(:user))
+    else
+      # This happens on the Profile page for LDAP user, no "user" hash is sent.
+      {}.merge(custom_field_values(:user, required: false))
+    end
   end
 
   def placeholder_user
@@ -210,7 +215,7 @@ class PermittedParams
                            change_password_allowed,
                            additional_params = [])
 
-    additional_params << :auth_source_id unless external_authentication
+    additional_params << :ldap_auth_source_id unless external_authentication
 
     if current_user.admin?
       additional_params << :force_password_change if change_password_allowed
@@ -240,6 +245,10 @@ class PermittedParams
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end
 
+  def enumerations_move
+    params.require(:enumeration).permit(*self.class.permitted_attributes[:move_to])
+  end
+
   def search
     params.permit(*self.class.permitted_attributes[:search])
   end
@@ -253,15 +262,7 @@ class PermittedParams
   def wiki_page
     permitted = permitted_attributes(:wiki_page)
 
-    params.require(:content).require(:page).permit(*permitted)
-  end
-
-  def wiki_content
-    params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
-  end
-
-  def wiki_page_with_content
-    wiki_page.merge(wiki_content)
+    params.require(:page).permit(*permitted)
   end
 
   def pref
@@ -290,6 +291,11 @@ class PermittedParams
     end
 
     whitelist.merge(custom_field_values(:project))
+  end
+
+  def project_custom_field_project_mapping
+    params.require(:project_custom_field_project_mapping)
+      .permit(*self.class.permitted_attributes[:project_custom_field_project_mapping])
   end
 
   def news
@@ -326,7 +332,7 @@ class PermittedParams
   # all the time.
   def message(project = nil)
     # TODO: Move this distinction into the contract where it belongs
-    if project && current_user.allowed_to?(:edit_messages, project)
+    if project && current_user.allowed_in_project?(:edit_messages, project)
       params.fetch(:message, {}).permit(:subject, :content, :forum_id, :locked, :sticky)
     else
       params.fetch(:message, {}).permit(:subject, :content, :forum_id)
@@ -407,13 +413,13 @@ class PermittedParams
   def permitted_attributes(key, additions = {})
     merged_args = { params:, current_user: }.merge(additions)
 
-    self.class.permitted_attributes[key].map do |permission|
+    self.class.permitted_attributes[key].filter_map do |permission|
       if permission.respond_to?(:call)
         permission.call(merged_args)
       else
         permission
       end
-    end.compact
+    end
   end
 
   def self.permitted_attributes
@@ -424,7 +430,7 @@ class PermittedParams
           attribute_name
           help_text
         ),
-        auth_source: %i(
+        ldap_auth_source: %i(
           name
           host
           port
@@ -474,6 +480,8 @@ class PermittedParams
           :possible_values,
           :multi_value,
           :content_right_to_left,
+          :custom_field_section_id,
+          :allow_non_open_versions,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
@@ -513,15 +521,16 @@ class PermittedParams
           :budget_id,
           :parent_id,
           :priority_id,
+          :remaining_hours,
           :responsible_id,
           :start_date,
           :status_id,
           :type_id,
           :subject,
           Proc.new do |args|
-            # avoid costly allowed_to? if the param is not there at all
+            # avoid costly allowed_in_project? if the param is not there at all
             if args[:params]['work_package']&.has_key?('watcher_user_ids') &&
-               args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
+               args[:current_user].allowed_in_project?(:add_work_package_watchers, args[:project])
 
               { watcher_user_ids: [] }
             end
@@ -553,6 +562,11 @@ class PermittedParams
           :name,
           { type_ids: [] }
         ],
+        project_custom_field_project_mapping: %i(
+          project_id
+          custom_field_id
+          custom_field_section_id
+        ),
         query: %i(
           name
           display_sums
@@ -609,8 +623,6 @@ class PermittedParams
           title
           parent_id
           redirect_existing_links
-        ),
-        wiki_content: %i(
           text
           lock_version
           journal_notes

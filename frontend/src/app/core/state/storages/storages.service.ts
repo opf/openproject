@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,29 +27,34 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import {
+  forkJoin,
+  Observable,
+} from 'rxjs';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { StoragesStore } from 'core-app/core/state/storages/storages.store';
-import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { insertCollectionIntoState } from 'core-app/core/state/resource-store';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
-  CollectionStore,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
+  ResourceStore,
+  ResourceStoreService,
+} from 'core-app/core/state/resource-store.service';
 
 @Injectable()
-export class StoragesResourceService extends ResourceCollectionService<IStorage> {
-  updateCollection(key:string, storageLinks:IHalResourceLink[]):void {
-    forkJoin(
-      storageLinks.map((link) => this.http.get<IStorage>(link.href)),
-    ).subscribe((storages) => {
-      const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
-      insertCollectionIntoState(this.store, storageCollection, key);
-    });
+export class StoragesResourceService extends ResourceStoreService<IStorage> {
+  updateCollection(key:string, storageLinks:IHalResourceLink[]):Observable<IStorage[]> {
+    return forkJoin(storageLinks.map((link) => this.http.get<IStorage>(link.href)))
+      .pipe(
+        tap((storages) => {
+          const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
+          insertCollectionIntoState(this.store, storageCollection, key);
+        }),
+      );
   }
 
-  protected createStore():CollectionStore<IStorage> {
+  protected createStore():ResourceStore<IStorage> {
     return new StoragesStore();
   }
 

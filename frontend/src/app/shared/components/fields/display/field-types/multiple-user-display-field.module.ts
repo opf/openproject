@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,59 +26,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
-import { cssClassCustomOption } from 'core-app/shared/components/fields/display/display-field.module';
 import { ResourcesDisplayField } from './resources-display-field.module';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class MultipleUserFieldModule extends ResourcesDisplayField {
   @InjectField() principalRenderer:PrincipalRendererService;
 
-  public render(element:HTMLElement, displayText:string):void {
-    const names = this.value;
+  public render(element:HTMLElement):void {
+    const users = this.value as HalResource[];
+    // The flex display of the nested op-principal-list breaks the height if
+    // this element's display is set to "initial".
+    element.style.display = 'block';
     element.innerHTML = '';
-    element.setAttribute('title', names.join(', '));
+    element.setAttribute('title', users.map((el) => el.name).join(', '));
 
-    if (names.length === 0) {
+    if (users.length === 0) {
       this.renderEmpty(element);
     } else {
-      this.renderValues(this.attribute, element);
+      this.principalRenderer.renderAbbreviated(element, users);
     }
-  }
-
-  /**
-   * Renders at most the first two values, followed by a badge indicating
-   * the total count.
-   */
-  protected renderValues(values:UserResource[], element:HTMLElement) {
-    const content = document.createDocumentFragment();
-    const divContainer = document.createElement('div');
-    divContainer.classList.add(cssClassCustomOption);
-    content.appendChild(divContainer);
-
-    this.renderAbridgedValues(divContainer, values);
-
-    if (values.length > 2) {
-      const dots = document.createElement('span');
-      dots.innerHTML = '... ';
-      divContainer.appendChild(dots);
-
-      const badge = this.optionDiv(values.length.toString(), 'badge', '-secondary');
-      content.appendChild(badge);
-    }
-
-    element.appendChild(content);
-  }
-
-  public renderAbridgedValues(element:HTMLElement, values:UserResource[]) {
-    const valueForDisplay = _.take(values, 2);
-    this.principalRenderer.renderMultiple(
-      element,
-      valueForDisplay,
-      { hide: false, link: false },
-      { hide: false, size: 'medium' },
-      false,
-    );
   }
 }

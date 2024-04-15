@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +26,30 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ID } from '@datorama/akita';
+
 import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Observable } from 'rxjs';
 import {
-  ApiV3ListParameters,
   ApiV3ListFilter,
+  ApiV3ListParameters,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { ApiV3NotificationPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notification-paths';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { HttpClient } from '@angular/common/http';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { ID } from '@datorama/akita';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 
 export class ApiV3NotificationsPaths
   extends ApiV3ResourceCollection<INotification, ApiV3NotificationPaths> {
   @InjectField() http:HttpClient;
 
-  constructor(protected apiRoot:ApiV3Service,
-    protected basePath:string) {
+  constructor(
+    protected apiRoot:ApiV3Service,
+    protected basePath:string,
+  ) {
     super(apiRoot, basePath, 'notifications', ApiV3NotificationPaths);
   }
 
@@ -92,7 +95,7 @@ export class ApiV3NotificationsPaths
    * Mark all notifications as read
    * @param ids
    */
-  public markRead(ids:Array<ID>):Observable<unknown> {
+  public markAsReadByIds(ids:Array<ID>):Observable<unknown> {
     return this
       .http
       .post(
@@ -103,5 +106,16 @@ export class ApiV3NotificationsPaths
           responseType: 'json',
         },
       );
+  }
+
+  public markAsReadByFilter(filters:ApiV3ListFilter[]):Observable<unknown> {
+    return this.http.post(
+      `${this.path}/read_ian${(listParamsString({ filters: filters.map((f) => [f[0], f[1], f[2]]) }))}`,
+      {},
+      {
+        withCredentials: true,
+        responseType: 'json',
+      },
+    );
   }
 }

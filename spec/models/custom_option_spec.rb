@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe CustomOption, type: :model do
+RSpec.describe CustomOption do
   let(:custom_field) do
-    cf = build(:wp_custom_field, field_format: 'list')
-    cf.custom_options.build(value: 'some value')
+    cf = build(:wp_custom_field, field_format: "list")
+    cf.custom_options.build(value: "some value")
 
     cf
   end
@@ -42,7 +42,7 @@ describe CustomOption, type: :model do
     custom_field.save!
   end
 
-  describe 'saving' do
+  describe "saving" do
     it "updates the custom_field's timestamp" do
       timestamp_before = custom_field.updated_at
       sleep 1
@@ -51,13 +51,13 @@ describe CustomOption, type: :model do
     end
   end
 
-  describe '.destroy' do
-    context 'with more than one option for the cf' do
+  describe ".destroy" do
+    context "with more than one option for the cf" do
       before do
         create(:custom_option, custom_field:)
       end
 
-      it 'removes the option' do
+      it "removes the option" do
         custom_option.destroy
 
         expect(CustomOption.where(id: custom_option.id).count)
@@ -72,17 +72,17 @@ describe CustomOption, type: :model do
       end
     end
 
-    context 'with only one option for the cf' do
+    context "with only one option for the cf" do
       before do
         custom_option.destroy
       end
 
-      it 'reports an error' do
+      it "reports an error" do
         expect(custom_option.errors[:base])
-          .to match_array [I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option')]
+          .to contain_exactly(I18n.t(:"activerecord.errors.models.custom_field.at_least_one_custom_option"))
       end
 
-      it 'does not remove the custom option' do
+      it "does not remove the custom option" do
         expect(CustomOption.where(id: custom_option.id).count)
           .to be 1
       end

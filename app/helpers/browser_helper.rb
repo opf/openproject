@@ -12,16 +12,16 @@ module BrowserHelper
       version = browser.version.to_i
 
       # Older versions behind last ESR FF
-      return true if browser.firefox? && version < 60
+      return true if browser.firefox? && version < 101
 
       # Chrome versions older than a year
-      return true if browser.chrome? && version < 65
+      return true if browser.chrome? && version < 109
 
       # Older version of safari
-      return true if browser.safari? && version < 12
+      return true if browser.safari? && version < 16
 
       # Older version of EDGE
-      return true if browser.edge? && version < 18
+      return true if browser.edge? && version < 109
 
       false
     end
@@ -32,14 +32,14 @@ module BrowserHelper
   # or mobile detection
   def browser_specific_classes
     [].tap do |classes|
-      classes << '-browser-chrome' if browser.chrome?
-      classes << '-browser-firefox' if browser.firefox?
-      classes << '-browser-safari' if browser.safari?
-      classes << '-browser-edge' if browser.edge?
+      classes << "-browser-chrome" if browser.chrome?
+      classes << "-browser-firefox" if browser.firefox?
+      classes << "-browser-safari" if browser.safari?
+      classes << "-browser-edge" if browser.edge?
 
-      classes << '-browser-mobile' if browser.device.mobile?
-      classes << '-browser-windows' if browser.platform.windows?
-      classes << '-unsupported-browser' if unsupported_browser?
+      classes << "-browser-mobile" if browser.device.mobile?
+      classes << "-browser-windows" if browser.platform.windows?
+      classes << "-unsupported-browser" if unsupported_browser?
     end
   end
 end

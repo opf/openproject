@@ -1,122 +1,57 @@
 # /api/v3/memberships/{id}/form
 ---
 post:
+  summary: Form update membership
+  operationId: form_update_membership
+  tags:
+    - Memberships
+  description: |-
+    Requests and validates the update form for a membership identified by the given id. The request payload, if sent,
+    is validated. The form endpoint itself does not change the membership.
   parameters:
-  - description: Membership id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - name: id
+      description: Membership id
+      in: path
+      required: true
+      example: 1
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/membership_write_model.yml'
+        examples:
+          'no notification':
+            $ref: '../components/examples/membership-create-request-no-notification.yml'
+          'custom message':
+            $ref: '../components/examples/membership-create-request-custom-message.yml'
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
+          schema:
+            $ref: '../components/schemas/membership_read_model.yml'
           examples:
-            response:
-              value:
-                _embedded:
-                  payload:
-                    _links:
-                      roles:
-                      - href: "/api/v3/roles/4"
-                        title: A role
-                    _meta:
-                      notificationMessage:
-                        raw: Alice, you can now also create work packages.
-                  schema:
-                    _dependencies: []
-                    _links: {}
-                    _type: Schema
-                    createdAt:
-                      hasDefault: false
-                      name: Created on
-                      required: true
-                      type: DateTime
-                      writable: false
-                    id:
-                      hasDefault: false
-                      name: ID
-                      required: true
-                      type: Integer
-                      writable: false
-                    notificationMessage:
-                      hasDefault: false
-                      location: _meta
-                      name: Message
-                      options: {}
-                      required: false
-                      type: Formattable
-                      writable: true
-                    principal:
-                      _links: {}
-                      hasDefault: false
-                      name: Principal
-                      required: true
-                      type: Principal
-                      writable: false
-                    project:
-                      _links: {}
-                      hasDefault: false
-                      name: Project
-                      required: false
-                      type: Project
-                      writable: false
-                    roles:
-                      _links:
-                        allowedValues:
-                          href: "/api/v3/roles?filters=%5B%7B%22unit%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22project%22%5D%7D%7D%5D"
-                      hasDefault: false
-                      location: _links
-                      name: Role
-                      required: true
-                      type: "[]Role"
-                      writable: true
-                    updatedAt:
-                      hasDefault: false
-                      name: Updated on
-                      required: true
-                      type: DateTime
-                      writable: false
-                  validationErrors: {}
-                _links:
-                  commit:
-                    href: "/api/v3/memberships/5"
-                    method: patch
-                  self:
-                    href: "/api/v3/memberships/5/form"
-                    method: post
-                  validate:
-                    href: "/api/v3/memberships/5/form"
-                    method: post
-                _type: Form
-      description: OK
-      headers: {}
+            'simple membership':
+              $ref: '../components/examples/membership-simple-response.yml'
     '400':
-      $ref: "../components/responses/invalid_request_body.yml"
+      $ref: '../components/responses/invalid_request_body.yml'
     '403':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** manage versions in the version's project
-      headers: {}
     '406':
-      $ref: "../components/responses/missing_content_type.yml"
+      $ref: '../components/responses/missing_content_type.yml'
     '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
-  tags:
-  - Memberships
-  description: ''
-  operationId: Membership_update_form
-  summary: Membership update form
+      $ref: '../components/responses/unsupported_media_type.yml'

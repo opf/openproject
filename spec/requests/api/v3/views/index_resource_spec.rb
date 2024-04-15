@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,18 +25,17 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe ::API::V3::Views::ViewsAPI,
-         'index',
-         type: :request,
-         content_type: :json do
+RSpec.describe API::V3::Views::ViewsAPI,
+               "index",
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:permitted_user) { create(:user) }
   shared_let(:role) do
-    create(:role, permissions: [:view_work_packages])
+    create(:project_role, permissions: [:view_work_packages])
   end
   shared_let(:project) do
     create(:project,
@@ -107,8 +106,8 @@ describe ::API::V3::Views::ViewsAPI,
     send_request
   end
 
-  context 'without any filter' do
-    it_behaves_like 'API V3 collection response', 3, 3, 'Views::WorkPackagesTable' do
+  context "without any filter" do
+    it_behaves_like "API V3 collection response", 3, 3, "Views::WorkPackagesTable" do
       let(:elements) do
         [
           user_private_other_project_view,
@@ -119,19 +118,19 @@ describe ::API::V3::Views::ViewsAPI,
     end
   end
 
-  context 'with a project filter' do
+  context "with a project filter" do
     let(:filters) do
       [
         {
-          'project' => {
-            'operator' => '=',
-            'values' => [project.id.to_s]
+          "project" => {
+            "operator" => "=",
+            "values" => [project.id.to_s]
           }
         }
       ]
     end
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'Views::WorkPackagesTable' do
+    it_behaves_like "API V3 collection response", 2, 2, "Views::WorkPackagesTable" do
       let(:elements) do
         [
           user_public_project_view,
@@ -141,7 +140,7 @@ describe ::API::V3::Views::ViewsAPI,
     end
   end
 
-  context 'with a type filter' do
+  context "with a type filter" do
     let(:other_user_private_project_query) do
       create(:query,
              user: permitted_user,
@@ -164,15 +163,15 @@ describe ::API::V3::Views::ViewsAPI,
     let(:filters) do
       [
         {
-          'type' => {
-            'operator' => '=',
-            'values' => ['Views::TeamPlanner']
+          "type" => {
+            "operator" => "=",
+            "values" => ["Views::TeamPlanner"]
           }
         }
       ]
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'Views::TeamPlanner' do
+    it_behaves_like "API V3 collection response", 1, 1, "Views::TeamPlanner" do
       let(:elements) do
         [
           user_private_project_team_planner_view
@@ -181,9 +180,9 @@ describe ::API::V3::Views::ViewsAPI,
     end
   end
 
-  context 'for a user without any visible queries' do
+  context "for a user without any visible queries" do
     current_user { create(:user) }
 
-    it_behaves_like 'API V3 collection response', 0, 0, 'Views::WorkPackagesTable'
+    it_behaves_like "API V3 collection response", 0, 0, "Views::WorkPackagesTable"
   end
 end

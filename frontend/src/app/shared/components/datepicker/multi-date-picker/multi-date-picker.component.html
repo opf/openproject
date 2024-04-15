@@ -1,0 +1,107 @@
+<spot-drop-modal
+  [opened]="opened"
+  (closed)="close()"
+  data-test-selector="op-multi-date-picker"
+>
+  <input
+    slot="trigger"
+    type="text"
+    class="spot-input"
+    [attr.data-value]="value"
+    [id]="id"
+    [value]="datesString"
+    (click)="onInputClick($event)"
+    (focus)="opened = true"
+  />
+
+  <form
+    slot="body"
+    class="op-datepicker-modal op-datepicker-modal_wide"
+    data-test-selector="op-datepicker-modal"
+    tabindex="0"
+    cdkFocusInitial
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true"
+    (submit)="save($event)"
+  >
+    <div class="spot-container op-datepicker-modal--stretch-content">
+      <div class="op-datepicker-modal--dates-container">
+        <spot-form-field
+          [label]="text.startDate"
+        >
+          <spot-text-field
+            slot="input"
+            name="startDate"
+            class="op-datepicker-modal--date-field"
+            [attr.data-qa-highlighted]="showFieldAsActive('start') || undefined"
+            [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('start')}"
+            [ngModel]="dates.start"
+            (ngModelChange)="startDateChanged$.next($event)"
+            [showClearButton]="currentlyActivatedDateField === 'start'"
+            (focusin)="setCurrentActivatedField('start')"
+          ></spot-text-field>
+          <button
+            slot="action"
+            type="button"
+            class="spot-link"
+            (click)="setToday('start')"
+            [textContent]="text.today">
+          </button>
+        </spot-form-field>
+
+        <spot-form-field
+          [label]="text.endDate"
+        >
+          <spot-text-field
+            slot="input"
+            name="endDate"
+            class="op-datepicker-modal--date-field"
+            [attr.data-qa-highlighted]="showFieldAsActive('end') || undefined"
+            [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('end')}"
+            [ngModel]="dates.end"
+            (ngModelChange)="endDateChanged$.next($event)"
+            [showClearButton]="currentlyActivatedDateField === 'end'"
+            (focusin)="setCurrentActivatedField('end')"
+          ></spot-text-field>
+          <button
+            slot="action"
+            type="button"
+            class="spot-link"
+            (click)="setToday('end')"
+            [textContent]="text.today">
+          </button>
+        </spot-form-field>
+      </div>
+
+      <input
+        id="flatpickr-input"
+        #flatpickrTarget
+        hidden>
+    </div>
+
+    <div class="spot-action-bar">
+      <div class="spot-action-bar--right">
+        <button
+          type="button"
+          (click)="close()"
+          class="spot-modal--cancel-button button spot-action-bar--action"
+          data-test-selector="op-datepicker-modal--action"
+          [textContent]="text.cancel"
+        ></button>
+        <button
+          type="submit"
+          class="button -primary spot-action-bar--action"
+          data-test-selector="op-datepicker-modal--action"
+          [textContent]="applyLabel"
+        ></button>
+      </div>
+    </div>
+  </form>
+</spot-drop-modal>
+
+<input
+  [id]="id"
+  [name]="name"
+  [value]="value"
+  hidden
+>

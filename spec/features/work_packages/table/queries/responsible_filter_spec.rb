@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,56 +26,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Work package filtering by responsible', js: true do
-  let(:project) { create :project }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
+RSpec.describe "Work package filtering by responsible", :js do
+  let(:project) { create(:project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do
-    create :user,
-           firstname: 'Other',
-           lastname: 'User',
-           member_in_project: project,
-           member_through_role: role
+    create(:user,
+           firstname: "Other",
+           lastname: "User",
+           member_with_roles: { project => role })
   end
   let(:placeholder_user) do
-    create :placeholder_user,
-           member_in_project: project,
-           member_through_role: role
+    create(:placeholder_user,
+           member_with_roles: { project => role })
   end
 
   let!(:work_package_user_responsible) do
-    create :work_package,
+    create(:work_package,
            project:,
-           responsible: other_user
+           responsible: other_user)
   end
   let!(:work_package_placeholder_user_responsible) do
-    create :work_package,
+    create(:work_package,
            project:,
-           responsible: placeholder_user
+           responsible: placeholder_user)
   end
 
   current_user do
-    create :user,
-           member_in_project: project,
-           member_through_role: role
+    create(:user, member_with_roles: { project => role })
   end
 
-  it 'shows the work package matching the responsible filter' do
+  it "shows the work package matching the responsible filter" do
     wp_table.visit!
     wp_table.expect_work_package_listed(work_package_user_responsible, work_package_placeholder_user_responsible)
 
     filters.open
-    filters.add_filter_by('Accountable', 'is', [other_user.name], 'responsible')
+    filters.add_filter_by("Accountable", "is (OR)", [other_user.name], "responsible")
 
     wp_table.ensure_work_package_not_listed!(work_package_placeholder_user_responsible)
     wp_table.expect_work_package_listed(work_package_user_responsible)
 
-    wp_table.save_as('Responsible query')
+    wp_table.save_as("Responsible query")
 
-    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+    wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
     # Revisit query
     wp_table.visit_query Query.last
@@ -83,9 +79,9 @@ describe 'Work package filtering by responsible', js: true do
     wp_table.expect_work_package_listed(work_package_user_responsible)
 
     filters.open
-    filters.expect_filter_by('Accountable', 'is', [other_user.name], 'responsible')
-    filters.remove_filter 'responsible'
-    filters.add_filter_by('Accountable', 'is', [placeholder_user.name], 'responsible')
+    filters.expect_filter_by("Accountable", "is (OR)", [other_user.name], "responsible")
+    filters.remove_filter "responsible"
+    filters.add_filter_by("Accountable", "is (OR)", [placeholder_user.name], "responsible")
 
     wp_table.ensure_work_package_not_listed!(work_package_user_responsible)
     wp_table.expect_work_package_listed(work_package_placeholder_user_responsible)

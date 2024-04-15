@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ module OpenProject
           end
 
           # Start of process
-          ActiveSupport::Notifications.subscribe('perform_start.active_job') do |_name, _started, _call, _id, payload|
+          ActiveSupport::Notifications.subscribe("perform_start.active_job") do |_name, _started, _call, _id, payload|
             job = payload[:job]
             next unless job
 
@@ -50,7 +50,7 @@ module OpenProject
           end
 
           # Complete, or failure
-          ActiveSupport::Notifications.subscribe('perform.active_job') do |_name, _started, _call, _id, payload|
+          ActiveSupport::Notifications.subscribe("perform.active_job") do |_name, _started, _call, _id, payload|
             job = payload[:job]
             exception_object = payload[:exception_object]
 
@@ -63,7 +63,7 @@ module OpenProject
           end
 
           # Retry stopped -> failure
-          ActiveSupport::Notifications.subscribe('retry_stopped.active_job') do |_name, _started, _call, _id, payload|
+          ActiveSupport::Notifications.subscribe("retry_stopped.active_job") do |_name, _started, _call, _id, payload|
             job = payload[:job]
             error = payload[:error]
 
@@ -72,7 +72,7 @@ module OpenProject
           end
 
           # Retry enqueued
-          ActiveSupport::Notifications.subscribe('enqueue_retry.active_job') do |_name, _started, _call, _id, payload|
+          ActiveSupport::Notifications.subscribe("enqueue_retry.active_job") do |_name, _started, _call, _id, payload|
             job = payload[:job]
             error = payload[:error]
 
@@ -81,7 +81,7 @@ module OpenProject
           end
 
           # Discarded job
-          ActiveSupport::Notifications.subscribe('discard.active_job') do |_name, _started, _call, _id, payload|
+          ActiveSupport::Notifications.subscribe("discard.active_job") do |_name, _started, _call, _id, payload|
             job = payload[:job]
             error = payload[:error]
 
@@ -116,7 +116,7 @@ module OpenProject
         # On requeuing a job after error
         def on_requeue(job, error)
           job.upsert_status status: :in_queue,
-                            message: I18n.t('background_jobs.status.error_requeue', message: error)
+                            message: I18n.t("background_jobs.status.error_requeue", message: error)
         end
 
         ##
@@ -124,7 +124,7 @@ module OpenProject
         def on_cancelled(job, error)
           upsert_status job,
                         status: :cancelled,
-                        message: I18n.t('background_jobs.status.cancelled_due_to', message: error)
+                        message: I18n.t("background_jobs.status.cancelled_due_to", message: error)
         end
 
         ##

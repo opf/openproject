@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Versions::UpdateContract do
-  it_behaves_like 'version contract' do
+RSpec.describe Versions::UpdateContract do
+  it_behaves_like "version contract" do
     let(:version) do
       build_stubbed(:version,
                     project: version_project,
@@ -47,39 +47,39 @@ describe Versions::UpdateContract do
 
     subject(:contract) { described_class.new(version, current_user) }
 
-    describe 'assignable_values' do
-      context 'for project' do
-        it 'is empty' do
+    describe "assignable_values" do
+      context "for project" do
+        it "is empty" do
           expect(subject.assignable_values(:project, current_user))
             .to be_empty
         end
       end
 
-      context 'for status' do
-        it 'is a list of all available status' do
+      context "for status" do
+        it "is a list of all available status" do
           expect(subject.assignable_values(:status, current_user))
             .to eql %w(open locked closed)
         end
       end
 
-      context 'for sharing' do
-        it 'is a list of values' do
+      context "for sharing" do
+        it "is a list of values" do
           expect(subject.assignable_values(:sharing, current_user))
             .to match_array %w(none descendants hierarchy tree)
         end
 
-        context 'if the user is admin' do
+        context "if the user is admin" do
           let(:current_user) { build_stubbed(:admin) }
 
-          it 'is a list of values' do
+          it "is a list of values" do
             expect(subject.assignable_values(:sharing, current_user))
               .to match_array %w(none descendants system hierarchy tree)
           end
         end
       end
 
-      context 'for something else' do
-        it 'is nil' do
+      context "for something else" do
+        it "is nil" do
           expect(subject.assignable_values(:start_date, current_user))
             .to be_nil
         end

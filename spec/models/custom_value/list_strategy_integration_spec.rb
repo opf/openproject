@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe CustomValue::ListStrategy, 'integration tests' do
-  let(:type) { create :type }
-  let(:project) { create :project, types: [type] }
+RSpec.describe CustomValue::ListStrategy, "integration tests" do
+  let(:type) { create(:type) }
+  let(:project) { create(:project, types: [type]) }
   let!(:custom_field) do
     create(
       :list_wp_custom_field,
@@ -38,25 +38,25 @@ describe CustomValue::ListStrategy, 'integration tests' do
       multi_value: true,
       types: [type],
       projects: [project],
-      possible_values: ['A', 'B']
+      possible_values: ["A", "B"]
     )
   end
 
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }
+           custom_values: { custom_field.id => custom_field.custom_options.find_by(value: "A") })
   end
 
-  it 'can handle invalid CustomOptions (Regression test)' do
-    expect(work_package.public_send(:"custom_field_#{custom_field.id}")).to eq(%w(A))
+  it "can handle invalid CustomOptions (Regression test)" do
+    expect(work_package.public_send(custom_field.attribute_getter)).to eq(%w(A))
 
     # Remove the custom value without replacement
-    CustomValue.find_by(customized_id: work_package.id).update_columns(value: 'invalid')
+    CustomValue.find_by(customized_id: work_package.id).update_columns(value: "invalid")
     work_package.reload
     work_package.reset_custom_values!
 
-    expect(work_package.public_send(:"custom_field_#{custom_field.id}")).to eq(['invalid not found'])
+    expect(work_package.public_send(custom_field.attribute_getter)).to eq(["invalid not found"])
   end
 end

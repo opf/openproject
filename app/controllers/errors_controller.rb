@@ -1,4 +1,4 @@
-class ErrorsController < ::ActionController::Base
+class ErrorsController < ActionController::Base
   include ErrorsHelper
   include OpenProjectErrorHelper
   include Accounts::CurrentUser
@@ -8,7 +8,7 @@ class ErrorsController < ::ActionController::Base
   end
 
   def unacceptable
-    render file: "#{Rails.root}/public/422.html",
+    render file: "#{Rails.public_path.join('422.html')}",
            status: :unacceptable,
            layout: false
   end
@@ -26,6 +26,6 @@ class ErrorsController < ::ActionController::Base
   end
 
   def use_layout
-    'only_logo'
+    "only_logo"
   end
 end

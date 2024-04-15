@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 sl:
+  plugin_openproject_recaptcha:
+    name: "OpenProject ReCaptcha"
+    description: "This module provides recaptcha checks during login."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Prosimo počakajte ...'
@@ -7,6 +10,8 @@ sl:
     error_captcha: "Vašega računa ni bilo mogoče potrditi. Obrnite se na skrbnika."
     settings:
       website_key: 'Ključ spletne strani'
+      response_limit: 'Response limit for HCaptcha'
+      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Vnesite ključ spletnega mesta, ki ste ga ustvarili na skrbniški konzoli reCAPTCHA za to domeno.'
       secret_key: 'Skrivni ključ'
       secret_key_text: 'Vnesite skrivni ključ, ki ste ga ustvarili na skrbniški konzoli reCAPTCHA.'
@@ -14,5 +19,6 @@ sl:
       type_disabled: 'Onemogoči reCAPTCHA'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA je Googlova brezplačna storitev, ki jo je mogoče omogočiti za primerek OpenProject. Če je omogočen, bo ob prijavi prikazan obrazec captcha za vse uporabnike, ki se še niso preverili. <br/> Oglejte si spodnjo povezavo za več podrobnosti o reCAPTCHA in njihovih različicah ter kako ustvariti spletno mesto in skrivne ključe: %{recaptcha_link}
+        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,47 +26,47 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe FrontendAssetHelper, type: :helper do
-  describe '#include_frontend_assets' do
-    context 'when in development or test' do
+RSpec.describe FrontendAssetHelper do
+  describe "#include_frontend_assets" do
+    context "when in development or test",
+            with_env: { "OPENPROJECT_DISABLE_DEV_ASSET_PROXY" => "" } do
       before do
         allow(Rails.env).to receive(:production?).and_return(false)
-        stub_const('ENV', 'OPENPROJECT_DISABLE_DEV_ASSET_PROXY' => '')
       end
 
-      it 'returns the proxied frontend server' do
-        expect(helper.include_frontend_assets).to include('script src="http://localhost:4200/assets/frontend/main.js"')
+      it "returns the proxied frontend server" do
+        expect(helper.include_frontend_assets).to match(%r{script src="http://localhost:4200/assets/frontend/main(.*).js"})
       end
     end
 
-    context 'when in production' do
+    context "when in production" do
       before do
         allow(Rails.env).to receive(:production?).and_return(true)
       end
 
-      it 'returns the path to the asset' do
-        expect(helper.include_frontend_assets).to include('script src="/assets/frontend/main.js"')
+      it "returns the path to the asset" do
+        expect(helper.include_frontend_assets).to match(%r{script src="/assets/frontend/main(.*).js"})
       end
 
-      context 'when using relative_url_root' do
+      context "when using relative_url_root" do
         before do
           controller.config.relative_url_root = "/openproject"
         end
 
-        it 'prepends it to the asset path' do
-          expect(helper.include_frontend_assets).to include('script src="/openproject/assets/frontend/main.js"')
+        it "prepends it to the asset path" do
+          expect(helper.include_frontend_assets).to match(%r{script src="/openproject/assets/frontend/main(.*).js"})
         end
       end
 
-      context 'when using relative_url_root ending with a slash' do
+      context "when using relative_url_root ending with a slash" do
         before do
           controller.config.relative_url_root = "/openproject/"
         end
 
-        it 'prepends it to the asset path only once (bug #41428)' do
-          expect(helper.include_frontend_assets).to include('script src="/openproject/assets/frontend/main.js"')
+        it "prepends it to the asset path only once (bug #41428)" do
+          expect(helper.include_frontend_assets).to match(%r{script src="/openproject/assets/frontend/main(.*).js"})
         end
       end
     end

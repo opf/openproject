@@ -20,4 +20,4 @@ Thanks to David Haintz from the SEC Consult Vulnerability Lab (https://www.sec-c
 
 #### Contributions
 
-Thanks to David Haintz from [SEC Consult Vulnerability Lab](https://www.sec-consult.com/) for identifying and responsibly disclosing the identified issues.
+Thanks to David Haintz from [SEC Consult Vulnerability Lab](https://www.sec-consult.com) for identifying and responsibly disclosing the identified issues.

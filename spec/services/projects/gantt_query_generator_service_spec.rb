@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Projects::GanttQueryGeneratorService, type: :model do
+RSpec.describe Projects::GanttQueryGeneratorService, type: :model do
   let(:selected) { %w[1 2 3] }
   let(:instance) { described_class.new selected }
   let(:subject) { instance.call }
   let(:json) { JSON.parse(subject) }
   let(:milestone_ids) { [123, 234] }
   let(:default_json) do
-    scope = double('scope')
+    scope = double("scope")
     allow(Type)
       .to receive(:milestone)
       .and_return(scope)
@@ -47,51 +47,51 @@ describe Projects::GanttQueryGeneratorService, type: :model do
 
     JSON
       .parse(Projects::GanttQueryGeneratorService::DEFAULT_GANTT_QUERY)
-      .merge('f' => [{ 'n' => 'type', 'o' => '=', 'v' => milestone_ids.map(&:to_s) }])
+      .merge("f" => [{ "n" => "type", "o" => "=", "v" => milestone_ids.map(&:to_s) }])
   end
 
   def build_project_filter(ids)
-    { 'n' => 'project', 'o' => '=', 'v' => ids }
+    { "n" => "project", "o" => "=", "v" => ids }
   end
 
-  context 'with empty setting' do
+  context "with empty setting" do
     before do
-      Setting.project_gantt_query = ''
+      Setting.project_gantt_query = ""
     end
 
-    it 'uses the default' do
+    it "uses the default" do
       expected = default_json.deep_dup
-      expected['f'] << build_project_filter(selected)
+      expected["f"] << build_project_filter(selected)
       expect(json).to eq(expected)
     end
 
-    context 'without configured milestones' do
+    context "without configured milestones" do
       let(:milestone_ids) { [] }
 
-      it 'uses the default but without the type filter' do
+      it "uses the default but without the type filter" do
         expected = default_json
                      .deep_dup
-                     .merge('f' => [build_project_filter(selected)])
+                     .merge("f" => [build_project_filter(selected)])
         expect(json).to eq(expected)
       end
     end
   end
 
-  context 'with existing filter' do
-    it 'overrides the filter' do
-      Setting.project_gantt_query = default_json.deep_dup.merge('f' => [build_project_filter(%w[other values])]).to_json
+  context "with existing filter" do
+    it "overrides the filter" do
+      Setting.project_gantt_query = default_json.deep_dup.merge("f" => [build_project_filter(%w[other values])]).to_json
 
-      expected = default_json.deep_dup.merge('f' => [build_project_filter(selected)])
+      expected = default_json.deep_dup.merge("f" => [build_project_filter(selected)])
       expect(json).to eq(expected)
     end
   end
 
-  context 'with invalid json' do
-    it 'returns the default' do
-      Setting.project_gantt_query = 'invalid!1234'
+  context "with invalid json" do
+    it "returns the default" do
+      Setting.project_gantt_query = "invalid!1234"
 
       expected = default_json.deep_dup
-      expected['f'] << build_project_filter(selected)
+      expected["f"] << build_project_filter(selected)
       expect(json).to eq(expected)
     end
   end

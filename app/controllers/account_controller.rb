@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,8 +40,9 @@ class AccountController < ApplicationController
   before_action :apply_csp_appends, only: %i[login]
   before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
+  before_action :check_internal_login_enabled, only: :internal_login
 
-  layout 'no_menu'
+  layout "no_menu"
 
   # Login request and validation
   def login
@@ -49,11 +50,15 @@ class AccountController < ApplicationController
 
     if user.logged?
       redirect_after_login(user)
-    elsif omniauth_direct_login?
+    elsif request.get? && omniauth_direct_login?
       direct_login(user)
     elsif request.post?
       authenticate_user
     end
+  end
+
+  def internal_login
+    render "account/login"
   end
 
   # Log out current user and redirect to welcome page
@@ -83,12 +88,12 @@ class AccountController < ApplicationController
 
         if call.success?
           @token.destroy
-          redirect_to action: 'login'
+          redirect_to action: "login"
           return
         end
       end
 
-      render template: 'account/password_recovery'
+      render template: "account/password_recovery"
     elsif request.post?
       mail = params[:mail]
       user = User.find_by_mail(mail) if mail.present?
@@ -105,7 +110,8 @@ class AccountController < ApplicationController
 
       unless user.change_password_allowed?
         # user uses an external authentication
-        Rails.logger.error "Password cannot be changed for user: #{mail}"
+        UserMailer.password_change_not_possible(user).deliver_later
+        Rails.logger.warn "Password cannot be changed for user: #{mail}"
         return
       end
 
@@ -114,7 +120,7 @@ class AccountController < ApplicationController
       if token.save
         UserMailer.password_lost(token).deliver_later
         flash[:notice] = I18n.t(:notice_account_lost_email_sent)
-        redirect_to action: 'login', back_url: home_url
+        redirect_to action: "login", back_url: home_url
         nil
       end
     end
@@ -197,17 +203,14 @@ class AccountController < ApplicationController
       else
         flash[:error] = I18n.t(:notice_activation_failed)
       end
-
-      redirect_to signin_path
+    elsif user.active?
+      flash[:notice] = I18n.t(:notice_account_already_activated)
     else
-      if user.active?
-        flash[:notice] = I18n.t(:notice_account_already_activated)
-      else
-        flash[:error] = I18n.t(:notice_activation_failed)
-      end
+      flash[:error] = I18n.t(:notice_activation_failed)
 
-      redirect_to home_url
     end
+
+    redirect_to signin_path(back_url: params[:back_url])
   end
 
   def activate_by_invite_token(token)
@@ -218,9 +221,10 @@ class AccountController < ApplicationController
 
   def activate_invited(token)
     session[:invitation_token] = token.value
+    session[:back_url] = params[:back_url]
     user = token.user
 
-    if user.auth_source && user.auth_source.auth_method_name == 'LDAP'
+    if user.ldap_auth_source
       activate_through_ldap user
     else
       activate_user user
@@ -231,7 +235,7 @@ class AccountController < ApplicationController
     if omniauth_direct_login?
       direct_login user
     elsif OpenProject::Configuration.disable_password_login?
-      flash[:notice] = I18n.t('account.omniauth_login')
+      flash[:notice] = I18n.t("account.omniauth_login")
 
       redirect_to signin_path
     else
@@ -242,10 +246,10 @@ class AccountController < ApplicationController
   def activate_through_ldap(user)
     session[:auth_source_registration] = {
       login: user.login,
-      auth_source_id: user.auth_source_id
+      ldap_auth_source_id: user.ldap_auth_source_id
     }
 
-    flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
+    flash[:notice] = I18n.t("account.auth_source_login", login: user.login).html_safe
 
     redirect_to signin_path(username: user.login)
   end
@@ -268,10 +272,10 @@ class AccountController < ApplicationController
   def auth_source_sso_failed
     failure = session.delete :auth_source_sso_failure
     login = failure[:login]
-    user = find_or_create_sso_user(login, save: false)
+    user = find_user_from_auth_source(login) || build_user_from_auth_source(login)
 
     if user.try(:new_record?)
-      return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id
+      return onthefly_creation_failed user, login: user.login, ldap_auth_source_id: user.ldap_auth_source_id
     end
 
     show_sso_error_for user
@@ -279,7 +283,7 @@ class AccountController < ApplicationController
     flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
                         ": " + String(flash.now[:error])
 
-    render action: 'login', back_url: failure[:back_url]
+    render action: "login", back_url: failure[:back_url]
   end
 
   private
@@ -355,7 +359,7 @@ class AccountController < ApplicationController
       user.attributes = permitted_params.user
       user.activate
       user.login = session[:auth_source_registration][:login]
-      user.auth_source_id = session[:auth_source_registration][:auth_source_id]
+      user.ldap_auth_source_id = session[:auth_source_registration][:ldap_auth_source_id]
 
       respond_for_registered_user(user)
     end
@@ -432,7 +436,7 @@ class AccountController < ApplicationController
         flash_and_log_invalid_credentials
       end
     elsif user.new_record?
-      onthefly_creation_failed(user, login: user.login, auth_source_id: user.auth_source_id)
+      onthefly_creation_failed(user, login: user.login, ldap_auth_source_id: user.ldap_auth_source_id)
     else
       # Valid user
       successful_authentication(user)
@@ -466,11 +470,11 @@ class AccountController < ApplicationController
   def onthefly_creation_failed(user, auth_source_options = {})
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
-    render action: 'register'
+    render action: "register"
   end
 
   def self_registration_disabled
-    flash[:error] = I18n.t('account.error_self_registration_disabled')
+    flash[:error] = I18n.t("account.error_self_registration_disabled")
     redirect_to signin_url
   end
 
@@ -485,18 +489,18 @@ class AccountController < ApplicationController
 
   # Log an attempt to log in to an account in "registered" state and show a flash message.
   def account_not_activated(flash_now: true)
-    flash_error_message(log_reason: 'NOT ACTIVATED', flash_now:) do
+    flash_error_message(log_reason: "NOT ACTIVATED", flash_now:) do
       if Setting::SelfRegistration.by_email?
-        'account.error_inactive_activation_by_mail'
+        "account.error_inactive_activation_by_mail"
       else
-        'account.error_inactive_manual_activation'
+        "account.error_inactive_manual_activation"
       end
     end
   end
 
   def invited_account_not_activated(_user)
-    flash_error_message(log_reason: 'invited, NOT ACTIVATED', flash_now: false) do
-      'account.error_inactive_activation_by_mail'
+    flash_error_message(log_reason: "invited, NOT ACTIVATED", flash_now: false) do
+      "account.error_inactive_activation_by_mail"
     end
   end
 
@@ -518,7 +522,7 @@ class AccountController < ApplicationController
   def invalid_token_and_redirect
     flash[:error] = I18n.t(:notice_account_invalid_token)
 
-    redirect_to home_url
+    redirect_to signin_path
   end
 
   def apply_csp_appends
@@ -526,5 +530,9 @@ class AccountController < ApplicationController
     return unless appends
 
     append_content_security_policy_directives(appends)
+  end
+
+  def check_internal_login_enabled
+    render_404 unless omniauth_direct_login?
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Resolved status',
-         type: :feature do
+RSpec.describe "Resolved status" do
   let!(:project) do
     create(:project,
            enabled_module_names: %w(backlogs))
   end
   let!(:status) { create(:status, is_default: true) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[select_done_statuses])
   end
   let!(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:settings_page) { Pages::Projects::Settings.new(project) }
 
@@ -50,13 +48,13 @@ describe 'Resolved status',
     login_as current_user
   end
 
-  it 'allows setting a status as done although it is not closed' do
-    settings_page.visit_tab! 'backlogs'
+  it "allows setting a status as done although it is not closed" do
+    settings_page.visit_tab! "backlogs"
 
     check status.name
-    click_button 'Save'
+    click_button "Save"
 
-    settings_page.expect_toast(message: 'Successful update')
+    settings_page.expect_toast(message: "Successful update")
 
     expect(page)
       .to have_checked_field(status.name)

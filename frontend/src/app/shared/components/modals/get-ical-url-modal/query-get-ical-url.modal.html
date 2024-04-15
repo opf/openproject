@@ -1,0 +1,61 @@
+<form
+  class="spot-modal loading-indicator--location op-query-get-ical-url"
+  [formGroup]="tokenNameForm"
+  (submit)="generateAndCopyUrl()"
+>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.label_ical_sharing}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <div tabindex="0" class="-warning op-toast">
+      <div role="alert" aria-atomic="true" class="op-toast--content">
+        <p>
+          <span>{{text.ical_sharing_warning}}</span>
+        </p>
+      </div>
+    </div>
+
+    <p>
+      {{text.description_ical_sharing}}
+    </p>
+
+    <spot-form-field [label]="text.token_name" [required]="true" showValidationErrorOn="change">
+
+      <spot-text-field
+        formControlName="name"
+        slot="input"
+        [placeholder]="text.token_name_placeholder"
+        opAutofocus
+      ></spot-text-field>
+
+      <div
+        slot="errors"
+        class="spot-form-field--error"
+        *ngIf="nameControl?.errors?.rails"
+      >
+        {{nameControl?.errors?.rails}}
+      </div>
+
+      <span
+        slot="description"
+        [innerHtml]="text.token_name_description_text"
+      ></span>
+
+    </spot-form-field>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button type="button" class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+              [textContent]="text.button_cancel"
+              (click)="closeMe($event)">
+      </button>
+      <button type="submit" class="button button_no-margin -primary -with-icon icon-copy spot-action-bar--action"
+              (click)="generateAndCopyUrl()"
+              [textContent]="text.button_copy"
+              [disabled]="isBusy">
+      </button>
+    </div>
+  </div>
+</form>

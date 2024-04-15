@@ -7,10 +7,10 @@ if OpenProject::Configuration.web_workers >= 2
   Rails.logger.debug { "Enabling Rack::Timeout (service=#{service_timeout}s wait=#{wait_timeout}s)" }
 
   Rails.application.config.middleware.insert_before(
-    ::Rack::Runtime,
-    ::Rack::Timeout,
-    service_timeout: service_timeout, # time after which a request being served times out
-    wait_timeout: wait_timeout, # time after which a request waiting to be served times out
+    Rack::Runtime,
+    Rack::Timeout,
+    service_timeout:, # time after which a request being served times out
+    wait_timeout:, # time after which a request waiting to be served times out
     term_on_timeout: 1, # shut down worker (gracefully) right away on timeout to be restarted
     service_past_wait: true # Treat the service timeout as independent from the wait timeout
   )
@@ -23,7 +23,7 @@ if OpenProject::Configuration.web_workers >= 2
       details = env[Rack::Timeout::ENV_INFO_KEY]
 
       if details.state == :timed_out && details.wait.present?
-        ::OpenProject.logger.error "Request timed out waiting to be served!"
+        OpenProject.logger.error "Request timed out waiting to be served!"
       end
     end
 
@@ -31,7 +31,7 @@ if OpenProject::Configuration.web_workers >= 2
     # report the generic internal server error too as it doesn't
     # add any more information. Even worse, it's not immediately
     # clear that the two reports are related.
-    require 'rack/timeout/suppress_internal_error_report_on_timeout'
+    require "rack/timeout/suppress_internal_error_report_on_timeout"
 
     OpenProjectErrorHelper.prepend Rack::Timeout::SuppressInternalErrorReportOnTimeout
   end

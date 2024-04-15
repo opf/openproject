@@ -1,0 +1,4 @@
+de:
+  plugin_openproject_job_status:
+    name: "OpenProject Auftragsstatus"
+    description: "Auflistung und Status der Hintergrundaufträge."

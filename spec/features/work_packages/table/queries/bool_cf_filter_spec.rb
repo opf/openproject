@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,24 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Work package filtering by bool custom field', js: true do
-  let(:project) { create :project }
+RSpec.describe "Work package filtering by bool custom field", :js do
+  let(:project) { create(:project) }
   let(:type) { project.types.first }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
   let!(:bool_cf) do
-    create(:bool_wp_custom_field).tap do |cf|
+    create(:boolean_wp_custom_field) do |cf|
       type.custom_fields << cf
       project.work_package_custom_fields << cf
     end
   end
-  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
   let!(:work_package_true) do
     create(:work_package,
            type:,
-           project:).tap do |wp|
+           project:) do |wp|
       wp.custom_field_values = { bool_cf.id => true }
       wp.save!
     end
@@ -51,7 +51,7 @@ describe 'Work package filtering by bool custom field', js: true do
   let!(:work_package_false) do
     create(:work_package,
            type:,
-           project:).tap do |wp|
+           project:) do |wp|
       wp.custom_field_values = { bool_cf.id => false }
       wp.save!
     end
@@ -70,12 +70,11 @@ describe 'Work package filtering by bool custom field', js: true do
   end
 
   current_user do
-    create :user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages save_queries]
+    create(:user,
+           member_with_permissions: { project => %i[view_work_packages save_queries] })
   end
 
-  it 'shows the work package matching the bool cf filter' do
+  it "shows the work package matching the bool cf filter" do
     wp_table.visit!
     wp_table.expect_work_package_listed(work_package_true, work_package_false, work_package_without, work_package_other_type)
 
@@ -84,16 +83,12 @@ describe 'Work package filtering by bool custom field', js: true do
     # Add filtering by bool custom field which defaults to false
     filters.add_filter(bool_cf.name)
 
-    # Turn the added filter to the "true" value.
-    # Ideally this would be the default.
-    page.find("#div-values-customField#{bool_cf.id} [data-qa-selector='spot-switch-handle']").click
-
     wp_table.ensure_work_package_not_listed!(work_package_false, work_package_without, work_package_other_type)
     wp_table.expect_work_package_listed(work_package_true)
 
-    wp_table.save_as('Saved query')
+    wp_table.save_as("Saved query")
 
-    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+    wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
     # Revisit query
     wp_table.visit_query Query.last
@@ -103,7 +98,7 @@ describe 'Work package filtering by bool custom field', js: true do
     filters.open
 
     # Inverting the filter
-    page.find("#div-values-customField#{bool_cf.id} [data-qa-selector='spot-switch-handle']").click
+    page.find("#div-values-customField#{bool_cf.id} #{test_selector('spot-switch-handle')}").click
 
     wp_table.ensure_work_package_not_listed!(work_package_true)
     wp_table.expect_work_package_listed(work_package_false, work_package_without, work_package_other_type)

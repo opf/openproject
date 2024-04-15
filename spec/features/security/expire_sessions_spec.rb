@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,71 +26,72 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Expire old user sessions',
-         with_config: { session_store: :active_record_store },
-         type: :feature do
-  shared_let(:admin) { create :admin }
-  let(:admin_password) { 'adminADMIN!' }
+RSpec.describe "Expire old user sessions" do
+  shared_let(:admin) { create(:admin) }
+  let(:admin_password) { "adminADMIN!" }
 
   before do
+    # Delete all previous sesssions
+    Sessions::UserSession.delete_all
+
     login_with(admin.login, admin_password)
 
     # Create a dangling session
     Capybara.current_session.driver.browser.clear_cookies
   end
 
-  describe 'logging in again' do
-    context 'with drop_old_sessions enabled', with_config: { drop_old_sessions_on_login: true } do
-      it 'destroys the old session' do
-        expect(::Sessions::UserSession.count).to eq(1)
+  describe "logging in again" do
+    context "with drop_old_sessions enabled", with_config: { drop_old_sessions_on_login: true } do
+      it "destroys the old session" do
+        expect(Sessions::UserSession.count).to eq(1)
 
-        first_session = ::Sessions::UserSession.first
+        first_session = Sessions::UserSession.first
         expect(first_session.user_id).to eq(admin.id)
 
         # Actually login now
         login_with(admin.login, admin_password)
 
-        expect(::Sessions::UserSession.count).to eq(1)
-        second_session = ::Sessions::UserSession.first
+        expect(Sessions::UserSession.count).to eq(1)
+        second_session = Sessions::UserSession.first
 
         expect(second_session.user_id).to eq(admin.id)
         expect(second_session.session_id).not_to eq(first_session.session_id)
       end
     end
 
-    context 'with drop_old_sessions disabled', with_config: { drop_old_sessions_on_login: false } do
-      it 'keeps the old session' do
+    context "with drop_old_sessions disabled", with_config: { drop_old_sessions_on_login: false } do
+      it "keeps the old session" do
         # Actually login now
         login_with(admin.login, admin_password)
 
-        expect(::Sessions::UserSession.for_user(admin).count).to eq(2)
+        expect(Sessions::UserSession.for_user(admin).count).to eq(2)
       end
     end
   end
 
-  describe 'logging out on another session', with_config: { drop_old_sessions_on_login: false } do
+  describe "logging out on another session", with_config: { drop_old_sessions_on_login: false } do
     before do
       # Actually login now
       login_with(admin.login, admin_password)
-      expect(::Sessions::UserSession.for_user(admin).count).to eq(2)
-      visit '/logout'
+      expect(Sessions::UserSession.for_user(admin).count).to eq(2)
+      visit "/logout"
     end
 
-    context 'with drop_old_sessions enabled', with_config: { drop_old_sessions_on_logout: true } do
-      it 'destroys the old session' do
+    context "with drop_old_sessions enabled", with_config: { drop_old_sessions_on_logout: true } do
+      it "destroys the old session" do
         # A fresh session is opened due to reset_session
-        expect(::Sessions::UserSession.for_user(admin).count).to eq(0)
-        expect(::Sessions::UserSession.non_user.count).to eq(1)
+        expect(Sessions::UserSession.for_user(admin).count).to eq(0)
+        expect(Sessions::UserSession.non_user.count).to eq(1)
       end
     end
 
-    context 'with drop_old_sessions disabled',
+    context "with drop_old_sessions disabled",
             with_config: { drop_old_sessions_on_logout: false } do
-      it 'keeps the old session' do
-        expect(::Sessions::UserSession.count).to eq(2)
-        expect(::Sessions::UserSession.for_user(admin).count).to eq(1)
+      it "keeps the old session" do
+        expect(Sessions::UserSession.count).to eq(2)
+        expect(Sessions::UserSession.for_user(admin).count).to eq(1)
       end
     end
   end

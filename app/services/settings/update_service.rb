@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,17 +28,10 @@
 
 class Settings::UpdateService < BaseServices::BaseContracted
   def initialize(user:)
-    super user:,
-          contract_class: Settings::UpdateContract
+    super(user:,
+          contract_class: Settings::UpdateContract)
   end
 
-  def after_validate(params, call)
-    params.keys.each(&method(:remember_previous_value))
-    call
-  end
-
-  # We will have a problem with error handling on the form.
-  # How can we still display the user changed values in case the form is not successfully saved?
   def persist(call)
     params.each do |name, value|
       set_setting_value(name, value)
@@ -46,31 +39,14 @@ class Settings::UpdateService < BaseServices::BaseContracted
     call
   end
 
-  def after_perform(call)
-    super.tap do
-      params.each_key do |name|
-        run_on_change_callback(name)
-      end
-    end
-  end
-
   private
 
-  def remember_previous_value(name)
-    previous_values[name] = Setting[name]
-  end
-
   def set_setting_value(name, value)
-    Setting[name] = derive_value(value)
-  end
-
-  def previous_values
-    @previous_values ||= {}
-  end
-
-  def run_on_change_callback(name)
-    if (definition = Settings::Definition[name]) && definition.on_change
-      definition.on_change.call(previous_values[name])
+    old_value = Setting[name]
+    new_value = derive_value(value)
+    Setting[name] = new_value
+    if name == :work_package_done_ratio && old_value != "status" && new_value == "status"
+      WorkPackages::ApplyStatusesPCompleteJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,22 +67,58 @@ module Accounts::CurrentUser
   # Returns the current user or nil if no user is logged in
   # and starts a session if needed
   def find_current_user
-    if session[:user_id]
-      # existing session
-      User.active.find_by(id: session[:user_id])
-    elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting::Autologin.enabled?
-      # auto-login feature starts a new session
-      user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
-      session[:user_id] = user.id if user
+    %i[
+      current_session_user
+      current_autologin_user
+      current_rss_key_user
+      current_api_key_user
+    ].each do |method|
+      user = send(method)
+      return user if user&.logged? && user&.active?
+    end
+
+    nil
+  end
+
+  def current_session_user
+    return if session[:user_id].nil?
+
+    User.active.find_by(id: session[:user_id])
+  end
+
+  def current_autologin_user
+    return unless Setting::Autologin.enabled?
+
+    autologin_cookie_name = OpenProject::Configuration['autologin_cookie_name']
+    autologin_token = cookies[autologin_cookie_name]
+    return unless autologin_token
+
+    user = User.try_to_autologin(autologin_token)
+
+    if user
+      login_user(user)
       user
-    elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
+    else
+      cookies.delete(autologin_cookie_name)
+      nil
+    end
+  end
+
+  def current_rss_key_user
+    if params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
-    elsif Setting.rest_api_enabled? && api_request?
-      if (key = api_key_from_request) && accept_key_auth_actions.include?(params[:action])
-        # Use API key
-        User.find_by_api_key(key)
-      end
+    end
+  end
+
+  def current_api_key_user
+    return unless Setting.rest_api_enabled? && api_request?
+
+    key = api_key_from_request
+
+    if key && accept_key_auth_actions.include?(params[:action])
+      # Use API key
+      User.find_by_api_key(key)
     end
   end
 
@@ -99,7 +135,7 @@ module Accounts::CurrentUser
   def logout_user
     ::Users::LogoutService
       .new(controller: self)
-      .call(current_user)
+      .call!(current_user)
   end
 
   # Redirect the user according to the logout scheme
@@ -127,8 +163,8 @@ module Accounts::CurrentUser
   # Login the current user
   def login_user(user)
     ::Users::LoginService
-      .new(controller: self, request:)
-      .call(user)
+      .new(user:, controller: self, request:)
+      .call!
   end
 
   def require_login

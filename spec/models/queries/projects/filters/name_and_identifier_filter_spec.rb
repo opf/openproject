@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Projects::Filters::NameAndIdentifierFilter, type: :model do
-  include_context 'filter tests'
-  let(:values) { ['A name'] }
+RSpec.describe Queries::Projects::Filters::NameAndIdentifierFilter do
+  include_context "filter tests"
+  let(:values) { ["A name"] }
   let(:model) { Project }
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :name_and_identifier }
-    let(:human_name) { 'Name or identifier' }
+    let(:human_name) { "Name or identifier" }
     let(:type) { :string }
     let(:model) { Project }
 
-    describe '#allowed_values' do
-      it 'is nil' do
+    describe "#allowed_values" do
+      it "is nil" do
         expect(instance.allowed_values).to be_nil
       end
     end

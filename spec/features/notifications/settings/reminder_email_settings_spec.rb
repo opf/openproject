@@ -1,9 +1,9 @@
-require 'spec_helper'
-require_relative '../../users/notifications/shared_examples'
+require "spec_helper"
+require_relative "../../users/notifications/shared_examples"
 
-describe "Reminder email", type: :feature, js: true do
-  shared_examples 'reminder settings' do
-    it 'allows to configure the reminder settings' do
+RSpec.describe "Reminder email", :js, :with_cuprite do
+  shared_examples "reminder settings" do
+    it "allows to configure the reminder settings" do
       # Configure the digest
       reminders_settings_page.visit!
 
@@ -21,7 +21,7 @@ describe "Reminder email", type: :feature, js: true do
 
       reminders_settings_page.save
 
-      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       reminders_settings_page.reload!
 
@@ -33,7 +33,7 @@ describe "Reminder email", type: :feature, js: true do
 
       reminders_settings_page.save
 
-      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       reminders_settings_page.reload!
 
@@ -41,25 +41,25 @@ describe "Reminder email", type: :feature, js: true do
     end
   end
 
-  context 'when configuring via the my page' do
+  context "when configuring via the my page" do
     let(:reminders_settings_page) { Pages::My::Reminders.new(current_user) }
 
     current_user do
-      create :user
+      create(:user)
     end
 
-    it_behaves_like 'reminder settings'
+    it_behaves_like "reminder settings"
   end
 
-  context 'when configuring via the user administration page' do
+  context "when configuring via the user administration page" do
     let(:reminders_settings_page) { Pages::Reminders::Settings.new(other_user) }
 
-    let(:other_user) { create :user }
+    let(:other_user) { create(:user) }
 
     current_user do
-      create :admin
+      create(:admin)
     end
 
-    it_behaves_like 'reminder settings'
+    it_behaves_like "reminder settings"
   end
 end

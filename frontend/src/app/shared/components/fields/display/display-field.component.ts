@@ -1,18 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { Constructor } from '@angular/cdk/table';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 @Component({
   selector: 'display-field',
@@ -32,16 +25,20 @@ export class DisplayFieldComponent implements OnInit {
 
   @ViewChild('displayFieldContainer') container:ElementRef<HTMLSpanElement>;
 
-  constructor(private injector:Injector,
+  constructor(
+    private injector:Injector,
     private displayFieldService:DisplayFieldService,
-    private schemaCache:SchemaCacheService) {
+    private schemaCache:SchemaCacheService,
+  ) {
   }
 
   ngOnInit():void {
     void this.schemaCache
       .ensureLoaded(this.resource)
       .then((schema) => {
-        this.render(schema[this.fieldName]);
+        const proxied = this.schemaCache.proxied(this.resource, schema);
+        this.fieldName = this.attributeName(this.fieldName, proxied);
+        this.render(proxied.ofProperty(this.fieldName));
       });
   }
 
@@ -74,6 +71,15 @@ export class DisplayFieldComponent implements OnInit {
       fieldSchema,
       this.displayFieldContext,
     );
+  }
+
+  private attributeName(attribute:string, schema:SchemaResource):string {
+    if (schema.mappedName) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      return schema.mappedName(attribute) as string;
+    }
+
+    return attribute;
   }
 
   private get displayFieldContext() {

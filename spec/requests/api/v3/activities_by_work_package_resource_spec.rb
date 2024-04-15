@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
+RSpec.describe API::V3::Activities::ActivitiesByWorkPackageAPI do
   include API::V3::Utilities::PathHelper
 
   describe 'activities' do
@@ -37,9 +37,9 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
     let(:work_package) { create(:work_package) }
     let(:comment) { 'This is a test comment!' }
     let(:current_user) do
-      create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_with_roles: { project => role })
     end
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { %i(view_work_packages add_work_package_notes) }
 
     before do
@@ -87,7 +87,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
         include_context 'create activity'
       end
 
-      context 'with an errorenous work package' do
+      context 'with an erroneous work package' do
         before do
           work_package.subject = ''
           work_package.save!(validate: false)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,16 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
-shared_context 'with CreateFromJournalJob context' do
+RSpec.shared_context "with CreateFromJournalJob context" do
   shared_let(:project) { create(:project_with_types) }
   let(:permissions) { [] }
   let(:recipient) do
     create(:user,
            notification_settings: recipient_notification_settings,
-           member_in_project: project,
-           member_through_role: create(:role, permissions:),
+           member_with_permissions: { project => permissions },
            login: recipient_login)
   end
   let(:recipient_login) { "johndoe" }
@@ -65,7 +64,7 @@ shared_context 'with CreateFromJournalJob context' do
   end
   let(:send_notifications) { true }
 
-  shared_examples_for 'creates notification' do
+  shared_examples_for "creates notification" do
     let(:sender) { author }
     let(:notification_channel_reasons) do
       {
@@ -76,7 +75,7 @@ shared_context 'with CreateFromJournalJob context' do
     end
     let(:notification) { build_stubbed(:notification) }
 
-    it 'creates a notification and returns it' do
+    it "creates a notification and returns it" do
       notifications_service = instance_double(Notifications::CreateService)
 
       allow(Notifications::CreateService)
@@ -88,7 +87,7 @@ shared_context 'with CreateFromJournalJob context' do
               .and_return(ServiceResult.success(result: notification))
 
       expect(call.all_results)
-        .to match_array([notification])
+        .to contain_exactly(notification)
 
       expect(notifications_service)
         .to have_received(:call)
@@ -100,8 +99,8 @@ shared_context 'with CreateFromJournalJob context' do
     end
   end
 
-  shared_examples_for 'creates no notification' do
-    it 'creates no notification' do
+  shared_examples_for "creates no notification" do
+    it "creates no notification" do
       allow(Notifications::CreateService)
         .to receive(:new)
               .and_call_original

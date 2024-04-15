@@ -18,7 +18,7 @@
 
   &--wp-content
     display: grid
-    grid-template-columns: auto 1fr auto
+    grid-template-columns: 50% 1fr auto
     grid-template-areas: "project idlink status"
     font-size: 0.8rem
     padding: 1px 0 5px 0
@@ -32,10 +32,8 @@
 
   &--wp-id
     grid-area: idlink
-    place-self: right 
     font-style: italic
     margin: 0 0.5rem
-    text-align: center
 
   &--wp-status
     grid-area: status
@@ -43,7 +41,7 @@
     font-style: italic
 
   &--wp-subject
-    font-weight: bold
+    font-weight: var(--base-text-weight-bold)
     display: inline-block
     overflow: hidden
     white-space: nowrap

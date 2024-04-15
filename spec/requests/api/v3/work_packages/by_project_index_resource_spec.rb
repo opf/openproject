@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,14 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, content_type: :json do
+RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:view_work_packages] }
   let(:project) { create(:project_with_types, public: false) }
   let(:base_path) { api_v3_paths.work_packages_by_project project.id }
@@ -41,7 +41,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   let(:work_packages) { [] }
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   subject { last_response }
@@ -51,50 +51,50 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
     get path
   end
 
-  it 'succeeds' do
+  it "succeeds" do
     expect(subject.status).to eq 200
   end
 
-  context 'when not allowed to see the project' do
+  context "when not allowed to see the project" do
     let(:current_user) { create(:user) }
 
-    it 'fails with HTTP Not Found' do
+    it "fails with HTTP Not Found" do
       expect(subject.status).to eq 404
     end
   end
 
-  context 'when not allowed to see work packages' do
+  context "when not allowed to see work packages" do
     let(:permissions) { [:view_project] }
 
-    it 'fails with HTTP Not Found' do
+    it "fails with HTTP Not Found" do
       expect(subject.status).to eq 403
     end
   end
 
-  describe 'sorting' do
+  describe "sorting" do
     let(:query) { { sortBy: '[["id", "desc"]]' } }
     let(:work_packages) { create_list(:work_package, 2, project:) }
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+    it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
       let(:elements) { work_packages.reverse }
     end
   end
 
-  describe 'filtering by priority' do
+  describe "filtering by priority" do
     let(:query) do
       {
         filters: [
           {
             priority: {
-              operator: '=',
+              operator: "=",
               values: [priority1.id.to_s]
             }
           }
         ].to_json
       }
     end
-    let(:priority1) { create(:priority, name: 'Prio A') }
-    let(:priority2) { create(:priority, name: 'Prio B') }
+    let(:priority1) { create(:priority, name: "Prio A") }
+    let(:priority2) { create(:priority, name: "Prio B") }
     let(:work_packages) do
       [
         create(:work_package, project:, priority: priority1),
@@ -102,18 +102,18 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
       ]
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+    it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
       let(:elements) { [work_packages.first] }
     end
   end
 
-  describe 'filtering by project (one different from the project of the path)' do
+  describe "filtering by project (one different from the project of the path)" do
     let(:query) do
       {
         filters: [
           {
             project: {
-              operator: '=',
+              operator: "=",
               values: [other_project.id.to_s]
             }
           }
@@ -125,15 +125,15 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
     let(:project_work_package) { create(:work_package, project:) }
     let(:other_project_work_package) { create(:work_package, project: other_project) }
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+    it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
       let(:elements) { [other_project_work_package] }
     end
   end
 
-  describe 'grouping' do
-    let(:query) { { groupBy: 'priority' } }
-    let(:priority1) { build(:priority, name: 'Prio A', position: 2) }
-    let(:priority2) { build(:priority, name: 'Prio B', position: 1) }
+  describe "grouping" do
+    let(:query) { { groupBy: "priority" } }
+    let(:priority1) { build(:priority, name: "Prio A", position: 2) }
+    let(:priority2) { build(:priority, name: "Prio B", position: 1) }
     let(:work_packages) do
       [
         create(:work_package,
@@ -157,8 +157,8 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
             href: api_v3_paths.priority(priority1.id)
           }],
           groupBy: {
-            href: api_v3_paths.query_group_by('priority'),
-            title: 'Priority'
+            href: api_v3_paths.query_group_by("priority"),
+            title: "Priority"
           }
         },
         value: priority1.name,
@@ -172,8 +172,8 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
             href: api_v3_paths.priority(priority2.id)
           }],
           groupBy: {
-            href: api_v3_paths.query_group_by('priority'),
-            title: 'Priority'
+            href: api_v3_paths.query_group_by("priority"),
+            title: "Priority"
           }
         },
         value: priority2.name,
@@ -181,18 +181,18 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
       }
     end
 
-    it_behaves_like 'API V3 collection response', 3, 3, 'WorkPackage', 'WorkPackageCollection' do
+    it_behaves_like "API V3 collection response", 3, 3, "WorkPackage", "WorkPackageCollection" do
       let(:elements) { [work_packages.second, work_packages.first, work_packages.third] }
     end
 
-    it 'contains group elements' do
-      expect(subject.body).to include_json(expected_group1.to_json).at_path('groups')
-      expect(subject.body).to include_json(expected_group2.to_json).at_path('groups')
+    it "contains group elements" do
+      expect(subject.body).to include_json(expected_group1.to_json).at_path("groups")
+      expect(subject.body).to include_json(expected_group2.to_json).at_path("groups")
     end
   end
 
-  describe 'displaying sums' do
-    let(:query) { { showSums: 'true' } }
+  describe "displaying sums" do
+    let(:query) { { showSums: "true" } }
     let(:work_packages) do
       [
         create(:work_package, project:, estimated_hours: 1),
@@ -200,13 +200,13 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
       ]
     end
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+    it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
       let(:elements) { work_packages }
     end
 
-    it 'contains the sum element' do
+    it "contains the sum element" do
       expected = {
-        estimatedTime: 'PT3H',
+        estimatedTime: "PT3H",
         laborCosts: "0.00 EUR",
         materialCosts: "0.00 EUR",
         overallCosts: "0.00 EUR",
@@ -214,7 +214,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
         storyPoints: nil
       }
 
-      expect(subject.body).to be_json_eql(expected.to_json).at_path('totalSums')
+      expect(subject.body).to be_json_eql(expected.to_json).at_path("totalSums")
     end
   end
 end

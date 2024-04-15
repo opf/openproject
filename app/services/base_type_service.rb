@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -112,7 +112,7 @@ class BaseTypeService
 
   def transform_attribute_groups(groups)
     groups.map do |group|
-      if group['type'] == 'query'
+      if group["type"] == "query"
         transform_query_group(group)
       else
         transform_attribute_group(group)
@@ -122,21 +122,21 @@ class BaseTypeService
 
   def transform_attribute_group(group)
     name =
-      if group['key']
-        group['key'].to_sym
+      if group["key"]
+        group["key"].to_sym
       else
-        group['name']
+        group["name"]
       end
 
     [
       name,
-      group['attributes'].pluck('key')
+      group["attributes"].pluck("key")
     ]
   end
 
   def transform_query_group(group)
-    name = group['name']
-    props = JSON.parse group['query']
+    name = group["name"]
+    props = JSON.parse group["query"]
 
     query = Query.new_default(name: "Embedded table: #{name}")
 
@@ -164,7 +164,8 @@ class BaseTypeService
   def set_active_custom_fields
     new_cf_ids_to_add = active_custom_field_ids - type.custom_field_ids
     type.custom_field_ids = active_custom_field_ids
-    set_active_custom_fields_for_projects(type.projects, new_cf_ids_to_add)
+    set_active_custom_fields_for_projects(type.projects,
+                                          new_cf_ids_to_add)
   end
 
   def active_custom_field_ids
@@ -174,7 +175,7 @@ class BaseTypeService
       type.attribute_groups.each do |group|
         group.members.each do |attribute|
           if CustomField.custom_field_attribute? attribute
-            active_cf_ids << attribute.gsub(/^custom_field_/, '').to_i
+            active_cf_ids << attribute.gsub(/^custom_field_/, "").to_i
           end
         end
       end
@@ -183,7 +184,14 @@ class BaseTypeService
   end
 
   def set_active_custom_fields_for_projects(projects, custom_field_ids)
-    projects.each { |p| p.work_package_custom_field_ids |= custom_field_ids }
+    values = projects
+               .to_a
+               .product(custom_field_ids)
+               .map { |p, cf_ids| { project_id: p.id, custom_field_id: cf_ids } }
+
+    return if values.empty?
+
+    CustomFieldsProject.insert_all(values)
   end
 
   def set_active_custom_fields_for_project_ids(project_ids)

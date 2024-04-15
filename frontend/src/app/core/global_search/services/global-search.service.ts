@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -58,10 +58,12 @@ export class GlobalSearchService {
 
   public resultsHidden$ = this._resultsHidden.asObservable();
 
-  constructor(protected I18n:I18nService,
+  constructor(
+    protected I18n:I18nService,
     protected injector:Injector,
     protected PathHelper:PathHelperService,
-    protected currentProjectService:CurrentProjectService) {
+    protected currentProjectService:CurrentProjectService,
+  ) {
     this.initialize();
   }
 
@@ -116,6 +118,17 @@ export class GlobalSearchService {
 
   public get searchTerm():string {
     return this._searchTerm.value;
+  }
+
+  public get searchTermIsId():boolean {
+    return this.searchTermWithoutHash !== this.searchTerm;
+  }
+
+  public get searchTermWithoutHash():string {
+    if (/^#(\d+)/.exec(this.searchTerm)) {
+      return this.searchTerm.substr(1);
+    }
+    return this.searchTerm;
   }
 
   public get tabs():string {

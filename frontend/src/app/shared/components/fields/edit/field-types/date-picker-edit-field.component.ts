@@ -30,26 +30,20 @@ import {
   Directive,
   OnDestroy,
   OnInit,
+  Injector,
 } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { take } from 'rxjs/operators';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
-import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
-import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Directive()
 export abstract class DatePickerEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
   @InjectField() readonly timezoneService:TimezoneService;
 
-  @InjectField() opModalService:OpModalService;
-
   @InjectField() deviceService:DeviceService;
 
-  protected modal:SingleDateModalComponent|MultiDateModalComponent|null = null;
+  @InjectField() injector:Injector;
 
   ngOnInit():void {
     super.ngOnInit();
@@ -66,36 +60,7 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.modal?.closeMe();
   }
 
-  public showDatePickerModal():void {
-    const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
-    this.opModalService.show<SingleDateModalComponent|MultiDateModalComponent>(
-      component,
-      this.injector,
-      { changeset: this.change, fieldName: this.name },
-      !this.deviceService.isMobile,
-    ).subscribe((modal) => {
-      this.modal = modal;
-
-      setTimeout(() => {
-        const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
-        const field = jQuery(this.elementRef.nativeElement);
-        modal.reposition(modalElement, field);
-      });
-
-      (modal as OpModalComponent)
-        .closingEvent
-        .pipe(take(1))
-        .subscribe(() => {
-          this.modal = null;
-          this.onModalClosed();
-        });
-    });
-  }
-
-  protected onModalClosed():void {
-    void this.handler.handleUserSubmit();
-  }
+  public showDatePickerModal():void { }
 }

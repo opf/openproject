@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,38 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Wysiwyg work package linking',
-         type: :feature, js: true do
-  let(:user) { create :admin }
+RSpec.describe "Wysiwyg work package linking", :js do
+  let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
-  let(:work_package) { create(:work_package, subject: 'Foobar', project:) }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:work_package) { create(:work_package, subject: "Foobar", project:) }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)
   end
 
-  describe 'creating a wiki page' do
+  describe "creating a wiki page" do
     before do
       visit project_wiki_path(project, :wiki)
     end
 
-    it 'can reference work packages' do
+    it "can reference work packages" do
       # single hash autocomplete
       editor.click_and_type_slowly "##{work_package.id}"
       editor.click_autocomplete work_package.subject
 
-      expect(editor.editor_element).to have_selector('a.mention', text: "##{work_package.id}")
+      expect(editor.editor_element).to have_css("a.mention", text: "##{work_package.id}")
 
       # Save wiki page
-      click_on 'Save'
+      click_on "Save"
 
-      expect(page).to have_selector('.flash.notice')
+      expect(page).to have_css(".op-toast.-success")
 
-      within('#content') do
-        expect(page).to have_selector('a.issue', count: 1)
+      within("#content") do
+        expect(page).to have_css("a.issue", count: 1)
       end
     end
   end

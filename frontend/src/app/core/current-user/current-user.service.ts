@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,20 +28,11 @@
 
 import { Injectable } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import {
-  CurrentUser,
-  CurrentUserStore,
-} from './current-user.store';
+import { CurrentUser, CurrentUserStore } from './current-user.store';
 import { CurrentUserQuery } from './current-user.query';
 import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 
@@ -80,10 +71,10 @@ export class CurrentUserService {
       .principalFilter$()
       .pipe(
         map((userFilter) => {
-          const filters:ApiV3ListFilter[] = [userFilter];
+          const filters:ApiV3ListFilter[] = _.compact([userFilter]);
 
           if (projectContext) {
-            filters.push(['context', '=', [projectContext === 'global' ? 'g' : `p${projectContext}`]]);
+            filters.push(['context', '=', [projectContext === 'global' || projectContext === 'projects' ? 'g' : `p${projectContext}`]]);
           }
 
           if (actions.length > 0) {
@@ -92,7 +83,7 @@ export class CurrentUserService {
 
           return { filters, pageSize: -1 };
         }),
-        switchMap((params) => this.capabilitiesService.require(params)),
+        switchMap((params) => this.capabilitiesService.requireCollection(params)),
       );
   }
 
@@ -133,13 +124,18 @@ export class CurrentUserService {
   /**
    * Returns a principal filter for the current user.
    */
-  private principalFilter$():Observable<ApiV3ListFilter> {
+  private principalFilter$():Observable<ApiV3ListFilter|null> {
     return this
       .user$
       .pipe(
-        filter((user) => !!user.id),
         take(1),
-        map((user) => ['principal', '=', [user.id as string]]),
+        map((user) => {
+          if (user.id === null) {
+            return null;
+          }
+
+          return ['principal', '=', [user.id]];
+        }),
       );
   }
 
@@ -160,7 +156,7 @@ export class CurrentUserService {
   private _user:CurrentUser = {
     id: null,
     name: null,
-    mail: null,
+    loggedIn: false,
   };
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
@@ -171,11 +167,6 @@ export class CurrentUserService {
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get name():string {
     return this._user.name || '';
-  }
-
-  /** @deprecated Use the store mechanism `currentUserQuery.user$` */
-  public get mail():string {
-    return this._user.mail || '';
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */

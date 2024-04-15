@@ -183,15 +183,15 @@ module RuboCop
       alias from_file_unpatched from_file
     end
 
-    def self.from_file(path, ruby_version)
+    def self.from_file(path, ruby_version, **)
       if DirtyCop.staged_changes_only?
         pathname = Pathname.new(path)
         git_root = Pathname.new(`git rev-parse --show-toplevel`.strip)
         git_relative_path = pathname.relative_path_from(git_root).to_s
         source = `git show :#{git_relative_path}`
-        new(source, ruby_version, path)
+        new(source, ruby_version, path, **)
       else
-        from_file_unpatched(path, ruby_version)
+        from_file_unpatched(path, ruby_version, **)
       end
     end
   end

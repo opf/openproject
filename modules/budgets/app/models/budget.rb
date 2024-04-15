@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,14 @@
 #++
 
 class Budget < ApplicationRecord
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
   belongs_to :project
   has_many :work_packages, dependent: :nullify
   has_many :material_budget_items, -> {
-    includes(:cost_type).order(Arel.sql('material_budget_items.id ASC'))
+    includes(:cost_type).order(Arel.sql("material_budget_items.id ASC"))
   }, dependent: :destroy
   has_many :labor_budget_items, -> {
-    includes(:user).order(Arel.sql('labor_budget_items.id ASC'))
+    includes(:user).order(Arel.sql("labor_budget_items.id ASC"))
   }, dependent: :destroy
 
   validates_associated :material_budget_items
@@ -51,9 +51,9 @@ class Budget < ApplicationRecord
   acts_as_attachable
   acts_as_journalized
 
-  acts_as_event type: 'cost-objects',
+  acts_as_event type: "cost-objects",
                 title: Proc.new { |o| "#{I18n.t(:label_budget)} ##{o.id}: #{o.subject}" },
-                url: Proc.new { |o| { controller: 'budgets', action: 'show', id: o.id } }
+                url: Proc.new { |o| { controller: "budgets", action: "show", id: o.id } }
 
   validates_presence_of :subject, :project, :author, :fixed_date
   validates_length_of :subject, maximum: 255
@@ -79,7 +79,7 @@ class Budget < ApplicationRecord
     protected
 
     def copy_attributes(source)
-      source.attributes.slice('project_id', 'subject', 'description', 'fixed_date').merge('author' => User.current)
+      source.attributes.slice("project_id", "subject", "description", "fixed_date").merge("author" => User.current)
     end
 
     def copy_budget_items(source, sink, items:)
@@ -92,7 +92,7 @@ class Budget < ApplicationRecord
                      %w(hours user_id comments amount)
                    end
 
-        sink.send(items).build(bi.attributes.slice(*to_slice).merge('budget' => sink))
+        sink.send(items).build(bi.attributes.slice(*to_slice).merge("budget" => sink))
       end
     end
   end
@@ -106,7 +106,7 @@ class Budget < ApplicationRecord
   end
 
   def edit_allowed?
-    User.current.allowed_to? :edit_budgets, project
+    User.current.allowed_in_project?(:edit_budgets, project)
   end
 
   # Amount of the budget spent.  Expressed as as a percentage whole number
@@ -117,7 +117,7 @@ class Budget < ApplicationRecord
   end
 
   def css_classes
-    'budget'
+    "budget"
   end
 
   def to_s
@@ -129,11 +129,11 @@ class Budget < ApplicationRecord
   end
 
   def material_budget
-    @material_budget ||= material_budget_items.visible_costs.inject(BigDecimal('0.0000')) { |sum, i| sum += i.costs }
+    @material_budget ||= material_budget_items.visible_costs.inject(BigDecimal("0.0000")) { |sum, i| sum += i.costs }
   end
 
   def labor_budget
-    @labor_budget ||= labor_budget_items.visible_costs.inject(BigDecimal('0.0000')) { |sum, i| sum += i.costs }
+    @labor_budget ||= labor_budget_items.visible_costs.inject(BigDecimal("0.0000")) { |sum, i| sum += i.costs }
   end
 
   def spent
@@ -142,7 +142,7 @@ class Budget < ApplicationRecord
 
   def spent_material
     @spent_material ||= if cost_entries.blank?
-                          BigDecimal('0.0000')
+                          BigDecimal("0.0000")
                         else
                           cost_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
@@ -154,7 +154,7 @@ class Budget < ApplicationRecord
 
   def spent_labor
     @spent_labor ||= if time_entries.blank?
-                       BigDecimal('0.0000')
+                       BigDecimal("0.0000")
                      else
                        time_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
@@ -175,7 +175,7 @@ class Budget < ApplicationRecord
   end
 
   def existing_material_budget_item_attributes=(material_budget_item_attributes)
-    update_budget_item_attributes(material_budget_item_attributes, type: 'material')
+    update_budget_item_attributes(material_budget_item_attributes, type: "material")
   end
 
   def save_material_budget_items
@@ -196,7 +196,7 @@ class Budget < ApplicationRecord
   end
 
   def existing_labor_budget_item_attributes=(labor_budget_item_attributes)
-    update_budget_item_attributes(labor_budget_item_attributes, type: 'labor')
+    update_budget_item_attributes(labor_budget_item_attributes, type: "labor")
   end
 
   private
@@ -224,13 +224,13 @@ class Budget < ApplicationRecord
   def update_budget_item_attributes(budget_item_attributes, type:)
     return unless edit_allowed?
 
-    budget_items = send("#{type}_budget_items")
+    budget_items = send(:"#{type}_budget_items")
 
     budget_items.reject(&:new_record?).each do |budget_item|
       attributes = budget_item_attributes[budget_item.id.to_s.to_sym]
-      send("correct_#{type}_attributes!", attributes)
+      send(:"correct_#{type}_attributes!", attributes)
 
-      if send("valid_#{type}_budget_attributes?", attributes)
+      if send(:"valid_#{type}_budget_attributes?", attributes)
         budget_item.attributes = attributes
       else
         # This is surprising as it will delete right away compared to the

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -95,7 +95,7 @@ See COPYRIGHT and LICENSE files for more details.
                             </label>
                         <% end %>
                         <p class="generic-table--cell-controls">
-                          <%= submit_tag t(:button_change), class: 'button -highlight -small' %>
+                          <%= submit_tag t(:button_change), class: 'button -primary -small' %>
                           <%= link_to_function t(:button_cancel), "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
                                                                   class: 'button -small' %>
                         </p>
@@ -128,14 +128,15 @@ See COPYRIGHT and LICENSE files for more details.
           <%= label_tag "membership_project_id", t(:description_choose_project), class: "hidden-for-sighted" %>
 
           <% group_project_ids = @group.projects.ids  %>
-          <% filter = group_project_ids.length > 0 ? [['id', '!', group_project_ids.map(&:to_s)]] : [] %>
-          <%= angular_component_tag 'op-project-autocompleter',
+          <% filters = [{ name: 'active', operator: '=', values: ['t']}] %>
+          <% filters << { name: 'id', operator: '!', values: group_project_ids.map(&:to_s) } if group_project_ids.any? %>
+          <%= angular_component_tag 'opce-project-autocompleter',
                                     inputs: {
-                                      apiFilters: filter,
-                                      name: 'membership[project_id]'
+                                      filters: filters,
+                                      inputName: 'membership[project_id]'
                                     },
                                     data: {
-                                      'qa-selector': 'membership_project_id'
+                                      'test-selector': 'membership_project_id'
                                     },
                                     class: 'form--field'
           %>
@@ -145,7 +146,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
             </div>
           </div>
-          <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
+          <div><%= styled_button_tag t(:button_add), class: '-primary -with-icon icon-checkmark' %></div>
         </fieldset>
       <% end %>
     <% end %>

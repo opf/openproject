@@ -32,7 +32,7 @@ For the full advisory and patches for older unsupported versions,
 post](https://groups.google.com/d/msg/openproject-security/XlucAJMxmzM/hESpOaFVAwAJ).
 For our statement on security and further information on how to
 responsible disclose security related issues to us, please see our
-[statement on security](../../../development/security/).
+[statement on security](../../../security-and-privacy/statement-on-security/).
 
 Thanks to Thanaphon Soo from the [SEC Consult Vulnerability
 Lab](https://www.sec-consult.com) for identifying and responsibly

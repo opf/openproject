@@ -1,10 +1,11 @@
 @import '../../app/spot/styles/sass/variables'
+@import '../../global_styles/openproject/variables'
 
 op-time-entries-calendar
   // The two media queries below make sure the "Log time" button does not overlap
   // with the dates on mobile. Instead, it will be shown above the full calendar toolbar.
   // The media queries are the normal mobile/tablet breakpoints.
-  @media screen and (max-width: 679px)
+  @media screen and (max-width: $breakpoint-sm)
     .fc-toolbar-chunk:empty
       display: none
 
@@ -81,14 +82,14 @@ op-time-entries-calendar
       color: #000000
       text-align: center
       font-size: 0.875em
-      font-weight: bold
+      font-weight: var(--base-text-weight-bold)
       line-height: 22px
       opacity: 1
       cursor: default
 
     .te-calendar--add-entry
       text-align: center
-      font-weight: bold
+      font-weight: var(--base-text-weight-bold)
       opacity: 0
       background: none
       border: none
@@ -99,7 +100,7 @@ op-time-entries-calendar
         opacity: 1
         transition: opacity 1s ease
         background: #EAEAEA
-        border: 1px solid $spot-color-basic-gray-3
+        border: 1px solid var(--color-fg-muted)
 
       .te-calendar--add-icon
         color: black
@@ -139,4 +140,4 @@ op-time-entries-calendar
       display: inline-block
       margin-right: 5px
       padding-right: 5px
-      font-weight: bold
+      font-weight: var(--base-text-weight-bold)

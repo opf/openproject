@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 zh-CN:
+  plugin_openproject_bim:
+    name: "OpenProject BIM 和 BCF 功能"
+    description: "该 OpenProject 插件介绍了 BIM 和 BCF 功能。"
   bim:
     label_bim: 'BIM'
   bcf:
@@ -130,5 +133,4 @@ zh-CN:
   permission_manage_ifc_models: "导入和管理 IFC 模型"
   extraction:
     available:
-      ifc_convert: "有可用的 IFC 转换管道"
-
+      ifc_convert: "IFC 转换管道 可用"

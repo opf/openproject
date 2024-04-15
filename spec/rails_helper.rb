@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,30 +25,35 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../config/environment', __dir__)
-require 'factory_bot_rails'
-require 'rspec/rails'
-require 'shoulda/matchers'
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../config/environment", __dir__)
+require "factory_bot"
+require "factory_bot_rails"
+require "rspec/rails"
+require "shoulda/matchers"
 
 # Require test_prof helpers for better performance around factories/specs
 # see https://test-prof.evilmartians.io for all options.
-require 'test_prof/recipes/rspec/before_all'
-require 'test_prof/recipes/rspec/let_it_be'
+require "test_prof/recipes/rspec/before_all"
+require "test_prof/recipes/rspec/let_it_be"
 require "test_prof/recipes/rspec/factory_default"
+# Encourages fixing factories as soon as possible
+require "test_prof/factory_prof/nate_heckler"
+# Allows sampling a random set of specs or example groups for profiling.
+require "test_prof/recipes/rspec/sample"
 
 # Add PaperTrail integration so that it is disabled by default
 # https://github.com/paper-trail-gem/paper_trail#7b-rspec
-require 'paper_trail/frameworks/rspec'
+require "paper_trail/frameworks/rspec"
 
 # Add rubocop rspec helpers for our cop tests. It needs to be done before RSpec
 # requires all files so that the CopHelper module does not hide some let
 # definitions.
 #
 # Ideally we should move our cops to their own gem.
-require 'rubocop'
-require 'rubocop/rspec/shared_contexts'
-require 'rubocop/rspec/support'
+require "rubocop"
+require "rubocop/rspec/shared_contexts"
+require "rubocop/rspec/support"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -69,21 +74,21 @@ require 'rubocop/rspec/support'
 # may lead to broken specs on the CI, if we don't sort here
 # (example: with_config.rb has to precede with_direct_uploads.rb).
 #
-require_relative "./support/parallel_helper"
-require_relative "./support/download_list"
-require_relative "./support/capybara"
-Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require_relative f }
-Dir[Rails.root.join('spec/features/support/**/*.rb')].sort.each { |f| require f }
-Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].sort.each { |f| require f }
-Dir[Rails.root.join('spec/requests/api/v3/support/**/*.rb')].sort.each { |f| require f }
+require_relative "support/parallel_helper"
+require_relative "support/download_list"
+require_relative "support/capybara"
+Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require_relative f }
+Dir[Rails.root.join("spec/features/support/**/*.rb")].sort.each { |f| require f }
+Dir[Rails.root.join("spec/lib/api/v3/support/**/*.rb")].sort.each { |f| require f }
+Dir[Rails.root.join("spec/requests/api/v3/support/**/*.rb")].sort.each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.maintain_test_schema!
+ActiveRecord::Migration.maintain_test_schema! unless ENV["CI"]
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_paths = [Rails.root.join("spec/fixtures").to_s]
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
@@ -94,11 +99,8 @@ RSpec.configure do |config|
   # Add job helper
   # Only the ActiveJob::TestHelper is actually used but it in turn requires
   # e.g. assert_nothing_raised
-  config.include ::ActiveSupport::Testing::Assertions
-  config.include ::ActiveJob::TestHelper
+  config.include ActiveSupport::Testing::Assertions
+  config.include ActiveJob::TestHelper
 
-  OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
-
-  # Hide warning bars by default
-  OpenProject::Configuration['show_warning_bars'] = false
+  OpenProject::Configuration["attachments_storage_path"] = "tmp/files"
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,12 +39,12 @@ class WorkPackageBoxesController < WorkPackagesController
       r.other_work_package(@work_package) && r.other_work_package(@work_package).visible?
     end
     @allowed_statuses = WorkPackages::UpdateContract.new(work_package, User.current).assignable_statuses
-    @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
+    @edit_allowed = User.current.allowed_in_work_package?(:edit_work_packages, @work_package)
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new
 
     respond_to do |format|
-      format.js   { render partial: 'show' }
+      format.js   { render partial: "show" }
     end
   end
 
@@ -56,7 +56,7 @@ class WorkPackageBoxesController < WorkPackagesController
     @journal = @work_package.last_journal
 
     respond_to do |format|
-      format.js   { render partial: 'edit' }
+      format.js   { render partial: "edit" }
     end
   end
 
@@ -67,12 +67,12 @@ class WorkPackageBoxesController < WorkPackagesController
       @work_package.reload
       load_journals
       respond_to do |format|
-        format.js   { render partial: 'show' }
+        format.js   { render partial: "show" }
       end
     else
       @journal = @work_package.last_journal
       respond_to do |format|
-        format.js { render partial: 'edit' }
+        format.js { render partial: "edit" }
       end
     end
   end

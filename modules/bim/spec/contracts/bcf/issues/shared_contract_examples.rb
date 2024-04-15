@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-shared_examples_for 'issues contract' do
+RSpec.shared_examples_for "issues contract" do
   let(:current_user) do
     build_stubbed(:user)
   end
-  let!(:allowed_to) do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
-      permissions.include?(permission) && project == permission_project
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project:
     end
   end
-  let(:issue_uuid) { 'issue uuid' }
+
+  let(:issue_uuid) { "issue uuid" }
   let(:project) { build_stubbed(:project) }
   let(:issue_work_package) { build_stubbed(:work_package, project:) }
   let(:issue_work_package_id) do
@@ -67,59 +68,59 @@ shared_examples_for 'issues contract' do
     end
   end
 
-  shared_examples 'is valid' do
-    it 'is valid' do
+  shared_examples "is valid" do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  it_behaves_like 'is valid'
+  it_behaves_like "is valid"
 
-  context 'if the uuid is nil' do
+  context "if the uuid is nil" do
     let(:issue_uuid) { nil }
 
-    it_behaves_like 'is valid' # as the uuid will be set
+    it_behaves_like "is valid" # as the uuid will be set
   end
 
-  context 'if the work_package_id is nil' do
+  context "if the work_package_id is nil" do
     let(:issue_work_package) { nil }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, work_package: %i(blank))
     end
   end
 
-  context 'if the user lacks permission' do
+  context "if the user lacks permission" do
     let(:permissions) { [] }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, base: %i(error_unauthorized))
     end
   end
 
-  context 'if the stage is written' do
+  context "if the stage is written" do
     before do
-      issue.stage = 'some stage'
+      issue.stage = "some stage"
     end
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, stage: %i(error_readonly))
     end
   end
 
-  context 'if labels is written' do
+  context "if labels is written" do
     before do
       issue.labels = %w(some labels)
     end
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, labels: %i(error_readonly))
     end
   end
 
-  context 'if index is nil' do
+  context "if index is nil" do
     let(:issue_index) { nil }
 
-    it_behaves_like 'is valid'
+    it_behaves_like "is valid"
   end
 end

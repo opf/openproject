@@ -14,6 +14,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { States } from 'core-app/core/states/states.service';
 import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
 @Component({
   templateUrl: './highlighting-tab.component.html',
@@ -114,12 +115,8 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
     return schema.highlightedAttributes.allowedValues;
   }
 
-  public onOpen(component:any) {
-    setTimeout(() => {
-      if (component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
-      }
-    }, 25);
+  public onOpen(component:unknown) {
+    repositionDropdownBugfix(component);
   }
 
   private setSelectedValues() {

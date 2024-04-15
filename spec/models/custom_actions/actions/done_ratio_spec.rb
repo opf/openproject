@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../shared_expectations'
+require "spec_helper"
+require_relative "../shared_expectations"
 
-describe CustomActions::Actions::DoneRatio, type: :model do
+RSpec.describe CustomActions::Actions::DoneRatio do
   let(:key) { :done_ratio }
   let(:type) { :integer_property }
 
-  it_behaves_like 'base custom action' do
-    describe '#apply' do
+  it_behaves_like "base custom action" do
+    describe "#apply" do
       let(:work_package) { build_stubbed(:work_package) }
 
-      it 'sets the done_ratio to the action\'s value' do
+      it "sets the done_ratio to the action's value" do
         instance.values = [95]
 
         instance.apply(work_package)
@@ -47,19 +47,19 @@ describe CustomActions::Actions::DoneRatio, type: :model do
       end
     end
 
-    describe '#multi_value?' do
-      it 'is false' do
+    describe "#multi_value?" do
+      it "is false" do
         expect(instance)
           .not_to be_multi_value
       end
     end
 
-    describe 'validate' do
+    describe "validate" do
       let(:errors) do
         build_stubbed(:custom_action).errors
       end
 
-      it 'is valid for values between 0 and 100' do
+      it "is valid for values between 0 and 100" do
         instance.values = [50]
 
         instance.validate(errors)
@@ -68,7 +68,7 @@ describe CustomActions::Actions::DoneRatio, type: :model do
           .to be_empty
       end
 
-      it 'is invalid for values larger than 100' do
+      it "is invalid for values larger than 100" do
         instance.values = [101]
 
         instance.validate(errors)
@@ -77,7 +77,7 @@ describe CustomActions::Actions::DoneRatio, type: :model do
           .to include(:smaller_than_or_equal_to)
       end
 
-      it 'is invalid for values smaller than 0' do
+      it "is invalid for values smaller than 0" do
         instance.values = [-1]
 
         instance.validate(errors)
@@ -87,16 +87,16 @@ describe CustomActions::Actions::DoneRatio, type: :model do
       end
     end
 
-    describe '.all' do
-      context 'with field disabled', with_settings: { work_package_done_ratio: 'disabled' } do
-        it 'is empty' do
+    describe ".all" do
+      context "with field disabled", with_settings: { work_package_done_ratio: "disabled" } do
+        it "is empty" do
           expect(described_class.all)
             .to be_empty
         end
       end
 
-      context 'with field derived', with_settings: { work_package_done_ratio: 'status' } do
-        it 'is empty' do
+      context "with field derived", with_settings: { work_package_done_ratio: "status" } do
+        it "is empty" do
           expect(described_class.all)
             .to be_empty
         end

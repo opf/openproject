@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,10 @@ module Queries::Filters::Strategies
 
     def operator_map
       super_value = super.dup
-      super_value['!*'] = Queries::Operators::NoneOrBlank
-      super_value['*'] = Queries::Operators::AllAndNonBlank
-      super_value['>='] = Queries::Operators::CastedGreaterOrEqual
-      super_value['<='] = Queries::Operators::CastedLessOrEqual
+      super_value["!*"] = Queries::Operators::NoneOrBlank
+      super_value["*"] = Queries::Operators::AllAndNonBlank
+      super_value[">="] = Queries::Operators::CastedGreaterOrEqual
+      super_value["<="] = Queries::Operators::CastedLessOrEqual
 
       super_value
     end

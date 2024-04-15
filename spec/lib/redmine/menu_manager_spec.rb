@@ -24,54 +24,93 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Redmine::MenuManager do
-  describe '.items' do
-    context 'for the top_menu' do
-      it 'includes the expected items' do
+RSpec.describe Redmine::MenuManager do
+  describe ".items" do
+    context "for the top_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:top_menu).map(&:name))
-          .to include(:work_packages, :news, :help)
+          .to include(:projects,
+                      :activity,
+                      :work_packages,
+                      :calendar_view,
+                      :gantt,
+                      :team_planners,
+                      :boards,
+                      :news,
+                      :cost_reports_global,
+                      :meetings,
+                      :help)
       end
     end
 
-    context 'for the account_menu' do
-      it 'includes the expected items' do
+    context "for the account_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:account_menu).map(&:name))
           .to include(:administration, :my_account, :my_page, :logout)
       end
     end
 
-    context 'for the project_menu' do
-      it 'includes the expected items' do
+    context "for the project_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:project_menu).map(&:name))
-          .to include(:overview, :activity, :roadmap, :work_packages, :news, :forums, :repository, :settings)
+          .to include(:overview,
+                      :activity,
+                      :roadmap,
+                      :work_packages,
+                      :ifc_models,
+                      :calendar_view,
+                      :gantt,
+                      :team_planner_view,
+                      :boards,
+                      :dashboards,
+                      :backlogs,
+                      :news,
+                      :costs,
+                      :budgets,
+                      :forums,
+                      :repository,
+                      :documents,
+                      :meetings,
+                      :members,
+                      :settings)
       end
     end
 
-    context 'for the application_menu' do
-      it 'includes the expected items' do
-        expect(described_class.items(:application_menu).map(&:name))
-          .to include(:work_packages_query_select)
+    context "for the global_menu" do
+      it "includes the expected items" do
+        expect(described_class.items(:global_menu).map(&:name))
+          .to include(:home,
+                      :projects,
+                      :activity,
+                      :work_packages,
+                      :calendar_view,
+                      :gantt,
+                      :team_planners,
+                      :boards,
+                      :news,
+                      :cost_reports_global,
+                      :meetings)
       end
     end
 
-    context 'for the notifications_menu' do
-      it 'includes the expected items' do
+    context "for the notifications_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:notifications_menu).map(&:name))
           .to include(:notification_grouping_select)
       end
     end
 
-    context 'for the my_menu' do
-      it 'includes the expected items' do
+    context "for the my_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:my_menu).map(&:name))
           .to include(:account, :settings, :password, :access_token, :notifications, :reminders, :delete_account)
       end
     end
 
-    context 'for the admin_menu' do
-      it 'includes the expected items' do
+    context "for the admin_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:admin_menu).map(&:name))
           .to include(:admin_overview,
                       :users,
@@ -82,7 +121,7 @@ describe Redmine::MenuManager do
                       :announcements)
       end
 
-      it 'has children defined for the authentication item' do
+      it "has children defined for the authentication item" do
         expect(described_class.items(:admin_menu).find { |item| item.name == :authentication }.map(&:name))
           .to include(:authentication_settings,
                       :ldap_authentication,

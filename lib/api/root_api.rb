@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@
 # This is the place for all API wide configuration, helper methods, exceptions
 # rescuing, mounting of different API versions etc.
 
-require 'open_project/authentication'
+require "open_project/authentication"
 
 module API
   class RootAPI < Grape::API
@@ -40,9 +40,9 @@ module API
 
     insert_before Grape::Middleware::Error,
                   ::GrapeLogging::Middleware::RequestLogger,
-                  { instrumentation_key: 'openproject_grape_logger' }
+                  { instrumentation_key: "openproject_grape_logger" }
 
-    content_type :json, 'application/json; charset=utf-8'
+    content_type :json, "application/json; charset=utf-8"
 
     use OpenProject::Authentication::Manager
 
@@ -53,7 +53,7 @@ module API
       end
 
       def warden
-        env['warden']
+        env["warden"]
       end
 
       ##
@@ -65,19 +65,23 @@ module API
       end
 
       def request_body
-        env['api.request.body']
+        env["api.request.body"]
       end
 
       def authenticate
         User.current = warden.authenticate! scope: authentication_scope
 
-        if Setting.login_required? and not logged_in?
+        if Setting.login_required? && !logged_in? && !allowed_unauthenticated_route?
           raise ::API::Errors::Unauthenticated
         end
       end
 
+      def allowed_unauthenticated_route?
+        false
+      end
+
       def set_localization
-        SetLocalizationService.new(User.current, env['HTTP_ACCEPT_LANGUAGE']).call
+        SetLocalizationService.new(User.current, env["HTTP_ACCEPT_LANGUAGE"]).call
       end
 
       # Global helper to set allowed content_types
@@ -86,13 +90,19 @@ module API
         %w(application/json application/hal+json)
       end
 
+      # Prevent committing the session
+      # This prevents an unnecessary write when accessing the API
+      def skip_session_write
+        request.session_options[:skip] = true
+      end
+
       def enforce_content_type
-        # Content-Type is not present in GET
-        return if request.get?
+        # Content-Type is not present in GET or DELETE requests
+        return if request.get? || request.delete?
 
         # Raise if missing header
         content_type = request.content_type
-        error!('Missing content-type header', 406, { 'Content-Type' => 'text/plain' }) if content_type.blank?
+        error!("Missing content-type header", 406, { "Content-Type" => "text/plain" }) if content_type.blank?
 
         # Allow JSON and JSON+HAL per default
         # and anything that each endpoint may optionally add to that
@@ -104,8 +114,8 @@ module API
           end
         end
 
-        bad_type = content_type.presence || I18n.t('api_v3.errors.missing_content_type')
-        message = I18n.t('api_v3.errors.invalid_content_type',
+        bad_type = content_type.presence || I18n.t("api_v3.errors.missing_content_type")
+        message = I18n.t("api_v3.errors.invalid_content_type",
                          content_type: allowed_content_types.join(" "),
                          actual: bad_type)
 
@@ -115,30 +125,6 @@ module API
       def logged_in?
         # An admin SystemUser is anonymous but still a valid user to be logged in.
         current_user && (current_user.admin? || !current_user.anonymous?)
-      end
-
-      # Checks that the current user has the given permission or raise
-      # {API::Errors::Unauthorized}.
-      #
-      # @param permission [String] the permission name
-      #
-      # @param context [Project, Array<Project>, nil] can be:
-      #   * a project : returns true if user is allowed to do the specified
-      #     action on this project
-      #   * a group of projects : returns true if user is allowed on every
-      #     project
-      #   * +nil+ with +options[:global]+ set: check if user has at least one
-      #     role allowed for this action, or falls back to Non Member /
-      #     Anonymous permissions depending if the user is logged
-      #
-      # @param global [Boolean] when +true+ and with +context+ set to +nil+:
-      #   checks that the current user is allowed to do the specified action on
-      #   any project
-      #
-      # @raise [API::Errors::Unauthorized] when permission is not met
-      def authorize(permission, context: nil, global: false, user: current_user, &block)
-        auth_service = -> { user.allowed_to?(permission, context, global:) }
-        authorize_by_with_raise auth_service, &block
       end
 
       def authorize_by_with_raise(callable)
@@ -155,26 +141,112 @@ module API
         false
       end
 
-      # checks whether the user has
-      # any of the provided permission in any of the provided
-      # projects
-      def authorize_any(permissions, projects: nil, global: false, user: current_user, &block)
-        raise ArgumentError if projects.nil? && !global
+      # Checks that the current user has the given permission on the given project or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @param project [Project] the project the permission needs to be checked on
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
+      def authorize_in_project(permission_or_permissions, project:, user: current_user, &)
+        permissions = Array.wrap(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_in_project?(permission, project)
+        end
+
+        authorize_by_with_raise(authorized, &)
+      end
+
+      # Checks that the current user has the given permission in any of the given projects or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @param projects [[Project]] the projects the permission needs to be checked on
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
+      def authorize_in_projects(permission_or_permissions, projects:, user: current_user, &)
+        raise ArgumentError if projects.blank?
+
+        permissions = Array.wrap(permission_or_permissions)
 
         projects = Array(projects)
 
         authorized = permissions.any? do |permission|
-          if global
-            authorize(permission, global: true, user:) do
-              false
-            end
-          else
-            allowed_projects = Project.allowed_to(user, permission)
-            !(allowed_projects & projects).empty?
-          end
+          allowed_projects = Project.allowed_to(user, permission)
+          projects.intersect?(allowed_projects)
         end
 
-        authorize_by_with_raise(authorized, &block)
+        authorize_by_with_raise(authorized, &)
+      end
+
+      # Checks that the current user has the given permission on any project or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
+      def authorize_in_any_project(permission_or_permissions, user: current_user, &)
+        permissions = Array.wrap(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_in_any_project?(permission)
+        end
+
+        authorize_by_with_raise(authorized, &)
+      end
+
+      # Checks that the current user has the given permission on any work package or project or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
+      def authorize_in_any_work_package(permission_or_permissions, user: current_user, in_project: nil, &)
+        permissions = Array.wrap(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_in_any_work_package?(permission, in_project:)
+        end
+
+        authorize_by_with_raise(authorized, &)
+      end
+
+      # Checks that the current user has the given permission on the given work package or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @param work_package [Project] the work package the permission needs to be checked on
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
+      def authorize_in_work_package(permission_or_permissions, work_package:, user: current_user, &)
+        permissions = Array.wrap(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_in_work_package?(permission, work_package)
+        end
+
+        authorize_by_with_raise(authorized, &)
+      end
+
+      # Checks that the current user has the given permission globally or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
+      def authorize_globally(permission_or_permissions, user: current_user, &)
+        permissions = Array.wrap(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_globally?(permission)
+        end
+
+        authorize_by_with_raise(authorized, &)
       end
 
       def authorize_admin
@@ -211,7 +283,7 @@ module API
         header = OpenProject::Authentication::WWWAuthenticate
                    .response_header(scope: authentication_scope, request_headers: env)
 
-        { 'WWW-Authenticate' => header }
+        { "WWW-Authenticate" => header }
       end
     end
 
@@ -259,6 +331,7 @@ module API
 
     # run authentication before each request
     after_validation do
+      skip_session_write
       authenticate
       set_localization
       enforce_content_type

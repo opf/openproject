@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -135,7 +135,7 @@ module SearchHelper
   end
 
   def only_if_tsv_supported(event)
-    if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv? && event.respond_to?(:attachments)
+    if OpenProject::Database.allows_tsv? && event.respond_to?(:attachments)
       yield
     end
   end

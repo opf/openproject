@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,12 +30,27 @@ module Admin::Settings
   class UsersSettingsController < ::Admin::SettingsController
     menu_item :user_settings
 
+    def show
+      @options = {}
+      @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
+
+      respond_to :html
+    end
+
     def default_breadcrumb
       t(:label_user_settings)
     end
 
     def show_local_breadcrumb
       true
+    end
+
+    def settings_params
+      super.tap do |settings|
+        if settings["consent_required"] == "1" && params["toggle_consent_time"] == "1"
+          settings["consent_time"] = Time.zone.now.iso8601
+        end
+      end
     end
   end
 end

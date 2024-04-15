@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<% content_for :header_tags do %>
-  <%= render :partial => 'shared/backlogs_header' %>
-<% end %>
 
 <% html_title @sprint.name %>
 <%= toolbar title: @sprint.name do %>
@@ -62,15 +58,15 @@ See COPYRIGHT and LICENSE files for more details.
     <table id="impediments" class="board" cellspacing="0">
       <tr>
         <td><div class="label_sprint_impediments"><%= t(:label_sprint_impediments) %></div></td>
-        <% if User.current.allowed_to?(:add_work_packages, @project) %>
-          <td class ="add_new clickable">+</td>
+        <% if User.current.allowed_in_project?(:add_work_packages, @project) %>
+          <td class="add_new clickable">+</td>
         <% else %>
-          <td class ="add_new"></td>
+          <td class="add_new"></td>
           <% end %>
         <% @statuses.each do |status| %>
           <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
-            <%= render :partial => "rb_impediments/impediment",
-                       :collection => impediments_by_position_for_status(@sprint, @project, status) %>
+            <%= render partial: "rb_impediments/impediment",
+                       collection: impediments_by_position_for_status(@sprint, @project, status) %>
           </td>
         <% end %>
       </tr>
@@ -106,15 +102,15 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
           </td>
-          <% if User.current.allowed_to?(:add_work_packages, @project) %>
-            <td class ="add_new clickable">+</td>
+          <% if User.current.allowed_in_project?(:add_work_packages, @project) %>
+            <td class="add_new clickable">+</td>
           <% else %>
-            <td class ="add_new"></td>
+            <td class="add_new"></td>
           <% end %>
           <% @statuses.each do |status| %>
             <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
-              <%= render :partial => "rb_tasks/task",
-                         :collection => tasks_by_status_id[status.id] %>
+              <%= render partial: "rb_tasks/task",
+                         collection: tasks_by_status_id[status.id] %>
             </td>
           <% end %>
         </tr>
@@ -132,14 +128,14 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </select>
     <div id="task_template">
-      <%= render :partial => "rb_tasks/task", :object => Task.new, :locals => {:project => @project} %>
+      <%= render partial: "rb_tasks/task", object: Task.new, locals: { project: @project } %>
     </div>
     <div id="impediment_template">
-      <%= render :partial => "rb_impediments/impediment", :object => Impediment.new, :locals => {:project => @project} %>
+      <%= render partial: "rb_impediments/impediment", object: Impediment.new, locals: { project: @project } %>
     </div>
 
     <div id="work_package_editor"> </div>
-    <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.blank? ? Time.now : @last_updated.updated_at) )  %></div>
+    <div class="meta" id="last_updated"><%= date_string_with_milliseconds((@last_updated.blank? ? Time.zone.now : @last_updated.updated_at)) %></div>
     <div id="charts"> </div>
     <div id="preloader">
       <div id="spinner"> </div>

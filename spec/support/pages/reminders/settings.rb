@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Reminders
@@ -43,7 +43,7 @@ module Pages
       end
 
       def add_time
-        click_button 'Add time'
+        click_button "Add time"
       end
 
       def set_time(label, time)
@@ -51,17 +51,17 @@ module Pages
       end
 
       def deactivate_time(label)
-        find("[data-qa-selector='op-settings-daily-time--active-#{label.split[1]}']").click
+        find("[data-test-selector='op-settings-daily-time--active-#{label.split[1]}']").click
       end
 
       def remove_time(label)
-        find("[data-qa-selector='op-settings-daily-time--remove-#{label.split[1]}']").click
+        find("[data-test-selector='op-settings-daily-time--remove-#{label.split[1]}']").click
       end
 
       def expect_active_daily_times(*times)
         times.each_with_index do |time, index|
           expect(page)
-            .to have_css("input[data-qa-selector='op-settings-daily-time--active-#{index + 1}']:checked")
+            .to have_css("input[data-test-selector='op-settings-daily-time--active-#{index + 1}']:checked")
 
           expect(page)
             .to have_field("Time #{index + 1}", text: time)
@@ -70,9 +70,9 @@ module Pages
 
       def expect_immediate_reminder(name, enabled)
         if enabled
-          expect(page).to have_selector("input[data-qa-immediate-reminder='#{name}']:checked")
+          expect(page).to have_css("input[data-qa-immediate-reminder='#{name}']:checked")
         else
-          expect(page).to have_selector("input[data-qa-immediate-reminder='#{name}']:not(:checked)")
+          expect(page).to have_css("input[data-qa-immediate-reminder='#{name}']:not(:checked)")
         end
       end
 
@@ -110,35 +110,33 @@ module Pages
 
       def expect_paused(paused, first: nil, last: nil)
         if paused
-          expect(page).to have_checked_field 'Temporarily pause daily email reminders'
+          expect(page).to have_checked_field "Temporarily pause daily email reminders"
         else
-          expect(page).to have_no_checked_field 'Temporarily pause daily email reminders'
+          expect(page).to have_no_checked_field "Temporarily pause daily email reminders"
         end
 
         if first && last
-          expect(page).to have_selector('.flatpickr-input') { |node|
-            expect(node.value).to eq "#{first.iso8601} - #{last.iso8601}"
-          }
+          expect(page).to have_css('[data-test-selector="op-basic-range-date-picker"]',
+                                   value: "#{first.iso8601} - #{last.iso8601}")
         end
       end
 
       def set_paused(paused, first: nil, last: nil)
         if paused
-          check 'Temporarily pause daily email reminders'
-          page.find('.flatpickr-input').click
-          page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: first.day, exact_text: true).click
-          page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: last.day, exact_text: true).click
+          check "Temporarily pause daily email reminders"
 
-          expect(page).to have_selector('.flatpickr-input') { |node|
-            expect(node.value).to eq "#{first.iso8601} - #{last.iso8601}"
-          }
+          page.find("op-basic-range-date-picker input").click
+
+          datepicker = ::Components::RangeDatepicker.new
+          datepicker.set_date first
+          datepicker.set_date last
         else
-          uncheck 'Temporarily pause daily email reminders'
+          uncheck "Temporarily pause daily email reminders"
         end
       end
 
       def save
-        click_button I18n.t('js.button_save')
+        click_button I18n.t("js.button_save")
       end
     end
   end

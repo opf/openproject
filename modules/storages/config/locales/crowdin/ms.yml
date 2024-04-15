@@ -1,0 +1,253 @@
+ms:
+  activerecord:
+    attributes:
+      storages/file_link:
+        origin_id: Origin Id
+      storages/storage:
+        creator: Pencipta
+        drive: ID Pemacu
+        host: Hos
+        name: Nama
+        provider_type: Jenis provider
+        tenant: Directory (tenant) ID
+    errors:
+      messages:
+        not_linked_to_project: tidak terpaut dengan projek.
+      models:
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: boleh menjadi dalam format numerik atau uuid.
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: tidak tersedia untuk storan ini.
+        storages/storage:
+          attributes:
+            host:
+              authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+              cannot_be_connected_to: tidak boleh disambungkan.
+              minimal_nextcloud_version_unmet: tidak memenuhi keperluan versi minimum (mesti Nextcloud 23 atau lebih tinggi)
+              not_nextcloud_server: adalah bukan server Nextcloud
+              op_application_not_installed: kelihatan tidak mempunyai aplikasi "Integrasi OpenProject" dipasang. Sila pasang terlebih dahulu dan cuba sekali lagi.
+            password:
+              invalid_password: tidak sah.
+              unknown_error: tidak dapat disahkan. Sila periksa sambungan storan anda dan cuba lagi.
+    models:
+      file_link: Fail
+      storages/storage: Storan
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: Terlalu banyak unsur dicipta dalam satu masa. Dijangka %{max} paling banyak, mendapat %{actual}.
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
+  permission_manage_file_links: Urus pautan fail
+  permission_manage_storages_in_project: Urus fail storan dalam projek
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
+  permission_view_file_links: Papar pautan fail
+  permission_write_files: 'External Storage: Write files'
+  project_module_storages: Storan fail
+  storages:
+    buttons:
+      complete_without_setup: Lengkap tanpanya
+      done_complete_setup: Selesai, penyediaan lengkap
+      done_continue: Selesai, teruskan
+      replace_oauth_application: Ganti OpenProject OAuth
+      replace_oauth_client: Ganti %{provider_type} OAuth
+      save_and_continue: Simpan dan teruskan
+      select_folder: Pilih folder
+    configuration_checks:
+      oauth_client_incomplete:
+        nextcloud: Benarkan OpenProject untuk mengakses data Nextcloud menggunakan OAuth.
+        one_drive: Benarkan OpenProject untuk mengakses data Azure menggunakan OAuth untuk menyambung OneDrive/Sharepoint.
+      redirect_uri_incomplete:
+        one_drive: Lengkapkan setup dengan pengalihan URI yang betul.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    delete_warning:
+      input_delete_confirmation: Masukkan nama fail penyimpanan %{file_storage} untuk mengesahkan pembuangan.
+      irreversible_notice: Mengapus fail penyimpanan adalah tindakan yang tidak dapat dipulihkan.
+      project_storage: 'Adakah anda pasti anda ingin menghapuskan %{file_storage} dari projek ini? Untuk mengesahkan tindakan ini sila perkenalkan nama penyimpanan di dalam medan di bawah, ini akan:'
+      project_storage_delete_result_1: Padam semua pautan dari pakej kerja projek ini ke fail dan folder penyimpanan tersebut.
+      project_storage_delete_result_2: Sekiranya penyimpanan ini mempunyai folder projek yang dikendalikan secara automatik, folder ini beserta failnya akan dipadamkan selamanya.
+      storage: 'Adakah anda pasti anda ingin menghapuskan %{file_storage}? Untuk mengesahkan tindakan ini sila perkenalkan nama penyimpanan di dalam medan di bawah, ini akan:'
+      storage_delete_result_1: Padam semua setup penyimpanan untuk semua projek yang menggunakan penyimpanan ini.
+      storage_delete_result_2: Padam semua pautan dari pakej kerja semua projek ke fail dan folder penyimpanan tersebut.
+      storage_delete_result_3: Sekiranya penyimpanan ini mempunyai folder projek yang dikendalikan secara automatik, folder tersebut beserta fail dalam kandungannya akan dipadamkan selamanya.
+    error_invalid_provider_type: Sila pilih pembekal penyimpanan yang sah.
+    file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
+      automatically_managed_folders: Folder yang dikendalikan secara automatik
+      general_information: Maklumat umum
+      nextcloud_oauth: Nextcloud OAuth
+      oauth_applications: OAuth applications
+      one_drive_oauth: OAuth Azure
+      openproject_oauth: OAuth OpenProject
+      project_folders: Folder projek
+      redirect_uri: Ubah hala URI
+      storage_provider: Storage provider
+    health:
+      checked: Terakhir diperiksa %{datetime}
+      label_error: Ralat
+      label_healthy: Sihat
+      label_pending: Dalam proses
+      since: sejak %{datetime}
+      subtitle: Automatically managed project folders
+      title: Status kesihatan
+    health_email_notifications:
+      description_subscribed: All administrators will receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
+    help_texts:
+      project_folder: Folder projek adalah folder default untuk muat naik fail bagi projek ini. Pengguna masih boleh muat naik fail ke lokasi lain.
+    instructions:
+      all_available_storages_already_added: Semua storan yang tersedia sudah ditambah ke projek ini.
+      automatic_folder: This will automatically create a root folder for this project and manage the access permissions for each project member.
+      copy_from: Salin nilai ini dari
+      empty_project_folder_validation: Memilih folder adalah wajib untuk meneruskan.
+      existing_manual_folder: You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+      host: Please add the host address of your storage including the https://. It should not be longer than 255 characters.
+      managed_project_folders_application_password_caption: 'Enable automatic managed folders by copying this value from: %{provider_type_link}.'
+      name: Give your storage a name so that users can differentiate between multiple storages.
+      new_storage: Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information.
+      nextcloud:
+        application_link_text: application “Integration OpenProject”
+        integration: Nextcloud Administration / OpenProject
+        oauth_configuration: Copy these values from %{application_link_text}.
+        provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
+      no_specific_folder: By default, each user will start at their own home folder when they upload a file.
+      no_storage_set_up: Tiada file storan yang disediakan lagi.
+      not_logged_into_storage: Untuk pilih folder projek, sila log masuk dahulu
+      oauth_application_details: The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}.
+      oauth_application_details_link_text: Nextcloud OpenProject Integration settings
+      one_drive:
+        application_link_text: Azure portal
+        copy_redirect_uri: Copy redirect URI
+        documentation_link_text: OneDrive/SharePoint file storages documentation
+        drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
+        integration: OneDrive/SharePoint
+        missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
+        oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
+        oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
+        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
+        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+        tenant_id_placeholder: Nama atau UUID
+      setting_up_additional_storages: For setting up additional file storages, please visit
+      setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File Storages.
+      setting_up_storages: For setting up file storages, please visit
+      setting_up_storages_non_admin: Administrators can set up file storages in Administration / File Storages.
+      type: 'Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:'
+      type_link_text: "“Integration OpenProject”"
+    label_active: Aktif
+    label_add_new_storage: Tambah storan baru
+    label_automatic_folder: New folder with automatically managed permissions
+    label_completed: Selesai
+    label_creation_time: Creation time
+    label_creator: Pencipta
+    label_delete_storage: Padam storan
+    label_edit_storage: Edit storage
+    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
+    label_edit_storage_host: Edit storage host
+    label_existing_manual_folder: Existing folder with manually managed permissions
+    label_file_storage: File storage
+    label_host: Host URL
+    label_inactive: Tidak aktif
+    label_incomplete: Tidak lengkap
+    label_managed_project_folders:
+      application_password: Kata laluan aplikasi
+      automatically_managed_folders: Folder yang dikendalikan secara automatik
+    label_name: Nama
+    label_new_file_storage: Penyimpanan %{provider} baru
+    label_new_storage: New storage
+    label_no_selected_folder: Tiada folder yang dipilih
+    label_no_specific_folder: Tiada folder spesifik
+    label_oauth_client_id: OAuth ID Pelanggan
+    label_openproject_oauth_application_id: OpenProject OAuth ID Pelanggan
+    label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
+    label_project_folder: Folder projek
+    label_provider: Pembekal
+    label_redirect_uri: Ubah hala URI
+    label_show_storage_redirect_uri: Show redirect URI
+    label_status: Status
+    label_storage: Storage
+    label_uri: URI
+    member_connection_status:
+      connected: Disambungkan
+      connected_no_permissions: User role has no storages permissions
+      not_connected: Tidak bersambung. Pengguna perlu log masuk ke dalam storan melalui %{link} berikut.
+    members_no_results: Tiada ahli untuk dipaparkan.
+    no_results: No storages set up yet.
+    notice_successful_storage_connection: |-
+      Penyimpanan berjaya disambungkan! Ingat untuk mengaktifkan modul dan penyimpanan spesifik dalam seting projek
+      setiap projek yang hendak digunakan.
+    oauth_grant_nudge_modal:
+      access_granted: Akses diberikan
+      access_granted_screen_reader: Akses diberikan. Anda kini bersedia untuk menggunakan %{storage}.
+      body: Untuk dapatkan akses ke folder projek anda perlu log masuk ke %{storage}.
+      cancel_button_label: Saya akan lakukan nanti
+      confirm_button_aria_label: Log masuk ke %{storage}
+      confirm_button_label: Log masuk
+      requesting_access_to: Meminta akses ke %{storage}
+      storage_ready: Anda kini bersedia untuk menggunakan %{storage}
+      title: Satu langkah lagi...
+    open_project_storage_modal:
+      success:
+        subtitle: Anda sedang dialihkan
+        title: Integration setup completed
+      waiting:
+        subtitle: Sebentar ya, ini mungkin akan memerlukan sedikit masa...
+        title: We are setting up your permissions on the project folder.
+    page_titles:
+      file_storages:
+        delete: Delete file storage
+        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+      managed_project_folders:
+        subtitle: |-
+          Biarkan OpenProject mencipta folder mengikut projek secara automatik. Ini disyorkan kerana ia memastikan setiap ahli
+          pasukan sentiasa mempunyai kebenaran akses yang betul.
+        subtitle_short: Biarkan OpenProject mencipta folder mengikut projek secara automatik.
+        title: Folder projek yang dikendalikan secara automatik
+      project_settings:
+        delete: Delete file storage
+        edit: Edit the file storage to this project
+        index: File storages available in this project
+        members_connection_status: Status sambungan ahli
+        new: Add a file storage to this project
+      project_storage_members:
+        subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
+        title: Status sambungan ahli
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
+    provider_types:
+      label: Provider type
+      nextcloud:
+        label_oauth_client_id: Nextcloud OAuth Client ID
+        label_oauth_client_secret: Nextcloud OAuth Client Secret
+        name: Nextcloud
+        name_placeholder: seperti Nextcloud
+      one_drive:
+        label_oauth_client_id: Azure OAuth Application (client) ID
+        label_oauth_client_secret: Azure OAuth Client Secret Value
+        name: OneDrive/SharePoint
+        name_placeholder: seperti OneDrive
+    storage_list_blank_slate:
+      description: Add a storage to see them here.
+      heading: You don't have any storages yet.
+    upsale:
+      description: |-
+        Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
+        work packages in a project.
+      title: OneDrive/SharePoint integration

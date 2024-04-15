@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -49,6 +49,7 @@ import { Subject } from 'rxjs';
 import { typeFromHref } from 'core-app/shared/components/principal/principal-helper';
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { filter } from 'rxjs/operators';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
 export interface CreateAutocompleterValueOption {
   name:string;
@@ -144,15 +145,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   }
 
   public opened() {
-    // Force reposition as a workaround for BUG
-    // https://github.com/ng-select/ng-select/issues/1259
-    setTimeout(() => {
-      const component = this.ngSelectComponent as any;
-      if (this.appendTo && component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
-      }
-    }, 25);
-
+    repositionDropdownBugfix(this.ngSelectComponent);
     this.onOpen.emit();
   }
 

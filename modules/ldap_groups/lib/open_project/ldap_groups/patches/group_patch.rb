@@ -4,7 +4,7 @@ module OpenProject::LdapGroups
       def self.included(base) # :nodoc:
         base.class_eval do
           has_many :ldap_groups_synchronized_groups,
-                   class_name: '::LdapGroups::SynchronizedGroup',
+                   class_name: "::LdapGroups::SynchronizedGroup",
                    dependent: :destroy
         end
       end

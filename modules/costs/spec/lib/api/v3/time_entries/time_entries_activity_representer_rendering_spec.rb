@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::TimeEntries::TimeEntriesActivityRepresenter, "rendering" do
+  include API::V3::Utilities::PathHelper
 
   let(:activity) do
     build_stubbed(:time_entry_activity)
@@ -41,27 +41,27 @@ describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
 
   subject { representer.to_json }
 
-  describe '_links' do
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'self' }
+  describe "_links" do
+    it_behaves_like "has a titled link" do
+      let(:link) { "self" }
       let(:href) { api_v3_paths.time_entries_activity activity.id }
       let(:title) { activity.name }
     end
 
     # returns the projects where it (and it's children) is active
-    it_behaves_like 'has a link collection' do
+    it_behaves_like "has a link collection" do
       let(:project1) { build_stubbed(:project) }
       let(:project2) { build_stubbed(:project) }
 
       before do
-        allow(::Project)
+        allow(Project)
           .to receive(:visible_with_activated_time_activity)
           .with(activity)
           .and_return([project1,
                        project2])
       end
 
-      let(:link) { 'projects' }
+      let(:link) { "projects" }
       let(:hrefs) do
         [
           {
@@ -77,24 +77,24 @@ describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
     end
   end
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'TimeEntriesActivity' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "TimeEntriesActivity" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { activity.id }
     end
 
-    it_behaves_like 'property', :name do
+    it_behaves_like "property", :name do
       let(:value) { activity.name }
     end
 
-    it_behaves_like 'property', :position do
+    it_behaves_like "property", :position do
       let(:value) { activity.position }
     end
 
-    it_behaves_like 'property', :default do
+    it_behaves_like "property", :default do
       let(:value) { activity.is_default }
     end
   end

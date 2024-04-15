@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 lv:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
   bim:
     label_bim: 'BIM'
   bcf:
@@ -14,6 +17,7 @@ lv:
     exceptions:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
+      zero: 'No BCF issues'
       one: 'One BCF issue'
       other: '%{count} BCF issues'
     bcf_xml:
@@ -130,4 +134,3 @@ lv:
   extraction:
     available:
       ifc_convert: "IFC conversion pipeline available"
-

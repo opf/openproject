@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'open_project/logging'
-require 'open_project/patches'
-require 'open_project/mime_type'
-require 'open_project/custom_styles/design'
-require 'redmine/plugin'
+require "redmine/menu_manager"
+require "redmine/search"
+require "open_project/custom_field_format"
+require "open_project/logging"
+require "open_project/patches"
+require "open_project/mime_type"
+require "open_project/custom_styles/design"
+require "open_project/httpx_appsignal"
+require "redmine/plugin"
 
-require 'csv'
+require "csv"
 
 module OpenProject
   ##
@@ -43,5 +44,23 @@ module OpenProject
   # default Rails error handling with other error handlers such as appsignal.
   def self.logger
     ::OpenProject::Logging::LogDelegator
+  end
+
+  def self.httpx
+    session = HTTPX
+                .plugin(:oauth)
+                .plugin(:basic_auth)
+                .plugin(:webdav)
+                .with(
+                  timeout: {
+                    connect_timeout: OpenProject::Configuration.httpx_connect_timeout,
+                    operation_timeout: OpenProject::Configuration.httpx_operation_timeout,
+                    request_timeout: OpenProject::Configuration.httpx_request_timeout,
+                    write_timeout: OpenProject::Configuration.httpx_write_timeout,
+                    read_timeout: OpenProject::Configuration.httpx_read_timeout,
+                    keep_alive_timeout: OpenProject::Configuration.httpx_keep_alive_timeout
+                  }
+                )
+    OpenProject::Appsignal.enabled? ? session.plugin(HttpxAppsignal) : session
   end
 end

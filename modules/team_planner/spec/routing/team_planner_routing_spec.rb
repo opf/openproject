@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,37 +26,71 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Team planner routing', type: :routing do
-  it 'routes to team_planner#index' do
+RSpec.describe "Team planner routing" do
+  it "routes to team_planner#overview" do
     expect(subject)
-      .to route(:get, '/projects/foobar/team_planners')
-            .to(controller: 'team_planner/team_planner', action: :index, project_id: 'foobar')
+      .to route(:get, "/team_planners")
+            .to(controller: "team_planner/team_planner", action: :overview)
   end
 
-  it 'routes to team_planner#show' do
+  it "routes to team_planner#index" do
     expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/1234')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234')
+      .to route(:get, "/projects/foobar/team_planners")
+            .to(controller: "team_planner/team_planner", action: :index, project_id: "foobar")
   end
 
-  it 'routes to team_planner#new' do
+  it "routes to team_planner#show" do
     expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/new')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar')
+      .to route(:get, "/projects/foobar/team_planners/1234")
+            .to(controller: "team_planner/team_planner", action: :show, project_id: "foobar", id: "1234")
   end
 
-  it 'routes to team_planner#show with state' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/1234/details/555')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234',
-                state: 'details/555')
+  context "with :project_id" do
+    it "routes to team_planner#upsale" do
+      expect(subject)
+        .to route(:get, "/projects/foobar/team_planners/upsale")
+              .to(controller: "team_planner/team_planner", action: :upsale, project_id: "foobar")
+    end
+
+    it "routes to team_planner#show" do
+      expect(subject)
+        .to route(:get, "/projects/foobar/team_planners/new")
+              .to(controller: "team_planner/team_planner", action: :show, project_id: "foobar")
+    end
   end
 
-  it 'routes to team_planner#destroy' do
+  context "without :project_id" do
+    it "routes to team_planner#upsale" do
+      expect(subject)
+        .to route(:get, "/team_planners/upsale")
+              .to(controller: "team_planner/team_planner", action: :upsale)
+    end
+
+    it "routes to team_planner#new" do
+      expect(subject)
+        .to route(:get, "/team_planners/new")
+              .to(controller: "team_planner/team_planner", action: :new)
+    end
+  end
+
+  it "routes to team_planner#create" do
     expect(subject)
-      .to route(:delete, '/projects/foobar/team_planners/1234')
-            .to(controller: 'team_planner/team_planner', action: :destroy, project_id: 'foobar', id: '1234')
+      .to route(:post, "/team_planners")
+            .to(controller: "team_planner/team_planner", action: :create)
+  end
+
+  it "routes to team_planner#show with state" do
+    expect(subject)
+      .to route(:get, "/projects/foobar/team_planners/1234/details/555")
+            .to(controller: "team_planner/team_planner", action: :show, project_id: "foobar", id: "1234",
+                state: "details/555")
+  end
+
+  it "routes to team_planner#destroy" do
+    expect(subject)
+      .to route(:delete, "/projects/foobar/team_planners/1234")
+            .to(controller: "team_planner/team_planner", action: :destroy, project_id: "foobar", id: "1234")
   end
 end

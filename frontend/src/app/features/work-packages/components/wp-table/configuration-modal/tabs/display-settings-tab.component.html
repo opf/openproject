@@ -47,7 +47,7 @@
           <select (change)="updateGroup($event.target.value)"
                   id="selected_grouping"
                   name="selected_grouping"
-                  class="form--select form--inline-select">
+                  class="form--select form--inline-select option-label--select">
             <option *ngFor="let group of availableGroups"
                     [textContent]="group.name"
                     [selected]="currentGroup && currentGroup!.href === group.href"

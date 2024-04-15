@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}".html_safe do %>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
+  <% if User.current.allowed_in_project?(:manage_news, @project) %>
     <li class="toolbar-item">
       <%= link_to(edit_news_path(@news),
         accesskey: accesskey(:edit),
@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
   <li class="toolbar-item">
     <%= watcher_link(@news, User.current) %>
   </li>
-  <% if User.current.allowed_to?(:manage_news, @project) %>
+  <% if User.current.allowed_in_project?(:manage_news, @project) %>
     <li class="toolbar-item">
       <%= link_to(news_path(@news),
         data: { confirm: t(:text_are_you_sure) },
@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div id="edit-news" style="display:none;">
     <%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
       <%= render partial: 'form', locals: { f: f } %>
-      <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+      <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
       <%= link_to_function t(:button_cancel), 'jQuery("#edit-news").hide()', class: 'button -with-icon icon-cancel'%>
     <% end %>
   </div>
@@ -103,7 +103,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= wikitoolbar_for 'comment_comments', preview_context: preview_context(@news) %>
       </div>
       <p>
-        <%= submit_tag t(:button_add_comment), class: 'button -highlight' %>
+        <%= submit_tag t(:button_add_comment), class: 'button -primary' %>
       </p>
     <% end %>
   <% end %>

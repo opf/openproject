@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require "spec_helper"
+require_relative "support/board_index_page"
+require_relative "support/board_page"
 
-describe 'Board remote changes resolution', type: :feature, js: true do
+RSpec.describe "Board remote changes resolution", :js, with_ee: %i[board_view] do
   let(:user1) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -47,30 +46,29 @@ describe 'Board remote changes resolution', type: :feature, js: true do
        edit_work_packages view_work_packages manage_public_queries]
   end
 
-  let!(:priority) { create :default_priority }
-  let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:work_package1) { create :work_package, project:, subject: 'Work package A', status: open_status }
-  let!(:work_package2) { create :work_package, project:, subject: 'Work package B', status: open_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:open_status) { create(:default_status, name: "Open") }
+  let!(:work_package1) { create(:work_package, project:, subject: "Work package A", status: open_status) }
+  let!(:work_package2) { create(:work_package, project:, subject: "Work package B", status: open_status) }
 
   before do
-    with_enterprise_token :board_view
     project
     login_as(user1)
   end
 
-  it 'update boards in the background' do
+  it "update boards in the background" do
     board_index.visit!
 
     # Create new board
-    board_page = board_index.create_board action: :Status
+    board_page = board_index.create_board action: "Status"
 
     # expect lists of default status
-    board_page.expect_list 'Open'
+    board_page.expect_list "Open"
 
-    board_page.expect_card('Open', work_package1.subject)
-    board_page.expect_card('Open', work_package2.subject)
+    board_page.expect_card("Open", work_package1.subject)
+    board_page.expect_card("Open", work_package2.subject)
 
-    board_page.expect_cards_in_order('Open', work_package1, work_package2)
+    board_page.expect_cards_in_order("Open", work_package1, work_package2)
 
     board_query = Query.last
     board_query.ordered_work_packages.replace [
@@ -82,6 +80,6 @@ describe 'Board remote changes resolution', type: :feature, js: true do
 
     sleep(3)
 
-    board_page.expect_cards_in_order('Open', work_package2, work_package1)
+    board_page.expect_cards_in_order("Open", work_package2, work_package1)
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../../spec_helper'
+require "spec_helper"
 
-describe 'rb_burndown_charts/show', type: :view do
+RSpec.describe "rb_burndown_charts/show" do
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
   let(:role_allowed) do
-    create(:role,
+    create(:project_role,
            permissions: %i[add_work_packages manage_subtasks])
   end
-  let(:role_forbidden) { create(:role) }
+  let(:role_forbidden) { create(:project_role) }
   # We need to create these as some view helpers access the database
   let(:statuses) do
     [create(:status),
@@ -88,25 +88,25 @@ describe 'rb_burndown_charts/show', type: :view do
   end
 
   before do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id],
-                                                                         'task_type' => type_task.id })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [type_feature.id],
+                                                                         "task_type" => type_task.id })
     view.extend BurndownChartsHelper
 
     # We directly force the creation of stories,statuses by calling the method
     stories
   end
 
-  describe 'burndown chart' do
-    it 'renders a version with dates' do
+  describe "burndown chart" do
+    it "renders a version with dates" do
       assign(:sprint, sprint)
       assign(:project, project)
       assign(:burndown, sprint.burndown(project))
       render
 
-      expect(view).to render_template(partial: '_burndown', count: 1)
+      expect(view).to render_template(partial: "_burndown", count: 1)
     end
 
-    it 'renders a version without dates' do
+    it "renders a version without dates" do
       sprint.start_date = nil
       sprint.effective_date = nil
       sprint.save
@@ -116,8 +116,8 @@ describe 'rb_burndown_charts/show', type: :view do
 
       render
 
-      expect(view).to render_template(partial: '_burndown', count: 0)
-      expect(rendered).to include(I18n.t('backlogs.no_burndown_data'))
+      expect(view).to render_template(partial: "_burndown", count: 0)
+      expect(rendered).to include(I18n.t("backlogs.no_burndown_data"))
     end
   end
 end

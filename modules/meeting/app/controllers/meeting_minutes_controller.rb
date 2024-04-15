@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,6 @@ class MeetingMinutesController < MeetingContentsController
 
   def find_content
     @content = @meeting.minutes || @meeting.build_minutes
-    @content_type = 'meeting_minutes'
+    @content_type = "meeting_minutes"
   end
 end

@@ -3,7 +3,7 @@
   [formGroup]="form"
 >
   <div class="op-form--section-header">
-      <h5 [textContent]="text.title"></h5>
+      <h3 [textContent]="text.title" class="op-form--section-header-title"></h3>
       <p [textContent]="text.explanation"></p>
   </div>
 
@@ -29,7 +29,7 @@
       [ngModelOptions]="{standalone: true}"
       [disabled]="isDisabled(time, activeTimes)"
       class="op-reminder-settings-daily-time--active"
-      attr.data-qa-selector="op-settings-daily-time--active-{{i + 1}}">
+      attr.data-test-selector="op-settings-daily-time--active-{{i + 1}}">
     <label
       class="op-reminder-settings-daily-time--label"
       [textContent]="text.timeLabel(i + 1)"
@@ -55,7 +55,7 @@
       type="button"
       *ngIf="timeRemovable$ | async"
       (click)="removeTime(selectedTimes, i)"
-      attr.data-qa-selector="op-settings-daily-time--remove-{{i + 1}}">
+      attr.data-test-selector="op-settings-daily-time--remove-{{i + 1}}">
       <op-icon icon-classes="icon-small icon-remove icon4"></op-icon>
     </button>
   </div>

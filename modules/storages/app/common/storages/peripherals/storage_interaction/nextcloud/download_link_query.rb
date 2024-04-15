@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,77 +29,78 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class DownloadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+  class DownloadLinkQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    def initialize(base_uri:, token:, retry_proc:)
-      super()
+    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
 
-      @base_uri = base_uri
-      @uri = URI::join(base_uri, '/ocs/v2.php/apps/dav/api/v1/direct')
-      @token = token
-      @retry_proc = retry_proc
+    def self.call(storage:, auth_strategy:, file_link:)
+      new(storage).call(auth_strategy:, file_link:)
     end
 
-    def query(file_link)
-      outbound_response(file_link)
+    def initialize(storage)
+      @storage = storage
+    end
+
+    def call(auth_strategy:, file_link:)
+      if file_link.nil?
+        return failure(code: :error, payload: nil, log_message: "File link can not be nil.")
+      end
+
+      direct_download_request(auth_strategy:, file_link:)
         .bind { |response_body| direct_download_token(body: response_body) }
         .map { |download_token| download_link(download_token, file_link.origin_name) }
     end
 
     private
 
-    def outbound_response(file_link)
-      @retry_proc.call(@token) do |token|
-        begin
-          response = ServiceResult.success(
-            result: RestClient.post(
-              @uri.to_s,
-              { fileId: file_link.origin_id },
-              {
-                'Authorization' => "Bearer #{token.access_token}",
-                'OCS-APIRequest' => 'true',
-                'Accept' => 'application/json'
-              }
-            )
-          )
-        rescue RestClient::Unauthorized => e
-          response = error(:not_authorized, 'Outbound request not authorized!', e.response)
-        rescue RestClient::NotFound => e
-          response = error(:not_found, 'Outbound request destination not found!', e.response)
-        rescue RestClient::ExceptionWithResponse => e
-          response = error(:error, 'Outbound request failed!', e.response)
-        rescue StandardError
-          response = error(:error, 'Outbound request failed!')
-        end
+    def http_options
+      Util.ocs_api_request.deep_merge(Util.accept_json)
+    end
 
-        response
-          .bind do |r|
-            # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-            if r.body.blank?
-              error(:not_authorized, 'Outbound request not authorized!')
-            else
-              ServiceResult.success(result: r)
-            end
+    def direct_download_request(auth_strategy:, file_link:)
+      Auth[auth_strategy].call(storage: @storage, http_options:) do |http|
+        result = handle_response http.post(Util.join_uri_path(@storage.uri, "/ocs/v2.php/apps/dav/api/v1/direct"),
+                                           json: { fileId: file_link.origin_id })
+
+        result.bind do |resp|
+          # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
+          if resp.body.blank?
+            Util.error(:unauthorized, "Outbound request not authorized!")
+          else
+            ServiceResult.success(result: resp.body.to_s)
           end
+        end
       end
     end
 
-    def error(code, log_message = nil, data = nil)
-      ServiceResult.failure(
-        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, log_message:, data:)
-      )
+    def handle_response(response)
+      case response
+      in { status: 200..299 }
+        ServiceResult.success(result: response)
+      in { status: 404 }
+        failure(code: :not_found,
+                payload: response.json(symbolize_keys: true),
+                log_message: "Outbound request destination not found!")
+      in { status: 401 }
+        failure(code: :unauthorized,
+                payload: response.json(symbolize_keys: true),
+                log_message: "Outbound request not authorized!")
+      else
+        failure(code: :error,
+                payload: response.json(symbolize_keys: true),
+                log_message: "Outbound request failed with unknown error!")
+      end
     end
 
     def download_link(token, origin_name)
-      URI::join(@base_uri, "/index.php/apps/integration_openproject/direct/#{token}/#{CGI.escape(origin_name)}")
+      Util.join_uri_path(@storage.uri, "index.php/apps/integration_openproject/direct", token, CGI.escape(origin_name))
     end
 
     def direct_download_token(body:)
       token = parse_direct_download_token(body:)
       if token.blank?
-        return error(:error, "Received unexpected json response", body)
+        return Util.error(:error, "Received unexpected json response", body)
       end
 
       ServiceResult.success(result: token)
@@ -110,13 +113,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         return nil
       end
 
-      direct_download_url = json.dig('ocs', 'data', 'url')
+      direct_download_url = json.dig("ocs", "data", "url")
       return nil if direct_download_url.blank?
 
       path = URI.parse(direct_download_url).path
       return nil if path.blank?
 
-      path.split('/').last
+      path.split("/").last
+    end
+
+    def failure(code:, payload:, log_message:)
+      ServiceResult.failure(
+        result: code,
+        errors: ::Storages::StorageError.new(code:,
+                                             data: ::Storages::StorageErrorData.new(source: self.class, payload:),
+                                             log_message:)
+      )
     end
   end
 end

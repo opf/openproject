@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/priorities/priority_collection_representer'
-require 'api/v3/priorities/priority_representer'
+require "api/v3/priorities/priority_collection_representer"
+require "api/v3/priorities/priority_representer"
 
 module API
   module V3
@@ -35,7 +35,7 @@ module API
       class PrioritiesAPI < ::API::OpenProjectAPI
         resources :priorities do
           after_validation do
-            authorize(:view_work_packages, global: true)
+            authorize_in_any_work_package(:view_work_packages)
 
             @priorities = IssuePriority.all
           end
@@ -46,7 +46,7 @@ module API
                                               current_user:)
           end
 
-          route_param :id, type: Integer, desc: 'Priority ID' do
+          route_param :id, type: Integer, desc: "Priority ID" do
             after_validation do
               @priority = IssuePriority.find(params[:id])
             end

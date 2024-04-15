@@ -1,0 +1,380 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2024 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+colors:
+  - reference: :default_color_blue_dark
+    t_name: Blue (dark)
+    hexcode: "#175A8E"
+  - reference: :default_color_blue
+    t_name: Blue
+    hexcode: "#1A67A3"
+  - reference: :default_color_blue_light
+    t_name: Blue (light)
+    hexcode: "#00B0F0"
+  - reference: :default_color_green_light
+    t_name: Green (light)
+    hexcode: "#35C53F"
+  - reference: :default_color_green_dark
+    t_name: Green (dark)
+    hexcode: "#339933"
+  - reference: :default_color_yellow
+    t_name: Yellow
+    hexcode: "#FFFF00"
+  - reference: :default_color_orange
+    t_name: Orange
+    hexcode: "#FFCC00"
+  - reference: :default_color_red
+    t_name: Red
+    hexcode: "#FF3300"
+  - reference: :default_color_magenta
+    t_name: Magenta
+    hexcode: "#E20074"
+  - reference: :default_color_white
+    t_name: White
+    hexcode: "#FFFFFF"
+  - reference: :default_color_grey_light
+    t_name: Grey (light)
+    hexcode: "#F8F8F8"
+  - reference: :default_color_grey
+    t_name: Grey
+    hexcode: "#EAEAEA"
+  - reference: :default_color_grey_dark
+    t_name: Grey (dark)
+    hexcode: "#878787"
+  - reference: :default_color_black
+    t_name: Black
+    hexcode: "#000000"
+
+document_categories:
+  - t_name: Documentation
+    position: 1
+  - t_name: Specification
+    position: 2
+  - t_name: Other
+    position: 3
+
+# Palette by open-color
+# https://yeun.github.io/open-color/
+# TODO: should the color name be translated?
+open_color_palette:
+  - color: gray
+    hexcodes:
+      - "#f8f9fa"
+      - "#f1f3f5"
+      - "#e9ecef"
+      - "#dee2e6"
+      - "#ced4da"
+      - "#adb5bd"
+      - "#868e96"
+      - "#495057"
+      - "#343a40"
+      - "#212529"
+  - color: red
+    hexcodes:
+      - "#fff5f5"
+      - "#ffe3e3"
+      - "#ffc9c9"
+      - "#ffa8a8"
+      - "#ff8787"
+      - "#ff6b6b"
+      - "#fa5252"
+      - "#f03e3e"
+      - "#e03131"
+      - "#c92a2a"
+  - color: pink
+    hexcodes:
+      - "#fff0f6"
+      - "#ffdeeb"
+      - "#fcc2d7"
+      - "#faa2c1"
+      - "#f783ac"
+      - "#f06595"
+      - "#e64980"
+      - "#d6336c"
+      - "#c2255c"
+      - "#a61e4d"
+  - color: grape
+    hexcodes:
+      - "#f8f0fc"
+      - "#f3d9fa"
+      - "#eebefa"
+      - "#e599f7"
+      - "#da77f2"
+      - "#cc5de8"
+      - "#be4bdb"
+      - "#ae3ec9"
+      - "#9c36b5"
+      - "#862e9c"
+  - color: violet
+    hexcodes:
+      - "#f3f0ff"
+      - "#e5dbff"
+      - "#d0bfff"
+      - "#b197fc"
+      - "#9775fa"
+      - "#845ef7"
+      - "#7950f2"
+      - "#7048e8"
+      - "#6741d9"
+      - "#5f3dc4"
+  - color: indigo
+    hexcodes:
+      - "#edf2ff"
+      - "#dbe4ff"
+      - "#bac8ff"
+      - "#91a7ff"
+      - "#748ffc"
+      - "#5c7cfa"
+      - "#4c6ef5"
+      - "#4263eb"
+      - "#3b5bdb"
+      - "#364fc7"
+  - color: blue
+    hexcodes:
+      - "#e7f5ff"
+      - "#d0ebff"
+      - "#a5d8ff"
+      - "#74c0fc"
+      - "#4dabf7"
+      - "#339af0"
+      - "#228be6"
+      - "#1c7ed6"
+      - "#1971c2"
+      - "#1864ab"
+  - color: cyan
+    hexcodes:
+      - "#e3fafc"
+      - "#c5f6fa"
+      - "#99e9f2"
+      - "#66d9e8"
+      - "#3bc9db"
+      - "#22b8cf"
+      - "#15aabf"
+      - "#1098ad"
+      - "#0c8599"
+      - "#0b7285"
+  - color: teal
+    hexcodes:
+      - "#e6fcf5"
+      - "#c3fae8"
+      - "#96f2d7"
+      - "#63e6be"
+      - "#38d9a9"
+      - "#20c997"
+      - "#12b886"
+      - "#0ca678"
+      - "#099268"
+      - "#087f5b"
+  - color: green
+    hexcodes:
+      - "#ebfbee"
+      - "#d3f9d8"
+      - "#b2f2bb"
+      - "#8ce99a"
+      - "#69db7c"
+      - "#51cf66"
+      - "#40c057"
+      - "#37b24d"
+      - "#2f9e44"
+      - "#2b8a3e"
+  - color: lime
+    hexcodes:
+      - "#f4fce3"
+      - "#e9fac8"
+      - "#d8f5a2"
+      - "#c0eb75"
+      - "#a9e34b"
+      - "#94d82d"
+      - "#82c91e"
+      - "#74b816"
+      - "#66a80f"
+      - "#5c940d"
+  - color: yellow
+    hexcodes:
+      - "#fff9db"
+      - "#fff3bf"
+      - "#ffec99"
+      - "#ffe066"
+      - "#ffd43b"
+      - "#fcc419"
+      - "#fab005"
+      - "#f59f00"
+      - "#f08c00"
+      - "#e67700"
+  - color: orange
+    hexcodes:
+      - "#fff4e6"
+      - "#ffe8cc"
+      - "#ffd8a8"
+      - "#ffc078"
+      - "#ffa94d"
+      - "#ff922b"
+      - "#fd7e14"
+      - "#f76707"
+      - "#e8590c"
+      - "#d9480f"
+
+work_package_roles:
+  - reference: :default_role_work_package_editor
+    t_name: Work package editor
+    position: 7
+    builtin: :work_package_editor
+    permissions:
+      - :view_work_packages
+      - :edit_work_packages
+      - :work_package_assigned
+      - :add_work_package_notes
+      - :edit_own_work_package_notes
+      - :manage_work_package_relations
+      - :copy_work_packages
+      - :export_work_packages
+  - reference: :default_role_work_package_commenter
+    t_name: Work package commenter
+    builtin: :work_package_commenter
+    position: 8
+    permissions:
+      - :view_work_packages
+      - :work_package_assigned
+      - :add_work_package_notes
+      - :edit_own_work_package_notes
+      - :export_work_packages
+      - :add_work_package_attachments
+  - reference: :default_role_work_package_viewer
+    t_name: Work package viewer
+    builtin: :work_package_viewer
+    position: 9
+    permissions:
+      - :view_work_packages
+      - :export_work_packages
+project_roles:
+  - reference: :default_role_non_member
+    t_name: Non member
+    position: 0
+    builtin: :non_member
+    permissions:
+      - :view_work_packages
+      - :view_calendar
+      - :comment_news
+      - :view_wiki_pages
+  - reference: :default_role_anonymous
+    t_name: Anonymous
+    position: 1
+    builtin: :anonymous
+    permissions:
+      - :view_work_packages
+      - :view_wiki_pages
+  - reference: :default_role_member
+    t_name: Member
+    position: 3
+    permissions:
+      - :view_work_packages
+      - :export_work_packages
+      - :add_work_packages
+      - :move_work_packages
+      - :edit_work_packages
+      - :assign_versions
+      - :work_package_assigned
+      - :add_work_package_notes
+      - :edit_own_work_package_notes
+      - :manage_work_package_relations
+      - :manage_subtasks
+      - :save_queries
+      - :view_work_package_watchers
+      - :add_work_package_watchers
+      - :delete_work_package_watchers
+      - :view_calendar
+      - :comment_news
+      - :manage_news
+      - :view_time_entries
+      - :view_own_time_entries
+      - :edit_own_time_entries
+      - :view_timelines
+      - :edit_timelines
+      - :delete_timelines
+      - :view_reportings
+      - :edit_reportings
+      - :delete_reportings
+      - :manage_wiki
+      - :rename_wiki_pages
+      - :change_wiki_parent_page
+      - :delete_wiki_pages
+      - :view_wiki_pages
+      - :export_wiki_pages
+      - :view_wiki_edits
+      - :edit_wiki_pages
+      - :delete_wiki_pages_attachments
+      - :protect_wiki_pages
+      - :list_attachments
+      - :add_messages
+      - :edit_own_messages
+      - :delete_own_messages
+      - :browse_repository
+      - :view_changesets
+      - :commit_access
+      - :view_commit_author_statistics
+      - :view_members
+      - :view_team_planner
+      - :view_shared_work_packages
+      - :copy_work_packages
+      - :add_work_package_attachments
+  - reference: :default_role_reader
+    t_name: Reader
+    position: 4
+    permissions:
+      - :view_work_packages
+      - :add_work_package_notes
+      - :edit_own_work_package_notes
+      - :save_queries
+      - :view_calendar
+      - :comment_news
+      - :view_timelines
+      - :view_reportings
+      - :view_wiki_pages
+      - :export_wiki_pages
+      - :list_attachments
+      - :add_messages
+      - :edit_own_messages
+      - :delete_own_messages
+      - :browse_repository
+      - :view_changesets
+      - :view_commit_author_statistics
+      - :view_team_planner
+      - :view_shared_work_packages
+  - reference: :default_role_project_admin
+    t_name: Project admin
+    position: 5
+    permissions: :all_assignable_permissions
+global_roles:
+  - reference: :default_role_project_creator_and_staff_manager
+    t_name: Staff and projects manager
+    position: 6
+    permissions:
+      - :add_project
+      - :create_user
+      - :manage_user
+      - :manage_placeholder_user

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'account/register', type: :view do
-  let(:user) { build :user, auth_source: nil }
+RSpec.describe "account/register" do
+  let(:user) { build(:user, ldap_auth_source: nil) }
 
-  context 'with the email_login setting disabled (default value)' do
+  context "with the email_login setting disabled (default value)" do
     before do
       allow(Setting).to receive(:email_login?).and_return(false)
 
@@ -39,23 +39,23 @@ describe 'account/register', type: :view do
       render
     end
 
-    context 'with auth source' do
-      let(:auth_source) { create :auth_source }
-      let(:user)        { build :user, auth_source: }
+    context "with auth source" do
+      let(:ldap_auth_source) { create(:ldap_auth_source) }
+      let(:user)        { build(:user, ldap_auth_source:) }
 
-      it 'does not show a login field' do
-        expect(rendered).not_to include('user[login]')
+      it "does not show a login field" do
+        expect(rendered).not_to include("user[login]")
       end
     end
 
-    context 'without auth source' do
-      it 'shows a login field' do
-        expect(rendered).to include('user[login]')
+    context "without auth source" do
+      it "shows a login field" do
+        expect(rendered).to include("user[login]")
       end
     end
   end
 
-  context 'with the email_login setting enabled' do
+  context "with the email_login setting enabled" do
     before do
       allow(Setting).to receive(:email_login?).and_return(true)
 
@@ -63,31 +63,31 @@ describe 'account/register', type: :view do
       render
     end
 
-    context 'with auth source' do
-      let(:auth_source) { create :auth_source }
-      let(:user)        { build :user, auth_source: }
+    context "with auth source" do
+      let(:ldap_auth_source) { create(:ldap_auth_source) }
+      let(:user)        { build(:user, ldap_auth_source:) }
 
-      it 'does not show a login field' do
-        expect(rendered).not_to include('user[login]')
+      it "does not show a login field" do
+        expect(rendered).not_to include("user[login]")
       end
 
-      it 'shows an email field' do
-        expect(rendered).to include('user[mail]')
+      it "shows an email field" do
+        expect(rendered).to include("user[mail]")
       end
     end
 
-    context 'without auth source' do
-      it 'does not show a login field' do
-        expect(rendered).not_to include('user[login]')
+    context "without auth source" do
+      it "does not show a login field" do
+        expect(rendered).not_to include("user[login]")
       end
 
-      it 'shows an email field' do
-        expect(rendered).to include('user[mail]')
+      it "shows an email field" do
+        expect(rendered).to include("user[mail]")
       end
     end
   end
 
-  context 'with the registration_footer setting enabled' do
+  context "with the registration_footer setting enabled" do
     let(:footer) { "Some email footer" }
 
     before do
@@ -96,7 +96,7 @@ describe 'account/register', type: :view do
       assign(:user, user)
     end
 
-    it 'renders the registration footer from the settings' do
+    it "renders the registration footer from the settings" do
       render
 
       expect(rendered).to include(footer)
@@ -106,16 +106,14 @@ describe 'account/register', type: :view do
   context "with consent required", with_settings: {
     consent_required: true,
     consent_info: {
-      'en' => "You must consent!",
-      'de' => "Du musst zustimmen!"
+      "en" => "You must consent!",
+      "de" => "Du musst zustimmen!"
     }
   } do
     let(:locale) { raise "you have to define the locale" }
 
     before do
-      I18n.with_locale(locale) do
-        render
-      end
+      I18n.with_locale(locale) { render }
     end
 
     context "for English (locale: en) users" do

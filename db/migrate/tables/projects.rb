@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::Projects < Tables::Base
   # rubocop:disable Metrics/AbcSize
   def self.table(migration)
     create_table migration do |t|
-      t.string :name, default: '', null: false
+      t.string :name, default: "", null: false
       t.text :description
       t.boolean :is_public, default: true, null: false
       t.integer :parent_id
@@ -46,8 +46,8 @@ class Tables::Projects < Tables::Base
       t.belongs_to :responsible, type: :int
       t.belongs_to :work_packages_responsible, type: :int
 
-      t.index :lft, name: 'index_projects_on_lft'
-      t.index :rgt, name: 'index_projects_on_rgt'
+      t.index :lft, name: "index_projects_on_lft"
+      t.index :rgt, name: "index_projects_on_rgt"
       t.index :identifier
     end
   end

@@ -1,11 +1,8 @@
-export const demoProjectName = 'Demo project';
-export const scrumDemoProjectName = 'Scrum project';
 export const onboardingTourStorageKey = 'openProject-onboardingTour';
-export type OnboardingTourNames = 'prepareBacklogs'|'backlogs'|'taskboard'|'homescreen'|'main';
+export type OnboardingTourNames = 'prepareBacklogs'|'backlogs'|'taskboard'|'homescreen'|'workPackages'|'main';
 
 export enum ProjectName {
   demo = 'demo',
-  scrum = 'scrum',
 }
 
 function matchingFilter(list:NodeListOf<HTMLElement>, filterFunction:(match:HTMLElement) => boolean):HTMLElement|null {
@@ -45,24 +42,4 @@ export function waitForElement(
     childList: true,
     subtree: true,
   });
-}
-
-export function demoProjectsLinks() {
-  const demoProjects = [];
-  const demoProjectsLink = jQuery(`.widget-box.welcome a:contains(${demoProjectName})`);
-  const scrumDemoProjectsLink = jQuery(`.widget-box.welcome a:contains(${scrumDemoProjectName})`);
-
-  if (demoProjectsLink.length) {
-    demoProjects.push(demoProjectsLink);
-  }
-  if (scrumDemoProjectsLink.length) {
-    demoProjects.push(scrumDemoProjectsLink);
-  }
-
-  return demoProjects;
-}
-
-export function preventClickHandler(e:any) {
-  e.preventDefault();
-  e.stopPropagation();
 }

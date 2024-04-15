@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,24 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackageCustomField, type: :model do
-  describe '.summable' do
+RSpec.describe WorkPackageCustomField do
+  describe ".summable" do
     let!(:list_custom_field) do
       create(:list_wp_custom_field)
     end
     let!(:int_custom_field) do
-      create(:int_wp_custom_field)
+      create(:integer_wp_custom_field)
     end
     let!(:float_custom_field) do
       create(:float_wp_custom_field)
     end
 
-    context 'with a summable field' do
-      it 'contains the custom_field' do
+    context "with a summable field" do
+      it "contains the custom_field" do
         expect(described_class.summable)
-          .to match_array [int_custom_field, float_custom_field]
+          .to contain_exactly(int_custom_field, float_custom_field)
       end
     end
   end

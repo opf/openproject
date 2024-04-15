@@ -8,6 +8,7 @@ de:
         text: "Einige Widgets wie das Arbeitspaket-Graphen Widget sind nur in der Enterprise Edition verfügbar."
         link: 'Enterprise Edition'
       widgets:
+        missing_permission: "Sie verfügen nicht über die erforderlichen Berechtigungen, um dieses Steuerelement anzuzeigen."
         custom_text:
           title: 'Benutzerdefinierter Text'
         documents:
@@ -20,7 +21,7 @@ de:
           add: 'Mitglied'
           too_many: 'Zeigt %{count} von %{total} Mitgliedern an.'
         news:
-          title: 'Nachrichten'
+          title: 'Neuigkeiten'
           at: 'um'
           no_results: 'Nichts Neues zu berichten.'
         project_description:

@@ -1,4 +1,7 @@
 fr:
+  plugin_openproject_webhooks:
+    name: "Webhooks OpenProject"
+    description: "Fournit un plug-in API pour prendre en charge les webhooks d'OpenProject afin d'améliorer l'intégration des tiers."
   activerecord:
     attributes:
       webhooks/webhook:

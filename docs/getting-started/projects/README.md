@@ -39,13 +39,17 @@ You can also start typing in a project name to filter by the project's title.
 Projects and subprojects are displayed according to their hierarchy in the drop-down menu.
 
 <div class="glossary">
-**Subproject** is defined as a child project of another project. Subprojects can be used to display a hierarchy of projects. Several filter options (e.g. in work package list and timeline) can be applied only to the current project and its subprojects.
+**Subproject** is defined as a child project of another project. Subprojects can be used to display a hierarchy of projects. Several filter options (e.g. in work package table and timeline) can be applied only to the current project and its subprojects.
 </div>
 ![project_hierarchy](project_hierarchy-8178054.png)
+
+Alternatively, you can open the list of all existing projects using the [**Global modules**](../../user-guide/home/global-modules/#projects) menu. 
 
 Also, you will see your newest projects on the application landing page in the **Projects** section. Here you can simply click on one of the newest visible projects to open it.
 
 ![openproject landing page](openproject-landing-page.png)
+
+
 
 ## Create a new project
 
@@ -70,11 +74,15 @@ To configure further project information, see the documentation for [project set
 
 ### View all projects
 
-To view all your projects in which you are a member, click on the **Projects list** button at the bottom of the action bar after opening the **Select a project** drop-down menu.
+To view all your projects in which you are a member, click on the **Project lists** button at the bottom of the action bar after opening the **Select a project** drop-down menu.
 
 ![view all projects](view_all_projects.png)
 
-You will see a list with all your projects and their details.
+Alternatively you can use the [**Global modules menu**](../../user-guide/home/global-modules/#projects) on the left or select *Projects* using the grid icon in the top right corner.
+
+![Open a list of all existing projects in OpenProject](view_all_projects_options.png)
+
+You will see a list with all your projects and their details. 
 
 ![project overview list](project-overview-list.png)
 

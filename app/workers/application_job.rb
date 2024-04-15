@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'active_job'
+require "active_job"
 
-class ApplicationJob < ::ActiveJob::Base
+class ApplicationJob < ActiveJob::Base
   include ::JobStatus::ApplicationJobWithStatus
 
   ##
@@ -59,9 +59,9 @@ class ApplicationJob < ::ActiveJob::Base
 
   def self.queue_with_priority(value = :default)
     if value.is_a?(Symbol)
-      super priority_number(value)
+      super(priority_number(value))
     else
-      super value
+      super(value)
     end
   end
 
@@ -90,6 +90,10 @@ class ApplicationJob < ::ActiveJob::Base
   # by the background jobs at runtime.
   def reload_mailer_settings!
     Setting.reload_mailer_settings!
+  end
+
+  def job_scheduled_at
+    GoodJob::Job.where(id: job_id).pick(:scheduled_at)
   end
 
   private

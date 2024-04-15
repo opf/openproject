@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-describe 'Calendar drag&dop and resizing', type: :feature, js: true do
-  include_context 'with calendar full access'
+RSpec.describe "Calendar drag&dop and resizing", :js do
+  include_context "with calendar full access"
 
   let!(:other_user) do
-    create :user,
-           firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_calendar
-           ]
+    create(:user,
+           firstname: "Bernd",
+           member_with_permissions: { project => %w[view_work_packages view_calendar] })
   end
 
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   before do
@@ -54,22 +51,22 @@ describe 'Calendar drag&dop and resizing', type: :feature, js: true do
     calendar.expect_event work_package
   end
 
-  context 'with full permissions' do
-    it 'allows to resize to change the dates of a wp' do
+  context "with full permissions" do
+    it "allows to resize to change the dates of a wp" do
       target = work_package.due_date + 1.day
       current_start = work_package.start_date
       retry_block do
         calendar.resize_date(work_package, target)
       end
 
-      calendar.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      calendar.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       work_package.reload
       expect(work_package.due_date).to eq target
       expect(work_package.start_date).to eq current_start
     end
 
-    it 'allows to resize from the start' do
+    it "allows to resize from the start" do
       target = work_package.start_date - 1.day
       current_end = work_package.due_date
 
@@ -77,21 +74,21 @@ describe 'Calendar drag&dop and resizing', type: :feature, js: true do
         calendar.resize_date(work_package, target, end_date: false)
       end
 
-      calendar.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      calendar.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       work_package.reload
       expect(work_package.start_date).to eq target
       expect(work_package.due_date).to eq current_end
     end
 
-    it 'allows to drag the work package to another date' do
+    it "allows to drag the work package to another date" do
       target = Time.zone.today.beginning_of_week
 
       retry_block do
         calendar.drag_event(work_package, target)
       end
 
-      calendar.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      calendar.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       work_package.reload
 
@@ -101,10 +98,10 @@ describe 'Calendar drag&dop and resizing', type: :feature, js: true do
     end
   end
 
-  context 'without permission to edit' do
+  context "without permission to edit" do
     let(:current_user) { other_user }
 
-    it 'allows neither dragging nor resizing any wp' do
+    it "allows neither dragging nor resizing any wp" do
       calendar.expect_event work_package
       calendar.expect_wp_not_resizable(work_package)
       calendar.expect_wp_not_draggable(work_package)

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
+require_module_spec_helper
 
-describe Principals::ReplaceReferencesService, '#call', type: :model do
+RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
   shared_let(:principal) { create(:user) }
-  shared_let(:to_principal) { create :user }
+  shared_let(:to_principal) { create(:user) }
 
   subject(:service_call) { instance.call(from: principal, to: to_principal) }
 
@@ -38,17 +41,17 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     described_class.new
   end
 
-  shared_examples 'replaces the creator' do
+  shared_examples "replaces the creator" do
     before do
       model
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(service_call)
         .to be_success
     end
 
-    it 'replaces principal with to_principal' do
+    it "replaces principal with to_principal" do
       service_call
       model.reload
 
@@ -56,20 +59,20 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     end
   end
 
-  context 'with Storage' do
-    it_behaves_like 'replaces the creator' do
-      let(:model) { create(:storage, creator: principal) }
+  context "with Storage" do
+    it_behaves_like "replaces the creator" do
+      let(:model) { create(:nextcloud_storage, creator: principal) }
     end
   end
 
-  context 'with ProjectStorage' do
-    it_behaves_like 'replaces the creator' do
+  context "with ProjectStorage" do
+    it_behaves_like "replaces the creator" do
       let(:model) { create(:project_storage, creator: principal) }
     end
   end
 
-  context 'with FileLink' do
-    it_behaves_like 'replaces the creator' do
+  context "with FileLink" do
+    it_behaves_like "replaces the creator" do
       let(:work_package) { create(:work_package) }
       let(:model) { create(:file_link, creator: principal, container: work_package) }
     end

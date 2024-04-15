@@ -1,0 +1,4 @@
+fr:
+  plugin_openproject_job_status:
+    name: "Statut de tâches OpenProject"
+    description: "Liste et état des tâches d'arrière-plan."

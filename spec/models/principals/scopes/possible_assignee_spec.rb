@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,88 +26,198 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Principals::Scopes::PossibleAssignee, type: :model do
-  let(:project) { create(:project) }
-  let(:other_project) { create(:project) }
-  let(:role_assignable) { true }
-  let(:role) { create(:role, permissions: (role_assignable ? [:work_package_assigned] : [])) }
-  let(:user_status) { :active }
-  let!(:member_user) do
-    create(:user,
-           status: user_status,
-           member_in_project: project,
-           member_through_role: role)
-  end
-  let!(:member_placeholder_user) do
-    create(:placeholder_user,
-           member_in_project: project,
-           member_through_role: role)
-  end
-  let!(:member_group) do
-    create(:group,
-           member_in_project: project,
-           member_through_role: role)
-  end
-  let!(:other_project_member_user) do
-    create(:group,
-           member_in_project: other_project,
-           member_through_role: role)
-  end
+RSpec.describe Principals::Scopes::PossibleAssignee do
+  shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
 
-  describe '.possible_assignee' do
-    subject { Principal.possible_assignee(project) }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:other_work_package) { create(:work_package, project: other_project) }
 
-    context 'with the role being assignable' do
-      context 'with the user status being active' do
-        it 'returns non locked users, groups and placeholder users that are members' do
-          expect(subject)
-            .to match_array([member_user,
-                             member_placeholder_user,
-                             member_group])
+  shared_let(:assignable_project_role) { create(:project_role, permissions: [:work_package_assigned]) }
+  shared_let(:non_assignable_project_role) { create(:project_role, permissions: []) }
+
+  shared_let(:assignable_work_package_role) { create(:comment_work_package_role) }
+  shared_let(:non_assignable_work_package_role) { create(:view_work_package_role) }
+
+  describe ".possible_assignee" do
+    context "when providing Project resources" do
+      subject { Principal.possible_assignee(project) }
+
+      let(:user_status) { :active }
+      let!(:member_user) do
+        create(:user,
+               status: user_status,
+               member_with_roles: { project => role })
+      end
+      let!(:member_placeholder_user) do
+        create(:placeholder_user, member_with_roles: { project => role })
+      end
+      let!(:member_group) do
+        create(:group, member_with_roles: { project => role })
+      end
+      let!(:other_project_member_user) do
+        create(:group, member_with_roles: { other_project => role })
+      end
+
+      context "with the role being assignable" do
+        let(:role) { assignable_project_role }
+
+        context "with the user status being active" do
+          it "returns non locked users, groups and placeholder users that are members" do
+            expect(subject)
+              .to contain_exactly(member_user, member_placeholder_user, member_group)
+          end
+        end
+
+        context "with the user status being registered" do
+          let(:user_status) { :registered }
+
+          it "returns non locked users, groups and placeholder users that are members" do
+            expect(subject)
+              .to contain_exactly(member_user, member_placeholder_user, member_group)
+          end
+        end
+
+        context "with the user status being invited" do
+          let(:user_status) { :invited }
+
+          it "returns non locked users, groups and placeholder users that are members" do
+            expect(subject)
+              .to contain_exactly(member_user, member_placeholder_user, member_group)
+          end
+        end
+
+        context "with the user status being locked" do
+          let(:user_status) { :locked }
+
+          it "returns non locked users, groups and placeholder users that are members" do
+            expect(subject)
+              .to contain_exactly(member_placeholder_user, member_group)
+          end
         end
       end
 
-      context 'with the user status being registered' do
-        let(:user_status) { :registered }
+      context "with the role not being assignable" do
+        let(:role) { non_assignable_project_role }
 
-        it 'returns non locked users, groups and placeholder users that are members' do
+        it "returns nothing" do
           expect(subject)
-            .to match_array([member_user,
-                             member_placeholder_user,
-                             member_group])
+            .to be_empty
         end
       end
 
-      context 'with the user status being invited' do
-        let(:user_status) { :invited }
+      context "when asking for multiple projects" do
+        subject { Principal.possible_assignee([project, other_project]) }
 
-        it 'returns non locked users, groups and placeholder users that are members' do
-          expect(subject)
-            .to match_array([member_user,
-                             member_placeholder_user,
-                             member_group])
+        before do
+          create(:member,
+                 principal: member_user,
+                 project: other_project,
+                 roles: [role])
         end
-      end
 
-      context 'with the user status being locked' do
-        let(:user_status) { :locked }
+        let(:role) { assignable_project_role }
 
-        it 'returns non locked users, groups and placeholder users that are members' do
+        it "returns users assignable in all of the provided projects (intersection)" do
           expect(subject)
-            .to match_array([member_placeholder_user,
-                             member_group])
+            .to contain_exactly(member_user)
         end
       end
     end
 
-    context 'with the role not being assignable' do
-      let(:role_assignable) { false }
+    context "when providing WorkPackage resources" do
+      subject { Principal.possible_assignee(work_package) }
 
-      it 'returns nothing' do
-        expect(subject)
-          .to be_empty
+      let!(:member_user) do
+        create(:user,
+               status: user_status,
+               member_with_roles: { work_package => role })
+      end
+      let!(:member_placeholder_user) do
+        create(:placeholder_user, member_with_roles: { work_package => role })
+      end
+      let!(:member_group) do
+        create(:group, member_with_roles: { work_package => role })
+      end
+
+      context "with the role being assignable" do
+        let(:role) { assignable_work_package_role }
+
+        context "and the user status being active" do
+          let(:user_status) { :active }
+
+          it "returns non locked users, groups and placeholder users that are members" do
+            expect(subject)
+              .to contain_exactly(member_user, member_placeholder_user, member_group)
+          end
+        end
+
+        context "with the user status being invited" do
+          let(:user_status) { :invited }
+
+          it "returns non locked users, groups and placeholder users that are members" do
+            expect(subject)
+              .to contain_exactly(member_user, member_placeholder_user, member_group)
+          end
+        end
+
+        context "with the user status being locked" do
+          let(:user_status) { :locked }
+
+          it "returns non locked users, groups and placeholder users that are members" do
+            expect(subject)
+              .to contain_exactly(member_placeholder_user, member_group)
+          end
+        end
+      end
+
+      context "with the role not being assignable" do
+        let(:role) { non_assignable_work_package_role }
+        let(:user_status) { :active }
+
+        it "returns nothing" do
+          expect(subject)
+            .to be_empty
+        end
+      end
+
+      context "when asking for multiple Work Packages (intersection)" do
+        subject { Principal.possible_assignee([work_package, other_work_package]) }
+
+        before do
+          create(:work_package_member,
+                 principal: member_user,
+                 entity: other_work_package,
+                 roles: [role])
+        end
+
+        let(:role) { assignable_work_package_role }
+        let(:user_status) { :active }
+
+        it "returns users assignable in all of the provided work packages (intersection)" do
+          expect(subject)
+            .to contain_exactly(member_user)
+        end
+      end
+
+      context "when there are members in the work package's project that have an assignable role" do
+        let!(:project_member_user) do
+          create(:user,
+                 status: user_status,
+                 member_with_roles: { project => assignable_project_role })
+        end
+        let(:role) { assignable_work_package_role }
+        let(:user_status) { :active }
+
+        it "returns users assignable in the provided work package and the work package's project" do
+          expect(subject)
+            .to contain_exactly(member_user,
+                                member_placeholder_user,
+                                member_group,
+                                project_member_user)
+        end
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,57 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A FileLink represents a single file stored in some Storage
-# (currently basically a Nextcloud store). Additional attributes
-# and constraints are defined in db/migrate/20220113144759_create_file_links.rb
-# FileLinks are attached to a "container", which currently has to
-# be a WorkPackage.
-#
-# Purpose: The code below is a standard Ruby model:
-# https://guides.rubyonrails.org/active_model_basics.html
-# It defines defines checks and permissions on the Ruby level.
-# Additional attributes and constraints are defined in
-# db/migrate/20220113144759_create_file_links.rb migration.
+# A FileLink represents a relation to a single file stored in some cloud file storage.
+# Additional attributes and constraints are defined in db/migrate/20220113144759_create_file_links.rb
+# FileLinks are attached to a "container", which currently has to be a WorkPackage.
 class Storages::FileLink < ApplicationRecord
-  # Every FileLink references its Storage. A "on delete cascade" is defined in
-  # the migration, so this FileLink will be deleted when deleting the Storage.
   belongs_to :storage
+  belongs_to :creator, class_name: "User"
+  belongs_to :container, polymorphic: true
 
-  # The object who created the FileLink should be of type User.
-  belongs_to :creator, class_name: 'User'
-
-  # FileLinks are attached to a container ()currently a WorkPackage)
-  # Wieland: This needs to become more flexible in the future
-  belongs_to :container, class_name: 'WorkPackage'
-
-  # Currently only WorkPackages are supported as containers for FileLinks
-  # For some reason this case is not handled in the belongs_to above.
-  validates :container_type, inclusion: { in: ["WorkPackage"] }
-
-  # origin_id is the Nextcloud ID of the file and should be valid.
+  validates :container_type, inclusion: { in: ["WorkPackage", nil] }
   validates :origin_id, presence: true
 
-  # Is this file shared with me in Nextcloud?
-  # This attribute is _not_ to be stored in the DB
-  attr_writer :origin_permission
+  attr_writer :origin_status
 
-  def origin_permission
-    @origin_permission || nil
+  def origin_status
+    @origin_status || nil
   end
-
-  # A standard Rails custom query:
-  # https://www.rubyguides.com/2019/10/scopes-in-ruby-on-rails/
-  # Purpose: limit to FileLink visible by given user.
-  # Used by: FileLinksAPI#visible_file_links and WorkPackagesFileLinksAPI#visible_file_links
-  scope :visible, ->(user = User.current) {
-    # join projects through the container, and filter on projects visible from
-    # the user
-    includes(:container)
-      .includes(container: { project: :projects_storages })
-      .references(:projects)
-      .merge(Project.allowed_to(user, :view_file_links))
-      .where('projects_storages.storage_id = file_links.storage_id')
-  }
 
   delegate :project, to: :container
 

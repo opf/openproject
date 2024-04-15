@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Calendar::CalendarsController, type: :routing do
+RSpec.describe Calendar::CalendarsController do
   it do
-    expect(get('/projects/1/calendars')).to route_to(controller: 'calendar/calendars',
-                                                     action: 'index',
-                                                     project_id: '1')
+    expect(get("calendars")).to route_to(controller: "calendar/calendars",
+                                         action: "index")
   end
 
   it do
-    expect(get('/projects/1/calendars/2')).to route_to(controller: 'calendar/calendars',
-                                                       action: 'show',
-                                                       id: '2',
-                                                       project_id: '1')
+    expect(get("/projects/1/calendars")).to route_to(controller: "calendar/calendars",
+                                                     action: "index",
+                                                     project_id: "1")
   end
 
   it do
-    expect(delete('/projects/1/calendars/2')).to route_to(controller: 'calendar/calendars',
-                                                          action: 'destroy',
-                                                          id: '2',
-                                                          project_id: '1')
+    expect(get("/projects/1/calendars/2")).to route_to(controller: "calendar/calendars",
+                                                       action: "show",
+                                                       id: "2",
+                                                       project_id: "1")
+  end
+
+  it do
+    expect(get("/calendars/new")).to route_to(controller: "calendar/calendars",
+                                              action: "new")
+  end
+
+  it do
+    expect(post("/calendars")).to route_to(controller: "calendar/calendars",
+                                           action: "create")
+  end
+
+  it do
+    expect(delete("/projects/1/calendars/2")).to route_to(controller: "calendar/calendars",
+                                                          action: "destroy",
+                                                          id: "2",
+                                                          project_id: "1")
   end
 end

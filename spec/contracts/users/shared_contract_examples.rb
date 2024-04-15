@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,67 +26,76 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-shared_examples_for 'user contract' do
-  let(:user_firstname) { 'Bob' }
-  let(:user_lastname) { 'Bobbit' }
-  let(:user_login) { 'bob' }
-  let(:user_mail) { 'bobbit@bob.com' }
-  let(:user_password) { 'adminADMIN!' }
-  let(:user_password_confirmation) { 'adminADMIN!' }
+RSpec.shared_examples_for "user contract" do
+  include_context "ModelContract shared context"
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  let(:user_firstname) { "Bob" }
+  let(:user_lastname) { "Bobbit" }
+  let(:user_login) { "bob" }
+  let(:user_mail) { "bobbit@bob.com" }
+  let(:user_password) { "adminADMIN!" }
+  let(:user_password_confirmation) { "adminADMIN!" }
 
-  context 'when admin' do
-    let(:current_user) { build_stubbed :admin }
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-    it_behaves_like 'contract is valid'
+  context "when admin" do
+    let(:current_user) { build_stubbed(:admin) }
+
+    it_behaves_like "contract is valid"
+
+    include_examples "contract reuses the model errors"
   end
 
-  context 'when global user' do
-    let(:current_user) { create :user, global_permission: :manage_user }
+  context "when global user" do
+    let(:current_user) { create(:user, global_permissions: %i[create_user manage_user]) }
 
-    describe 'cannot set the password' do
+    describe "cannot set the password" do
       before do
-        user.password = user.password_confirmation = 'password!password!'
+        user.password = user.password_confirmation = "password!password!"
       end
 
-      it_behaves_like 'contract is invalid', password: :error_readonly
+      it_behaves_like "contract is invalid", password: :error_readonly
     end
 
-    describe 'can set the status' do
+    describe "can set the status" do
       before do
         user.password = user.password_confirmation = nil
         user.status = Principal.statuses[:invited]
       end
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
 
-    describe 'can set the auth_source' do
-      let!(:auth_source) { create :auth_source }
+    describe "can set the auth_source" do
+      let!(:auth_source) { create(:ldap_auth_source) }
 
       before do
         user.password = user.password_confirmation = nil
-        user.auth_source = auth_source
+        user.ldap_auth_source = auth_source
       end
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
 
-    describe 'cannot set the identity url' do
+    describe "cannot set the identity url" do
       before do
-        user.identity_url = 'saml:123412foo'
+        user.identity_url = "saml:123412foo"
       end
 
-      it_behaves_like 'contract is invalid', identity_url: :error_readonly
+      it_behaves_like "contract is invalid", identity_url: :error_readonly
     end
+
+    include_examples "contract reuses the model errors"
   end
 
-  context 'when unauthorized user' do
+  context "when unauthorized user" do
     let(:current_user) { build_stubbed(:user) }
 
-    it_behaves_like 'contract user is unauthorized'
+    it_behaves_like "contract user is unauthorized"
+
+    include_examples "contract reuses the model errors"
   end
 end

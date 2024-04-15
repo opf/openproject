@@ -1,4 +1,4 @@
-require 'warden/basic_auth'
+require "warden/basic_auth"
 
 module OpenProject
   module Authentication
@@ -40,7 +40,7 @@ module OpenProject
             end
 
             if config[:password].blank?
-              raise ArgumentError, 'password must not be empty'
+              raise ArgumentError, "password must not be empty"
             end
 
             @configuration = config
@@ -51,7 +51,7 @@ module OpenProject
           def self.openproject_config
             config = OpenProject::Configuration
             %w(authentication global_basic_auth).inject(config) do |acc, key|
-              HashWithIndifferentAccess.new acc[key]
+              ActiveSupport::HashWithIndifferentAccess.new acc[key]
             end
           end
 
@@ -70,12 +70,10 @@ module OpenProject
           ##
           # Only valid if global basic auth is configured and tried.
           def valid?
-            (
-              OpenProject::Configuration.apiv3_enable_basic_auth? &&
-              self.class.configuration? &&
-              super &&
-              username == self.class.user
-            )
+            OpenProject::Configuration.apiv3_enable_basic_auth? &&
+            self.class.configuration? &&
+            super &&
+            username == self.class.user
           end
 
           def authenticate_user(username, password)

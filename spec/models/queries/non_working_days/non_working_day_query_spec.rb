@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/work_packages/shared/shared_examples_days'
+require "spec_helper"
+require "services/work_packages/shared/shared_examples_days"
 
-describe Queries::NonWorkingDays::NonWorkingDayQuery do
+RSpec.describe Queries::NonWorkingDays::NonWorkingDayQuery do
   shared_let(:first_of_may) { create(:non_working_day, date: Date.new(Date.current.year, 5, 1)) }
   shared_let(:christmas) { create(:non_working_day, date: Date.new(Date.current.year, 12, 25)) }
   shared_let(:new_year_day) { create(:non_working_day, date: Date.new(Date.current.year + 1, 1, 1)) }
@@ -57,12 +57,12 @@ describe Queries::NonWorkingDays::NonWorkingDayQuery do
     end
   end
 
-  context 'without a filter' do
-    context 'as an admin' do
+  context "without a filter" do
+    context "as an admin" do
       include_examples "returns this year's non working days"
     end
 
-    context 'as a non admin' do
+    context "as a non admin" do
       let(:current_user) { build_stubbed(:user) }
 
       include_examples "returns this year's non working days"
@@ -73,39 +73,39 @@ describe Queries::NonWorkingDays::NonWorkingDayQuery do
     let(:date_range) { [from.iso8601, to.iso8601] }
 
     before do
-      instance.where('date', '<>d', date_range)
+      instance.where("date", "<>d", date_range)
     end
 
-    context 'with dates from this year' do
+    context "with dates from this year" do
       let(:from) { Date.new(Date.current.year, 12, 1) }
       let(:to) { from.end_of_year }
 
-      it 'returns days from the December' do
+      it "returns days from the December" do
         expect(instance.results).to eq [christmas]
       end
 
-      context 'with dates missing the to date' do
+      context "with dates missing the to date" do
         let(:date_range) { [from.iso8601, ""] }
 
-        it 'returns days from December until the end of year' do
+        it "returns days from December until the end of year" do
           expect(instance.results).to eq [christmas]
         end
       end
 
-      context 'with dates missing the from date' do
+      context "with dates missing the from date" do
         let(:date_range) { ["", from.iso8601] }
 
-        it 'returns days from the beginning of the year until December' do
+        it "returns days from the beginning of the year until December" do
           expect(instance.results).to eq [first_of_may]
         end
       end
     end
 
-    context 'with dates from multiple years' do
+    context "with dates from multiple years" do
       let(:from) { Date.current.beginning_of_year }
       let(:to) { Date.current.next_year.end_of_year }
 
-      it 'returns days from this year and next year' do
+      it "returns days from this year and next year" do
         expect(instance.results).to eq [first_of_may, christmas, new_year_day]
       end
     end

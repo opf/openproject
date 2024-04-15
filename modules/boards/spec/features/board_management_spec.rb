@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require "spec_helper"
+require_relative "support/board_index_page"
+require_relative "support/board_page"
 
-describe 'Board management spec', type: :feature, js: true do
+RSpec.describe "Board management spec", :js, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions:) }
-  let!(:work_package) { create :work_package, subject: 'Foo', project: }
+  let(:role) { create(:project_role, permissions:) }
+  let!(:work_package) { create(:work_package, subject: "Foo", project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
-  let!(:priority) { create :default_priority }
-  let!(:status) { create :default_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:status) { create(:default_status) }
 
   before do
-    with_enterprise_token :board_view
     project
     login_as(user)
   end
 
-  context 'with full boards permissions' do
+  context "with full boards permissions" do
     let(:permissions) do
       %i[
         show_board_views
@@ -63,53 +61,53 @@ describe 'Board management spec', type: :feature, js: true do
         manage_public_queries
       ]
     end
-    let(:board_view) { create :board_grid_with_query, project: }
+    let(:board_view) { create(:board_grid_with_query, project:) }
 
-    it 'allows parallel creation of cards (Regression #30842)' do
+    it "allows parallel creation of cards (Regression #30842)" do
       board_view
       board_index.visit!
 
       board_page = board_index.open_board board_view
 
       board_page.add_list
-      board_page.rename_list 'Unnamed list', 'List 2'
+      board_page.rename_list "Unnamed list", "List 2"
 
       # Open in list 1
-      board_page.within_list('List 1') do
-        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
+      board_page.within_list("List 1") do
+        page.find_test_selector("op-board-list--card-dropdown-add-button").click
       end
 
-      page.find('.menu-item', text: 'Add new card').click
+      page.find(".menu-item", text: "Add new card").click
 
       # Open in list 2
-      board_page.within_list('List 2') do
-        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
+      board_page.within_list("List 2") do
+        page.find_test_selector("op-board-list--card-dropdown-add-button").click
       end
 
-      page.find('.menu-item', text: 'Add new card').click
+      page.find(".menu-item", text: "Add new card").click
 
-      board_page.within_list('List 2') do
-        subject = page.find('#wp-new-inline-edit--field-subject')
-        subject.set 'New card 1'
+      board_page.within_list("List 2") do
+        subject = page.find_by_id("wp-new-inline-edit--field-subject")
+        subject.set "New card 1"
         subject.send_keys :enter
       end
 
-      board_page.within_list('List 1') do
-        subject = page.find('#wp-new-inline-edit--field-subject')
-        subject.set 'New card 2'
+      board_page.within_list("List 1") do
+        subject = page.find_by_id("wp-new-inline-edit--field-subject")
+        subject.set "New card 2"
         subject.send_keys :enter
       end
 
-      board_page.expect_card('List 1', 'New card 2')
-      board_page.expect_card('List 2', 'New card 1')
+      board_page.expect_card("List 1", "New card 2")
+      board_page.expect_card("List 2", "New card 1")
     end
 
-    it 'allows management of boards' do
+    it "allows management of boards" do
       board_view
       board_index.visit!
 
       board_page = board_index.open_board board_view
-      board_page.expect_query 'List 1', editable: true
+      board_page.expect_query "List 1", editable: true
       board_page.expect_editable_board true
       board_page.expect_editable_list true
       board_page.back_to_index
@@ -117,42 +115,42 @@ describe 'Board management spec', type: :feature, js: true do
       board_index.expect_board board_view.name
 
       # Create new board
-      board_page = board_index.create_board action: nil
-      board_page.rename_board 'Board test'
+      board_page = board_index.create_board
+      board_page.rename_board "Board test"
 
       # Rename through toolbar
-      board_page.rename_board 'Board foo', through_dropdown: true
+      board_page.rename_board "Board foo", through_dropdown: true
 
-      board_page.rename_list 'Unnamed list', 'First'
+      board_page.rename_list "Unnamed list", "First"
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'Board foo'
+        expect(board.name).to eq "Board foo"
         queries = board.contained_queries
         expect(queries.count).to eq(1)
-        expect(queries.first.name).to eq 'First'
+        expect(queries.first.name).to eq "First"
       end
 
       # Create new list
       board_page.add_list
-      board_page.rename_list 'Unnamed list', 'Second'
+      board_page.rename_list "Unnamed list", "Second"
 
       # Add item
-      board_page.add_card 'First', 'Task 1'
+      board_page.add_card "First", "Task 1"
 
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
-      first = queries.find_by(name: 'First')
-      second = queries.find_by(name: 'Second')
+      first = queries.find_by(name: "First")
+      second = queries.find_by(name: "Second")
       expect(first.ordered_work_packages.count).to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
       subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
-      expect(subjects).to match_array ['Task 1']
+      expect(subjects).to contain_exactly("Task 1")
 
       # Move item to Second list
-      board_page.move_card(0, from: 'First', to: 'Second')
-      board_page.expect_card('First', 'Task 1', present: false)
-      board_page.expect_card('Second', 'Task 1', present: true)
+      board_page.move_card(0, from: "First", to: "Second")
+      board_page.expect_card("First", "Task 1", present: false)
+      board_page.expect_card("Second", "Task 1", present: true)
 
       # Expect work package to be saved in query second
       sleep 2
@@ -162,60 +160,90 @@ describe 'Board management spec', type: :feature, js: true do
       end
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
-      expect(subjects).to match_array ['Task 1']
+      expect(subjects).to contain_exactly("Task 1")
 
       # Reference an existing work package
-      board_page.reference('Second', work_package)
+      board_page.reference("Second", work_package)
       sleep 2
-      board_page.expect_card('Second', work_package.subject)
+      board_page.expect_card("Second", work_package.subject)
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
-      expect(subjects).to match_array [work_package.subject, 'Task 1']
+      expect(subjects).to contain_exactly(work_package.subject, "Task 1")
 
       # Filter for Task
       filters.expect_filter_count 0
       filters.open
-      filters.quick_filter 'Task'
+      filters.quick_filter "Task"
       sleep 2
 
       # Expect task to match, work_package invisible
-      board_page.expect_card('First', 'Task 1', present: false)
-      board_page.expect_card('Second', 'Task 1', present: true)
-      board_page.expect_card('Second', work_package.subject, present: false)
+      board_page.expect_card("First", "Task 1", present: false)
+      board_page.expect_card("Second", "Task 1", present: true)
+      board_page.expect_card("Second", work_package.subject, present: false)
 
-      filters.quick_filter ''
+      filters.quick_filter ""
       sleep 2
 
       # Remove card again
-      board_page.remove_card 'Second', work_package.subject, 0
+      board_page.remove_card "Second", work_package.subject, 0
 
       # Remove query
-      board_page.remove_list 'Second'
+      board_page.remove_list "Second"
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq(1)
-      expect(queries.first.name).to eq 'First'
+      expect(queries.first.name).to eq "First"
       expect(queries.first.ordered_work_packages.to_a).to be_empty
 
       # Remove first list
-      board_page.remove_list 'First'
+      board_page.remove_list "First"
       board_page.expect_empty
 
       # Remove entire board
       board_page.delete_board
-      board_index.expect_board 'Board foo', present: false
+      board_index.expect_board "Board foo", present: false
     end
-  end
 
-  context 'with view boards + work package permission' do
-    let(:permissions) { %i[show_board_views view_work_packages] }
-    let(:board_view) { create :board_grid_with_query, project: }
+    it "allows creating a new project board form via the sidebar" do
+      board_index.visit!
 
-    it 'allows viewing boards index and boards' do
+      board_page = board_index.create_board title: "My Board created via the sidebar",
+                                            via_toolbar: false
+      board_page.board(reload: true) do |board|
+        expect(board.name).to eq "My Board created via the sidebar"
+        queries = board.contained_queries
+        expect(queries.count).to eq(1)
+        expect(queries.first.name).to eq "Unnamed list"
+      end
+    end
+
+    it "allows renaming the board with an error in between (regression #51851)" do
       board_view
       board_index.visit!
 
       board_page = board_index.open_board board_view
-      board_page.expect_query 'List 1', editable: false
+      board_page.expect_query "List 1", editable: true
+      board_page.expect_editable_board true
+      board_page.expect_editable_list true
+
+      # Leave the toolbar name empty
+      board_page.rename_via_toolbar ""
+      board_page.expect_toast message: "Name #{I18n.t('activerecord.errors.messages.blank')}", type: :error
+
+      # I can immediately enter the correct name
+      board_page.rename_board "My new name"
+    end
+  end
+
+  context "with view boards + work package permission" do
+    let(:permissions) { %i[show_board_views view_work_packages] }
+    let(:board_view) { create(:board_grid_with_query, project:) }
+
+    it "allows viewing boards index and boards" do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+      board_page.expect_query "List 1", editable: false
       board_page.expect_editable_board false
       board_page.expect_editable_list false
 
@@ -225,43 +253,40 @@ describe 'Board management spec', type: :feature, js: true do
     end
   end
 
-  context 'with view boards + edit work package permission' do
+  context "with view boards + edit work package and change work package status permissions" do
     let(:permissions) { %i[show_board_views view_work_packages add_work_packages edit_work_packages] }
-    let(:board_view) { create :board_grid_with_queries, project: }
+    let(:board_view) { create(:board_grid_with_queries, project:) }
 
-    it 'allows viewing boards index and moving items around' do
+    it "allows viewing boards index and moving items around" do
       board_view
       board_index.visit!
 
       board_page = board_index.open_board board_view
-      board_page.expect_query 'List 1', editable: false
-      board_page.expect_query 'List 2', editable: false
+      board_page.expect_query "List 1", editable: false
+      board_page.expect_query "List 2", editable: false
       board_page.expect_editable_board false
       board_page.expect_editable_list true
 
       # Add item
-      board_page.add_card 'List 1', 'Task 1'
+      board_page.add_card "List 1", "Task 1"
 
       board_page.expect_and_dismiss_toaster(message: "Successful creation.")
 
       # Move item to Second list
-      board_page.move_card(0, from: 'List 1', to: 'List 2')
-      board_page.expect_card('List 1', 'Task 1', present: false)
-      board_page.expect_card('List 2', 'Task 1', present: true)
-
-      # There is no frontend visible semaphore to check for the change being saved
-      sleep(0.1)
+      board_page.move_card(0, from: "List 1", to: "List 2")
+      board_page.expect_card("List 1", "Task 1", present: false)
+      board_page.expect_card("List 2", "Task 1", present: true)
 
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
-      first = queries.find_by(name: 'List 1')
-      second = queries.find_by(name: 'List 2')
-      expect(first.ordered_work_packages).to be_empty
+      first = queries.find_by(name: "List 1")
+      second = queries.find_by(name: "List 2")
+      wait_for(first.ordered_work_packages).to be_empty
       expect(second.ordered_work_packages.count).to eq(1)
 
       # Expect work package to be saved in query first
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
-      expect(subjects).to match_array ['Task 1']
+      expect(subjects).to contain_exactly("Task 1")
 
       board_page.back_to_index
 
@@ -269,23 +294,24 @@ describe 'Board management spec', type: :feature, js: true do
     end
   end
 
-  context 'with view permission only' do
+  context "with view permission only" do
     let(:permissions) { %i[show_board_views] }
+    let(:board_view) { create(:board_grid_with_queries, project:) }
 
-    it 'does not allow viewing of boards' do
-      board_index.visit!
-      expect(page).to have_selector('#errorExplanation', text: I18n.t(:notice_not_authorized))
+    it "does not allow viewing of boards" do
+      visit project_work_package_board_path(project, board_view)
+      expect(page).to have_css("#errorExplanation", text: I18n.t(:notice_not_authorized))
 
       board_index.expect_editable false
     end
   end
 
-  context 'with no permission only' do
+  context "with no permission only" do
     let(:permissions) { %i[] }
 
-    it 'does not allow viewing of boards' do
+    it "does not allow viewing of boards" do
       board_index.visit!
-      expect(page).to have_selector('#errorExplanation', text: I18n.t(:notice_not_authorized))
+      expect(page).to have_css("#errorExplanation", text: I18n.t(:notice_not_authorized))
     end
   end
 end

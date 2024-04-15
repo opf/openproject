@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'version edit', type: :feature do
+RSpec.describe "version edit" do
   let(:user) do
     create(:user,
-           member_in_project: version.project,
-           member_with_permissions: %i[manage_versions view_work_packages])
+           member_with_permissions: { version.project => %i[manage_versions view_work_packages] })
   end
   let(:version) { create(:version) }
-  let(:new_version_name) { 'A new version name' }
+  let(:new_version_name) { "A new version name" }
 
   before do
     login_as(user)
   end
 
-  it 'edit a version' do
+  it "edit a version" do
     # from the version show page
     visit version_path(version)
 
-    within '.toolbar' do
-      click_link 'Edit'
+    within ".toolbar" do
+      click_link "Edit"
     end
 
-    fill_in 'Name', with: new_version_name
+    fill_in "Name", with: new_version_name
 
-    click_button 'Save'
+    click_button "Save"
 
     expect(page)
       .to have_current_path(version_path(version))

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,16 +28,29 @@
 
 @mixin wp-table--time-values
   display: inline-block
-  width: 48%
+  width: calc(50% - 0.5rem - 1px)
 
 @mixin wp-table--actual-time-values
   text-align: right
-  padding-right: 0.5rem
 
 @mixin wp-table--placeholder-time-values
   display: inline-block
   width: 100%
   text-align: center
+
+// READ value of display fields in wiki macros
+
+display-field
+  & .split-time-field
+    white-space: nowrap
+
+    .-separator
+      display: inline-block
+      width: 1rem
+      padding-left: 0.25rem
+      padding-right: 0.25rem
+      text-align: center
+
 
 // READ value of edit fields
 .inline-edit--display-field
@@ -65,11 +78,18 @@
         max-width: 90%
         display: inline-block
         vertical-align: middle
-        line-height: 32px
+        // Inherit from Parent, e.g. strikethrough for baseline comparison
+        text-decoration: inherit
         &:first-of-type
           padding-right: 5px
 
+      .badge
+        height: 1rem
+
   &.split-time-field
+    display: inline-block
+    width: 100%
+    vertical-align: middle
     white-space: nowrap
 
     // Table specific styles
@@ -78,23 +98,23 @@
       .-derived-value
         @include wp-table--time-values
 
-      .-derived-value:not(.-with-actual-value)
-        margin-left: 48%
-
     .-actual-value
       @include wp-table--actual-time-values
 
-    .-derived-value
-      color: var(--gray-dark)
-      font-style: italic
-      font-weight: bold
+    .-separator
+      display: inline-block
+      width: 1rem
+      padding-left: 0.25rem
+      padding-right: 0.25rem
+      text-align: center
 
   &.spentTime .time-logging--value
     padding: 0 2px
 
 .wp-table--cell-container
   .inline-edit--display-field.-placeholder,
-  &.estimatedTime
+  &.estimatedTime,
+  &.remainingTime
     width: 100%
 
     .-placeholder
@@ -103,8 +123,14 @@
 .wp-table--cell-container .dueDate .icon-pin
   display: none
 
+.wp-table--cell-container
+  &.duration,
+  &.startDate,
+  &.dueDate
+    overflow: visible
+
 .wp-table--cell-container.startDate
-  padding-left: 24px
+  padding-left: $work-package--start-date-display-field-padding-left
 
   .icon-context
     position: relative
@@ -128,7 +154,8 @@
   border-style: solid
   border-radius: 2px
   border-width: 1px
-  line-height: normal
+  overflow-wrap: anywhere
+  word-break: normal
 
   &:hover,
   &:focus

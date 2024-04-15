@@ -7,11 +7,19 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "verbose": {
+                "properties": ["entry"]
+              },
+              "path": "./extra-webpack.config.js",
+              "mergeStrategies": {
+                "externals": "replace"
+              }
+            },
             "allowedCommonJsDependencies": [
               "core-app/init-vendors",
               "core-app/init-globals",
@@ -40,6 +48,10 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "src/spot.scss",
+                "bundleName": "spot"
+              },
               "src/styles.scss",
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/jquery-ui/themes/base/core.css",
@@ -63,6 +75,7 @@
           },
           "configurations": {
             "production": {
+              "index": "",
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -70,11 +83,47 @@
                 }
               ],
               "preserveSymlinks": true,
-              "optimization": true,
+              "optimization": {
+                "scripts" : false,
+                "styles" : true,
+                "fonts" : true
+              },
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "fastprod": {
+              "index": "",
+              "preserveSymlinks": true,
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": false,
+              "buildOptimizer" : false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "ci": {
+              "index": "",
+              "preserveSymlinks": true,
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": false,
+              "buildOptimizer" : false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -146,6 +195,9 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "cache": {
+      "environment": "all"
+    }
   }
 }

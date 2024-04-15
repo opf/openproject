@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ class CustomActionsController < ApplicationController
   before_action :find_model_object, only: %i(edit update destroy)
   before_action :pad_params, only: %i(create update)
 
-  layout 'admin'
+  layout "admin"
 
   def index
     @custom_actions = CustomAction.order_by_position
@@ -45,14 +45,14 @@ class CustomActionsController < ApplicationController
     @custom_action = CustomAction.new
   end
 
+  def edit; end
+
   def create
     CustomActions::CreateService
       .new(user: current_user)
       .call(attributes: permitted_params.custom_action.to_h,
             &index_or_render(:new))
   end
-
-  def edit; end
 
   def update
     CustomActions::UpdateService
@@ -77,7 +77,6 @@ class CustomActionsController < ApplicationController
 
       call.on_failure do
         @custom_action = call.result
-        @errors = call.errors
         render action: render_action
       end
     }
@@ -87,12 +86,12 @@ class CustomActionsController < ApplicationController
     return if EnterpriseToken.allows_to?(:custom_actions)
 
     if request.get?
-      render template: 'common/upsale',
+      render template: "common/upsale",
              locals: {
-               feature_title: I18n.t('custom_actions.upsale.title'),
-               feature_description: I18n.t('custom_actions.upsale.description'),
-               feature_reference: 'custom_actions_admin',
-               feature_video: 'enterprise/custom-actions.mp4'
+               feature_title: I18n.t("custom_actions.upsale.title"),
+               feature_description: I18n.t("custom_actions.upsale.description"),
+               feature_reference: "custom_actions_admin",
+               feature_video: "enterprise/custom-actions.mp4"
              }
     else
       render_403
@@ -111,10 +110,10 @@ class CustomActionsController < ApplicationController
   end
 
   def default_breadcrumb
-    if action_name == 'index'
-      t('custom_actions.plural')
+    if action_name == "index"
+      t("custom_actions.plural")
     else
-      ActionController::Base.helpers.link_to(t('custom_actions.plural'), custom_actions_path)
+      ActionController::Base.helpers.link_to(t("custom_actions.plural"), custom_actions_path)
     end
   end
 

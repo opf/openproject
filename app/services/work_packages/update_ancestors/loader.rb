@@ -31,9 +31,11 @@ class WorkPackages::UpdateAncestors::Loader
   end
 
   def select
-    ancestors.select do |ancestor|
-      yield ancestor, self
-    end
+    [work_package, *ancestors]
+      .reject(&:destroyed?)
+      .select do |work_package|
+        yield work_package, self
+      end
   end
 
   def descendants_of(queried_work_package)
@@ -48,7 +50,7 @@ class WorkPackages::UpdateAncestors::Loader
     @leaves ||= Hash.new do |hash, wp|
       hash[wp] = replaced_related_of(wp, :leaves) do |leaf|
         # Mimic work package by implementing the closed? interface
-        leaf.send(:'closed?=', leaf.is_closed)
+        leaf.send(:"closed?=", leaf.is_closed)
       end
     end
 
@@ -111,13 +113,13 @@ class WorkPackages::UpdateAncestors::Loader
               .send(relation_type)
               .where.not(id: queried_work_package.id)
 
-    if send("#{relation_type}_joins")
-      scope = scope.joins(send("#{relation_type}_joins"))
+    if send(:"#{relation_type}_joins")
+      scope = scope.joins(send(:"#{relation_type}_joins"))
     end
 
     scope
-      .pluck(*send("selected_#{relation_type}_attributes"))
-      .map { |p| LoaderStruct.new(send("selected_#{relation_type}_attributes").zip(p).to_h) }
+      .pluck(*send(:"selected_#{relation_type}_attributes"))
+      .map { |p| LoaderStruct.new(send(:"selected_#{relation_type}_attributes").zip(p).to_h) }
   end
 
   # Returns the current ancestors sorted by distance (called generations in the table)
@@ -131,8 +133,7 @@ class WorkPackages::UpdateAncestors::Loader
   def former_ancestors
     @former_ancestors ||= if previous_parent_id && include_former_ancestors
                             parent = WorkPackage.find(previous_parent_id)
-
-                            [parent] + parent.ancestors
+                            parent.self_and_ancestors
                           else
                             []
                           end
@@ -140,7 +141,7 @@ class WorkPackages::UpdateAncestors::Loader
 
   def selected_descendants_attributes
     # By having the id in here, we can avoid DISTINCT queries squashing duplicate values
-    %i(id estimated_hours parent_id schedule_manually ignore_non_working_days)
+    %i(id estimated_hours parent_id schedule_manually ignore_non_working_days remaining_hours)
   end
 
   def descendants_joins
@@ -148,7 +149,7 @@ class WorkPackages::UpdateAncestors::Loader
   end
 
   def selected_leaves_attributes
-    %i(id done_ratio derived_estimated_hours estimated_hours is_closed)
+    %i(id done_ratio derived_estimated_hours estimated_hours is_closed remaining_hours derived_remaining_hours)
   end
 
   def leaves_joins
@@ -161,7 +162,9 @@ class WorkPackages::UpdateAncestors::Loader
   # (when work_package was saved/destroyed)
   # Or the set parent before saving
   def previous_parent_id
-    if work_package.parent_id.nil? && work_package.parent_id_was
+    if work_package.parent_id && work_package.destroyed?
+      work_package.parent_id
+    elsif work_package.parent_id.nil? && work_package.parent_id_was
       work_package.parent_id_was
     else
       previous_change_parent_id
@@ -171,7 +174,7 @@ class WorkPackages::UpdateAncestors::Loader
   def previous_change_parent_id
     previous = work_package.previous_changes
 
-    previous_parent_changes = (previous[:parent_id] || previous[:parent])
+    previous_parent_changes = previous[:parent_id] || previous[:parent]
 
     previous_parent_changes ? previous_parent_changes.first : nil
   end

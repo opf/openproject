@@ -28,8 +28,22 @@ Usually with another device device like a mobile phone or a tablet, you are able
 - Google Authenticator
 - Microsoft Authenticator
 
+### Clock skew
+
+TOTP operates on the principal that the second factor and the server handling the authentication process are roughly in sync.
+By default, the allowed clock skew (difference in seconds between client and server) is 30 seconds, which means that the server will accept time shifts of 30 seconds in the past and future, respectively.
+
+If you are trying to register a new device and keep getting failures even though the code appears correct,
+time drift between the device and the server is most likely the reason for it.
+
+## Basic 2FA using WebAuthn
+
+[WebAuthn](https://www.w3.org/TR/2019/REC-webauthn-1-20190304/) is a W3C standard for authentication on the web. It uses private-public key cryptography to verify the users identity. The private key is either secured on a hardware token or within the browser or a password manager.
+
+WebAuthn is supported by most modern browsers and is therefore enabled by default in OpenProject when 2FA is enabled.
+
 ## Advanced 2FA using MessageBird, Amazon SNS
 
-At the moment the advanced settings for improved security are only reachable on the by defining [configuration variables](https://www.openproject.org/docs/installation-and-operations/configuration/).
+At the moment the advanced settings for improved security are only reachable by defining [configuration variables](../../../installation-and-operations/configuration/).
 
-The how to is explained in the  configuration is explained in the [Two-factor authentication](https://www.openproject.org/docs/installation-and-operations/configuration/#two-factor-authentication) paragraph.
+Those methods are explained in the [Two-factor authentication](../../../installation-and-operations/configuration/#two-factor-authentication) paragraph.

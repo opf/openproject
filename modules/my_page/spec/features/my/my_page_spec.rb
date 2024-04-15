@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../../support/pages/my/page'
+require_relative "../../support/pages/my/page"
 
-describe 'My page', type: :feature, js: true do
-  let!(:type) { create :type }
-  let!(:project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+RSpec.describe "My page", :js do
+  let!(:type) { create(:type) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:created_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           author: user
+           author: user)
   end
   let!(:assigned_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           assigned_to: user
+           assigned_to: user)
   end
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages add_work_packages save_queries])
+           member_with_permissions: { project => %i[view_work_packages add_work_packages save_queries] })
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -91,13 +90,16 @@ describe 'My page', type: :feature, js: true do
   end
 
   def find_area(name)
-    index = grid.widgets.sort_by(&:id).each_with_index.detect { |w, _index| w.options["name"] == name }.last
+    retry_block do
+      index = grid.widgets.sort_by(&:id).each_with_index.detect { |w, _index| w.options["name"] == name }.last
 
-    Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(#{index + 1})")
+      Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(#{index + 1})")
+    end
   end
 
-  it 'renders the default view, allows altering and saving' do
-    sleep(0.5)
+  it "renders the default view, allows altering and saving" do
+    # Waits for the default view to be created
+    my_page.expect_toast(message: "Successful update")
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist
@@ -111,7 +113,7 @@ describe 'My page', type: :feature, js: true do
       .to have_content(assigned_work_package.subject)
 
     # add widget above to right area
-    my_page.add_widget(1, 1, :row, 'Calendar')
+    my_page.add_widget(1, 1, :row, "Calendar")
 
     sleep(0.5)
     reload_grid!
@@ -129,7 +131,7 @@ describe 'My page', type: :feature, js: true do
     calendar_area.expect_to_span(1, 1, 2, 2)
 
     # add widget right next to the calendar widget
-    my_page.add_widget(1, 2, :within, 'News')
+    my_page.add_widget(1, 2, :within, "News")
 
     sleep(0.5)
     reload_grid!
@@ -146,7 +148,7 @@ describe 'My page', type: :feature, js: true do
     assigned_area.expect_to_span(3, 1, 4, 2)
     created_area.expect_to_span(2, 2, 3, 3)
 
-    my_page.add_widget(1, 3, :column, 'Work packages watched by me')
+    my_page.add_widget(1, 3, :column, "Work packages watched by me")
 
     sleep(0.5)
     reload_grid!
@@ -159,7 +161,7 @@ describe 'My page', type: :feature, js: true do
     # that widgets that have been there are moved down
     created_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
     reload_grid!
 
@@ -174,7 +176,7 @@ describe 'My page', type: :feature, js: true do
     # as no more widgets start in the second column, that column is removed
     news_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
     reload_grid!
 

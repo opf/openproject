@@ -1,5 +1,9 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Injector,
 } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
@@ -8,6 +12,10 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import {
+  Observable,
+  switchMap,
+} from 'rxjs';
 
 export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions-entry';
 
@@ -55,8 +63,9 @@ export class TriggerActionsEntryComponent {
   }
 
   editTimeEntry() {
-    this.loadEntry()
-      .then((entry) => {
+    void this
+      .loadEntry()
+      .subscribe((entry) => {
         this.timeEntryEditService
           .edit(entry)
           .then(() => {
@@ -74,27 +83,26 @@ export class TriggerActionsEntryComponent {
     }
 
     this.loadEntry()
-      .then((entry) => {
-        this
+      .pipe(
+        switchMap((entry) => this
           .apiv3Service
           .time_entries
           .id(entry)
-          .delete()
-          .subscribe(
-            () => window.location.reload(),
-            (error) => this.toastService.addError(error || this.text.error),
-          );
-      });
+          .delete()),
+      )
+      .subscribe(
+        () => window.location.reload(),
+        (error) => this.toastService.addError(error || this.text.error),
+      );
   }
 
-  protected loadEntry():Promise<TimeEntryResource> {
-    const timeEntryId = this.elementRef.nativeElement.dataset.entry;
+  protected loadEntry():Observable<TimeEntryResource> {
+    const timeEntryId = (this.elementRef.nativeElement as HTMLElement).dataset.entry as string;
 
     return this
       .apiv3Service
       .time_entries
       .id(timeEntryId)
-      .get()
-      .toPromise();
+      .get();
   }
 }

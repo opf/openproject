@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-$datepicker--border-radius: 5px
+$datepicker--selected-border-radius: 5px
 
 @mixin disabled-day
   background: $spot-color-basic-white
-  color: $spot-color-basic-gray-4
+  color: var(--color-fg-muted)
   pointer-events: none
   cursor: not-allowed
 
@@ -39,9 +39,15 @@ $datepicker--border-radius: 5px
 
 @mixin non-working-day
   background: $spot-color-basic-gray-6
-  color: $spot-color-basic-gray-3
+  color: var(--color-fg-muted)
   border-radius: 0
   pointer-events: none
+
+@mixin non-working-day_enabled
+  background: $spot-color-basic-gray-6
+  color: $spot-color-basic-gray-1
+  border-radius: 0
+  pointer-events: auto
 
 .flatpickr-current-month
   display: flex !important
@@ -50,14 +56,27 @@ $datepicker--border-radius: 5px
   position: fixed
   left: 65%
 
+.flatpickr-prev-month, .flatpickr-next-month
+  svg:hover
+    fill: var(--control-checked-color) !important
+
+.flatpickr-prev-month, .flatpickr-next-month
+  svg
+    fill: $spot-color-basic-gray-1 !important
 
 .flatpickr-day
   &.flatpickr-disabled
     @include disabled-day
   &.flatpickr-non-working-day
     @include non-working-day
+  &.flatpickr-non-working-day_enabled
+    @include non-working-day_enabled
 
 .flatpickr-calendar.inline
+  // flatpickr default styles introduce a top: 2px, that causes strange scrolling behavior
+  top: unset !important
+
+.flatpickr-calendar
   box-shadow: none !important
   @include spot-caption
 
@@ -65,7 +84,7 @@ $datepicker--border-radius: 5px
     min-height: 45px
 
     .flatpickr-current-month
-      @include spot-body-small(bold)
+      @include spot-body-small(var(--base-text-weight-bold))
       justify-content: center
       align-items: center
 
@@ -79,101 +98,135 @@ $datepicker--border-radius: 5px
   .flatpickr-weekday
     color: var(--body-font-color)
 
+  .flatpickr-day.prevMonthDay
+    height: 0
+    width: 0
+    visibility: hidden
+
+  .flatpickr-day.nextMonthDay
+    display: none
+
   .flatpickr-weekdaycontainer,
   .flatpickr-days .dayContainer
 
     &:first-of-type
-      padding: 0 1rem 0 0
+      padding: 0 $spot-spacing-1 0 $spot-spacing-0_5
     &:last-of-type
-      padding: 0 0 0 1rem
+      padding: 0 $spot-spacing-0_5 0 $spot-spacing-1
     &:only-of-type
       padding: 0
-
-  .flatpickr-prev-month
-    padding-left: 0
-  .flatpickr-next-month
-    padding-right: 0
 
   .flatpickr-days
     .dayContainer
       box-shadow: none
       min-width: 283px
       max-width: 283px
+      display: grid
+      grid-template-columns: repeat(7, 1fr)
+      justify-items: center
 
-      @media screen and (max-width: 679px)
+      @media screen and (max-width: $breakpoint-sm)
         min-width: 267px
         max-width: 267px
 
       .flatpickr-day
-        color: $spot-color-basic-black
+        color: $spot-color-basic-gray-1
+        background: $spot-color-basic-white
+        width: 100%
+        max-width: unset
         height: 30px
         line-height: 28px
         margin: 0
-        border-radius: $datepicker--border-radius
+        border-radius: 0
         box-shadow: none !important
 
         &:hover
-          border-radius: 0
+          border-color: var(--color-fg-muted)
 
         &.flatpickr-non-working-day
           @include non-working-day
 
-          &.inRange
-            color: $spot-color-feedback-info-dark
+        &.flatpickr-non-working-day_enabled
+          @include non-working-day_enabled
 
-        &.today
+        &.today:not(.selected, .inRange, .startRange, .endRange)
           background: $spot-color-indication-current-date
           border-color: $spot-color-indication-current-date
-          border-radius: $datepicker--border-radius
+          border-radius: 0
+
+          &:hover
+            color: $spot-color-basic-gray-1
+            border-color: var(--color-fg-muted)
+
+        &.selected:not(.startRange, .endRange)
+          border-radius: $datepicker--selected-border-radius
 
         &.selected,
         &.startRange,
         &.endRange
-          background: $spot-color-main
-          border-color: $spot-color-main
+          background: var(--control-checked-color)
+          border-color: var(--control-checked-color)
           color: $spot-color-basic-white
 
+          &:hover
+            background: var(--control-checked-color--major2)
+            border-color: var(--control-checked-color--major2)
+
         &.startRange
-          border-radius: $datepicker--border-radius 0 0 $datepicker--border-radius
+          border-radius: $datepicker--selected-border-radius 0 0 $datepicker--selected-border-radius
 
         &.endRange
-          border-radius: 0 $datepicker--border-radius $datepicker--border-radius 0
+          border-radius: 0 $datepicker--selected-border-radius $datepicker--selected-border-radius 0
 
         &.endRange.startRange
-          border-radius: $datepicker--border-radius
+          border-radius: $datepicker--selected-border-radius
 
         &.inRange
-          background: $spot-color-feedback-info-light
-          color: $spot-color-basic-black
-          border-color: $spot-color-feedback-info-light
+          background: var(--control-checked-color--minor1)
+          color: var(--control-checked-color)
+          border-color: var(--control-checked-color--minor1)
           border-radius: 0
+
+          &:hover
+            color: var(--control-checked-color--major2)
+            border-color: var(--control-checked-color--major2)
+
+          &.flatpickr-non-working-day
+            background: $spot-color-basic-gray-6
+            border-color: $spot-color-basic-gray-6
 
         &.flatpickr-disabled
           @include disabled-day
 
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6
-            color: $spot-color-basic-gray-4
+            color: var(--color-fg-muted)
+
+          &.flatpickr-non-working-day_enabled
+            background: $spot-color-basic-gray-6
+            color: var(--color-fg-muted)
 
             &.inRange
-              color: $spot-color-basic-gray-5
+              color: var(--color-fg-muted)
               background: $spot-color-basic-gray-6
               border-color: $spot-color-basic-gray-6
 
           &.selected,
           &.startRange,
           &.endRange
-            background: $spot-color-basic-gray-3
-            border-color: $spot-color-basic-gray-3
+            background: var(--color-fg-muted)
+            border-color: var(--color-fg-muted)
             color: $spot-color-basic-gray-5
 
           &.inRange
             background: $spot-color-basic-gray-5
             border-color: $spot-color-basic-gray-5
-            color: $spot-color-basic-gray-3
+            color: var(--color-fg-muted)
 
           &.today
-            color: $spot-color-basic-gray-4
+            color: var(--color-fg-muted)
+            background: $spot-color-indication-current-date
+            border-color: $spot-color-indication-current-date
 
 .flatpickr-calendar.flatpickr-container-suppress-hover
   .flatpickr-day
@@ -182,4 +235,34 @@ $datepicker--border-radius: 5px
     &.endRange:not(.selected)
       background: transparent !important
       border-color: transparent !important
-      color: black !important
+      color: $spot-color-basic-gray-1 !important
+
+    &.flatpickr-non-working-day:not(.today,.selected)
+      background: $spot-color-basic-gray-6 !important
+      color: var(--color-fg-muted) !important
+
+    &.flatpickr-non-working-day_enabled:not(.today,.selected)
+      background: $spot-color-basic-gray-6 !important
+      color: $spot-color-basic-gray-1 !important
+
+      &.today
+        color: $spot-color-basic-gray-1 !important
+
+      &.inRange,
+      &.startRange:not(.selected),
+      &.endRange:not(.selected)
+        color: $spot-color-basic-gray-1 !important
+        background: $spot-color-basic-gray-6 !important
+        border-color: $spot-color-basic-gray-6 !important
+
+.flatpickr-calendar:not(.inline)
+  box-shadow: $spot-shadow-light-mid !important
+  padding: $spot-spacing-0_5 !important
+  width: max-content !important
+
+  .flatpickr-months
+    display: flex
+    align-items: flex-start
+
+  .flatpickr-next-month, .flatpickr-prev-month
+    position: static !important

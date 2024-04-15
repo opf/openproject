@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,8 @@ module ColorsHelper
       options[:data] = {
         color: c.hexcode,
         bright: c.bright?,
-        background: c.contrasting_color(light_color: 'transparent')
+        dark: c.dark?,
+        background: c.contrasting_color(light_color: "transparent")
       }
       options[:selected] = true if c.id == colored_thing.color_id
 
@@ -49,19 +50,10 @@ module ColorsHelper
     colored_thing.color_id
   end
 
-  def darken_color(hex_color, amount = 0.4)
-    hex_color = hex_color.delete('#')
-    rgb = hex_color.scan(/../).map(&:hex)
-    rgb[0] = (rgb[0].to_i * amount).round
-    rgb[1] = (rgb[1].to_i * amount).round
-    rgb[2] = (rgb[2].to_i * amount).round
-    "#%02x%02x%02x" % rgb
-  end
-
   def colored_text(color)
-    background = color.contrasting_color(dark_color: '#333', light_color: 'transparent')
+    background = color.contrasting_color(dark_color: "#333", light_color: "transparent")
     style = "background-color: #{background}; color: #{color.hexcode}"
-    content_tag(:span, color.hexcode, class: 'color--text-preview', style:)
+    content_tag(:span, color.hexcode, class: "color--text-preview", style:)
   end
 
   #
@@ -89,16 +81,16 @@ module ColorsHelper
       end
 
       styles = color.color_styles
-      background_style = styles.map { |k, v| "#{k}:#{v} !important" }.join(';')
+      background_style = styles.map { |k, v| "#{k}:#{v} !important" }.join(";")
 
-      if name === 'type'
+      if name === "type"
         concat ".__hl_inline_#{name}_#{entry.id} { color: #{color.hexcode} !important;}"
         concat ".__hl_inline_#{name}_#{entry.id} { -webkit-text-stroke: 0.5px grey;}" if color.super_bright?
 
-        border_color = color.super_bright? ? '#555555' : color.hexcode
+        border_color = color.super_bright? ? "#555555" : color.hexcode
         concat ".__hl_background_#{name}_#{entry.id} { border-color: #{border_color} !important; }"
       else
-        border_color = color.bright? ? '#555555' : color.hexcode
+        border_color = color.bright? ? "#555555" : color.hexcode
         concat ".__hl_inline_#{name}_#{entry.id}::before { #{background_style}; border-color: #{border_color}; }\n"
       end
 
@@ -115,10 +107,14 @@ module ColorsHelper
   def icon_for_color(color, options = {})
     return unless color
 
-    options.merge! class: 'color--preview ' + options[:class].to_s,
+    options.merge! class: "color--preview " + options[:class].to_s,
                    title: color.name,
                    style: "background-color: #{color.hexcode};" + options[:style].to_s
 
-    content_tag(:span, ' ', options)
+    content_tag(:span, " ", options)
+  end
+
+  def color_by_variable(variable)
+    DesignColor.find_by(variable:)&.hexcode
   end
 end

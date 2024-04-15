@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,22 +27,22 @@
 #++
 
 module ProjectStatusHelper
-  def project_status_css_class(status)
-    code = project_status_ensure_default_code(status)
-    '-' + code.tr('_', '-')
+  def project_status_css_class(status_code)
+    code = project_status_ensure_default_code(status_code)
+    "-" + code.tr("_", "-")
   end
 
-  def project_status_name(status)
-    code = project_status_ensure_default_code(status)
+  def project_status_name(status_code)
+    code = project_status_ensure_default_code(status_code)
     project_status_name_for_code(code)
   end
 
   def project_status_name_for_code(code)
-    code ||= 'not_set'
-    I18n.t('js.grid.widgets.project_status.' + code)
+    code ||= "not_set"
+    I18n.t("js.grid.widgets.project_status." + code)
   end
 
-  def project_status_ensure_default_code(status)
-    status.try(:code) || 'not_set'
+  def project_status_ensure_default_code(status_code)
+    status_code || "not_set"
   end
 end

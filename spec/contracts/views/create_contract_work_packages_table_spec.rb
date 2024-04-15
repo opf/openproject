@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,48 +26,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Views::CreateContract do
-  it_behaves_like 'view contract' do
+RSpec.describe Views::CreateContract do
+  it_behaves_like "view contract" do
     let(:view) do
       View.new(query: view_query,
                type: view_type)
     end
     let(:view_type) do
-      'work_packages_table'
+      "work_packages_table"
     end
 
     subject(:contract) do
       described_class.new(view, current_user)
     end
 
-    describe 'validation' do
-      context 'with the type being nil' do
+    describe "validation" do
+      context "with the type being nil" do
         let(:view_type) { nil }
 
-        it_behaves_like 'contract is invalid', type: :inclusion
+        it_behaves_like "contract is invalid", type: :inclusion
       end
 
-      context 'with the type not being one of the configured' do
-        let(:view_type) { 'blubs' }
+      context "with the type not being one of the configured" do
+        let(:view_type) { "blubs" }
 
-        it_behaves_like 'contract is invalid', type: :inclusion
+        it_behaves_like "contract is invalid", type: :inclusion
       end
 
-      context 'with a work_packages_calendar view with the user having the permission to view_calendar' do
+      context "with a work_packages_calendar view with the user having the permission to view_calendar" do
         let(:permissions) { %i[view_work_packages save_queries view_calendar] }
-        let(:view_type) { 'work_packages_calendar' }
+        let(:view_type) { "work_packages_calendar" }
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
 
-      context 'with a work_packages_calendar view with the user not having the permission to view_calendar' do
+      context "with a work_packages_calendar view with the user not having the permission to view_calendar" do
         let(:permissions) { %i[view_work_packages save_queries] }
-        let(:view_type) { 'work_packages_calendar' }
+        let(:view_type) { "work_packages_calendar" }
 
-        it_behaves_like 'contract is invalid', base: :error_unauthorized
+        it_behaves_like "contract is invalid", base: :error_unauthorized
       end
     end
   end

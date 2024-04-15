@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,8 +50,8 @@ class SCM::RelocateRepositoryJob < SCM::RemoteRepositoryJob
                               action: :relocate,
                               old_identifier: File.basename(repository.root_url)
                             ))
-    repository.root_url = response['path']
-    repository.url = response['url']
+    repository.root_url = response["path"]
+    repository.url = response["url"]
 
     unless repository.save
       Rails.logger.error("Could not relocate the remote repository " \

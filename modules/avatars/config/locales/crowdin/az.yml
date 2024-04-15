@@ -1,40 +1,41 @@
 #English strings go here
 az:
+  plugin_openproject_avatars:
+    name: "Avatarlar"
+    description: >-
+      Bu plagin OpenProject istifadəçilərinə avatar kimi istifadə edilmək üçün şəkil yükləməyə və ya Gravatar-dan qeydə alınmış şəkillərdən istifadə etməyə imkan verir.
   label_avatar: "Avatar"
   label_avatar_plural: "Avatarlar"
   label_current_avatar: "Cari avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
-  button_change_avatar: "Change avatar"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  label_choose_avatar: "Avatar seçin"
+  message_avatar_uploaded: "Avatar uğurla dəyişdirildi"
+  error_image_upload: "Şəkli yadda saxlama xətası"
+  error_image_size: "Şəkil çox böyükdür"
+  button_change_avatar: "Avatarı dəyişdirin"
+  are_you_sure_delete_avatar: "Avatarınızı silmək istədiyinizə əminsiniz?"
+  avatar_deleted: "Avatar uğurla silindi."
+  unable_to_delete_avatar: "Avatar silinmədi."
+  wrong_file_format: "İcazə verilən formatlar jpg, png, gif-dir"
+  empty_file_error: "Zəhmət olmasa düzgün şəkil yükləyin (jpg, png, gif)"
   avatars:
     label_avatar: "Avatar"
     label_gravatar: 'Gravatar'
     label_current_avatar: 'Cari avatar'
     label_local_avatar: 'Fərdi avatar'
     text_current_avatar: |
-      The following image shows the current avatar.
+      Aşağıdakı şəkil cari avatar olduğunu göstərir.
     text_upload_instructions: |
-      Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-      A preview of your avatar will be shown before uploading, once you selected an image.
-    text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
+      128x128 piksel ölçüsündə öz fərdi avatarınızı yükləyin. Daha böyük faylların ölçüsü dəyişdiriləcək və uyğunlaşmaq üçün kəsiləcək.
+      Siz şəkil seçdikdən sonra, avatarınız yükləməzdən əvvəl sızə göstəriləcək
+    text_change_gravatar_html: 'Poçt ünvanınızın Gravatarını dəyişmək və ya əlavə etmək üçün %{gravatar_url} ünvanına keçin.'
     text_your_local_avatar: |
-      OpenProject allows you to upload your own custom avatar.
+      OpenProject sizə öz fərdi avatarınızı yükləməyə imkan verir.
     text_local_avatar_over_gravatar: |
-      If you set one, this custom avatar is used in precedence over the gravatar above.
+      Əgər birini təyin etsəniz, bu fərdi avatar yuxarıdakı qravatardan üstün olaraq istifadə olunur.
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      OpenProject qravatarınızdan, əgər varsa, defolt şəkil və ya ikonadan istifadə edir.
+      Hazırkı qravatar aşağıdakı kimidir
     settings:
-      enable_gravatars: 'Enable user gravatars'
-      gravatar_default: "Default Gravatar image"
-      enable_local_avatars: 'Enable user custom avatars'
-
-
-
+      enable_gravatars: 'İstifadəçi qravatarlarını aktivləşdirin'
+      gravatar_default: "Defolt Gravatar şəkli"
+      enable_local_avatars: 'İstifadəçinin fərdi avatarlarını aktivləşdirin'

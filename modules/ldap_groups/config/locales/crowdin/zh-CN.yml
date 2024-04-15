@@ -1,13 +1,16 @@
 zh-CN:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP 组"
+    description: "LDAP组成员同步。"
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        dn: '可分辨名称'
-        auth_source: 'LDAP 连接'
+        dn: 'DN'
+        ldap_auth_source: 'LDAP 连接'
         sync_users: '同步用户'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP 筛选器'
-        auth_source: 'LDAP 连接'
+        ldap_auth_source: 'LDAP 连接'
         group_name_attribute: "组名称属性"
         sync_users: '同步用户'
         base_dn: "搜索基础 DN"
@@ -42,8 +45,7 @@ zh-CN:
         group_name_attribute_text: '输入用于设置 OpenProject 组名称的 LDAP 组的属性。'
         filter_string_text: '输入 RFC4515 LDAP 筛选器，该筛选器将返回 LDAP 中的组以与 OpenProject 同步。'
         base_dn_text: >
-          输入用于此筛选器的搜索基础 DN。它必须低于所选 LDAP 连接的基础 DN。
-          将此选项留空以重复使用连接的基础 DN
+          输入用于此筛选器的搜索基础 DN。它必须低于所选 LDAP 连接的基础 DN。 将此选项留空以重复使用连接的基础 DN
     synchronized_groups:
       add_new: '添加同步的 LDAP 组'
       destroy:
@@ -60,11 +62,12 @@ zh-CN:
       no_results: '未找到同步的组。'
       no_members: '此组尚无同步成员。'
       plural: '同步的 LDAP 组'
-      singular: '同步的 LDAP 组'
+      singular: '同步LDAP组'
       form:
         auth_source_text: '选择应使用哪个 LDAP 连接。'
         sync_users_text: >
           如果启用此选项，则还会在 OpenProject 中自动创建找到的用户。如果不启用，只有 OpenProject 中的现有帐户会被添加到组中。
-        dn_text: '输入 LDAP 中组的完整可分辨名称'
+        dn_text: '输入 LDAP 中组的完整 DN'
         group_text: '选择 LDAP 组的成员应与其同步的现有 OpenProject 组'
-
+      upsale:
+        description: '利用同步的 LDAP 组来管理用户、更改其权限并促进跨组的用户管理。'

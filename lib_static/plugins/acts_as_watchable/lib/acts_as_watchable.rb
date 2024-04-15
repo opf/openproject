@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,7 +97,9 @@ module Redmine
         end
 
         def possible_watcher?(user)
-          user.allowed_to?(self.class.acts_as_watchable_permission, project)
+          user.allowed_based_on_permission_context?(self.class.acts_as_watchable_permission,
+                                                    project:,
+                                                    entity: self)
         end
 
         # Returns all users that could potentially be watchers.
@@ -112,7 +114,7 @@ module Redmine
           allowed_scope = if project.public?
                             User.allowed(self.class.acts_as_watchable_permission, project)
                           else
-                            User.allowed_members(self.class.acts_as_watchable_permission, project)
+                            User.allowed_members_on_work_package(self.class.acts_as_watchable_permission, self)
                           end
 
           active_scope.where(id: allowed_scope)
@@ -161,7 +163,7 @@ module Redmine
 
         module ClassMethods
           def acts_as_watchable_permission
-            acts_as_watchable_options[:permission] || "view_#{name.underscore.pluralize}".to_sym
+            acts_as_watchable_options[:permission] || :"view_#{name.underscore.pluralize}"
           end
         end
       end

@@ -43,7 +43,7 @@ export class GroupHeaderBuilder {
         <div class="expander icon-context ${togglerIconClass}">
           <span class="hidden-for-sighted">${_.escape(text)}</span>
         </div>
-        <div class="group--value" data-qa-selector="op-group--value">
+        <div class="group--value" data-test-selector="op-group--value">
           ${_.escape(groupName(group))}
           <span class="count">
             (${group.count})

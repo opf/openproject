@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,8 +52,8 @@ class Widget::ReportingWidget < ActionView::Base
     false
   end
 
-  def method_missing(name, *args, &)
-    controller.send(name, *args, &)
+  def method_missing(name, *, &)
+    controller.send(name, *, &)
   rescue NoMethodError
     raise NoMethodError, "undefined method `#{name}' for #<#{self.class}:0x#{object_id}>"
   end

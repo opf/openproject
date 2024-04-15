@@ -1,5 +1,9 @@
 #English strings go here
 fr:
+  plugin_openproject_avatars:
+    name: "Avatars"
+    description: >-
+      Ce plugin permet aux utilisateurs d'OpenProject de télécharger une image à utiliser comme avatar ou d'utiliser des images provenant de Gravatar.
   label_avatar: "Avatar"
   label_avatar_plural: "Avatars"
   label_current_avatar: "Avatar actuel"
@@ -35,6 +39,3 @@ fr:
       enable_gravatars: 'Activer les gravatars de l''utilisateur'
       gravatar_default: "Image Gravatar par défaut"
       enable_local_avatars: 'Activer les avatars personnalisés de l''utilisateur'
-
-
-

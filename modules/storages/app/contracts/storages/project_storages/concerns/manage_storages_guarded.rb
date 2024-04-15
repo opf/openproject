@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ module Storages::ProjectStorages
         # Check that the current has the permission on the project.
         # model variable is available because the concern is executed inside a contract.
         def validate_user_allowed_to_manage
-          unless user.allowed_to?(:manage_storages_in_project, model.project)
+          unless user.allowed_in_project?(:manage_storages_in_project, model.project)
             errors.add :base, :error_unauthorized
           end
         end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Notifications::Filters::ReasonFilter do
-  it_behaves_like 'basic query filter' do
+RSpec.describe Queries::Notifications::Filters::ReasonFilter do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :reason }
     let(:type) { :list }
     let(:model) { Notification }
     let(:attribute) { :reason }
-    let(:values) { ['mentioned'] }
+    let(:values) { ["mentioned"] }
 
-    it_behaves_like 'non ar filter'
+    it_behaves_like "non ar filter"
 
-    describe '#allowed_values' do
-      context 'with enterprise', with_ee: [:date_alerts] do
-        it 'contains all the REASONS' do
+    describe "#allowed_values" do
+      context "with enterprise", with_ee: %i[date_alerts] do
+        it "contains all the REASONS" do
           expect(instance.allowed_values).to eq(described_class::REASONS.keys.map { |r| [r, r] })
         end
       end
 
-      context 'without enterprise', with_ee: false do
-        it 'does not contains date alerts' do
+      context "without enterprise", with_ee: false do
+        it "does not contains date alerts" do
           expect(instance.allowed_values)
             .to eq(described_class::REASONS.keys.without("dateAlert").map { |r| [r, r] })
         end

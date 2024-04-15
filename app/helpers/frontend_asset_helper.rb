@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,6 +51,12 @@ module FrontendAssetHelper
       end
 
       concat stylesheet_link_tag variable_asset_path("styles.css"), media: :all, skip_pipeline: true
+    end
+  end
+
+  def include_spot_assets
+    capture do
+      concat stylesheet_link_tag variable_asset_path("spot.css"), media: :all, skip_pipeline: true
     end
   end
 

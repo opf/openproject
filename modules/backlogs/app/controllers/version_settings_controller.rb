@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,6 @@ class VersionSettingsController < RbApplicationController
   def authorize
     # Everyone with the right to edit versions has the right to edit version
     # settings
-    super 'versions', 'edit'
+    super("versions", "edit")
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +38,8 @@
 #
 # Since test-prof added `let_it_be` this is only a wrapper for it
 # before_all / let_it_be fixture
-def shared_let(key, reload: true, refind: false, &block)
-  let_it_be(key, reload:, refind:, &block)
+def shared_let(key, reload: true, refind: false, &)
+  let_it_be(key, reload:, refind:, &)
 end
 
 # Defines an object to be used by default for all FactoryBot association
@@ -55,11 +55,11 @@ end
 #
 #   shared_association_default(:user) { create(:user) }
 #
-def shared_association_default(key, factory_name: key, &block)
+def shared_association_default(key, factory_name: key, &)
   # unique let identifier to prevent clashes
-  let_it_be(key, reload: true, &block)
+  let_it_be(key, reload: true, &)
 
-  before do
+  before_all do
     set_factory_default(factory_name, send(key))
   end
 end

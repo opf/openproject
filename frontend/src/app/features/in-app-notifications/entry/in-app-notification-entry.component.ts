@@ -68,6 +68,8 @@ export class InAppNotificationEntryComponent implements OnInit {
     mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
   };
 
+  private clickTimer:ReturnType<typeof setTimeout>;
+
   constructor(
     readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
@@ -98,6 +100,15 @@ export class InAppNotificationEntryComponent implements OnInit {
     }
   }
 
+  onClick():void {
+    clearTimeout(this.clickTimer); // Clear timer from the any previous single click events.
+    this.clickTimer = setTimeout(() => {
+      // The single click logic is handled in a timeout, because
+      // it needs to be canceled in case the event is a double click.
+      this.showDetails();
+    }, 250);
+  }
+
   showDetails():void {
     if (!this.workPackage$) {
       return;
@@ -113,6 +124,18 @@ export class InAppNotificationEntryComponent implements OnInit {
         const tab = openDetailsTab ? 'overview' : 'activity';
         this.storeService.openSplitScreen(wp.id, tab);
       });
+  }
+
+  onDoubleClick():void {
+    clearTimeout(this.clickTimer); // Clear timer from the single click event onClick.
+    this.showFullView();
+  }
+
+  showFullView():void {
+    const href = this.notification._links.resource?.href;
+    const id = href && HalResource.matchFromLink(href, 'work_packages');
+
+    this.storeService.openFullView(id);
   }
 
   projectClicked(event:MouseEvent):void { // eslint-disable-line class-methods-use-this

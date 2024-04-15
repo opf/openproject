@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,6 +56,7 @@ module API
       # @param cache_seconds [integer] Time in seconds the cache headers signal the browser to cache the attachment.
       #                                Defaults to no cache headers.
       def respond_with_attachment(attachment, cache_seconds: nil)
+        validate_attachment_access!(attachment)
         prepare_cache_headers(cache_seconds) if cache_seconds
 
         if attachment.external_storage?
@@ -67,6 +68,18 @@ module API
 
       private
 
+      def validate_attachment_access!(attachment)
+        if attachment.status_quarantined?
+          raise ::API::Errors::Unauthorized.new(message: I18n.t("antivirus_scan.quarantined_message",
+                                                                filename: attachment.filename))
+        end
+
+        if attachment.author != current_user && attachment.pending_virus_scan?
+          raise ::API::Errors::Unauthorized.new(message: I18n.t("antivirus_scan.not_processed_yet_message",
+                                                                filename: attachment.filename))
+        end
+      end
+
       def redirect_to_external_attachment(attachment, cache_seconds)
         set_cache_headers!
         redirect attachment.external_url(expires_in: cache_seconds).to_s
@@ -74,8 +87,8 @@ module API
 
       def send_attachment(attachment)
         content_type attachment.content_type
-        header['Content-Disposition'] = attachment.content_disposition
-        env['api.format'] = :binary
+        header["Content-Disposition"] = attachment.content_disposition
+        env["api.format"] = :binary
         sendfile attachment.diskfile.path
       end
 

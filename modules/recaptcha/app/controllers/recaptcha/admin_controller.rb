@@ -4,7 +4,7 @@ module ::Recaptcha
 
     before_action :require_admin
     before_action :validate_settings, only: :update
-    layout 'admin'
+    layout "admin"
 
     menu_item :plugin_recaptcha
 
@@ -23,7 +23,7 @@ module ::Recaptcha
       allowed_options = recaptcha_available_options.map(&:last)
 
       unless allowed_options.include? new_params[:recaptcha_type]
-        flash[:error] = I18n.t(:error_code, code: '400')
+        flash[:error] = I18n.t(:error_code, code: "400")
         redirect_to action: :show
         return
       end
@@ -32,11 +32,11 @@ module ::Recaptcha
     end
 
     def permitted_params
-      params.permit(:recaptcha_type, :website_key, :secret_key)
+      params.permit(:recaptcha_type, :website_key, :secret_key, :response_limit)
     end
 
     def default_breadcrumb
-      t('recaptcha.label_recaptcha')
+      t("recaptcha.label_recaptcha")
     end
 
     def show_local_breadcrumb

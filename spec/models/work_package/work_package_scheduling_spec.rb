@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,52 +26,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackage, type: :model do
-  describe '#overdue' do
+RSpec.describe WorkPackage do
+  describe "#overdue" do
     let(:work_package) do
       create(:work_package,
              due_date:)
     end
 
-    shared_examples_for 'overdue' do
+    shared_examples_for "overdue" do
       subject { work_package.overdue? }
 
       it { is_expected.to be_truthy }
     end
 
-    shared_examples_for 'on time' do
+    shared_examples_for "on time" do
       subject { work_package.overdue? }
 
       it { is_expected.to be_falsey }
     end
 
-    context 'one day ago' do
+    context "one day ago" do
       let(:due_date) { 1.day.ago.to_date }
 
-      it_behaves_like 'overdue'
+      it_behaves_like "overdue"
     end
 
-    context 'today' do
+    context "today" do
       let(:due_date) { Date.today.to_date }
 
-      it_behaves_like 'on time'
+      it_behaves_like "on time"
     end
 
-    context 'next day' do
+    context "next day" do
       let(:due_date) { 1.day.from_now.to_date }
 
-      it_behaves_like 'on time'
+      it_behaves_like "on time"
     end
 
-    context 'no finish date' do
+    context "no finish date" do
       let(:due_date) { nil }
 
-      it_behaves_like 'on time'
+      it_behaves_like "on time"
     end
 
-    context 'status closed' do
+    context "status closed" do
       let(:due_date) { 1.day.ago.to_date }
       let(:status) do
         create(:status,
@@ -82,7 +82,7 @@ describe WorkPackage, type: :model do
         work_package.status = status
       end
 
-      it_behaves_like 'on time'
+      it_behaves_like "on time"
     end
   end
 end

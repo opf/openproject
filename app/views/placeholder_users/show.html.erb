@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 <% html_title t(:label_administration), t(:label_placeholder_user_plural) -%>
 <%= toolbar title: "#{avatar @placeholder_user} #{h(@placeholder_user.name)}".html_safe do %>
-  <% if current_user.allowed_to_globally?(:manage_placeholder_user) %>
+  <% if current_user.allowed_globally?(:manage_placeholder_user) %>
     <li class="toolbar-item">
       <%= link_to edit_placeholder_user_path(@placeholder_user), class: 'button', accesskey: accesskey(:edit) do %>
         <%= op_icon('button--icon icon-edit') %>
@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
-<div class="grid-block medium-up-2">
+<div class="grid-block grid-block_double-column">
   <div class="grid-content">
     <%= call_hook :view_account_left_top, placeholder_user: @placeholder_user %>
 

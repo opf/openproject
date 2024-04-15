@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Utilities::PathHelper do
-  let(:helper) { Class.new.tap { |c| c.extend(::API::V3::Utilities::PathHelper) }.api_v3_paths }
+RSpec.describe API::V3::Utilities::PathHelper do
+  let(:helper) { Class.new.tap { |c| c.extend(API::V3::Utilities::PathHelper) }.api_v3_paths }
 
-  shared_examples_for 'path' do |url|
-    it 'provides the path' do
+  shared_examples_for "path" do |url|
+    it "provides the path" do
       expect(subject).to match(url)
     end
 
-    it 'prepends the sub uri if configured' do
+    it "prepends the sub uri if configured" do
       allow(OpenProject::Configuration).to receive(:rails_relative_url_root)
-        .and_return('/open_project')
+        .and_return("/open_project")
 
       expect(subject).to match("/open_project#{url}")
     end
@@ -52,593 +52,658 @@ describe ::API::V3::Utilities::PathHelper do
     RequestStore.clear!
   end
 
-  shared_examples_for 'api v3 path' do |url|
-    it_behaves_like 'path', "/api/v3#{url}"
+  shared_examples_for "api v3 path" do |url|
+    it_behaves_like "path", "/api/v3#{url}"
   end
 
-  shared_examples_for 'index' do |name|
+  shared_examples_for "index" do |name|
     plural_name = name.to_s.pluralize
 
     describe "##{plural_name}" do
       subject { helper.send(plural_name) }
 
-      it_behaves_like 'api v3 path', "/#{plural_name}"
+      it_behaves_like "api v3 path", "/#{plural_name}"
     end
   end
 
-  shared_examples_for 'show' do |name|
+  shared_examples_for "show" do |name|
     describe "##{name}" do
       subject { helper.send(:"#{name}", 42) }
 
-      it_behaves_like 'api v3 path', "/#{name.to_s.pluralize}/42"
+      it_behaves_like "api v3 path", "/#{name.to_s.pluralize}/42"
     end
   end
 
-  shared_examples_for 'create form' do |name|
+  shared_examples_for "create form" do |name|
     describe "#create_#{name}_form" do
       subject { helper.send(:"create_#{name}_form") }
 
-      it_behaves_like 'api v3 path', "/#{name.to_s.pluralize}/form"
+      it_behaves_like "api v3 path", "/#{name.to_s.pluralize}/form"
     end
   end
 
-  shared_examples_for 'update form' do |name|
+  shared_examples_for "update form" do |name|
     describe "##{name}_form" do
       subject { helper.send(:"#{name}_form", 42) }
 
-      it_behaves_like 'api v3 path', "/#{name.to_s.pluralize}/42/form"
+      it_behaves_like "api v3 path", "/#{name.to_s.pluralize}/42/form"
     end
   end
 
-  shared_examples_for 'schema' do |name|
+  shared_examples_for "schema" do |name|
     describe "##{name}_schema" do
       subject { helper.send(:"#{name}_schema") }
 
-      it_behaves_like 'api v3 path', "/#{name.to_s.pluralize}/schema"
+      it_behaves_like "api v3 path", "/#{name.to_s.pluralize}/schema"
     end
   end
 
-  shared_examples_for 'resource' do |name, except: []|
-    it_behaves_like('index', name) unless except.include?(:index)
-    it_behaves_like('show', name) unless except.include?(:show)
-    it_behaves_like('update form', name) unless except.include?(:update_form)
-    it_behaves_like('create form', name) unless except.include?(:create_form)
-    it_behaves_like('schema', name) unless except.include?(:schema)
+  shared_examples_for "resource" do |name, except: []|
+    it_behaves_like("index", name) unless except.include?(:index)
+    it_behaves_like("show", name) unless except.include?(:show)
+    it_behaves_like("update form", name) unless except.include?(:update_form)
+    it_behaves_like("create form", name) unless except.include?(:create_form)
+    it_behaves_like("schema", name) unless except.include?(:schema)
   end
 
-  describe '#root' do
+  describe "#root" do
     subject { helper.root }
 
-    it_behaves_like 'api v3 path'
+    it_behaves_like "api v3 path"
   end
 
-  context 'actions paths' do
-    it_behaves_like 'index', :action
-    it_behaves_like 'show', :action
+  context "actions paths" do
+    it_behaves_like "index", :action
+    it_behaves_like "show", :action
   end
 
-  context 'activities paths' do
-    it_behaves_like 'index', :activities
-    it_behaves_like 'show', :activity
+  context "activities paths" do
+    it_behaves_like "index", :activities
+    it_behaves_like "show", :activity
   end
 
-  context 'attachments paths' do
-    it_behaves_like 'index', :attachment
-    it_behaves_like 'show', :attachment
+  context "attachments paths" do
+    it_behaves_like "index", :attachment
+    it_behaves_like "show", :attachment
 
-    describe '#attachment_content' do
+    describe "#attachment_content" do
       subject { helper.attachment_content 1 }
 
-      it_behaves_like 'api v3 path', '/attachments/1/content'
+      it_behaves_like "api v3 path", "/attachments/1/content"
     end
 
-    describe '#attachments_by_post' do
+    describe "#attachments_by_post" do
       subject { helper.attachments_by_post 1 }
 
-      it_behaves_like 'api v3 path', '/posts/1/attachments'
+      it_behaves_like "api v3 path", "/posts/1/attachments"
     end
 
-    describe '#attachments_by_work_package' do
+    describe "#attachments_by_work_package" do
       subject { helper.attachments_by_work_package 1 }
 
-      it_behaves_like 'api v3 path', '/work_packages/1/attachments'
+      it_behaves_like "api v3 path", "/work_packages/1/attachments"
     end
 
-    describe '#attachments_by_wiki_page' do
+    describe "#attachments_by_wiki_page" do
       subject { helper.attachments_by_wiki_page 1 }
 
-      it_behaves_like 'api v3 path', '/wiki_pages/1/attachments'
+      it_behaves_like "api v3 path", "/wiki_pages/1/attachments"
     end
   end
 
-  context 'category paths' do
-    it_behaves_like 'index', :category
-    it_behaves_like 'show', :category
+  context "category paths" do
+    it_behaves_like "index", :category
+    it_behaves_like "show", :category
 
-    describe '#categories_by_project' do
+    describe "#categories_by_project" do
       subject { helper.categories_by_project 42 }
 
-      it_behaves_like 'api v3 path', '/projects/42/categories'
+      it_behaves_like "api v3 path", "/projects/42/categories"
     end
   end
 
-  context 'capabilities paths' do
-    it_behaves_like 'index', :capability
-    it_behaves_like 'show', :capability
+  context "capabilities paths" do
+    it_behaves_like "index", :capability
+    it_behaves_like "show", :capability
 
-    describe '#capabilties_contexts_global' do
+    describe "#capabilties_contexts_global" do
       subject { helper.capabilities_contexts_global }
 
-      it_behaves_like 'api v3 path', '/capabilities/contexts/global'
+      it_behaves_like "api v3 path", "/capabilities/contexts/global"
     end
   end
 
-  context 'configuration paths' do
-    describe '#configuration' do
+  context "configuration paths" do
+    describe "#configuration" do
       subject { helper.configuration }
 
-      it_behaves_like 'api v3 path', '/configuration'
+      it_behaves_like "api v3 path", "/configuration"
     end
   end
 
-  context 'custom action paths' do
-    it_behaves_like 'show', :custom_action
+  context "custom action paths" do
+    it_behaves_like "show", :custom_action
 
-    describe '#custom_action_execute' do
+    describe "#custom_action_execute" do
       subject { helper.custom_action_execute 42 }
 
-      it_behaves_like 'api v3 path', '/custom_actions/42/execute'
+      it_behaves_like "api v3 path", "/custom_actions/42/execute"
     end
 
-    it_behaves_like 'show', :custom_option
+    it_behaves_like "show", :custom_option
   end
 
-  describe 'memberships paths' do
-    it_behaves_like 'resource', :membership
+  describe "memberships paths" do
+    it_behaves_like "resource", :membership
 
-    describe '#memberships_available_projects' do
+    describe "#memberships_available_projects" do
       subject { helper.memberships_available_projects }
 
-      it_behaves_like 'api v3 path', '/memberships/available_projects'
+      it_behaves_like "api v3 path", "/memberships/available_projects"
     end
   end
 
-  describe 'messages paths' do
-    it_behaves_like 'index', :message
-    it_behaves_like 'show', :message
+  describe "messages paths" do
+    it_behaves_like "index", :message
+    it_behaves_like "show", :message
   end
 
-  describe 'news paths' do
-    describe '#newses' do
+  describe "news paths" do
+    describe "#newses" do
       subject { helper.newses }
 
-      it_behaves_like 'api v3 path', '/news'
+      it_behaves_like "api v3 path", "/news"
     end
 
-    it_behaves_like 'show', :news
+    it_behaves_like "show", :news
   end
 
-  describe 'notifications paths' do
-    it_behaves_like 'index', :notifications
-    it_behaves_like 'show', :notification
+  describe "notifications paths" do
+    it_behaves_like "index", :notifications
+    it_behaves_like "show", :notification
 
-    describe '#notification_bulk_read_ian' do
+    describe "#notification_bulk_read_ian" do
       subject { helper.notification_bulk_read_ian }
 
-      it_behaves_like 'api v3 path', '/notifications/read_ian'
+      it_behaves_like "api v3 path", "/notifications/read_ian"
     end
 
-    describe '#notification_bulk_unread_ian' do
+    describe "#notification_bulk_unread_ian" do
       subject { helper.notification_bulk_unread_ian }
 
-      it_behaves_like 'api v3 path', '/notifications/unread_ian'
+      it_behaves_like "api v3 path", "/notifications/unread_ian"
     end
 
-    describe '#notification_read_ian' do
+    describe "#notification_read_ian" do
       subject { helper.notification_read_ian(42) }
 
-      it_behaves_like 'api v3 path', '/notifications/42/read_ian'
+      it_behaves_like "api v3 path", "/notifications/42/read_ian"
     end
 
-    describe '#notification_unread_ian' do
+    describe "#notification_unread_ian" do
       subject { helper.notification_unread_ian(42) }
 
-      it_behaves_like 'api v3 path', '/notifications/42/unread_ian'
+      it_behaves_like "api v3 path", "/notifications/42/unread_ian"
     end
 
-    describe '#notification_detail' do
+    describe "#notification_detail" do
       subject { helper.notification_detail(42, 0) }
 
-      it_behaves_like 'api v3 path', '/notifications/42/details/0'
+      it_behaves_like "api v3 path", "/notifications/42/details/0"
     end
   end
 
-  describe 'markup paths' do
-    describe '#render_markup' do
-      subject { helper.render_markup(link: 'link-ish') }
+  describe "markup paths" do
+    describe "#render_markup" do
+      subject { helper.render_markup(link: "link-ish") }
 
-      it_behaves_like 'api v3 path', '/render/markdown?context=link-ish'
+      it_behaves_like "api v3 path", "/render/markdown?context=link-ish"
 
-      context 'no link given' do
+      context "no link given" do
         subject { helper.render_markup }
 
-        it { is_expected.to eql('/api/v3/render/markdown') }
+        it { is_expected.to eql("/api/v3/render/markdown") }
       end
     end
   end
 
-  describe 'placeholder_users path' do
-    it_behaves_like 'index', :placeholder_user
-    it_behaves_like 'show', :placeholder_user
+  describe "placeholder_users path" do
+    it_behaves_like "index", :placeholder_user
+    it_behaves_like "show", :placeholder_user
   end
 
-  describe 'posts paths' do
-    it_behaves_like 'index', :post
-    it_behaves_like 'show', :post
+  describe "posts paths" do
+    it_behaves_like "index", :post
+    it_behaves_like "show", :post
   end
 
-  describe 'principals paths' do
-    it_behaves_like 'index', :principals
+  describe "principals paths" do
+    it_behaves_like "index", :principals
   end
 
-  describe 'priorities paths' do
-    it_behaves_like 'index', :priority
-    it_behaves_like 'show', :priority
+  describe "priorities paths" do
+    it_behaves_like "index", :priority
+    it_behaves_like "show", :priority
   end
 
-  describe 'projects paths' do
-    it_behaves_like 'resource', :project
+  describe "projects paths" do
+    it_behaves_like "resource", :project
 
-    describe '#projects_available_parents' do
+    describe "#projects_available_parents" do
       subject { helper.projects_available_parents }
 
-      it_behaves_like 'api v3 path', '/projects/available_parent_projects'
+      it_behaves_like "api v3 path", "/projects/available_parent_projects"
     end
   end
 
-  describe 'project status paths' do
-    it_behaves_like 'show', :project_status
+  describe "project status paths" do
+    it_behaves_like "show", :project_status
   end
 
-  describe 'query paths' do
-    it_behaves_like 'resource', :query
+  describe "query paths" do
+    it_behaves_like "resource", :query
 
-    describe '#query_default' do
+    describe "#query_default" do
       subject { helper.query_default }
 
-      it_behaves_like 'api v3 path', '/queries/default'
+      it_behaves_like "api v3 path", "/queries/default"
     end
 
-    describe '#query_project_default' do
+    describe "#query_project_default" do
       subject { helper.query_project_default(42) }
 
-      it_behaves_like 'api v3 path', '/projects/42/queries/default'
+      it_behaves_like "api v3 path", "/projects/42/queries/default"
     end
 
-    describe '#query_star' do
+    describe "#query_star" do
       subject { helper.query_star 1 }
 
-      it_behaves_like 'api v3 path', '/queries/1/star'
+      it_behaves_like "api v3 path", "/queries/1/star"
     end
 
-    describe '#query_unstar' do
+    describe "#query_unstar" do
       subject { helper.query_unstar 1 }
 
-      it_behaves_like 'api v3 path', '/queries/1/unstar'
+      it_behaves_like "api v3 path", "/queries/1/unstar"
     end
 
-    describe '#query_column' do
-      subject { helper.query_column 'updated_at' }
+    describe "#query_column" do
+      subject { helper.query_column "updated_at" }
 
-      it_behaves_like 'api v3 path', '/queries/columns/updated_at'
+      it_behaves_like "api v3 path", "/queries/columns/updated_at"
     end
 
-    describe '#query_group_by' do
-      subject { helper.query_group_by 'status' }
+    describe "#query_group_by" do
+      subject { helper.query_group_by "status" }
 
-      it_behaves_like 'api v3 path', '/queries/group_bys/status'
+      it_behaves_like "api v3 path", "/queries/group_bys/status"
     end
 
-    describe '#query_sort_by' do
-      subject { helper.query_sort_by 'status', 'desc' }
+    describe "#query_sort_by" do
+      subject { helper.query_sort_by "status", "desc" }
 
-      it_behaves_like 'api v3 path', '/queries/sort_bys/status-desc'
+      it_behaves_like "api v3 path", "/queries/sort_bys/status-desc"
     end
 
-    describe '#query_filter' do
-      subject { helper.query_filter 'status' }
+    describe "#query_filter" do
+      subject { helper.query_filter "status" }
 
-      it_behaves_like 'api v3 path', '/queries/filters/status'
+      it_behaves_like "api v3 path", "/queries/filters/status"
     end
 
-    describe '#query_filter_instance_schemas' do
+    describe "#query_filter_instance_schemas" do
       subject { helper.query_filter_instance_schemas }
 
-      it_behaves_like 'api v3 path', '/queries/filter_instance_schemas'
+      it_behaves_like "api v3 path", "/queries/filter_instance_schemas"
     end
 
-    describe '#query_filter_instance_schema' do
-      subject { helper.query_filter_instance_schema('bogus') }
+    describe "#query_filter_instance_schema" do
+      subject { helper.query_filter_instance_schema("bogus") }
 
-      it_behaves_like 'api v3 path', '/queries/filter_instance_schemas/bogus'
+      it_behaves_like "api v3 path", "/queries/filter_instance_schemas/bogus"
     end
 
-    describe '#query_project_form' do
+    describe "#query_project_form" do
       subject { helper.query_project_form(42) }
 
-      it_behaves_like 'api v3 path', '/projects/42/queries/form'
+      it_behaves_like "api v3 path", "/projects/42/queries/form"
     end
 
-    describe '#query_project_filter_instance_schemas' do
+    describe "#query_project_filter_instance_schemas" do
       subject { helper.query_project_filter_instance_schemas(42) }
 
-      it_behaves_like 'api v3 path', '/projects/42/queries/filter_instance_schemas'
+      it_behaves_like "api v3 path", "/projects/42/queries/filter_instance_schemas"
     end
 
-    describe '#query_operator' do
-      subject { helper.query_operator '=' }
+    describe "#query_operator" do
+      subject { helper.query_operator "=" }
 
-      it_behaves_like 'api v3 path', '/queries/operators/='
+      it_behaves_like "api v3 path", "/queries/operators/="
     end
 
-    describe '#query_project_schema' do
-      subject { helper.query_project_schema('42') }
+    describe "#query_project_schema" do
+      subject { helper.query_project_schema("42") }
 
-      it_behaves_like 'api v3 path', '/projects/42/queries/schema'
+      it_behaves_like "api v3 path", "/projects/42/queries/schema"
     end
 
-    describe '#query_available_projects' do
+    describe "#query_available_projects" do
       subject { helper.query_available_projects }
 
-      it_behaves_like 'api v3 path', '/queries/available_projects'
+      it_behaves_like "api v3 path", "/queries/available_projects"
     end
   end
 
-  describe 'relations paths' do
-    it_behaves_like 'index', :relation
-    it_behaves_like 'show', :relation
+  describe "relations paths" do
+    it_behaves_like "index", :relation
+    it_behaves_like "show", :relation
   end
 
-  describe 'revisions paths' do
-    it_behaves_like 'show', :revision
+  describe "revisions paths" do
+    it_behaves_like "show", :revision
 
-    describe '#show_revision' do
-      subject { helper.show_revision 'foo', 1234 }
+    describe "#show_revision" do
+      subject { helper.show_revision "foo", 1234 }
 
-      it_behaves_like 'path', '/projects/foo/repository/revision/1234'
+      it_behaves_like "path", "/projects/foo/repository/revision/1234"
     end
   end
 
-  describe 'roles paths' do
-    it_behaves_like 'index', :role
-    it_behaves_like 'show', :role
+  describe "roles paths" do
+    it_behaves_like "index", :role
+    it_behaves_like "show", :role
   end
 
-  describe 'statuses paths' do
-    it_behaves_like 'index', :status
-    it_behaves_like 'show', :status
+  describe "statuses paths" do
+    it_behaves_like "index", :status
+    it_behaves_like "show", :status
   end
 
-  describe 'grids paths' do
-    it_behaves_like 'resource', :grid
+  describe "grids paths" do
+    it_behaves_like "resource", :grid
   end
 
-  describe 'string object paths' do
-    describe '#string_object' do
-      subject { helper.string_object 'foo' }
+  describe "string object paths" do
+    describe "#string_object" do
+      subject { helper.string_object "foo" }
 
-      it_behaves_like 'api v3 path', '/string_objects?value=foo'
+      it_behaves_like "api v3 path", "/string_objects?value=foo"
 
-      it 'escapes correctly' do
-        value = 'foo/bar baz'
-        expect(helper.string_object(value)).to eql('/api/v3/string_objects?value=foo%2Fbar%20baz')
+      it "escapes correctly" do
+        value = "foo/bar baz"
+        expect(helper.string_object(value)).to eql("/api/v3/string_objects?value=foo%2Fbar%20baz")
       end
     end
   end
 
-  context 'status paths' do
-    it_behaves_like 'show', :status
+  context "status paths" do
+    it_behaves_like "show", :status
   end
 
-  context 'time_entry paths' do
-    it_behaves_like 'resource', :time_entry
+  context "time_entry paths" do
+    it_behaves_like "resource", :time_entry
 
-    describe '#time_entries_activity' do
+    describe "#time_entries_activity" do
       subject { helper.time_entries_activity 42 }
 
-      it_behaves_like 'api v3 path', '/time_entries/activities/42'
+      it_behaves_like "api v3 path", "/time_entries/activities/42"
     end
 
-    describe '#time_entries_available_projects' do
+    describe "#time_entries_available_projects" do
       subject { helper.time_entries_available_projects }
 
-      it_behaves_like 'api v3 path', '/time_entries/available_projects'
+      it_behaves_like "api v3 path", "/time_entries/available_projects"
     end
   end
 
-  describe 'types paths' do
-    it_behaves_like 'index', :type
-    it_behaves_like 'show', :type
+  describe "types paths" do
+    it_behaves_like "index", :type
+    it_behaves_like "show", :type
 
-    describe '#types_by_project' do
+    describe "#types_by_project" do
       subject { helper.types_by_project 12 }
 
-      it_behaves_like 'api v3 path', '/projects/12/types'
+      it_behaves_like "api v3 path", "/projects/12/types"
     end
   end
 
-  describe 'users paths' do
-    it_behaves_like 'index', :user
-    it_behaves_like 'show', :user
+  describe "users paths" do
+    it_behaves_like "index", :user
+    it_behaves_like "show", :user
   end
 
-  describe 'user_preferences path' do
+  describe "user_preferences path" do
     subject { helper.user_preferences(42) }
 
-    it_behaves_like 'api v3 path', '/users/42/preferences'
+    it_behaves_like "api v3 path", "/users/42/preferences"
   end
 
-  describe 'group paths' do
-    it_behaves_like 'index', :group
-    it_behaves_like 'show', :group
+  describe "group paths" do
+    it_behaves_like "index", :group
+    it_behaves_like "show", :group
   end
 
-  describe 'values paths' do
-    describe '#values_schema' do
-      subject { helper.value_schema('bogus_value') }
+  describe "values paths" do
+    describe "#values_schema" do
+      subject { helper.value_schema("bogus_value") }
 
-      it_behaves_like 'api v3 path', '/values/schemas/bogus_value'
+      it_behaves_like "api v3 path", "/values/schemas/bogus_value"
     end
   end
 
-  describe 'version paths' do
-    it_behaves_like 'resource', :version
+  describe "version paths" do
+    it_behaves_like "resource", :version
 
-    describe '#versions_available_projects' do
+    describe "#versions_available_projects" do
       subject { helper.versions_available_projects }
 
-      it_behaves_like 'api v3 path', '/versions/available_projects'
+      it_behaves_like "api v3 path", "/versions/available_projects"
     end
 
-    describe '#versions_by_project' do
+    describe "#versions_by_project" do
       subject { helper.versions_by_project 42 }
 
-      it_behaves_like 'api v3 path', '/projects/42/versions'
+      it_behaves_like "api v3 path", "/projects/42/versions"
     end
 
-    describe '#projects_by_version' do
+    describe "#projects_by_version" do
       subject { helper.projects_by_version 42 }
 
-      it_behaves_like 'api v3 path', '/versions/42/projects'
+      it_behaves_like "api v3 path", "/versions/42/projects"
     end
   end
 
-  describe 'view paths' do
-    it_behaves_like 'show', :view
-    it_behaves_like 'index', :view
+  describe "view paths" do
+    it_behaves_like "show", :view
+    it_behaves_like "index", :view
 
-    describe '#views_type' do
-      subject { helper.views_type('work_packages_table') }
+    describe "#views_type" do
+      subject { helper.views_type("work_packages_table") }
 
-      it_behaves_like 'api v3 path', '/views/work_packages_table'
+      it_behaves_like "api v3 path", "/views/work_packages_table"
     end
   end
 
-  describe 'wiki pages paths' do
-    it_behaves_like 'show', :wiki_page
+  describe "wiki pages paths" do
+    it_behaves_like "show", :wiki_page
   end
 
-  describe 'work packages paths' do
-    it_behaves_like 'resource', :work_package, except: [:schema]
+  describe "work packages paths" do
+    it_behaves_like "resource", :work_package, except: [:schema]
 
-    describe '#work_package_activities' do
+    # The simple case (with an id) is already covered by the 'it_behaves_like'
+    describe "#work_package with an historic timestamp" do
+      subject { helper.work_package 42, timestamps: Timestamp.parse("2020-02-02T02:02:02Z") }
+
+      it_behaves_like "api v3 path", "/work_packages/42?timestamps=2020-02-02T02%3A02%3A02Z"
+    end
+
+    describe "#work_package with a NOW timestamp" do
+      subject { helper.work_package 42, timestamps: Timestamp.now }
+
+      it_behaves_like "api v3 path", "/work_packages/42"
+    end
+
+    describe "#work_package_activities" do
       subject { helper.work_package_activities 42 }
 
-      it_behaves_like 'api v3 path', '/work_packages/42/activities'
+      it_behaves_like "api v3 path", "/work_packages/42/activities"
     end
 
-    describe '#work_package_relations' do
+    describe "#work_package_relations" do
       subject { helper.work_package_relations 42 }
 
-      it_behaves_like 'api v3 path', '/work_packages/42/relations'
+      it_behaves_like "api v3 path", "/work_packages/42/relations"
     end
 
-    describe '#work_package_relation' do
+    describe "#work_package_relation" do
       subject { helper.work_package_relation 1, 42 }
 
-      it_behaves_like 'api v3 path', '/work_packages/42/relations/1'
+      it_behaves_like "api v3 path", "/work_packages/42/relations/1"
     end
 
-    describe '#work_package_revisions' do
+    describe "#work_package_revisions" do
       subject { helper.work_package_revisions 42 }
 
-      it_behaves_like 'api v3 path', '/work_packages/42/revisions'
+      it_behaves_like "api v3 path", "/work_packages/42/revisions"
     end
 
-    describe '#work_package_watchers' do
+    describe "#work_package_watchers" do
       subject { helper.work_package_watchers 1 }
 
-      it_behaves_like 'api v3 path', '/work_packages/1/watchers'
+      it_behaves_like "api v3 path", "/work_packages/1/watchers"
     end
 
-    describe '#work_packages_by_project' do
+    describe "#work_packages_by_project" do
       subject { helper.work_packages_by_project 42 }
 
-      it_behaves_like 'api v3 path', '/projects/42/work_packages'
+      it_behaves_like "api v3 path", "/projects/42/work_packages"
     end
 
-    describe '#create_project_work_package_form' do
+    describe "#create_project_work_package_form" do
       subject { helper.create_project_work_package_form 42 }
 
-      it_behaves_like 'api v3 path', '/projects/42/work_packages/form'
+      it_behaves_like "api v3 path", "/projects/42/work_packages/form"
     end
 
-    describe '#watcher' do
+    describe "#watcher" do
       subject { helper.watcher 1, 42 }
 
-      it_behaves_like 'api v3 path', '/work_packages/42/watchers/1'
+      it_behaves_like "api v3 path", "/work_packages/42/watchers/1"
     end
 
-    describe 'available ... paths' do
-      describe '#available_assignees' do
-        subject { helper.available_assignees 42 }
+    describe "available ... paths" do
+      describe "#available_assignees_in_project" do
+        subject { helper.available_assignees_in_project 42 }
 
-        it_behaves_like 'api v3 path', '/projects/42/available_assignees'
+        it_behaves_like "api v3 path", "/projects/42/available_assignees"
       end
 
-      describe '#available_responsibles' do
+      describe "#available_assignees_in_work_package" do
+        subject { helper.available_assignees_in_work_package 42 }
+
+        it_behaves_like "api v3 path", "/work_packages/42/available_assignees"
+      end
+
+      describe "#available_responsibles" do
         subject { helper.available_responsibles 42 }
 
-        it_behaves_like 'api v3 path', '/projects/42/available_responsibles'
+        it_behaves_like "api v3 path", "/projects/42/available_responsibles"
       end
 
-      describe '#available_watchers' do
+      describe "#available_watchers" do
         subject { helper.available_watchers 42 }
 
-        it_behaves_like 'api v3 path', '/work_packages/42/available_watchers'
+        it_behaves_like "api v3 path", "/work_packages/42/available_watchers"
       end
 
-      describe '#available_projects_on_edit' do
+      describe "#available_projects_on_edit" do
         subject { helper.available_projects_on_edit 42 }
 
-        it_behaves_like 'api v3 path', '/work_packages/42/available_projects'
+        it_behaves_like "api v3 path", "/work_packages/42/available_projects"
       end
 
-      describe '#available_projects_on_create' do
+      describe "#available_projects_on_create" do
         subject { helper.available_projects_on_create }
 
-        it_behaves_like 'api v3 path', '/work_packages/available_projects'
+        it_behaves_like "api v3 path", "/work_packages/available_projects"
       end
     end
 
-    describe 'schemas paths' do
-      describe '#work_package_schema' do
+    describe "schemas paths" do
+      describe "#work_package_schema" do
         subject { helper.work_package_schema 1, 2 }
 
-        it_behaves_like 'api v3 path', '/work_packages/schemas/1-2'
+        it_behaves_like "api v3 path", "/work_packages/schemas/1-2"
       end
 
-      describe '#work_package_schemas' do
+      describe "#work_package_schemas" do
         subject { helper.work_package_schemas }
 
-        it_behaves_like 'api v3 path', '/work_packages/schemas'
+        it_behaves_like "api v3 path", "/work_packages/schemas"
       end
 
-      describe '#work_package_schemas with filters' do
+      describe "#work_package_schemas with filters" do
         subject { helper.work_package_schemas [1, 2], [3, 4] }
 
         def self.filter
-          CGI.escape([{ id: { operator: '=', values: ['1-2', '3-4'] } }].to_s)
+          CGI.escape([{ id: { operator: "=", values: ["1-2", "3-4"] } }].to_s)
         end
 
-        it_behaves_like 'api v3 path',
+        it_behaves_like "api v3 path",
                         "/work_packages/schemas?filters=#{filter}"
       end
 
-      describe '#work_package_sums_schema' do
+      describe "#work_package_sums_schema" do
         subject { helper.work_package_sums_schema }
 
-        it_behaves_like 'api v3 path', '/work_packages/schemas/sums'
+        it_behaves_like "api v3 path", "/work_packages/schemas/sums"
+      end
+    end
+  end
+
+  describe ".timestamps_to_param_value" do
+    subject { helper.timestamps_to_param_value(timestamps) }
+
+    context "for a single relative iso8601 string" do
+      let(:timestamps) { "PT0S" }
+
+      it "returns the value as an absolute value in ISO8601 format" do
+        Timecop.freeze(Time.current) do
+          expect(subject)
+            .to eql Time.current.iso8601
+        end
+      end
+    end
+
+    context "for a single absolute iso8601 string" do
+      let(:timestamps) { "2023-01-31T21:34:11Z" }
+
+      it "returns the value unchanged" do
+        expect(subject)
+          .to eql timestamps
+      end
+    end
+
+    context "for a single timestamp (NOW)" do
+      let(:timestamps) { Timestamp.now }
+
+      it "returns the value unchanged" do
+        Timecop.freeze(Time.current) do
+          expect(subject)
+            .to eql Time.current.iso8601
+        end
+      end
+    end
+
+    context "for an array in different formats" do
+      let(:timestamps) { ["2023-01-31T21:34:11Z", Timestamp.new("2022-04-30T21:34:11Z"), "PT0S"] }
+
+      it "returns the value unchanged" do
+        Timecop.freeze(Time.current) do
+          expect(subject)
+            .to eql "2023-01-31T21:34:11Z,2022-04-30T21:34:11Z,#{Time.current.iso8601}"
+        end
       end
     end
   end

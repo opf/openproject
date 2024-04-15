@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ module Components
       end
 
       def open_and_set_display_mode(mode)
-        open_and_switch_to 'Display settings'
+        open_and_switch_to "Display settings"
         choose("display_mode_switch", option: mode)
       end
 
@@ -67,22 +67,22 @@ module Components
       end
 
       def set_display_sums(enable: true)
-        open_and_switch_to 'Display settings'
+        open_and_switch_to "Display settings"
 
         if enable
-          check 'display_sums_switch'
+          check "display_sums_switch"
         else
-          uncheck 'display_sums_switch'
+          uncheck "display_sums_switch"
         end
         save
       end
 
       def save
-        find('[data-qa-selector="spot-modal-wp-table-configuration-save-button"]').click
+        find('[data-test-selector="spot-modal-wp-table-configuration-save-button"]').click
       end
 
       def cancel
-        find("#{selector} .button", text: 'Cancel').click
+        find("#{selector} .button", text: "Cancel").click
       end
 
       def expect_open
@@ -90,7 +90,7 @@ module Components
       end
 
       def open?
-        page.has_selector?('.wp-table--configuration-modal', wait: 1)
+        page.has_selector?(".wp-table--configuration-modal", wait: 1)
       end
 
       def expect_closed
@@ -98,7 +98,7 @@ module Components
       end
 
       def expect_disabled_tab(name)
-        expect(page).to have_selector("#{selector} [data-qa-tab-disabled]", text: name.upcase, wait: 10)
+        expect(page).to have_css("#{selector} [data-qa-tab-disabled]", text: name.upcase, wait: 10)
       end
 
       def selected_tab(name)
@@ -109,7 +109,7 @@ module Components
       def switch_to(target)
         # Switching too fast may result in the click handler not yet firing
         # so wait a bit initially
-        SeleniumHubWaiter.wait
+        SeleniumHubWaiter.wait unless using_cuprite?
 
         retry_block do
           find("#{selector} .op-tab-row--link", text: target.upcase, wait: 2).click
@@ -118,7 +118,7 @@ module Components
       end
 
       def selector
-        '.spot-modal'
+        ".spot-modal"
       end
 
       private
@@ -126,10 +126,10 @@ module Components
       def trigger
         if trigger_parent
           within trigger_parent do
-            find('.wp-table--configuration-modal--trigger')
+            find(".wp-table--configuration-modal--trigger")
           end
         else
-          find('.wp-table--configuration-modal--trigger')
+          find(".wp-table--configuration-modal--trigger")
         end
       end
     end

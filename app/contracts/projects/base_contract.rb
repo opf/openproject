@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,12 +42,17 @@ module Projects
     attribute :parent do
       validate_parent_assignable
     end
-    attribute :status do
+    attribute :status_code do
       validate_status_code_included
     end
+    attribute :status_explanation
     attribute :templated do
       validate_templated_set_by_admin
     end
+
+    attribute :_limit_custom_fields_validation_to_section_id
+    # `_limit_custom_fields_validation_to_section_id` used in Projects::ActsAsCustomizablePatches in order to
+    # only validate custom fields of the touched section
 
     validate :validate_user_allowed_to_manage
 
@@ -68,7 +73,7 @@ module Projects
     delegate :assignable_versions, to: :model
 
     def assignable_status_codes
-      Projects::Status.codes.keys
+      Project.status_codes.keys
     end
 
     private
@@ -89,12 +94,12 @@ module Projects
 
     def validate_user_allowed_to_manage
       with_unchanged_id do
-        errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+        errors.add :base, :error_unauthorized unless user.allowed_in_project?(manage_permission, model)
       end
     end
 
     def validate_status_code_included
-      errors.add :status, :inclusion if model.status&.code && !Projects::Status.codes.keys.include?(model.status.code.to_s)
+      errors.add :status, :inclusion if model.status_code && Project.status_codes.keys.exclude?(model.status_code.to_s)
     end
 
     def validate_templated_set_by_admin
@@ -121,9 +126,10 @@ module Projects
 
       contract_klass = model.being_archived? ? ArchiveContract : UnarchiveContract
       contract = contract_klass.new(model, user)
-      contract.validate
 
-      errors.merge!(contract.errors)
+      with_merged_former_errors do
+        contract.validate
+      end
     end
   end
 end

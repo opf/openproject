@@ -41,7 +41,7 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
    * but especially useful to provide in a hybrid Rails <-> Angular context
    * where a submit of a form is handled without JS.
    */
-  @Input() name = `spot-text-field-${+(new Date())}`;
+  @Input() public name = `spot-text-field-${+(new Date())}`;
 
   /**
    * Whether the input should be disabled
@@ -53,7 +53,7 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
    * some value has been set. This is a button that clears the input. Setting this option
    * to false will not show this clear button.
    */
-  @Input() showClearButton = true;
+  @Input() public showClearButton = true;
 
   /**
    * The placeholder text.
@@ -66,6 +66,11 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
    * then you can manually set the value via this input.
    */
   @Input() public value = '';
+
+  /**
+   * Whether the field should be receive a [required] property.
+   */
+  @Input() public required:boolean = false;
 
   /**
    * The html input (Regexp) pattern to provide hints to keyboards what layout to use

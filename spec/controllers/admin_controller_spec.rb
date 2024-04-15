@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe AdminController, type: :controller do
-  let(:user) { build :admin }
+RSpec.describe AdminController do
+  let(:user) { build(:admin) }
 
   before do
     allow(User).to receive(:current).and_return user
   end
 
-  describe '#index' do
-    it 'renders index' do
+  describe "#index" do
+    it "renders index" do
       get :index
 
       expect(response).to be_successful
-      expect(response).to render_template 'index'
+      expect(response).to render_template "index"
     end
 
     describe "with a plugin adding a menu item" do
@@ -56,9 +56,9 @@ describe AdminController, type: :controller do
         Redmine::Plugin.register name.to_sym do
           menu :admin_menu,
                :"#{name}_settings",
-               { controller: '/admin/settings', action: :show_plugin, id: :"openproject_#{name}" },
+               { controller: "/admin/settings", action: :show_plugin, id: :"openproject_#{name}" },
                caption: name.capitalize,
-               icon: 'icon2 icon-arrow',
+               icon: "arrow",
                if: ->(*) { show }
         end
 
@@ -70,7 +70,7 @@ describe AdminController, type: :controller do
         let(:visible) { true }
 
         it "shows the plugin in the overview" do
-          expect(response.body).to have_selector('a.menu-block', text: plugin_name.capitalize)
+          expect(response.body).to have_css("a.menu-block", text: plugin_name.capitalize)
         end
       end
 
@@ -79,51 +79,53 @@ describe AdminController, type: :controller do
         let(:visible) { false }
 
         it "does not show the plugin in the overview" do
-          expect(response.body).not_to have_selector('a.menu-block', text: plugin_name.capitalize)
+          expect(response.body).to have_no_css("a.menu-block", text: plugin_name.capitalize)
         end
       end
     end
   end
 
-  describe '#plugins' do
+  describe "#plugins" do
     render_views
 
-    context 'with plugins' do
+    context "with plugins" do
       before do
-        Redmine::Plugin.register :foo do end
-        Redmine::Plugin.register :bar do end
+        Redmine::Plugin.register :foo do
+        end
+        Redmine::Plugin.register :bar do
+        end
       end
 
-      it 'renders the plugins' do
+      it "renders the plugins" do
         get :plugins
 
         expect(response).to be_successful
-        expect(response).to render_template 'plugins'
+        expect(response).to render_template "plugins"
 
-        expect(response.body).to have_selector('td span', text: 'Foo')
-        expect(response.body).to have_selector('td span', text: 'Bar')
+        expect(response.body).to have_css("td span", text: "Foo")
+        expect(response.body).to have_css("td span", text: "Bar")
       end
     end
 
-    context 'without plugins' do
+    context "without plugins" do
       before do
         Redmine::Plugin.clear
       end
 
-      it 'renders even without plugins' do
+      it "renders even without plugins" do
         get :plugins
         expect(response).to be_successful
-        expect(response).to render_template 'plugins'
+        expect(response).to render_template "plugins"
       end
     end
   end
 
-  describe '#info' do
-    it 'renders info' do
+  describe "#info" do
+    it "renders info" do
       get :info
 
       expect(response).to be_successful
-      expect(response).to render_template 'info'
+      expect(response).to render_template "info"
     end
   end
 end

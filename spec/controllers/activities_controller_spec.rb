@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ActivitiesController, type: :controller do
+RSpec.describe ActivitiesController do
   shared_let(:admin) { create(:admin) }
   current_user { admin }
 
@@ -38,114 +38,103 @@ describe ActivitiesController, type: :controller do
     @params = {}
   end
 
-  describe 'for GET index' do
-    shared_examples_for 'valid index response' do
+  describe "for GET index" do
+    shared_examples_for "valid index response" do
       it { expect(response).to be_successful }
 
-      it { expect(response).to render_template 'index' }
+      it { expect(response).to render_template "index" }
     end
 
-    describe 'global' do
-      let(:work_package) { create(:work_package) }
-      let!(:journal) do
-        create(:work_package_journal,
-               journable_id: work_package.id,
-               created_at: 3.days.ago.to_date.to_fs(:db),
-               version: Journal.maximum(:version) + 1,
-               data: build(:journal_work_package_journal,
-                           subject: work_package.subject,
-                           status_id: work_package.status_id,
-                           type_id: work_package.type_id,
-                           project_id: work_package.project_id))
-      end
+    describe "global" do
+      let!(:work_package) { create(:work_package, :created_in_past, created_at: 3.days.ago) }
 
-      before { get 'index' }
+      before { get "index" }
 
-      it_behaves_like 'valid index response'
+      it_behaves_like "valid index response"
 
-      it { expect(assigns(:events_by_day)).not_to be_empty }
+      it { expect(assigns(:events)).not_to be_empty }
 
-      describe 'view' do
+      describe "view" do
         render_views
 
         it do
-          assert_select 'h3',
+          assert_select "h3",
                         content: /#{3.days.ago.to_date.day}/,
-                        sibling: { tag: 'dl',
-                                   child: { tag: 'dt',
+                        sibling: { tag: "dl",
+                                   child: { tag: "dt",
                                             attributes: { class: /work_package/ },
-                                            child: { tag: 'a',
+                                            child: { tag: "a",
                                                      content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
         end
       end
 
-      describe 'empty filter selection' do
+      describe "empty filter selection" do
         before do
-          get 'index', params: { event_types: [''] }
+          get "index", params: { event_types: [""] }
         end
 
-        it_behaves_like 'valid index response'
+        it_behaves_like "valid index response"
 
-        it { expect(assigns(:events_by_day)).to be_empty }
+        it { expect(assigns(:events)).to be_empty }
       end
     end
 
-    describe 'with activated activity module' do
+    describe "with activated activity module" do
       let(:project) do
         create(:project,
                enabled_module_names: %w[activity wiki])
       end
 
-      it 'renders activity' do
-        get 'index', params: { project_id: project.id }
+      it "renders activity" do
+        get "index", params: { project_id: project.id }
         expect(response).to be_successful
-        expect(response).to render_template 'index'
+        expect(response).to render_template "index"
       end
     end
 
-    describe 'without activated activity module' do
+    describe "without activated activity module" do
       let(:project) do
         create(:project,
                enabled_module_names: %w[wiki])
       end
 
-      it 'renders 403' do
-        get 'index', params: { project_id: project.id }
+      it "renders 403" do
+        get "index", params: { project_id: project.id }
         expect(response).to have_http_status(:forbidden)
-        expect(response).to render_template 'common/error'
+        expect(response).to render_template "common/error"
       end
     end
 
-    shared_context 'for GET index with params' do
+    shared_context "for GET index with params" do
       let(:session_values) { defined?(session_hash) ? session_hash : {} }
 
       before { get :index, params:, session: session_values }
     end
 
-    describe '#atom_feed' do
+    describe "#atom_feed" do
       let(:user) { create(:user) }
       let(:project) { create(:project) }
 
-      context 'with work packages' do
+      context "with work packages" do
         let!(:wp1) do
           create(:work_package,
                  project:,
                  author: user)
         end
 
-        describe 'global' do
+        describe "global" do
           render_views
 
-          before { get 'index', format: 'atom' }
+          before { get "index", format: "atom" }
 
-          it 'contains a link to the work package' do
-            assert_select 'entry',
-                          child: { tag: 'link',
+          it "contains a link to the work package" do
+            assert_select "entry",
+                          child: { tag: "link",
                                    attributes: { href: Regexp.new("/work_packages/#{wp1.id}#") } }
           end
         end
 
-        describe 'list' do
+        describe "list" do
           let!(:wp2) do
             create(:work_package,
                    project:,
@@ -158,15 +147,15 @@ describe ActivitiesController, type: :controller do
               format: :atom }
           end
 
-          include_context 'for GET index with params'
+          include_context "for GET index with params"
 
           it { expect(assigns(:items).pluck(:event_type)).to match_array(%w[work_package-edit work_package-edit]) }
 
-          it { expect(response).to render_template('common/feed') }
+          it { expect(response).to render_template("common/feed") }
         end
       end
 
-      context 'with forums' do
+      context "with forums" do
         let(:forum) do
           create(:forum,
                  project:)
@@ -185,47 +174,53 @@ describe ActivitiesController, type: :controller do
             format: :atom }
         end
 
-        include_context 'for GET index with params'
+        include_context "for GET index with params"
 
         it { expect(assigns(:items).pluck(:event_type)).to match_array(%w[message message]) }
 
-        it { expect(response).to render_template('common/feed') }
+        it { expect(response).to render_template("common/feed") }
       end
     end
 
-    describe 'user selection' do
-      describe 'first activity request' do
-        let(:default_scope) { ['work_packages', 'changesets'] }
+    describe "user selection" do
+      describe "first activity request" do
+        let(:default_scope) { ["work_packages", "changesets"] }
         let(:params) { {} }
 
-        include_context 'for GET index with params'
+        include_context "for GET index with params"
 
         it { expect(assigns(:activity).scope).to match_array(default_scope) }
 
-        it { expect(session[:activity]).to match_array(default_scope) }
+        it { expect(session[:activity][:scope]).to match_array(default_scope) }
+
+        it { expect(session[:activity][:with_subprojects]).to be(true) }
       end
 
-      describe 'subsequent activity requests' do
+      describe "subsequent activity requests" do
         let(:scope) { [] }
         let(:params) { {} }
-        let(:session_hash) { { activity: [] } }
+        let(:session_hash) { { activity: { scope: [], with_subprojects: true } } }
 
-        include_context 'for GET index with params'
+        include_context "for GET index with params"
 
         it { expect(assigns(:activity).scope).to match_array(scope) }
 
-        it { expect(session[:activity]).to match_array(scope) }
+        it { expect(session[:activity][:scope]).to match_array(scope) }
+
+        it { expect(session[:activity][:with_subprojects]).to be(true) }
       end
 
-      describe 'selection with apply' do
+      describe "selection with apply" do
         let(:scope) { [] }
-        let(:params) { { event_types: [''] } }
+        let(:params) { { event_types: [""], with_subprojects: 0 } }
 
-        include_context 'for GET index with params'
+        include_context "for GET index with params"
 
         it { expect(assigns(:activity).scope).to match_array(scope) }
 
-        it { expect(session[:activity]).to match_array(scope) }
+        it { expect(session[:activity][:scope]).to match_array(scope) }
+
+        it { expect(session[:activity][:with_subprojects]).to be(false) }
       end
     end
   end

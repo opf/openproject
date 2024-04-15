@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/work_packages/abstract_work_package'
-require 'support/pages/work_packages/split_work_package_create'
+require "support/pages/work_packages/abstract_work_package"
+require "support/pages/work_packages/split_work_package_create"
 
 module Pages
   class SplitWorkPackage < Pages::AbstractWorkPackage
     attr_reader :selector
 
     def initialize(work_package, project = nil)
-      super work_package, project
-      @selector = '.work-packages--details'
+      super(work_package, project)
+      @selector = ".work-packages--details"
     end
 
     def switch_to_fullscreen
-      find('.work-packages--details-fullscreen-icon').click
+      find(".work-packages--details-fullscreen-icon").click
       FullWorkPackage.new(work_package, project)
     end
 
@@ -48,12 +48,13 @@ module Pages
     end
 
     def expect_open
+      wait_for_reload if using_cuprite?
       expect(page).to have_selector(@selector)
       expect_subject
     end
 
     def close
-      find('.work-packages--details-close-icon').click
+      find(".work-packages--details-close-icon").click
     end
 
     def container
@@ -62,7 +63,7 @@ module Pages
 
     protected
 
-    def path(tab = 'overview')
+    def path(tab = "overview")
       state = "#{work_package.id}/#{tab}"
 
       if project

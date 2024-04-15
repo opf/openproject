@@ -1,0 +1,15 @@
+#English strings go here
+sr:
+  js:
+    label_preview: 'Prikaži'
+    button_update: 'Ažuriraj'
+    avatars:
+      label_choose_avatar: "Izaberi avatar kao datoteku"
+      uploading_avatar: "Postavite avatar."
+      text_upload_instructions: |
+        Postavite svoj lični avatar, dimenzije: 128x128 piksela. Veće datoteke će biti isečene na traženu dimenziju.
+        Avatar će vam biti prikazan, pre postavljanja, onda kada budete izabrali željenu sliku.
+      error_image_too_large: "Slika je prevelika."
+      wrong_file_format: "Dozvoljeni formati su: jpg, png, gif"
+      empty_file_error: "Postavite ispravnu sliku (jpg, png, gif)"
+

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
+RSpec.describe API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
   shared_let(:current_user, reload: false) { build_stubbed(:user) }
   shared_let(:project, reload: false) { build_stubbed(:project) }
 
-  describe 'generation' do
+  describe "generation" do
     let(:meta) { OpenStruct.new }
     let(:representer) do
       described_class.create(project,
@@ -42,25 +42,25 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
 
     subject { representer.to_json }
 
-    it 'has a _meta property with the copy properties set to true by default' do
-      expect(subject).to have_json_path '_meta'
+    it "has a _meta property with the copy properties set to true by default but sendNotifications false by default" do
+      expect(subject).to have_json_path "_meta"
 
-      expect(subject)
-        .to be_json_eql(true.to_json)
-              .at_path("_meta/sendNotifications")
-
-      ::Projects::CopyService.copyable_dependencies.each do |dep|
+      Projects::CopyService.copyable_dependencies.each do |dep|
         expect(subject)
           .to be_json_eql(true.to_json)
                 .at_path("_meta/copy#{dep[:identifier].camelize}")
       end
+
+      expect(subject)
+        .to be_json_eql(false.to_json)
+              .at_path("_meta/sendNotifications")
     end
 
-    context 'with the meta property containing which associations to copy' do
+    context "with the meta property containing which associations to copy" do
       let(:meta) { OpenStruct.new only: %[work_packages wiki] }
 
-      it 'renders only the selected dependencies as true' do
-        ::Projects::CopyService.copyable_dependencies.each do |dep|
+      it "renders only the selected dependencies as true" do
+        Projects::CopyService.copyable_dependencies.each do |dep|
           expect(subject)
             .to be_json_eql(meta.only.include?(dep[:identifier].to_s).to_json)
                   .at_path("_meta/copy#{dep[:identifier].camelize}")
@@ -68,10 +68,10 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
       end
     end
 
-    context 'with the meta property to send notifications disabled' do
+    context "with the meta property to send notifications disabled" do
       let(:meta) { OpenStruct.new send_notifications: false }
 
-      it 'renders only the selected dependencies as true' do
+      it "renders only the selected dependencies as true" do
         expect(subject)
           .to be_json_eql(false.to_json)
                 .at_path("_meta/sendNotifications")
@@ -79,7 +79,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
     end
   end
 
-  describe 'parsing' do
+  describe "parsing" do
     let(:representer) do
       described_class.create(OpenStruct.new(available_custom_fields: []),
                              meta: OpenStruct.new,
@@ -88,70 +88,70 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
 
     subject { representer.from_hash parsed_hash }
 
-    context 'with meta set' do
+    context "with meta set" do
       let(:parsed_hash) do
         {
-          'name' => 'The copied project',
-          '_meta' => {
-            'copyWorkPackages' => true,
-            'copyWiki' => true,
-            'sendNotifications' => false
+          "name" => "The copied project",
+          "_meta" => {
+            "copyWorkPackages" => true,
+            "copyWiki" => true,
+            "sendNotifications" => false
           }
         }
       end
 
-      it 'sets all of them to true' do
-        expect(subject.name).to eq 'The copied project'
-        expected_names = ::Projects::CopyService.copyable_dependencies.pluck(:identifier)
+      it "sets all of them to true" do
+        expect(subject.name).to eq "The copied project"
+        expected_names = Projects::CopyService.copyable_dependencies.pluck(:identifier)
         expect(subject.meta.only).to match_array(expected_names)
         expect(subject.meta.send_notifications).to be false
       end
     end
 
-    context 'with one meta copy set to false' do
+    context "with one meta copy set to false" do
       let(:parsed_hash) do
         {
-          'name' => 'The copied project',
-          '_meta' => {
-            'copyWorkPackages' => false
+          "name" => "The copied project",
+          "_meta" => {
+            "copyWorkPackages" => false
           }
         }
       end
 
-      it 'sets all others to true' do
-        expect(subject.name).to eq 'The copied project'
-        expected_names = ::Projects::CopyService.copyable_dependencies.pluck(:identifier)
+      it "sets all others to true" do
+        expect(subject.name).to eq "The copied project"
+        expected_names = Projects::CopyService.copyable_dependencies.pluck(:identifier)
         expect(subject.meta.only).to match_array(expected_names - %w[work_packages])
       end
     end
 
-    context 'with a mixture of meta copy set to false' do
+    context "with a mixture of meta copy set to false" do
       let(:parsed_hash) do
         {
-          'name' => 'The copied project',
-          '_meta' => {
-            'copyWorkPackages' => false,
-            'copyWiki' => true
+          "name" => "The copied project",
+          "_meta" => {
+            "copyWorkPackages" => false,
+            "copyWiki" => true
           }
         }
       end
 
-      it 'still sets all of them to true except work packages' do
-        expect(subject.name).to eq 'The copied project'
-        expected_names = ::Projects::CopyService.copyable_dependencies.pluck(:identifier)
+      it "still sets all of them to true except work packages" do
+        expect(subject.name).to eq "The copied project"
+        expected_names = Projects::CopyService.copyable_dependencies.pluck(:identifier)
         expect(subject.meta.only).to match_array(expected_names - %w[work_packages])
       end
     end
 
-    context 'with meta unset' do
+    context "with meta unset" do
       let(:parsed_hash) do
         {
-          'name' => 'The copied project'
+          "name" => "The copied project"
         }
       end
 
-      it 'does not set meta' do
-        expect(subject.name).to eq 'The copied project'
+      it "does not set meta" do
+        expect(subject.name).to eq "The copied project"
         expect(subject.meta).to be_nil
       end
     end

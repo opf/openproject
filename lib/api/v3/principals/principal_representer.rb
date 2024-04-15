@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -44,7 +44,7 @@ module API
           filters = [
             {
               principal: {
-                operator: '=',
+                operator: "=",
                 values: [represented.id.to_s]
               }
             }
@@ -52,7 +52,7 @@ module API
 
           {
             href: api_v3_paths.path_for(:memberships, filters:),
-            title: I18n.t(:label_member_plural)
+            title: I18n.t(:label_membership_plural)
           }
         end
 
@@ -63,10 +63,14 @@ module API
                  render_nil: true
 
         date_time_property :created_at,
-                           cache_if: -> { current_user_is_admin_or_self }
+                           cache_if: -> { current_user_can_see_date_properties? }
 
         date_time_property :updated_at,
-                           cache_if: -> { current_user_is_admin_or_self }
+                           cache_if: -> { current_user_can_see_date_properties? }
+
+        def current_user_can_see_date_properties?
+          current_user_is_admin_or_self
+        end
 
         def current_user_is_admin_or_self
           current_user_is_admin? || current_user_is_self?
@@ -81,8 +85,8 @@ module API
         end
 
         def current_user_allowed_to_see_members?
-          current_user.allowed_to_globally?(:view_members) ||
-            current_user.allowed_to_globally?(:manage_members)
+          current_user.allowed_in_any_project?(:view_members) ||
+            current_user.allowed_in_any_project?(:manage_members)
         end
       end
     end

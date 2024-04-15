@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,9 +80,9 @@ module API
         end
 
         def unescape(string)
-          @unescaper ||= Addressable::Template.new('{+id}')
+          @unescaper ||= Addressable::Template.new("{+id}")
 
-          @unescaper.extract(string)['id']
+          @unescaper.extract(string)["id"]
         end
 
         # returns whether expectation and actual are identical
@@ -92,8 +92,8 @@ module API
         end
 
         def make_expected_link(version, namespaces)
-          version = "v#{version}" || ':apiVersion'
-          namespaces = Array(namespaces || ':resource')
+          version = "v#{version}" || ":apiVersion"
+          namespaces = Array(namespaces || ":resource")
 
           namespaces.map { |namespace| "/api/#{version}/#{namespace}/:id" }
         end

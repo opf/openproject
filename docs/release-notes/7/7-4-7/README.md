@@ -13,7 +13,7 @@ regarding MessageBird adapter for Two-factor authentication.
 
 #### Work packages PDF export with images
 
-Exporting a work package list can now optionally export image
+Exporting a work package table can now optionally export image
 attachments of the work package. Additional options are added to the
 export modal.
 
@@ -21,15 +21,14 @@ export modal.
 
   - Fixed: \[2FA\] Device ID not transmitted when resending with
     different channel
-    \[[#28033](https://community.openproject.com/wp/28033)\]
+    \[[#28033](https://community.openproject.org/wp/28033)\]
   - Fixed: \[2FA\] MessageBird: Originator may not be longer than 11
-    characters \[[#28034](https://community.openproject.com/wp/28034)\]
+    characters \[[#28034](https://community.openproject.org/wp/28034)\]
   - Fixed: \[2FA\] MessageBird:
     work-package-types/#work-package-form-configuration-premium-featureUser
     language may be
-    empty \[[#28035](https://community.openproject.com/wp/28035)\]
+    empty \[[#28035](https://community.openproject.org/wp/28035)\]
   - Fixed: \[Styling\] Prevent scrolling body when reaching bottom of
     project autocompleter
-    \[[#28039](https://community.openproject.com/wp/28039)\]
-
+    \[[#28039](https://community.openproject.org/wp/28039)\]
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_examples'
+require "spec_helper"
+require_relative "shared_examples"
 
-describe Grids::CreateContract do
-  include_context 'grid contract'
-  include_context 'model contract'
+RSpec.describe Grids::CreateContract do
+  include_context "grid contract"
+  include_context "model contract"
 
-  it_behaves_like 'shared grid contract attributes'
+  it_behaves_like "shared grid contract attributes"
 
-  describe 'user_id' do
-    context 'for a Grids::Dashboard' do
+  describe "user_id" do
+    context "for a Grids::Dashboard" do
       let(:grid) { build_stubbed(:dashboard, default_values) }
 
-      it_behaves_like 'is not writable' do
+      it_behaves_like "is not writable" do
         let(:attribute) { :user_id }
         let(:value) { 5 }
       end
     end
   end
 
-  describe 'project_id' do
-    context 'for a Grids::Dashboard' do
+  describe "project_id" do
+    context "for a Grids::Dashboard" do
       let(:grid) { build_stubbed(:dashboard, default_values) }
 
-      it_behaves_like 'is writable' do
+      it_behaves_like "is writable" do
         let(:attribute) { :project_id }
         let(:value) { 5 }
       end

@@ -1,92 +1,250 @@
-#English strings go here
 es:
-  permission_view_file_links: "Ver enlaces de archivos"
-  permission_manage_file_links: "Administrar enlaces de archivos"
-  permission_manage_storages_in_project: "Administrar almacenes de archivos en el proyecto"
-  project_module_storages: "Almacenes de archivos"
   activerecord:
-    models:
-      storages/storage: "Almacén"
     attributes:
-      storages/storage:
-        name: "Nombre"
-        creator: "Autor"
-        provider_type: "Tipo de proveedor"
       storages/file_link:
-        origin_id: "Id. de origen"
+        origin_id: Id. de origen
+      storages/storage:
+        creator: Autor
+        drive: ID de unidad
+        host: Host
+        name: Nombre
+        provider_type: Tipo de proveedor
+        tenant: Directory (tenant) ID
     errors:
       messages:
-        not_linked_to_project: "no está vinculado al proyecto."
+        not_linked_to_project: no está vinculado al proyecto.
       models:
-        storages/storage:
-          attributes:
-            host:
-              cannot_be_connected_to: "no admite conexiones."
-              minimal_nextcloud_version_unmet: "no cumple los requisitos mínimos de versión (debe ser Nextcloud 23 o posteriores)"
-              not_nextcloud_server: "no es un servidor de Nextcloud"
-              op_application_not_installed: >
-                parece que no tienes la aplicación "Integración OpenProject" instalada. Por favor, instálala primero y vuelve a intentarlo.
-              authorization_header_missing: >
-                no está completamente configurado. La instancia de Nextcloud no recibe la cabecera "Autorización", que es necesaria para la autorización basada en token Bearer de solicitudes API. Por favor, compruebe la configuración de tu servidor HTTP.
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "solo puede ser numérico o un UUID."
+              only_numeric_or_uuid: solo puede ser numérico o un UUID.
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: no está disponible para este almacenamiento.
+        storages/storage:
+          attributes:
+            host:
+              authorization_header_missing: no está completamente configurado. La instancia de Nextcloud no recibe la cabecera "Autorización", que es necesaria para la autorización basada en token Bearer de solicitudes API. Por favor, compruebe la configuración de tu servidor HTTP.
+              cannot_be_connected_to: no admite conexiones.
+              minimal_nextcloud_version_unmet: no cumple los requisitos mínimos de versión (debe ser Nextcloud 23 o posteriores)
+              not_nextcloud_server: no es un servidor de Nextcloud
+              op_application_not_installed: parece que no tienes la aplicación "Integración OpenProject" instalada. Por favor, instálala primero y vuelve a intentarlo.
+            password:
+              invalid_password: no es válido.
+              unknown_error: no se ha podido validar. Compruebe su conexión de almacenamiento e inténtelo de nuevo.
+    models:
+      file_link: Archivo
+      storages/storage: Almacén
   api_v3:
     errors:
-      too_many_elements_created_at_once: "Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}."
+      too_many_elements_created_at_once: Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}.
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
+  permission_manage_file_links: Administrar enlaces de archivos
+  permission_manage_storages_in_project: Administrar almacenes de archivos en el proyecto
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
+  permission_view_file_links: Ver enlaces de archivos
+  permission_write_files: 'External Storage: Write files'
+  project_module_storages: Almacenes de archivos
   storages:
     buttons:
-      done_continue_setup: "Hecho. Continuar configuración"
-      replace_openproject_oauth: "Reemplazar OpenProject OAuth"
-      replace_provider_type_oauth: "Reemplazar %{provider_type} OAuth"
-      save_and_continue_setup: "Guardar y continuar configuración"
-      save_and_complete_setup: "Guardar y completar configuración"
-    page_titles:
-      project_settings:
-        index: "Hay almacenes de archivos disponibles en este proyecto"
-        new: "Añadir un almacenamiento de archivos a este proyecto"
-    instructions:
-      type: "Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:"
-      type_link_text: "“Integración OpenProject”"
-      name: "Dale un nombre a tu almacenamiento para que los usuarios puedan diferenciar entre múltiples almacenamientos."
-      host: "Por favor añade la dirección de host de tu almacenamiento incluyendo el https://. No debe tener más de 255 caracteres."
-      no_storage_set_up: "Aún no se han configurado almacenes de archivos."
-      setting_up_additional_storages: "Para configurar almacenes de archivos adicionales, visite"
-      setting_up_additional_storages_non_admin: "Los administradores pueden configurar almacenes de archivos adicionales en Administración > Almacenes de archivos."
-      setting_up_storages: "Para configurar almacenes de archivos, visite"
-      setting_up_storages_non_admin: "Los administradores pueden configurar almacenes de archivos en Administración > Almacenes de archivos."
-      all_available_storages_already_added: "Ya se añadieron todos los almacenes disponibles al proyecto."
-      copy_from: "Copiar este valor de"
-      nextcloud:
-        integration: "Administración de Nextcloud / OpenProject"
+      complete_without_setup: Completar sin usar
+      done_complete_setup: Hecho, configuración completada
+      done_continue: Hecho, continuar
+      replace_oauth_application: Reemplazar OpenProject OAuth
+      replace_oauth_client: Reemplazar %{provider_type} OAuth
+      save_and_continue: Guardar y continuar
+      select_folder: Seleccionar carpeta
+    configuration_checks:
+      oauth_client_incomplete:
+        nextcloud: Permitir a OpenProject acceder a los datos de Nextcloud usando OAuth.
+        one_drive: Permitir a OpenProject acceder a datos Azure usando OAuth para conectar OneDrive/Sharepoint.
+      redirect_uri_incomplete:
+        one_drive: Completa la configuración con la redirección URI correcta.
+    confirm_replace_oauth_application: Esta acción restablecerá las credenciales OAuth actuales. Después de confirmar tendrá que volver a introducir las credenciales en el proveedor de almacenamiento y todos los usuarios remotos tendrán que autorizarse contra OpenProject de nuevo. ¿Seguro que desea continuar?
+    confirm_replace_oauth_client: Esta acción restablecerá las credenciales OAuth actuales. Después de confirmar tendrá que introducir nuevas credenciales del proveedor de almacenamiento y todos los usuarios tendrán que autorizarse contra %{provider_type} de nuevo. ¿Seguro que desea continuar?
     delete_warning:
-      storage: >
-        ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
-      project_storage: >
-        ¿Seguro que quiere quitar este almacén de archivos del proyecto? También se quitarán todos los enlaces a los archivos guardados en este almacén para el proyecto.
-    label_creator: "Autor"
-    label_file_link: "Enlace de archivo"
-    label_file_links: "Enlaces de archivos"
-    label_name: "Nombre"
-    label_host: "URL del host"
-    label_oauth_breadcrumb:
-      openproject: "OpenProject OAuth"
-      nextcloud: "Nextcloud OAuth"
-    label_oauth_application_details: "Detalles de aplicación OAuth"
-    label_oauth_client_details: "Detalles del cliente OAuth"
-    label_provider_type: "Tipo de proveedor"
-    label_new_storage: "Nuevo almacén"
-    label_storage: "Almacén"
-    label_storages: "Almacenes"
-    no_results: "Aún no se han configurado almacenes."
-    provider_types:
-      label: "Tipo de proveedor"
+      input_delete_confirmation: Introduzca el nombre de almacenamiento de archivos %{file_storage} para confirmar la eliminación.
+      irreversible_notice: Eliminar un archivo almacenado es una acción irreversible.
+      project_storage: '¿Seguro que desea eliminar %{file_storage} de este proyecto? Para confirmar esta acción introduzca el nombre del almacenamiento en el campo inferior, esto hará lo siguiente:'
+      project_storage_delete_result_1: Eliminar todos los enlaces de los paquetes de trabajo de este proyecto a los archivos y carpetas de ese almacén.
+      project_storage_delete_result_2: En caso de que este almacenamiento tenga una carpeta de proyecto gestionada automáticamente, esta y sus archivos se eliminarán para siempre.
+      storage: '¿Está seguro de que desea eliminar %{file_storage}? Para confirmar esta acción, introduzca el nombre de almacenamiento en el campo de abajo, este será:'
+      storage_delete_result_1: Eliminar todas las configuraciones de almacenamiento de todos los proyectos que utilizan este almacenamiento.
+      storage_delete_result_2: Eliminar todos los enlaces de paquetes de trabajo de todos los proyectos a archivos y carpetas de ese almacenamiento.
+      storage_delete_result_3: En caso de que este almacenamiento tenga gestión automática de carpetas de proyecto, aquellas y sus archivos contenidos serán eliminados para siempre.
+    error_invalid_provider_type: Por favor, seleccione un proveedor de almacenamiento válido.
+    file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
+      automatically_managed_folders: Carpetas gestionadas automáticamente
+      general_information: Información general
+      nextcloud_oauth: Nextcloud OAuth
+      oauth_applications: Aplicaciones OAuth
+      one_drive_oauth: Azure OAuth
+      openproject_oauth: OpenProject OAuth
+      project_folders: Carpeta del proyecto
+      redirect_uri: Redirigir URI
+      storage_provider: Proveedor de almacenamiento
+    health:
+      checked: Última comprobación %{datetime}
+      label_error: Error
+      label_healthy: Correcto
+      label_pending: Pendiente
+      since: desde %{datetime}
+      subtitle: Automatically managed project folders
+      title: Estado de salud
+    health_email_notifications:
+      description_subscribed: All administrators will receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
+    help_texts:
+      project_folder: La carpeta del proyecto es la carpeta predeterminada para la carga de archivos de este proyecto. No obstante, los usuarios pueden subir archivos a otras ubicaciones.
+    instructions:
+      all_available_storages_already_added: Ya se añadieron todos los almacenes disponibles al proyecto.
+      automatic_folder: Esto creará automáticamente una carpeta raíz para este proyecto y gestionará los permisos de acceso para cada miembro del proyecto.
+      copy_from: Copiar este valor de
+      empty_project_folder_validation: Es obligatorio seleccionar una carpeta para continuar.
+      existing_manual_folder: Puede designar una carpeta existente como carpeta raíz de este proyecto. Sin embargo, los permisos no se gestionan automáticamente, sino que el administrador debe asegurarse manualmente de que los usuarios pertinentes tienen acceso. La carpeta seleccionada puede ser utilizada por varios proyectos.
+      host: Por favor añade la dirección de host de tu almacenamiento incluyendo el https://. No debe tener más de 255 caracteres.
+      managed_project_folders_application_password_caption: 'Habilitar carpetas gestionadas automáticamente copiando este valor de: %{provider_type_link}.'
+      name: Dale un nombre a tu almacenamiento para que los usuarios puedan diferenciar entre múltiples almacenamientos.
+      new_storage: Lea nuestra documentación sobre <a target='_blank' href='%{provider_link}'>crear una integración de almacenamiento de archivos de %{provider_name}</a> para más información.
       nextcloud:
-        name: "Nextcloud"
-        name_placeholder: "e.g. Nextcloud"
-        default_name: "Mi Nextcloud"
-    confirm_replace_oauth_application: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo contra OpenProject."
-    confirm_replace_oauth_client: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo en el almacenamiento."
-    oauth_client_details_missing: "Para completar la configuración, por favor agregue las credenciales del cliente OAuth desde su almacenamiento."
-    notice_oauth_application_replaced: "La aplicación OpenProject OAuth fue reemplazada con éxito."
+        application_link_text: aplicación “Integración OpenProject”
+        integration: Administración de Nextcloud / OpenProject
+        oauth_configuration: Copia estos valores de %{application_link_text}.
+        provider_configuration: Por favor, asegúrate de tener privilegios de administración en tu instancia de Nextcloud y de que el %{application_link_text} esté instalado antes de realizar la configuración.
+      no_specific_folder: Por defecto, cada usuario comenzará en su propia carpeta de inicio cuando cargue un archivo.
+      no_storage_set_up: Aún no se han configurado los almacenamientos de archivos.
+      not_logged_into_storage: Para seleccionar una carpeta de proyecto, inicie primero la sesión
+      oauth_application_details: La clave secreta de cliente no será accesible una vez se cierre esta ventana. Por favor, copie estos valores en la configuración de %{oauth_application_details_link}
+      oauth_application_details_link_text: Configuración de integración de OpenProject Nextcloud
+      one_drive:
+        application_link_text: Portal de Azure
+        copy_redirect_uri: Copiar URI de redirección
+        documentation_link_text: Documentación de almacenamientos de archivos OneDrive/SharePoint
+        drive_id: Por favor, copie el ID de la unidad deseada siguiendo los pasos en %{drive_id_link_text}.
+        integration: OneDrive/Sharepoint
+        missing_client_id_for_redirect_uri: Por favor, rellene los valores de OAuth para generar una URI
+        oauth_client_redirect_uri: Por favor, copie este valor a una nueva URI de redirección Web bajo URIs de redirección.
+        oauth_client_secret: En caso de que no haya ningún "client secret" de aplicación bajo las credenciales del Cliente, por favor cree uno nuevo.
+        oauth_configuration: Copie estos valores de la aplicación deseada en %{application_link_text}.
+        provider_configuration: Asegúrese de tener privilegios de administración en la %{application_link_text} o póngase en contacto con el administrador de Microsoft antes de realizar la configuración. En el portal, también es necesario registrar una aplicación Azure o utilizar una ya existente para la autenticación.
+        tenant_id: Copie el Directory (tenant) ID de la aplicación deseada y la aplicación registros en %{application_link_text}.
+        tenant_id_placeholder: Nombre o UUID
+      setting_up_additional_storages: Para configurar almacenes de archivos adicionales, visite
+      setting_up_additional_storages_non_admin: Los administradores pueden configurar almacenes de archivos adicionales en Administración > Almacenes de archivos.
+      setting_up_storages: Para configurar almacenes de archivos, visite
+      setting_up_storages_non_admin: Los administradores pueden configurar almacenes de archivos en Administración > Almacenes de archivos.
+      type: 'Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:'
+      type_link_text: "“Integración OpenProject”"
+    label_active: Activo
+    label_add_new_storage: Añadir nuevo almacenamiento
+    label_automatic_folder: Nueva carpeta con permisos gestionados automáticamente
+    label_completed: Completado
+    label_creation_time: Tiempo de creación
+    label_creator: Autor
+    label_delete_storage: Eliminar almacenamiento
+    label_edit_storage: Editar almacenamiento
+    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_automatically_managed_folders: Editar carpetas gestionadas automáticamente
+    label_edit_storage_host: Editar host del almacenamiento
+    label_existing_manual_folder: Carpeta existente con permisos gestionados manualmente
+    label_file_storage: Almacenamiento de archivos
+    label_host: URL del host
+    label_inactive: Inactivo
+    label_incomplete: Incompleto
+    label_managed_project_folders:
+      application_password: Contraseña de aplicación
+      automatically_managed_folders: Carpetas gestionadas automáticamente
+    label_name: Nombre
+    label_new_file_storage: Nuevo almacenamiento de %{provider}
+    label_new_storage: Nuevo almacén
+    label_no_selected_folder: No hay carpeta seleccionada
+    label_no_specific_folder: Ninguna carpeta específica
+    label_oauth_client_id: ID de cliente OAuth
+    label_openproject_oauth_application_id: OpenProject OAuth Client ID
+    label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
+    label_project_folder: Carpeta del proyecto
+    label_provider: Proveedor
+    label_redirect_uri: Redirigir URI
+    label_show_storage_redirect_uri: Mostrar URI de redirección
+    label_status: Estado
+    label_storage: Almacén
+    label_uri: URI
+    member_connection_status:
+      connected: Conectado
+      connected_no_permissions: El rol de usuario no tiene permisos de almacenamiento
+      not_connected: No conectado. El usuario debe iniciar sesión en el almacenamiento a través del siguiente %{link}.
+    members_no_results: No hay miembros para mostrar.
+    no_results: Aún no se han configurado almacenes de archivos.
+    notice_successful_storage_connection: |-
+      ¡Almacenamiento conectado con éxito! Recuerda activar el módulo y el almacenamiento específico en la configuración del proyecto de cada proyecto deseado para usarlo.
+    oauth_grant_nudge_modal:
+      access_granted: Acceso permitido
+      access_granted_screen_reader: Acceso concedido. Ya puede utilizar %{storage}.
+      body: Para obtener acceso a la carpeta del proyecto necesitas iniciar sesión en %{storage}.
+      cancel_button_label: Lo haré más tarde
+      confirm_button_aria_label: Iniciar sesión en %{storage}
+      confirm_button_label: Iniciar sesión
+      requesting_access_to: Solicitando acceso a %{storage}
+      storage_ready: Ahora estás listo para usar %{storage}
+      title: Queda un paso más...
+    open_project_storage_modal:
+      success:
+        subtitle: Se te está redirigiendo
+        title: Configuración de integración completada
+      waiting:
+        subtitle: Un momento, por favor, esto puede llevar algún tiempo...
+        title: Estamos configurando tus permisos en la carpeta del proyecto.
+    page_titles:
+      file_storages:
+        delete: Eliminar el almacenamiento de archivos
+        subtitle: Añadir un archivo de almacenamiento externo para subir, enlazar y gestionar los archivos en los paquetes de trabajo.
+      managed_project_folders:
+        subtitle: |-
+          Deja que OpenProject cree carpetas por proyecto automáticamente. Esto es recomendable, ya que garantiza que cada miembro del equipo tenga siempre los permisos de acceso correctos.
+        subtitle_short: Permitir que OpenProject cree carpetas por proyecto automáticamente.
+        title: Carpetas de proyecto administradas automáticamente
+      project_settings:
+        delete: Eliminar el almacenamiento de archivos
+        edit: Edite el archivo de almacenamiento a este proyecto
+        index: Hay almacenes de archivos disponibles en este proyecto
+        members_connection_status: Estado de conexión de los miembros
+        new: Añadir un almacenamiento de archivos a este proyecto
+      project_storage_members:
+        subtitle: Compruebe el estado de conexión del almacenamiento %{storage_name_link} de todos los miembros del proyecto.
+        title: Estado de conexión de los miembros
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
+    provider_types:
+      label: Tipo de proveedor
+      nextcloud:
+        label_oauth_client_id: Nextcloud OAuth Client ID
+        label_oauth_client_secret: Nextcloud OAuth Client Secret
+        name: Nextcloud
+        name_placeholder: e.g. Nextcloud
+      one_drive:
+        label_oauth_client_id: Azure OAuth Application (client) ID
+        label_oauth_client_secret: Azure OAuth Client Secret Value
+        name: OneDrive/Sharepoint
+        name_placeholder: ej. OneDrive
+    storage_list_blank_slate:
+      description: Añade un almacenamiento para verlos aquí.
+      heading: Aún no tiene ningún almacenamiento.
+    upsale:
+      description: |-
+        Integra tu OneDrive/SharePoint como almacenamiento de archivos con OpenProject. Sube archivos y vincúlalos directamente a paquetes de trabajo en un proyecto.
+      title: Integración con OneDrive/SharePoint

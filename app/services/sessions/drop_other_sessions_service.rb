@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,17 +25,13 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require_relative './base_service'
-
 module Sessions
-  class DropOtherSessionsService < BaseService
+  class DropOtherSessionsService
     class << self
       ##
       # Drop all other sessions for the current user.
       # This can only be done when active record sessions are used.
       def call(user, session)
-        return false unless active_record_sessions?
-
         ::Sessions::UserSession
           .for_user(user)
           .where.not(session_id: session.id.private_id)

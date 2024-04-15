@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,8 +35,8 @@ module Costs::Patches::SettingSeederPatch
     def data
       original_data = super
 
-      unless original_data['default_projects_modules'].include? 'costs'
-        original_data['default_projects_modules'] << 'costs'
+      if original_data["default_projects_modules"]&.exclude? "costs"
+        original_data["default_projects_modules"] << "costs"
       end
 
       original_data

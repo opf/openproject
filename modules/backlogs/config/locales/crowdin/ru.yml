@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ru:
+  plugin_openproject_backlogs:
+    name: "OpenProject бэклоги"
+    description: "Этот модуль добавляет функции, позволяющие agile-командам работать с OpenProject в Scrum проектах."
   activerecord:
     attributes:
       work_package:
         position: "Позиция"
-        remaining_hours: "Оставшиеся часы"
-        remaining_time: "Оставшиеся часы"
         story_points: "Исторические точки"
         backlogs_work_package_type: "Тип невыполненной работы"
     errors:
@@ -35,9 +36,6 @@ ru:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "может содержать только идентификаторы рабочих пакетов в текущем спринте."
               must_block_at_least_one_work_package: "должен содержаться идентификатор по крайней мере одного билета."
-            parent_id:
-              parent_child_relationship_across_projects: "недействителен, поскольку пакет работ '%{work_package_name}' - это невыполненное задание и, следовательно, не может иметь родителя за пределами текущего проекта."
-              type_must_be_one_of_the_following: "Тип должен быть одним из следующих: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "должен совпадать с версией родительской истории."
         sprint:
@@ -78,7 +76,6 @@ ru:
     x_more: "Еще %{count}..."
   backlogs_active: "активно"
   backlogs_any: "любой"
-  backlogs_card_specification: "Типы наклеек для печати карточек"
   backlogs_inactive: "Мероприятия по проекту не показаны"
   backlogs_points_burn_direction: "Точки выгорания вверх/вниз"
   backlogs_product_backlog: "Требования к продукту, с приоритетами"
@@ -96,8 +93,8 @@ ru:
   backlogs_velocity_missing: "Нельзя рассчитать скорость для этого проекта"
   backlogs_velocity_varies: "Скорость спринтов значительно различается"
   backlogs_wiki_template: "Шаблон для wiki-страницы по спринту"
-  backlogs_empty_title: "Для невыполненных работ не задано ни одного этапа"
-  backlogs_empty_action_text: "Чтобы пользоваться модулем невыполненной работы, создайте этап и назначьте его столбцу невыполненной работы."
+  backlogs_empty_title: "Для бэклога работ не задано ни одного этапа"
+  backlogs_empty_action_text: "Чтобы пользоваться модулем Бэклоги, создайте этап и назначьте его столбцу бэклога."
   button_edit_wiki: "Редактировать wiki-страницу"
   error_backlogs_task_cannot_be_story: "Недопустимые настройки. Выбранный тип задачи не может быть типом истории."
   error_intro_plural: "Найдены следующие ошибки:"
@@ -108,7 +105,7 @@ ru:
   ideal: "идеал"
   inclusion: "не входит в список"
   label_back_to_project: "Назад к странице проекта"
-  label_backlog: "Невыполненная работа"
+  label_backlog: "Бэклог"
   label_backlogs: "Бэклоги"
   label_backlogs_unconfigured: "Вы еще не настроили Невыполненные работы. Перейдите на страницу %{administration} > %{plugins}, а затем нажмите на ссылку %{configure} для получения этого дополнения. После того как вы настроите поля, возвратитесь на эту страницу, чтобы начать пользоваться инструментом."
   label_blocks_ids: "Идентификаторы заблокированных рабочих пакетов"
@@ -116,7 +113,7 @@ ru:
   label_column_in_backlog: "Колонка в бэклоге"
   label_hours: "часы"
   label_work_package_hierarchy: "Иерархия пакета работ"
-  label_master_backlog: "Главная невыполненная работа"
+  label_master_backlog: "Основной бэклог"
   label_not_prioritized: "нет приоритетов"
   label_points: "точки"
   label_points_burn_down: "Вниз"

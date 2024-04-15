@@ -1,9 +1,9 @@
 <form
   name="sendUserInviteForm"
   (submit)="onSubmit($event)"
-  class="op-ium-summary"
+  class="op-ium-summary spot-modal"
 >
-  <div class="spot-modal--header">{{text.title()}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title()}}</div>
 
   <div class="spot-divider"></div>
 
@@ -16,7 +16,7 @@
     <spot-form-field [label]="text.principalLabel[type]">
       <p slot="input" class="spot-body-small op-ium-summary--details">{{ principal?.name }}</p>
     </spot-form-field>
-  
+
     <spot-form-field [label]="text.roleLabel()">
       <p slot="input" class="spot-body-small op-ium-summary--details">{{ role.name }}</p>
     </spot-form-field>
@@ -48,7 +48,8 @@
         (click)="close.emit()"
       >{{ text.cancelButton }}</button>
       <button
-        class="button button_no-margin -highlight spot-action-bar--action"
+        type="submit"
+        class="button button_no-margin -primary spot-action-bar--action"
       >{{ text.nextButton() }}</button>
     </div>
   </div>

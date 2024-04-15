@@ -93,7 +93,7 @@ body.widget-grid-layout
 .grid--resizer
   position: absolute
   height: 20px
-  color: #888
+  color: var(--color-fg-muted)
   cursor: nwse-resize
   opacity: 0
   right: 0
@@ -116,7 +116,7 @@ body.widget-grid-layout
 
   &:before
     padding: 0
-    color: #888
+    color: var(--color-fg-muted)
 
   .grid--area.-widgeted:hover &
     opacity: 1
@@ -217,7 +217,7 @@ body.widget-grid-layout
     align-items: center
     padding: 0
     border-radius: initial
-    
+
     &:before
       font-size: 0.75rem
 
@@ -247,7 +247,7 @@ body.widget-grid-layout
   transition: background 4s ease
 
   &:hover
-    background: $gray-light
+    background: var(--gray-light)
     transition: background 1s ease
 
   &:last-of-type

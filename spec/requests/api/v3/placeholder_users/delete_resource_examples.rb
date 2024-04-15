@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,12 +25,12 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-shared_examples 'deletion allowed' do
-  it 'responds with 202' do
+RSpec.shared_examples "deletion allowed" do
+  it "responds with 202" do
     expect(last_response.status).to eq 202
   end
 
-  it 'locks the account and mark for deletion' do
+  it "locks the account and mark for deletion" do
     expect(Principals::DeleteJob)
       .to have_been_enqueued
             .with(placeholder)
@@ -38,19 +38,19 @@ shared_examples 'deletion allowed' do
     expect(placeholder.reload).to be_locked
   end
 
-  context 'with a non-existent user' do
+  context "with a non-existent user" do
     let(:path) { api_v3_paths.placeholder_user 1337 }
 
-    it_behaves_like 'not found'
+    it_behaves_like "not found"
   end
 end
 
-shared_examples 'deletion is not allowed' do
-  it 'responds with 403' do
+RSpec.shared_examples "deletion is not allowed" do
+  it "responds with 403" do
     expect(last_response.status).to eq 403
   end
 
-  it 'does not delete the user' do
-    expect(PlaceholderUser.exists?(placeholder.id)).to be_truthy
+  it "does not delete the user" do
+    expect(PlaceholderUser).to exist(placeholder.id)
   end
 end

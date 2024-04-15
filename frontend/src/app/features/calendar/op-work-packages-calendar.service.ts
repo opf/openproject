@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  Injector,
-} from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   CalendarOptions,
   DatesSetArg,
@@ -22,8 +19,10 @@ import { splitViewRoute } from 'core-app/features/work-packages/routing/split-vi
 import { StateService } from '@uirouter/angular';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { Observable } from 'rxjs';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { firstValueFrom, Observable } from 'rxjs';
+import {
+  WorkPackageViewFiltersService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -37,22 +36,32 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { UIRouterGlobals } from '@uirouter/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 import {
-  EventReceiveArg,
-  EventResizeDoneArg,
-} from '@fullcalendar/interaction';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+  WorkPackagesListChecksumService,
+} from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
+import { EventReceiveArg, EventResizeDoneArg } from '@fullcalendar/interaction';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import * as moment from 'moment';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import {
+  WorkPackageViewSelectionService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import {
+  uiStateLinkClass,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
+import {
+  WorkPackageViewContextMenu,
+} from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { IDay } from 'core-app/core/state/days/day.model';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
+import allLocales from '@fullcalendar/core/locales-all';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -66,9 +75,11 @@ interface CalendarOptionsWithDayGrid extends CalendarOptions {
 
 @Injectable()
 export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
-  static MAX_DISPLAYED = 100;
+  static MAX_DISPLAYED = 500;
 
   tooManyResultsText:string|null;
+
+  public nonWorkingDays:IDay[] = [];
 
   currentWorkPackages$:Observable<WorkPackageCollectionResource> = this
     .querySpace
@@ -100,21 +111,9 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     readonly contextMenuService:OPContextMenuService,
     readonly calendarService:OpCalendarService,
     readonly weekdayService:WeekdayService,
+    readonly dayService:DayResourceService,
   ) {
     super();
-  }
-
-  workPackagesListener$(callbackFn:() => void):void {
-    this
-      .querySpace
-      .results
-      .values$()
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(() => {
-        callbackFn();
-      });
   }
 
   calendarOptions(additionalOptions:CalendarOptions):CalendarOptions {
@@ -148,10 +147,22 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     }
   }
 
+  async requireNonWorkingDays(date:Date|string) {
+    this.nonWorkingDays = await firstValueFrom(this.dayService.requireNonWorkingYear$(date));
+  }
+
+  isNonWorkingDay(date:Date|string):boolean {
+    const formatted = moment(date).format('YYYY-MM-DD');
+    return (this.nonWorkingDays.findIndex((el) => el.date === formatted) !== -1);
+  }
+
   async updateTimeframe(
     fetchInfo:{ start:Date, end:Date, timeZone:string },
     projectIdentifier:string|undefined,
   ):Promise<unknown> {
+    await this.requireNonWorkingDays(fetchInfo.start);
+    await this.requireNonWorkingDays(fetchInfo.end);
+
     if (this.areFiltersEmpty && this.querySpace.query.value) {
       // nothing to do
       return Promise.resolve();
@@ -164,12 +175,12 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     if (this.urlParams.query_id) {
       queryId = this.urlParams.query_id as string;
     }
-
     // We derive the necessary props in the following cases
     // 1. We load a queryId with no props
     // 2. We load visible query props or empty
     // 3. We are already loaded and are refetching data (for changed dates, e.g.)
     let queryProps:string|undefined;
+
 
     if (this.initializingWithQuery) {
       // This is the case on initially loading the calendar with a query_id present in the url params but no
@@ -179,11 +190,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       // such filter exists yet, we need to add it to the existing filter set.
       // In order to do both, we first need to fetch the query as we cannot signal
       // to the backend yet to only add this one filter but leave the rest unchanged.
-      const initialQuery = await this
-        .apiV3Service
-        .queries
-        .find({ pageSize: 0 }, queryId)
-        .toPromise();
+      const initialQuery = await firstValueFrom(this.apiV3Service.queries.find({ pageSize: 0 }, queryId));
 
       queryProps = this.generateQueryProps(
         initialQuery,
@@ -204,6 +211,8 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
             ...(oldQueryProps.f as QueryPropsFilter[]).filter((filter:QueryPropsFilter) => filter.n !== 'datesInterval'),
             OpWorkPackagesCalendarService.dateFilter(startDate, endDate),
           ],
+          pp: OpWorkPackagesCalendarService.MAX_DISPLAYED,
+          pa: 1,
         };
 
         queryProps = JSON.stringify(newQueryProps);
@@ -221,10 +230,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       this.wpListChecksumService.set(queryId, queryProps);
     }
 
-    return this
+    return Promise.all([this
       .wpListService
-      .fromQueryParams({ query_id: queryId, query_props: queryProps }, projectIdentifier || undefined)
-      .toPromise();
+      .fromQueryParams({ query_id: queryId, query_props: queryProps, }, projectIdentifier || undefined)
+      .toPromise(),
+    ])
   }
 
   public generateQueryProps(
@@ -332,6 +342,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   private defaultOptions():CalendarOptionsWithDayGrid {
     return {
       editable: false,
+      locales: allLocales,
       locale: this.I18n.locale,
       fixedWeekCount: false,
       firstDay: this.configuration.startOfWeek(),
@@ -345,11 +356,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       initialDate: this.initialDate,
       initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
-      dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data),
-      dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data),
-      dayGridClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data),
-      slotLaneClassNames: (data:SlotLaneContentArg) => this.calendarService.applyNonWorkingDay(data),
-      slotLabelClassNames: (data:SlotLabelContentArg) => this.calendarService.applyNonWorkingDay(data),
+      dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
+      dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
+      dayGridClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
+      slotLaneClassNames: (data:SlotLaneContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
+      slotLabelClassNames: (data:SlotLabelContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
     };
   }
 
@@ -387,7 +398,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       && !this.urlParams.query_props;
   }
 
-  private get urlParams() {
+  public get urlParams() {
     return this.uiRouterGlobals.params;
   }
 
@@ -408,7 +419,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     void this.$state.go(
       '.',
       {
-        cdate: this.timezoneService.formattedISODate(dates.view.currentStart),
+        cdate: this.timezoneService.formattedISODate(dates.view.calendar.getDate()),
         // v6.beta3 fails to have type on the ViewAPI
         cview: (dates.view as unknown as { type:string }).type,
       },

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/shared/become_member'
+require "spec_helper"
+require_relative "../support/shared/become_member"
 
-describe Group do
+RSpec.describe Group do
   let(:group) { create(:group) }
   let(:user) { create(:user) }
   let(:watcher) { create(:user) }
@@ -42,39 +42,39 @@ describe Group do
                          status:)
   end
 
-  it 'creates' do
-    g = described_class.new(lastname: 'New group')
+  it "creates" do
+    g = described_class.new(lastname: "New group")
     expect(g.save).to be true
   end
 
-  describe 'with long but allowed attributes' do
-    it 'is valid' do
-      group.name = 'a' * 256
+  describe "with long but allowed attributes" do
+    it "is valid" do
+      group.name = "a" * 256
       expect(group).to be_valid
       expect(group.save).to be_truthy
     end
   end
 
-  describe 'with a name too long' do
-    it 'is invalid' do
-      group.name = 'a' * 257
+  describe "with a name too long" do
+    it "is invalid" do
+      group.name = "a" * 257
       expect(group).not_to be_valid
       expect(group.save).to be_falsey
     end
   end
 
-  describe 'a user with and overly long firstname (> 256 chars)' do
-    it 'is invalid' do
-      user.firstname = 'a' * 257
+  describe "a user with and overly long firstname (> 256 chars)" do
+    it "is invalid" do
+      user.firstname = "a" * 257
       expect(user).not_to be_valid
       expect(user.save).to be_falsey
     end
   end
 
-  describe '#group_users' do
-    context 'when adding a user' do
-      context 'if it does not exist' do
-        it 'does not create a group user' do
+  describe "#group_users" do
+    context "when adding a user" do
+      context "if it does not exist" do
+        it "does not create a group user" do
           count = group.group_users.count
           gu = group.group_users.create user_id: User.maximum(:id).to_i + 1
 
@@ -83,7 +83,7 @@ describe Group do
         end
       end
 
-      it 'updates the timestamp' do
+      it "updates the timestamp" do
         updated_at = group.updated_at
         group.group_users.create(user:)
 
@@ -92,8 +92,8 @@ describe Group do
       end
     end
 
-    context 'when removing a user' do
-      it 'updates the timestamp' do
+    context "when removing a user" do
+      it "updates the timestamp" do
         group.group_users.create(user:)
         updated_at = group.reload.updated_at
 
@@ -105,23 +105,23 @@ describe Group do
     end
   end
 
-  describe '#create' do
-    describe 'group with empty group name' do
-      let(:group) { build(:group, lastname: '') }
+  describe "#create" do
+    describe "group with empty group name" do
+      let(:group) { build(:group, lastname: "") }
 
       it { expect(group).not_to be_valid }
 
-      describe 'error message' do
+      describe "error message" do
         before do
           group.valid?
         end
 
-        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.name') }
+        it { expect(group.errors.full_messages[0]).to include I18n.t("attributes.name") }
       end
     end
   end
 
-  describe 'preference' do
+  describe "preference" do
     %w{preference
        preference=
        build_preference
@@ -133,17 +133,17 @@ describe Group do
     end
   end
 
-  describe '#name' do
+  describe "#name" do
     it { expect(group).to validate_presence_of :name }
     it { expect(group).to validate_uniqueness_of :name }
   end
 
-  include_examples 'creates an audit trail on destroy' do
+  include_examples "creates an audit trail on destroy" do
     subject { create(:attachment) }
   end
 
-  it_behaves_like 'acts_as_customizable included' do
+  it_behaves_like "acts_as_customizable included" do
     let(:model_instance) { group }
-    let(:custom_field) { create(:string_group_custom_field) }
+    let(:custom_field) { create(:group_custom_field, :string) }
   end
 end

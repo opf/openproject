@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Queries::Schemas::IdFilterDependencyRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Queries::Schemas::IdFilterDependencyRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
   let(:query) { build_stubbed(:query, project:) }
@@ -44,49 +44,49 @@ describe ::API::V3::Queries::Schemas::IdFilterDependencyRepresenter do
 
   subject(:generated) { instance.to_json }
 
-  context 'generation' do
-    context 'properties' do
-      describe 'values' do
-        context 'within project' do
-          let(:path) { 'values' }
-          let(:type) { '[]WorkPackage' }
+  context "generation" do
+    context "properties" do
+      describe "values" do
+        context "within project" do
+          let(:path) { "values" }
+          let(:type) { "[]WorkPackage" }
           let(:href) { api_v3_paths.work_packages_by_project(project.id) }
 
           context "for operator 'Queries::Operators::Equals'" do
             let(:operator) { Queries::Operators::Equals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
 
           context "for operator 'Queries::Operators::NotEquals'" do
             let(:operator) { Queries::Operators::NotEquals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
         end
 
-        context 'outside of a project' do
+        context "outside of a project" do
           let(:project) { nil }
-          let(:path) { 'values' }
-          let(:type) { '[]WorkPackage' }
+          let(:path) { "values" }
+          let(:type) { "[]WorkPackage" }
           let(:href) { api_v3_paths.work_packages }
 
           context "for operator 'Queries::Operators::Equals'" do
             let(:operator) { Queries::Operators::Equals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
 
           context "for operator 'Queries::Operators::NotEquals'" do
             let(:operator) { Queries::Operators::NotEquals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
         end
       end
     end
 
-    describe 'caching' do
+    describe "caching" do
       let(:operator) { Queries::Operators::Equals }
       let(:other_project) { build_stubbed(:project) }
 
@@ -95,14 +95,14 @@ describe ::API::V3::Queries::Schemas::IdFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'is cached' do
+      it "is cached" do
         expect(instance)
           .not_to receive(:to_hash)
 
         instance.to_json
       end
 
-      it 'busts the cache on a different operator' do
+      it "busts the cache on a different operator" do
         instance.send(:operator=, Queries::Operators::NotEquals)
 
         expect(instance)
@@ -111,7 +111,7 @@ describe ::API::V3::Queries::Schemas::IdFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'busts the cache on a different project' do
+      it "busts the cache on a different project" do
         query.project = other_project
 
         expect(instance)
@@ -120,7 +120,7 @@ describe ::API::V3::Queries::Schemas::IdFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'busts the cache on changes to the locale' do
+      it "busts the cache on changes to the locale" do
         expect(instance)
           .to receive(:to_hash)
 
@@ -129,7 +129,7 @@ describe ::API::V3::Queries::Schemas::IdFilterDependencyRepresenter do
         end
       end
 
-      it 'busts the cache on different form_embedded' do
+      it "busts the cache on different form_embedded" do
         embedded_instance = described_class.new(filter,
                                                 operator,
                                                 form_embedded: !form_embedded)

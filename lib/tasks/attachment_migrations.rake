@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,40 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'shared/user_feedback'
+require_relative "shared/user_feedback"
 
-require 'tasks/shared/legacy_attachment'
-require 'tasks/shared/attachment_migration'
+require "tasks/shared/legacy_attachment"
+require "tasks/shared/attachment_migration"
 
 module Migrations
   ##
   # We create a separate classes as this is most likely to be used during
   # the migration of an ChiliProject (2.x or 3.x) which lacks a couple
   # of columns models have in OpenProject >6.
+  # rubocop:disable Rails/ApplicationRecord
   module Attachments
     class CurrentWikiPage < ::ActiveRecord::Base
       self.table_name = "wiki_pages"
 
-      has_one :content, class_name: 'WikiContent', foreign_key: 'page_id', dependent: :destroy
+      has_one :content, class_name: "CurrentWikiContent", foreign_key: "page_id", dependent: :destroy
     end
 
     class CurrentWikiContent < ::ActiveRecord::Base
       self.table_name = "wiki_contents"
     end
   end
+  # rubocop:enable Rails/ApplicationRecord
 end
 
 namespace :migrations do
   namespace :attachments do
-    include ::Tasks::Shared::UserFeedback
-    include ::Tasks::Shared::AttachmentMigration
+    include Tasks::Shared::UserFeedback
+    include Tasks::Shared::AttachmentMigration
 
-    desc 'Removes all attachments from versions and projects'
+    desc "Removes all attachments from versions and projects"
     task delete_from_projects_and_versions: :environment do |_task|
       try_delete_attachments_from_projects_and_versions
     end
 
-    desc 'Creates special wiki pages for each project and version moving the attachments there.'
+    desc "Creates special wiki pages for each project and version moving the attachments there."
     task move_to_wiki: :environment do |_task|
       Project.transaction do
         if Journal.count > 0
@@ -73,7 +75,7 @@ namespace :migrations do
       end
     end
 
-    desc 'Moves old attachment files to their correct new path under carrierwave.'
+    desc "Moves old attachment files to their correct new path under carrierwave."
     task move_old_files: :environment do |_task|
       count = Attachment.count
 

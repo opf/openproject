@@ -1,3 +1,13 @@
+
+$project-status_not-set: var(--fgColor-subtle, var(--color-subtle-fg))
+$project-status_off-track: var(--fgColor-danger, var(--color-danger-fg))
+$project-status_at-risk: var(--fgColor-severe, var(--color-severe-fg))
+$project-status_on-track: var(--fgColor-success, var(--color-success-fg))
+$project-status_discontinued: var(--fgColor-attention, var(--color-attention-fg))
+$project-status_not-started: var(--fgColor-accent, var(--color-accent-fg))
+$project-status_finished: var(--fgColor-done, var(--color-done-fg))
+$project-status-background-color: RGBA(var(--fgColor-subtle, var(--color-subtle-fg)), 0.3)
+
 // Project status widget
 .ng-select
   &.project-status
@@ -11,8 +21,7 @@
       height: 44px
       line-height: 44px
       input
-        font-weight: bold
-        font-size: 16px
+        font-weight: var(--base-text-weight-bold)
         text-transform: uppercase
 
     .ng-clear-wrapper
@@ -30,26 +39,26 @@
   &.-not-set
     // Have to use uppercase functions to make sass ignore them :-/
     // https://github.com/sass/node-sass/issues/2251
-    border-color: RGB(var(--project-status-gray))
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status_not-set
+    background-color: $project-status-background-color
   &.-off-track
-    border-color: var(--project-status-red)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status_off-track
+    background-color: $project-status-background-color
   &.-at-risk
-    border-color: var(--project-status-orange)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status_at-risk
+    background-color: $project-status-background-color
   &.-on-track
-    border-color: var(--project-status-green)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status_on-track
+    background-color: $project-status-background-color
   &.-not-started
-    border-color: var(--project-status-light-blue)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status_not-started
+    background-color: $project-status-background-color
   &.-finished
-    border-color: var(--project-status-deep-green)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status_finished
+    background-color: $project-status-background-color
   &.-discontinued
-    border-color: var(--project-status-deep-blue)
-    background-color: RGBA(var(--project-status-gray), 0.3)
+    border-color: $project-status_discontinued
+    background-color: $project-status-background-color
 
   &.-inline
     height: 24px
@@ -69,21 +78,22 @@
 
 .project-status--name
   text-transform: uppercase
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
+
   &.-not-set
-    color: var(--project-status-gray)
+    color: $project-status_not-set
   &.-off-track
-    color: var(--project-status-red)
+    color: $project-status_off-track
   &.-at-risk
-    color: var(--project-status-orange)
+    color: $project-status_at-risk
   &.-on-track
-    color: var(--project-status-green)
+    color: $project-status_on-track
   &.-not-started
-    color: var(--project-status-light-blue)
+    color: $project-status_not-started
   &.-finished
-    color: var(--project-status-deep-green)
+    color: $project-status_finished
   &.-discontinued
-    color: var(--project-status-deep-blue)
+    color: $project-status_discontinued
 
 .project-status--pulldown-icon
   font-size: 10px

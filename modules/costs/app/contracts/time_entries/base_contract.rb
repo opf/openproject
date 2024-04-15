@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,6 +55,9 @@ module TimeEntries
     attribute :activity_id do
       validate_activity_active
     end
+    attribute :ongoing do
+      validate_self_timer
+    end
     attribute :hours
     attribute :comments
     attribute_alias :comments, :comment
@@ -74,10 +77,9 @@ module TimeEntries
       end
     end
 
-    # Necessary for custom fields
-    # of type version.
-    def assignable_versions
-      work_package.try(:assignable_versions) || project.try(:assignable_versions) || []
+    # Necessary for custom fields of type version.
+    def assignable_versions(only_open: true)
+      work_package.try(:assignable_versions, only_open:) || project.try(:assignable_versions, only_open:) || []
     end
 
     private
@@ -113,6 +115,10 @@ module TimeEntries
 
     def validate_logged_by_current_user
       errors.add :logged_by_id, :not_current_user if model.logged_by != logged_by
+    end
+
+    def validate_self_timer
+      errors.add :ongoing, :not_current_user if model.ongoing? && model.user != user
     end
   end
 end

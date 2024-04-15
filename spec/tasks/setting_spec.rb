@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,87 +26,89 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Rake::Task, 'setting', :settings_reset do
-  describe 'setting:set' do
-    include_context 'rake' do
-      let(:task_name) { 'setting:set' }
+RSpec.describe Rake::Task, :settings_reset do
+  describe "setting:set" do
+    let(:configuration_yml) do
+      <<~YAML
+        ---
+          default:
+            email_delivery_method: 'initial_file_value'
+      YAML
     end
 
-    it 'saves the setting in database' do
-      subject.invoke('email_delivery_method=something')
+    include_context "rake" do
+      let(:task_name) { "setting:set" }
+    end
+
+    it "saves the setting in database" do
+      subject.invoke("email_delivery_method=something")
       Setting.clear_cache
-      expect(Setting.find_by(name: 'email_delivery_method')&.value).to eq(:something)
+      expect(Setting.find_by(name: "email_delivery_method")&.value).to eq(:something)
       expect(Setting.email_delivery_method).to eq(:something)
     end
 
-    context 'if setting is overridden from config/configuration.yml file' do
+    context "if setting is overridden from config/configuration.yml file" do
       before do
-        # disable test env detection because loading of the config file is partially disabled in test env
-        allow(Rails.env).to receive(:test?).and_return(false)
-        allow(Settings::Definition).to receive(:file_config)
-          .and_return('default' => { 'email_delivery_method' => 'initial_file_value' })
-        Settings::Definition.send(:override_value_from_file, Settings::Definition['email_delivery_method'])
+        stub_configuration_yml
+        reset(:email_delivery_method)
       end
 
-      it 'saves the setting in database' do
-        expect { subject.invoke('email_delivery_method=something') }
-          .to change { Setting.find_by(name: 'email_delivery_method')&.value }
+      it "saves the setting in database" do
+        expect { subject.invoke("email_delivery_method=something") }
+          .to change { Setting.find_by(name: "email_delivery_method")&.value }
           .from(nil)
           .to(:something)
       end
 
-      it 'keeps using the value from the file' do
+      it "keeps using the value from the file" do
         expect(Setting.email_delivery_method).to eq(:initial_file_value)
-        expect { subject.invoke('email_delivery_method=something') }
+        expect { subject.invoke("email_delivery_method=something") }
           .not_to change(Setting, :email_delivery_method)
           .from(:initial_file_value)
       end
     end
 
-    context 'if setting is already set in database' do
+    context "if setting is already set in database" do
       before do
-        Setting.create!(name: 'email_delivery_method', value: 'initial_db_value')
+        Setting.create!(name: "email_delivery_method", value: "initial_db_value")
       end
 
-      it 'updates the setting' do
-        expect { subject.invoke('email_delivery_method=something') }
-          .to change { Setting.find_by(name: 'email_delivery_method')&.value }
+      it "updates the setting" do
+        expect { subject.invoke("email_delivery_method=something") }
+          .to change { Setting.find_by(name: "email_delivery_method")&.value }
           .from(:initial_db_value)
           .to(:something)
       end
 
-      context 'if setting is overridden from config/configuration.yml file' do
+      context "if setting is overridden from config/configuration.yml file" do
         before do
-          # disable test env detection because loading of the config file is partially disabled in test env
-          allow(Rails.env).to receive(:test?).and_return(false)
-          allow(Settings::Definition).to receive(:file_config)
-            .and_return('default' => { 'email_delivery_method' => 'initial_file_value' })
-          Settings::Definition.send(:override_value_from_file, Settings::Definition['email_delivery_method'])
+          stub_configuration_yml
+          reset(:email_delivery_method)
         end
 
-        it 'updates the setting in database' do
-          expect { subject.invoke('email_delivery_method=something') }
-            .to change { Setting.find_by(name: 'email_delivery_method')&.value }
-            .from(:initial_db_value)
-            .to(:something)
+        it "updates the setting in database" do
+          expect { subject.invoke("email_delivery_method=something") }
+            .to change { Setting.find_by(name: "email_delivery_method")&.value }
+                  .from(:initial_db_value)
+                  .to(:something)
         end
 
-        it 'keeps using the value from the file' do
+        it "keeps using the value from the file" do
           expect(Setting.email_delivery_method).to eq(:initial_file_value)
-          expect { subject.invoke('email_delivery_method=something') }
+          expect { subject.invoke("email_delivery_method=something") }
             .not_to change(Setting, :email_delivery_method)
-            .from(:initial_file_value)
+                      .from(:initial_file_value)
         end
       end
     end
   end
 
-  describe 'setting:available_envs' do
-    include_context 'rake'
+  describe "setting:available_envs" do
+    include_context "rake"
 
-    it 'displays all environment variables which can override settings values' do
+    it "displays all environment variables which can override settings values" do
       # just want to ensure the code does not raise any errors
       expect { subject.invoke }
         .to output(/OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO/).to_stdout

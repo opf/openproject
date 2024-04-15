@@ -1,21 +1,16 @@
 .spot-drop-modal
-  position: relative
-  display: inline-flex
+  display: flex
 
   &--body
     $border-radius: 5px
 
+    position: absolute
     @include spot-z-index("drop-modal", 1)
+    pointer-events: none
+
     pointer-events: all
     opacity: 1
 
-    position: fixed
-    height: auto
-    bottom: $spot-spacing-3_5
-    left: $spot-spacing-1
-    right: $spot-spacing-1
-    width: calc(100vw - (2 * #{$spot-spacing-1}))
-    height: calc(#{var(--app-height)} - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
     box-shadow: $spot-shadow-light-mid
     background: $spot-color-basic-white
     border-radius: $border-radius
@@ -29,6 +24,17 @@
       max-height: calc(#{var(--app-height)} - (2 * #{$spot-spacing-1}))
       width: calc(100vw - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
 
+    @media #{$spot-mq-drop-modal-full-screen}
+      position: fixed
+      height: auto
+      bottom: $spot-spacing-3_5
+      // !important is needed here so `@floating-ui/dom` does not overwrite it.
+      left: $spot-spacing-1 !important
+      top: unset !important
+      right: $spot-spacing-1
+      width: calc(100vw - (2 * #{$spot-spacing-1}))
+      height: calc(#{var(--app-height)} - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
+
     @media #{$spot-mq-drop-modal-in-context}
       position: absolute
       bottom: unset
@@ -38,58 +44,6 @@
       height: auto
       max-width: calc(100vw - (2 * #{$spot-spacing-1}))
       max-height: calc(#{var(--app-height)} - (2 * #{$spot-spacing-1}))
-
-      &_left-top
-        right: 100%
-        top: 0%
-
-      &_left-center
-        right: 100%
-        top: 50%
-        transform: translateY(-50%)
-
-      &_left-bottom
-        right: 100%
-        bottom: 0%
-
-      &_bottom-left
-        top: 100%
-        left: 0%
-
-      &_bottom-center
-        top: 100%
-        left: 50%
-        transform: translateX(-50%)
-
-      &_bottom-right
-        top: 100%
-        right: 0%
-
-      &_right-top
-        left: 100%
-        top: 0%
-
-      &_right-center
-        left: 100%
-        top: 50%
-        transform: translateY(-50%)
-
-      &_right-bottom
-        left: 100%
-        bottom: 0%
-
-      &_top-left
-        bottom: 100%
-        left: 0%
-
-      &_top-center
-        bottom: 100%
-        left: 50%
-        transform: translateX(-50%)
-
-      &_top-right
-        bottom: 100%
-        right: 0%
 
     // TODO: At some point, this needs to be a cleverer selector.
     // Though most action bars will probably be at the bottom of a drop-modal,
@@ -119,7 +73,6 @@
     top: auto
     height: auto
     bottom: $spot-spacing-0_75
-    width: calc(100% - 2 * $spot-spacing-1)
     left: 50%
     transform: translateX(-50%)
     background-color: $spot-color-basic-white

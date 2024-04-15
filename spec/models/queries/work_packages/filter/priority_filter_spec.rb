@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
+RSpec.describe Queries::WorkPackages::Filter::PriorityFilter do
   let(:priority) { build_stubbed(:priority) }
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list }
     let(:class_key) { :priority_id }
 
-    describe '#available?' do
-      it 'is true if any group exists' do
+    describe "#available?" do
+      it "is true if any group exists" do
         allow(IssuePriority)
           .to receive_message_chain(:active, :exists?)
           .and_return true
@@ -44,7 +44,7 @@ describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
         expect(instance).to be_available
       end
 
-      it 'is false if no group exists' do
+      it "is false if no group exists" do
         allow(IssuePriority)
           .to receive_message_chain(:active, :exists?)
           .and_return false
@@ -53,27 +53,27 @@ describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
       end
     end
 
-    describe '#allowed_values' do
+    describe "#allowed_values" do
       before do
         allow(IssuePriority)
           .to receive(:active)
           .and_return [priority]
       end
 
-      it 'is an array of group values' do
+      it "is an array of group values" do
         expect(instance.allowed_values)
-          .to match_array [[priority.name, priority.id.to_s]]
+          .to contain_exactly([priority.name, priority.id.to_s])
       end
     end
 
-    describe '#ar_object_filter?' do
-      it 'is true' do
+    describe "#ar_object_filter?" do
+      it "is true" do
         expect(instance)
           .to be_ar_object_filter
       end
     end
 
-    describe '#value_objects' do
+    describe "#value_objects" do
       let(:priority2) { build_stubbed(:priority) }
 
       before do
@@ -84,9 +84,9 @@ describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
         instance.values = [priority2.id.to_s]
       end
 
-      it 'returns an array of priorities' do
+      it "returns an array of priorities" do
         expect(instance.value_objects)
-          .to match_array([priority2])
+          .to contain_exactly(priority2)
       end
     end
   end

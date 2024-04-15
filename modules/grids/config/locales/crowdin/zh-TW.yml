@@ -1,6 +1,6 @@
 zh-TW:
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "網格(Grid) %{grid_name} 中包含的工具集"
   activerecord:
     attributes:
       grids/grid:
@@ -12,5 +12,5 @@ zh-TW:
       models:
         grids/grid:
           overlaps: '重疊'
-          outside: 'is outside of the grid.'
+          outside: '不在網格(grid)內。'
           end_before_start: '結束值必須大於開始值。'

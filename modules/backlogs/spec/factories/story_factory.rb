@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 
 FactoryBot.define do
   factory :story do
-    association :priority, factory: :priority
+    priority factory: :priority
     sequence(:subject) { |n| "story#{n}" }
-    description { 'story story story' }
-    association :type, factory: :type_feature
-    association :author, factory: :user
+    description { "story story story" }
+    type factory: :type_feature
+    author factory: :user
   end
 end

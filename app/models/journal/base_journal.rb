@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ class Journal::BaseJournal < ApplicationRecord
   self.abstract_class = true
 
   has_one :journal, as: :data, inverse_of: :data, dependent: :destroy
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
 
   def journaled_attributes
     attributes.symbolize_keys.select { |k, _| self.class.journaled_attributes.include? k }

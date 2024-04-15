@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,42 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 Capybara.register_driver :auth_source_sso do |app|
-  Capybara::RackTest::Driver.new(app, headers: { 'HTTP_X_REMOTE_USER' => 'bob' })
+  Capybara::RackTest::Driver.new(app, headers: { "HTTP_X_REMOTE_USER" => "bob" })
 end
 
-describe 'Login with auth source SSO',
-         type: :feature,
-         driver: :auth_source_sso do
+RSpec.describe "Login with auth source SSO",
+               driver: :auth_source_sso do
+  let(:sso_config) do
+    {
+      header: "X-Remote-User",
+      logout_url: "http://google.com/"
+    }
+  end
+
+  let!(:user) { create(:user, login: "bob") }
+
   before do
     allow(OpenProject::Configuration)
       .to receive(:auth_source_sso)
             .and_return(sso_config)
+    allow(LdapAuthSource).to receive(:find_user).with("bob").and_return(user)
   end
 
-  let(:sso_config) do
-    {
-      header: 'X-Remote-User',
-      logout_url: 'http://google.com/'
-    }
-  end
-
-  let(:auth_source) { create :auth_source }
-  let!(:user) { create(:user, login: 'bob', auth_source: auth_source) }
-
-  it 'can log out after multiple visits' do
+  it "can log out after multiple visits" do
     visit home_path
 
-    expect(page).to have_selector('.controller-homescreen')
+    expect(page).to have_css(".controller-homescreen")
 
     visit home_path
 
-    expect(page).to have_selector('.controller-homescreen')
+    expect(page).to have_css(".controller-homescreen")
 
     visit signout_path
 
-    expect(current_url).to eq 'http://google.com/'
+    expect(current_url).to eq "http://google.com/"
   end
 end

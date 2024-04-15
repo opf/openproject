@@ -2,14 +2,13 @@
 zh-CN:
   js:
     boards:
+      create_new: '创建新面板'
       label_unnamed_board: '未命名面板'
       label_unnamed_list: '未命名列表'
       label_board_type: '面板类型'
       upsale:
-        teaser_text: '通过此灵活的面板视图改进您的敏捷项目管理。为您想要跟踪的一切创建任意数量的面板。'
-        upgrade_to_ee_text: '面板是企业版功能。请升级到付费计划。'
+        teaser_text: '您想使用面板自动化您的工作流吗？高级面板是企业附加组件。请升级到付费计划。'
         upgrade: '立即升级'
-        personal_demo: '联系我们获取演示'
       lists:
         delete: '删除列表'
       version:
@@ -47,19 +46,19 @@ zh-CN:
         action_text_subtasks: >
           具有子元素自动列的面板。将工作包拖动到其他列表会相应地更新父项。
         action_text_status: >
-          基本看板样式的面板，包含具有“待办事项”、“正在进行”、“已完成”等状态的列。
+          基本看板样式的面板，包含“待办”、“正在进行”、“已完成”等状态的列。
         action_text_assignee: >
-          具有基于指定用户的自动列的面板。适合分发工作包。
+          基于分配给用户的自动列看板，是分派工作包非常理想的工具。
         action_text_version: >
           基于版本属性的自动列面板。用于产品开发规划。
         action_type:
-          assignee: 指派人
+          assignee: 受理人
           status: 状态
           version: 版本
           subproject: 子项目
           subtasks: 父子
         board_type_title:
-          assignee: 指定人
+          assignee: 受理人
           status: 状态
           version: 版本
           subproject: 子项目
@@ -68,7 +67,7 @@ zh-CN:
         select_attribute: "操作属性"
       add_list_modal:
         labels:
-          assignee: 选择要添加到新指派人列表的用户
+          assignee: 选择要添加到新受理人列表的用户
           status: 选择要添加到新列表的状态
           version: 选择要添加到新列表的版本
           subproject: 选择要添加到新列表的子项目

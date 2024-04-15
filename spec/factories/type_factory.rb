@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,64 +34,65 @@ FactoryBot.define do
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
 
-    factory :type_with_workflow, class: 'Type' do
+    factory :type_with_workflow, class: "Type" do
       callback(:after_build) do |t|
         t.workflows = [build(:workflow_with_default_status)]
       end
     end
 
-    factory :type_with_relation_query_group, class: 'Type' do
+    factory :type_with_relation_query_group, class: "Type" do
       transient do
-        relation_filter { 'parent' }
+        relation_filter { "parent" }
       end
 
       callback(:after_build) do |t, evaluator|
         query = create(:query)
-        query.add_filter(evaluator.relation_filter.to_s, '=', [::Queries::Filters::TemplatedValue::KEY])
+        query.add_filter(evaluator.relation_filter.to_s, "=", [Queries::Filters::TemplatedValue::KEY])
         query.save
         t.attribute_groups = t.default_attribute_groups + [["Embedded table for #{evaluator.relation_filter}",
-                                                            ["query_#{query.id}".to_sym]]]
+                                                            [:"query_#{query.id}"]]]
       end
-    end
-
-    factory :type_milestone, class: 'Type' do
-      name { 'Milestone' }
-      is_milestone { true }
     end
   end
 
-  factory :type_standard, class: '::Type' do
-    name { 'None' }
+  factory :type_standard, class: "::Type" do
+    name { "None" }
     is_standard { true }
     is_default { true }
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
   end
 
-  factory :type_bug, class: '::Type' do
-    name { 'Bug' }
+  factory :type_bug, class: "::Type" do
+    name { "Bug" }
     position { 1 }
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
 
     # reuse existing type with the given name
     # this prevents a validation error (name has to be unique)
-    initialize_with { ::Type.find_or_initialize_by(name:) }
+    initialize_with { Type.find_or_initialize_by(name:) }
 
     factory :type_feature do
-      name { 'Feature' }
+      name { "Feature" }
       position { 2 }
       is_default { true }
     end
 
     factory :type_support do
-      name { 'Support' }
+      name { "Support" }
       position { 3 }
     end
 
     factory :type_task do
-      name { 'Task' }
+      name { "Task" }
       position { 4 }
+    end
+
+    factory :type_milestone do
+      name { "Milestone" }
+      position { 5 }
+      is_milestone { true }
     end
   end
 end

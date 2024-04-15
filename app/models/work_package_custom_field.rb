@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +29,17 @@
 class WorkPackageCustomField < CustomField
   has_and_belongs_to_many :projects,
                           join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          foreign_key: 'custom_field_id'
+                          foreign_key: "custom_field_id"
   has_and_belongs_to_many :types,
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          foreign_key: 'custom_field_id'
+                          foreign_key: "custom_field_id"
   has_many :work_packages,
-           through: :work_package_custom_values
+           through: :custom_values,
+           source: :customized,
+           source_type: "WorkPackage"
 
   scope :visible_by_user, ->(user) {
-    if user.allowed_to_globally?(:select_custom_fields)
+    if user.allowed_in_any_project?(:select_custom_fields)
       all
     else
       where(projects: { id: Project.visible(user) })

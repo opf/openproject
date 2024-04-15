@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,45 +26,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../../spec_helper'
+require_relative "../../spec_helper"
 
-describe 'BIM Revit Add-in navigation spec',
-         type: :feature,
-         with_config: { edition: 'bim' },
-         js: true,
-         driver: :chrome_revit_add_in do
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+RSpec.describe "BIM Revit Add-in navigation spec", :js,
+               driver: :chrome_revit_add_in, with_config: { edition: "bim" } do
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
   end
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:user) do
-    create :user,
-           member_in_project: project,
-           member_through_role: role
+    create(:user,
+           member_with_roles: { project => role })
   end
 
-  let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
+  let(:model_page) { Pages::IfcModels::ShowDefault.new(project) }
 
   before do
     login_as(user)
     model_page.visit!
   end
 
-  it 'click on refresh button reloads information' do
+  it "click on refresh button reloads information" do
     # Context BCF cards view
     model_page.page_shows_a_filter_button(true)
-    work_package.update_attribute(:subject, 'Refreshed while in cards view')
+    work_package.update_attribute(:subject, "Refreshed while in cards view")
     model_page.click_refresh_button
-    expect(page).to have_text('Refreshed while in cards view')
+    expect(page).to have_text("Refreshed while in cards view")
 
     # Context BCF full view
     model_page.click_info_icon(work_package)
-    work_package.update_attribute(:subject, 'Refreshed while in full view')
+    work_package.update_attribute(:subject, "Refreshed while in full view")
     model_page.click_refresh_button
-    expect(page).to have_text('Refreshed while in full view')
+    expect(page).to have_text("Refreshed while in full view")
   end
 end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,7 @@ See COPYRIGHT and LICENSE files for more details.
           <tr>
             <td class='center'>
               <% type_id = "project_planning_element_type_ids_#{type.id}" %>
-              <%= label_tag type_id, t('timelines.enable_type_in_project', type: type.name), class: 'hidden-for-sighted' %>
+              <%= label_tag type_id, t('.enable_type_in_project', type: type.name), class: 'hidden-for-sighted' %>
               <%= check_box_tag "project[type_ids][]",
                                 type.id,
                                 projects_types_id.include?(type.id),
@@ -110,5 +110,5 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 
 <div class="generic-table--action-buttons">
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 </div>

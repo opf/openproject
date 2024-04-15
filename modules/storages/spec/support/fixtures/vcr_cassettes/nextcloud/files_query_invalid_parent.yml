@@ -1,0 +1,97 @@
+---
+http_interactions:
+- request:
+    method: propfind
+    uri: https://nextcloud.local/remote.php/dav/files/admin/I/just/made/that/up
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+          <d:prop>
+            <oc:fileid/>
+            <oc:size/>
+            <d:getcontenttype/>
+            <d:getlastmodified/>
+            <oc:permissions/>
+            <oc:owner-display-name/>
+          </d:prop>
+        </d:propfind>
+    headers:
+      Depth:
+      - '1'
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Length:
+      - '231'
+      Content-Security-Policy:
+      - default-src 'none';
+      Content-Type:
+      - application/xml; charset=utf-8
+      Date:
+      - Wed, 29 Nov 2023 15:45:31 GMT
+      Dav:
+      - 1, 3, extended-mkcol, access-control, calendarserver-principal-property-search,
+        nextcloud-checksum-update, nc-calendar-search, nc-enable-birthday-calendar
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.57 (Debian)
+      Set-Cookie:
+      - __Host-nc_sameSiteCookielax=true; path=/; httponly;secure; expires=Fri, 31-Dec-2100
+        23:59:59 GMT; SameSite=lax
+      - __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict
+      - oc_sessionPassphrase=AuJ23gTtnDdXny94O5aZVzdnJweQRNRURJtvHaNmNCsLKR6zrr6SFgwx09HomshABCrw6slULrxyYOfwbnCqJGzSVC9SCKp5YflugSzmPJfBfwURLU2GQnICBPsfFFCL;
+        path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=93109f99dfe19218102d5dc8b2e3cc40; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=b4faf57238eda6bee9a3397e7989534e; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=b4faf57238eda6bee9a3397e7989534e; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=b4faf57238eda6bee9a3397e7989534e; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=b4faf57238eda6bee9a3397e7989534e; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=b4faf57238eda6bee9a3397e7989534e; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=b4faf57238eda6bee9a3397e7989534e; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=b4faf57238eda6bee9a3397e7989534e; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=b4faf57238eda6bee9a3397e7989534e; path=/; secure; HttpOnly; SameSite=Lax
+      - ocirabgzify6=b4faf57238eda6bee9a3397e7989534e; path=/; secure; HttpOnly; SameSite=Lax
+      Vary:
+      - Brief,Prefer
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.13
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+          <s:exception>Sabre\DAV\Exception\NotFound</s:exception>
+          <s:message>File with name //I could not be located</s:message>
+        </d:error>
+  recorded_at: Wed, 29 Nov 2023 15:45:31 GMT
+recorded_with: VCR 6.2.0

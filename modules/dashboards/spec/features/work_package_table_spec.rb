@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,37 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:other_type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+RSpec.describe "Arbitrary WorkPackage query table widget dashboard", :js do
+  let!(:type) { create(:type) }
+  let!(:other_type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:other_type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: other_type,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:other_project_work_package) do
-    create :work_package,
+    create(:work_package,
            project: other_project,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
 
   let(:permissions) do
@@ -69,7 +69,7 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
   end
 
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
 
   let(:user) do
@@ -82,9 +82,9 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
     Pages::Dashboard.new(project)
   end
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
 
   before do
     login_as user
@@ -92,63 +92,63 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
     dashboard_page.visit!
   end
 
-  context 'with the permission to save queries' do
-    it 'can add the widget and see the work packages of the filtered for types' do
+  context "with the permission to save queries" do
+    it "can add the widget and see the work packages of the filtered for types" do
       # This one always exists by default.
       # Using it here as a safeguard to govern speed.
-      wp_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      wp_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
       expect(wp_area)
-        .to have_selector('.subject', text: type_work_package.subject)
+        .to have_css(".subject", text: type_work_package.subject)
 
       dashboard_page.add_widget(1, 1, :row, "Work packages table")
 
-      filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+      filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
 
       filter_area.expect_to_span(1, 1, 2, 3)
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
-        .to have_selector('.subject', text: type_work_package.subject, wait: 30)
+        .to have_css(".subject", text: type_work_package.subject, wait: 30)
 
       expect(filter_area.area)
-        .to have_selector('.subject', text: other_type_work_package.subject)
+        .to have_css(".subject", text: other_type_work_package.subject)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: other_project_work_package.subject)
+        .to have_no_css(".subject", text: other_project_work_package.subject)
 
       # User has the ability to modify the query
 
       filter_area.configure_wp_table
-      modal.switch_to('Filters')
+      modal.switch_to("Filters")
       filters.expect_filter_count(2)
-      filters.add_filter_by('Type', 'is', type.name)
+      filters.add_filter_by("Type", "is (OR)", type.name)
       modal.save
 
       filter_area.configure_wp_table
-      modal.switch_to('Columns')
+      modal.switch_to("Columns")
       columns.assume_opened
-      columns.remove 'Subject'
+      columns.remove "Subject"
 
       expect(filter_area.area)
-        .to have_selector('.id', text: type_work_package.id)
+        .to have_css(".id", text: type_work_package.id)
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .to have_no_css(".subject", text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .to have_no_css(".id", text: other_type_work_package.id)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: other_project_work_package.subject)
+        .to have_no_css(".subject", text: other_project_work_package.subject)
 
       scroll_to_element(filter_area.area)
       within filter_area.area do
-        input = find('.editable-toolbar-title--input')
-        input.set('My WP Filter')
+        input = find(".editable-toolbar-title--input")
+        input.set("My WP Filter")
         input.native.send_keys(:return)
       end
 
@@ -160,32 +160,32 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
       visit root_path
       dashboard_page.visit!
 
-      filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+      filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
       expect(filter_area.area)
-        .to have_selector('.id', text: type_work_package.id)
+        .to have_css(".id", text: type_work_package.id)
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .to have_no_css(".subject", text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .to have_no_css(".id", text: other_type_work_package.id)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)
-        .not_to have_selector('.subject', text: other_project_work_package.subject)
+        .to have_no_css(".subject", text: other_project_work_package.subject)
 
       within filter_area.area do
-        expect(page).to have_field('editable-toolbar-title', with: 'My WP Filter', wait: 10)
+        expect(page).to have_field("editable-toolbar-title", with: "My WP Filter", wait: 10)
       end
     end
   end
 
-  context 'without the permission to save queries' do
+  context "without the permission to save queries" do
     let(:permissions) { %i[view_work_packages add_work_packages view_dashboards manage_dashboards] }
 
-    it 'cannot add the widget' do
+    it "cannot add the widget" do
       dashboard_page.expect_unable_to_add_widget(1, 1, :within, "Work packages table")
     end
   end

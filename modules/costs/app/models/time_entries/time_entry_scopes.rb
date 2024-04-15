@@ -12,11 +12,7 @@ module TimeEntries
 
     def with_visible_rates_on(scope, user: User.current)
       table = arel_table
-
-      view_allowed = Project.allowed_to(user, :view_hourly_rates).select(:id)
-      view_own_allowed = Project.allowed_to(user, :view_own_hourly_rate).select(:id)
-
-      scope.where view_or_view_own(table, view_allowed, view_own_allowed, user)
+      scope.where(view_or_view_own(table, :view_hourly_rates, :view_own_hourly_rate, user))
     end
   end
 end

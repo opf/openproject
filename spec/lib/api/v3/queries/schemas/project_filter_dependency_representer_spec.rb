@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::ProjectFilter.create! }
   let(:form_embedded) { false }
@@ -42,10 +42,10 @@ describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
 
   subject(:generated) { instance.to_json }
 
-  context 'with generation' do
-    context 'for properties' do
-      let(:path) { 'values' }
-      let(:type) { '[]Project' }
+  context "with generation" do
+    context "for properties" do
+      let(:path) { "values" }
+      let(:type) { "[]Project" }
       let(:filters) do
         "?filters=%5B%7B%22active%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22t%22%5D%7D%7D%5D&pageSize=-1"
       end
@@ -54,29 +54,29 @@ describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
       context "for operator 'Queries::Operators::Equals'" do
         let(:operator) { Queries::Operators::Equals }
 
-        it_behaves_like 'filter dependency with allowed link'
+        it_behaves_like "filter dependency with allowed link"
       end
 
       context "for operator 'Queries::Operators::NotEquals'" do
         let(:operator) { Queries::Operators::NotEquals }
 
-        it_behaves_like 'filter dependency with allowed link'
+        it_behaves_like "filter dependency with allowed link"
       end
 
       context "for operator 'Queries::Operators::All'" do
         let(:operator) { Queries::Operators::All }
 
-        it_behaves_like 'filter dependency empty'
+        it_behaves_like "filter dependency empty"
       end
 
       context "for operator 'Queries::Operators::None'" do
         let(:operator) { Queries::Operators::None }
 
-        it_behaves_like 'filter dependency empty'
+        it_behaves_like "filter dependency empty"
       end
     end
 
-    describe 'caching' do
+    describe "caching" do
       let(:operator) { Queries::Operators::Equals }
 
       before do
@@ -84,7 +84,7 @@ describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'is cached' do
+      it "is cached" do
         allow(instance)
           .to receive(:to_hash)
 
@@ -94,7 +94,7 @@ describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
           .not_to have_received(:to_hash)
       end
 
-      it 'busts the cache on a different operator' do
+      it "busts the cache on a different operator" do
         instance.send(:operator=, Queries::Operators::NotEquals)
 
         allow(instance)
@@ -106,7 +106,7 @@ describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
           .to have_received(:to_hash)
       end
 
-      it 'busts the cache on changes to the locale' do
+      it "busts the cache on changes to the locale" do
         allow(instance)
           .to receive(:to_hash)
 
@@ -118,7 +118,7 @@ describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
           .to have_received(:to_hash)
       end
 
-      it 'busts the cache on different form_embedded' do
+      it "busts the cache on different form_embedded" do
         embedded_instance = described_class.new(filter,
                                                 operator,
                                                 form_embedded: !form_embedded)
@@ -131,10 +131,10 @@ describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
           .to have_received(:to_hash)
       end
 
-      it 'busts the cache on different OpenProject::VERSION.product_version' do
+      it "busts the cache on different OpenProject::VERSION.product_version" do
         allow(OpenProject::VERSION)
           .to receive(:instance_variable_get)
-          .with(:@product_version)
+                .with(:@product_sha)
           .and_return(4)
 
         allow(instance)
@@ -146,10 +146,10 @@ describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
           .to have_received(:to_hash)
       end
 
-      it 'busts the cache on different OpenProject::VERSION::ARRAY' do
+      it "busts the cache on different OpenProject::VERSION::ARRAY" do
         new_version = OpenProject::VERSION::ARRAY
         new_version[2] = -1
-        stub_const('OpenProject::VERSION::ARRAY', new_version)
+        stub_const("OpenProject::VERSION::ARRAY", new_version)
 
         allow(instance)
           .to receive(:to_hash)

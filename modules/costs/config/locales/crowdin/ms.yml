@@ -1,0 +1,144 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ms:
+  plugin_costs:
+    name: "Time and costs"
+    description: "This module adds features for planning and tracking costs of projects."
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Pakej kerja"
+        overridden_costs: "Kos yang tertindih"
+        spent: "Dibelanja"
+        spent_on: "Tarikh"
+      cost_type:
+        unit: "Nama unit"
+        unit_plural: "Nama majmuk unit"
+      work_package:
+        costs_by_type: "Unit yang dibelanjakan"
+        labor_costs: "Kos buruh"
+        material_costs: "Kos Unit"
+        overall_costs: "Kos keseluruhan"
+        spent_costs: "Kos yang dibelanjakan"
+        spent_units: "Unit yang dibelanjakan"
+      rate:
+        rate: "Kadar"
+      user:
+        default_rates: "Kadar default"
+    models:
+      cost_type:
+        other: "Jenis kos"
+      rate: "Kadar"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Pakej kerja #%{id} bukan sasaran yang sah untuk penukaran kos entri."
+          nullify_is_not_valid_for_cost_entries: "Kos entri tidak dapat ditugaskan ke sebuah projek."
+  attributes:
+    comment: "Komen"
+    cost_type: "Jenis kos"
+    costs: "Kos"
+    current_rate: "Kadar semasa"
+    hours: "Jam"
+    units: "Unit"
+    valid_from: "Sah dari"
+    fixed_date: "Tarikh tetap"
+  button_add_rate: "Tambah kadar"
+  button_log_costs: "Log kos unit"
+  caption_booked_on_project: "Ditempah pada projek"
+  caption_default: "Default"
+  caption_default_rate_history_for: "Sejarah kadar default untuk %{user}"
+  caption_locked_on: "Terkunci pada"
+  caption_materials: "Unit"
+  caption_rate_history: "Sejarah kadar"
+  caption_rate_history_for: "Sejarah kadar untuk %{user}"
+  caption_rate_history_for_project: "Sejarah kadar untuk %{user} dalam projek %{project}"
+  caption_save_rate: "Kadar simpanan"
+  caption_set_rate: "Tetapkan kadar semasa"
+  caption_show_locked: "Papar jenis terkunci"
+  description_date_for_new_rate: "Tarikh untuk kadar baru"
+  group_by_others: "tiada dalam mana-mana kumpulan"
+  label_between: "antara"
+  label_cost_filter_add: "Tambah saringan kos entri"
+  label_costlog: "Kos unit yang sudah dilog"
+  label_cost_plural: "Kos"
+  label_cost_type_plural: "Jenis kos"
+  label_cost_type_specific: "Jenis kos #%{id}: %{name}"
+  label_costs_per_page: "Kos setiap halaman"
+  label_currency: "Mata Wang"
+  label_currency_format: "Format mata wang"
+  label_current_default_rate: "Kadar default semasa"
+  label_date_on: "pada"
+  label_deleted_cost_types: "Jenis kos yang dipadam"
+  label_locked_cost_types: "Jenis kos yang dikunci"
+  label_display_cost_entries: "Papar kos unit"
+  label_display_time_entries: "Paparkan jam yang dilaporkan"
+  label_display_types: "Jenis display"
+  label_edit: "Edit"
+  label_generic_user: "Pengguna umum"
+  label_greater_or_equal: ">="
+  label_group_by: "Kumpulkan mengikut"
+  label_group_by_add: "Tambahkan medan kumpulan"
+  label_hourly_rate: "Kadar jam"
+  label_include_deleted: "Sertakan yang dipadam"
+  label_work_package_filter_add: "Tambah saringan pakej kerja"
+  label_kind: "Jenis"
+  label_less_or_equal: "<="
+  label_log_costs: "Log kos unit"
+  label_no: "Tidak"
+  label_option_plural: "Pilihan"
+  label_overall_costs: "Kos keseluruhan"
+  label_rate: "Kadar"
+  label_rate_plural: "Kadar"
+  label_status_finished: "Selesai"
+  label_units: "Unit kos"
+  label_user: "Pengguna"
+  label_until: "sehingga\n"
+  label_valid_from: "Sah dari"
+  label_yes: "Ya"
+  notice_something_wrong: "Ada ralat berlaku. Sila cuba lagi."
+  notice_successful_restore: "Pemulihan berjaya."
+  notice_successful_lock: "Berjaya dikunci."
+  notice_cost_logged_successfully: 'Unit kos berjaya dilog.'
+  permission_edit_cost_entries: "Edit kos unit yang ditempah"
+  permission_edit_own_cost_entries: "Edit kos unit yang ditempah sendiri"
+  permission_edit_hourly_rates: "Edit kadar jam"
+  permission_edit_own_hourly_rate: "Edit kadar jam sendiri"
+  permission_edit_rates: "Edit kadar"
+  permission_log_costs: "Tempah kos unit"
+  permission_log_own_costs: "Tempah kos unit untuk diri sendiri"
+  permission_view_cost_entries: "Papar kos yang ditempah"
+  permission_view_cost_rates: "Papar kadar kos"
+  permission_view_hourly_rates: "Papar semua kadar jam"
+  permission_view_own_cost_entries: "Papar kos yang ditempah sendiri"
+  permission_view_own_hourly_rate: "Papar kadar jam sendiri"
+  permission_view_own_time_entries: "Papar masa yang digunakan sendiri"
+  project_module_costs: "Masa dan kos"
+  text_assign_time_and_cost_entries_to_project: "Tetapkan jam dilaporkan dan kos kepada projek"
+  text_destroy_cost_entries_question: "%{cost_entries} dilaporkan pada pakej kerja yang anda akan padamkan. Apakah yang anda ingin lakukan ?"
+  text_destroy_time_and_cost_entries: "Padam jam dilaporkan dan kos"
+  text_destroy_time_and_cost_entries_question: "%{hours} jam, %{cost_entries} dilaporkan pada pakej kerja yang anda akan padamkan. Apakah yang anda ingin lakukan ?"
+  text_reassign_time_and_cost_entries: "Tetapkan semula jam dilaporkan dan kos kepada projek"
+  text_warning_hidden_elements: "Beberapa entri mungkin telah dikecualikan daripada pengumpulan."
+  week: "minggu"
+  js:
+    text_are_you_sure: "Adakah anda pasti?"

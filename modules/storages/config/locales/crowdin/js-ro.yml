@@ -15,6 +15,8 @@ ro:
       choose_location: "Alege Locația"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Depozitare"
       information:
         connection_error: >
           Unele setări %{storageType} nu funcționează. Vă rugăm să contactați administratorul %{storageType}.
@@ -24,13 +26,30 @@ ro:
         no_file_links: "Pentru a conecta fișierele la acest pachet de lucru, vă rugăm să le faceți prin intermediul %{storageType}."
         not_logged_in: >
           Pentru a adăuga un link, vezi sau încarcă fișiere legate de acest pachet de lucru, te rugăm să te autentifici la %{storageType}.
+      files:
+        already_existing_header: "Acest fișier există deja"
+        already_existing_body: >
+          Un fișier cu numele "%{fileName}" există deja în locația în care încercați să încărcați acest fișier. Ce ai vrea să faci?
+        directory_not_writeable: "Nu aveţi permisiunea de a adăuga fişiere în acest folder."
+        dragging_many_files: "Încărcarea către %{storageType} suportă doar un singur fișier simultan."
+        dragging_folder: "The upload to %{storageType} does not support folders."
+        empty_folder: "Acest director este gol."
+        empty_folder_location_hint: "Faceţi clic pe butonul de mai jos pentru a încărca fişierul în această locaţie."
+        file_not_selectable_location: "Selectarea unui fișier nu este posibilă în procesul de alegere a unei locații."
+        project_folder_no_access: >
+          You have no access to the project folder. Please, contact your administrator to get access or upload the file in another location.
+        managed_project_folder_not_available: >
+          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_no_access: >
+          You have no access yet to the managed project folder. Please wait a bit and try again.
+        upload_keep_both: "Păstrați ambele"
+        upload_replace: "Înlocuiește"
       file_links:
         empty: >
           În prezent, nu există fișiere legate de acest pachet de lucru. Începeți să legați fișierele cu acțiunea de mai jos sau din interiorul %{storageType}.
         download: "Descarcă %{fileName}"
-        no_permission: "Nu aveți permisiunea de a vedea acest fișier."
-        open: 'Deschide fişierul pe stocare'
-        open_location: 'Deschide fișierul în locație'
+        open: "Deschide fişierul pe stocare"
+        open_location: "Deschide fișierul în locație"
         remove: "Elimină link-ul fișierului"
         remove_confirmation: >
           Sigur doriți să deconectați fișierul de la acest pachet de lucru? Deconectarea nu afectează fișierul original și doar elimină conexiunea la acest pachet de lucru.
@@ -46,6 +65,23 @@ ro:
           one: "A creat cu succes 1 legătură de fișier."
           few: "A creat cu succes %{count} legături de fișiere."
           other: "A creat cu succes %{count} de legături de fișiere."
-        not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
+        upload_error:
+          default: >
+            Your file (%{fileName}) could not be uploaded.
+          403: >
+            Fişierul (%{fileName}) nu a putut fi încărcat din cauza restricţiilor de sistem. Vă rugăm să contactaţi administratorul pentru mai multe informaţii.
+          413: >
+            Fișierul tău (%{fileName}) este mai mare decât ce poate încărca OpenProject la %{storageType}. Îl puteţi încărca direct la %{storageType} înainte şi apoi să legaţi fişierul.
+          507: >
+            Fişierul (%{fileName}) este mai mare decât cota de stocare permisă. Contactaţi administratorul pentru a modifica această cotă.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+        link_uploaded_file_error: >
+          A apărut o eroare la conectarea fișierului încărcat recent '%{fileName}' la pachetul de lucru %{workPackageId}.
+        tooltip:
+          not_logged_in: "Please log in to the storage to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
         already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."

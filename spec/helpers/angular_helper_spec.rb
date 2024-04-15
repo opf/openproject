@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe AngularHelper, type: :helper do
-  let(:tag_name) { 'op-test' }
+RSpec.describe AngularHelper do
+  let(:tag_name) { "op-test" }
   let(:options) do
     {
-      class: 'op-classname',
+      class: "op-classname",
       inputs:,
       data:
     }
   end
   let(:data) do
     {
-      'qa-selector': 'foo'
+      "test-selector": "foo"
     }
   end
 
   subject { helper.angular_component_tag tag_name, options }
 
-  describe 'inputs transformations' do
+  describe "inputs transformations" do
     let(:inputs) do
       {
-        key: 'value',
+        key: "value",
         number: 1,
         anArray: [1, 2, 3],
-        someRandomObject: { complex: true, foo: 'bar' }
+        someRandomObject: { complex: true, foo: "bar" }
       }
     end
 
@@ -63,12 +63,12 @@ describe AngularHelper, type: :helper do
           data-number="1"
           data-an-array="[1,2,3]"
           data-some-random-object="{&quot;complex&quot;:true,&quot;foo&quot;:&quot;bar&quot;}"
-          data-qa-selector="foo"
+          data-test-selector="foo"
         /></op-test>
       HTML
     end
 
-    it 'converts the inputs' do
+    it "converts the inputs" do
       expect(subject).to be_html_eql(expected)
     end
   end

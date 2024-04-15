@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,16 +34,16 @@ class WorkPackages::ReportsController < ApplicationController
     reports_service = Reports::ReportsService.new(@project)
 
     @reports = [
-      reports_service.report_for('type'),
-      reports_service.report_for('priority'),
-      reports_service.report_for('assigned_to'),
-      reports_service.report_for('responsible'),
-      reports_service.report_for('author'),
-      reports_service.report_for('version'),
-      reports_service.report_for('category')
+      reports_service.report_for("type"),
+      reports_service.report_for("priority"),
+      reports_service.report_for("assigned_to"),
+      reports_service.report_for("responsible"),
+      reports_service.report_for("author"),
+      reports_service.report_for("version"),
+      reports_service.report_for("category")
     ]
 
-    @reports << reports_service.report_for('subproject') if @project.children.any?
+    @reports << reports_service.report_for("subproject") if @project.children.any?
   end
 
   def report_details

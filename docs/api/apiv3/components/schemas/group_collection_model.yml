@@ -1,0 +1,65 @@
+# Schema: GroupCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref:  './link.yml'
+              - description: |-
+                  This group collection
+
+                  **Resource**: Collection
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './group_model.yml'
+
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _links:
+    self:
+      href: '/api/v3/groups'
+  _embedded:
+    elements:
+      - _type: Group
+        id: 1337
+        name: Stormtroopers
+        createdAt: '2022-09-23T11:06:36.300Z'
+        updatedAt: '2022-09-23T11:06:36.300Z'
+        _links:
+          self:
+            href: '/api/v3/groups/9'
+            title: Stormtroopers
+          delete:
+            href: '/api/v3/group/9'
+            method: delete
+          memberships:
+            href: '/api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]'
+            title: Memberships
+          updateImmediately:
+            href: '/api/v3/group/9'
+            method: patch
+          members:
+            - href: '/api/v3/users/363'
+              title: ST-097E
+            - href: '/api/v3/users/60'
+              title: ST-C-334
+      - _hint: Group resource shortened for brevity
+        id: 1338

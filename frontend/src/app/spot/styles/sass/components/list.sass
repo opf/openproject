@@ -11,7 +11,7 @@
     flex-direction: column
 
     &-action
-      @include spot-body-big
+      @include spot-body-small
 
       color: $spot-color-basic-gray-1
       display: flex
@@ -21,7 +21,7 @@
       width: 100%
       background-color: transparent
       margin: 0
-      border: 0
+      border: 1px solid transparent
       cursor: pointer
       scroll-margin-top: $spot-spacing-5
 
@@ -29,9 +29,10 @@
         @include spot-focus
 
       &:hover
-        color: var(--content-link-hover-active-color)
         background-color: $spot-color-basic-gray-6
         text-decoration: none
+        border-color: var(--list-item-hover--border-color)
+        color: var(--list-item-hover--color)
 
       &_disabled
         &,
@@ -41,11 +42,11 @@
           color: $spot-color-basic-gray-1
 
       &_active#{&}_disabled
-        color: $spot-color-basic-gray-3
+        color: var(--color-fg-muted)
         background-color: $spot-color-basic-gray-6
 
       &_link:not(&_disabled)
-        color: var(--content-link-color)
+        color: var(--accent-color)
 
     &-floating-wrapper
       position: relative
@@ -54,6 +55,8 @@
       &:hover,
       &:focus-within
         background-color: $spot-color-basic-gray-6
+        text-decoration: none
+        border-color: var(--list-item-hover--border-color)
 
       &_disabled
         color: $spot-color-basic-gray-1
@@ -77,7 +80,7 @@
     &-title
       margin-right: auto
       word-break: break-word
-      min-height: $spot-spacing-1_5
+      align-self: center
 
       &:not(:first-child),
       :not(:first-child)
@@ -106,9 +109,10 @@
     padding: $spot-spacing-0_25 $spot-spacing-1
 
   &_active &--item-action_active
-    color: var(--content-link-hover-active-color)
+    font-weight: var(--base-text-weight-bold)
     background-color: $spot-color-basic-gray-6
     text-decoration: none
+    border-color: var(--list-item-hover--border-color)
 
 $item-list: ""
 @for $i from 0 through 10

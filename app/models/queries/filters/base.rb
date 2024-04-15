@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'queries/operators'
+require "queries/operators"
 
 class Queries::Filters::Base
   include ActiveModel::Validations
@@ -49,7 +49,7 @@ class Queries::Filters::Base
     self.context = options[:context]
 
     self.class.filter_params.each do |param_field|
-      send("#{param_field}=", options[param_field])
+      send(:"#{param_field}=", options[param_field])
     end
   end
 
@@ -111,7 +111,7 @@ class Queries::Filters::Base
   end
 
   def self.key
-    to_s.demodulize.underscore.gsub(/_filter$/, '').to_sym
+    to_s.demodulize.underscore.gsub(/_filter$/, "").to_sym
   end
 
   def self.connection
@@ -198,7 +198,7 @@ class Queries::Filters::Base
 
   def validate_presence_of_values
     if operator_strategy&.requires_value? && (values.nil? || values.compact_blank.empty?)
-      errors.add(:values, I18n.t('activerecord.errors.messages.blank'))
+      errors.add(:values, I18n.t("activerecord.errors.messages.blank"))
     end
   end
 

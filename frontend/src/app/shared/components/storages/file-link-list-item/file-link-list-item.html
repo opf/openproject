@@ -1,13 +1,13 @@
 <spot-tooltip
-  [disabled]="!disabled"
-  [alignment]="tooltipAllignment"
+  [disabled]="!hasTooltip"
+  [alignment]="tooltipAlignment"
   class="spot-list--item-floating-wrapper op-file-list--item-floating-wrapper"
-  [ngClass]="{ 'spot-list--item-floating-wrapper_disabled op-file-list--item-floating-wrapper__disabled': disabled }"
+  [ngClass]="{ 'spot-list--item-floating-wrapper_disabled op-file-list--item-floating-wrapper__disabled': floatingActions.length === 0 }"
 >
   <p
     slot="body"
     class="spot-body-small"
-  >{{text.notAllowdTooltipText}}</p>
+  >{{ tooltip }}</p>
 
   <ng-container
     slot="trigger"
@@ -16,22 +16,19 @@
       class="spot-list--item-action spot-list--item-action_link op-file-list--item-action"
       [ngClass]="{
         'spot-list--item-action_disabled': disabled,
-        'op-file-list--item-action_disabled': disabled,
-        'op-file-list--item-action_view-not-allowed': !viewAllowed
+        'op-file-list--item-action_disabled': !clickable,
+        'op-file-list--item-action_faulty-status': hasFaultyStatus
       }"
       [href]="fileLink._links.staticOriginOpen.href"
-      [title]="fileLink.originData.name"
       target="_blank"
     >
       <div
         class="spot-list--item-title op-file-list--item-title"
-        [title]="fileLink.originData.name"
       >
         <span
           class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--icon op-files-tab--icon_{{fileLinkIcon.clazz}}"
         ></span>
-
-        <span [textContent]="fileLink.originData.name"></span>
+        <span class="ellipsis" [textContent]="fileLink.originData.name"></span>
       </div>
 
       <span
@@ -45,40 +42,26 @@
       ></div>
     </a>
     <div
-      *ngIf="!disabled && viewAllowed"
+      *ngIf="floatingActions.length > 0"
       class="spot-list--item-floating-actions op-file-list--item-floating-actions hidden-for-mobile"
     >
-      <a
-        *ngIf="downloadAllowed"
-        class="spot-link"
-        [title]="text.title.downloadFileLink"
-        [href]="fileLink._links.staticOriginDownload.href"
-      >
-        <span class="spot-icon spot-icon_download-arrow"></span>
-      </a>
-      <a
-        class="spot-link"
-        [title]="text.title.openFileLocation"
-        [href]="fileLink._links.staticOriginOpenLocation.href"
-        target="_blank"
-      >
-        <span class="spot-icon spot-icon_folder-open"></span>
-      </a>
-      <button
-        *ngIf="allowEditing"
-        class="spot-link"
-        [title]="text.title.removeFileLink"
-        (click)="confirmRemoveFileLink()"
-      >
-        <span class="spot-icon spot-icon_remove-link"></span>
-      </button>
-    </div>
-    <div
-      *ngIf="!disabled && !viewAllowed"
-      class="spot-list--item-floating-actions op-file-list--item-floating-text hidden-for-mobile"
-    >
-      <span class="spot-icon spot-icon_info2 op-files-tab--icon op-file-list--item-floating-text-icon"></span>
-      <span [textContent]="text.floatingText.noViewPermission"></span>
+      <ng-container *ngFor="let action of floatingActions">
+        <a *ngIf="!!action.href"
+           class="spot-link"
+           [title]="action.title"
+           [href]="action.href.url"
+           [target]="action.href.target"
+        >
+          <span class="spot-icon spot-icon_{{action.iconClass}}"></span>
+        </a>
+        <button *ngIf="!!action.action"
+                class="spot-link"
+                [title]="action.title"
+                (click)="action.action()"
+        >
+          <span class="spot-icon spot-icon_{{action.iconClass}}"></span>
+        </button>
+      </ng-container>
     </div>
   </ng-container>
 </spot-tooltip>

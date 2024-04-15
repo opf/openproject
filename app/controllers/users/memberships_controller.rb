@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 class Users::MembershipsController < ApplicationController
   include IndividualPrincipals::MembershipControllerMethods
-  layout 'admin'
+  layout "admin"
 
   before_action :authorize_global
   before_action :find_individual_principal
@@ -41,9 +41,9 @@ class Users::MembershipsController < ApplicationController
 
   def redirected_to_tab(membership)
     if membership.project
-      'memberships'
+      "memberships"
     else
-      'global_roles'
+      "global_roles"
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json'
-require 'roar/json/collection'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json"
+require "roar/json/collection"
+require "roar/json/hal"
 
 module API
   module V3
     module Versions
       class VersionCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         link :createVersionImmediately do
-          next unless current_user.allowed_to_globally?(:manage_versions)
+          next unless current_user.allowed_in_any_project?(:manage_versions)
 
           {
             href: api_v3_paths.versions,
@@ -45,7 +45,7 @@ module API
         end
 
         link :createVersion do
-          next unless current_user.allowed_to_globally?(:manage_versions)
+          next unless current_user.allowed_in_any_project?(:manage_versions)
 
           {
             href: api_v3_paths.create_version_form,

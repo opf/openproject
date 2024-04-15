@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Editing a new wiki page', type: :feature, js: true do
+RSpec.describe "Editing a new wiki page", :js do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   before do
     login_as(user)
   end
 
-  it 'allows creating a wiki page from link' do
+  it "allows creating a wiki page from link" do
     visit project_wiki_path(project, id: :foobar)
-    expect(page).to have_field 'content_page_title', with: 'Foobar'
-    click_on 'Save'
+    expect(page).to have_field "page_title", with: "Foobar"
+    click_on "Save"
 
-    expect(page).to have_selector('.flash.notice', text: 'Successful creation.', wait: 10)
+    expect(page).to have_css(".op-toast.-success", text: "Successful creation.", wait: 10)
   end
 end

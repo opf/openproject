@@ -6,14 +6,12 @@ properties:
     type: integer
     description: Activity id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   version:
     type: integer
     description: Activity version
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   comment:
     allOf:
     - "$ref": "./formattable.yml"
@@ -55,6 +53,6 @@ example:
     format: markdown
     raw: Lorem ipsum dolor sit amet.
     html: "<p>Lorem ipsum dolor sit amet.</p>"
-  createdAt: '2014-05-21T08:51:20Z'
-  updatedAt: '2014-05-21T09:14:02Z'
+  createdAt: '2014-05-21T08:51:20.721Z'
+  updatedAt: '2014-05-21T09:14:02.929Z'
   version: 31

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 module CustomFields
   class CreateService < ::BaseServices::Create
     def self.careful_new_custom_field(type)
-      if type.to_s =~ /.+CustomField\z/
+      if /.+CustomField\z/.match?(type.to_s)
         klass = type.to_s.constantize
         klass.new if klass.ancestors.include? CustomField
       end
@@ -54,8 +54,8 @@ module CustomFields
     def after_perform(call)
       cf = call.result
 
-      if cf.is_a?(ProjectCustomField)
-        add_cf_to_visible_columns(cf.id)
+      if cf.is_a?(ProjectCustomField) && EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
+        add_cf_to_visible_columns(cf)
       end
 
       call
@@ -63,8 +63,8 @@ module CustomFields
 
     private
 
-    def add_cf_to_visible_columns(id)
-      Setting.enabled_projects_columns = (Setting.enabled_projects_columns + ["cf_#{id}"]).uniq
+    def add_cf_to_visible_columns(custom_field)
+      Setting.enabled_projects_columns = (Setting.enabled_projects_columns + [custom_field.column_name]).uniq
     end
   end
 end

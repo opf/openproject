@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,15 +27,28 @@
 //++
 
 import {
-  AfterViewInit, Component, ElementRef, Injector,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Injector,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
+import {
+  IToast,
+  ToastService,
+} from 'core-app/shared/components/toaster/toast.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { filter, takeUntil } from 'rxjs/operators';
-import { input, InputState } from 'reactivestates';
+import {
+  filter,
+  takeUntil,
+  take,
+} from 'rxjs/operators';
+import {
+  input,
+  InputState,
+} from '@openproject/reactivestates';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageTimelineCellsRenderer } from 'core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cells-renderer';
 import { States } from 'core-app/core/states/states.service';
@@ -44,9 +57,16 @@ import { WorkPackageRelationsService } from 'core-app/features/work-packages/com
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageTimelineCell } from 'core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cell';
 import { selectorTimelineSide } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
-import { debugLog, timeOutput } from 'core-app/shared/helpers/debug_output';
+import {
+  debugLog,
+  timeOutput,
+} from 'core-app/shared/helpers/debug_output';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { combineLatest, Observable } from 'rxjs';
+import {
+  combineLatest,
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
 import {
@@ -68,6 +88,8 @@ import {
 } from '../wp-timeline';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import * as Mousetrap from 'mousetrap';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { IDay } from 'core-app/core/state/days/day.model';
 
 @Component({
   selector: 'wp-timeline-container',
@@ -137,6 +159,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     readonly I18n:I18nService,
     private workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService,
     private weekdaysService:WeekdayService,
+    private daysService:DayResourceService,
   ) {
     super();
   }
@@ -144,8 +167,15 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   ngAfterViewInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
+    const scrollBar = document.querySelector('.work-packages-tabletimeline--timeline-side');
+    if (scrollBar) {
+      scrollBar.addEventListener('scroll', () => {
+        this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
+      });
+    }
+
     this.text = {
-      selectionMode: this.I18n.t('js.timelines.selection_mode.notification'),
+      selectionMode: this.I18n.t('js.gantt_chart.selection_mode.notification'),
     };
 
     // Get the outer container for width computation
@@ -167,7 +197,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.commonPipes,
     )
       .subscribe(([orderedRows]) => {
-      // Remember all visible rows in their order of appearance.
+        // Remember all visible rows in their order of appearance.
         this.workPackageIdOrder = orderedRows.filter((row:RenderedWorkPackage) => !row.hidden);
         this.orderedRows = orderedRows;
         this.refreshView();
@@ -175,6 +205,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     this.setupManageCollapsedGroupHeaderCells();
   }
+
+  public nonWorkingDays:IDay[] = [];
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
     return this.cellsRenderer.getCellsFor(wpId);
@@ -225,11 +257,13 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
 
-    timeOutput('refreshView() in timeline container', () => {
+    timeOutput('refreshView() in timeline container', async () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.css('width', 'auto');
 
       this.calculateViewParams(this._viewParameters);
+
+      await this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
 
       // Update all cells
       this.cellsRenderer.refreshAllCells();
@@ -346,6 +380,20 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this.$element.addClass('active-selection-mode');
 
     this.refreshView();
+  }
+
+  async requireNonWorkingDays(start:Date|string, end:Date|string) {
+    this.nonWorkingDays = await firstValueFrom(
+      this
+        .daysService
+        .requireNonWorkingYears$(start, end)
+        .pipe(take(1)),
+    );
+  }
+
+  isNonWorkingDay(date:Date|string):boolean {
+    const formatted = moment(date).format('YYYY-MM-DD');
+    return (this.nonWorkingDays.findIndex((el) => el.date === formatted) !== -1);
   }
 
   private calculateViewParams(currentParams:TimelineViewParameters):boolean {
@@ -508,7 +556,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const keyGroupType = groupTypeFromIdentifier(groupIdentifier);
 
     return this.workPackageViewCollapsedGroupsService.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType)
-          && this.workPackageViewCollapsedGroupsService.groupTypesWithHeaderCellsWhenCollapsed.includes(groupsCollapseConfig.groupedBy!);
+      && this.workPackageViewCollapsedGroupsService.groupTypesWithHeaderCellsWhenCollapsed.includes(groupsCollapseConfig.groupedBy!);
   }
 
   createCollapsedGroupHeaderCells(groupIdentifier:string, tableWorkPackages:WorkPackageResource[], collapsedGroupsCellsMap:IGroupCellsMap) {
@@ -518,7 +566,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const changedGroupType = groupTypeFromIdentifier(groupIdentifier);
     const changedGroupTableWorkPackages = tableWorkPackages.filter((tableWorkPackage) => tableWorkPackage[changedGroupType].id === changedGroupId);
     const changedGroupWpsWithHeaderCells = changedGroupTableWorkPackages.filter((tableWorkPackage) => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage)
-                                                                                                    && (tableWorkPackage.date || tableWorkPackage.startDate));
+      && (tableWorkPackage.date || tableWorkPackage.startDate));
     const changedGroupWpsWithHeaderCellsIds = changedGroupWpsWithHeaderCells.map((workPackage) => workPackage.id!);
 
     this.collapsedGroupsCellsMap[groupIdentifier] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupWpsWithHeaderCellsIds, `group-${groupIdentifier}-timeline`, true);

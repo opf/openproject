@@ -1,5 +1,3 @@
-require 'set'
-
 module OpenProject
   module Authentication
     class Manager < Warden::Manager
@@ -13,10 +11,10 @@ module OpenProject
         block = lambda { |config|
           self.class.configure_warden config
 
-          configure.call config if configure
+          yield config if configure
         }
 
-        super app, options, &block
+        super(app, options, &block)
       end
 
       class << self
@@ -61,7 +59,7 @@ module OpenProject
         def update!(opts, &block)
           self.store = opts[:store] if opts.include? :store
           self.realm = opts[:realm] if opts.include? :realm
-          self.strategies = block.call strategies if block_given?
+          self.strategies = yield strategies if block
         end
       end
 

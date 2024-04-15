@@ -21,6 +21,11 @@ if [ "$edition" = "bim" ]; then
 	case "$OSFAMILY" in
 		"debian")
 			case "$OSVERSION" in
+				"22.04")
+					# Ubuntu 22.04 comes with its own package sources for dotnet6 (see https://learn.microsoft.com/en-us/dotnet/core/install/linux-package-mixup?pivots=os-linux-redhat#whats-going-on)
+					# Therefore we should use those and not the ones from packages.microsoft.com, as otherwise the assumption for
+					# setting the DOTNET_ROOT later fails, leading to bugs like https://community.openproject.org/wp/50172.
+					;;
 				"20.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/20.04/prod.list
@@ -29,6 +34,11 @@ if [ "$edition" = "bim" ]; then
 				"18.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/18.04/prod.list
+					apt-get update -qq
+					;;
+				"12")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/12/prod.list
 					apt-get update -qq
 					;;
 				"11")
@@ -46,6 +56,9 @@ if [ "$edition" = "bim" ]; then
 			;;
 		"redhat")
 			case "$(wiz_fact "osversion")" in
+				9*)
+					dnf install -y dotnet-runtime-6.0
+					;;
 				8*)
 					dnf install -y dotnet-runtime-6.0
 					;;

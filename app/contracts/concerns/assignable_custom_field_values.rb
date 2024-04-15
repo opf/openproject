@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,10 @@ module AssignableCustomFieldValues
   included do
     def assignable_custom_field_values(custom_field)
       case custom_field.field_format
-      when 'list'
+      when "list"
         custom_field.possible_values
-      when 'version'
-        assignable_versions
+      when "version"
+        assignable_versions(only_open: !custom_field.allow_non_open_versions?)
       end
     end
   end

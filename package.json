@@ -10,11 +10,10 @@
   },
   "private": true,
   "engines": {
-    "node": "~16.17.0",
-    "npm": "~8.12.1"
+    "node": "^20.9.0",
+    "npm": "^10.1.0"
   },
   "devDependencies": {
-    "@redocly/openapi-cli": "^1.0.0-beta.80",
-    "webfonts-generator": "^0.4.0"
+    "@redocly/openapi-cli": "^1.0.0-beta.80"
   }
 }

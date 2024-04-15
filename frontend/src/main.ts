@@ -2,8 +2,6 @@ import { OpenProjectModule } from 'core-app/app.module';
 import { enableProdMode } from '@angular/core';
 import * as jQuery from 'jquery';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { whenDebugging } from 'core-app/shared/helpers/debug_output';
-import { enableReactiveStatesLogging } from 'reactivestates';
 import { initializeLocale } from 'core-app/core/setup/init-locale';
 import { environment } from './environments/environment';
 import { configureErrorReporter } from 'core-app/core/errors/configure-reporter';
@@ -19,24 +17,24 @@ const ASSET_BASE_PATH = '/assets/frontend/';
 // Sets the relative base path
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
+// Get the asset host, if any
+const initializer = document.querySelector<HTMLMetaElement>('meta[name="openproject_initializer"]');
+const ASSET_HOST = initializer?.dataset.assetHost ? `//${initializer.dataset.assetHost}` : '';
+
 // Ensure to set the asset base for dynamic code loading
 // https://webpack.js.org/guides/public-path/
-__webpack_public_path__ = window.appBasePath + ASSET_BASE_PATH;
+__webpack_public_path__ = ASSET_HOST + window.appBasePath + ASSET_BASE_PATH;
 
 window.ErrorReporter = configureErrorReporter();
 
 require('core-app/core/setup/init-vendors');
 require('core-app/core/setup/init-globals');
+require('stimulus/setup');
+require('turbo/setup');
 
 if (environment.production) {
   enableProdMode();
 }
-
-// Enable debug logging for reactive states
-whenDebugging(() => {
-  (window as any).enableReactiveStatesLogging = () => enableReactiveStatesLogging(true);
-  (window as any).disableReactiveStatesLogging = () => enableReactiveStatesLogging(false);
-});
 
 // Import the correct locale early on
 void initializeLocale()

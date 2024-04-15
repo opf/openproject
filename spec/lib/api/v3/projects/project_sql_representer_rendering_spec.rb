@@ -24,13 +24,13 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Projects::ProjectSqlRepresenter, "rendering" do
+  include API::V3::Utilities::PathHelper
 
   subject(:json) do
-    ::API::V3::Utilities::SqlRepresenterWalker
+    API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
            current_user:,
            url_query: { select: })
@@ -47,18 +47,16 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
     create(:project)
   end
 
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
 
-  let(:select) { { '*' => {} } }
+  let(:select) { { "*" => {} } }
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
-  context 'when rendering all supported properties' do
-    it 'renders as expected' do
+  context "when rendering all supported properties" do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(
           {
@@ -80,7 +78,7 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
     end
   end
 
-  context 'with an ancestor' do
+  context "with an ancestor" do
     let!(:parent) do
       create(:project, members: { current_user => role }).tap do |parent|
         project.parent = parent
@@ -95,9 +93,9 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
       end
     end
 
-    let(:select) { { 'ancestors' => {} } }
+    let(:select) { { "ancestors" => {} } }
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(
           {
@@ -118,7 +116,7 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
     end
   end
 
-  context 'with an ancestor the user does not have permission to see' do
+  context "with an ancestor the user does not have permission to see" do
     let!(:parent) do
       create(:project).tap do |parent|
         project.parent = parent
@@ -133,9 +131,9 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
       end
     end
 
-    let(:select) { { 'ancestors' => {} } }
+    let(:select) { { "ancestors" => {} } }
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(
           {
@@ -147,7 +145,7 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
                 },
                 {
                   href: API::V3::URN_UNDISCLOSED,
-                  title: I18n.t(:'api_v3.undisclosed.ancestor')
+                  title: I18n.t(:"api_v3.undisclosed.ancestor")
                 }
               ]
             }
@@ -155,34 +153,34 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
         )
     end
 
-    context 'with relative url root', with_config: { rails_relative_url_root: '/foobar' } do
-      it 'renders correctly' do
+    context "with relative url root", with_config: { rails_relative_url_root: "/foobar" } do
+      it "renders correctly" do
         expect(json)
           .to be_json_eql(
-                {
-                  _links: {
-                    ancestors: [
-                      {
-                        href: "/foobar/api/v3/projects/#{grandparent.id}",
-                        title: grandparent.name
-                      },
-                      {
-                        href: API::V3::URN_UNDISCLOSED,
-                        title: I18n.t(:'api_v3.undisclosed.ancestor')
-                      }
-                    ]
+            {
+              _links: {
+                ancestors: [
+                  {
+                    href: "/foobar/api/v3/projects/#{grandparent.id}",
+                    title: grandparent.name
+                  },
+                  {
+                    href: API::V3::URN_UNDISCLOSED,
+                    title: I18n.t(:"api_v3.undisclosed.ancestor")
                   }
-                }.to_json
-              )
+                ]
+              }
+            }.to_json
+          )
       end
     end
 
-    context 'when in a foreign language with single quotes in the translation hint text' do
+    context "when in a foreign language with single quotes in the translation hint text" do
       before do
         I18n.locale = :fr
       end
 
-      it 'renders as expected' do
+      it "renders as expected" do
         expect(json)
           .to be_json_eql(
             {
@@ -194,7 +192,7 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
                   },
                   {
                     href: API::V3::URN_UNDISCLOSED,
-                    title: I18n.t(:'api_v3.undisclosed.ancestor')
+                    title: I18n.t(:"api_v3.undisclosed.ancestor")
                   }
                 ]
               }
@@ -204,7 +202,7 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
     end
   end
 
-  context 'with an archived ancestor but with the user being admin' do
+  context "with an archived ancestor but with the user being admin" do
     let!(:parent) do
       create(:project, active: false).tap do |parent|
         project.parent = parent
@@ -219,13 +217,13 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
       end
     end
 
-    let(:select) { { 'ancestors' => {} } }
+    let(:select) { { "ancestors" => {} } }
 
     current_user do
       create(:admin)
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(
           {

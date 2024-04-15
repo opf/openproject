@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
+RSpec.describe Queries::Principals::PrincipalQuery, "integration" do
   let(:current_user) { create(:user) }
   let(:instance) { described_class.new }
   let!(:non_member_role) { create(:non_member) }
@@ -37,13 +37,12 @@ describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
     login_as(current_user)
   end
 
-  context 'with a member filter' do
+  context "with a member filter" do
     let(:project) { create(:project, public: true) }
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
     let(:project_user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role) do |u|
+             member_with_roles: { project => role }) do |u|
         # Granting another membership in order to better test the "not" filter
         create(:member,
                principal: u,
@@ -54,8 +53,7 @@ describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
     let(:other_project) { create(:project, public: true) }
     let(:other_project_user) do
       create(:user,
-             member_in_project: other_project,
-             member_through_role: role)
+             member_with_roles: { other_project => role })
     end
 
     let(:users) { [current_user, project_user, other_project_user] }
@@ -64,25 +62,25 @@ describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
       users
     end
 
-    context 'with the = operator' do
+    context "with the = operator" do
       before do
-        instance.where('member', '=', [project.id.to_s])
+        instance.where("member", "=", [project.id.to_s])
       end
 
-      it 'returns all principals being member' do
+      it "returns all principals being member" do
         expect(instance.results)
-          .to match_array [project_user]
+          .to contain_exactly(project_user)
       end
     end
 
-    context 'with the ! operator' do
+    context "with the ! operator" do
       before do
-        instance.where('member', '!', [project.id.to_s])
+        instance.where("member", "!", [project.id.to_s])
       end
 
-      it 'returns all principals not being member' do
+      it "returns all principals not being member" do
         expect(instance.results)
-          .to match_array [current_user, other_project_user]
+          .to contain_exactly(current_user, other_project_user)
       end
     end
   end

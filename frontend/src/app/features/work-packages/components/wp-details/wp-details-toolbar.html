@@ -7,8 +7,12 @@
     *ngIf="displayNotificationsButton"
     [workPackage]="workPackage"
     [showWithText]="true"
-    data-qa-selector="mark-notification-read-button"
+    data-test-selector="mark-notification-read-button"
   ></op-work-package-mark-notification-button>
+
+  <wp-share-button [workPackage]="workPackage"
+                   *ngIf="displayShareButton$ | async">
+  </wp-share-button>
 
   <button class="button dropdown-relative"
           [attr.accesskey]="7"

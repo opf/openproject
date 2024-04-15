@@ -14,10 +14,10 @@ description: |-
 
   The filter syntax is a JSON object that can be passed as a GET parameter to the endpoints as an URL-encoded JSON string looks like the following:
 
-  ```json
+  ```json5
   [
     { "<filter name>": { "operator": "<operator>", "values": [<value>, ...] } },
-    ...
+    // ...
   ]
   ```
 
@@ -35,7 +35,7 @@ description: |-
   With the above JSON stringified and URL-encoded, this can be added to the `/api/v3/work_packages` endpoint using the `filter` parameter to form the URL:
 
   ```
-  https://community.openproject.com/api/v3/work_packages?filters=%5B%7B%22subjectOrId%22:%7B%22operator%22:%22**%22,%22values%22:%5B%2212%22%5D%7D%7D,%7B%22status%22:%7B%22operator%22:%22=%22,%22values%22:%5B%225%22%5D%7D%7D%5D
+  https://community.openproject.org/api/v3/work_packages?filters=%5B%7B%22subjectOrId%22:%7B%22operator%22:%22**%22,%22values%22:%5B%2212%22%5D%7D%7D,%7B%22status%22:%7B%22operator%22:%22=%22,%22values%22:%5B%225%22%5D%7D%7D%5D
   ```
 
   ## Compression
@@ -48,13 +48,13 @@ description: |-
   Instead of the request
 
   ```
-  https://community.openproject.com/api/v3/work_packages?filters=[%7B%22subjectOrId%22:%7B%22operator%22:%22**%22,%22values%22:[%2212%22]%7D%7D,%7B%22status%22:%7B%22operator%22:%22=%22,%22values%22:[%225%22]%7D%7D]&pageSize=10&sortBy=[[%22id%22,%20%22asc%22]]
+  https://community.openproject.org/api/v3/work_packages?filters=[%7B%22subjectOrId%22:%7B%22operator%22:%22**%22,%22values%22:[%2212%22]%7D%7D,%7B%22status%22:%7B%22operator%22:%22=%22,%22values%22:[%225%22]%7D%7D]&pageSize=10&sortBy=[[%22id%22,%20%22asc%22]]
   ```
 
   Which in a non URL encoded style would be
 
   ```
-  https://community.openproject.com/api/v3/work_packages?filters=[{"subjectOrId":{"operator":"**","values":["12"]}},{"status":{"operator":"=","values":["5"]}}]&pageSize=10&sortBy=[["id", "asc"]]
+  https://community.openproject.org/api/v3/work_packages?filters=[{"subjectOrId":{"operator":"**","values":["12"]}},{"status":{"operator":"=","values":["5"]}}]&pageSize=10&sortBy=[["id", "asc"]]
   ```
 
   All of the props can be put inside a json object
@@ -72,12 +72,12 @@ description: |-
   That json object can then be compressed and encoded and the result sent over as the combined `eprops` parameter:
 
   ```
-  https://community.openproject.com/api/v3/work_packages?eprops=eJxtjTELwjAUhP%2FLjSWDFVwCLt2cHBz7OsT2VSKFlLwXQUv%2Bu0lXHe%2B7%2B7gN%0As1%2BUo8Ci3wiS7k8e9RovE8EWEFaOTkMsidA0BEN4uSWxFNIT2iNhyNlUV50m%0A%2BaOdf6zTLg0wkBC1e9f3gv20L52Mpa%2Ft6h588x%2BGbQ%2F5C12YN%2BM%3D%0A
+  https://community.openproject.org/api/v3/work_packages?eprops=eJxtjTELwjAUhP%2FLjSWDFVwCLt2cHBz7OsT2VSKFlLwXQUv%2Bu0lXHe%2B7%2B7gN%0As1%2BUo8Ci3wiS7k8e9RovE8EWEFaOTkMsidA0BEN4uSWxFNIT2iNhyNlUV50m%0A%2BaOdf6zTLg0wkBC1e9f3gv20L52Mpa%2Ft6h588x%2BGbQ%2F5C12YN%2BM%3D%0A
   ```
 
   ## Available filters
 
-  The availability of filters depend on the endpoint you're querying and will be listed in each endpoint definition. For work packages, you can also [start using filters in the work packages module](https://community.openproject.com/projects/openproject/work_packages) to build your query and then simply copy the URL from your browser to get the resulting filter values and their operators.
+  The availability of filters depend on the endpoint you're querying and will be listed in each endpoint definition. For work packages, you can also [start using filters in the work packages module](https://community.openproject.org/projects/openproject/work_packages) to build your query and then simply copy the URL from your browser to get the resulting filter values and their operators.
 
   ## Available operators
 
@@ -86,6 +86,7 @@ description: |-
   | Symbol | Description of filtered properties                           | Values array contains      |
   | ------ | ------------------------------------------------------------ | -------------------------- |
   | `=`    | are equal to one of the given value(s)                       | At least one typed value   |
+  | `&=`   | are containing all of the given value(s)                     | At least one typed value   |
   | `!`    | are not equal one of the given value(s)                      | At least one typed value   |
   | `>=`   | are greater or equal than the given value                    | One numerical value        |
   | `<=`   | are lesser or equal than the given value                     | One numerical value        |
@@ -116,6 +117,14 @@ description: |-
   | `o`    | the status of the work package is *open*   | *nothing, values is empty* |
   | `c`    | the status of the work package is *closed* | *nothing, values is empty* |
   | `ow`   | the work packages have a manual sort order | *nothing, values is empty* |
-
+  
   There are also relation filters for work packages that have the symbols `blocks/blocked` `children/parent` `follows/precedes` `duplicates/duplicated` `partof/includes` `relates` `requires/required` depending on the direction of the relation and take as value the work package ID that is the target node of the relation.
+  
+  **Special values for boolean filters**
+  
+  If you're using an operator that requires boolean values, please note that they need to be presented in this form:
+  
+  - `['f']` for false
+  - `['t']` for true
+
 name: Filters

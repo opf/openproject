@@ -161,4 +161,4 @@ This might then look like the following, with green color for added objects, and
 ## Discussions
 
 - In contrast to a `Store` concept of redux, the States and state groups do not have any concept of data immutability. As a caller you will need to ensure that. In OpenProject, many of the states are in fact mutable due to historic reasons and the fact that complex class instances are passed around that cannot be easily shallow copied. This will need to be refactored in the future.
-- As the reactivestates library was primarily developed for us, we may need to take over its code or move to a different state management concept altogether. The recent developments in `ngxs` look very promising.
+- As the `reactivestates` library was primarily developed for us, we may need to take over its code or move to a different state management concept altogether. The recent developments in `ngxs` look very promising.

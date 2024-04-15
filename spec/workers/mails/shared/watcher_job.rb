@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-shared_examples "watcher job" do |action|
+RSpec.shared_examples "watcher job" do |action|
   subject { described_class.perform_now(watcher_parameter, watcher_changer) }
 
   let(:action) { action }
@@ -63,11 +63,11 @@ shared_examples "watcher job" do |action|
     # make sure no actual calls make it into the UserMailer
     allow(WorkPackageMailer)
       .to receive(:watcher_changed)
-      .and_return(double('mail', deliver_now: nil))
+      .and_return(double("mail", deliver_now: nil))
   end
 
-  shared_examples_for 'sends a mail' do
-    it 'sends a mail' do
+  shared_examples_for "sends a mail" do
+    it "sends a mail" do
       subject
       expect(WorkPackageMailer)
         .to have_received(:watcher_changed)
@@ -78,77 +78,77 @@ shared_examples "watcher job" do |action|
     end
   end
 
-  shared_examples_for 'sends no mail' do
-    it 'sends no mail' do
+  shared_examples_for "sends no mail" do
+    it "sends no mail" do
       subject
       expect(WorkPackageMailer)
         .not_to have_received(:watcher_changed)
     end
   end
 
-  describe 'exceptions' do
-    describe 'exceptions should be raised' do
+  describe "exceptions" do
+    describe "exceptions should be raised" do
       before do
-        mail = double('mail')
+        mail = double("mail")
         allow(mail).to receive(:deliver_now).and_raise(SocketError)
         allow(WorkPackageMailer).to receive(:watcher_changed).and_return(mail)
       end
 
-      it 'raises the error' do
+      it "raises the error" do
         expect { subject }.to raise_error(SocketError)
       end
     end
   end
 
-  shared_examples_for 'notifies the watcher' do
-    context 'when added by a different user' do
-      it_behaves_like 'sends a mail'
+  shared_examples_for "notifies the watcher" do
+    context "when added by a different user" do
+      it_behaves_like "sends a mail"
     end
 
-    context 'when watcher is added by theirself' do
+    context "when watcher is added by theirself" do
       let(:watcher_changer) { watching_user }
 
-      it_behaves_like 'sends no mail'
+      it_behaves_like "sends no mail"
     end
   end
 
-  shared_examples_for 'does not notify the watcher' do
-    context 'when added by a different user' do
-      it_behaves_like 'sends no mail'
+  shared_examples_for "does not notify the watcher" do
+    context "when added by a different user" do
+      it_behaves_like "sends no mail"
     end
 
-    context 'when watcher is added by theirself' do
+    context "when watcher is added by theirself" do
       let(:watcher_changer) { watching_user }
 
-      it_behaves_like 'sends no mail'
+      it_behaves_like "sends no mail"
     end
   end
 
-  it_behaves_like 'notifies the watcher' do
+  it_behaves_like "notifies the watcher" do
     let(:notification_settings) do
       [build_stubbed(:notification_setting, mentioned: false, assignee: false, responsible: false, watched: true)]
     end
   end
 
-  it_behaves_like 'notifies the watcher' do
+  it_behaves_like "notifies the watcher" do
     let(:notification_settings) do
       [build_stubbed(:notification_setting, mentioned: false, assignee: false, responsible: false, watched: true)]
     end
   end
 
-  it_behaves_like 'does not notify the watcher' do
+  it_behaves_like "does not notify the watcher" do
     let(:notification_settings) do
       [build_stubbed(:notification_setting, mentioned: false, assignee: true, responsible: true, watched: false)]
     end
   end
 
-  it_behaves_like 'does not notify the watcher' do
+  it_behaves_like "does not notify the watcher" do
     let(:notification_settings) do
       [build_stubbed(:notification_setting, mentioned: true, assignee: false, responsible: false, watched: false)]
     end
   end
 
-  it_behaves_like 'does not notify the watcher' do
+  it_behaves_like "does not notify the watcher" do
     # Regression test for notification settings being empty
     let(:notification_settings) do
       []

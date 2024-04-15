@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,37 +27,88 @@
 #++
 
 class Journal < ApplicationRecord
-  self.table_name = 'journals'
-  self.ignored_columns += ['activity_type']
+  self.table_name = "journals"
+  self.ignored_columns += ["activity_type"]
+
+  WorkingDayUpdate = Struct.new(:working_days, :non_working_days, keyword_init: true)
 
   include ::JournalChanges
   include ::JournalFormatter
   include ::Acts::Journalized::FormatHooks
+  include Journal::Timestamps
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
+  register_journal_formatter :active_status, OpenProject::JournalFormatter::ActiveStatus
+  register_journal_formatter :project_status_code, OpenProject::JournalFormatter::ProjectStatusCode
+  register_journal_formatter :template, OpenProject::JournalFormatter::Template
+  register_journal_formatter :visibility, OpenProject::JournalFormatter::Visibility
+  register_journal_formatter :subproject_named_association, OpenProject::JournalFormatter::SubprojectNamedAssociation
+  register_journal_formatter :time_entry_hours, OpenProject::JournalFormatter::TimeEntryHours
+  register_journal_formatter :wiki_diff, OpenProject::JournalFormatter::WikiDiff
+  register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
+  register_journal_formatter :cause, OpenProject::JournalFormatter::Cause
+  register_journal_formatter :file_link, OpenProject::JournalFormatter::FileLink
+  register_journal_formatter :meeting_start_time, OpenProject::JournalFormatter::MeetingStartTime
+  register_journal_formatter :agenda_item_position, OpenProject::JournalFormatter::AgendaItemPosition
+  register_journal_formatter :agenda_item_duration, OpenProject::JournalFormatter::AgendaItemDuration
+  register_journal_formatter :agenda_item_diff, OpenProject::JournalFormatter::AgendaItemDiff
+  register_journal_formatter :agenda_item_title, OpenProject::JournalFormatter::AgendaItemTitle
+  register_journal_formatter :meeting_work_package_id, OpenProject::JournalFormatter::MeetingWorkPackageId
+  register_journal_formatter :meeting_state, OpenProject::JournalFormatter::MeetingState
+  register_journal_formatter :agenda_item_diff, OpenProject::JournalFormatter::AgendaItemDiff
+  register_journal_formatter :agenda_item_title, OpenProject::JournalFormatter::AgendaItemTitle
+
+  # Attributes related to the cause are stored in a JSONB column so we can easily add new relations and related
+  # attributes without a heavy database migration. Fields will be prefixed with `cause_` but are stored in the JSONB
+  # hash without that prefix
+  store_accessor :cause,
+                 %i[
+                   type
+                   work_package_id
+                   changed_days
+                   status_name
+                   status_id
+                   status_p_complete_change
+                 ],
+                 prefix: true
+  VALID_CAUSE_TYPES = %w[
+    default_attribute_written
+    progress_mode_changed_to_status_based
+    status_p_complete_changed
+    system_update
+    work_package_children_changed_times
+    work_package_parent_changed_times
+    work_package_predecessor_changed_times
+    work_package_related_changed_times
+    working_days_changed
+  ].freeze
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }
+  validates :cause_type, inclusion: { in: VALID_CAUSE_TYPES, allow_blank: true }
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
   belongs_to :data, polymorphic: true, dependent: :destroy
 
-  has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :delete_all
-  has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :delete_all
+  has_many :attachable_journals, class_name: "Journal::AttachableJournal", dependent: :delete_all
+  has_many :customizable_journals, class_name: "Journal::CustomizableJournal", dependent: :delete_all
+  has_many :storable_journals, class_name: "Journal::StorableJournal", dependent: :delete_all
+  has_many :agenda_item_journals, class_name: "Journal::MeetingAgendaItemJournal", dependent: :delete_all
 
   has_many :notifications, dependent: :destroy
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  scope :changing, -> { where(['version > 1']) }
+  scope :changing, -> { where(["version > 1"]) }
 
-  scope :for_wiki_content, -> { where(journable_type: "WikiContent") }
+  scope :for_wiki_page, -> { where(journable_type: "WikiPage") }
   scope :for_work_package, -> { where(journable_type: "WorkPackage") }
+  scope :for_meeting, -> { where(journable_type: "Meeting") }
 
   # In conjunction with the included Comparable module, allows comparison of journal records
   # based on their corresponding version numbers, creation timestamps and IDs.
@@ -118,7 +169,15 @@ class Journal < ApplicationRecord
     (!notes || notes&.empty?) && get_changes.empty?
   end
 
+  def has_cause?
+    cause_type.present?
+  end
+
   private
+
+  def has_file_links?
+    journable.respond_to?(:file_links)
+  end
 
   def predecessor
     @predecessor ||= if initial?

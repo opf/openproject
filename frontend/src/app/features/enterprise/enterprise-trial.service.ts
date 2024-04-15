@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,29 +28,16 @@
 
 import { Injectable } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import {
-  HttpClient,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Query } from '@datorama/akita';
-import {
-  filter,
-  map,
-  shareReplay,
-} from 'rxjs/operators';
-
+import { filter, map, shareReplay } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
 import { EnterpriseTrialStore } from 'core-app/features/enterprise/enterprise-trial.store';
-import { GonType } from 'core-app/core/gon/gon.service';
-import {
-  EnterpriseTrialErrorHalResource,
-  EnterpriseTrialHalResource,
-  IEnterpriseData,
-  IEnterpriseTrial,
-} from 'core-app/features/enterprise/enterprise-trial.model';
+import { GonService } from 'core-app/core/gon/gon.service';
+import { EnterpriseTrialErrorHalResource, EnterpriseTrialHalResource, IEnterpriseData, IEnterpriseTrial } from 'core-app/features/enterprise/enterprise-trial.model';
 import isDefinedEntity from 'core-app/core/state/is-defined-entity';
 
 @Injectable()
@@ -113,15 +100,17 @@ export class EnterpriseTrialService {
     taken_domain: this.I18n.t('js.admin.enterprise.trial.form.taken_domain'),
   };
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     protected http:HttpClient,
     readonly pathHelper:PathHelperService,
-    protected toastService:ToastService) {
-    const gon = window.gon as (GonType&{ augur_url:string, token_version:string, ee_trial_key?:string });
-    this.baseUrlAugur = gon.augur_url;
-    this.tokenVersion = gon.token_version;
+    protected toastService:ToastService,
+    readonly Gon:GonService,
+  ) {
+    this.baseUrlAugur = this.Gon.get('augur_url') as string;
+    this.tokenVersion = this.Gon.get('token_version') as string;
 
-    if (gon.ee_trial_key) {
+    if (this.Gon.get('ee_trial_key')) {
       this.setMailSubmittedStatus();
     }
   }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,51 +26,51 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Job status', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+RSpec.describe "Job status", :js do
+  shared_let(:admin) { create(:admin) }
 
   before do
     login_as admin
   end
 
-  it 'renders a descriptive error in case of 404' do
-    visit '/job_statuses/something-that-does-not-exist'
+  it "renders a descriptive error in case of 404" do
+    visit "/job_statuses/something-that-does-not-exist"
 
-    expect(page).to have_selector('.icon-big.icon-help', wait: 10)
-    expect(page).to have_content I18n.t('js.job_status.generic_messages.not_found')
+    expect(page).to have_css(".icon-big.icon-help", wait: 10)
+    expect(page).to have_content I18n.t("js.job_status.generic_messages.not_found")
   end
 
-  describe 'with a status that has an additional errors payload' do
+  describe "with a status that has an additional errors payload" do
     let!(:status) { create(:delayed_job_status, user: admin) }
 
     before do
-      status.update! payload: { errors: ['Some error', 'Another error'] }
+      status.update! payload: { errors: ["Some error", "Another error"] }
     end
 
-    it 'will show a list of these errors' do
+    it "shows a list of these errors" do
       visit "/job_statuses/#{status.job_id}"
 
-      expect(page).to have_selector('.job-status--modal-additional-errors', text: 'Some errors have occurred', wait: 10)
-      expect(page).to have_selector('ul li', text: 'Some error')
-      expect(page).to have_selector('ul li', text: 'Another error')
+      expect(page).to have_css(".job-status--modal-additional-errors", text: "Some errors have occurred", wait: 10)
+      expect(page).to have_css("ul li", text: "Some error")
+      expect(page).to have_css("ul li", text: "Another error")
     end
   end
 
-  describe 'with a status with error and redirect' do
+  describe "with a status with error and redirect" do
     let!(:status) { create(:delayed_job_status, user: admin) }
 
     before do
-      status.update! payload: { redirect: home_url, errors: ['Some error'] }
+      status.update! payload: { redirect: home_url, errors: ["Some error"] }
     end
 
-    it 'will not automatically redirect' do
+    it "does not automatically redirect" do
       visit "/job_statuses/#{status.job_id}"
 
-      expect(page).to have_selector('.job-status--modal-additional-errors', text: 'Some errors have occurred', wait: 10)
-      expect(page).to have_selector('ul li', text: 'Some error')
-      expect(page).to have_selector("a[href='#{home_url}']", text: 'Please click here to continue')
+      expect(page).to have_css(".job-status--modal-additional-errors", text: "Some errors have occurred", wait: 10)
+      expect(page).to have_css("ul li", text: "Some error")
+      expect(page).to have_css("a[href='#{home_url}']", text: "Please click here to continue")
     end
   end
 end

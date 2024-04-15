@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe UsersHelper, type: :helper do
+RSpec.describe UsersHelper do
   def build_user(status, blocked)
     build_stubbed(:user,
                   status:,
@@ -39,20 +39,20 @@ describe UsersHelper, type: :helper do
     end
   end
 
-  describe 'full_user_status' do
+  describe "full_user_status" do
     test_cases = {
-      [:active, false] => I18n.t('user.active'),
-      [:active, true] => I18n.t('user.blocked_num_failed_logins',
+      [:active, false] => I18n.t("user.active"),
+      [:active, true] => I18n.t("user.blocked_num_failed_logins",
                                 count: 3),
-      [:locked, false] => I18n.t('user.locked'),
-      [:locked, true] => I18n.t('user.status_user_and_brute_force',
-                                user: I18n.t('user.locked'),
-                                brute_force: I18n.t('user.blocked_num_failed_logins',
+      [:locked, false] => I18n.t("user.locked"),
+      [:locked, true] => I18n.t("user.status_user_and_brute_force",
+                                user: I18n.t("user.locked"),
+                                brute_force: I18n.t("user.blocked_num_failed_logins",
                                                     count: 3)),
-      [:registered, false] => I18n.t('user.registered'),
-      [:registered, true] => I18n.t('user.status_user_and_brute_force',
-                                    user: I18n.t('user.registered'),
-                                    brute_force: I18n.t('user.blocked_num_failed_logins',
+      [:registered, false] => I18n.t("user.registered"),
+      [:registered, true] => I18n.t("user.status_user_and_brute_force",
+                                    user: I18n.t("user.registered"),
+                                    brute_force: I18n.t("user.blocked_num_failed_logins",
                                                         count: 3))
     }
 
@@ -71,7 +71,7 @@ describe UsersHelper, type: :helper do
     end
   end
 
-  describe 'change_user_status_buttons' do
+  describe "change_user_status_buttons" do
     test_cases = {
       [:active, false] => :lock,
       [:locked, false] => :unlock,
@@ -92,26 +92,63 @@ describe UsersHelper, type: :helper do
           expect(buttons).to include(expectation)
         end
 
-        it 'contains a single button' do
-          expect(buttons.scan('<input').count).to eq(1)
+        it "contains a single button" do
+          expect(buttons.scan("<button").count).to eq(1)
         end
       end
     end
 
-    describe 'with status active and blocked True' do
+    describe "with status active and blocked True" do
       subject(:buttons) do
         user = build_user(:active, true)
         change_user_status_buttons(user)
       end
 
-      it 'returns inputs (buttons)' do
-        expect(buttons.scan('<input').count).to eq(2)
+      it "returns inputs (buttons)" do
+        expect(buttons.scan("<button").count).to eq(2)
       end
 
       it "contains 'Lock' and 'Reset Failed logins'" do
-        expect(buttons).to include(I18n.t('user.lock'))
-        expect(buttons).to include(I18n.t('user.reset_failed_logins'))
+        expect(buttons).to include(I18n.t("user.lock"))
+        expect(buttons).to include(I18n.t("user.reset_failed_logins"))
       end
+    end
+  end
+
+  describe "#visible_user_information?" do
+    subject { visible_user_information?(user) }
+
+    context "when user has hide_mail = false in their preferences" do
+      let(:user) { build(:user, preferences: { hide_mail: false }) }
+
+      it { is_expected.to be(true) }
+    end
+
+    context "when user has hide_mail = true in their preferences" do
+      let(:user) { build(:user, preferences: { hide_mail: true }) }
+
+      it { is_expected.to be(false) }
+    end
+
+    context "when user has a custom field with a present value" do
+      let(:custom_field) { create(:user_custom_field, :string) }
+      let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: "Hello")]) }
+
+      it { is_expected.to be(true) }
+    end
+
+    context "when user has a custom field with a blank value" do
+      let(:custom_field) { create(:user_custom_field, :string) }
+      let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: "  ")]) }
+
+      it { is_expected.to be(false) }
+    end
+
+    context "when user has a non-visible custom field with a present value" do
+      let(:custom_field) { create(:user_custom_field, :string, visible: false) }
+      let(:user) { build(:user, custom_values: [build(:custom_value, custom_field:, value: "Hello")]) }
+
+      it { is_expected.to be(false) }
     end
   end
 end

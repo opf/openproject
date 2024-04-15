@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module API
     module CustomActions
       class CustomActionsAPI < ::API::OpenProjectAPI
         resources :custom_actions do
-          route_param :id, type: Integer, desc: 'Custom action ID' do
+          route_param :id, type: Integer, desc: "Custom action ID" do
             helpers do
               def custom_action
                 @custom_action ||= CustomAction.find(params[:id])
@@ -41,7 +41,7 @@ module API
             helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
             after_validation do
-              authorize(:edit_work_packages, global: true)
+              authorize_in_any_work_package(:edit_work_packages)
             end
 
             get do
@@ -49,7 +49,7 @@ module API
                                                                     current_user:)
             end
 
-            namespace 'execute' do
+            namespace "execute" do
               helpers do
                 def parsed_params
                   @parsed_params ||= begin

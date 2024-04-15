@@ -2,85 +2,85 @@
 "no":
   js:
     boards:
-      create_new: 'Create new board'
-      label_unnamed_board: 'Unnamed board'
-      label_unnamed_list: 'Unnamed list'
+      create_new: 'Opprett ny tavle'
+      label_unnamed_board: 'Navnløs tavle'
+      label_unnamed_list: 'Navnløs liste'
       label_board_type: 'Tavle type'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
+        teaser_text: 'Ønsker du å automatisere dine arbeidsflyter med Tavler? Avanserte tavler er et Enterprise add-on. Vennligst oppgrader til et betalt abonnement.'
+        upgrade: 'Oppgrader nå'
       lists:
-        delete: 'Delete list'
+        delete: 'Slett liste'
       version:
-        is_locked: 'Version is locked. No items can be added to this version.'
-        is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'Show version'
+        is_locked: 'Låst versjon. Ingen elementer kan legges til i denne versjonen.'
+        is_closed: 'Låst versjon. Ingen elementer kan legges til i denne versjonen.'
+        close_version: 'Lukk versjonen'
+        open_version: 'Åpne versjon'
+        lock_version: 'Lås versjon'
+        unlock_version: 'Lås opp versjon'
+        edit_version: 'Rediger versjon'
+        show_version: 'Vis versjon'
         locked: 'Låst'
         closed: 'Stengt'
-      new_board: 'New board'
-      add_list: 'Add list to board'
-      add_card: 'Add card'
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      error_loading_the_list: "Error loading the list: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
-      click_to_remove_list: "Click to remove this list"
+      new_board: 'Ny tavle'
+      add_list: 'Legge til listen på tavlen'
+      add_card: 'Legg til kort'
+      error_attribute_not_writable: "Kan ikke flytte oppgaven, %{attribute} er ikke skrivbar."
+      error_loading_the_list: "Feil under lasting av listen: %{error_message}"
+      error_permission_missing: "Tillatelsen til å opprette offentlige spørringer mangler"
+      error_cannot_move_into_self: "Du kan ikke flytte en oppgaven til sin egen kolonne."
+      text_hidden_list_warning: "Ikke alle lister vises fordi du ikke har tillatelse. Kontakt systemansvarlig for mer informasjon."
+      click_to_remove_list: "Klikk for å fjerne denne listen"
       board_type:
         text: 'Tavle type'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'grunnleggende'
+        select_board_type: 'Vennligst velg type tavle du trenger.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+          Start fra bunn med en tom tavle. Legg til oppgaver og kolonner på denne tavlen.
+        action: 'Oppgavetavle'
+        action_by_attribute: 'Handlingstavle (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Et tavle med filtrerte lister på %{attribute} attributt. Flytting av arbeidspakker til andre lister vil oppdatere attributtet deres.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Tavle med automatiserte kolonner for underprosjekter. Dra arbeidspakker til andre lister opp oppdateringer av (under)prosjektet tilsvarende.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Tavle med automatiserte kolonner for underprosjekter. Dra oppgaver til andre lister opp oppdateringer av overordnet tilsvarende.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Grunnleggende kanban-stil tavle med kolonner for status, slik som Å Gjøre, Underveis, Ferdig.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Tavle med automatiserte kolonner basert på tildelte brukere. Ideelt for utsendelse av arbeidspakker.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Tavle med automatiserte kolonner basert på versjonsattributt. Ideelt for planlegging av produktutvikling.
         action_type:
-          assignee: assignee
+          assignee: oppdragstaker
           status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          version: versjon
+          subproject: underprosjekt
+          subtasks: overordnet-underordnet
         board_type_title:
           assignee: Deltaker
           status: Status
           version: Versjon
           subproject: Underprosjekt
-          subtasks: Parent-child
-          basic: Basic
-        select_attribute: "Action attribute"
+          subtasks: Foreldre-barn
+          basic: Enkel
+        select_attribute: "Oppgave egenskap"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Velg bruker å legge til som ny oppdragstaker liste
+          status: Velg status å legge til som ny liste
+          version: Velg versjon som skal legges til som ny liste
+          subproject: Velg underprosjekt å legge til som ny liste
+          subtasks: Velg arbeidspakke som skal legges til som ny liste
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            Det er for øyeblikket ingen status tilgjengelig. <br>
+            Enten finnes det ingen eller alle har allerede blitt lagt til i tavlen.
+          assignee: Det er ikke noe medlem som samsvarer med filterverdien.  <br>
+          no_member: Dette prosjektet har for tiden ikke noen medlemmer som kan legges til.  <br>
+          add_members: <a href="%{link}">Legg til nytt medlem i prosjektet</a> for å velge brukere på nytt.
       configuration_modal:
-        title: 'Configure this board'
+        title: 'Konfigurer tavlen'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "Vis som oppgavelapper"
+          table_mode: "Vis som tabell"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require_relative "../../toasts/expectations"
+
 module Components
   module WorkPackages
     class SettingsMenu
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
+      include Toasts::Expectations
 
       def open_and_save_query(name)
-        open!
-        find("#{selector} .menu-item", text: 'Save', match: :prefer_exact).click
-        page.within('.spot-modal') do
-          find('#save-query-name').set name
-          click_on 'Save'
-        end
+        open_and_choose("Save")
+        within_modal_fill_in_and_save(name:)
+      end
+
+      def open_and_save_query_as(name)
+        open_and_choose("Save as")
+        within_modal_fill_in_and_save(name:)
       end
 
       def open_and_choose(name)
-        open!
-        choose(name)
+        retry_block do
+          open!
+          choose(name)
+        end
       end
 
       def open!
-        click_on 'work-packages-settings-button'
-        expect_open
+        click_on "work-packages-settings-button"
+        dropdown_menu
+      end
+
+      def dropdown_menu
+        page.find(selector)
       end
 
       def expect_open
@@ -61,20 +71,37 @@ module Components
       end
 
       def choose(target)
-        find("#{selector} .menu-item", text: target).click
+        find("#{selector} .menu-item", text: target, match: :prefer_exact).click
       end
 
-      def expect_options(options)
+      def expect_options(*options)
         expect_open
         options.each do |text|
-          expect(page).to have_selector("#{selector} a", text:)
+          expect(page).to have_css("#{selector} a", text:)
         end
       end
 
       private
 
       def selector
-        '#settingsDropdown'
+        "#settingsDropdown"
+      end
+
+      def within_modal_fill_in_and_save(name:)
+        modal.within_modal do
+          fill_in "save-query-name", with: name
+          click_button "Save"
+        end
+        wait_for_save_completion
+      end
+
+      def wait_for_save_completion
+        expect_and_dismiss_toaster
+        modal.expect_closed
+      end
+
+      def modal
+        Components::Common::Modal.new
       end
     end
   end

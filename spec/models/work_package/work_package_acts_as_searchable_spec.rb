@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackage, 'acts_as_searchable', type: :model do
+RSpec.describe WorkPackage, "acts_as_searchable" do
   include BecomeMember
 
-  let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }
+  let(:wp_subject) { "the quick brown fox jumps over the lazy dog" }
   let(:project) do
     create(:project,
            public: false)
@@ -43,7 +43,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
   end
   let(:user) { create(:user) }
 
-  describe '#search' do
+  describe "#search" do
     describe "w/ the user being logged in
               w/ searching for a matching string
               w/ being member with the appropriate permission" do
@@ -54,7 +54,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(WorkPackage.search(wp_subject.split).first).to include(work_package)
       end
     end
@@ -65,7 +65,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
               w/ searching with an offset" do
       # this offset recreates the way the time is transformed in the controller
       # This will have to be cleaned up
-      let(:offset) { (work_package.created_at - 1.minute).strftime('%Y%m%d%H%M%S').to_time }
+      let(:offset) { (work_package.created_at - 1.minute).strftime("%Y%m%d%H%M%S").to_time }
 
       before do
         work_package
@@ -74,7 +74,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
-      it 'returns the work package if the offset is before the work packages created at value' do
+      it "returns the work package if the offset is before the work packages created at value" do
         expect(WorkPackage.search(wp_subject.split, nil, offset:).first).to include(work_package)
       end
     end

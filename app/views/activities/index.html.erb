@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,46 +33,30 @@ See COPYRIGHT and LICENSE files for more details.
             subtitle: t(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1))
 %>
 
-<div id="activity">
-  <% @events_by_day.keys.sort.reverse.each do |day| %>
-    <h3><%= format_activity_day(day) %></h3>
-    <ul class="generic-list">
-      <% @events_by_day[day].sort { |x, y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
-        <li class="<%= e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
-          <div class="title">
-            <%= icon_wrapper("icon-context icon-#{event_icon(e)}", e.event_name) %>
-            <span class="time"><%= format_time(e.event_datetime.to_time, false) %></span>
-            <% if (@project.nil? || @project != e.project) && e.project %>
-              <%= content_tag('span', link_to(e.project.name, e.project), class: 'project') %>
-              <span> - </span>
-            <% end %>
-            <%= link_to format_activity_title(e.event_title), e.event_path%>
-          </div>
-          <div class="description"><%= truncate_formatted_text(e.event_description) %></div>
-          <div class="author">
-            <%= avatar(e.event_author, {class: 'avatar-mini'}) if e.respond_to?(:event_author) %>
-            <%= link_to_user(e.event_author) if e.respond_to?(:event_author) %>
-          </div>
-        </li>
-      <% end -%>
-    </ul>
-  <% end -%>
-</div>
+<%= render(Activities::DaysComponent.new(events: @events, current_project: @project, activity_page: @activity_page))  %>
 
-<% if @events_by_day.empty? %>
+<% if @events.empty? %>
   <%= no_results_box %>
   <br>
 <% end %>
 
 <div style="float:left;">
   <%= link_to_content_update(t(:label_previous),
-                             { from: (@date_to - @days - 1), with_subprojects: @with_subprojects ? '1' : '0' },
+                             {
+                               from: (@date_to - @days - 1),
+                               with_subprojects: @with_subprojects ? '1' : '0',
+                               user_id: params[:user_id]
+                             }.compact,
                              {title: t(:label_date_from_to, start: format_date(@date_to - 2*@days), end: format_date(@date_to - @days - 1)),
                              class: 'navigate-left'}) %>
 </div>
 <div style="float:right;">
   <%= link_to_content_update(t(:label_next),
-                             { from: (@date_to + @days - 1), with_subprojects: @with_subprojects ? '1' : '0' },
+                             {
+                               from: (@date_to + @days - 1),
+                               with_subprojects: @with_subprojects ? '1' : '0',
+                               user_id: params[:user_id]
+                             }.compact,
                              {title: t(:label_date_from_to, start: format_date(@date_to), end: format_date(@date_to + @days - 1)),
                              class: 'navigate-right'}) unless @date_to >= Date.today %>
 </div>
@@ -84,29 +68,6 @@ See COPYRIGHT and LICENSE files for more details.
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom,
                               { format: 'atom', from: nil, key: User.current.rss_key }) %>
-<% end %>
-
-<% content_for :sidebar do %>
-  <%= form_tag({}, method: :get) do %>
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= t(:description_filter) %></legend>
-    <p>
-      <%= hidden_field_tag "event_types[]" %>
-      <% @activity.event_types.sort_by { |type| t("label_#{type.singularize}_plural") }.each do |t| %>
-        <%= check_box_tag "event_types[]", t, @activity.scope.include?(t), id: "event_types_#{t}" %>
-        <label for="event_types_<%=t%>"><%=t("label_#{t.singularize}_plural")%></label>
-        <br />
-      <% end %>
-    </p>
-    <% if @project && @project.descendants.active.any? %>
-      <%= hidden_field_tag 'with_subprojects', 0 %>
-      <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=t(:label_subproject_plural)%></label></p>
-    <% end %>
-    <%= hidden_field_tag('user_id', params[:user_id]) if params[:user_id].present? %>
-    <%= hidden_field_tag('from', params[:from]) if params[:from].present? %>
-    <p><%= submit_tag t(:button_apply), class: 'button -small -highlight', name: nil %></p>
-    </fieldset>
-  <% end %>
 <% end %>
 
 <% html_title(t(:label_activity), @author) -%>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,35 +36,15 @@ module Projects
     def execute(project:)
       @project = project
 
-      service_call = delete_project
+      service_call = ::Projects::DeleteService.new(user:, model: project).call
 
       if service_call.failure?
-        log_service_failure(service_call)
+        OpenProject.logger.error("Failed to delete project #{project} in background job: " \
+                                 "#{service_call.message}")
       end
     rescue StandardError => e
-      log_standard_error(e)
-    end
-
-    private
-
-    def delete_project
-      ::Projects::DeleteService
-        .new(user:, model: project)
-        .call
-    end
-
-    def log_standard_error(e)
-      logger.error('Encountered an error when trying to delete project ' \
-                   "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
-    end
-
-    def log_service_failure(service_call)
-      logger.error "Failed to delete project #{project} in background job: " \
-                   "#{service_call.message}"
-    end
-
-    def logger
-      Delayed::Worker.logger
+      OpenProject.logger.error("Encountered an error when trying to delete project " \
+                               "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,8 +54,7 @@ module API
 
         link :commit do
           if represented.project &&
-             current_user.allowed_to?(:edit_work_packages,
-                                      represented.project) &&
+             current_user.allowed_in_project?(:add_work_packages, represented.project) &&
              @errors.empty?
             {
               href: api_v3_paths.work_packages,
@@ -65,13 +64,11 @@ module API
         end
 
         link :customFields do
-          if represented.project &&
-             current_user_allowed_to(:select_custom_fields,
-                                     context: represented.project)
+          if represented.project && current_user.allowed_in_project?(:select_custom_fields, represented.project)
             {
               href: project_settings_custom_fields_path(represented.project.identifier),
-              type: 'text/html',
-              title: I18n.t('label_custom_field_plural')
+              type: "text/html",
+              title: I18n.t("label_custom_field_plural")
             }
           end
         end
@@ -81,8 +78,8 @@ module API
              represented.type_id &&
              represented.type_id != 0
             {
-              href: edit_type_path(represented.type_id, tab: 'form_configuration'),
-              type: 'text/html',
+              href: edit_type_path(represented.type_id, tab: "form_configuration"),
+              type: "text/html",
               title: "Configure form"
             }
           end

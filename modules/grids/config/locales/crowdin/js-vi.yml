@@ -8,13 +8,14 @@ vi:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'Custom text'
         documents:
           title: 'Tài liệu'
           no_results: 'Chưa có tài liệu.'
         members:
-          title: 'Members'
+          title: 'Thành viên'
           no_results: 'No visible members.'
           view_all_members: 'View all members'
           add: 'Thành viên'

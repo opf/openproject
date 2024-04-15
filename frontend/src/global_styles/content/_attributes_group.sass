@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,10 @@
   margin-top: 1.6875rem
   position: relative
 
-
 .attributes-group--header
   @include grid-block
   margin: 0 0 0.5rem 0
-  border-bottom: 1px solid #ddd
+  border-bottom: 1px solid var(--color-border-muted)
   align-items: flex-end
 
 
@@ -71,10 +70,14 @@
 // HACK. TODO: Remove H3 element rules in various places.
 .attributes-group--header-text,
 #content h3.attributes-group--header-text
-  font-size: 1rem
-  font-weight: bold
+  font-size: var(--body-font-size)
+  font-weight: var(--base-text-weight-bold)
   text-transform: uppercase
   // properties to reset h3
   margin: 0
   padding: 0
   border: 0
+
+.attributes-group--attributes
+  display: flex
+  flex-direction: column

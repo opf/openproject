@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe PlaceholderUser, type: :model do
+RSpec.describe PlaceholderUser do
   let(:placeholder_user) { build(:placeholder_user) }
 
   subject { placeholder_user }
 
-  describe '#name' do
-    it 'updates the name' do
+  describe "#name" do
+    it "updates the name" do
       subject.name = "Foo"
       expect(subject.name).to eq("Foo")
     end
 
-    it 'updates the lastname attribute' do
+    it "updates the lastname attribute" do
       subject.name = "Foo"
       expect(subject.lastname).to eq("Foo")
     end
@@ -49,7 +49,7 @@ describe PlaceholderUser, type: :model do
   end
 
   describe "#to_s" do
-    it 'returns the lastname' do
+    it "returns the lastname" do
       expect(subject.to_s).to eq(subject.lastname)
     end
   end

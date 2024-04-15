@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -45,15 +45,22 @@ See COPYRIGHT and LICENSE files for more details.
     <% show_required = custom_field.is_required? && !custom_field.boolean? %>
     <%= content_tag :div,
                     class: ['form--field',
-                            "custom_field_#{custom_field.id}",
+                            custom_field.attribute_name,
                             (show_required ? '-required' : ''),
                             wide_labels] do
-      options = {
-        container_class: custom_field.field_format == 'text' ? '-xxwide' : input_size,
-      }
+      container_class = case custom_field.field_format
+                         when 'text'
+                           '-xxwide'
+                         when 'date'
+                           '-xslim'
+                         else
+                           input_size
+                         end
+
+      options = { container_class: }
 
       if help_text
-        options[:help_text] = help_text.merge(attribute: "customField#{custom_field.id}")
+        options[:help_text] = help_text.merge(attribute: custom_field.attribute_name(:camel_case))
       end
 
       cf_form.cf_form_field(options)

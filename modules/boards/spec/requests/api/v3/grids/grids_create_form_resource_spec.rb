@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type: :json do
+RSpec.describe "POST /api/v3/grids/form for Board Grids", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -42,11 +42,11 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
   let(:params) { {} }
 
   shared_let(:current_user) do
-    create(:user, member_in_project: project, member_with_permissions: [:manage_board_views])
+    create(:user, member_with_permissions: { project => [:manage_board_views] })
   end
 
   shared_let(:prohibited_user) do
-    create(:user, member_in_project: project, member_with_permissions: [:show_board_views])
+    create(:user, member_with_permissions: { project => [:show_board_views] })
   end
 
   subject(:response) { last_response }
@@ -55,15 +55,15 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
     login_as(current_user)
   end
 
-  describe '#post' do
+  describe "#post" do
     before do
-      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      post path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    context 'with a valid boards scope' do
+    context "with a valid boards scope" do
       let(:params) do
         {
-          name: 'foo',
+          name: "foo",
           _links: {
             scope: {
               href: project_work_package_boards_path(project)
@@ -72,12 +72,12 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
         }
       end
 
-      it 'contains default data in the payload' do
+      it "contains default data in the payload" do
         expected = {
           rowCount: 1,
           columnCount: 4,
           widgets: [],
-          name: 'foo',
+          name: "foo",
           options: {},
           _links: {
             attachments: [],
@@ -90,23 +90,23 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
 
         expect(subject.body)
           .to be_json_eql(expected.to_json)
-          .at_path('_embedded/payload')
+          .at_path("_embedded/payload")
       end
 
-      it 'has no validationErrors' do
+      it "has no validationErrors" do
         expect(subject.body)
           .to be_json_eql({}.to_json)
-          .at_path('_embedded/validationErrors')
+          .at_path("_embedded/validationErrors")
       end
 
-      it 'has a commit link' do
+      it "has a commit link" do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.grids.to_json)
-          .at_path('_links/commit/href')
+          .at_path("_links/commit/href")
       end
     end
 
-    context 'with boards scope for which the user does not have the necessary permissions' do
+    context "with boards scope for which the user does not have the necessary permissions" do
       let(:current_user) { prohibited_user }
       let(:params) do
         {
@@ -118,14 +118,14 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
         }
       end
 
-      it 'has a validationError on scope' do
+      it "has a validationError on scope" do
         expect(subject.body)
           .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
-          .at_path('_embedded/validationErrors/scope/message')
+          .at_path("_embedded/validationErrors/scope/message")
       end
     end
 
-    context 'with an invalid boards scope' do
+    context "with an invalid boards scope" do
       let(:params) do
         {
           _links: {
@@ -136,17 +136,17 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
         }
       end
 
-      it 'has a validationError on scope' do
+      it "has a validationError on scope" do
         expect(subject.body)
           .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
-          .at_path('_embedded/validationErrors/scope/message')
+          .at_path("_embedded/validationErrors/scope/message")
       end
     end
 
-    context 'with an unsupported widget identifier' do
+    context "with an unsupported widget identifier" do
       let(:params) do
         {
-          name: 'foo',
+          name: "foo",
           _links: {
             attachments: [],
             scope: {
@@ -167,10 +167,10 @@ describe "POST /api/v3/grids/form for Board Grids", type: :request, content_type
         }
       end
 
-      it 'has a validationError on widget' do
+      it "has a validationError on widget" do
         expect(subject.body)
           .to be_json_eql("Widgets is not set to one of the allowed values.".to_json)
-          .at_path('_embedded/validationErrors/widgets/message')
+          .at_path("_embedded/validationErrors/widgets/message")
       end
     end
   end

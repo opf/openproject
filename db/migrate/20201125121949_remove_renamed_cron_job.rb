@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,6 @@ class RemoveRenamedCronJob < ActiveRecord::Migration[6.0]
     # The job has been renamed to JobStatus::Cron::ClearOldJobStatusJob
     # the new job will be added on restarting the application but the old will still be in the database
     # and will cause 'uninitialized constant' errors.
-    Delayed::Job
-      .where('handler LIKE ?', "%job_class: Cron::ClearOldJobStatusJob%")
-      .delete_all
+    execute("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Cron::ClearOldJobStatusJob%'")
   end
 end

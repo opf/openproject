@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-describe 'Calendar non working days', type: :feature, js: true do
-  include_context 'with calendar full access'
+RSpec.describe "Calendar non working days", :js, :with_cuprite do
+  include_context "with calendar full access"
 
   let!(:other_user) do
-    create :user,
-           firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_calendar
-           ]
+    create(:user, firstname: "Bernd", member_with_permissions: { project => %w[view_work_packages view_calendar] })
   end
 
   before do
@@ -49,53 +44,53 @@ describe 'Calendar non working days', type: :feature, js: true do
     calendar.visit!
   end
 
-  context 'with week days defined' do
+  context "with week days defined" do
     let(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
-    it 'renders sat and sun as non working' do
-      expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
-      expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
+    it "renders sat and sun as non working" do
+      expect(page).to have_css(".fc-day-sat.fc-non-working-day", minimum: 1, wait: 10)
+      expect(page).to have_css(".fc-day-sun.fc-non-working-day", minimum: 1)
 
-      expect(page).to have_no_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-fri.fc-non-working-day')
+      expect(page).to have_no_css(".fc-day-mon.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-tue.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-wed.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-thu.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-fri.fc-non-working-day")
 
-      find('.fc-next-button').click
+      find(".fc-next-button").click
 
-      expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
-      expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
+      expect(page).to have_css(".fc-day-sat.fc-non-working-day", minimum: 1, wait: 10)
+      expect(page).to have_css(".fc-day-sun.fc-non-working-day", minimum: 1)
 
-      expect(page).to have_no_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-fri.fc-non-working-day')
+      expect(page).to have_no_css(".fc-day-mon.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-tue.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-wed.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-thu.fc-non-working-day")
+      expect(page).to have_no_css(".fc-day-fri.fc-non-working-day")
     end
   end
 
-  context 'with all days marked as weekend' do
+  context "with all days marked as weekend" do
     let(:week_days) { week_with_no_working_days }
 
-    it 'renders all as non working' do
-      expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
-      expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-mon.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-tue.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-wed.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-thu.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-fri.fc-non-working-day', minimum: 1)
+    it "renders all as non working" do
+      expect(page).to have_css(".fc-day-sat.fc-non-working-day", minimum: 1, wait: 10)
+      expect(page).to have_css(".fc-day-sun.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-mon.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-tue.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-wed.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-thu.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-fri.fc-non-working-day", minimum: 1)
 
-      find('.fc-next-button').click
+      find(".fc-next-button").click
 
-      expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
-      expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-mon.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-tue.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-wed.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-thu.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-fri.fc-non-working-day', minimum: 1)
+      expect(page).to have_css(".fc-day-sat.fc-non-working-day", minimum: 1, wait: 10)
+      expect(page).to have_css(".fc-day-sun.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-mon.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-tue.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-wed.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-thu.fc-non-working-day", minimum: 1)
+      expect(page).to have_css(".fc-day-fri.fc-non-working-day", minimum: 1)
     end
   end
 end

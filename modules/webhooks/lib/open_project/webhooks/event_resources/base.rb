@@ -40,7 +40,7 @@ module OpenProject::Webhooks::EventResources
       ##
       # Localize the given event name
       def localize_event_name(key)
-        I18n.t(key, scope: 'webhooks.outgoing.events')
+        I18n.t(key, scope: "webhooks.outgoing.events")
       end
 
       ##

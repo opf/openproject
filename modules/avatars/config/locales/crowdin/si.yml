@@ -1,5 +1,9 @@
 #English strings go here
 si:
+  plugin_openproject_avatars:
+    name: "අවතාර්"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "අවතාර්"
   label_avatar_plural: "අවතාර්"
   label_current_avatar: "වත්මන් අවතාරය"
@@ -35,6 +39,3 @@ si:
       enable_gravatars: 'පරිශීලක ගුරුත්වාකර්ෂණ සක්රිය කරන්න'
       gravatar_default: "පෙරනිමි රූපය"
       enable_local_avatars: 'පරිශීලක අභිරුචි අවතාර සක්රීය'
-
-
-

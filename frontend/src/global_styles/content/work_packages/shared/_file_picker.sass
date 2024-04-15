@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,30 @@
 .op-file-picker
   &--scrollable-content
     overflow-y: auto
+    // If there a list in the content that provides tooltips on there items,
+    // we need enough space to display those tooltips
+    min-height: $spot-spacing-5
 
   @media #{$spot-mq-mobile}
     &.spot-modal
-      min-height: calc(100vh - 5rem)
+      min-height: calc(#{var(--app-height)} - 5rem)
 
   &--modal-body
     @media #{$spot-mq-desktop}
-      height: 50vh
+      height: calc(#{var(--app-height)} / 2)
       max-height: 32rem
+
+  &--info
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    height: 100%
+    text-align: center
+    color: var(--color-fg-subtle)
+
+    & &-icon
+      width: 9.5rem
+      height: 9.5rem
+      font-size: 5.5rem
+      margin-bottom: $spot-spacing-0_25

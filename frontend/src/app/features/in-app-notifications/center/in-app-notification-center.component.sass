@@ -8,6 +8,10 @@
   &--content
     height: 100%
 
+    &_empty
+      display: flex
+      align-items: center
+
   &--viewport
     height: 100%
     // Avoid infinite horizontal scrolling on mobile iOS (#39849)
@@ -21,17 +25,13 @@
 
   // While loading, appear to be showing one item row
   &--loading-indicator
-    position: absolute
-    left: 50%
-    top: 50%
-    transform: translate(-50%, -50%)
+    display: flex
+    flex-direction: column
+    align-items: center
     text-align: center
-    max-width: 650px
+    max-width: 677px
+    margin: 0 auto
 
-    @media screen and (max-width: 679px)
-      left: 0
-      top: 2rem
-      transform: none
 
   :host
     .-browser-safari &
@@ -40,7 +40,7 @@
       height: 100%
 
   &-loading-text
-    color: var(--gray-dark)
+    color: var(--color-fg-muted)
     font-size: 18px
 
   &-loading-image

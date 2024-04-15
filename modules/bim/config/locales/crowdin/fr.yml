@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 fr:
+  plugin_openproject_bim:
+    name: "Fonctionnalités BIM et BCF d'OpenProject"
+    description: "Ce plugin OpenProject introduit les fonctionnalités BIM et BCF."
   bim:
     label_bim: 'BIM'
   bcf:
@@ -10,7 +13,7 @@ fr:
     recommended: 'recommandé'
     not_recommended: 'déconseillé'
     no_viewpoints: 'Aucun point de vue'
-    new_badge: "nouveau"
+    new_badge: "Nouveau"
     exceptions:
       file_invalid: "Fichier BCF invalide"
     x_bcf_issues:
@@ -55,7 +58,7 @@ fr:
         perform_description: "Voulez-vous importer ou mettre à jour les problèmes repris ci-dessus ?"
         replace_with_system_user: 'Les remplacer par l''utilisateur "Système"'
         import_as_system_user: 'Les importer comme utilisateur "Système".'
-        what_to_do: "Que voulez-vous faire?"
+        what_to_do: "Que voulez-vous faire ?"
         work_package_has_newer_changes: "Obsolète ! Ce sujet n'a pas été mis à jour, car les derniers changements sur le serveur étaient plus récents que la \"ModifiedDate\" du sujet importé. Toutefois, les commentaires sur le sujet ont été importés."
         bcf_file_not_found: "Impossible de localiser le fichier BCF. Veuillez recommencer le processus de téléversement."
   export:
@@ -131,4 +134,3 @@ fr:
   extraction:
     available:
       ifc_convert: "Canal de conversion IFC disponible"
-

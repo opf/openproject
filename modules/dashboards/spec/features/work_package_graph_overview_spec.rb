@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-describe 'Work package overview graph widget on dashboard',
-         type: :feature,
-         with_mail: false,
-         js: true do
-  let!(:type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
-  let!(:closed_status) { create :closed_status }
+RSpec.describe "Work package overview graph widget on dashboard", :js do
+  let!(:type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
+  let!(:closed_status) { create(:closed_status) }
   let!(:open_work_package) do
-    create :work_package,
-           subject: 'Spanning work package',
+    create(:work_package,
+           subject: "Spanning work package",
            project:,
            status: open_status,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:closed) do
-    create :work_package,
-           subject: 'Starting work package',
+    create(:work_package,
+           subject: "Starting work package",
            project:,
            status: closed_status,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
 
   let(:permissions) do
@@ -65,7 +62,7 @@ describe 'Work package overview graph widget on dashboard',
   end
 
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions:)
   end
 
   let(:user) do
@@ -85,13 +82,13 @@ describe 'Work package overview graph widget on dashboard',
   end
 
   # As a graph is rendered as a canvas, we have limited abilities to test the widget
-  it 'can add the widget' do
+  it "can add the widget" do
     sleep(0.1)
 
     dashboard.add_widget(1, 1, :within, "Work packages overview")
 
     # As the user lacks the necessary permissions, no widget is preconfigured
-    overview_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    overview_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
     overview_widget.expect_to_span(1, 1, 2, 2)
   end

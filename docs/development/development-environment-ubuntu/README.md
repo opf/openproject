@@ -1,39 +1,54 @@
-# OpenProject development Setup on Debian / Ubuntu
+---
+sidebar_navigation:
+  title: Development setup on Debian / Ubuntu
+description: OpenProject development setup on Debian / Ubuntu
+keywords: development setup debian ubuntu linux
+---
+
+# OpenProject development setup on Debian / Ubuntu
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
 This guide assumes that you have a Ubuntu 20.04 installation with administrative rights. This guide will work
-analogous with all other distributions, but may require slight changes in the required packages. _Please, help us to extend this guide with information on other distributions should there be required changes._
+analogous with all other distributions, but may require slight changes in the required packages. _Please, help us to
+extend this guide with information on other distributions should there be required changes._
 
-OpenProject Development Environment will be installed with a PostgreSQL database, OpenProject on-premises installation shall NOT be present before.
+OpenProject Development Environment will be installed with a PostgreSQL database, OpenProject on-premises installation
+shall NOT be present before.
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
 
 Remark: *At the time of writing* in this page refers to 12/10/2021
 
-If you find any bugs or you have any recommendations for improving this tutorial, please, feel free to send a pull request or comment in the [OpenProject forums](https://community.openproject.org/projects/openproject/boards).
+If you find any bugs or you have any recommendations for improving this tutorial, please, feel free to send a pull
+request or comment in the [OpenProject forums](https://community.openproject.org/projects/openproject/boards).
 
 # Prepare your environment
 
-We need an active Ruby and Node JS environment to run OpenProject. To this end, we need some packages installed on the system.o
+We need an active Ruby and Node JS environment to run OpenProject. To this end, we need some packages installed on the
+system.o
 
-CPU recommendation: 4 CPUs, Memory recommendation: 8 better 16 GB (in general we need double the amount of a normal production installation)
+CPU recommendation: 4 CPUs, Memory recommendation: 8 better 16 GB (in general we need double the amount of a normal
+production installation)
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libpq-dev libreadline-dev
 ```
 
 ## Install Ruby
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "3.2.0"
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
+Ruby. We always require the latest ruby versions, and you can check which version is required
+by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At
+the time of writing, this version is "3.2.3"
 
 ### Install rbenv and ruby-build
 
 rbenv is a ruby version manager that lets you quickly switch between ruby versions.
 ruby-build is an addon to rbenv that installs ruby versions.
 
-```bash
+```shell
 # Install rbenv locally for the dev user
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 # Optional: Compile bash extensions
@@ -53,53 +68,58 @@ source ~/.bashrc
 
 ruby-build is an addon to rbenv that installs ruby versions
 
-```bash
+```shell
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
 ### Installing ruby
 
 With both installed, we can now install ruby. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `3.2.0` which we also require.
+At the time of this writing, the latest stable version is `3.2.3` which we also require.
 
-We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
+We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile).
+Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
-```bash
+```shell
 # Install the required version as read from the Gemfile
-rbenv install 3.2.0
+rbenv install 3.2.3
 ```
 
-This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
+This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to
+globally activate this version
 
-```bash
-rbenv global 3.2.0
+```shell
+rbenv global 3.2.3
 rbenv rehash
 ```
 
-You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler (remark: if you run into an error, first try with a fresh reboot).
+You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler (remark: if you run into
+an error, first try with a fresh reboot).
 
-If you get `Command 'gem' not found...` here, ensure you followed the instructions `rbenv init` command to ensure it is loaded in your shell.
+If you get `Command 'gem' not found...` here, ensure you followed the instructions `rbenv init` command to ensure it is
+loaded in your shell.
 
 ## Setup PostgreSQL database
 
 Next, install a PostgreSQL database.
 
-```bash
+```shell
 [dev@debian]# sudo apt-get install postgresql postgresql-client
 ```
 
 Create the OpenProject database user and accompanied database.
 
-```bash
-sudo su postgres
+```shell
+sudo su - postgres
 [postgres@ubuntu]# createuser -d -P openproject
 ```
+
 You will be prompted for a password, for the remainder of these instructions, we assume its `openproject-dev-password`.
 
 Now, create the database `openproject_dev` and `openproject_test` owned by the previously created user.
 
-```bash
+```shell
 [postgres@ubuntu]# createdb -O openproject openproject_dev
 [postgres@ubuntu]# createdb -O openproject openproject_test
 
@@ -109,11 +129,12 @@ Now, create the database `openproject_dev` and `openproject_test` owned by the p
 
 ## Install Node.js
 
-We will install the latest LTS version of Node.js via [nodenv](https://github.com/nodenv/nodenv). This is basically the same steps as for rbenv:
+We will install the latest LTS version of Node.js via [nodenv](https://github.com/nodenv/nodenv). This is basically the
+same steps as for rbenv:
 
 ### Install nodenv
 
-```bash
+```shell
 # Install nodenv
 git clone https://github.com/nodenv/nodenv.git ~/.nodenv
 # Optional: Install bash extensions
@@ -131,7 +152,7 @@ source ~/.bashrc
 
 ### Install node-build
 
-```bash
+```shell
 git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-build
 ```
 
@@ -139,17 +160,17 @@ git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-b
 
 You can find the latest LTS version here: [nodejs.org/en/download/](https://nodejs.org/en/download/)
 
-At the time of writing this is v16.13.1 Install and activate it with:
+At the time of writing this is v20.9.0 Install and activate it with:
 
-```bash
-nodenv install 16.13.1
-nodenv global 16.13.1
+```shell
+nodenv install 20.9.0
+nodenv global 20.9.0
 nodenv rehash
 ```
 
 ### Update NPM to the latest version
 
-```bash
+```shell
 npm install npm@latest -g
 ```
 
@@ -157,28 +178,30 @@ npm install npm@latest -g
 
 You should now have an active ruby and node installation. Verify that it works with these commands.
 
-```bash
+```shell
 ruby --version
-ruby 3.2.0 (2022-12-25 revision a528908271) [x86_64-linux]
+ruby 3.2.3 (2024-01-18 revision 52bb2ac0a6) [arm64-darwin23]
 
 bundler --version
-Bundler version 2.4.1
+Bundler version 2.5.5
 
 node --version
-v16.13.1
+v20.9.0
 
 npm --version
-8.3.0
+10.5.0
 ```
 
 # Install OpenProject Sources
 
-In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub account.
+In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub
+account.
 This allows you to create branches and push changes and finally opening a pull request for us to review.
 
-To do that, go to [github.com/opf/openproject](https://github.com/opf/openproject) and press "Fork" on the upper right corner.
+To do that, go to [github.com/opf/openproject](https://github.com/opf/openproject) and press "Fork" on the upper right
+corner.
 
-```bash
+```shell
 # Download the repository
 # If you want to create a pull request, replace the URL with your own fork as described above
 mkdir ~/dev
@@ -187,21 +210,22 @@ git clone https://github.com/opf/openproject.git
 cd openproject
 ```
 
-Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in the `dev` branch (there is no `master` branch).
+Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in
+the `dev` branch (there is no `master` branch).
 So, if you want to develop a feature, create a feature branch from a current `dev` branch.
 
 ## Configure OpenProject
 
 Create and configure the database configuration file in `config/database.yml` (relative to the openproject-directory.
 
-```bash
+```shell
 [dev@debian]# vim config/database.yml
 ```
 
 Now edit the `config/database.yml` file and insert your database credentials.
 It should look like this (just with your database name, username, and password):
 
-```
+```yaml
 default: &default
   adapter: postgresql
   encoding: unicode
@@ -218,44 +242,58 @@ test:
   database: openproject_test
 ```
 
-To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
+To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy
+the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be
+automatically loaded to the application's environment.
 
 ## Finish the Installation of OpenProject
 
 Install code dependencies, link plugin modules and export translation files.
+
 - gem dependencies (If you get errors here, you're likely missing a development dependency for your distribution)
 - node_modules
 - link plugin frontend modules
 - and export frontend localization files
 
-```bash
+```shell
 bin/setup_dev
 ```
 
 Now, run the following tasks to seed the dev database, and prepare the test setup for running tests locally.
 
-```bash
+```shell
 RAILS_ENV=development bin/rails db:seed
 ```
 
-## Run OpenProject through foreman
+## Run OpenProject through overmind
 
-You can run all required workers of OpenProject through `foreman`, which combines them in a single tab. This is useful for starting out,
-however most developers end up running the tasks in separate shells for better understanding of the log output, since foreman will combine all of them.
+You can run all required workers of OpenProject through `overmind`, which combines them in a single tab. Optionally, you
+may also
+run `overmind` as a daemon and connect to services individually.
+The `bin/dev` command will first check if `overmind` is available and run the application if via `Procfile.dev` if
+possible. If not,
+it falls back to `foreman`, installing it if needed.
 
-```bash
-gem install foreman
-foreman start -f Procfile.dev
+```shell
+bin/dev
 ```
-The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.example` provided in the root of this
-project as `.env` and [configure values](https://ddollar.github.io/foreman/#ENVIRONMENT) as required.
 
-By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,
-etc.) may be of limited use and it has known issues with regards to memory (see background worker section below). To disable the worker process:
+The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.example`
+provided in the root of this
+project as `.env` and [configure values](https://github.com/DarthSim/overmind/tree/v2.4.0#overmind-environment) as
+required.
 
-echo "concurrency: web=1,assets=1,worker=0" >> .foreman
+By default a worker process will also be started. In development asynchronous execution of long-running background
+tasks (sending emails, copying projects,
+etc.) may be of limited use and it has known issues with regards to memory (see background worker section below). To
+disable the worker process:
 
-For more information refer to Foreman documentation section on [default options](https://ddollar.github.io/foreman/#DEFAULT-OPTIONS).
+```shell
+echo "OVERMIND_IGNORED_PROCESSES=worker" >> .overmind.env
+```
+
+For more information refer to the great Overmind
+documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#usage).
 
 You can access the application with the admin-account having the following credentials:
 
@@ -268,7 +306,7 @@ To run OpenProject manually, you need to run the rails server and the webpack fr
 
 ### Rails web server
 
-```bash
+```shell
 RAILS_ENV=development bin/rails server
 ```
 
@@ -278,46 +316,45 @@ This will start the development server on port `3000` by default.
 
 To run the frontend server, please run
 
-```bash
+```shell
 RAILS_ENV=development npm run serve
 ```
 
-This will watch for any changes within the `frontend/` and compile the application javascript bundle on demand. You will need to watch this tab for the compilation output,
+This will watch for any changes within the `frontend/` and compile the application javascript bundle on demand. You will
+need to watch this tab for the compilation output,
 should you be working on the TypeScript / Angular frontend part.
 
-You can then access the application either through `localhost:3000` (Rails server) or through the frontend proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
+You can then access the application either through `localhost:3000` (Rails server) or through the frontend
+proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
 
 ### Background job worker
 
-```bash
-RAILS_ENV=development bin/rails jobs:work
+```shell
+RAILS_ENV=development bundle exec good_job start
 ```
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
 
-
-
 ## Known issues
-
-### Memory management
-
-The delayed_job background worker reloads the application for every job in development mode. This is a know issue and documented here: https://github.com/collectiveidea/delayed_job/issues/823
-
-
 
 ### Spawning a lot of browser tabs
 
-If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
+If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a
+significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs
+before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this
+in a production setting.**
 
-```bash
+```shell
 RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
 ```
 
-
 ## Start Coding
 
-Please have a look at [our development guidelines](../code-review-guidelines/) for tips and guides on how to start coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
-Also, take a look at the `doc` directory in our sources, especially the [how to run tests](https://github.com/opf/openproject/tree/dev/docs/development/running-tests) documentation (we like to have automated tests for every new developed feature).
+Please have a look at [our development guidelines](../code-review-guidelines/) for tips and guides on how to start
+coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
+Also, take a look at the `doc` directory in our sources, especially
+the [how to run tests](https://github.com/opf/openproject/tree/dev/docs/development/running-tests) documentation (we
+like to have automated tests for every new developed feature).
 
 ## Troubleshooting
 
@@ -327,5 +364,7 @@ If an error occurs, it should be logged there (as well as in the output to STDOU
 
 ## Questions, Comments, and Feedback
 
-If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community.openproject.org [forum](https://community.openproject.org/projects/openproject/boards/9).
-[Follow OpenProject on twitter](https://twitter.com/openproject), and follow [the news](https://www.openproject.org/blog) to stay up to date.
+If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the
+appropriate community.openproject.org [forum](https://community.openproject.org/projects/openproject/boards/9).
+[Follow OpenProject on twitter](https://twitter.com/openproject), and
+follow [the news](https://www.openproject.org/blog) to stay up to date.

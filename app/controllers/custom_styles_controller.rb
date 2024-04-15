@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,12 +27,15 @@
 #++
 
 class CustomStylesController < ApplicationController
-  layout 'admin'
+  layout "admin"
   menu_item :custom_style
 
-  before_action :require_admin, except: %i[logo_download favicon_download touch_icon_download]
-  before_action :require_ee_token, except: %i[upsale logo_download favicon_download touch_icon_download]
-  skip_before_action :check_if_login_required, only: %i[logo_download favicon_download touch_icon_download]
+  before_action :require_admin,
+                except: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+  before_action :require_ee_token,
+                except: %i[upsale logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
+  skip_before_action :check_if_login_required,
+                     only: %i[logo_download export_logo_download export_cover_download favicon_download touch_icon_download]
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
@@ -62,8 +65,28 @@ class CustomStylesController < ApplicationController
     end
   end
 
+  def update_export_cover_text_color
+    @custom_style = get_or_create_custom_style
+    color = params[:export_cover_text_color]
+    color_hexcode_regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+    color = nil if color.blank?
+    if color.nil? || color.match(color_hexcode_regex)
+      @custom_style.export_cover_text_color = color
+      @custom_style.save
+    end
+    redirect_to custom_style_path
+  end
+
   def logo_download
     file_download(:logo_path)
+  end
+
+  def export_logo_download
+    file_download(:export_logo_path)
+  end
+
+  def export_cover_download
+    file_download(:export_cover_path)
   end
 
   def favicon_download
@@ -75,15 +98,23 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_delete
-    file_delete(:remove_logo!)
+    file_delete(:remove_logo)
+  end
+
+  def export_logo_delete
+    file_delete(:remove_export_logo)
+  end
+
+  def export_cover_delete
+    file_delete(:remove_export_cover)
   end
 
   def favicon_delete
-    file_delete(:remove_favicon!)
+    file_delete(:remove_favicon)
   end
 
   def touch_icon_delete
-    file_delete(:remove_touch_icon!)
+    file_delete(:remove_touch_icon)
   end
 
   def update_colors
@@ -123,7 +154,7 @@ class CustomStylesController < ApplicationController
   def options_for_theme_select
     options = OpenProject::CustomStyles::ColorThemes.themes.pluck(:theme)
     unless @current_theme.present?
-      options << [t('admin.custom_styles.color_theme_custom'), '',
+      options << [t("admin.custom_styles.color_theme_custom"), "",
                   { selected: true, disabled: true }]
     end
 
@@ -141,7 +172,12 @@ class CustomStylesController < ApplicationController
   end
 
   def custom_style_params
-    params.require(:custom_style).permit(:logo, :remove_logo, :favicon, :remove_favicon, :touch_icon, :remove_touch_icon)
+    params.require(:custom_style).permit(:logo, :remove_logo,
+                                         :export_logo, :remove_export_logo,
+                                         :export_cover, :remove_export_cover,
+                                         :export_cover_text_color,
+                                         :favicon, :remove_favicon,
+                                         :touch_icon, :remove_touch_icon)
   end
 
   def file_download(path_method)
@@ -161,7 +197,6 @@ class CustomStylesController < ApplicationController
     end
 
     @custom_style.send(remove_method)
-    @custom_style.save
     redirect_to custom_style_path
   end
 end

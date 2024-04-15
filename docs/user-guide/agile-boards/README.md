@@ -68,7 +68,7 @@ Each list represents a status. That means that e.g. all work packages with the s
 When creating a new Status board a list with all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
 Please note: You can't move work packages from or to every status. Please find out more about the work-flow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
 
-![creat status board](create-status-board.png)
+![create status board](create-status-board.png)
 
 ### Assignee board
 Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees. When you move a card from one list to another, the assigned user is changed to the user that is selected for the list you moved the card to.
@@ -158,9 +158,9 @@ A **double click on a card** will open the work package's **fullscreen view.** T
 
 ![back-to-boards-view-button](back-to-boards-view-button.png)
 
-Clicking on **Open details view** (the blue "**i**") will open the work package's **[split screen view](../work-packages/work-package-views/#work-package-split-screen-view)**. You can close it by clicking on the **"x"** in its upper right corner.
+Clicking on **Open details view** (the blue "**i**") will open the work package's [split screen view](../work-packages/work-package-views/#split-screen-view). You can close it by clicking on the **"x"** in its upper right corner.
 
-
+![Close split screen button](close-split-screen.png)
 
 ## Remove cards
 

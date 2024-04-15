@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Project status
-  priority: 499
+  priority: 700
 description: How to set and display the project status.
 keywords: project status
 ---
@@ -9,7 +9,7 @@ keywords: project status
 
 The project status serves as an information for yourself and the team if the project is on track to then being able to quickly act in case it is off track.
 
-## Setting the project status
+## Set the project status
 
 You can set your project status in the **project settings**. For this, click on **project settings** in the menu on the left and then select the relevant status. To add more information to your project status, you can use the status description directly underneath to manually describe changes, project KPIs etc.
 
@@ -23,13 +23,13 @@ If the widget is not yet displayed on the project overview, you can add the proj
 
 ![project-status-widget](project-status-widget.png)
 
-## Displaying the project status
+## Display the project status
 
 The project status is displayed in different OpenProject modules.
 
 ### Project list
 
-Select **View all projects** from the header menu, it will then open your [project list](../../projects/#projects-list) which displays all your projects including the project status.
+Select **View all projects** from the header menu, it will then open your [project list](../../projects/project-lists/) which displays all your projects including the project status.
 
 ![View-all-projects](View-all-projects-4478986.png)
 

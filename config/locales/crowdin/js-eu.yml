@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,10 +31,17 @@ eu:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
+        multi: 'Add "%{name}"'
+        single: 'Select "%{name}"'
       remove: "Remove %{name}"
       active: "Active %{label} %{name}"
     backup:
@@ -58,13 +65,15 @@ eu:
     button_back: "Back"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
-    button_close: "Close"
+    button_close: "Itxi"
     button_change_project: "Change project"
     button_check_all: "Check all"
     button_configure-form: "Configure form"
     button_confirm: "Confirm"
     button_continue: "Continue"
     button_copy: "Copy"
+    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
@@ -98,99 +107,98 @@ eu:
     button_export-atom: "Download Atom"
     button_create: "Create"
     card:
-      add_new: 'Add new card'
+      add_new: "Add new card"
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+        inline: "Highlight inline:"
+        entire_card_by: "Entire card by"
+      remove_from_list: "Remove card from list"
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: "Chart type"
+      axis_criteria: "Axis criteria"
+      modal_title: "Work package graph configuration"
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: "Line"
+        horizontal_bar: "Horizontal bar"
+        bar: "Bar"
+        pie: "Pie"
+        doughnut: "Doughnut"
+        radar: "Radar"
+        polar_area: "Polar area"
       tabs:
-        graph_settings: 'General'
-        dataset: 'Dataset %{number}'
+        graph_settings: "General"
+        dataset: "Dataset %{number}"
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: "The data to display the graph could not be loaded. The necessary permissions may be lacking."
     description_available_columns: "Available Columns"
     description_current_position: "You are here: "
     description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Selected Columns"
     description_subwork_package: "Child of work package #%{id}"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      preview: "Toggle preview mode"
+      source_code: "Toggle Markdown source mode"
+      error_saving_failed: "Saving the document failed with the following error: %{error}"
+      ckeditor_error: "An error occurred within CKEditor"
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: "Switch to Markdown source"
+        wysiwyg: "Switch to WYSIWYG editor"
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: "Cannot expand macro: %{message}"
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
+          macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
+          not_found: "Requested resource could not be found"
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
-          button: 'Links to child pages'
-          include_parent: 'Include parent'
-          text: '[Placeholder] Links to child pages of'
-          page: 'Wiki page'
-          this_page: 'this page'
+          button: "Links to child pages"
+          include_parent: "Include parent"
+          text: "[Placeholder] Links to child pages of"
+          page: "Wiki page"
+          this_page: "this page"
           hint: |
             Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
         code_block:
-          button: 'Insert code snippet'
-          title: 'Insert / edit Code snippet'
-          language: 'Formatting language'
-          language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
+          button: "Insert code snippet"
+          title: "Insert / edit Code snippet"
+          language: "Formatting language"
+          language_hint: "Enter the formatting language that will be used for highlighting (if supported)."
         dropdown:
-          macros: 'Macros'
-          chose_macro: 'Choose macro'
-        toc: 'Table of contents'
-        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+          macros: "Macros"
+          chose_macro: "Choose macro"
+        toc: "Table of contents"
+        toolbar_help: "Click to select widget and show the toolbar. Double-click to edit widget"
         wiki_page_include:
-          button: 'Include content of another wiki page'
-          text: '[Placeholder] Included wiki page of'
-          page: 'Wiki page'
-          not_set: '(Page not yet set)'
+          button: "Include content of another wiki page"
+          text: "[Placeholder] Included wiki page of"
+          page: "Wiki page"
+          not_set: "(Page not yet set)"
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
-          button: 'Insert create work package button'
-          type: 'Work package type'
-          button_style: 'Use button style'
-          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          without_type: 'Create work package'
-          with_type: 'Create work package (Type: %{typename})'
+          button: "Insert create work package button"
+          type: "Work package type"
+          button_style: "Use button style"
+          button_style_hint: "Optional: Check to make macro appear as a button, not as a link."
+          without_type: "Create work package"
+          with_type: "Create work package (Type: %{typename})"
         embedded_table:
-          button: 'Embed work package table'
-          text: '[Placeholder] Embedded work package table'
+          button: "Embed work package table"
+          text: "[Placeholder] Embedded work package table"
         embedded_calendar:
-          text: '[Placeholder] Embedded calendar'
+          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
-        custom_field: 'Custom field'
-        inactive: 'Inactive'
+        custom_field: "Custom field"
+        inactive: "Inactive"
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Add attribute group"
         add_table: "Add table of related work packages"
-        edit_query: 'Edit query'
-        new_group: 'New group'
-        reset_to_defaults: 'Reset to defaults'
+        edit_query: "Edit query"
+        new_group: "New group"
+        reset_to_defaults: "Reset to defaults"
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
         text_expired: "expired"
@@ -228,7 +236,7 @@ eu:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Become a hero!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -252,17 +260,31 @@ eu:
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: "(new)"
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
-        specific: 'on'
-        current_date: 'Current date'
+        specific: "on"
+        current_date: "Current date"
     error:
       internal: "An internal error has occurred."
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
     enumeration_activities: "Activities (time tracking)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_doc_categories: "Dokumentuen kategoriak"
     enumeration_work_package_priorities: "Work package priorities"
     filter:
       more_values_not_shown: "There are %{total} more results, search to filter results."
@@ -280,8 +302,34 @@ eu:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
+    gantt_chart:
+      label: "Gantt chart"
+      quarter_label: "Q%{quarter_number}"
+      labels:
+        title: "Label configuration"
+        bar: "Bar labels"
+        left: "Left"
+        right: "Right"
+        farRight: "Far right"
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+      button_activate: "Show Gantt chart"
+      button_deactivate: "Hide Gantt chart"
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: "Click on any highlighted work package to create the relation. Press escape to cancel."
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -300,17 +348,24 @@ eu:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          "13_4":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to calendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Where will you be using this?"
+      token_name_placeholder: 'Type a name, e.g. "Phone"'
+      token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the calendar URL."
+      success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "Activate"
-    label_assignee: 'Assignee'
+    label_assignee: "Assignee"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -320,14 +375,14 @@ eu:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Add selected columns"
     label_added_by: "added by"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
     label_ago: "days ago"
     label_all: "all"
     label_all_work_packages: "all work packages"
     label_and: "and"
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Abatarra"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Locked"
@@ -367,9 +422,9 @@ eu:
     label_filename: "File"
     label_filesize: "Size"
     label_general: "General"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Global roles"
     label_greater_or_equal: ">="
-    label_group: 'Group'
+    label_group: "Group"
     label_group_by: "Group by"
     label_group_plural: "Groups"
     label_hide_attributes: "Show less"
@@ -389,9 +444,10 @@ eu:
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
     label_mail_notification: "Email notifications"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "me"
     label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_meeting_minutes: "Aktak"
     label_menu_collapse: "collapse"
     label_menu_expand: "expand"
     label_more_than_ago: "more than days ago"
@@ -414,7 +470,7 @@ eu:
     label_per_page: "Per page:"
     label_please_wait: "Please wait"
     label_project: "Project"
-    label_project_list: "Projects list"
+    label_project_list: "Project lists"
     label_project_plural: "Projects"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
@@ -427,6 +483,7 @@ eu:
     label_report: "Report"
     label_repository_plural: "Repositories"
     label_save_as: "Save as"
+    label_search_columns: "Search a column"
     label_select_project: "Select a project"
     label_select_watcher: "Select a watcher..."
     label_selected_filter_list: "Selected filters"
@@ -448,7 +505,7 @@ eu:
     label_this_week: "this week"
     label_today: "Today"
     label_time_entry_plural: "Spent time"
-    label_up: "Up"
+    label_up: "Gora"
     label_user_plural: "Users"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
@@ -465,7 +522,8 @@ eu:
     label_watch_work_package: "Watch work package"
     label_watcher_added_successfully: "Watcher successfully added!"
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
-    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Unwatch"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
@@ -485,7 +543,7 @@ eu:
     label_remove_all_files: Delete all files
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "These files will be uploaded:"
     label_rejected_files: "These files cannot be uploaded:"
@@ -493,107 +551,108 @@ eu:
     label_wait: "Please wait for configuration..."
     label_upload_counter: "%{done} of %{count} files finished"
     label_validation_error: "The work package could not be saved due to the following errors:"
-    label_version_plural: "Versions"
+    label_version_plural: "Bertsioak"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
-      show_modal: 'Show attribute help text entry'
+      show_modal: "Show attribute help text entry"
     onboarding:
       buttons:
-        skip: 'Skip'
-        next: 'Next'
-        got_it: 'Got it'
+        skip: "Skip"
+        next: "Next"
+        got_it: "Got it"
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
-        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        help_menu: "The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!"
+        members: "Invite new <b>members</b> to join your project."
+        quick_add_button: "Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>."
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
-        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
-        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        welcome: "Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time."
+        wiki: "Within the <b>wiki</b> you can document and share knowledge together with your team."
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
           sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
-          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
+          task_board_select: "...and select the <b>task board</b> entry."
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists_kanban: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
-          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
-          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+          overview: "Select <b>boards</b> to shift the view and manage your project using the agile boards view."
+          lists_kanban: "Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example."
+          lists_basic: "Here you can create multiple lists (columns) within your agile board."
+          add: "Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board."
+          drag: "Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details."
         wp:
           toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
-          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
-          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
-          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
-          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row."
+          full_view: "The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments."
+          back_button: "Use the return arrow in the top left corner to exit and return to the work package list."
+          create_button: "The <b>+ Create</b> button will add a new work package to your project."
+          gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
+          timeline: "Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: "The team planner lets you visually assign tasks to team members and get an overview of who is working on what."
+          calendar: "The weekly or biweekly planning board displays all work packages assigned to your team members."
+          add_assignee: "To get started, add assignees to the team planner."
+          add_existing: "Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates."
+          card: "Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
     notifications:
       title: "Notifications"
       no_unread: "No unread notifications"
       reasons:
-        mentioned: 'mentioned'
-        watched: 'watcher'
-        assigned: 'assignee'
-        responsible: 'accountable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
-        dateAlert: 'Date alert'
+        mentioned: "mentioned"
+        watched: "watcher"
+        assigned: "assignee"
+        responsible: "accountable"
+        created: "created"
+        scheduled: "scheduled"
+        commented: "commented"
+        processed: "processed"
+        prioritized: "prioritized"
+        dateAlert: "Date alert"
+        shared: "shared"
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: "Milestone date"
+        overdue: "Overdue"
+        overdue_since: "since %{difference_in_days}"
+        property_today: "is today"
+        property_is: "is in %{difference_in_days}"
+        property_was: "was %{difference_in_days} ago"
+        property_is_deleted: "is deleted"
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: "Date alerts"
+          description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
       facets:
-        unread: 'Unread'
-        unread_title: 'Show unread'
-        all: 'All'
-        all_title: 'Show all'
+        unread: "Unread"
+        unread_title: "Show unread"
+        all: "Denak"
+        all_title: "Show all"
       center:
-        label_actor_and: 'and'
+        label_actor_and: "and"
         and_more_users:
-          one: 'and 1 other'
-          other: 'and %{count} others'
+          one: "and 1 other"
+          other: "and %{count} others"
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
-          with_current_filter: 'There are no notifications in this view at the moment'
-        mark_all_read: 'Mark all as read'
-        mark_as_read: 'Mark as read'
+          at_all: "New notifications will appear here when there is activity that concerns you."
+          with_current_filter: "There are no notifications in this view at the moment"
+        mark_all_read: "Mark all as read"
+        mark_as_read: "Mark as read"
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: "There are new notifications."
+          link_text: "Click here to load them"
       menu:
-        accountable: 'Accountable'
-        by_project: 'Unread by project'
-        by_reason: 'Reason'
-        inbox: 'Inbox'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
-        date_alert: 'Date alert'
+        accountable: "Accountable"
+        by_project: "Unread by project"
+        by_reason: "Reason"
+        inbox: "Inbox"
+        mentioned: "Mentioned"
+        watched: "Watcher"
+        date_alert: "Date alert"
+        shared: "Shared"
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
@@ -612,94 +671,96 @@ eu:
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+            title: "Mentioned"
+            description: "Receive a notification every time someone mentions me anywhere"
+          assignee: "Assignee"
+          responsible: "Accountable"
+          shared: "Shared"
+          watched: "Watcher"
+          work_package_commented: "All new comments"
+          work_package_created: "New work packages"
+          work_package_processed: "All status changes"
+          work_package_prioritized: "All priority changes"
+          work_package_scheduled: "All date changes"
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            title: "Participating"
+            description: "Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)."
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects.'
+            title: "Non-participating"
+            description: "Additional notifications for activities in all projects."
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+            title: "Date alerts"
+            description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
+            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
           overdue: When overdue
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above.'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
-          remove: 'Remove project settings'
+          title: "Project-specific notification settings"
+          description: "These project-specific settings override default settings above."
+          add: "Add setting for project"
+          already_selected: "This project is already selected"
+          remove: "Remove project settings"
     password_confirmation:
-      field_description: 'You need to enter your account password to confirm this change.'
-      title: 'Confirm your password to continue'
+      field_description: "You need to enter your account password to confirm this change."
+      title: "Confirm your password to continue"
     pagination:
       no_other_page: "You are on the only page."
       pages:
         next: "Forward to the next page"
         previous: "Back to the previous page"
     placeholders:
-      default: '-'
-      subject: 'Enter subject here'
-      selection: 'Please select'
-      description: 'Description: Click to edit...'
-      relation_description: 'Click to add description for this relation'
+      default: "-"
+      subject: "Enter subject here"
+      selection: "Please select"
+      description: "Description: Click to edit..."
+      relation_description: "Click to add description for this relation"
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
-      context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      details_activity: "Project details activity"
+      context: "Project context"
+      click_to_switch_to_project: "Project: %{projectname}"
+      confirm_template_load: "Switching the template will reload the page and you will lose all input to this form. Continue?"
       use_template: "Use template"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
-        label: 'Project autocompletion'
+        label: "Project autocompletion"
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: "Add time"
+          enable: "Enable daily email reminders"
+          explanation: "You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}"
+          no_time_zone: "Until you configure a time zone for your account, the times will be interpreted to be in UTC."
+          time_label: "Time %{counter}:"
+          title: "Send me daily email reminders for unread notifications"
         workdays:
-          title: 'Receive email reminders on these days'
+          title: "Receive email reminders on these days"
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: "Send me an email reminder"
+          mentioned: "Immediately when someone @mentions me"
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: "Email alerts for other items (that are not work packages)"
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
-          news_added: 'News added'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
-          wiki_page_added: 'Wiki page added'
-          wiki_page_updated: 'Wiki page updated'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
-        title: 'Email reminders'
+          news_added: "News added"
+          news_commented: "Comment on a news item"
+          document_added: "Documents added"
+          forum_messages: "New forum messages"
+          wiki_page_added: "Wiki page added"
+          wiki_page_updated: "Wiki page updated"
+          membership_added: "Membership added"
+          membership_updated: "Membership updated"
+        title: "Email reminders"
         pause:
-          label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          label: "Temporarily pause daily email reminders"
+          first_day: "First day"
+          last_day: "Last day"
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -716,10 +777,18 @@ eu:
         projects: "Projects"
         settings: "Settings"
     time_entry:
-      work_package_required: 'Requires selecting a work package first.'
-      title: 'Log time'
+      work_package_required: "Requires selecting a work package first."
+      title: "Log time"
+      tracking: "Time tracking"
+      stop: "Stop"
+    timer:
+      start_new_timer: "Start new timer"
+      timer_already_running: "To start a new timer, you must first stop the current timer:"
+      timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
+      tracking_time: "Tracking time"
+      button_stop: "Stop current timer"
     two_factor_authentication:
-      label_two_factor_authentication: 'Two-factor authentication'
+      label_two_factor_authentication: "Two-factor authentication"
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -766,6 +835,7 @@ eu:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "Add follower"
+      show_relations: "Show relations"
       add_predecessor: "Add predecessor"
       remove: "Remove relation"
       save: "Save relation"
@@ -776,86 +846,30 @@ eu:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
-      select_tag: 'Select tag'
-      select_branch: 'Select branch'
+      select_tag: "Select tag"
+      select_branch: "Select branch"
     field_value_enter_prompt: "Enter a value for '%{field}'"
     project_menu_details: "Details"
     scheduling:
-      manual: 'Manual scheduling'
+      manual: "Manual scheduling"
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: 'sorting is disabled'
-      activate_asc: 'activate to apply an ascending sort'
-      activate_dsc: 'activate to apply a descending sort'
-      activate_no: 'activate to remove the sort'
+      sorted_asc: "Ascending sort applied, "
+      sorted_dsc: "Descending sort applied, "
+      sorted_no: "No sort applied, "
+      sorting_disabled: "sorting is disabled"
+      activate_asc: "activate to apply an ascending sort"
+      activate_dsc: "activate to apply a descending sort"
+      activate_no: "activate to remove the sort"
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      cancel: Cancel
-      change: "Change in planning"
-      due_date: "Finish date"
-      empty: "(empty)"
-      error: "An error has occurred."
-      errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-      filter:
-        grouping_other: "Other"
-        noneSelection: "(none)"
-      name: "Name"
-      outline: "Reset Outline"
-      outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
-        all: "Show all"
-      project_status: "Project status"
-      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
-      responsible: "Responsible"
-      save: Save
-      start_date: "Start date"
-      tooManyProjects: "More than %{count} Projects. Please use a better filter!"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
-        slider: "Zoom slider"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: "Enterprise edition add-on"
     wiki_formatting:
       strong: "Strong"
       italic: "Italic"
@@ -874,10 +888,10 @@ eu:
       image: "Image"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
-        edit: 'Bulk edit'
-        copy: 'Bulk copy'
-        delete: 'Bulk delete'
+        move: "Bulk change of project"
+        edit: "Bulk edit"
+        copy: "Bulk copy"
+        delete: "Bulk delete"
       button_clear: "Clear"
       comment_added: "The comment was successfully added."
       comment_send_failed: "An error has occurred. Could not submit the comment."
@@ -889,9 +903,9 @@ eu:
         start_date_limited_by_relations: "Available start and finish dates are limited by relations."
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        show_relations: "Show relations"
         ignore_non_working_days:
-          title: 'Working days only'
+          title: "Working days only"
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
@@ -911,25 +925,34 @@ eu:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      progress:
+        title: "Work estimates and progress"
+      baseline:
+        addition_label: "Added to view within the comparison time period"
+        removal_label: "Removed from view within the comparison time period"
+        modification_label: "Modified within the comparison time period"
+        column_incompatible: "This column does not show changes in Baseline mode."
       filters:
-        title: 'Filter work packages'
+        title: "Filter work packages"
+        baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
+        baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
       inline_create:
-        title: 'Click here to add a new work package to this list'
+        title: "Click here to add a new work package to this list"
       create:
-        title: 'New work package'
-        header: 'New %{type}'
-        header_no_type: 'New work package (Type not yet set)'
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
-        button: 'Create'
+        title: "New work package"
+        header: "New %{type}"
+        header_no_type: "New work package (Type not yet set)"
+        header_with_parent: "New %{type} (Child of %{parent_type} #%{id})"
+        button: "Create"
       copy:
-        title: 'Copy work package'
+        title: "Copy work package"
       hierarchy:
         show: "Show hierarchy mode"
         hide: "Hide hierarchy mode"
-        toggle_button: 'Click to toggle hierarchy mode.'
-        leaf: 'Work package leaf at level %{level}.'
-        children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
-        children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
+        toggle_button: "Click to toggle hierarchy mode."
+        leaf: "Work package leaf at level %{level}."
+        children_collapsed: "Hierarchy level %{level}, collapsed. Click to show the filtered children"
+        children_expanded: "Hierarchy level %{level}, expanded. Click to collapse the filtered children"
       faulty_query:
         title: Work packages could not be loaded.
         description: Your view is erroneous and could not be processed.
@@ -941,31 +964,37 @@ eu:
         details: "Details"
         people: "People"
         estimatesAndTime: "Estimates & Time"
-        other: "Other"
+        other: "Beste bat"
       properties:
         assignee: "Assignee"
         author: "Author"
         createdAt: "Created on"
         description: "Description"
         date: "Date"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Finish date"
-        duration: "Duration"
-        estimatedTime: "Estimated time"
+        duration: "Iraupena"
         spentTime: "Spent time"
         category: "Category"
         percentageDone: "Percentage done"
         priority: "Priority"
         projectName: "Project"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsible"
-        startDate: "Start date"
+        startDate: "Hasiera data"
         status: "Status"
         subject: "Subject"
         subproject: "Subproject"
         title: "Title"
         type: "Type"
         updatedAt: "Updated on"
-        versionName: "Version"
-        version: "Version"
+        versionName: "Bertsioa"
+        version: "Bertsioa"
+        work: "Work"
+        workAlternative: "Estimated time"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -973,6 +1002,8 @@ eu:
         recently_created: "Recently created"
         all_open: "All open"
         summary: "Summary"
+        shared_with_users: "Shared with users"
+        shared_with_me: "Shared with me"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
@@ -992,7 +1023,7 @@ eu:
         move_column_left: "Move column left"
         move_column_right: "Move column right"
         hide_column: "Hide column"
-        insert_columns: "Insert columns ..."
+        insert_columns: "Insert columns"
         filters: "Filters"
         display_sums: "Display Sums"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1009,72 +1040,81 @@ eu:
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      sharing:
+        share: "Share"
+        title: "Share work package"
+        show_all_users: "Show all shared users"
+        selected_count: "%{count} selected"
+        selection:
+          mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
-        configure_button: 'Configure work package table'
+        configure_button: "Configure work package table"
         summary: "Table with rows of work package and columns of work package attributes."
         text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
         text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
         text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
       table_configuration:
-        button: 'Configure this work package table'
-        choose_display_mode: 'Display work packages as'
-        modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        button: "Configure this work package table"
+        choose_display_mode: "Display work packages as"
+        modal_title: "Work package table configuration"
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "default"
-        display_settings: 'Display settings'
+        display_settings: "Display settings"
         default_mode: "Flat list"
         hierarchy_mode: "Hierarchy"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
-        highlighting: 'Highlighting'
+        highlighting: "Highlighting"
         highlighting_mode:
           description: "Highlight with color"
           none: "No highlighting"
-          inline: 'Highlighted attribute(s)'
-          inline_all: 'All attributes'
-          entire_row_by: 'Entire row by'
-          status: 'Status'
-          priority: 'Priority'
-          type: 'Type'
+          inline: "Highlighted attribute(s)"
+          inline_all: "All attributes"
+          entire_row_by: "Entire row by"
+          status: "Status"
+          priority: "Priority"
+          type: "Type"
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: "Chose the mode to sort your Work packages:"
+          automatic: "Automatic"
+          manually: "Manually"
+          warning: "You will lose your previous sorting when activating the automatic sorting mode."
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
-          attribute_highlighting: 'Need certain work packages to stand out from the mass?'
-          relation_columns: 'Need to see relations in the work package list?'
-          check_out_link: 'Check out the Enterprise edition.'
+          attribute_highlighting: "Need certain work packages to stand out from the mass?"
+          relation_columns: "Need to see relations in the work package list?"
+          check_out_link: "Check out the Enterprise edition."
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: "Filter work packages by relation type"
       tabs:
         overview: Overview
         activity: Activity
         relations: Relations
         watchers: Watchers
         files: Files
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "days"
         weeks: "weeks"
         months: "months"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "Columns ..."
-        sort_by: "Sort by ..."
-        group_by: "Group by ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Display sums"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"
         save: "Save"
-        save_as: "Save as ..."
-        export: "Export ..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        share_calendar: "Subscribe to calendar"
+        page_settings: "Rename view"
         delete: "Delete"
       filter: "Filter"
       unselected_title: "Work package"
@@ -1088,8 +1128,8 @@ eu:
       button_cancel: "Cancel"
       button_delete: "Delete"
       form_submit:
-        title: 'Confirm to continue'
-        text: 'Are you sure you want to perform this action?'
+        title: "Confirm to continue"
+        text: "Are you sure you want to perform this action?"
       destroy_work_package:
         title: "Confirm deletion of %{label}"
         single_text: "Are you sure you want to delete the work package"
@@ -1121,11 +1161,11 @@ eu:
       null_value_label: "No value"
       clear_value_label: "-"
       errors:
-        required: '%{field} cannot be empty'
-        number: '%{field} is not a valid number'
-        maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
-        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
-        messages_on_field: 'This field is invalid: %{messages}'
+        required: "%{field} cannot be empty"
+        number: "%{field} is not a valid number"
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        messages_on_field: "This field is invalid: %{messages}"
     error_could_not_resolve_version_name: "Couldn't resolve version name"
     error_could_not_resolve_user_name: "Couldn't resolve user name"
     error_attachment_upload: "File failed to upload: %{error}"
@@ -1146,109 +1186,147 @@ eu:
         other: "%{count} days"
         zero: "0 days"
     zen_mode:
-      button_activate: 'Activate zen mode'
-      button_deactivate: 'Deactivate zen mode'
+      button_activate: "Activate zen mode"
+      button_deactivate: "Deactivate zen mode"
     global_search:
       all_projects: "In all projects"
-      search: "Search"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
         search_for: "Search for"
     views:
-      card: 'Cards'
-      list: 'Table'
-      timeline: 'Gantt'
+      card: "Cards"
+      list: "Table"
+      timeline: "Gantt"
     invite_user_modal:
-      back: 'Back'
-      invite: 'Invite'
+      back: "Back"
+      invite: "Invite"
       title:
-        invite: 'Invite user'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite: "Invite user"
+        invite_to_project: "Invite %{type} to %{project}"
+        User: "user"
+        Group: "group"
+        PlaceholderUser: "placeholder user"
+        invite_principal_to_project: "Invite %{principal} to %{project}"
       project:
-        label: 'Project'
-        required: 'Please select a project'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
-        next_button: 'Next'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        label: "Project"
+        required: "Please select a project"
+        lacking_permission: "Please select a different project since you lack permissions to assign users to the currently selected."
+        lacking_permission_info: "You lack the permission to assign users to the project you are currently in. You need to select a different one."
+        next_button: "Next"
+        no_results: "No projects were found"
+        no_invite_rights: "You are not allowed to invite members to this project"
       type:
-        required: 'Please select the type to be invited'
+        required: "Please select the type to be invited"
         user:
-          title: 'User'
-          description: 'Permissions based on the assigned role in the selected project'
+          title: "User"
+          description: "Permissions based on the assigned role in the selected project"
         group:
-          title: 'Group'
-          description: 'Permissions based on the assigned role in the selected project'
+          title: "Group"
+          description: "Permissions based on the assigned role in the selected project"
         placeholder:
-          title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
-          description: 'Has no access to the project and no emails are sent out.'
+          title: "Placeholder user"
+          title_no_ee: "Placeholder user (Enterprise edition only add-on)"
+          description: "Has no access to the project and no emails are sent out."
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
-          name: 'Name'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        no_results_placeholder: 'No placeholders were found'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
-        next_button: 'Next'
+          name_or_email: "Name or email address"
+          name: "Name"
+        already_member_message: "Already a member of %{project}"
+        no_results_user: "No users were found"
+        invite_user: "Invite:"
+        no_results_placeholder: "No placeholders were found"
+        create_new_placeholder: "Create new placeholder:"
+        no_results_group: "No groups were found"
+        next_button: "Next"
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: "Please select a user"
+          placeholder: "Please select a placeholder"
+          group: "Please select a group"
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
+        label: "Role in %{project}"
+        no_roles_found: "No roles were found"
         description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
-        next_button: 'Next'
+        required: "Please select a role"
+        next_button: "Next"
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        label: "Invitation message"
+        description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
+        next_button: "Next"
       summary:
-        next_button: 'Send invitation'
+        next_button: "Send invitation"
       success:
-        title: '%{principal} was invited!'
+        title: "%{principal} was invited!"
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
-        next_button: 'Continue'
+          user: "The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          placeholder: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+          group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
+        next_button: "Continue"
     include_projects:
-      toggle_title: 'Include projects'
-      title: 'Projects'
-      clear_selection: 'Clear selection'
-      apply: 'Apply'
+      toggle_title: "Include projects"
+      title: "Projects"
+      clear_selection: "Clear selection"
+      apply: "Apply"
       selected_filter:
-        all: 'All projects'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+        all: "All projects"
+        selected: "Only selected"
+      search_placeholder: "Search project..."
+      include_subprojects: "Include all sub-projects"
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
-        current_project: 'This is the current project you are in.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        include_all_selected: "Project already included since Include all sub-projects is enabled."
+        current_project: "This is the current project you are in."
+        does_not_match_search: "Project does not match the search criteria."
+      no_results: "No project matches your search criteria."
+    baseline:
+      toggle_title: "Baseline"
+      clear: "Clear"
+      apply: "Apply"
+      header_description: "Highlight changes made to this list since any point in the past."
+      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
+      show_changes_since: "Show changes since"
+      baseline_comparison: "Baseline comparison"
+      help_description: "Reference time zone for the baseline."
+      time_description: "In your local time: %{datetime}"
+      time: "Ordua"
+      from: "From"
+      to: "To"
+      drop_down:
+        none: "-"
+        yesterday: "yesterday"
+        last_working_day: "last working day"
+        last_week: "last week"
+        last_month: "last month"
+        a_specific_date: "a specific date"
+        between_two_specific_dates: "between two specific dates"
+      legends:
+        changes_since: "Changes since"
+        changes_between: "Changes between"
+        now_meets_filter_criteria: "Now meets filter criteria"
+        no_longer_meets_filter_criteria: "No longer meets filter criteria"
+        maintained_with_changes: "Maintained with changes"
+        in_your_timezone: "In your local timezone:"
+      icon_tooltip:
+        added: "Added to view within the comparison time period"
+        removed: "Removed from view within the comparison time period"
+        changed: "Maintained with modifications"
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
-      advanced_settings: 'Advanced settings'
+      submit_success_message: "The form was successfully submitted"
+      load_error_message: "There was an error loading the form"
+      validation_error_message: "Please fix the errors present in the form"
+      advanced_settings: "Advanced settings"
     spot:
       filter_chip:
-        remove: 'Remove'
+        remove: "Remove"
       drop_modal:
-        Close: 'Close'
+        focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
+        Close: "Itxi"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

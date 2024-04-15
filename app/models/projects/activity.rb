@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,8 @@ module Projects::Activity
 
     def with_latest_activity
       Project
-        .select('projects.*')
-        .select('activity.latest_activity_at')
+        .select("projects.*")
+        .select("activity.latest_activity_at")
         .joins("LEFT JOIN (#{latest_activity_sql}) activity ON projects.id = activity.project_id")
     end
 
@@ -58,7 +58,7 @@ module Projects::Activity
     end
 
     def all_activity_provider_union_sql
-      latest_project_activity.join(' UNION ALL ')
+      latest_project_activity.join(" UNION ALL ")
     end
 
     def build_latest_project_activity_for(on:, chain:, attribute:, project_id_attribute:)

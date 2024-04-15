@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
   let(:query) { build_stubbed(:query, project:) }
@@ -44,60 +44,60 @@ describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
 
   subject(:generated) { instance.to_json }
 
-  context 'generation' do
-    context 'properties' do
-      describe 'values' do
-        let(:path) { 'values' }
-        let(:type) { '[1]Integer' }
+  context "generation" do
+    context "properties" do
+      describe "values" do
+        let(:path) { "values" }
+        let(:type) { "[1]Integer" }
 
         context "for operator 'Queries::Operators::LessThanAgo" do
           let(:operator) { Queries::Operators::LessThanAgo }
 
-          it_behaves_like 'filter dependency'
+          it_behaves_like "filter dependency"
         end
 
         context "for operator 'Queries::Operators::MoreThanAgo'" do
           let(:operator) { Queries::Operators::MoreThanAgo }
 
-          it_behaves_like 'filter dependency'
+          it_behaves_like "filter dependency"
         end
 
         context "for operator 'Queries::Operators::Ago'" do
           let(:operator) { Queries::Operators::Ago }
 
-          it_behaves_like 'filter dependency'
+          it_behaves_like "filter dependency"
         end
 
         context "for operator 'Queries::Operators::Today'" do
           let(:operator) { Queries::Operators::Today }
 
-          it_behaves_like 'filter dependency empty'
+          it_behaves_like "filter dependency empty"
         end
 
         context "for operator 'Queries::Operators::ThisWeek'" do
           let(:operator) { Queries::Operators::ThisWeek }
 
-          it_behaves_like 'filter dependency empty'
+          it_behaves_like "filter dependency empty"
         end
 
         context "for operator 'Queries::Operators::OnDate'" do
           let(:operator) { Queries::Operators::OnDateTime }
 
-          let(:type) { '[1]DateTime' }
+          let(:type) { "[1]DateTime" }
 
-          it_behaves_like 'filter dependency'
+          it_behaves_like "filter dependency"
         end
 
         context "for operator 'Queries::Operators::BetweenDate'" do
           let(:operator) { Queries::Operators::BetweenDateTime }
-          let(:type) { '[2]DateTime' }
+          let(:type) { "[2]DateTime" }
 
-          it_behaves_like 'filter dependency'
+          it_behaves_like "filter dependency"
         end
       end
     end
 
-    describe 'caching' do
+    describe "caching" do
       let(:operator) { Queries::Operators::Equals }
       let(:other_project) { build_stubbed(:project) }
 
@@ -106,14 +106,14 @@ describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'is cached' do
+      it "is cached" do
         expect(instance)
           .not_to receive(:to_hash)
 
         instance.to_json
       end
 
-      it 'busts the cache on a different operator' do
+      it "busts the cache on a different operator" do
         instance.send(:operator=, Queries::Operators::NotEquals)
 
         expect(instance)
@@ -122,7 +122,7 @@ describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'busts the cache on changes to the locale' do
+      it "busts the cache on changes to the locale" do
         expect(instance)
           .to receive(:to_hash)
 
@@ -131,7 +131,7 @@ describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
         end
       end
 
-      it 'busts the cache on different form_embedded' do
+      it "busts the cache on different form_embedded" do
         embedded_instance = described_class.new(filter,
                                                 operator,
                                                 form_embedded: !form_embedded)

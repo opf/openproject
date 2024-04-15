@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,44 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Wysiwyg escaping HTML entities (Regression #28906)',
-         type: :feature, js: true do
-  let(:user) { create :admin }
+RSpec.describe "Wysiwyg escaping HTML entities (Regression #28906)", :js do
+  let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)
     visit project_wiki_path(project, :wiki)
   end
 
-  it 'shows the list correctly' do
+  it "shows the list correctly" do
     editor.in_editor do |_, editable|
       editor.click_and_type_slowly '<node foo="bar" />',
                                    :enter,
                                    '\<u>foo\</u>'
 
-      expect(editable).to have_no_selector('node')
-      expect(editable).to have_no_selector('u')
+      expect(editable).to have_no_css("node")
+      expect(editable).to have_no_css("u")
     end
 
     # Save wiki page
-    click_on 'Save'
+    click_on "Save"
 
-    expect(page).to have_selector('.flash.notice')
+    expect(page).to have_css(".op-toast.-success")
 
-    within('#content') do
-      expect(page).to have_selector('p', text: '<node foo="bar" />')
-      expect(page).to have_no_selector('u')
-      expect(page).to have_no_selector('node')
+    within("#content") do
+      expect(page).to have_css("p", text: '<node foo="bar" />')
+      expect(page).to have_no_css("u")
+      expect(page).to have_no_css("node")
     end
 
-    text = ::WikiContent.last.text
+    text = WikiPage.last.text
     expect(text).to include "&lt;node foo=&quot;bar&quot; /&gt;"
     expect(text).to include "\\\\&lt;u&gt;foo\\\\&lt;/u&gt;"
-    expect(text).not_to include '<node>'
-    expect(text).not_to include '<u>'
+    expect(text).not_to include "<node>"
+    expect(text).not_to include "<u>"
   end
 end

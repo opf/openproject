@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ module OpenProject
 
     attr_accessor :name, :order, :label, :edit_as, :class_names, :formatter
 
-    def initialize(name, label:, order:, edit_as: name, only: nil, formatter: 'CustomValue::StringStrategy')
+    def initialize(name, label:, order:, edit_as: name, only: nil, formatter: "CustomValue::StringStrategy")
       self.name = name
       self.label = label
       self.order = order

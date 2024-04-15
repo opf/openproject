@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,20 +31,20 @@ class Forum < ApplicationRecord
   has_many :topics, -> {
     where("#{Message.table_name}.parent_id IS NULL")
       .order("#{Message.table_name}.sticky DESC")
-  }, class_name: 'Message'
+  }, class_name: "Message"
   has_many :messages, -> {
     order("#{Message.table_name}.sticky DESC")
   }, dependent: :destroy
-  belongs_to :last_message, class_name: 'Message'
+  belongs_to :last_message, class_name: "Message"
   acts_as_list scope: :project_id
   acts_as_watchable permission: :view_messages
 
   validates :name, :description, presence: true
-  validates :name, length: { maximum: 30 }
+  validates :name, length: { maximum: 256 }
   validates :description, length: { maximum: 255 }
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_to?(:view_messages, project)
+    !user.nil? && user.allowed_in_project?(:view_messages, project)
   end
 
   def to_s

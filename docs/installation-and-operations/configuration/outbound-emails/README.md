@@ -48,7 +48,7 @@ These are the options that are available. Please see the [Configuration guide](.
 | SMTP user name             | smtp_user_name            | `OPENPROJECT_SMTP__USER__NAME`             | User name for authentication against the SMTP server (when authentication is required) |
 | SMTP password              | smtp_password             | `OPENPROJECT_SMTP__PASSWORD`               | Password for authentication against the SMTP server (when authentication is required) |
 | Automatically use STARTTLS | smtp_enable_starttls_auto | `OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO` | You can enable or disable STARTTLS here in case it doesn't work. Make sure you don't login to a SMTP server over a public network when using this. Recommended to leave this on if your server supports it. Possible values: true / false |
-| OpenSSL verify mode        | smtp_openssl_verify_mode  | `OPENPROJECT_SMTP__OPENSSL__VERIFY__MODE`  | Define how the SMTP server certificate is validated. Make sure you don't just disable verification here unless both, OpenProject and SMTP servers are on a private network. Possible values: `none`, `peer`, `client_once` or `fail_if_no_peer_cert`.<br />Note: This setting can only be set through ENV/settings |
+| OpenSSL verify mode        | smtp_openssl_verify_mode  | `OPENPROJECT_SMTP__OPENSSL__VERIFY__MODE`  | Define how the SMTP server certificate is validated. Make sure you don't just disable verification here unless both, OpenProject and SMTP servers are on a private network. Possible values: `none`, `peer`, `client_once` or `fail_if_no_peer_cert`.<br>Note: This setting can only be set through ENV/settings |
 
 
 
@@ -56,7 +56,7 @@ These are the options that are available. Please see the [Configuration guide](.
 
 If you installed OpenProject with the package-based installation, you can configure the above settings using the config:set helper. Please note that this will disable the settings in the administration UI.
 
-```bash
+```shell
 openproject config:set OPENPROJECT_EMAIL__DELIVERY__METHOD=smtp
 openproject config:set OPENPROJECT_SMTP__ADDRESS=smtp.sendgrid.net
 openproject config:set OPENPROJECT_SMTP__PORT=587
@@ -74,7 +74,7 @@ openproject config:set OPENPROJECT_SMTP__PASSWORD="SG.pKvc3DQyQGyEjNh4RdOo_g.lVJ
 If you installed OpenProject with Docker, here is how you would enable outbound emails through the use of the SMTP environment variables (with SendGrid, the `SMTP_USER_NAME` is always `apikey`. Just replace `SMTP_PASSWORD` with the API key you've generated and you should be good to
 go). Please note that this will disable the settings in the administration UI.
 
-```bash
+```shell
 docker run -d \
   -e OPENPROJECT_EMAIL__DELIVERY__METHOD=smtp \
   -e OPENPROJECT_SMTP__ADDRESS=smtp.sendgrid.net \

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,7 @@ module Queries
             query.add_filters hash[:filters] if hash[:filters].present?
             query.order hash[:orders] if hash[:orders].present?
             query.group hash[:group_by] if hash[:group_by].present?
+            query.select(*hash[:selects]) if hash[:selects].present?
           end
         end
       end
@@ -45,7 +46,8 @@ module Queries
         {
           filters: filters.map { |f| { name: f.name, operator: f.operator, values: f.values } },
           orders: orders.to_h { |o| [o.attribute, o.direction] },
-          group_by:,
+          group_by: respond_to?(:group_by) ? group_by : nil,
+          selects: selects.map(&:attribute),
           user:
         }
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,9 @@ class MeetingContent < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :meeting
-  belongs_to :author, class_name: 'User'
+  # Show the project on activity and search views
+  has_one :project, through: :meeting
+  belongs_to :author, class_name: "User"
 
   acts_as_attachable(
     after_remove: :attachments_changed,
@@ -46,7 +48,13 @@ class MeetingContent < ApplicationRecord
   acts_as_journalized
   acts_as_event type: Proc.new { |o| o.class.to_s.underscore.dasherize.to_s },
                 title: Proc.new { |o| "#{o.class.model_name.human}: #{o.meeting.title}" },
-                url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o.meeting } }
+                url: Proc.new { |o| { controller: "/meetings", action: "show", id: o.meeting } }
+
+  scope :visible, ->(*args) {
+    includes(meeting: :project)
+      .references(:projects)
+      .merge(Project.allowed_to(args.first || User.current, :view_meetings))
+  }
 
   def editable?
     true
@@ -69,7 +77,4 @@ class MeetingContent < ApplicationRecord
       .where(version:)
       .first.data
   end
-
-  # Show the project on activity and search views
-  delegate :project, to: :meeting
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'group memberships through groups page', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
-  let!(:group) { create :group, lastname: "Bob's Team" }
+RSpec.describe "group memberships through groups page", :js, :with_cuprite do
+  shared_let(:admin) { create(:admin) }
+  let!(:group) { create(:group, lastname: "Bob's Team") }
 
   let(:groups_page) { Pages::Groups.new }
 
-  context 'as an admin' do
+  context "as an admin" do
     before do
       allow(User).to receive(:current).and_return admin
     end
 
-    it 'I can delete a group' do
+    it "I can delete a group" do
       groups_page.visit!
       expect(groups_page).to have_group "Bob's Team"
 
       groups_page.delete_group! "Bob's Team"
 
-      expect(page).to have_selector('.flash.info', text: I18n.t(:notice_deletion_scheduled))
+      expect(page).to have_css(".op-toast.-info", text: I18n.t(:notice_deletion_scheduled))
       expect(groups_page).to have_group "Bob's Team"
 
       perform_enqueued_jobs

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class Backlogs < Page
@@ -37,30 +37,28 @@ module Pages
       @project = project
     end
 
-    def enter_edit_story_mode(story)
+    def enter_edit_story_mode(story, text: nil)
+      text ||= story.subject
       within_story(story) do
-        find('*', text: story.subject).click
+        find(:css, ".editable", text:).click
       end
     end
 
     def enter_edit_backlog_mode(backlog)
       within_backlog(backlog) do
-        find('.start_date.editable').click
+        find(".start_date.editable").click
       end
     end
 
     def alter_attributes_in_edit_story_mode(story, attributes)
       edit_proc = ->(*) do
         attributes.each do |key, value|
+          field_name = WorkPackage.human_attribute_name(key)
           case key
-          when :subject
-            fill_in 'subject', with: value
-          when :story_points
-            fill_in 'story points', with: value
-          when :status
-            select value, from: 'status'
-          when :type
-            select value, from: 'type'
+          when :subject, :story_points
+            fill_in field_name, with: value
+          when :status, :type
+            select value, from: field_name
           else
             raise NotImplementedError
           end
@@ -79,11 +77,11 @@ module Pages
         attributes.each do |key, value|
           case key
           when :name
-            find('input[name=name]').set value
+            find("input[name=name]").set value
           when :start_date
-            find('input[name=start_date]').set value
+            find("input[name=start_date]").set value
           when :effective_date
-            find('input[name=effective_date]').set value
+            find("input[name=effective_date]").set value
           else
             raise NotImplementedError
           end
@@ -93,10 +91,12 @@ module Pages
 
     def save_story_from_edit_mode(story)
       save_proc = ->(*) do
-        find('input[name=subject]').native.send_key :return
+        field = find_field(disabled: false, match: :first)
+        keys = [:return]
+        keys << :return if field.tag_name == "select" # select field needs a second return key sent for some reason
+        field.send_keys(*keys)
 
-        expect(page)
-          .not_to have_selector('input[name=subject]')
+        expect(page).to have_no_field(WorkPackage.human_attribute_name(:subject))
       end
 
       if story
@@ -104,15 +104,20 @@ module Pages
       else
         save_proc.call
       end
+      wait_for_save_completion
     end
 
     def save_backlog_from_edit_mode(backlog)
       within_backlog(backlog) do
-        find('input[name=name]').native.send_key :return
+        find("input[name=name]").native.send_key :return
 
         expect(page)
-          .to have_selector('.start_date.editable')
+          .to have_css(".start_date.editable")
       end
+    end
+
+    def wait_for_save_completion
+      expect(page).to have_no_css(".ajax-indicator")
     end
 
     def edit_backlog(backlog, attributes)
@@ -132,7 +137,7 @@ module Pages
     end
 
     def edit_new_story(attributes)
-      within('.story.editing') do
+      within(".story.editing") do
         alter_attributes_in_edit_story_mode(nil, attributes)
 
         save_story_from_edit_mode(nil)
@@ -140,9 +145,8 @@ module Pages
     end
 
     def click_in_backlog_menu(backlog, item_name)
-      within_backlog(backlog) do
-        find('.header .menu-trigger').click
-        find('.header .menu .item', text: item_name).click
+      within_backlog_menu(backlog) do |menu|
+        menu.find(".item", text: item_name).click
       end
     end
 
@@ -151,22 +155,23 @@ module Pages
       target_element = find(story_selector(target))
 
       drag_n_drop_element from: moved_element, to: target_element, offset_x: 0, offset_y: before ? -5 : +10
+      wait_for_save_completion
     end
 
     def fold_backlog(backlog)
       within_backlog(backlog) do
-        find('.toggler').click
+        find(".toggler").click
       end
     end
 
     def expect_sprint(sprint)
       expect(page)
-        .to have_selector("#sprint_backlogs_container #{backlog_selector(sprint)}")
+        .to have_css("#sprint_backlogs_container #{backlog_selector(sprint)}")
     end
 
     def expect_backlog(sprint)
       expect(page)
-        .to have_selector("#owner_backlogs_container #{backlog_selector(sprint)}")
+        .to have_css("#owner_backlogs_container #{backlog_selector(sprint)}")
     end
 
     def expect_story_in_sprint(story, sprint)
@@ -179,7 +184,7 @@ module Pages
     def expect_story_not_in_sprint(story, sprint)
       within_backlog(sprint) do
         expect(page)
-          .not_to have_selector(story_selector(story).to_s)
+          .to have_no_selector(story_selector(story).to_s)
       end
     end
 
@@ -189,13 +194,13 @@ module Pages
           case key
           when :subject
             expect(page)
-              .to have_selector('div.subject', text: value)
+              .to have_css("div.subject", text: value)
           when :status
             expect(page)
-              .to have_selector('div.status_id', text: value)
+              .to have_css("div.status_id", text: value)
           when :type
             expect(page)
-              .to have_selector('div.type_id', text: value)
+              .to have_css("div.type_id", text: value)
           else
             raise NotImplementedError
           end
@@ -212,7 +217,7 @@ module Pages
 
     def expect_status_options(story, statuses)
       within_story(story) do
-        expect(all('.status_id option').map { |n| n.text.strip })
+        expect(all(".status_id option").map { |n| n.text.strip })
           .to match_array(statuses.map(&:name))
       end
     end
@@ -227,7 +232,7 @@ module Pages
     def expect_stories_in_order(backlog, *stories)
       within_backlog(backlog) do
         ids = stories.map { |s| "story_#{s.id}" }
-        existing_ids_in_order = all(ids.map { |id| "##{id}" }.join(', ')).pluck(:id)
+        existing_ids_in_order = all(ids.map { |id| "##{id}" }.join(", ")).pluck(:id)
 
         expect(existing_ids_in_order)
           .to eql(ids)
@@ -236,27 +241,36 @@ module Pages
 
     def expect_in_backlog_menu(backlog, item_name)
       within_backlog(backlog) do
-        find('.header .menu-trigger').click
+        find(".header .menu-trigger").click
 
         expect(page)
-          .to have_selector('.header .menu .item', text: item_name)
+          .to have_css(".header .backlog-menu .item", text: item_name)
 
         # Close it again for next test
-        find('.header .menu-trigger').click
+        find(".header .menu-trigger").click
       end
     end
 
     def expect_and_dismiss_error(message)
-      within '.ui-dialog' do
+      within ".ui-dialog" do
         expect(page)
           .to have_content message
 
-        click_button('OK')
+        click_button("OK")
       end
     end
 
     def path
       backlogs_project_backlogs_path(project)
+    end
+
+    def within_backlog_menu(backlog, &)
+      within_backlog(backlog) do
+        menu = find(".backlog-menu")
+        menu.click
+
+        yield menu
+      end
     end
 
     private

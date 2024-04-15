@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,7 @@ module Queries::Copy
       subhash = filter[name]
       ar_name = ::API::Utilities::QueryFiltersNameConverter.to_ar_name(name, refer_to_ids: true)
 
-      subhash['values'] = mapped_values(ar_name, subhash['values'])
+      subhash["values"] = mapped_values(ar_name, subhash["values"])
     end
 
     def map_filter_class(filter)

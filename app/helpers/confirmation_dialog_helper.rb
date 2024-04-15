@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,13 +34,18 @@ module ConfirmationDialogHelper
     title: nil,
     text: nil,
     danger_zone: false,
+    show_list_data: false,
+    refresh_on_cancel: false,
+    list_title: nil,
+    warning_text: nil,
     button_continue: nil,
     button_cancel: nil,
     icon_continue: nil,
-    divider: nil
+    divider: nil,
+    passed_data: nil
   )
     {
-      'augmented-confirm-dialog': {
+      "augmented-confirm-dialog": {
         text: {
           title:,
           text:,
@@ -49,6 +54,11 @@ module ConfirmationDialogHelper
         }.compact,
         dangerHighlighting: danger_zone,
         divideContent: divider,
+        listTitle: list_title,
+        warningText: warning_text,
+        passedData: passed_data,
+        showListData: show_list_data,
+        refreshOnCancel: refresh_on_cancel,
         icon: {
           continue: icon_continue
         }.compact

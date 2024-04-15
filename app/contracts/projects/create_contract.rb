@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,16 @@
 
 module Projects
   class CreateContract < BaseContract
+    include AdminWritableTimestamps
+    # Projects update their updated_at timestamp due to awesome_nested_set
+    # so allowing writing here would be useless.
+    allow_writable_timestamps :created_at
+
     private
 
     def validate_user_allowed_to_manage
-      unless user.allowed_to_globally?(:add_project) ||
-             (model.parent && user.allowed_to?(:add_subprojects, model.parent))
+      unless user.allowed_globally?(:add_project) ||
+             (model.parent && user.allowed_in_project?(:add_subprojects, model.parent))
 
         errors.add :base, :error_unauthorized
       end

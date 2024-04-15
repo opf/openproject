@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,65 +35,65 @@ module API
           custom_field_injector type: :schema_representer
 
           schema :id,
-                 type: 'Integer'
+                 type: "Integer"
 
           schema :name,
-                 type: 'String',
+                 type: "String",
                  min_length: 1,
                  max_length: 255
 
           schema :identifier,
-                 type: 'String',
+                 type: "String",
                  required: true,
                  has_default: true,
                  min_length: 1,
                  max_length: 100
 
           schema :description,
-                 type: 'Formattable',
+                 type: "Formattable",
                  required: false
 
           schema :public,
-                 type: 'Boolean',
+                 type: "Boolean",
                  required: false
 
           schema :active,
-                 type: 'Boolean',
+                 type: "Boolean",
                  required: false
 
           schema_with_allowed_collection :status,
-                                         type: 'ProjectStatus',
-                                         name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
+                                         type: "ProjectStatus",
+                                         name_source: ->(*) { I18n.t("activerecord.attributes.project.status_code") },
                                          required: false,
-                                         writable: ->(*) { represented.writable?(:status) },
+                                         writable: ->(*) { represented.writable?(:status_code) },
                                          values_callback: ->(*) {
-                                           ::Projects::Status.codes.keys
+                                           Project.status_codes.keys
                                          },
                                          value_representer: ::API::V3::Projects::Statuses::StatusRepresenter,
                                          link_factory: ->(value) {
                                            {
                                              href: api_v3_paths.project_status(value),
-                                             title: I18n.t(:"activerecord.attributes.projects/status.codes.#{value}")
+                                             title: I18n.t(:"activerecord.attributes.project.status_codes.#{value}")
                                            }
                                          }
 
           schema :status_explanation,
-                 type: 'Formattable',
-                 name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.explanation') },
+                 type: "Formattable",
+                 name_source: ->(*) { I18n.t("activerecord.attributes.project.status_explanation") },
                  required: false,
-                 writable: ->(*) { represented.writable?(:status) }
+                 writable: ->(*) { represented.writable?(:status_explanation) }
 
           schema_with_allowed_link :parent,
-                                   type: 'Project',
+                                   type: "Project",
                                    required: ->(*) {
                                      # Users only having the add_subprojects permission need to provide
                                      # a parent when creating a new project.
                                      represented.model.new_record? &&
-                                       !current_user.allowed_to_globally?(:add_project)
+                                       !current_user.allowed_globally?(:add_project)
                                    },
                                    href_callback: ->(*) {
                                      query_props = if represented.model.new_record?
-                                                     ''
+                                                     ""
                                                    else
                                                      "?of=#{represented.model.id}"
                                                    end
@@ -102,10 +102,10 @@ module API
                                    }
 
           schema :created_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :updated_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           def self.represented_class
             ::Project

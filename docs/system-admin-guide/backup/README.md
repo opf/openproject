@@ -9,7 +9,7 @@ keywords: system backup
 
 ## Preparation for Backup
 
-Unless disabled via the [configuration](../../installation-and-operations/configuration/#backup-enabled) users can make backups of the OpenProject installation from within the administration area. They either need to be an administrator or have the global permission to do so.
+Unless disabled via the [configuration](../../installation-and-operations/configuration/#enable-backups) users can make backups of the OpenProject installation from within the administration area. They either need to be an administrator or have the global permission to do so.
 
 You can yourself create backups of your OpenProject installation. Go to *Administration* and *Backup* to get started.
 
@@ -43,12 +43,12 @@ After having requested the backup, you will receive an email notification with a
 
 If the user resetting (or creating) a backup token does not have a password, for instance because they
 authenticate using Google, the newly generated backup token will only be valid after an initial waiting period.
-This is to make sure that no unauthorised user can get their hands on a backup even when accessing
+This is to make sure that no unauthorized user can get their hands on a backup even when accessing
 a logged-in user's desktop.
 
 As a system administrator you can skip this period by running the following rake task on the server's terminal:
 
-```
+```shell
 sudo openproject run rake backup:allow_now
 ```
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
-  let(:operator) { '=' }
+RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
+  let(:operator) { "=" }
   let(:filter) do
-    ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
+    Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
       .create!(name: "bcf_issue_associated", operator:, values:)
   end
 
   let(:representer) { described_class.new(filter) }
 
-  describe 'generation' do
+  describe "generation" do
     subject { representer.to_json }
 
-    context 'with a bool bcf_associated_filter' do
+    context "with a bool bcf_associated_filter" do
       context "with 't' as filter value" do
         let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
         it "has `true` for 'values'" do
           expect(subject)
             .to be_json_eql([true].to_json)
-                  .at_path('values')
+                  .at_path("values")
         end
       end
 
@@ -57,17 +57,17 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         it "has `true` for 'values'" do
           expect(subject)
             .to be_json_eql([false].to_json)
-                  .at_path('values')
+                  .at_path("values")
         end
       end
 
       context "with something as filter value" do
-        let(:values) { ['blubs'] }
+        let(:values) { ["blubs"] }
 
         it "has `false` for 'values'" do
           expect(subject)
             .to be_json_eql([false].to_json)
-                  .at_path('values')
+                  .at_path("values")
         end
       end
     end

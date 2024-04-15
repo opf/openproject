@@ -19,15 +19,24 @@ The rake task `redmine:email:receive_imap` fetches emails via IMAP and parses th
 
 **Packaged installation**
 
-```bash
-openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true allow_override=type,project project=test_project
+IMAP:
+
+```shell
+openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true ssl_verification=true allow_override=type,project project=test_project
+```
+
+Gmail:
+
+```shell
+openproject run bundle exec rake redmine:email:receive_gmail credentials='/path/to/credentials.json' user_id='test_user' query='is:unread label:openproject' allow_override=type,project
 ```
 
 **Docker installation**
 
 The docker installation has a ["cron-like" daemon](https://github.com/opf/openproject/blob/dev/docker/prod/cron) that will imitate the above cron job. You need to specify the following ENV variables (e.g., to your env list file)
 
-- `IMAP_SSL` set to true or false depending on whether the ActionMailer IMAP connection requires implicit TLS/SSL
+- `IMAP_SSL` set to true or false depending on whether the ActionMailer IMAP connection requires implicit TLS/SSL (defaults to true)
+- `IMAP_SSL_VERIFICATION` set to true or false depending on whether the SSL certificate should be verified (defaults to true)
 - `IMAP_PORT` `IMAP_HOST` set to the IMAP host and port of your connection
 - `IMAP_USERNAME` and `IMAP_PASSWORD`
 
@@ -38,35 +47,66 @@ Optional ENV variables:
 
 Available arguments for this rake task that specify the email behavior are
 
-|key | description|
-|----|------------|
-| `host` | address of the email server |
-| `username` | the name of the user that is used to connect to the email server|
-| `password` | the password of the user|
-| `port` | the port that is used to connect to the email server|
-| `ssl` | specifies if SSL should be used when connecting to the email server|
-| `folder` | the folder to fetch emails from (default: INBOX)|
-| `move_on_success` | the folder emails that were successfully parsed are moved to (instead of deleted)|
-| `move_on_failure` | the folder emails that were ignored are moved to|
+|key |Docker ENV variable | description|
+|----|------------|------------|
+| `host` | `IMAP_HOST` | address of the email server |
+| `username` | `IMAP_USERNAME` | the name of the user that is used to connect to the email server|
+| `password` | `IMAP_PASSWORd` | the password of the user|
+| `port` | `IMAP_PORT` | the port that is used to connect to the email server|
+| `ssl` | `IMAP_SSL` and ``IMAP_SSL_VERIFICATION` | specifies if SSL should be used when connecting to the email server|
+| `folder` | `IMAP_FOLDER` | the folder to fetch emails from (default: INBOX)|
+| `move_on_success` | `IMAP_MOVE_ON_SUCCESS` | the folder emails that were successfully parsed are moved to (instead of deleted)|
+| `move_on_failure` | `IMAP_MOVE_ON_FAILURE` | the folder emails that were ignored are moved to|
 
 Available arguments that change how the work packages are handled:
 
-| key | description |
-|---|---|
-| `project` | identifier of the target project |
-| `tracker` | name of the target tracker |
-| `category` | name of the target category |
-| `priority` | name of the target priority |
-| `status` | name of the target status |
-| `version` | name of the target version |
-| `type` | name of the target type |
-| `priority` | name of the target priority |
-| `unknown_user` | ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account |
-| `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
+| key | Docker ENV variable | description |
+|---|---|---|
+| `project` | `IMAP_ATTR_PROJECT` | identifier of the target project |
+| `category` | `IMAP_ATTR_CATEGORY` | name of the target category |
+| `priority` | `IMAP_ATTR_PRIORITY` | name of the target priority |
+| `status` | `IMAP_ATTR_STATUS` | name of the target status |
+| `version` | `IMAP_ATTR_VERSION` | name of the target version |
+| `type` | `IMAP_ATTR_TYPE` | name of the target type |
+| `assigned_to` | `IMAP_ATTR_ASSIGNED_TO` | name of the assigned user |
+| `unknown_user` | `IMAP_UNKNOWN_USER` | ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account |
+| `allow_override` | `IMAP_ALLOW_OVERRIDE` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
+
+**Gmail API**
+
+In order to use the more secure Gmail API method, some extra initial setup in google cloud is required.
+1. Go to https://console.cloud.google.com/
+2. Create new project
+3. Navigate to Enable APIs and Services
+4. Enable the Gmail API
+5. Navigate to the "Credentials" page for the project
+6. Click "Create Credentials" > "Service Account"
+7. Give the service account editor permissions and click "Done"
+8. Click on the new service account, go to the "Keys" tab, and add a new key.
+9. Save the JSON key file
+    ***Note: Do not give anyone access to this JSON file as it contains the private key to your service account!***
+10. Go to https://admin.google.com
+11. Select Security > Access and Data Control > API Controls
+12. Go to "Domain-Wide Delegation"
+13. Add new API Client
+14. Open JSON key file and copy "client_id" number
+15. Enter `https://www.googleapis.com/auth/gmail.modify` into the scopes
+    ***Note: Modify permissions are necessary here to mark emails as read***
+    ***This is so the service account can access all accounts in your Domain***
+
+Available arguments for the Gmail API rake task that specify the email behavior are
+
+|key | description|
+|----|------------|
+| `credentials` | Gmail service account credentials file (JSON) |
+| `username` | Gmail email address |
+| `query` | Gmail search query (https://support.google.com/mail/answer/7190?hl=en) |
+| `read_on_failure` | Mark emails as read even on failure (default: true) |
+| `max_emails` | Max emails to process (default: 1000) |
 
 ## Format of the emails
 
-Please note: It's important to use the plain text editor of your email client (instead of the HTML editor) to avoid misinterpretations (e.g. for the project name). 
+Please note: It's important to use the plain text editor of your email client (instead of the HTML editor) to avoid misinterpretations (e.g. for the project name).
 
 ### Work packages
 
@@ -143,17 +183,18 @@ The subject of the work package that shall be created is derived from the subjec
 
 Other available keys for the email are:
 
-|Key|Description|Example|
-|---|---|---|
-| Project | sets the project. Use the project identifier | Project:test\_project |
-| Assignee | sets the assignee. Use the email or login of the user | Assignee:test.nutzer@example.org |
-| Type | sets the type | type:Milestone |
-| Version | sets the version | version:v4.1.0 |
-| Start date | sets the start date | start date:2015-02-28 |
-| Due date | sets the finish date |  |
-| Done ratio | sets the done ratio. Use a number | Done ratio:40 |
-| Status | sets the status | Status:closed |
-| priority | sets the priority | priority:High |
+| Key             | Description                                           | Example                          |
+|-----------------|-------------------------------------------------------|----------------------------------|
+| Project         | sets the project. Use the project identifier          | Project:test\_project            |
+| Assignee        | sets the assignee. Use the email or login of the user | Assignee:test.nutzer@example.org |
+| Type            | sets the type                                         | type:Milestone                   |
+| Version         | sets the version                                      | version:v4.1.0                   |
+| Start date      | sets the start date                                   | start date:2015-02-28            |
+| Due date        | sets the finish date                                  |                                  |
+| Estimated hours | sets the estimated hours. Use a number                | Estimated hours:10.5             |
+| Remaining hours | sets the remaining hours. Use a number                | Remaining hours:2.5              |
+| Status          | sets the status                                       | Status:closed                    |
+| priority        | sets the priority                                     | priority:High                    |
 
 If you want to set a custom field just use the name as it is displayed in your browser, e.g. `Custom field:new value`
 
@@ -183,11 +224,11 @@ In case of receiving errors, the application will try to send an email to the us
 
 - The configuration setting `report_incoming_email_errors` is true (which it is by default)
 
-  
+
 
 By returning an email with error details, you can theoretically be leaking information through the error messages. As from addresses can be spoofed, please be aware of this issue and try to reduce the impact by setting up the integration appropriately.
 
 If you'd like to disable the reporting of errors to the sender, please set `report_incoming_email_errors=false`:
 
-- In a packaged installation, run `openproject config:get OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false` and restart the openproject service.
+- In a packaged installation, run `openproject config:set OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false` and restart the openproject service.
 - In a docker system, add the ENV `OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false`

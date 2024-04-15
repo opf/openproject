@@ -17,4 +17,4 @@ The [OpenProject Foundation (OPF)](https://community.openproject.org/projects/op
 ## License
 
 OpenProject is licensed under the terms of the GNU General Public License version 3.
-See [../doc/COPYRIGHT.rdoc](../doc/COPYRIGHT.rdoc) for details.
+See [COPYRIGHT](../COPYRIGHT) for details.

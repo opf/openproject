@@ -2,28 +2,18 @@
     [name]="widgetName"
     [editable]="isEditable">
 
-  <widget-menu
-      slot="menu"
-      [resource]="resource">
-  </widget-menu>
+  <op-widget-project-details-menu
+    slot="menu"
+    [resource]="resource">
+  </op-widget-project-details-menu>
 </widget-header>
 
 <div class="grid--widget-content">
-  <edit-form *ngIf="(project$ | async) as project"
-             [resource]="project">
-    <div class="attributes-map">
-      <ng-container *ngFor="let cf of customFields">
-        <div class="attributes-map--key" [attr.title]="cf.label">
-          {{ cf.label }}
-          <attribute-help-text [attribute]="cf.key"
-                               [attributeScope]="'Project'"></attribute-help-text>
-        </div>
-        <div class="attributes-map--value">
-          <op-editable-attribute-field [resource]="project"
-                                    [fieldName]="cf.key">
-          </op-editable-attribute-field>
-        </div>
-      </ng-container>
-    </div>
-  </edit-form>
+  <p>
+    <strong>Project details have now moved to a column on the right edge of this page.</strong>
+  </p>
+  <p>
+    Starting with version 14.0, project attributes can be grouped in sections and enabled and disabled at a project level. <a href="#">Learn more</a>
+  </p>
+  <i>This widget can now be removed or replaced. It will be deleted in subsequent versions.</i>
 </div>

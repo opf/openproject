@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::OpenProject::Bim::BcfXml::IssueWriter do
+RSpec.describe OpenProject::Bim::BcfXml::IssueWriter do
   let(:project) { create(:project) }
   let(:markup) do
     <<-MARKUP
@@ -89,10 +89,9 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
            markup:,
            vp_snapshot:)
   end
-  let(:priority) { create :priority_low }
-  let(:current_user) { create(:user) }
+  let(:priority) { create(:priority_low) }
   let(:due_date) { DateTime.now }
-  let(:type) { create :type, name: 'Issue' }
+  let(:type) { create(:type, name: "Issue") }
   let(:work_package) do
     create(:work_package,
            project_id: project.id,
@@ -102,10 +101,14 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
            due_date:,
            type:)
   end
+  let(:first_journal) { work_package.journals.first }
+  let(:comment_journal) { bcf_issue.comments.first.journal }
+
+  current_user { create(:user) }
 
   before do
-    allow(User).to receive(:current).and_return current_user
-    bcf_issue.comments.first.journal.update_columns(journable_id: work_package.id, version: 2)
+    first_journal.update_columns(validity_period: first_journal.created_at...comment_journal.created_at)
+    comment_journal.update_columns(journable_id: work_package.id, version: 2)
   end
 
   subject { Nokogiri::XML(described_class.update_from!(work_package).markup) }
@@ -114,28 +117,28 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
     it "updates the Topic node" do
       work_package.reload
 
-      expect(subject.at('Markup')).to be_present
-      expect(subject.at('Topic')).to be_present
+      expect(subject.at("Markup")).to be_present
+      expect(subject.at("Topic")).to be_present
 
-      expect(subject.at('Topic/@Guid').content).to be_eql bcf_issue.uuid
-      expect(subject.at('Topic/@TopicStatus').content).to be_eql work_package.status.name
-      expect(subject.at('Topic/@TopicType').content).to be_eql 'Issue'
+      expect(subject.at("Topic/@Guid").content).to eql bcf_issue.uuid
+      expect(subject.at("Topic/@TopicStatus").content).to eql work_package.status.name
+      expect(subject.at("Topic/@TopicType").content).to eql "Issue"
 
-      expect(subject.at('Topic/Title').content).to be_eql work_package.subject
-      expect(subject.at('Topic/CreationDate').content).to be_eql work_package.created_at.iso8601
-      expect(subject.at('Topic/ModifiedDate').content).to be_eql work_package.updated_at.iso8601
-      expect(subject.at('Topic/Description').content).to be_eql work_package.description
-      expect(subject.at('Topic/CreationAuthor').content).to be_eql work_package.author.mail
-      expect(subject.at('Topic/ReferenceLink').content).to be_eql url_helpers.work_package_url(work_package)
-      expect(subject.at('Topic/Priority').content).to be_eql work_package.priority.name
-      expect(subject.at('Topic/ModifiedAuthor').content).to be_eql work_package.journals.last.user.mail
-      expect(subject.at('Topic/AssignedTo').content).to be_eql work_package.assigned_to.mail
-      expect(subject.at('Topic/DueDate').content).to be_eql work_package.due_date.to_datetime.iso8601
+      expect(subject.at("Topic/Title").content).to eql work_package.subject
+      expect(subject.at("Topic/CreationDate").content).to eql work_package.created_at.iso8601
+      expect(subject.at("Topic/ModifiedDate").content).to eql work_package.updated_at.iso8601
+      expect(subject.at("Topic/Description").content).to eql work_package.description
+      expect(subject.at("Topic/CreationAuthor").content).to eql work_package.author.mail
+      expect(subject.at("Topic/ReferenceLink").content).to eql url_helpers.work_package_url(work_package)
+      expect(subject.at("Topic/Priority").content).to eql work_package.priority.name
+      expect(subject.at("Topic/ModifiedAuthor").content).to eql work_package.journals.last.user.mail
+      expect(subject.at("Topic/AssignedTo").content).to eql work_package.assigned_to.mail
+      expect(subject.at("Topic/DueDate").content).to eql work_package.due_date.to_datetime.iso8601
     end
   end
 
   def valid_markup?(doc)
-    schema = Nokogiri::XML::Schema(File.read(File.join(Rails.root, 'modules/bim/spec/bcf/bcf_xml/markup.xsd')))
+    schema = Nokogiri::XML::Schema(File.read(Rails.root.join("modules/bim/spec/bcf/bcf_xml/markup.xsd").to_s))
     errors = schema.validate(doc)
     if errors.empty?
       true
@@ -145,59 +148,59 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
     end
   end
 
-  shared_examples_for 'valid markup' do
-    it 'produces valid markup' do
+  shared_examples_for "valid markup" do
+    it "produces valid markup" do
       expect(valid_markup?(subject)).to be_truthy
     end
   end
 
-  context 'no markup present yet' do
+  context "no markup present yet" do
     let(:markup) { nil }
 
-    it_behaves_like 'writes Topic'
-    it_behaves_like 'valid markup'
+    it_behaves_like "writes Topic"
+    it_behaves_like "valid markup"
   end
 
-  context 'markup already present' do
-    it_behaves_like 'writes Topic'
-    it_behaves_like 'valid markup'
+  context "markup already present" do
+    it_behaves_like "writes Topic"
+    it_behaves_like "valid markup"
 
     it "maintains existing nodes and attributes untouched" do
-      expect(subject.at('Index').content).to be_eql "0"
-      expect(subject.at('BimSnippet')['SnippetType']).to be_eql "JSON"
+      expect(subject.at("Index").content).to eql "0"
+      expect(subject.at("BimSnippet")["SnippetType"]).to eql "JSON"
     end
 
-    it 'exports all BCF comments' do
-      expect(subject.at('/Markup/Comment[1]/Comment').content).to eql("Some BCF comment.")
+    it "exports all BCF comments" do
+      expect(subject.at("/Markup/Comment[1]/Comment").content).to eql("Some BCF comment.")
     end
 
-    it 'creates BCF comments for comments that were created within OP.' do
-      work_package.journal_notes = 'Some note created in OP.'
+    it "creates BCF comments for comments that were created within OP." do
+      work_package.journal_notes = "Some note created in OP."
       work_package.save!
 
-      expect(subject.at('/Markup/Comment[2]/Comment').content).to eql("Some note created in OP.")
+      expect(subject.at("/Markup/Comment[2]/Comment").content).to eql("Some note created in OP.")
       expect(Bim::Bcf::Comment.count).to be(2)
     end
 
-    it 'replaces the BCF viewpoints names to use its uuid only' do
+    it "replaces the BCF viewpoints names to use its uuid only" do
       uuid = bcf_issue.viewpoints.first.uuid
       viewpoint_node = subject.at("/Markup/Viewpoints[@Guid='#{uuid}']")
-      expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.bcfv")
-      expect(viewpoint_node.at('Snapshot').content).to eql("#{uuid}.png")
+      expect(viewpoint_node.at("Viewpoint").content).to eql("#{uuid}.bcfv")
+      expect(viewpoint_node.at("Snapshot").content).to eql("#{uuid}.png")
     end
   end
 
-  context 'when bcf_issue snapshot is false' do
+  context "when bcf_issue snapshot is false" do
     let(:vp_snapshot) { false }
 
-    it_behaves_like 'writes Topic'
-    it_behaves_like 'valid markup'
+    it_behaves_like "writes Topic"
+    it_behaves_like "valid markup"
 
-    it 'does not provides a Snapshot node' do
+    it "does not provides a Snapshot node" do
       uuid = bcf_issue.viewpoints.first.uuid
       viewpoint_node = subject.at("/Markup/Viewpoints[@Guid='#{uuid}']")
-      expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.bcfv")
-      expect(viewpoint_node.at('Snapshot')).to be_nil
+      expect(viewpoint_node.at("Viewpoint").content).to eql("#{uuid}.bcfv")
+      expect(viewpoint_node.at("Snapshot")).to be_nil
     end
   end
 

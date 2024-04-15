@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,22 +33,22 @@ module MockCarrierwave
     Fog.mock!
     Fog.credentials = credentials
 
-    CarrierWave::Configuration.configure_fog! directory: bucket, credentials: credentials
+    CarrierWave::Configuration.configure_fog!(directory: bucket, credentials:)
 
     connection = Fog::Storage.new provider: credentials[:provider]
     connection.directories.create key: bucket
   end
 
   def bucket
-    'test-bucket'
+    "test-bucket"
   end
 
   def credentials
     {
-      provider: 'AWS',
-      aws_access_key_id: 'someaccesskeyid',
-      aws_secret_access_key: 'someprivateaccesskey',
-      region: 'us-east-1'
+      provider: "AWS",
+      aws_access_key_id: "someaccesskeyid",
+      aws_secret_access_key: "someprivateaccesskey",
+      region: "us-east-1"
     }
   end
 end

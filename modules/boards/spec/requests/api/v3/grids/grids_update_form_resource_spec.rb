@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content_type: :json do
+RSpec.describe "PATCH /api/v3/grids/:id/form for Board Grids", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -37,10 +37,10 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
     create(:project)
   end
   shared_let(:allowed_user) do
-    create(:user, member_in_project: project, member_with_permissions: [:manage_board_views])
+    create(:user, member_with_permissions: { project => [:manage_board_views] })
   end
   shared_let(:prohibited_user) do
-    create(:user, member_in_project: project, member_with_permissions: [:show_board_views])
+    create(:user, member_with_permissions: { project => [:show_board_views] })
   end
 
   let(:grid) do
@@ -56,35 +56,35 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
     login_as(current_user)
   end
 
-  describe '#post' do
+  describe "#post" do
     before do
-      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      post path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    it 'returns 200 OK' do
+    it "returns 200 OK" do
       expect(subject.status)
         .to be 200
     end
 
-    it 'is of type form' do
+    it "is of type form" do
       expect(subject.body)
         .to be_json_eql("Form".to_json)
-        .at_path('_type')
+        .at_path("_type")
     end
 
-    it 'contains a Schema disallowing setting scope' do
+    it "contains a Schema disallowing setting scope" do
       expect(subject.body)
         .to be_json_eql("Schema".to_json)
-        .at_path('_embedded/schema/_type')
+        .at_path("_embedded/schema/_type")
 
       expect(subject.body)
         .to be_json_eql(false.to_json)
-        .at_path('_embedded/schema/scope/writable')
+        .at_path("_embedded/schema/scope/writable")
     end
 
-    it 'contains the current data in the payload' do
+    it "contains the current data in the payload" do
       expected = {
-        name: 'My board',
+        name: "My board",
         rowCount: 1,
         columnCount: 4,
         widgets: [],
@@ -100,34 +100,34 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
 
       expect(subject.body)
         .to be_json_eql(expected.to_json)
-        .at_path('_embedded/payload')
+        .at_path("_embedded/payload")
     end
 
-    it 'has a commit link' do
+    it "has a commit link" do
       expect(subject.body)
         .to be_json_eql(api_v3_paths.grid(grid.id).to_json)
-        .at_path('_links/commit/href')
+        .at_path("_links/commit/href")
     end
 
-    context 'with some value for the scope value' do
+    context "with some value for the scope value" do
       let(:params) do
         {
           _links: {
             scope: {
-              href: '/some/path'
+              href: "/some/path"
             }
           }
         }
       end
 
-      it 'has a validation error on scope as the value is not writable' do
+      it "has a validation error on scope as the value is not writable" do
         expect(subject.body)
           .to be_json_eql("Scope was attempted to be written but is not writable.".to_json)
-          .at_path('_embedded/validationErrors/scope/message')
+          .at_path("_embedded/validationErrors/scope/message")
       end
     end
 
-    context 'with an unsupported widget identifier' do
+    context "with an unsupported widget identifier" do
       let(:params) do
         {
           widgets: [
@@ -143,26 +143,26 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
         }
       end
 
-      it 'has a validationError on widget' do
+      it "has a validationError on widget" do
         expect(subject.body)
           .to be_json_eql("Widgets is not set to one of the allowed values.".to_json)
-          .at_path('_embedded/validationErrors/widgets/message')
+          .at_path("_embedded/validationErrors/widgets/message")
       end
     end
 
-    context 'for a non existing grid' do
+    context "for a non existing grid" do
       let(:path) { api_v3_paths.grid_form(grid.id + 5) }
 
-      it 'returns 404 NOT FOUND' do
+      it "returns 404 NOT FOUND" do
         expect(subject.status)
           .to be 404
       end
     end
 
-    context 'for a grid for which the user does not have permission' do
+    context "for a grid for which the user does not have permission" do
       let(:current_user) { prohibited_user }
 
-      it 'returns 404 NOT FOUND' do
+      it "returns 404 NOT FOUND" do
         expect(subject.status)
           .to be 404
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
+require "open_project/plugins"
 
 module OpenProject::JobStatus
   class Engine < ::Rails::Engine
@@ -34,11 +34,11 @@ module OpenProject::JobStatus
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-job_status',
-             author_url: 'https://www.openproject.org',
+    register "openproject-job_status",
+             author_url: "https://www.openproject.org",
              bundled: true
 
-    add_api_endpoint 'API::V3::Root' do
+    add_api_endpoint "API::V3::Root" do
       mount ::API::V3::JobStatus::JobStatusAPI
     end
 
@@ -46,10 +46,16 @@ module OpenProject::JobStatus
       "#{root}/job_statuses/#{uuid}"
     end
 
-    config.to_prepare do
-      # Register the cron job to clear statuses periodically
-      ::Cron::CronJob.register! ::JobStatus::Cron::ClearOldJobStatusJob
+    add_cron_jobs do
+      {
+        "JobStatus::Cron::ClearOldJobStatusJob": {
+          cron: "15 4 * * *", # runs at 4:15 nightly
+          class: ::JobStatus::Cron::ClearOldJobStatusJob.name
+        }
+      }
+    end
 
+    config.to_prepare do
       # Extends the ActiveJob adapter in use (DelayedJob) by a Status which lives
       # indenpendently from the job itself (which is deleted once successful or after max attempts).
       # That way, the result of a background job is available even after the original job is gone.

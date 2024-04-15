@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -21,22 +21,43 @@
 #++
 #English strings go here for Rails i18n
 ko:
+  plugin_openproject_meeting:
+    name: "OpenProject 미팅"
+    description: >-
+      이 모듈은 OpenProject에 프로젝트 미팅을 지원하는 기능을 추가합니다. 미팅에 참여하도록 초대되는 사람을 동일한 프로젝트에서 선택하여 미팅을 예약할 수 있습니다. 의제를 생성하고 초대된 사람에게 보낼 수 있습니다. 미팅 후 참석자를 선택하고 의제에 따라 의사록을 작성할 수 있습니다. 마지막으로 모든 참석자와 초대된 사람에게 의사록을 보낼 수 있습니다.
   activerecord:
     attributes:
       meeting:
+        type: "미팅 유형"
         location: "위치"
         duration: "기간"
+        notes: "노트"
         participants: "참가자"
+        participant:
+          other: "참가자 %{count}명"
         participants_attended: "참석자"
         participants_invited: "초대된 사람"
-        start_time: "시간"
-        start_time_hour: "시작 시간"
+        project: "프로젝트"
+        start_date: "날짜"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "min"
+        description: "Notes"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "은(는) 유효한 시간이 아닙니다. 필요한 형식: HH:MM"
     models:
+      structured_meeting: "미팅(다이내믹)"
+      meeting_agenda_item: "의제 항목"
       meeting_agenda: "의제"
       meeting_minutes: "의사록"
+  activity:
+    filter:
+      meeting: "미팅"
   description_attended: "참석함"
   description_invite: "초대됨"
   events:
@@ -58,12 +79,47 @@ ko:
   label_meeting_agenda_close: "의사록을 시작하려면 의제 닫기"
   label_meeting_date_time: "날짜/시간"
   label_meeting_diff: "차이"
+  label_upcoming_meetings: "다가오는 이벤트"
+  label_past_meetings: "지난 미팅"
+  label_upcoming_meetings_short: "예정"
+  label_past_meetings_short: "과거"
+  label_involvement: "참여"
+  label_upcoming_invitations: "다가오는 초대"
+  label_past_invitations: "과거 초대"
+  label_attendee: "참석자"
+  label_author: "만든이"
   label_notify: "검토를 위해 보내기"
   label_icalendar: "iCalendar 보내기"
+  label_icalendar_download: "iCalendar 이벤트 다운로드"
   label_version: "버전"
   label_time_zone: "표준 시간대"
   label_start_date: "시작일"
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+    copy:
+      title: "미팅 %{title} 복사"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
+      agenda: "의제 복사"
+      agenda_text: "이전 미팅의 의제 복사"
+    email:
+      open_meeting_link: "미팅 열기"
+      invited:
+        summary: "%{actor} 님이 %{title} 미팅 초대장을 귀하에게 보냈습니다"
+      rescheduled:
+        header: "%{title} 미팅이 다시 예약되었습니다"
+        summary: "%{actor} 님이 %{title} 미팅을 다시 예약했습니다"
+        body: "%{actor} 님이 %{title} 미팅을 다시 예약했습니다."
+        old_date_time: "이전 날짜/시간"
+        new_date_time: "새로운 날짜/시간"
+    label_mail_all_participants: "모든 참가자에게 이메일 보내기"
+    types:
+      classic: "클래식"
+      classic_text: "서식 지정 가능한 텍스트 의제 및 프로토콜로 미팅을 구성하세요."
+      structured: "다이내믹"
+      structured_text: "미팅을 의제 항목 목록으로 구성하고, 선택적으로 작업 패키지에 연결합니다."
+      structured_text_copy: "미팅을 복사하면 관련 미팅 의제 항목은 현재 복사되지 않고 세부 정보만 복사됩니다"
     copied: "미팅 #%{id}에서 복사됨"
   notice_successful_notification: "알림이 전송됨"
   notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.
@@ -71,7 +127,10 @@ ko:
   permission_edit_meetings: "미팅 편집"
   permission_delete_meetings: "미팅 삭제"
   permission_view_meetings: "미팅 보기"
-  permission_create_meeting_agendas: "의제 관리"
+  permission_create_meeting_agendas: "미팅 의제 만들기"
+  permission_create_meeting_agendas_explanation: "클래식 미팅의 의제 내용 편집을 허용합니다."
+  permission_manage_agendas: "의제 관리"
+  permission_manage_agendas_explanation: "다이내믹 미팅의 의제 항목 관리를 허용합니다."
   permission_close_meeting_agendas: "의제 닫기"
   permission_send_meeting_agendas_notification: "의제에 대한 검토 알림 보내기"
   permission_create_meeting_minutes: "의사록 관리"
@@ -82,9 +141,60 @@ ko:
   text_duration_in_hours: "기간(시간)"
   text_in_hours: " 시간"
   text_meeting_agenda_for_meeting: '미팅 "%{meeting}"에 대한 의제'
-  text_meeting_closing_are_you_sure: "이 미팅을 닫으시겠습니까?"
+  text_meeting_closing_are_you_sure: "미팅 어젠더를 닫으시겠습니까?"
   text_meeting_agenda_open_are_you_sure: "그러면 몇 분 내에 모든 변경 사항을 덮어씁니다. 계속하시겠습니까?"
   text_meeting_minutes_for_meeting: '미팅 "%{meeting}"에 대한 의사록'
-  text_review_meeting_agenda: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."
-  text_review_meeting_minutes: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."
   text_notificiation_invited: "이 메일에는 아래 모임에 대한 ics 항목이 포함되어 있습니다."
+  text_meeting_empty_heading: "미팅이 비어 있습니다"
+  text_meeting_empty_description_1: "아래에 의제 항목을 추가하여 시작하세요. 각 항목은 제목처럼 간단할 수 있지만 기간, 메모 등 추가적인 세부 정보를 추가할 수도 있습니다."
+  text_meeting_empty_description_2: '기존 작업 패키지에 대한 참조를 추가할 수도 있습니다. 이렇게 하면 관련 메모가 작업 패키지의 "미팅" 탭에 자동으로 표시됩니다.'
+  label_meeting_empty_action: "의제 항목 추가"
+  label_meeting_actions: "미팅 작업"
+  label_meeting_edit_title: "미팅 제목 편집"
+  label_meeting_delete: "미팅 삭제"
+  label_meeting_created_by: "작성자"
+  label_meeting_last_updated: "마지막 업데이트"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_item_undisclosed_wp: "작업 패키지 #%{id}이(가) 표시되지 않습니다"
+  label_agenda_item_deleted_wp: "삭제된 작업 패키지 참조"
+  label_agenda_item_actions: "의제 항목 작업"
+  label_agenda_item_move_to_top: "맨 위로 이동"
+  label_agenda_item_move_to_bottom: "맨 아래로 이동"
+  label_agenda_item_move_up: "위로 이동"
+  label_agenda_item_move_down: "아래로 이동"
+  label_agenda_item_add_notes: "메모 추가"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
+  label_meeting_details: "미팅 세부 정보"
+  label_meeting_details_edit: "미팅 세부 정보 편집"
+  label_meeting_state: "Meeting status"
+  label_meeting_state_open: "열기"
+  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_closed: "닫음"
+  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_reopen_action: "미팅 다시 열기"
+  label_meeting_close_action: "미팅 닫기"
+  text_meeting_open_description: "이 미팅은 오픈 상태입니다. 의제 항목을 추가/제거하고 원하는 대로 편집할 수 있습니다. 미팅이 끝나면 닫아서 잠그세요."
+  text_meeting_closed_description: "이 회의는 종료되었습니다. 더 이상 의제 항목을 추가/제거할 수 없습니다."
+  label_meeting_manage_participants: "참가자 관리"
+  label_meeting_no_participants: "참가자 없음"
+  label_meeting_show_hide_participants: "%{count}개 더 표시/숨기기"
+  label_meeting_show_all_participants: "모두 표시"
+  label_meeting_add_participants: "참가자 추가"
+  text_meeting_not_editable_anymore: "이 미팅은 더 이상 편집할 수 없습니다."
+  text_meeting_not_present_anymore: "이 미팅은 삭제되었습니다. 다른 미팅을 선택해 주세요."
+  label_add_work_package_to_meeting_dialog_title: "미팅에 작업 패키지 추가"
+  label_add_work_package_to_meeting_dialog_button: "미팅에 추가"
+  label_meeting_selection_caption: "향후 또는 진행 중인 오픈 미팅에만 이 작업 패키지를 추가할 수 있습니다."
+  text_add_work_package_to_meeting_description: "논의를 위해 하나 이상의 미팅에 작업 패키지를 추가할 수 있습니다. 이와 관련된 메모도 여기에 표시됩니다."
+  text_agenda_item_no_notes: "제공된 메모 없음"
+  text_agenda_item_not_editable_anymore: "이 의제 항목은 더 이상 편집할 수 없습니다."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "이 작업 패키지는 향후 미팅 의제에서 아직 예약되지 않았습니다."
+  text_work_package_add_to_meeting_hint: '이 작업 패키지를 향후 미팅에 추가하려면 "미팅에 추가" 버튼을 사용하세요.'
+  text_work_package_has_no_past_meeting_agenda_items: "이 작업 패키지는 과거 미팅에서 멘션되지 않았습니다."

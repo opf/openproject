@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,26 +25,26 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
-describe Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter, type: :model do
-  include_context 'filter tests'
+RSpec.describe Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter do
+  include_context "filter tests"
   let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :bcf_issue_associated }
     let(:type) { :list }
 
-    describe '#available?' do
-      context 'if bim is enabled', with_config: { edition: 'bim' } do
-        it 'is available' do
+    describe "#available?" do
+      context "if bim is enabled", with_config: { edition: "bim" } do
+        it "is available" do
           expect(instance)
             .to be_available
         end
       end
 
-      context 'if bim is disabled' do
-        it 'is not available' do
+      context "if bim is disabled" do
+        it "is not available" do
           expect(instance)
             .not_to be_available
         end

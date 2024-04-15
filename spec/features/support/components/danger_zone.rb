@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,24 +37,24 @@ class DangerZone
   end
 
   def container_selector
-    '.danger-zone--verification'
+    ".danger-zone--verification"
   end
 
   def confirmation_field
     page.within container_selector do
-      find('input[type=text]')
+      find("input[type=text]")
     end
   end
 
   def danger_button
     page.within container_selector do
-      find('button.-highlight')
+      find("button.-primary")
     end
   end
 
   def cancel_button
     page.within container_selector do
-      find('a.icon-cancel')
+      find("a.icon-cancel")
     end
   end
 

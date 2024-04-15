@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,6 @@
 #++
 
 class ::Type < ApplicationRecord
-  extend Pagination::Model
-
   # Work Package attributes for this type
   # and constraints to specific attributes (by plugins).
   include ::Type::Attributes
@@ -48,12 +46,13 @@ class ::Type < ApplicationRecord
   has_and_belongs_to_many :projects
 
   has_and_belongs_to_many :custom_fields,
-                          class_name: 'WorkPackageCustomField',
+                          class_name: "WorkPackageCustomField",
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          association_foreign_key: 'custom_field_id'
+                          association_foreign_key: "custom_field_id"
 
   belongs_to :color,
-             class_name: 'Color'
+             optional: true,
+             class_name: "Color"
 
   acts_as_list
 
@@ -66,7 +65,7 @@ class ::Type < ApplicationRecord
 
   scopes :milestone
 
-  default_scope { order('position ASC') }
+  default_scope { order("position ASC") }
 
   scope :without_standard, -> {
     where(is_standard: false)

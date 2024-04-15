@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ module Projects::Concerns
     # defined in the administration. Will either create a new membership
     # or add a role to an already existing one.
     def set_default_role(new_project)
-      role = Role.in_new_project
+      role = ProjectRole.in_new_project
 
       return unless role && new_project.persisted?
 
@@ -54,7 +54,7 @@ module Projects::Concerns
       if user_member
         Members::UpdateService
           .new(user:, model: user_member, contract_class: EmptyContract)
-          .call(roles: user_member.roles + [role])
+          .call(role_ids: user_member.role_ids + [role.id])
       else
         Members::CreateService
           .new(user:, contract_class: EmptyContract)

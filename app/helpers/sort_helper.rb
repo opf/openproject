@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,7 +97,7 @@ module SortHelper
     end
 
     def from_param(param)
-      @criteria = param.to_s.split(',').map { |s| s.split(':')[0..1] }
+      @criteria = param.to_s.split(",").map { |s| s.split(":")[0..1] }
       normalize!
     end
 
@@ -115,7 +115,7 @@ module SortHelper
     end
 
     def to_sql
-      sql = to_a.join(', ')
+      sql = to_a.join(", ")
       sql.presence
     end
 
@@ -123,8 +123,7 @@ module SortHelper
       @criteria
         .map { |c, o| [@available_criteria[c], o] }
         .reject { |c, _| c.nil? }
-        .map { |c, o| append_direction(Array(c), o) }
-        .compact
+        .filter_map { |c, o| append_direction(Array(c), o) }
     end
 
     def to_query_hash
@@ -142,9 +141,9 @@ module SortHelper
       normalize!
     end
 
-    def add(*args)
+    def add(*)
       r = self.class.new.from_param(to_param)
-      r.add!(*args)
+      r.add!(*)
       r
     end
 
@@ -166,7 +165,7 @@ module SortHelper
       @criteria ||= []
       @criteria = @criteria.map do |s|
         s = s.to_a
-        [s.first, !(s.last == false || s.last == 'desc')]
+        [s.first, !(s.last == false || s.last == "desc")]
       end
 
       if @available_criteria
@@ -187,7 +186,7 @@ module SortHelper
 
     # Appends DESC to the sort criterion unless it has a fixed order
     def append_desc(criterion)
-      if criterion =~ / (asc|desc)\z/i
+      if / (asc|desc)\z/i.match?(criterion)
         criterion
       else
         "#{criterion} DESC"
@@ -203,12 +202,12 @@ module SortHelper
     end
 
     def to_sort_param
-      @criteria.map { |k, o| k + (o ? '' : ':desc') }.join(',')
+      @criteria.map { |k, o| k + (o ? "" : ":desc") }.join(",")
     end
   end
 
   def sort_name
-    controller_name + '_' + action_name + '_sort'
+    controller_name + "_" + action_name + "_sort"
   end
 
   # Initializes the default sort.
@@ -285,7 +284,7 @@ module SortHelper
     sort_options = { sort_key => sort_param }
 
     # Don't lose other params.
-    link_to_content_update(h(caption), safe_query_params(%w{filters page per_page expand}).merge(sort_options), html_options)
+    link_to_content_update(h(caption), safe_query_params(%w{filters per_page expand columns}).merge(sort_options), html_options)
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -315,7 +314,7 @@ module SortHelper
   def sort_header_tag(column, options = {})
     caption = get_caption(column, options)
 
-    default_order = options.delete(:default_order) || 'asc'
+    default_order = options.delete(:default_order) || "asc"
     lang = options.delete(:lang) || nil
     param = options.delete(:param) || :sort
 
@@ -335,18 +334,18 @@ module SortHelper
   def order_string(column, inverted: false)
     if column.to_s == @sort_criteria.first_key
       if @sort_criteria.first_asc?
-        inverted ? 'desc' : 'asc'
+        inverted ? "desc" : "asc"
       else
-        inverted ? 'asc' : 'desc'
+        inverted ? "asc" : "desc"
       end
     end
   end
 
   def within_sort_header_tag_hierarchy(options, classes, &)
-    content_tag 'th', options do
-      content_tag 'div', class: 'generic-table--sort-header-outer' do
-        content_tag 'div', class: 'generic-table--sort-header' do
-          content_tag('span', class: classes, &)
+    content_tag "th", options do
+      content_tag "div", class: "generic-table--sort-header-outer" do
+        content_tag "div", class: "generic-table--sort-header" do
+          content_tag("span", class: classes, &)
         end
       end
     end

@@ -5,6 +5,7 @@ sidebar_navigation:
 description: OpenProject Enterprise guide.
 keywords: manage subscription, enterprise edition, cloud edition
 ---
+
 # Enterprise guide
 
 Welcome to the OpenProject **Enterprise guide**.
@@ -13,6 +14,16 @@ Welcome to the OpenProject **Enterprise guide**.
 > The Enterprise add-on descriptions are included in the respective parts of the OpenProject [user guide](../user-guide) and [System admin guide](../system-admin-guide).
 
 The OpenProject Enterprise editions (cloud and on-premises) contain all OpenProject Community features plus the additional OpenProject [Enterprise add-ons](https://www.openproject.org/enterprise-edition/#enterprise-add-ons), as well as professional [support](https://www.openproject.org/pricing/#support).
+
+## Support
+
+Find out more about our different [support options](./support/).
+
+## Enterprise add-ons
+
+This video (english only) provides an overview of the [Enterprise add-ons](https://www.openproject.org/enterprise-edition/#enterprise-add-ons). 
+
+![OpenProject Enterprise add-ons](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Enterprise-add-ons.mp4)
 
 Find a detailed feature comparison [here](https://www.openproject.org/pricing/#features).
 
@@ -28,7 +39,6 @@ Find a detailed feature comparison [here](https://www.openproject.org/pricing/#f
 | [Manage your subscription](./enterprise-cloud-guide/manage-cloud-subscription)        | How to change billing address, add or edit credit card details.                |
 | [Subscribe](./enterprise-cloud-guide/book-cloud)                                      | How to book Enterprise cloud.                                                  |
 | [Backups](./enterprise-cloud-guide/backups)                                           | How do backups work in the cloud.                                              |
-| [Support](./enterprise-cloud-guide/support)                                           | How to get support as Enterprise cloud user.                                   |
 | [GDPR](./enterprise-cloud-guide/gdpr-compliance)                                      | Review and sign a Data Processing Agreement (DPA).                             |
 
 
@@ -39,5 +49,3 @@ Find a detailed feature comparison [here](https://www.openproject.org/pricing/#f
 |---------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------|
 | [Enterprise on-premises trial](./enterprise-on-premises-guide/enterprise-on-premises-trial/)      | Can I test the Enterprise on-premises edition for free?                      |
 | [Activate Enterprise on-premises](./enterprise-on-premises-guide/activate-enterprise-on-premises) | How can I upgrade my Community edition to an Enterprise on-premises edition? |
-| [Support](./enterprise-on-premises-guide/support)                                                 | How can I get support or installation support?                               |
-

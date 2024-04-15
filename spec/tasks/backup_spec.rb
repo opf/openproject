@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,92 +26,93 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Rake::Task, 'backup:database' do
+RSpec.describe Rake::Task, "backup:database" do
   let(:database_config) do
-    { 'adapter' => 'postgresql',
-      'database' => 'openproject-database',
-      'username' => 'test_user',
-      'password' => 'test_password' }
+    { "adapter" => "postgresql",
+      "database" => "openproject-database",
+      "username" => "test_user",
+      "password" => "test_password" }
+  end
+
+  let(:hash_config) do
+    ActiveRecord::DatabaseConfigurations::HashConfig.new("test", "primary", database_config)
   end
 
   before do
-    allow(ActiveRecord::Base).to receive(:configurations).and_return('test' => database_config)
+    allow(ActiveRecord::Base).to receive(:connection_db_config).and_return(hash_config)
     allow(FileUtils).to receive(:mkdir_p).and_return(nil)
     allow(Kernel).to receive(:system)
   end
 
-  describe 'backup:database:create' do
-    include_context 'rake'
+  describe "backup:database:create" do
+    include_context "rake"
 
-    it 'calls the pg_dump binary' do
+    it "calls the pg_dump binary" do
       subject.invoke
       expect(Kernel).to have_received(:system) do |*args|
-        expect(args[1]).to eql('pg_dump')
+        expect(args[1]).to eql("pg_dump")
       end
     end
 
-    it 'writes the pg password file' do
-      # can't use have_received because password file is deleted after invocation
-      expect(Kernel).to receive(:system) do |*args| # rubocop:disable RSpec/MessageSpies
-        pass_file = args.first['PGPASSFILE']
-        expect(File.readable?(pass_file)).to be true
-
-        file_contents = File.read pass_file
-        expect(file_contents).to include('test_password')
-      end
+    it "passes environment variables to the binary" do
       subject.invoke
+      expect(Kernel).to have_received(:system) do |*args|
+        expect(args[0]).to include("PGUSER" => "test_user", "PGPASSWORD" => "test_password")
+      end
     end
 
-    it 'uses the first task parameter as the target filename' do
-      custom_file_path = './foo/bar/test_file.sql'
+    it "uses the first task parameter as the target filename" do
+      custom_file_path = "./foo/bar/test_file.sql"
       subject.invoke custom_file_path
       expect(Kernel).to have_received(:system) do |*args|
-        result_file = args.find { |s| s.to_s.starts_with? '--file=' }
+        result_file = args.find { |s| s.to_s.starts_with? "--file=" }
         expect(result_file).to include(custom_file_path)
       end
     end
   end
 
-  describe 'backup:database:restore' do
-    include_context 'rake'
+  describe "backup:database:restore" do
+    include_context "rake"
 
     let(:backup_file) do
-      Tempfile.new('test_backup')
+      Tempfile.new("test_backup")
     end
 
     after do
       backup_file.unlink
     end
 
-    it 'calls the pg_restore binary' do
+    it "calls the pg_restore binary" do
       subject.invoke backup_file.path
       expect(Kernel).to have_received(:system) do |*args|
-        expect(args[1]).to start_with('pg_restore')
+        expect(args[1]).to start_with("pg_restore")
       end
     end
 
-    it 'writes the pg password file' do
-      # can't use have_received because password file is deleted after invocation
-      expect(Kernel).to receive(:system) do |*args| # rubocop:disable RSpec/MessageSpies
-        pass_file = args.first['PGPASSFILE']
-        expect(File.readable?(pass_file)).to be true
-
-        file_contents = File.read pass_file
-        expect(file_contents).to include('test_password')
-      end
+    it "passes environment variables to the binary" do
       subject.invoke backup_file.path
+      expect(Kernel).to have_received(:system) do |*args|
+        expect(args[0]).to include("PGUSER" => "test_user", "PGPASSWORD" => "test_password")
+      end
     end
 
-    it 'uses the first task parameter as the target filename' do
+    it "uses the first task parameter as the target filename" do
       subject.invoke backup_file.path
       expect(Kernel).to have_received(:system) do |*args|
         expect(args.last).to eql(backup_file.path)
       end
     end
 
-    it 'throws an error when called without a parameter' do
+    it "specifies database name" do
+      subject.invoke backup_file.path
+      expect(Kernel).to have_received(:system) do |*args|
+        expect(args).to include "--dbname=openproject-database"
+      end
+    end
+
+    it "throws an error when called without a parameter" do
       expect { subject.invoke }.to raise_error(RuntimeError, "You must provide the path to the database dump")
     end
   end

@@ -1,16 +1,16 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe ::Recaptcha::AdminController, type: :controller do
-  let(:user) { build_stubbed :admin }
+RSpec.describe Recaptcha::AdminController do
+  let(:user) { build_stubbed(:admin) }
 
   before do
     login_as user
   end
 
-  describe 'as non admin' do
-    let(:user) { build_stubbed :user }
+  describe "as non admin" do
+    let(:user) { build_stubbed(:user) }
 
-    it 'does not allow access' do
+    it "does not allow access" do
       get :show
       expect(response.status).to eq 403
 
@@ -19,23 +19,23 @@ describe ::Recaptcha::AdminController, type: :controller do
     end
   end
 
-  describe 'show' do
-    it 'renders show' do
+  describe "show" do
+    it "renders show" do
       get :show
       expect(response).to be_successful
-      expect(response).to render_template 'recaptcha/admin/show'
+      expect(response).to render_template "recaptcha/admin/show"
     end
   end
 
-  describe '#update' do
-    it 'fails if invalid param' do
+  describe "#update" do
+    it "fails if invalid param" do
       post :update, params: { recaptcha_type: :unknown }
       expect(response).to be_redirect
       expect(flash[:error]).to be_present
     end
 
-    it 'succeeds' do
-      expected = { recaptcha_type: 'v2', website_key: 'B', secret_key: 'A' }
+    it "succeeds" do
+      expected = { recaptcha_type: "v2", website_key: "B", secret_key: "A" }
 
       expect(Setting)
         .to receive(:plugin_openproject_recaptcha=)

@@ -1,6 +1,6 @@
 <spot-tooltip
   [alignment]="getTooltipAlignment"
-  [disabled]="!content.disabled || !content.tooltip"
+  [disabled]="!content.tooltip"
 >
   <p
     slot="body"
@@ -10,8 +10,12 @@
   <label
     slot="trigger"
     class="spot-list--item-action"
-    data-qa-selector="op-files-picker-modal--list-item"
-    [ngClass]="{ 'spot-list--item-action_disabled': content.disabled }"
+    data-test-selector="op-files-picker-modal--list-item"
+    (click)="enterDirectoryOnLabel($event)"
+    [ngClass]="{
+      'spot-list--item-action_disabled': content.disabled,
+      'op-file-list--item-action_view-not-allowed': content.isConstrained
+    }"
   >
     <spot-checkbox
       *ngIf="!!content.checkbox"
@@ -22,7 +26,6 @@
 
     <div
       class="spot-list--item-title op-file-list--item-title"
-      [title]="content.name"
     >
       <span
         class="spot-icon spot-icon_{{content.icon.icon}} op-files-tab--icon op-files-tab--icon_{{content.icon.clazz}}"
@@ -49,7 +52,7 @@
     <button
       *ngIf="content.isDirectory"
       class="spot-link op-file-list--item-button"
-      data-qa-selector="op-files-picker-modal--list-item-caret"
+      data-test-selector="op-files-picker-modal--list-item-caret"
       (click)="content.enterDirectory()"
     >
       <span class="spot-icon spot-icon_arrow-right2"></span>

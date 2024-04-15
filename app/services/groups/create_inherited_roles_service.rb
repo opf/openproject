@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,8 +36,8 @@ module Groups
     def initialize(group, current_user:, contract_class: AdminOnlyContract)
       self.model = group
 
-      super user: current_user,
-            contract_class:
+      super(user: current_user,
+            contract_class:)
     end
 
     private
@@ -69,13 +69,15 @@ module Groups
         ),
         -- select existing memberships of the group
         group_memberships AS (
-          SELECT project_id, user_id FROM #{Member.table_name} WHERE user_id = :group_id AND #{project_limit}
+          SELECT project_id, user_id, entity_type, entity_id FROM #{Member.table_name} WHERE user_id = :group_id AND #{project_limit}
         ),
         -- select existing member_roles of the group
         group_roles AS (
           SELECT members.project_id AS project_id,
                  members.user_id AS user_id,
                  members.id AS member_id,
+                 members.entity_type AS entity_type,
+                 members.entity_id AS entity_id,
                  member_roles.role_id AS role_id,
                  member_roles.id AS member_role_id
           FROM #{MemberRole.table_name} member_roles
@@ -84,28 +86,39 @@ module Groups
         ),
         -- find members that already exist
         existing_members AS (
-          SELECT members.id, found_users.user_id, members.project_id
+          SELECT members.id, found_users.user_id, members.project_id, members.entity_type, members.entity_id
           FROM members, found_users, group_memberships
           WHERE members.user_id = found_users.user_id
           AND members.project_id IS NOT DISTINCT FROM group_memberships.project_id
+          AND members.entity_type IS NOT DISTINCT FROM group_memberships.entity_type
+          AND members.entity_id IS NOT DISTINCT FROM group_memberships.entity_id
           AND members.id IS NOT NULL
         ),
         -- insert the group user into members
         new_members AS (
-          INSERT INTO #{Member.table_name} (project_id, user_id, updated_at, created_at)
-          SELECT group_memberships.project_id, found_users.user_id, (SELECT time from timestamp), (SELECT time from timestamp)
+          INSERT INTO #{Member.table_name} (project_id, user_id, updated_at, created_at, entity_type, entity_id)
+          SELECT group_memberships.project_id, found_users.user_id, (SELECT time from timestamp), (SELECT time from timestamp), group_memberships.entity_type, group_memberships.entity_id
           FROM found_users, group_memberships
-          WHERE NOT EXISTS (SELECT 1 FROM existing_members WHERE existing_members.user_id = found_users.user_id AND existing_members.project_id IS NOT DISTINCT FROM group_memberships.project_id)
-          ON CONFLICT(project_id, user_id) DO NOTHING
-          RETURNING id, user_id, project_id
+          WHERE NOT EXISTS (
+            SELECT 1
+            FROM existing_members
+            WHERE existing_members.user_id = found_users.user_id
+            AND existing_members.project_id IS NOT DISTINCT FROM group_memberships.project_id
+            AND existing_members.entity_type IS NOT DISTINCT FROM group_memberships.entity_type
+            AND existing_members.entity_id IS NOT DISTINCT FROM group_memberships.entity_id
+          )
+          ON CONFLICT DO NOTHING
+          RETURNING id, user_id, project_id, entity_type, entity_id
         ),
         -- copy the member roles of the group
         add_roles AS (
           INSERT INTO #{MemberRole.table_name} (member_id, role_id, inherited_from)
           SELECT members.id, group_roles.role_id, group_roles.member_role_id
           FROM group_roles
-          JOIN
-            (SELECT * FROM new_members UNION SELECT * from existing_members) members ON group_roles.project_id IS NOT DISTINCT FROM members.project_id
+          JOIN (SELECT * FROM new_members UNION SELECT * from existing_members) members
+            ON group_roles.project_id IS NOT DISTINCT FROM members.project_id
+            AND group_roles.entity_type IS NOT DISTINCT FROM members.entity_type
+            AND group_roles.entity_id IS NOT DISTINCT FROM members.entity_id
           -- Ignore if the role was already inserted by us
           ON CONFLICT DO NOTHING
           RETURNING id, member_id, role_id

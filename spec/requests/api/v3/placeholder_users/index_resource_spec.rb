@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,17 +25,16 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-         'index',
-         content_type: :json,
-         type: :request do
+RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+               "index",
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder1) { create :placeholder_user, name: 'foo' }
-  shared_let(:placeholder2) { create :placeholder_user, name: 'bar' }
+  shared_let(:placeholder1) { create(:placeholder_user, name: "foo") }
+  shared_let(:placeholder2) { create(:placeholder_user, name: "bar") }
 
   let(:send_request) do
     get api_v3_paths.placeholder_users
@@ -49,16 +48,16 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     send_request
   end
 
-  context 'for an admin user' do
+  context "for an admin user" do
     let(:user) { build(:admin) }
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
+    it_behaves_like "API V3 collection response", 2, 2, "PlaceholderUser"
   end
 
-  context 'when signaling for the desired properties' do
+  context "when signaling for the desired properties" do
     let(:user) { build(:admin) }
     let(:send_request) do
-      get api_v3_paths.path_for :placeholder_users, select: 'total,count,elements/*'
+      get api_v3_paths.path_for :placeholder_users, select: "total,count,elements/*"
     end
 
     let(:expected) do
@@ -68,7 +67,7 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
         _embedded: {
           elements: [
             {
-              _type: 'PlaceholderUser',
+              _type: "PlaceholderUser",
               id: placeholder2.id,
               name: placeholder2.name,
               _links: {
@@ -79,7 +78,7 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
               }
             },
             {
-              _type: 'PlaceholderUser',
+              _type: "PlaceholderUser",
               id: placeholder1.id,
               name: placeholder1.name,
               _links: {
@@ -94,28 +93,28 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
       }
     end
 
-    it 'is the reduced set of properties of the embedded elements' do
+    it "is the reduced set of properties of the embedded elements" do
       expect(last_response.body)
         .to be_json_eql(expected.to_json)
     end
   end
 
-  context 'for a user with manage_placeholder_user permission' do
-    let(:user) { create(:user, global_permission: %i[manage_placeholder_user]) }
+  context "for a user with manage_placeholder_user permission" do
+    let(:user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
+    it_behaves_like "API V3 collection response", 2, 2, "PlaceholderUser"
   end
 
-  context 'for a user with manage_members permission' do
+  context "for a user with manage_members permission" do
     let(:project) { create(:project) }
-    let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[manage_members]) }
+    let(:user) { create(:user, member_with_permissions: { project => %i[manage_members] }) }
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
+    it_behaves_like "API V3 collection response", 2, 2, "PlaceholderUser"
   end
 
-  context 'for an unauthorized user' do
+  context "for an unauthorized user" do
     let(:user) { build(:user) }
 
-    it_behaves_like 'API V3 collection response', 0, 0, 'PlaceholderUser'
+    it_behaves_like "API V3 collection response", 0, 0, "PlaceholderUser"
   end
 end

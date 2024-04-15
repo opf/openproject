@@ -62,7 +62,7 @@ hu:
           status: Állapot
           version: Verzió
           subproject: Alprojekt
-          subtasks: Parent-child
+          subtasks: Szülő-gyerek
           basic: Alap
         select_attribute: "Akció attribútum"
       add_list_modal:

@@ -1,5 +1,5 @@
 ---
-openapi: 3.0.0
+openapi: 3.1.0
 
 info:
   description: |-
@@ -10,7 +10,8 @@ info:
 
     The documentation for the APIv3 is written according to the [OpenAPI 3.0 Specification](https://swagger.io/specification/).
     You can either view the static version of this documentation on the [website](https://www.openproject.org/docs/api/introduction/)
-    or the interactive Swagger UI version in your OpenProject installation under `/api/docs`.
+    or the interactive version, rendered with [OpenAPI Explorer](https://github.com/Rhosys/openapi-explorer/blob/main/README.md),
+    in your OpenProject installation under `/api/docs`.
     In the latter you can try out the various API endpoints directly interacting with our OpenProject data.
     Moreover you can access the specification source itself under `/api/v3/spec.json` and `/api/v3/spec.yml`
     (e.g. [here](https://community.openproject.org/api/v3/spec.yml)).
@@ -44,7 +45,7 @@ info:
 
     All API responses contain a single HAL+JSON object, even collections of objects are technically represented by
     a single HAL+JSON object that itself contains its members. More details on collections can be found
-    in the [Collections Section](https://www.openproject.org/docs/api/group-objects/).
+    in the [Collections Section](https://www.openproject.org/docs/api/collections/).
 
     ## Authentication
 
@@ -70,9 +71,9 @@ info:
 
     Example:
 
-    ```bash
+    ```shell
     API_KEY=2519132cdf62dcf5a66fd96394672079f9e9cad1
-    curl -u apikey:$API_KEY https://community.openproject.com/api/v3/users/42
+    curl -u apikey:$API_KEY https://community.openproject.org/api/v3/users/42
     ```
 
     ### OAuth2.0 authentication
@@ -115,7 +116,7 @@ info:
     By default, the OpenProject API is _not_ responding with any CORS headers.
     If you want to allow cross-domain AJAX calls against your OpenProject instance, you need to enable CORS headers being returned.
 
-    Please see [our API settings documentation](https://www.openproject.org/docs/system-admin-guide/system-settings/api-settings/) on
+    Please see [our API settings documentation](https://www.openproject.org/docs/system-admin-guide/api-and-webhooks/) on
     how to selectively enable CORS.
 
     ## Allowed HTTP methods
@@ -219,6 +220,10 @@ paths:
     "$ref": "./paths/help_texts.yml"
   "/api/v3/help_texts/{id}":
     "$ref": "./paths/help_text.yml"
+  "/api/v3/meetings/{id}":
+    "$ref": "./paths/meeting.yml"
+  "/api/v3/meetings/{id}/attachments":
+    "$ref": "./paths/meeting_attachments.yml"
   "/api/v3/memberships":
     "$ref": "./paths/memberships.yml"
   "/api/v3/memberships/available_projects":
@@ -255,6 +260,10 @@ paths:
     "$ref": "./paths/oauth_application.yml"
   "/api/v3/oauth_client_credentials/{id}":
     "$ref": "./paths/oauth_client_credentials.yml"
+  "/api/v3/placeholder_users":
+    "$ref": "./paths/placeholder_users.yml"
+  "/api/v3/placeholder_users/{id}":
+    "$ref": "./paths/placeholder_user.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -265,6 +274,12 @@ paths:
     "$ref": "./paths/priorities.yml"
   "/api/v3/priorities/{id}":
     "$ref": "./paths/priority.yml"
+  "/api/v3/project_storages":
+    "$ref": "./paths/project_storages.yml"
+  "/api/v3/project_storages/{id}":
+    "$ref": "./paths/project_storage.yml"
+  "/api/v3/project_storages/{id}/open":
+    "$ref": "./paths/project_storage_open.yml"
   "/api/v3/projects":
     "$ref": "./paths/projects.yml"
   "/api/v3/projects/form":
@@ -329,6 +344,8 @@ paths:
     "$ref": "./paths/queries_sort_by.yml"
   "/api/v3/queries/{id}":
     "$ref": "./paths/query.yml"
+  "/api/v3/queries/{id}/form":
+    "$ref": "./paths/query_form.yml"
   "/api/v3/queries/{id}/star":
     "$ref": "./paths/query_star.yml"
   "/api/v3/queries/{id}/unstar":
@@ -363,14 +380,18 @@ paths:
     "$ref": "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
     "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{id}/files/prepare_upload":
+    "$ref": "./paths/storage_files_prepare_upload.yml"
   "/api/v3/storages/{id}/oauth_client_credentials":
     "$ref": "./paths/storage_oauth_client_credentials.yml"
+  "/api/v3/storages/{id}/open":
+    "$ref": "./paths/storage_open.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
     "$ref": "./paths/time_entries_id_form.yml"
   "/api/v3/time_entries/activity/{id}":
-    "$ref": "./paths/time_entries_activity_item.yml"
+    "$ref": "./paths/time_entry_activity.yml"
   "/api/v3/time_entries/available_projects":
     "$ref": "./paths/time_entries_available_projects.yml"
   "/api/v3/time_entries/form":
@@ -431,6 +452,8 @@ paths:
     "$ref": "./paths/work_package_activities.yml"
   "/api/v3/work_packages/{id}/attachments":
     "$ref": "./paths/work_package_attachments.yml"
+  "/api/v3/work_packages/{id}/available_assignees":
+    "$ref": "./paths/work_package_available_assignees.yml"
   "/api/v3/work_packages/{id}/available_projects":
     "$ref": "./paths/work_package_available_projects.yml"
   "/api/v3/work_packages/{id}/available_relation_candidates":
@@ -439,8 +462,6 @@ paths:
     "$ref": "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/file_links":
     "$ref": "./paths/work_package_file_links.yml"
-  "/api/v3/work_packages/{id}/update_file_links":
-    "$ref": "./paths/work_package_update_file_links.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -456,40 +477,76 @@ components:
   examples:
     DateAlertNotification:
       $ref: './components/examples/date_alert_notification.yml'
+    GridSimpleCollectionResponse:
+      $ref: './components/examples/grid-simple-collection-response.yml'
+    GridSimplePatchModel:
+      $ref: './components/examples/grid-simple-patch-model.yml'
+    GridSimpleResponse:
+      $ref: './components/examples/grid-simple-response.yml'
+    GroupResponse:
+      $ref: './components/examples/group-response.yml'
+    MembershipCreateRequestCustomMessage:
+      $ref: './components/examples/membership-create-request-custom-message.yml'
+    MembershipCreateRequestGlobalRole:
+      $ref: './components/examples/membership-create-request-global-role.yml'
+    MembershipCreateRequestNoNotification:
+      $ref: './components/examples/membership-create-request-no-notification.yml'
+    MembershipFormResponse:
+      $ref: './components/examples/membership-form-response.yml'
+    MembershipSchemaResponse:
+      $ref: './components/examples/membership-schema-response.yml'
+    MembershipSimpleCollectionResponse:
+      $ref: './components/examples/membership-simple-collection-response.yml'
+    MembershipSimpleResponse:
+      $ref: './components/examples/membership-simple-response.yml'
+    MembershipUpdateAdditionalRoles:
+      $ref: './components/examples/membership-update-additional-roles.yml'
     MentionedNotification:
       $ref: './components/examples/mentioned_notification.yml'
     NotificationCollection:
       $ref: './components/examples/notification_collection.yml'
+    PlaceholderUserResponse:
+      $ref: './components/examples/placeholder-user-response.yml'
     Project:
-      $ref: "./components/examples/project.yml"
+      $ref: './components/examples/project.yml'
     ProjectBody:
-      $ref: "./components/examples/project_body.yml"
+      $ref: './components/examples/project_body.yml'
+    ProjectCollection:
+      $ref: './components/examples/project_collection.yml'
     QueriesModel:
-      "$ref": "./components/examples/queries.yml"
+      $ref: './components/examples/queries.yml'
     QueryModel:
-      "$ref": "./components/examples/query.yml"
+      $ref: './components/examples/query.yml'
     QuerySchemaModel:
-      "$ref": "./components/examples/query_schema.yml"
+      $ref: './components/examples/query_schema.yml'
+    StatusCollection:
+      $ref: './components/examples/status_collection.yml'
+    StoragesSimpleCollectionModel:
+      $ref: './components/examples/storages-simple-collection-response.yml'
+    UserResponse:
+      $ref: './components/examples/user-response.yml'
     ValuesPropertyStartDateSchema:
-      "$ref": "./components/examples/values_property_start_date_schema.yml"
+      $ref: './components/examples/values_property_start_date_schema.yml'
     ValuesPropertyDueDateSchema:
-      "$ref": "./components/examples/values_property_due_date_schema.yml"
+      $ref: './components/examples/values_property_due_date_schema.yml'
     ValuesPropertyDateSchema:
-      "$ref": "./components/examples/values_property_date_schema.yml"
+      $ref: './components/examples/values_property_date_schema.yml'
     ValuesPropertyStartDate:
-      "$ref": "./components/examples/values_property_start_date.yml"
+      $ref: './components/examples/values_property_start_date.yml'
     ValuesPropertyDueDate:
-      "$ref": "./components/examples/values_property_due_date.yml"
+      $ref: './components/examples/values_property_due_date.yml'
     ValuesPropertyDate:
-      "$ref": "./components/examples/values_property_date.yml"
+      $ref: './components/examples/values_property_date.yml'
     Views:
-      "$ref": "./components/examples/views.yml"
+      $ref: './components/examples/views.yml'
     ViewWorkPackagesTable:
-      "$ref": "./components/examples/view_work_packages_table.yml"
+      $ref: './components/examples/view_work_packages_table.yml'
     ViewTeamPlanner:
-      "$ref": "./components/examples/view_team_planner.yml"
+      $ref: './components/examples/view_team_planner.yml'
 
   responses:
+    InvalidQuery:
+      "$ref": "./components/responses/invalid_query.yml"
     InvalidRequestBody:
       "$ref": "./components/responses/invalid_request_body.yml"
     MissingContentType:
@@ -510,8 +567,6 @@ components:
       "$ref": "./components/schemas/available_responsibles_model.yml"
     Available_WatchersModel:
       "$ref": "./components/schemas/available_watchers_model.yml"
-    Available_projects_for_membershipsModel:
-      "$ref": "./components/schemas/available_projects_for_memberships_model.yml"
     Available_projects_for_queryModel:
       "$ref": "./components/schemas/available_projects_for_query_model.yml"
     Available_projects_for_time_entriesModel:
@@ -534,26 +589,10 @@ components:
       "$ref": "./components/schemas/collection_model.yml"
     ConfigurationModel:
       "$ref": "./components/schemas/configuration_model.yml"
-    Create_User:
-      "$ref": "./components/schemas/create_user.yml"
-    Create_group:
-      "$ref": "./components/schemas/create_group.yml"
-    Create_membership:
-      "$ref": "./components/schemas/create_membership.yml"
-    Create_project:
-      "$ref": "./components/schemas/create_project.yml"
-    Create_project_copy:
-      "$ref": "./components/schemas/create_project_copy.yml"
-    Create_time_entry:
-      "$ref": "./components/schemas/create_time_entry.yml"
-    Cursor_based_pagination:
-      "$ref": "./components/schemas/cursor_based_pagination.yml"
-    Custom_ActionModel:
+    CustomActionModel:
       "$ref": "./components/schemas/custom_action_model.yml"
-    Custom_OptionModel:
+    CustomOptionModel:
       "$ref": "./components/schemas/custom_option_model.yml"
-    CustomactionModel:
-      "$ref": "./components/schemas/customaction_model.yml"
     DayCollectionModel:
       "$ref": "./components/schemas/day_collection_model.yml"
     DayModel:
@@ -562,16 +601,6 @@ components:
       "$ref": "./components/schemas/default_query_model.yml"
     Default_Query_for_ProjectModel:
       "$ref": "./components/schemas/default_query_for_project_model.yml"
-    Delete_User:
-      "$ref": "./components/schemas/delete_user.yml"
-    Delete_group:
-      "$ref": "./components/schemas/delete_group.yml"
-    Delete_membership:
-      "$ref": "./components/schemas/delete_membership.yml"
-    Delete_project:
-      "$ref": "./components/schemas/delete_project.yml"
-    Delete_time_entry:
-      "$ref": "./components/schemas/delete_time_entry.yml"
     DocumentModel:
       "$ref": "./components/schemas/document_model.yml"
     DocumentsModel:
@@ -582,10 +611,6 @@ components:
       "$ref": "./components/schemas/example_form_model.yml"
     Example_SchemaModel:
       "$ref": "./components/schemas/example_schema_model.yml"
-    Execute_custom_action:
-      "$ref": "./components/schemas/execute_custom_action.yml"
-    FileCollectionModel:
-      $ref: './components/schemas/file_collection_model.yml'
     FileLinkCollectionReadModel:
       $ref: './components/schemas/file_link_collection_read_model.yml'
     FileLinkCollectionWriteModel:
@@ -596,26 +621,26 @@ components:
       $ref: './components/schemas/file_link_read_model.yml'
     FileLinkWriteModel:
       $ref: './components/schemas/file_link_write_model.yml'
-    FormModel:
-      "$ref": "./components/schemas/form_model.yml"
     Formattable:
       "$ref": "./components/schemas/formattable.yml"
-    GridModel:
-      "$ref": "./components/schemas/grid_model.yml"
-    Grid_Create_Form:
-      "$ref": "./components/schemas/grid_create_form.yml"
-    Grid_Update_Form:
-      "$ref": "./components/schemas/grid_update_form.yml"
-    GridsModel:
-      "$ref": "./components/schemas/grids_model.yml"
+    GridCollectionModel:
+      "$ref": "./components/schemas/grid_collection_model.yml"
+    GridReadModel:
+      "$ref": "./components/schemas/grid_read_model.yml"
+    GridWidgetModel:
+      "$ref": "./components/schemas/grid_widget_model.yml"
+    GridWriteModel:
+      "$ref": "./components/schemas/grid_write_model.yml"
+    GroupCollectionModel:
+      "$ref": "./components/schemas/group_collection_model.yml"
     GroupModel:
       "$ref": "./components/schemas/group_model.yml"
-    Help_textModel:
+    GroupWriteModel:
+      "$ref": "./components/schemas/group_write_model.yml"
+    HelpTextCollectionModel:
+      "$ref": "./components/schemas/help_text_collection_model.yml"
+    HelpTextModel:
       "$ref": "./components/schemas/help_text_model.yml"
-    Help_textsModel:
-      "$ref": "./components/schemas/help_texts_model.yml"
-    HelptextModel:
-      "$ref": "./components/schemas/helptext_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:
@@ -624,30 +649,24 @@ components:
       "$ref": "./components/schemas/list_available_parent_project_candidates_model.yml"
     List_capabilitiesModel:
       "$ref": "./components/schemas/list_capabilities_model.yml"
-    List_groupsModel:
-      "$ref": "./components/schemas/list_groups_model.yml"
-    List_membershipsModel:
-      "$ref": "./components/schemas/list_memberships_model.yml"
     List_of_NewsModel:
       "$ref": "./components/schemas/list_of_news_model.yml"
-    List_projectsModel:
-      "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
-    List_time_entriesModel:
-      "$ref": "./components/schemas/list_time_entries_model.yml"
-    Lock_user:
-      "$ref": "./components/schemas/lock_user.yml"
-    Markdown:
-      "$ref": "./components/schemas/markdown.yml"
+    MeetingModel:
+      "$ref": "./components/schemas/meeting_model.yml"
     MarkdownModel:
       "$ref": "./components/schemas/markdown_model.yml"
-    MembershipModel:
-      "$ref": "./components/schemas/membership_model.yml"
-    Membership_create_form:
-      "$ref": "./components/schemas/membership_create_form.yml"
-    Membership_update_form:
-      "$ref": "./components/schemas/membership_update_form.yml"
+    MembershipCollectionModel:
+      "$ref": "./components/schemas/membership_collection_model.yml"
+    MembershipFormModel:
+      "$ref": "./components/schemas/membership_form_model.yml"
+    MembershipReadModel:
+      "$ref": "./components/schemas/membership_read_model.yml"
+    MembershipSchemaModel:
+      "$ref": "./components/schemas/membership_schema_model.yml"
+    MembershipWriteModel:
+      "$ref": "./components/schemas/membership_write_model.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
     NonWorkingDayCollectionModel:
@@ -658,40 +677,40 @@ components:
       "$ref": "./components/schemas/notification_collection_model.yml"
     NotificationModel:
       "$ref": "./components/schemas/notification_model.yml"
-    NotificationSettingsModel:
-      "$ref": "./components/schemas/notification_settings_model.yml"
-    Offset_based_pagination:
-      "$ref": "./components/schemas/offset_based_pagination.yml"
     OAuthApplicationReadModel:
       "$ref": "./components/schemas/oauth_application_read_model.yml"
     OAuthClientCredentialsReadModel:
       "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
     OAuthClientCredentialsWriteModel:
       "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
-    Plain_Text:
-      "$ref": "./components/schemas/plain_text.yml"
+    PaginatedCollectionModel:
+      "$ref": "./components/schemas/paginated_collection_model.yml"
+    PlaceholderUserCollectionModel:
+      "$ref": "./components/schemas/placeholder_user_collection_model.yml"
+    PlaceholderUserCreateModel:
+      "$ref": "./components/schemas/placeholder_user_create_model.yml"
+    PlaceholderUserModel:
+      "$ref": "./components/schemas/placeholder_user_model.yml"
     Plain_TextModel:
       "$ref": "./components/schemas/plain_text_model.yml"
     PostModel:
       "$ref": "./components/schemas/post_model.yml"
-    PreviewingModel:
-      "$ref": "./components/schemas/previewing_model.yml"
+    PrincipalCollectionModel:
+      "$ref": "./components/schemas/principal_collection_model.yml"
     PrincipalModel:
       "$ref": "./components/schemas/principal_model.yml"
-    PrincipalsModel:
-      "$ref": "./components/schemas/principals_model.yml"
     PrioritiesModel:
       "$ref": "./components/schemas/priorities_model.yml"
     PriorityModel:
       "$ref": "./components/schemas/priority_model.yml"
+    ProjectCollectionModel:
+      "$ref": "./components/schemas/project_collection_model.yml"
     ProjectModel:
       "$ref": "./components/schemas/project_model.yml"
-    Project_copy_form:
-      "$ref": "./components/schemas/project_copy_form.yml"
-    Project_create_form:
-      "$ref": "./components/schemas/project_create_form.yml"
-    Project_update_form:
-      "$ref": "./components/schemas/project_update_form.yml"
+    ProjectStorageCollectionModel:
+      "$ref": "./components/schemas/project_storage_collection_model.yml"
+    ProjectStorageModel:
+      "$ref": "./components/schemas/project_storage_model.yml"
     Projects_schemaModel:
       "$ref": "./components/schemas/projects_schema_model.yml"
     QueriesModel:
@@ -714,18 +733,16 @@ components:
       "$ref": "./components/schemas/query_operator_model.yml"
     Query_Sort_ByModel:
       "$ref": "./components/schemas/query_sort_by_model.yml"
+    Query_Update_Form:
+      "$ref": "./components/schemas/query_update_form.yml"
     RelationModel:
       "$ref": "./components/schemas/relation_model.yml"
     Relation_edit_formModel:
       "$ref": "./components/schemas/relation_edit_form_model.yml"
     Relation_schemaModel:
       "$ref": "./components/schemas/relation_schema_model.yml"
-    Relation_schema_for_type:
-      "$ref": "./components/schemas/relation_schema_for_type.yml"
     RelationsModel:
       "$ref": "./components/schemas/relations_model.yml"
-    Remove_Watcher:
-      "$ref": "./components/schemas/remove_watcher.yml"
     RevisionModel:
       "$ref": "./components/schemas/revision_model.yml"
     RevisionsModel:
@@ -738,46 +755,46 @@ components:
       "$ref": "./components/schemas/root_model.yml"
     SchemaModel:
       "$ref": "./components/schemas/schema_model.yml"
+    SchemaPropertyModel:
+      "$ref": "./components/schemas/schema_property_model.yml"
     Schema_For_Global_QueriesModel:
       "$ref": "./components/schemas/schema_for_global_queries_model.yml"
     Schema_For_Project_QueriesModel:
       "$ref": "./components/schemas/schema_for_project_queries_model.yml"
     Star_QueryModel:
       "$ref": "./components/schemas/star_query_model.yml"
+    StatusCollectionModel:
+      "$ref": "./components/schemas/status_collection_model.yml"
     StatusModel:
       "$ref": "./components/schemas/status_model.yml"
-    StatusesModel:
-      "$ref": "./components/schemas/statuses_model.yml"
+    StorageCollectionModel:
+      "$ref": "./components/schemas/storage_collection_model.yml"
     StorageFileModel:
       "$ref": "./components/schemas/storage_file_model.yml"
-    StorageFileLocationModel:
-      "$ref": "./components/schemas/storage_file_location_model.yml"
+    StorageFilesModel:
+      "$ref": "./components/schemas/storage_files_model.yml"
+    StorageFileUploadPreparationModel:
+      "$ref": "./components/schemas/storage_file_upload_preparation_model.yml"
+    StorageFileUploadLinkModel:
+      "$ref": "./components/schemas/storage_file_upload_link_model.yml"
     StorageReadModel:
       "$ref": "./components/schemas/storage_read_model.yml"
     StorageWriteModel:
       "$ref": "./components/schemas/storage_write_model.yml"
-    Time_EntryModel:
-      "$ref": "./components/schemas/time_entry_model.yml"
-    Time_Entry_ActivityModel:
+    TimeEntryActivityModel:
       "$ref": "./components/schemas/time_entry_activity_model.yml"
-    Time_entry_create_form:
-      "$ref": "./components/schemas/time_entry_create_form.yml"
-    Time_entry_update_form:
-      "$ref": "./components/schemas/time_entry_update_form.yml"
+    TimeEntryCollectionModel:
+      "$ref": "./components/schemas/time_entry_collection_model.yml"
+    TimeEntryModel:
+      "$ref": "./components/schemas/time_entry_model.yml"
     TypeModel:
       "$ref": "./components/schemas/type_model.yml"
     TypesModel:
       "$ref": "./components/schemas/types_model.yml"
     Types_by_ProjectModel:
       "$ref": "./components/schemas/types_by_project_model.yml"
-    Unlock_user:
-      "$ref": "./components/schemas/unlock_user.yml"
     Unstar_QueryModel:
       "$ref": "./components/schemas/unstar_query_model.yml"
-    Update_User:
-      "$ref": "./components/schemas/update_user.yml"
-    Update_group:
-      "$ref": "./components/schemas/update_group.yml"
     UserCollectionModel:
       "$ref": "./components/schemas/user_collection_model.yml"
     UserCreateModel:
@@ -802,18 +819,8 @@ components:
       "$ref": "./components/schemas/view_capabilities_model.yml"
     View_global_contextModel:
       "$ref": "./components/schemas/view_global_context_model.yml"
-    View_groupModel:
-      "$ref": "./components/schemas/view_group_model.yml"
-    View_membershipModel:
-      "$ref": "./components/schemas/view_membership_model.yml"
-    View_membership_schemaModel:
-      "$ref": "./components/schemas/view_membership_schema_model.yml"
     View_project_statusModel:
       "$ref": "./components/schemas/view_project_status_model.yml"
-    View_time_entries_activityModel:
-      "$ref": "./components/schemas/view_time_entries_activity_model.yml"
-    View_time_entryModel:
-      "$ref": "./components/schemas/view_time_entry_model.yml"
     View_time_entry_schemaModel:
       "$ref": "./components/schemas/view_time_entry_schema_model.yml"
     View_user_schemaModel:
@@ -840,6 +847,8 @@ components:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
+    WorkPackagePatchModel:
+      "$ref": "./components/schemas/work_package_patch_model.yml"
   securitySchemes:
     BasicAuth:
       type: http
@@ -848,6 +857,7 @@ tags:
   - "$ref": "./tags/basic_objects.yml"
   - "$ref": "./tags/collections.yml"
   - "$ref": "./tags/filters.yml"
+  - "$ref": "./tags/baseline_comparisons.yml"
   - "$ref": "./tags/forms.yml"
   - "$ref": "./tags/signaling.yml"
   - "$ref": "./tags/actions_and_capabilities.yml"
@@ -896,4 +906,4 @@ tags:
   - "$ref": "./tags/work_packages.yml"
   - "$ref": "./tags/work_schedule.yml"
 security:
-  - BasicAuth: []
+  - BasicAuth: [ ]

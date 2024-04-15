@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,61 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'admin/settings/authentication_settings/show', type: :view do
-  context 'with password login enabled' do
+RSpec.describe "admin/settings/authentication_settings/show" do
+  context "with password login enabled" do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
       render
     end
 
-    it 'shows password settings' do
-      expect(rendered).to have_text I18n.t('label_password_lost')
+    it "shows password settings" do
+      expect(rendered).to have_text I18n.t("label_password_lost")
     end
 
-    it 'shows automated user blocking options' do
-      expect(rendered).to have_text I18n.t('settings.brute_force_prevention')
+    it "shows automated user blocking options" do
+      expect(rendered).to have_text I18n.t("settings.brute_force_prevention")
     end
   end
 
-  context 'with password login disabled' do
+  context "with password login disabled" do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       render
     end
 
-    it 'does not show password settings' do
-      expect(rendered).not_to have_text I18n.t('label_password_lost')
+    it "does not show password settings" do
+      expect(rendered).to have_no_text I18n.t("label_password_lost")
     end
 
-    it 'does not show automated user blocking options' do
-      expect(rendered).not_to have_text I18n.t('settings.brute_force_prevention')
-    end
-  end
-
-  context 'with no registration_footer configured' do
-    before do
-      allow(OpenProject::Configuration).to receive(:registration_footer).and_return({})
-      render
-    end
-
-    it 'shows the registration footer textfield' do
-      expect(rendered).to have_text I18n.t(:setting_registration_footer)
-    end
-  end
-
-  context 'with registration_footer configured' do
-    before do
-      allow(OpenProject::Configuration)
-        .to receive(:registration_footer)
-        .and_return("en" => "You approve.")
-
-      render
-    end
-
-    it 'does not show the registration footer textfield' do
-      expect(rendered).not_to have_text I18n.t(:setting_registration_footer)
+    it "does not show automated user blocking options" do
+      expect(rendered).to have_no_text I18n.t("settings.brute_force_prevention")
     end
   end
 end

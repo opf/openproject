@@ -8,6 +8,7 @@ sk:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'Vlastný text'
         documents:
@@ -36,7 +37,7 @@ sk:
           off_track: 'Na zlej ceste'
           at_risk: 'V riziku'
           not_set: 'Not set'
-          finished: 'Finished'
+          finished: 'Dokončené'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Podprojekty'

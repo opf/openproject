@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,24 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'contracts/work_packages/shared_base_contract'
+require "spec_helper"
+require "contracts/work_packages/shared_base_contract"
 
-describe WorkPackages::UpdateContract do
-  let(:work_package_project) do
-    build_stubbed(:project, public: false).tap do |p|
-      allow(Project)
-        .to receive(:find)
-        .with(p.id)
-        .and_return(p)
-    end
-  end
+RSpec.describe WorkPackages::UpdateContract do
+  shared_let(:persistent_project) { create(:project, public: false) }
+  shared_let(:type) { create(:type) }
+  let(:work_package_project) { persistent_project }
   let(:work_package) do
     build_stubbed(:work_package,
                   project: work_package_project,
                   type:,
-                  status:).tap do |wp|
-      wp_scope = double('wp scope')
+                  status:) do |wp|
+      wp_scope = double("wp scope")
 
       allow(WorkPackage)
         .to receive(:visible)
@@ -56,28 +51,26 @@ describe WorkPackages::UpdateContract do
     end
   end
   let(:user) { build_stubbed(:user) }
-  let(:type) { build_stubbed(:type) }
   let(:status) { build_stubbed(:status) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission, context|
-        permissions.include?(permission) && context == work_package_project
-      end
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project(*permissions, project: work_package_project) if work_package_project
+    end
   end
 
   subject(:contract) { described_class.new(work_package, user) }
 
-  it_behaves_like 'work package contract' do
+  it_behaves_like "work package contract" do
     let(:work_package) do
       build_stubbed(:work_package,
                     project: work_package_project)
     end
   end
 
-  describe 'lock_version' do
-    context 'no lock_version present' do
+  describe "lock_version" do
+    context "no lock_version present" do
       before do
         work_package.lock_version = nil
         contract.validate
@@ -86,7 +79,7 @@ describe WorkPackages::UpdateContract do
       it { expect(contract.errors.symbols_for(:base)).to include(:error_conflict) }
     end
 
-    context 'lock_version changed' do
+    context "lock_version changed" do
       before do
         work_package.lock_version += 1
         contract.validate
@@ -95,7 +88,7 @@ describe WorkPackages::UpdateContract do
       it { expect(contract.errors.symbols_for(:base)).to include(:error_conflict) }
     end
 
-    context 'lock_version present and unchanged' do
+    context "lock_version present and unchanged" do
       before do
         contract.validate
       end
@@ -104,7 +97,7 @@ describe WorkPackages::UpdateContract do
     end
   end
 
-  describe 'authorization' do
+  describe "authorization" do
     let(:attributes) { {} }
 
     before do
@@ -112,66 +105,64 @@ describe WorkPackages::UpdateContract do
       contract.validate
     end
 
-    context 'full access' do
-      it 'is valid' do
+    context "full access" do
+      it "is valid" do
         expect(contract.errors).to be_empty
       end
     end
 
-    context 'no read access' do
+    context "no read access" do
       let(:permissions) { [:edit_work_packages] }
 
       it { expect(contract.errors.symbols_for(:base)).to include(:error_not_found) }
     end
 
-    context 'no write access' do
+    context "no write access" do
       let(:permissions) { [:view_work_packages] }
 
       it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
     end
 
-    context 'only comment permission' do
+    context "only comment permission" do
       let(:permissions) { %i[view_work_packages add_work_package_notes] }
 
-      context 'when only adding a journal' do
-        let(:attributes) { { journal_notes: 'some notes' } }
+      context "when only adding a journal" do
+        let(:attributes) { { journal_notes: "some notes" } }
 
-        it 'is valid' do
+        it "is valid" do
           expect(contract.errors).to be_empty
         end
       end
 
-      context 'when changing more than a journal' do
-        let(:attributes) { { journal_notes: 'some notes', subject: 'blubs' } }
+      context "when changing more than a journal" do
+        let(:attributes) { { journal_notes: "some notes", subject: "blubs" } }
 
-        it 'is invalid' do
+        it "is invalid" do
           expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized)
         end
       end
     end
 
-    context 'only assign_versions permission' do
+    context "only assign_versions permission" do
       let(:permissions) { %i[view_work_packages assign_versions] }
 
-      it 'is valid' do
+      it "is valid" do
         expect(contract.errors).to be_empty
       end
     end
   end
 
-  describe 'project_id' do
+  describe "project_id" do
     let(:target_project) { create(:project, types: [type]) }
     let(:target_permissions) { [:move_work_packages] }
 
     before do
-      allow(user)
-        .to receive(:allowed_to?) do |permission, context|
-        (permissions.include?(permission) && context == work_package_project) ||
-          (target_permissions.include?(permission) && context == target_project)
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project *permissions, project: work_package_project
+        mock.allow_in_project *target_permissions, project: target_project
       end
 
-      allow(work_package)
-        .to receive(:project) do
+      allow(work_package).to receive(:project) do
         if work_package.project_id == target_project.id
           target_project
         else
@@ -184,20 +175,20 @@ describe WorkPackages::UpdateContract do
       contract.validate
     end
 
-    context 'if the user has the permissions' do
-      it('is valid') { expect(contract.errors).to be_empty }
+    context "if the user has the permissions" do
+      it("is valid") { expect(contract.errors).to be_empty }
     end
 
-    context 'if the user lacks the permissions' do
+    context "if the user lacks the permissions" do
       let(:target_permissions) { [] }
 
-      it 'is invalid' do
-        expect(contract.errors.symbols_for(:project_id)).to match_array([:error_readonly])
+      it "is invalid" do
+        expect(contract.errors.symbols_for(:project_id)).to contain_exactly(:error_readonly)
       end
     end
   end
 
-  describe 'version' do
+  describe "version" do
     let(:version) { build_stubbed(:version) }
 
     before do
@@ -210,32 +201,32 @@ describe WorkPackages::UpdateContract do
       contract.validate
     end
 
-    context 'having full access' do
-      context 'with an assignable_version' do
+    context "having full access" do
+      context "with an assignable_version" do
         let(:attributes) { { version_id: version.id } }
 
-        it 'is valid' do
+        it "is valid" do
           expect(contract.errors).to be_empty
         end
       end
 
-      context 'with an unassignable_version' do
+      context "with an unassignable_version" do
         let(:attributes) { { version_id: version.id + 1 } }
 
-        it 'adds an error' do
+        it "adds an error" do
           expect(contract.errors.symbols_for(:version_id))
             .to include(:inclusion)
         end
       end
     end
 
-    context 'write access' do
+    context "write access" do
       let(:permissions) { %i[view_work_packages edit_work_packages] }
 
-      context 'if assigning a version' do
+      context "if assigning a version" do
         let(:attributes) { { version_id: version.id } }
 
-        it 'adds an error' do
+        it "adds an error" do
           expect(contract.errors.symbols_for(:version_id))
             .to include(:error_readonly)
         end
@@ -243,8 +234,8 @@ describe WorkPackages::UpdateContract do
     end
   end
 
-  describe 'ignore_non_working_days' do
-    context 'when having children and not being scheduled manually' do
+  describe "ignore_non_working_days" do
+    context "when having children and not being scheduled manually" do
       before do
         allow(work_package)
           .to receive(:leaf?)
@@ -256,13 +247,13 @@ describe WorkPackages::UpdateContract do
         contract.validate
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(contract.errors.symbols_for(:ignore_non_working_days))
-          .to match_array([:error_readonly])
+          .to contain_exactly(:error_readonly)
       end
     end
 
-    context 'when having children and being scheduled manually' do
+    context "when having children and being scheduled manually" do
       before do
         allow(work_package)
           .to receive(:leaf?)
@@ -274,15 +265,15 @@ describe WorkPackages::UpdateContract do
         contract.validate
       end
 
-      it 'is valid' do
+      it "is valid" do
         expect(contract.errors).to be_empty
       end
     end
   end
 
-  describe 'with children' do
-    context 'changing to milestone' do
-      let(:milestone) { build_stubbed :type, is_milestone: true }
+  describe "with children" do
+    context "changing to milestone" do
+      let(:milestone) { build_stubbed(:type, is_milestone: true) }
       let(:children) { [build_stubbed(:work_package)] }
 
       before do
@@ -291,32 +282,35 @@ describe WorkPackages::UpdateContract do
         contract.validate
       end
 
-      it 'adds an error because cannot change to milestone with children' do
+      it "adds an error because cannot change to milestone with children" do
         expect(contract.errors.symbols_for(:type)).to include(:cannot_be_milestone_due_to_children)
       end
     end
   end
 
-  describe 'parent_id' do
-    let(:parent) { create(:work_package) }
+  describe "parent_id" do
+    shared_let(:parent) { create(:work_package) }
+
+    let(:parent_visible) { true }
 
     before do
       work_package.parent_id = parent.id
+      allow(work_package.parent).to receive(:visible?).and_return(parent_visible)
       contract.validate
     end
 
-    context 'if the user has only edit permissions' do
+    context "if the user has only edit permissions" do
       it { expect(contract.errors.symbols_for(:parent_id)).to include(:error_readonly) }
     end
 
-    context 'if the user has edit and subtasks permissions' do
+    context "if the user has edit and subtasks permissions" do
       let(:permissions) { %i[edit_work_packages view_work_packages manage_subtasks] }
 
-      it('is valid') do
+      it("is valid") do
         expect(contract.errors).to be_empty
       end
 
-      describe 'invalid lock version' do
+      describe "invalid lock version" do
         before do
           work_package.lock_version = 9999
           contract.validate
@@ -326,63 +320,69 @@ describe WorkPackages::UpdateContract do
       end
     end
 
-    context 'no write access' do
+    context "no write access" do
       let(:permissions) { [:view_work_packages] }
 
       it { expect(contract.errors.symbols_for(:parent_id)).to include(:error_readonly) }
     end
 
-    context 'with manage_subtasks permission' do
+    context "with manage_subtasks permission" do
       let(:permissions) { %i[view_work_packages manage_subtasks] }
 
-      it('is valid') do
+      it("is valid") do
         expect(contract.errors).to be_empty
       end
 
-      describe 'changing more than the parent_id' do
+      describe "changing more than the parent_id" do
         before do
-          work_package.subject = 'Foobar!'
+          work_package.subject = "Foobar!"
           contract.validate
         end
 
         it { expect(contract.errors.symbols_for(:subject)).to include(:error_readonly) }
       end
     end
+
+    context "when the user does not have access to the parent" do
+      let(:parent_visible) { false }
+
+      it { expect(contract.errors.symbols_for(:parent_id)).to include(:error_unauthorized) }
+    end
   end
 
-  describe '#writable_attributes' do
+  describe "#writable_attributes" do
     subject { contract.writable_attributes }
 
-    context 'for a user having only the edit_work_packages permission' do
+    context "for a user having only the edit_work_packages permission" do
       let(:permissions) { %i[edit_work_packages] }
 
-      it 'includes all attributes except version_id' do
+      it "includes all attributes except version_id" do
         expect(subject)
-          .to include('subject', 'start_date', 'description')
+          .to include("subject", "start_date", "description")
 
         expect(subject)
-          .not_to include('version_id', 'version')
+          .not_to include("version_id", "version")
       end
     end
 
-    context 'for a user having only the assign_versions permission' do
+    context "for a user having only the assign_versions permission" do
       let(:permissions) { %i[assign_versions] }
 
-      it 'includes all attributes except version_id' do
+      it "includes all attributes except version_id" do
         expect(subject)
-          .to include('version_id', 'version')
+          .to include("version_id", "version")
 
         expect(subject)
-          .not_to include('subject', 'start_date', 'description')
+          .not_to include("subject", "start_date", "description")
       end
     end
   end
 
-  describe 'readonly status' do
-    context 'with the status being readonly', with_ee: %i[readonly_work_packages] do
+  describe "readonly status" do
+    context "with the status being readonly", with_ee: %i[readonly_work_packages] do
       let(:status) { build_stubbed(:status, is_readonly: true) }
 
-      describe 'updating the priority' do
+      describe "updating the priority" do
         let(:new_priority) { build_stubbed(:priority) }
 
         before do
@@ -391,55 +391,113 @@ describe WorkPackages::UpdateContract do
           contract.validate
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect(contract)
             .not_to be_valid
         end
 
-        it 'adds an error to the written to attribute' do
+        it "adds an error to the written to attribute" do
           expect(contract.errors.symbols_for(:priority_id))
             .to include(:error_readonly)
         end
 
-        it 'adds an error to base to better explain' do
+        it "adds an error to base to better explain" do
           expect(contract.errors.symbols_for(:base))
             .to include(:readonly_status)
         end
       end
 
-      describe 'updating the custom field values' do
+      describe "updating the custom field values" do
         let(:cf1) { create(:string_wp_custom_field) }
 
         before do
           work_package_project.work_package_custom_fields << cf1
           type.custom_fields << cf1
-          work_package.custom_field_values = { cf1.id => 'test' }
+          work_package.custom_field_values = { cf1.id => "test" }
           contract.validate
         end
 
-        shared_examples_for 'custom_field readonly errors' do
-          it 'adds an error to the written custom field attribute' do
-            expect(contract.errors.symbols_for(:"custom_field_#{cf1.id}"))
+        shared_examples_for "custom_field readonly errors" do
+          it "adds an error to the written custom field attribute" do
+            expect(contract.errors.symbols_for(cf1.attribute_name.to_sym))
               .to include(:error_readonly)
           end
 
-          it 'adds an error to base to better explain' do
+          it "adds an error to base to better explain" do
             expect(contract.errors.symbols_for(:base))
               .to include(:readonly_status)
           end
         end
 
-        context 'when the subject does not extends OpenProject::ChangedBySystem' do
-          include_examples 'custom_field readonly errors'
+        context "when the subject does not extends OpenProject::ChangedBySystem" do
+          include_examples "custom_field readonly errors"
         end
 
-        context 'when the subject extends OpenProject::ChangedBySystem' do
+        context "when the subject extends OpenProject::ChangedBySystem" do
           before do
             work_package.extend(OpenProject::ChangedBySystem)
           end
 
-          include_examples 'custom_field readonly errors'
+          include_examples "custom_field readonly errors"
         end
+      end
+    end
+  end
+
+  describe "remaining hours" do
+    context "when is not a parent" do
+      before do
+        contract.validate
+      end
+
+      context "when has not changed" do
+        it("is valid") { expect(contract.errors.empty?).to be true }
+      end
+
+      context "when has changed" do
+        before do
+          work_package.remaining_hours = 10
+        end
+
+        it("is valid") { expect(contract.errors.empty?).to be true }
+      end
+    end
+
+    context "when is a parent" do
+      let(:work_package) do
+        build_stubbed(:work_package,
+                      project: work_package_project,
+                      children: [build_stubbed(:work_package, project: work_package_project)],
+                      type:,
+                      status:) do |wp|
+          wp_scope = instance_double(ActiveRecord::Relation)
+
+          allow(WorkPackage)
+            .to receive(:visible)
+            .with(user)
+            .and_return(wp_scope)
+
+          allow(wp_scope)
+            .to receive(:exists?) do |id|
+            permissions.include?(:view_work_packages) && id == wp.id
+          end
+        end
+      end
+
+      before do
+        contract.validate
+      end
+
+      context "when has not changed" do
+        it("is valid") { expect(contract.errors.empty?).to be true }
+      end
+
+      context "when has changed" do
+        before do
+          work_package.remaining_hours = 10
+        end
+
+        it("is valid") { expect(contract.errors.empty?).to be true }
       end
     end
   end

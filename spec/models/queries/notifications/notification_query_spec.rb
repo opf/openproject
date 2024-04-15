@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,73 +26,73 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Notifications::NotificationQuery, type: :model do
-  shared_let(:project) { create :project }
+RSpec.describe Queries::Notifications::NotificationQuery do
+  shared_let(:project) { create(:project) }
 
-  shared_let(:recipient) { create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
+  shared_let(:recipient) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
-  shared_let(:work_package) { create :work_package, project: }
-  shared_let(:notification) { create :notification, recipient:, project:, resource: work_package }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:notification) { create(:notification, recipient:, project:, resource: work_package) }
 
   let(:instance) { described_class.new(user: recipient) }
   let(:base_scope) { Notification.visible(recipient).recipient(recipient) }
 
   current_user { recipient }
 
-  context 'without a filter' do
-    describe '#results' do
-      it 'is the same as getting all the users' do
+  context "without a filter" do
+    describe "#results" do
+      it "is the same as getting all the users" do
         expect(instance.results.to_sql).to eql base_scope.order(id: :desc).to_sql
       end
     end
   end
 
-  context 'with a read_ian filter' do
+  context "with a read_ian filter" do
     before do
-      instance.where('read_ian', '=', ['t'])
+      instance.where("read_ian", "=", ["t"])
     end
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
+    describe "#results" do
+      it "is the same as handwriting the query" do
         expected = base_scope.merge(Notification.where("notifications.read_ian IN ('t')").order(id: :desc)).to_sql
 
         expect(instance.results.to_sql).to eql expected
       end
     end
 
-    describe '#valid?' do
-      it 'is true' do
+    describe "#valid?" do
+      it "is true" do
         expect(instance).to be_valid
       end
 
-      it 'is invalid if the filter is invalid' do
-        instance.where('read_ian', '=', [''])
+      it "is invalid if the filter is invalid" do
+        instance.where("read_ian", "=", [""])
         expect(instance).to be_invalid
       end
     end
   end
 
-  context 'with a non existent filter' do
+  context "with a non existent filter" do
     before do
-      instance.where('not_supposed_to_exist', '=', ['bogus'])
+      instance.where("not_supposed_to_exist", "=", ["bogus"])
     end
 
-    describe '#results' do
-      it 'returns a query not returning anything' do
+    describe "#results" do
+      it "returns a query not returning anything" do
         expected = Notification.where(Arel::Nodes::Equality.new(1, 0))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
     end
 
-    describe 'valid?' do
-      it 'is false' do
+    describe "valid?" do
+      it "is false" do
         expect(instance).to be_invalid
       end
 
-      it 'returns the error on the filter' do
+      it "returns the error on the filter" do
         instance.valid?
 
         expect(instance.errors[:filters]).to eql ["Not supposed to exist filter does not exist."]
@@ -100,13 +100,13 @@ describe Queries::Notifications::NotificationQuery, type: :model do
     end
   end
 
-  context 'with an id sortation' do
+  context "with an id sortation" do
     before do
       instance.order(id: :asc)
     end
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
+    describe "#results" do
+      it "is the same as handwriting the query" do
         expected = base_scope.merge(Notification.order(id: :asc))
 
         expect(instance.results.to_sql).to eql expected.to_sql
@@ -114,13 +114,13 @@ describe Queries::Notifications::NotificationQuery, type: :model do
     end
   end
 
-  context 'with a read_ian sortation' do
+  context "with a read_ian sortation" do
     before do
       instance.order(read_ian: :desc)
     end
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
+    describe "#results" do
+      it "is the same as handwriting the query" do
         expected = base_scope.merge(Notification.order(read_ian: :desc, id: :desc)).to_sql
 
         expect(instance.results.to_sql).to eql expected
@@ -128,13 +128,13 @@ describe Queries::Notifications::NotificationQuery, type: :model do
     end
   end
 
-  context 'with a reason sortation' do
+  context "with a reason sortation" do
     before do
       instance.order(reason: :desc)
     end
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
+    describe "#results" do
+      it "is the same as handwriting the query" do
         expected = base_scope.merge(Notification.order(reason: :desc, id: :desc)).to_sql
 
         expect(instance.results.to_sql).to eql expected
@@ -142,37 +142,37 @@ describe Queries::Notifications::NotificationQuery, type: :model do
     end
   end
 
-  context 'with a non existing sortation' do
+  context "with a non existing sortation" do
     before do
       instance.order(non_existing: :desc)
     end
 
-    describe '#results' do
-      it 'returns a query not returning anything' do
+    describe "#results" do
+      it "returns a query not returning anything" do
         expected = Notification.where(Arel::Nodes::Equality.new(1, 0))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
     end
 
-    describe 'valid?' do
-      it 'is false' do
+    describe "valid?" do
+      it "is false" do
         expect(instance).to be_invalid
       end
     end
   end
 
-  context 'with a reason group_by' do
+  context "with a reason group_by" do
     before do
       instance.group(:reason)
     end
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
+    describe "#results" do
+      it "is the same as handwriting the query" do
         scope = Notification
           .group(:reason)
           .order(reason: :asc)
-          .select(:reason, Arel.sql('COUNT(*)'))
+          .select(:reason, Arel.sql("COUNT(*)"))
         expected = base_scope.merge(scope).to_sql
 
         expect(instance.groups.to_sql).to eql expected
@@ -180,17 +180,17 @@ describe Queries::Notifications::NotificationQuery, type: :model do
     end
   end
 
-  context 'with a project group_by' do
+  context "with a project group_by" do
     before do
       instance.group(:project)
     end
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
+    describe "#results" do
+      it "is the same as handwriting the query" do
         scope = Notification
           .group(:project_id)
           .order(project_id: :asc)
-          .select(:project_id, Arel.sql('COUNT(*)'))
+          .select(:project_id, Arel.sql("COUNT(*)"))
         expected = base_scope.merge(scope).to_sql
 
         expect(instance.groups.to_sql).to eql expected
@@ -198,21 +198,21 @@ describe Queries::Notifications::NotificationQuery, type: :model do
     end
   end
 
-  context 'with a non existing group_by' do
+  context "with a non existing group_by" do
     before do
       instance.group(:does_not_exist)
     end
 
-    describe '#results' do
-      it 'returns a query not returning anything' do
+    describe "#results" do
+      it "returns a query not returning anything" do
         expected = Notification.where(Arel::Nodes::Equality.new(1, 0))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
     end
 
-    describe 'valid?' do
-      it 'is false' do
+    describe "valid?" do
+      it "is false" do
         expect(instance).to be_invalid
       end
     end

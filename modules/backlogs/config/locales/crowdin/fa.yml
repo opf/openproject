@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 fa:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "ساعت‌های باقیمانده"
-        remaining_time: "Remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -35,11 +36,8 @@ fa:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
             version_id:
-              task_version_must_be_the_same_as_story_version: "باید از  همان نگارش داستان زادآوران باشد."
+              task_version_must_be_the_same_as_story_version: "باید با نسخه اصلی (والد) داستان یکسان باشد."
         sprint:
           cannot_end_before_it_starts: "Sprint cannot end before it starts."
   backlogs:
@@ -66,8 +64,8 @@ fa:
     properties: "Properties"
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining hours"
-    remaining_hours_ideal: "Remaining hours (ideal)"
+    remaining_hours: "کار باقی‌مانده"
+    remaining_hours_ideal: "کار باقی مانده (ایده آل)"
     show_burndown_chart: "Burndown Chart"
     story: "Story"
     story_points: "Story Points"
@@ -78,7 +76,6 @@ fa:
     x_more: "%{count} more..."
   backlogs_active: "active"
   backlogs_any: "any"
-  backlogs_card_specification: "Label types for card printing"
   backlogs_inactive: "Project shows no activity"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"
@@ -133,29 +130,29 @@ fa:
   label_task_board: "تابلوی وظیفه"
   label_version_setting: "نسخه ها"
   label_version: 'نسخه'
-  label_webcal: "Webcal Feed"
+  label_webcal: "خوراک Webcal "
   label_wiki: "دانشنامه"
-  permission_view_master_backlog: "View master backlog"
-  permission_view_taskboards: "View taskboards"
-  permission_select_done_statuses: "Select done statuses"
-  permission_update_sprints: "Update sprints"
-  points_accepted: "points accepted"
-  points_committed: "points committed"
-  points_resolved: "points resolved"
-  points_to_accept: "points not accepted"
-  points_to_resolve: "points not resolved"
-  project_module_backlogs: "Backlogs"
-  rb_label_copy_tasks: "Copy work packages"
+  permission_view_master_backlog: "نمایش بک لاگ اصلی"
+  permission_view_taskboards: "مشاهده تابلو وظایف"
+  permission_select_done_statuses: "انتخاب وضعیت های انجام شده\n"
+  permission_update_sprints: "بروزرسانی دوره‌ها"
+  points_accepted: "امتیازات پذیرفته شده"
+  points_committed: "امتیازات ثبت شده"
+  points_resolved: "امتیازات حل شده"
+  points_to_accept: "امتیازات رد شده"
+  points_to_resolve: "امتیازات حل نشده"
+  project_module_backlogs: "پس‌افت‌ها"
+  rb_label_copy_tasks: "نسخه‌برداری بسته‌های کاری"
   rb_label_copy_tasks_all: "همه"
-  rb_label_copy_tasks_none: "None"
+  rb_label_copy_tasks_none: "هیچ‌کدام"
   rb_label_copy_tasks_open: "باز"
-  rb_label_link_to_original: "Include link to original story"
-  remaining_hours: "remaining hours"
-  required_burn_rate_hours: "required burn rate (hours)"
-  required_burn_rate_points: "required burn rate (points)"
-  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  rb_label_link_to_original: "پیوند داخلی به داستان اصلی"
+  remaining_hours: "کار باقیمانده"
+  required_burn_rate_hours: "میزان هزینه کرد لازم (ساعت)"
+  required_burn_rate_points: "میزان هزینه کرد لازم (امتیاز)"
+  todo_work_package_description: "%{summary}: %{url} %{description}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Column in backlog"
+  version_settings_display_label: "ستون در پس‌افت"
   version_settings_display_option_left: "چپ"
-  version_settings_display_option_none: "none"
+  version_settings_display_option_none: "هیچ کدام"
   version_settings_display_option_right: "راست"

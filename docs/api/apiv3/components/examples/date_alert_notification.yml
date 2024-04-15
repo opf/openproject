@@ -5,8 +5,8 @@ value:
   id: 1
   readIAN: false
   reason: dateAlert
-  createdAt: '2022-04-05T14:38:28Z'
-  updatedAt: '2022-04-06T09:03:24Z'
+  createdAt: '2022-04-05T14:38:28.361Z'
+  updatedAt: '2022-04-06T09:03:24.347Z'
   _embedded:
     project:
       _hint: Project resource shortened for brevity

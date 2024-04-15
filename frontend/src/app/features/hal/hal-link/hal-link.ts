@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,12 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { HTTPSupportedMethods } from 'core-app/features/hal/http/http.interfaces';
+import {
+  HTTPClientHeaders,
+  HTTPSupportedMethods,
+} from 'core-app/features/hal/http/http.interfaces';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { firstValueFrom } from 'rxjs';
 
 export interface HalLinkInterface {
   href:string|null;
@@ -66,7 +70,7 @@ export class HalLink implements HalLinkInterface {
    */
   public static fromObject(halResourceService:HalResourceService, link:HalLinkInterface):HalLink {
     return new HalLink(
-      (method:HTTPSupportedMethods, href:string, data:any, headers:any) => halResourceService.request(method, href, data, headers).toPromise(),
+      (method:HTTPSupportedMethods, href:string, data:object, headers:HTTPClientHeaders) => firstValueFrom(halResourceService.request(method, href, data, headers)),
       link.href,
       link.title,
       link.method,

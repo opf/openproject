@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
       </p>
       <div class="danger-zone--verification">
         <input type="text" name="name_verification"/>
-        <%= styled_button_tag '', class: '-highlight', disabled: true do
+        <%= styled_button_tag '', class: '-primary', disabled: true do
           concat content_tag :i, '', class: 'button--icon icon-delete'
           concat content_tag :span, t(:button_delete), class: 'button--text'
         end %>

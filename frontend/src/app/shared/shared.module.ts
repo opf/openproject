@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,6 @@ import { SortHeaderDirective } from 'core-app/features/work-packages/components/
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { OPContextMenuComponent } from 'core-app/shared/components/op-context-menu/op-context-menu.component';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
-import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { EnterpriseBannerComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
 import { EnterprisePageComponent } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
@@ -65,10 +64,14 @@ import {
   highlightColSelector,
   OpHighlightColDirective,
 } from './directives/highlight-col/highlight-col.directive';
-
-import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
+import { CopyToClipboardService } from './components/copy-to-clipboard/copy-to-clipboard.service';
+import { CopyToClipboardComponent } from './components/copy-to-clipboard/copy-to-clipboard.component';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
 import { ToastComponent } from './components/toaster/toast.component';
+
+// Old datepickers
+import { OpMultiDatePickerComponent } from 'core-app/shared/components/datepicker/multi-date-picker/multi-date-picker.component';
+
 import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
 import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
@@ -86,8 +89,13 @@ import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
 import { OpProjectIncludeListComponent } from './components/project-include/list/project-include-list.component';
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
+import { OpNonWorkingDaysListComponent } from './components/op-non-working-days-list/op-non-working-days-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
+import { ShareUpsaleComponent } from 'core-app/features/enterprise/share-upsale/share-upsale.component';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -123,6 +131,7 @@ export function bootstrapModule(injector:Injector):void {
     DragDropModule,
     DragulaModule,
     CurrentUserModule,
+    FormsModule,
     NgSelectModule,
     NgOptionHighlightModule,
 
@@ -130,11 +139,13 @@ export function bootstrapModule(injector:Injector):void {
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
     OpenprojectAutocompleterModule,
+    OpenprojectModalModule,
 
-    DatePickerModule,
     FocusModule,
     IconModule,
     AttributeHelpTextModule,
+    FullCalendarModule,
+    OpDatePickerModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -147,7 +158,7 @@ export function bootstrapModule(injector:Injector):void {
     A11yModule,
     IconModule,
     AttributeHelpTextModule,
-    NgSelectModule,
+    FormsModule,
     NgOptionHighlightModule,
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
@@ -156,7 +167,8 @@ export function bootstrapModule(injector:Injector):void {
 
     OpSpotModule,
 
-    DatePickerModule,
+    OpDatePickerModule,
+
     FocusModule,
     OpDateTimeComponent,
 
@@ -196,8 +208,14 @@ export function bootstrapModule(injector:Injector):void {
     OpLoadingProjectListComponent,
 
     ViewSelectComponent,
+
+    // Old datepickers
+    OpMultiDatePickerComponent,
+
+    OpNonWorkingDaysListComponent,
   ],
   providers: [
+    CopyToClipboardService,
     StaticQueriesService,
     ViewsResourceService,
   ],
@@ -216,10 +234,9 @@ export function bootstrapModule(injector:Injector):void {
     OpHighlightColDirective,
 
     // Add functionality to rails rendered templates
-    CopyToClipboardDirective,
+    CopyToClipboardComponent,
     CollapsibleSectionComponent,
 
-    CopyToClipboardDirective,
     ResizerComponent,
 
     TablePaginationComponent,
@@ -250,9 +267,16 @@ export function bootstrapModule(injector:Injector):void {
     OpProjectIncludeComponent,
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,
+
+    OpNonWorkingDaysListComponent,
+
+    // Old datepickers
+    OpMultiDatePickerComponent,
+
+    ShareUpsaleComponent,
   ],
 })
-export class OPSharedModule {
+export class OpSharedModule {
   constructor(injector:Injector) {
     bootstrapModule(injector);
   }

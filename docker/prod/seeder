@@ -7,7 +7,8 @@ if [[ "$OUTPUT" = "No relations found." ]]; then
 	DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:structure:load db:seed
 else
 	echo "Executing database migration and database seed..."
-	bundle exec rake db:migrate db:seed
+	bundle exec rake db:migrate
+	bundle exec rake db:seed
 fi
 
 if [ "$1" = "--set" ]; then

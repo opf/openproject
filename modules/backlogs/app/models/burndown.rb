@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ class Burndown
 
     series_data = OpenProject::Backlogs::Burndown::SeriesRawData.new(project,
                                                                      sprint,
-                                                                     points: ['story_points'])
+                                                                     points: ["story_points"])
 
     series_data.collect_data
 
@@ -65,7 +65,7 @@ class Burndown
   end
 
   def calculate_ideals(data)
-    (['story_points'] & data.collect_names).each do |ideal|
+    (["story_points"] & data.collect_names).each do |ideal|
       calculate_ideal(ideal, data.unit_for(ideal))
     end
   end
@@ -79,14 +79,14 @@ class Burndown
       ideal[i] = max - (delta * i)
     end
 
-    make_series name.to_s + '_ideal', unit, ideal
+    make_series name.to_s + "_ideal", unit, ideal
   end
 
   def make_series(name, units, data)
     @available_series ||= {}
     s = OpenProject::Backlogs::Burndown::Series.new(data, name, units)
     @available_series[name] = s
-    instance_variable_set("@#{name}", s)
+    instance_variable_set(:"@#{name}", s)
   end
 
   def determine_max

@@ -11,7 +11,7 @@ install_required_dependencies_for_apache2() {
 	local dependencies=""
 	case "$OSFAMILY" in
 		"debian")
-			dependencies="subversion git libapache2-mod-perl2 libjson-perl libapache2-reload-perl"
+			dependencies="subversion git libapache2-mod-perl2 libjson-perl"
 			for dependency in $dependencies ; do
 				wiz_check_package "$dependency" || apt-get install -y "$dependency"
 			done
@@ -30,11 +30,6 @@ install_required_dependencies_for_apache2() {
 			;;
 		"redhat")
 			dependencies="mod_dav_svn subversion git mod_perl perl-Digest-SHA perl-libwww-perl perl-JSON"
-			case "$OSVERSION" in
-				8*)
-					dependencies="$dependencies perl-Apache-Reload"
-					;;
-			esac
 			for dependency in $dependencies ; do
 				wiz_check_package "$dependency" || yum install -y "$dependency"
 			done

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Redmine::UnifiedDiff do
+RSpec.describe Redmine::UnifiedDiff do
   let(:diff_options) { {} }
   let(:instance) { described_class.new(diff, diff_options) }
 
@@ -179,19 +179,19 @@ describe Redmine::UnifiedDiff do
     DIFF
   end
 
-  it 'has 1 modified file' do
+  it "has 1 modified file" do
     expect(instance.size).to eq(1)
   end
 
-  it 'has 3 diff items' do
+  it "has 3 diff items" do
     expect(instance.first.size).to eq(3)
   end
 
-  it 'parses the HTML entities correctly' do
-    expect(instance.first.first.line_right).to eq('<script>someMethod();</script>')
+  it "parses the HTML entities correctly" do
+    expect(instance.first.first.line_right).to eq("<script>someMethod();</script>")
   end
 
-  context 'with a unified diff with html chars' do
+  context "with a unified diff with html chars" do
     let(:diff) do
       <<~DIFF
         diff --git a/asdf b/asdf
@@ -211,37 +211,37 @@ describe Redmine::UnifiedDiff do
       instance.first.each_with_object([]) { |l, array| array << [l.html_line_left, l.html_line_right] }
     end
 
-    it 'correctly escapes elements' do
+    it "correctly escapes elements" do
       expect(subject[1]).to eq(["Test 2 <span>&lt;</span>_&gt; pouet", "<span></span>"])
       expect(subject[2]).to eq(["<span></span>", "Test 2 <span>&gt;</span>_&gt; pouet"])
     end
   end
 
-  context 'with a subversion diff' do
+  context "with a subversion diff" do
     let(:diff) { subversion_diff }
 
-    it 'has 4 modified files' do
+    it "has 4 modified files" do
       expect(instance.size)
         .to eq 4
     end
 
-    it 'identifies the file name' do
+    it "identifies the file name" do
       expect(instance[2].file_name)
         .to match %r{\Aconfig/settings.yml}
     end
   end
 
-  context 'with a subversion diff when truncating' do
+  context "with a subversion diff when truncating" do
     let(:diff) { subversion_diff }
     let(:diff_options) { { max_lines: 20 } }
 
-    it 'has only 2 modified files' do
+    it "has only 2 modified files" do
       expect(instance.size)
         .to eq 2
     end
   end
 
-  context 'with one line new files' do
+  context "with one line new files" do
     let(:diff) do
       <<~DIFF
         diff -r 000000000000 -r ea98b14f75f0 README1
@@ -271,36 +271,36 @@ describe Redmine::UnifiedDiff do
       DIFF
     end
 
-    it 'has 4 modified files' do
+    it "has 4 modified files" do
       expect(instance.size)
         .to eq 4
     end
   end
 
-  context 'with inline partials' do
+  context "with inline partials" do
     let(:diff) { partials_diff }
 
-    it 'has 1 modified files' do
+    it "has 1 modified files" do
       expect(instance.size)
         .to eq 1
     end
 
-    context 'for the file' do
+    context "for the file" do
       subject { instance.first }
 
       it { expect(subject.size).to eq 41 }
       it { expect(subject[0].offsets).to eq [51, -1] }
       it { expect(subject[1].offsets).to eq [51, -1] }
-      it { expect(subject[0].html_line).to eq 'Lorem ipsum dolor sit amet, consectetur adipiscing <span>elit</span>' }
-      it { expect(subject[1].html_line).to eq 'Lorem ipsum dolor sit amet, consectetur adipiscing <span>xx</span>' }
+      it { expect(subject[0].html_line).to eq "Lorem ipsum dolor sit amet, consectetur adipiscing <span>elit</span>" }
+      it { expect(subject[1].html_line).to eq "Lorem ipsum dolor sit amet, consectetur adipiscing <span>xx</span>" }
 
       it { expect(subject[2].offsets).to be_nil }
-      it { expect(subject[2].html_line).to eq 'Praesent et sagittis dui. Vivamus ac diam diam' }
+      it { expect(subject[2].html_line).to eq "Praesent et sagittis dui. Vivamus ac diam diam" }
 
       it { expect(subject[3].offsets).to eq [0, -14] }
       it { expect(subject[4].offsets).to eq [0, -14] }
-      it { expect(subject[3].html_line).to eq '<span>Ut sed</span> auctor justo' }
-      it { expect(subject[4].html_line).to eq '<span>xxx</span> auctor justo' }
+      it { expect(subject[3].html_line).to eq "<span>Ut sed</span> auctor justo" }
+      it { expect(subject[4].html_line).to eq "<span>xxx</span> auctor justo" }
 
       it { expect(subject[6].offsets).to eq [13, -19] }
       it { expect(subject[7].offsets).to eq [13, -19] }
@@ -316,31 +316,31 @@ describe Redmine::UnifiedDiff do
     end
   end
 
-  context 'with side by side partials' do
+  context "with side by side partials" do
     let(:diff) { partials_diff }
 
-    let(:diff_options) { { type: 'sbs' } }
+    let(:diff_options) { { type: "sbs" } }
 
-    it 'has 1 modified files' do
+    it "has 1 modified files" do
       expect(instance.size)
         .to eq 1
     end
 
-    context 'for the file' do
+    context "for the file" do
       subject { instance.first }
 
       it { expect(subject.size).to eq 30 }
       it { expect(subject[0].offsets).to eq [51, -1] }
-      it { expect(subject[0].html_line_left).to eq 'Lorem ipsum dolor sit amet, consectetur adipiscing <span>elit</span>' }
-      it { expect(subject[0].html_line_right).to eq 'Lorem ipsum dolor sit amet, consectetur adipiscing <span>xx</span>' }
+      it { expect(subject[0].html_line_left).to eq "Lorem ipsum dolor sit amet, consectetur adipiscing <span>elit</span>" }
+      it { expect(subject[0].html_line_right).to eq "Lorem ipsum dolor sit amet, consectetur adipiscing <span>xx</span>" }
 
       it { expect(subject[1].offsets).to be_nil }
-      it { expect(subject[1].html_line_left).to eq 'Praesent et sagittis dui. Vivamus ac diam diam' }
-      it { expect(subject[1].html_line_right).to eq 'Praesent et sagittis dui. Vivamus ac diam diam' }
+      it { expect(subject[1].html_line_left).to eq "Praesent et sagittis dui. Vivamus ac diam diam" }
+      it { expect(subject[1].html_line_right).to eq "Praesent et sagittis dui. Vivamus ac diam diam" }
 
       it { expect(subject[2].offsets).to eq [0, -14] }
-      it { expect(subject[2].html_line_left).to eq '<span>Ut sed</span> auctor justo' }
-      it { expect(subject[2].html_line_right).to eq '<span>xxx</span> auctor justo' }
+      it { expect(subject[2].html_line_left).to eq "<span>Ut sed</span> auctor justo" }
+      it { expect(subject[2].html_line_right).to eq "<span>xxx</span> auctor justo" }
 
       it { expect(subject[4].offsets).to eq [13, -19] }
       it { expect(subject[6].offsets).to eq [24, -8] }
@@ -349,7 +349,7 @@ describe Redmine::UnifiedDiff do
     end
   end
 
-  context 'with lines starting with dashes' do
+  context "with lines starting with dashes" do
     let(:diff) do
       <<~DIFF
         --- old.txt Wed Nov 11 14:24:58 2009
@@ -376,7 +376,7 @@ describe Redmine::UnifiedDiff do
 
     let(:instance) { described_class.new(diff) }
 
-    it 'has 1 modified file' do
+    it "has 1 modified file" do
       expect(instance.size)
         .to eq 1
     end

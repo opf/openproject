@@ -1,14 +1,12 @@
-require_relative '../spec_helper'
-require_relative './shared_2fa_examples'
+require_relative "../spec_helper"
+require_relative "shared_2fa_examples"
 
-describe 'activating an invited account',
-         type: :feature,
-         js: true,
-         with_settings: {
-           plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
-         } do
+RSpec.describe "activating an invited account", :js,
+               with_settings: {
+                 plugin_openproject_two_factor_authentication: { "active_strategies" => [:developer] }
+               } do
   let(:user) do
-    user = build :user, first_login: true
+    user = build(:user, first_login: true)
     UserInvitation.invite_user! user
 
     user
@@ -23,28 +21,28 @@ describe 'activating an invited account',
 
     expect(page).to have_current_path account_register_path
 
-    fill_in I18n.t('attributes.password'), with: 'Password1234'
-    fill_in I18n.t('activerecord.attributes.user.password_confirmation'), with: 'Password1234'
+    fill_in I18n.t("attributes.password"), with: "Password1234"
+    fill_in I18n.t("activerecord.attributes.user.password_confirmation"), with: "Password1234"
 
     click_button I18n.t(:button_create)
   end
 
-  context 'when not enforced and no device present' do
-    it 'redirects to active' do
+  context "when not enforced and no device present" do
+    it "redirects to active" do
       activate!
 
       visit my_account_path
-      expect(page).to have_selector('.form--field-container', text: user.login)
+      expect(page).to have_css(".form--field-container", text: user.login)
     end
   end
 
-  context 'when not enforced, but device present' do
-    let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
+  context "when not enforced, but device present" do
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
-    it 'requests a OTP' do
+    it "requests a OTP" do
       sms_token = nil
       # rubocop:disable RSpec/AnyInstance
-      allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
+      allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
           .to receive(:create_mobile_otp).and_wrap_original do |m|
         sms_token = m.call
       end
@@ -52,22 +50,22 @@ describe 'activating an invited account',
 
       activate!
 
-      expect(page).to have_selector('.flash.notice', text: 'Developer strategy generated the following one-time password:')
+      expect(page).to have_css(".op-toast.-success", text: "Developer strategy generated the following one-time password:")
 
       SeleniumHubWaiter.wait
       fill_in I18n.t(:field_otp), with: sms_token
       click_button I18n.t(:button_login)
 
       visit my_account_path
-      expect(page).to have_selector('.form--field-container', text: user.login)
+      expect(page).to have_css(".form--field-container", text: user.login)
     end
 
-    it 'handles faulty user input on two factor authentication' do
+    it "handles faulty user input on two factor authentication" do
       activate!
 
-      expect(page).to have_selector('.flash.notice', text: 'Developer strategy generated the following one-time password:')
+      expect(page).to have_css(".op-toast.-success", text: "Developer strategy generated the following one-time password:")
 
-      fill_in I18n.t(:field_otp), with: 'asdf' # faulty token
+      fill_in I18n.t(:field_otp), with: "asdf" # faulty token
       click_button I18n.t(:button_login)
 
       expect(page).to have_current_path signin_path
@@ -75,17 +73,17 @@ describe 'activating an invited account',
     end
   end
 
-  context 'when enforced',
+  context "when enforced",
           with_settings: {
             plugin_openproject_two_factor_authentication: {
-              'active_strategies' => [:developer],
-              'enforced' => true
+              "active_strategies" => [:developer],
+              "enforced" => true
             }
           } do
     before do
       activate!
     end
 
-    it_behaves_like 'create enforced sms device'
+    it_behaves_like "create enforced sms device"
   end
 end

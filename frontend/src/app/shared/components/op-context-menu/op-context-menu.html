@@ -3,13 +3,15 @@
      ng-class="{'dropdown-anchor-right': locals.showAnchorRight}">
   <ul class="dropdown-menu "
       role="menu"
+      [attr.aria-label]="locals.label"
       [ngClass]="{'-empty': items.length === 0 }">
     <ng-container *ngFor="let item of items">
-      <li *ngIf="item.divider" class="dropdown-divider"></li>
+      <li *ngIf="item.divider" class="dropdown-divider" role="separator"></li>
       <li *ngIf="!item.divider">
         <a
           *ngIf="item.href"
           class="menu-item"
+          role="menuitem"
           [ngClass]="item.class"
           [class.inactive]="item.disabled"
           [attr.href]="item.href"
@@ -27,6 +29,7 @@
         <button
           *ngIf="!item.href"
           class="menu-item"
+          role="menuitem"
           [ngClass]="item.class"
           [class.inactive]="item.disabled"
           [attr.aria-disabled]="item.disabled"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module Decorators
@@ -82,17 +82,17 @@ module API
       property :min_length, exec_context: :decorator
       property :max_length, exec_context: :decorator
       property :regular_expression, exec_context: :decorator
-      property :deprecated, exec_context: :decorator, render_nil: false
+      property :deprecated, exec_context: :decorator
       property :options, exec_context: :decorator
 
-      property :location, exec_context: :decorator, render_nil: false
+      property :location, exec_context: :decorator
 
       formattable_property :description,
                            exec_context: :decorator,
                            render_nil: false,
                            setter: nil,
                            getter: ->(*) do
-                             next unless description.present?
+                             next if description.blank?
 
                              ::API::Decorators::Formattable.new(description)
                            end
@@ -109,11 +109,11 @@ module API
       # either nil, _links, or _meta depending on the input
       def derive_location(location)
         case location.to_s
-        when 'link'
+        when "link"
           :_links
-        when 'meta'
+        when "meta"
           :_meta
-        when ''
+        when ""
           nil
         else
           raise ArgumentError, "Invalid location attribute #{location}"

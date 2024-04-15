@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CleanupWebhookLogsJob < ::Cron::CronJob
-  # runs at 5:28 on Sunday
-  self.cron_expression = '28 5 * * 7'
-
+class CleanupWebhookLogsJob < ApplicationJob
   # Clean any logs older than 7 days
   def perform
     ::Webhooks::Log
-      .where('created_at < ?', 7.days.ago)
+      .where("created_at < ?", 7.days.ago)
       .delete_all
   end
 end

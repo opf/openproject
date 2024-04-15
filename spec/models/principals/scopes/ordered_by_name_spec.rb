@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,66 +26,66 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Principals::Scopes::OrderedByName, type: :model do
-  describe '.ordered_by_name' do
-    shared_let(:alice) { create(:user, login: 'alice', firstname: 'Alice', lastname: 'Zetop') }
-    shared_let(:eve) { create(:user, login: 'eve', firstname: 'Eve', lastname: 'Baddie') }
+RSpec.describe Principals::Scopes::OrderedByName do
+  describe ".ordered_by_name" do
+    shared_let(:alice) { create(:user, login: "alice", firstname: "Alice", lastname: "Zetop") }
+    shared_let(:eve) { create(:user, login: "eve", firstname: "Eve", lastname: "Baddie") }
 
-    shared_let(:group) { create(:group, name: 'Core Team') }
-    shared_let(:placeholder_user) { create(:placeholder_user, name: 'Developers') }
+    shared_let(:group) { create(:group, name: "Core Team") }
+    shared_let(:placeholder_user) { create(:placeholder_user, name: "Developers") }
 
     subject { Principal.ordered_by_name(desc: descending).pluck(:id) }
 
     let(:descending) { false }
 
-    shared_examples 'sorted results' do
-      it 'returns the correct ascending sort' do
+    shared_examples "sorted results" do
+      it "returns the correct ascending sort" do
         expect(subject).to eq order
       end
 
-      context 'reversed' do
+      context "reversed" do
         let(:descending) { true }
 
-        it 'returns the correct descending sort' do
+        it "returns the correct descending sort" do
           expect(subject).to eq order.reverse
         end
       end
     end
 
-    context 'with default user sort', with_settings: { user_format: :firstname_lastname } do
-      it_behaves_like 'sorted results' do
+    context "with default user sort", with_settings: { user_format: :firstname_lastname } do
+      it_behaves_like "sorted results" do
         let(:order) { [alice.id, group.id, placeholder_user.id, eve.id] }
       end
     end
 
-    context 'with lastname_firstname user sort', with_settings: { user_format: :lastname_firstname } do
-      it_behaves_like 'sorted results' do
+    context "with lastname_firstname user sort", with_settings: { user_format: :lastname_firstname } do
+      it_behaves_like "sorted results" do
         let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
       end
     end
 
-    context 'with lastname_n_firstname user sort', with_settings: { user_format: :lastname_n_firstname } do
-      it_behaves_like 'sorted results' do
+    context "with lastname_n_firstname user sort", with_settings: { user_format: :lastname_n_firstname } do
+      it_behaves_like "sorted results" do
         let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
       end
     end
 
-    context 'with lastname_coma_firstname user sort', with_settings: { user_format: :lastname_coma_firstname } do
-      it_behaves_like 'sorted results' do
+    context "with lastname_coma_firstname user sort", with_settings: { user_format: :lastname_coma_firstname } do
+      it_behaves_like "sorted results" do
         let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
       end
     end
 
-    context 'with firstname user sort', with_settings: { user_format: :firstname } do
-      it_behaves_like 'sorted results' do
+    context "with firstname user sort", with_settings: { user_format: :firstname } do
+      it_behaves_like "sorted results" do
         let(:order) { [alice.id, group.id, placeholder_user.id, eve.id] }
       end
     end
 
-    context 'with login user sort', with_settings: { user_format: :username } do
-      it_behaves_like 'sorted results' do
+    context "with login user sort", with_settings: { user_format: :username } do
+      it_behaves_like "sorted results" do
         let(:order) { [alice.id, group.id, placeholder_user.id, eve.id] }
       end
     end

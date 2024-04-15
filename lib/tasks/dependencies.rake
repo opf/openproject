@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open3'
+require "open3"
 
 namespace :openproject do
   namespace :dependencies do
-    desc 'Updates everything that is updatable automatically especially dependencies'
+    desc "Updates everything that is updatable automatically especially dependencies"
     task update: %w[openproject:dependencies:update:gems]
 
     namespace :update do
-      def parse_capture(capture, &block)
+      def parse_capture(capture, &)
         capture
           .split("\n")
-          .map do |line|
-          block.call(line)
-        end.compact
+          .filter_map(&)
       end
 
-      desc 'Update gems to the extend the Gemfile allows in individual commits'
+      desc "Update gems to the extend the Gemfile allows in individual commits"
       task :gems do
-        out, _process = Open3.capture3('bundle', 'outdated', '--parseable')
+        out, _process = Open3.capture3("bundle", "outdated", "--parseable")
 
         parsed = parse_capture(out) do |line|
           line.match(/(\S+) \(newest ([0-9.]+), installed ([0-9.]+)(?:, requested .{0,2} ([0-9.]+))?\)/).to_a[1..4]
@@ -52,12 +50,12 @@ namespace :openproject do
 
         parsed.map(&:first).each do |gem|
           puts "Updating #{gem}"
-          _out, error = Open3.capture3('bundle', 'update', gem)
+          _out, error = Open3.capture3("bundle", "update", gem)
 
           if error.present?
             puts "Attempted to update #{gem} but failed: #{error}"
           else
-            out, _process = Open3.capture3('git', 'diff', 'Gemfile.lock')
+            out, _process = Open3.capture3("git", "diff", "Gemfile.lock")
 
             parsed = parse_capture(out) do |line|
               line.match(/\A\+\s{4}(\S+) \(([0-9.]+)\)\z/).to_a[1..2]
@@ -67,8 +65,8 @@ namespace :openproject do
               puts "  #{gem}: #{version}"
             end
 
-            Open3.capture3('git', 'add', 'Gemfile.lock')
-            Open3.capture3('git', 'commit', '-m', "bump #{parsed.map(&:first).join(' & ')}")
+            Open3.capture3("git", "add", "Gemfile.lock")
+            Open3.capture3("git", "commit", "-m", "bump #{parsed.map(&:first).join(' & ')}")
           end
         end
       end

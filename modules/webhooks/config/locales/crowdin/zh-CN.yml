@@ -1,4 +1,7 @@
 zh-CN:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhooks"
+    description: "提供插件 API 以支持OpenProject Webhooks，以实现更好的第三方集成。"
   activerecord:
     attributes:
       webhooks/webhook:
@@ -8,7 +11,7 @@ zh-CN:
         projects: '已启用的项目'
       webhooks/log:
         event_name: '事件名称'
-        url: '有效载荷 URL'
+        url: '推送地址'
         response_code: '响应代码'
         response_body: '响应'
     models:
@@ -27,19 +30,23 @@ zh-CN:
       events:
         created: "已创建"
         updated: "已更新"
+      explanation:
+        text: >
+          在发生诸如创建工作包或更新项目之类的事件时，OpenProject 将向配置的 Web 端点发送一个 POST 请求。通常，会在 %{link}过后发送事件。
+        link: 配置的聚合期
       status:
         enabled: 'Webhook 已启用'
         disabled: 'Webhook 已禁用'
         enabled_text: 'Webhook 将为下面的定义事件释放有效载荷。'
         disabled_text: '点击“编辑”按钮以激活 Webhook。'
       deliveries:
-        no_results_table: 此 Webhook 尚未进行任何传送。
+        no_results_table: 在过去几天内，此 Webhook 尚未进行任何传送。
         title: '最近传送'
         time: '传送时间'
       form:
         introduction: >
-          对于您所订阅项目中的任何事件，将 POST 请求发送到下面的有效载荷 URL。有效载荷将对应于要修改的对象的 APIv3 表示。
-        apiv3_doc_url: 有关更多信息，请访问 API 文档
+          请将 POST 请求发送到下方的载荷 URL ，用于处理您订阅的项目中的任何事件。载荷将与被修改对象的 API v3 表示形式相对应。
+        apiv3_doc_url: 有关详情，请访问 API 文档
         description:
           placeholder: 'Webhook 的可选描述。'
         enabled:
@@ -51,7 +58,7 @@ zh-CN:
           title: '已启用的项目'
           description: '选择此 Webhook 应当针对哪些项目执行。'
           all: '所有项目'
-          selected: '仅限选定项目'
+          selected: '仅限所选项目'
         selected_project_ids:
           title: '选定项目'
         secret:

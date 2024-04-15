@@ -58,6 +58,13 @@ get:
                   required: false
                   type: Project
                   writable: true
+                ongoing:
+                  hasDefault: false
+                  name: Ongoing
+                  options: {}
+                  required: false
+                  type: Boolean
+                  writable: true
                 spentOn:
                   hasDefault: false
                   name: Date

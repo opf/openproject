@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/team_planner'
-require_relative '../../../../spec/features/views/shared_examples'
+require "spec_helper"
+require_relative "../support/pages/team_planner"
+require_relative "../../../../spec/features/views/shared_examples"
 
-describe 'Team planner query handling', type: :feature, js: true do
+RSpec.describe "Team planner query handling", :js, with_ee: %i[team_planner_view] do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
@@ -40,48 +42,45 @@ describe 'Team planner query handling', type: :feature, js: true do
   end
 
   shared_let(:user) do
-    create :user,
-           member_in_project: project,
-           member_with_permissions: %w[
+    create(:user,
+           member_with_permissions: { project => %w[
              view_work_packages
              edit_work_packages
              save_queries
              save_public_queries
              view_team_planner
              manage_team_planner
-           ]
+           ] })
   end
 
   shared_let(:task) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_task,
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
            due_date: Time.zone.today + 1.day,
-           subject: 'A task for the user'
+           subject: "A task for the user")
   end
   shared_let(:bug) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_bug,
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
            due_date: Time.zone.today + 1.day,
-           subject: 'A bug for the user'
+           subject: "A bug for the user")
   end
 
-  let(:team_planner) { ::Pages::TeamPlanner.new project }
-  let(:work_package_page) { ::Pages::WorkPackagesTable.new project }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-  let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
+  let(:team_planner) { Pages::TeamPlanner.new project }
+  let(:work_package_page) { Pages::WorkPackagesTable.new project }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
+  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:filters) { team_planner.filters }
 
   current_user { user }
 
   before do
-    with_enterprise_token(:team_planner_view)
-    login_as user
     team_planner.visit!
 
     team_planner.add_assignee user
@@ -93,11 +92,11 @@ describe 'Team planner query handling', type: :feature, js: true do
     end
   end
 
-  it 'allows saving the team planner' do
+  it "allows saving the team planner" do
     filters.expect_filter_count("1")
     filters.open
 
-    filters.add_filter_by('Type', 'is', [type_bug.name])
+    filters.add_filter_by("Type", "is (OR)", [type_bug.name])
 
     filters.expect_filter_count("2")
 
@@ -110,34 +109,35 @@ describe 'Team planner query handling', type: :feature, js: true do
 
     query_title.press_save_button
 
-    team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+    team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
   end
 
-  it 'shows only team planner queries' do
+  it "shows only team planner queries" do
     # Go to team planner where no query is shown, only the create option
     query_menu.expect_no_menu_entry
-    expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
+    expect(page).to have_test_selector("team-planner--create-button")
 
     # Change filter
     filters.open
-    filters.add_filter_by('Type', 'is', [type_bug.name])
+    filters.add_filter_by("Type", "is (OR)", [type_bug.name])
     filters.expect_filter_count("2")
 
     # Save current filters
     query_title.expect_changed
-    query_title.rename 'I am your Query'
-    team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+    query_title.rename "I am your Query"
+    team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
 
     # The saved query appears in the side menu...
-    query_menu.expect_menu_entry 'I am your Query'
+    query_menu.expect_menu_entry "I am your Query"
 
     # .. but not in the work packages module
     work_package_page.visit!
-    query_menu.expect_menu_entry_not_visible 'I am your Query'
+    query_menu.expect_menu_entry_not_visible "I am your Query"
   end
 
-  it_behaves_like 'module specific query view management' do
+  it_behaves_like "module specific query view management" do
     let(:module_page) { team_planner }
-    let(:default_name) { 'Unnamed team planner' }
+    let(:default_name) { "Unnamed team planner" }
+    let(:initial_filter_count) { 1 }
   end
 end

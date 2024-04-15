@@ -1,84 +1,109 @@
 # /api/v3/queries/default
 ---
 get:
+  summary: View default query
+  operationId: View_default_query
+  tags:
+  - Queries
+  description: Same as [viewing an existing, persisted Query](https://www.openproject.org/docs/api/endpoints/queries/#list-queries)
+    in its response, this resource returns an unpersisted query and by that allows
+    to get the default query configuration. The client may also provide additional
+    parameters which will modify the default query.
   parameters:
-  - description: |-
+  - name: filters
+    description: |-
       JSON specifying filter conditions.
       The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
       All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
     example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]'
     in: query
-    name: filters
     required: false
     schema:
       default: '[{ "status_id": { "operator": "o", "values": null }}]'
       type: string
-  - description: Page number inside the queries' result collection of work packages.
+  - name: offset
+    description: Page number inside the queries' result collection of work packages.
     example: '25'
     in: query
-    name: offset
     required: false
     schema:
       default: 1
       type: integer
-  - description: Number of elements to display per page for the queries' result collection
+  - name: pageSize
+    description: Number of elements to display per page for the queries' result collection
       of work packages.
     example: '25'
     in: query
-    name: pageSize
     required: false
     schema:
       type: integer
-  - description: JSON specifying sort criteria. The sort criteria is applied to the
+  - name: sortBy
+    description: JSON specifying sort criteria. The sort criteria is applied to the
       query's result collection of work packages overriding the query's persisted
       sort criteria.
     example: '[["status", "asc"]]'
     in: query
-    name: sortBy
     required: false
     schema:
       default: '[["id", "asc"]]'
       type: string
-  - description: The column to group by. The grouping criteria is applied to the to
+  - name: groupBy
+    description: The column to group by. The grouping criteria is applied to the to
       the query's result collection of work packages overriding the query's persisted
       group criteria.
     example: status
     in: query
-    name: groupBy
     required: false
     schema:
       type: string
-  - description: Indicates whether properties should be summed up if they support
+  - name: showSums
+    description: Indicates whether properties should be summed up if they support
       it. The showSums parameter is applied to the to the query's result collection
       of work packages overriding the query's persisted sums property.
     example: true
     in: query
-    name: showSums
     required: false
     schema:
       default: false
       type: boolean
-  - description: Indicates whether the timeline should be shown.
+  - name: timestamps
+    description: >
+      Indicates the timestamps to filter by when showing changed attributes
+      on work packages. Values can be either ISO8601 dates, ISO8601 durations and the
+      following relative date keywords: "oneDayAgo@HH:MM+HH:MM", "lastWorkingDay@HH:MM+HH:MM",
+      "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM".
+      The first "HH:MM" part represents the zero paded hours and minutes.
+      The last "+HH:MM" part represents the timezone offset from UTC associated with the time,
+      the offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
+      Values older than 1 day are accepted only with valid Enterprise Token available.
+
+    example: '2023-01-01,P-1Y,PT0S,lastWorkingDay@12:00'
+    in: query
+    required: false
+    schema:
+      default: 'PT0S'
+      type: string
+  - name: timelineVisible
+    description: Indicates whether the timeline should be shown.
     example: true
     in: query
-    name: timelineVisible
     required: false
     schema:
       default: false
       type: boolean
-  - description: Indicates in what zoom level the timeline should be shown. Valid
+  - name: timelineZoomLevel
+    description: Indicates in what zoom level the timeline should be shown. Valid
       values are  `days`, `weeks`, `months`, `quarters`, and `years`.
     example: days
     in: query
-    name: timelineZoomLevel
     required: false
     schema:
       default: days
       type: string
-  - description: Indicates whether the hierarchy mode should be enabled.
+  - name: showHierarchies
+    description: Indicates whether the hierarchy mode should be enabled.
     example: true
     in: query
-    name: showHierarchies
     required: false
     schema:
       default: true
@@ -191,11 +216,3 @@ get:
 
         **Required permission:** view work packages in any project
       headers: {}
-  tags:
-  - Queries
-  description: Same as [viewing an existing, persisted Query](https://www.openproject.org/docs/api/endpoints/queries/#list-queries)
-    in its response, this resource returns an unpersisted query and by that allows
-    to get the default query configuration. The client may also provide additional
-    parameters which will modify the default query.
-  operationId: View_default_query
-  summary: View default query

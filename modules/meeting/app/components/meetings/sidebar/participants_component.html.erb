@@ -1,0 +1,91 @@
+<%=
+  component_wrapper(data: wrapper_data_attributes) do
+    flex_layout do |participants_container|
+      participants_container.with_row do
+        flex_layout(align_items: :center, justify_content: :space_between) do |heading|
+          heading.with_column(flex: 1) do
+            flex_layout(align_items: :center) do |title|
+              title.with_column(mr: 2) do
+                render(Primer::Beta::Heading.new(tag: :h4)) { Meeting.human_attribute_name(:participants) }
+              end
+
+              title.with_column do
+                render(Primer::Beta::Counter.new(count: @meeting.invited_or_attended_participants.count, scheme: :primary))
+              end
+            end
+          end
+
+          if @meeting.editable?
+            heading.with_column do
+              render(Primer::Beta::IconButton.new(
+                icon: :gear,
+                scheme: :invisible,
+                'aria-label': t("label_meeting_manage_participants"),
+                data: { 'show-dialog-id': "edit-participants-dialog" }
+              ))
+            end
+          end
+        end
+      end
+
+      participants_container.with_row(mt: 2) do
+        if count == 0
+          render(Primer::Beta::Text.new(color: :subtle)) { t("label_meeting_no_participants") }
+        elsif count <= MAX_SHOWN_PARTICIPANTS
+          flex_layout do |list|
+            @meeting.invited_or_attended_participants.sort.each do |participant|
+              list.with_row(mt: 1) do
+                render_participant(participant)
+              end
+            end
+          end
+        elsif count > MAX_SHOWN_PARTICIPANTS
+          flex_layout do |list|
+            @meeting.invited_or_attended_participants.sort.take(MAX_SHOWN_PARTICIPANTS).each do |participant|
+              list.with_row(mt: 1) do
+                render_participant(participant)
+              end
+            end
+
+            list.with_row do
+              flex_layout do |flex|
+                flex.with_row(display: :none, data: { 'meetings-sidebar-participants-target': "hiddenParticipants" }) do
+                  flex_layout do |hidden_user_list|
+                    @meeting.invited_or_attended_participants.sort[MAX_SHOWN_PARTICIPANTS..].each do |participant|
+                      hidden_user_list.with_row(mt: 1) do
+                        render_participant(participant)
+                      end
+                    end
+                  end
+                end
+                flex.with_row(mt: 1) do
+                  render (Primer::Beta::Button.new(
+                    scheme: :link,
+                    data: { 'meetings-sidebar-participants-target': "showHideButton",
+                            action: 'click->meetings-sidebar-participants#showHiddenParticipants keydown.enter->meetings-sidebar-participants#showHiddenParticipants'
+                          }
+                  )) { I18n.t('label_meeting_show_hide_participants', count: @meeting.invited_or_attended_participants.count - MAX_SHOWN_PARTICIPANTS) }
+                end
+              end
+            end
+          end
+        end
+      end
+
+      if @meeting.editable?
+        participants_container.with_row(mt: 3) do
+          render(Primer::Beta::Button.new(
+            scheme: :link,
+            color: :default,
+            underline: false,
+            font_weight: :bold,
+            data: { 'show-dialog-id': "edit-participants-dialog" }
+          )) do |button|
+            button.with_leading_visual_icon(icon: "person-add")
+            t("label_meeting_add_participants")
+          end
+        end
+      end
+    end
+  end
+%>

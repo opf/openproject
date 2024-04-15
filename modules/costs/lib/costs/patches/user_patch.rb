@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,8 @@ module Costs::Patches::UserPatch
     base.send(:include, InstanceMethods)
 
     base.class_eval do
-      has_many :rates, class_name: 'HourlyRate'
-      has_many :default_rates, class_name: 'DefaultHourlyRate'
+      has_many :rates, class_name: "HourlyRate"
+      has_many :default_rates, class_name: "DefaultHourlyRate"
 
       before_save :save_rates
     end
@@ -45,7 +45,7 @@ module Costs::Patches::UserPatch
 
       ids = scope.pluck(:id)
 
-      ids.empty? ? '1=0' : "(#{Project.table_name}.id in (#{ids.join(', ')}))"
+      ids.empty? ? "1=0" : "(#{Project.table_name}.id in (#{ids.join(', ')}))"
     end
 
     def current_rate(project = nil, include_default = true)

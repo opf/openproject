@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::News::NewsRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::News::NewsRepresenter, "rendering" do
+  include API::V3::Utilities::PathHelper
 
   let(:news) do
     build_stubbed(:news,
@@ -46,71 +46,71 @@ describe ::API::V3::News::NewsRepresenter, 'rendering' do
 
   subject { representer.to_json }
 
-  describe '_links' do
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'self' }
+  describe "_links" do
+    it_behaves_like "has a titled link" do
+      let(:link) { "self" }
       let(:href) { api_v3_paths.news news.id }
       let(:title) { news.title }
     end
 
-    it_behaves_like 'has a titled link' do
+    it_behaves_like "has a titled link" do
       let(:link) { :project }
       let(:title) { project.name }
       let(:href) { api_v3_paths.project project.id }
     end
 
-    it_behaves_like 'has a titled link' do
+    it_behaves_like "has a titled link" do
       let(:link) { :author }
       let(:title) { user.name }
       let(:href) { api_v3_paths.user user.id }
     end
   end
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'News' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "News" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { news.id }
     end
 
-    it_behaves_like 'property', :title do
+    it_behaves_like "property", :title do
       let(:value) { news.title }
     end
 
-    it_behaves_like 'property', :summary do
+    it_behaves_like "property", :summary do
       let(:value) { news.summary }
     end
 
-    it_behaves_like 'has UTC ISO 8601 date and time' do
+    it_behaves_like "has UTC ISO 8601 date and time" do
       let(:date) { news.created_at }
-      let(:json_path) { 'createdAt' }
+      let(:json_path) { "createdAt" }
     end
 
-    it_behaves_like 'has UTC ISO 8601 date and time' do
+    it_behaves_like "has UTC ISO 8601 date and time" do
       let(:date) { news.updated_at }
-      let(:json_path) { 'updatedAt' }
+      let(:json_path) { "updatedAt" }
     end
 
-    it_behaves_like 'API V3 formattable', 'description' do
-      let(:format) { 'markdown' }
+    it_behaves_like "API V3 formattable", "description" do
+      let(:format) { "markdown" }
       let(:raw) { news.description }
-      let(:html) { '<p class="op-uc-p">' + news.description + '</p>' }
+      let(:html) { '<p class="op-uc-p">' + news.description + "</p>" }
     end
   end
 
-  describe '_embedded' do
-    it 'has project embedded' do
+  describe "_embedded" do
+    it "has project embedded" do
       expect(subject)
         .to be_json_eql(project.name.to_json)
-        .at_path('_embedded/project/name')
+        .at_path("_embedded/project/name")
     end
 
-    it 'has author embedded' do
+    it "has author embedded" do
       expect(subject)
         .to be_json_eql(user.name.to_json)
-        .at_path('_embedded/author/name')
+        .at_path("_embedded/author/name")
     end
   end
 end

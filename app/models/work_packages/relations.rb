@@ -30,14 +30,14 @@ module WorkPackages::Relations
   included do
     # All relations of the work package in both directions.
     # Mostly used to have the relations destroyed upon destruction of the work package.
-    # rubocop:disable Rails:InverseOf
+    # rubocop:disable Rails/InverseOf
     has_many :relations,
              ->(work_package) {
                unscope(:where)
                  .of_work_package(work_package)
              },
              dependent: :destroy
-    # rubocop:enable Rails:InverseOf
+    # rubocop:enable Rails/InverseOf
 
     # Relations where the current work package follows another one.
     # In this case,
@@ -45,7 +45,7 @@ module WorkPackages::Relations
     #   * to is the followed work package
     has_many :follows_relations,
              -> { where(relation_type: Relation::TYPE_FOLLOWS) },
-             class_name: 'Relation',
+             class_name: "Relation",
              foreign_key: :from_id,
              autosave: true,
              dependent: :nullify,
@@ -57,7 +57,7 @@ module WorkPackages::Relations
     #   * to is the blocked work package
     has_many :blocks_relations,
              -> { where(relation_type: Relation::TYPE_BLOCKS) },
-             class_name: 'Relation',
+             class_name: "Relation",
              foreign_key: :from_id,
              autosave: true,
              dependent: :nullify,
@@ -69,7 +69,7 @@ module WorkPackages::Relations
     #   * to is the duplicated work package
     has_many :duplicates_relations,
              -> { where(relation_type: Relation::TYPE_DUPLICATES) },
-             class_name: 'Relation',
+             class_name: "Relation",
              foreign_key: :from_id,
              autosave: true,
              dependent: :nullify,
@@ -81,7 +81,7 @@ module WorkPackages::Relations
     #   * to is self
     has_many :duplicated_relations,
              -> { where(relation_type: Relation::TYPE_DUPLICATES) },
-             class_name: 'Relation',
+             class_name: "Relation",
              foreign_key: :to_id,
              autosave: true,
              dependent: :nullify,

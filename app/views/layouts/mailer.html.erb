@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -106,7 +106,7 @@ See COPYRIGHT and LICENSE files for more details.
           </td>
         </tr>
       </table>
-      <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
+      <%= call_hook(:view_layouts_mailer_html_before_content, assigns) %>
       <table class="body">
         <tr>
           <td>
@@ -114,7 +114,7 @@ See COPYRIGHT and LICENSE files for more details.
           </td>
         </tr>
       </table>
-      <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
+      <%= call_hook(:view_layouts_mailer_html_after_content, assigns) %>
       <table class="footer">
         <tr>
           <td>

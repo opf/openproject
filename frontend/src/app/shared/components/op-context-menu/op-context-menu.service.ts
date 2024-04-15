@@ -33,11 +33,13 @@ export class OPContextMenuService {
   // Allow temporarily disabling the close handler
   private isOpening = false;
 
-  constructor(private componentFactoryResolver:ComponentFactoryResolver,
+  constructor(
+    private componentFactoryResolver:ComponentFactoryResolver,
     readonly FocusHelper:FocusHelperService,
     private appRef:ApplicationRef,
     private $transitions:TransitionService,
-    private injector:Injector) {
+    private injector:Injector,
+  ) {
     const hostElement = this.portalHostElement = document.createElement('div');
     hostElement.classList.add('op-context-menu--overlay');
     document.body.appendChild(hostElement);
@@ -55,19 +57,28 @@ export class OPContextMenuService {
     // Listen to keyups on window to close context menus
     jQuery(window).on('keydown', (evt:JQuery.TriggeredEvent) => {
       if (this.active && evt.which === KeyCodes.ESCAPE) {
-        this.close();
+        this.close(true);
       }
 
       return true;
     });
 
-    // Listen to any click and close the active context menu
     const that = this;
-    document.getElementById('wrapper')!.addEventListener('click', (evt:Event) => {
-      if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
-        that.close();
-      }
-    }, true);
+    const wrapper = document.getElementById('wrapper');
+    if (wrapper) {
+      // Listen to any click and close the active context menu
+      wrapper.addEventListener('click', (evt:Event) => {
+        if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
+          that.close();
+        }
+      }, true);
+      // Listen if it scrolles then close the active context menu
+      wrapper.addEventListener('scroll', (evt:Event) => {
+        if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
+          that.close();
+        }
+      }, true);
+    }
   }
 
   /**
@@ -102,7 +113,7 @@ export class OPContextMenuService {
   /**
    * Closes all currently open context menus.
    */
-  public close():void {
+  public close(focus = false):void {
     if (this.isOpening) {
       return;
     }
@@ -110,7 +121,7 @@ export class OPContextMenuService {
     // Detach any component currently in the portal
     this.bodyPortalHost.detach();
     this.portalHostElement.style.display = 'none';
-    this.active?.onClose();
+    this.active?.onClose(focus);
     this.active = null;
   }
 

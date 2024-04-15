@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,66 +26,60 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-describe 'Team planner drag&dop and resizing', type: :feature, js: true do
-  before do
-    with_enterprise_token(:team_planner_view)
-  end
-
-  include_context 'with team planner full access'
+RSpec.describe "Team planner drag&dop and resizing",
+               :js,
+               with_ee: %i[team_planner_view],
+               with_settings: { start_of_week: 1 } do
+  include_context "with team planner full access"
 
   let!(:other_user) do
-    create :user,
-           firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_team_planner work_package_assigned
-           ]
+    create(:user,
+           firstname: "Bernd",
+           member_with_permissions: { project => %w[view_work_packages view_team_planner work_package_assigned] })
   end
 
   let!(:first_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
   let!(:second_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            parent: first_wp,
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
   let!(:third_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            assigned_to: user,
            start_date: Time.zone.today - 10.days,
-           due_date: Time.zone.today + 20.days
+           due_date: Time.zone.today + 20.days)
   end
 
   let(:milestone_type) { create(:type, is_milestone: true) }
   let!(:fourth_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            assigned_to: user,
            type: milestone_type,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday))
   end
 
-  context 'with full permissions' do
+  context "with full permissions" do
     before do
       team_planner.visit!
 
       team_planner.add_assignee user
-      retry_block do
-        team_planner.add_assignee other_user
-      end
+      team_planner.add_assignee other_user
 
       team_planner.within_lane(user) do
         team_planner.expect_event first_wp, present: false
@@ -102,12 +96,12 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       end
     end
 
-    it 'allows to drag&drop between the lanes to change the assignee' do
+    it "allows to drag&drop between the lanes to change the assignee" do
       # Move first wp to the user
       retry_block do
         team_planner.drag_wp_to_lane(first_wp, user)
       end
-      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       team_planner.within_lane(user) do
         team_planner.expect_event first_wp
@@ -127,7 +121,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       retry_block do
         team_planner.drag_wp_to_lane(second_wp, user)
       end
-      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       team_planner.within_lane(user) do
         team_planner.expect_event first_wp
@@ -147,7 +141,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       retry_block do
         team_planner.drag_wp_to_lane(third_wp, other_user)
       end
-      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       team_planner.within_lane(user) do
         team_planner.expect_event first_wp
@@ -167,7 +161,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       retry_block do
         team_planner.drag_wp_to_lane(fourth_wp, other_user)
       end
-      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       team_planner.within_lane(user) do
         team_planner.expect_event first_wp
@@ -184,13 +178,13 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       end
     end
 
-    it 'allows to resize to change the dates of a wp' do
+    it "allows to resize to change the dates of a wp" do
       retry_block do
         # Change date of second_wp by resizing it
         team_planner.change_wp_date_by_resizing(second_wp, number_of_days: 1, is_start_date: true)
       end
 
-      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       # The date has changed, but the assignee remains unchanged.
       # Because of the hierarchy, the first wp is updated, too.
@@ -210,7 +204,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       retry_block do
         team_planner.drag_wp_by_pixel(second_wp, -150, 0)
       end
-      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       first_wp.reload
       second_wp.reload
@@ -235,7 +229,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       retry_block do
         team_planner.drag_wp_by_pixel(fourth_wp, 150, 0)
       end
-      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      team_planner.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       fourth_wp.reload
       expect(fourth_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
@@ -244,19 +238,17 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
     end
   end
 
-  context 'without permission to edit' do
+  context "without permission to edit" do
     current_user { other_user }
 
     before do
       team_planner.visit!
 
       team_planner.add_assignee user
-      retry_block do
-        team_planner.add_assignee other_user
-      end
+      team_planner.add_assignee other_user
     end
 
-    it 'allows neither dragging nor resizing any wp' do
+    it "allows neither dragging nor resizing any wp" do
       team_planner.expect_wp_not_resizable(first_wp)
       team_planner.expect_wp_not_resizable(second_wp)
       team_planner.expect_wp_not_resizable(third_wp)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,8 +73,8 @@ module API
                         self.class.name
                       end
 
-          classname.to_s.split('::') + [
-            'json',
+          classname.to_s.split("::") + [
+            "json",
             I18n.locale,
             json_key_representer_parts
           ]
@@ -89,7 +89,7 @@ module API
         private
 
         def apply_link_cache_ifs(hash_rep)
-          link_conditions = representable_attrs['links']
+          link_conditions = representable_attrs["links"]
                             .link_configs
                             .select { |config, _block| config[:cache_if] }
 
@@ -99,7 +99,7 @@ module API
 
             name = config[:rel]
 
-            delete_from_hash(hash_rep, '_links', name)
+            delete_from_hash(hash_rep, "_links", name)
           end
         end
 
@@ -113,12 +113,12 @@ module API
 
             hash_name = (config[:as] && instance_exec(&config[:as])) || name
 
-            delete_from_hash(hash_rep, config[:embedded] ? '_embedded' : nil, hash_name)
+            delete_from_hash(hash_rep, config[:embedded] ? "_embedded" : nil, hash_name)
           end
         end
 
         def add_uncacheable_links(hash_rep)
-          link_conditions = representable_attrs['links']
+          link_conditions = representable_attrs["links"]
                             .link_configs
                             .select { |config, _block| config[:uncacheable] }
 
@@ -127,9 +127,9 @@ module API
             block_result = instance_exec(&block)
 
             if block_result
-              hash_rep['_links'][name] = block_result
+              hash_rep["_links"][name] = block_result
             else
-              hash_rep['_links'].delete(name)
+              hash_rep["_links"].delete(name)
             end
           end
         end
@@ -141,7 +141,7 @@ module API
           super(href, options.except(:cache_if, :uncacheable))
         end
 
-        # Overriding Roar::Hypbermedia#combile_links_for
+        # Overriding Roar::Hypermedia#combile_links_for
         # to remove all uncacheable links if the caching_state is set to :cacheable
         def compile_links_for(configs, *args)
           current_configs = case caching_state
@@ -190,7 +190,7 @@ module API
           cacheable << json_key_parts_of_represented
           cacheable << json_key_dependencies
 
-          OpenProject::Cache::CacheKey.expand(cacheable.flatten.compact)
+          OpenProject::Cache::CacheKey.expand(OpenProject::Cache::CacheKey.key(cacheable.flatten.compact))
         end
 
         def json_key_part_represented

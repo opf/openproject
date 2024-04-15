@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,10 +48,15 @@ class Projects::TemplatedController < ApplicationController
 
     if service_call.success?
       flash[:notice] = t(:notice_successful_update)
-      redirect_to project_settings_general_path(@project)
     else
-      @errors = service_call.errors
-      render template: 'projects/settings/general'
+      messages = [
+        t("activerecord.errors.template.header", model: Project.model_name.human, count: service_call.errors.count),
+        service_call.message
+      ]
+
+      flash[:error] = messages.join(". ")
     end
+
+    redirect_to project_settings_general_path(@project)
   end
 end

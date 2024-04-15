@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,12 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
     attributes = ::Type.translated_work_package_form_attributes
 
     # Start and finish dates are joined into a single field for non-milestones
-    attributes.delete 'start_date'
-    attributes.delete 'due_date'
+    attributes.delete "start_date"
+    attributes.delete "due_date"
 
     # Status and project are currently special attribute that we need to add
-    attributes['status'] = WorkPackage.human_attribute_name 'status'
-    attributes['project'] = WorkPackage.human_attribute_name 'project'
+    attributes["status"] = WorkPackage.human_attribute_name "status"
+    attributes["project"] = WorkPackage.human_attribute_name "project"
 
     attributes
   end

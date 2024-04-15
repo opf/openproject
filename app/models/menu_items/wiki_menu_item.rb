@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,12 +27,12 @@
 #++
 
 class MenuItems::WikiMenuItem < MenuItem
-  belongs_to :wiki, foreign_key: 'navigatable_id'
+  belongs_to :wiki, foreign_key: "navigatable_id"
 
   scope :main_items, ->(wiki_id) {
     where(navigatable_id: wiki_id, parent_id: nil)
       .includes(:children)
-      .order(Arel.sql('title ASC'))
+      .order(Arel.sql("title ASC"))
   }
 
   def slug
@@ -44,7 +44,7 @@ class MenuItems::WikiMenuItem < MenuItem
   end
 
   def menu_identifier
-    "wiki-#{slug}".to_sym
+    :"wiki-#{slug}"
   end
 
   def index_page
@@ -68,6 +68,6 @@ class MenuItems::WikiMenuItem < MenuItem
   end
 
   def self.add_entry_item_prefix(identifier)
-    "entry-item-#{identifier}".to_sym
+    :"entry-item-#{identifier}"
   end
 end

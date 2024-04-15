@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'sticky messages', type: :feature do
+RSpec.describe "sticky messages" do
   let(:forum) { create(:forum) }
 
   let!(:message1) do
-    create :message, forum: forum, created_at: Time.now - 1.minute do |message|
-      Message.where(id: message.id).update_all(updated_at: Time.now - 1.minute)
+    create(:message, forum:, created_at: 1.minute.ago) do |message|
+      Message.where(id: message.id).update_all(updated_at: 1.minute.ago)
     end
   end
   let!(:message2) do
-    create :message, forum: forum, created_at: Time.now - 2.minutes do |message|
-      Message.where(id: message.id).update_all(updated_at: Time.now - 2.minutes)
+    create(:message, forum:, created_at: 2.minutes.ago) do |message|
+      Message.where(id: message.id).update_all(updated_at: 2.minutes.ago)
     end
   end
   let!(:message3) do
-    create :message, forum: forum, created_at: Time.now - 3.minutes do |message|
-      Message.where(id: message.id).update_all(updated_at: Time.now - 3.minutes)
+    create(:message, forum:, created_at: 3.minutes.ago) do |message|
+      Message.where(id: message.id).update_all(updated_at: 3.minutes.ago)
     end
   end
 
   let(:user) do
-    create :user,
-           member_in_project: forum.project,
-           member_through_role: role
+    create(:user,
+           member_with_roles: { forum.project => role })
   end
-  let(:role) { create(:role, permissions: [:edit_messages]) }
+  let(:role) { create(:project_role, permissions: [:edit_messages]) }
 
   before do
     login_as user
@@ -61,19 +60,19 @@ describe 'sticky messages', type: :feature do
 
   def expect_order_of_messages(*order)
     order.each_with_index do |message, index|
-      expect(page).to have_selector("table tbody tr:nth-of-type(#{index + 1})", text: message.subject)
+      expect(page).to have_css("table tbody tr:nth-of-type(#{index + 1})", text: message.subject)
     end
   end
 
-  it 'sticky messages are on top' do
+  it "sticky messages are on top" do
     expect_order_of_messages(message1, message2, message3)
 
     click_link(message2.subject)
 
-    click_link('Edit')
+    click_link("Edit")
 
-    check('message[sticky]')
-    click_button('Save')
+    check("message[sticky]")
+    click_button("Save")
 
     visit project_forum_path(forum.project, forum)
 

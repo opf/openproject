@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'News creation and commenting', type: :feature, js: true do
+RSpec.describe "News creation and commenting", :js, :with_cuprite do
   let(:project) { create(:project) }
   let!(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[],
+           member_with_permissions: { project => %i[] },
            notification_settings: [
              build(:notification_setting, news_added: true, news_commented: true)
            ])
@@ -41,49 +40,48 @@ describe 'News creation and commenting', type: :feature, js: true do
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[manage_news comment_news])
+           member_with_permissions: { project => %i[manage_news comment_news] })
   end
 
-  it 'allows creating new and commenting it all of which will result in notifications and mails' do
+  it "allows creating new and commenting it all of which will result in notifications and mails" do
     visit project_news_index_path(project)
 
-    within '.toolbar-items' do
-      click_link 'News'
+    within ".toolbar-items" do
+      click_link "News"
     end
 
     # Create the news
-    fill_in 'Title', with: 'My new news'
-    fill_in 'Summary', with: 'The news summary'
+    fill_in "Title", with: "My new news"
+    fill_in "Summary", with: "The news summary"
 
     perform_enqueued_jobs do
-      click_button 'Create'
+      click_button "Create"
     end
 
     # The new news is visible on the index page
     expect(page)
-      .to have_link('My new news')
+      .to have_link("My new news")
 
     expect(page)
-      .to have_content 'The news summary'
+      .to have_content "The news summary"
 
     # Creating the news will have sent out mails
     expect(ActionMailer::Base.deliveries.size)
       .to eq 1
 
     expect(ActionMailer::Base.deliveries.last.to)
-      .to match_array [other_user.mail]
+      .to contain_exactly(other_user.mail)
 
     expect(ActionMailer::Base.deliveries.last.subject)
-      .to include 'My new news'
+      .to include "My new news"
 
-    click_link 'My new news'
+    click_link "My new news"
 
-    comment_editor = ::Components::WysiwygEditor.new
+    comment_editor = Components::WysiwygEditor.new
     comment_editor.set_markdown "A new **text**"
 
     perform_enqueued_jobs do
-      click_button 'Add comment'
+      click_button "Add comment"
     end
 
     # The new comment is visible on the show page
@@ -95,9 +93,9 @@ describe 'News creation and commenting', type: :feature, js: true do
       .to eq 2
 
     expect(ActionMailer::Base.deliveries.last.to)
-      .to match_array [other_user.mail]
+      .to contain_exactly(other_user.mail)
 
     expect(ActionMailer::Base.deliveries.last.subject)
-      .to include 'My new news'
+      .to include "My new news"
   end
 end

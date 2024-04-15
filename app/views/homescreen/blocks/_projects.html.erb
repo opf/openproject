@@ -17,9 +17,9 @@
 <% end %>
 
 <div class="widget-box--blocks--buttons">
-  <% if User.current.allowed_to_globally?(:add_project) %>
+  <% if User.current.allowed_globally?(:add_project) %>
     <%= link_to new_project_path,
-          { class: 'button -alt-highlight',
+          { class: 'button -primary',
             aria: {label: t(:label_project_new)},
             title: t(:label_project_new)} do %>
       <%= op_icon('button--icon icon-add') %>

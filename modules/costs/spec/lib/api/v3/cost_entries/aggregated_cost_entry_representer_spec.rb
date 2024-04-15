@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::CostEntries::AggregatedCostEntryRepresenter do
+RSpec.describe API::V3::CostEntries::AggregatedCostEntryRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:cost_entry) { build_stubbed(:cost_entry) }
@@ -36,17 +36,17 @@ describe ::API::V3::CostEntries::AggregatedCostEntryRepresenter do
 
   subject { representer.to_json }
 
-  it 'has a type' do
-    expect(subject).to be_json_eql('AggregatedCostEntry'.to_json).at_path('_type')
+  it "has a type" do
+    expect(subject).to be_json_eql("AggregatedCostEntry".to_json).at_path("_type")
   end
 
-  it_behaves_like 'has a titled link' do
-    let(:link) { 'costType' }
+  it_behaves_like "has a titled link" do
+    let(:link) { "costType" }
     let(:href) { api_v3_paths.cost_type cost_entry.cost_type.id }
     let(:title) { cost_entry.cost_type.name }
   end
 
-  it 'has spent units' do
-    expect(subject).to be_json_eql(cost_entry.units.to_json).at_path('spentUnits')
+  it "has spent units" do
+    expect(subject).to be_json_eql(cost_entry.units.to_json).at_path("spentUnits")
   end
 end

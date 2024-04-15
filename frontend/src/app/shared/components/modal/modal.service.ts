@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,22 +32,24 @@ import {
   Injector,
 } from '@angular/core';
 import { ComponentType, PortalInjector } from '@angular/cdk/portal';
-
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+
+export const OpModalLocalsToken = new InjectionToken<never>('OP_MODAL_LOCALS');
+
+export interface ModalData {
+  modal:ComponentType<OpModalComponent>;
+  injector:Injector;
+  notFullscreen:boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class OpModalService {
-  public activeModalInstance$ = new ReplaySubject<OpModalComponent|null>(1);
+  public activeModalInstance$ = new BehaviorSubject<OpModalComponent|null>(null);
 
-  public activeModalData$ = new ReplaySubject<{
-    modal:ComponentType<OpModalComponent>,
-    injector:Injector,
-    notFullscreen:boolean,
-  }|null>(1);
+  public activeModalData$ = new BehaviorSubject<ModalData|null>(null);
 
   constructor(
     private readonly injector:Injector,
@@ -69,6 +71,7 @@ export class OpModalService {
    * @param injector The injector to pass into the component. Ensure this is the hierarchical injector if needed.
    *                 Can be passed 'global' to take the default (global!) injector of this service.
    * @param locals A map to be injected via token into the component.
+   * @param notFullscreen
    */
   public show<T extends OpModalComponent>(
     modal:ComponentType<T>,
@@ -91,7 +94,7 @@ export class OpModalService {
 
     return this.activeModalInstance$
       .pipe(
-        filter((m) => m !== null),
+        filter((m) => m instanceof modal),
         take(1),
       ) as Observable<T>;
   }

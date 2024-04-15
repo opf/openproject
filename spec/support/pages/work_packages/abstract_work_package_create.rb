@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/work_packages/abstract_work_package'
+require "support/pages/page"
+require "support/pages/work_packages/abstract_work_package"
 
 module Pages
   class AbstractWorkPackageCreate < AbstractWorkPackage
@@ -59,15 +59,15 @@ module Pages
 
     def expect_fully_loaded
       expect_angular_frontend_initialized
-      expect(page).to have_selector '#wp-new-inline-edit--field-subject', wait: 20
+      expect(page).to have_css "#wp-new-inline-edit--field-subject", wait: 20
     end
 
     def save!
-      scroll_to_and_click find('.button', text: I18n.t('js.button_save'))
+      scroll_to_and_click find(".button", text: I18n.t("js.button_save"))
     end
 
     def cancel!
-      scroll_to_and_click find('.button', text: I18n.t('js.button_cancel'))
+      scroll_to_and_click find(".button", text: I18n.t("js.button_cancel"))
     end
   end
 end

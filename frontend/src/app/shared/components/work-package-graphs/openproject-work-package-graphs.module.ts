@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { WpGraphConfigurationModalComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal';
@@ -37,19 +37,19 @@ import { WpGraphConfigurationFiltersTabInnerComponent } from 'core-app/shared/co
 import { WpGraphConfigurationSettingsTabInnerComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab-inner.component';
 import { WorkPackageEmbeddedGraphComponent } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 import { WorkPackageOverviewGraphComponent } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
-import { ChartsModule } from 'ng2-charts';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
     // Commons
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectModalModule,
 
     OpenprojectWorkPackagesModule,
 
-    ChartsModule,
+    NgChartsModule,
     OpenprojectTabsModule,
   ],
   declarations: [

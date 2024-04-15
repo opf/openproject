@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ module OpenProject
       # Adds a listener class.
       # Automatically called when a class inherits from OpenProject::Hook::Listener.
       def add_listener(klass)
-        raise ArgumentError, 'Hooks must include Singleton module.' unless klass.included_modules.include?(Singleton)
+        raise ArgumentError, "Hooks must include Singleton module." unless klass.included_modules.include?(Singleton)
 
         listener_classes << klass
         clear_listeners_instances

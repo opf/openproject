@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,11 +33,14 @@
 
 # It is very unstable code. However, it should never change the instance it runs in. However, use it with caution.
 
-## Before using it, make sure that all subjects are unique:
-# project_identifiers = %w(construction-project bcf-management seed-daten creating-bim-model)
-# projects = Project.where(identifier: project_identifiers)
-# all_wps = projects.map(&:work_packages).flatten
-# all_wps.group_by(&:subject).select { |subject, members| members.size > 1 }.each { |subject, members| puts "#{subject}\t#{members.map(&:id).join("\t")}" }
+## Before using it, make sure:
+# that the default language is :en
+# that the seeded status, types, and priority names have never been changed
+# that all subjects are unique:
+#   project_identifiers = %w(construction-project bcf-management seed-daten creating-bim-model)
+#   projects = Project.where(identifier: project_identifiers)
+#   all_wps = projects.map(&:work_packages).flatten
+#   all_wps.group_by(&:subject).select { |subject, members| members.size > 1 }.each { |subject, members| puts "#{subject}\t#{members.map(&:id).join("\t")}" }
 class Seedifier
   attr_accessor :written_work_packages_ids, :project_identifiers, :projects, :base_date
 
@@ -45,6 +48,10 @@ class Seedifier
     @project_identifiers = project_identifiers
     @written_work_packages_ids = []
     @projects = Project.where(identifier: @project_identifiers)
+
+    raise "Warning: this class and the bim:seedify task have not been maintained when " \
+          "work package 36933 was implemented as it was out-of-scope. It will probably " \
+          "fail to produce the expected output."
 
     all_work_packages = @projects.map { |project| project.work_packages.to_a }.flatten.sort_by(&:start_date)
     @base_date = all_work_packages.first.start_date.monday
@@ -61,7 +68,7 @@ class Seedifier
         next
       end
 
-      puts work_packages.map { |work_package| seedify_work_package(work_package, project) }.compact.to_yaml
+      puts work_packages.filter_map { |work_package| seedify_work_package(work_package, project) }.to_yaml
     end
   end
 
@@ -80,17 +87,17 @@ class Seedifier
   end
 
   def calc_status(work_package)
-    prefix = ''
+    prefix = ""
     if ["Resolved"].include?(work_package.status.name)
-      prefix = 'seeders.bim.'
+      prefix = "bim."
     end
     "#{prefix}default_status_#{calc_low_dash(work_package.status.name.downcase)}"
   end
 
   def calc_type(work_package)
-    prefix = ''
+    prefix = ""
     if ["Issue", "Clash", "Remark", "Request"].include?(work_package.type.name)
-      prefix = 'seeders.bim.'
+      prefix = "bim."
     end
     "#{prefix}default_type_#{calc_low_dash(work_package.type.name.downcase)}"
   end
@@ -107,9 +114,9 @@ class Seedifier
 
     @written_work_packages_ids << work_package.id
 
-    predecessors = work_package.follows.sort_by(&:start_date).map { |predecessor| { to: predecessor.subject, type: 'follows' } }
+    predecessors = work_package.follows.sort_by(&:start_date).map { |predecessor| { to: predecessor.subject, type: "follows" } }
 
-    children = work_package.children.sort_by(&:start_date).map { |child| seedify_work_package(child, project) }.compact
+    children = work_package.children.sort_by(&:start_date).filter_map { |child| seedify_work_package(child, project) }
 
     assigned_to = work_package.assigned_to.try(:name)
 

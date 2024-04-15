@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 sv:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Återstående timmar"
-        remaining_time: "Återstående timmar"
         story_points: "Berättelsepoäng"
         backlogs_work_package_type: "Typ av backlogg"
     errors:
@@ -35,9 +36,6 @@ sv:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "kan endast innehålla ID:n för arbetspaket i den aktuella sprinten."
               must_block_at_least_one_work_package: "måste innehålla ID för minst ett arbetspaket."
-            parent_id:
-              parent_child_relationship_across_projects: "är ogiltig eftersom arbetspaketet '%{work_package_name}' är en backlog aktivitet och kan därför inte ha en förälder utanför det aktuella projektet."
-              type_must_be_one_of_the_following: "Typen måste vara en av följande: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "måste vara samma som föräldraberättelsens version."
         sprint:
@@ -66,8 +64,8 @@ sv:
     properties: "Egenskaper"
     rebuild: "Rekonstruera"
     rebuild_positions: "Rekonstruera positioner"
-    remaining_hours: "Återstående timmar"
-    remaining_hours_ideal: "Återstående timmar (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown-diagram"
     story: "Berättelse"
     story_points: "Berättelsepoäng"
@@ -78,7 +76,6 @@ sv:
     x_more: "%{count} mer..."
   backlogs_active: "aktiv"
   backlogs_any: "någon"
-  backlogs_card_specification: "Typ av etikett för kortutskrift"
   backlogs_inactive: "Projektet visar ingen aktivitet"
   backlogs_points_burn_direction: "Burn up/-down poäng"
   backlogs_product_backlog: "Produktbacklog"
@@ -150,7 +147,7 @@ sv:
   rb_label_copy_tasks_none: "Inga"
   rb_label_copy_tasks_open: "Öppna"
   rb_label_link_to_original: "Inkludera länk till originalberättelsen"
-  remaining_hours: "återstående timmar"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "tempo som krävs (timmar)"
   required_burn_rate_points: "tempo som krävs (poäng)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

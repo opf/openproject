@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,26 +25,24 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Notifications::NotificationsAPI,
-         'update read status',
-         type: :request,
-         content_type: :json do
+RSpec.describe API::V3::Notifications::NotificationsAPI,
+               "update read status",
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:recipient) do
-    create :user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages]
+    create(:user,
+           member_with_permissions: { project => %i[view_work_packages] })
   end
   shared_let(:notification) do
-    create :notification,
+    create(:notification,
            recipient:,
            resource: work_package,
-           project:
+           project:)
   end
 
   let(:send_read) do
@@ -61,10 +59,10 @@ describe ::API::V3::Notifications::NotificationsAPI,
     login_as current_user
   end
 
-  describe 'recipient user' do
+  describe "recipient user" do
     let(:current_user) { recipient }
 
-    it 'can read and unread' do
+    it "can read and unread" do
       send_read
       expect(last_response.status).to eq(204)
       expect(notification.reload.read_ian).to be_truthy
@@ -75,10 +73,10 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
   end
 
-  describe 'admin user' do
+  describe "admin user" do
     let(:current_user) { build(:admin) }
 
-    it 'returns a 404 response' do
+    it "returns a 404 response" do
       send_read
       expect(last_response.status).to eq(404)
 

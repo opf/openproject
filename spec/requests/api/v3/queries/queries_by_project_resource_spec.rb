@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Query resource', type: :request do
+RSpec.describe "API v3 Query resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { create(:project, identifier: 'test_project', public: false) }
+  let(:project) { create(:project, identifier: "test_project", public: false) }
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:view_work_packages] }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe '#get projects/:project_id/queries/default' do
+  describe "#get projects/:project_id/queries/default" do
     let(:base_path) { api_v3_paths.query_project_default(project.id) }
 
-    it_behaves_like 'GET individual query' do
-      context 'lacking permissions' do
+    it_behaves_like "GET individual query" do
+      context "lacking permissions" do
         let(:permissions) { [] }
 
-        it_behaves_like 'unauthorized access'
+        it_behaves_like "unauthorized access"
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class NewPlaceholderUser < Page
     def path
-      '/placeholder_users/new'
+      "/placeholder_users/new"
     end
 
     ##
@@ -39,11 +39,11 @@ module Pages
     def fill_in!(fields = {})
       form = FormFiller.new fields
 
-      form.fill! 'Name', :name
+      form.fill! "Name", :name
     end
 
     def submit!
-      click_button 'Create'
+      click_button "Create"
     end
   end
 end

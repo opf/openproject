@@ -1,0 +1,7 @@
+description: |-
+  Updates a membership and add multiple roles.
+value:
+  _links:
+    roles:
+      - href: '/api/v3/roles/5'
+      - href: '/api/v3/roles/6'

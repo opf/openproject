@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= error_messages_for_contract @application, @errors %>
+<%= error_messages_for @application %>
 
 <section class="form--section">
   <div class="form--field -required">
@@ -79,13 +79,19 @@ See COPYRIGHT and LICENSE files for more details.
     </p>
 
     <div class="form--field -visible-overflow">
-      <label class="form--label"> <%= t('doorkeeper.application.client_credentials_user_id') %>
+      <label class="form--label"> <%= t('activerecord.attributes.doorkeeper/application.client_credentials_user_id') %>
       </label>
       <div class="form--field-container">
         <div class="form--text-field-container -middle">
           <%= f.hidden_field :client_credentials_user_id,  value: @application.client_credentials_user_id %>
-          <op-user-autocompleter data-allow-empty="true"
-                              data-name='"application[client_credentials_user_id]"'></op-user-autocompleter>
+          <%=
+            angular_component_tag 'opce-user-autocompleter',
+                                  inputs: {
+                                    allowEmpty: true,
+                                    inputName: 'application[client_credentials_user_id]'
+                                  },
+                                  class: "new-group-members--autocomplete"
+          %>
         </div>
       </div>
       <p class="form--field-instructions">
@@ -103,4 +109,3 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </fieldset>
 </section>
-

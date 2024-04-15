@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,15 +47,15 @@ module API
             end
 
             params do
-              requires :id, desc: 'Group by id'
-              requires :direction, desc: 'Direction of sorting'
+              requires :id, desc: "Group by id"
+              requires :direction, desc: "Direction of sorting"
             end
 
             after_validation do
-              authorize(:view_work_packages, global: true, user: current_user)
+              authorize_in_any_work_package(:view_work_packages)
             end
 
-            namespace ':id-:direction' do
+            namespace ":id-:direction" do
               get do
                 column = find_column(params[:id])
 

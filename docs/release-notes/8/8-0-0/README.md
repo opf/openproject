@@ -28,7 +28,7 @@ Read below to get a detailed overview of what is new in OpenProject 8.
 ## WYSIWYG Markdown text editor
 
 A new WYSIWYG editor replaces the existing editor in OpenProject
-([18039](https://community.openproject.com/projects/openproject/work_packages/18039/activity)).
+([18039](https://community.openproject.org/wp/18039)).
 Based on CKEditor 5, the new editor makes it easy to create and format
 texts. Users do no longer have to remember textile syntax and can
 directly see the changes they make. No matter whether you want to add an
@@ -46,8 +46,8 @@ pandoc.
 
 Navigating within OpenProject is now even easier: The new side
 navigation
-([26824](https://community.openproject.com/projects/openproject/work_packages/26824/activity),
-[27828](https://community.openproject.com/projects/openproject/work_packages/27828/activity))
+([26824](https://community.openproject.org/wp/26824),
+[27828](https://community.openproject.org/wp/27828))
 allows you to easily navigate within projects. To get additional screen
 real estate, just hide the entire side navigation. In addition, work
 package views and wiki pages are now much easier to find and navigate
@@ -59,7 +59,7 @@ to.
 
 With OpenProject 8 you can easily embed work package views and the Gantt
 chart in wiki pages
-([26233](https://community.openproject.com/projects/openproject/work_packages/26233/activity)).
+([26233](https://community.openproject.org/wp/26233)).
 This way you can display key project information (such as the current
 milestone plan) directly in a wiki page or in the project overview page.
 
@@ -70,7 +70,7 @@ milestone plan) directly in a wiki page or in the project overview page.
 Looking for a specific document or some text in that document? This is
 no problem with the new full text search capability for work package
 attachments
-([26817](https://community.openproject.com/projects/openproject/work_packages/26817/activity)).
+([26817](https://community.openproject.org/wp/26817)).
 You can either search by file name of the content of the file from the
 work package page. This allows you to quickly find all the work packages
 with certain attachments.
@@ -81,7 +81,7 @@ with certain attachments.
 
 With OpenProject 8 you can model intelligent workflows using custom
 actions
-([26612](https://community.openproject.com/projects/openproject/work_packages/26612/activity)).
+([26612](https://community.openproject.org/wp/26612)).
 Simply select which actions should be triggered when you click a custom
 action button. You can e.g. change the assignee, status and priority of
 a work package with the click of a single button. This gives you a
@@ -90,7 +90,7 @@ predefined workflows. You save time and avoid errors.
 
 
 
-## Conditional formatting for work package list (Enterprise add-on)
+## Conditional formatting for work package table (Enterprise add-on)
 
 Rows in the work package page page can be highlighted based on the
 status or priority of the work packages. This makes it very easy to see
@@ -143,7 +143,7 @@ and ensures that OpenProject is future-proof.
 OpenProject 8.0 contains a large number of bugs fixes.
 
 For an extensive overview of bug fixes please refer to the [following
-list](https://community.openproject.com/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22tzl%22:%22days%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22v%22:%5B%22818%22%5D%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
+list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22tzl%22:%22days%22,%22hi%22:false,%22g%22:%22%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22v%22:%5B%22818%22%5D%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
 
 ## Upgrading your installation to OpenProject 8.0.
 

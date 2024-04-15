@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
   let(:query) { build_stubbed(:query, project:) }
@@ -56,11 +56,11 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter do
 
   subject(:generated) { instance.to_json }
 
-  context 'generation' do
-    context 'properties' do
-      describe 'values' do
-        let(:path) { 'values' }
-        let(:type) { '[]CustomOption' }
+  context "generation" do
+    context "properties" do
+      describe "values" do
+        let(:path) { "values" }
+        let(:type) { "[]CustomOption" }
         let(:hrefs) do
           custom_field.custom_options.map do |value|
             api_v3_paths.custom_option(value.id)
@@ -70,30 +70,30 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter do
         context "for operator 'Queries::Operators::Equals'" do
           let(:operator) { Queries::Operators::Equals }
 
-          it_behaves_like 'filter dependency with allowed value link collection'
+          it_behaves_like "filter dependency with allowed value link collection"
         end
 
         context "for operator 'Queries::Operators::NotEquals'" do
           let(:operator) { Queries::Operators::NotEquals }
 
-          it_behaves_like 'filter dependency with allowed value link collection'
+          it_behaves_like "filter dependency with allowed value link collection"
         end
 
         context "for operator 'Queries::Operators::All'" do
           let(:operator) { Queries::Operators::All }
 
-          it_behaves_like 'filter dependency empty'
+          it_behaves_like "filter dependency empty"
         end
 
         context "for operator 'Queries::Operators::None'" do
           let(:operator) { Queries::Operators::None }
 
-          it_behaves_like 'filter dependency empty'
+          it_behaves_like "filter dependency empty"
         end
       end
     end
 
-    describe 'caching' do
+    describe "caching" do
       let(:operator) { Queries::Operators::Equals }
 
       before do
@@ -102,14 +102,14 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'is cached' do
+      it "is cached" do
         expect(instance)
           .not_to receive(:to_hash)
 
         instance.to_json
       end
 
-      it 'busts the cache on a different operator' do
+      it "busts the cache on a different operator" do
         instance.send(:operator=, Queries::Operators::NotEquals)
 
         expect(instance)
@@ -118,10 +118,10 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'busts the cache on a different cache_key' do
+      it "busts the cache on a different cache_key" do
         allow(custom_field)
           .to receive(:cache_key)
-          .and_return('something else')
+          .and_return("something else")
 
         expect(instance)
           .to receive(:to_hash)
@@ -129,7 +129,7 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'busts the cache on changes to the locale' do
+      it "busts the cache on changes to the locale" do
         expect(instance)
           .to receive(:to_hash)
 
@@ -138,7 +138,7 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter do
         end
       end
 
-      it 'busts the cache on different form_embedded' do
+      it "busts the cache on different form_embedded" do
         embedded_instance = described_class.new(filter,
                                                 operator,
                                                 form_embedded: !form_embedded)

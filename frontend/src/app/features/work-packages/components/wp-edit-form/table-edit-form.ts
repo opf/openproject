@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,16 +32,23 @@ import { States } from 'core-app/core/states/states.service';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import {
+  WorkPackageViewColumnsService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
-import { CellBuilder, editCellContainer, tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
+import {
+  CellBuilder,
+  tdClassName,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -57,6 +64,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   @InjectField() public editingPortalService:EditingPortalService;
 
+  @InjectField() wpListService:WorkPackagesListService;
+
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector);
 
@@ -68,19 +77,24 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     .requireAndStream()
     .subscribe((wp) => this.resource = wp);
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     public table:WorkPackageTable,
     public workPackageId:string,
-    public classIdentifier:string) {
+    public classIdentifier:string,
+  ) {
     super(injector);
   }
 
   destroy() {
+    _.each(this.activeFields, (field) => {
+      field.deactivate(false);
+    });
     this.resourceSubscription.unsubscribe();
   }
 
   public findContainer(fieldName:string):JQuery {
-    return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editCellContainer}`).first();
+    return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editFieldContainerClass}`).first();
   }
 
   public findCell(fieldName:string) {
@@ -128,8 +142,14 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   }
 
   public requireVisible(fieldName:string):Promise<any> {
-    this.wpTableColumns.addColumn(fieldName);
-    return this.waitForContainer(fieldName);
+    // Ensure the query form is loaded before trying to set fields
+    // as we require new columns to be present
+    return this.wpListService
+      .conditionallyLoadForm()
+      .then(() => {
+        this.wpTableColumns.addColumn(fieldName);
+        return this.waitForContainer(fieldName);
+      });
   }
 
   protected focusOnFirstError():void {

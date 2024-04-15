@@ -86,3 +86,19 @@ FriendlyId.defaults do |config|
   #   end
   # }
 end
+
+# Work around for issue norman/friendly_id#959
+module FriendlyIdPatch
+  def to_param
+    if friendly_id_config.routes == :friendly &&
+       errors.key?(friendly_id_config.query_field) &&
+       attribute_changed?(friendly_id_config.query_field)
+      diff = changes[friendly_id_config.query_field]
+      diff.first || diff.second
+    else
+      super
+    end
+  end
+end
+
+FriendlyId::Model.prepend(FriendlyIdPatch)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,50 +26,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-describe 'Team planner constraints for a subproject', type: :feature, js: true do
-  before do
-    with_enterprise_token(:team_planner_view)
-  end
-
-  include_context 'with team planner full access'
+RSpec.describe "Team planner constraints for a subproject",
+               :js,
+               with_ee: %i[team_planner_view],
+               with_settings: { start_of_week: 1 } do
+  include_context "with team planner full access"
 
   let!(:other_user) do
-    create :user,
-           firstname: 'Bernd',
-           member_in_project: project,
-           member_with_permissions: %w[
-             view_work_packages view_team_planner work_package_assigned
-           ]
+    create(:user,
+           firstname: "Bernd",
+           member_with_permissions: { project => %w[view_work_packages view_team_planner work_package_assigned] })
   end
 
-  let!(:subproject) { create :project, parent: project }
-  let!(:role) { create :role, permissions: %i[view_work_packages edit_work_packages work_package_assigned] }
-  let!(:member) { create :member, principal: user, project: subproject, roles: [role] }
-  let(:project_include) { ::Components::ProjectIncludeComponent.new }
+  let!(:subproject) { create(:project, parent: project) }
+  let!(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages work_package_assigned]) }
+  let!(:member) { create(:member, principal: user, project: subproject, roles: [role]) }
+  let(:project_include) { Components::ProjectIncludeComponent.new }
 
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project: subproject,
            assigned_to: user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
-  it 'shows a visual aid that the other user cannot be assigned' do
+  it "shows a visual aid that the other user cannot be assigned" do
     team_planner.visit!
 
     team_planner.add_assignee user
-    retry_block do
-      team_planner.add_assignee other_user
-    end
+    team_planner.add_assignee other_user
 
     # Include the subproject
     project_include.toggle!
     project_include.toggle_checkbox(subproject.id)
-    project_include.click_button 'Apply'
+    project_include.click_button "Apply"
     project_include.expect_count 1
 
     team_planner.within_lane(user) do

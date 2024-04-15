@@ -24,80 +24,22 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require_relative 'shared/shared_call_examples'
+require "spec_helper"
+require_relative "shared/shared_call_examples"
+require_relative "shared/shared_setup_context"
 
-describe Settings::UpdateService do
-  let(:instance) do
-    described_class.new(user:)
-  end
-  let(:user) { build_stubbed(:user) }
-  let(:contract) do
-    instance_double(Settings::UpdateContract,
-                    validate: contract_success,
-                    errors: instance_double(ActiveModel::Error))
-  end
-  let(:contract_success) { true }
-  let(:setting_definition) do
-    instance_double(Settings::Definition,
-                    on_change: definition_on_change)
-  end
-  let(:definition_on_change) do
-    instance_double(Proc,
-                    call: nil)
-  end
-  let(:setting_name) { :a_setting_name }
-  let(:new_setting_value) { 'a_new_setting_value' }
-  let(:previous_setting_value) { 'the_previous_setting_value' }
-  let(:params) { { setting_name => new_setting_value } }
+RSpec.describe Settings::UpdateService do
+  include_context "with update service setup"
 
-  before do
-    # stub a setting definition
-    allow(Settings::Definition)
-      .to receive(:[])
-            .and_call_original
-    allow(Settings::Definition)
-      .to receive(:[])
-            .with(setting_name)
-            .and_return(setting_definition)
-    allow(Setting)
-      .to receive(:[])
-          .and_call_original
-    allow(Setting)
-      .to receive(:[]).with(setting_name)
-          .and_return(previous_setting_value)
-    allow(Setting)
-      .to receive(:[]=)
-
-    # stub contract
-    allow(Settings::UpdateContract)
-      .to receive(:new)
-          .and_return(contract)
-  end
-
-  describe '#call' do
+  describe "#call" do
     subject { instance.call(params) }
 
-    include_examples 'successful call'
+    include_examples "successful call"
 
-    it 'calls the on_change handler' do
-      subject
-
-      expect(definition_on_change)
-        .to have_received(:call).with(previous_setting_value)
-    end
-
-    context 'when the contract is not successfully validated' do
+    context "when the contract is not successfully validated" do
       let(:contract_success) { false }
 
-      include_examples 'unsuccessful call'
-
-      it 'does not call the on_change handler' do
-        subject
-
-        expect(definition_on_change)
-          .not_to have_received(:call)
-      end
+      include_examples "unsuccessful call"
     end
   end
 end

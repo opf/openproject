@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,14 +46,15 @@ module OpenProject::Plugins
     end
 
     def self.providers_for(strategy)
-      matching = Array(strategies[strategy_key(strategy)])
-      filtered_strategies matching.map(&:call).flatten.map(&:to_hash)
+      key = strategy_key(strategy)
+      matching = Array(strategies[key])
+      filtered_strategies(key, matching.map(&:call).flatten.map(&:to_hash))
     end
 
     def self.login_provider_for(user)
       return unless user.identity_url
 
-      provider_name = user.identity_url.split(':').first
+      provider_name = user.identity_url.split(":").first
       find_provider_by_name(provider_name)
     end
 
@@ -63,19 +64,24 @@ module OpenProject::Plugins
 
     def self.providers
       RequestStore.fetch(:openproject_omniauth_filtered_strategies) do
-        filtered_strategies strategies.values.flatten.map(&:call).flatten.map(&:to_hash)
+        strategies.flat_map do |strategy_key, values|
+          filtered_strategies(strategy_key, values.flat_map(&:call).flat_map(&:to_hash))
+        end
       end
     end
 
-    def self.filtered_strategies(options)
+    def self.filtered_strategies(strategy_key, options)
       options.select do |provider|
-        name = provider[:name]&.to_s
-        next true if !EnterpriseToken.show_banners? || name == 'developer'
+        filtered = filtered_strategy?(strategy_key, provider)
+        warn_unavailable(name) unless filtered
 
-        warn_unavailable(name)
-
-        false
+        filtered
       end
+    end
+
+    def self.filtered_strategy?(_strategy_key, provider)
+      name = provider[:name]&.to_s
+      !EnterpriseToken.show_banners? || name == "developer"
     end
 
     def self.strategy_key(strategy)
@@ -90,6 +96,15 @@ module OpenProject::Plugins
       end.first
 
       [camelization, name].compact.first.underscore.to_sym
+    end
+
+    ##
+    # Indicates whether or not self registration should be limited for the provider
+    # with the given name.
+    #
+    # @param provider [String] Name of the provider
+    def self.limit_self_registration?(provider:)
+      Hash(find_provider_by_name(provider))[:limit_self_registration]
     end
 
     def self.warn_unavailable(name)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,21 +28,14 @@
 
 module BasicData
   module Documents
-    class EnumerationSeeder < Seeder
-      def seed_data!
-        category_names.each do |name|
-          DocumentCategory.create name:
-        end
-      end
+    class EnumerationSeeder < ModelSeeder
+      self.model_class = DocumentCategory
+      self.seed_data_model_key = "document_categories"
 
-      def category_names
-        category_i18n_keys.map { |key| I18n.t key }
-      end
-
-      def category_i18n_keys
-        ['documentation', 'specification', 'other'].map do |name|
-          ['enumeration', 'document_category', name].join('.')
-        end
+      def model_attributes(category_data)
+        {
+          name: category_data["name"]
+        }
       end
     end
   end

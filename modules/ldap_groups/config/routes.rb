@@ -1,14 +1,14 @@
-OpenProject::Application.routes.draw do
-  namespace 'ldap_groups' do
+Rails.application.routes.draw do
+  namespace "ldap_groups" do
     resources :synchronized_filters,
               param: :ldap_filter_id,
               except: %i(index) do
       member do
         # Extract groups from filter
-        get 'synchronize'
+        get "synchronize"
 
         # Destroy warning
-        get 'destroy_info'
+        get "destroy_info"
       end
     end
 
@@ -17,7 +17,7 @@ OpenProject::Application.routes.draw do
               only: %i(new index create show destroy) do
       member do
         # Destroy warning
-        get 'destroy_info'
+        get "destroy_info"
       end
     end
   end

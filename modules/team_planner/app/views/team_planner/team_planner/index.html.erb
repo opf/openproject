@@ -1,16 +1,7 @@
 <% html_title(t('team_planner.label_team_planner_plural')) -%>
 
 <%= toolbar title: t(:'team_planner.label_team_planner_plural') do %>
-  <% if current_user.allowed_to?(:manage_team_planner, @project) %>
-  <li class="toolbar-item">
-    <%= link_to new_project_team_planners_path(@project),
-                class: 'button -alt-highlight',
-                title: t(:'team_planner.label_create_new_team_planner') do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%=  t(:'team_planner.label_team_planner') %></span>
-    <% end %>
-  </li>
-  <% end %>
+  <%= render ::TeamPlanner::AddButtonComponent.new(current_project: @project) %>
 <% end %>
 
-<%= rails_cell ::TeamPlanner::TableCell, @views, current_user: current_user %>
+<%= render ::TeamPlanner::TableComponent.new(rows: @views, current_user: current_user) %>

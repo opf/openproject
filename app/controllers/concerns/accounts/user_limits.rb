@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,7 @@ module Accounts::UserLimits
 
       true
     elsif imminent_user_limit?
-      show_imminent_user_limit_warning! flash_now: flash_now
+      show_imminent_user_limit_warning!(flash_now:)
 
       true
     else
@@ -89,10 +89,16 @@ module Accounts::UserLimits
   end
 
   def user_limit_warning
-    warning = I18n.t(
-      :warning_user_limit_reached,
-      upgrade_url: OpenProject::Enterprise.upgrade_url
-    )
+    warning = if current_user.admin?
+                I18n.t(
+                  :warning_user_limit_reached_admin,
+                  upgrade_url: OpenProject::Enterprise.upgrade_url
+                )
+              else
+                I18n.t(
+                  :warning_user_limit_reached
+                )
+              end
 
     warning.html_safe
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,15 +44,15 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
       end
 
       "(#{conditions.join(' OR ')})"
-    end.join(' AND ')
+    end.join(" AND ")
   end
 
   def subject_condition(string)
-    Queries::Operators::Contains.sql_for_field([string], WorkPackage.table_name, 'subject')
+    Queries::Operators::Contains.sql_for_field([string], WorkPackage.table_name, "subject")
   end
 
   def project_name_condition(string)
-    Queries::Operators::Contains.sql_for_field([string], Project.table_name, 'name')
+    Queries::Operators::Contains.sql_for_field([string], Project.table_name, "name")
   end
 
   def id_condition(string)

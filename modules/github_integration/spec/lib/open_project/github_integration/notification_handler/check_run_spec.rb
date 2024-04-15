@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __dir__)
+require File.expand_path("../../../../spec_helper", __dir__)
 
-describe OpenProject::GithubIntegration::NotificationHandler::CheckRun do
+RSpec.describe OpenProject::GithubIntegration::NotificationHandler::CheckRun do
   subject(:process) { described_class.new.process(payload) }
 
   let(:upsert_check_run_service) do
@@ -36,8 +36,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::CheckRun do
   end
   let(:payload) do
     {
-      'check_run' => {
-        'pull_requests' => pull_requests_payload
+      "check_run" => {
+        "pull_requests" => pull_requests_payload
       }
     }
   end
@@ -49,42 +49,42 @@ describe OpenProject::GithubIntegration::NotificationHandler::CheckRun do
     allow(upsert_check_run_service).to receive(:call).and_return(nil)
   end
 
-  it 'does not call the UpsertCheckRun service when the check_run is not associated to a PR' do
+  it "does not call the UpsertCheckRun service when the check_run is not associated to a PR" do
     process
     expect(upsert_check_run_service).not_to have_received(:call)
   end
 
-  context 'when the check_run is not associated to a known GithubPullRequest' do
+  context "when the check_run is not associated to a known GithubPullRequest" do
     let(:pull_requests_payload) do
       [
         {
-          'id' => 123
+          "id" => 123
         }
       ]
     end
 
-    it 'does not call the UpsertCheckRun service' do
+    it "does not call the UpsertCheckRun service" do
       process
       expect(upsert_check_run_service).not_to have_received(:call)
     end
   end
 
-  context 'when the check_run is associated to a known GithubPullRequest' do
+  context "when the check_run is associated to a known GithubPullRequest" do
     let(:pull_requests_payload) do
       [
         {
-          'id' => 123
+          "id" => 123
         }
       ]
     end
-    let(:github_pull_request) { create :github_pull_request, github_id: 123 }
+    let(:github_pull_request) { create(:github_pull_request, github_id: 123) }
 
     before { github_pull_request }
 
-    it 'does not call the UpsertCheckRun service' do
+    it "does not call the UpsertCheckRun service" do
       process
       expect(upsert_check_run_service).to have_received(:call).with(
-        payload['check_run'],
+        payload["check_run"],
         pull_request: github_pull_request
       )
     end

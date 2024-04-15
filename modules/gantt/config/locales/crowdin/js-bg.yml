@@ -1,0 +1,6 @@
+bg:
+  js:
+    queries:
+      all_open: 'All open'
+      timeline: 'Timeline'
+      milestones: 'Milestones'

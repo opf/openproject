@@ -128,7 +128,7 @@ describe('TabPrsComponent', () => {
   });
 
   it('should display a message when there are no pull requests', () => {
-    component.pullRequests = [];
+    component.pullRequests$ = of([]);
     fixture.detectChanges();
     const pullRequests = fixture.debugElement.queryAll(By.css('github-pull-request'));
     const textMessage = fixture.debugElement.queryAll(By.css('p'));

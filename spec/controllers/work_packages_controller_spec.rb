@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackagesController, type: :controller do
+RSpec.describe WorkPackagesController do
   before do
     login_as current_user
   end
 
-  let(:project) { create(:project, identifier: 'test_project', public: false) }
-  let(:stub_project) { build_stubbed(:project, identifier: 'test_project', public: false) }
+  let(:project) { create(:project, identifier: "test_project", public: false) }
+  let(:other_project) { build_stubbed(:project) }
+  let(:stub_project) { build_stubbed(:project, identifier: "test_project", public: false) }
   let(:type) { build_stubbed(:type) }
   let(:stub_work_package) do
     build_stubbed(:work_package,
@@ -46,14 +47,14 @@ describe WorkPackagesController, type: :controller do
   let(:current_user) { create(:user) }
 
   def self.requires_permission_in_project(&)
-    describe 'w/o the permission to see the project/work_package' do
+    describe "w/o the permission to see the project/work_package" do
       before do
         allow(controller).to receive(:work_package).and_return(nil)
 
         call_action
       end
 
-      it 'renders a 404' do
+      it "renders a 404" do
         expect(response.response_code).to be === 404
       end
     end
@@ -61,7 +62,7 @@ describe WorkPackagesController, type: :controller do
     describe 'w/ the permission to see the project
               w/ having the necessary permissions' do
       before do
-        expect(WorkPackage).to receive_message_chain('visible.find_by').and_return(stub_work_package)
+        expect(WorkPackage).to receive_message_chain("visible.find_by").and_return(stub_work_package)
       end
 
       instance_eval(&)
@@ -72,13 +73,12 @@ describe WorkPackagesController, type: :controller do
     describe 'w/ the export permission
               w/o a project' do
       let(:project) { nil }
+      let(:other_project) { build_stubbed(:project) }
 
       before do
-        expect(User.current).to receive(:allowed_to?)
-          .with(:export_work_packages,
-                project,
-                global: true)
-          .and_return(true)
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :export_work_packages, project: other_project
+        end
       end
 
       instance_eval(&)
@@ -89,83 +89,74 @@ describe WorkPackagesController, type: :controller do
       before do
         params[:project_id] = project.id
 
-        expect(User.current).to receive(:allowed_to?)
-          .with(:export_work_packages,
-                project,
-                global: false)
-          .and_return(true)
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :export_work_packages, project:
+        end
       end
 
       instance_eval(&)
     end
 
-    describe 'w/o the export permission' do
+    describe "w/o the export permission" do
       let(:project) { nil }
 
       before do
-        expect(User.current).to receive(:allowed_to?)
-          .with(:export_work_packages,
-                project,
-                global: true)
-          .and_return(false)
+        mock_permissions_for(current_user, &:forbid_everything)
 
         call_action
       end
 
-      it 'renders a 403' do
+      it "renders a 403" do
         expect(response.response_code).to eq(403)
       end
     end
   end
 
-  describe 'index' do
+  describe "index" do
     let(:query) { build_stubbed(:query).tap(&:add_default_filter) }
-    let(:work_packages) { double('work packages').as_null_object }
-    let(:results) { double('results').as_null_object }
+    let(:work_packages) { double("work packages").as_null_object }
+    let(:results) { double("results").as_null_object }
 
-    describe 'with valid query' do
+    describe "with valid query" do
       before do
-        allow(User.current).to receive(:allowed_to?).and_return(false)
-        expect(User.current).to receive(:allowed_to?)
-                                  .with({ controller: 'work_packages',
-                                          action: 'index' },
-                                        project,
-                                        global: project.nil?)
-                                  .and_return(true)
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :view_work_packages, project: other_project
+          mock.allow_in_project(:view_work_packages, project:) if project
+        end
 
         allow(controller).to receive(:retrieve_query).and_return(query)
       end
 
-      describe 'html' do
-        let(:call_action) { get('index', params: { project_id: project.id }) }
+      describe "html" do
+        let(:call_action) { get("index", params: { project_id: project.id }) }
 
         before do
           call_action
         end
 
-        describe 'w/o a project' do
+        describe "without a project, but with view_work_packages permission on any project" do
           let(:project) { nil }
-          let(:call_action) { get('index') }
+          let(:call_action) { get("index") }
 
-          it 'renders the index template' do
-            expect(response).to render_template('work_packages/index')
+          it "renders the index template" do
+            expect(response).to render_template("work_packages/index")
           end
         end
 
-        context 'w/ a project' do
-          it 'renders the index template' do
-            expect(response).to render_template('work_packages/index')
+        context "with a project" do
+          it "renders the index template" do
+            expect(response).to render_template("work_packages/index")
           end
         end
       end
 
-      shared_examples_for 'export of mime_type' do
+      shared_examples_for "export of mime_type" do
         let(:export_storage) { build_stubbed(:work_packages_export) }
-        let(:call_action) { get('index', params: params.merge(format: mime_type)) }
+        let(:call_action) { get("index", params: params.merge(format: mime_type)) }
 
         requires_export_permission do
           before do
-            service_instance = double('service_instance')
+            service_instance = double("service_instance")
 
             allow(WorkPackages::Exports::ScheduleService)
               .to receive(:new)
@@ -175,41 +166,41 @@ describe WorkPackagesController, type: :controller do
             allow(service_instance)
               .to receive(:call)
               .with(query:, mime_type: mime_type.to_sym, params: anything)
-              .and_return(ServiceResult.failure(result: 'uuid of the export job'))
+              .and_return(ServiceResult.failure(result: "uuid of the export job"))
           end
 
-          it 'redirects to the job status' do
+          it "redirects to the job status" do
             call_action
-            expect(response).to redirect_to job_status_path('uuid of the export job')
+            expect(response).to redirect_to job_status_path("uuid of the export job")
           end
 
-          context 'with json accept' do
-            it 'fulfills the defined should_receives' do
-              request.headers['Accept'] = 'application/json'
+          context "with json accept" do
+            it "fulfills the defined should_receives" do
+              request.headers["Accept"] = "application/json"
               call_action
-              expect(response.body).to eq({ job_id: 'uuid of the export job' }.to_json)
+              expect(response.body).to eq({ job_id: "uuid of the export job" }.to_json)
             end
           end
         end
       end
 
-      describe 'csv' do
+      describe "csv" do
         let(:params) { {} }
-        let(:mime_type) { 'csv' }
+        let(:mime_type) { "csv" }
 
-        it_behaves_like 'export of mime_type'
+        it_behaves_like "export of mime_type"
       end
 
-      describe 'pdf' do
+      describe "pdf" do
         let(:params) { {} }
-        let(:mime_type) { 'pdf' }
+        let(:mime_type) { "pdf" }
 
-        it_behaves_like 'export of mime_type'
+        it_behaves_like "export of mime_type"
       end
 
-      describe 'atom' do
+      describe "atom" do
         let(:params) { {} }
-        let(:call_action) { get('index', params: params.merge(format: 'atom')) }
+        let(:call_action) { get("index", params: params.merge(format: "atom")) }
 
         requires_export_permission do
           before do
@@ -221,25 +212,25 @@ describe WorkPackagesController, type: :controller do
             expect(controller).to receive(:render_feed).with(work_packages, anything) do |*_args|
               # We need to render something because otherwise
               # the controller will and it will not find a suitable template
-              controller.render plain: 'success'
+              controller.render plain: "success"
             end
           end
 
-          it 'fulfills the defined should_receives' do
+          it "fulfills the defined should_receives" do
             call_action
           end
         end
       end
     end
 
-    context 'with invalid query' do
-      describe 'pdf' do
-        let(:call_action) { get('index', params: params.merge(format: 'pdf')) }
-        let(:params) { { query_id: 'hokusbogus' } }
+    context "with invalid query" do
+      describe "pdf" do
+        let(:call_action) { get("index", params: params.merge(format: "pdf")) }
+        let(:params) { { query_id: "hokusbogus" } }
 
-        context 'when a non-existent query has been previously selected' do
+        context "when a non-existent query has been previously selected" do
           before do
-            allow(User.current).to receive(:allowed_to?).and_return(true)
+            mock_permissions_for(current_user, &:allow_everything)
 
             allow(controller)
               .to receive(:retrieve_query)
@@ -248,7 +239,7 @@ describe WorkPackagesController, type: :controller do
             call_action
           end
 
-          it 'renders a 404' do
+          it "renders a 404" do
             expect(response.response_code).to be 404
           end
         end
@@ -256,28 +247,28 @@ describe WorkPackagesController, type: :controller do
     end
   end
 
-  describe 'index with a broken project reference' do
+  describe "index with a broken project reference" do
     before do
-      get('index', params: { project_id: 'project_that_doesnt_exist' })
+      get("index", params: { project_id: "project_that_doesnt_exist" })
     end
 
     it { is_expected.to respond_with :not_found }
   end
 
-  describe 'show.html' do
-    let(:call_action) { get('show', params: { id: '1337' }) }
+  describe "show.html" do
+    let(:call_action) { get("show", params: { id: "1337" }) }
 
     requires_permission_in_project do
-      it 'renders the show builder template' do
+      it "renders the show builder template" do
         call_action
 
-        expect(response).to render_template('work_packages/show')
+        expect(response).to render_template("work_packages/show")
       end
     end
   end
 
-  describe 'show.pdf' do
-    let(:call_action) { get('show', params: { format: 'pdf', id: '1337' }) }
+  describe "show.pdf" do
+    let(:call_action) { get("show", params: { format: "pdf", id: "1337" }) }
     let(:exporter) { WorkPackage::PDFExport::WorkPackageToPdf }
     let(:exporter_instance) { instance_double(exporter) }
 
@@ -286,11 +277,14 @@ describe WorkPackagesController, type: :controller do
     end
 
     requires_permission_in_project do
-      it 'respond with a pdf' do
-        pdf_data = 'foobar'
-        expected_name = "#{stub_work_package.project.identifier}-#{stub_work_package.id}.pdf"
-        expected_type = 'application/pdf'
-        pdf_result = double('pdf_result',
+      it "respond with a pdf" do
+        pdf_data = "foobar"
+        time = DateTime.new(2023, 6, 30, 23, 59)
+        allow(DateTime).to receive(:now).and_return(time)
+        expected_name = [stub_work_package.project.identifier, "##{stub_work_package.id}",
+                         stub_work_package.subject, "2023-06-30_23-59"].join("_").tr(" ", "-")
+        expected_type = "application/pdf"
+        pdf_result = double("pdf_result",
                             error?: false,
                             content: pdf_data,
                             title: expected_name,
@@ -302,33 +296,33 @@ describe WorkPackagesController, type: :controller do
                                                        filename: expected_name) do |*_args|
           # We need to render something because otherwise
           # the controller will and it will not find a suitable template
-          controller.render plain: 'success'
+          controller.render plain: "success"
         end
         call_action
       end
     end
   end
 
-  describe 'show.atom' do
-    let(:call_action) { get('show', params: { format: 'atom', id: '1337' }) }
+  describe "show.atom" do
+    let(:call_action) { get("show", params: { format: "atom", id: "1337" }) }
 
     requires_permission_in_project do
-      it 'render the journal/index template' do
+      it "render the journal/index template" do
         call_action
 
-        expect(response).to render_template('journals/index')
+        expect(response).to render_template("journals/index")
       end
     end
   end
 
-  describe 'redirect deep link', with_settings: { login_required?: true } do
+  describe "redirect deep link", with_settings: { login_required?: true } do
     let(:current_user) { User.anonymous }
     let(:params) do
       { project_id: project.id }
     end
 
-    it 'redirects to collection with query' do
-      get 'index', params: params.merge(query_id: 123, query_props: 'foo')
+    it "redirects to collection with query" do
+      get "index", params: params.merge(query_id: 123, query_props: "foo")
       expect(response).to be_redirect
 
       location = "/projects/#{project.id}/work_packages?query_id=123&query_props=foo"

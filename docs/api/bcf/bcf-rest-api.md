@@ -99,7 +99,7 @@ The following OAuth2 flows are supported:
 The `clients_credentials` grant explicitly ruled out by the standard specification as not being user specific can be supported by OpenProject as the grant is mapped to a user account
 when configuring the OAuth access.
 
-Before a client is able to perform the flows, they need to be [configured in OpenProject](https://www.openproject.org/docs/system-admin-guide/authentication/oauth-applications/). `bcf_v2_1` needs
+Before a client is able to perform the flows, they need to be [configured in OpenProject](../../system-admin-guide/authentication/oauth-applications/). `bcf_v2_1` needs
 to be checked for the scope. That value also needs to be provided for the scope property in OAuth requests.
 
 The OAuth2 flows alternatively proposed by the specification

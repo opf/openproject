@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/work_packages/concerns/work_package_by_button_creator'
+require "support/pages/page"
+require "support/pages/work_packages/concerns/work_package_by_button_creator"
 
 module Pages
   module IfcModels
@@ -43,55 +43,55 @@ module Pages
       end
 
       def model_listed(listed, model_name)
-        within '.generic-table' do
+        within ".generic-table" do
           expect(page).to (listed ? have_text(model_name) : have_no_text(model_name))
         end
       end
 
       def add_model_allowed(allowed)
         if allowed
-          click_toolbar_button 'IFC model'
+          click_toolbar_button "IFC model"
 
           expect_correct_page_loaded '.button[type="submit"]'
           expect(page).to have_current_path new_bcf_project_ifc_model_path(project)
 
           visit!
         else
-          expect(page).to have_no_selector('.button.-alt-highlight', text: 'IFC model')
+          expect(page).to have_no_css(".button.-primary", text: "IFC model")
         end
       end
 
       def bcf_buttons(allowed)
-        expect(page).to have_conditional_selector(allowed, '.toolbar-item', text: 'Import')
-        expect(page).to have_conditional_selector(allowed, '.toolbar-item', text: 'Export')
+        expect(page).to have_conditional_selector(allowed, ".toolbar-item", text: "Import")
+        expect(page).to have_conditional_selector(allowed, ".toolbar-item", text: "Export")
       end
 
       def edit_model_allowed(model_name, allowed)
         row = find_model_table_row model_name
         within row do
-          expect(page).to (allowed ? have_selector('.icon-edit') : have_no_selector('.icon-edit'))
+          expect(page).to (allowed ? have_css(".icon-edit") : have_no_selector(".icon-edit"))
         end
       end
 
       def delete_model_allowed(model_name, allowed)
         row = find_model_table_row model_name
         within row do
-          expect(page).to (allowed ? have_selector('.icon-edit') : have_no_selector('.icon-edit'))
+          expect(page).to (allowed ? have_css(".icon-edit") : have_no_selector(".icon-edit"))
         end
       end
 
       def edit_model(model_name, new_name)
-        click_table_icon model_name, '.icon-edit'
+        click_table_icon model_name, ".icon-edit"
 
         change_model_name model_name, new_name
-        click_on 'Save'
+        click_on "Save"
 
         model_listed true, new_name
         expect(page).to have_current_path bcf_project_ifc_models_path(project), ignore_query: true
       end
 
       def delete_model(model_name)
-        click_table_icon model_name, '.icon-delete'
+        click_table_icon model_name, ".icon-delete"
 
         page.driver.browser.switch_to.alert.accept
 
@@ -102,7 +102,7 @@ module Pages
       def show_model(model)
         click_model_link model.title
 
-        expect_correct_page_loaded '[data-qa-selector="op-ifc-viewer--container"]'
+        expect_correct_page_loaded '[data-test-selector="op-ifc-viewer--container"]'
 
         expect_model_active(model)
       end
@@ -112,9 +112,9 @@ module Pages
       end
 
       def show_defaults(models = [])
-        click_toolbar_button 'Show defaults'
+        click_toolbar_button "Show defaults"
 
-        expect_correct_page_loaded '[data-qa-selector="op-ifc-viewer--container"]'
+        expect_correct_page_loaded '[data-test-selector="op-ifc-viewer--container"]'
 
         models.each do |model|
           expect_model_active(model, model.is_default)
@@ -124,20 +124,20 @@ module Pages
       private
 
       def find_model_table_row(model_name)
-        within '.generic-table' do
-          page.find('td', text: model_name).find(:xpath, '..')
+        within ".generic-table" do
+          page.find("td", text: model_name).find(:xpath, "..")
         end
       end
 
       def click_model_link(model_name)
-        within '.generic-table' do
-          page.find('td a', text: model_name).click
+        within ".generic-table" do
+          page.find("td a", text: model_name).click
         end
       end
 
       def click_toolbar_button(name)
-        within '.toolbar' do
-          page.find('.button', text: name).click
+        within ".toolbar" do
+          page.find(".button", text: name).click
         end
       end
 
@@ -153,9 +153,9 @@ module Pages
       end
 
       def change_model_name(model_name, new_name)
-        expect(page).to have_selector('input[type="file"]')
-        expect(page).to have_field('bim_ifc_models_ifc_model[title]', with: model_name)
-        fill_in 'bim_ifc_models_ifc_model[title]', with: new_name
+        expect(page).to have_css('input[type="file"]')
+        expect(page).to have_field("bim_ifc_models_ifc_model[title]", with: model_name)
+        fill_in "bim_ifc_models_ifc_model[title]", with: new_name
       end
     end
   end

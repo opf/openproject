@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,8 @@
 
 module Projects
   class UpdateService < ::BaseServices::Update
+    prepend Projects::Concerns::UpdateDemoData
+
     private
 
     attr_accessor :memoized_changes
@@ -40,13 +42,6 @@ module Projects
       self.memoized_changes = model.changes
 
       ret
-    end
-
-    def persist(service_result)
-      # Needs to take place before awesome_nested_set reloads the model (in case the parent changes)
-      persist_status
-
-      super
     end
 
     def after_perform(service_call)
@@ -64,7 +59,7 @@ module Projects
     end
 
     def notify_on_identifier_renamed
-      return unless memoized_changes['identifier']
+      return unless memoized_changes["identifier"]
 
       OpenProject::Notifications.send(OpenProject::Events::PROJECT_RENAMED, project: model)
     end
@@ -78,13 +73,9 @@ module Projects
     end
 
     def update_wp_versions_on_parent_change
-      return unless memoized_changes['parent_id']
+      return unless memoized_changes["parent_id"]
 
       WorkPackage.update_versions_from_hierarchy_change(model)
-    end
-
-    def persist_status
-      model.status.save if model.status.changed?
     end
 
     def handle_archiving

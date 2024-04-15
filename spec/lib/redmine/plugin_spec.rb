@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Redmine::Plugin do
+RSpec.describe Redmine::Plugin do
   let!(:registered_plugins) { described_class.instance_variable_get(:@registered_plugins) }
 
   before do
@@ -39,62 +39,62 @@ describe Redmine::Plugin do
     described_class.instance_variable_set(:@registered_plugins, registered_plugins)
   end
 
-  describe '.register' do
-    context 'for a plugin with properties' do
+  describe ".register" do
+    context "for a plugin with properties" do
       before do
         described_class.register :foo do
-          name 'Foo plugin'
-          url 'https://example.net/plugins/foo'
-          author 'John Smith'
-          author_url 'https://example.net/jsmith'
-          description 'This is a test plugin'
-          version '0.0.1'
-          settings default: { 'sample_setting' => 'value', 'foo' => 'bar' },
-                   partial: 'foo/settings'
+          name "Foo plugin"
+          url "https://example.net/plugins/foo"
+          author "John Smith"
+          author_url "https://example.net/jsmith"
+          description "This is a test plugin"
+          version "0.0.1"
+          settings default: { "sample_setting" => "value", "foo" => "bar" },
+                   partial: "foo/settings"
         end
       end
 
       subject { described_class.find(:foo) }
 
-      it 'has the provided id' do
+      it "has the provided id" do
         expect(subject.id)
           .to eq :foo
       end
 
-      it 'has the provided url' do
+      it "has the provided url" do
         expect(subject.url)
-          .to eq 'https://example.net/plugins/foo'
+          .to eq "https://example.net/plugins/foo"
       end
 
-      it 'has the provided author' do
+      it "has the provided author" do
         expect(subject.author)
-          .to eq 'John Smith'
+          .to eq "John Smith"
       end
 
-      it 'has the provided author url' do
+      it "has the provided author url" do
         expect(subject.author_url)
-          .to eq 'https://example.net/jsmith'
+          .to eq "https://example.net/jsmith"
       end
 
-      it 'has the provided description' do
+      it "has the provided description" do
         expect(subject.description)
-          .to eq 'This is a test plugin'
+          .to eq "This is a test plugin"
       end
 
-      it 'has the provided version' do
+      it "has the provided version" do
         expect(subject.version)
-          .to eq '0.0.1'
+          .to eq "0.0.1"
       end
 
-      it 'adds a setting' do
-        expect(Setting['plugin_foo'])
-          .to eq('sample_setting' => 'value', 'foo' => 'bar')
+      it "adds a setting" do
+        expect(Setting["plugin_foo"])
+          .to eq("sample_setting" => "value", "foo" => "bar")
       end
     end
   end
 
-  describe '.register with #requires_openproject' do
-    it 'allows registering with a version requirement lower than the op version' do
+  describe ".register with #requires_openproject" do
+    it "allows registering with a version requirement lower than the op version" do
       expect do
         described_class.register(:foo) do
           requires_openproject(">= #{OpenProject::VERSION.to_semver.gsub(/\A\d+/) { |num| num.to_i - 1 }}")
@@ -102,25 +102,25 @@ describe Redmine::Plugin do
       end.not_to raise_error
     end
 
-    it 'allows registering with a version requirement to be the op version as a minumum' do
+    it "allows registering with a version requirement to be the op version as a minumum" do
       expect do
         described_class.register(:foo) { requires_openproject(">= #{OpenProject::VERSION.to_semver}") }
       end.not_to raise_error
     end
 
-    it 'allows registering with a version requirement equal to the op version' do
+    it "allows registering with a version requirement equal to the op version" do
       expect do
         described_class.register(:foo) { requires_openproject(OpenProject::VERSION.to_semver) }
       end.not_to raise_error
     end
 
-    it 'allows registering with a version requirement equal to the minor op version' do
+    it "allows registering with a version requirement equal to the minor op version" do
       expect do
         described_class.register(:foo) { requires_openproject("~> #{OpenProject::VERSION.to_semver.gsub(/\d+\z/, '0')}") }
       end.not_to raise_error
     end
 
-    it 'allows registering with a version requirement between two versions' do
+    it "allows registering with a version requirement between two versions" do
       expect do
         described_class.register(:foo) do
           requires_openproject("> #{OpenProject::VERSION.to_semver.gsub(/\A\d+/) { |num| num.to_i - 1 }}",
@@ -129,7 +129,7 @@ describe Redmine::Plugin do
       end.not_to raise_error
     end
 
-    it 'raises when registering with a minimum version requirement not met' do
+    it "raises when registering with a minimum version requirement not met" do
       expect do
         described_class.register(:foo) do
           requires_openproject(">= #{OpenProject::VERSION.to_semver.next}")
@@ -137,7 +137,7 @@ describe Redmine::Plugin do
       end.to raise_error Redmine::PluginRequirementError
     end
 
-    it 'raises when registering with a maximum version requirement not met' do
+    it "raises when registering with a maximum version requirement not met" do
       expect do
         described_class.register(:foo) do
           requires_openproject("< #{OpenProject::VERSION.to_semver}")
@@ -145,7 +145,7 @@ describe Redmine::Plugin do
       end.to raise_error Redmine::PluginRequirementError
     end
 
-    it 'raises registering with a minimum and maximum version requirement which are both not met' do
+    it "raises registering with a minimum and maximum version requirement which are both not met" do
       expect do
         described_class.register(:foo) do
           requires_openproject("< #{OpenProject::VERSION.to_semver}",
@@ -155,15 +155,15 @@ describe Redmine::Plugin do
     end
   end
 
-  describe '.register with #requires_redmine_plugin' do
+  describe ".register with #requires_redmine_plugin" do
     before do
       described_class.register :other do
-        name 'Other'
-        version '0.5.0'
+        name "Other"
+        version "0.5.0"
       end
     end
 
-    it 'allows registering with a version requirement lower than the plugin version' do
+    it "allows registering with a version requirement lower than the plugin version" do
       expect do
         described_class.register(:foo) do
           requires_redmine_plugin(:other, "0.4.0")
@@ -171,7 +171,7 @@ describe Redmine::Plugin do
       end.not_to raise_error
     end
 
-    it 'allows registering with a version requirement equal to the plugin version' do
+    it "allows registering with a version requirement equal to the plugin version" do
       expect do
         described_class.register(:foo) do
           requires_redmine_plugin(:other, "0.5.0")
@@ -179,7 +179,7 @@ describe Redmine::Plugin do
       end.not_to raise_error
     end
 
-    it 'raises an error when registering with a version requirement higher than the plugin version' do
+    it "raises an error when registering with a version requirement higher than the plugin version" do
       expect do
         described_class.register(:foo) do
           requires_redmine_plugin(:other, "0.5.1")
@@ -187,7 +187,7 @@ describe Redmine::Plugin do
       end.to raise_error Redmine::PluginRequirementError
     end
 
-    it 'allows registering with a version requirement that is exactly the plugin version' do
+    it "allows registering with a version requirement that is exactly the plugin version" do
       expect do
         described_class.register(:foo) do
           requires_redmine_plugin(:other, version: "0.5.0")
@@ -195,7 +195,7 @@ describe Redmine::Plugin do
       end.not_to raise_error
     end
 
-    it 'allows registering with a version requirement that is exactly the plugin version from a list of allowed' do
+    it "allows registering with a version requirement that is exactly the plugin version from a list of allowed" do
       expect do
         described_class.register(:foo) do
           requires_redmine_plugin(:other, version: %w[0.5.0 99.9.9])
@@ -203,7 +203,7 @@ describe Redmine::Plugin do
       end.not_to raise_error
     end
 
-    it 'raises an error when registering with a version requirement that is not exactly the specified one' do
+    it "raises an error when registering with a version requirement that is not exactly the specified one" do
       expect do
         described_class.register(:foo) do
           requires_redmine_plugin(:other, version: "0.4.0")
@@ -211,7 +211,7 @@ describe Redmine::Plugin do
       end.to raise_error Redmine::PluginRequirementError
     end
 
-    it 'raises an error when registering with a version requirement that is not one of the exactly specified ones' do
+    it "raises an error when registering with a version requirement that is not one of the exactly specified ones" do
       expect do
         described_class.register(:foo) do
           requires_redmine_plugin(:other, version: %w[0.4.0 0.5.1 0.9.9])
@@ -219,7 +219,7 @@ describe Redmine::Plugin do
       end.to raise_error Redmine::PluginRequirementError
     end
 
-    it 'raises for a missing plugin with an exact version specification' do
+    it "raises for a missing plugin with an exact version specification" do
       expect do
         described_class.register(:foo) do
           requires_redmine_plugin(:missing, version_or_higher: "0.4.0")
@@ -227,7 +227,7 @@ describe Redmine::Plugin do
       end.to raise_error Redmine::PluginNotFound
     end
 
-    it 'raises for a missing plugin with a minimum version specification' do
+    it "raises for a missing plugin with a minimum version specification" do
       expect do
         described_class.register(:foo) do
           requires_redmine_plugin(:missing, version_or_higher: %w[0.4.0 0.5.1 0.9.9])

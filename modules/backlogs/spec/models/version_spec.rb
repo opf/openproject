@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require "spec_helper"
 
-describe Version, type: :model do
+RSpec.describe Version do
   it { is_expected.to have_many :version_settings }
 
-  describe 'rebuild positions' do
+  describe "rebuild positions" do
     def build_work_package(options = {})
       build(:work_package, options.reverse_merge(version_id: version.id,
                                                  priority_id: priority.id,
@@ -45,16 +45,16 @@ describe Version, type: :model do
 
     let(:status)   { create(:status) }
     let(:priority) { create(:priority_normal) }
-    let(:project)  { create(:project, name: 'Project 1', types: [epic_type, story_type, task_type, other_type]) }
+    let(:project)  { create(:project, name: "Project 1", types: [epic_type, story_type, task_type, other_type]) }
 
-    let(:epic_type)  { create(:type, name: 'Epic') }
-    let(:story_type) { create(:type, name: 'Story') }
-    let(:task_type)  { create(:type, name: 'Task')  }
-    let(:other_type) { create(:type, name: 'Other') }
+    let(:epic_type)  { create(:type, name: "Epic") }
+    let(:story_type) { create(:type, name: "Story") }
+    let(:task_type)  { create(:type, name: "Task")  }
+    let(:other_type) { create(:type, name: "Other") }
 
-    let(:version) { create(:version, project_id: project.id, name: 'Version') }
+    let(:version) { create(:version, project_id: project.id, name: "Version") }
 
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
 
     def move_to_project(work_package, project)
       WorkPackages::UpdateService
@@ -64,7 +64,7 @@ describe Version, type: :model do
 
     before do
       # We had problems while writing these specs, that some elements kept
-      # creaping around between tests. This should be fast enough to not harm
+      # creeping around between tests. This should be fast enough to not harm
       # anybody while adding an additional safety net to make sure, that
       # everything runs in isolation.
       WorkPackage.delete_all
@@ -75,9 +75,9 @@ describe Version, type: :model do
       Version.delete_all
 
       # Enable and configure backlogs
-      project.enabled_module_names = project.enabled_module_names + ['backlogs']
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [epic_type.id, story_type.id],
-                                                                           'task_type' => task_type.id })
+      project.enabled_module_names = project.enabled_module_names + ["backlogs"]
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [epic_type.id, story_type.id],
+                                                                           "task_type" => task_type.id })
 
       # Otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)
@@ -86,9 +86,9 @@ describe Version, type: :model do
       version
     end
 
-    it 'moves an work_package to a project where backlogs is disabled while using versions' do
-      project2 = create(:project, name: 'Project 2', types: [epic_type, story_type, task_type, other_type])
-      project2.enabled_module_names = project2.enabled_module_names - ['backlogs']
+    it "moves an work_package to a project where backlogs is disabled while using versions" do
+      project2 = create(:project, name: "Project 2", types: [epic_type, story_type, task_type, other_type])
+      project2.enabled_module_names = project2.enabled_module_names - ["backlogs"]
       project2.save!
       project2.reload
 
@@ -127,7 +127,7 @@ describe Version, type: :model do
       expect(work_package1.version_id).to eq(version.id)
     end
 
-    it 'rebuilds positions' do
+    it "rebuilds positions" do
       e1 = create_work_package(type_id: epic_type.id)
       s2 = create_work_package(type_id: story_type.id)
       s3 = create_work_package(type_id: story_type.id)
@@ -150,7 +150,7 @@ describe Version, type: :model do
       work_packages = version
                       .work_packages
                       .where(project_id: project)
-                      .order(Arel.sql('COALESCE(position, 0) ASC, id ASC'))
+                      .order(Arel.sql("COALESCE(position, 0) ASC, id ASC"))
 
       expect(work_packages.map(&:position)).to eq([nil, nil, 1, 2, 3, 4, 5])
       expect(work_packages.map(&:subject)).to eq([t3, o9, e1, s2, s5, s3, s4].map(&:subject))

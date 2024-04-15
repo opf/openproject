@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
-describe CostQuery, type: :model, reporting_query_helper: true do
+RSpec.describe CostQuery, :reporting_query_helper do
   before do
     create(:admin)
     project = create(:project_with_types)
@@ -109,11 +109,11 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "computes units correctly" do
-      expect(query.result.units).to eq(Entry.all.map(&:units).sum)
+      expect(query.result.units).to eq(Entry.all.sum(&:units))
     end
 
     it "computes real_costs correctly" do
-      expect(query.result.real_costs).to eq(Entry.all.map { |e| e.overridden_costs || e.costs }.sum)
+      expect(query.result.real_costs).to eq(Entry.all.sum { |e| e.overridden_costs || e.costs })
     end
 
     it "computes count for DirectResults" do
@@ -122,8 +122,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
     it "computes units for DirectResults" do
       id_sorted = query.result.values.sort_by { |r| r[:id] }
-      te_result = id_sorted.select { |r| r[:type] == TimeEntry.to_s }.first
-      ce_result = id_sorted.select { |r| r[:type] == CostEntry.to_s }.first
+      te_result = id_sorted.find { |r| r[:type] == TimeEntry.to_s }
+      ce_result = id_sorted.find { |r| r[:type] == CostEntry.to_s }
       expect(te_result.units.to_s).to eq("1.0")
       expect(ce_result.units.to_s).to eq("1.0")
     end
@@ -131,7 +131,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     it "computes real_costs for DirectResults" do
       id_sorted = query.result.values.sort_by { |r| r[:id] }
       [CostEntry].each do |type|
-        result = id_sorted.select { |r| r[:type] == type.to_s }.first
+        result = id_sorted.find { |r| r[:type] == type.to_s }
         first = type.all.first
         expect(result.real_costs).to eq(first.overridden_costs || first.costs)
       end

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,37 +26,29 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   #login-form,
   #content .login-auth-providers,
   #nav-login-content .login-auth-providers
     width: 100%
 
-  #content .login-auth-providers
-    margin-top: 114px
-
-    h3:before
-      top: -14px
-
   #login-form
     .form--field-container
       @include grid-content(12)
       padding: 0
+      margin: 0
 
-    .login-options-container
-      position: relative
+    .login-form--footer
+      flex-direction: column
+      align-items: center
 
-      .login-links
-        float: none
-        position: absolute
-        text-align: center
-        width: 100%
-        margin-top: 0
-
-        a
-          display: block
+      .login-form--footer-link
+        display: inline-block
+        margin-top: 15px
 
     .button
+      margin-right: 0
+      margin-left: 0
       width: 100%
 
   #new_user

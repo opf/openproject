@@ -1,4 +1,4 @@
-require 'warden/basic_auth'
+require "warden/basic_auth"
 
 module OpenProject
   module Authentication
@@ -13,15 +13,13 @@ module OpenProject
         # as the user name and the API key as the password.
         class UserBasicAuth < ::Warden::Strategies::BasicAuth
           def self.user
-            'apikey'
+            "apikey"
           end
 
           def valid?
-            (
-              OpenProject::Configuration.apiv3_enable_basic_auth? &&
-              super &&
-              username == self.class.user
-            )
+            OpenProject::Configuration.apiv3_enable_basic_auth? &&
+            super &&
+            username == self.class.user
           end
 
           def authenticate_user(_, api_key)

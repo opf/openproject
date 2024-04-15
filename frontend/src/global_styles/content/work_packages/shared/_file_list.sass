@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,25 +31,30 @@
     &-action
       text-decoration: none
 
+      &_disabled
+        pointer-events: none
+
       &:not(&_disabled):hover
-        .op-file-list--item-title
+        .op-file-list--item-title > :not(.spot-icon)
           text-decoration: underline
 
-    &-action_view-not-allowed &-title
+    &-action_faulty-status &-title
       opacity: 0.5
 
     &-title
       @include spot-body-small
-      @include text-shortener
 
-      word-break: normal
+      flex: 1
+      min-width: 0
+      display: flex
+      align-items: center
       padding-right: $spot-spacing-0_5
 
     &-text
       @include spot-caption()
 
       line-height: 1.5rem
-      color: $spot-color-basic-gray-3
+      color: var(--color-fg-muted)
       flex-shrink: 0
 
       &:not(:last-child)
@@ -67,9 +72,11 @@
     &-floating-text
       @include spot-body-small()
 
+      display: flex
+      align-items: center
       padding-right: $spot-spacing-0_25
       overflow: hidden
-      color: var(--primary-color)
+      color: var(--accent-color)
 
       &-icon
         margin-right: $spot-spacing-0_25

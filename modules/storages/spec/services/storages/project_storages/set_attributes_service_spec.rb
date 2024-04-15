@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
+require_module_spec_helper
 
-describe ::Storages::ProjectStorages::SetAttributesService, type: :model do
+RSpec.describe Storages::ProjectStorages::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = instance_double(::Storages::ProjectStorages::BaseContract, 'contract_instance')
+    contract = instance_double(Storages::ProjectStorages::BaseContract, "contract_instance")
     allow(contract)
-      .to receive(:validate)
-      .and_return(contract_valid)
-    allow(contract)
-      .to receive(:errors)
-      .and_return(contract_errors)
+      .to receive_messages(validate: contract_valid, errors: contract_errors)
     contract
   end
 
-  let(:contract_errors) { instance_double(ActiveModel::Errors, 'contract_errors') }
+  let(:contract_errors) { instance_double(ActiveModel::Errors, "contract_errors") }
   let(:contract_valid) { true }
   let(:model_valid) { true }
 
@@ -52,13 +51,13 @@ describe ::Storages::ProjectStorages::SetAttributesService, type: :model do
                         contract_class:,
                         contract_options: {})
   end
-  let(:model_instance) { ::Storages::ProjectStorage.new }
+  let(:model_instance) { Storages::ProjectStorage.new }
   let(:contract_class) do
-    allow(::Storages::ProjectStorages::CreateContract)
+    allow(Storages::ProjectStorages::CreateContract)
       .to receive(:new)
       .and_return(contract_instance)
 
-    ::Storages::ProjectStorages::CreateContract
+    Storages::ProjectStorages::CreateContract
   end
 
   let(:params) { {} }
@@ -71,34 +70,34 @@ describe ::Storages::ProjectStorages::SetAttributesService, type: :model do
 
   subject { instance.call(params) }
 
-  it 'returns the instance as the result' do
+  it "returns the instance as the result" do
     expect(subject.result)
       .to eql model_instance
   end
 
-  it 'is a success' do
+  it "is a success" do
     expect(subject)
       .to be_success
   end
 
-  context 'with new record' do
-    it 'sets creator to current user' do
+  context "with new record" do
+    it "sets creator to current user" do
       expect(subject.result.creator).to eq current_user
     end
   end
 
-  context 'with existing record' do
+  context "with existing record" do
     let(:model_instance) { build_stubbed(:project_storage, creator: build_stubbed(:user)) }
 
-    it 'keeps its creator' do
+    it "keeps its creator" do
       expect(subject.result.creator).not_to eq current_user
     end
   end
 
-  context 'with an invalid contract' do
+  context "with an invalid contract" do
     let(:contract_valid) { false }
 
-    it 'returns failure' do
+    it "returns failure" do
       expect(subject).not_to be_success
     end
 

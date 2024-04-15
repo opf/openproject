@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'work package reports', type: :feature, js: true do
-  let(:project) { create :project_with_types, types: [type_a] }
-  let(:user) { create :user, member_in_project: project, member_with_permissions: %i(view_work_packages) }
+RSpec.describe "work package reports", :js do
+  let(:project) { create(:project_with_types, types: [type_a]) }
+  let(:user) { create(:user, member_with_permissions: { project => %i(view_work_packages) }) }
 
   let(:type_a) do
-    create(:type_with_workflow, name: 'Type A').tap do |t|
+    create(:type_with_workflow, name: "Type A").tap do |t|
       t.statuses.last.update_attribute(:is_closed, true)
     end
   end
 
-  let!(:wp_1) { create :work_package, project:, type: type_a, status: type_a.statuses.first }
-  let!(:wp_2) { create :work_package, project:, type: type_a, status: type_a.statuses.last }
+  let!(:wp1) { create(:work_package, project:, type: type_a, status: type_a.statuses.first) }
+  let!(:wp2) { create(:work_package, project:, type: type_a, status: type_a.statuses.last) }
 
   let(:wp_table_page) { Pages::WorkPackagesTable.new(project) }
 
@@ -47,76 +47,76 @@ describe 'work package reports', type: :feature, js: true do
     login_as(user)
   end
 
-  it 'allows navigating to the reports page and drilling down' do
+  it "allows navigating to the reports page and drilling down" do
     wp_table_page.visit!
 
-    within '.main-menu--children' do
-      click_on 'Summary'
+    within ".main-menu--children" do
+      click_on "Summary"
     end
 
     expect(page)
-      .to have_content 'TYPE'
+      .to have_content "TYPE"
     expect(page)
-      .to have_content 'PRIORITY'
+      .to have_content "PRIORITY"
     expect(page)
-      .to have_content 'ASSIGNEE'
+      .to have_content "ASSIGNEE"
     expect(page)
-      .to have_content 'ACCOUNTABLE'
+      .to have_content "ACCOUNTABLE"
 
     expect(page)
-      .to have_selector 'thead th:nth-of-type(2)', text: type_a.statuses.first.name.upcase
+      .to have_css "thead th:nth-of-type(2)", text: type_a.statuses.first.name.upcase
     expect(page)
-      .to have_selector 'thead th:nth-of-type(3)', text: type_a.statuses.last.name.upcase
+      .to have_css "thead th:nth-of-type(3)", text: type_a.statuses.last.name.upcase
 
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(1)', text: type_a.name
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(1)", text: type_a.name
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(2)', text: 1
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(2)", text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(3)', text: 1
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(3)", text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 1
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(4)", text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: 1
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(5)", text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(6)', text: 2
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(6)", text: 2
 
     # Clicking on the further analyze link will lead to a page focusing on type
-    click_link 'Further analyze: Type'
+    click_link "Further analyze: Type"
 
     expect(page)
-      .to have_content 'TYPE'
+      .to have_content "TYPE"
     expect(page)
-      .to have_no_content 'PRIORITY'
+      .to have_no_content "PRIORITY"
     expect(page)
-      .to have_no_content 'ASSIGNEE'
+      .to have_no_content "ASSIGNEE"
     expect(page)
-      .to have_no_content 'ACCOUNTABLE'
+      .to have_no_content "ACCOUNTABLE"
 
     expect(page)
-      .to have_selector 'thead th:nth-of-type(2)', text: type_a.statuses.first.name.upcase
+      .to have_css "thead th:nth-of-type(2)", text: type_a.statuses.first.name.upcase
     expect(page)
-      .to have_selector 'thead th:nth-of-type(3)', text: type_a.statuses.last.name.upcase
+      .to have_css "thead th:nth-of-type(3)", text: type_a.statuses.last.name.upcase
 
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(1)', text: type_a.name
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(1)", text: type_a.name
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(2)', text: 1
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(2)", text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(3)', text: 1
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(3)", text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 1
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(4)", text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: 1
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(5)", text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(6)', text: 2
+      .to have_css "tbody tr:nth-of-type(1) td:nth-of-type(6)", text: 2
 
     # Clicking on a number in the table will lead to the wp list filtered by the type
-    within 'tbody tr:first-of-type td:nth-of-type(2)' do
-      click_link '1'
+    within "tbody tr:first-of-type td:nth-of-type(2)" do
+      click_link "1"
     end
 
-    wp_table_page.expect_work_package_listed(wp_1)
-    wp_table_page.ensure_work_package_not_listed!(wp_2)
+    wp_table_page.expect_work_package_listed(wp1)
+    wp_table_page.ensure_work_package_not_listed!(wp2)
   end
 end

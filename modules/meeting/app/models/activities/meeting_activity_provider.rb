@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -137,6 +137,20 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
     id = activity_id(event)
 
     url_helpers.meeting_url(id)
+  end
+
+  def event_selection_query(user, from, to, options)
+    query = journals_with_data_query
+    query = extend_event_query(query)
+    query = filter_for_event_datetime(query, from, to)
+    query = restrict_user(query, options)
+    query = restrict_meeting(query, options)
+    restrict_projects(query, user, options)
+  end
+
+  def restrict_meeting(query, options)
+    query = query.where(journals_table[:journable_id].eq(options[:meeting].id)) if options[:meeting]
+    query
   end
 
   private

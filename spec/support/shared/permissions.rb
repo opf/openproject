@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 
 module PermissionSpecHelpers
   def spec_permissions(test_denied = true)
-    describe 'w/ valid auth' do
+    describe "w/ valid auth" do
       before { allow(User).to receive(:current).and_return valid_user }
 
-      it 'grants access' do
+      it "grants access" do
         fetch
 
         if respond_to? :expect_redirect_to
@@ -54,10 +54,10 @@ module PermissionSpecHelpers
     end
 
     if test_denied
-      describe 'w/o valid auth' do
+      describe "w/o valid auth" do
         before { allow(User).to receive(:current).and_return invalid_user }
 
-        it 'denies access' do
+        it "denies access" do
           fetch
 
           if invalid_user.logged?
@@ -74,14 +74,14 @@ module PermissionSpecHelpers
   end
 end
 
-shared_context 'a controller action with unrestricted access' do
+RSpec.shared_context "a controller action with unrestricted access" do
   let(:valid_user) { create(:anonymous) }
 
   extend PermissionSpecHelpers
   spec_permissions(false)
 end
 
-shared_context 'a controller action with require_login' do
+RSpec.shared_context "a controller action with require_login" do
   let(:valid_user)   { create(:user) }
   let(:invalid_user) { create(:anonymous) }
 
@@ -89,7 +89,7 @@ shared_context 'a controller action with require_login' do
   spec_permissions
 end
 
-shared_context 'a controller action with require_admin' do
+RSpec.shared_context "a controller action with require_admin" do
   let(:valid_user)   { User.where(admin: true).first || create(:admin) }
   let(:invalid_user) { create(:user) }
 
@@ -97,7 +97,7 @@ shared_context 'a controller action with require_admin' do
   spec_permissions
 end
 
-shared_context 'a controller action which needs project permissions' do
+RSpec.shared_context "a controller action which needs project permissions" do
   # Expecting the following environment
   #
   # let(:project) { create(:project) }
@@ -120,7 +120,7 @@ shared_context 'a controller action which needs project permissions' do
   let(:invalid_user) { create(:user) }
 
   def add_membership(user, permissions)
-    role   = create(:role, permissions: Array(permissions))
+    role   = create(:project_role, permissions: Array(permissions))
     member = build(:member, user:, project:)
     member.roles = [role]
     member.save!

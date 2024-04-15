@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'pg'
+require "pg"
 
-namespace 'openproject' do
-  desc 'Fixes an error in the migration to 10.4 by fetching data from a backup.'
+namespace "openproject" do
+  desc "Fixes an error in the migration to 10.4 by fetching data from a backup."
   task :reassign_time_entry_activities do
-    unless ENV['BACKUP_DATABASE_URL']
+    unless ENV["BACKUP_DATABASE_URL"]
       puts <<~MSG
 
 
@@ -67,7 +67,7 @@ namespace 'openproject' do
 
     entries = begin
       connection = ActiveRecord::Base
-                   .establish_connection(ENV.fetch('BACKUP_DATABASE_URL', nil))
+                   .establish_connection(ENV.fetch("BACKUP_DATABASE_URL", nil))
                    .connection
 
       if connection.select_all(check_statement).any?
@@ -96,7 +96,7 @@ namespace 'openproject' do
       next
     end
 
-    entries_string = entries.map { |entry| "(#{entry['id']}, #{entry['activity_id']})" }.join(', ')
+    entries_string = entries.map { |entry| "(#{entry['id']}, #{entry['activity_id']})" }.join(", ")
 
     update_statement = <<~SQL
       UPDATE time_entries

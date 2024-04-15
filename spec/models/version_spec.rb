@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Version do
+RSpec.describe Version do
   subject(:version) { build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }
@@ -87,7 +87,7 @@ describe Version do
       version.sharing = 'system'
       version.save!
 
-      expect(described_class.systemwide).to match_array [version]
+      expect(described_class.systemwide).to contain_exactly(version)
     end
 
     it 'is empty if the version is not shared' do
@@ -258,52 +258,41 @@ describe Version do
     it 'returns project the version is defined in for unshared' do
       unshared_version.save
 
-      expect(unshared_version.projects).to match_array([parent_project])
+      expect(unshared_version.projects).to contain_exactly(parent_project)
     end
 
     it 'returns all projects the version is shared with (hierarchy)' do
       hierarchy_shared_version.save!
 
-      expect(hierarchy_shared_version.projects).to match_array([grand_parent_project,
-                                                                parent_project,
-                                                                child_project,
-                                                                sibling_project])
+      expect(hierarchy_shared_version.projects).to contain_exactly(grand_parent_project, parent_project, child_project,
+                                                                   sibling_project)
     end
 
     it 'returns all projects the version is shared with (descendants)' do
       descendants_shared_version.save!
 
-      expect(descendants_shared_version.projects).to match_array([parent_project,
-                                                                  child_project,
-                                                                  sibling_project])
+      expect(descendants_shared_version.projects).to contain_exactly(parent_project, child_project, sibling_project)
     end
 
     it 'returns all projects the version is shared with (tree)' do
       tree_shared_version.save!
 
-      expect(tree_shared_version.projects).to match_array([grand_parent_project,
-                                                           parent_project,
-                                                           sibling_parent_project,
-                                                           child_project,
-                                                           sibling_project])
+      expect(tree_shared_version.projects).to contain_exactly(grand_parent_project, parent_project, sibling_parent_project,
+                                                              child_project, sibling_project)
     end
 
     it 'returns all projects the version is shared with (system)' do
       system_shared_version.save!
 
-      expect(system_shared_version.projects).to match_array([grand_parent_project,
-                                                             parent_project,
-                                                             sibling_parent_project,
-                                                             child_project,
-                                                             sibling_project,
-                                                             unrelated_project])
+      expect(system_shared_version.projects).to contain_exactly(grand_parent_project, parent_project, sibling_parent_project,
+                                                                child_project, sibling_project, unrelated_project)
     end
 
     it 'returns only the projects for the version although there is a system shared version' do
       unshared_version.save
       system_shared_version.save!
 
-      expect(unshared_version.projects).to match_array([parent_project])
+      expect(unshared_version.projects).to contain_exactly(parent_project)
     end
   end
 

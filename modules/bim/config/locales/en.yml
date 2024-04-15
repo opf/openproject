@@ -1,7 +1,12 @@
 # English strings go here for Rails i18n
 en:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
+
   bim:
     label_bim: 'BIM'
+
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Failed imports of BCF topics'
@@ -138,4 +143,3 @@ en:
   extraction:
     available:
       ifc_convert: "IFC conversion pipeline available"
-

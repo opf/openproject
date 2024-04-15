@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -34,31 +34,37 @@ See COPYRIGHT and LICENSE files for more details.
       <%= t('project.destroy.title', name: "<em>#{h(@project_to_destroy)}</em>").html_safe %>
     </h3>
     <p>
-      <%= t('project.destroy.confirmation', identifier: @project_to_destroy.identifier)%>
+      <%= t('project.destroy.confirmation', identifier: @project_to_destroy.identifier) %>
       <% if @project_to_destroy.descendants.any? %>
-        <br />
-        <% descendants = h(@project_to_destroy.descendants.collect{|p| p.to_s}.join(', ')) %>
+        <br/>
+        <% descendants = h(@project_to_destroy.descendants.collect { |p| p.to_s }.join(', ')) %>
         <%= t('project.destroy.subprojects_confirmation', value: "<strong>#{h(descendants)}</strong>").html_safe %>
       <% end %>
     </p>
+    <ul class="mb-3">
+      <li> <%= t('project.destroy.project_delete_result_1') %> </li>
+      <% if has_managed_project_folders?(@project_to_destroy) %>
+        <li> <%= t('project.destroy.project_delete_result_2') %> </li>
+      <% end %>
+    </ul>
     <p class="danger-zone--warning">
       <span class="icon icon-error"></span>
-      <span><%= t('project.destroy.info')%></span>
+      <span><%= t('project.destroy.info') %></span>
     </p>
     <p>
       <%= t('project.destroy.project_verification', name: "<em class=\"danger-zone--expected-value\">#{h(@project_to_destroy)}</em>").html_safe %>
     </p>
     <div class="danger-zone--verification">
-      <input type="text"></input>
-      <%= styled_button_tag title: t(:button_delete), class: '-highlight', disabled: true do
-           concat content_tag :i, '', class: 'button--icon icon-delete'
-           concat content_tag :span, t(:button_delete), class: 'button--text'
-           end %>
+      <input type="text">
+      <%= styled_button_tag title: t(:button_delete), class: '-primary', disabled: true do
+        concat content_tag :i, '', class: 'button--icon icon-delete'
+        concat content_tag :span, t(:button_delete), class: 'button--text'
+      end %>
       <%= link_to projects_path,
-          title: t(:button_cancel),
-          class: 'button -with-icon icon-cancel' do %>
-            <%= t(:button_cancel) %>
-          <% end %>
+                  title: t(:button_cancel),
+                  class: 'button -with-icon icon-cancel' do %>
+        <%= t(:button_cancel) %>
+      <% end %>
     </div>
   </section>
 <% end %>

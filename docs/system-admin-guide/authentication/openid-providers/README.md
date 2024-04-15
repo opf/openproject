@@ -29,10 +29,9 @@ You can configure the following options.
 2. Optionally enter a **display name**.
 3. Enter the **Identifier**.
 4. Enter the **Secret**.
-5. Press the blue **create** button.
-
-
-
+5. Optionally, if you want to honor the system-wide self-registration setting, enable "Limit self registration".
+When checked, users will be created according to the [self-registration setting](../authentication-settings).
+6. Press the blue **create** button.
 
 
 ## Google Workspace
@@ -112,7 +111,7 @@ After pressing **CREATE** you will get a pop-up window like the following
 
 ## Azure Active Directory
 
-### Step 1: Registering an App in Azure Active Directory
+### Step 1: Register an App in Azure Active Directory
 
 If your organization currently has an Azure Active Directory to manage users, and you want to use that to log in to OpenProject, you will need to register a new *App*.
 
@@ -166,7 +165,13 @@ At the end of this step, you should have a copy of the Application client ID as 
 
 ### Step 2: Configure OpenProject
 
-Now, head over to OpenProject > Administration > OpenID providers. Click on "New OpenID provider", select the Azure type, enter the client ID and client Secret and then Save.
+Now, head over to OpenProject > Administration > OpenID providers. Click on "New OpenID provider", select the Azure type, enter the client ID and client Secret.
+
+By default, OpenProject will use the Microsoft Graph API endpoint to perform user info requests.
+For that, you will need to enter the correct tenant identifier for your Azure instance.
+To find the correct value for your instance, [please see this guide](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri).
+
+Once you filled out the form, hit save and the Azure provider has been created.
 
 You can now log out, and see that the login form displays a badge for authenticating with Azure. If you click on that badge, you will be redirected to Azure to enter your credentials and allow the App to access your Azure profile, and you should then be automatically logged in.
 
@@ -183,7 +188,7 @@ But you can do it via the console as described [here](../../../installation-and-
 
 You  can still use an arbitrary provider. But for the time being there is no user interface yet for this. That means you will have to do it directly using the console on the server or via environment variables.
 
-Please continue reading in the [Miscellaneous section of the Installation and Operations Guide](https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/).
+Please continue reading in the [Miscellaneous section of the Installation and Operations Guide](../../../installation-and-operations/misc/custom-openid-connect-providers/).
 
 ## Troubleshooting
 
@@ -194,7 +199,7 @@ A: This can happen if you previously created user accounts in OpenProject with t
 Spawn an interactive console in OpenProject. The following example shows the command for the packaged installation.
 See [our process control guide](../../../installation-and-operations/operation/control/) for information on other installation types.
 
-```
+```shell
 sudo openproject run console
 # or if using docker:
 # docker-compose run --rm web bundle exec rails console
@@ -202,7 +207,7 @@ sudo openproject run console
 
 Once in the console you can then enter the following to enable the setting and leave the console.
 
-```
+```shell
 Setting.oauth_allow_remapping_of_existing_users = true
 exit
 ```

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,7 +94,7 @@ module ErrorsHelper
     @message_details = arg[:message_details]
     respond_to do |format|
       format.html do
-        render template: 'common/error', layout: use_layout, status: @status
+        render template: "common/error", layout: use_layout, status: @status
       end
       format.any do
         head @status
@@ -104,9 +104,9 @@ module ErrorsHelper
 
   def unset_template_magic
     if $ERROR_INFO.is_a?(ActionView::ActionViewError)
-      @template.instance_variable_set('@project', nil)
-      @template.instance_variable_set('@status', 500)
-      @template.instance_variable_set('@message', message)
+      @template.instance_variable_set(:@project, nil)
+      @template.instance_variable_set(:@status, 500)
+      @template.instance_variable_set(:@message, message)
     else
       @project = nil
     end

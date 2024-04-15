@@ -14,7 +14,7 @@
   width: 100vw
   padding: 0 $spot-spacing-0_25
 
-  @media screen and (max-width: 679px)
+  @media screen and (max-width: $breakpoint-sm)
     grid-template-columns: minmax(0, auto) auto 1fr
     position: fixed
     top: 0
@@ -47,13 +47,13 @@
 
 
   ._header-scrolled &
-    @media screen and (max-width: 679px)
+    @media screen and (max-width: $breakpoint-sm)
       // Slide header in and out on scroll (see also: _base_mobile.sass)
       margin-top: calc(0px - #{var(--header-height)})
       transition: margin-top .4s
 
   &_search-open
-    @media screen and (max-width: 679px)
+    @media screen and (max-width: $breakpoint-sm)
       display: flex
 
       .op-app-header--start,
@@ -82,3 +82,6 @@
 
       .top-menu-search
         padding-right: 1rem
+
+  &.op-app-header_development
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='20'><text x='0' y='1em' fill='rgba(0, 0, 0, 0.5)'>development</text></svg>")

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -100,8 +100,8 @@ class ParamsToQueryService
     filters.each do |filter|
       attribute = filter.keys.first # there should only be one attribute per filter
       ar_attribute = convert_attribute attribute, append_id: true
-      operators[ar_attribute] = filter[attribute]['operator']
-      values[ar_attribute] = filter[attribute]['values']
+      operators[ar_attribute] = filter[attribute]["operator"]
+      values[ar_attribute] = filter[attribute]["values"]
     end
 
     {

@@ -1,92 +1,253 @@
-#English strings go here
 vi:
-  permission_view_file_links: "View file links"
-  permission_manage_file_links: "Manage file links"
-  permission_manage_storages_in_project: "Manage file storages in project"
-  project_module_storages: "File storages"
   activerecord:
-    models:
-      storages/storage: "Storage"
     attributes:
-      storages/storage:
-        name: "Name"
-        creator: "Creator"
-        provider_type: "Provider type"
       storages/file_link:
-        origin_id: "Origin Id"
+        origin_id: Origin Id
+      storages/storage:
+        creator: Creator
+        drive: Drive ID
+        host: Máy chủ
+        name: Tên
+        provider_type: Provider type
+        tenant: Directory (tenant) ID
     errors:
       messages:
-        not_linked_to_project: "is not linked to project."
+        not_linked_to_project: is not linked to project.
       models:
-        storages/storage:
-          attributes:
-            host:
-              cannot_be_connected_to: "can not be connected to."
-              minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
-              not_nextcloud_server: "is not a Nextcloud server"
-              op_application_not_installed: >
-                appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
-              authorization_header_missing: >
-                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "can only be numeric or uuid."
+              only_numeric_or_uuid: can only be numeric or uuid.
+        storages/project_storage:
+          attributes:
+            project_folder_mode:
+              mode_unavailable: is not available for this storage.
+        storages/storage:
+          attributes:
+            host:
+              authorization_header_missing: is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+              cannot_be_connected_to: can not be connected to.
+              minimal_nextcloud_version_unmet: does not meet minimal version requirements (must be Nextcloud 23 or higher)
+              not_nextcloud_server: is not a Nextcloud server
+              op_application_not_installed: appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+            password:
+              invalid_password: is not valid.
+              unknown_error: could not be validated. Please check your storage connection and try again.
+    models:
+      file_link: Tệp
+      storages/storage: Storage
   api_v3:
     errors:
-      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+      too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
+  permission_manage_file_links: Manage file links
+  permission_manage_storages_in_project: Manage file storages in project
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
+  permission_view_file_links: View file links
+  permission_write_files: 'External Storage: Write files'
+  project_module_storages: File storages
   storages:
     buttons:
-      done_continue_setup: "Done. Continue setup"
-      replace_openproject_oauth: "Replace OpenProject OAuth"
-      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save_and_continue_setup: "Save and continue setup"
-      save_and_complete_setup: "Save and complete setup"
-    page_titles:
-      project_settings:
-        index: "File storages available in this project"
-        new: "Add a file storage to this project"
-    instructions:
-      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
-      type_link_text: "“Integration OpenProject”"
-      name: "Give your storage a name so that users can differentiate between multiple storages."
-      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
-      no_storage_set_up: "There are no file storages set up, yet."
-      setting_up_additional_storages: "For setting up additional file storages, please visit"
-      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
-      setting_up_storages: "For setting up file storages, please visit"
-      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
-      all_available_storages_already_added: "All available storages are already added to the project."
-      copy_from: "Copy this value from"
-      nextcloud:
-        integration: "Nextcloud Administration / OpenProject"
+      complete_without_setup: Complete without it
+      done_complete_setup: Done, complete setup
+      done_continue: Done, continue
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
+      save_and_continue: Save and continue
+      select_folder: Select folder
+    configuration_checks:
+      oauth_client_incomplete:
+        nextcloud: Allow OpenProject to access Nextcloud data using OAuth.
+        one_drive: Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint.
+      redirect_uri_incomplete:
+        one_drive: Complete the setup with the correct URI redirection.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
-      storage: >
-        Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
-      project_storage: >
-        Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
-    label_creator: "Creator"
-    label_file_link: "File link"
-    label_file_links: "File links"
-    label_name: "Name"
-    label_host: "Host URL"
-    label_oauth_breadcrumb:
-      openproject: "OpenProject OAuth"
-      nextcloud: "Nextcloud OAuth"
-    label_oauth_application_details: "OAuth application details"
-    label_oauth_client_details: "OAuth client details"
-    label_provider_type: "Provider type"
-    label_new_storage: "New storage"
-    label_storage: "Storage"
-    label_storages: "Storages"
-    no_results: "No storages set up, yet."
-    provider_types:
-      label: "Provider type"
+      input_delete_confirmation: Enter the file storage name %{file_storage} to confirm deletion.
+      irreversible_notice: Deleting a file storage is an irreversible action.
+      project_storage: 'Are you sure you want to delete %{file_storage} from this project? To confirm this action please introduce the storage name in the field below, this will:'
+      project_storage_delete_result_1: Remove all links from work packages of this project to files and folders of that storage.
+      project_storage_delete_result_2: In case this storage has an automatically managed project folder, this and its files will be deleted forever.
+      storage: 'Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:'
+      storage_delete_result_1: Remove all storage setups for all projects using this storage.
+      storage_delete_result_2: Remove all links from work packages of all projects to files and folders of that storage.
+      storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
+    error_invalid_provider_type: Please select a valid storage provider.
+    file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
+      automatically_managed_folders: Automatically managed folders
+      general_information: General information
+      nextcloud_oauth: Nextcloud OAuth
+      oauth_applications: Các ứng dụng OAuth
+      one_drive_oauth: Azure OAuth
+      openproject_oauth: OpenProject OAuth
+      project_folders: Project folders
+      redirect_uri: URI đổi hướng
+      storage_provider: Storage provider
+    health:
+      checked: Last checked %{datetime}
+      label_error: Lỗi
+      label_healthy: Healthy
+      label_pending: Pending
+      since: since %{datetime}
+      subtitle: Automatically managed project folders
+      title: Health status
+    health_email_notifications:
+      description_subscribed: All administrators will receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
+    help_texts:
+      project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+    instructions:
+      all_available_storages_already_added: All available storages are already added to the project.
+      automatic_folder: This will automatically create a root folder for this project and manage the access permissions for each project member.
+      copy_from: Copy this value from
+      empty_project_folder_validation: Selecting a folder is mandatory to proceed.
+      existing_manual_folder: You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+      host: Please add the host address of your storage including the https://. It should not be longer than 255 characters.
+      managed_project_folders_application_password_caption: 'Enable automatic managed folders by copying this value from: %{provider_type_link}.'
+      name: Give your storage a name so that users can differentiate between multiple storages.
+      new_storage: Read our documentation on <a target='_blank' href='%{provider_link}'>setting up a %{provider_name} file storage</a> integration for more information.
       nextcloud:
-        name: "Nextcloud"
-        name_placeholder: "e.g. Nextcloud"
-        default_name: "My Nextcloud"
-    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
-    confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
-    oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
-    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."
+        application_link_text: application “Integration OpenProject”
+        integration: Nextcloud Administration / OpenProject
+        oauth_configuration: Copy these values from %{application_link_text}.
+        provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
+      no_specific_folder: By default, each user will start at their own home folder when they upload a file.
+      no_storage_set_up: There are no file storages set up yet.
+      not_logged_into_storage: To select a project folder, please first login
+      oauth_application_details: The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}.
+      oauth_application_details_link_text: Nextcloud OpenProject Integration settings
+      one_drive:
+        application_link_text: Azure portal
+        copy_redirect_uri: Copy redirect URI
+        documentation_link_text: OneDrive/SharePoint file storages documentation
+        drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
+        integration: OneDrive/SharePoint
+        missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
+        oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
+        oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
+        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
+        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
+        tenant_id_placeholder: Name or UUID
+      setting_up_additional_storages: For setting up additional file storages, please visit
+      setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File Storages.
+      setting_up_storages: For setting up file storages, please visit
+      setting_up_storages_non_admin: Administrators can set up file storages in Administration / File Storages.
+      type: 'Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:'
+      type_link_text: "“Integration OpenProject”"
+    label_active: Đang hoạt động
+    label_add_new_storage: Add new storage
+    label_automatic_folder: New folder with automatically managed permissions
+    label_completed: Đã Hoàn tất
+    label_creation_time: Creation time
+    label_creator: Creator
+    label_delete_storage: Delete storage
+    label_edit_storage: Edit storage
+    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
+    label_edit_storage_host: Edit storage host
+    label_existing_manual_folder: Existing folder with manually managed permissions
+    label_file_storage: File storage
+    label_host: Host URL
+    label_inactive: Không hoạt động
+    label_incomplete: Incomplete
+    label_managed_project_folders:
+      application_password: Application password
+      automatically_managed_folders: Automatically managed folders
+    label_name: Tên
+    label_new_file_storage: New %{provider} storage
+    label_new_storage: New storage
+    label_no_selected_folder: No selected folder
+    label_no_specific_folder: No specific folder
+    label_oauth_client_id: OAuth Client ID
+    label_openproject_oauth_application_id: OpenProject OAuth Client ID
+    label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
+    label_project_folder: Project folder
+    label_provider: Provider
+    label_redirect_uri: URI đổi hướng
+    label_show_storage_redirect_uri: Show redirect URI
+    label_status: Trạng thái
+    label_storage: Storage
+    label_uri: URI
+    member_connection_status:
+      connected: Connected
+      connected_no_permissions: User role has no storages permissions
+      not_connected: Not connected. The user should login to the storage via the following %{link}.
+    members_no_results: No members to display.
+    no_results: No storages set up yet.
+    notice_successful_storage_connection: |-
+      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
+      of each desired project to use it.
+    oauth_grant_nudge_modal:
+      access_granted: Access granted
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
+      body: To get access to the project folder you need to login to %{storage}.
+      cancel_button_label: I will do it later
+      confirm_button_aria_label: Login to %{storage}
+      confirm_button_label: Login
+      requesting_access_to: Requesting access to %{storage}
+      storage_ready: You are now ready to use %{storage}
+      title: One more step...
+    open_project_storage_modal:
+      success:
+        subtitle: You are being redirected
+        title: Integration setup completed
+      waiting:
+        subtitle: One moment please, this might take some time...
+        title: We are setting up your permissions on the project folder.
+    page_titles:
+      file_storages:
+        delete: Delete file storage
+        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+      managed_project_folders:
+        subtitle: |-
+          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
+          member always has the correct access permissions.
+        subtitle_short: Let OpenProject create folders per project automatically.
+        title: Automatically managed project folders
+      project_settings:
+        delete: Delete file storage
+        edit: Edit the file storage to this project
+        index: File storages available in this project
+        members_connection_status: Members connection status
+        new: Add a file storage to this project
+      project_storage_members:
+        subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
+        title: Members connection status
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
+    provider_types:
+      label: Provider type
+      nextcloud:
+        label_oauth_client_id: Nextcloud OAuth Client ID
+        label_oauth_client_secret: Nextcloud OAuth Client Secret
+        name: Nextcloud
+        name_placeholder: e.g. Nextcloud
+      one_drive:
+        label_oauth_client_id: Azure OAuth Application (client) ID
+        label_oauth_client_secret: Azure OAuth Client Secret Value
+        name: OneDrive/SharePoint
+        name_placeholder: e.g. OneDrive
+    storage_list_blank_slate:
+      description: Add a storage to see them here.
+      heading: You don't have any storages yet.
+    upsale:
+      description: |-
+        Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
+        work packages in a project.
+      title: OneDrive/SharePoint integration

@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 ja:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
   bim:
     label_bim: 'BIM'
   bcf:
@@ -115,8 +118,8 @@ ja:
     no_results: "このプロジェクトにはIFCモデルがアップロードされていません。"
     conversion_status:
       label: '処理中ですか？'
-      pending: 'Pending'
-      processing: 'Processing'
+      pending: '保留中'
+      processing: '処理中'
       completed: '完了しました'
       error: 'エラー！'
     processing_notice:
@@ -131,4 +134,3 @@ ja:
   extraction:
     available:
       ifc_convert: "IFC変換パイプランは利用可能です"
-

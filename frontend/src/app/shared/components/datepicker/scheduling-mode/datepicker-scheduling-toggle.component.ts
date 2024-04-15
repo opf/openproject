@@ -17,11 +17,11 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => DatepickerSchedulingToggleComponent),
+    useExisting: forwardRef(() => OpDatePickerSchedulingToggleComponent),
     multi: true,
   }],
 })
-export class DatepickerSchedulingToggleComponent implements ControlValueAccessor {
+export class OpDatePickerSchedulingToggleComponent implements ControlValueAccessor {
   text = {
     scheduling: {
       title: this.I18n.t('js.scheduling.manual'),

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/backlogs'
+require "spec_helper"
+require_relative "../support/pages/backlogs"
 
-describe 'Backlogs in backlog view',
-         type: :feature,
-         js: true do
+RSpec.describe "Backlogs in backlog view", :js,
+               with_cuprite: false do
   let!(:project) do
     create(:project,
            types: [story, task],
@@ -51,7 +50,7 @@ describe 'Backlogs in backlog view',
            type_id: story.id)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_master_backlog
                            add_work_packages
                            view_work_packages
@@ -63,8 +62,7 @@ describe 'Backlogs in backlog view',
   end
   let!(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let!(:sprint) do
     create(:version,
@@ -84,7 +82,7 @@ describe 'Backlogs in backlog view',
   let!(:other_project_sprint) do
     create(:version,
            project: other_project,
-           sharing: 'system',
+           sharing: "system",
            start_date: Date.today - 10.days,
            effective_date: Date.today + 10.days)
   end
@@ -103,11 +101,11 @@ describe 'Backlogs in backlog view',
     login_as current_user
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-            .and_return('story_types' => [story.id.to_s],
-                        'task_type' => task.id.to_s)
+            .and_return("story_types" => [story.id.to_s],
+                        "task_type" => task.id.to_s)
   end
 
-  it 'displays stories which are editable' do
+  it "displays stories which are editable" do
     backlogs_page.visit!
 
     backlogs_page
@@ -134,9 +132,9 @@ describe 'Backlogs in backlog view',
     # The backlogs can be folded by default
     visit my_settings_path
 
-    check 'Show versions folded'
+    check "Show versions folded"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page.visit!
 
@@ -152,7 +150,7 @@ describe 'Backlogs in backlog view',
     # Alter the attributes of the sprint
     sleep(0.5)
     backlogs_page
-      .edit_backlog(sprint, name: '')
+      .edit_backlog(sprint, name: "")
 
     backlogs_page
       .expect_and_dismiss_error("Name can't be blank.")
@@ -161,7 +159,7 @@ describe 'Backlogs in backlog view',
 
     backlogs_page
       .edit_backlog(sprint,
-                    name: 'New sprint name',
+                    name: "New sprint name",
                     start_date: Date.today + 5.days,
                     effective_date: Date.today + 20.days)
 
@@ -170,7 +168,7 @@ describe 'Backlogs in backlog view',
     sprint.reload
 
     expect(sprint.name)
-      .to eql 'New sprint name'
+      .to eql "New sprint name"
 
     expect(sprint.start_date)
       .to eql Date.today + 5.days
@@ -181,11 +179,11 @@ describe 'Backlogs in backlog view',
     # Alter displaying a sprints as a backlog
 
     backlogs_page
-      .click_in_backlog_menu(sprint, 'Properties')
+      .click_in_backlog_menu(sprint, "Properties")
 
-    select 'right', from: 'Column in backlog'
+    select "right", from: "Column in backlog"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page
       .expect_and_dismiss_toaster(message: "Successful update.")
@@ -202,11 +200,11 @@ describe 'Backlogs in backlog view',
 
     # Alter displaying a backlog as a sprint
     backlogs_page
-      .click_in_backlog_menu(backlog, 'Properties')
+      .click_in_backlog_menu(backlog, "Properties")
 
-    select 'left', from: 'Column in backlog'
+    select "left", from: "Column in backlog"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page
       .expect_and_dismiss_toaster(message: "Successful update.")
@@ -224,18 +222,18 @@ describe 'Backlogs in backlog view',
 
     # Alter displaying a version not at all
     backlogs_page
-      .click_in_backlog_menu(backlog, 'Properties')
+      .click_in_backlog_menu(backlog, "Properties")
 
-    select 'none', from: 'Column in backlog'
+    select "none", from: "Column in backlog"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page
       .expect_and_dismiss_toaster(message: "Successful update.")
 
     # the disabled backlog/sprint is no longer visible
     expect(page)
-      .not_to have_content(backlog.name)
+      .to have_no_content(backlog.name)
 
     # The others are unchanged
     backlogs_page
@@ -246,24 +244,24 @@ describe 'Backlogs in backlog view',
 
     # Inherited versions can also be modified
     backlogs_page
-      .click_in_backlog_menu(other_project_sprint, 'Properties')
+      .click_in_backlog_menu(other_project_sprint, "Properties")
 
-    select 'none', from: 'Column in backlog'
+    select "none", from: "Column in backlog"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page
       .expect_and_dismiss_toaster(message: "Successful update.")
 
     # the disabled backlog/sprint is no longer visible
     expect(page)
-      .not_to have_content(other_project_sprint.name)
+      .to have_no_content(other_project_sprint.name)
 
     # The others are unchanged
     backlogs_page
       .expect_backlog(sprint)
 
     expect(page)
-      .not_to have_content(backlog.name)
+      .to have_no_content(backlog.name)
   end
 end

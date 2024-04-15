@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 module OpenProject
   module Plugins
-    require 'open_project/plugins/patch_registry'
-    require 'open_project/plugins/load_dependency'
-    require 'open_project/plugins/acts_as_op_engine'
+    require "open_project/plugins/patch_registry"
+    require "open_project/plugins/load_dependency"
+    require "open_project/plugins/acts_as_op_engine"
   end
 end

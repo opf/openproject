@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,12 +41,12 @@ FactoryBot.define do
     storage_url { "https://nextcloud.example.com" }
 
     trait :invalid do
-      origin_id { "I'm invalid" }
+      origin_id { " " }
     end
 
     initialize_with do
-      origin_data = attributes.select { |key, _| key.starts_with?('origin_') }
-                              .transform_keys { |key| key.to_s.gsub('origin_', '').camelcase(:lower).to_sym }
+      origin_data = attributes.select { |key, _| key.starts_with?("origin_") }
+                              .transform_keys { |key| key.to_s.gsub("origin_", "").camelcase(:lower).to_sym }
                               .then { |data| data.transform_values { |v| v.respond_to?(:iso8601) ? v.iso8601 : v } }
                               .then { |data| data.transform_keys { |k| k.to_sym == :updatedAt ? :lastModifiedAt : k } }
       {

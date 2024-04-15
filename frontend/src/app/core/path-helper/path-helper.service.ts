@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -52,6 +52,10 @@ export class PathHelperService {
 
   public attachmentContentPath(attachmentIdentifier:number|string) {
     return `${this.staticBase}/attachments/${attachmentIdentifier}/content`;
+  }
+
+  public fileLinksPath():string {
+    return `${this.api.v3.apiV3Base}/file_links`;
   }
 
   public ifcModelsPath(projectIdentifier:string) {
@@ -168,11 +172,15 @@ export class PathHelperService {
     return `${this.projectWorkPackagesPath(projectId)}/new`;
   }
 
-  public projectBoardsPath(projectIdentifier:string|null) {
+  public boardsPath(projectIdentifier:string|null) {
     if (projectIdentifier) {
       return `${this.projectPath(projectIdentifier)}/boards`;
     }
     return `${this.staticBase}/boards`;
+  }
+
+  public newBoardsPath(projectIdentifier:string|null) {
+    return `${this.boardsPath(projectIdentifier)}/new`;
   }
 
   public projectDashboardsPath(projectIdentifier:string) {
@@ -240,12 +248,38 @@ export class PathHelperService {
     return `${this.staticBase}/work_packages/${id}`;
   }
 
+  public workPackageShortPath(id:string|number) {
+    return `${this.staticBase}/wp/${id}`;
+  }
+
   public workPackageCopyPath(workPackageId:string|number) {
     return `${this.workPackagePath(workPackageId)}/copy`;
   }
 
   public workPackageDetailsCopyPath(projectIdentifier:string, workPackageId:string|number) {
     return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}/copy`;
+  }
+
+  public workPackageSharePath(workPackageId:string|number) {
+    return `${this.workPackagePath(workPackageId)}/shares`;
+  }
+
+  public workPackageProgressModalPath(workPackageId:string|number) {
+    return `${this.workPackagePath(workPackageId)}/progress/edit`;
+  }
+
+  // Work Package Bulk paths
+
+  public workPackagesBulkEditPath() {
+    return `${this.workPackagesPath()}/bulk/edit`;
+  }
+
+  public workPackagesBulkMovePath() {
+    return `${this.workPackagesPath()}/move/new`;
+  }
+
+  public workPackagesBulkCopyPath() {
+    return `${this.workPackagesBulkMovePath()}?copy=true`;
   }
 
   public workPackagesBulkDeletePath() {

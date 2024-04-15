@@ -1,4 +1,4 @@
-<div class="upsale-notification" 
+<div class="upsale-notification"
     [ngClass]="{ 'upsale-notification_hide-breadcrumb': hide_breadcrumb }">
   <h2 [textContent]="feature_title"></h2>
     <p *ngIf="feature_description">{{feature_description}}</p>
@@ -43,10 +43,9 @@
   <a
     [attr.href]="text.upgrade_link"
     target="_blank"
-    class="button -highlight">
-    <span class="spot-icon spot-icon_enterprise-addons enterprise-addons--button-icon"></span>
+    class="button -primary">
+    <span class="spot-icon spot-icon_enterprise-addons"></span>
     {{ text.upgrade }}
   </a>
   <free-trial-button></free-trial-button>
 </div>
-

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require "spec_helper"
 
-describe Impediments::UpdateService, type: :model do
+RSpec.describe Impediments::UpdateService, type: :model do
   let(:instance) { described_class.new(user:, impediment:) }
 
   let(:user) { create(:user) }
-  let(:role) { create(:role, permissions: %i(edit_work_packages view_work_packages)) }
+  let(:role) { create(:project_role, permissions: %i(edit_work_packages view_work_packages)) }
   let(:type_feature) { create(:type_feature) }
   let(:type_task) { create(:type_task) }
   let(:priority) { impediment.priority }
@@ -62,8 +62,8 @@ describe Impediments::UpdateService, type: :model do
     project
   end
 
-  let(:status1) { create(:status, name: 'status 1', is_default: true) }
-  let(:status2) { create(:status, name: 'status 2') }
+  let(:status1) { create(:status, name: "status 1", is_default: true) }
+  let(:status2) { create(:status, name: "status 2") }
   let(:type_workflow) do
     Workflow.create(type_id: type_task.id,
                     old_status: status1,
@@ -80,11 +80,10 @@ describe Impediments::UpdateService, type: :model do
   end
 
   before do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template' => '',
-                                                                         'card_spec' => 'Sattleford VM-5040',
-                                                                         'story_types' => [type_feature.id.to_s],
-                                                                         'task_type' => type_task.id.to_s })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "points_burn_direction" => "down",
+                                                                         "wiki_template" => "",
+                                                                         "story_types" => [type_feature.id.to_s],
+                                                                         "task_type" => type_task.id.to_s })
 
     login_as user
 
@@ -99,7 +98,7 @@ describe Impediments::UpdateService, type: :model do
     impediment.save
   end
 
-  shared_examples_for 'impediment update' do
+  shared_examples_for "impediment update" do
     it { expect(subject.author).to eql user }
     it { expect(subject.project).to eql project }
     it { expect(subject.version).to eql version }
@@ -109,16 +108,16 @@ describe Impediments::UpdateService, type: :model do
     it { expect(subject.blocks_ids).to eql blocks.split(/\D+/).map(&:to_i) }
   end
 
-  shared_examples_for 'impediment update with changed blocking relationship' do
-    it_behaves_like 'impediment update'
+  shared_examples_for "impediment update with changed blocking relationship" do
+    it_behaves_like "impediment update"
     it { expect(subject.relations.size).to eq(1) }
     it { expect(subject.relations[0]).not_to be_new_record }
     it { expect(subject.relations[0].to).to eql story }
     it { expect(subject.relations[0].relation_type).to eql Relation::TYPE_BLOCKS }
   end
 
-  shared_examples_for 'impediment update with unchanged blocking relationship' do
-    it_behaves_like 'impediment update'
+  shared_examples_for "impediment update with unchanged blocking relationship" do
+    it_behaves_like "impediment update"
     it { expect(subject.relations.size).to eq(1) }
     it { expect(subject.relations[0]).not_to be_changed }
     it { expect(subject.relations[0].to).to eql feature }
@@ -132,10 +131,10 @@ describe Impediments::UpdateService, type: :model do
     call.result
   end
 
-  describe 'WHEN changing the blocking relationship to another story' do
+  describe "WHEN changing the blocking relationship to another story" do
     let(:story) do
       build(:work_package,
-            subject: 'another story',
+            subject: "another story",
             type: type_feature,
             project:,
             author: user,
@@ -150,16 +149,16 @@ describe Impediments::UpdateService, type: :model do
       story.save!
     end
 
-    describe 'WITH the story having the same version' do
-      it_behaves_like 'impediment update with changed blocking relationship'
+    describe "WITH the story having the same version" do
+      it_behaves_like "impediment update with changed blocking relationship"
       it { expect(subject).not_to be_changed }
     end
 
-    describe 'WITH the story having another version' do
-      let(:story_version) { create(:version, project:, name: 'another version') }
+    describe "WITH the story having another version" do
+      let(:story_version) { create(:version, project:, name: "another version") }
 
-      it_behaves_like 'impediment update with unchanged blocking relationship'
-      it 'is not saved successfully' do
+      it_behaves_like "impediment update with unchanged blocking relationship"
+      it "is not saved successfully" do
         expect(subject).to be_changed
       end
 
@@ -169,11 +168,11 @@ describe Impediments::UpdateService, type: :model do
       }
     end
 
-    describe 'WITH the story being non existent' do
-      let(:blocks) { '0' }
+    describe "WITH the story being non existent" do
+      let(:blocks) { "0" }
 
-      it_behaves_like 'impediment update with unchanged blocking relationship'
-      it 'is not saved successfully' do
+      it_behaves_like "impediment update with unchanged blocking relationship"
+      it "is not saved successfully" do
         expect(subject).to be_changed
       end
 
@@ -184,11 +183,11 @@ describe Impediments::UpdateService, type: :model do
     end
   end
 
-  describe 'WITHOUT a blocking relationship defined' do
-    let(:blocks) { '' }
+  describe "WITHOUT a blocking relationship defined" do
+    let(:blocks) { "" }
 
-    it_behaves_like 'impediment update with unchanged blocking relationship'
-    it 'is not saved successfully' do
+    it_behaves_like "impediment update with unchanged blocking relationship"
+    it "is not saved successfully" do
       expect(subject).to be_changed
     end
 

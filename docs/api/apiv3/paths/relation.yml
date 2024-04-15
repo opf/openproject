@@ -91,7 +91,7 @@ get:
                     href: "/api/v3/relations/1"
                     method: PATCH
                 _type: Relation
-                delay: 0
+                lag: 0
                 description: We can't bend the steel before it's been delivered!
                 id: 1
                 name: precedes
@@ -157,7 +157,7 @@ patch:
                     href: "/api/v3/relations/1"
                     method: PATCH
                 _type: Relation
-                delay: 0
+                lag: 0
                 description: We can't bend the steel before it's been delivered!
                 id: 1
                 name: precedes
@@ -199,10 +199,10 @@ patch:
               value:
                 _embedded:
                   details:
-                    attribute: delay
+                    attribute: lag
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: Delay must be a number greater than or equal to 0
+                message: Lag must be a number greater than or equal to 0
       description: |-
         Returned if:
 

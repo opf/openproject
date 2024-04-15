@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ class Reports::ReportsService
   add_report Reports::VersionReport
 
   def initialize(project)
-    raise 'You must provide a project to report upon' unless project&.is_a?(Project)
+    raise "You must provide a project to report upon" unless project&.is_a?(Project)
 
     @project = project
   end

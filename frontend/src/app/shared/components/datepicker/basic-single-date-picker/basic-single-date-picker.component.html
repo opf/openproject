@@ -1,0 +1,33 @@
+<input
+  *ngIf="!mobile"
+  #input
+  type="text"
+  class="spot-input"
+  data-filters-target="singleDay"
+  [ngClass]="inputClassNames"
+  [attr.data-value]="value"
+  [id]="id"
+  [name]="name"
+  [attr.name]="name"
+  [required]="required"
+  [disabled]="disabled"
+  (input)="changeValueFromInput($event.target.value)"
+  (focus)="showDatePicker()"
+  [attr.data-remote-field-key]="remoteFieldKey"
+/>
+
+<ng-container *ngIf="mobile">
+  <input
+    type="date"
+    class="spot-input"
+    data-filters-target="singleDay"
+    [ngClass]="inputClassNames"
+    [attr.data-value]="value"
+    [id]="id"
+    [name]="name"
+    [required]="required"
+    [disabled]="disabled"
+    [ngModel]="value"
+    (ngModelChange)="changeValueFromInput($event)"
+  />
+</ng-container>

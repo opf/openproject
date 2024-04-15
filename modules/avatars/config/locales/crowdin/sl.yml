@@ -1,5 +1,9 @@
 #English strings go here
 sl:
+  plugin_openproject_avatars:
+    name: "Avatarji"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Avatar"
   label_avatar_plural: "Avatarji"
   label_current_avatar: "Trenutni Avatar"
@@ -33,6 +37,3 @@ sl:
       enable_gravatars: 'Omogoči uporabniškega gravatarja'
       gravatar_default: "Privzeta Gravatar slika"
       enable_local_avatars: 'Omogoči avatarja po meri'
-
-
-

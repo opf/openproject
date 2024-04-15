@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -25,6 +25,8 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+@import "helpers"
+
 $nm-color-error-background: #fedada
 
 $nm-color-success-border: #35c53f
@@ -85,17 +87,18 @@ $nm-color-success-background: #d8fdd1
 .toolbar-items
   display: flex
   flex-wrap: wrap
-  margin: 0 -10px 0 0
+  margin: 0
   padding: 0
+  justify-content: space-between
 
   li
     list-style-type: none
-    flex-grow: 1
 
   .toolbar-item
-    margin: 0 10px 10px 0
-    // spacing between nav items
-    flex-grow: 1
+    margin-right: 10px
+
+    &:last-of-type
+      margin-right: 0
 
     // hide right margin for e.g., conditional buttons
     &.-no-spacing
@@ -103,6 +106,9 @@ $nm-color-success-background: #d8fdd1
 
     &.-no-grow
       flex-grow: 0
+
+    a.button
+      text-decoration: none
 
     .button
       overflow: hidden
@@ -204,7 +210,6 @@ $nm-color-success-background: #d8fdd1
 .title-container
   flex: 1 1
   white-space: nowrap
-  margin-bottom: 10px
   max-width: 100%
   // margin-bottom of toolbar buttons
 
@@ -224,8 +229,8 @@ $nm-color-success-background: #d8fdd1
     color: var(--toolbar-title-color)
     line-height: 34px
     height: 34px
-    @include breakpoint(medium down)
-      font-size: var(--h2-font-size)
+    @media screen and (max-width: $breakpoint-md)
+      font-size: 1.5rem
 
     &:focus, &:hover
       outline: 1px solid #ddd
@@ -242,9 +247,8 @@ $nm-color-success-background: #d8fdd1
     -moz-margin: 10px 0
     margin: 9px 0
     color: var(--toolbar-title-color)
-    font-size: var(--h2-font-size)
-    height: 36px
-    line-height: 36px
+    font-size: 1.5rem
+    @include toolbar-input-styles
     width: calc(100% + 2px)
 
     &.-error
@@ -261,7 +265,7 @@ $nm-color-success-background: #d8fdd1
     float: none
 
   span.filter-selection
-    @include query-select-dropdown-filter-select(var(--primary-color))
+    @include query-select-dropdown-filter-select(var(--accent-color))
 
 .toolbar-input-group
   display: flex
@@ -284,7 +288,7 @@ $nm-color-success-background: #d8fdd1
   .toolbar-input-group--affix
     background: var(--toolbar-item--bg-color)
     border: 1px solid var(--toolbar-item--border-color)
-    color: $inlinelabel-color
+    color: var(--body-font-color)
     border-radius: 2px
     white-space: nowrap
 

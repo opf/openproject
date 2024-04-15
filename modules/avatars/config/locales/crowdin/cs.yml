@@ -1,5 +1,9 @@
 #English strings go here
 cs:
+  plugin_openproject_avatars:
+    name: "Avatary"
+    description: >-
+      Tento modul umožňuje uživatelům OpenProject nahrát obrázek, který bude použit jako avatar nebo použít registrované obrázky z Gravataru.
   label_avatar: "Avatar"
   label_avatar_plural: "Avatary"
   label_current_avatar: "Aktuální Avatar"
@@ -35,6 +39,3 @@ cs:
       enable_gravatars: 'Povolit uživatelské gravatary'
       gravatar_default: "Výchozí Gravatar"
       enable_local_avatars: 'Povolit uživatelské uživatelské avatary'
-
-
-

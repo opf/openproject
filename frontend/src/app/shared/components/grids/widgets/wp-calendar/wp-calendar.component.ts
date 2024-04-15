@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,34 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-calendar.component.html',
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
 })
 export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
-  constructor(protected readonly i18n:I18nService,
+  text = {
+    missing_permission: this.I18n.t('js.grid.widgets.missing_permission'),
+  };
+
+  hasCapability$ = this.currentUser.hasCapabilities$('work_packages/read', this.currentProject.id);
+
+  constructor(
+    protected readonly I18n:I18nService,
     protected readonly injector:Injector,
-    protected readonly currentProject:CurrentProjectService) {
-    super(i18n, injector);
+    protected readonly currentProject:CurrentProjectService,
+    protected readonly currentUser:CurrentUserService,
+  ) {
+    super(I18n, injector);
   }
 
   public get projectIdentifier() {

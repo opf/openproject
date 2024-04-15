@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,7 @@ module OpenProject::Deprecation
   class << self
     def deprecator
       @@deprecator ||= ActiveSupport::Deprecation
-          .new('in a future major upgrade', 'OpenProject')
-          .tap do |instance|
-        # Reuse the silenced state of the default deprecator
-        instance.silenced = ActiveSupport::Deprecation.silenced
-      end
+                        .new("in a future major upgrade", "OpenProject")
     end
 
     delegate :warn, to: :deprecator

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ module Report
 
     # this attr. should point to a symbol useable for translations
     inherited_attribute :applies_for, default: :label_cost_entry_attributes
-    def_delegators :'self.class', :table_joins, :table_name, :field, :display?, :underscore_name
+    def_delegators :"self.class", :table_joins, :table_name, :field, :display?, :underscore_name
 
     def self.accepts_property(*list)
       engine.accepted_properties.push(*list.map(&:to_s))
@@ -72,7 +72,7 @@ module Report
 
     def self.register(label)
       available << klass
-      set_inherited_attribute 'label', label
+      set_inherited_attribute "label", label
     end
 
     def self.table_joins
@@ -117,7 +117,7 @@ module Report
     inherited_attribute :properties, list: true
 
     def self.label
-      'Translation needed'
+      "Translation needed"
     end
 
     class << self
@@ -176,7 +176,7 @@ module Report
         unless self.class.extra_options.include? key
           raise ArgumentError, "may not set #{key}" unless engine.accepted_properties.include? key.to_s
 
-          send "#{key}=", value
+          send :"#{key}=", value
         end
       end
       if child
@@ -192,7 +192,7 @@ module Report
     end
 
     def to_s
-      URI.escape to_a.map(&:join).join(',')
+      URI.escape to_a.map(&:join).join(",")
     end
 
     def serialize
@@ -218,14 +218,14 @@ module Report
       end
     end
 
-    def chain_collect(name, *args, &)
-      top.subchain_collect(name, *args, &)
+    def chain_collect(name, *, &)
+      top.subchain_collect(name, *, &)
     end
 
     # See #chain_collect
-    def subchain_collect(name, *args, &)
-      subchain = child.subchain_collect(name, *args, &) unless bottom?
-      [* send(name, *args, &)].push(*subchain).compact.uniq
+    def subchain_collect(name, *, &)
+      subchain = child.subchain_collect(name, *, &) unless bottom?
+      [* send(name, *, &)].push(*subchain).compact.uniq
     end
 
     # overwrite in subclass to maintain constisten state
@@ -329,7 +329,7 @@ module Report
     def with_table(fields)
       fields.map do |f|
         place_field_name = self.class.put_sql_table_names[f] || self.class.put_sql_table_names[f].nil?
-        place_field_name ? (field_name_for f, self) : f
+        place_field_name ? field_name_for([self, f]) : f
       end
     end
 

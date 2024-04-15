@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,8 +51,8 @@ module API
           property :send_notifications,
                    exec_context: :decorator,
                    getter: ->(*) do
-                     # Default to true
-                     represented.send_notifications != false
+                     # Default to false
+                     represented.send_notifications || false
                    end,
                    setter: ->(fragment:, **) do
                      represented.send_notifications = fragment

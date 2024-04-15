@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,10 +44,15 @@ module Queries::Projects::Filters::CustomFieldContext
       cv_db_table = CustomValue.table_name
       project_db_table = Project.table_name
 
-      "LEFT OUTER JOIN #{cv_db_table}
-         ON #{cv_db_table}.customized_type='Project'
-         AND #{cv_db_table}.customized_id=#{project_db_table}.id
-         AND #{cv_db_table}.custom_field_id=#{custom_field.id}"
+      <<~SQL.squish
+        LEFT OUTER JOIN #{cv_db_table}
+          ON #{cv_db_table}.customized_type='Project'
+          AND #{cv_db_table}.customized_id=#{project_db_table}.id
+          AND #{cv_db_table}.custom_field_id=#{custom_field.id}
+        INNER JOIN project_custom_field_project_mappings
+          ON project_custom_field_project_mappings.project_id = projects.id
+          AND project_custom_field_project_mappings.custom_field_id = #{custom_field.id}
+      SQL
     end
   end
 end

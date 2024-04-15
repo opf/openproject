@@ -9,15 +9,26 @@
       font-weight: 400
       overflow: hidden
       text-overflow: ellipsis
+      display: inline-flex
+      align-items: center
 
     &-action
-      display: block
+      display: flex
+      align-items: center
       height: 32px
       line-height: 32px
       text-decoration: none
-      padding: 0px 13px 0px 10px
+      padding: 0 13px 0 10px
       font-weight: 400
       color: var(--context-menu-unselected-font-color)
+      border: 1px solid transparent
+
+      .spot-icon
+        &.trailing-icon
+          margin-left: auto
+
+        &:first-child
+          margin-right: 0.75rem
 
       &:focus
         background-color: #f0f0f0
@@ -26,9 +37,10 @@
       &:hover,
       &:active
         background-color: #f0f0f0
-        color: var(--context-menu-hover-font-color)
         cursor: pointer
         text-decoration: none
+        border-color: var(--list-item-hover--border-color)
+        color: var(--list-item-hover--color)
 
   &--item-action,
   &--headline
@@ -36,10 +48,10 @@
 
   &--headline
     font-size: 12px
-    color: var(--gray-dark)
+    color: var(--color-fg-muted)
     text-transform: uppercase
 
   &--separator
-    border-bottom: 1px solid var(--content-form-separator-color)
+    border-bottom: 1px solid var(--color-border-muted)
     margin: 0 0 10px
     background: none

@@ -1,4 +1,4 @@
-require_relative './edit_field'
+require_relative "edit_field"
 
 class DateEditField < EditField
   attr_accessor :milestone, :is_table
@@ -37,11 +37,11 @@ class DateEditField < EditField
            :toggle_scheduling_mode, to: :datepicker
 
   def modal_selector
-    '[data-qa-selector="op-datepicker-modal"]'
+    '[data-test-selector="op-datepicker-modal"]'
   end
 
   def input_selector
-    if property_name == 'combinedDate'
+    if property_name == "combinedDate"
       "input[name=startDate]"
     else
       "input[name=#{property_name}]"
@@ -50,7 +50,7 @@ class DateEditField < EditField
 
   def property_name
     if milestone
-      'date'
+      "date"
     else
       super
     end
@@ -71,13 +71,13 @@ class DateEditField < EditField
 
   def activate_start_date_within_modal
     within_modal do
-      find('[data-qa-selector="op-datepicker-modal--start-date-field"]').click
+      find('[data-test-selector="op-datepicker-modal--start-date-field"]').click
     end
   end
 
   def activate_due_date_within_modal
     within_modal do
-      find('[data-qa-selector="op-datepicker-modal--end-date-field"]').click
+      find('[data-test-selector="op-datepicker-modal--end-date-field"]').click
     end
   end
 
@@ -95,7 +95,7 @@ class DateEditField < EditField
     if active?
       modal_element.find(input_selector)
     else
-      page.find(".#{property_name} input")
+      page.find(".#{property_name} .spot-input")
     end
   end
 
@@ -115,12 +115,12 @@ class DateEditField < EditField
 
   def expect_inactive!
     expect(context).to have_selector(display_selector, wait: 10)
-    expect(page).to have_no_selector("#{modal_selector} #{input_selector}")
+    expect(page).to have_no_css("#{modal_selector} #{input_selector}")
   end
 
   def expect_calendar
     within_modal do
-      expect(page).to have_selector(".flatpickr-calendar")
+      expect(page).to have_css(".flatpickr-calendar")
     end
   end
 
@@ -132,7 +132,7 @@ class DateEditField < EditField
       set_value value
 
       save! if save
-      expect_state! open: (expect_failure || !save)
+      expect_state! open: expect_failure || !save
     end
   end
 
@@ -142,7 +142,6 @@ class DateEditField < EditField
       datepicker.set_start_date value.first
       datepicker.set_due_date value.last
 
-      sleep 1
       datepicker.expect_start_date value.first
       datepicker.expect_due_date value.last
     else
@@ -151,7 +150,7 @@ class DateEditField < EditField
   end
 
   def expect_value(value)
-    expect(page).to have_selector(".#{property_name} input", value:)
+    expect(page).to have_css(".#{property_name} .spot-input", value:)
   end
 
   def set_active_date(value)
@@ -163,14 +162,14 @@ class DateEditField < EditField
   end
 
   def submit_by_click
-    scroll_to_and_click action_button('Save')
+    scroll_to_and_click action_button(I18n.t(:button_save))
   end
 
   def cancel_by_click
-    scroll_to_and_click action_button('Cancel')
+    scroll_to_and_click action_button(I18n.t(:button_cancel))
   end
 
   def action_button(text)
-    page.find("#{modal_selector} [data-qa-selector='op-datepicker-modal--action']", text:)
+    page.find("#{modal_selector} [data-test-selector='op-datepicker-modal--action']", text:)
   end
 end

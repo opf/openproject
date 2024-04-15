@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,10 @@
 module Queries::Storages::WorkPackages::Filter::StoragesFilterMixin
   def type
     :list
+  end
+
+  def human_name
+    ::Storages::Storage.human_attribute_name(name)
   end
 
   # Returns the model class for which the filter will apply.
@@ -64,7 +68,7 @@ module Queries::Storages::WorkPackages::Filter::StoragesFilterMixin
   end
 
   def additional_where_condition
-    ''
+    ""
   end
 
   def joins
@@ -72,6 +76,6 @@ module Queries::Storages::WorkPackages::Filter::StoragesFilterMixin
   end
 
   def unescape_hosts(hosts)
-    hosts.map { |host| CGI.unescape(host).gsub(/\/+$/, '') }
+    hosts.map { |host| CGI.unescape(host).gsub(/\/+$/, "") }
   end
 end

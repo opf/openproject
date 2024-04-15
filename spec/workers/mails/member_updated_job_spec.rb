@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared/member_job'
+require "spec_helper"
+require_relative "shared/member_job"
 
-describe Mails::MemberUpdatedJob, type: :model do
-  include_examples 'member job' do
+RSpec.describe Mails::MemberUpdatedJob, type: :model do
+  include_examples "member job" do
     let(:user_project_mail_method) { :updated_project }
 
-    context 'with a group membership' do
+    context "with a group membership" do
       let(:member) do
         build_stubbed(:member,
                       project:,
@@ -41,8 +41,8 @@ describe Mails::MemberUpdatedJob, type: :model do
                       member_roles: group_member_roles)
       end
 
-      shared_examples 'updated mail' do
-        it 'sends mail' do
+      shared_examples "updated mail" do
+        it "sends mail" do
           run_job
 
           expect(MemberMailer)
@@ -55,24 +55,24 @@ describe Mails::MemberUpdatedJob, type: :model do
         group_user_member
       end
 
-      context 'with the user not having had a membership before the group`s membership was added' do
+      context "with the user not having had a membership before the group`s membership was added" do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,
                          inherited_from: group_member_roles.first.id)]
         end
 
-        it_behaves_like 'updated mail'
+        it_behaves_like "updated mail"
       end
 
-      context 'with the user having had a membership with the same roles before the group`s membership was added' do
+      context "with the user having had a membership with the same roles before the group`s membership was added" do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,
                          inherited_from: nil)]
         end
 
-        it_behaves_like 'updated mail'
+        it_behaves_like "updated mail"
       end
 
       context 'with the user having had a membership with the same roles
@@ -83,11 +83,11 @@ describe Mails::MemberUpdatedJob, type: :model do
                          inherited_from: group_member_roles.first.id + 5)]
         end
 
-        it_behaves_like 'updated mail'
+        it_behaves_like "updated mail"
       end
 
-      context 'with the user having had a membership before the group`s membership was added but now has additional roles' do
-        let(:other_role) { build_stubbed(:role) }
+      context "with the user having had a membership before the group`s membership was added but now has additional roles" do
+        let(:other_role) { build_stubbed(:project_role) }
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,
@@ -97,11 +97,11 @@ describe Mails::MemberUpdatedJob, type: :model do
                          inherited_from: nil)]
         end
 
-        it_behaves_like 'updated mail'
+        it_behaves_like "updated mail"
       end
     end
 
-    context 'with a group global membership' do
+    context "with a group global membership" do
       let(:project) { nil }
       let(:member) do
         build_stubbed(:member,
@@ -110,8 +110,8 @@ describe Mails::MemberUpdatedJob, type: :model do
                       member_roles: group_member_roles)
       end
 
-      shared_examples 'updated mail' do
-        it 'sends mail' do
+      shared_examples "updated mail" do
+        it "sends mail" do
           run_job
 
           expect(MemberMailer)
@@ -124,24 +124,24 @@ describe Mails::MemberUpdatedJob, type: :model do
         group_user_member
       end
 
-      context 'with the user not having had a membership before the group`s membership was added' do
+      context "with the user not having had a membership before the group`s membership was added" do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,
                          inherited_from: group_member_roles.first.id)]
         end
 
-        it_behaves_like 'updated mail'
+        it_behaves_like "updated mail"
       end
 
-      context 'with the user having had a membership with the same roles before the group`s membership was added' do
+      context "with the user having had a membership with the same roles before the group`s membership was added" do
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,
                          inherited_from: nil)]
         end
 
-        it_behaves_like 'sends no mail'
+        it_behaves_like "sends no mail"
       end
 
       context 'with the user having had a membership with the same roles
@@ -152,11 +152,11 @@ describe Mails::MemberUpdatedJob, type: :model do
                          inherited_from: group_member_roles.first.id + 5)]
         end
 
-        it_behaves_like 'sends no mail'
+        it_behaves_like "sends no mail"
       end
 
-      context 'with the user having had a membership before the group`s membership was added but now has additional roles' do
-        let(:other_role) { build_stubbed(:role) }
+      context "with the user having had a membership before the group`s membership was added but now has additional roles" do
+        let(:other_role) { build_stubbed(:project_role) }
         let(:group_user_member_roles) do
           [build_stubbed(:member_role,
                          role:,
@@ -166,7 +166,7 @@ describe Mails::MemberUpdatedJob, type: :model do
                          inherited_from: nil)]
         end
 
-        it_behaves_like 'updated mail'
+        it_behaves_like "updated mail"
       end
     end
   end

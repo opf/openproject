@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ module Attachments
 
       model.extend(OpenProject::ChangedBySystem)
       model.change_by_system do
-        model.downloads = -1
+        model.status = :prepared
         # Set a preliminary content type as the file is not present
         # The content type will be updated by the FinishDirectUploadJob if necessary.
         model.content_type = params[:content_type].presence || OpenProject::ContentTypeDetector::SENSIBLE_DEFAULT

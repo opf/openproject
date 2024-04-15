@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-describe 'Work package table refreshing due to split view', js: true do
-  let(:project) { create :project_with_types }
-  let!(:work_package) { create :work_package, project: }
-  let(:wp_split) { ::Pages::SplitWorkPackage.new work_package }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new project }
-  let(:user) { create :admin }
+RSpec.describe "Work package table refreshing due to split view", :js, :with_cuprite do
+  let(:project) { create(:project_with_types) }
+  let!(:work_package) { create(:work_package, project:) }
+  let(:wp_split) { Pages::SplitWorkPackage.new work_package }
+  let(:wp_table) { Pages::WorkPackagesTable.new project }
+  let(:user) { create(:admin) }
 
   before do
     login_as(user)
     wp_split.visit!
   end
 
-  it 'toggles the watch state' do
+  it "toggles the watch state" do
     wp_split.ensure_page_loaded
     wp_split.edit_field(:subject).expect_text work_package.subject
 
     wp_table.expect_work_package_listed work_package
     page.within wp_table.row(work_package) do
-      expect(page).to have_selector('.wp-table--drag-and-drop-handle.icon-drag-handle', visible: :all)
+      expect(page).to have_css(".wp-table--drag-and-drop-handle.icon-drag-handle", visible: :all)
     end
   end
 end

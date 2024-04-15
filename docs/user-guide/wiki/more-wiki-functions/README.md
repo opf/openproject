@@ -57,7 +57,7 @@ Please be aware that a deleted wiki page cannot easily be restored within the sy
 
 ## Show wiki page history
 
-In some cases, you might want to know the latest change to a wiki page.  You can get information on the type of change as well as on the author using the **History** option. To display it, choose **History** in the [**More** functions](#more-wiki-functions) drop-down menu on top of a wiki page.
+In some cases, you might want to know the latest change to a wiki page.  You can get information on the type of change as well as on the author using the **History** option. To display it, choose **History** in the [More functions](#more-wiki-functions) drop-down menu on top of a wiki page.
 
 ![wiki-history](image-20210429102421851.png)
 

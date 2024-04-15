@@ -3,6 +3,6 @@ fi:
   js:
     calendar:
       create_new: 'Create new calendar'
-      title: 'Calendar'
+      title: 'Kalenteri'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
       unsaved_title: 'Unnamed calendar'

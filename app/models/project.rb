@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,20 +27,22 @@
 #++
 
 class Project < ApplicationRecord
-  extend Pagination::Model
   extend FriendlyId
 
   include Projects::Storage
   include Projects::Activity
   include Projects::Hierarchy
   include Projects::AncestorsFromRoot
+
   include ::Scopes::Scoped
+
+  include Projects::ActsAsCustomizablePatches
 
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w(new).freeze
+  RESERVED_IDENTIFIERS = %w(new menu).freeze
 
   has_many :members, -> {
     # TODO: check whether this should
@@ -81,16 +83,16 @@ class Project < ApplicationRecord
   # Custom field for the project's work_packages
   has_and_belongs_to_many :work_package_custom_fields,
                           -> { order("#{CustomField.table_name}.position") },
-                          class_name: 'WorkPackageCustomField',
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+                          join_table: :custom_fields_projects,
                           association_foreign_key: 'custom_field_id'
-  has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  has_many :storages, through: :projects_storages
+  has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :storages, through: :project_storages
 
-  acts_as_customizable
+  acts_as_customizable # partially overridden via Projects::ActsAsCustomizablePatches in order to support sections and
+  # project-leval activation of custom fields
+
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
                      date_column: "#{table_name}.created_at",
                      project_key: 'id',
@@ -103,6 +105,17 @@ class Project < ApplicationRecord
                 url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
                 author: nil,
                 datetime: :created_at
+
+  register_journal_formatted_fields(:active_status, 'active')
+  register_journal_formatted_fields(:template, 'templated')
+  register_journal_formatted_fields(:plaintext, 'identifier')
+  register_journal_formatted_fields(:plaintext, 'name')
+  register_journal_formatted_fields(:diff, 'status_explanation')
+  register_journal_formatted_fields(:diff, 'description')
+  register_journal_formatted_fields(:project_status_code, 'status_code')
+  register_journal_formatted_fields(:visibility, 'public')
+  register_journal_formatted_fields(:subproject_named_association, 'parent_id')
+  register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
 
   has_paper_trail
 
@@ -141,21 +154,36 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
-  delegate :explanation, to: :status, allow_nil: true, prefix: true
+  scopes :allowed_to,
+         :visible
 
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
   scope :public_projects, -> { where(public: true) }
-  scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
+  scope :with_visible_work_packages, ->(user = User.current) do
+    where(id: WorkPackage.visible(user).select(:project_id)).or(allowed_to(user, :view_work_packages))
+  end
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
+  scope :archived, -> { where(active: false) }
+  scope :with_member, ->(user = User.current) { where(id: user.memberships.select(:project_id)) }
+  scope :without_member, ->(user = User.current) { where.not(id: user.memberships.select(:project_id)) }
 
   scopes :activated_time_activity,
          :visible_with_activated_time_activity
 
+  enum status_code: {
+    on_track: 0,
+    at_risk: 1,
+    off_track: 2,
+    not_started: 3,
+    finished: 4,
+    discontinued: 5
+  }
+
   def visible?(user = User.current)
-    active? and (public? or user.admin? or user.member_of?(self))
+    active? && (public? || user.admin? || user.access_to?(self))
   end
 
   def archived?
@@ -167,38 +195,11 @@ class Project < ApplicationRecord
   end
 
   def copy_allowed?
-    User.current.allowed_to?(:copy_projects, self)
+    User.current.allowed_in_project?(:copy_projects, self)
   end
 
   def self.selectable_projects
     Project.visible.select { |p| User.current.member_of? p }.sort_by(&:to_s)
-  end
-
-  def self.search_scope(query)
-    # overwritten from Pagination::Model
-    visible.like(query)
-  end
-
-  # Returns all projects the user is allowed to see.
-  #
-  # Employs the :view_project permission to perform the
-  # authorization check as the permission is public, meaning it is granted
-  # to everybody having at least one role in a project regardless of the
-  # role's permissions.
-  def self.visible_by(user = User.current)
-    allowed_to(user, :view_project)
-  end
-
-  # Returns a ActiveRecord::Relation to find all projects for which
-  # +user+ has the given +permission+
-  def self.allowed_to(user, permission)
-    Authorization.projects(permission, user)
-  end
-
-  def reload(*args)
-    @all_work_package_custom_fields = nil
-
-    super
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.
@@ -210,8 +211,14 @@ class Project < ApplicationRecord
     projects_table = Project.arel_table
 
     stmt = projects_table[:id].eq(id)
-    stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt))) if with_subprojects
+    if with_subprojects && has_subprojects?
+      stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt)))
+    end
     stmt
+  end
+
+  def has_subprojects?
+    !leaf?
   end
 
   def types_used_by_work_packages
@@ -260,8 +267,15 @@ class Project < ApplicationRecord
   # (same object_id) for every work package having the same project this will
   # reduce the number of db queries when performing operations including the
   # project's versions.
-  def assignable_versions
-    @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
+  #
+  # For custom fields configured with "Allow non-open versions" this can be called
+  # with only_open: false, in which case locked and closed versions are returned as well.
+  def assignable_versions(only_open: true)
+    if only_open
+      @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
+    else
+      @assignable_versions_including_non_open ||= shared_versions.references(:project).order_by_semver_name.to_a
+    end
   end
 
   # Returns an AR scope of all custom fields enabled for project's work packages
@@ -302,7 +316,7 @@ class Project < ApplicationRecord
   end
 
   def enabled_module_names=(module_names)
-    if module_names&.is_a?(Array)
+    if module_names.is_a?(Array)
       module_names = module_names.map(&:to_s).compact_blank
       self.enabled_modules = module_names.map do |name|
         enabled_modules.detect do |mod|
@@ -326,6 +340,11 @@ class Project < ApplicationRecord
     parents = project.self_and_ancestors || []
     descendants = project.descendants || []
     parents | descendants # Set union
+  end
+
+  # Returns an array of active subprojects.
+  def active_subprojects
+    project.descendants.where(active: true)
   end
 
   class << self

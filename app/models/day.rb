@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,16 +31,18 @@ class Day < ApplicationRecord
 
   has_many :non_working_days,
            inverse_of: false,
-           class_name: 'NonWorkingDay',
+           class_name: "NonWorkingDay",
            foreign_key: :date,
            primary_key: :date,
            dependent: nil
 
   attribute :date, :date, default: nil
   attribute :day_of_week, :integer, default: nil
-  attribute :working, :boolean, default: 't'
+  attribute :working, :boolean, default: "t"
 
   delegate :name, to: :week_day, allow_nil: true
+
+  scope :working, -> { where(working: true) }
 
   def self.default_scope
     today = Time.zone.today
@@ -56,6 +58,8 @@ class Day < ApplicationRecord
   end
 
   def self.from_sql(from:, to:)
+    from = from.to_date
+    to = to.to_date
     <<~SQL.squish
       (SELECT
         to_char(dd, 'YYYYMMDD')::integer id,
@@ -73,6 +77,11 @@ class Day < ApplicationRecord
            ON dd = non_working_days.date
       ) days
     SQL
+  end
+
+  def self.last_working
+    # Look up only from 8 days ago, because the Setting.working_days must have at least 1 working weekday.
+    from_range(from: 8.days.ago, to: Time.zone.yesterday).where(working: true).last
   end
 
   def week_day

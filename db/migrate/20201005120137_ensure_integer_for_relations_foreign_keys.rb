@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ class EnsureIntegerForRelationsForeignKeys < ActiveRecord::Migration[6.0]
     Relation.reset_column_information
 
     # Nothing to do for us if the column already has the expected type
-    return if Relation.column_for_attribute('from_id').sql_type == 'integer'
+    return if Relation.column_for_attribute("from_id").sql_type == "integer"
 
     change_table :relations do |t|
       t.change :from_id, :integer, null: false

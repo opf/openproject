@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -118,12 +118,6 @@ See COPYRIGHT and LICENSE files for more details.
             <%= setting_select :commit_fix_status_id, [["--- #{t(:actionview_instancetag_blank_option)} ---", '0', { disabled: true }]] + Status.all.collect{ |status| [status.name, status.id.to_s] }, label: false %>
           </div>
         </div>
-        <div class="form--field -vertical">
-          <%= styled_label_tag :settings_commit_fix_done_ratio, WorkPackage.human_attribute_name(:done_ratio) %>
-          <div class="form--field-container">
-            <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, blank: :label_no_change_option, label: false %>
-          </div>
-        </div>
       </div>
     </div>
     <div class="form--field">
@@ -136,5 +130,5 @@ See COPYRIGHT and LICENSE files for more details.
          disabled: !Setting.commit_logtime_enabled?,
          container_class: '-middle' %></div>
   </fieldset>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

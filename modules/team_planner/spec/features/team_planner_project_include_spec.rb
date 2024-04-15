@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/project_include/project_include_shared_examples'
-require_relative '../support/pages/team_planner'
+require "spec_helper"
+require "features/work_packages/project_include/project_include_shared_examples"
+require_relative "../support/pages/team_planner"
 
-describe 'Team planner project include', type: :feature, js: true do
-  before do
-    with_enterprise_token(:team_planner_view)
-  end
-
+RSpec.describe "Team planner project include", :js, with_ee: %i[team_planner_view] do
   shared_let(:enabled_modules) { %w[work_package_tracking team_planner_view] }
   shared_let(:permissions) do
     %w[view_work_packages edit_work_packages add_work_packages
@@ -42,17 +38,17 @@ describe 'Team planner project include', type: :feature, js: true do
        save_queries manage_public_queries]
   end
 
-  it_behaves_like 'has a project include dropdown' do
+  it_behaves_like "has a project include dropdown" do
     let(:work_package_view) { Pages::TeamPlanner.new(project) }
-    let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+    let(:dropdown) { Components::ProjectIncludeComponent.new }
 
-    it 'correctly filters work packages by project' do
+    it "correctly filters work packages by project" do
       dropdown.expect_count 1
 
       # Make sure the filter gets set once
       dropdown.toggle!
       dropdown.expect_open
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_closed
 
       work_package_view.expect_empty_state
@@ -60,15 +56,11 @@ describe 'Team planner project include', type: :feature, js: true do
       work_package_view.expect_assignee(other_user, present: false)
 
       retry_block do
-        work_package_view.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        work_package_view.select_user_to_add user.name
+        work_package_view.add_assignee user.name
       end
 
       retry_block do
-        work_package_view.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        work_package_view.select_user_to_add other_user.name
+        work_package_view.add_assignee other_user.name
       end
 
       work_package_view.expect_assignee user
@@ -87,7 +79,7 @@ describe 'Team planner project include', type: :feature, js: true do
 
       dropdown.toggle!
       dropdown.toggle_checkbox(sub_sub_sub_project.id)
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_count 1
 
       work_package_view.within_lane(user) do
@@ -98,7 +90,7 @@ describe 'Team planner project include', type: :feature, js: true do
 
       dropdown.toggle!
       dropdown.toggle_checkbox(other_project.id)
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_count 2
 
       work_package_view.within_lane(other_user) do

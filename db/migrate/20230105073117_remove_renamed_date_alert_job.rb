@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,6 @@ class RemoveRenamedDateAlertJob < ActiveRecord::Migration[6.0]
   def up
     # The job has been renamed to Notifications::ScheduleDateAlertsNotificationsJob.
     # The new job will be added on restarting the application.
-    Delayed::Job
-      .where('handler LIKE ?', "%job_class: Notifications::CreateDateAlertsNotificationsJob%")
-      .delete_all
+    execute("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Notifications::CreateDateAlertsNotificationsJob%'")
   end
 end

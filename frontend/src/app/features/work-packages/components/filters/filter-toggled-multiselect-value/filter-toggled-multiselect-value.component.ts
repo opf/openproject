@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +46,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 
 @Component({
   selector: 'op-filter-toggled-multiselect-value',
@@ -63,17 +64,23 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
   public availableOptions:HalResource[] = [];
 
+  itemTracker = (item:HalResource):string => item.href || item.id || item.name;
+
+  compareByHref = compareByHref;
+
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
-  constructor(readonly halResourceService:HalResourceService,
+  constructor(
+    readonly halResourceService:HalResourceService,
     readonly halSorting:HalResourceSortingService,
     readonly PathHelper:PathHelperService,
     readonly apiV3Service:ApiV3Service,
     readonly currentUser:CurrentUserService,
     readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService) {
+    readonly I18n:I18nService,
+  ) {
   }
 
   ngOnInit():void {

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@
 module Projects::Exports
   module Formatters
     class Status < ::Exports::Formatters::Default
-      def self.apply?(attribute)
+      def self.apply?(attribute, _export_format)
         %i[project_status status].include?(attribute.to_sym)
       end
 
       ##
       # Takes a project and returns the localized status code
       def format(project, **)
-        code = project.status&.code
-        return '' unless code
+        code = project.status_code
+        return "" unless code
 
         translate_code code
       end
@@ -44,7 +44,7 @@ module Projects::Exports
       private
 
       def translate_code(enum_name)
-        I18n.t("activerecord.attributes.projects/status.codes.#{enum_name}")
+        I18n.t("activerecord.attributes.project.status_codes.#{enum_name}")
       end
     end
   end

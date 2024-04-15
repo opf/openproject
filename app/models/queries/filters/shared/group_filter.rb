@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,18 +46,18 @@ module Queries::Filters::Shared::GroupFilter
     end
 
     def human_name
-      I18n.t('query_fields.member_of_group')
+      I18n.t("query_fields.member_of_group")
     end
 
     def where
       case operator
-      when '='
+      when "="
         "users.id IN (#{group_subselect})"
-      when '!'
+      when "!"
         "users.id NOT IN (#{group_subselect})"
-      when '*'
+      when "*"
         "users.id IN (#{any_group_subselect})"
-      when '!*'
+      when "!*"
         "users.id NOT IN (#{any_group_subselect})"
       end
     end

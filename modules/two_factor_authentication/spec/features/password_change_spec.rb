@@ -1,18 +1,15 @@
-require_relative '../spec_helper'
+require_relative "../spec_helper"
 
-describe 'Password change with OTP',
-         type: :feature,
-         with_settings: {
-           plugin_openproject_two_factor_authentication: {
-             'active_strategies' => [:developer]
-           }
-         },
-         js: true do
-  let(:user_password) { 'boB&' * 4 }
-  let(:new_user_password) { '%obB' * 4 }
+RSpec.describe "Password change with OTP", :js, with_settings: {
+  plugin_openproject_two_factor_authentication: {
+    "active_strategies" => [:developer]
+  }
+} do
+  let(:user_password) { "boB&" * 4 }
+  let(:new_user_password) { "%obB" * 4 }
   let(:user) do
     create(:user,
-           login: 'bob',
+           login: "bob",
            password: user_password,
            password_confirmation: user_password)
   end
@@ -20,49 +17,49 @@ describe 'Password change with OTP',
 
   def handle_password_change(requires_otp: true)
     visit signin_path
-    within('#login-form') do
-      fill_in('username', with: user.login)
-      fill_in('password', with: user_password)
+    within("#login-form") do
+      fill_in("username", with: user.login)
+      fill_in("password", with: user_password)
       click_link_or_button I18n.t(:button_login)
     end
 
     sms_token = nil
     # rubocop:disable RSpec/AnyInstance
-    allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
+    allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
       .to receive(:create_mobile_otp).and_wrap_original do |m|
       sms_token = m.call
     end
     # rubocop:enable RSpec/AnyInstance
 
-    expect(page).to have_selector('h2', text: I18n.t(:button_change_password))
-    within('#content') do
+    expect(page).to have_css("h2", text: I18n.t(:button_change_password))
+    within("#content") do
       SeleniumHubWaiter.wait
-      fill_in('password', with: user_password)
-      fill_in('new_password', with: new_user_password)
-      fill_in('new_password_confirmation', with: new_user_password)
+      fill_in("password", with: user_password)
+      fill_in("new_password", with: new_user_password)
+      fill_in("new_password_confirmation", with: new_user_password)
       click_link_or_button I18n.t(:button_save)
     end
 
     if requires_otp
-      expect(page).to have_selector('input#otp')
+      expect(page).to have_css("input#otp")
       SeleniumHubWaiter.wait
-      fill_in 'otp', with: sms_token
+      fill_in "otp", with: sms_token
       click_button I18n.t(:button_login)
     end
 
     expect(page).to have_current_path(expected_path_after_login, ignore_query: true)
   end
 
-  context 'when password is expired',
+  context "when password is expired",
           with_settings: { password_days_valid: 7 } do
     before do
       user
     end
 
-    context 'when device present' do
-      let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
+    context "when device present" do
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
-      it 'requires the password change after expired' do
+      it "requires the password change after expired" do
         expect(user.current_password).not_to be_expired
 
         Timecop.travel(2.weeks.from_now) do
@@ -75,10 +72,10 @@ describe 'Password change with OTP',
       end
     end
 
-    context 'when no device present' do
+    context "when no device present" do
       let!(:device) { nil }
 
-      it 'requires the password change after expired' do
+      it "requires the password change after expired" do
         expect(user.current_password).not_to be_expired
 
         Timecop.travel(2.weeks.from_now) do
@@ -92,12 +89,12 @@ describe 'Password change with OTP',
     end
   end
 
-  context 'when force password change is set' do
+  context "when force password change is set" do
     let(:user) do
       create(:user,
              force_password_change: true,
              first_login: true,
-             login: 'bob',
+             login: "bob",
              password: user_password,
              password_confirmation: user_password)
     end
@@ -107,18 +104,18 @@ describe 'Password change with OTP',
       user
     end
 
-    context 'when device present' do
-      let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
+    context "when device present" do
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
-      it 'requires the password change' do
+      it "requires the password change" do
         handle_password_change
       end
     end
 
-    context 'when no device present' do
+    context "when no device present" do
       let!(:device) { nil }
 
-      it 'requires the password change without otp' do
+      it "requires the password change without otp" do
         handle_password_change(requires_otp: false)
       end
     end

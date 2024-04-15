@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Dir["#{File.dirname(__FILE__)}/*.rb"].each { |file| require file }
+Dir["#{File.dirname(__FILE__)}/*.rb"].without(__FILE__).each { |file| require file }
 
 module API
   module V3
@@ -52,12 +52,13 @@ module API
           private
 
           @specific_conversion = {
-            CreatedAtFilter: 'DateTimeFilter',
-            UpdatedAtFilter: 'DateTimeFilter',
-            AuthorFilter: 'UserFilter',
-            ResponsibleFilter: 'AllPrincipalsFilter',
-            AssignedToFilter: 'AllPrincipalsFilter',
-            WatcherFilter: 'UserFilter'
+            CreatedAtFilter: "DateTimeFilter",
+            UpdatedAtFilter: "DateTimeFilter",
+            AuthorFilter: "UserFilter",
+            ResponsibleFilter: "ProjectMembersFilter",
+            AssignedToFilter: "ProjectMembersFilter",
+            SharedWithUserFilter: "AccessToProjectFilter",
+            WatcherFilter: "UserFilter"
           }
 
           def representer_class(filter)
@@ -91,14 +92,14 @@ module API
             format = filter.custom_field.field_format
 
             case format
-            when 'list'
-              'API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter'
-            when 'bool'
-              'API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter'
-            when 'user', 'version', 'float'
+            when "list"
+              "API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter"
+            when "bool"
+              "API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
+            when "user", "version", "float"
               "API::V3::Queries::Schemas::#{format.camelize}FilterDependencyRepresenter"
-            when 'string'
-              'API::V3::Queries::Schemas::TextFilterDependencyRepresenter'
+            when "string"
+              "API::V3::Queries::Schemas::TextFilterDependencyRepresenter"
             end
           end
 

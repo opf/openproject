@@ -1,12 +1,12 @@
-require 'spec_helper'
-require 'support/pages/custom_fields'
+require "spec_helper"
+require "support/pages/custom_fields"
 
-describe 'custom fields', js: true do
-  let(:user) { create :admin }
+RSpec.describe "custom fields", :js, :with_cuprite do
+  let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 
   before do
-    login_as(user)
+    login_as user
   end
 
   describe "available fields" do
@@ -28,6 +28,7 @@ describe 'custom fields', js: true do
     before do
       cf_page.visit!
       click_on "Create a new custom field"
+      wait_for_reload
     end
 
     it "creates a new bool custom field" do

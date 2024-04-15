@@ -1,0 +1,31 @@
+<%=
+  grid_layout('op-storage-list--row', tag: :div, align_items: :center) do |grid|
+    grid.with_area(:name, tag: :div, mr: 3, classes: 'ellipsis') do
+      concat(render(Primer::Beta::Link.new(href: url_helpers.edit_admin_settings_storage_path(storage), scheme: :primary, mr: 1, data: { 'test-selector': 'storage-name' })) { storage.name })
+
+      unless storage.configured?
+        concat(render(Primer::Beta::Label.new(scheme: :attention, test_selector: "label-incomplete")) { I18n.t('storages.label_incomplete') })
+      end
+
+      if storage.health_unhealthy?
+        concat(render(Primer::Beta::Label.new(scheme: :danger, test_selector: "storage-health-label-error")) { I18n.t('storages.health.label_error') })
+      end
+    end
+
+    grid.with_area(:host, tag: :div, mr: 3, color: :subtle, data: { 'test-selector': 'storage-host' }, classes: 'ellipsis') do
+      render(Primer::Beta::Truncate.new(font_weight: :light)) { storage.host }
+    end
+
+    grid.with_area(:user, tag: :div, color: :subtle, mr: 3, font_weight: :light, data: { 'test-selector': 'storage-creator' }, classes: 'ellipsis') do
+      render(Users::AvatarComponent.new(user: storage.creator, size: :mini, link: false, show_name: true, name_classes: 'hidden-for-tablet-and-small-laptops'))
+    end
+
+    grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm, data: { 'test-selector': 'storage-provider' }) do
+      render(Primer::Beta::Truncate.new(font_weight: :light)) { I18n.t("storages.provider_types.#{storage.short_provider_type}.name") }
+    end
+
+    grid.with_area(:time, tag: :div, color: :subtle) do
+      render(Primer::Beta::Text.new(font_weight: :light)) { I18n.t('activity.item.created_on', datetime: helpers.format_time(storage.created_at)).capitalize }
+    end
+  end
+%>

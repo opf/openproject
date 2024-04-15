@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -21,22 +21,44 @@
 #++
 #English strings go here for Rails i18n
 ca:
+  plugin_openproject_meeting:
+    name: "OpenProject Meeting"
+    description: >-
+      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
   activerecord:
     attributes:
       meeting:
+        type: "Tipus de reunió"
         location: "Ubicació"
         duration: "Durada"
+        notes: "Notes"
         participants: "Participants"
+        participant:
+          one: "1 participant"
+          other: "%{count} participants"
         participants_attended: "Assistents"
         participants_invited: "Convidats"
-        start_time: "Hora"
-        start_time_hour: "Hora d'inici"
+        project: "Projecte"
+        start_date: "Data"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "min"
+        description: "Notes"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "no és una hora vàlida. El format requerit és: HH:MM"
     models:
+      structured_meeting: "Reunió (dinàmica)"
+      meeting_agenda_item: "Element d'agenda"
       meeting_agenda: "Agenda"
       meeting_minutes: "Acta"
+  activity:
+    filter:
+      meeting: "Reunions"
   description_attended: "hi vaig assistir"
   description_invite: "convidat"
   events:
@@ -58,12 +80,47 @@ ca:
   label_meeting_agenda_close: "Tanca l'agenda per començar l'acta"
   label_meeting_date_time: "Data/Hora"
   label_meeting_diff: "Diferència"
+  label_upcoming_meetings: "Pròximes reunions"
+  label_past_meetings: "Reunions passades"
+  label_upcoming_meetings_short: "Pròximes"
+  label_past_meetings_short: "Passades"
+  label_involvement: "Implicació"
+  label_upcoming_invitations: "Pròximes invitacions"
+  label_past_invitations: "Invitacions passades"
+  label_attendee: "Assistent"
+  label_author: "Creador"
   label_notify: "Envia per revisar"
   label_icalendar: "Envia iCalendar"
+  label_icalendar_download: "Descarregueu esdeveniment d'iCalendar"
   label_version: "Versió"
   label_time_zone: "Zona horària"
   label_start_date: "Data d'inici"
   meeting:
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+    copy:
+      title: "Copy meeting %{title}"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
+      agenda: "Copy agenda"
+      agenda_text: "Copy the agenda of the old meeting"
+    email:
+      open_meeting_link: "Reunió oberta"
+      invited:
+        summary: "%{actor} us ha enviat una invitació per a la reunió %{title}"
+      rescheduled:
+        header: "Meeting %{title} has been rescheduled"
+        summary: "La reunió %{title} ha estat reprogramada per %{actor}"
+        body: "La reunió %{title} ha estat reprogramada per %{actor}"
+        old_date_time: "Data/hora antiga"
+        new_date_time: "Data/hora nova"
+    label_mail_all_participants: "Envia un correu a tots els participants"
+    types:
+      classic: "Clàssica"
+      classic_text: "Organitzeu la vostra reunió en una agenda i un protocol de text formatejables."
+      structured: "Dinàmica"
+      structured_text: "Organitza la vostra reunió com una llista d'elements de l'agenda, enllaçant-los opcionalment a un paquet de treball."
+      structured_text_copy: "Actualment en copiar una reunió  no es copiaran els elements associats a l'agenda de la reunió, només els detalls."
     copied: "Copiat de la reunió #%{id}"
   notice_successful_notification: "Notificació enviada correctament"
   notice_timezone_missing: No s'ha configurat la zona horària i la %{zone} és assumida. Per seleccionar la teva zona horària, si us plau, fes clic aquí.
@@ -71,7 +128,10 @@ ca:
   permission_edit_meetings: "Edita reunions"
   permission_delete_meetings: "Elimina reunions"
   permission_view_meetings: "Veure reunions"
-  permission_create_meeting_agendas: "Administrar agendes"
+  permission_create_meeting_agendas: "Crea agendes de reunions"
+  permission_create_meeting_agendas_explanation: "Permet editar el contingut de l'agenda de la reunió clàssica."
+  permission_manage_agendas: "Gestiona agendes"
+  permission_manage_agendas_explanation: "Permet gestionar els elements de l'agenda de la reunió dinàmica."
   permission_close_meeting_agendas: "Tancar agendes"
   permission_send_meeting_agendas_notification: "Enviar una notificació de revisió per agendes"
   permission_create_meeting_minutes: "Administra actes"
@@ -82,9 +142,60 @@ ca:
   text_duration_in_hours: "Duració en hores"
   text_in_hours: "en hores"
   text_meeting_agenda_for_meeting: 'agenda per la reunió "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Segur que vols tancar aquesta reunió?"
+  text_meeting_closing_are_you_sure: "Estàs segur que vols tancar l'agenda de la reunió?"
   text_meeting_agenda_open_are_you_sure: "Això sobreescriurà tots els canvis a l'acte! Vols continuar?"
   text_meeting_minutes_for_meeting: 'actes per la reunió "%{meeting}"'
-  text_review_meeting_agenda: "%{author} ha afegit el %{link} per a revisió."
-  text_review_meeting_minutes: "%{author} ha afegit el %{link} per a revisió."
   text_notificiation_invited: "Aquest correu compte una entrada ICS per a reunió següent:"
+  text_meeting_empty_heading: "La reunió està buida"
+  text_meeting_empty_description_1: "Comença afegint elements d'agenda a sota. Cada element pot ser tan simple com un títol, però també es pot afegir detalls extres com la duració o notes."
+  text_meeting_empty_description_2: 'També pots referenciar paquets de treball existents. En fer-ho, les notes relacionades apareixeran automàticament a la pestanya "Reunions" del paquet de treball.'
+  label_meeting_empty_action: "Afegeix element d'agenda"
+  label_meeting_actions: "Accions de la reunió"
+  label_meeting_edit_title: "Edita el títol de la reunió"
+  label_meeting_delete: "Elimina reunió"
+  label_meeting_created_by: "Creat per"
+  label_meeting_last_updated: "Última actualització"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_item_undisclosed_wp: "Paquet de treball #%{id} no visible"
+  label_agenda_item_deleted_wp: "Referència de paquet de treball eliminada"
+  label_agenda_item_actions: "Accions d'element de l'agenda"
+  label_agenda_item_move_to_top: "Moure al principi"
+  label_agenda_item_move_to_bottom: "Moure al final"
+  label_agenda_item_move_up: "Mou amunt"
+  label_agenda_item_move_down: "Mou avall"
+  label_agenda_item_add_notes: "Afegir notes"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
+  label_meeting_details: "Detalls de la reunió"
+  label_meeting_details_edit: "Edita els detalls de la reunió"
+  label_meeting_state: "Meeting status"
+  label_meeting_state_open: "Oberta"
+  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_closed: "Tancada"
+  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_reopen_action: "Reobrir reunió"
+  label_meeting_close_action: "Tancar reunió"
+  text_meeting_open_description: "Aquesta reunió està oberta. Pots afegir o eliminar elements de l'agenda i editar-los lliurement. Al final de la reunió, tanca-la per bloquejar-la."
+  text_meeting_closed_description: "Aquesta reunió està tancada. Ja no es poden afegir o eliminar elements de l'agenda."
+  label_meeting_manage_participants: "Gestiona els participants"
+  label_meeting_no_participants: "No hi ha participants"
+  label_meeting_show_hide_participants: "Mostra/Amaga %{count} més"
+  label_meeting_show_all_participants: "Mostrar tots"
+  label_meeting_add_participants: "Afegeix participants"
+  text_meeting_not_editable_anymore: "Aquesta reunió ja no es pot editar."
+  text_meeting_not_present_anymore: "Aquesta reunió es va eliminar. Si us plau, selecciona una altra reunió."
+  label_add_work_package_to_meeting_dialog_title: "Afegeix un paquet de treball a una reunió"
+  label_add_work_package_to_meeting_dialog_button: "Afegir a la reunió"
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
+  text_add_work_package_to_meeting_description: "Un paquet de treball es pot afegir a una o múltiples reunions per a discussió. Qualsevol nota relacionada apareixerà aquí."
+  text_agenda_item_no_notes: "Notes no proporcionades"
+  text_agenda_item_not_editable_anymore: "Aquesta agenda ja no es pot editar."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "Aquest paquet de treball encara no està planejat en cap agenda de reunió futura."
+  text_work_package_add_to_meeting_hint: 'Utilitza el botó "Afegir a la reunió" per afegir aquest paquet de treball a una reunió futura.'
+  text_work_package_has_no_past_meeting_agenda_items: "Aquest paquet de treball no s'ha mencionat en cap reunió passada."

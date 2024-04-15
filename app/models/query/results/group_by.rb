@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,7 +76,7 @@ module ::Query::Results::GroupBy
   end
 
   def transform_group_keys(groups)
-    if query.group_by_column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
+    if query.group_by_column.is_a?(Queries::WorkPackages::Selects::CustomFieldSelect)
       transform_custom_field_keys(groups)
     else
       transform_property_keys(groups)
@@ -98,7 +98,7 @@ module ::Query::Results::GroupBy
 
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        key.split('.').map do |subkey|
+        key.split(".").map do |subkey|
           options[subkey].first
         end
       else
@@ -108,7 +108,7 @@ module ::Query::Results::GroupBy
   end
 
   def custom_options_for_keys(custom_field, groups)
-    keys = groups.keys.map { |k| k.split('.') }
+    keys = groups.keys.map { |k| k.split(".") }
     # Because of multi select cfs we might end up having overlapping groups
     # (e.g group "1" and group "1.3" and group "3" which represent concatenated ids).
     # This can result in us having ids in the keys array multiple times (e.g. ["1", "1", "3", "3"]).
@@ -149,7 +149,7 @@ module ::Query::Results::GroupBy
         direction = order ? order_for_group_by(column) : nil
 
         aliased_group_by_sort_order(alias_name, s, columns_hash, direction)
-      end.join(', ')
+      end.join(", ")
     end
   end
 
@@ -163,7 +163,7 @@ module ::Query::Results::GroupBy
     column = case_insensitive_condition(sortable, column, columns_hash)
 
     if order
-      column + " #{order} "
+      "#{column} #{order}"
     else
       column
     end

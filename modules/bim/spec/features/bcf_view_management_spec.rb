@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/ifc_models/show_default'
-require_relative '../../../../spec/features/views/shared_examples'
+require_relative "../support/pages/ifc_models/show_default"
+require_relative "../../../../spec/features/views/shared_examples"
 
-describe 'bcf view management',
-         with_config: { edition: 'bim' },
-         type: :feature,
-         js: true do
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
-  let(:bcf_page) { ::Pages::IfcModels::ShowDefault.new(project) }
+RSpec.describe "bcf view management", :js, with_config: { edition: "bim" } do
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
+  let(:bcf_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:role) do
-    create :role,
+    create(:project_role,
            permissions: %w[
              view_work_packages
              save_queries
@@ -46,13 +43,12 @@ describe 'bcf view management',
              view_ifc_models
              save_bcf_queries
              manage_public_bcf_queries
-           ]
+           ])
   end
 
   let(:user) do
-    create :user,
-           member_in_project: project,
-           member_through_role: role
+    create(:user,
+           member_with_roles: { project => role })
   end
 
   let!(:model) do
@@ -67,8 +63,9 @@ describe 'bcf view management',
     bcf_page.visit_and_wait_until_finished_loading!
   end
 
-  it_behaves_like 'module specific query view management' do
+  it_behaves_like "module specific query view management" do
     let(:module_page) { bcf_page }
-    let(:default_name) { 'All open' }
+    let(:default_name) { "All open" }
+    let(:initial_filter_count) { 0 }
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +30,13 @@ FactoryBot.define do
   factory :relation do
     from factory: :work_package
     to { build(:work_package, project: from.project) }
-    relation_type { 'relates' } # "relates", "duplicates", "duplicated", "blocks", "blocked", "precedes", "follows"
-    delay { nil }
+    relation_type { "relates" } # "relates", "duplicates", "duplicated", "blocks", "blocked", "precedes", "follows"
+    lag { nil }
     description { nil }
   end
 
   factory :follows_relation, parent: :relation do
-    relation_type { 'follows' }
-    delay { 0 }
+    relation_type { "follows" }
+    lag { 0 }
   end
 end

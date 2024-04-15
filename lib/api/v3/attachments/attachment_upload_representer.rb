@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -54,7 +54,7 @@ module API
 
         def self.associated_container_link
           ->(*) do
-            return nil unless v3_container_name == 'nil_class' || api_v3_paths.respond_to?(v3_container_name)
+            return nil unless v3_container_name == "nil_class" || api_v3_paths.respond_to?(v3_container_name)
 
             ::API::Decorators::LinkObject
               .new(represented,
@@ -70,7 +70,7 @@ module API
         def initialize(attachment, current_user:, embed_links: false)
           super
 
-          fog_hash = DirectFogUploader.direct_fog_hash attachment: attachment
+          fog_hash = DirectFogUploader.direct_fog_hash(attachment:)
 
           @form_url = fog_hash[:uri]
           @form_fields = fog_hash.except :uri
@@ -129,7 +129,7 @@ module API
         date_time_property :created_at
 
         def _type
-          'AttachmentUpload'
+          "AttachmentUpload"
         end
 
         def container_representer

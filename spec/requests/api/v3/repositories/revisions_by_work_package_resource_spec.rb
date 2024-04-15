@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Revisions by work package resource', type: :request do
+RSpec.describe "API v3 Revisions by work package resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:project) { create(:project, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages view_changesets] }
   let(:repository) { create(:repository_subversion, project:) }
   let(:work_package) { create(:work_package, author: current_user, project:) }
@@ -52,7 +50,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe '#get' do
+  describe "#get" do
     let(:get_path) { api_v3_paths.work_package_revisions work_package.id }
 
     before do
@@ -60,13 +58,13 @@ describe 'API v3 Revisions by work package resource', type: :request do
       get get_path
     end
 
-    it 'responds with 200' do
+    it "responds with 200" do
       expect(subject.status).to eq(200)
     end
 
-    it_behaves_like 'API V3 collection response', 0, 0, 'Revision'
+    it_behaves_like "API V3 collection response", 0, 0, "Revision"
 
-    context 'with existing revisions' do
+    context "with existing revisions" do
       let(:revisions) do
         build_list(:changeset,
                    5,
@@ -74,24 +72,24 @@ describe 'API v3 Revisions by work package resource', type: :request do
                    repository:)
       end
 
-      it_behaves_like 'API V3 collection response', 5, 5, 'Revision'
+      it_behaves_like "API V3 collection response", 5, 5, "Revision"
 
-      context 'user unauthorized to view revisions' do
+      context "user unauthorized to view revisions" do
         let(:permissions) { [:view_work_packages] }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'Revision'
+        it_behaves_like "API V3 collection response", 0, 0, "Revision"
       end
     end
 
-    context 'user unauthorized to view work package' do
+    context "user unauthorized to view work package" do
       let(:current_user) { create(:user) }
 
-      it 'responds with 404' do
+      it "responds with 404" do
         expect(subject.status).to eq(404)
       end
     end
 
-    describe 'revisions linked from another project' do
+    describe "revisions linked from another project" do
       let(:subproject) { create(:project, parent: project) }
       let(:repository) { create(:repository_subversion, project: subproject) }
       let!(:revisions) do
@@ -101,18 +99,16 @@ describe 'API v3 Revisions by work package resource', type: :request do
                    repository:)
       end
 
-      context 'with permissions in subproject' do
+      context "with permissions in subproject" do
         let(:current_user) do
-          create(:user,
-                 member_in_projects: [project, subproject],
-                 member_through_role: role)
+          create(:user, member_with_roles: { project => role, subproject => role })
         end
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'Revision'
+        it_behaves_like "API V3 collection response", 2, 2, "Revision"
       end
 
-      context 'with no permission in subproject' do
-        it_behaves_like 'API V3 collection response', 0, 0, 'Revision'
+      context "with no permission in subproject" do
+        it_behaves_like "API V3 collection response", 0, 0, "Revision"
       end
     end
   end

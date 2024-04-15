@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'members pagination', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+RSpec.describe "Members Role CRUD", :js, :with_cuprite do
+  shared_let(:admin) { create(:admin) }
   let(:project) do
-    create :project,
-           name: 'Project 1',
-           identifier: 'project1',
+    create(:project,
+           name: "Project 1",
+           identifier: "project1",
            members: {
              alice => beta,
              bob => alpha
-           }
+           })
   end
 
-  let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:alice) { create :user, firstname: 'Alice', lastname: 'Alison' }
+  let(:bob)   { create(:user, firstname: "Bob", lastname: "Bobbit") }
+  let(:alice) { create(:user, firstname: "Alice", lastname: "Alison") }
 
-  let(:alpha) { create :role, name: 'alpha' }
-  let(:beta)  { create :role, name: 'beta' }
+  let(:alpha) { create(:project_role, name: "alpha") }
+  let(:beta)  { create(:project_role, name: "beta") }
 
   let(:members_page) { Pages::Members.new project.identifier }
 
@@ -54,23 +54,23 @@ describe 'members pagination', type: :feature, js: true do
     members_page.visit!
   end
 
-  it 'Adding a Role to Alice' do
-    members_page.edit_user! 'Alice Alison', add_roles: ['alpha']
+  it "Adding a Role to Alice" do
+    members_page.edit_user! "Alice Alison", add_roles: ["alpha"]
 
-    expect(members_page).to have_user('Alice Alison', roles: ['alpha', 'beta'])
+    expect(members_page).to have_user("Alice Alison", roles: ["alpha", "beta"])
   end
 
-  it 'Adding a role while taking another role away from Alice' do
-    members_page.edit_user! 'Alice Alison', add_roles: ['alpha'], remove_roles: ['beta']
+  it "Adding a role while taking another role away from Alice" do
+    members_page.edit_user! "Alice Alison", add_roles: ["alpha"], remove_roles: ["beta"]
 
-    expect(members_page).to have_user('Alice Alison', roles: 'alpha')
-    expect(members_page).not_to have_roles('Alice Alison', ['beta'])
+    expect(members_page).to have_user("Alice Alison", roles: "alpha")
+    expect(members_page).not_to have_roles("Alice Alison", ["beta"])
   end
 
   it "Removing Bob's last role results in an error" do
-    members_page.edit_user! 'Bob Bobbit', remove_roles: ['alpha']
+    members_page.edit_user! "Bob Bobbit", remove_roles: ["alpha"]
 
-    expect(page).to have_text 'Roles need to be assigned.'
-    expect(members_page).to have_user('Bob Bobbit', roles: ['alpha'])
+    expect(page).to have_text "Roles need to be assigned."
+    expect(members_page).to have_user("Bob Bobbit", roles: ["alpha"])
   end
 end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -67,9 +67,11 @@ export class MainMenuToggleService {
 
   public changeData$ = this.changeData.asObservable();
 
-  constructor(protected I18n:I18nService,
+  constructor(
+    protected I18n:I18nService,
     public injector:Injector,
-    readonly deviceService:DeviceService) {
+    readonly deviceService:DeviceService,
+  ) {
   }
 
   public initializeMenu():void {
@@ -93,8 +95,8 @@ export class MainMenuToggleService {
       this.saveWidth(this.defaultWidth);
     }
 
-    // mobile version default: hide menu on initialization
-    this.closeWhenOnMobile();
+    // small desktop version default: hide menu on initialization
+    this.closeWhenOnSmallDesktop();
   }
 
   // click on arrow or hamburger icon
@@ -105,7 +107,7 @@ export class MainMenuToggleService {
     }
 
     if (!this.showNavigation) { // sidebar is hidden -> show menu
-      if (this.deviceService.isMobile) { // mobile version
+      if (this.deviceService.isSmallDesktop) { // small desktop version
         this.setWidth(window.innerWidth);
       } else { // desktop version
         const savedWidth = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string);
@@ -131,8 +133,8 @@ export class MainMenuToggleService {
     jQuery('.searchable-menu--search-input').blur();
   }
 
-  public closeWhenOnMobile():void {
-    if (this.deviceService.isMobile) {
+  public closeWhenOnSmallDesktop():void {
+    if (this.deviceService.isSmallDesktop) {
       this.closeMenu();
       window.OpenProject.guardedLocalStorage(this.localStorageStateKey, 'false');
     }
@@ -147,7 +149,7 @@ export class MainMenuToggleService {
   public setWidth(width?:any):void {
     if (width !== undefined) {
       // Leave a minimum amount of space for space for the content
-      const maxMenuWidth = this.deviceService.isMobile ? window.innerWidth - 120 : window.innerWidth - 520;
+      const maxMenuWidth = this.deviceService.isSmallDesktop ? window.innerWidth - 120 : window.innerWidth - 520;
       if (width > maxMenuWidth) {
         this.elementWidth = maxMenuWidth;
       } else {

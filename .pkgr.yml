@@ -5,7 +5,7 @@ homepage: "https://www.openproject.org"
 maintainer: "operations+packaging@openproject.com"
 license: "GPL"
 targets:
-  debian-9: &debian9
+  debian-10: &debian
     build_dependencies:
       - libsqlite3-dev
     dependencies:
@@ -15,21 +15,16 @@ targets:
       - tesseract-ocr
       - catdoc
       - imagemagick
-  debian-10:
-    <<: *debian9
   debian-11:
-    <<: *debian9
-  ubuntu-16.04:
-    <<: *debian9
-  ubuntu-18.04:
-    <<: *debian9
+    <<: *debian
+  debian-12:
+    <<: *debian
   ubuntu-20.04:
-    <<: *debian9
+    <<: *debian
   ubuntu-22.04:
-    <<: *debian9
-  centos-7: &centos7
+    <<: *debian
+  centos-8: &centos8
     env:
-      - BUNDLE_BUILD__PG="--with-pg-config=/usr/pgsql-13/bin/pg_config"
       - NODE_ENV=production
       - NPM_CONFIG_PRODUCTION=false
     dependencies:
@@ -37,14 +32,15 @@ targets:
       - ImageMagick
       - unzip
       - poppler-utils
-  centos-8:
-    <<: *centos7
+  centos-9:
+    <<: *centos8
     env:
       - NODE_ENV=production
       - NPM_CONFIG_PRODUCTION=false
-  sles-12:
+  sles-15:
     build_dependencies:
       - sqlite3-devel
+    dependencies:
       - ImageMagick
 before_precompile: "packaging/setup"
 after_precompile: "packaging/teardown"

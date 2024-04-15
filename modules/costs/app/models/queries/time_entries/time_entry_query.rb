@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::TimeEntryQuery < Queries::BaseQuery
+class Queries::TimeEntries::TimeEntryQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
   def self.model
     TimeEntry
   end
 
   def default_scope
-    TimeEntry.visible(User.current)
+    if filters.detect { |f| f.class.key == :ongoing }
+      TimeEntry.visible_ongoing(User.current)
+    else
+      TimeEntry
+        .not_ongoing
+        .visible(User.current)
+    end
   end
 end

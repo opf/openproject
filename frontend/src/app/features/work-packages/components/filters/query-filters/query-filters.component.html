@@ -61,6 +61,7 @@
                    [closeOnSelect]="true"
                    [virtualScroll]="true"
                    [placeholder]="text.please_select"
+                   [searchFn]="searchFunction"
                    (open)="onOpen()"
                    (change)="onFilterAdded($event)"
                    id="add_filter_select"
@@ -70,11 +71,13 @@
       </div>
     </li>
   </ul>
-  <op-enterprise-banner class="advanced-filters--add-filter-info"
-                     *ngIf="eeShowBanners"
-                     [linkMessage]="text.upsale_link"
-                     [textMessage]="text.upsale_for_more"
-                     [moreInfoLink]="text.more_info_link"
-                     opReferrer="wp-filter#filters">
-  </op-enterprise-banner>
+
+  <div
+    *ngIf="baselineIncompatibleFilters.length > 0"
+    class="op-toast -warning">
+    <div class="op-toast--content">
+      <p [textContent]="text.baseline_warning">
+      </p>
+    </div>
+  </div>
 </fieldset>

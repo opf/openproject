@@ -1,4 +1,7 @@
 tr:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
   export_to_excel: "XLS'yi dışa aktar"
   print_with_description: "Açıklama ile önizlemeyi yazdır"
   sentence_separator_or: "ya da"

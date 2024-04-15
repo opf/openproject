@@ -1,8 +1,8 @@
 @mixin onboarding-button-styles
   color: white
   border: 2px solid
-  border-color: var(--alternative-color)
-  background: var(--alternative-color)
+  border-color: var(--primary-button-color)
+  background: var(--primary-button-color)
   -webkit-box-sizing: content-box
   box-sizing: content-box
   -webkit-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
@@ -10,11 +10,11 @@
   -o-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
   transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0)
   &:hover
-    border-color: var(--button--alt-highlight-background-hover-color)
-    background: var(--button--alt-highlight-background-hover-color)
+    border-color: var(--button--primary-background-hover-color)
+    background: var(--button--primary-background-hover-color)
   &:active
-    border-color: var(--button--alt-highlight-background-hover-color)
-    background: var(--button--alt-highlight-background-hover-color)
+    border-color: var(--button--primary-background-hover-color)
+    background: var(--button--primary-background-hover-color)
     -webkit-transition: none
     -moz-transition: none
     -o-transition: none
@@ -57,7 +57,7 @@
   -o-text-overflow: clip
   text-overflow: clip
   -moz-box-sizing: content-box
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
   @include onboarding-button-styles
 
 .enjoyhint_next_btn
@@ -137,7 +137,7 @@
 
 .enjoyhint_btn-transparent
   background: transparent
-  color: var(--alternative-color)
+  color: var(--primary-button-color)
   &:hover
     color: white
   &:active
@@ -160,7 +160,7 @@
 .enjoyhint_btn
   &:hover
     color: rgba(255, 255, 255, 1)
-    background: var(--button--alt-highlight-background-hover-color)
+    background: var(--button--primary-background-hover-color)
   &:active
     border: 2px solid rgba(33, 224, 163, 1)
     background: rgba(33, 224, 163, 1)
@@ -229,4 +229,3 @@ div.kineticjs-content
 
 .enjoyhint-tutorial .-clickable
   pointer-events: none
-

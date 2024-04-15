@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 fr:
+  plugin_openproject_backlogs:
+    name: "Backlogs OpenProject"
+    description: "Ce module ajoute des fonctionnalités permettant aux équipes agiles de travailler avec OpenProject dans le cadre de projets Scrum."
   activerecord:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Heures restantes"
-        remaining_time: "Heures restantes"
         story_points: "Points d'histoire"
         backlogs_work_package_type: "Type de backlog"
     errors:
@@ -35,9 +36,6 @@ fr:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "ne peut contenir que des ID de lots de travaux du sprint actuel."
               must_block_at_least_one_work_package: "doit contenir l'ID d'au moins un ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "n'est pas valide parce que le lot de travaux «%{work_package_name}» est une tâche de backlog et par conséquent ne peut avoir un parent en dehors du projet actuel."
-              type_must_be_one_of_the_following: "Type doit être parmi : %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "doit être identique à la version de l'histoire parente."
         sprint:
@@ -66,8 +64,8 @@ fr:
     properties: "Propriétés"
     rebuild: "Reconstruire"
     rebuild_positions: "Reconstruire les positions"
-    remaining_hours: "Heures restantes"
-    remaining_hours_ideal: "Heures restantes (idéal)"
+    remaining_hours: "Travail restant"
+    remaining_hours_ideal: "Travail restant (idéal)"
     show_burndown_chart: "Graphique d'avancement"
     story: "Histoire"
     story_points: "Points d'histoire"
@@ -78,7 +76,6 @@ fr:
     x_more: "%{count} de plus..."
   backlogs_active: "actif"
   backlogs_any: "tout"
-  backlogs_card_specification: "Types d'étiquettes pour l'impression de cartes"
   backlogs_inactive: "Le projet ne montre aucune activité"
   backlogs_points_burn_direction: "Les points évoluent vers le haut/bas"
   backlogs_product_backlog: "Backlog de produit"
@@ -150,7 +147,7 @@ fr:
   rb_label_copy_tasks_none: "Aucune"
   rb_label_copy_tasks_open: "Ouvertes"
   rb_label_link_to_original: "Inclure le lien vers l'histoire originale"
-  remaining_hours: "heures restantes"
+  remaining_hours: "travail restant"
   required_burn_rate_hours: "rythme nécessaire (heures)"
   required_burn_rate_points: "rythme nécessaire (points)"
   todo_work_package_description: "%{summary} : %{url}\n%{description}"

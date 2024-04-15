@@ -1,4 +1,4 @@
-require 'fastimage'
+require "fastimage"
 
 module ::Avatars
   class UpdateService
@@ -15,7 +15,7 @@ module ::Avatars
         end
       end
 
-      unless avatar.original_filename =~ /\.(jpe?g|gif|png)\z/i
+      unless /\.(jpe?g|gif|png)\z/i.match?(avatar.original_filename)
         return error_result(I18n.t(:wrong_file_format))
       end
 

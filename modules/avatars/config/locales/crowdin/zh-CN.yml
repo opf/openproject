@@ -1,5 +1,9 @@
 #English strings go here
 zh-CN:
+  plugin_openproject_avatars:
+    name: "Avatar头像"
+    description: >-
+      该插件允许 OpenProject 用户上传图片作为头像，并使用 Gravatar 中注册的图像。
   label_avatar: "头像"
   label_avatar_plural: "头像"
   label_current_avatar: "当前头像"
@@ -35,6 +39,3 @@ zh-CN:
       enable_gravatars: '启用用户 Gravatar'
       gravatar_default: "默认的 Gravatar 图像"
       enable_local_avatars: '启用用户自定义头像'
-
-
-

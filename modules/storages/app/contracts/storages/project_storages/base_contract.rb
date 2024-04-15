@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 # A "contract" is an OpenProject pattern used to validate parameters
 # before actually creating, updating, or deleting a model.
-# Used by: projects_storages_controller.rb and in the API
+# Used by: project_storages_controller.rb and in the API
 module Storages::ProjectStorages
   class BaseContract < ::ModelContract
     # "Concern" just injects a permission checking routine.
@@ -37,14 +37,35 @@ module Storages::ProjectStorages
     # Include validation library
     include ActiveModel::Validations
 
-    # Attributes project and storage can be written
     attribute :project
     validates_presence_of :project
     attribute :storage
     validates_presence_of :storage
+    attribute :project_folder_mode
+    validates :project_folder_mode, presence: true, inclusion: { in: Storages::ProjectStorage.project_folder_modes.keys }
+    attribute :project_folder_id
+    validates :project_folder_id, presence: true, if: :project_folder_mode_manual?
 
-    def assignable_storages
-      Storages::Storage.visible(user).where.not(id: @model.project.projects_storages.pluck(:storage_id))
+    attribute :project_folder_mode do
+      if Storages::ProjectStorage.project_folder_modes.keys.exclude?(@model.project_folder_mode)
+        errors.add :project_folder_mode, :invalid
+      end
+    end
+
+    validate :project_folder_automatic_mode, unless: -> { errors.include?(:project_folder_mode) }
+
+    private
+
+    def project_folder_mode_manual?
+      @model.project_folder_manual?
+    end
+
+    def project_folder_automatic_mode
+      return unless @model.project_folder_automatic?
+
+      unless @model.automatic_management_possible?
+        errors.add :project_folder_mode, :mode_unavailable
+      end
     end
   end
 end

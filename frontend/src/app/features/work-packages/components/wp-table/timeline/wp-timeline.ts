@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import * as moment from 'moment';
-import { InputState, MultiInputState } from 'reactivestates';
+import { InputState, MultiInputState } from '@openproject/reactivestates';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
@@ -44,6 +44,7 @@ export const timelineHeaderSelector = 'wp-timeline-header';
  */
 export class TimelineViewParametersSettings {
   zoomLevel:TimelineZoomLevel = 'days';
+  visibleBeforeTodayInZoomLevel:number = 2;
 }
 
 // Can't properly map the enum to a string array

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,10 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 sl:
+  plugin_costs:
+    name: "Čas in stroški"
+    description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Zahtevek"
+        work_package: "Delovni paket"
         overridden_costs: "Povoženi stroški "
         spent: "Porabljeno"
         spent_on: "Datum"
@@ -51,7 +54,7 @@ sl:
     errors:
       models:
         work_package:
-          is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
+          is_not_a_valid_target_for_cost_entries: "Delovni paket #% {id} ni veljaven cilj za prerazporeditev vnosov stroškov."
           nullify_is_not_valid_for_cost_entries: "Vnosa stroškov ni mogoče dodeliti projektu."
   attributes:
     comment: "Komentar"
@@ -82,7 +85,7 @@ sl:
   label_costlog: "Stroški enote dnevnika"
   label_cost_plural: "Stroški"
   label_cost_type_plural: "Vrsta stroška"
-  label_cost_type_specific: "Vrsta stroška #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Vrsta stroška #%{id}: %{name}"
   label_costs_per_page: "Strošek na stran"
   label_currency: "Valuta"
   label_currency_format: "Oblika valute"

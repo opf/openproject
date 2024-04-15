@@ -1,0 +1,21 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('48d31887-5fad-4d73-a9f5-3c356e68a038')/drive/root/$entity",
+  "createdDateTime": "2017-07-27T02:41:36Z",
+  "id": "01BYE5RZ56Y2GOVW7725BZO354PWSELRRZ",
+  "lastModifiedDateTime": "2023-09-15T04:55:34Z",
+  "name": "root",
+  "webUrl": "https://m365x214355-my.sharepoint.com/personal/meganb_m365x214355_onmicrosoft_com/Documents",
+  "size": 106329756,
+  "parentReference": {
+    "driveType": "business",
+    "driveId": "b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd"
+  },
+  "fileSystemInfo": {
+    "createdDateTime": "2017-07-27T02:41:36Z",
+    "lastModifiedDateTime": "2023-09-15T04:55:34Z"
+  },
+  "folder": {
+    "childCount": 38
+  },
+  "root": {}
+}

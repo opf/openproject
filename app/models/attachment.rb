@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,18 @@
 require 'digest/md5'
 
 class Attachment < ApplicationRecord
+  enum status: {
+    uploaded: 0,
+    prepared: 1,
+    scanned: 2,
+    quarantined: 3,
+    rescan: 4
+  }.freeze, _prefix: true
+
   belongs_to :container, polymorphic: true
   belongs_to :author, class_name: 'User'
 
-  validates :author, :content_type, :filesize, presence: true
+  validates :author, :content_type, :filesize, :status, presence: true
   validates :description, length: { maximum: 255 }
 
   validate :filesize_below_allowed_maximum,
@@ -62,10 +70,10 @@ class Attachment < ApplicationRecord
 
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
-  after_commit :extract_fulltext, on: :create
+  after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? }
 
-  scope :pending_direct_upload, -> { where(digest: "", downloads: -1) }
-  scope :not_pending_direct_upload, -> { where.not(digest: "", downloads: -1) }
+  scope :pending_direct_upload, -> { status_prepared }
+  scope :not_pending_direct_upload, -> { not_status_prepared }
 
   ##
   # Returns an URL if the attachment is stored in an external (fog) attachment storage
@@ -122,7 +130,11 @@ class Attachment < ApplicationRecord
   end
 
   def prepared?
-    downloads == -1
+    status_prepared?
+  end
+
+  def pending_virus_scan?
+    status_uploaded? && Setting::VirusScanning.enabled?
   end
 
   # images are sent inline
@@ -235,10 +247,18 @@ class Attachment < ApplicationRecord
     attachment.save!
   end
 
-  def extract_fulltext
-    return unless OpenProject::Database.allows_tsv? && (!container || container.class.attachment_tsv_extracted?)
+  def enqueue_jobs
+    extract_fulltext
 
-    ExtractFulltextJob.perform_later(id)
+    if pending_virus_scan?
+      Attachments::VirusScanJob.perform_later(self)
+    end
+  end
+
+  def extract_fulltext
+    if OpenProject::Database.allows_tsv? && (!container || container.class.attachment_tsv_extracted?)
+      Attachments::ExtractFulltextJob.perform_later(id)
+    end
   end
 
   # Extract the fulltext of any attachments where fulltext is still nil.
@@ -252,9 +272,9 @@ class Attachment < ApplicationRecord
       .pluck(:id)
       .each do |id|
       if run_now
-        ExtractFulltextJob.perform_now(id)
+        Attachments::ExtractFulltextJob.perform_now(id)
       else
-        ExtractFulltextJob.perform_later(id)
+        Attachments::ExtractFulltextJob.perform_later(id)
       end
     end
   end
@@ -263,7 +283,7 @@ class Attachment < ApplicationRecord
     return unless OpenProject::Database.allows_tsv?
 
     Attachment.pluck(:id).each do |id|
-      ExtractFulltextJob.perform_now(id)
+      Attachments::ExtractFulltextJob.perform_now(id)
     end
   end
 
@@ -299,16 +319,16 @@ class Attachment < ApplicationRecord
     digest == "" && downloads == -1
   end
 
+  def internal_container?
+    container&.is_a?(Export)
+  end
+
   private
 
   def filesize_below_allowed_maximum
     if filesize.to_i > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
     end
-  end
-
-  def internal_container?
-    container&.is_a?(Export)
   end
 
   def container_changed_more_than_once

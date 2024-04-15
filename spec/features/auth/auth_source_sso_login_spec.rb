@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Login with auth source SSO', type: :feature do
+RSpec.describe "Login with auth source SSO" do
   before do
     if sso_config
       allow(OpenProject::Configuration)
@@ -44,15 +44,15 @@ describe 'Login with auth source SSO', type: :feature do
     }
   end
 
-  let(:user_password) { 'bob' * 4 }
+  let(:user_password) { "bob" * 4 }
   let(:user) do
     create(:user,
-           login: 'bob',
+           login: "bob",
            password: user_password,
            password_confirmation: user_password)
   end
 
-  it 'can still login' do
+  it "can still login" do
     login_with(user.login, user_password)
 
     # on the my page
@@ -60,6 +60,6 @@ describe 'Login with auth source SSO', type: :feature do
       .to have_current_path my_page_path
 
     expect(page)
-      .to have_selector("a[title='#{user.name}']")
+      .to have_css("a[title='#{user.name}']")
   end
 end

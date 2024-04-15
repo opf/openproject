@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   end
 
   def available?
-    EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+    OpenProject::Database.allows_tsv?
   end
 
   protected
@@ -44,7 +44,7 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
       SELECT 1 FROM #{attachment_table}
       WHERE #{attachment_table}.container_id = #{WorkPackage.table_name}.id
       AND #{attachment_table}.container_type = '#{WorkPackage.name}'
-      AND #{tsv_condition}
+      #{tsv_condition}
     SQL
   end
 
@@ -53,10 +53,16 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   end
 
   def tsv_condition
-    OpenProject::FullTextSearch.tsv_where(attachment_table,
-                                          search_column,
-                                          values.first,
-                                          normalization: normalization_type)
+    condition = OpenProject::FullTextSearch.tsv_where(attachment_table,
+                                                      search_column,
+                                                      values.first,
+                                                      normalization: normalization_type)
+
+    if condition
+      "AND #{condition}"
+    else
+      ""
+    end
   end
 
   def search_column

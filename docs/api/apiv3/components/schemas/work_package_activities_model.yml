@@ -24,8 +24,8 @@ example:
         format: markdown
         raw: Lorem ipsum dolor sit amet.
         html: "<p>Lorem ipsum dolor sit amet.</p>"
-      createdAt: '2014-05-21T08:51:20Z'
-      updatedAt: '2014-05-21T09:14:02Z'
+      createdAt: '2014-05-21T08:51:20.396Z'
+      updatedAt: '2014-05-21T09:14:02.324Z'
       version: 1
     - _type: Activity
       _links:
@@ -41,6 +41,6 @@ example:
         format: markdown
         raw: Lorem ipsum dolor sit amet.
         html: "<p>Lorem ipsum dolor sit amet.</p>"
-      createdAt: '2014-05-21T09:51:22Z'
-      updatedAt: '2014-05-21T10:14:02Z'
+      createdAt: '2014-05-21T09:51:22.769Z'
+      updatedAt: '2014-05-21T10:14:02.927Z'
       version: 2

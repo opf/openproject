@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -99,12 +99,12 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
     {
       component: BcfImportButtonComponent,
       show: ():boolean => this.ifcData.allowed('manage_bcf'),
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: BcfExportButtonComponent,
       show: ():boolean => this.ifcData.allowed('manage_bcf'),
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: WorkPackageFilterButtonComponent,
@@ -112,11 +112,11 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
     },
     {
       component: BcfViewToggleButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: BimManageIfcModelsButtonComponent,
@@ -126,7 +126,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
     },
     {
       component: WorkPackageSettingsButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
       show: ():boolean => this.authorisationService.can('query', 'updateImmediately'),
       inputs: {
         hideTableOptions: true,

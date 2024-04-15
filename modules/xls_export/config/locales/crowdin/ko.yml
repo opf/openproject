@@ -1,4 +1,7 @@
 ko:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS 내보내기"
+    description: "이슈 목록을 Excel 스프레드시트(.xls)로 내보냅니다."
   export_to_excel: "XLS 내보내기"
   print_with_description: "설명이 포함된 미리 보기 인쇄"
   sentence_separator_or: "또는"

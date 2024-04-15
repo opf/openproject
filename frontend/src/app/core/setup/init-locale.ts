@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,18 +27,30 @@
 //++
 
 import * as moment from 'moment';
+import * as i18njs from 'i18n-js';
 
 export function initializeLocale() {
-  const meta = document.querySelector('meta[name=openproject_initializer]') as HTMLMetaElement;
-  const locale = meta.dataset.locale || 'en';
-  const firstDayOfWeek = parseInt(meta.dataset.firstdayofweek || '', 10); // properties of meta.dataset are exposed in lowercase
-  const firstWeekOfYear = parseInt(meta.dataset.firstweekofyear || '', 10); // properties of meta.dataset are exposed in lowercase
+  const meta = document.querySelector<HTMLMetaElement>('meta[name=openproject_initializer]');
+  const userLocale = meta?.dataset.locale || 'en';
+  const defaultLocale = meta?.dataset.defaultlocale || 'en';
+  const instanceLocale = meta?.dataset.instancelocale || 'en';
+  const firstDayOfWeek = parseInt(meta?.dataset.firstdayofweek || '', 10); // properties of meta.dataset are exposed in lowercase
+  const firstWeekOfYear = parseInt(meta?.dataset.firstweekofyear || '', 10); // properties of meta.dataset are exposed in lowercase
 
-  I18n.locale = locale;
+  window.I18n = new i18njs.I18n();
+  I18n.locale = userLocale;
+  I18n.defaultLocale = defaultLocale;
+
+  moment.locale(userLocale);
+
+  // Remove Postformatting numbers in dates, this will ensure we are always using
+  // Arabic numbers in dates and durations, regardless of the chosen locale.
+  // Using moment.locale() ensures locale like "zh-CN" falls back to "zh-cn"
+  moment.updateLocale(moment.locale(), { postformat: (string:string) => string });
 
   if (!Number.isNaN(firstDayOfWeek) && !Number.isNaN(firstWeekOfYear)) {
-    I18n.firstDayOfWeek = firstDayOfWeek;
-    moment.updateLocale(locale, {
+    // ensure locale like "zh-CN" falls back to "zh-cn"
+    moment.updateLocale(moment.locale(), {
       week: {
         dow: firstDayOfWeek,
         doy: 7 + firstDayOfWeek - firstWeekOfYear,
@@ -49,16 +61,29 @@ export function initializeLocale() {
   // Override the default pluralization function to allow
   // "other" to be used as a fallback for "one" in languages where one is not set
   // (japanese, for example)
-  I18n.pluralization.default = function (count:number) {
-    switch (count) {
-      case 0:
-        return ['zero', 'other'];
-      case 1:
-        return ['one', 'other'];
-      default:
-        return ['other'];
-    }
-  };
+  I18n.pluralization.register(
+    'default',
+    (_i18n:i18njs.I18n, count:number) => {
+      switch (count) {
+        case 0:
+          return ['zero', 'other'];
+        case 1:
+          return ['one', 'other'];
+        default:
+          return ['other'];
+      }
+    },
+  );
 
-  return import(/* webpackChunkName: "locale" */ `../../../locales/${I18n.locale}.js`);
+  const localeImports = _
+    .chain([userLocale, instanceLocale])
+    .uniq()
+    .map(
+      (locale) => import(/* webpackChunkName: "locale" */ `../../../locales/${locale}.json`)
+        .then((imported:{ default:object }) => {
+          I18n.store(imported.default);
+        }),
+      )
+    .value();
+  return Promise.all(localeImports);
 }

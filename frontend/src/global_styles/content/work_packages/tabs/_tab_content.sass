@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -48,13 +48,11 @@
     z-index: 1
 
     &-text
-      line-height: $spot-spacing-1_5
-      font-weight: 700
+      @include spot-subheader-extra-small()
       text-transform: uppercase
 
     &-icon
       margin-right: $spot-spacing-0_5
 
-    &-action:not(:first-child)
-      @include spot-caption()
+    &-action
       margin-left: $spot-spacing-0_25

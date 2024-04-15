@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,10 @@ module Members::Concerns::NotificationSender
     end
 
     def send_notifications?
-      params.fetch(:send_notifications, true)
+      # Because this class is mixed in in a service using around_call hook, it
+      # can not rely on Service#perform method setting the send_notifications
+      # configuration. It would be nice to unify both.
+      params.fetch(:send_notifications, Journal::NotificationConfiguration.active?)
     end
 
     def event_type

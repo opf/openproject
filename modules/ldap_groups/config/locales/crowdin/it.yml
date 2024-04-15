@@ -1,13 +1,16 @@
 it:
+  plugin_openproject_ldap_groups:
+    name: "Gruppi OpenProject LDAP"
+    description: "Sincronizzazione dei membri del gruppo LDAP."
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'Connessione LDAP'
+        ldap_auth_source: 'Connessione LDAP'
         sync_users: 'Sincronizza utenti'
       ldap_groups/synchronized_filter:
         filter_string: 'Filtro LDAP'
-        auth_source: 'Connessione LDAP'
+        ldap_auth_source: 'Connessione LDAP'
         group_name_attribute: "Attributo nome gruppo"
         sync_users: 'Sincronizza utenti'
         base_dn: "Ricerca DN base"
@@ -68,4 +71,3 @@ it:
         group_text: 'Seleziona un gruppo OpenProject esistente con cui i membri del gruppo LDAP saranno sincronizzati'
       upsale:
         description: 'Sfrutta i gruppi LDAP sincronizzati per gestire gli utenti, modificare le loro autorizzazioni e semplificare la gestione degli utenti tra i gruppi.'
-

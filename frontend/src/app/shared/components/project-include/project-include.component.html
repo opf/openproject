@@ -1,9 +1,7 @@
 <spot-drop-modal
-  [open]="opened"
-  alignment="bottom-right"
+  [opened]="opened"
   (closed)="opened = false"
   class="op-project-list-modal"
-  data-searchable-list-parent="true"
 >
   <button
     slot="trigger"
@@ -11,7 +9,7 @@
     class="button"
     (click)="toggleOpen()"
     [title]="text.toggle_title"
-    data-qa-selector="project-include-button"
+    data-test-selector="project-include-button"
   >
     {{ text.toggle_title }}
     <span
@@ -20,6 +18,7 @@
       [textContent]="count"
     >
     </span>
+    <span class="spot-icon spot-icon_dropdown"></span>
   </button>
 
   <ng-container slot="body">
@@ -33,6 +32,7 @@
     <form
       (submit)="onSubmit($event)"
       class="spot-container op-project-list-modal--body"
+      data-searchable-list-parent="true"
       *ngIf="projects$ | async as projects"
     >
       <spot-text-field
@@ -40,7 +40,7 @@
         name="project-include-search"
         [(ngModel)]="searchableProjectListService.searchText"
         [ngModelOptions]="{standalone: true}"
-        data-qa-selector="project-include-search"
+        data-test-selector="project-include-search"
         data-list-focus-catcher-container="true"
         data-modal-focus-catcher-container="true"
         (keydown)="searchableProjectListService.onKeydown($event, projects)"
@@ -65,7 +65,7 @@
           [searchText]="searchableProjectListService.searchText"
           [root]="true"
           (update)="selectedProjects = $event"
-          data-qa-selector="project-include-list"
+          data-test-selector="project-include-list"
           data-list-root="true"
         ></ul>
 
@@ -98,7 +98,7 @@
           </button>
           <button
             [disabled]="(loading$ | async)"
-            class="button -highlight spot-action-bar--action"
+            class="button -primary spot-action-bar--action"
           >
             {{ text.apply }}
           </button>
@@ -110,7 +110,7 @@
   <ng-template #loadingTemplate>
     <op-loading-project-list
       class="op-project-list-modal--loading"
-      data-qa-selector="op-project-include--loading"
+      data-test-selector="op-project-include--loading"
     ></op-loading-project-list>
   </ng-template>
 </spot-drop-modal>

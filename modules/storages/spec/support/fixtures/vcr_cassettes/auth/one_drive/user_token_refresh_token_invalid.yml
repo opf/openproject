@@ -1,0 +1,109 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/me
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - application/json
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - bd58ebc4-22ab-4c8e-83db-4e768e3e027b
+      Client-Request-Id:
+      - bd58ebc4-22ab-4c8e-83db-4e768e3e027b
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"004","RoleInstance":"FR2PEPF0000038F"}}'
+      Www-Authenticate:
+      - Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize",
+        client_id="00000003-0000-0000-c000-000000000000"
+      Date:
+      - Fri, 08 Mar 2024 10:19:25 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"InvalidAuthenticationToken","message":"Lifetime validation
+        failed, the token is expired.","innerError":{"date":"2024-03-08T10:19:25","request-id":"bd58ebc4-22ab-4c8e-83db-4e768e3e027b","client-request-id":"bd58ebc4-22ab-4c8e-83db-4e768e3e027b"}}}'
+  recorded_at: Fri, 08 Mar 2024 10:19:25 GMT
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: ASCII-8BIT
+      string: grant_type=refresh_token&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default&client_id=4262df2b-77bb-49c2-a5df-28355da676d2&client_secret=Vwk8Q%7EJTuPh.pAjvPiWBQBdTFMDK%7EAIwxbj9_axB&refresh_token=0.Aa8AvB1v4679fkK2Gw2W3fuBpFS7pbiyXw5OlCedJNusMv-sAG8.AgABAAEAAADnfolhJpSnRYB1SVj-Hgd8AgDs_wUA9P8Z061joKlEcPUtDzyw_gVnTjiopiJDS5ytd7dL84d96fn-6ZLCxNaGgq--SyccONngEfxC4dPXkrI91EryFG6Gc5M3Ols5wM2DCRSDrPHhik0q7Jyg2COnCW7CkRGpFw73snV_HcUj_16JgSABTdK4bZkodfS9fb58jpydgORme7boXgT0m5g3_XPp7WSr3Ux8AwM4NCJD9NWuJeVMuDuRLwF1Ro_yC3QDfBvKbJ72PpEmII_1m2FqRoDHJguXkEyXQrjBjVo6oosKRgZk_F04OFvCZsZAqnRDEcJ4Ut_wKODky_tvEVrKHvM48XLI5lKblCLBqd1alnfPIG_jUs4K_HnpJWIhYPwTuGM3ZVWsLSRhsvvRgYwiph_HDysTUlEJvtVR51L3AT4WXnuQ6vgUxFKOj0nrxJKP6cL7g9-d7Z9pc5Avc79fwOE_eCqcdAQFmhfhRafxfTi-lQpBJ3AV0KO-9WmdshPlxvbVsNr1widcQEKA8Jp16wOdqxOiWGQvZdFXn1xLksKGSvAwxZ96xMitU-Wy4hobpSO2emf1Z_0Snz43kBRM6pOBQmO12mQH3FsYeK7QyRIyoLd6qbn63_SjBGoujZExMlFl2oApUVhqo1GU2eMtpn7U9YWCikztHrJQKicYPqHBb60e1i1h69XieYrbzlgd6FHzsyHNHYsek9eZntuXRU6vA7-xkJC9wlBPaUYpZQG0LSFZkhpu19okyEmXjIG6iU7kd4-rTTrMGAv8ld17OuqMCkA188PxNHp4fe3FK0Pq12Oyu_y3PPpG1RvkkntaVQJPn-CB_hRzAlCc1iCbbiEt
+    headers:
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Content-Length:
+      - '1118'
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - 5caa14c3-739a-485e-8435-5953a8871b01
+      X-Ms-Ests-Server:
+      - 2.1.17396.8 - NEULR1 ProdSlices
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=Au5UpfkLa3xArxbExNnpxbwf1m9OAQAAAC7dfN0OAAAA; expires=Sun, 07-Apr-2024
+        10:19:26 GMT; path=/; secure; HttpOnly; SameSite=None, x-ms-gateway-slice=estsfd;
+        path=/; secure; samesite=none; httponly, stsservicecookie=estsfd; path=/;
+        secure; samesite=none; httponly
+      Date:
+      - Fri, 08 Mar 2024 10:19:25 GMT
+      Content-Length:
+      - '750'
+    body:
+      encoding: UTF-8
+      string: '{"error":"unauthorized_client","error_description":"AADSTS700016: Application
+        with identifier ''b8a5bb54-5fb2-4e0e-9427-9d24dbac32ff'' was not found in
+        the directory ''OpenProject GmbH''. This can happen if the application has
+        not been installed by the administrator of the tenant or consented to by any
+        user in the tenant. You may have sent your authentication request to the wrong
+        tenant. Trace ID: 5caa14c3-739a-485e-8435-5953a8871b01 Correlation ID: c1b246e2-1f45-4bcc-bd5e-c49dee897791
+        Timestamp: 2024-03-08 10:19:26Z","error_codes":[700016],"timestamp":"2024-03-08
+        10:19:26Z","trace_id":"5caa14c3-739a-485e-8435-5953a8871b01","correlation_id":"c1b246e2-1f45-4bcc-bd5e-c49dee897791","error_uri":"https://login.microsoftonline.com/error?code=700016"}'
+  recorded_at: Fri, 08 Mar 2024 10:19:26 GMT
+recorded_with: VCR 6.2.0

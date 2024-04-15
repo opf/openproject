@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-shared_examples 'BaseServices delete service' do
+RSpec.shared_examples "BaseServices delete service" do
   subject(:service_call) { instance.call(call_attributes) }
 
   let(:service_class) { described_class }
@@ -66,48 +66,48 @@ shared_examples 'BaseServices delete service' do
     allow(model_instance).to receive(:destroy).and_return(model_destroy_result)
   end
 
-  describe '#contract' do
-    it 'uses the DestroyContract contract' do
+  describe "#contract" do
+    it "uses the DestroyContract contract" do
       expect(instance.contract_class).to eql contract_class
     end
   end
 
-  describe '#call' do
-    context 'when contract validates and the model is destroyed successfully' do
-      it 'is successful' do
+  describe "#call" do
+    context "when contract validates and the model is destroyed successfully" do
+      it "is successful" do
         expect(subject).to be_success
       end
 
-      it 'returns the destroyed model as a result' do
+      it "returns the destroyed model as a result" do
         result = subject.result
         expect(result).to eql model_instance
       end
     end
 
-    context 'when contract does not validate' do
+    context "when contract does not validate" do
       let(:contract_validate_result) { false }
 
-      it 'is unsuccessful' do
+      it "is unsuccessful" do
         expect(subject).to be_failure
       end
 
-      it 'returns the contract errors' do
+      it "returns the contract errors" do
         expect(subject.errors)
           .to eql contract_errors
       end
     end
 
-    context 'when model cannot be destroyed' do
+    context "when model cannot be destroyed" do
       let(:model_destroy_result) { false }
       let(:model_errors) { ActiveModel::Errors.new(model_instance) }
 
-      it 'is unsuccessful' do
+      it "is unsuccessful" do
         expect(subject)
           .to be_failure
       end
 
       it "returns the user's errors" do
-        model_errors.add :base, 'This is some error.'
+        model_errors.add :base, "This is some error."
 
         allow(model_instance)
           .to(receive(:errors))

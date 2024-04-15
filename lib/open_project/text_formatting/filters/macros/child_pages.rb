@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 module OpenProject::TextFormatting::Filters::Macros
   module ChildPages
-    HTML_CLASS = 'child_pages'.freeze
+    HTML_CLASS = "child_pages".freeze
 
     module_function
 
@@ -48,7 +48,7 @@ module OpenProject::TextFormatting::Filters::Macros
     end
 
     def is?(macro)
-      macro['class'].include?(HTML_CLASS)
+      macro["class"].include?(HTML_CLASS)
     end
 
     def render_tree(include_parent, page)

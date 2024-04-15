@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe "PATCH /api/v3/queries/:id", type: :request do
-  let(:user) { create :admin }
+RSpec.describe "PATCH /api/v3/queries/:id",
+               with_ee: %i[baseline_comparison] do
+  shared_let(:user) { create(:admin) }
+  shared_let(:status) { create(:status) }
+  shared_let(:project) { create(:project) }
+  let(:timestamps) { [1.week.ago.iso8601, "lastWorkingDay@12:00+00:00", "P0D"] }
+
   let!(:query) do
     create(
       :global_query,
@@ -45,6 +50,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       name: "Dummy Query",
       public: true,
       showHierarchies: false,
+      timestamps:,
       filters: [
         {
           name: "Status",
@@ -98,8 +104,6 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       }
     }
   end
-  let(:status) { create :status }
-  let(:project) { create :project }
 
   def json
     JSON.parse last_response.body
@@ -116,18 +120,16 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       patch "/api/v3/queries/#{query.id}", params.to_json
     end
 
-    it 'returns 200 (ok)' do
+    it "returns 200 (ok)" do
       expect(last_response.status).to eq(200)
     end
 
-    it 'renders the updated query' do
-      json = JSON.parse(last_response.body)
-
+    it "renders the updated query" do
       expect(json["_type"]).to eq "Query"
       expect(json["name"]).to eq "Dummy Query"
     end
 
-    it 'updates the query correctly' do
+    it "updates the query correctly" do
       query = Query.first
 
       expect(query.group_by_column.name).to eq :assigned_to
@@ -137,6 +139,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       expect(query.public).to be true
       expect(query.display_sums).to be false
 
+      expect(query.timestamps).to eq(timestamps.map { |t| Timestamp.new(t) })
       expect(query.filters.size).to eq 1
       filter = query.filters.first
 
@@ -149,10 +152,27 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       let(:params) { {} }
 
       it "does not change anything" do
-        json = JSON.parse(last_response.body)
-
         expect(json["_type"]).to eq "Query"
         expect(json["name"]).to eq "A Query"
+      end
+    end
+
+    context "without EE", with_ee: false do
+      it "yields a 422 error given a timestamp older than 1 day" do
+        expect(last_response.status).to eq 422
+        expect(json["message"]).to eq "Timestamps contain forbidden values: #{timestamps.first}"
+      end
+
+      context "when timestamps are within 1 day" do
+        let(:timestamps) { ["oneDayAgo@12:00+00:00"] }
+
+        it "returns 200 (ok)" do
+          expect(last_response.status).to eq(200)
+        end
+
+        it "updates the query timestamps" do
+          expect(Query.first.timestamps).to eq(timestamps.map { |t| Timestamp.new(t) })
+        end
       end
     end
   end

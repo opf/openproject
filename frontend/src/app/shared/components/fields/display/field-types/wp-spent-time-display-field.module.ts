@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,7 @@ import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { EstimatedTimeDisplayField } from 'core-app/shared/components/fields/display/field-types/estimated-time-display-field.module';
+import * as moment from 'moment-timezone';
 
 export class WorkPackageSpentTimeDisplayField extends EstimatedTimeDisplayField {
   public text = {
@@ -62,16 +63,16 @@ export class WorkPackageSpentTimeDisplayField extends EstimatedTimeDisplayField 
       link.setAttribute('class', 'time-logging--value');
     }
 
-    if (this.resource.project) {
+    if (this.resource.project && this.resource.id) {
       const wpID = this.resource.id.toString();
       this
         .apiV3Service
         .projects
-        .id(this.resource.project)
+        .id(this.resource.project as ProjectResource)
         .get()
         .subscribe((project:ProjectResource) => {
           // Link to the cost report having the work package filter preselected. No grouping.
-          const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
+          const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier as string))
             .search(`fields[]=WorkPackageId&operators[WorkPackageId]=%3D&values[WorkPackageId]=${wpID}&set_filter=1`)
             .toString();
 

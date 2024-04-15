@@ -1,13 +1,16 @@
 hu:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP groups"
+    description: "Synchronization of LDAP group memberships."
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP csatlakozás'
+        ldap_auth_source: 'LDAP csatlakozás'
         sync_users: 'Felhasználók szinkronizálása'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP szűrő'
-        auth_source: 'LDAP csatlakozás'
+        ldap_auth_source: 'LDAP csatlakozás'
         group_name_attribute: "Csoport név attribútum"
         sync_users: 'Felhasználók szinkronizálása'
         base_dn: "Keresési alap DN"
@@ -68,4 +71,3 @@ hu:
         group_text: 'Válasszon egy meglévő OpenProject csoportot, amellyel az LDAP csoport tagjait szinkronizálni kell'
       upsale:
         description: 'Használja ki a szinkronizált LDAP-csoportok előnyeit a felhasználók kezeléséhez, az engedélyeik módosításához és a csoportok közötti felhasználói kezelés megkönnyítéséhez.'
-

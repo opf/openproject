@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,19 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + "/../../spec_helper"
 
-describe OpenProject::AccessControl do
-  describe 'manage documents permission' do
-    it 'is part of the documents project module' do
+RSpec.describe OpenProject::AccessControl do
+  describe "manage documents permission" do
+    it "is part of the documents project module" do
       permission = OpenProject::AccessControl.permission(:manage_documents)
 
       expect(permission.project_module).to be(:documents)
     end
   end
 
-  describe 'view documents permission' do
-    it 'is part of the documents project module' do
+  describe "view documents permission" do
+    it "is part of the documents project module" do
       permission = OpenProject::AccessControl.permission(:view_documents)
 
       expect(permission.project_module).to be(:documents)

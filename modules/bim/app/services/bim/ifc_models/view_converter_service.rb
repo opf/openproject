@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2023 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2024 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,8 +24,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#+
-require 'open3'
+# +
+require "open3"
 
 module Bim
   module IfcModels
@@ -47,7 +47,7 @@ module Bim
 
       def self.available_commands
         @available_commands ||= PIPELINE_COMMANDS.select do |command|
-          _, status = Open3.capture2e('which', command)
+          _, status = Open3.capture2e("which", command)
           status.exitstatus.zero?
         end
       end
@@ -125,23 +125,23 @@ module Bim
       def convert_to_collada(ifc_filepath)
         Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE" }
 
-        convert!(ifc_filepath, 'dae') do |target_file|
+        convert!(ifc_filepath, "dae") do |target_file|
           # To include IfcSpace entities, which by default are excluded by
           # IfcConvert, together with IfcOpeningElement, we need to over-
           # write the default exclude parameter to only exclude
           # IfcOpeningElements.
           # https://github.com/IfcOpenShell/IfcOpenShell/wiki#ifconvert
-          Open3.capture2e('IfcConvert',
-                          '--use-element-guids',
-                          '--no-progress',
-                          '--verbose',
-                          '--threads',
-                          '4',
+          Open3.capture2e("IfcConvert",
+                          "--use-element-guids",
+                          "--no-progress",
+                          "--verbose",
+                          "--threads",
+                          "4",
                           ifc_filepath,
                           target_file,
-                          '--exclude',
-                          'entities',
-                          'IfcOpeningElement')
+                          "--exclude",
+                          "entities",
+                          "IfcOpeningElement")
         end
       end
 
@@ -152,8 +152,8 @@ module Bim
       def convert_to_gltf(dae_filepath)
         Rails.logger.debug { "Converting #{ifc_model.inspect} to GLTF" }
 
-        convert!(dae_filepath, 'gltf') do |target_file|
-          Open3.capture2e('COLLADA2GLTF', '--materialsCommon', '-i', dae_filepath, '-o', target_file)
+        convert!(dae_filepath, "gltf") do |target_file|
+          Open3.capture2e("COLLADA2GLTF", "--materialsCommon", "-i", dae_filepath, "-o", target_file)
         end
       end
 
@@ -166,8 +166,8 @@ module Bim
 
         metadata_file = convert_metadata(link_to_ifc_file)
 
-        convert!(gltf_filepath, 'xkt') do |target_file|
-          Open3.capture2e('gltf2xkt', '-s', gltf_filepath, '-m', metadata_file, '-o', target_file)
+        convert!(gltf_filepath, "xkt") do |target_file|
+          Open3.capture2e("gltf2xkt", "-s", gltf_filepath, "-m", metadata_file, "-o", target_file)
         end
       end
 
@@ -178,8 +178,8 @@ module Bim
       def convert_metadata(ifc_filepath)
         Rails.logger.debug { "Retrieving metadata of #{ifc_model.inspect}" }
 
-        convert!(ifc_filepath, 'json') do |target_file|
-          Open3.capture2e('xeokit-metadata', ifc_filepath, target_file)
+        convert!(ifc_filepath, "json") do |target_file|
+          Open3.capture2e("xeokit-metadata", ifc_filepath, target_file)
         end
       end
 
@@ -188,7 +188,7 @@ module Bim
       def convert!(source_file, ext)
         raise ArgumentError, "missing working directory" unless working_directory.present?
 
-        filename = File.basename(source_file, '.*')
+        filename = File.basename(source_file, ".*")
         target_filename = "#{filename}.#{ext}"
         target_file = File.join(working_directory, target_filename)
 
@@ -204,7 +204,7 @@ module Bim
       def validate!
         unless self.class.available?
           missing = PIPELINE_COMMANDS - self.class.available_commands
-          raise I18n.t('ifc_models.conversion.missing_commands', names: missing.join(", "))
+          raise I18n.t("ifc_models.conversion.missing_commands", names: missing.join(", "))
         end
 
         true

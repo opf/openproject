@@ -1,5 +1,9 @@
 #English strings go here
 fi:
+  plugin_openproject_avatars:
+    name: "Kuvat"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Kuva"
   label_avatar_plural: "Kuvat"
   label_current_avatar: "Nykyinen kuva"
@@ -33,6 +37,3 @@ fi:
       enable_gravatars: 'Salli käyttäjien gravatar kuvat'
       gravatar_default: "Oletus Gravatar käyttäjäikoni"
       enable_local_avatars: 'Salli käyttäjien omat kuvat'
-
-
-

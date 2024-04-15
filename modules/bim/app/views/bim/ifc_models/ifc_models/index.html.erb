@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title(t('ifc_models.label_ifc_models')) -%>
 
 <%= toolbar title: t('ifc_models.label_ifc_models') do %>
-  <% if User.current.allowed_to?(:manage_ifc_models, @project) %>
+  <% if User.current.allowed_in_project?(:manage_ifc_models, @project) %>
     <li class="toolbar-item">
       <%= link_to new_bcf_project_ifc_model_path,
-                  { class: 'button -alt-highlight',
+                  { class: 'button -primary',
                     aria: { label: t(:'ifc_models.label_new_ifc_model') },
                     title: t(:'ifc_models.label_new_ifc_model') } do %>
         <%= op_icon('button--icon icon-add') %>
@@ -57,4 +57,4 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: 'no_default_notice', locals: { project: @project } %>
 <% end %>
 
-<%= rails_cell ::Bim::IfcModels::TableCell, @ifc_models %>
+<%= render ::Bim::IfcModels::TableComponent.new(rows: @ifc_models) %>

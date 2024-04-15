@@ -1,0 +1,17 @@
+#English strings go here
+zh-CN:
+  plugin_openproject_team_planner:
+    name: "OpenProject 工作组规划器"
+    description: "提供工作组规划器视图。"
+  permission_view_team_planner: "查看工作组规划器"
+  permission_manage_team_planner: "管理工作组规划器"
+  project_module_team_planner_view: "工作组规划器"
+  team_planner:
+    label_team_planner: "工作组规划器"
+    label_new_team_planner: "新的工作组规划器"
+    label_create_new_team_planner: "创建新的工作组规划器"
+    label_team_planner_plural: "工作组规划器"
+    label_assignees: "受理人"
+    upsale:
+      title: "工作组规划器"
+      description: "通过工作组规划器，您可以获得团队计划的完整概览。您可以拉伸、缩短和拖放工作包来修改日期、移动工作包或更改受理人。"

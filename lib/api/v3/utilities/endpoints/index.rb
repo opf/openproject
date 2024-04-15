@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -92,7 +92,7 @@ module API
             render_representer
               .create(results,
                       self_link: self_path,
-                      query: resulting_params,
+                      query_params: resulting_params,
                       page: resulting_params[:offset],
                       per_page: resulting_params[:pageSize],
                       groups: calculate_groups(query),
@@ -110,14 +110,14 @@ module API
           end
 
           def calculate_resulting_params(query, provided_params)
-            calculate_default_params(query).merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
+            calculate_default_params(query).merge(provided_params.slice("offset", "pageSize").symbolize_keys).tap do |params|
               params[:offset] = to_i_or_nil(params[:offset])
               params[:pageSize] = resolve_page_size(params[:pageSize])
             end
           end
 
           def calculate_groups(query)
-            return unless query.group_by
+            return unless query.respond_to?(:group_by) && query.group_by
 
             query.group_values.map do |group, count|
               ::API::Decorators::AggregationGroup.new(group, count, query:, current_user: User.current)
@@ -162,7 +162,9 @@ module API
             if constraint.is_a?(Class)
               result_scope
             else
-              result_scope.where id: constraint.select(:id)
+              result_scope
+                .includes(constraint.includes_values)
+                .merge constraint
             end
           end
         end

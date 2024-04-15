@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe "SpreadsheetBuilder" do
+RSpec.describe "SpreadsheetBuilder" do
   before do
     @spreadsheet = OpenProject::XlsExport::SpreadsheetBuilder.new
     @sheet = @spreadsheet.send(:raw_sheet)
@@ -77,9 +77,9 @@ describe "SpreadsheetBuilder" do
   it "alwayses use unix newlines" do
     @spreadsheet.add_row(["Some text including a windows newline (\r\n)", "And an old-style mac os newline (\r)"])
     2.times do |i|
-      expect(@spreadsheet.send("raw_sheet").last_row[i]).not_to include("\r")
-      expect(@spreadsheet.send("raw_sheet").last_row[i]).not_to include("\r\n")
-      expect(@spreadsheet.send("raw_sheet").last_row[i]).to include("\n")
+      expect(@spreadsheet.send(:raw_sheet).last_row[i]).not_to include("\r")
+      expect(@spreadsheet.send(:raw_sheet).last_row[i]).not_to include("\r\n")
+      expect(@spreadsheet.send(:raw_sheet).last_row[i]).to include("\n")
     end
   end
 end

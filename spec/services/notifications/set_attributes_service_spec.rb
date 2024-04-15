@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Notifications::SetAttributesService, type: :model do
+RSpec.describe Notifications::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
-    contract = double('contract_class')
+    contract = double("contract_class")
 
     allow(contract)
       .to receive(:new)
@@ -41,11 +41,11 @@ describe Notifications::SetAttributesService, type: :model do
     contract
   end
   let(:contract_instance) do
-    double('contract_instance', validate: contract_valid, errors: contract_errors)
+    double("contract_instance", validate: contract_valid, errors: contract_errors)
   end
   let(:contract_valid) { true }
   let(:contract_errors) do
-    double('contract_errors')
+    double("contract_errors")
   end
   let(:member_valid) { true }
   let(:instance) do
@@ -59,10 +59,10 @@ describe Notifications::SetAttributesService, type: :model do
   let(:journal) { build_stubbed(:journal, journable:, data: journal_data) }
   let(:journable) { nil }
   let(:journal_data) { nil }
-  let(:event_subject) { 'I find it important' }
+  let(:event_subject) { "I find it important" }
   let(:recipient_id) { 1 }
 
-  describe 'call' do
+  describe "call" do
     let(:call_attributes) do
       {
         recipient_id:,
@@ -76,23 +76,23 @@ describe Notifications::SetAttributesService, type: :model do
 
     subject { instance.call(call_attributes) }
 
-    context 'for a new record' do
+    context "for a new record" do
       let(:event) do
         Notification.new
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject)
         .to be_success
       end
 
-      it 'sets the attributes add adds default values' do
+      it "sets the attributes add adds default values" do
         subject
 
         expect(event.attributes.compact.symbolize_keys)
           .to eql({
                     project_id: project.id,
-                    reason: 'mentioned',
+                    reason: "mentioned",
                     journal_id: journal.id,
                     recipient_id: 1,
                     subject: event_subject,
@@ -101,7 +101,7 @@ describe Notifications::SetAttributesService, type: :model do
                   })
       end
 
-      context 'with only the minimal set of attributes for a notification' do
+      context "with only the minimal set of attributes for a notification" do
         let(:journable) do
           build_stubbed(:work_package, project:).tap do |wp|
             allow(wp)
@@ -121,15 +121,15 @@ describe Notifications::SetAttributesService, type: :model do
           }
         end
 
-        it 'sets the attributes and adds default values that are deduced' do
+        it "sets the attributes and adds default values that are deduced" do
           subject
 
           expect(event.attributes.compact.symbolize_keys)
             .to eql({
                       project_id: project.id,
-                      reason: 'mentioned',
+                      reason: "mentioned",
                       resource_id: journable.id,
-                      resource_type: 'WorkPackage',
+                      resource_type: "WorkPackage",
                       journal_id: journal.id,
                       recipient_id: 1,
                       read_ian: false,
@@ -138,7 +138,7 @@ describe Notifications::SetAttributesService, type: :model do
         end
       end
 
-      it 'does not persist the notification' do
+      it "does not persist the notification" do
         expect(event)
           .not_to receive(:save)
 

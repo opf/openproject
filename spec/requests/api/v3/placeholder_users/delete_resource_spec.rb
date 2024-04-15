@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,15 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require_relative './delete_resource_examples'
+require "spec_helper"
+require_relative "delete_resource_examples"
 
-describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-         'delete',
-         type: :request do
+RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+               "delete" do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { create :placeholder_user, name: 'foo' }
+  shared_let(:placeholder) { create(:placeholder_user, name: "foo") }
 
   let(:send_request) do
     header "Content-Type", "application/json"
@@ -49,33 +48,42 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     delete path
   end
 
-  context 'when admin' do
-    let(:user) { build_stubbed :admin }
+  context "when admin" do
+    let(:user) { build_stubbed(:admin) }
 
-    it_behaves_like 'deletion allowed'
+    it_behaves_like "deletion allowed"
   end
 
-  context 'when locked admin' do
-    let(:user) { build_stubbed :admin, status: Principal.statuses[:locked] }
+  context "when locked admin" do
+    let(:user) { build_stubbed(:admin, status: Principal.statuses[:locked]) }
 
-    it_behaves_like 'deletion is not allowed'
+    it_behaves_like "deletion is not allowed"
   end
 
-  context 'when non-admin' do
-    let(:user) { build_stubbed :user, admin: false }
+  context "when non-admin" do
+    let(:user) { build_stubbed(:user, admin: false) }
 
-    it_behaves_like 'deletion is not allowed'
+    it_behaves_like "deletion is not allowed"
   end
 
-  context 'when user with manage_user permission' do
-    let(:user) { create :user, global_permission: %[manage_placeholder_user] }
+  context "when user with manage_placeholder_user permission" do
+    let(:user) { create(:user, global_permissions: %[manage_placeholder_user]) }
 
-    it_behaves_like 'deletion allowed'
+    it_behaves_like "deletion allowed"
   end
 
-  context 'when anonymous user' do
-    let(:user) { create :anonymous }
+  context "when anonymous user" do
+    let(:user) { create(:anonymous) }
 
-    it_behaves_like 'deletion is not allowed'
+    context "when login_required", with_settings: { login_required: true } do
+      it_behaves_like "error response",
+                      401,
+                      "Unauthenticated",
+                      I18n.t("api_v3.errors.code_401")
+    end
+
+    context "when not login_required", with_settings: { login_required: false } do
+      it_behaves_like "deletion is not allowed"
+    end
   end
 end

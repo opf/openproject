@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,20 +33,20 @@ module OpenProject
     TEXT_LIKE_FIELDS = %w(number_field password_field url_field telephone_field email_field time_field).freeze
 
     def styled_form_tag(url_for_options = {}, options = {}, &)
-      apply_css_class_to_options(options, 'form')
+      apply_css_class_to_options(options, "form")
       form_tag(url_for_options, options, &)
     end
 
     def styled_select_tag(name, styled_option_tags = nil, options = {})
-      apply_css_class_to_options(options, 'form--select')
-      wrap_field 'select', options do
+      apply_css_class_to_options(options, "form--select")
+      wrap_field "select", options do
         select_tag(name, styled_option_tags, options)
       end
     end
 
     def styled_text_field_tag(name, value = nil, options = {})
-      apply_css_class_to_options(options, 'form--text-field')
-      wrap_field 'text-field', options do
+      apply_css_class_to_options(options, "form--text-field")
+      wrap_field "text-field", options do
         text_field_tag(name, value, options)
       end
     end
@@ -54,22 +54,22 @@ module OpenProject
     def styled_label_tag(name = nil, content_or_options = nil, options = {}, &)
       apply_css_class_to_options(
         block_given? && content_or_options.is_a?(Hash) ? content_or_options : (options ||= {}),
-        'form--label'
+        "form--label"
       )
       options[:title] ||= strip_tags(block_given? ? capture(&) : content_or_options)
       label_tag(name, content_or_options, options, &)
     end
 
     def styled_file_field_tag(name, options = {})
-      apply_css_class_to_options(options, 'form--file-field')
-      wrap_field 'file-field', options do
+      apply_css_class_to_options(options, "form--file-field")
+      wrap_field "file-field", options do
         file_field_tag(name, options)
       end
     end
 
     def styled_text_area_tag(name, content = nil, options = {})
-      apply_css_class_to_options(options, 'form--text-area')
-      wrap_field 'text-area', options do
+      apply_css_class_to_options(options, "form--text-area")
+      wrap_field "text-area", options do
         output = text_area_tag(name, content, options)
 
         if options[:with_text_formatting]
@@ -85,7 +85,7 @@ module OpenProject
     ##
     # Create a wrapper for the text formatting toolbar for this field
     def text_formatting_wrapper(target_id, options = {})
-      return ''.html_safe unless target_id.present?
+      return "".html_safe unless target_id.present?
 
       ::OpenProject::TextFormatting::Formats
         .rich_helper
@@ -93,41 +93,41 @@ module OpenProject
         .wikitoolbar_for target_id, **options
     end
 
-    def styled_check_box_tag(name, value = '1', checked = false, options = {})
-      apply_css_class_to_options(options, 'form--check-box')
-      wrap_field 'check-box', options do
+    def styled_check_box_tag(name, value = "1", checked = false, options = {})
+      apply_css_class_to_options(options, "form--check-box")
+      wrap_field "check-box", options do
         check_box_tag(name, value, checked, options)
       end
     end
 
     def styled_radio_button_tag(name, value, checked = false, options = {})
-      apply_css_class_to_options(options, 'form--radio-button')
-      wrap_field 'radio-button', options do
+      apply_css_class_to_options(options, "form--radio-button")
+      wrap_field "radio-button", options do
         radio_button_tag(name, value, checked, options)
       end
     end
 
-    def styled_submit_tag(value = 'Save changes', options = {})
-      apply_css_class_to_options(options, 'button')
+    def styled_submit_tag(value = "Save changes", options = {})
+      apply_css_class_to_options(options, "button")
       submit_tag(value, options)
     end
 
     def styled_button_tag(content_or_options = nil, options = nil, &)
       apply_css_class_to_options(
         block_given? && content_or_options.is_a?(Hash) ? content_or_options : (options ||= {}),
-        'button'
+        "button"
       )
       button_tag(content_or_options, options, &)
     end
 
     def styled_field_set_tag(legend = nil, options = nil, &)
-      apply_css_class_to_options(options, 'form--fieldset')
+      apply_css_class_to_options(options, "form--fieldset")
       field_set_tag(legend, options, &)
     end
 
     def styled_search_field_tag(name, value = nil, options = {})
-      apply_css_class_to_options(options, 'form--search-field')
-      wrap_field 'search-field', options do
+      apply_css_class_to_options(options, "form--search-field")
+      wrap_field "search-field", options do
         search_field_tag(name, value, options)
       end
     end
@@ -142,8 +142,8 @@ module OpenProject
     end
 
     def styled_range_field_tag(name, value = nil, options = {})
-      apply_css_class_to_options(options, 'form--range-field')
-      wrap_field 'range-field', options do
+      apply_css_class_to_options(options, "form--range-field")
+      wrap_field "range-field", options do
         range_field_tag(name, value, options)
       end
     end
@@ -160,12 +160,12 @@ module OpenProject
 
     def field_container_css_class(selector, options)
       classes = if TEXT_LIKE_FIELDS.include?(selector)
-                  'form--text-field-container'
+                  "form--text-field-container"
                 else
                   "form--#{selector.tr('_', '-')}-container"
                 end
 
-      classes << (' ' + options.fetch(:container_class, ''))
+      classes << (" " + options.fetch(:container_class, ""))
 
       classes.strip
     end

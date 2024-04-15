@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,11 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require 'representable/json'
+require "spec_helper"
+require "representable/json"
 
-describe Representable do
-  let(:object) { Struct.new(:title).new('test') }
+RSpec.describe Representable do
+  let(:object) { Struct.new(:title).new("test") }
 
   class ReverseNamingStrategy
     def call(name)
@@ -37,7 +37,7 @@ describe Representable do
     end
   end
 
-  describe 'as_strategy with lambda' do
+  describe "as_strategy with lambda" do
     class UpcaseRepresenter < Representable::Decorator
       include Representable::JSON
 
@@ -46,10 +46,10 @@ describe Representable do
       property :title
     end
 
-    it { expect(UpcaseRepresenter.new(object).to_json).to eql("{\"TITLE\":\"test\"}") }
+    it { expect(UpcaseRepresenter.new(object).to_json).to eql('{"TITLE":"test"}') }
   end
 
-  describe 'as_strategy with class responding to #call?' do
+  describe "as_strategy with class responding to #call?" do
     class ReverseRepresenter < Representable::Decorator
       include Representable::JSON
 
@@ -58,11 +58,11 @@ describe Representable do
       property :title
     end
 
-    it { expect(ReverseRepresenter.new(object).to_json).to eql("{\"eltit\":\"test\"}") }
+    it { expect(ReverseRepresenter.new(object).to_json).to eql('{"eltit":"test"}') }
   end
 
-  describe 'as_strategy with class not responding to #call?' do
-    it 'raises error' do
+  describe "as_strategy with class not responding to #call?" do
+    it "raises error" do
       expect do
         class FailRepresenter < Representable::Decorator
           include Representable::JSON

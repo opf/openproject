@@ -44,7 +44,7 @@ To upload your first IFC model click on the green "+ IFC Model" - Button. A new 
 
 
 
-Select the file you want and confirm your upload. You also the choice to set the new model as "Default model". All default models (multiple models can be set as default) are initially shown if you relaod the BCF module. You are able to change this setting later as well.
+Select the file you want and confirm your upload. You also the choice to set the new model as "Default model". All default models (multiple models can be set as default) are initially shown if you reload the BCF module. You are able to change this setting later as well.
 
 ![Set Model as Default](set-model-as-default.png)
 
@@ -99,7 +99,7 @@ If your building model (or objects within the model) is rotated, zoomed or cut a
 
 ![2D View](2-d-view.png)
 
-If your building model can easily be shown in 2D or 3D. This function is very popular to have a deeper look into the building (e.g. to see the floorplan). To use this function in the best way, you are able to combine the 2D view with hiding elements (like it is shown below).
+If your building model can easily be shown in 2D or 3D. This function is very popular to have a deeper look into the building (e.g. to see the floor plan). To use this function in the best way, you are able to combine the 2D view with hiding elements (like it is shown below).
 
 ![2D_3D](2D_3D.gif)
 
@@ -109,7 +109,7 @@ If your building model can easily be shown in 2D or 3D. This function is very po
 
 ![Orthographic Button](orthographic-button.png)
 
-The default behavior of the OpenProject BIM Model Viewer is a perspective view. The perspective camera gives you more information about depth. Distant objects are smaller than nerby ones. This function changes from perspective view to orthographic view.  The orthographic view is widely used in engineering. All objects appear at the same scale and parallel lines remain parallel. Also a unit length appears the same length anywhere on the screen. This makes it easier to assess the relative sizes. 
+The default behavior of the OpenProject BIM Model Viewer is a perspective view. The perspective camera gives you more information about depth. Distant objects are smaller than nearby ones. This function changes from perspective view to orthographic view.  The orthographic view is widely used in engineering. All objects appear at the same scale and parallel lines remain parallel. Also a unit length appears the same length anywhere on the screen. This makes it easier to assess the relative sizes. 
 
 ![Orthographic View](orthographic-view.png)
 
@@ -127,7 +127,7 @@ This function allows you to reset the current zoom level and the position of the
 
 ![First Person Button](first-person-button.png)
 
-The first person perspective changes the way you ineract with the building model. The user no longer rotates the entire building model around an axis. Now he has the option of changing their own perspective. After activating the first person perspective, the viewer behaves similar to the real world and the camera moves in a manner comparable to a head movement.
+The first person perspective changes the way you interact with the building model. The user no longer rotates the entire building model around an axis. Now he has the option of changing their own perspective. After activating the first person perspective, the viewer behaves similar to the real world and the camera moves in a manner comparable to a head movement.
 
 ![First_Person_Perspective](First_Person_Perspective.gif)
 
@@ -173,7 +173,7 @@ To select elements within the building model, you have to activate the selection
 
 ## Show properties
 
-You are able to see the basic properties of each element (e.g. the UUID) within OpenProject BIM. After using the "information" buttion a new tab named "Properties" will appear. 
+You are able to see the basic properties of each element (e.g. the UUID) within OpenProject BIM. After using the "information" button a new tab named "Properties" will appear. 
 
 ![Show Properties Button](show-properties-button.png)
 

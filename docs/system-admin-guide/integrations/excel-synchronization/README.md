@@ -46,7 +46,7 @@ You will then get the relations in your Excel file.
 
 Unfortunately, there is no way to create relation with translated terms via API at the moment. You have to use these terms instead: [Relation Edit Form API](../../../api/endpoints/relations/#relation-edit-form)
 
-![allowd-values](image-20211014153150017.png)
+![allowed values](image-20211014153150017.png)
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Excel-Relations.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
@@ -91,7 +91,7 @@ Unfortunately, there is no way to create relation with translated terms via API 
 9. Accept to start the synchronization.
 
 10. You need to select a minimum of columns to start with the  synchronization. For column selection, click in the header and open the  drop down which opens next to the regular drop down icon: Select the  following column headers at a minimum:
-     **Updatestatus**
+     **Update status**
      **Lock Version**
      **ID**
      **Subject**
@@ -113,7 +113,7 @@ Copy and paste all data accordingly from your existing Excel list to this sheet.
 
 
 
-**Download workpackages**: initially downloads all work packages from the selected project (and query).
+**Download work packages**: initially downloads all work packages from the selected project (and query).
  **Upload / update work packages**: makes changes to the  work packages, e.g. adding new work packages or changing any information. This option needs to be chosen in order to initially import and  existing Excel list.
  **Show chosen project**: Opens the settings to adapt URL, API key, project or query ID.
 

@@ -1,5 +1,5 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { ChartOptions, ChartType } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export interface WpGraphQueryParams {
@@ -11,7 +11,7 @@ export interface WpGraphQueryParams {
 export interface WpGraphConfiguration {
   queries:QueryResource[];
   queryParams:WpGraphQueryParams[];
-  chartType:ChartType;
+  chartType:string;
   chartOptions:ChartOptions;
 }
 
@@ -21,9 +21,9 @@ export class WpGraphConfiguration implements WpGraphConfiguration {
   constructor(
     public queryParams:WpGraphQueryParams[],
     public chartOptions:ChartOptions,
-    public chartType:ChartType,
+    public chartType:string,
   ) {
-    this.chartType = this.chartType || 'horizontalBar';
+    this.chartType = this.chartType || 'bar';
   }
 
   public static queryCreationParams(i18n:I18nService, isPublic:boolean):unknown {

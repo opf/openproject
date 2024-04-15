@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ module API
           self.current_user = current_user
           self.self_path = self_path
           # Hard wiring the properties to embed is a work around until signaling the properties to embed is implemented
-          self.url_query = url_query.merge(embed: { 'elements' => {} })
+          self.url_query = url_query.merge(embed: { "elements" => {} })
         end
 
         def walk(start)
@@ -68,7 +68,7 @@ module API
         end
 
         def to_json(*)
-          ActiveRecord::Base.connection.select_one(sql)['json']
+          ActiveRecord::Base.connection.select_one(sql)["json"]
         end
 
         protected

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,74 +26,72 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Meetings deletion', type: :feature do
-  let(:project) { create :project, enabled_module_names: %w[meetings] }
+RSpec.describe "Meetings deletion" do
+  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
-  let!(:meeting) { create :meeting, project:, title: 'Own awesome meeting!', author: user }
-  let!(:other_meeting) { create :meeting, project:, title: 'Other awesome meeting!', author: other_user }
+  let!(:meeting) { create(:meeting, project:, title: "Own awesome meeting!", author: user) }
+  let!(:other_meeting) { create(:meeting, project:, title: "Other awesome meeting!", author: other_user) }
+
+  let(:index_path) { project_meetings_path(project) }
 
   before do
     login_as(user)
   end
 
-  context 'with permission to delete meetings', js: true do
+  context "with permission to delete meetings", :js do
     let(:permissions) { %i[view_meetings delete_meetings] }
 
-    it 'can delete own and other`s meetings' do
-      visit meetings_path(project)
+    it "can delete own and other's meetings" do
+      visit index_path
 
-      SeleniumHubWaiter.wait
-      click_link meeting.title
-      SeleniumHubWaiter.wait
-      click_link "Delete"
-
-      page.accept_confirm
-
-      expect(page)
-        .to have_current_path meetings_path(project)
-
-      SeleniumHubWaiter.wait
-      click_link other_meeting.title
-      SeleniumHubWaiter.wait
-      click_link "Delete"
-
-      page.accept_confirm
+      click_on meeting.title
+      accept_confirm do
+        find_test_selector("meetings-more-dropdown-menu").click
+        click_on "Delete"
+      end
 
       expect(page)
-        .to have_content(I18n.t('.no_results_title_text', cascade: true))
+        .to have_current_path index_path
 
-      expect(current_path)
-        .to eql meetings_path(project)
+      click_on other_meeting.title
+      accept_confirm do
+        find_test_selector("meetings-more-dropdown-menu").click
+        click_on "Delete"
+      end
+
+      expect(page)
+        .to have_content(I18n.t(".no_results_title_text", cascade: true))
+
+      expect(page)
+        .to have_current_path index_path
     end
   end
 
-  context 'without permission to delete meetings' do
+  context "without permission to delete meetings" do
     let(:permissions) { %i[view_meetings] }
 
-    it 'cannot delete own and other`s meetings' do
-      visit meetings_path(project)
+    it "cannot delete own and other's meetings" do
+      visit index_path
 
-      click_link meeting.title
+      click_on meeting.title
       expect(page)
-        .to have_no_link 'Delete'
+        .to have_no_link "Delete"
 
-      visit meetings_path(project)
+      visit index_path
 
-      click_link other_meeting.title
+      click_on other_meeting.title
       expect(page)
-        .to have_no_link 'Delete'
+        .to have_no_link "Delete"
     end
   end
 end

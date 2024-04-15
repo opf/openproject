@@ -1,7 +1,6 @@
 .op-option-list
   display: flex
   flex-direction: column
-  font-size: 1rem
 
   // TODO: remove the [type] selector once globally overwriting styles are removed
   &--input[type]
@@ -32,8 +31,8 @@
       line-height: 1.2
 
     &-title
-      font-weight: bold
-      font-size: 14px
-      
+      font-weight: var(--base-text-weight-bold)
+
     &-description
+      font-weight: normal
       font-size: 12px

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative './ifc_upload_shared_examples'
+require "spec_helper"
+require_relative "ifc_upload_shared_examples"
 
-describe 'IFC upload', type: :feature, js: true, with_config: { edition: 'bim' } do
-  it_behaves_like 'can upload an IFC file' do
-    let(:model_name) { 'minimal.ifc' }
+RSpec.describe "IFC upload", :js, with_config: { edition: "bim" } do
+  it_behaves_like "can upload an IFC file" do
+    let(:model_name) { "minimal.ifc" }
   end
 end

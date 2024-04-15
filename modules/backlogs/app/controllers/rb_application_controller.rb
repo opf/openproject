@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,9 +34,9 @@ class RbApplicationController < ApplicationController
 
   skip_before_action :verify_authenticity_token, if: -> { Rails.env.test? }
 
-  # Render angular layout to handle CSS loading
-  # from the frontend
-  layout 'angular/angular'
+  # Use special backlogs layout to initialize stimulus side-loading legacy backlogs scripts
+  # and CSS from frontend
+  layout "backlogs"
 
   private
 
@@ -55,9 +55,9 @@ class RbApplicationController < ApplicationController
 
   def check_if_plugin_is_configured
     settings = Setting.plugin_openproject_backlogs
-    if settings['story_types'].blank? || settings['task_type'].blank?
+    if settings["story_types"].blank? || settings["task_type"].blank?
       respond_to do |format|
-        format.html { render template: 'shared/not_configured' }
+        format.html { render template: "shared/not_configured" }
       end
     end
   end

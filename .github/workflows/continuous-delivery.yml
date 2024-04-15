@@ -4,6 +4,7 @@ on:
     branches:
       - dev
       - release/*
+      - stable/*
 permissions:
   contents: read
 
@@ -14,25 +15,13 @@ jobs:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger SaaS workflow
-        env:
-          TOKEN: ${{ secrets.OPENPROJECT_CI_TOKEN }}
-          REPOSITORY: opf/saas-openproject
-          WORKFLOW_ID: continuous-delivery-saas.yml
-        run: |
-          curl -i --fail -H"authorization: Bearer $TOKEN" \
-            -XPOST -H"Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
-            -d '{"ref": "${{ github.ref }}"}'
-
       - name: Trigger Flavours workflow
         env:
           TOKEN: ${{ secrets.OPENPROJECT_CI_TOKEN }}
           REPOSITORY: opf/openproject-flavours
           WORKFLOW_ID: ci.yml
-          CORE_REF: ${{ github.ref }}
         run: |
-          curl -i --fail -H"authorization: Bearer $TOKEN" \
+          curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
             -XPOST -H"Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
-            -d '{"ref": "master", "inputs": { "ref" : "$CORE_REF" }}'
+            -d '{"ref": "dev", "inputs": { "ref" : "${{ github.ref_name }}" }}'

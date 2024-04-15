@@ -19,7 +19,8 @@ if test -f ./docker/prod/setup/preinstall-$PLATFORM.sh ; then
 fi
 
 apt-get clean
-rm -rf /var/lib/apt/lists/*
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+truncate -s 0 /var/log/*log
 
 rm -f /tmp/dockerize.log
 echo "      OK."

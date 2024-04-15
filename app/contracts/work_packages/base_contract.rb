@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,7 @@ module WorkPackages
     attribute :subject
     attribute :description
     attribute :status_id,
+              permission: %i[edit_work_packages change_work_package_status],
               writable: ->(*) {
                 # If we did not change into the status,
                 # mark unwritable if status and version is closed
@@ -52,12 +53,21 @@ module WorkPackages
     attribute :project_id
 
     attribute :done_ratio,
-              writable: ->(*) {
-                model.leaf? && Setting.work_package_done_ratio == 'field'
-              }
+              writable: false
+    attribute :derived_done_ratio,
+              writable: false
 
-    attribute :estimated_hours
+    attribute :estimated_hours do
+      validate_work_is_set_when_remaining_work_is_set
+    end
     attribute :derived_estimated_hours,
+              writable: false
+
+    attribute :remaining_hours do
+      validate_remaining_work_is_lower_than_work
+      validate_remaining_work_is_set_when_work_is_set
+    end
+    attribute :derived_remaining_hours,
               writable: false
 
     attribute :parent_id,
@@ -67,7 +77,7 @@ module WorkPackages
       next unless model.project
 
       validate_people_visible :assigned_to,
-                              'assigned_to_id',
+                              "assigned_to_id",
                               assignable_assignees
     end
 
@@ -75,7 +85,7 @@ module WorkPackages
       next unless model.project
 
       validate_people_visible :responsible,
-                              'responsible_id',
+                              "responsible_id",
                               assignable_responsibles
     end
 
@@ -185,8 +195,8 @@ module WorkPackages
       IssuePriority.active
     end
 
-    def assignable_versions
-      model.try(:assignable_versions) if model.project
+    def assignable_versions(only_open: true)
+      model.try(:assignable_versions, only_open:) if model.project
     end
 
     def assignable_budgets
@@ -194,7 +204,9 @@ module WorkPackages
     end
 
     def assignable_assignees
-      if model.project
+      if model.persisted?
+        Principal.possible_assignee(model)
+      elsif model.project
         Principal.possible_assignee(model.project)
       else
         Principal.none
@@ -214,7 +226,7 @@ module WorkPackages
 
     def validate_after_soonest_start(date_attribute)
       if !model.schedule_manually? && before_soonest_start?(date_attribute)
-        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
+        message = I18n.t("activerecord.errors.models.work_package.attributes.start_date.violates_relationships",
                          soonest_start: model.soonest_start)
 
         errors.add date_attribute, message, error_symbol: :violates_relationships
@@ -311,6 +323,42 @@ module WorkPackages
       end
     end
 
+    def validate_remaining_work_is_lower_than_work
+      if work_set? && remaining_work_set? && remaining_work_exceeds_work?
+        if model.changed.include?("estimated_hours")
+          errors.add(:estimated_hours, :cant_be_inferior_to_remaining_work)
+        end
+
+        if model.changed.include?("remaining_hours")
+          errors.add(:remaining_hours, :cant_exceed_work)
+        end
+      end
+    end
+
+    def validate_remaining_work_is_set_when_work_is_set
+      if work_set? && !remaining_work_set?
+        errors.add(:remaining_hours, :must_be_set_when_work_is_set)
+      end
+    end
+
+    def validate_work_is_set_when_remaining_work_is_set
+      if remaining_work_set? && !work_set?
+        errors.add(:estimated_hours, :must_be_set_when_remaining_work_is_set)
+      end
+    end
+
+    def work_set?
+      model.estimated_hours.present?
+    end
+
+    def remaining_work_set?
+      model.remaining_hours.present?
+    end
+
+    def remaining_work_exceeds_work?
+      model.remaining_hours > model.estimated_hours
+    end
+
     def validate_no_reopen_on_closed_version
       if model.version_id && model.reopened? && model.version.closed?
         errors.add :base, I18n.t(:error_can_not_reopen_work_package_on_closed_version)
@@ -324,7 +372,7 @@ module WorkPackages
 
       unless principal_visible?(id, list)
         errors.add attribute,
-                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
+                   I18n.t("api_v3.errors.validation.invalid_user_assigned_to_work_package",
                           property: I18n.t("attributes.#{attribute}"))
       end
     end
@@ -449,7 +497,7 @@ module WorkPackages
       workflows = Workflow
                   .from_status(status.id,
                                model.type_id,
-                               users_roles_in_project.map(&:id),
+                               user_roles.map(&:id),
                                user_is_author?,
                                user_was_or_is_assignee?)
 
@@ -464,8 +512,8 @@ module WorkPackages
       model.author == user
     end
 
-    def users_roles_in_project
-      user.roles_for_project(model.project)
+    def user_roles
+      user.roles_for_work_package(model)
     end
 
     # We're in a readonly status and did not move into that status right now.

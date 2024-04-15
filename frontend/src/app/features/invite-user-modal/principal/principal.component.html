@@ -1,8 +1,9 @@
 <form
+  class="spot-modal"
   [formGroup]="principalForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <div class="spot-modal--header">{{text.principal.title()}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.principal.title()}}</div>
 
   <div class="spot-divider"></div>
 
@@ -79,9 +80,9 @@
         slot="errors"
         class="spot-form-field--error"
         *ngIf="roleControl?.invalid"
-        >
-          {{ text.role.required }}
-        </div>
+      >
+        {{ text.role.required }}
+      </div>
     </spot-form-field>
 
     <spot-form-field
@@ -96,8 +97,8 @@
         #input>
       </textarea>
 
-      <p 
-        class="spot-form-field--description" 
+      <p
+        class="spot-form-field--description"
         slot="action"
         [innerHtml]="text.message.description()">
       </p>
@@ -110,7 +111,7 @@
         type="button"
         class="button button_no-margin spot-action-bar--action"
         (click)="back.emit()"
-        >
+      >
         <op-icon icon-classes="button--icon icon-arrow-left1"></op-icon>
         {{ text.principal.backButton }}
       </button>
@@ -121,10 +122,13 @@
         type="button"
         class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
         (click)="close.emit()"
-        >
-        {{ text.principal.cancelButton }}
-     </button>
-      <button class="button button_no-margin -highlight spot-action-bar--action">{{ text.principal.nextButton }}</button>
+        [textContent]="text.principal.cancelButton"
+      ></button>
+      <button
+        type="submit"
+        class="button button_no-margin -primary spot-action-bar--action"
+        [textContent]="text.principal.nextButton"
+      ></button>
     </div>
   </div>
 </form>

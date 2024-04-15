@@ -11,31 +11,15 @@ import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpResponse,
-} from '@angular/common/http';
-import {
-  Observable,
-  timer,
-} from 'rxjs';
-import {
-  switchMap,
-  takeWhile,
-} from 'rxjs/operators';
-import {
-  LoadingIndicatorService,
-  withDelayedLoadingIndicator,
-} from 'core-app/core/loading-indicator/loading-indicator.service';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Observable, retry, timer } from 'rxjs';
+import { switchMap, takeWhile } from 'rxjs/operators';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import {
-  JobStatusEnum,
-  JobStatusInterface,
-} from 'core-app/features/job-status/job-status.interface';
+import { JobStatusEnum, JobStatusInterface } from 'core-app/features/job-status/job-status.interface';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './job-status.modal.html',
@@ -75,12 +59,16 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
   /** Title to show */
   public title:string = this.text.title;
 
+  /** Additional html to render */
+  public htmlContent:SafeHtml|null = null;
+
   /** A link in case the job results in a download */
   public downloadHref:string|null = null;
 
   @ViewChild('downloadLink') private downloadLink:ElementRef<HTMLInputElement>;
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
@@ -88,10 +76,12 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     readonly apiV3Service:ApiV3Service,
     readonly loadingIndicator:LoadingIndicatorService,
     readonly toastService:ToastService,
-    readonly httpClient:HttpClient) {
+    readonly sanitization:DomSanitizer,
+    readonly httpClient:HttpClient,
+  ) {
     super(locals, cdRef, elementRef);
 
-    this.jobId = locals.jobId;
+    this.jobId = locals.jobId as string;
   }
 
   ngOnInit() {
@@ -100,17 +90,33 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
   }
 
   private listenOnJobStatus() {
+    this.loadingIndicator.indicator('modal').start();
     timer(0, 2000)
       .pipe(
         switchMap(() => this.performRequest()),
+        retry({
+          count: 10,
+          delay: (error:HttpErrorResponse) => {
+            // Example for catching specific error code as well
+            if ([502, 503, 504].includes(error.status)) {
+              return timer(2000);
+            }
+
+            // eslint-disable-next-line @typescript-eslint/no-throw-literal
+            throw error;
+          },
+        }),
         takeWhile((response) => !!response.body && this.continuedStatus(response.body), true),
         this.untilDestroyed(),
-        withDelayedLoadingIndicator(this.loadingIndicator.getter('modal')),
-      ).subscribe(
-        (response) => this.onResponse(response),
-        (error) => this.handleError(error),
-        () => { this.isLoading = false; },
-      );
+      )
+      .subscribe({
+        next: (response) => this.onResponse(response),
+        error: (error:HttpErrorResponse) => this.handleError(error),
+        complete: () => {
+          this.loadingIndicator.indicator('modal').stop();
+          this.isLoading = false;
+        },
+      });
   }
 
   private iconForStatus():string|null {
@@ -140,9 +146,10 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     const { body } = response;
 
     if (!body) {
-      throw new Error(response as any);
+      throw new Error(response?.statusText || 'Internal Error');
     }
 
+    // eslint-disable-next-line no-multi-assign
     const status = this.status = body.status;
 
     this.message = body.message
@@ -153,10 +160,17 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
       this.title = body.payload.title || this.text.title;
       this.handleRedirect(body.payload);
       this.handleDownload(body.payload?.download);
+      this.handleHTML(body.payload?.html);
     }
 
     this.statusIcon = this.iconForStatus();
     this.cdRef.detectChanges();
+  }
+
+  private handleHTML(content?:string) {
+    if (content) {
+      this.htmlContent = this.sanitization.bypassSecurityTrustHtml(content);
+    }
   }
 
   private handleRedirect(payload:JobStatusInterface['payload']) {
@@ -166,43 +180,23 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     }
   }
 
-  private handleDownload(redirectionUrl?:string) {
-    if (redirectionUrl !== undefined) {
-      // Get the file url from the redirectionUrl
-      this.httpClient
-        .get(redirectionUrl, {
-          observe: 'response',
-          responseType: 'text',
-          // This might or might not be an external request (depending on the configuration of an S3 storage)
-          // But not having headers like X-CSRF-TOKEN set works in both cases.
-          headers: {
-            [EXTERNAL_REQUEST_HEADER]: 'true',
-          },
-        })
-        .subscribe((response) => {
-          this.downloadHref = response.url;
-
-          this.cdRef.detectChanges();
-          this.downloadLink.nativeElement.click();
-        }, (error:HttpErrorResponse) => {
-          // In this case, most typically, there is a CORS error.
-          // Instead of failing completely, we show a manual link for the user to click themselves.
-          if (error.status === 0) {
-            this.downloadHref = redirectionUrl;
-
-            this.cdRef.detectChanges();
-          }
-        });
+  private handleDownload(downloadUrl?:string) {
+    if (!downloadUrl) {
+      return;
     }
+
+    this.downloadHref = downloadUrl;
+    this.cdRef.detectChanges();
+    setTimeout(() => this.downloadLink.nativeElement.click(), 50);
   }
 
   private performRequest():Observable<HttpResponse<JobStatusInterface>> {
     return this
       .httpClient
       .get<JobStatusInterface>(
-      this.jobUrl,
-      { observe: 'response', responseType: 'json' },
-    );
+        this.jobUrl,
+        { observe: 'response', responseType: 'json' },
+      );
   }
 
   private handleError(error:HttpErrorResponse) {

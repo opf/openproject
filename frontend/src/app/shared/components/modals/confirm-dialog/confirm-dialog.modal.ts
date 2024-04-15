@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -53,6 +53,10 @@ export interface ConfirmDialogOptions {
   closeByEscape?:boolean;
   showClose?:boolean;
   closeByDocument?:boolean;
+  showListData?:boolean;
+  refreshOnCancel?:boolean;
+  listTitle?:string;
+  warningText?:string;
   passedData?:string[];
   dangerHighlighting?:boolean;
   divideContent?:boolean;
@@ -65,6 +69,14 @@ export interface ConfirmDialogOptions {
 })
 export class ConfirmDialogModalComponent extends OpModalComponent {
   public showClose:boolean;
+
+  public showListData:boolean;
+
+  public refreshOnCancel:boolean;
+
+  public listTitle:string;
+
+  public warningText:string;
 
   public divideContent:boolean;
 
@@ -89,14 +101,20 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
 
   public dangerHighlighting:boolean;
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService) {
+    readonly I18n:I18nService,
+  ) {
     super(locals, cdRef, elementRef);
     this.options = (locals.options || {}) as ConfirmDialogOptions;
 
     this.dangerHighlighting = _.defaultTo(this.options.dangerHighlighting, false);
+    this.showListData = _.defaultTo(this.options.showListData, false);
+    this.refreshOnCancel = _.defaultTo(this.options.refreshOnCancel, false);
+    this.listTitle = _.defaultTo(this.options.listTitle, '');
+    this.warningText = _.defaultTo(this.options.warningText, '');
     this.passedData = _.defaultTo(this.options.passedData, []);
     this.showClose = _.defaultTo(this.options.showClose, true);
     this.divideContent = _.defaultTo(this.options.divideContent, false);
@@ -108,5 +126,12 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
   public confirmAndClose(evt:Event):void {
     this.confirmed = true;
     this.closeMe(evt);
+  }
+
+  public close(evt:Event):void {
+    this.closeMe(evt);
+    if (this.refreshOnCancel) {
+      window.location.reload();
+    }
   }
 }

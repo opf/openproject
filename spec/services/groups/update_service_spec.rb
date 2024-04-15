@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
+require "spec_helper"
+require "services/base_services/behaves_like_update_service"
 
-describe Groups::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service' do
+RSpec.describe Groups::UpdateService, type: :model do
+  it_behaves_like "BaseServices update service" do
     let(:add_service_result) do
       ServiceResult.success
     end
@@ -49,7 +49,7 @@ describe Groups::UpdateService, type: :model do
       add_service
     end
 
-    context 'with newly created group_users' do
+    context "with newly created group_users" do
       let(:old_group_user) { build_stubbed(:group_user, user_id: 3) }
       let(:new_group_user) do
         build_stubbed(:group_user, user_id: 5).tap do |gu|
@@ -66,12 +66,12 @@ describe Groups::UpdateService, type: :model do
           .and_return(group_users)
       end
 
-      context 'with the AddUsersService being successful' do
-        it 'is successful' do
+      context "with the AddUsersService being successful" do
+        it "is successful" do
           expect(instance_call).to be_success
         end
 
-        it 'calls the AddUsersService' do
+        it "calls the AddUsersService" do
           instance_call
 
           expect(add_users_service)
@@ -80,16 +80,16 @@ describe Groups::UpdateService, type: :model do
         end
       end
 
-      context 'with the AddUsersService being unsuccessful' do
+      context "with the AddUsersService being unsuccessful" do
         let(:add_service_result) do
           ServiceResult.failure
         end
 
-        it 'is failure' do
+        it "is failure" do
           expect(instance_call).to be_failure
         end
 
-        it 'calls the AddUsersService' do
+        it "calls the AddUsersService" do
           instance_call
 
           expect(add_users_service)
@@ -98,14 +98,14 @@ describe Groups::UpdateService, type: :model do
         end
       end
 
-      context 'without any new group_users' do
+      context "without any new group_users" do
         let(:group_users) { [old_group_user] }
 
-        it 'is successful' do
+        it "is successful" do
           expect(instance_call).to be_success
         end
 
-        it 'does not call the AddUsersService' do
+        it "does not call the AddUsersService" do
           instance_call
 
           expect(add_users_service)

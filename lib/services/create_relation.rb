@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ class Services::CreateRelation
     @relation = from_work_package.new_relation.tap do |r|
       r.to = to_work_package
       r.relation_type = attrs[:relation_type]
-      r.delay = attrs[:delay]
+      r.lag = attrs[:lag]
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/overview'
+require_relative "../support/pages/overview"
 
-describe 'Overview page on the fly creation if user lacks :mange_overview permission',
-         type: :feature, js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+RSpec.describe "Overview page on the fly creation if user lacks :mange_overview permission", :js do
+  let!(:type) { create(:type) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
 
   let(:permissions) do
     %i[view_work_packages]
@@ -42,8 +41,7 @@ describe 'Overview page on the fly creation if user lacks :mange_overview permis
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:overview_page) do
     Pages::Overview.new(project)
@@ -55,10 +53,10 @@ describe 'Overview page on the fly creation if user lacks :mange_overview permis
     overview_page.visit!
   end
 
-  it 'renders the default view, allows altering and saving' do
-    description_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    details_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
-    overview_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+  it "renders the default view, allows altering and saving" do
+    description_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
+    details_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
+    overview_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(3)")
 
     description_area.expect_to_exist
     details_area.expect_to_exist

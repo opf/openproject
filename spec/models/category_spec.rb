@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,47 +26,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Category, type: :model do
+RSpec.describe Category do
   let(:project) { create(:project) }
   let(:created_category) { create(:category, project:, assigned_to: assignee) }
   let(:assignee) { nil }
 
-  describe '#create' do
-    it 'is creatable and takes the attributes' do
-      category = described_class.create project: project, name: 'New category'
+  describe "#create" do
+    it "is creatable and takes the attributes" do
+      category = described_class.create project:, name: "New category"
 
-      expect(category.attributes.slice('project_id', 'name'))
-        .to eq('project_id' => project.id, 'name' => 'New category')
+      expect(category.attributes.slice("project_id", "name"))
+        .to eq("project_id" => project.id, "name" => "New category")
     end
 
-    context 'with a group assignment' do
+    context "with a group assignment" do
       let(:group) do
         create(:group,
-               member_in_project: project,
-               member_with_permissions: [])
+               member_with_permissions: { project => [] })
       end
       let(:assignee) { group }
 
-      it 'allows to assign groups' do
+      it "allows to assign groups" do
         expect(created_category.assigned_to)
           .to eq group
       end
     end
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     let!(:work_package) { create(:work_package, project:, category: created_category) }
 
-    it 'nullifies existing assignments to a work package' do
+    it "nullifies existing assignments to a work package" do
       created_category.destroy
 
       expect(work_package.reload.category_id)
         .to be_nil
     end
 
-    it 'allows reassigning to a different category' do
+    it "allows reassigning to a different category" do
       other_category = create(:category, project:)
 
       created_category.destroy(other_category)

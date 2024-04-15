@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackage, 'custom_actions', type: :model do
+RSpec.describe WorkPackage, "custom_actions" do
   let(:work_package) do
     build_stubbed(:work_package,
                   project:)
@@ -38,11 +38,10 @@ describe WorkPackage, 'custom_actions', type: :model do
   let(:other_status) { create(:status) }
   let(:user) do
     create(:user,
-           member_in_project: work_package.project,
-           member_through_role: role)
+           member_with_roles: { work_package.project => role })
   end
   let(:role) do
-    create(:role)
+    create(:project_role)
   end
   let(:conditions) do
     [CustomActions::Conditions::Status.new([status.id])]
@@ -56,8 +55,8 @@ describe WorkPackage, 'custom_actions', type: :model do
     action
   end
 
-  describe '#custom_actions' do
-    context 'with the custom action having no restriction' do
+  describe "#custom_actions" do
+    context "with the custom action having no restriction" do
       let(:conditions) do
         []
       end
@@ -66,56 +65,56 @@ describe WorkPackage, 'custom_actions', type: :model do
         work_package.status_id = status.id
       end
 
-      it 'returns the action' do
+      it "returns the action" do
         expect(work_package.custom_actions(user))
-          .to match_array [custom_action]
+          .to contain_exactly(custom_action)
       end
     end
 
-    context 'with a status restriction' do
-      context 'with the work package having the same status' do
+    context "with a status restriction" do
+      context "with the work package having the same status" do
         before do
           work_package.status_id = status.id
         end
 
-        it 'returns the action' do
+        it "returns the action" do
           expect(work_package.custom_actions(user))
-            .to match_array [custom_action]
+            .to contain_exactly(custom_action)
         end
       end
 
-      context 'with the work package having a different status' do
+      context "with the work package having a different status" do
         before do
           work_package.status_id = other_status.id
         end
 
-        it 'does not return the action' do
+        it "does not return the action" do
           expect(work_package.custom_actions(user))
             .to be_empty
         end
       end
     end
 
-    context 'with a role restriction' do
+    context "with a role restriction" do
       let(:conditions) do
         [CustomActions::Conditions::Role.new(role.id)]
       end
 
-      context 'with the user having the same role' do
-        it 'returns the action' do
+      context "with the user having the same role" do
+        it "returns the action" do
           expect(work_package.custom_actions(user))
-            .to match_array [custom_action]
+            .to contain_exactly(custom_action)
         end
       end
 
-      context 'with the condition requiring a different role' do
-        let(:other_role) { create(:role) }
+      context "with the condition requiring a different role" do
+        let(:other_role) { create(:project_role) }
 
         let(:conditions) do
           [CustomActions::Conditions::Role.new(other_role.id)]
         end
 
-        it 'does not return the action' do
+        it "does not return the action" do
           expect(work_package.custom_actions(user))
             .to be_empty
         end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,15 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require_relative '../shared_expectations'
+require "spec_helper"
+require_relative "../shared_expectations"
 
-describe CustomActions::Conditions::Project, type: :model do
-  it_behaves_like 'associated custom condition' do
+RSpec.describe CustomActions::Conditions::Project do
+  it_behaves_like "associated custom condition" do
     let(:key) { :project }
 
-    describe '#allowed_values' do
-      it 'is the list of all projects' do
+    describe "#allowed_values" do
+      it "is the list of all projects" do
         projects = [build_stubbed(:project),
                     build_stubbed(:project)]
         allow(Project)
@@ -46,11 +46,11 @@ describe CustomActions::Conditions::Project, type: :model do
       end
     end
 
-    describe '#fulfilled_by?' do
-      let(:work_package) { double('work_package', project_id: 1) }
-      let(:user) { double('not relevant') }
+    describe "#fulfilled_by?" do
+      let(:work_package) { double("work_package", project_id: 1) }
+      let(:user) { double("not relevant") }
 
-      it 'is true if values are empty' do
+      it "is true if values are empty" do
         instance.values = []
 
         expect(instance.fulfilled_by?(work_package, user))

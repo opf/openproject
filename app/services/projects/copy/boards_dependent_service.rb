@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 module Projects::Copy
   class BoardsDependentService < Dependency
     def self.human_name
-      I18n.t(:'boards.label_boards')
+      I18n.t(:"boards.label_boards")
     end
 
     def source_count

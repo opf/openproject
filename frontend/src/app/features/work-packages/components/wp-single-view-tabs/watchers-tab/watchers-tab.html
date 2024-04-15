@@ -18,9 +18,9 @@
          [hidden]="!allowedToAdd">
       <form name="watcherForm" novalidate>
         <op-user-autocompleter
-          [clearAfterSelection]="true"
-          (valueChange)="addWatcher($event)"
+          (change)="addWatcher($event)"
           [url]="availableWatchersPath"
+          [resetOnChange]="true"
           appendTo="body"
           class="wp-watcher--autocomplete"
         ></op-user-autocompleter>

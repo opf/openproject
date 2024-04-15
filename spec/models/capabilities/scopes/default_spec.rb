@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,34 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Capabilities::Scopes::Default, type: :model do
+RSpec.describe Capabilities::Scopes::Default do
   # we focus on the non current user capabilities to make the tests easier to understand
   subject(:scope) { Capability.default.where(principal_id: user.id) }
 
-  let(:permissions) { %i[] }
+  shared_let(:project) { create(:project, enabled_module_names: []) }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:user) { create(:user) }
+
+  let(:member_permissions) { %i[] }
   let(:global_permissions) { %i[] }
+  let(:work_package_permissions) { %i[] }
   let(:non_member_permissions) { %i[] }
   let(:anonymous_permissions) { %i[] }
-  let(:project_public) { false }
-  let(:project_active) { true }
-  let!(:project) { create(:project, public: project_public, active: project_active) }
   let(:role) do
-    create(:role, permissions:)
+    create(:project_role, permissions: member_permissions)
   end
   let(:global_role) do
     create(:global_role, permissions: global_permissions)
   end
-  let(:user_admin) { false }
-  let(:user_status) { Principal.statuses[:active] }
-  let(:current_user_admin) { true }
-  let!(:user) { create(:user, admin: user_admin, status: user_status) }
   let(:global_member) do
     create(:global_member,
            principal: user,
            roles: [global_role])
   end
+  let(:work_package_role) { create(:work_package_role, permissions: work_package_permissions) }
+  let(:work_package_member) do
+    create(:member, principal: user, project:, entity: work_package, roles: [work_package_role])
+  end
+
   let(:member) do
     create(:member,
            principal: user,
@@ -68,305 +71,455 @@ describe Capabilities::Scopes::Default, type: :model do
     create(:anonymous_role,
            permissions: anonymous_permissions)
   end
-  let(:own_role) { create(:role, permissions: []) }
-  let(:own_member) do
-    create(:member,
-           principal: current_user,
-           roles: [own_role],
-           project:)
-  end
   let(:members) { [] }
 
-  current_user do
-    create(:user, admin: current_user_admin)
+  shared_current_user do
+    create(:admin)
   end
 
-  shared_examples_for 'consists of contract actions' do
-    it 'includes the expected for the scoped to user' do
+  shared_examples_for "consists of contract actions" do |with: "the expected actions"|
+    it "includes #{with} for the scoped to user" do
       expect(scope.pluck(:action, :principal_id, :context_id))
         .to match_array(expected)
     end
   end
 
-  shared_examples_for 'is empty' do
-    it 'is empty for the scoped to user' do
+  shared_examples_for "is empty" do
+    it "is empty for the scoped to user" do
       expect(scope)
         .to be_empty
     end
   end
 
-  describe '.default' do
+  describe ".default" do
     before do
       members
     end
 
-    context 'without any members and non member roles' do
-      it_behaves_like 'is empty'
+    context "without any members and non member roles" do
+      include_examples "is empty"
     end
 
-    context 'with a member without a permission' do
+    context "with a member without any permissions" do
       let(:members) { [member] }
 
-      it_behaves_like 'is empty'
-    end
+      include_examples "is empty"
 
-    context 'with a global member without a permission' do
-      let(:members) { [global_member] }
-
-      it_behaves_like 'is empty'
-    end
-
-    context 'with a non member role without a permission' do
-      let(:members) { [non_member_role] }
-
-      it_behaves_like 'is empty'
-    end
-
-    context 'with a global member with an action permission' do
-      let(:global_permissions) { %i[manage_user] }
-      let(:members) { [global_member] }
-
-      it_behaves_like 'consists of contract actions' do
-        let(:expected) do
-          [['users/create', user.id, nil],
-           ['users/read', user.id, nil],
-           ['users/update', user.id, nil]]
+      context "with a module being activated with a public permission" do
+        before do
+          project.enabled_module_names = ["activity"]
         end
-      end
-    end
 
-    context 'with a member with an action permission' do
-      let(:permissions) { %i[manage_members] }
-      let(:members) { [member] }
-
-      it_behaves_like 'consists of contract actions' do
-        let(:expected) do
-          [['memberships/create', user.id, project.id],
-           ['memberships/destroy', user.id, project.id],
-           ['memberships/update', user.id, project.id]]
-        end
-      end
-    end
-
-    context 'with a global member with an action permission and the user being locked' do
-      let(:permissions) { %i[manage_user] }
-      let(:members) { [global_member] }
-      let(:user_status) { Principal.statuses[:locked] }
-
-      it_behaves_like 'is empty'
-    end
-
-    context 'with a member with an action permission and the user being locked' do
-      let(:permissions) { %i[manage_members] }
-      let(:members) { [member] }
-      let(:user_status) { Principal.statuses[:locked] }
-
-      it_behaves_like 'is empty'
-    end
-
-    context 'with the non member role with an action permission' do
-      let(:non_member_permissions) { %i[view_members] }
-      let(:members) { [non_member_role] }
-
-      context 'with the project being private' do
-        it_behaves_like 'is empty'
-      end
-
-      context 'with the project being public' do
-        let(:project_public) { true }
-
-        it_behaves_like 'consists of contract actions' do
+        include_examples "consists of contract actions", with: "the actions of the public permission" do
           let(:expected) do
             [
-              ['memberships/read', user.id, project.id]
+              ["activities/read", user.id, project.id]
             ]
           end
         end
       end
     end
 
-    context 'with the anonymous role having the action permission in a public project' do
-      let(:anonymous_permissions) { %i[view_members] }
-      let(:project_public) { true }
-      let(:members) { [anonymous_role] }
+    context "with a global member without any permissions" do
+      let(:members) { [global_member] }
 
-      it_behaves_like 'is empty'
+      include_examples "is empty"
     end
 
-    context 'with the anonymous user with an action permission' do
+    context "with a non member role without any permissions" do
+      let(:members) { [non_member_role] }
+
+      include_examples "is empty"
+
+      context "with the project being public and having a module activated with a public permission" do
+        before do
+          project.update(public: true)
+          project.enabled_module_names = ["activity"]
+        end
+
+        include_examples "consists of contract actions", with: "the actions of the public permission" do
+          let(:expected) do
+            [
+              ["activities/read", user.id, project.id]
+            ]
+          end
+        end
+      end
+    end
+
+    context "with a global member with a global permission" do
+      let(:global_permissions) { %i[manage_user] }
+      let(:members) { [global_member] }
+
+      include_examples "consists of contract actions", with: "the actions of the global permission" do
+        let(:expected) do
+          [
+            ["users/read", user.id, nil],
+            ["users/update", user.id, nil]
+          ]
+        end
+      end
+
+      context "with the user being locked" do
+        before do
+          user.locked!
+        end
+
+        include_examples "is empty"
+      end
+    end
+
+    context "with a member with a project permission" do
+      let(:member_permissions) { %i[manage_members] }
+      let(:members) { [member] }
+
+      include_examples "consists of contract actions", with: "the actions of the project permission" do
+        let(:expected) do
+          [["memberships/create", user.id, project.id],
+           ["memberships/destroy", user.id, project.id],
+           ["memberships/update", user.id, project.id]]
+        end
+      end
+
+      context "with the user being locked" do
+        before do
+          user.locked!
+        end
+
+        include_examples "is empty"
+      end
+    end
+
+    context "with the non member role with a project permission" do
+      let(:non_member_permissions) { %i[view_members] }
+      let(:members) { [non_member_role] }
+
+      context "with the project being private" do
+        include_examples "is empty"
+      end
+
+      context "with the project being public" do
+        before do
+          project.update(public: true)
+        end
+
+        include_examples "consists of contract actions", with: "the actions of the project permission" do
+          let(:expected) do
+            [
+              ["memberships/read", user.id, project.id]
+            ]
+          end
+        end
+
+        context "with the user being locked" do
+          before do
+            user.locked!
+          end
+
+          include_examples "is empty"
+        end
+      end
+    end
+
+    context "with the anonymous role having a project permission in a public project" do
+      let(:anonymous_permissions) { %i[view_members] }
+      let(:members) { [anonymous_role] }
+
+      before do
+        project.update(public: true)
+      end
+
+      include_examples "is empty"
+    end
+
+    context "with the anonymous user without any permissions with a public project" do
+      let(:anonymous_permissions) { %i[] }
+      let!(:user) { create(:anonymous) }
+      let(:members) { [anonymous_role] }
+
+      before do
+        project.update(public: true)
+      end
+
+      include_examples "is empty"
+
+      context "with the project having a module activated with a public permission" do
+        before do
+          project.enabled_module_names = ["activity"]
+        end
+
+        include_examples "consists of contract actions", with: "the actions of the public permission" do
+          let(:expected) do
+            [
+              ["activities/read", user.id, project.id]
+            ]
+          end
+        end
+      end
+    end
+
+    context "with the anonymous user with a project permission" do
       let(:anonymous_permissions) { %i[view_members] }
       let!(:user) { create(:anonymous) }
       let(:members) { [anonymous_role] }
 
-      context 'with the project being private' do
-        it_behaves_like 'is empty'
+      context "with the project being private" do
+        include_examples "is empty"
       end
 
-      context 'with the anonymous role not having the permission' do
-        let(:anonymous_permissions) { %i[] }
+      context "with the project being public" do
+        before do
+          project.update(public: true)
+        end
 
-        it_behaves_like 'is empty'
-      end
-
-      context 'with the project being public' do
-        let(:project_public) { true }
-
-        it_behaves_like 'consists of contract actions' do
+        include_examples "consists of contract actions", with: "the actions of the project permission" do
           let(:expected) do
             [
-              ['memberships/read', user.id, project.id]
+              ["memberships/read", user.id, project.id]
             ]
           end
         end
       end
     end
 
-    context 'with a member without a permission and with the non member having a permission' do
+    context "with a member without any permissions and with the non member having a project permission" do
       let(:non_member_permissions) { %i[view_members] }
       let(:members) { [member, non_member_role] }
 
-      it_behaves_like 'consists of contract actions' do
-        let(:expected) do
-          [
-            ['memberships/read', user.id, project.id]
-          ]
+      context "when the project is private" do
+        include_examples "is empty"
+      end
+
+      context "when the project is public" do
+        before do
+          project.update(public: true)
         end
+
+        include_examples "is empty"
       end
     end
 
-    context 'with a member with a permission and with the non member having the same permission' do
+    context "with a member with a project permission and with the non member having another project permission" do
+      # This setup is not possible as having the manage_members permission requires to have view_members via the dependency
+      # but it is convenient to test.
       let(:non_member_permissions) { %i[view_members] }
-      let(:member_permissions) { %i[view_members] }
+      let(:member_permissions) { %i[manage_members] }
       let(:members) { [member, non_member_role] }
 
-      it_behaves_like 'consists of contract actions' do
-        let(:expected) do
-          [
-            ['memberships/read', user.id, project.id]
-          ]
+      context "when the project is private" do
+        include_examples "consists of contract actions", with: "the capabilities granted by the user`s membership" do
+          let(:expected) do
+            [
+              ["memberships/create", user.id, project.id],
+              ["memberships/update", user.id, project.id],
+              ["memberships/destroy", user.id, project.id]
+            ]
+          end
+        end
+      end
+
+      context "when the project is public" do
+        before do
+          project.update(public: true)
+        end
+
+        include_examples "consists of contract actions", with: "the capabilities granted by the user`s membership" do
+          let(:expected) do
+            [
+              ["memberships/create", user.id, project.id],
+              ["memberships/update", user.id, project.id],
+              ["memberships/destroy", user.id, project.id]
+            ]
+          end
         end
       end
     end
 
-    context 'with the non member role with an action permission and the user being locked' do
-      let(:non_member_permissions) { %i[view_members] }
-      let(:members) { [non_member_role] }
-      let(:project_public) { true }
-      let(:user_status) { Principal.statuses[:locked] }
-
-      it_behaves_like 'is empty'
-    end
-
-    context 'with an admin' do
-      let(:user_admin) { true }
-
-      it_behaves_like 'consists of contract actions' do
-        let(:expected) do
-          # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
-          item = ->(namespace, action, global, module_name) {
-            # We only expect contract actions for project modules that are enabled by default. In the
-            # default edition the Bim module is not enabled by default for instance and thus it's contract
-            # actions are not expected to be part of the default capabilities.
-            return if module_name.present? && project.enabled_module_names.exclude?(module_name.to_s)
-
-            ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
-             user.id,
-             global ? nil : project.id]
-          }
-
-          OpenProject::AccessControl
-            .contract_actions_map
-            .select { |_, v| v[:grant_to_admin] }
-            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
-            .flatten(2)
-            .compact
-        end
-      end
-    end
-
-    context 'with an admin but with modules deactivated' do
-      let(:user_admin) { true }
-
+    context "with an admin" do
       before do
-        project.enabled_modules = []
+        user.update(admin: true)
       end
 
-      it_behaves_like 'consists of contract actions' do
-        let(:expected) do
-          # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
-          item = ->(namespace, action, global, module_name) {
-            return if module_name.present?
+      context "with modules activated" do
+        before do
+          project.enabled_module_names = OpenProject::AccessControl.available_project_modules
+        end
 
-            ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
-             user.id,
-             global ? nil : project.id]
-          }
+        include_examples "consists of contract actions",
+                         with: "all actions of all permissions (project and global) grantable to admin" do
+          let(:expected) do
+            # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
+            item = ->(namespace, action, global, module_name) {
+              # We only expect contract actions for project modules that are enabled by default. In the
+              # default edition the Bim module is not enabled by default for instance and thus it's contract
+              # actions are not expected to be part of the default capabilities.
+              return if module_name.present? && project.enabled_module_names.exclude?(module_name.to_s)
 
-          OpenProject::AccessControl
-            .contract_actions_map
-            .select { |_, v| v[:grant_to_admin] }
-            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
-            .flatten(2)
-            .compact
+              ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
+               user.id,
+               global ? nil : project.id]
+            }
+
+            OpenProject::AccessControl
+              .contract_actions_map
+              .select { |_, v| v[:grant_to_admin] }
+              .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
+              .flatten(2)
+              .compact
+              .uniq { |v| v.join(",") }
+          end
+
+          it "does not include actions of permissions non-grantable to admin" do
+            expect(scope.pluck(:action)).not_to include("work_packages/assigned")
+          end
+
+          it "include actions from public permissions of activated modules" do
+            expect(scope.pluck(:action)).to include("activities/read")
+          end
         end
       end
+
+      context "with modules deactivated" do
+        before do
+          project.enabled_modules = []
+        end
+
+        include_examples "consists of contract actions",
+                         with: "all actions of all core permissions without the ones from modules" do
+          let(:expected) do
+            # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
+            item = ->(namespace, action, global, module_name) {
+              return if module_name.present?
+
+              ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
+               user.id,
+               global ? nil : project.id]
+            }
+
+            OpenProject::AccessControl
+              .contract_actions_map
+              .select { |_, v| v[:grant_to_admin] }
+              .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
+              .flatten(2)
+              .compact
+              .uniq { |v| v.join(",") }
+          end
+        end
+      end
+
+      context "with admin user being locked" do
+        before do
+          user.locked!
+        end
+
+        include_examples "is empty"
+      end
     end
 
-    context 'with an admin but being locked' do
-      let(:user_admin) { true }
-      let(:user_status) { Principal.statuses[:locked] }
-
-      it_behaves_like 'is empty'
-    end
-
-    context 'without the current user being member in a project' do
-      let(:permissions) { %i[manage_members] }
+    context "without the current user being member in a project" do
+      let(:member_permissions) { %i[manage_members] }
       let(:global_permissions) { %i[manage_user] }
       let(:members) { [member, global_member] }
-      let(:current_user_admin) { false }
 
-      it_behaves_like 'is empty'
+      before do
+        current_user.update(admin: false)
+      end
+
+      include_examples "is empty"
     end
 
-    context 'with the current user being member in a project' do
-      let(:permissions) { %i[manage_members] }
+    context "with the current user being member in a project" do
+      let(:member_permissions) { %i[manage_members] }
       let(:global_permissions) { %i[manage_user] }
+      let(:own_role) { create(:project_role, permissions: []) }
+      let(:own_member) do
+        create(:member,
+               principal: current_user,
+               roles: [own_role],
+               project:)
+      end
       let(:members) { [own_member, member, global_member] }
-      let(:current_user_admin) { false }
 
-      it_behaves_like 'consists of contract actions' do
+      before do
+        current_user.update(admin: false)
+      end
+
+      include_examples "consists of contract actions" do
         let(:expected) do
           [
-            ['memberships/create', user.id, project.id],
-            ['memberships/destroy', user.id, project.id],
-            ['memberships/update', user.id, project.id],
-            ['users/create', user.id, nil],
-            ['users/read', user.id, nil],
-            ['users/update', user.id, nil]
+            ["memberships/create", user.id, project.id],
+            ["memberships/destroy", user.id, project.id],
+            ["memberships/update", user.id, project.id],
+            ["users/read", user.id, nil],
+            ["users/update", user.id, nil]
           ]
         end
       end
     end
 
-    context 'with a member with an action permission that is not granted to admin' do
-      let(:permissions) { %i[work_package_assigned] }
+    context "with a member with an action permission that is not granted to admin" do
+      let(:member_permissions) { %i[work_package_assigned] }
       let(:members) { [member] }
 
-      it_behaves_like 'consists of contract actions' do
+      before do
+        project.enabled_module_names = ["work_package_tracking"]
+      end
+
+      include_examples "consists of contract actions", with: "the actions of the permission" do
         let(:expected) do
           [
-            ['work_packages/assigned', user.id, project.id]
+            ["work_packages/assigned", user.id, project.id]
           ]
         end
       end
     end
 
-    context 'with a member with an action permission and the project being archived' do
-      let(:permissions) { %i[manage_members] }
+    context "with a member with a project permission and the project being archived" do
+      let(:member_permissions) { %i[manage_members] }
       let(:members) { [member] }
-      let(:project_active) { false }
 
-      it_behaves_like 'is empty'
+      before do
+        project.update(active: false)
+      end
+
+      include_examples "is empty"
+    end
+
+    context "with a work package membership" do
+      before do
+        project.enabled_module_names = ["work_package_tracking"]
+      end
+
+      let(:members) { [work_package_member] }
+
+      context "when no permissions are associated with the role" do
+        include_examples "is empty"
+      end
+
+      # TODO: This is temporary, we do not want the capabilities of the entity specific memberships to
+      # show up in the capabilities API for now. This will change in the future
+      context "when a permission is granted to the role" do
+        let(:work_package_permissions) { [:view_work_packages] }
+
+        include_examples "is empty"
+      end
+
+      context "for a public project" do
+        let(:non_member_permissions) { %i[view_members] }
+        let(:members) { [work_package_member, non_member_role] }
+
+        before do
+          project.update(public: true)
+        end
+
+        include_examples "consists of contract actions", with: "the actions of the non member role`s permission" do
+          let(:expected) do
+            [
+              ["memberships/read", user.id, project.id]
+            ]
+          end
+        end
+      end
     end
   end
 end

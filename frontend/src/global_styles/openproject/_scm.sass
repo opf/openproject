@@ -1,6 +1,6 @@
 /*-- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2012-2023 the OpenProject GmbH
+ * Copyright (C) 2012-2024 the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -25,6 +25,7 @@
  *
  * See COPYRIGHT and LICENSE files for more details. ++*/
 
+$repository-entry-filename-margin-left: 24px
 
 div.changeset-changes ul
   list-style-type: none
@@ -92,17 +93,17 @@ li.change
 
   &::before
     content: '▸'
-    color: var(--gray-dark)
+    color: var(--color-fg-muted)
 
 table.filecontent
-  border: 1px solid #ccc
+  border: 1px solid var(--color-border-muted)
   border-collapse: collapse
   width: 98%
   background-color: #fafafa
   line-height: initial
 
   th
-    border: 1px solid #ccc
+    border: 1px solid var(--color-border-muted)
     background-color: #eee
     &.filename
       background-color: #e4e4d4
@@ -228,13 +229,13 @@ tr
       td
         &.filename
           a
-            margin-left: var(--repository-entry-filename-margin-left)
+            margin-left: $repository-entry-filename-margin-left
 
 tr
   &.entry
     &.truncation-warning
       td
         div.op-toast
-          margin-left: var(--repository-entry-filename-margin-left)
+          margin-left: $repository-entry-filename-margin-left
           margin-top: 0
           margin-bottom: 0

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require "spec_helper"
 
-describe Stories::CreateService, type: :model do
+RSpec.describe Stories::CreateService, type: :model do
   let(:priority) { create(:priority) }
-  let(:project) do
-    project = create(:project, types: [type_feature])
-
-    create(:member,
-           principal: user,
-           project:,
-           roles: [role])
-    project
-  end
-  let(:role) { create(:role, permissions:) }
-  let(:permissions) { %i(add_work_packages manage_subtasks assign_versions) }
+  let(:project) { create(:project, types: [type_feature]) }
   let(:status) { create(:status) }
   let(:type_feature) { create(:type_feature) }
 
   let(:user) do
-    create(:user)
+    create(:user, member_with_permissions: { project => %i(add_work_packages manage_subtasks assign_versions) })
   end
 
   let(:instance) do
-    Stories::CreateService
-      .new(user:)
+    described_class.new(user:)
   end
 
   let(:attributes) do
@@ -61,15 +50,13 @@ describe Stories::CreateService, type: :model do
       priority:,
       parent_id: story.id,
       remaining_hours:,
-      subject: 'some subject'
+      subject: "some subject"
     }
   end
 
   let(:version) { create(:version, project:) }
 
   let(:story) do
-    project.enabled_module_names += ['backlogs']
-
     create(:story,
            version:,
            project:,
@@ -84,24 +71,30 @@ describe Stories::CreateService, type: :model do
 
   subject { instance.call(attributes:) }
 
-  describe "remaining_hours" do
+  describe "creating a feature in a story" do
     before do
       subject
     end
 
-    context 'with the story having remaining_hours' do
+    context "with the feature being created with some remaining work (remaining hours)" do
       let(:remaining_hours) { 15.0 }
 
-      it 'does update the parents remaining hours' do
-        expect(story.reload.remaining_hours).to eq(15)
+      it "updates the story total work, total remaining work, and total % complete" do
+        expect(subject).to be_success
+        expect(story.reload).to have_attributes(derived_estimated_hours: 15,
+                                                derived_remaining_hours: 15,
+                                                derived_done_ratio: 0)
       end
     end
 
-    context 'with the subtask not having remaining_hours' do
+    context "with the feature being created without any remaining work (remaining hours)" do
       let(:remaining_hours) { nil }
 
-      it 'does not note remaining hours to be changed' do
-        expect(story.reload.remaining_hours).to be_nil
+      it "does not change the story total work, total remaining work, and total % complete" do
+        expect(subject).to be_success
+        expect(story.reload).to have_attributes(derived_estimated_hours: nil,
+                                                derived_remaining_hours: nil,
+                                                derived_done_ratio: nil)
       end
     end
   end

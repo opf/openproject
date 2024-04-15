@@ -13,7 +13,7 @@ $search-input-height: 30px
   line-height: var(--header-height)
   margin: 0 15px
 
-  @media screen and (max-width: 679px)
+  @media screen and (max-width: $breakpoint-sm)
     margin: 0
 
   &--back-button
@@ -29,10 +29,7 @@ $search-input-height: 30px
     &:hover
       text-decoration: none
 
-    // TODO: This should be using  @include breakpoint(680px down)
-    // Which is hard to do since we don't have access here and it'll
-    // probably require a larger sass import refactoring
-    @media screen and (max-width: 679px)
+    @media screen and (max-width: $breakpoint-sm)
       position: relative
       padding: 0 8px
 
@@ -60,7 +57,10 @@ $search-input-height: 30px
 
     .ng-select-container
       background: transparent
-      border-color: var(--header-item-font-color)
+      border-color: var(--header-item-font-color) !important
+
+      &:focus-within
+        @include spot-focus
 
     .ng-arrow-wrapper
       display: none
@@ -73,7 +73,7 @@ $search-input-height: 30px
       text-align: center
 
     .ng-input
-      @media screen and (max-width: 679px)
+      @media screen and (max-width: $breakpoint-sm)
         // TODO: We need to do this because the default ng-select theme uses a specificity of 5(!) classes
         // We should probably remove the default theme altogether at some point
         top: 0 !important
@@ -87,6 +87,8 @@ $search-input-height: 30px
       // The ng-select default theme is overly specific
       // We might want to replace it with our own BEM theme definition
       color: var(--header-item-font-color) !important
+      // Reduce width to ensure placeholder text does not exceed
+      width: calc(100% - 30px)
 
     &.-expanded
       width: $search-input-width-expanded
@@ -99,13 +101,24 @@ $search-input-height: 30px
       input
         color: var(--header-search-field-font-color)
 
+    .ng-dropdown-header
+      border-bottom: none
+      color: $spot-color-basic-gray-2
+      line-height: 1rem
+      margin-top: 0.5rem
+      padding: 0.5rem 0.75rem
+      text-transform: uppercase
+
+      &:empty
+        display: none
+
     .ng-dropdown-panel-items.scroll-host
       @include styled-scroll-bar
       max-height: 80vh
       height: auto
 
     .ng-option
-      border-bottom: 1px solid #EAEAEA
+      border-bottom: 1px solid var(--color-border-muted)
       white-space: normal
       padding: 5px 10px
       // We do not want the default highlighting of ng-select to take place as
@@ -116,19 +129,15 @@ $search-input-height: 30px
       background-color: unset
       &:last-child
         border-bottom: none
-      &.ng-option-marked
-        color: var(--header-drop-down-item-font-hover-color)
       &.ng-option-disabled
         display: none
-      &.ng-option-selected
-        color: var(--header-drop-down-item-font-hover-color)
 
     &.-markable
       .ng-option
         &.ng-option-marked
           background-color: var(--drop-down-hover-bg-color)
         &.ng-option-selected
-          background-color: var(--drop-down-selected-bg-color)
+          background-color: unset
 
   &--input
     // Fix position of the spinner

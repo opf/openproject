@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ module CustomActions::Actions::Strategies::MeAssociated
   include ::CustomActions::Actions::Strategies::Associated
 
   def associated
-    me_value = [current_user_value_key, I18n.t('custom_actions.actions.assigned_to.executing_user_value')]
+    me_value = [current_user_value_key, I18n.t("custom_actions.actions.assigned_to.executing_user_value")]
 
     [me_value] + available_principles
   end
@@ -58,7 +58,7 @@ module CustomActions::Actions::Strategies::MeAssociated
   end
 
   def current_user_value_key
-    'current_user'.freeze
+    "current_user".freeze
   end
 
   def has_me_value?

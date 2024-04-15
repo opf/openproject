@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ProgressDisplayField } from './progress-display-field.module';
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 
-export class ProgressTextDisplayField extends ProgressDisplayField {
-  public render(element:HTMLElement, displayText:string):void {
-    const label = this.percentLabel;
-    element.setAttribute('title', label);
-    element.innerHTML = '';
-    element.textContent = label;
+export class ProgressTextDisplayField extends DisplayField {
+  public get valueString() {
+    return `${Math.round(Number(this.value))}%`;
   }
 }

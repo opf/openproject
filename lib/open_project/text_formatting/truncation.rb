@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ module OpenProject
       include ActionView::Helpers::TextHelper
 
       # Truncates and returns the string as a single line
-      def truncate_single_line(string, *args)
-        truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ').html_safe
+      def truncate_single_line(string, *)
+        truncate(string.to_s, *).gsub(%r{[\r\n]+}m, " ").html_safe
       end
     end
   end

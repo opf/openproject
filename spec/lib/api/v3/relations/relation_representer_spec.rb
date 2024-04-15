@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Relations::RelationRepresenter do
+RSpec.describe API::V3::Relations::RelationRepresenter do
   let(:user) { build_stubbed(:admin) }
 
   let(:from) { build_stubbed(:work_package) }
@@ -36,15 +36,15 @@ describe ::API::V3::Relations::RelationRepresenter do
 
   let(:type) { "follows" }
   let(:description) { "This first" }
-  let(:delay) { 3 }
+  let(:lag) { 3 }
 
   let(:relation) do
-    build_stubbed :relation,
+    build_stubbed(:relation,
                   from:,
                   to:,
                   relation_type: type,
                   description:,
-                  delay:
+                  lag:)
   end
 
   let(:representer) { described_class.new relation, current_user: user }
@@ -79,25 +79,25 @@ describe ::API::V3::Relations::RelationRepresenter do
       "type" => "follows",
       "reverseType" => "precedes",
       "description" => description,
-      "delay" => delay
+      "lag" => lag
     }
   end
 
-  it 'serializes the relation correctly' do
+  it "serializes the relation correctly" do
     data = JSON.parse representer.to_json
 
     expect(data).to eq result
   end
 
-  it 'deserializes the relation correctly' do
-    rep = ::API::V3::Relations::RelationRepresenter.new OpenStruct.new, current_user: user
+  it "deserializes the relation correctly" do
+    rep = API::V3::Relations::RelationRepresenter.new OpenStruct.new, current_user: user
     rel = rep.from_json result.except(:id).to_json
 
     expect(rel.from_id).to eq from.id.to_s
     expect(rel.to_id).to eq to.id.to_s
-    expect(rel.delay).to eq delay
+    expect(rel.lag).to eq lag
     expect(rel.relation_type).to eq type
     expect(rel.description).to eq description
-    expect(rel.delay).to eq delay
+    expect(rel.lag).to eq lag
   end
 end

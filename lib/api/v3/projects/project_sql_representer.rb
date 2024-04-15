@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,7 +90,7 @@ module API
                                            'title', ancestors.name)
                   WHEN ancestors.id IS NOT NULL AND ancestors.id NOT IN (SELECT id FROM visible_projects)
                     THEN json_build_object('href', '#{API::V3::URN_UNDISCLOSED}',
-                                           'title', #{ActiveRecord::Base.connection.quote(I18n.t(:'api_v3.undisclosed.ancestor'))})
+                                           'title', #{ActiveRecord::Base.connection.quote(I18n.t(:"api_v3.undisclosed.ancestor"))})
                   ELSE NULL
                 END
               SQL
@@ -104,11 +104,11 @@ module API
              title: -> { :name }
 
         link :ancestors,
-             sql: -> { 'ancestors' },
+             sql: -> { "ancestors" },
              join: {
                table: :ancestors,
-               condition: 'ancestors.id = projects.id',
-               select: 'ancestors'
+               condition: "ancestors.id = projects.id",
+               select: "ancestors"
              }
 
         property :_type,

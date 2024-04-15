@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'action_view/helpers/form_helper'
+require "action_view/helpers/form_helper"
 
 class CustomFieldFormBuilder < TabularFormBuilder
   include ActionView::Context
@@ -51,14 +51,14 @@ class CustomFieldFormBuilder < TabularFormBuilder
       label = custom_field_label_tag(options)
       container_options = options.merge(no_label: true)
 
-      label + container_wrap_field(input, 'field', container_options)
+      label + container_wrap_field(input, "field", container_options)
     end
   end
 
   private
 
   def custom_field_input(options = {})
-    field = custom_field.accessor_name
+    field = custom_field.attribute_name
 
     input_options = options.merge(no_label: true,
                                   name: custom_field_field_name,
@@ -67,14 +67,13 @@ class CustomFieldFormBuilder < TabularFormBuilder
     field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
 
     case field_format.try(:edit_as)
-    when 'date'
-      input_options[:class] = (input_options[:class] || '') << ' -augmented-datepicker'
-      text_field(field, input_options)
-    when 'text'
-      text_area(field, input_options.merge(with_text_formatting: true, macros: false, editor_type: 'constrained'))
-    when 'bool'
+    when "date"
+      date_picker(field, input_options)
+    when "text"
+      text_area(field, input_options.merge(with_text_formatting: true, macros: false, editor_type: "constrained"))
+    when "bool"
       check_box(field, input_options.merge(checked: custom_value.strategy.checked?))
-    when 'list'
+    when "list"
       custom_field_input_list(field, input_options)
     else
       text_field(field, input_options)
@@ -116,24 +115,24 @@ class CustomFieldFormBuilder < TabularFormBuilder
   end
 
   def custom_field_field_id
-    "#{object_name}#{custom_field.id}".gsub(/[\[\]]+/, '_')
+    "#{object_name}#{custom_field.id}".gsub(/[\[\]]+/, "_")
   end
 
   # Return custom field label tag
   def custom_field_label_tag(options)
-    classes = 'form--label'
-    classes << ' error' unless Array(custom_value).flat_map(&:errors).empty?
+    classes = "form--label"
+    classes << " error" unless Array(custom_value).flat_map(&:errors).empty?
 
-    content_tag 'label',
+    content_tag "label",
                 for: custom_field_field_id,
                 class: classes,
                 title: custom_field.name do
-      output = ''.html_safe
+      output = "".html_safe
       output += custom_field.name
 
       # Render a help text icon
       if options[:help_text]
-        output += content_tag('attribute-help-text', '', data: options[:help_text])
+        output += content_tag("attribute-help-text", "", data: options[:help_text])
       end
 
       output

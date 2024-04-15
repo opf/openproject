@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,24 @@
 FactoryBot.define do
   factory :journal do
     user factory: :user
-    created_at { Time.now }
+    created_at { Time.zone.now }
+    updated_at { created_at }
+    validity_period { created_at..Float::INFINITY }
     sequence(:version, 1)
 
-    factory :work_package_journal, class: 'Journal' do
-      journable_type { 'WorkPackage' }
+    callback(:before_create) do |journal|
+      # If there is a predecessor to the newly created journal, update the validity period of the predecessor
+      # to end at the creation time of the new journal.
+      Journal
+        .where(journable_id: journal.journable_id,
+               journable_type: journal.journable_type,
+               version: journal.version - 1)
+        .where("upper(validity_period) IS NULL")
+        .update_all(["validity_period = tstzrange(journals.created_at, ?)", journal.created_at])
+    end
+
+    factory :work_package_journal, class: "Journal" do
+      journable_type { "WorkPackage" }
       data { build(:journal_work_package_journal) }
 
       callback(:after_stub) do |journal, options|
@@ -41,19 +54,33 @@ FactoryBot.define do
       end
     end
 
-    factory :wiki_content_journal, class: 'Journal' do
-      journable_type { 'WikiContent' }
-      data { build(:journal_wiki_content_journal) }
+    factory :wiki_page_journal, class: "Journal" do
+      journable_type { "WikiPage" }
+      data { build(:journal_wiki_page_journal) }
+
+      callback(:after_stub) do |journal, options|
+        journal.journable ||= options.journable || build_stubbed(:wiki_page)
+      end
     end
 
-    factory :message_journal, class: 'Journal' do
-      journable_type { 'Message' }
+    factory :message_journal, class: "Journal" do
+      journable_type { "Message" }
       data { build(:journal_message_journal) }
     end
 
-    factory :news_journal, class: 'Journal' do
-      journable_type { 'News' }
+    factory :news_journal, class: "Journal" do
+      journable_type { "News" }
       data { build(:journal_message_journal) }
+    end
+
+    factory :project_journal, class: "Journal" do
+      journable factory: :project
+      data { build(:journal_project_journal) }
+    end
+
+    factory :time_entry_journal, class: "Journal" do
+      journable_type { "TimeEntry" }
+      data { association(:journal_time_entry_journal) }
     end
   end
 end

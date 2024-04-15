@@ -1,6 +1,12 @@
 #English strings go here
 sl:
-  label_calendar_plural: "Calendars"
-  permission_view_calendar: "View calendars"
-  permission_manage_calendars: "Manage calendars"
-  project_module_calendar_view: "Calendar"
+  plugin_openproject_calendar:
+    name: "OpenProject Calendar"
+    description: "Provides calendar views."
+  label_calendar: "Koledar"
+  label_calendar_plural: "Koledarji"
+  label_new_calendar: "New calendar"
+  permission_view_calendar: "Poglej koledarje"
+  permission_manage_calendars: "Uporavljaj koledarje"
+  permission_share_calendars: "Subscribe to iCalendars"
+  project_module_calendar_view: "Koledarji"

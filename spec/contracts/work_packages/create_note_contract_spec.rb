@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,9 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackages::CreateNoteContract do
+RSpec.describe WorkPackages::CreateNoteContract do
   let(:work_package) do
     # As we only want to test the contract, we mock checking whether the work_package is valid
     wp = build_stubbed(:work_package)
@@ -39,57 +39,57 @@ describe WorkPackages::CreateNoteContract do
     wp
   end
   let(:user) { build_stubbed(:user) }
-  let(:policy_instance) { double('WorkPackagePolicyInstance') }
+  let(:policy_instance) { double("WorkPackagePolicyInstance") }
 
   subject(:contract) do
     contract = described_class.new(work_package, user)
 
-    contract.send(:'policy=', policy_instance)
+    contract.send(:"policy=", policy_instance)
 
     contract
   end
 
-  describe 'note' do
+  describe "note" do
     before do
-      work_package.journal_notes = 'blubs'
+      work_package.journal_notes = "blubs"
     end
 
-    context 'if the user has the permissions' do
+    context "if the user has the permissions" do
       before do
         allow(policy_instance).to receive(:allowed?).with(work_package, :comment).and_return true
 
         contract.validate
       end
 
-      it('is valid') { expect(contract.errors).to be_empty }
+      it("is valid") { expect(contract.errors).to be_empty }
     end
 
-    context 'if the user lacks the permissions' do
+    context "if the user lacks the permissions" do
       before do
         allow(policy_instance).to receive(:allowed?).with(work_package, :comment).and_return false
 
         contract.validate
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(contract.errors.symbols_for(:journal_notes))
-          .to match_array([:error_unauthorized])
+          .to contain_exactly(:error_unauthorized)
       end
     end
   end
 
-  describe 'subject' do
+  describe "subject" do
     before do
-      work_package.subject = 'blubs'
+      work_package.subject = "blubs"
 
       allow(policy_instance).to receive(:allowed?).and_return true
 
       contract.validate
     end
 
-    it 'is invalid' do
+    it "is invalid" do
       expect(contract.errors.symbols_for(:subject))
-        .to match_array([:error_readonly])
+        .to contain_exactly(:error_readonly)
     end
   end
 end

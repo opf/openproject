@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Bim::Bcf::Issues::CreateContract do
-  it_behaves_like 'issues contract' do
+RSpec.describe Bim::Bcf::Issues::CreateContract do
+  it_behaves_like "issues contract" do
     let(:issue) do
       Bim::Bcf::Issue.new(uuid: issue_uuid,
                           work_package: issue_work_package,

@@ -1,0 +1,3 @@
+#!/bin/bash -e
+export QUEUE=bim,ifc_conversion
+exec bundle exec good_job start

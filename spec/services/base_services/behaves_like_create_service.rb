@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-shared_examples 'BaseServices create service' do
+RSpec.shared_examples "BaseServices create service" do
   let(:service_class) { described_class }
   let(:namespace) { service_class.to_s.deconstantize }
   let(:model_class) { namespace.singularize.constantize }
@@ -42,12 +42,12 @@ shared_examples 'BaseServices create service' do
   let(:instance) do
     described_class.new(user:, contract_class:)
   end
-  let(:call_attributes) { { name: 'Some name', identifier: 'Some identifier' } }
+  let(:call_attributes) { { name: "Some name", identifier: "Some identifier" } }
   let(:set_attributes_success) do
     true
   end
   let(:set_attributes_errors) do
-    double('set_attributes_errors')
+    double("set_attributes_errors")
   end
   let(:set_attributes_result) do
     ServiceResult.new result: model_instance,
@@ -56,7 +56,7 @@ shared_examples 'BaseServices create service' do
   end
   let!(:model_instance) { build_stubbed(factory) }
   let!(:set_attributes_service) do
-    service = double('set_attributes_service_instance')
+    service = double("set_attributes_service_instance")
 
     allow(set_attributes_class)
       .to(receive(:new))
@@ -83,47 +83,47 @@ shared_examples 'BaseServices create service' do
 
   subject { instance.call(call_attributes) }
 
-  describe '#user' do
-    it 'exposes a user which is available as a getter' do
+  describe "#user" do
+    it "exposes a user which is available as a getter" do
       expect(instance.user).to eql user
     end
   end
 
-  describe '#contract' do
-    it 'uses the CreateContract contract' do
+  describe "#contract" do
+    it "uses the CreateContract contract" do
       expect(instance.contract_class).to eql contract_class
     end
   end
 
-  describe '#call' do
-    context 'if contract validates and the model saves' do
-      it 'is successful' do
+  describe "#call" do
+    context "if contract validates and the model saves" do
+      it "is successful" do
         expect(subject).to be_success
       end
 
-      it 'matches the set attributes errors' do
+      it "matches the set attributes errors" do
         expect(subject.errors).to eq(set_attributes_errors)
       end
 
-      it 'returns the model as a result' do
+      it "returns the model as a result" do
         result = subject.result
         expect(result).to be_a model_class
       end
     end
 
-    context 'if contract does not validate' do
+    context "if contract does not validate" do
       let(:set_attributes_success) { false }
 
-      it 'is unsuccessful' do
+      it "is unsuccessful" do
         expect(subject).not_to be_success
       end
     end
 
-    context 'if model does not save' do
+    context "if model does not save" do
       let(:model_save_result) { false }
-      let(:errors) { double('errors') }
+      let(:errors) { double("errors") }
 
-      it 'is unsuccessful' do
+      it "is unsuccessful" do
         expect(subject).not_to be_success
       end
 

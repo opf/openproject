@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,12 +34,12 @@ module Redmine
       end
 
       def link_to(name, options = {})
-        return if Setting.table_exists? && !Setting.feeds_enabled? && name == 'Atom'
+        return if Setting.table_exists? && !Setting.feeds_enabled? && name == "Atom"
 
         url = { format: name.to_s.downcase }.merge(options.delete(:url) || {})
         caption = options.delete(:caption) || name
-        html_options = { class: "icon icon-#{name.to_s.downcase}", rel: 'nofollow' }.merge(options)
-        @view.content_tag('span', @view.link_to(caption, url, html_options))
+        html_options = { class: "icon icon-#{name.to_s.downcase}", rel: "nofollow" }.merge(options)
+        @view.content_tag("span", @view.link_to(caption, url, html_options))
       end
     end
   end

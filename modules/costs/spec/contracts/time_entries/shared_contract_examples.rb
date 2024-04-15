@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-shared_examples_for 'time entry contract' do
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && time_entry_project == permission_project
-      end
+RSpec.shared_examples_for "time entry contract" do
+  let(:current_user) { build_stubbed(:user) }
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*permissions, project: time_entry_project) if time_entry_project
     end
   end
+
   let(:other_user) { build_stubbed(:user) }
   let(:time_entry_work_package) do
     build_stubbed(:work_package,
@@ -108,149 +107,139 @@ shared_examples_for 'time entry contract' do
     end
   end
 
-  shared_examples 'is valid' do
-    it 'is valid' do
+  shared_examples "is valid" do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  it_behaves_like 'is valid'
+  it_behaves_like "is valid"
 
-  context 'when the work_package is within a different project than the provided project' do
+  context "when the work_package is within a different project than the provided project" do
     let(:time_entry_work_package) { build_stubbed(:work_package) }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, work_package_id: %i(invalid))
     end
   end
 
-  context 'when the work_package is nil' do
+  context "when the work_package is nil" do
     let(:time_entry_work_package) { nil }
 
-    it_behaves_like 'is valid'
+    it_behaves_like "is valid"
   end
 
-  context 'when the project is nil' do
+  context "when the project is nil" do
     let(:time_entry_project) { nil }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, project_id: %i(invalid blank))
     end
   end
 
-  context 'when activity is nil' do
+  context "when activity is nil" do
     let(:time_entry_activity) { nil }
 
-    it 'is invalid' do
-      expect_valid(false, activity_id: %i(blank))
-    end
+    it_behaves_like "is valid"
   end
 
-  context 'if the activity is disabled in the project' do
+  context "if the activity is disabled in the project" do
     let(:time_entry_activity_active) { false }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, activity_id: %i(inclusion))
     end
   end
 
-  context 'when spent_on is nil' do
+  context "when spent_on is nil" do
     let(:time_entry_spent_on) { nil }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, spent_on: %i(blank))
     end
   end
 
-  context 'when spent_on is outside the year limits to prevent overflow in postgres' do
+  context "when spent_on is outside the year limits to prevent overflow in postgres" do
     let(:time_entry_spent_on) { Date.new(10000) }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, spent_on: %i(date_before_or_equal_to))
     end
   end
 
-  context 'when spent_on is in the future' do
+  context "when spent_on is in the future" do
     let(:time_entry_spent_on) { Date.new(9999) }
 
-    it 'is valid' do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  context 'when spent_on is today' do
+  context "when spent_on is today" do
     let(:time_entry_spent_on) { Time.zone.today }
 
-    it 'is valid' do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  context 'when spent_on is in the past' do
+  context "when spent_on is in the past" do
     let(:time_entry_spent_on) { Time.zone.yesterday }
 
-    it 'is valid' do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  context 'when hours is nil' do
+  context "when hours is nil" do
     let(:time_entry_hours) { nil }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, hours: %i(blank))
     end
   end
 
-  context 'when hours is negative' do
+  context "when hours is negative" do
     let(:time_entry_hours) { -1 }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, hours: %i(invalid))
     end
   end
 
-  context 'when comment is longer than 255' do
-    let(:time_entry_comments) { "a" * 256 }
-
-    it 'is invalid' do
-      expect_valid(false, comments: %i(too_long))
-    end
-  end
-
-  context 'when comment is nil' do
+  context "when comment is nil" do
     let(:time_entry_comments) { nil }
 
-    it_behaves_like 'is valid'
+    it_behaves_like "is valid"
   end
 
-  context 'if more than 24 hours are booked for a day' do
+  context "if more than 24 hours are booked for a day" do
     let(:time_entry_day_sum) { 24 - time_entry_hours + 1 }
 
-    it 'is valid' do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  describe 'assignable_activities' do
-    context 'if no project is set' do
+  describe "assignable_activities" do
+    context "if no project is set" do
       let(:time_entry_project) { nil }
 
-      it 'is empty' do
+      it "is empty" do
         expect(contract.assignable_activities)
           .to be_empty
       end
     end
 
-    context 'if a project is set' do
-      it 'returns all activities active in the project' do
+    context "if a project is set" do
+      it "returns all activities active in the project" do
         expect(contract.assignable_activities)
           .to eql activities_scope
       end
     end
   end
 
-  describe 'assignable_versions' do
+  describe "assignable_versions" do
     let(:project_versions) { [instance_double(Version)] }
     let(:wp_versions) { [instance_double(Version)] }
 
@@ -268,36 +257,36 @@ shared_examples_for 'time entry contract' do
       end
     end
 
-    context 'if no project and no work package is set' do
+    context "if no project and no work package is set" do
       let(:time_entry_project) { nil }
       let(:time_entry_work_package) { nil }
 
-      it 'is empty' do
+      it "is empty" do
         expect(contract.assignable_versions)
           .to be_empty
       end
     end
 
-    context 'if a project is set but no work package' do
+    context "if a project is set but no work package" do
       let(:time_entry_work_package) { nil }
 
-      it 'returns assignable_versions of the project' do
+      it "returns assignable_versions of the project" do
         expect(contract.assignable_versions)
           .to eql project_versions
       end
     end
 
-    context 'if a work_package is set but no project' do
+    context "if a work_package is set but no project" do
       let(:time_entry_project) { nil }
 
-      it 'returns assignable_versions of the project' do
+      it "returns assignable_versions of the project" do
         expect(contract.assignable_versions)
           .to eql wp_versions
       end
     end
 
-    context 'if both project and work_package are set' do
-      it 'returns assignable_versions of the project' do
+    context "if both project and work_package are set" do
+      it "returns assignable_versions of the project" do
         expect(contract.assignable_versions)
           .to eql wp_versions
       end

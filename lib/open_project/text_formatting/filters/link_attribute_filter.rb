@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,14 +31,14 @@ module OpenProject::TextFormatting
     class LinkAttributeFilter < HTML::Pipeline::Filter
       def call
         links.each do |node|
-          node['target'] = context[:target] if context[:target].present?
+          node["target"] = context.fetch(:target, "_top")
         end
 
         doc
       end
 
       def links
-        doc.xpath(".//a[contains(@href,'/')]")
+        doc.css('a[href^="/"]')
       end
     end
   end

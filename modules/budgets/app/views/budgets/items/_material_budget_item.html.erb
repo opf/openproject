@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -35,10 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
   prefix = "budget[#{new_or_existing}_material_budget_item_attributes][]"
   id_prefix = "budget_#{new_or_existing}_material_budget_item_attributes_#{id_or_index}"
   name_prefix = "budget[#{new_or_existing}_material_budget_item_attributes][#{id_or_index}]"
-  classes ||= ""
 
-  classes += " budget-row-template" if templated
-  @material_budget_item = material_budget_item
   error_messages = error_messages_for 'material_budget_item'
 -%>
 
@@ -48,7 +45,8 @@ See COPYRIGHT and LICENSE files for more details.
   </tr>
 <% end %>
 <%= fields_for prefix, material_budget_item do |cost_form| %>
-  <tr class="cost_entry <%= classes %>" id="<%= id_prefix %>">
+  <tr class="cost_entry"
+      id="<%= id_prefix %>">
     <td class="units">
       <div class="form--field-container">
         <div class="form--text-field-container -xslim">
@@ -61,7 +59,11 @@ See COPYRIGHT and LICENSE files for more details.
                                    inputmode: :decimal,
                                    placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
                                    class: 'budget-item-value form--text-field',
-                                   data: {:'request-key' => 'units'} %>
+                                   data: {
+                                     :'request-key' => 'units',
+                                     :'action' => 'keyup->costs--budget-subform#valueChanged'
+                                   }
+          %>
         </div>
       </div>
     </td>
@@ -76,14 +78,17 @@ See COPYRIGHT and LICENSE files for more details.
                            {
                              index: id_or_index,
                              class: 'form--select budget-item-value',
-                             data: {:'request-key' => 'cost_type_id'}
+                             data: {
+                               :'request-key' => 'cost_type_id',
+                               :'action' => 'change->costs--budget-subform#valueChanged'
+                             }
                            } %>
     </td>
     <td class="comment">
       <label class="hidden-for-sighted" for="<%= id_prefix %>_comments"><%= MaterialBudgetItem.human_attribute_name(:comments) %></label>
       <%= cost_form.text_field :comments, index: id_or_index, size: 40 %>
     </td>
-    <% if User.current.allowed_to? :view_cost_rates, @project %>
+    <% if User.current.allowed_in_project? :view_cost_rates, @project %>
       <td class="currency form--td budget-table--fields">
         <%# Keep current budget as hidden field because otherwise they will be overridden %>
         <% if templated == false && material_budget_item.overridden_costs? %>
@@ -94,7 +99,6 @@ See COPYRIGHT and LICENSE files for more details.
         <a id="<%= id_prefix %>_costs" class="costs--edit-planned-costs-btn icon-context icon-edit" role="button" title="<%= t(:help_click_to_edit) %>">
           <%= number_to_currency(cost_value) %>
         </a>
-        </a>
         <%= render partial: '/budgets/items/budget_override_cost_form',
                    locals: {
                      field_name: "#{name_prefix}[amount]",
@@ -104,7 +108,9 @@ See COPYRIGHT and LICENSE files for more details.
       </td>
     <% end %>
     <td class="delete form--td budget-table--fields buttons">
-      <a class="delete-budget-item no-decoration-on-hover" title="<%= t(:button_delete) %>">
+      <a class="delete-budget-item no-decoration-on-hover"
+         title="<%= t(:button_delete) %>"
+         data-action="costs--budget-subform#deleteRow">
         <%= op_icon('icon-context icon-delete') %>
         <span class="hidden-for-sighted"><%= t(:button_delete) %></span>
       </a>

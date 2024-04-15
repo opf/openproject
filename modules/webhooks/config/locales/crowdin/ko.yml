@@ -1,4 +1,7 @@
 ko:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhook"
+    description: "개선된 타사 통합을 위해 OpenProject Webhook을 지원하는 플러그인 API를 제공합니다."
   activerecord:
     attributes:
       webhooks/webhook:

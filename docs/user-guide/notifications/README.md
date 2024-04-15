@@ -37,7 +37,7 @@ The work packages are listed in order of freshness. The work packages on top of 
 
 ## Manage notifications
 
-Click on a notification to open the Activity tab of this work package in split screen. The Activity tab will auto-scroll to the last event that generated a notification.
+Click on a notification to open the Activity tab of this work package in split screen. If you double click on a notification, it will open the full view of a work package. The Activity tab will auto-scroll to the last event that generated a notification.
 
 > **Info:** Not all work package activity generate notifications. For example, if you received a notification because you were mentioned, there might be other activities on that work package after that, even though the *Activity* tab will auto-scroll to highlight the mention when you click on the notification, since the mention was originally what triggered the notification.
 
@@ -56,7 +56,7 @@ You can filter or group notifications by using the two sets of predefined filter
 
 > **Info:** The **Mark all as read** button clears all _visible_ notification rows. If you have a very large number unread notifications, the oldest ones might not be visible on the page. In this case, you might have to click the button multiple times to clear your inbox completely.
 
-(Area 4) If you would like to view your current notification preferences or modify them, click on the [**Notification settings**](./notification-settings) button. You can also access your settings via your Avatar in the top right corner > *My account* > *Notification settings*.
+(Area 4) If you would like to view your current notification preferences or modify them, click on the [Notification settings](./notification-settings) button. You can also access your settings via your Avatar in the top right corner > *My account* > *Notification settings*.
 
 (Area 5) The split screen view lets you not only view work package activity as previously described, but also lets you access all other work package tabs, including overview, files, relations and watchers.
 

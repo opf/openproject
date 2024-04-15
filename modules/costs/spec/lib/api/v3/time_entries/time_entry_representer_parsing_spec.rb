@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "parsing" do
+  include API::V3::Utilities::PathHelper
 
   let(:time_entry) do
     build_stubbed(:time_entry,
-                  comments: 'blubs',
+                  comments: "blubs",
                   spent_on: Date.today - 3.days,
                   created_at: DateTime.now - 6.hours,
                   updated_at: DateTime.now - 3.hours,
@@ -53,10 +53,10 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
     described_class.create(time_entry, current_user: user, embed_links: true)
   end
   let(:user_custom_field) do
-    build_stubbed(:time_entry_custom_field, field_format: 'user')
+    build_stubbed(:time_entry_custom_field, :user)
   end
-  let(:test_custom_field) do
-    build_stubbed(:time_entry_custom_field, field_format: 'text')
+  let(:text_custom_field) do
+    build_stubbed(:time_entry_custom_field)
   end
 
   let(:hash) do
@@ -72,16 +72,16 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
           "href" => api_v3_paths.work_package(work_package2.id)
 
         },
-        "customField#{user_custom_field.id}" => {
+        user_custom_field.attribute_name(:camel_case) => {
           "href" => api_v3_paths.user(user2.id)
         }
       },
-      "hours" => 'PT5H',
+      "hours" => "PT5H",
       "comment" => {
         "raw" => "some comment"
       },
       "spentOn" => "2017-07-28",
-      "customField#{test_custom_field.id}" => {
+      text_custom_field.attribute_name(:camel_case) => {
         "raw" => "some text"
       }
     }
@@ -90,36 +90,36 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
   before do
     allow(time_entry)
       .to receive(:available_custom_fields)
-      .and_return([test_custom_field, user_custom_field])
+      .and_return([text_custom_field, user_custom_field])
   end
 
-  describe '_links' do
-    context 'activity' do
-      it 'updates the activity' do
+  describe "_links" do
+    context "activity" do
+      it "updates the activity" do
         time_entry = representer.from_hash(hash)
         expect(time_entry.activity_id)
           .to eql(activity2.id)
       end
     end
 
-    context 'project' do
-      it 'updates the project' do
+    context "project" do
+      it "updates the project" do
         time_entry = representer.from_hash(hash)
         expect(time_entry.project_id)
           .to eql(project2.id)
       end
     end
 
-    context 'workPackage' do
-      it 'updates the work_package' do
+    context "workPackage" do
+      it "updates the work_package" do
         time_entry = representer.from_hash(hash)
         expect(time_entry.work_package_id)
           .to eql(work_package2.id)
       end
     end
 
-    context 'linked custom field' do
-      it 'updates the custom value' do
+    context "linked custom field" do
+      it "updates the custom value" do
         time_entry = representer.from_hash(hash)
 
         expect(time_entry.custom_field_values.detect { |cv| cv.custom_field_id == user_custom_field.id }.value)
@@ -128,30 +128,30 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
     end
   end
 
-  describe 'properties' do
-    context 'spentOn' do
-      it 'updates spent_on' do
+  describe "properties" do
+    context "spentOn" do
+      it "updates spent_on" do
         time_entry = representer.from_hash(hash)
         expect(time_entry.spent_on)
           .to eql(Date.parse("2017-07-28"))
       end
     end
 
-    context 'hours' do
-      it 'updates hours' do
+    context "hours" do
+      it "updates hours" do
         time_entry = representer.from_hash(hash)
         expect(time_entry.hours)
           .to be(5.0)
       end
 
-      context 'with null value' do
+      context "with null value" do
         let(:hash) do
           {
             "hours" => nil
           }
         end
 
-        it 'updates hours' do
+        it "updates hours" do
           time_entry = representer.from_hash(hash)
           expect(time_entry.hours)
             .to be_nil
@@ -159,19 +159,19 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
       end
     end
 
-    context 'comment' do
-      it 'updates comment' do
+    context "comment" do
+      it "updates comment" do
         time_entry = representer.from_hash(hash)
         expect(time_entry.comments)
-          .to eql('some comment')
+          .to eql("some comment")
       end
     end
 
-    context 'property custom field' do
-      it 'updates the custom value' do
+    context "property custom field" do
+      it "updates the custom value" do
         time_entry = representer.from_hash(hash)
 
-        expect(time_entry.custom_field_values.detect { |cv| cv.custom_field_id == test_custom_field.id }.value)
+        expect(time_entry.custom_field_values.detect { |cv| cv.custom_field_id == text_custom_field.id }.value)
           .to eql("some text")
       end
     end

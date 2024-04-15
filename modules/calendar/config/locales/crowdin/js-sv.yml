@@ -2,7 +2,7 @@
 sv:
   js:
     calendar:
-      create_new: 'Create new calendar'
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      create_new: 'Skapa ny kalender'
+      title: 'Kalender'
+      too_many: 'Det finns totalt %{count} arbetspaket, men bara %{max} kan visas.'
+      unsaved_title: 'Kalender utan namn'

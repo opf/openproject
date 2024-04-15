@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ module Type::AttributeGroups
     after_save :unset_attribute_groups_objects
     after_destroy :remove_attribute_groups_queries
 
-    serialize :attribute_groups, Array
+    serialize :attribute_groups, type: Array
     attr_accessor :attribute_groups_objects
 
     # Mapping from AR attribute name to a default group
@@ -45,6 +45,7 @@ module Type::AttributeGroups
         assignee: :people,
         responsible: :people,
         estimated_time: :estimates_and_time,
+        remaining_time: :estimates_and_time,
         spent_time: :estimates_and_time,
         priority: :details
       }
@@ -57,7 +58,7 @@ module Type::AttributeGroups
         estimates_and_time: :label_estimates_and_time,
         details: :label_details,
         other: :label_other,
-        children: :'activerecord.attributes.work_package.children'
+        children: :"activerecord.attributes.work_package.children"
       }
     end
   end
@@ -226,8 +227,7 @@ module Type::AttributeGroups
     old_groups = attribute_groups_was
 
     ids = (old_groups.map(&:last).flatten - new_groups.map(&:last).flatten)
-          .map { |k| ::Type::QueryGroup.query_attribute_id(k) }
-          .compact
+          .filter_map { |k| ::Type::QueryGroup.query_attribute_id(k) }
 
     Query.where(id: ids).destroy_all
   end

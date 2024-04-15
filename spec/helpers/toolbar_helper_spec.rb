@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ToolbarHelper, type: :helper do
-  describe '.toolbar' do
-    it 'creates a default toolbar' do
-      result = toolbar title: 'Title'
+RSpec.describe ToolbarHelper do
+  describe ".toolbar" do
+    it "creates a default toolbar" do
+      result = toolbar title: "Title"
       expect(result).to be_html_eql %{
         <div class="toolbar-container">
           <div class="toolbar">
@@ -44,8 +44,8 @@ describe ToolbarHelper, type: :helper do
       }
     end
 
-    it 'is able to add a subtitle' do
-      result = toolbar title: 'Title', subtitle: 'lorem'
+    it "is able to add a subtitle" do
+      result = toolbar title: "Title", subtitle: "lorem"
       expect(result).to be_html_eql %{
         <div class="toolbar-container">
           <div class="toolbar">
@@ -59,8 +59,8 @@ describe ToolbarHelper, type: :helper do
       }
     end
 
-    it 'is able to add a link_to' do
-      result = toolbar title: 'Title', link_to: link_to('foobar', user_path('1234'))
+    it "is able to add a link_to" do
+      result = toolbar title: "Title", link_to: link_to("foobar", user_path("1234"))
       expect(result).to be_html_eql %{
         <div class="toolbar-container">
           <div class="toolbar">
@@ -73,7 +73,7 @@ describe ToolbarHelper, type: :helper do
       }
     end
 
-    it 'escapes the title' do
+    it "escapes the title" do
       result = toolbar title: '</h2><script>alert("foobar!");</script>'
       expect(result).to be_html_eql %{
         <div class="toolbar-container">
@@ -87,10 +87,10 @@ describe ToolbarHelper, type: :helper do
       }
     end
 
-    it 'includes capsulate html' do
-      result = toolbar title: 'Title' do
+    it "includes capsulate html" do
+      result = toolbar title: "Title" do
         content_tag :li do
-          content_tag :p, 'paragraph', data: { number: 2 }
+          content_tag :p, "paragraph", data: { number: 2 }
         end
       end
       expect(result).to be_html_eql %{
@@ -110,10 +110,10 @@ describe ToolbarHelper, type: :helper do
     end
   end
 
-  describe '.breadcrumb_toolbar' do
-    it 'escapes properly' do
+  describe ".breadcrumb_toolbar" do
+    it "escapes properly" do
       result = breadcrumb_toolbar '</h2><script>alert("foobar!");</script>',
-                                  link_to('foobar', user_path('1234'))
+                                  link_to("foobar", user_path("1234"))
 
       expect(result).to be_html_eql %{
         <div class="toolbar-container">

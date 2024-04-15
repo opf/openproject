@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,22 +38,22 @@ module OpenProject::TextFormatting
 
           attributes: base[:attributes].deep_merge(
             # Whitelist class and data-* attributes on all macros
-            'macro' => ['class', :data],
+            "macro" => ["class", :data],
             # mentions
-            'mention' => %w[data-type data-text data-id class],
+            "mention" => %w[data-type data-text data-id class],
             # add styles to tables
-            'figure' => %w[class style],
+            "figure" => %w[class style],
             # allow inline image styles
-            'img' => %w[src alt longdesc style],
-            'table' => ['style'],
-            'th' => ['style'],
-            'tr' => ['style'],
-            'td' => ['style']
+            "img" => %w[src alt longdesc style],
+            "table" => ["style"],
+            "th" => ["style"],
+            "tr" => ["style"],
+            "td" => ["style"]
           ),
 
           # Add rel attribute to prevent tabnabbing
           add_attributes: {
-            'a' => { 'rel' => 'noopener noreferrer' }
+            "a" => { "rel" => "noopener noreferrer" }
           },
 
           # Add custom transformer logic for more complex modifications
@@ -80,14 +80,14 @@ module OpenProject::TextFormatting
           name = env[:node_name]
           table = env[:node]
 
-          next unless name == 'table'
+          next unless name == "table"
 
           # Support both the old css ('todo-list__label') as well as the new one
           # ('op-uc-list_task-list').
-          table.css('label.todo-list__label, .op-uc-list_task-list label').each do |label|
+          table.css("label.todo-list__label, .op-uc-list_task-list label").each do |label|
             # table.css('.op-uc-list_task-list label').each do |label|
-            checkbox = label.css('input[type=checkbox]').first
-            li_node = label.ancestors.detect { |node| node.name == 'li' }
+            checkbox = label.css("input[type=checkbox]").first
+            li_node = label.ancestors.detect { |node| node.name == "li" }
 
             # assign all children of the label to its parent
             # that might be the LI, or another element (code, link)
@@ -103,7 +103,7 @@ module OpenProject::TextFormatting
               to_add = li_node == parent ? label.children : parent
               li_node.add_child to_add
             else
-              checked = checkbox.attr('checked') == 'checked' ? 'x' : ' '
+              checked = checkbox.attr("checked") == "checked" ? "x" : " "
               checkbox.unlink
 
               # Ensure the task list text is be added as first child to the LI
@@ -127,11 +127,11 @@ module OpenProject::TextFormatting
           name = env[:node_name]
           code = env[:node]
 
-          next unless name == 'code'
+          next unless name == "code"
 
           parent = code.parent
 
-          if parent&.name == 'pre'
+          if parent&.name == "pre"
             parent.children = code.children
           end
         }

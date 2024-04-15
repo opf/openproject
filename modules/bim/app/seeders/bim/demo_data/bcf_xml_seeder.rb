@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,29 +28,28 @@
 module Bim
   module DemoData
     class BcfXmlSeeder < ::Seeder
-      attr_reader :project, :key
+      attr_reader :project, :project_data
 
-      def initialize(project, key)
+      def initialize(project, project_data)
+        super()
         @project = project
-        @key = key
+        @project_data = project_data
       end
 
       def seed_data!
-        filename = project_data_for(key, 'bcf_xml_file')
-        return unless filename.present?
+        filename = project_data.lookup("bcf_xml_file")
+        return if filename.blank?
 
-        user = User.admin.active.first
-
-        print_status '    ↳ Import BCF XML file'
+        print_status "    ↳ Import BCF XML file"
 
         import_options = {
-          invalid_people_action: 'anonymize',
-          unknown_mails_action: 'anonymize',
-          non_members_action: 'anonymize'
+          invalid_people_action: "anonymize",
+          unknown_mails_action: "anonymize",
+          non_members_action: "anonymize"
         }
 
-        bcf_xml_file = File.new(File.join(Rails.root, 'modules/bim/files', filename))
-        importer = ::OpenProject::Bim::BcfXml::Importer.new(bcf_xml_file, project, current_user: user)
+        bcf_xml_file = Rails.root.join("modules/bim/files", filename).to_s
+        importer = ::OpenProject::Bim::BcfXml::Importer.new(bcf_xml_file, project, current_user: admin_user)
         importer.import!(import_options).flatten
       end
     end

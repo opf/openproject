@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Category resource' do
+RSpec.describe "API v3 Category resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions: []) }
+  let(:role) { create(:project_role, permissions: []) }
   let(:private_project) { create(:project, public: false) }
   let(:public_project) { create(:project, public: true) }
   let(:anonymous_user) { create(:user) }
   let(:privileged_user) do
     create(:user,
-           member_in_project: private_project,
-           member_through_role: role)
+           member_with_roles: { private_project => role })
   end
 
   let!(:categories) { create_list(:category, 3, project: private_project) }
@@ -52,10 +51,10 @@ describe 'API v3 Category resource' do
                 assigned_to: privileged_user)
   end
 
-  describe 'categories by project' do
+  describe "categories by project" do
     subject(:response) { last_response }
 
-    context 'logged in user' do
+    context "logged in user" do
       let(:get_path) { api_v3_paths.categories_by_project private_project.id }
 
       before do
@@ -64,10 +63,10 @@ describe 'API v3 Category resource' do
         get get_path
       end
 
-      it_behaves_like 'API V3 collection response', 5, 5, 'Category'
+      it_behaves_like "API V3 collection response", 5, 5, "Category"
     end
 
-    context 'not logged in user' do
+    context "not logged in user" do
       let(:get_path) { api_v3_paths.categories_by_project private_project.id }
 
       before do
@@ -76,14 +75,14 @@ describe 'API v3 Category resource' do
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 
-  describe 'categories/:id' do
+  describe "categories/:id" do
     subject(:response) { last_response }
 
-    context 'logged in user' do
+    context "logged in user" do
       let(:get_path) { api_v3_paths.category categories.first.id }
 
       before do
@@ -92,24 +91,24 @@ describe 'API v3 Category resource' do
         get get_path
       end
 
-      context 'valid priority id' do
-        it 'returns HTTP 200' do
+      context "valid priority id" do
+        it "returns HTTP 200" do
           expect(response.status).to be(200)
         end
       end
 
-      context 'invalid priority id' do
-        let(:get_path) { api_v3_paths.category 'bogus' }
+      context "invalid priority id" do
+        let(:get_path) { api_v3_paths.category "bogus" }
 
-        it_behaves_like 'param validation error' do
-          let(:id) { 'bogus' }
-          let(:type) { 'Category' }
+        it_behaves_like "param validation error" do
+          let(:id) { "bogus" }
+          let(:type) { "Category" }
         end
       end
     end
 
-    context 'not logged in user' do
-      let(:get_path) { api_v3_paths.category 'bogus' }
+    context "not logged in user" do
+      let(:get_path) { api_v3_paths.category "bogus" }
 
       before do
         allow(User).to receive(:current).and_return anonymous_user
@@ -117,9 +116,9 @@ describe 'API v3 Category resource' do
         get get_path
       end
 
-      it_behaves_like 'param validation error' do
-        let(:id) { 'bogus' }
-        let(:type) { 'Category' }
+      it_behaves_like "param validation error" do
+        let(:id) { "bogus" }
+        let(:type) { "Category" }
       end
     end
   end

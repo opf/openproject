@@ -1,7 +1,7 @@
 # /api/v3/storages/{id}
 ---
 get:
-  summary: Gets a storage.
+  summary: Get a storage
   operationId: get_storage
   tags:
     - File links
@@ -38,7 +38,7 @@ get:
         **Required permission:** view file links
         
 patch:
-  summary: Updates a storage.
+  summary: Update a storage
   operationId: update_storage
   tags:
     - File links
@@ -93,7 +93,7 @@ patch:
         **Required permission:** view file links
 
 delete:
-  summary: Deletes a storage.
+  summary: Delete a storage
   operationId: delete_storage
   tags:
     - File links
@@ -116,12 +116,10 @@ delete:
         application/hal+json:
           schema:
             $ref: '../components/schemas/error_response.yml'
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
 

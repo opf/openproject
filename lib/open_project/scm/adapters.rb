@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,7 +71,7 @@ module OpenProject
 
         def initialize(attributes = {})
           %i[name path kind size].each do |attr|
-            send("#{attr}=", attributes[attr])
+            send(:"#{attr}=", attributes[attr])
           end
 
           self.size = size.to_i if size.present?
@@ -79,11 +79,11 @@ module OpenProject
         end
 
         def file?
-          'file' == kind
+          "file" == kind
         end
 
         def dir?
-          'dir' == kind
+          "dir" == kind
         end
       end
 
@@ -105,11 +105,11 @@ module OpenProject
 
         def initialize(attributes = {})
           %i[identifier scmid author time paths revision branch].each do |attr|
-            send("#{attr}=", attributes[attr])
+            send(:"#{attr}=", attributes[attr])
           end
 
           self.name = attributes[:name].presence || identifier
-          self.message = attributes[:message].presence || ''
+          self.message = attributes[:message].presence || ""
         end
 
         # Returns the identifier of this revision; see also Changeset model

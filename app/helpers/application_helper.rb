@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'forwardable'
-require 'cgi'
+require "forwardable"
+require "cgi"
 
 module ApplicationHelper
   include OpenProject::TextFormatting
@@ -43,7 +43,10 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)
-    User.current.allowed_to?({ controller:, action: }, project)
+    User.current.allowed_in_project?({ controller:, action: }, project)
+  rescue Authorization::UnknownPermissionError
+    # TODO: Temporary fix until we find something better
+    false
   end
 
   # Display a link if user is authorized
@@ -69,8 +72,8 @@ module ApplicationHelper
     end
   end
 
-  def required_field_name(name = '')
-    safe_join [name, ' ', content_tag('span', '*', class: 'required')]
+  def required_field_name(name = "")
+    safe_join [name, " ", content_tag("span", "*", class: "required")]
   end
 
   def li_unless_nil(link, options = {})
@@ -79,12 +82,12 @@ module ApplicationHelper
 
   # Show a sorted linkified (if active) comma-joined list of users
   def list_users(users, options = {})
-    users.sort.map { |u| link_to_user(u, options) }.join(', ')
+    users.sort.map { |u| link_to_user(u, options) }.join(", ")
   end
 
   # returns a class name based on the user's status
   def user_status_class(user)
-    'status_' + user.status
+    "status_" + user.status
   end
 
   def user_status_i18n(user)
@@ -95,14 +98,10 @@ module ApplicationHelper
     options = {
       method: :delete,
       data: { confirm: I18n.t(:text_are_you_sure) },
-      class: 'icon icon-delete'
+      class: "icon icon-delete"
     }.merge(options)
 
     link_to I18n.t(:button_delete), url, options
-  end
-
-  def format_activity_title(text)
-    h(truncate_single_line(text, length: 100))
   end
 
   def format_activity_day(date)
@@ -116,42 +115,6 @@ module ApplicationHelper
     end
   end
 
-  # Renders flash messages
-  def render_flash_messages
-    messages = flash
-      .reject { |k, _| k.start_with? '_' }
-      .map { |k, v| render_flash_message(k, v) }
-
-    safe_join messages, "\n"
-  end
-
-  def join_flash_messages(messages)
-    if messages.respond_to?(:join)
-      safe_join(messages, '<br />'.html_safe)
-    else
-      messages
-    end
-  end
-
-  def render_flash_message(type, message, html_options = {})
-    css_classes  = ["flash #{type} icon icon-#{type}", html_options.delete(:class)]
-
-    # Add autohide class to notice flashes if configured
-    if type.to_s == 'notice' && User.current.pref.auto_hide_popups?
-      css_classes << 'autohide-toaster'
-    end
-
-    html_options = { class: css_classes.join(' '), role: 'alert' }.merge(html_options)
-
-    content_tag :div, html_options do
-      concat(join_flash_messages(message))
-      concat(content_tag(:i, '', class: 'icon-close close-handler',
-                                 tabindex: '0',
-                                 role: 'button',
-                                 aria: { label: ::I18n.t('js.close_popup_title') }))
-    end
-  end
-
   # Yields the given block for each project with its level in the tree
   #
   # Wrapper for Project#project_tree
@@ -160,7 +123,7 @@ module ApplicationHelper
   end
 
   def project_nested_ul(projects, &)
-    s = ''
+    s = ""
     if projects.any?
       ancestors = []
       Project.project_tree(projects) do |project, _level|
@@ -168,13 +131,13 @@ module ApplicationHelper
           s << "<ul>\n"
         else
           ancestors.pop
-          s << '</li>'
+          s << "</li>"
           while ancestors.any? && !project.is_descendant_of?(ancestors.last)
             ancestors.pop
             s << "</ul></li>\n"
           end
         end
-        s << '<li>'
+        s << "<li>"
         s << yield(project).to_s
         ancestors << project
       end
@@ -191,7 +154,7 @@ module ApplicationHelper
 
   def labeled_check_box_tags(name, collection, options = {})
     collection.sort.map do |object|
-      id = name.gsub(/[\[\]]+/, '_') + object.id.to_s
+      id = name.gsub(/[\[\]]+/, "_") + object.id.to_s
 
       object_options = options.inject({}) do |h, (k, v)|
         h[k] = v.is_a?(Symbol) ? send(v, object) : v
@@ -200,9 +163,9 @@ module ApplicationHelper
 
       object_options[:class] = Array(object_options[:class]) + %w(form--label-with-check-box)
 
-      content_tag :div, class: 'form--field' do
+      content_tag :div, class: "form--field" do
         label_tag(id, object, object_options) do
-          styled_check_box_tag(name, object.id, false, id:) + object
+          styled_check_box_tag(name, object.id, false, id:) + object.to_s
         end
       end
     end.join.html_safe
@@ -222,24 +185,24 @@ module ApplicationHelper
   def authoring_at(created, author)
     return if author.nil?
 
-    I18n.t(:'js.label_added_time_by',
-           author: author.name,
+    I18n.t(:"js.label_added_time_by",
+           author: html_escape(author.name),
            age: created,
            authorLink: user_path(author)).html_safe
   end
 
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
-    if @project and @project.module_enabled?('activity')
-      link_to(text, { controller: '/activities',
-                      action: 'index',
+    if @project and @project.module_enabled?("activity")
+      link_to(text, { controller: "/activities",
+                      action: "index",
                       project_id: @project,
                       from: time.to_date },
               title: format_time(time))
     else
       datetime = time.acts_like?(:time) ? time.xmlschema : time.iso8601
       content_tag(:time, text, datetime:,
-                               title: format_time(time), class: 'timestamp')
+                               title: format_time(time), class: "timestamp")
     end
   end
 
@@ -257,7 +220,7 @@ module ApplicationHelper
   def other_formats_links(&)
     formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &)
     unless formats.nil? || formats.strip.empty?
-      content_tag 'p', class: 'other-formats' do
+      content_tag "p", class: "other-formats" do
         (I18n.t(:label_export_to) + formats).html_safe
       end
     end
@@ -266,11 +229,11 @@ module ApplicationHelper
   # Returns the theme, controller name, and action as css classes for the
   # HTML body.
   def body_css_classes
-    css = ['theme-' + OpenProject::CustomStyles::Design.identifier.to_s]
+    css = ["theme-" + OpenProject::CustomStyles::Design.identifier.to_s]
 
     if params[:controller] && params[:action]
-      css << ('controller-' + params[:controller])
-      css << ('action-' + params[:action])
+      css << ("controller-" + params[:controller])
+      css << ("action-" + params[:action])
     end
 
     css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
@@ -280,7 +243,7 @@ module ApplicationHelper
     # Add browser specific classes to aid css fixes
     css += browser_specific_classes
 
-    css.join(' ')
+    css.join(" ")
   end
 
   def accesskey(s)
@@ -291,14 +254,14 @@ module ApplicationHelper
   def simple_format_without_paragraph(text)
     text.to_s
       .gsub(/\r\n?/, "\n")                    # \r\n and \r -> \n
-      .gsub(/\n\n+/, '<br /><br />')          # 2+ newline  -> 2 br
+      .gsub(/\n\n+/, "<br /><br />")          # 2+ newline  -> 2 br
       .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />') # 1 newline   -> br
       .html_safe
   end
 
   def lang_options_for_select(blank = true)
     auto = if blank && (valid_languages - all_languages) == (all_languages - valid_languages)
-             [['(auto)', '']]
+             [["(auto)", ""]]
            else
              []
            end
@@ -308,24 +271,44 @@ module ApplicationHelper
     auto + mapped_languages.sort_by(&:last)
   end
 
-  def all_lang_options_for_select(blank = true)
-    initial_lang_options = blank ? [['(auto)', '']] : []
+  def all_lang_options_for_select
+    all_languages
+      .map { |lang| translate_language(lang) }
+      .sort_by(&:last)
+  end
 
-    mapped_languages = all_languages.map { |lang| translate_language(lang) }
+  def theme_options_for_select
+    [
+      [t("themes.light"), "light"],
+      [t("themes.light_high_contrast"), "light_high_contrast"]
+    ]
+  end
 
-    initial_lang_options + mapped_languages.sort_by(&:last)
+  def user_theme_data_attributes
+    mode, _theme_suffix = User.current.pref.theme.split("_", 2)
+    "data-color-mode=#{mode} data-#{mode}-theme=#{User.current.pref.theme}"
+  end
+
+  def highlight_default_language(lang_options)
+    lang_options.map do |(language_name, code)|
+      if code == Setting.default_language
+        [I18n.t("settings.language_name_being_default", language_name:), code, { disabled: true, checked: true }]
+      else
+        [language_name, code]
+      end
+    end
   end
 
   def labelled_tabular_form_for(record, options = {}, &)
     options.reverse_merge!(builder: TabularFormBuilder, html: {})
-    options[:html][:class] = 'form' unless options[:html].has_key?(:class)
+    options[:html][:class] = "form" unless options[:html].has_key?(:class)
     form_for(record, options, &)
   end
 
-  def back_url_hidden_field_tag
-    back_url = params[:back_url] || request.env['HTTP_REFERER']
+  def back_url_hidden_field_tag(use_referer: true)
+    back_url = params[:back_url] || (use_referer ? request.env["HTTP_REFERER"] : nil)
     back_url = CGI.unescape(back_url.to_s)
-    hidden_field_tag('back_url', CGI.escape(back_url), id: nil) if back_url.present?
+    hidden_field_tag("back_url", CGI.escape(back_url), id: nil) if back_url.present?
   end
 
   def back_url_to_current_page_hidden_field_tag
@@ -336,12 +319,12 @@ module ApplicationHelper
       back_url = request.url
     end
 
-    hidden_field_tag('back_url', back_url) if back_url.present?
+    hidden_field_tag("back_url", back_url) if back_url.present?
   end
 
   def check_all_links(form_name)
     link_to_function(t(:button_check_all), "OpenProject.helpers.checkAll('#{form_name}', true)") +
-      ' | ' +
+      " | " +
       link_to_function(t(:button_uncheck_all), "OpenProject.helpers.checkAll('#{form_name}', false)")
   end
 
@@ -363,69 +346,70 @@ module ApplicationHelper
   def progress_bar(pcts, options = {})
     pcts = Array(pcts).map(&:round)
     closed = pcts[0]
-    done   = (pcts[1] || closed) - closed
-    width = options[:width] || '100px;'
-    legend = options[:legend] || ''
-    total_progress = options[:hide_total_progress] ? '' : t(:total_progress)
-    percent_sign = options[:hide_percent_sign] ? '' : '%'
+    done   = pcts[1] || 0
+    width = options[:width] || "100px;"
+    legend = options[:legend] || ""
+    total_progress = options[:hide_total_progress] ? "" : t(:total_progress)
+    percent_sign = options[:hide_percent_sign] ? "" : "%"
 
     content_tag :span do
-      progress = content_tag :span, class: 'progress-bar', style: "width: #{width}" do
-        concat content_tag(:span, '', class: 'inner-progress closed', style: "width: #{closed}%")
-        concat content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
+      progress = content_tag :span, class: "progress-bar", style: "width: #{width}" do
+        concat content_tag(:span, "", class: "inner-progress closed", style: "width: #{closed}%")
+        concat content_tag(:span, "", class: "inner-progress done",   style: "width: #{done}%")
       end
-      progress + content_tag(:span, "#{legend}#{percent_sign} #{total_progress}", class: 'progress-bar-legend')
+      progress + content_tag(:span, "#{legend}#{percent_sign} #{total_progress}", class: "progress-bar-legend")
     end
   end
 
   def checked_image(checked = true)
     if checked
-      icon_wrapper('icon-context icon-checkmark', t(:label_checked))
+      icon_wrapper("icon-context icon-checkmark", t(:label_checked))
     end
   end
 
   def calendar_for(*_args)
-    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please add the class '-augmented-datepicker' instead.", caller
+    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please use the op-basic-single-date-picker angular component instead",
+                                    caller
   end
 
   def locale_first_day_of_week
     case Setting.start_of_week.to_i
     when 1
-      '1' # Monday
+      "1" # Monday
     when 7
-      '0' # Sunday
+      "0" # Sunday
     when 6
-      '6' # Saturday
+      "6" # Saturday
     else
       # use language default (pass a blank string) and moment.js will reuse existing info
       # /frontend/src/main.ts
-      ''
+      ""
     end
   end
 
   def locale_first_week_of_year
     case Setting.first_week_of_year.to_i
     when 1
-      '1' # Monday
+      "1" # Monday
     when 4
-      '4' # Thursday
+      "4" # Thursday
     else
       # use language default (pass a blank string) and moment.js will reuse existing info
       # /frontend/src/main.ts
-      ''
+      ""
     end
   end
 
   # To avoid the menu flickering, disable it
   # by default unless we're in test mode
   def initial_menu_styles(side_displayed)
-    Rails.env.test? || !side_displayed ? '' : 'display:none'
+    Rails.env.test? || !side_displayed ? "" : "display:none"
   end
 
   def initial_menu_classes(side_displayed, show_decoration)
-    classes = 'can-hide-navigation'
-    classes << ' nosidebar' unless side_displayed
-    classes << ' nomenus' unless show_decoration
+    classes = "can-hide-navigation"
+    classes << " nosidebar" unless side_displayed
+    classes << " nomenus" unless show_decoration
 
     classes
   end
@@ -434,7 +418,7 @@ module ApplicationHelper
   #
   # @param [optional, String] content the content of the ROBOTS tag.
   #   defaults to no index, follow, and no archive
-  def robot_exclusion_tag(content = 'NOINDEX,FOLLOW,NOARCHIVE')
+  def robot_exclusion_tag(content = "NOINDEX,FOLLOW,NOARCHIVE")
     "<meta name='ROBOTS' content='#{h(content)}' />".html_safe
   end
 
@@ -442,13 +426,18 @@ module ApplicationHelper
     PermittedParams.new(params, current_user)
   end
 
+  # Returns the language name in its own language for a given locale
+  #
+  # @param lang_code [String] the locale for the desired language, like `en`,
+  #   `de`, `fil`, `zh-CN`, and so on.
+  # @return [String] the language name translated in its own language
   def translate_language(lang_code)
     # rename in-context translation language name for the language select box
-    if lang_code == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE &&
+    if lang_code.to_sym == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE &&
        ::I18n.locale != Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
       [Redmine::I18n::IN_CONTEXT_TRANSLATION_NAME, lang_code.to_s]
     else
-      [ll(lang_code.to_s, :general_lang_name), lang_code.to_s]
+      [I18n.t("cldr.language_name", locale: lang_code), lang_code.to_s]
     end
   end
 
@@ -461,8 +450,8 @@ module ApplicationHelper
     # use 0..0, so this doesn't fail if rules is an empty string
     rules[0] = rules[0..0].upcase
 
-    s = raw '<em>' + OpenProject::Passwords::Evaluator.min_length_description + '</em>'
-    s += raw '<br /><em>' + rules + '</em>' unless rules.empty?
+    s = raw "<em>" + OpenProject::Passwords::Evaluator.min_length_description + "</em>"
+    s += raw "<br /><em>" + rules + "</em>" unless rules.empty?
     s
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Members::CleanupService, 'integration', type: :model do
+RSpec.describe Members::CleanupService, "integration", type: :model do
   subject(:service_call) { instance.call }
 
   let(:user) { create(:user) }
@@ -39,29 +39,29 @@ describe Members::CleanupService, 'integration', type: :model do
     described_class.new(users, projects)
   end
 
-  describe 'category unassignment' do
+  describe "category unassignment" do
     let!(:category) do
       build(:category, project:, assigned_to: user).tap do |c|
         c.save(validate: false)
       end
     end
 
-    it 'sets assigned_to to nil' do
+    it "sets assigned_to to nil" do
       service_call
 
       expect(category.reload.assigned_to)
         .to be_nil
     end
 
-    context 'with the user having a membership with an assignable role' do
+    context "with the user having a membership with an assignable role" do
       before do
         create(:member,
                principal: user,
                project:,
-               roles: [create(:role, permissions: %i[work_package_assigned])])
+               roles: [create(:project_role, permissions: %i[work_package_assigned])])
       end
 
-      it 'keeps assigned_to to the user' do
+      it "keeps assigned_to to the user" do
         service_call
 
         expect(category.reload.assigned_to)
@@ -69,16 +69,16 @@ describe Members::CleanupService, 'integration', type: :model do
       end
     end
 
-    context 'with the user having a membership with an unassignable role' do
+    context "with the user having a membership with an unassignable role" do
       before do
         create(:member,
                principal: user,
                project:,
                # Lacking work_package_assigned
-               roles: [create(:role, permissions: [])])
+               roles: [create(:project_role, permissions: [])])
       end
 
-      it 'sets assigned_to to nil' do
+      it "sets assigned_to to nil" do
         service_call
 
         expect(category.reload.assigned_to)
@@ -87,10 +87,10 @@ describe Members::CleanupService, 'integration', type: :model do
     end
   end
 
-  describe 'watcher pruning' do
+  describe "watcher pruning" do
     let(:work_package) do
-      create :work_package,
-             project:
+      create(:work_package,
+             project:)
     end
     let!(:watcher) do
       build(:watcher,
@@ -100,22 +100,22 @@ describe Members::CleanupService, 'integration', type: :model do
       end
     end
 
-    it 'removes the watcher' do
+    it "removes the watcher" do
       service_call
 
       expect { watcher.reload }
         .to raise_error ActiveRecord::RecordNotFound
     end
 
-    context 'with the user having a membership granting the right to view the watchable' do
+    context "with the user having a membership granting the right to view the watchable" do
       before do
         create(:member,
                principal: user,
                project:,
-               roles: [create(:role, permissions: [:view_work_packages])])
+               roles: [create(:project_role, permissions: [:view_work_packages])])
       end
 
-      it 'keeps the watcher' do
+      it "keeps the watcher" do
         service_call
 
         expect { watcher.reload }
@@ -123,15 +123,15 @@ describe Members::CleanupService, 'integration', type: :model do
       end
     end
 
-    context 'with the user having a membership not granting the right to view the watchable' do
+    context "with the user having a membership not granting the right to view the watchable" do
       before do
         create(:member,
                principal: user,
                project:,
-               roles: [create(:role, permissions: [])])
+               roles: [create(:project_role, permissions: [])])
       end
 
-      it 'keeps the watcher' do
+      it "keeps the watcher" do
         service_call
 
         expect { watcher.reload }

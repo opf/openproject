@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,16 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 uk:
+  plugin_openproject_github_integration:
+    name: "Інтеграція OpenProject GitHub"
+    description: "Інтегрує OpenProject і GitHub для покращення робочого процесу"
   project_module_github: "GitHub"
   permission_show_github_content: "Показати контент GitHub"
-  github_integration:
-    pull_request_opened_comment: >
-      **Відкрито PR:** запит на включення %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{github_user}](%{github_user_url}).
-    pull_request_closed_comment: >
-      **Закрито PR:** запит на включення %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{github_user}](%{github_user_url}).
-    pull_request_merged_comment: >
-      **Об’єднано PR:** запит на включення %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) об’єднано користувачем [%{github_user}](%{github_user_url}).
-    pull_request_referenced_comment: >
-      **Додано посилання в PR:** [%{github_user}](%{github_user_url}) посилається на цей пакет робіт у запиті на включення %{pr_number} [%{pr_title}](%{pr_url}) на [%{repository}](%{repository_url}).
-    pull_request_ready_for_review_comment: >
-      **Готово для перевірки PR:** запит на включення %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) позначено як готовий до перевірки користувачем [%{github_user}](%{github_user_url}).

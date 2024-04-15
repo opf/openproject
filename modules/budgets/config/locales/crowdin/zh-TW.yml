@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,25 +20,30 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 zh-TW:
+  plugin_budgets_engine:
+    name: '預算'
   activerecord:
     attributes:
       budget:
         author: "作者"
-        available: "Available"
+        available: "可用的"
         budget: "已計畫"
         budget_ratio: "已支出（比例）"
         description: "說明"
         spent: "花費"
         status: "狀態"
-        subject: "主題"
+        subject: "名稱"
         type: "費用類別"
-        labor_budget: "Planned labor costs"
-        material_budget: "Planned unit costs"
+        labor_budget: "規劃人工成本"
+        material_budget: "規畫單位成本"
       work_package:
-        budget_subject: "Budget title"
+        budget_subject: "預算標題"
     models:
       budget: "預算"
       material_budget_item: "單位"
+  activity:
+    filter:
+      budget: "預算"
   attributes:
     budget: "預算"
   button_add_budget_item: "新增計畫費用"
@@ -46,28 +51,28 @@ zh-TW:
   button_add_cost_type: "新增費用類別"
   button_cancel_edit_budget: "取消編輯預算"
   button_cancel_edit_costs: "取消編輯花費"
-  caption_labor: "Labor"
-  caption_labor_costs: "Actual labor costs"
-  caption_material_costs: "Actual unit costs"
+  caption_labor: "勞力"
+  caption_labor_costs: "實際勞力成本\n"
+  caption_material_costs: "實際單位成本"
   budgets_title: "預算"
   events:
-    budget: "Budget edited"
+    budget: "預算已編輯"
   help_click_to_edit: "點擊這裡編輯"
-  help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
-  help_override_rate: "Enter a value here to override the default rate."
+  help_currency_format: "已顯示的貨幣值的格式。%n 替換為貨幣值，%u 替換為貨幣單位。"
+  help_override_rate: "在此處輸入值覆蓋基本費率。"
   label_budget: "預算"
-  label_budget_new: "新增預算"
+  label_budget_new: "新預算"
   label_budget_plural: "預算"
   label_budget_id: "預算 #%{id}"
   label_deliverable: "預算"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: '例如，%{decimal}'
   label_view_all_budgets: "檢視所有預算"
   label_yes: "是"
-  notice_budget_conflict: "工作包必須是同一個專案"
+  notice_budget_conflict: "工作項目必須是同一個專案"
   notice_no_budgets_available: "無可用預算"
   permission_edit_budgets: "編輯預算"
   permission_view_budgets: "檢視預算"
   project_module_budgets: "預算"
   text_budget_reassign_to: "重新指定至這筆預算"
   text_budget_delete: "從所有項目中刪除這筆預算"
-  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+  text_budget_destroy_assigned_wp: "有 %{count} 個工作項目被分配到此預算。您想怎麼做？"

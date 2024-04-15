@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackage, 'spent_time', type: :model do
+RSpec.describe WorkPackage, "spent_time" do
   let(:project) do
     work_package.project
   end
@@ -68,21 +68,19 @@ describe WorkPackage, 'spent_time', type: :model do
            project: other_project)
   end
   let(:role) do
-    build(:role,
+    build(:project_role,
           permissions: %i[view_time_entries view_work_packages])
   end
   let(:role_without_view_time_entries) do
-    build(:role,
+    build(:project_role,
           permissions: [:view_work_packages])
   end
   let(:role_without_view_work_packages) do
-    build(:role,
+    build(:project_role,
           permissions: [:view_time_entries])
   end
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   before do
@@ -91,26 +89,26 @@ describe WorkPackage, 'spent_time', type: :model do
     login_as user
   end
 
-  shared_examples_for 'spent hours' do
-    it 'has the spent time of the time entry' do
+  shared_examples_for "spent hours" do
+    it "has the spent time of the time entry" do
       expect(subject).to eql time_entry.hours
     end
 
-    it 'sums up the spent time of the time entries' do
+    it "sums up the spent time of the time entries" do
       sum = time_entry.hours + time_entry2.hours
 
       expect(subject).to eql sum
     end
 
-    it 'inherits the spent time of the descendants' do
+    it "inherits the spent time of the descendants" do
       sum = time_entry.hours + child_time_entry.hours
 
       expect(subject).to eql sum
     end
 
-    context 'permissions' do
-      it 'counts the child if that child is in a project in which the user ' +
-         'has the necessary permissions' do
+    context "permissions" do
+      it "counts the child if that child is in a project in which the user " +
+         "has the necessary permissions" do
         create(:member,
                user:,
                project: other_project,
@@ -121,8 +119,8 @@ describe WorkPackage, 'spent_time', type: :model do
         expect(subject).to eql sum
       end
 
-      it 'does not count the child if that child is in a project in which the user ' +
-         'lacks the view_time_entries permission' do
+      it "does not count the child if that child is in a project in which the user " +
+         "lacks the view_time_entries permission" do
         create(:member,
                user:,
                project: other_project,
@@ -134,8 +132,8 @@ describe WorkPackage, 'spent_time', type: :model do
         expect(subject).to eql sum
       end
 
-      it 'does not count the child if that child is in a project in which the user ' +
-         'lacks the view_work_packages permission' do
+      it "does not count the child if that child is in a project in which the user " +
+         "lacks the view_work_packages permission" do
         create(:member,
                user:,
                project: other_project,
@@ -149,15 +147,15 @@ describe WorkPackage, 'spent_time', type: :model do
     end
   end
 
-  context 'for a work_package loaded individually' do
+  context "for a work_package loaded individually" do
     subject { work_package.spent_hours }
 
-    it_behaves_like 'spent hours'
+    it_behaves_like "spent hours"
   end
 
-  context 'for a work package that had spent time eager loaded' do
+  context "for a work package that had spent time eager loaded" do
     subject { WorkPackage.include_spent_time(user).where(id: work_package.id).first.spent_hours }
 
-    it_behaves_like 'spent hours'
+    it_behaves_like "spent hours"
   end
 end

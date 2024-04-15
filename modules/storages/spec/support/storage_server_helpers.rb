@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,11 @@ module StorageServerHelpers
                                         response_code: nil,
                                         response_headers: nil,
                                         response_body: nil,
+                                        timeout: false,
                                         response_nextcloud_major_version: 22)
     response_code ||= 200
     response_headers ||= {
-      'Content-Type' => 'application/json; charset=utf-8'
+      "Content-Type" => "application/json; charset=utf-8"
     }
     response_body ||=
       %{
@@ -53,24 +54,29 @@ module StorageServerHelpers
           }
         }
       }
-
-    stub_request(
+    stub = stub_request(
       :get,
-      File.join(nextcloud_host, '/ocs/v2.php/cloud/capabilities')
-    ).to_return(
-      status: response_code,
-      headers: response_headers,
-      body: response_body
+      File.join(nextcloud_host, "/ocs/v2.php/cloud/capabilities")
     )
+    if timeout
+      stub.to_timeout
+    else
+      stub.to_return(
+        status: response_code,
+        headers: response_headers,
+        body: response_body
+      )
+    end
   end
 
   def mock_server_config_check_response(nextcloud_host,
                                         response_code: nil,
                                         response_headers: nil,
+                                        timeout: false,
                                         response_body: nil)
     response_code ||= 200
     response_headers ||= {
-      'Content-Type' => 'application/json; charset=utf-8'
+      "Content-Type" => "application/json; charset=utf-8"
     }
 
     response_body ||=
@@ -80,15 +86,47 @@ module StorageServerHelpers
           "authorization_header": "Bearer TESTBEARERTOKEN"
         }
       }
-
-    stub_request(
+    stub = stub_request(
       :get,
-      File.join(nextcloud_host, 'index.php/apps/integration_openproject/check-config')
-    ).to_return(
-      status: response_code,
-      headers: response_headers,
-      body: response_body
+      File.join(nextcloud_host, "index.php/apps/integration_openproject/check-config")
     )
+    if timeout
+      stub.to_timeout
+    else
+      stub.to_return(
+        status: response_code,
+        headers: response_headers,
+        body: response_body
+      )
+    end
+  end
+
+  def mock_nextcloud_application_credentials_validation(nextcloud_host,
+                                                        username: "OpenProject",
+                                                        password: "Password123",
+                                                        timeout: false,
+                                                        response_code: nil,
+                                                        response_headers: nil,
+                                                        response_body: nil)
+    response_code ||= 200
+    response_headers ||= {
+      "Content-Type" => "text/html; charset=UTF-8",
+      "Authorization" => "Basic #{Base64::strict_encode64("#{username}:#{password}")}"
+    }
+
+    stub = stub_request(
+      :head,
+      File.join(nextcloud_host, "remote.php/dav")
+    )
+    if timeout
+      stub.to_timeout
+    else
+      stub.to_return(
+        status: response_code,
+        headers: response_headers,
+        body: response_body
+      )
+    end
   end
 end
 

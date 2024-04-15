@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,11 +40,11 @@ class OpenProject::Backlogs::Hooks::UserSettingsHook < OpenProject::Hook::ViewLi
     backlogs_params = params.delete(:backlogs)
     return unless backlogs_params
 
-    versions_default_fold_state = backlogs_params[:versions_default_fold_state] || 'open'
+    versions_default_fold_state = backlogs_params[:versions_default_fold_state] || "open"
     user.backlogs_preference(:versions_default_fold_state, versions_default_fold_state)
 
-    color = backlogs_params[:task_color] || ''
-    if color == '' || color.match(/^#[A-Fa-f0-9]{6}$/)
+    color = backlogs_params[:task_color] || ""
+    if color == "" || color.match(/^#[A-Fa-f0-9]{6}$/)
       user.backlogs_preference(:task_color, color)
     end
   end

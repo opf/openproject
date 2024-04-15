@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,105 +26,89 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Principals::Scopes::Visible do
-  describe '.visible' do
-    shared_let(:role) { create(:role, permissions: %i[manage_members]) }
+RSpec.describe Principals::Scopes::Visible do
+  describe ".visible" do
+    shared_let(:role) { create(:project_role, permissions: %i[manage_members]) }
 
     shared_let(:anonymous_user) { User.anonymous }
     shared_let(:system_user) { User.system }
 
     shared_let(:project) { create(:project) }
     shared_let(:project_user) do
-      create(:user, firstname: 'project user',
-                    member_in_project: project,
-                    member_through_role: role)
+      create(:user, firstname: "project user",
+                    member_with_roles: { project => role })
     end
     shared_let(:project_group) do
-      create(:group, firstname: 'project group',
-                     member_in_project: project,
-                     member_through_role: role)
+      create(:group, firstname: "project group",
+                     member_with_roles: { project => role })
     end
     shared_let(:project_placeholder_user) do
-      create(:placeholder_user, firstname: 'project placeholder user',
-                                member_in_project: project,
-                                member_through_role: role)
+      create(:placeholder_user, firstname: "project placeholder user",
+                                member_with_roles: { project => role })
     end
 
     # The 'other project' is here to ensure their members are not visible from
     # the outside for people lacking manage_members or manage_user permissions
     shared_let(:other_project) { create(:project) }
     shared_let(:other_project_user) do
-      create(:user, firstname: 'other project user',
-                    member_in_project: other_project,
-                    member_through_role: role)
+      create(:user, firstname: "other project user",
+                    member_with_roles: { other_project => role })
     end
     shared_let(:other_project_group) do
-      create(:group, firstname: 'other project group',
-                     member_in_project: other_project,
-                     member_through_role: role)
+      create(:group, firstname: "other project group",
+                     member_with_roles: { other_project => role })
     end
     shared_let(:other_placeholder_user) do
-      create(:placeholder_user, firstname: 'other project placeholder user',
-                                member_in_project: other_project,
-                                member_through_role: role)
+      create(:placeholder_user, firstname: "other project placeholder user",
+                                member_with_roles: { other_project => role })
     end
 
-    shared_let(:global_user) { create(:user, firstname: 'global user') }
-    shared_let(:global_group) { create(:group, firstname: 'global group') }
-    shared_let(:global_placeholder_user) { create(:placeholder_user, firstname: 'global placeholder') }
+    shared_let(:global_user) { create(:user, firstname: "global user") }
+    shared_let(:global_group) { create(:group, firstname: "global group") }
+    shared_let(:global_placeholder_user) { create(:placeholder_user, firstname: "global placeholder") }
 
-    subject { ::Principal.visible.to_a }
+    subject { Principal.visible.to_a }
 
-    shared_examples 'sees all principals' do
-      it 'sees all users, groups, and placeholder users' do
-        expect(subject).to match_array [
-          # system and anonymous users
-          anonymous_user, system_user,
-          # regular users
-          current_user, project_user, other_project_user, global_user,
-          # groups,
-          project_group, other_project_group, global_group,
-          # placeholder users
-          project_placeholder_user, other_placeholder_user, global_placeholder_user
-        ]
+    shared_examples "sees all principals" do
+      it "sees all users, groups, and placeholder users" do
+        expect(subject).to contain_exactly(anonymous_user, system_user, current_user, project_user, other_project_user,
+                                           global_user, project_group, other_project_group, global_group, project_placeholder_user, other_placeholder_user, global_placeholder_user)
       end
     end
 
-    context 'when user has manage_members project permission' do
+    context "when user has manage_members project permission" do
       current_user do
-        create(:user, firstname: 'current user',
-                      member_in_project: project,
-                      member_through_role: role)
+        create(:user, firstname: "current user",
+                      member_with_roles: { project => role })
       end
 
-      include_examples 'sees all principals'
+      include_examples "sees all principals"
     end
 
-    context 'when user has no manage_members project permission, and is member of a project' do
+    context "when user has no manage_members project permission, and is member of a project" do
       current_user do
-        create(:user, firstname: 'current user',
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages])
+        create(:user, firstname: "current user",
+                      member_with_permissions: { project => %i[view_work_packages] })
       end
 
-      it 'sees only the users, groups, and placeholder users in the same project' do
-        expect(subject).to match_array [current_user, project_user, project_group, project_placeholder_user]
+      it "sees only the users, groups, and placeholder users in the same project" do
+        expect(subject).to contain_exactly(current_user, project_user, project_group, project_placeholder_user)
       end
     end
 
-    context 'when user has manage_user global permission' do
-      current_user { create(:user, firstname: 'current user', global_permissions: %i[manage_user]) }
+    context "when user has manage_user global permission" do
+      current_user { create(:user, firstname: "current user", global_permissions: %i[manage_user]) }
 
-      include_examples 'sees all principals'
+      include_examples "sees all principals"
     end
 
-    context 'when user has no permission' do
-      current_user { create(:user, firstname: 'current user') }
+    context "when user has no permission" do
+      current_user { create(:user, firstname: "current user") }
 
-      it 'sees only themself' do
-        expect(subject).to match_array [current_user]
+      it "sees only themself" do
+        expect(subject).to contain_exactly(current_user)
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,52 +26,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-describe 'Team planner', type: :feature, js: true do
-  before do
-    with_enterprise_token(:team_planner_view)
-  end
+RSpec.describe "Team planner", :js, with_ee: %i[team_planner_view] do
+  include_context "with team planner full access"
 
-  include_context 'with team planner full access'
-
-  it 'allows switching of view modes', with_settings: { working_days: [1, 2, 3, 4, 5] } do
+  it "allows switching of view modes", with_settings: { working_days: [1, 2, 3, 4, 5] } do
     team_planner.visit!
 
     team_planner.expect_empty_state
-    retry_block do
-      team_planner.click_add_user
-      page.find('[data-qa-selector="tp-add-assignee"] input')
-      team_planner.select_user_to_add user.name
-    end
+    team_planner.add_assignee user.name
 
-    team_planner.expect_view_mode 'Work week'
-    expect(page).to have_selector('.fc-timeline-slot-frame', count: 5)
+    team_planner.expect_view_mode "Work week"
+    expect(page).to have_css(".fc-timeline-slot-frame", count: 5)
 
     # weekly: Expect 7 slots
-    team_planner.switch_view_mode '1-week'
-    expect(page).to have_selector('.fc-timeline-slot-frame', count: 7)
+    team_planner.switch_view_mode "1-week"
+    expect(page).to have_css(".fc-timeline-slot-frame", count: 7)
 
     # 2 weeks: expect 14 slots
-    team_planner.switch_view_mode '2-week'
-    expect(page).to have_selector('.fc-timeline-slot-frame', count: 14)
+    team_planner.switch_view_mode "2-week"
+    expect(page).to have_css(".fc-timeline-slot-frame", count: 14)
 
     start_of_week = Time.zone.today.beginning_of_week(:sunday)
-    start_date = start_of_week.strftime('%d %a')
-    end_date = (start_of_week + 13.days).strftime('%d %a')
+    start_date = start_of_week.strftime("%d %a")
+    end_date = (start_of_week + 13.days).strftime("%d %a")
 
-    expect(page).to have_selector('.fc-timeline-slot', text: start_date)
-    expect(page).to have_selector('.fc-timeline-slot', text: end_date)
+    expect(page).to have_css(".fc-timeline-slot", text: start_date)
+    expect(page).to have_css(".fc-timeline-slot", text: end_date)
 
     # Click next button, advance one week
-    find('.fc-next-button').click
+    find(".fc-next-button").click
 
     start_of_week = (Time.zone.today + 1.week).beginning_of_week(:sunday)
-    start_date = start_of_week.strftime('%d %a')
-    end_date = (start_of_week + 13.days).strftime('%d %a')
+    start_date = start_of_week.strftime("%d %a")
+    end_date = (start_of_week + 13.days).strftime("%d %a")
 
-    expect(page).to have_selector('.fc-timeline-slot', text: start_date)
-    expect(page).to have_selector('.fc-timeline-slot', text: end_date)
+    expect(page).to have_css(".fc-timeline-slot", text: start_date)
+    expect(page).to have_css(".fc-timeline-slot", text: end_date)
   end
 end

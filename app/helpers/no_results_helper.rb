@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,26 +38,34 @@ module NoResultsHelper
   #  - 'action_url' The url for the link in the content.
   #  - 'display_action' Whether or not the link should be displayed.
   #  - 'custom_title' custom text for the title.
-  #  - 'custom_action_text' custom text for the title.
+  #  - 'custom_action_text' custom text for the action.
   #
   # Calling this on its on without any arguments creates the box in its simplest
   # form with only the title. Providing an action_url and display_action: true
   # Displays the box with the title and link to the passed in url.
-  # The title and action_text are found using the locales key lookup unless
+  # The title_text and action_text are found using the locales key lookup unless
   # custom_title and custom_action_text are provided.
+  #
+  # In the case of action_text, lookup is also only performed if display_action
+  # is true, in order not to perform unnecessary lookups when action_text
+  # shouldn't even be considered.
   def no_results_box(action_url:         nil,
                      display_action:     false,
                      custom_title:       nil,
                      custom_action_text: nil)
+    title_text = custom_title || t(".no_results_title_text", cascade: true) || ""
+    action_text = if display_action
+                    custom_action_text || t(".no_results_content_text")
+                  else
+                    ""
+                  end
+    action_url = action_url || ""
 
-    title = custom_title || t('.no_results_title_text', cascade: true)
-    action_text = custom_action_text || t('.no_results_content_text')
-
-    render partial: '/common/no_results',
+    render partial: "/common/no_results",
            locals: {
-             title_text: title,
-             action_text: display_action ? action_text : '',
-             action_url: action_url || ''
+             title_text:,
+             action_text:,
+             action_url:
            }
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,23 @@
 # https://bugs.chromium.org/p/chromedriver/issues/detail?id=1771
 module SeleniumWorkarounds
   def ensure_value_is_input_correctly(input, value:)
-    # Wait a bit to insert the value
-    sleep(0.5)
-    input.set value
-    sleep(0.5)
+    if using_cuprite?
+      input.set value
+      return
+    end
 
-    found_value = input.value
-    raise "Found value #{found_value}, but expected #{value}." unless found_value == value
+    correctly_set = false
+    # Wait longer and longer to set the value, until it is set correctly.
+    # The bug may be fixed by now...
+    [0, 0.5, 1].each do |waiting_time|
+      sleep(waiting_time)
+      input.set value
+      sleep(waiting_time)
+
+      correctly_set = (input.value == value)
+      break if correctly_set
+    end
+
+    raise "Found value #{input.value}, but expected #{value}." unless correctly_set
   end
 end

@@ -1,0 +1,20 @@
+<ng-container *ngIf="timer$ | async as timer">
+  <span class="op-timer-account-menu--timer"> {{text.tracking}}:  {{ elapsed$ | async }}
+    <a
+    class="op-timer-account-menu--timer-icon"
+    data-test-selector="op-timer-account-menu-stop"
+    (click)="stopTimer()"
+    >
+      <span class="spot-icon spot-icon_inline spot-icon_time-tracking-stop spot-icon_1_25"> </span>
+      {{text.stop}}
+    </a>
+  </span>
+  <a
+    class="op-timer-account-menu--wp-details"
+    uiSref="work-packages.show"
+    [uiParams]="{ workPackageId: timer.workPackage.id }"
+  >
+    #{{ timer.workPackage.id }}:  {{ timer.workPackage.name }}
+  </a>
+  <div class="spot-divider"></div>
+</ng-container>

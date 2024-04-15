@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,51 +26,120 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::Projects::DeleteService, type: :model do
-  let(:user) { build_stubbed(:admin) }
-  let(:project) { build_stubbed(:project) }
+RSpec.describe Projects::DeleteService, type: :model do
+  shared_let(:user) { create(:admin) }
+  let(:project) { create(:project) }
 
   let(:instance) { described_class.new(user:, model: project) }
 
   subject { instance.call }
 
-  context 'if authorized' do
-    it 'destroys the project and sends a success mail' do
-      expect(project).not_to receive(:archive)
-      expect(project).to receive(:destroy).and_return true
+  context "if authorized" do
+    context "when destroy succeeds" do
+      it "destroys the projects" do
+        allow(project).to receive(:archive)
+        allow(Projects::DeleteProjectJob).to receive(:new)
 
-      expect(ProjectMailer)
-        .to receive_message_chain(:delete_project_completed, :deliver_now)
+        expect { subject }.to change(Project, :count).by(-1)
+        expect(project).not_to have_received(:archive)
+        expect(Projects::DeleteProjectJob)
+          .not_to have_received(:new)
+      end
 
-      expect(::Projects::DeleteProjectJob)
-        .not_to receive(:new)
+      context "when the file storages are involved", :webmock do
+        it "removes any remote storages defined for the project" do
+          storage = create(:nextcloud_storage)
+          project_storage = create(:project_storage, project:, storage:)
+          work_package = create(:work_package, project:)
+          create(:file_link, container: work_package, storage:)
+          delete_folder_url =
+            "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.managed_project_folder_path.chop}/"
 
-      expect(subject).to be_success
+          stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+
+          expect { subject }.to change(Storages::ProjectStorage, :count).by(-1)
+        end
+      end
+
+      it "sends a success mail" do
+        expect(subject).to be_success
+        ActionMailer::Base.deliveries.last.tap do |mail|
+          expect(mail.subject).to eq(I18n.t("projects.delete.completed", name: project.name))
+          text_part = mail.text_part.to_s
+          html_part = mail.html_part.to_s
+
+          expect(text_part).to include(project.name)
+          expect(html_part).to include(project.name)
+        end
+      end
+
+      context "with a hierarchy of projects" do
+        let!(:children) { create_list(:project, 2, parent: project) }
+        let!(:grand_children) { create_list(:project, 2, parent: children.first) }
+        let(:all_children) { children + grand_children }
+
+        before do
+          project.reload
+        end
+
+        it "destroys the projects" do
+          expect { subject }.to change(Project, :count).by(-5)
+        end
+
+        it "sends a success mail mentioning all the child projects" do
+          expect { subject }.to change(ActionMailer::Base.deliveries, :size).by(1)
+
+          ActionMailer::Base.deliveries.last.tap do |mail|
+            expect(mail.subject).to eq(I18n.t("projects.delete.completed", name: project.name))
+            text_part = mail.text_part.to_s
+            html_part = mail.html_part.to_s
+
+            all_children.each do |child|
+              expect(text_part).to include(child.name)
+              expect(html_part).to include(child.name)
+            end
+          end
+        end
+      end
     end
 
-    it 'sends a message on destroy failure' do
+    it "sends a message on destroy failure" do
       expect(project).to receive(:destroy).and_return false
 
       expect(ProjectMailer)
         .to receive_message_chain(:delete_project_failed, :deliver_now)
 
-      expect(::Projects::DeleteProjectJob)
+      expect(Projects::DeleteProjectJob)
         .not_to receive(:new)
 
       expect(subject).to be_failure
     end
   end
 
-  context 'if not authorized' do
+  context "if not authorized" do
     let(:user) { build_stubbed(:user) }
 
-    it 'returns an error' do
-      expect(::Projects::DeleteProjectJob)
-        .not_to receive(:new)
+    it "returns an error" do
+      allow(Projects::DeleteProjectJob).to receive(:new)
 
       expect(subject).to be_failure
+      expect(Projects::DeleteProjectJob).not_to have_received(:new)
+    end
+  end
+
+  context "with the seeded demo project" do
+    let(:demo_project) { create(:project, name: "Demo project", identifier: "demo-project", public: true) }
+    let(:instance) { described_class.new(user:, model: demo_project) }
+
+    it "saves in a Setting that the demo project was deleted (regression #52826)" do
+      # Delete the demo project
+      expect(subject).to be_success
+      expect(demo_project.destroyed?).to be(true)
+
+      # Demo project is not available for the onboarding tour any more
+      expect(Setting.demo_projects_available).to be(false)
     end
   end
 end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,19 +28,19 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <div class="modal-delivery-element">
-  <%= labelled_tabular_form_for(@user, url: account_register_path, html: { class: 'form -wide-labels' }) do |f| %>
+  <%= labelled_tabular_form_for(@user, url: account_register_path, html: { class: 'form -wide-labels spot-modal' }) do |f| %>
 
-    <%= back_url_hidden_field_tag %>
+    <%= back_url_hidden_field_tag use_referer: false %>
     <%= error_messages_for :user %>
 
-    <div class="spot-modal--header">
+    <div id="spotModalTitle" class="spot-modal--header">
       <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>
     </div>
     <div class="spot-divider"></div>
     <div class="spot-modal--body spot-container">
       <h2><%= t(:label_register) %></h2>
       <section class="form--section">
-        <% if @user.auth_source_id.nil? %>
+        <% if @user.ldap_auth_source_id.nil? %>
           <div class="form--field -required -wide-label">
             <% if Setting.email_login? %>
               <%= email_field(f) %>
@@ -90,7 +90,7 @@ See COPYRIGHT and LICENSE files for more details.
 
       <% if user_consent_required? %>
         <hr/>
-        <%= render partial: 'account/user_consent_check', locals: { consenting_user: @user } %>
+        <%= render partial: 'account/user_consent_check' %>
       <% end %>
 
       <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>

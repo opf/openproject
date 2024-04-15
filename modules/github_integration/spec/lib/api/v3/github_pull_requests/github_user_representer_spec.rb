@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::GithubPullRequests::GithubUserRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::GithubPullRequests::GithubUserRepresenter do
+  include API::V3::Utilities::PathHelper
 
   subject(:generated) { representer.to_json }
 
@@ -38,32 +38,32 @@ describe ::API::V3::GithubPullRequests::GithubUserRepresenter do
 
   let(:user) { build_stubbed(:admin) }
 
-  it { is_expected.to include_json('GithubUser'.to_json).at_path('_type') }
+  it { is_expected.to include_json("GithubUser".to_json).at_path("_type") }
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'GithubUser' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "GithubUser" }
     end
 
-    it_behaves_like 'property', :login do
+    it_behaves_like "property", :login do
       let(:value) { github_user.github_login }
     end
 
-    it_behaves_like 'property', :htmlUrl do
+    it_behaves_like "property", :htmlUrl do
       let(:value) { github_user.github_html_url }
     end
 
-    it_behaves_like 'property', :avatarUrl do
+    it_behaves_like "property", :avatarUrl do
       let(:value) { github_user.github_avatar_url }
     end
   end
 
-  describe '_links' do
-    it { is_expected.to have_json_type(Object).at_path('_links') }
-    it { is_expected.to have_json_path('_links/self/href') }
+  describe "_links" do
+    it { is_expected.to have_json_type(Object).at_path("_links") }
+    it { is_expected.to have_json_path("_links/self/href") }
   end
 
-  describe 'caching' do
+  describe "caching" do
     before do
       allow(OpenProject::Cache).to receive(:fetch).and_call_original
     end
@@ -76,22 +76,22 @@ describe ::API::V3::GithubPullRequests::GithubUserRepresenter do
         .with(representer.json_cache_key)
     end
 
-    describe '#json_cache_key' do
+    describe "#json_cache_key" do
       let!(:former_cache_key) { representer.json_cache_key }
 
-      it 'includes the name of the representer class' do
+      it "includes the name of the representer class" do
         expect(representer.json_cache_key)
-          .to include('API', 'V3', 'GithubPullRequests', 'GithubUserRepresenter')
+          .to include("API", "V3", "GithubPullRequests", "GithubUserRepresenter")
       end
 
-      it 'changes when the locale changes' do
+      it "changes when the locale changes" do
         I18n.with_locale(:fr) do
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
         end
       end
 
-      it 'changes when the github_user is updated' do
+      it "changes when the github_user is updated" do
         github_user.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)

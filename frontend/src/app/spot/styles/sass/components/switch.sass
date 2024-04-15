@@ -8,9 +8,6 @@
   width: $spot-spacing-2 + $spot-spacing-0_25
   flex-shrink: 0
 
-  &:focus-within &--fake
-    @include spot-focus
-
   &, *
     box-sizing: border-box
 
@@ -30,7 +27,7 @@
     height: $spot-spacing-1 + $spot-spacing-0_25
     width: $spot-spacing-2 + $spot-spacing-0_25
     border-radius: math.div($spot-spacing-1 + $spot-spacing-0_25, 2)
-    border: 1px solid $spot-color-basic-gray-3
+    border: 1px solid var(--color-fg-muted)
     background-color: $spot-color-basic-gray-5
     cursor: pointer
 
@@ -42,19 +39,19 @@
       left: 1px
       height: $spot-spacing-1
       width: $spot-spacing-1
-      background-color: $spot-color-basic-gray-3
+      background-color: var(--color-fg-muted)
       border-radius: 50%
       transition-property: left, background-color
       transition-duration: 0.2s
       transition-timing-function: ease
 
   &--input:checked + &--fake
-    border-color: $spot-color-main
-    background-color: $spot-color-main-light
+    border-color: var(--control-checked-color)
+    background-color: var(--control-checked-color--minor1)
 
   &--input:checked + &--fake::before
     left: calc(100% - #{$spot-spacing-1} - 1px)
-    background-color: $spot-color-main
+    background-color: var(--control-checked-color)
 
   &--input:disabled + &--fake,
   &--input:disabled + &--fake::before

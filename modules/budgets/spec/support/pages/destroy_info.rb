@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class DestroyInfo < Page
@@ -43,29 +43,29 @@ module Pages
 
     def expect_reassign_option
       expect(page)
-        .to have_field('todo_reassign')
+        .to have_field("todo_reassign")
     end
 
     def expect_no_reassign_option
       expect(page)
-        .not_to have_field('todo_reassign')
+        .to have_no_field("todo_reassign")
     end
 
     def select_reassign_option(budget_name)
-      select(budget_name, from: 'reassign_to_id')
+      select(budget_name, from: "reassign_to_id")
     end
 
     def expect_delete_option
       expect(page)
-        .to have_field('todo_delete')
+        .to have_field("todo_delete")
     end
 
     def select_delete_option
-      choose('todo_delete')
+      choose("todo_delete")
     end
 
     def delete
-      click_button 'Apply'
+      click_button "Apply"
     end
 
     def path

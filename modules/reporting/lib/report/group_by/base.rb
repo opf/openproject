@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,7 +54,7 @@ class Report::GroupBy
     def all_group_fields(prefix = true)
       @all_group_fields ||= []
       @all_group_fields[prefix ? 0 : 1] ||= begin
-        fields = group_fields.reject { |c| c.blank? or c == 'base' }
+        fields = group_fields.reject { |c| c.blank? or c == "base" }
         (parent ? parent.all_group_fields(prefix) : []) + (prefix ? with_table(fields) : fields)
       end.uniq
     end
@@ -78,7 +78,7 @@ class Report::GroupBy
     def all_select_fields(prefix = true)
       @all_select_fields ||= []
       @all_select_fields[prefix ? 0 : 1] ||= begin
-        fields = select_fields.reject { |c| c.blank? or c == 'base' }
+        fields = select_fields.reject { |c| c.blank? or c == "base" }
         (parent ? parent.all_select_fields(prefix) : []) + (prefix ? with_table(fields) : fields)
       end.uniq
     end

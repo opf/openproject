@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,8 @@
 require 'digest/sha1'
 
 class User < Principal
+  VALID_NAME_REGEX = /\A[\d\p{Alpha}\p{Mark}\p{Space}\p{Emoji}'’´\-_.,@()+&*–]+\z/
+  CURRENT_USER_LOGIN_ALIAS = 'me'.freeze
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
     firstname: [:firstname],
@@ -40,10 +42,9 @@ class User < Principal
 
   include ::Associations::Groupable
   include ::Users::Avatars
+  include ::Users::PermissionChecks
   extend DeprecatedAlias
 
-  has_many :categories, foreign_key: 'assigned_to_id',
-                        dependent: :nullify
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
@@ -54,7 +55,16 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
   has_one :api_token, class_name: '::Token::API', dependent: :destroy
-  belongs_to :auth_source
+
+  # The user might have one invitation token
+  has_one :invitation_token, class_name: '::Token::Invitation', dependent: :destroy
+
+  # everytime a user subscribes to a calendar, a new ical_token is generated
+  # unlike on other token types, all previously generated ical_tokens are kept
+  # in order to keep all previously generated ical urls valid and usable
+  has_many :ical_tokens, class_name: '::Token::ICal', dependent: :destroy
+
+  belongs_to :ldap_auth_source, optional: true
 
   # Authorized OAuth grants
   has_many :oauth_grants,
@@ -72,7 +82,13 @@ class User < Principal
            inverse_of: :user,
            dependent: :destroy
 
-  has_many :notification_settings, dependent: :destroy
+  has_many :notification_settings,
+           dependent: :destroy
+
+  has_many :project_queries,
+           class_name: 'Queries::Projects::ProjectQuery',
+           inverse_of: :user,
+           dependent: :destroy
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -113,9 +129,12 @@ class User < Principal
   validates :login, uniqueness: { if: Proc.new { |user| user.login.present? }, case_sensitive: false }
   validates :mail, uniqueness: { allow_blank: true, case_sensitive: false }
   # Login must contain letters, numbers, underscores only
-  validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
+  validates :login, format: { with: /\A[\p{L}0-9_\-@.+ ]*\z/i }
   validates :login, length: { maximum: 256 }
+
   validates :firstname, :lastname, length: { maximum: 256 }
+  validates :firstname, :lastname, format: { with: VALID_NAME_REGEX, allow_blank: true }
+
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates :mail, length: { maximum: 256, allow_nil: true }
 
@@ -128,7 +147,7 @@ class User < Principal
   auto_strip_attributes :login, nullify: false
   auto_strip_attributes :mail, nullify: false
 
-  validate :login_is_not_special_value
+  validate :login_is_not_aliased_value
   validate :password_meets_requirements
 
   after_save :update_password
@@ -150,7 +169,7 @@ class User < Principal
 
   # create new password if password was set
   def update_password
-    if password && auth_source_id.blank?
+    if password && ldap_auth_source_id.blank?
       new_password = passwords.build(type: UserPassword.active_type.to_s)
       new_password.plain_password = password
       new_password.save
@@ -161,14 +180,6 @@ class User < Principal
       clean_up_former_passwords
       clean_up_password_attribute
     end
-  end
-
-  def reload(*args)
-    @name = nil
-    @user_allowed_service = nil
-    @project_role_cache = nil
-
-    super
   end
 
   def mail=(arg)
@@ -204,9 +215,9 @@ class User < Principal
 
     return nil if !user.active? || OpenProject::Configuration.disable_password_login?
 
-    if user.auth_source
+    if user.ldap_auth_source
       # user has an external authentication method
-      return nil unless user.auth_source.authenticate(user.login, password)
+      return nil unless user.ldap_auth_source.authenticate(user.login, password)
     else
       # authentication with local password
       return nil unless user.check_password?(password)
@@ -233,20 +244,10 @@ class User < Principal
   def self.try_authentication_and_create_user(login, password)
     return nil if OpenProject::Configuration.disable_password_login?
 
-    attrs = AuthSource.authenticate(login, password)
-    return unless attrs
+    user = LdapAuthSource.authenticate(login, password)
 
-    call = Users::CreateService
-      .new(user: User.system)
-      .call(attrs)
-
-    user = call.result
-
-    call.on_failure do |result|
-      Rails.logger.error "Failed to auto-create user from auth-source: #{result.message}"
-
-      # TODO We have no way to pass back the contract errors in this place
-      user.errors.merge! call.errors
+    if user&.new_record?
+      Rails.logger.error "Failed to auto-create user from auth-source, as data is missing."
     end
 
     user
@@ -257,7 +258,6 @@ class User < Principal
     token = Token::AutoLogin.find_by_plaintext_value(key)
     # Make sure there's only 1 token that matches the key
     if token && ((token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?)
-      token.user.log_successful_login
       token.user
     end
   end
@@ -319,8 +319,8 @@ class User < Principal
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
   # format.
   def check_password?(clear_password, update_legacy: true)
-    if auth_source_id.present?
-      auth_source.authenticate(login, clear_password)
+    if ldap_auth_source.present?
+      ldap_auth_source.authenticate(login, clear_password)
     else
       return false if current_password.nil?
 
@@ -332,9 +332,8 @@ class User < Principal
   def change_password_allowed?
     return false if uses_external_authentication? ||
                     OpenProject::Configuration.disable_password_login?
-    return true if auth_source_id.blank?
 
-    auth_source.allow_password_changes?
+    ldap_auth_source_id.blank?
   end
 
   # Is the user authenticated via an external authentication source via OmniAuth?
@@ -363,8 +362,8 @@ class User < Principal
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
     return false if block_threshold == 0 # disabled
 
-    (last_failed_login_within_block_time? and
-            failed_login_count >= block_threshold)
+    last_failed_login_within_block_time? and
+            failed_login_count >= block_threshold
   end
 
   def log_failed_login
@@ -460,11 +459,16 @@ class User < Principal
     !logged?
   end
 
-  # Return user's roles for project
-  def roles_for_project(project)
-    project_role_cache.fetch(project)
+  def consent_expired?
+    # Always if the user has not consented
+    return true if consented_at.blank?
+
+    # Did not expire if no consent_time set, but user has consented at some point
+    return false if Setting.consent_time.blank?
+
+    # Otherwise, expires when consent_time is newer than last consented_at
+    consented_at < Setting.consent_time
   end
-  alias :roles :roles_for_project
 
   # Cheap version of Project.visible.count
   def number_of_known_projects
@@ -474,33 +478,6 @@ class User < Principal
       Project.public_projects.count + memberships.size
     end
   end
-
-  # Return true if the user is a member of project
-  def member_of?(project)
-    roles_for_project(project).any?(&:member?)
-  end
-
-  def self.allowed(action, project)
-    Authorization.users(action, project)
-  end
-
-  def self.allowed_members(action, project)
-    Authorization.users(action, project).where.not(members: { id: nil })
-  end
-
-  def allowed_to?(action, context, global: false)
-    user_allowed_service.call(action, context, global:)
-  end
-
-  def allowed_to_in_project?(action, project)
-    allowed_to?(action, project)
-  end
-
-  def allowed_to_globally?(action)
-    allowed_to?(action, nil, global: true)
-  end
-
-  delegate :preload_projects_allowed_to, to: :user_allowed_service
 
   def reported_work_package_count
     WorkPackage.on_active_project.with_author(self).visible.count
@@ -530,7 +507,7 @@ class User < Principal
   #   - OmniAuth
   #   - LDAP
   def missing_authentication_method?
-    identity_url.nil? && passwords.empty? && auth_source.nil?
+    identity_url.nil? && passwords.empty? && ldap_auth_source_id.nil?
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
@@ -547,6 +524,7 @@ class User < Principal
           u.mail = ''
           u.status = User.statuses[:active]
         end).save
+
         raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
       end
       anonymous_user
@@ -577,9 +555,9 @@ class User < Principal
 
   protected
 
-  # Login must not be special value 'me'
-  def login_is_not_special_value
-    if login.present? && login == 'me'
+  # Login must not be aliased value 'me'
+  def login_is_not_aliased_value
+    if login.present? && login.to_s == CURRENT_USER_LOGIN_ALIAS
       errors.add(:login, :invalid)
     end
   end
@@ -610,14 +588,6 @@ class User < Principal
     regexp = "^#{recipient}([#{separators}][^@]+)*@#{domain}$"
 
     [skip_suffix_check, regexp]
-  end
-
-  def user_allowed_service
-    @user_allowed_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
-  end
-
-  def project_role_cache
-    @project_role_cache ||= ::Users::ProjectRoleCache.new(self)
   end
 
   def former_passwords_include?(password)

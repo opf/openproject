@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,18 +42,18 @@ module OpenProject::Backlogs::Burndown
     end
 
     def unit_for(name)
-      return :points if @collect[:points].include? name
+      :points if @collect[:points].include? name
     end
 
     def collect_data
       initialize_self_for_collection
 
       data_for_dates(collected_days).each do |day_data|
-        date = day_data['date']
-        date = date.is_a?(Date) ? date : Date.parse(date)
+        date = day_data["date"]
+        date = Date.parse(date) unless date.is_a?(Date)
 
         day_data.each do |key, value|
-          next if key == 'date'
+          next if key == "date"
 
           self[key][date] = value.to_f
         end
@@ -112,7 +112,7 @@ module OpenProject::Backlogs::Burndown
     end
 
     def authoritative_journal_for_date(dates)
-      raise 'dates must not be empty!' if dates.empty?
+      raise "dates must not be empty!" if dates.empty?
 
       <<-SQL
       SELECT
@@ -158,11 +158,11 @@ module OpenProject::Backlogs::Burndown
     end
 
     def dates_of_interest_join_table(dates)
-      raise 'dates must not be empty!' if dates.empty?
+      raise "dates must not be empty!" if dates.empty?
 
       @date_join ||= dates.map do |date|
         "SELECT CAST('#{date}' AS DATE) AS date"
-      end.join(' UNION ')
+      end.join(" UNION ")
     end
 
     def and_status_query
@@ -174,7 +174,7 @@ module OpenProject::Backlogs::Burndown
         open_status_ids = non_closed_statuses - done_statuses_for_project
 
         if open_status_ids.empty?
-          ''
+          ""
         else
           "AND (#{Journal::WorkPackageJournal.table_name}.status_id IN (#{open_status_ids.join(',')}))"
         end
@@ -198,7 +198,7 @@ module OpenProject::Backlogs::Burndown
     end
 
     def collected_from_children?(key, story)
-      key == 'remaining_hours' && story_has_children?(story)
+      key == "remaining_hours" && story_has_children?(story)
     end
 
     def collected_types

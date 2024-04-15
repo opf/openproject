@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,29 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../shared_examples'
+require_relative "../shared_examples"
 
-describe Bim::Bcf::API::V2_1::Users::SingleRepresenter, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::Users::SingleRepresenter, "rendering" do
   let(:user) { build_stubbed(:user) }
 
   let(:instance) { described_class.new(user) }
 
   subject { instance.to_json }
 
-  describe 'attributes' do
-    context 'id' do
-      it_behaves_like 'attribute' do
+  describe "attributes" do
+    context "id" do
+      it_behaves_like "attribute" do
         let(:value) { user.mail }
-        let(:path) { 'id' }
+        let(:path) { "id" }
       end
     end
 
-    context 'name' do
-      it_behaves_like 'attribute' do
+    context "name" do
+      it_behaves_like "attribute" do
         let(:value) { user.name }
-        let(:path) { 'name' }
+        let(:path) { "name" }
       end
     end
   end

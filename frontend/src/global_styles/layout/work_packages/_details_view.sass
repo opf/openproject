@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ body.router--work-packages-partitioned-split-view-new
   // Min-width is actually 530px but the border already needs 2px
   min-width: 528px
 
-  @media only screen and (max-width: 1280px)
+  @media only screen and (max-width: $breakpoint-xl)
     @at-root
       .detailsViewMenuItem
         display: none
@@ -87,22 +87,10 @@ body.router--work-packages-partitioned-split-view-new
 .work-packages--subject-element,
 .work-packages--details--subject .inline-edit--field
   font-size: 1.125rem
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
 
 .work-packages--details--subject
   overflow: hidden
-
-  .inline-edit--field
-    height: 38px
-    line-height: 36px
-
-  // Style edit field to look like the display field.
-  // Thus we avoid a visual jump when editing the subject.
-  &.-active input
-    height: 34px
-    line-height: 34px
-    padding: 5px 0 5px 5px
-    font-size: 18px
 
 .work-packages--details-form
   display: flex
@@ -138,15 +126,21 @@ body.router--work-packages-partitioned-split-view-new
 .work-packages--type-selector
   flex-shrink: 0
 
-.work-packages--details
-  .work-packages--attachments
-    margin-bottom: 25px
-
 .work-package--new-state
   margin-bottom: 55px
 
   .title-container
     overflow: visible
 
-  .work-packages--attachments
-    margin-bottom: 25px
+.work-packages--storages
+  margin-top: $spot-spacing-2
+  display: grid
+  grid-template-columns: 1fr 1fr
+  grid-row-gap: $spot-spacing-1
+  grid-column-gap: $spot-spacing-1
+
+  @media #{$spot-mq-mobile}
+    grid-template-columns: 1fr
+
+  .work-packages-partitioned-page--content-right &
+    grid-template-columns: 1fr

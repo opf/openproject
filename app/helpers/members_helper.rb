@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,13 +34,13 @@ module MembersHelper
   # If it is the later, the ids of the non delete roles are appended to the url so that they are kept.
   def global_member_role_deletion_link(member, role)
     if member.roles.length == 1
-      link_to('',
+      link_to("",
               principal_membership_path(member.principal, member),
-              { method: :delete, class: 'icon icon-delete', title: t(:button_delete) })
+              { method: :delete, class: "icon icon-delete", title: t(:button_delete) })
     else
-      link_to('',
-              principal_membership_path(member.principal, member, 'membership[role_ids]' => member.roles - [role]),
-              { method: :patch, class: 'icon icon-delete', title: t(:button_delete) })
+      link_to("",
+              principal_membership_path(member.principal, member, "membership[role_ids]" => member.roles - [role]),
+              { method: :patch, class: "icon icon-delete", title: t(:button_delete) })
     end
   end
 

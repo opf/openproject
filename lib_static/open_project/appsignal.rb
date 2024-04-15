@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,13 +31,19 @@ module OpenProject
     module_function
 
     def enabled?
-      ENV['APPSIGNAL_ENABLED'] == 'true'
+      ENV["APPSIGNAL_ENABLED"] == "true"
     end
 
     def exception_handler(message, log_context = {})
       if (exception = log_context[:exception])
-        ::Appsignal.send_error(exception) do |transaction|
-          transaction.set_tags tags(log_context)
+        if ::Appsignal::Transaction.current?
+          ::Appsignal.set_error(exception) do |transaction|
+            transaction.set_tags tags(log_context)
+          end
+        else
+          ::Appsignal.send_error(exception) do |transaction|
+            transaction.set_tags tags(log_context)
+          end
         end
       else
         Rails.logger.warn "Ignoring non-exception message for appsignal #{message.inspect}"
@@ -67,8 +73,8 @@ module OpenProject
         locale: I18n.locale,
         version: OpenProject::VERSION.to_semver,
         core_hash: OpenProject::VERSION.revision,
-        core_version: OpenProject::VERSION.core_version,
-        product_version: OpenProject::VERSION.product_version
+        core_version: OpenProject::VERSION.core_sha,
+        product_version: OpenProject::VERSION.product_sha
       }.compact
     end
   end

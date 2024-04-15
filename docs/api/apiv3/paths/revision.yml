@@ -27,7 +27,7 @@ get:
                     href: "/projects/identifier/repository/revision/11f4b07"
                 _type: Revision
                 authorName: Some Developer
-                createdAt: '2015-07-21T13:36:59Z'
+                createdAt: '2015-07-21T13:36:59.454Z'
                 formattedIdentifier: 11f4b07
                 id: 1
                 identifier: 11f4b07dff4f4ce9548a52b7d002daca7cd63ec6

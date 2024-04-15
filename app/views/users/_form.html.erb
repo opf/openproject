@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,11 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= error_messages_for_contract @user, @errors %>
-
-<% content_for :header_tags do %>
-  <meta name="required_script" content="admin_users" />
-<% end %>
+<%= error_messages_for @user %>
 
 <section class="form--section">
   <%= render partial: 'users/form/basic_attributes', locals: { f: f } %>

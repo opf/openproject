@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,4 +29,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <h1><%= @project.name %></h1>
 
-<p><%= t('projects.delete.completed_text', name: @project.name) %></p>
+<p>
+  <%= t('projects.delete.completed_text', name: @project.name) %>
+  <% if @dependent_projects.any? %>
+    <br />
+    <%= t('projects.delete.completed_text_children') %>
+    <ul>
+      <% @dependent_projects.each do |subproject| %>
+        <li><%= subproject.name %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>

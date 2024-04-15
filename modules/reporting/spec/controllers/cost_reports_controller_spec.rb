@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,82 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
-describe CostReportsController, type: :controller do
+RSpec.describe CostReportsController do
   include OpenProject::Reporting::PluginSpecHelper
 
   let(:user) { build(:user) }
   let(:project) { build(:valid_project) }
 
+  before do
+    allow(User).to receive(:current).and_return(user)
+  end
+
   describe "GET show" do
     before do
       is_member project, user, [:view_cost_entries]
-      allow(User).to receive(:current).and_return(user)
     end
 
-    describe "WHEN providing invalid units
-              WHEN having the view_cost_entries permission" do
+    context "with invalid units" do
+      context "with :view_cost_entries permission" do
+        before do
+          get :show, params: { id: 1, unit: -1 }
+        end
+
+        it "returns 404 Not found" do
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    let(:user) { build(:admin) }
+    let(:cost_query) { create(:public_cost_query, user:, project:) }
+
+    context "with valid params" do
       before do
-        get :show, params: { id: 1, unit: -1 }
+        delete :destroy, params: { id: cost_query.id, project_id: project.identifier }
       end
 
-      it "responds with a 404 error" do
-        expect(response.code).to eql("404")
+      it "destroyed" do
+        expect(CostQuery.count).to be_zero
+      end
+
+      it "redirected" do
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context "with invalid params" do
+      before do
+        create(:public_cost_query, user:, project:)
+        delete :destroy, params: { id: -1, project_id: -1 }
+      end
+
+      it "not destroyed" do
+        expect(CostQuery.count).not_to be_zero
+      end
+
+      it "returns 404 Not found" do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "with non-admin user" do
+      let(:user) { build(:user) }
+
+      before do
+        delete :destroy, params: { id: cost_query.id, project_id: project.identifier }
+      end
+
+      it "not destroyed" do
+        expect(CostQuery.count).not_to be_zero
+      end
+
+      it "returns 403 Forbidden" do
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end

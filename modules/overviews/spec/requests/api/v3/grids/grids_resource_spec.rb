@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Grids resource', type: :request, content_type: :json do
+RSpec.describe "API v3 Grids resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:permissions) { %i[] }
   let(:project) { create(:project) }
@@ -47,7 +46,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   end
   let(:widgets) do
     [create(:grid_widget,
-            identifier: 'custom_text',
+            identifier: "custom_text",
             start_column: 1,
             end_column: 3,
             start_row: 1,
@@ -60,7 +59,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
   subject(:response) { last_response }
 
-  describe '#get api/v3/grids/:id' do
+  describe "#get api/v3/grids/:id" do
     let(:path) { api_v3_paths.grid(grid.id) }
 
     before do
@@ -69,65 +68,65 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       get path
     end
 
-    it 'responds with 200 OK' do
+    it "responds with 200 OK" do
       expect(subject.status).to eq(200)
     end
 
-    it 'sends a grid block' do
+    it "sends a grid block" do
       expect(subject.body)
-        .to be_json_eql('Grid'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Grid".to_json)
+        .at_path("_type")
     end
 
-    it 'identifies the url the grid is stored for' do
+    it "identifies the url the grid is stored for" do
       expect(subject.body)
         .to be_json_eql(project_overview_path(project).to_json)
-        .at_path('_links/scope/href')
+        .at_path("_links/scope/href")
     end
 
-    it 'has a widget that renders custom text' do
+    it "has a widget that renders custom text" do
       expect(subject.body)
-        .to be_json_eql('custom_text'.to_json)
-        .at_path('widgets/0/identifier')
+        .to be_json_eql("custom_text".to_json)
+        .at_path("widgets/0/identifier")
 
       expect(subject.body)
         .to be_json_eql(custom_text.to_json)
-        .at_path('widgets/0/options/text/raw')
+        .at_path("widgets/0/options/text/raw")
     end
 
-    context 'with the grid not existing' do
+    context "with the grid not existing" do
       let(:path) { api_v3_paths.grid(grid.id + 1) }
 
-      it 'responds with 404 NOT FOUND' do
+      it "responds with 404 NOT FOUND" do
         expect(subject.status).to be 404
       end
     end
   end
 
-  shared_examples_for 'creates a grid resource' do
-    it 'responds with 201 CREATED' do
+  shared_examples_for "creates a grid resource" do
+    it "responds with 201 CREATED" do
       expect(subject.status).to eq(201)
     end
 
-    it 'returns the created grid block' do
+    it "returns the created grid block" do
       expect(subject.body)
-        .to be_json_eql('Grid'.to_json)
-              .at_path('_type')
+        .to be_json_eql("Grid".to_json)
+              .at_path("_type")
 
       if params["rowCount"]
         expect(subject.body)
-          .to be_json_eql(params['rowCount'].to_json)
-                .at_path('rowCount')
+          .to be_json_eql(params["rowCount"].to_json)
+                .at_path("rowCount")
       end
     end
 
-    it 'persists the grid' do
+    it "persists the grid" do
       expect(Grids::Grid.count)
         .to be(1)
     end
   end
 
-  describe '#post api/v3/grids' do
+  describe "#post api/v3/grids" do
     let(:path) { api_v3_paths.grids }
 
     let(:permissions) { %i[manage_overview] }
@@ -148,9 +147,9 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
       post path, params.to_json
     end
 
-    it_behaves_like 'creates a grid resource'
+    it_behaves_like "creates a grid resource"
 
-    context 'if lacking the manage_overview permission and not changing the default values' do
+    context "if lacking the manage_overview permission and not changing the default values" do
       # Creating a grid should be possible for every member in the project to avoid having an empty page for the project
       # which is why this test case is the same as the one above.
       # But this is only true if only the scope is provided and no other attribute.
@@ -165,36 +164,36 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         }.with_indifferent_access
       end
 
-      it_behaves_like 'creates a grid resource'
+      it_behaves_like "creates a grid resource"
     end
 
-    context 'if lacking the manage_overview permission and changing the default values' do
+    context "if lacking the manage_overview permission and changing the default values" do
       # Creating a grid should be possible for every member in the project to avoid having an empty page for the project
       # which is why this test case is the same as the one above.
       # But this is only true if only the scope is provided and no other attribute.
       # In this test, the rowCount and columnCount is changed
       let(:permissions) { %i[] }
 
-      it 'responds with 422' do
+      it "responds with 422" do
         expect(subject.status).to eq(422)
       end
 
-      it 'persists no grid' do
+      it "persists no grid" do
         expect(Grids::Grid.count)
           .to be(0)
       end
     end
 
-    context 'if not being a member in the project' do
+    context "if not being a member in the project" do
       current_user do
         create(:user)
       end
 
-      it 'responds with 422' do
+      it "responds with 422" do
         expect(subject.status).to eq(422)
       end
 
-      it 'persists no grid' do
+      it "persists no grid" do
         expect(Grids::Grid.count)
           .to be(0)
       end

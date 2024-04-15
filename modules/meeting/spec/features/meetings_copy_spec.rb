@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,82 +26,85 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Meetings copy', type: :feature, js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings] }
-  let(:user) do
+RSpec.describe "Meetings copy", :js, :with_cuprite do
+  shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
+  shared_let(:permissions) { %i[view_meetings create_meetings] }
+  shared_let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions).tap do |u|
-      u.pref[:time_zone] = 'UTC'
+           member_with_permissions: { project => permissions }).tap do |u|
+      u.pref[:time_zone] = "UTC"
 
       u.save!
     end
   end
-  let(:other_user) do
+  shared_let(:other_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
-  let(:permissions) { %i[view_meetings create_meetings] }
 
-  let(:agenda_text) { "We will talk" }
-  let!(:meeting) do
+  shared_let(:start_time) { Time.current.next_day.at_noon }
+  shared_let(:duration) { 1.5 }
+  shared_let(:agenda_text) { "We will talk" }
+  shared_let(:meeting) do
     create(:meeting,
-           author: other_user,
+           author: user,
            project:,
-           title: 'Awesome meeting!',
-           location: 'Meeting room',
-           duration: 1.5,
-           start_time: DateTime.parse("2013-03-27 18:55:00")).tap do |m|
+           title: "Awesome meeting!",
+           location: "Meeting room",
+           duration:,
+           start_time:).tap do |m|
       create(:meeting_agenda, meeting: m, text: agenda_text)
-      m.participants.build(user: other_user, attended: true)
+      create(:meeting_participant, :attendee, meeting: m, user: other_user)
     end
+  end
+
+  shared_let(:twelve_hour_format) { "%I:%M %p" }
+  shared_let(:copied_meeting_time_heading) do
+    date = (start_time + 1.week).strftime("%m/%d/%Y")
+    start_of_meeting = start_time.strftime(twelve_hour_format)
+    end_of_meeting = (start_time + meeting.duration.hours).strftime(twelve_hour_format)
+
+    "Start time: #{date} #{start_of_meeting} - #{end_of_meeting} (GMT+00:00) UTC"
   end
 
   before do
-    login_as(user)
+    login_as user
   end
 
-  it 'copying a meeting' do
-    visit meetings_path(project)
+  it "copying a meeting" do
+    visit project_meetings_path(project)
 
-    click_link meeting.title
+    click_on meeting.title
 
-    within '.meeting--main-toolbar' do
-      expect(page)
-        .to have_link 'Copy'
-
-      SeleniumHubWaiter.wait
-      click_link 'Copy'
+    find_test_selector("meetings-more-dropdown-menu").click
+    page.within(".menu-drop-down-container") do
+      click_on "Copy"
     end
 
     expect(page)
-      .to have_field 'Title', with: meeting.title
+      .to have_field "Title",      with: meeting.title
     expect(page)
-      .to have_field 'Location', with: meeting.location
+      .to have_field "Location",   with: meeting.location
     expect(page)
-      .to have_field 'Duration', with: meeting.duration
+      .to have_field "Duration",   with: meeting.duration
     expect(page)
-      .to have_field 'Start date', with: "2013-03-27"
+      .to have_field "Start date", with: (start_time + 1.week).strftime("%Y-%m-%d")
     expect(page)
-      .to have_field 'Time', with: "18:55"
+      .to have_field "Time",       with: start_time.strftime("%H:%M")
 
-    SeleniumHubWaiter.wait
-    click_button "Create"
+    click_on "Create"
 
     # Be on the new meeting's page with copied over attributes
-    expect(current_path)
-      .not_to eql meeting_path(meeting.id)
+    expect(page).to have_no_current_path meeting_path(meeting.id)
 
     expect(page)
       .to have_content("Added by #{user.name}")
-
     expect(page)
       .to have_content("Meeting: #{meeting.title}")
     expect(page)
-      .to have_content("Time: 03/27/2013 06:55 PM - 08:25 PM (GMT+00:00) UTC")
+      .to have_content(copied_meeting_time_heading)
     expect(page)
       .to have_content("Location: #{meeting.location}")
 
@@ -112,21 +115,16 @@ describe 'Meetings copy', type: :feature, js: true do
     # Does not copy the attendees
     expect(page)
       .to have_no_content "Attendees: #{other_user.name}"
-
     expect(page)
       .to have_content "Attendees:"
 
     # Copies the agenda
-    SeleniumHubWaiter.wait
-    click_link "Agenda"
-
+    click_on "Agenda"
     expect(page)
       .to have_content agenda_text
 
     # Adds an entry to the history
-    SeleniumHubWaiter.wait
-    click_link "History"
-
+    click_on "History"
     expect(page)
       .to have_content("Copied from Meeting ##{meeting.id}")
   end

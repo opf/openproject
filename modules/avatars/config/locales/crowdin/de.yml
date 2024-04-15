@@ -1,5 +1,9 @@
 #English strings go here
 de:
+  plugin_openproject_avatars:
+    name: "Avatars"
+    description: >-
+      Dieses Plugin erlaubt es OpenProject-Benutzern, Avatare hochzuladen oder von Gravatar zu übernehmen.
   label_avatar: "Profilfoto"
   label_avatar_plural: "Avatars"
   label_current_avatar: "Aktuelles Profilbild"
@@ -34,6 +38,3 @@ de:
       enable_gravatars: 'Aktiviere Gravatare'
       gravatar_default: "Standard-Gravatar-Bild"
       enable_local_avatars: 'Selbsterstellte Profilbilder aktivieren'
-
-
-

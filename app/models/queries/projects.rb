@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,7 @@ module Queries::Projects
     filter Filters::PublicFilter
     filter Filters::NameFilter
     filter Filters::NameAndIdentifierFilter
+    filter Filters::MemberOfFilter
     filter Filters::TypeaheadFilter
     filter Filters::CustomFieldFilter
     filter Filters::CreatedAtFilter
@@ -53,5 +54,12 @@ module Queries::Projects
     order Orders::ProjectStatusOrder
     order Orders::NameOrder
     order Orders::TypeaheadOrder
+
+    select Selects::CreatedAt
+    select Selects::CustomField
+    select Selects::Default
+    select Selects::LatestActivityAt
+    select Selects::RequiredDiskSpace
+    select Selects::Status
   end
 end

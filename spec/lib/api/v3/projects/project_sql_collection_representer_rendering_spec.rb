@@ -24,16 +24,16 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Projects::ProjectSqlCollectionRepresenter, "rendering" do
+  include API::V3::Utilities::PathHelper
 
   subject(:json) do
-    ::API::V3::Utilities::SqlRepresenterWalker
+    API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
            current_user:,
-           self_path: 'some_path',
+           self_path: "some_path",
            url_query: { offset: 1, pageSize: 5, select: })
       .walk(described_class)
       .to_json
@@ -48,19 +48,17 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
     create(:project)
   end
 
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
 
   let(:select) do
-    { '*' => {}, 'elements' => { '*' => {} } }
+    { "*" => {}, "elements" => { "*" => {} } }
   end
 
   current_user do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
-  context 'when rendering everything' do
+  context "when rendering everything" do
     let(:expected) do
       {
         _type: "Collection",
@@ -103,15 +101,15 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected)
     end
   end
 
-  context 'when rendering only collection attributes' do
+  context "when rendering only collection attributes" do
     let(:select) do
-      { '*' => {} }
+      { "*" => {} }
     end
 
     let(:expected) do
@@ -137,7 +135,45 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
+      expect(json)
+        .to be_json_eql(expected)
+    end
+  end
+
+  context "when not having a project to render" do
+    let(:scope) do
+      Project.none
+    end
+
+    let(:select) do
+      { "*" => {} }
+    end
+
+    let(:expected) do
+      {
+        _type: "Collection",
+        pageSize: 5,
+        total: 0,
+        count: 0,
+        offset: 1,
+        _links: {
+          self: {
+            href: "some_path?offset=1&pageSize=5&select=%2A"
+          },
+          changeSize: {
+            href: "some_path?offset=1&pageSize=%7Bsize%7D&select=%2A",
+            templated: true
+          },
+          jumpTo: {
+            href: "some_path?offset=%7Boffset%7D&pageSize=5&select=%2A",
+            templated: true
+          }
+        }
+      }.to_json
+    end
+
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected)
     end

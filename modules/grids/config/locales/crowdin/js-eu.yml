@@ -8,10 +8,11 @@ eu:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'Custom text'
         documents:
-          title: 'Documents'
+          title: 'Dokumentuak'
           no_results: 'No documents yet.'
         members:
           title: 'Members'
@@ -60,7 +61,7 @@ eu:
         work_packages_graph:
           title: 'Work packages graph'
         work_packages_calendar:
-          title: 'Calendar'
+          title: 'Egutegia'
         work_packages_overview:
           title: 'Work packages overview'
           placeholder: 'Click to edit ...'

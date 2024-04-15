@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,7 +65,7 @@ class Version < ApplicationRecord
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user = User.current)
-    user.allowed_to?(:view_work_packages, project)
+    user.allowed_in_project?(:view_work_packages, project)
   end
 
   def due_date
@@ -81,10 +81,11 @@ class Version < ApplicationRecord
   # Returns the total reported time for this version
   def spent_hours
     @spent_hours ||= TimeEntry
-                     .includes(:work_package)
-                     .where(work_packages: { version_id: id })
-                     .sum(:hours)
-                     .to_f
+      .not_ongoing
+      .includes(:work_package)
+      .where(work_packages: { version_id: id })
+      .sum(:hours)
+      .to_f
   end
 
   def closed?
@@ -148,7 +149,9 @@ class Version < ApplicationRecord
     @wiki_page
   end
 
-  def to_s; name end
+  def to_s
+    name
+  end
 
   def to_s_with_project
     "#{project} - #{name}"
@@ -212,9 +215,9 @@ class Version < ApplicationRecord
         )
 
         done = work_packages
-               .where(statuses: { is_closed: !open })
-               .includes(:status)
-               .sum(sum_sql)
+          .where(statuses: { is_closed: !open })
+          .includes(:status)
+          .sum(sum_sql)
         progress = done.to_f / (estimated_average * issues_count)
       end
       progress

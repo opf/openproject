@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 az:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "Vəzifə"
-        remaining_hours: "Remaining hours"
-        remaining_time: "Remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -35,9 +36,6 @@ az:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
         sprint:
@@ -49,7 +47,7 @@ az:
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
     chart_options: "Chart options"
-    close: "Close"
+    close: "Bağla"
     column_width: "Column width:"
     date: "Day"
     definition_of_done: "Definition of Done"
@@ -66,8 +64,8 @@ az:
     properties: "Properties"
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining hours"
-    remaining_hours_ideal: "Remaining hours (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown Chart"
     story: "Story"
     story_points: "Story Points"
@@ -78,7 +76,6 @@ az:
     x_more: "%{count} more..."
   backlogs_active: "active"
   backlogs_any: "any"
-  backlogs_card_specification: "Label types for card printing"
   backlogs_inactive: "Project shows no activity"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"
@@ -150,7 +147,7 @@ az:
   rb_label_copy_tasks_none: "None"
   rb_label_copy_tasks_open: "Open"
   rb_label_link_to_original: "Include link to original story"
-  remaining_hours: "remaining hours"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "required burn rate (hours)"
   required_burn_rate_points: "required burn rate (points)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

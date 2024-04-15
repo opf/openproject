@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -39,34 +39,18 @@ module API
         include API::Decorators::FormattableProperty
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
-        cached_representer key_parts: %i(status),
-                           disabled: false
+        def self.current_user_view_allowed_lambda
+          ->(*) { current_user.allowed_in_project?(:view_project, represented) || current_user.allowed_globally?(:add_project) }
+        end
+
+        custom_field_injector cache_if: current_user_view_allowed_lambda
+
+        cached_representer disabled: false
 
         self_link
 
-        def from_hash(body)
-          # Representable is broken when passing nil as parameters
-          # it will set the property :status and :statusExplanation
-          # regardless of what the setter actually does
-          # Bug opened at https://github.com/trailblazer/representable/issues/234
-          super(body).tap do |struct|
-            next unless struct.respond_to?(:status_attributes)
-
-            # Set the status attribute properly
-            struct.status = struct.status_attributes
-
-            # Remove temporary attributes workaround
-            struct.delete(:status_attributes)
-
-            # Remove nil status_explanation when passed as nil
-            if struct.respond_to?(:status_explanation)
-              struct.delete(:status_explanation)
-            end
-          end
-        end
-
         link :createWorkPackage,
-             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
+             cache_if: -> { current_user.allowed_in_project?(:add_work_packages, represented) } do
           {
             href: api_v3_paths.create_project_work_package_form(represented.id),
             method: :post
@@ -74,7 +58,7 @@ module API
         end
 
         link :createWorkPackageImmediately,
-             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
+             cache_if: -> { current_user.allowed_in_project?(:add_work_packages, represented) } do
           {
             href: api_v3_paths.work_packages_by_project(represented.id),
             method: :post
@@ -83,14 +67,14 @@ module API
 
         link :workPackages,
              cache_if: -> {
-               current_user_allowed_to(:view_work_packages, context: represented)
+               current_user.allowed_in_project?(:view_work_packages, represented)
              } do
           { href: api_v3_paths.work_packages_by_project(represented.id) }
         end
 
         links :storages,
               cache_if: -> {
-                current_user_allowed_to(:view_file_links, context: represented)
+                current_user.allowed_in_project?(:view_file_links, represented)
               } do
           represented.storages.map do |storage|
             {
@@ -106,15 +90,15 @@ module API
 
         link :versions,
              cache_if: -> {
-               current_user_allowed_to(:view_work_packages, context: represented) ||
-                 current_user_allowed_to(:manage_versions, context: represented)
+               current_user.allowed_in_project?(:view_work_packages, represented) ||
+               current_user.allowed_in_project?(:manage_versions, represented)
              } do
           { href: api_v3_paths.versions_by_project(represented.id) }
         end
 
         link :memberships,
              cache_if: -> {
-               current_user_allowed_to(:view_members, context: represented)
+               current_user.allowed_in_project?(:view_members, represented)
              } do
           {
             href: api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [represented.id.to_s] } }])
@@ -123,15 +107,15 @@ module API
 
         link :types,
              cache_if: -> {
-               current_user_allowed_to(:view_work_packages, context: represented) ||
-                 current_user_allowed_to(:manage_types, context: represented)
+               current_user.allowed_in_project?(:view_work_packages, represented) ||
+               current_user.allowed_in_project?(:manage_types, represented)
              } do
           { href: api_v3_paths.types_by_project(represented.id) }
         end
 
         link :update,
              cache_if: -> {
-               current_user_allowed_to(:edit_project, context: represented)
+               current_user.allowed_in_project?(:edit_project, represented)
              } do
           {
             href: api_v3_paths.project_form(represented.id),
@@ -141,7 +125,7 @@ module API
 
         link :updateImmediately,
              cache_if: -> {
-               current_user_allowed_to(:edit_project, context: represented)
+               current_user.allowed_in_project?(:edit_project, represented)
              } do
           {
             href: api_v3_paths.project(represented.id),
@@ -176,10 +160,15 @@ module API
             else
               {
                 href: API::V3::URN_UNDISCLOSED,
-                title: I18n.t(:'api_v3.undisclosed.ancestor')
+                title: I18n.t(:"api_v3.undisclosed.ancestor")
               }
             end
           end
+        end
+
+        link :projectStorages, uncacheable: true do
+          filters = [{ projectId: { operator: "=", values: [represented.id.to_s] } }]
+          { href: api_v3_paths.path_for(:project_storages, filters:) }
         end
 
         associated_resource :parent,
@@ -199,66 +188,56 @@ module API
         property :active
         property :public
 
-        formattable_property :description
+        formattable_property :description,
+                             cache_if: current_user_view_allowed_lambda
 
         date_time_property :created_at
 
         date_time_property :updated_at
 
         resource :status,
-                 getter: ->(*) {
-                   next unless represented.status&.code
-
-                   ::API::V3::Projects::Statuses::StatusRepresenter
-                     .create(represented.status.code, current_user:, embed_links:)
+                 skip_render: ->(*) {
+                   !current_user.allowed_in_project?(:view_project, represented) &&
+                     !current_user.allowed_globally?(:add_project)
                  },
+                 link_cache_if: current_user_view_allowed_lambda,
+                 getter: ->(*) {
+                           next unless represented.status_code
+
+                           ::API::V3::Projects::Statuses::StatusRepresenter
+                             .create(represented.status_code, current_user:, embed_links:)
+                         },
                  link: ->(*) {
-                   if represented.status&.code
-                     {
-                       href: api_v3_paths.project_status(represented.status.code),
-                       title: I18n.t(:"activerecord.attributes.projects/status.codes.#{represented.status.code}",
-                                     default: nil)
-                     }.compact
-                   else
-                     {
-                       href: nil
-                     }
-                   end
-                 },
+                         if represented.status_code
+                           {
+                             href: api_v3_paths.project_status(represented.status_code),
+                             title: I18n.t(:"activerecord.attributes.project.status_codes.#{represented.status_code}",
+                                           default: nil)
+                           }.compact
+                         else
+                           {
+                             href: nil
+                           }
+                         end
+                       },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= API::ParserStruct.new
+                           link = ::API::Decorators::LinkObject.new(represented,
+                                                                    path: :project_status,
+                                                                    property_name: :status_code,
+                                                                    setter: :"status_code=")
+                           link.from_hash(fragment)
+                         }
 
-                   link = ::API::Decorators::LinkObject.new(represented.status_attributes,
-                                                            path: :project_status,
-                                                            property_name: :status,
-                                                            getter: :code,
-                                                            setter: :'code=')
-
-                   link.from_hash(fragment)
-                 }
-
-        property :status_explanation,
-                 writable: -> { represented.writable?(:status) },
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(status&.explanation,
-                                                      object: self,
-                                                      plain: false)
-                 },
-                 setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= API::ParserStruct.new
-                   represented.status_attributes[:explanation] = fragment["raw"]
-                 }
+        formattable_property :status_explanation,
+                             cache_if: current_user_view_allowed_lambda
 
         def _type
-          'Project'
+          "Project"
         end
 
-        self.to_eager_load = [:status,
-                              :parent,
-                              :enabled_modules,
-                              { custom_values: :custom_field }]
+        self.to_eager_load = [:enabled_modules]
 
-        self.checked_permissions = [:add_work_packages]
+        self.checked_permissions = %i[add_work_packages view_project]
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 hu:
+  plugin_costs:
+    name: "Idő és költség"
+    description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:
       cost_entry:
@@ -31,7 +34,7 @@ hu:
         unit: "Egység neve"
         unit_plural: "Többes számú egység neve"
       work_package:
-        costs_by_type: "Elköltött egység"
+        costs_by_type: "Elhasznált egységek"
         labor_costs: "Munkaerő költségek"
         material_costs: "Egység költségek"
         overall_costs: "Összes költség"
@@ -101,7 +104,7 @@ hu:
   label_work_package_filter_add: "Munkacsomag szűrő hozzáadása"
   label_kind: "Típus"
   label_less_or_equal: "<="
-  label_log_costs: "Költségek naplózása"
+  label_log_costs: "Naplózott költségek"
   label_no: "Nem"
   label_option_plural: "Beállítások"
   label_overall_costs: "Összes költség"

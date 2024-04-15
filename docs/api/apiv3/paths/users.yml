@@ -3,9 +3,15 @@
 get:
   summary: List Users
   operationId: list_Users
-  description: Lists users. Only administrators or users with manage_user global permission have permission to do this.
+  description: |- 
+    Lists users. Only administrators or users with any of the following can access this resource:
+    
+    - `manage_members`
+    - `manage_user`
+    - `share_work_packages`
   tags:
     - Users
+    - Principals
   parameters:
     - description: Page number inside the requested collection.
       example: '25'
@@ -80,13 +86,14 @@ get:
       description: |-
         Returned if the client does not have sufficient permissions.
 
-        **Required permission:** Administrator
+        **Required permission:** Administrator or any of: 'manage_members', 'manage_user', 'share_work_packages'.
 
 post:
   summary: Create User
   operationId: create_user
   tags:
     - Users
+    - Principals
   description: |-
     Creates a new user. Only administrators and users with manage_user global permission are allowed to do so.
     When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.

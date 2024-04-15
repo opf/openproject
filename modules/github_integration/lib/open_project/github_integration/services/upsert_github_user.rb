@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ module OpenProject::GithubIntegration::Services
   # See: https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#pull_request
   class UpsertGithubUser
     def call(payload)
-      GithubUser.find_or_initialize_by(github_id: payload.fetch('id'))
+      GithubUser.find_or_initialize_by(github_id: payload.fetch("id"))
                 .tap do |github_user|
                   github_user.update!(extract_params(payload))
                 end
@@ -50,10 +50,10 @@ module OpenProject::GithubIntegration::Services
     # See: https://docs.github.com/en/rest/reference/users
     def extract_params(payload)
       {
-        github_id: payload.fetch('id'),
-        github_login: payload.fetch('login'),
-        github_html_url: payload.fetch('html_url'),
-        github_avatar_url: payload.fetch('avatar_url')
+        github_id: payload.fetch("id"),
+        github_login: payload.fetch("login"),
+        github_html_url: payload.fetch("html_url"),
+        github_avatar_url: payload.fetch("avatar_url")
       }
     end
   end

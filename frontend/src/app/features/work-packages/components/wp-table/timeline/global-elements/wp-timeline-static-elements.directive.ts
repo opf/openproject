@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ import {
 } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
-import { TimelineViewParameters } from '../wp-timeline';
+import { calculatePositionValueForDayCountingPx, TimelineViewParameters } from '../wp-timeline';
 import {
   TimelineStaticElement,
   timelineStaticElementCssClassname,
@@ -81,6 +81,13 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
   private renderElements(vp:TimelineViewParameters) {
     for (const e of this.elements) {
       this.container.appendChild(e.render(vp));
+    }
+    const timelineSide = document.querySelector('.work-packages-tabletimeline--timeline-side');
+    if (timelineSide !== null && vp.settings.zoomLevel !== 'auto') {
+      const visibleMomentBeforeToday = vp.now.clone().subtract(vp.settings.visibleBeforeTodayInZoomLevel, vp.settings.zoomLevel)
+      const visibleDaysBeforeToday = visibleMomentBeforeToday.diff(vp.dateDisplayStart, 'days');
+      const visibleDaysBeforeTodayPositionPixels = calculatePositionValueForDayCountingPx(vp, visibleDaysBeforeToday);
+      timelineSide.scrollLeft = visibleDaysBeforeTodayPositionPixels;
     }
   }
 }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'webmock/rspec'
+
+require "httpx/adapters/webmock"
+require "webmock/rspec"
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -35,12 +37,16 @@ RSpec.configure do |config|
     WebMock.disable!
   end
 
-  config.around(:example, webmock: true) do |example|
+  config.around(:example, :webmock) do |example|
     # When we enable webmock, no connections other than stubbed ones are allowed.
-    # We will exempt local connections from this block, since selenium etc.
-    # uses localhost to communicate with the browser.
-    # Leaving this off will randomly fail some specs with WebMock::NetConnectNotAllowedError
-    WebMock.disable_net_connect!(allow_localhost: true, allow: ["selenium-hub", Capybara.server_host])
+    # We will exempt:
+    # * local connections, since selenium etc. uses localhost to communicate with the browser.
+    #   Leaving this off will randomly fail some specs with WebMock::NetConnectNotAllowedError
+    # * chromedriver, since it might need to be downloaded
+    WebMock.disable_net_connect!(allow_localhost: true, allow: ["selenium-hub",
+                                                                Capybara.server_host,
+                                                                "chromedriver.storage.googleapis.com",
+                                                                "openproject-ci-public-logs.s3.eu-west-1.amazonaws.com"])
     WebMock.enable!
     example.run
   ensure

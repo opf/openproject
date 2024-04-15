@@ -17,6 +17,12 @@ properties:
   name:
     type: string
     description: Storage name
+  hasApplicationPassword:
+    type: boolean
+    description: |-
+      Whether the storage has the application password to use for the Nextcloud storage.
+
+      Ignored if the provider type is not Nextcloud
   createdAt:
     type: string
     format: date-time
@@ -77,24 +83,24 @@ properties:
           - $ref: './link.yml'
           - description: |-
               The urn of the storage connection state. Can be one of:
-              
+
               - urn:openproject-org:api:v3:storages:authorization:Connected
               - urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
               - urn:openproject-org:api:v3:storages:authorization:Error
-              
+
               **Resource**: N/A
       authorize:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The link to the starting point of the authorization cycle for a configured storage provider.
-              
+
               # Conditions
-              
+
               `authorizationState` is:
-              
+
               - urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
-              
+
               **Resource**: N/A
       oauthApplication:
         allOf:
@@ -122,6 +128,7 @@ example:
   id: 1337
   _type: Storage
   name: It's no moon
+  hasApplicationPassword: true
   createdAt: '2021-12-20T13:37:00.211Z'
   updatedAt: '2021-12-20T13:37:00.211Z'
   _links:

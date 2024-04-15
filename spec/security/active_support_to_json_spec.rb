@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,19 +34,19 @@
 #
 # It should be safe to remove this when OP is on rails >= 4.1
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ActiveSupport do
+RSpec.describe ActiveSupport do
   active_support_default = ActiveSupport.escape_html_entities_in_json
 
   after do
     ActiveSupport.escape_html_entities_in_json = active_support_default
   end
 
-  it 'escapes html entities in json' do
+  it "escapes html entities in json" do
     ActiveSupport.escape_html_entities_in_json = true
     expected_output = "{\"\\u003c\\u003e\":\"\\u003c\\u003e\"}"
 
-    expect(ActiveSupport::JSON.encode('<>' => '<>')).to eql(expected_output)
+    expect(ActiveSupport::JSON.encode("<>" => "<>")).to eql(expected_output)
   end
 end

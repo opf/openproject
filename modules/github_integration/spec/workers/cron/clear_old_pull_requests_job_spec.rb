@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Cron::ClearOldPullRequestsJob, type: :job do
+RSpec.describe Cron::ClearOldPullRequestsJob, type: :job do
   let(:pull_request_without_work_package) do
     create(:github_pull_request, work_packages: [])
   end
@@ -44,10 +44,10 @@ describe Cron::ClearOldPullRequestsJob, type: :job do
     pull_request_with_work_package
   end
 
-  it 'removes pull request without work packages attached' do
+  it "removes pull request without work packages attached" do
     expect { job.perform }.to change(GithubPullRequest, :count).by(-1).and(change(GithubCheckRun, :count).by(-1))
 
     expect(GithubPullRequest.all)
-      .to match_array([pull_request_with_work_package])
+      .to contain_exactly(pull_request_with_work_package)
   end
 end

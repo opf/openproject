@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
+require "contracts/shared/model_contract_shared_context"
 
 # This DeleteContract spec just tests if the user is _allowed_
 # to execute the operation.
-describe ::OAuthClients::DeleteContract do
-  include_context 'ModelContract shared context'
+RSpec.describe OAuthClients::DeleteContract do
+  include_context "ModelContract shared context"
 
-  let(:oauth_client) { create :oauth_client }
+  let(:oauth_client) { create(:oauth_client) }
   let(:contract) { described_class.new(oauth_client, current_user) }
 
   # Generic checks that the contract is valid for valid admin, but invalid otherwise
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
+
+  include_examples "contract reuses the model errors" do
+    let(:current_user) { build_stubbed(:admin) }
+  end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 nl:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "Positie"
-        remaining_hours: "Resterende uren"
-        remaining_time: "Resterende uren"
         story_points: "Verhaal punten"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -35,9 +36,6 @@ nl:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "kan alleen ID's bevatten van werkpakketten in de huidige sprint."
               must_block_at_least_one_work_package: "het moet de ID bevatten van ten minste één ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "is ongeldig omdat het werkpakket '%{work_package_name}' een backlogtaak is en vandaar kan geen ouder buiten het huidige project hebben."
-              type_must_be_one_of_the_following: "Het type moet een van de volgende zijn: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "moet hetzelfde zijn als de ouder verhaalversie."
         sprint:
@@ -66,8 +64,8 @@ nl:
     properties: "Eigenschappen"
     rebuild: "Opnieuw opbouwen"
     rebuild_positions: "Posities van opnieuw opbouwen"
-    remaining_hours: "Resterende uren"
-    remaining_hours_ideal: "Resterende uren (ideaal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Verbrandingstabel"
     story: "Verhaal"
     story_points: "Verhaal punten"
@@ -78,7 +76,6 @@ nl:
     x_more: "%{count} meer..."
   backlogs_active: "actief"
   backlogs_any: "elke"
-  backlogs_card_specification: "Typen labels voor het afdrukken van kaarten"
   backlogs_inactive: "Het project toont geen activiteit"
   backlogs_points_burn_direction: "Punten gaan omhoog / omlaag"
   backlogs_product_backlog: "Product backlog"
@@ -150,7 +147,7 @@ nl:
   rb_label_copy_tasks_none: "Geen"
   rb_label_copy_tasks_open: "Open"
   rb_label_link_to_original: "Link toevoegen aan het originele verhaal"
-  remaining_hours: "resterende uren"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "vereiste burn rate (uren)"
   required_burn_rate_points: "vereiste burn rate (punten)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

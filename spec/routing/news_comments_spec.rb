@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe News::CommentsController, 'routing', type: :routing do
-  context 'news scoped' do
+RSpec.describe News::CommentsController, "routing" do
+  context "news scoped" do
     it {
-      expect(subject).to route(:post, '/news/567/comments').to(controller: 'news/comments',
-                                                               action: 'create',
-                                                               news_id: '567')
+      expect(subject).to route(:post, "/news/567/comments").to(controller: "news/comments",
+                                                               action: "create",
+                                                               news_id: "567")
     }
   end
 
   it {
-    expect(subject).to route(:delete, '/comments/15').to(controller: 'news/comments',
-                                                         action: 'destroy',
-                                                         id: '15')
+    expect(subject).to route(:delete, "/comments/15").to(controller: "news/comments",
+                                                         action: "destroy",
+                                                         id: "15")
   }
 end

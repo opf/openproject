@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,46 +26,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../../support/pages/my/page'
+require_relative "../../support/pages/my/page"
 
-describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:other_type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+RSpec.describe "Arbitrary WorkPackage query table widget on my page", :js do
+  let!(:type) { create(:type) }
+  let!(:other_type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:other_type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: other_type,
            author: user,
-           responsible: user
+           responsible: user)
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages save_queries] }
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:my_page) do
     Pages::My::Page.new
   end
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
 
   before do
     login_as user
@@ -73,13 +72,13 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
     my_page.visit!
   end
 
-  context 'with the permission to save queries' do
-    it 'can add the widget and see the work packages of the filtered for types' do
+  context "with the permission to save queries" do
+    it "can add the widget and see the work packages of the filtered for types" do
       # This one always exists by default.
       # Using it here as a safeguard to govern speed.
-      created_by_me_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+      created_by_me_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
       expect(created_by_me_area.area)
-        .to have_selector('.subject', text: type_work_package.subject)
+        .to have_css(".subject", text: type_work_package.subject)
 
       my_page.add_widget(1, 2, :column, "Work packages table")
 
@@ -88,50 +87,50 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
       # browser can get confused. Therefore we wait.
       sleep(2)
 
-      my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+      my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
-      filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+      filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(3)")
       filter_area.expect_to_span(1, 2, 2, 3)
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
-        .to have_selector('.subject', text: type_work_package.subject)
+        .to have_css(".subject", text: type_work_package.subject)
 
       expect(filter_area.area)
-        .to have_selector('.subject', text: other_type_work_package.subject)
+        .to have_css(".subject", text: other_type_work_package.subject)
 
       # User has the ability to modify the query
 
       filter_area.configure_wp_table
-      modal.switch_to('Filters')
+      modal.switch_to("Filters")
       filters.expect_filter_count(2)
-      filters.add_filter_by('Type', 'is', type.name)
+      filters.add_filter_by("Type", "is (OR)", type.name)
       modal.save
 
       filter_area.configure_wp_table
-      modal.switch_to('Columns')
+      modal.switch_to("Columns")
       columns.assume_opened
-      columns.remove 'Subject'
+      columns.remove "Subject"
 
       expect(filter_area.area)
-        .to have_selector('.id', text: type_work_package.id)
+        .to have_css(".id", text: type_work_package.id)
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .to have_no_css(".subject", text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .to have_no_css(".id", text: other_type_work_package.id)
 
       scroll_to_element(filter_area.area)
       within filter_area.area do
-        input = find('.editable-toolbar-title--input')
-        input.set('My WP Filter')
+        input = find(".editable-toolbar-title--input")
+        input.set("My WP Filter")
         input.native.send_keys(:return)
       end
 
-      my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+      my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
       sleep(1)
 
@@ -141,28 +140,28 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
       visit root_path
       my_page.visit!
 
-      filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+      filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(3)")
       expect(filter_area.area)
-        .to have_selector('.id', text: type_work_package.id)
+        .to have_css(".id", text: type_work_package.id)
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .to have_no_css(".subject", text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .to have_no_css(".id", text: other_type_work_package.id)
 
       within filter_area.area do
-        expect(page).to have_field('editable-toolbar-title', with: 'My WP Filter', wait: 10)
+        expect(page).to have_field("editable-toolbar-title", with: "My WP Filter", wait: 10)
       end
     end
   end
 
-  context 'without the permission to save queries' do
+  context "without the permission to save queries" do
     let(:permissions) { %i[view_work_packages add_work_packages] }
 
-    it 'cannot add the widget' do
+    it "cannot add the widget" do
       my_page.expect_unable_to_add_widget(1, 1, :within, "Work packages table")
     end
   end

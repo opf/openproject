@@ -7,8 +7,12 @@
   align-items: center
   padding: $spot-spacing-0-75
 
-  @media only screen and (max-width: 679px)
+  @media only screen and (max-width: $breakpoint-sm)
     grid-template-columns: auto max-content
+
+  &:first-child
+    border-top-left-radius: $spot-spacing-0-25
+    border-top-right-radius: $spot-spacing-0-25
 
   &_warning
     background: $spot-color-feedback-warning-light

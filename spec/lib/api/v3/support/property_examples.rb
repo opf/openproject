@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'property' do |name|
+RSpec.shared_examples_for "property" do |name|
   it "has the #{name} property" do
     expect(subject)
       .to be_json_eql(value.to_json)
@@ -34,7 +34,13 @@ shared_examples_for 'property' do |name|
   end
 end
 
-shared_examples_for 'formattable property' do |name|
+RSpec.shared_examples_for "no property" do |name|
+  it "does not have the #{name} property" do
+    expect(subject).not_to have_json_path(name.to_s)
+  end
+end
+
+RSpec.shared_examples_for "formattable property" do |name|
   it "has the #{name} property" do
     expect(subject)
       .to be_json_eql(value.to_s.to_json)
@@ -42,15 +48,15 @@ shared_examples_for 'formattable property' do |name|
   end
 end
 
-shared_examples_for 'date property' do |name|
-  it_behaves_like 'has ISO 8601 date only' do
+RSpec.shared_examples_for "date property" do |name|
+  it_behaves_like "has ISO 8601 date only" do
     let(:json_path) { name.to_s }
     let(:date) { value }
   end
 end
 
-shared_examples_for 'datetime property' do |name|
-  it_behaves_like 'has UTC ISO 8601 date and time' do
+RSpec.shared_examples_for "datetime property" do |name|
+  it_behaves_like "has UTC ISO 8601 date and time" do
     let(:json_path) { name.to_s }
     let(:date) { value }
   end

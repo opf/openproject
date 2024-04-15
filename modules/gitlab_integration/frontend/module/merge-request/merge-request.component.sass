@@ -1,0 +1,322 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2023 Ben Tey
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+@import "helpers"
+
+:host,
+.op-merge-request
+  display: grid
+  grid-template-columns: minmax(270px, auto) auto auto 1fr
+  grid-template-areas: "title title title title" "info_created info_created info_created info_created" "state label_icon pipe_icon pipe_icon" "label label label label"
+  margin-bottom: 5px
+  margin-top: 5px
+  padding-bottom: 4px
+  padding-top: 4px
+  border-bottom: 1px solid #dddddd
+
+  &:last-child
+    border-bottom: none
+
+  &--iconsize
+    width: 16px
+    height: 16px
+    vertical-align: -3px
+
+  &--iconwidth
+    min-width: 100px
+
+  &--title
+    @include text-shortener
+    font-weight: bold
+    grid-area: title
+    line-height: 22px
+    margin-right: 20px
+
+  &--avatar
+    grid-area: info
+
+  &--info_created
+    @include text-shortener
+    display: block
+    grid-area: info_created
+    font-size: 0.75rem
+    color: var(--gray-dark)
+    margin-bottom: 3px
+
+  &--info_updated
+    @include text-shortener
+    display: block
+    grid-area: info_updated
+    font-size: 0.75rem
+    color: var(--gray-dark)
+    margin-top: -4px
+
+  &--username
+    color: var(--gray-dark)
+    text-decoration: none
+
+  &--labels
+    display: none
+    grid-area: label
+    font-size: 0.9rem
+    color: var(--gray-dark)
+    margin-top: 10px
+
+  &--label
+    display: inline-block
+    padding: 2px 0.5rem 2px 0.5rem
+    border-radius: 10rem
+    border: 1px solid #fff
+    color: #fff
+    font-size: 0.8rem
+
+  &--link
+    font-size: 0.8rem
+    text-decoration: none
+
+    &_open
+      background-color: #c3e6cd
+      color: #24663b
+      fill: #24663b
+
+    &_ready
+      background-color: #c3e6cd
+      color: #24663b
+      fill: #24663b
+
+    &_merged
+      background-color: #cbe2f9 
+      color: #0b5cad
+      fill: #0b5cad
+
+    &_closed
+      background-color: #fdd4cd
+      color: #ae1800
+      fill: #ae1800
+
+  &--label_icon
+    grid-area: label_icon
+    display: inline-block
+    padding: 4px 6px
+    border-radius: 10rem
+    font-size: 0.8rem
+    font-weight: 400
+    align-self: center
+    width: fit-content
+    margin-right: 6px
+    border: 1px solid #cecdd4
+    background-color: #f3f3f3
+
+    &:hover
+      border: 1px solid #b6b5ba
+      background-color: #e4e4e4
+
+    &_style
+      fill: #737278
+
+  &--state
+    grid-area: state
+    display: inline-block
+    padding: 5px 0.6rem 5px 0.6rem
+    border-radius: 10rem
+    font-size: 0.8rem
+    font-weight: 400
+    text-transform: capitalize
+    align-self: center
+    white-space: nowrap
+    width: fit-content
+    margin-right: 6px
+
+    &_open
+      background-color: #c3e6cd
+      color: #24663b
+      fill: #24663b
+
+    &_ready
+      background-color: #c3e6cd
+      color: #24663b
+      fill: #24663b
+
+    &_merged
+      background-color: #cbe2f9 
+      color: #0b5cad
+      fill: #0b5cad
+
+    &_closed
+      background-color: #fdd4cd
+      color: #ae1800
+      fill: #ae1800
+
+  &--pipeline-icon
+    grid-area: pipe_icon
+    padding: 0.25rem
+    border-radius: 10rem
+    font-size: 0.8rem
+    font-weight: 400
+    align-self: center
+    margin-right: 6px
+    width: fit-content
+    height: 28px
+    align-items: center
+    display: inline-flex
+
+    &_failed
+      fill: #dd2b0e
+      width: 20px
+      height: 20px
+
+    &_bg_failed
+      background-color: #fdd4cd
+
+    &_success
+      fill: #108548
+      width: 20px
+      height: 20px
+
+    &_bg_success
+      background-color: #c3e6cd
+
+    &_running
+      fill: #367ad1
+      width: 20px
+      height: 20px
+
+    &_bg_running
+      background-color: #cddffd
+
+    &_created
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_created
+      background-color: #ececef
+
+    &_waiting
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_waiting
+      background-color: #ececef
+
+    &_preparing
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_preparing
+      background-color: #ececef
+
+    &_pending
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_pending
+      background-color: #ececef
+
+    &_canceled
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_canceled
+      background-color: #ececef
+
+    &_skipped
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_skipped
+      background-color: #ececef
+
+    &_manual
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_manual
+      background-color: #ececef
+
+    &_scheduled
+      fill: #737278
+      width: 20px
+      height: 20px
+
+    &_bg_scheduled
+      background-color: #ececef
+
+  &--pipeline-label
+    font-size: 0.8rem
+    font-weight: 400
+    margin-left: 4px
+    margin-right: 5px
+    text-transform: capitalize
+
+    &_failed
+      color: #ae1800
+
+    &_success
+      color: #24663b
+
+    &_running
+      color: #4782d0
+
+    &_created
+      color: #737278
+
+    &_waiting
+      color: #737278
+
+    &_preparing
+      color: #737278
+
+    &_pending
+      color: #737278
+
+    &_canceled
+      color: #737278
+
+    &_skipped
+      color: #737278
+
+    &_manual
+      color: #737278
+
+    &_scheduled
+      color: #737278
+
+  &--pipeline
+    margin-top: 12px
+    margin-bottom: 12px
+    margin-left: 0
+    grid-area: pipeline
+

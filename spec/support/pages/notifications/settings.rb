@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Notifications
@@ -61,20 +61,21 @@ module Pages
           work_package_prioritized
           work_package_scheduled
         ].each do |type|
-          expect(page).to have_selector("input[type='checkbox'][data-qa-global-notification-type='#{type}']") { |checkbox|
+          expect(page).to have_css("input[type='checkbox'][data-qa-global-notification-type='#{type}']") { |checkbox|
             checkbox.checked? == setting[type]
           }
         end
       end
 
       def expect_project(project)
-        expect(page).to have_selector('th', text: project.name)
+        expect(page).to have_css("th", text: project.name)
       end
 
       def add_project(project)
-        click_button 'Add setting for project'
-        container = page.find('[data-qa-selector="notification-setting-inline-create"] ng-select')
-        select_autocomplete container, query: project.name, results_selector: 'body'
+        click_button "Add setting for project"
+        container = page.find('[data-test-selector="notification-setting-inline-create"] ng-select')
+        select_autocomplete container, query: project.name, results_selector: "body"
+        wait_for_network_idle if using_cuprite?
         expect_project project
       end
 
@@ -98,7 +99,7 @@ module Pages
       end
 
       def expect_no_date_alert_setting(label)
-        expect(page).not_to have_selector(
+        expect(page).to have_no_css(
           "select[data-qa-global-notification-type='op-reminder-settings-#{label}-alerts']"
         )
       end
@@ -120,14 +121,14 @@ module Pages
       end
 
       def expect_no_project_date_alert_setting(label, project)
-        expect(page).not_to have_selector(
+        expect(page).to have_no_css(
           "select[data-qa-project='#{project}'][data-qa-project-notification-type='op-reminder-settings-#{label}-alerts']"
         )
       end
 
       def save
-        click_button 'Save'
-        expect_toast message: 'Successful update.'
+        click_button "Save"
+        expect_toast message: "Successful update."
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,48 +26,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Empty backlogs project',
-         type: :feature,
-         js: true do
-  let(:project) { create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
-  let(:story) { create(:type_feature) }
-  let(:task) { create(:type_task) }
-  let(:status) { create(:status, is_default: true) }
+RSpec.describe "Empty backlogs project",
+               :js, :with_cuprite do
+  shared_let(:story) { create(:type_feature) }
+  shared_let(:task) { create(:type_task) }
+  shared_let(:project) { create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
+  shared_let(:status) { create(:status, is_default: true) }
 
   before do
-    project
-    status
-
     login_as current_user
     allow(Setting)
         .to receive(:plugin_openproject_backlogs)
-                .and_return('story_types' => [story.id.to_s],
-                            'task_type' => task.id.to_s)
+                .and_return("story_types" => [story.id.to_s],
+                            "task_type" => task.id.to_s)
 
     visit backlogs_project_backlogs_path(project)
   end
 
-  context 'as admin' do
+  context "as admin" do
     let(:current_user) { create(:admin) }
 
-    it 'shows a no results box with action' do
-      expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)
-      expect(page).to have_selector '.generic-table--no-results-description', text: I18n.t(:backlogs_empty_action_text)
+    it "shows a no results box with action" do
+      expect(page).to have_css(".generic-table--no-results-container", text: I18n.t(:backlogs_empty_title))
+      expect(page).to have_css(".generic-table--no-results-description", text: I18n.t(:backlogs_empty_action_text))
 
-      link = page.find '.generic-table--no-results-description a'
+      link = page.find ".generic-table--no-results-description a"
       expect(link[:href]).to include(new_project_version_path(project))
     end
   end
 
-  context 'as regular member' do
-    let(:role) { create(:role, permissions: %i(view_master_backlog)) }
-    let(:current_user) { create :user, member_in_project: project, member_through_role: role }
+  context "as regular member" do
+    let(:role) { create(:project_role, permissions: %i(view_master_backlog)) }
+    let(:current_user) { create(:user, member_with_roles: { project => role }) }
 
-    it 'onlies show a no results box' do
-      expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)
-      expect(page).to have_no_selector '.generic-table--no-results-description'
+    it "only shows a no results box" do
+      expect(page).to have_css(".generic-table--no-results-container", text: I18n.t(:backlogs_empty_title))
+      expect(page).to have_no_css(".generic-table--no-results-description")
     end
   end
 end

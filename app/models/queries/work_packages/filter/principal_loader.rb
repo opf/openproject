@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,16 +34,16 @@ class Queries::WorkPackages::Filter::PrincipalLoader
   end
 
   def user_values
-    @user_values ||= if principals_by_class['User'].present?
-                       principals_by_class['User'].map { |_, id| [nil, id.to_s] }
+    @user_values ||= if principals_by_class["User"].present?
+                       principals_by_class["User"].map { |_, id| [nil, id.to_s] }
                      else
                        []
                      end
   end
 
   def group_values
-    @group_values ||= if principals_by_class['Group'].present?
-                        principals_by_class['Group'].map { |_, id| [nil, id.to_s] }
+    @group_values ||= if principals_by_class["Group"].present?
+                        principals_by_class["Group"].map { |_, id| [nil, id.to_s] }
                       else
                         []
                       end

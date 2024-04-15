@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
   # this is a hack to ensure that additional joins added by filters do not result
   # in additional columns being selected.
   def to_s
-    select(['entries.*']) if select == ['*'] && group_by.empty? && entry_union
+    select(["entries.*"]) if select == ["*"] && group_by.empty? && entry_union
     super
   end
 
@@ -88,12 +88,12 @@ class CostQuery::SqlStatement < Report::SqlStatement
       query.select({
                      count: 1, id: [model, :id], display_costs: 1,
                      real_costs: switch("#{table}.overridden_costs IS NULL" => [model, :costs], else: [model, :overridden_costs]),
-                     week: iso_year_week(:spent_on, model),
+                     week: iso_year_week(field_name_for([model, :spent_on])),
                      singleton_value: 1
                    })
       # FIXME: build this subquery from a sql_statement
       query.from "(SELECT *, #{typed :text, model.model_name.to_s} AS type FROM #{table}) AS #{table}"
-      send("unify_#{table}", query)
+      send(:"unify_#{table}", query)
     end
   end
 

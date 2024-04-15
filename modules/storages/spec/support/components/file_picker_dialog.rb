@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ module Components
     include RSpec::Matchers
 
     def container
-      '[data-qa-selector="op-files-picker-modal"]'
+      '[data-test-selector="op-files-picker-modal"]'
     end
 
     def expect_open
@@ -45,58 +45,64 @@ module Components
         case selection_count
         when 0
           expect(page).to have_button(disabled: true,
-                                      exact_text: I18n.t('js.storages.file_links.selection.zero'))
+                                      exact_text: I18n.t("js.storages.file_links.selection.zero"))
         else
           expect(page).to have_button(disabled: false,
-                                      exact_text: I18n.t('js.storages.file_links.selection', count: selection_count))
+                                      exact_text: I18n.t("js.storages.file_links.selection", count: selection_count))
         end
+      end
+    end
+
+    def wait_for_folder_loaded
+      page.within(container) do
+        expect(page).to have_no_css('[data-test-selector="op-file-list--loading-indicator"]')
       end
     end
 
     def confirm
       page.within(container) do
-        page.find('[data-qa-selector="op-files-picker-modal--confirm"]').click
+        page.find('[data-test-selector="op-files-picker-modal--confirm"]').click
       end
     end
 
     def select_file(text)
       page.within(container) do
-        page.find('[data-qa-selector="op-files-picker-modal--list-item"]', text:).click
+        page.find('[data-test-selector="op-files-picker-modal--list-item"]', text:).click
       end
     end
 
     def has_list_item?(text:, checked:, disabled:)
       page.within(container) do
-        expect(page.find('[data-qa-selector="op-files-picker-modal--list-item"]', text:))
-          .to have_field(type: 'checkbox', checked:, disabled:)
+        expect(page.find('[data-test-selector="op-files-picker-modal--list-item"]', text:))
+          .to have_field(type: "checkbox", checked:, disabled:)
       end
     end
 
     def enter_folder(text)
       page.within(container) do
-        page.within('[data-qa-selector="op-files-picker-modal--list-item"]', text:) do
-          page.find('[data-qa-selector="op-files-picker-modal--list-item-caret"]').click
+        page.within('[data-test-selector="op-files-picker-modal--list-item"]', text:) do
+          page.find('[data-test-selector="op-files-picker-modal--list-item-caret"]').click
         end
       end
     end
 
     def select_all
       page.within(container) do
-        page.find('[data-qa-selector="op-files-picker-modal--select-all"]').click
+        page.find('[data-test-selector="op-files-picker-modal--select-all"]').click
       end
     end
 
-    def use_breadcrumb(position: 'root' | 'grandparent' | 'parent')
+    def use_breadcrumb(position: "root" | "grandparent" | "parent")
       page.within(container) do
-        crumbs = page.all('[data-qa-selector="op-breadcrumb"]')
+        crumbs = page.all('[data-test-selector="op-breadcrumb"]')
         case position
-        when 'root'
+        when "root"
           expect(crumbs.size).to be > 1
           crumbs[0].click
-        when 'parent'
+        when "parent"
           expect(crumbs.size).to be > 2
           crumbs[-2].click
-        when 'grandparent'
+        when "grandparent"
           expect(crumbs.size).to be > 3
           crumbs[-3].click
         end

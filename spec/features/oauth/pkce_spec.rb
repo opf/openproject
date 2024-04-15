@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'OAuth authorization code flow with PKCE',
-         type: :feature,
-         js: true do
+RSpec.describe "OAuth authorization code flow with PKCE", :js do
   let!(:user) { create(:user) }
-  let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
+  let!(:redirect_uri) { "urn:ietf:wg:oauth:2.0:oob" }
   let!(:allowed_redirect_uri) { redirect_uri }
   let!(:app) do
-    create :oauth_application,
-           name: 'Public mobile client',
+    create(:oauth_application,
+           name: "Public mobile client",
            confidential: false,
-           redirect_uri: allowed_redirect_uri
+           redirect_uri: allowed_redirect_uri)
   end
   let(:code_verifier) { SecureRandom.hex(64) }
   let(:code_challenge) { Doorkeeper::AccessGrant.generate_code_challenge code_verifier }
@@ -49,7 +47,7 @@ describe 'OAuth authorization code flow with PKCE',
       client_id: app.uid,
       redirect_uri:,
       scope: :api_v3,
-      code_challenge_method: 'S256',
+      code_challenge_method: "S256",
       code_challenge:
     }
   end
@@ -72,30 +70,30 @@ describe 'OAuth authorization code flow with PKCE',
     expect(response).to eq 200
     body = JSON.parse(session.response.body)
 
-    expect(body['access_token']).to be_present
-    expect(body['refresh_token']).to be_present
-    expect(body['scope']).to eq 'api_v3'
+    expect(body["access_token"]).to be_present
+    expect(body["refresh_token"]).to be_present
+    expect(body["scope"]).to eq "api_v3"
   end
 
-  it 'can authorize and manage an OAuth application grant' do
+  it "can authorize and manage an OAuth application grant" do
     visit oauth_path
 
     # Expect we're guided to the login screen
-    login_with user.login, 'adminADMIN!', visit_signin_path: false
+    login_with user.login, "adminADMIN!", visit_signin_path: false
 
     # We get to the authorization screen
-    expect(page).to have_selector('h2', text: 'Authorize Public mobile client')
+    expect(page).to have_css("h2", text: "Authorize Public mobile client")
 
     # With the correct scope printed
-    expect(page).to have_selector('li strong', text: I18n.t('oauth.scopes.api_v3'))
-    expect(page).to have_selector('li', text: I18n.t('oauth.scopes.api_v3_text'))
+    expect(page).to have_css("li strong", text: I18n.t("oauth.scopes.api_v3"))
+    expect(page).to have_css("li", text: I18n.t("oauth.scopes.api_v3_text"))
 
     SeleniumHubWaiter.wait
     # Authorize
     find('input.button[value="Authorize"]').click
 
     # Expect auth token
-    code = find('#authorization_code').text
+    code = find_by_id("authorization_code").text
 
     # And also have a grant for this application
     user.oauth_grants.reload
@@ -106,9 +104,9 @@ describe 'OAuth authorization code flow with PKCE',
 
     # Should show that grant in my account
     visit my_account_path
-    click_on 'Access token'
+    click_on "Access token"
 
-    expect(page).to have_selector("#oauth-application-grant-#{app.id}", text: app.name)
-    expect(page).to have_selector('td', text: app.name)
+    expect(page).to have_css("#oauth-application-grant-#{app.id}", text: app.name)
+    expect(page).to have_css("td", text: app.name)
   end
 end

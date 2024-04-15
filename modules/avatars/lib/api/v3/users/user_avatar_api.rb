@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ module API
           set_cache_headers
         end
 
-        get '/avatar' do
+        get "/avatar" do
           cache_seconds = @user == current_user ? nil : avatar_link_expires_in
 
           if (local_avatar = local_avatar?(@user))

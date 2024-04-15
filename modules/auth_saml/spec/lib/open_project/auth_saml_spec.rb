@@ -1,7 +1,7 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
-require 'open_project/auth_saml'
+require File.dirname(__FILE__) + "/../../spec_helper"
+require "open_project/auth_saml"
 
-describe OpenProject::AuthSaml do
+RSpec.describe OpenProject::AuthSaml do
   before do
     OpenProject::AuthSaml.reload_configuration!
   end
@@ -15,7 +15,7 @@ describe OpenProject::AuthSaml do
       # the `configuration` method is cached to avoid
       # loading the SAML file more than once
       # thus remove any cached value here
-      OpenProject::AuthSaml.remove_instance_variable('@saml_settings')
+      OpenProject::AuthSaml.remove_instance_variable(:@saml_settings)
       OpenProject::AuthSaml.configuration
     end
 
@@ -31,8 +31,8 @@ describe OpenProject::AuthSaml do
       }
     ) do
       it "contains the configuration from OpenProject::Configuration (or settings.yml) by default" do
-        expect(config[:my_saml][:name]).to eq 'saml'
-        expect(config[:my_saml][:display_name]).to eq 'My SSO'
+        expect(config[:my_saml][:name]).to eq "saml"
+        expect(config[:my_saml][:display_name]).to eq "My SSO"
       end
 
       context(
@@ -52,13 +52,13 @@ describe OpenProject::AuthSaml do
         }
       ) do
         it "overrides the existing configuration where defined" do
-          expect(config[:my_saml][:name]).to eq 'saml'
-          expect(config[:my_saml][:display_name]).to eq 'Your SSO'
+          expect(config[:my_saml][:name]).to eq "saml"
+          expect(config[:my_saml][:display_name]).to eq "Your SSO"
         end
 
         it "defines new providers if given" do
-          expect(config[:new_saml][:name]).to eq 'new_saml'
-          expect(config[:new_saml][:display_name]).to eq 'Another SAML'
+          expect(config[:new_saml][:name]).to eq "new_saml"
+          expect(config[:new_saml][:display_name]).to eq "Another SAML"
         end
       end
     end

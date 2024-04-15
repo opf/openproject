@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,6 @@
 #++
 
 class RbStoriesController < RbApplicationController
-  include OpenProject::PDFExport::ExportCard
-
   # This is a constant here because we will recruit it elsewhere to whitelist
   # attributes. This is necessary for now as we still directly use `attributes=`
   # in non-controller code.
@@ -68,7 +66,7 @@ class RbStoriesController < RbApplicationController
     story = call.result
 
     respond_to do |format|
-      format.html { render partial: 'story', object: story, status:, locals: { errors: call.errors } }
+      format.html { render partial: "story", object: story, status:, locals: { errors: call.errors } }
     end
   end
 

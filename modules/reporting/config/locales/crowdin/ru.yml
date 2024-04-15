@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,11 +20,14 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ru:
+  plugin_openproject_reporting:
+    name: "Отчёт OpenProject"
+    description: "Этот плагин позволяет создавать пользовательские отчеты о стоимости с фильтрацией и группировкой, созданной плагином OpenProject Time и затратами."
   button_save_as: "Сохранить отчет как..."
   comments: "Комментарий"
   cost_reports_title: "Время и затраты"
   label_cost_report: "Отчет по расходам"
-  label_cost_report_plural: "Стоимость отчетов"
+  label_cost_report_plural: "Отчет по стоимости"
   description_drill_down: "Показать в деталях"
   description_filter_selection: "Выбор"
   description_multi_select: "Показать множественный выбор"
@@ -44,6 +47,7 @@ ru:
   label_is_project_with_subprojects: "есть (включая подпроекты)"
   label_work_package_attributes: "Атрибуты рабочего пакета"
   label_less: "<"
+  label_logged_by_reporting: "Вы вошли"
   label_money: "Денежная стоимость"
   label_month_reporting: "Месяц (Потрачено)"
   label_new_report: "Новый отчет о затратах"
@@ -75,12 +79,15 @@ ru:
   load_query_question: "Отчет будет иметь %{size} ячеек таблицы и может занять некоторое время для визуализации. Вы все еще хотите его сформировать?"
   permission_save_cost_reports: "Сохранить отчеты о публичных расходах"
   permission_save_private_cost_reports: "Сохранить отчеты о частных расходах"
-  project_module_reporting_module: "Стоимость отчетов"
+  project_module_reporting_module: "Отчет по стоимости"
   text_costs_are_rounded_note: "При отображении значения округляются. В расчетах используются неокругляемые значения."
   toggle_multiselect: "активировать/деактивировать множественный выбор"
   units: "Модули"
   validation_failure_date: "не является допустимой датой"
   validation_failure_integer: "не является допустимым целым числом"
+  export:
+    cost_reports:
+      title: "Экспорт ваших отчетов о затратах в XLS"
   reporting:
     group_by:
       selected_columns: "Выбранные столбцы"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Filter by backlog type', js: true do
+RSpec.describe "Filter by backlog type", :js do
   let(:story_type) do
     type = create(:type_feature)
     project.types << type
@@ -43,17 +43,17 @@ describe 'Filter by backlog type', js: true do
     type
   end
 
-  let(:user) { create :admin }
-  let(:project) { create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:member) do
     create(:member,
            user:,
            project:,
-           roles: [create(:role)])
+           roles: [create(:project_role)])
   end
 
   let(:work_package_with_story_type) do
@@ -74,23 +74,23 @@ describe 'Filter by backlog type', js: true do
 
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-      .and_return('story_types' => [story_type.id.to_s],
-                  'task_type' => task_type.id.to_s)
+      .and_return("story_types" => [story_type.id.to_s],
+                  "task_type" => task_type.id.to_s)
 
     wp_table.visit!
   end
 
-  it 'allows filtering, saving and retaining the filter' do
+  it "allows filtering, saving and retaining the filter" do
     filters.open
 
-    filters.add_filter_by('Backlog type', 'is', 'Story', 'backlogsWorkPackageType')
+    filters.add_filter_by("Backlog type", "is (OR)", "Story", "backlogsWorkPackageType")
 
     wp_table.expect_work_package_listed work_package_with_story_type
     wp_table.ensure_work_package_not_listed! work_package_with_task_type
 
-    wp_table.save_as('Some query name')
+    wp_table.save_as("Some query name")
 
-    filters.remove_filter 'backlogsWorkPackageType'
+    filters.remove_filter "backlogsWorkPackageType"
 
     wp_table.expect_work_package_listed work_package_with_story_type, work_package_with_task_type
 
@@ -103,6 +103,6 @@ describe 'Filter by backlog type', js: true do
 
     filters.open
 
-    filters.expect_filter_by('Backlog type', 'is', 'Story', 'backlogsWorkPackageType')
+    filters.expect_filter_by("Backlog type", "is (OR)", "Story", "backlogsWorkPackageType")
   end
 end

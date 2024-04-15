@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Budgets::BudgetRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Budgets::BudgetRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:project) { build(:project, id: 999) }
   let(:user) do
     create(:user,
-           member_in_project: project,
+           member_with_permissions: { project => %i[view_work_packages edit_work_packages] },
            created_at: 1.day.ago,
            updated_at: Time.zone.now)
   end
@@ -48,39 +48,39 @@ describe ::API::V3::Budgets::BudgetRepresenter do
 
   let(:representer) { described_class.new(budget, current_user: user) }
 
-  context 'generation' do
+  context "generation" do
     subject(:generated) { representer.to_json }
 
-    describe 'self link' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
+    describe "self link" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.budget(budget.id) }
         let(:title) { budget.subject }
       end
     end
 
-    it_behaves_like 'has an untitled link' do
+    it_behaves_like "has an untitled link" do
       let(:link) { :attachments }
       let(:href) { api_v3_paths.attachments_by_budget budget.id }
     end
 
-    it_behaves_like 'has an untitled action link' do
+    it_behaves_like "has an untitled action link" do
       let(:link) { :addAttachment }
       let(:href) { api_v3_paths.attachments_by_budget budget.id }
       let(:method) { :post }
       let(:permission) { :edit_budgets }
     end
 
-    it 'indicates its type' do
-      expect(subject).to be_json_eql('Budget'.to_json).at_path('_type')
+    it "indicates its type" do
+      expect(subject).to be_json_eql("Budget".to_json).at_path("_type")
     end
 
-    it 'indicates its id' do
-      expect(subject).to be_json_eql(budget.id.to_json).at_path('id')
+    it "indicates its id" do
+      expect(subject).to be_json_eql(budget.id.to_json).at_path("id")
     end
 
-    it 'indicates its subject' do
-      expect(subject).to be_json_eql(budget.subject.to_json).at_path('subject')
+    it "indicates its subject" do
+      expect(subject).to be_json_eql(budget.subject.to_json).at_path("subject")
     end
   end
 end

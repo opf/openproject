@@ -7,6 +7,7 @@ import { Component, Injector } from '@angular/core';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 @Component({
+  selector: 'op-wp-table-configuration-settings-tab',
   templateUrl: './display-settings-tab.component.html',
 })
 export class WpTableConfigurationDisplaySettingsTabComponent implements TabComponent {
@@ -38,12 +39,13 @@ export class WpTableConfigurationDisplaySettingsTabComponent implements TabCompo
     },
   };
 
-  constructor(readonly injector:Injector,
+  constructor(
+    readonly injector:Injector,
     readonly I18n:I18nService,
     readonly wpTableGroupBy:WorkPackageViewGroupByService,
     readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
-    readonly wpTableSums:WorkPackageViewSumService) {
-  }
+    readonly wpTableSums:WorkPackageViewSumService,
+  ) { }
 
   public onSave() {
     // Update hierarchy state
@@ -71,11 +73,11 @@ export class WpTableConfigurationDisplaySettingsTabComponent implements TabCompo
 
     this.displaySums = this.wpTableSums.current;
 
-    this.wpTableGroupBy
+    void this.wpTableGroupBy
       .onReady()
       .then(() => {
         this.availableGroups = _.sortBy(this.wpTableGroupBy.available, 'name');
-        this.currentGroup = this.wpTableGroupBy.current;
+        this.currentGroup = this.wpTableGroupBy.current || this.availableGroups[0];
       });
   }
 }

@@ -1,5 +1,9 @@
 #English strings go here
 lt:
+  plugin_openproject_avatars:
+    name: "Nuotraukos"
+    description: >-
+      Šis priedas leidžia OpenProject naudotojams įkelti piešinį, kuris turėtų būti naudojamas kaip avataras arba naudoti Gravatar registruotus piešinius.
   label_avatar: "Nuotrauka"
   label_avatar_plural: "Nuotraukos"
   label_current_avatar: "Dabartinė nuotrauka"
@@ -35,6 +39,3 @@ lt:
       enable_gravatars: 'Įjungti naudotojų gravatarus'
       gravatar_default: "Gravatar paveiksliukas pagal nutylėjimą"
       enable_local_avatars: 'Įjungti savus naudotojų gravatarus'
-
-
-

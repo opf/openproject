@@ -1,0 +1,4 @@
+cs:
+  plugin_openproject_job_status:
+    name: "Stav úlohy OpenProject"
+    description: "Seznam a stav úkolů na pozadí."

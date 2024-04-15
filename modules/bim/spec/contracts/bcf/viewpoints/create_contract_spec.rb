@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,29 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Bim::Bcf::Viewpoints::CreateContract do
+RSpec.describe Bim::Bcf::Viewpoints::CreateContract do
   let(:viewpoint) do
     Bim::Bcf::Viewpoint.new(uuid: viewpoint_uuid,
                             issue: viewpoint_issue,
                             json_viewpoint: viewpoint_json_viewpoint)
   end
-  let(:current_user) do
-    build_stubbed(:user)
-  end
-  let!(:allowed_to) do
-    allow(current_user)
-      .to receive(:allowed_to?) do |permission, permission_project|
-      permissions.include?(permission) && project == permission_project
-    end
-  end
-  let(:viewpoint_uuid) { 'issue uuid' }
+  let(:viewpoint_uuid) { "issue uuid" }
   let(:viewpoint_json_viewpoint) do
     {
-      'snapshot' => {
-        'snapshot_data' => 'some contents',
-        'snapshot_type' => 'jpg'
+      "snapshot" => {
+        "snapshot_data" => "some contents",
+        "snapshot_type" => "jpg"
       }
     }
   end
@@ -61,6 +52,13 @@ describe Bim::Bcf::Viewpoints::CreateContract do
   end
   let(:project) { build_stubbed(:project) }
   let(:permissions) { [:manage_bcf] }
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project:
+    end
+  end
 
   subject(:contract) { described_class.new(viewpoint, current_user) }
 
@@ -72,148 +70,148 @@ describe Bim::Bcf::Viewpoints::CreateContract do
     end
   end
 
-  shared_examples 'is valid' do
-    it 'is valid' do
+  shared_examples "is valid" do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  it_behaves_like 'is valid'
+  it_behaves_like "is valid"
 
-  context 'if the uuid is nil' do
+  context "if the uuid is nil" do
     let(:issue_uuid) { nil }
 
-    it_behaves_like 'is valid' # as the uuid will be set
+    it_behaves_like "is valid" # as the uuid will be set
   end
 
-  context 'if the issue is nil' do
+  context "if the issue is nil" do
     let(:viewpoint_issue) { nil }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, issue: %i(blank))
     end
   end
 
-  context 'if the json_viewpoint is nil' do
+  context "if the json_viewpoint is nil" do
     let(:viewpoint_json_viewpoint) { nil }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, json_viewpoint: %i(blank))
     end
   end
 
-  context 'if the user lacks permission' do
+  context "if the user lacks permission" do
     let(:permissions) { [] }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, base: %i(error_unauthorized))
     end
   end
 
-  context 'json_viewpoint' do
-    context 'with something different that a hash' do
+  context "json_viewpoint" do
+    context "with something different that a hash" do
       let(:viewpoint_json_viewpoint) do
-        'some non hash'
+        "some non hash"
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, json_viewpoint: %i(no_json))
       end
     end
 
-    context 'with an unsupported key' do
+    context "with an unsupported key" do
       let(:viewpoint_json_viewpoint) do
         {
-          'some_key' => true
+          "some_key" => true
         }
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, json_viewpoint: %i(unsupported_key))
       end
     end
 
-    describe 'snapshot' do
+    describe "snapshot" do
       let(:viewpoint_json_viewpoint) do
         {
-          'snapshot' => {
-            'snapshot_data' => 'some content',
-            'snapshot_type' => 'jpg'
+          "snapshot" => {
+            "snapshot_data" => "some content",
+            "snapshot_type" => "jpg"
           }
         }
       end
 
-      it_behaves_like 'is valid'
+      it_behaves_like "is valid"
 
-      context 'with a type other than png or jpg' do
+      context "with a type other than png or jpg" do
         let(:viewpoint_json_viewpoint) do
           {
-            'snapshot' => {
-              'snapshot_data' => 'some content',
-              'snapshot_type' => 'some'
+            "snapshot" => {
+              "snapshot_data" => "some content",
+              "snapshot_type" => "some"
             }
           }
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(snapshot_type_unsupported))
         end
       end
 
-      context 'without a type' do
+      context "without a type" do
         let(:viewpoint_json_viewpoint) do
           {
-            'snapshot' => {
-              'snapshot_data' => 'some content'
+            "snapshot" => {
+              "snapshot_data" => "some content"
             }
           }
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(snapshot_type_unsupported))
         end
       end
 
-      context 'without data' do
+      context "without data" do
         let(:viewpoint_json_viewpoint) do
           {
-            'snapshot' => {
-              'snapshot_type' => 'jpg'
+            "snapshot" => {
+              "snapshot_type" => "jpg"
             }
           }
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(snapshot_data_blank))
         end
       end
 
-      context 'without snapshot' do
+      context "without snapshot" do
         let(:viewpoint_json_viewpoint) do
           {
             index: 10
           }
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like "is valid"
       end
     end
 
-    describe 'index' do
-      context 'with a non integer value' do
+    describe "index" do
+      context "with a non integer value" do
         let(:viewpoint_json_viewpoint) do
           {
-            'index' => 'something'
+            "index" => "something"
           }
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(index_not_integer))
         end
       end
     end
 
-    describe 'orthogonal_camera' do
+    describe "orthogonal_camera" do
       let(:valid_json) do
         {
           orthogonal_camera: {
@@ -241,65 +239,65 @@ describe Bim::Bcf::Viewpoints::CreateContract do
         valid_json
       end
 
-      it_behaves_like 'is valid'
+      it_behaves_like "is valid"
 
-      context 'with an additional property' do
+      context "with an additional property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['orthogonal_camera']['superfluous_property'] = 123
+          valid_json["orthogonal_camera"]["superfluous_property"] = 123
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
 
-      context 'with a missing property' do
+      context "with a missing property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['orthogonal_camera'].delete(:camera_direction)
+          valid_json["orthogonal_camera"].delete(:camera_direction)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
 
-      context 'with a missing dimension in one of the directions' do
+      context "with a missing dimension in one of the directions" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['orthogonal_camera'][:camera_direction].delete(:y)
+          valid_json["orthogonal_camera"][:camera_direction].delete(:y)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
 
-      context 'with a non number in one of the directions' do
+      context "with a non number in one of the directions" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['orthogonal_camera'][:camera_direction][:z] = "sdfjsdkf"
+          valid_json["orthogonal_camera"][:camera_direction][:z] = "sdfjsdkf"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
 
-      context 'with a non number in for view_to_world_scale' do
+      context "with a non number in for view_to_world_scale" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['orthogonal_camera'][:view_to_world_scale] = "sdfjsdkf"
+          valid_json["orthogonal_camera"][:view_to_world_scale] = "sdfjsdkf"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
     end
 
-    describe 'perspective_camera' do
+    describe "perspective_camera" do
       let(:valid_json) do
         {
           perspective_camera: {
@@ -327,65 +325,65 @@ describe Bim::Bcf::Viewpoints::CreateContract do
         valid_json
       end
 
-      it_behaves_like 'is valid'
+      it_behaves_like "is valid"
 
-      context 'with an additional property' do
+      context "with an additional property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['perspective_camera']['superfluous_property'] = 123
+          valid_json["perspective_camera"]["superfluous_property"] = 123
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
 
-      context 'with a missing property' do
+      context "with a missing property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['perspective_camera'].delete(:camera_direction)
+          valid_json["perspective_camera"].delete(:camera_direction)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
 
-      context 'with a missing dimension in one of the directions' do
+      context "with a missing dimension in one of the directions" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['perspective_camera'][:camera_direction].delete(:y)
+          valid_json["perspective_camera"][:camera_direction].delete(:y)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
 
-      context 'with a non number in one of the directions' do
+      context "with a non number in one of the directions" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['perspective_camera'][:camera_direction][:z] = "sdfjsdkf"
+          valid_json["perspective_camera"][:camera_direction][:z] = "sdfjsdkf"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
 
-      context 'with a non number in for view_to_world_scale' do
+      context "with a non number in for view_to_world_scale" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['perspective_camera'][:field_of_view] = "sdfjsdkf"
+          valid_json["perspective_camera"][:field_of_view] = "sdfjsdkf"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
     end
 
-    describe 'lines' do
+    describe "lines" do
       let(:valid_json) do
         {
           lines: [
@@ -421,66 +419,66 @@ describe Bim::Bcf::Viewpoints::CreateContract do
         valid_json
       end
 
-      it_behaves_like 'is valid'
+      it_behaves_like "is valid"
 
-      context 'with a non array for lines' do
+      context "with a non array for lines" do
         let(:viewpoint_json_viewpoint) do
           {
             "lines" => { "some" => "value" }
           }
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
 
-      context 'with an additional property for one line' do
+      context "with an additional property for one line" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['lines'][1]['superfluous_property'] = 123
+          valid_json["lines"][1]["superfluous_property"] = 123
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
 
-      context 'with a missing property' do
+      context "with a missing property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['lines'][1].delete(:start_point)
+          valid_json["lines"][1].delete(:start_point)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
 
-      context 'with a missing dimension in one of the lines' do
+      context "with a missing dimension in one of the lines" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['lines'][1][:end_point].delete(:y)
+          valid_json["lines"][1][:end_point].delete(:y)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
 
-      context 'with a non number in one of the points' do
+      context "with a non number in one of the points" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['lines'][1][:start_point][:z] = "sdfjsdkf"
+          valid_json["lines"][1][:start_point][:z] = "sdfjsdkf"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
     end
 
-    describe 'clipping_planes' do
+    describe "clipping_planes" do
       let(:valid_json) do
         {
           clipping_planes: [
@@ -516,66 +514,66 @@ describe Bim::Bcf::Viewpoints::CreateContract do
         valid_json
       end
 
-      it_behaves_like 'is valid'
+      it_behaves_like "is valid"
 
-      context 'with a non array for lines' do
+      context "with a non array for lines" do
         let(:viewpoint_json_viewpoint) do
           {
             "clipping_planes" => { "some" => "value" }
           }
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
 
-      context 'with an additional property for one line' do
+      context "with an additional property for one line" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['clipping_planes'][1]['superfluous_property'] = 123
+          valid_json["clipping_planes"][1]["superfluous_property"] = 123
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
 
-      context 'with a missing property' do
+      context "with a missing property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['clipping_planes'][1].delete(:direction)
+          valid_json["clipping_planes"][1].delete(:direction)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
 
-      context 'with a missing dimension in one of the lines' do
+      context "with a missing dimension in one of the lines" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['clipping_planes'][1][:direction].delete(:y)
+          valid_json["clipping_planes"][1][:direction].delete(:y)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
 
-      context 'with a non number in one of the points' do
+      context "with a non number in one of the points" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['clipping_planes'][1][:location][:z] = "sdfjsdkf"
+          valid_json["clipping_planes"][1][:location][:z] = "sdfjsdkf"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
     end
 
-    describe 'bitmaps' do
+    describe "bitmaps" do
       let(:viewpoint_json_viewpoint) do
         {
           bitmaps: [
@@ -584,12 +582,12 @@ describe Bim::Bcf::Viewpoints::CreateContract do
         }.stringify_keys
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, json_viewpoint: %i(bitmaps_not_writable))
       end
     end
 
-    describe 'components' do
+    describe "components" do
       let(:valid_json) do
         {
           components:
@@ -651,316 +649,316 @@ describe Bim::Bcf::Viewpoints::CreateContract do
         valid_json
       end
 
-      it_behaves_like 'is valid'
+      it_behaves_like "is valid"
 
-      context 'with a non hash' do
+      context "with a non hash" do
         let(:viewpoint_json_viewpoint) do
           {
             "components" => 534
           }
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with an additional property' do
+      context "with an additional property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components']['superfluous_property'] = 123
+          valid_json["components"]["superfluous_property"] = 123
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with missing visibility property' do
+      context "with missing visibility property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'].delete(:visibility)
+          valid_json["components"].delete(:visibility)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with missing selection property' do
+      context "with missing selection property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'].delete(:selection)
+          valid_json["components"].delete(:selection)
           valid_json
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like "is valid"
       end
 
-      context 'with missing coloring property' do
+      context "with missing coloring property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'].delete(:coloring)
+          valid_json["components"].delete(:coloring)
           valid_json
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like "is valid"
       end
 
-      context 'with selection property not being an array of hashes' do
+      context "with selection property not being an array of hashes" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:selection] = ["blubs"]
+          valid_json["components"][:selection] = ["blubs"]
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with a property of the selection property not being string' do
+      context "with a property of the selection property not being string" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:selection][1][:ifcguid] = 345
+          valid_json["components"][:selection][1][:ifcguid] = 345
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with a component of the selection property having an unknown property' do
+      context "with a component of the selection property having an unknown property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:selection][1]['superfluous'] = "sdsdsf"
+          valid_json["components"][:selection][1]["superfluous"] = "sdsdsf"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with a component of the selection property being empty' do
+      context "with a component of the selection property being empty" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:selection][1] = {}
+          valid_json["components"][:selection][1] = {}
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with coloring property not being an array of hashes' do
+      context "with coloring property not being an array of hashes" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:coloring] = ["blubs"]
+          valid_json["components"][:coloring] = ["blubs"]
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with a coloring of the coloring property lacking a property' do
+      context "with a coloring of the coloring property lacking a property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:coloring][1].delete(:color)
+          valid_json["components"][:coloring][1].delete(:color)
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with having an invalid color for coloring property' do
+      context "with having an invalid color for coloring property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:coloring][1][:color] = '#ff54zzzz'
+          valid_json["components"][:coloring][1][:color] = "#ff54zzzz"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with having a non string for color of a coloring property' do
+      context "with having a non string for color of a coloring property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:coloring][1][:color] = 123456
+          valid_json["components"][:coloring][1][:color] = 123456
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with having a non array of hashes for components of a coloring property' do
+      context "with having a non array of hashes for components of a coloring property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:coloring][1][:components] = ['blubs']
+          valid_json["components"][:coloring][1][:components] = ["blubs"]
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with having an invalid property in for a components of a coloring property' do
+      context "with having an invalid property in for a components of a coloring property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:coloring][1][:components][0]['superfluous'] = 'blubs'
+          valid_json["components"][:coloring][1][:components][0]["superfluous"] = "blubs"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with visibility property not being a hashes' do
+      context "with visibility property not being a hashes" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility] = 'blubs'
+          valid_json["components"][:visibility] = "blubs"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with visibility property having an unknown property' do
+      context "with visibility property having an unknown property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility]['superfluous'] = 'blubs'
+          valid_json["components"][:visibility]["superfluous"] = "blubs"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with visibility property being an empty hash' do
+      context "with visibility property being an empty hash" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility] = {}
+          valid_json["components"][:visibility] = {}
           valid_json
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like "is valid"
       end
 
-      context 'with visibility property lacking a property' do
+      context "with visibility property lacking a property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility].delete(:exceptions)
+          valid_json["components"][:visibility].delete(:exceptions)
           valid_json
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like "is valid"
       end
 
-      context 'with default_visibility of the visibility property being a non boolean' do
+      context "with default_visibility of the visibility property being a non boolean" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility][:default_visibility] = 'blubs'
+          valid_json["components"][:visibility][:default_visibility] = "blubs"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with components of the visibility property not being an array of hashes' do
+      context "with components of the visibility property not being an array of hashes" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility][:exceptions] = ['blubs']
+          valid_json["components"][:visibility][:exceptions] = ["blubs"]
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with components of the visibility property having an invalid property' do
+      context "with components of the visibility property having an invalid property" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility][:exceptions][0]['superfluous'] = 'blubs'
+          valid_json["components"][:visibility][:exceptions][0]["superfluous"] = "blubs"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with on property of a components of the visibility property being a non string' do
+      context "with on property of a components of the visibility property being a non string" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility][:exceptions][0][:originating_system] = 124
+          valid_json["components"][:visibility][:exceptions][0][:originating_system] = 124
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with view_setup_hints not being a hash' do
+      context "with view_setup_hints not being a hash" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility][:view_setup_hints] = []
+          valid_json["components"][:visibility][:view_setup_hints] = []
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with view_setup_hints being an empty hash' do
+      context "with view_setup_hints being an empty hash" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility][:view_setup_hints] = {}
+          valid_json["components"][:visibility][:view_setup_hints] = {}
           valid_json
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like "is valid"
       end
 
-      context 'with view_setup_hints having an unknown parameter' do
+      context "with view_setup_hints having an unknown parameter" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility][:view_setup_hints]['superfluous'] = 'blubs'
+          valid_json["components"][:visibility][:view_setup_hints]["superfluous"] = "blubs"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
-      context 'with a property of view_setup_hints being a non boolean' do
+      context "with a property of view_setup_hints being a non boolean" do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components'][:visibility][:view_setup_hints][:openings_visible] = 'blubs'
+          valid_json["components"][:visibility][:view_setup_hints][:openings_visible] = "blubs"
           valid_json
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
     end
 
-    describe 'guid' do
-      context 'with the same value the model has' do
+    describe "guid" do
+      context "with the same value the model has" do
         let(:viewpoint_json_viewpoint) do
           {
-            'guid' => viewpoint_uuid
+            "guid" => viewpoint_uuid
           }
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like "is valid"
       end
 
-      context 'with a different value than the model has' do
+      context "with a different value than the model has" do
         let(:viewpoint_json_viewpoint) do
           {
-            'guid' => viewpoint_uuid + 'something'
+            "guid" => viewpoint_uuid + "something"
           }
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, json_viewpoint: %i(mismatching_guid))
         end
       end

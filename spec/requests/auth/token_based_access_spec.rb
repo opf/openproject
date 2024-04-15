@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Token based access', type: :rails_request, with_settings: { login_required?: false } do
+RSpec.describe "Token based access", type: :rails_request, with_settings: { login_required?: false } do
   let(:work_package) { create(:work_package) }
   let(:user) do
     create(:user,
-           member_in_project: work_package.project,
-           member_with_permissions: %i[view_work_packages])
+           member_with_permissions: { work_package.project => %i[view_work_packages] })
   end
   let(:rss_key) { user.rss_key }
 
-  it 'grants access but does not login the user' do
+  it "grants access but does not login the user" do
     # work_packages of a private project
     get "/work_packages/#{work_package.id}.atom"
     expect(response)

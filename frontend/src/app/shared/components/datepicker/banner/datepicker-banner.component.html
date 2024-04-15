@@ -6,8 +6,7 @@
   [actionButton]="text.show_relations_button"
   actionButtonClasses="icon-view-timeline"
   (buttonClicked)="openGantt($event)"
->
-</op-modal-banner>
+></op-modal-banner>
 <op-modal-banner
   *ngIf="!scheduleManually && isParent"
   type="info"
@@ -16,8 +15,7 @@
   [actionButton]="text.show_relations_button"
   actionButtonClasses="icon-view-timeline"
   (buttonClicked)="openGantt($event)"
->
-</op-modal-banner>
+></op-modal-banner>
 <ng-container *ngIf="!scheduleManually && !isParent">
   <op-modal-banner
     *ngIf="(hasPrecedingRelations$ | async) === true && (hasFollowingRelations$ | async) === false && !isChild"
@@ -27,8 +25,7 @@
     [actionButton]="text.show_relations_button"
     actionButtonClasses="icon-view-timeline"
     (buttonClicked)="openGantt($event)"
-  >
-  </op-modal-banner>
+  ></op-modal-banner>
 
   <op-modal-banner
     *ngIf="(hasFollowingRelations$ | async) === true || isChild"
@@ -38,6 +35,5 @@
     [actionButton]="text.show_relations_button"
     actionButtonClasses="icon-view-timeline"
     (buttonClicked)="openGantt($event)"
-  >
-  </op-modal-banner>
+  ></op-modal-banner>
 </ng-container>

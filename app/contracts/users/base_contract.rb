@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,9 @@ module Users
     include AssignableCustomFieldValues
 
     attribute :login,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) && model.id != user.id }
+              writable: ->(*) {
+                can_create_or_manage_users? && model.id != user.id
+              }
     attribute :firstname
     attribute :lastname
     attribute :mail
@@ -39,11 +41,11 @@ module Users
               writable: ->(*) { user.admin? && model.id != user.id }
     attribute :language
 
-    attribute :auth_source_id,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) }
+    attribute :ldap_auth_source_id,
+              writable: ->(*) { can_create_or_manage_users? }
 
     attribute :status,
-              writable: ->(*) { user.allowed_to_globally?(:manage_user) }
+              writable: ->(*) { can_create_or_manage_users? }
 
     attribute :identity_url,
               writable: ->(*) { user.admin? }
@@ -62,7 +64,7 @@ module Users
 
     def reduce_writable_attributes(attributes)
       super.tap do |writable|
-        writable << 'password' if password_writable?
+        writable << "password" if password_writable?
       end
     end
 
@@ -88,10 +90,14 @@ module Users
 
     # rubocop:disable Rails/DynamicFindBy
     def existing_auth_source
-      if auth_source_id && AuthSource.find_by_unique(auth_source_id).nil?
+      if ldap_auth_source_id && LdapAuthSource.find_by_unique(ldap_auth_source_id).nil?
         errors.add :auth_source, :error_not_found
       end
     end
     # rubocop:enable Rails/DynamicFindBy
+
+    def can_create_or_manage_users?
+      user.allowed_globally?(:manage_user) || user.allowed_globally?(:create_user)
+    end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ class CostQuery::Operator < Report::Operator
   # Operators from Redmine
   new "c", arity: 0, label: :label_closed do
     def modify(query, field, *_values)
-      raise "wrong field" if field.to_s.split('.').last != "status_id"
+      raise "wrong field" if field.to_s.split(".").last != "status_id"
 
       query.where "(#{Status.table_name}.is_closed = #{quoted_true})"
       query
@@ -39,7 +39,7 @@ class CostQuery::Operator < Report::Operator
 
   new "o", arity: 0, label: :label_open do
     def modify(query, field, *_values)
-      raise "wrong field" if field.to_s.split('.').last != "status_id"
+      raise "wrong field" if field.to_s.split(".").last != "status_id"
 
       query.where "(#{Status.table_name}.is_closed = #{quoted_false})"
       query
@@ -62,7 +62,7 @@ class CostQuery::Operator < Report::Operator
     def modify(query, field, *values)
       p_ids = []
       values.each do |value|
-        value.to_s.split(',').each do |id|
+        value.to_s.split(",").each do |id|
           p_ids += ([id] << Project.find(id).descendants.map(&:id))
         end
       end

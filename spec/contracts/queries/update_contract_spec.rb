@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,61 +26,109 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Queries::UpdateContract do
-  include_context 'ModelContract shared context'
-  include_context 'with queries contract'
+RSpec.describe Queries::UpdateContract do
+  include_context "with queries contract"
 
-  describe 'private query' do
+  describe "private query" do
     let(:public) { false }
 
-    context 'when user is author' do
+    context "when user is author" do
       let(:user) { current_user }
 
-      context 'when user has no permission to save' do
+      context "when user has no permission to save" do
         let(:permissions) { %i(edit_work_packages) }
 
-        it_behaves_like 'contract user is unauthorized'
+        it_behaves_like "contract user is unauthorized"
       end
 
-      context 'when user has permission to save' do
+      context "when user has permission to save" do
         let(:permissions) { %i(save_queries) }
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
+
+        context "when the query becomes public" do
+          before do
+            query.public = true
+          end
+
+          it_behaves_like "contract user is unauthorized"
+
+          context "with permission to manage public" do
+            let(:permissions) { %i(save_queries manage_public_queries) }
+
+            it_behaves_like "contract is valid"
+          end
+        end
       end
     end
 
-    context 'when user is someone else' do
-      let(:user) { build_stubbed :user }
+    context "when user is someone else" do
+      let(:user) { build_stubbed(:user) }
       let(:permissions) { %i(save_queries) }
 
-      it_behaves_like 'contract user is unauthorized'
+      it_behaves_like "contract user is unauthorized"
+
+      context "with permission to manage public" do
+        let(:permissions) { %i(manage_public_queries) }
+
+        it_behaves_like "contract user is unauthorized"
+
+        context "when the query becomes public" do
+          before do
+            query.public = true
+          end
+
+          # Other users cannot publish private queries
+          it_behaves_like "contract user is unauthorized"
+        end
+      end
     end
   end
 
-  describe 'public query' do
+  describe "public query" do
     let(:public) { true }
     let(:user) { nil }
 
-    context 'when user has no permission to save' do
-      let(:permissions) { %i(invalid_permission) }
+    context "when user has no permission to save" do
+      let(:permissions) { %i() }
 
-      it_behaves_like 'contract user is unauthorized'
+      it_behaves_like "contract user is unauthorized"
     end
 
-    context 'when user has no permission to manage public' do
+    context "when user has permission to manage public" do
       let(:permissions) { %i(manage_public_queries) }
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
+
+      context "when the query becomes private" do
+        before do
+          query.public = false
+        end
+
+        it_behaves_like "contract is valid"
+
+        context "when the query user is deleted" do
+          let(:user) { DeletedUser.first }
+
+          it_behaves_like "contract user is unauthorized"
+        end
+      end
     end
 
-    context 'when user has permission to save only own' do
+    context "when user has permission to save only own" do
       let(:permissions) { %i(save_queries) }
 
-      it_behaves_like 'contract user is unauthorized'
+      it_behaves_like "contract user is unauthorized"
+
+      context "when user is author" do
+        let(:user) { current_user }
+
+        # Cannot make a query private if cannot manage_public_queries
+        it_behaves_like "contract user is unauthorized"
+      end
     end
   end
 end

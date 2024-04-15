@@ -1,4 +1,7 @@
 fa:
+  plugin_openproject_webhooks:
+    name: "وب‌هوک اپن‌پروژه"
+    description: "یک API پلاگین برای پشتیبانی از وب هوک های OpenProject برای ادغام بهتر شخص ثالث ارائه می دهد."
   activerecord:
     attributes:
       webhooks/webhook:
@@ -54,7 +57,7 @@ fa:
         project_ids:
           title: 'Enabled projects'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
+          all: 'همه پروژه‌ها'
           selected: 'Selected projects only'
         selected_project_ids:
           title: 'Selected projects'

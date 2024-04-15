@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe TypesHelper, type: :helper do
+RSpec.describe TypesHelper do
   let(:type) { build_stubbed(:type) }
 
   describe "#form_configuration_groups" do
@@ -43,17 +43,17 @@ describe TypesHelper, type: :helper do
       before do
         allow(type)
           .to receive(:attribute_groups)
-          .and_return [::Type::AttributeGroup.new(type, 'group one', ["assignee"])]
+          .and_return [Type::AttributeGroup.new(type, "group one", ["assignee"])]
       end
 
-      it 'contains Hashes ordered by key :translation' do
+      it "contains Hashes ordered by key :translation" do
         # The first left over attribute should currently be "date"
         expect(subject.first[:translation]).to be_present
         expect(subject.first[:translation] <= subject.second[:translation]).to be_truthy
       end
 
       # The "assignee" is in "group one". It should not appear in :inactives.
-      it 'does not contain attributes that do not exist anymore' do
+      it "does not contain attributes that do not exist anymore" do
         expect(subject.pluck(:key)).not_to include "assignee"
       end
     end
@@ -64,10 +64,10 @@ describe TypesHelper, type: :helper do
       before do
         allow(type)
           .to receive(:attribute_groups)
-          .and_return [::Type::AttributeGroup.new(type, 'group one', ["date"])]
+          .and_return [Type::AttributeGroup.new(type, "group one", ["date"])]
       end
 
-      it 'has a proper structure' do
+      it "has a proper structure" do
         # The group's name/key
         expect(subject.first[:name]).to eq "group one"
 

@@ -3,51 +3,87 @@ cs:
   js:
     storages:
       link_files_in_storage: "Prolinkovat soubory v"
-      link_existing_files: "Link existing files"
-      upload_files: "Upload files"
-      drop_files: "Drop files here to upload them to %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      link_existing_files: "Odkaz na existující soubory"
+      upload_files: "Nahrát soubory"
+      drop_files: "Přetáhněte soubory pro jejich nahrání na %{name}."
+      drop_or_click_files: "Přetáhněte soubory sem nebo klikněte pro jejich nahrání do %{name}."
       login: "%{storageType} přihlášení"
       login_to: "Přihlásit se k %{storageType}"
       no_connection: "Žádné připojení %{storageType}"
       open_storage: "Otevřít %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      select_location: "Vyberte lokalitu"
+      choose_location: "Vyberte lokalitu"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Úložiště"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
+          Některá nastavení %{storageType} nefungují. Obraťte se na správce %{storageType}.
         live_data_error: "Chyba při načítání detailů souboru"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
+          Některá data %{storageType} nelze načíst. Zkuste prosím znovu načíst tuto stránku nebo kontaktujte správce %{storageType}.
         no_file_links: "Chcete-li propojit soubory s tímto pracovním balíčkem, proveďte to prostřednictvím %{storageType}."
         not_logged_in: >
           Chcete-li přidat odkaz nebo zobrazit soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}.
+      files:
+        already_existing_header: "Tento soubor už existuje"
+        already_existing_body: >
+          Soubor s názvem "%{fileName}" již existuje v místě, kde se pokoušíte nahrát tento soubor. Co chcete udělat?
+        directory_not_writeable: "Nemáte oprávnění přidávat soubory do této složky."
+        dragging_many_files: "Nahrávání do %{storageType} podporuje pouze jeden soubor najednou."
+        dragging_folder: "Nahrávání do %{storageType} nepodporuje složky."
+        empty_folder: "Tato složka je prázdná."
+        empty_folder_location_hint: "Klikněte na tlačítko níže pro nahrání souboru do tohoto umístění."
+        file_not_selectable_location: "Výběr souboru není možný v procesu výběru umístění."
+        project_folder_no_access: >
+          Nemáte přístup ke složce projektu. Obraťte se na svého administrátora pro získání přístupu nebo nahrajte soubor do jiného umístění.
+        managed_project_folder_not_available: >
+          Automaticky spravovaná složka projektu nebyla nalezena. Počkejte, prosím, znovu načtěte stránku pro načtení nejnovějších dat a zkuste to znovu.
+        managed_project_folder_no_access: >
+          Zatím nemáte přístup ke složce spravovaného projektu. Počkejte prosím trochu a zkuste to znovu.
+        upload_keep_both: "Zachovat obojí"
+        upload_replace: "Nahradit"
       file_links:
         empty: >
-          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+          V současné době neexistují žádné propojené soubory k tomuto pracovnímu balíčku. Začněte propojovat soubory s akcí níže nebo zevnitř %{storageType}.
         download: "Stáhnout %{fileName}"
-        no_permission: "Nemáte oprávnění k zobrazení tohoto souboru."
-        open: 'Otevřít soubor v úložišti'
-        open_location: 'Otevřít soubor v umístění'
+        open: "Otevřít soubor v úložišti"
+        open_location: "Otevřít soubor v umístění"
         remove: "Odstranit odkaz na soubor"
         remove_confirmation: >
           Jste si jisti, že chcete odlinkovat soubor od tohoto pracovního balíčku? Toto nemá vliv na původní soubor a odstraní pouze připojení k tomuto pracovnímu balíčku.
         remove_short: "Odstranit odkaz"
-        select: "Select files"
-        select_all: "Select all"
+        select: "Vybrat soubory"
+        select_all: "Vybrat vše"
         selection:
-          zero: "Select files to link"
-          one: "Link 1 file"
-          few: "Link %{count} files"
-          many: "Link %{count} files"
-          other: "Link %{count} files"
+          zero: "Vyberte soubory, které chcete propojit"
+          one: "Propojit 1 Soubor"
+          few: "Propojit %{count} souborů"
+          many: "Propojit %{count} souborů"
+          other: "Propojit %{count} souborů"
         success_create:
-          one: "Successfully created 1 file link."
-          few: "Successfully created %{count} file links."
-          many: "Successfully created %{count} file links."
-          other: "Successfully created %{count} file links."
-        not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"
-        already_linked_file: "This file is already linked to this work package."
-        already_linked_directory: "This directory is already linked to this work package."
+          one: "Odkaz na soubor byl úspěšně vytvořen."
+          few: "Odkazů na soubor byl úspěšně vytvořen."
+          many: "Odkazů na soubor byl úspěšně vytvořen."
+          other: "Odkazů na soubor byl úspěšně vytvořen."
+        upload_error:
+          default: >
+            Váš soubor (%{fileName}) nelze nahrát.
+          403: >
+            Váš soubor (%{fileName}) nelze nahrát kvůli systémovým omezením. Pro více informací kontaktujte svého správce.
+          413: >
+            Váš soubor (%{fileName}) je větší než to, co může OpenProject nahrát do %{storageType}. Nejprve jej můžete nahrát přímo do %{storageType} a poté propojit soubor.
+          507: >
+            Váš soubor (%{fileName}) je větší než kvóta na úložiště. Obraťte se na správce pro úpravu této kvóty.
+          detail:
+            nextcloud: >
+              Zkontrolujte, zda je nainstalována nejnovější verze aplikace Nextcloud "OpenProject Integration" a pro více informací kontaktujte administrátora.
+        link_uploaded_file_error: >
+          Došlo k chybě při propojení nedávno nahraného souboru '%{fileName}' s pracovním balíčkem %{workPackageId}.
+        tooltip:
+          not_logged_in: "Pro přístup k tomuto souboru se přihlaste do úložiště."
+          view_not_allowed: "Nemáte oprávnění k zobrazení tohoto souboru."
+          not_found: "Tento soubor nebyl nalezen."
+        already_linked_file: "Tento soubor je již propojen s tímto pracovním balíčkem."
+        already_linked_directory: "Tento adresář je již propojen s tímto pracovním balíčkem."

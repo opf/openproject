@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'messages', type: :feature, js: true do
+RSpec.describe "messages", :js do
   let(:forum) do
     create(:forum)
   end
@@ -40,24 +40,22 @@ describe 'messages', type: :feature, js: true do
   end
 
   let(:user) do
-    create :user,
-           member_in_project: forum.project,
-           member_through_role: role,
+    create(:user,
+           member_with_roles: { forum.project => role },
            notification_settings: [
              build(:notification_setting, **notification_settings_all_false, watched: true)
-           ]
+           ])
   end
   let(:other_user) do
     create(:user,
-           member_in_project: forum.project,
-           member_through_role: role,
+           member_with_roles: { forum.project => role },
            notification_settings: [
              build(:notification_setting, **notification_settings_all_false, watched: true)
            ]).tap do |u|
       forum.watcher_users << u
     end
   end
-  let(:role) { create(:role, permissions: [:add_messages]) }
+  let(:role) { create(:project_role, permissions: [:add_messages]) }
 
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 
@@ -66,102 +64,112 @@ describe 'messages', type: :feature, js: true do
     login_as user
   end
 
-  it 'adding, checking replies, replying' do
+  it "adding, checking replies, replying" do
     index_page.visit!
     click_link forum.name
 
     create_page = index_page.click_create_message
 
     SeleniumHubWaiter.wait
-    create_page.set_subject 'The message is'
+    create_page.set_subject "The message is"
     create_page.click_save
 
-    create_page.expect_toast(type: :error, message: 'Content can\'t be blank')
+    create_page.expect_toast(type: :error, message: "Content can't be blank")
     SeleniumHubWaiter.wait
-    create_page.add_text 'There is no message here'
+    create_page.add_text "There is no message here"
 
-    show_page = perform_enqueued_jobs do
+    perform_enqueued_jobs do
       create_page.click_save
+      expect(page).to have_text "There is no message here"
+      show_page = Pages::Messages::Show.new(Message.last)
+      show_page.expect_current_path
+
+      show_page.expect_subject("The message is")
+      show_page.expect_content("There is no message here")
     end
-
-    show_page.expect_current_path
-
-    show_page.expect_subject('The message is')
-    show_page.expect_content('There is no message here')
 
     index_page.visit!
     click_link forum.name
-    index_page.expect_listed(subject: 'The message is',
+    index_page.expect_listed(subject: "The message is",
                              replies: 0)
 
     # Register as a watcher to later on get mails
-    click_link 'Watch'
+    click_link "Watch"
 
     # Creating a message will have sent a mail to the other user who was already watching the forum
     expect(ActionMailer::Base.deliveries.size)
       .to be 1
 
     expect(ActionMailer::Base.deliveries.last.to)
-      .to match_array [other_user.mail]
+      .to contain_exactly other_user.mail
 
     expect(ActionMailer::Base.deliveries.last.subject)
-      .to include 'The message is'
+      .to include "The message is"
 
     # Replying as other user
 
     login_as other_user
 
+    show_page = Pages::Messages::Show.new(Message.last)
     show_page.visit!
     show_page.expect_no_replies
 
     reply = perform_enqueued_jobs do
-      show_page.reply 'But, but there should be one'
+      message = show_page.reply "But, but there should be one"
+
+      show_page.expect_current_path(message)
+      show_page.expect_num_replies(1)
+
+      show_page.expect_reply(subject: "RE: The message is",
+                             content: "But, but there should be one")
+
+      message
     end
-
-    show_page.expect_current_path(reply)
-    show_page.expect_num_replies(1)
-
-    show_page.expect_reply(subject: 'RE: The message is',
-                           content: 'But, but there should be one')
 
     index_page.visit!
     click_link forum.name
 
-    index_page.expect_listed(subject: 'The message is',
+    index_page.expect_listed(subject: "The message is",
                              replies: 1,
-                             last_message: 'RE: The message is')
+                             last_message: "RE: The message is")
 
     # Creating a reply will have sent a mail to the first user who was watching the forum
     expect(ActionMailer::Base.deliveries.size)
       .to be 2
 
     expect(ActionMailer::Base.deliveries.last.to)
-      .to match_array [user.mail]
+      .to contain_exactly user.mail
 
     expect(ActionMailer::Base.deliveries.last.subject)
-      .to include 'RE: The message is'
+      .to include "RE: The message is"
 
     # Quoting as first user again
     login_as user
 
     show_page.visit!
     quote = show_page.quote(quoted_message: reply,
-                            subject: 'And now to something completely different',
+                            subject: "And now to something completely different",
                             content: "No, there really isn't\n\n")
 
     show_page.expect_current_path(quote)
 
     show_page.expect_num_replies(2)
     show_page.expect_reply(reply: quote,
-                           subject: 'And now to something completely different',
-                           content: 'No, there really isn\'t')
+                           subject: "And now to something completely different",
+                           content: "No, there really isn't")
 
-    expect(page).to have_selector('blockquote', text: 'But, but there should be one')
+    expect(page).to have_css("blockquote", text: "But, but there should be one")
+
+    # Quoting the first message
+    show_page.quote(subject: "Also quoting the first message",
+                    content: "Should also work")
+
+    show_page.expect_num_replies(3)
 
     index_page.visit!
     click_link forum.name
-    index_page.expect_listed(subject: 'The message is',
-                             replies: 2,
-                             last_message: 'And now to something completely different')
+    index_page.expect_listed(subject: "The message is",
+                             replies: 3,
+                             last_message: "Also quoting the first message")
   end
 end

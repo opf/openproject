@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -44,6 +44,8 @@ See COPYRIGHT and LICENSE files for more details.
   data-relative_url_root="<%= root_path %>"
   data-overflowing-identifier=".__overflowing_body"
   data-rendered-at="<%= Time.zone.now.iso8601 %>"
+  data-controller="application"
+  <%= user_theme_data_attributes %>
 >
 <%= render partial: 'warning_bar/warning_bar' %>
 <noscript>
@@ -60,12 +62,13 @@ See COPYRIGHT and LICENSE files for more details.
 </noscript>
 <op-toasts-container></op-toasts-container>
 <op-modal-overlay></op-modal-overlay>
+<spot-drop-modal-portal></spot-drop-modal-portal>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
 <div id="wrapper" style="<%= initial_menu_styles(side_displayed) %>" class="<%= initial_classes %>">
   <% if show_decoration %>
-    <header class="op-app-header">
+    <header class="op-app-header<%= ' op-app-header_development' if OpenProject::Configuration.development_highlight_enabled? %>">
       <div class="op-app-header--start">
         <h1 class="hidden-for-sighted">
           <%= t(:label_top_menu) %>
@@ -81,8 +84,8 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="op-app-header--center">
         <%= render_top_menu_center %>
       </div>
-      <%= call_hook :view_layouts_base_top_menu %>
       <div class="op-app-header--end">
+        <%= call_hook :view_layouts_base_top_menu %>
         <%= render_top_menu_right %>
       </div>
     </header>
@@ -90,7 +93,12 @@ See COPYRIGHT and LICENSE files for more details.
   <div id="main"
        class="<%= initial_classes %>">
     <% if (side_displayed && show_decoration) %>
-      <div id="main-menu" class="main-menu">
+      <div
+        id="main-menu"
+        class="main-menu"
+        data-controller="menus--main"
+        data-application-target="dynamic"
+      >
         <h1 class="hidden-for-sighted"><%= t(:label_main_menu) %></h1>
         <main-menu-resizer></main-menu-resizer>
         <div id="menu-sidebar">
@@ -98,7 +106,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= content_for :main_menu %>
           <%= call_hook :view_layouts_base_main_menu %>
           <!-- Sidebar -->
-          <div id="sidebar">
+          <div id="sidebar" data-menus--main-target="sidebar">
             <%= content_for :sidebar %>
             <%= call_hook :view_layouts_base_sidebar %>
           </div>
@@ -107,10 +115,13 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <div class="content-overlay"></div>
     <main id="content-wrapper" class="<%= initial_classes %>">
+      <%= render_primer_banner_message %>
       <% if show_decoration %>
         <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>">
           <%= you_are_here_info %>
-          <%= full_breadcrumb %>
+          <div id="full_breadcrumbs">
+            <%= full_breadcrumbs %>
+          </div>
           <%= call_hook :view_layouts_base_breadcrumb %>
         </div>
       <% end %>
@@ -122,14 +133,17 @@ See COPYRIGHT and LICENSE files for more details.
           <%= render partial: '/onboarding/configuration_modal' %>
         </section>
       <% end %>
-      <div id="content" class="<%= initial_classes %>">
+      <%= content_tag :div,
+                      id: 'content',
+                      class: initial_classes,
+                      data: stimulus_content_data do %>
         <h1 class="hidden-for-sighted"><%= t(:label_content) %></h1>
         <%= content_for :content_body %>
-        <% unless local_assigns[:no_action_menu] %>
+        <% unless local_assigns[:no_layout_yield] %>
           <%= yield %>
         <% end %>
         <%= call_hook :view_layouts_base_content %>
-      </div>
+      <% end %>
     </main>
   </div>
   <div id="ajax-indicator" style="display:none;"><span><%= t(:label_loading) %></span></div>
@@ -144,8 +158,8 @@ See COPYRIGHT and LICENSE files for more details.
     var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
     var mainMenuCollapsed =  window.OpenProject.guardedLocalStorage("openProject-mainMenuCollapsed");
 
-    if (window.innerWidth < 680) {
-      // force hide on load for mobile
+    if (window.innerWidth < 1012) {
+      // force hide on load for small desktops
       $('.can-hide-navigation').addClass('hidden-navigation');
     }
 

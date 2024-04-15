@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -55,8 +55,9 @@ module API
         property :state,
                  render_nil: true
 
-        property :repository,
-                 render_nil: true
+        property :repository
+
+        property :repository_html_url
 
         date_time_property :github_updated_at,
                            render_nil: true,
@@ -114,7 +115,7 @@ module API
         date_time_property :updated_at
 
         def _type
-          'GithubPullRequest'
+          "GithubPullRequest"
         end
 
         self.to_eager_load = %i[github_user merged_by]

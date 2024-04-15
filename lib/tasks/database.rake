@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-namespace 'db:sessions' do
-  desc 'Expire old sessions from the sessions table'
-  task :expire, [:days_ago] => [:environment, 'db:load_config'] do |_task, args|
+namespace "db:sessions" do
+  desc "Expire old sessions from the sessions table"
+  task :expire, [:days_ago] => [:environment, "db:load_config"] do |_task, args|
     # sessions expire after 30 days of inactivity by default
     days_ago = Integer(args[:days_ago] || 30)
     expiration_time = Date.today - days_ago.days
@@ -38,9 +38,9 @@ namespace 'db:sessions' do
   end
 end
 
-namespace 'openproject' do
-  namespace 'db' do
-    desc 'Ensure database version compatibility'
+namespace "openproject" do
+  namespace "db" do
+    desc "Ensure database version compatibility"
     task check_connection: %w[environment db:load_config] do
       ActiveRecord::Base.establish_connection
       ActiveRecord::Base.connection.execute "SELECT 1;"
@@ -53,7 +53,7 @@ namespace 'openproject' do
       Kernel.exit 1
     end
 
-    desc 'Ensure database version compatibility'
+    desc "Ensure database version compatibility"
     task ensure_database_compatibility: %w[openproject:db:check_connection] do
       ##
       # Ensure database server version is compatible
@@ -97,7 +97,12 @@ namespace 'openproject' do
       warn "Failed to perform postgres version check: #{e} - #{e.message}. #{override_msg}"
       raise e
     end
+
+    task remove_statement_timeout: %w[openproject:db:check_connection] do
+      ActiveRecord::Base.connection.execute("SET statement_timeout = 0;")
+    end
   end
 end
 
 Rake::Task["db:migrate"].enhance ["openproject:db:ensure_database_compatibility"]
+Rake::Task["db:migrate"].enhance ["openproject:db:remove_statement_timeout"]

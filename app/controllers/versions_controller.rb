@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,10 +37,10 @@ class VersionsController < ApplicationController
   before_action :authorize
 
   def index
-    @types = @project.types.order(Arel.sql('position'))
+    @types = @project.types.order(Arel.sql("position"))
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
-    project_ids = @with_subprojects ? @project.self_and_descendants.map(&:id) : [@project.id]
+    project_ids = @with_subprojects ? @project.self_and_descendants.includes(:wiki).map(&:id) : [@project.id]
 
     @versions = find_versions(@with_subprojects, params[:completed])
 
@@ -55,40 +55,40 @@ class VersionsController < ApplicationController
 
   def show
     @issues = @version
-              .work_packages
-              .visible
-              .includes(:status, :type, :priority)
-              .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
+      .work_packages
+      .visible
+      .includes(:status, :type, :priority)
+      .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
   end
 
   def new
     @version = @project.versions.build
   end
 
+  def edit; end
+
   def create
     attributes = permitted_params
-                 .version
-                 .merge(project_id: @project.id)
+      .version
+      .merge(project_id: @project.id)
 
     call = Versions::CreateService
-           .new(user: current_user)
-           .call(attributes)
+      .new(user: current_user)
+      .call(attributes)
 
-    render_cu(call, :notice_successful_create, 'new')
+    render_cu(call, :notice_successful_create, "new")
   end
-
-  def edit; end
 
   def update
     attributes = permitted_params
-                 .version
+      .version
 
     call = Versions::UpdateService
-           .new(user: current_user,
-                model: @version)
-           .call(attributes)
+      .new(user: current_user,
+           model: @version)
+      .call(attributes)
 
-    render_cu(call, :notice_successful_update, 'edit')
+    render_cu(call, :notice_successful_update, "edit")
   end
 
   def close_completed
@@ -100,18 +100,35 @@ class VersionsController < ApplicationController
 
   def destroy
     call = Versions::DeleteService
-           .new(user: current_user,
-                model: @version)
-           .call
+      .new(user: current_user,
+           model: @version)
+      .call
 
     unless call.success?
       flash[:error] = call.errors.full_messages
+      flash[:error] << archived_project_mesage if archived_projects.any?
     end
 
     redirect_to project_settings_versions_path(@project)
   end
 
   private
+
+  def archived_project_mesage
+    if current_user.admin?
+      ApplicationController.helpers.sanitize(
+        t(:error_can_not_delete_in_use_archived_work_packages,
+          archived_projects_urls: helpers.archived_projects_urls_for(archived_projects)),
+        attributes: %w(href target)
+      )
+    else
+      t(:error_can_not_delete_in_use_archived_undisclosed)
+    end
+  end
+
+  def archived_projects
+    @archived_projects ||= @version.projects.archived
+  end
 
   def redirect_back_or_version_settings
     redirect_back_or_default(project_settings_versions_path(@project))
@@ -129,7 +146,7 @@ class VersionsController < ApplicationController
 
   def selected_type_ids(selectable_types, default_types = nil)
     if (ids = params[:type_ids])
-      ids.is_a?(Array) ? ids.map(&:to_s) : ids.split('/')
+      ids.is_a?(Array) ? ids.map(&:to_s) : ids.split("/")
     else
       (default_types || selectable_types).map { |t| t.id.to_s }
     end
@@ -142,17 +159,15 @@ class VersionsController < ApplicationController
       flash[:notice] = t(success_message)
       redirect_back_or_version_settings
     else
-      @errors = call.errors
-
       render action: failure_action
     end
   end
 
   def find_versions(subprojects, completed)
-    versions = @project.shared_versions
+    versions = @project.shared_versions.includes(:custom_values)
 
     if subprojects
-      versions = versions.or(@project.rolled_up_versions)
+      versions = versions.or(@project.rolled_up_versions.includes(:custom_values))
     end
 
     versions = versions.visible.order_by_semver_name.except(:distinct).uniq

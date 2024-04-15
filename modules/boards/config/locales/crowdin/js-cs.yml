@@ -7,7 +7,7 @@ cs:
       label_unnamed_list: 'Nepojmenovaný seznam'
       label_board_type: 'Typ tabule'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'Chcete automatizovat své workflows s Tabulemi? Pokročilé Tabule jsou doplňkem Enterprise. Proveďte upgrade na placený plán.'
         upgrade: 'Upgradovat nyní'
       lists:
         delete: 'Odstranit seznam'
@@ -62,7 +62,7 @@ cs:
           status: Stav
           version: Verze
           subproject: Podprojekt
-          subtasks: Parent-child
+          subtasks: rodič-potomek
           basic: Základní
         select_attribute: "Atribut akce"
       add_list_modal:

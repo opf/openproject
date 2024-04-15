@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,14 +42,15 @@ module OpenProject
     AGGREGATED_NEWS_JOURNAL_READY = "aggregated_news_journal_ready".freeze
     AGGREGATED_MESSAGE_JOURNAL_READY = "aggregated_message_journal_ready".freeze
 
-    ATTACHMENT_CREATED = 'attachment_created'.freeze
+    ATTACHMENT_CREATED = "attachment_created".freeze
 
-    JOURNAL_CREATED = 'journal_created'.freeze
+    JOURNAL_CREATED = "journal_created".freeze
 
-    MEMBER_CREATED = 'member_created'.freeze
-    MEMBER_UPDATED = 'member_updated'.freeze
-    # Called like this for historic reasons, should be called 'member_destroyed'
-    MEMBER_DESTROYED = 'member_removed'.freeze
+    MEMBER_CREATED = "member_created".freeze
+    MEMBER_UPDATED = "member_updated".freeze
+    MEMBER_DESTROYED = "member_destroyed".freeze
+
+    OAUTH_CLIENT_TOKEN_CREATED = "oauth_client_token_created".freeze
 
     TIME_ENTRY_CREATED = "time_entry_created".freeze
 
@@ -58,8 +59,22 @@ module OpenProject
     PROJECT_CREATED = "project_created".freeze
     PROJECT_UPDATED = "project_updated".freeze
     PROJECT_RENAMED = "project_renamed".freeze
+    PROJECT_ARCHIVED = "project_archived".freeze
+    PROJECT_UNARCHIVED = "project_unarchived".freeze
 
-    WATCHER_ADDED = 'watcher_added'.freeze
-    WATCHER_REMOVED = 'watcher_removed'.freeze
+    PROJECT_STORAGE_CREATED = "project_storage_created".freeze
+    PROJECT_STORAGE_UPDATED = "project_storage_updated".freeze
+    PROJECT_STORAGE_DESTROYED = "project_storage_destroyed".freeze
+
+    STORAGE_TURNED_UNHEALTHY = "storage_turned_unhealthy".freeze
+    STORAGE_TURNED_HEALTHY = "storage_turned_healthy".freeze
+
+    ROLE_UPDATED = "role_updated".freeze
+    ROLE_DESTROYED = "role_destroyed".freeze
+
+    WATCHER_ADDED = "watcher_added".freeze
+    WATCHER_DESTROYED = "watcher_destroyed".freeze
+
+    WORK_PACKAGE_SHARED = "work_package_shared".freeze
   end
 end

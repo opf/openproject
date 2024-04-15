@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,7 @@ module API
             journals = @work_package.journals.includes(:data,
                                                        :customizable_journals,
                                                        :attachable_journals,
+                                                       :storable_journals,
                                                        :bcf_comment)
 
             Activities::ActivityCollectionRepresenter.new(journals,
@@ -49,20 +50,20 @@ module API
             requires :comment, type: Hash
           end
           post do
-            authorize({ controller: :journals, action: :new }, context: @work_package.project) do
+            authorize_in_work_package({ controller: :journals, action: :new }, work_package: @work_package) do
               raise ::API::Errors::NotFound.new
             end
 
-            result = AddWorkPackageNoteService
+            call = AddWorkPackageNoteService
                        .new(user: current_user,
                             work_package: @work_package)
                        .call(params[:comment][:raw],
                              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
 
-            if result.success?
-              Activities::ActivityRepresenter.new(work_package.journals.last, current_user:)
+            if call.success?
+              Activities::ActivityRepresenter.new(call.result, current_user:)
             else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
             end
           end
         end

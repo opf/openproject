@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -91,6 +91,23 @@ export class ApiV3FilterBuilder {
     });
 
     return map;
+  }
+
+  /**
+   * Builds a filter instance from the array-map style of query filters
+   *
+   * @param filters APIv3 filter array [ {foo: { operator: '=', val: ['bar'] } }, ...]
+   * @return ApiV3FilterBuilder
+   */
+  public static fromFilterObject(filters:ApiV3FilterObject):ApiV3FilterBuilder {
+    const instance = new ApiV3FilterBuilder();
+
+    Object.keys(filters).forEach((selector) => {
+      const item = filters[selector];
+      instance.add(selector, item.operator, item.values);
+    });
+
+    return instance;
   }
 
   /**

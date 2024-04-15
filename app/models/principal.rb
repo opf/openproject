@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,26 +42,34 @@ class Principal < ApplicationRecord
 
   has_one :preference,
           dependent: :destroy,
-          class_name: 'UserPreference',
-          foreign_key: 'user_id'
-  has_many :members, foreign_key: 'user_id', dependent: :destroy
+          class_name: "UserPreference",
+          foreign_key: "user_id",
+          inverse_of: :user
+  has_many :members, foreign_key: "user_id", dependent: :destroy, inverse_of: :principal
   has_many :memberships,
            -> {
              includes(:project, :roles)
-               .where(["projects.active = ? OR project_id IS NULL", true])
-               .order(Arel.sql('projects.name ASC'))
-             # haven't been able to produce the order using hashes
+               .merge(Member.of_any_project.or(Member.global))
+               .where(["projects.active = ? OR members.project_id IS NULL", true])
+               .order(Arel.sql("projects.name ASC"))
            },
            inverse_of: :principal,
            dependent: :nullify,
-           class_name: 'Member',
-           foreign_key: 'user_id'
+           class_name: "Member",
+           foreign_key: "user_id"
+  has_many :work_package_shares,
+           -> { where(entity_type: WorkPackage.name) },
+           inverse_of: :principal,
+           dependent: :delete_all,
+           class_name: "Member",
+           foreign_key: "user_id"
   has_many :projects, through: :memberships
-  has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
+  has_many :categories, foreign_key: "assigned_to_id", dependent: :nullify, inverse_of: :assigned_to
 
   has_paper_trail
 
   scopes :like,
+         :having_entity_membership,
          :human,
          :not_builtin,
          :possible_assignee,
@@ -72,11 +80,19 @@ class Principal < ApplicationRecord
          :status
 
   scope :in_project, ->(project) {
-    where(id: Member.of(project).select(:user_id))
+    where(id: Member.of_project(project).select(:user_id))
   }
 
   scope :not_in_project, ->(project) {
-    where.not(id: Member.of(project).select(:user_id))
+    where.not(id: Member.of_project(project).select(:user_id))
+  }
+
+  scope :in_anything_in_project, ->(project) {
+    where(id: Member.of_anything_in_project(project).select(:user_id))
+  }
+
+  scope :not_in_anything_in_project, ->(project) {
+    where.not(id: Member.of_anything_in_project(project).select(:user_id))
   }
 
   scope :in_group, ->(group) {
@@ -90,8 +106,8 @@ class Principal < ApplicationRecord
   scope :within_group, ->(group, positive = true) {
     group_id = group.is_a?(Group) ? [group.id] : Array(group).map(&:to_i)
 
-    sql_condition = group_id.any? ? 'WHERE gu.group_id IN (?)' : ''
-    sql_not = positive ? '' : 'NOT'
+    sql_condition = group_id.any? ? "WHERE gu.group_id IN (?)" : ""
+    sql_not = positive ? "" : "NOT"
 
     sql_query = [
       "#{User.table_name}.id #{sql_not} IN " \
@@ -119,7 +135,7 @@ class Principal < ApplicationRecord
   end
 
   def self.in_visible_project(user = User.current)
-    in_project(Project.visible(user))
+    where(id: Member.of_anything_in_project(Project.visible(user)).select(:user_id))
   end
 
   def self.in_visible_project_or_me(user = User.current)
@@ -164,7 +180,7 @@ class Principal < ApplicationRecord
     # by the #compact call.
     def type_condition(table = arel_table)
       sti_column = table[inheritance_column]
-      sti_names = ([self] + descendants).map(&:sti_name).compact
+      sti_names = ([self] + descendants).filter_map(&:sti_name)
 
       predicate_builder.build(sti_column, sti_names)
     end
@@ -174,12 +190,10 @@ class Principal < ApplicationRecord
 
   # Make sure we don't try to insert NULL values (see #4632)
   def set_default_empty_values
-    self.login ||= ''
-    self.firstname ||= ''
-    self.lastname ||= ''
-    self.mail ||= ''
+    self.login ||= ""
+    self.firstname ||= ""
+    self.lastname ||= ""
+    self.mail ||= ""
     true
   end
-
-  extend Pagination::Model
 end

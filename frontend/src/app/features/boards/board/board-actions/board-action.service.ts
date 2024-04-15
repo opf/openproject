@@ -119,15 +119,6 @@ export abstract class BoardActionService {
   }
 
   /**
-   * Add initial queries to a new board
-   *
-   * @param newBoard
-   */
-  addInitialColumnsForAction(newBoard:Board):Promise<Board> {
-    return Promise.resolve(newBoard);
-  }
-
-  /**
    * Add a single action query
    */
   addColumnWithActionAttribute(board:Board, value:HalResource):Promise<Board> {
@@ -239,7 +230,8 @@ export abstract class BoardActionService {
       ));
     }
 
-    new WorkPackageFilterValues(this.injector, query.filters)
+    const except = ['project'];
+    new WorkPackageFilterValues(this.injector, query.filters, except)
       .applyDefaultsFromFilters(changeset);
   }
 

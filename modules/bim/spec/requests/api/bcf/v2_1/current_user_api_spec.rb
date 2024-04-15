@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-require_relative './shared_responses'
+require_relative "shared_responses"
 
-describe 'BCF 2.1 current-user resource', type: :request, content_type: :json do
+RSpec.describe "BCF 2.1 current-user resource", content_type: :json do
   include Rack::Test::Methods
 
   let(:current_user) do
@@ -40,7 +40,7 @@ describe 'BCF 2.1 current-user resource', type: :request, content_type: :json do
 
   subject(:response) { last_response }
 
-  describe 'GET /api/bcf/2.1/current-user' do
+  describe "GET /api/bcf/2.1/current-user" do
     let(:path) { "/api/bcf/2.1/current-user" }
 
     before do
@@ -48,7 +48,7 @@ describe 'BCF 2.1 current-user resource', type: :request, content_type: :json do
       get path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
         {
           id: current_user.mail,

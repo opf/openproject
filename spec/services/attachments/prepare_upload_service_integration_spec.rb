@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,20 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Attachments::PrepareUploadService,
-         'integration' do
+RSpec.describe Attachments::PrepareUploadService,
+               "integration" do
   shared_let(:container) { create(:work_package) }
   shared_let(:user) do
-    create :user,
-           member_in_project: container.project,
-           member_with_permissions: %i[view_work_packages edit_work_packages]
+    create(:user,
+           member_with_permissions: { container.project => %i[view_work_packages edit_work_packages] })
   end
   let(:instance) { described_class.new(user:) }
 
   let(:file_size) { 6 }
-  let(:file_name) { 'document.png' }
+  let(:file_name) { "document.png" }
   let(:content_type) { "application/octet-stream" }
 
   let(:call) do
@@ -50,45 +49,44 @@ describe Attachments::PrepareUploadService,
 
   let(:attachment) { call.result }
 
-  it 'returns the attachment' do
+  it "returns the attachment" do
     expect(attachment)
       .to be_a(Attachment)
   end
 
-  it 'sets the content_type' do
+  it "sets the content_type" do
     expect(attachment.content_type)
       .to eql content_type
   end
 
-  it 'sets the file_size' do
+  it "sets the file_size" do
     expect(attachment.filesize)
       .to eql file_size
   end
 
-  it 'sets the file for carrierwave' do
+  it "sets the file for carrierwave" do
     expect(attachment.file.file.path)
       .to end_with "attachment/file/#{attachment.id}/#{file_name}"
   end
 
-  it 'sets the author' do
+  it "sets the author" do
     expect(attachment.author)
       .to eql user
   end
 
-  it 'sets the digest to empty string' do
+  it "sets the digest to empty string" do
     expect(attachment.digest)
       .to eql ""
   end
 
-  it 'sets the download count to -1' do
-    expect(attachment.downloads)
-      .to be -1
+  it "sets the status to prepared" do
+    expect(attachment.status).to eq "prepared"
   end
 
-  context 'with a special character in the filename' do
+  context "with a special character in the filename" do
     let(:file_name) { "document=number 5.png" }
 
-    it 'sets the file for carrierwave' do
+    it "sets the file for carrierwave" do
       expect(attachment.file.file.path)
         .to end_with "attachment/file/#{attachment.id}/document_number_5.png"
     end

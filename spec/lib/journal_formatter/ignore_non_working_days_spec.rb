@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
-describe OpenProject::JournalFormatter::IgnoreNonWorkingDays do
+RSpec.describe OpenProject::JournalFormatter::IgnoreNonWorkingDays do
   let(:klass) { described_class }
   let(:id) { 1 }
   let(:journal) do
@@ -37,22 +37,22 @@ describe OpenProject::JournalFormatter::IgnoreNonWorkingDays do
   let(:instance) { klass.new(journal) }
   let(:key) { :ignore_non_working_days }
 
-  describe '#render' do
-    context 'when setting the old value to false, and the new value to true' do
+  describe "#render" do
+    context "when setting the old value to false, and the new value to true" do
       let(:expected) do
         I18n.t(:text_journal_set_to,
                label: "<strong>Working days</strong>",
-               value: "<i title=\"include non-working days\">include non-working days</i>")
+               value: "<i>include non-working days</i>")
       end
 
       it { expect(instance.render(key, [false, true])).to eq(expected) }
     end
 
-    context 'when setting the old value to true, and the new value to false' do
+    context "when setting the old value to true, and the new value to false" do
       let(:expected) do
         I18n.t(:text_journal_set_to,
                label: "<strong>Working days</strong>",
-               value: "<i title=\"working days only\">working days only</i>")
+               value: "<i>working days only</i>")
       end
 
       it { expect(instance.render(key, [true, false])).to eq(expected) }

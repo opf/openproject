@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'users/index', type: :view do
-  shared_let(:admin) { create :admin }
-  let!(:user) { create :user, firstname: "Scarlet", lastname: "Scallywag" }
+RSpec.describe "users/index" do
+  shared_let(:admin) { create(:admin) }
+  let!(:user) { create(:user, firstname: "Scarlet", lastname: "Scallywag") }
 
   before do
     User.system # create system user which is active but should not count towards limit
@@ -40,14 +40,13 @@ describe 'users/index', type: :view do
     assign(:groups, Group.all)
 
     allow(view).to receive(:current_user).and_return(admin)
-
-    allow_any_instance_of(TableCell).to receive(:controller_name).and_return("users")
-    allow_any_instance_of(TableCell).to receive(:action_name).and_return("index")
+    allow(view).to receive(:controller_name).and_return("users")
+    allow(view).to receive(:action_name).and_return("index")
   end
 
   subject { rendered.squish }
 
-  it 'renders the user table' do
+  it "renders the user table" do
     render
 
     expect(subject).to have_text("#{admin.firstname}   #{admin.lastname}")
@@ -71,7 +70,7 @@ describe 'users/index', type: :view do
     it "does not show the current number of active and allowed users" do
       render
 
-      expect(subject).not_to have_text("booked active users")
+      expect(subject).to have_no_text("booked active users")
     end
   end
 end

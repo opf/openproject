@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Utilities::PathHelper do
+RSpec.describe API::V3::Utilities::PathHelper do
   let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
 
-  describe '#budget' do
+  describe "#budget" do
     subject { helper.budget 42 }
 
-    it { is_expected.to eql('/api/v3/budgets/42') }
+    it { is_expected.to eql("/api/v3/budgets/42") }
   end
 
-  describe '#budget' do
+  describe "#budget" do
     subject { helper.budget 42 }
 
-    it { is_expected.to eql('/api/v3/budgets/42') }
+    it { is_expected.to eql("/api/v3/budgets/42") }
   end
 
-  describe '#budgets_by_project' do
+  describe "#budgets_by_project" do
     subject { helper.budgets_by_project 42 }
 
-    it { is_expected.to eql('/api/v3/projects/42/budgets') }
+    it { is_expected.to eql("/api/v3/projects/42/budgets") }
   end
 
-  describe '#attachments_by_budget' do
+  describe "#attachments_by_budget" do
     subject { helper.attachments_by_budget 42 }
 
-    it { is_expected.to eql('/api/v3/budgets/42/attachments') }
+    it { is_expected.to eql("/api/v3/budgets/42/attachments") }
   end
 end

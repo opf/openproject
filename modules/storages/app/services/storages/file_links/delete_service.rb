@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,17 @@
 module Storages
   module FileLinks
     class DeleteService < ::BaseServices::Delete
+      def after_perform(service_result)
+        container = service_result.result.container
+
+        # No need to continue if container isn't journaled.
+        return service_result unless container&.class&.journaled?
+
+        # We don't care if the journal creation fails for now.
+        container.save_journals
+
+        service_result
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,56 +26,61 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-shared_examples_for 'placeholder user contract' do
-  let(:placeholder_user_name) { 'UX Designer' }
+RSpec.shared_examples_for "placeholder user contract" do
+  let(:placeholder_user_name) { "UX Designer" }
 
-  context 'when user with global permission' do
-    let(:current_user) { create(:user, global_permission: %i[manage_placeholder_user]) }
+  context "when user with global permission" do
+    let(:current_user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    it_behaves_like 'contract is valid'
+    it_behaves_like "contract is valid"
   end
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  describe 'validations' do
-    let(:current_user) { build_stubbed :admin }
+  describe "validations" do
+    let(:current_user) { build_stubbed(:admin) }
 
-    context 'name' do
-      context 'is valid' do
-        it_behaves_like 'contract is valid'
+    context "name" do
+      context "is valid" do
+        it_behaves_like "contract is valid"
       end
 
-      context 'is not too long' do
-        let(:placeholder_user) { PlaceholderUser.new(name: 'X' * 257) }
+      context "is not too long" do
+        let(:placeholder_user) { PlaceholderUser.new(name: "X" * 257) }
 
-        it_behaves_like 'contract is invalid'
+        it_behaves_like "contract is invalid"
       end
 
-      context 'is not empty' do
-        let(:placeholder_user) { PlaceholderUser.new(name: '') }
+      context "is not empty" do
+        let(:placeholder_user) { PlaceholderUser.new(name: "") }
 
-        it_behaves_like 'contract is invalid'
+        it_behaves_like "contract is invalid"
       end
 
-      context 'is unique' do
+      context "is unique" do
         before do
           PlaceholderUser.create(name: placeholder_user_name)
         end
 
-        it_behaves_like 'contract is invalid'
+        it_behaves_like "contract is invalid"
       end
     end
 
-    describe 'type' do
-      context 'type and class mismatch' do
+    describe "type" do
+      context "type and class mismatch" do
         before do
           placeholder_user.type = User.name
         end
 
-        it_behaves_like 'contract is invalid'
+        it_behaves_like "contract is invalid"
       end
     end
+  end
+
+  include_examples "contract reuses the model errors" do
+    let(:current_user) { build_stubbed(:admin) }
   end
 end

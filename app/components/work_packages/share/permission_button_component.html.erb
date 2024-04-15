@@ -1,0 +1,28 @@
+<%=
+  component_wrapper do
+    render(Primer::Alpha::ActionMenu.new(**{ select_variant: :single,
+                                             dynamic_label: true,
+                                             anchor_align: :end,
+                                             color: :subtle }.deep_merge(@system_arguments))) do |menu|
+      menu.with_show_button(data: { 'work-packages--share--bulk-selection-target': 'userRowRole',
+                                    'share-id': share.id,
+                                    'active-role-name': permission_name(active_role.builtin)}) do |button|
+        button.with_trailing_action_icon(icon: :"triangle-down")
+        permission_name(active_role.builtin)
+      end
+      options.each do |option|
+        menu.with_item(label: option[:label],
+                       href: update_path,
+                       method: :patch,
+                       active: option_active?(option),
+                       data: { value: option[:value] },
+                       form_arguments: {
+                         method: :patch,
+                         inputs: form_inputs(option[:value])
+                       }) do |item|
+          item.with_description.with_content(option[:description])
+        end
+      end
+    end
+  end
+%>

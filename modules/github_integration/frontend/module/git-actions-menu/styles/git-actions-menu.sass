@@ -1,6 +1,6 @@
 .git-actions-menu
   background-color: var(--body-background)
-  border: var(--content-default-border-width) solid var(--content-default-border-color)
+  border: 1px solid var(--color-border-muted)
   padding: 1rem 1rem 2rem 1rem
   min-width: 25rem
   box-shadow: .1em .1em .4em rgba(0,0,0,0.1)
@@ -19,7 +19,7 @@
     min-height: calc(2 * 0.65em + 0.9em + 1px)
     border-radius: 2px 0 0 2px
     padding: 0.65em
-    color: var(--gray-dark)
+    color: var(--color-fg-muted)
     white-space: pre
     resize: none
     font-size: 0.9rem
@@ -27,7 +27,7 @@
 
   .copy-button
     margin: 0
-    border: 1px solid #ccc
+    border: 1px solid var(--color-border-default)
     border-radius: 0 2px 2px 0
     vertical-align: top
     left: -1px
@@ -35,7 +35,8 @@
     font-size: 0.9rem
 
     &:hover
-      border-color: #999
+      background: var(--button--background-hover-color)
+      color: var(--button--font-color)
 
   .copy-result-message
     background-color: var(--main-menu-bg-color)
@@ -46,7 +47,7 @@
     position: absolute
     right: 0
     top: calc(2 * 0.65em + 0.9em + 1px + 9px)
-    box-shadow: 1px 1px 4px var(--gray-dark)
+    box-shadow: 1px 1px 4px var(--color-fg-muted)
     z-index: 1
 
     &:before

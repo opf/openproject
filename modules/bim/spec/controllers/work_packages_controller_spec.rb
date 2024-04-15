@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackagesController, type: :controller do
+RSpec.describe WorkPackagesController do
   before do
     login_as current_user
   end
 
-  let(:stub_project) { build_stubbed(:project, identifier: 'test_project', public: false) }
+  let(:stub_project) { build_stubbed(:project, identifier: "test_project", public: false) }
   let(:current_user) { build_stubbed(:user) }
   let(:work_packages) { [build_stubbed(:work_package)] }
 
-  describe 'index' do
+  describe "index" do
     let(:query) do
       build_stubbed(:query)
     end
 
     before do
-      allow(User.current).to receive(:allowed_to?).and_return(true)
+      mock_permissions_for(User.current, &:allow_everything)
       allow(controller).to receive(:retrieve_query).and_return(query)
     end
 
-    describe 'bcf' do
-      let(:mime_type) { 'bcf' }
+    describe "bcf" do
+      let(:mime_type) { "bcf" }
       let(:export_storage) { build_stubbed(:work_packages_export) }
 
       before do
-        service_instance = double('service_instance')
+        service_instance = double("service_instance")
 
         allow(WorkPackages::Exports::ScheduleService)
           .to receive(:new)
@@ -62,19 +62,19 @@ describe WorkPackagesController, type: :controller do
         allow(service_instance)
           .to receive(:call)
           .with(query:, mime_type: mime_type.to_sym, params: anything)
-          .and_return(ServiceResult.failure(result: 'uuid of the export job'))
+          .and_return(ServiceResult.failure(result: "uuid of the export job"))
       end
 
-      it 'redirects to the export' do
-        get 'index', params: { format: 'bcf' }
-        expect(response).to redirect_to job_status_path('uuid of the export job')
+      it "redirects to the export" do
+        get "index", params: { format: "bcf" }
+        expect(response).to redirect_to job_status_path("uuid of the export job")
       end
 
-      context 'with json accept' do
-        it 'fulfills the defined should_receives' do
-          request.headers['Accept'] = 'application/json'
-          get 'index', params: { format: 'bcf' }
-          expect(response.body).to eq({ job_id: 'uuid of the export job' }.to_json)
+      context "with json accept" do
+        it "fulfills the defined should_receives" do
+          request.headers["Accept"] = "application/json"
+          get "index", params: { format: "bcf" }
+          expect(response.body).to eq({ job_id: "uuid of the export job" }.to_json)
         end
       end
     end

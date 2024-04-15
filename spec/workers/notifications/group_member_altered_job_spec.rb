@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Notifications::GroupMemberAlteredJob, type: :model do
+RSpec.describe Notifications::GroupMemberAlteredJob, type: :model do
   subject(:service_call) do
     described_class.new.perform(current_user, members_ids, message, send_notification)
   end
@@ -56,7 +56,7 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
       .and_return(members)
   end
 
-  it 'sends a created notification for the membership with the matching timestamps' do
+  it "sends a created notification for the membership with the matching timestamps" do
     service_call
 
     expect(OpenProject::Notifications)
@@ -64,7 +64,7 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
       .with(OpenProject::Events::MEMBER_CREATED, member: member1, message:, send_notifications: send_notification)
   end
 
-  it 'sends an updated notification for the membership with the mismatching timestamps' do
+  it "sends an updated notification for the membership with the mismatching timestamps" do
     service_call
 
     expect(OpenProject::Notifications)
@@ -72,7 +72,7 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
       .with(OpenProject::Events::MEMBER_UPDATED, member: member2, message:, send_notifications: send_notification)
   end
 
-  it 'propagates the given current user when sending notifications' do
+  it "propagates the given current user when sending notifications" do
     captured_current_user = nil
     allow(OpenProject::Notifications)
       .to receive(:send) do |_args|

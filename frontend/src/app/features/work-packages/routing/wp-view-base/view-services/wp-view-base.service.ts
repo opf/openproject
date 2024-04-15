@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import {
   combine, deriveRaw, input, State,
-} from 'reactivestates';
+} from '@openproject/reactivestates';
 import { map, mapTo, take } from 'rxjs/operators';
 import { merge, Observable } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';

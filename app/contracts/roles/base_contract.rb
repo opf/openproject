@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,15 +32,27 @@ module Roles
 
     validate :check_permission_prerequisites
 
-    def assignable_permissions
+    def assignable_permissions(keep_public: false)
       if model.is_a?(GlobalRole)
         assignable_global_permissions
+      elsif model.is_a?(WorkPackageRole)
+        assignable_work_package_permissions
       else
         assignable_member_permissions
+      end.reject do |permission|
+        !keep_public && permission.public?
       end
     end
 
     private
+
+    def assignable_global_permissions
+      OpenProject::AccessControl.global_permissions
+    end
+
+    def assignable_work_package_permissions
+      OpenProject::AccessControl.work_package_permissions
+    end
 
     def assignable_member_permissions
       permissions_to_remove = case model.builtin
@@ -52,14 +64,7 @@ module Roles
                                 []
                               end
 
-      OpenProject::AccessControl.permissions -
-        OpenProject::AccessControl.public_permissions -
-        OpenProject::AccessControl.global_permissions -
-        permissions_to_remove
-    end
-
-    def assignable_global_permissions
-      OpenProject::AccessControl.global_permissions
+      OpenProject::AccessControl.project_permissions - permissions_to_remove
     end
 
     def check_permission_prerequisites

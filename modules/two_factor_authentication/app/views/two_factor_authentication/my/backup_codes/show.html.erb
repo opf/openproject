@@ -1,4 +1,3 @@
-<%= render partial: '/two_factor_authentication/header_tags' %>
 <% html_title(t(:label_my_account), t('two_factor_authentication.backup_codes.plural')) -%>
 
 <h1>
@@ -20,20 +19,31 @@
 <div class="two-factor-authentication--backup-codes">
   <ul>
     <% @backup_codes.each do |code| %>
-    <li><%= code %></li>
+      <li><%= code %></li>
     <% end %>
   </ul>
 </div>
 
 <hr class="hide-when-print"/>
 
-<div class="two-factor-authentication--backup-actions">
-  <a id="download_2fa_backup_codes" class="button hide-when-print">
+<div
+  data-controller="two-factor-authentication"
+  data-application-target="dynamic"
+>
+  <%= content_tag :a,
+                  id: 'download_2fa_backup_codes',
+                  class: "button hide-when-print",
+                  download: 'backup-codes.txt',
+                  href: "data:text/plain;charset=utf-8,#{CGI.escape(@backup_codes.join("\n"))}" do %>
     <%= op_icon 'button--icon icon-save' %>
     <span class="button--text"><%= t(:button_download) %></span>
-  </a>
-  <button id="print_2fa_backup_codes" class="button hide-when-print">
-      <%= op_icon 'button--icon icon-print' %>
-      <span class="button--text"><%= t(:button_print) %></span>
-    </button>
+  <% end %>
+  <button
+    id="print_2fa_backup_codes"
+    class="button hide-when-print"
+    data-action="two-factor-authentication#print"
+  >
+    <%= op_icon 'button--icon icon-print' %>
+    <span class="button--text"><%= t(:button_print) %></span>
+  </button>
 </div>

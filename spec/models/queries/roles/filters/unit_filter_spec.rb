@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Roles::Filters::UnitFilter, type: :model do
-  it_behaves_like 'basic query filter' do
+RSpec.describe Queries::Roles::Filters::UnitFilter do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :unit }
     let(:type) { :list }
     let(:model) { Role }
   end
 
-  it_behaves_like 'list query filter', scope: false do
+  it_behaves_like "list query filter", scope: false do
     let(:attribute) { :type }
     let(:model) { Role }
-    let(:valid_values) { ['project'] }
+    let(:valid_values) { ["project"] }
 
-    describe '#scope' do
-      context 'for the system value' do
-        let(:values) { ['system'] }
+    describe "#scope" do
+      context "for the system value" do
+        let(:values) { ["system"] }
 
         context 'for "="' do
-          let(:operator) { '=' }
+          let(:operator) { "=" }
 
-          it 'is the same as handwriting the query' do
+          it "is the same as handwriting the query" do
             expected = model
                        .where(["roles.type = ?", GlobalRole.name]) # rubocop:disable Rails/WhereEquals
 
@@ -56,9 +56,9 @@ describe Queries::Roles::Filters::UnitFilter, type: :model do
         end
 
         context 'for "!"' do
-          let(:operator) { '!' }
+          let(:operator) { "!" }
 
-          it 'is the same as handwriting the query' do
+          it "is the same as handwriting the query" do
             expected = model
                        .where(["roles.type != ?", GlobalRole.name]) # rubocop:disable Rails/WhereNot
 
@@ -67,26 +67,26 @@ describe Queries::Roles::Filters::UnitFilter, type: :model do
         end
       end
 
-      context 'for the project value' do
-        let(:values) { ['project'] }
+      context "for the project value" do
+        let(:values) { ["project"] }
 
         context 'for "="' do
-          let(:operator) { '=' }
+          let(:operator) { "=" }
 
-          it 'is the same as handwriting the query' do
+          it "is the same as handwriting the query" do
             expected = model
-                       .where(["roles.type = ? AND roles.builtin = ?", Role.name, Role::NON_BUILTIN])
+                       .where(["roles.type = ? AND roles.builtin = ?", ProjectRole.name, Role::NON_BUILTIN])
 
             expect(instance.scope.to_sql).to eql expected.to_sql
           end
         end
 
         context 'for "!"' do
-          let(:operator) { '!' }
+          let(:operator) { "!" }
 
-          it 'is the same as handwriting the query' do
+          it "is the same as handwriting the query" do
             expected = model
-                       .where(["roles.type != ?", Role.name]) # rubocop:disable Rails/WhereNot
+                       .where(["roles.type != ?", ProjectRole.name]) # rubocop:disable Rails/WhereNot
 
             expect(instance.scope.to_sql).to eql expected.to_sql
           end

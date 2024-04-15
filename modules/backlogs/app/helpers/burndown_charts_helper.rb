@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ module BurndownChartsHelper
 
     labels << "[#{mvalue * 25}, '<span class=\"axislabel\">#{I18n.t('backlogs.points')}</span>']"
 
-    result = labels.join(', ')
+    result = labels.join(", ")
 
     result.html_safe
   end
@@ -51,7 +51,7 @@ module BurndownChartsHelper
       if (i % entries_displayed) == 0
         "[#{i + 1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])} #{d.strftime('%d/%m')}']"
       end
-    end.join(',').html_safe +
+    end.join(",").html_safe +
              ", [#{burndown.days.length + 1},
               '<span class=\"axislabel\">#{I18n.t('backlogs.date')}</span>']".html_safe
   end
@@ -60,7 +60,7 @@ module BurndownChartsHelper
     dataset = {}
     burndown.series.each do |s|
       dataset[s.first] = {
-        label: I18n.t('backlogs.' + s.first.to_s),
+        label: I18n.t("backlogs." + s.first.to_s),
         data: s.last.enum_for(:each_with_index).map { |val, i| [i + 1, val] }
       }
     end
@@ -69,7 +69,7 @@ module BurndownChartsHelper
   end
 
   def burndown_series_checkboxes(burndown)
-    boxes = ''
+    boxes = ""
     burndown.series(:all).map { |s| s.first.to_s }.sort.each do |series|
       boxes += "<input class=\"series_enabled\" type=\"checkbox\" id=\"#{series}\" name=\"#{series}\" value=\"#{series}\" checked>#{I18n.t('backlogs.' + series.to_s)}<br/>"
     end

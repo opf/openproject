@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%=
       link_to(
         { action: 'reset_token' },
-        class: 'button -alt-highlight',
+        class: 'button -primary',
         aria: {label: label},
         title: label
       ) do
@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
       link_to(
         { action: 'delete_token' },
         method: :post,
-        class: 'button -alt-highlight',
+        class: 'button -primary',
         aria: {label: label},
         title: label
       ) do
@@ -76,7 +76,7 @@ See COPYRIGHT and LICENSE files for more details.
       <ul>
         <% Token::Backup.all.includes(:user).each do |token| %>
           <li>
-            <% if current_user.allowed_to_globally?(:manage_user) %>
+            <% if current_user.allowed_globally?(:manage_user) %>
               <%= link_to token.user.name, edit_user_path(token.user) %>
             <% else %>
               <%= token.user.name %>

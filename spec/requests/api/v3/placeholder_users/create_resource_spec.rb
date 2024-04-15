@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,32 +25,31 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
-require_relative './create_shared_examples'
+require "spec_helper"
+require "rack/test"
+require_relative "create_shared_examples"
 
-describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-         'create',
-         type: :request do
+RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+               "create" do
   current_user { user }
 
-  describe 'admin user' do
+  describe "admin user" do
     let(:user) { build(:admin) }
 
-    it_behaves_like 'create placeholder user request flow'
+    it_behaves_like "create placeholder user request flow"
   end
 
-  describe 'user with manage_placeholder_user permission' do
-    let(:user) { create(:user, global_permission: %i[manage_placeholder_user]) }
+  describe "user with manage_placeholder_user permission" do
+    let(:user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    it_behaves_like 'create placeholder user request flow'
+    it_behaves_like "create placeholder user request flow"
   end
 
-  describe 'unauthorized user' do
-    include_context 'create placeholder user request context'
+  describe "unauthorized user" do
+    include_context "create placeholder user request context"
     let(:user) { build(:user) }
 
-    it 'returns an erroneous response' do
+    it "returns an erroneous response" do
       send_request
       expect(last_response.status).to eq(403)
     end

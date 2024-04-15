@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,39 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# This class provides definitions for API routes and endpoints for the storages namespace. It inherits the
-# functionality from the Grape REST API framework. It is mounted in lib/api/v3/root.rb.
-# `modules/storages/lib/` is a defined root directory for grape, providing a root level look up for the namespaces.
-# Hence, the modules of the class have to be represented in the directory structure.
-
-# OpenProjectAPI is a simple subclass of Grape::API that handles patches.
 class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
-  # helpers is defined by the grape framework. They make methods from the
-  # module available from within the endpoint context.
   helpers Storages::Peripherals::Scopes
 
-  # The `:resources` keyword defines the API namespace -> /api/v3/storages/...
   resources :storages do
-    # post &::API::V3::Storages::CreateEndpoint.new(model: ::Storages::Storage).mount
     post &API::V3::Utilities::Endpoints::Create.new(model: Storages::Storage).mount
 
-    # `route_param` extends the route by a route parameter of the endpoint.
-    # The input parameter value is parsed into the `:storage_id` symbol.
-    route_param :storage_id, type: Integer, desc: 'Storage id' do
-      # Execute the do...end lines after parameter validation but before the actual
-      # call to the API method.
-      # Please see: The after_validation call-back in Grape:
-      # https://github.com/ruby-grape/grape#before-after-and-finally
+    get &API::V3::Utilities::Endpoints::Index.new(model: Storages::Storage, scope: -> { visible_storages }).mount
+
+    route_param :storage_id, type: Integer, desc: "Storage id" do
       after_validation do
         @storage = visible_storages.find(params[:storage_id])
       end
 
-      # A helper is used to define the behaviour at GET /api/v3/storages/:storage_id
-      # The endpoint helper standardizes a lot of the parsing, validation and rendering logic.
-      # the `mount` method from the endpoint returns a proc. This proc is
-      # passed as a block to the `get` helper thanks to the `&` operator.
-      # The block will get called everytime a GET request is sent to this
-      # route.
       get &API::V3::Utilities::Endpoints::Show.new(model: Storages::Storage).mount
 
       patch &API::V3::Utilities::Endpoints::Update.new(model: Storages::Storage).mount
@@ -67,6 +49,7 @@ class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
 
       mount API::V3::StorageFiles::StorageFilesAPI
       mount API::V3::OAuthClient::OAuthClientCredentialsAPI
+      mount API::V3::Storages::StorageOpenAPI
     end
   end
 end

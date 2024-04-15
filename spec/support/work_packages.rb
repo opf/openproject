@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ def become_member_with_permissions(permissions)
   let(:current_user) { create(:user) }
 
   before do
-    role = create(:role, permissions:)
+    role = create(:project_role, permissions:)
 
     member = build(:member, user: current_user, project:)
     member.roles = [role]
@@ -60,29 +60,4 @@ end
 
 def become_member_with_move_work_package_permissions
   become_member_with_permissions [:move_work_packages]
-end
-
-def build_work_package_hierarchy(data, *attributes, parent: nil, shared_attributes: {})
-  work_packages = []
-
-  Array(data).each do |attr|
-    if attr.is_a? Hash
-      parent_wp = create(
-        :work_package, shared_attributes.merge(**attributes.zip(attr.keys.first).to_h)
-      )
-
-      work_packages << parent_wp
-      work_packages += build_work_package_hierarchy(
-        attr.values.first, *attributes, parent: parent_wp, shared_attributes:
-      )
-    else
-      wp = create :work_package, shared_attributes.merge(**attributes.zip(attr).to_h)
-
-      parent.children << wp if parent
-
-      work_packages << wp
-    end
-  end
-
-  work_packages
 end

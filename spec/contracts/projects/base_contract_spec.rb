@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Projects::BaseContract do
-  let(:project) { Project.new(name: 'Foo', identifier: 'foo', templated: false) }
+RSpec.describe Projects::BaseContract do
+  let(:project) { Project.new(name: "Foo", identifier: "foo", templated: false) }
   let(:contract) { described_class.new(project, current_user) }
 
   subject { contract.validate }
 
-  describe 'templated attribute' do
+  describe "templated attribute" do
     before do
       # Assume the user may manage the project
       allow(contract)
@@ -47,21 +47,21 @@ describe Projects::BaseContract do
       expect(project.templated_changed?).to be true
     end
 
-    context 'as admin' do
-      let(:current_user) { build_stubbed :admin }
+    context "as admin" do
+      let(:current_user) { build_stubbed(:admin) }
 
-      it 'validates the contract' do
+      it "validates the contract" do
         expect(subject).to be true
       end
     end
 
-    context 'as regular user' do
-      let(:current_user) { build_stubbed :user }
+    context "as regular user" do
+      let(:current_user) { build_stubbed(:user) }
 
-      it 'returns an error on validation' do
+      it "returns an error on validation" do
         expect(subject).to be false
         expect(contract.errors.symbols_for(:templated))
-          .to match_array [:error_unauthorized]
+          .to contain_exactly(:error_unauthorized)
       end
     end
   end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -88,6 +88,8 @@ export class QueryResource extends HalResource {
 
   public timelineLabels:TimelineLabels;
 
+  public timestamps:string[];
+
   public showHierarchies:boolean;
 
   public public:boolean;
@@ -117,6 +119,7 @@ export class QueryResource extends HalResource {
 
 export interface QueryResourceLinks {
   updateImmediately?(attributes:any):Promise<any>;
+  icalUrl(payload:unknown):Promise<{ icalUrl:{ href:string } }>;
 }
 
 export interface QueryResource extends QueryResourceLinks {}

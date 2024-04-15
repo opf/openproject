@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def filter_column
-      'storage_id'
+      "storage_id"
     end
 
     def permission
@@ -43,7 +43,7 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def joins
-      [:file_links, { project: :projects_storages }]
+      [:file_links, { project: :project_storages }]
     end
 
     def additional_where_condition

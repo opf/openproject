@@ -11,7 +11,7 @@ Please first check whether this guide applies to you at all. Only PostgreSQL ins
 
 To do that, please run the following command:
 
-```bash
+```shell
 sudo cat /etc/openproject/installer.dat | grep postgres/autoinstall
 ```
 
@@ -30,14 +30,14 @@ For the documentation parts titled RedHat/CentOS RedHat Enterprise Linux 8 was u
 
 For Debian/Ubuntu:
 
-```bash
+```shell
 sudo cat /var/lib/postgresql/10/main/PG_VERSION
 10
 ```
 
 For RedHat/CentOS:
 
-```bash
+```shell
 sudo cat /var/lib/pgsql/10/data/PG_VERSION 
 10
 ```
@@ -48,14 +48,14 @@ sudo cat /var/lib/pgsql/10/data/PG_VERSION
 
 For Debian/Ubuntu:
 
-```bash
+```shell
 sudo apt-get update
 sudo apt-get install postgresql-13
 ```
 
 For RedHat/CentOS:
 
-```bash
+```shell
 sudo yum install pgsql13
 sudo /usr/bin/postgresql-13-setup initdb
 ```
@@ -66,14 +66,14 @@ sudo /usr/bin/postgresql-13-setup initdb
 
 For Debian/Ubuntu:
 
-```bash
+```shell
 sudo su - postgres -c "/usr/lib/postgresql/10/bin/pg_ctl stop --wait --pgdata=/var/lib/postgresql/10/main"
 sudo su - postgres -c "/usr/lib/postgresql/13/bin/pg_ctl stop --wait --pgdata=/var/lib/postgresql/13/main"
 ```
 
 For RedHat/CentOS:
 
-```bash
+```shell
 sudo su - postgres -c "/usr/pgsql-10/bin/pg_ctl stop --wait --pgdata=/var/lib/pgsql/10/data"
 sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl stop --wait --pgdata=/var/lib/pgsql/13/data"
 ```
@@ -84,7 +84,7 @@ sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl stop --wait --pgdata=/var/lib/pg
 
 For Debian/Ubuntu:
 
-```bash
+```shell
 sudo su - postgres <<CMD
 /usr/lib/postgresql/13/bin/pg_upgrade \
   --old-bindir=/usr/lib/postgresql/10/bin \
@@ -98,7 +98,7 @@ CMD
 
 For RedHat/CentOS:
 
-```bash
+```shell
 sudo su - postgres <<CMD
 /usr/pgsql-13/bin/pg_upgrade \
   --old-bindir=/usr/pgsql-10/bin \
@@ -116,7 +116,7 @@ CMD
 
 For Debian/Ubuntu:
 
-```bash
+```shell
 sudo su - postgres -c "cp /etc/postgresql/{10,13}/main/conf.d/custom.conf"
 sudo su - postgres -c "sed -i 's|45432|45433|' /etc/postgresql/10/main/conf.d/custom.conf"
 sudo su - postgres -c "/usr/lib/postgresql/13/bin/pg_ctl start --wait --pgdata=/var/lib/postgresql/13/main -o '-c config_file=/etc/postgresql/13/main/postgresql.conf'"
@@ -124,7 +124,7 @@ sudo su - postgres -c "/usr/lib/postgresql/13/bin/pg_ctl start --wait --pgdata=/
 
 For RedHat/CentOS:
 
-```bash
+```shell
 sudo su - postgres -c "mkdir -p /var/lib/pgsql/13/data/conf.d"
 
 sudo su - postgres -c "vi /var/lib/pgsql/13/data/postgresql.conf"
@@ -160,14 +160,14 @@ postgres=# \q
 
 For Debian/Ubuntu:
 
-```bash
+```shell
 sudo rm -rf /var/lib/postgresql/10/main
 sudo apt-get purge postgresql-10
 ```
 
 For RedHat/CentOS:
 
-```bash
+```shell
 sudo rm -rf /var/lib/pgsql/10/data
 sudo yum remove pgsql10
 ```
@@ -177,7 +177,7 @@ sudo yum remove pgsql10
 > Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#one-container-per-process-recommended).
 > Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 
-You can find the upgrade instructions for your docker-compose setup in the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stable/12/compose/control/README.md#upgrade) repository.
+You can find the upgrade instructions for your docker-compose setup in the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stable/13/compose/control/README.md#upgrade) repository.
 
 Remember that you need to have checked out that repository and work in the `compose` directory for the instructions to work.
 
@@ -192,17 +192,17 @@ Then the goal is to take this folder, and apply `pg_upgrade` on it. This will ge
 
 First, ensure that you have stopped your container:
 
-```bash
+```shell
 docker stop openproject
 ```
 
 Once the docker has stopped, you are ready to run the upgrade command. In this case, we assume that your existing PostgreSQL data is stored on the host at `/var/lib/openproject/pgdata`. We will also map a local folder named `/var/lib/openproject/pgdata-next` to a special volume in the container, named `/var/openproject/pgdata-next`. This volume will contain the upgraded cluster:
 
-```bash
+```shell
 docker run --rm -it \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/pgdata-next:/var/openproject/pgdata-next \
-  openproject/community:12 root ./docker/prod/postgres-db-upgrade
+  openproject/community:13 root ./docker/prod/postgres-db-upgrade
 ```
 
 If everything goes well, the process should end with a message as follows:
@@ -220,7 +220,7 @@ Running this script will delete the old cluster's data files:
 
 You can then perform the following operation to switch the upgraded PostgreSQL with the older version:
 
-```bash
+```shell
 sudo mv /var/lib/openproject/pgdata /var/lib/openproject/pgdata-prev
 sudo mv /var/lib/openproject/pgdata-next /var/lib/openproject/pgdata
 ```
@@ -231,17 +231,17 @@ docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   [...]
-  openproject/community:12
+  openproject/community:13
 
 If your new installation looks fine, you can then choose to remove `/var/lib/openproject/pgdata-prev`:
 
-```bash
+```shell
 sudo rm -rf /var/lib/openproject/pgdata-prev
 ```
 
 If you encounter an issue, you can switch back to the previous PostgreSQL folder by reverting the folder switch:
 
-```bash
+```shell
 sudo mv /var/lib/openproject/pgdata /var/lib/openproject/pgdata-next
 sudo mv /var/lib/openproject/pgdata-prev /var/lib/openproject/pgdata
 ```
@@ -254,7 +254,7 @@ After an upgrade of PostgreSQL, we strongly recommend running the following SQL 
 
 For that, open a database console. On a packaged installation, this is the way to do it:
 
-```
+```shell
 psql $(openproject config:get DATABASE_URL)
 ```
 

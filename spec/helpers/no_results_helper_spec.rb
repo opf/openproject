@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe NoResultsHelper do
+RSpec.describe NoResultsHelper do
   before do
-    allow(helper).to receive(:t).with('.no_results_title_text', cascade: true).and_return("Nothing here!")
-    allow(helper).to receive(:t).with('.no_results_content_text').and_return("Add some foo")
+    allow(helper).to receive(:t).with(".no_results_title_text", cascade: true).and_return("Nothing here!")
+    allow(helper).to receive(:t).with(".no_results_content_text").and_return("Add some foo")
   end
 
-  describe '#no_results_box' do
+  describe "#no_results_box" do
     it "contains the just the title" do
-      expect(helper.no_results_box).to have_content 'Nothing here!'
-      expect(helper.no_results_box).not_to have_link 'Add some foo'
+      expect(helper.no_results_box).to have_content "Nothing here!"
+      expect(helper.no_results_box).to have_no_link "Add some foo"
     end
 
     it "contains the title and content link" do
       no_results_box = helper.no_results_box(action_url: root_path,
                                              display_action: true)
 
-      expect(no_results_box).to have_content 'Nothing here!'
-      expect(no_results_box).to have_link 'Add some foo', href: '/'
+      expect(no_results_box).to have_content "Nothing here!"
+      expect(no_results_box).to have_link "Add some foo", href: "/"
     end
 
-    it 'contains title and content_link with custom text' do
+    it "contains title and content_link with custom text" do
       no_results_box = helper.no_results_box(action_url: root_path,
                                              display_action: true,
-                                             custom_title: 'This is a different title about foo',
-                                             custom_action_text: 'Link to nowhere')
+                                             custom_title: "This is a different title about foo",
+                                             custom_action_text: "Link to nowhere")
 
-      expect(no_results_box).to have_content 'This is a different title about foo'
-      expect(no_results_box).to have_link 'Link to nowhere', href: '/'
+      expect(no_results_box).to have_content "This is a different title about foo"
+      expect(no_results_box).to have_link "Link to nowhere", href: "/"
     end
   end
 end

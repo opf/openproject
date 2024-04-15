@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,11 +32,12 @@ module Queries
       class AncestorFilter < ::Queries::Projects::Filters::ProjectFilter
         def scope
           case operator
-          when '='
-            Project.joins(join_specific_ancestor_projects.join_sources)
-          when '!'
-            Project.joins(left_join_ancestor_projects.join_sources)
-                   .where(ancestor_not_in_values_condition)
+          when "="
+            Project
+              .where(exists_condition.exists)
+          when "!"
+            Project
+              .where.not(exists_condition.exists)
           else
             raise "unsupported operator"
           end
@@ -60,21 +61,10 @@ module Queries
           @type_strategy ||= ::Queries::Filters::Strategies::IntegerList.new(self)
         end
 
-        def join_specific_ancestor_projects
-          projects_table
-            .join(projects_ancestor_table)
-            .on(specific_ancestor_condition)
-        end
-
-        def left_join_ancestor_projects
-          projects_table
-            .outer_join(projects_ancestor_table)
-            .on(ancestor_condition)
-        end
-
-        def specific_ancestor_condition
-          ancestor_condition
-            .and(ancestor_in_values_condition)
+        def exists_condition
+          Project.from("#{Project.table_name} ancestors")
+                 .where(ancestor_condition.and(ancestor_in_values_condition))
+                 .arel
         end
 
         def ancestor_condition
@@ -87,18 +77,12 @@ module Queries
           projects_ancestor_table[:id].in(values)
         end
 
-        def ancestor_not_in_values_condition
-          projects_ancestor_table[:id]
-            .not_in(values)
-            .or(projects_ancestor_table[:id].eq(nil))
-        end
-
         def projects_table
           Project.arel_table
         end
 
         def projects_ancestor_table
-          projects_table.alias(:ancestor_projects)
+          projects_table.alias(:ancestors)
         end
       end
     end

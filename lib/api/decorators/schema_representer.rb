@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,12 +83,12 @@ module API
           end
 
           schema_property(property,
-                          getter,
-                          show_if,
-                          required,
-                          has_default,
-                          name_source,
-                          as)
+                          getter:,
+                          show_if:,
+                          required:,
+                          has_default:,
+                          name_source:,
+                          as:)
         end
 
         def schema_with_allowed_link(property,
@@ -112,12 +112,12 @@ module API
           end
 
           schema_property(property,
-                          getter,
-                          show_if,
-                          required,
-                          has_default,
-                          name_source,
-                          as)
+                          getter:,
+                          show_if:,
+                          required:,
+                          has_default:,
+                          name_source:,
+                          as:)
         end
 
         def schema_with_allowed_collection(property,
@@ -150,12 +150,12 @@ module API
           end
 
           schema_property(property,
-                          getter,
-                          show_if,
-                          required,
-                          has_default,
-                          name_source,
-                          as)
+                          getter:,
+                          show_if:,
+                          required:,
+                          has_default:,
+                          name_source:,
+                          as:)
         end
 
         def schema_with_allowed_string_collection(property,
@@ -189,25 +189,25 @@ module API
           end
 
           schema_property(property,
-                          getter,
-                          show_if,
-                          required,
-                          has_default,
-                          name_source,
-                          as)
+                          getter:,
+                          show_if:,
+                          required:,
+                          has_default:,
+                          name_source:,
+                          as:)
         end
 
         def schema_property(property,
-                            getter,
-                            show_if,
-                            required,
-                            has_default,
-                            name_source,
-                            property_alias)
+                            getter:,
+                            show_if:,
+                            required:,
+                            has_default:,
+                            name_source:,
+                            as:)
           raise ArgumentError unless property
 
           property property,
-                   as: property_alias,
+                   as:,
                    exec_context: :decorator,
                    getter:,
                    if: show_if,
@@ -284,7 +284,7 @@ module API
                     :self_link
 
       def _type
-        'Schema'
+        "Schema"
       end
 
       def _dependencies

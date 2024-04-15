@@ -2,6 +2,7 @@
   <display-field *ngIf="detailed"
                  [resource]="workPackage"
                  [displayFieldOptions]="{ writable: false }"
+                 containerType="single-view"
                  fieldName="status">
   </display-field>
   <display-field [resource]="workPackage"
@@ -9,6 +10,7 @@
                  fieldName="type">
   </display-field>
   <a class="work-package--quickinfo preview-trigger"
+     target="_top"
      [href]="workPackageLink"
      [attr.data-work-package-id]="workPackage.id">
     #{{workPackage.id}}:
@@ -17,17 +19,26 @@
                  [displayFieldOptions]="{ writable: false }"
                  fieldName="subject">
   </display-field>
-  <ng-container *ngIf="detailed">
+  <ng-container *ngIf="detailed && (!!workPackage.startDate || !!workPackage.dueDate || !!workPackage.date)">
     (<display-field *ngIf="!!workPackage.date"
                    [resource]="workPackage"
                    [displayFieldOptions]="{ writable: false }"
-                   fieldName="date">
+                   fieldName="date"
+                   containerType="single-view">
     </display-field>
-    <display-field *ngIf="!workPackage.date"
+    <display-field *ngIf="!!workPackage.startDate"
                    [resource]="workPackage"
                    [displayFieldOptions]="{ writable: false }"
-                   [displayClass]="dateDisplayField"
-                   fieldName="startDate">
+                   [displayClass]="combinedDateDisplayField"
+                   fieldName="startDate"
+                   containerType="single-view">
+    </display-field>
+    <display-field *ngIf="!workPackage.startDate && !!workPackage.dueDate"
+                   [resource]="workPackage"
+                   [displayFieldOptions]="{ writable: false }"
+                   [displayClass]="combinedDateDisplayField"
+                   fieldName="dueDate"
+                   containerType="single-view">
     </display-field>)
   </ng-container>
 </ng-container>
@@ -35,4 +46,3 @@
   <i class="icon icon-error"></i>
   <em [textContent]="error"></em>
 </span>
-

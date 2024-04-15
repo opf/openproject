@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module OpenProject::Reporting::SpecHelper
     def mock_cache_classes_setting_with(value)
       allow(OpenProject::Configuration).to receive(:[]).and_call_original
       allow(OpenProject::Configuration).to receive(:[])
-        .with('cost_reporting_cache_filter_classes')
+        .with("cost_reporting_cache_filter_classes")
         .and_return(value)
       allow(OpenProject::Configuration).to receive(:cost_reporting_cache_filter_classes)
         .and_return(value)

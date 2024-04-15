@@ -5,8 +5,8 @@ it:
       link_files_in_storage: "Collega file in %{storageType}"
       link_existing_files: "Collega file esistenti"
       upload_files: "Caricare i files"
-      drop_files: "Drop files here to upload them to %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      drop_files: "Rilascia qui i file per caricarli su %{name}."
+      drop_or_click_files: "Rilascia qui i file o clicca per caricarli su %{name}."
       login: "Accesso %{storageType}"
       login_to: "Accedi a %{storageType}"
       no_connection: "Nessuna connessione %{storageType}"
@@ -15,6 +15,8 @@ it:
       choose_location: "Scegli posizione"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "Archivio"
       information:
         connection_error: >
           Alcune impostazioni %{storageType} non funzionano. Contatta l'amministratore %{storageType}.
@@ -24,13 +26,30 @@ it:
         no_file_links: "Per collegare i file a questa macro-attività, farlo tramite %{storageType}."
         not_logged_in: >
           Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
+      files:
+        already_existing_header: "Questo file esiste già"
+        already_existing_body: >
+          Un file con il nome "%{fileName}" esiste già nella posizione in cui stai tentando di caricare questo file. Cosa ti piacerebbe fare?
+        directory_not_writeable: "Non hai l'autorizzazione ad aggiungere file a questa cartella."
+        dragging_many_files: "Il caricamento su %{storageType} supporta soltanto un file per volta."
+        dragging_folder: "Il caricamento in %{storageType} non supporta le cartelle."
+        empty_folder: "Questa cartella è vuota."
+        empty_folder_location_hint: "Clicca sul pulsante in basso per caricare il file in questa posizione."
+        file_not_selectable_location: "Impossibile selezionare un file durante la scelta di una posizione."
+        project_folder_no_access: >
+          Non hai accesso alla cartella del progetto. Sei pregato di contattare il tuo amministratore per ottenere l'accesso o caricare il file in un'altra posizione.
+        managed_project_folder_not_available: >
+          La cartella del progetto gestita automaticamente non è stata ancora trovata. Attendi un po', ricarica la pagina per recuperare i dati più recenti e riprova.
+        managed_project_folder_no_access: >
+          Non hai ancora accesso alla cartella del progetto gestito. Aspetta un po' e riprova.
+        upload_keep_both: "Mantieni entrambi"
+        upload_replace: "Sostituisci"
       file_links:
         empty: >
-          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+          Correntemente, non esiste alcun file collegato a questo pacchetto di lavoro. Inizia a collegare i file con l'azione seguente o dall'interno di %{storageType}.
         download: "Scarica %{fileName}"
-        no_permission: "Non hai i permessi per accedere al file."
-        open: 'Apri file su memoria'
-        open_location: 'Apri file nella posizione'
+        open: "Apri file su memoria"
+        open_location: "Apri file nella posizione"
         remove: "Rimuovi collegamento al file"
         remove_confirmation: >
           Vuoi davvero scollegare il file da questa macro-attività? Lo scollegamento non influisce sul file originale e rimuove solo la connessione a questa macro-attività.
@@ -42,8 +61,25 @@ it:
           one: "Collega %{count} files"
           other: "Collega %{number} file"
         success_create:
-          one: "Successfully created 1 file link."
-          other: "Successfully created %{count} file links."
-        not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
+          one: "1 link del file creato correttamente."
+          other: "%{count} link di file creati correttamente."
+        upload_error:
+          default: >
+            Il tuo file (%{fileName}) non può essere caricato.
+          403: >
+            Il tuo file (%{fileName}) non può essere caricato a causa di restrizioni di sistema. Per ulteriori informazioni, contatta il tuo amministratore.
+          413: >
+            Il tuo file (%{fileName}) è più grande di quello che OpenProject può caricare su %{storageType}. Puoi prima caricarlo direttamente su %{storageType} e poi collegare il file.
+          507: >
+            Il tuo file (%{fileName}) è più grande di quanto consentito dalla quota di archiviazione. Contatta il tuo amministratore per modificare questa quota.
+          detail:
+            nextcloud: >
+              Verifica che la versione più recente di "Integrazione OpenProject" di Nextcloud App sia installata e contatta il tuo amministratore per ulteriori informazioni.
+        link_uploaded_file_error: >
+          Si è verificato un errore caricando il file caricato '%{fileName}' al pacchetto di lavoro %{workPackageId}.
+        tooltip:
+          not_logged_in: "Effettua il login nella memoria per accedere a questo file."
+          view_not_allowed: "Non hai i permessi per accedere al file."
+          not_found: "Impossibile trovare questo file."
         already_linked_file: "Questo file è già collegato a questa macro-attività."
         already_linked_directory: "Questa directory è già collegata a questa macro-attività."

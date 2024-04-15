@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,13 +27,13 @@
 #++
 
 module Grids
-  class Grid < ActiveRecord::Base
+  class Grid < ApplicationRecord
     self.table_name = :grids
 
-    serialize :options, Hash
+    serialize :options, type: Hash
 
     has_many :widgets,
-             class_name: 'Widget',
+             class_name: "Widget",
              dependent: :destroy,
              autosave: true
 
@@ -45,6 +45,7 @@ module Grids
       name.presence || self.class.to_s.demodulize
     end
 
-    acts_as_attachable allow_uncontainered: false
+    acts_as_attachable allow_uncontainered: false,
+                       skip_permission_checks: true
   end
 end

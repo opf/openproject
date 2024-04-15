@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.2
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 3894b2da-6735-41c3-a0a7-ac7d5cbea072
+      Client-Request-Id:
+      - 3894b2da-6735-41c3-a0a7-ac7d5cbea072
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001EE"}}'
+      Date:
+      - Wed, 14 Feb 2024 19:22:58 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Wed, 14 Feb 2024 19:22:59 GMT
+recorded_with: VCR 6.2.0

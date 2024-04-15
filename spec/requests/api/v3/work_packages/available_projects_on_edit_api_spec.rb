@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
+RSpec.describe "API::V3::WorkPackages::AvailableProjectsOnEditAPI" do
   include API::V3::Utilities::PathHelper
 
   let(:edit_role) do
-    create(:role, permissions: %i[edit_work_packages
-                                  view_work_packages])
+    create(:project_role, permissions: %i[edit_work_packages
+                                          view_work_packages])
   end
   let(:move_role) do
-    create(:role, permissions: [:move_work_packages])
+    create(:project_role, permissions: [:move_work_packages])
   end
   let(:project) { create(:project) }
   let(:target_project) { create(:project) }
@@ -45,8 +45,7 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_through_role: edit_role).tap do |user|
+           member_with_roles: { project => edit_role }).tap do |user|
       create(:member,
              user:,
              project: target_project,
@@ -58,17 +57,17 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
     get api_v3_paths.available_projects_on_edit(work_package.id)
   end
 
-  context 'with the necessary permissions' do
-    it_behaves_like 'API V3 collection response', 1, 1, 'Project' do
+  context "with the necessary permissions" do
+    it_behaves_like "API V3 collection response", 1, 1, "Project" do
       let(:elements) { [target_project] }
     end
   end
 
-  context 'without the edit_work_packages permission' do
+  context "without the edit_work_packages permission" do
     let(:edit_role) do
-      create(:role, permissions: [:view_work_packages])
+      create(:project_role, permissions: [:view_work_packages])
     end
 
-    it_behaves_like 'unauthorized access'
+    it_behaves_like "unauthorized access"
   end
 end

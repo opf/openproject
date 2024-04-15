@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::FileLinks::FileLinksOpenAPI < ::API::OpenProjectAPI
-  helpers Storages::Peripherals::StorageUrlHelper
+class API::V3::FileLinks::FileLinksOpenAPI < API::OpenProjectAPI
+  helpers Storages::Peripherals::StorageErrorHelper
+
+  using Storages::Peripherals::ServiceResultRefinements
 
   resources :open do
     get do
-      url = storage_url_open_file(@file_link, open_location: params[:location])
-      redirect url, body: "The requested resource can be viewed at #{url}"
-      status 303 # The follow-up request to the resource must be GET
+      auth_strategy = Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+                        .strategy
+                        .with_user(current_user)
+
+      Storages::Peripherals::Registry
+        .resolve("#{@file_link.storage.short_provider_type}.queries.open_file_link")
+        .call(
+          storage: @file_link.storage,
+          auth_strategy:,
+          file_id: @file_link.origin_id,
+          open_location: ActiveModel::Type::Boolean.new.cast(params[:location])
+        )
+        .match(
+          on_success: ->(url) do
+            redirect url, body: "The requested resource can be viewed at #{url}"
+            status 303
+          end,
+          on_failure: ->(error) { raise_error(error) }
+        )
     end
   end
 end

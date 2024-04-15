@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,7 +86,7 @@ module Users::Scopes
         # to Friday.
         times_sql = arel_table
                       .grouping(Arel::Nodes::ValuesList.new(local_times))
-                      .as('t(today_local, hours, zone, workday)')
+                      .as("t(today_local, hours, zone, workday)")
 
         default_timezone = Arel::Nodes::build_quoted(Setting.user_default_timezone.presence)
 
@@ -160,7 +160,7 @@ module Users::Scopes
 
           [
             local_date,
-            local_time.strftime('%H:00:00+00:00'),
+            local_time.strftime("%H:00:00+00:00"),
             zone.tzinfo.canonical_zone.name,
             workday
           ]

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -44,6 +44,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -85,6 +86,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     readonly storeService:WpSingleViewService,
     readonly browserDetector:BrowserDetector,
     private wpSingleViewService:WpSingleViewService,
+    readonly deviceService:DeviceService,
   ) {
     super();
 
@@ -203,7 +205,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     scrollContainer.scrollTop = scrollOffset;
 
     // Make sure the scrollContainer is visible on mobile
-    if (this.comingFromNotifications) {
+    if (this.comingFromNotifications && this.deviceService.isMobile) {
       scrollContainer.scrollIntoView(true);
     }
   }

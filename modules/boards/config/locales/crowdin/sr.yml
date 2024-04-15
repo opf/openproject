@@ -1,0 +1,39 @@
+#English strings go here
+sr:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
+  permission_show_board_views: "View boards"
+  permission_manage_board_views: "Manage boards"
+  project_module_board_view: "Boards"
+  boards:
+    label_board: "Board"
+    label_boards: "Boards"
+    label_create_new_board: "Nova tabla"
+    label_board_type: "Tip table"
+    board_types:
+      free: Osnovno
+      action: "Tabla sa zadacima (%{attribute})"
+    board_type_attributes:
+      assignee: Zadužen
+      status: Status
+      version: Verzija
+      subproject: Potprojekat
+      subtasks: Parent-child
+      basic: Osnovno
+    board_type_descriptions:
+      basic: >
+        Počnite ispočetka sa praznom tablom. Na tablu, ručno dodaj kartice i kolone.
+      status: >
+        Osnovna tabla u kanban stilu, sa kolonama koje prikazuju status, kao što su: Uraditi, Tekuće, Završeno.
+      assignee: >
+        Tabla sa automatizovanim kolonama, po dodeljenim korisnicima. Idealna za otpremanje radnih paketa.
+      version: >
+        Tabla sa automatizovanim kolonama, po atributima verzije. Idealna za planiranje razvoja proizvoda.
+      subproject: >
+        Tabla sa automatizovanim kolonama za potprojekte. Prevlačenje radnog paketa na druge liste osvežava stanje potprojekta.
+      subtasks: >
+        Tabla sa automatizovanim kolonama za podelemente. Prevlačenje radnog paketa na druge liste osvežava stanje izvornog elementa.
+    upsale:
+      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      upgrade: 'Nadogradite'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,31 +33,29 @@
 # due to performance.
 # As we do not write to the repository, we don't need this kind
 # of isolation.
-def with_filesystem_repository(vendor, command = nil, &block)
+def with_filesystem_repository(vendor, command = nil)
   repo_dir = Dir.mktmpdir("#{vendor}_repository")
-  fixture = File.join(Rails.root, "spec/fixtures/repositories/#{vendor}_repository.tar.gz")
+  fixture = Rails.root.join("spec/fixtures/repositories/#{vendor}_repository.tar.gz")
 
-  ['tar', command].compact.each do |cmd|
-    # Avoid `which`, as it's not POSIX
-    Open3.capture2e(cmd, '--version')
-  rescue Errno::ENOENT
-    skip "#{cmd} was not found in PATH. Skipping local repository specs"
+  before do
+    skip_if_commands_unavailable("tar", command)
   end
 
   after(:all) do
     FileUtils.remove_dir repo_dir
   end
 
+  skip_if_command_unavailable("tar")
   system "tar -xzf #{fixture} -C #{repo_dir}"
-  block.call(repo_dir)
+  yield(repo_dir)
 end
 
 def with_subversion_repository(&)
-  with_filesystem_repository('subversion', 'svn', &)
+  with_filesystem_repository("subversion", "svn", &)
 end
 
 def with_git_repository(&)
-  with_filesystem_repository('git', 'git', &)
+  with_filesystem_repository("git", "git", &)
 end
 
 ##
@@ -66,12 +64,12 @@ end
 # no actual filesystem access occurred.
 # Instead, we wrap these repository specs in a virtual
 # subversion repository which does not exist on disk.
-def with_virtual_subversion_repository(&block)
+def with_virtual_subversion_repository
   let(:repository) { create(:repository_subversion) }
 
   before do
-    allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
+    allow(Setting).to receive(:enabled_scm).and_return(["subversion"])
   end
 
-  block.call
+  yield
 end

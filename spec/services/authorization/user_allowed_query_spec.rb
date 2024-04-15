@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Authorization::UserAllowedQuery do
-  describe '.query' do
+RSpec.describe Authorization::UserAllowedQuery do
+  describe ".query" do
     let(:user) { member.principal }
     let(:anonymous) { build(:anonymous) }
     let(:project) { build(:project, public: false) }
     let(:project2) { build(:project, public: false) }
-    let(:role) { build(:role) }
-    let(:role2) { build(:role) }
+    let(:role) { build(:project_role) }
+    let(:role2) { build(:project_role) }
     let(:anonymous_role) { build(:anonymous_role) }
     let(:non_member_role) { build(:non_member) }
     let(:member) do
@@ -54,7 +54,7 @@ describe Authorization::UserAllowedQuery do
       non_member_role.save!
     end
 
-    it 'is an AR relation' do
+    it "is an AR relation" do
       expect(described_class.query(action, project)).to be_a ActiveRecord::Relation
     end
 
@@ -68,8 +68,8 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'returns the user' do
-        expect(described_class.query(action, project)).to match_array [user]
+      it "returns the user" do
+        expect(described_class.query(action, project)).to contain_exactly(user)
       end
     end
 
@@ -80,8 +80,8 @@ describe Authorization::UserAllowedQuery do
         user.update_attribute(:admin, true)
       end
 
-      it 'returns the user' do
-        expect(described_class.query(action, project)).to match_array [user]
+      it "returns the user" do
+        expect(described_class.query(action, project)).to contain_exactly(user)
       end
     end
 
@@ -93,7 +93,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -106,7 +106,7 @@ describe Authorization::UserAllowedQuery do
         role.save!
       end
 
-      it 'returns the user' do
+      it "returns the user" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -123,7 +123,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -143,7 +143,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -154,15 +154,15 @@ describe Authorization::UserAllowedQuery do
       before do
         project.public = true
 
-        non_member = Role.non_member
+        non_member = ProjectRole.non_member
         non_member.add_permission! action
         non_member.save
 
         project.save!
       end
 
-      it 'returns the user' do
-        expect(described_class.query(action, project)).to match_array [user]
+      it "returns the user" do
+        expect(described_class.query(action, project)).to contain_exactly(user)
       end
     end
 
@@ -172,15 +172,15 @@ describe Authorization::UserAllowedQuery do
       before do
         project.public = true
 
-        anonymous_role = Role.anonymous
+        anonymous_role = ProjectRole.anonymous
         anonymous_role.add_permission! action
         anonymous_role.save
 
         project.save!
       end
 
-      it 'returns the anonymous user' do
-        expect(described_class.query(action, project)).to match_array([anonymous])
+      it "returns the anonymous user" do
+        expect(described_class.query(action, project)).to contain_exactly(anonymous)
       end
     end
 
@@ -190,14 +190,14 @@ describe Authorization::UserAllowedQuery do
       before do
         project.public = true
 
-        non_member = Role.non_member
+        non_member = ProjectRole.non_member
         non_member.add_permission! other_action
         non_member.save
 
         project.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -206,14 +206,14 @@ describe Authorization::UserAllowedQuery do
              w/o the user being member in the project
              w/ the non member role having the permission' do
       before do
-        non_member = Role.non_member
+        non_member = ProjectRole.non_member
         non_member.add_permission! action
         non_member.save
 
         project.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -229,12 +229,12 @@ describe Authorization::UserAllowedQuery do
         role.add_permission! other_action
         member.save!
 
-        non_member = Role.non_member
+        non_member = ProjectRole.non_member
         non_member.add_permission! action
         non_member.save
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to be_empty
       end
     end
@@ -247,8 +247,8 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'returns the user' do
-        expect(described_class.query(public_action, project)).to match_array [user]
+      it "returns the user" do
+        expect(described_class.query(public_action, project)).to contain_exactly(user)
       end
     end
 
@@ -261,8 +261,8 @@ describe Authorization::UserAllowedQuery do
         project.save
       end
 
-      it 'returns the user and anonymous' do
-        expect(described_class.query(public_action, project)).to match_array [user, anonymous]
+      it "returns the user and anonymous" do
+        expect(described_class.query(public_action, project)).to contain_exactly(user, anonymous)
       end
     end
 
@@ -281,7 +281,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(permission.name, project)).to eq []
       end
     end
@@ -301,7 +301,7 @@ describe Authorization::UserAllowedQuery do
         member.save!
       end
 
-      it 'returns the user' do
+      it "returns the user" do
         expect(described_class.query(permission.name, project)).to eq [user]
       end
     end
@@ -317,7 +317,7 @@ describe Authorization::UserAllowedQuery do
         project.update(active: false)
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.query(action, project)).to eq []
       end
     end

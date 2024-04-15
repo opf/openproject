@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,45 +38,164 @@
 # It defines defines checks and permissions on the Ruby level.
 # Additional attributes and constraints are defined in
 # db/migrate/20220113144323_create_storage.rb "migration".
-class Storages::Storage < ApplicationRecord
-  # One Storage can have multiple FileLinks, representing external files.
-  #
-  # FileLink deletion is done:
-  #   - through a on_delete: :cascade at the database level when deleting a
-  #     Storage
-  #   - through a before_destroy hook at the application level when deleting a
-  #     ProjectStorage
-  has_many :file_links, class_name: 'Storages::FileLink'
-  # Basically every OpenProject object has a creator
-  belongs_to :creator, class_name: 'User'
-  # A project manager can enable/disable Storages per project.
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  # We can get the list of projects with this Storage enabled.
-  has_many :projects, through: :projects_storages
-  # The OAuth client credentials that OpenProject will use to obtain user specific
-  # access tokens from the storage server, i.e a Nextcloud serer.
-  has_one :oauth_client, as: :integration, dependent: :destroy
-  has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
+module Storages
+  class Storage < ApplicationRecord
+    PROVIDER_TYPES = [
+      PROVIDER_TYPE_NEXTCLOUD = "Storages::NextcloudStorage",
+      PROVIDER_TYPE_ONE_DRIVE = "Storages::OneDriveStorage"
+    ].freeze
 
-  PROVIDER_TYPES = [
-    PROVIDER_TYPE_NEXTCLOUD = 'nextcloud'.freeze
-  ].freeze
+    PROVIDER_TYPE_SHORT_NAMES = {
+      nextcloud: PROVIDER_TYPE_NEXTCLOUD,
+      one_drive: PROVIDER_TYPE_ONE_DRIVE
+    }.with_indifferent_access.freeze
 
-  # Uniqueness - no two storages should  have the same host.
-  validates_uniqueness_of :host
-  validates_uniqueness_of :name
+    self.inheritance_column = :provider_type
 
-  # Creates a scope of all storages, which belong to a project the user is a member
-  # and has the permission ':view_file_links'
-  scope :visible, ->(user = User.current) {
-    if user.allowed_to_globally?(:manage_storages_in_project)
-      all
-    else
-      where(
-        projects_storages: ::Storages::ProjectStorage.where(
-          project: Project.allowed_to(user, :view_file_links)
+    store_attribute :provider_fields, :automatically_managed, :boolean
+    store_attribute :provider_fields, :health_notifications_enabled, :boolean, default: true
+
+    has_many :file_links, class_name: "Storages::FileLink"
+    belongs_to :creator, class_name: "User"
+    has_many :project_storages, dependent: :destroy, class_name: "Storages::ProjectStorage"
+    has_many :projects, through: :project_storages
+    has_one :oauth_client, as: :integration, dependent: :destroy
+    has_one :oauth_application, class_name: "::Doorkeeper::Application", as: :integration, dependent: :destroy
+
+    validates_uniqueness_of :host, allow_nil: true
+    validates_uniqueness_of :name
+
+    scope :visible, ->(user = User.current) do
+      if user.allowed_in_any_project?(:manage_storages_in_project)
+        all
+      else
+        where(
+          project_storages: ::Storages::ProjectStorage.where(
+            project: Project.allowed_to(user, :view_file_links)
+          )
         )
-      )
+      end
     end
-  }
+
+    scope :not_enabled_for_project, ->(project) do
+      where.not(id: project.project_storages.pluck(:storage_id))
+    end
+
+    scope :automatic_management_enabled, -> { where("provider_fields->>'automatically_managed' = 'true'") }
+
+    enum health_status: {
+      pending: "pending",
+      healthy: "healthy",
+      unhealthy: "unhealthy"
+    }.freeze, _prefix: :health
+
+    def self.shorten_provider_type(provider_type)
+      case /Storages::(?'provider_name'.*)Storage/.match(provider_type)
+      in provider_name:
+        provider_name.underscore
+      else
+        raise ArgumentError,
+              "Unknown provider_type! Given: #{provider_type}. " \
+              "Expected the following signature: Storages::{Name of the provider}Storage"
+      end
+    end
+
+    def self.one_drive_without_ee_token?(provider_type)
+      provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE &&
+        !EnterpriseToken.allows_to?(:one_drive_sharepoint_file_storage)
+    end
+
+    def self.extract_part_from_piped_string(text, index)
+      return if text.nil?
+
+      split_reason = text.split("|")
+      if split_reason.length > index
+        split_reason[index].strip
+      end
+    end
+
+    def health_notifications_should_be_sent?
+      # it is a fallback for already created storages without health_notifications_enabled configured.
+      if health_notifications_enabled.nil?
+        automatic_management_enabled?
+      else
+        health_notifications_enabled
+      end
+    end
+
+    def automatically_managed?
+      ActiveSupport::Deprecation.warn(
+        "`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. " \
+        "NOTE: The new method name better reflects the actual behavior of the storage. " \
+        "It's not the storage that is automatically managed, rather the Project (Storage) Folder is. " \
+        "A storage only has this feature enabled or disabled."
+      )
+      super
+    end
+
+    def automatic_management_enabled?
+      !!automatically_managed
+    end
+
+    def automatic_management_unspecified?
+      automatically_managed.nil?
+    end
+
+    def automatic_management_enabled=(value)
+      self.automatically_managed = value
+    end
+
+    alias automatic_management_enabled automatically_managed
+
+    def configured?
+      configuration_checks.values.all?
+    end
+
+    def configuration_checks
+      raise Errors::SubclassResponsibility
+    end
+
+    def uri
+      return unless host
+
+      @uri ||= URI(host).normalize
+    end
+
+    def connect_src
+      port_part = [80, 443].include?(uri.port) ? "" : ":#{uri.port}"
+      ["#{uri.scheme}://#{uri.host}#{port_part}"]
+    end
+
+    def oauth_configuration
+      raise Errors::SubclassResponsibility
+    end
+
+    def automatic_management_new_record?
+      raise Errors::SubclassResponsibility
+    end
+
+    def provider_fields_defaults
+      raise Errors::SubclassResponsibility
+    end
+
+    def short_provider_type
+      @short_provider_type ||= self.class.shorten_provider_type(provider_type)
+    end
+
+    def provider_type_nextcloud?
+      provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+    end
+
+    def provider_type_one_drive?
+      provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
+    end
+
+    def health_reason_identifier
+      @health_reason_identifier ||= self.class.extract_part_from_piped_string(health_reason, 0)
+    end
+
+    def health_reason_description
+      @health_reason_description ||= self.class.extract_part_from_piped_string(health_reason, 1)
+    end
+  end
 end

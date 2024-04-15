@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_context 'grid contract' do
+RSpec.shared_context "grid contract" do
   let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(grid, user) }
   let(:project) { build_stubbed(:project) }
@@ -45,39 +45,38 @@ shared_context 'grid contract' do
   let(:permissions) { %i[manage_dashboards save_queries manage_public_queries] }
 
   before do
-    allow(user)
-      .to receive(:allowed_to?) do |permission, context|
-      project == context && permissions.include?(permission)
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project *permissions, project:
     end
   end
 end
 
-shared_examples_for 'shared grid contract attributes' do
-  include_context 'model contract'
+RSpec.shared_examples_for "shared grid contract attributes" do
+  include_context "model contract"
   let(:model) { grid }
 
-  it 'is valid' do
+  it "is valid" do
     expect(instance.validate)
       .to be_truthy
   end
 
-  context 'if not having the manage_dashbaords permission' do
+  context "if not having the manage_dashbaords permission" do
     let(:permissions) { %i[save_queries] }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect(instance.validate)
         .to be_falsey
     end
 
-    it 'notes the error' do
+    it "notes the error" do
       instance.validate
       expect(instance.errors.details[:scope])
-        .to match_array [{ error: :inclusion }]
+        .to contain_exactly({ error: :inclusion })
     end
   end
 
-  describe 'widgets' do
-    it_behaves_like 'is writable' do
+  describe "widgets" do
+    it_behaves_like "is writable" do
       let(:attribute) { :widgets }
       let(:value) do
         [
@@ -85,236 +84,236 @@ shared_examples_for 'shared grid contract attributes' do
                             end_row: 4,
                             start_column: 2,
                             end_column: 5,
-                            identifier: 'work_packages_table')
+                            identifier: "work_packages_table")
         ]
       end
     end
 
-    context 'invalid identifier' do
+    context "invalid identifier" do
       before do
         grid.widgets.build(start_row: 1,
                            end_row: 4,
                            start_column: 2,
                            end_column: 5,
-                           identifier: 'bogus_identifier')
+                           identifier: "bogus_identifier")
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance.validate)
           .to be_falsey
       end
 
-      it 'notes the error' do
+      it "notes the error" do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :inclusion }]
+          .to contain_exactly({ error: :inclusion })
       end
     end
 
-    context 'collisions between widgets' do
+    context "collisions between widgets" do
       before do
         grid.widgets.build(start_row: 1,
                            end_row: 3,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
         grid.widgets.build(start_row: 2,
                            end_row: 4,
                            start_column: 2,
                            end_column: 4,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance.validate)
           .to be_falsey
       end
 
-      it 'notes the error' do
+      it "notes the error" do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :overlaps }, { error: :overlaps }]
+          .to contain_exactly({ error: :overlaps }, { error: :overlaps })
       end
     end
 
-    context 'widgets having the same start column as another\'s end column' do
+    context "widgets having the same start column as another's end column" do
       before do
         grid.widgets.build(start_row: 1,
                            end_row: 3,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
         grid.widgets.build(start_row: 1,
                            end_row: 3,
                            start_column: 3,
                            end_column: 4,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is valid' do
+      it "is valid" do
         expect(instance.validate)
           .to be_truthy
       end
     end
 
-    context 'widgets having the same start row as another\'s end row' do
+    context "widgets having the same start row as another's end row" do
       before do
         grid.widgets.build(start_row: 1,
                            end_row: 3,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
         grid.widgets.build(start_row: 3,
                            end_row: 4,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is valid' do
+      it "is valid" do
         expect(instance.validate)
           .to be_truthy
       end
     end
 
-    context 'widgets being outside (max) of the grid' do
+    context "widgets being outside (max) of the grid" do
       before do
         grid.widgets.build(start_row: 1,
                            end_row: grid.row_count + 2,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance.validate)
           .to be_falsey
       end
 
-      it 'notes the error' do
+      it "notes the error" do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :outside }]
+          .to contain_exactly({ error: :outside })
       end
     end
 
-    context 'widgets being outside (min) of the grid' do
+    context "widgets being outside (min) of the grid" do
       before do
         grid.widgets.build(start_row: 1,
                            end_row: 2,
                            start_column: -1,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance.validate)
           .to be_falsey
       end
 
-      it 'notes the error' do
+      it "notes the error" do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :outside }]
+          .to contain_exactly({ error: :outside })
       end
     end
 
-    context 'widgets spanning the whole grid' do
+    context "widgets spanning the whole grid" do
       before do
         grid.widgets.build(start_row: 1,
                            end_row: grid.row_count + 1,
                            start_column: 1,
                            end_column: grid.column_count + 1,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is valid' do
+      it "is valid" do
         expect(instance.validate)
           .to be_truthy
       end
     end
 
-    context 'widgets having start after end column' do
+    context "widgets having start after end column" do
       before do
         grid.widgets.build(start_row: 1,
                            end_row: 2,
                            start_column: 4,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance.validate)
           .to be_falsey
       end
 
-      it 'notes the error' do
+      it "notes the error" do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :end_before_start }]
+          .to contain_exactly({ error: :end_before_start })
       end
     end
 
-    context 'widgets having start after end row' do
+    context "widgets having start after end row" do
       before do
         grid.widgets.build(start_row: 4,
                            end_row: 2,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance.validate)
           .to be_falsey
       end
 
-      it 'notes the error' do
+      it "notes the error" do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :end_before_start }]
+          .to contain_exactly({ error: :end_before_start })
       end
     end
 
-    context 'widgets having start equals end column' do
+    context "widgets having start equals end column" do
       before do
         grid.widgets.build(start_row: 1,
                            end_row: 2,
                            start_column: 4,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance.validate)
           .to be_falsey
       end
 
-      it 'notes the error' do
+      it "notes the error" do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :end_before_start }]
+          .to contain_exactly({ error: :end_before_start })
       end
     end
 
-    context 'widgets having start equals end row' do
+    context "widgets having start equals end row" do
       before do
         grid.widgets.build(start_row: 2,
                            end_row: 2,
                            start_column: 1,
                            end_column: 3,
-                           identifier: 'work_packages_table')
+                           identifier: "work_packages_table")
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance.validate)
           .to be_falsey
       end
 
-      it 'notes the error' do
+      it "notes the error" do
         instance.validate
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :end_before_start }]
+          .to contain_exactly({ error: :end_before_start })
       end
     end
   end

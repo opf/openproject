@@ -7,7 +7,7 @@ fr:
       label_unnamed_list: 'Liste sans nom'
       label_board_type: 'Type de tableau'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'Voulez-vous automatiser vos flux de travail avec des tableaux ? Les tableaux avancés sont un add-on Entreprise. Veuillez passer à une offre payante.'
         upgrade: 'Passer au plan supérieur'
       lists:
         delete: 'Supprimer la liste'
@@ -62,7 +62,7 @@ fr:
           status: Statut
           version: Version
           subproject: Sous-projet
-          subtasks: Parent-child
+          subtasks: Parent-enfant
           basic: Basique
         select_attribute: "Attribut d'action"
       add_list_modal:

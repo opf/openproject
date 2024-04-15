@@ -9,6 +9,7 @@
           <input type="checkbox"
                  (change)="timelineVisible = !timelineVisible"
                  [checked]="timelineVisible"
+                 [disabled]="timelineToggleDisabled()"
                  id="display_timelines_switch"
                  name="display_timelines_switch">
         </div>
@@ -28,7 +29,6 @@
 
               <select
                   id="modal-timelines-zoomlevel"
-                  [attr.disabled]="autoZoom === true ? 'disabled' : undefined"
                   (change)="zoomLevel = $event.target.value"
                   class="form--select">
                 <option *ngFor="let level of availableZoomLevels"

@@ -57,12 +57,24 @@ elif [[ "$1" = "setup" ]]; then
 elif [[ "$1" = "reset" ]]; then
   $DOCKER_COMPOSE -f $COMPOSE_FILE down && docker volume rm `docker volume ls -q | grep ${PWD##*/}_`
 elif [[ "$1" = "rspec" ]]; then
-  if ! docker ps | grep ${PWD##*/}_backend-test_1 > /dev/null; then
+  function get-container-name() {
+    name=`$DOCKER_COMPOSE ps backend-test | tail -n1 | cut -d ' ' -f1`
+
+    if [ "$name" = 'NAME' ]; then
+      return 1;
+    else
+      echo "$name"
+    fi
+  }
+
+  if ! get-container-name > /dev/null; then
     echo "Test backend not running yet. Starting it..."
 
     $DOCKER_COMPOSE -f $COMPOSE_FILE up -d backend-test
 
-    while ! docker logs --since 1m ${PWD##*/}_backend-test_1 | grep "Ready for tests" > /dev/null; do
+    container=`get-container-name`
+
+    while ! docker logs --since 1m $container 2>&1 | grep "Ready for tests" &> /dev/null; do
       sleep 1
       printf "."
     done

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,56 +25,56 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require File.expand_path('../support/shared/become_member', __dir__)
+require "spec_helper"
+require File.expand_path("../support/shared/become_member", __dir__)
 
-require 'support/shared/acts_as_watchable'
+require "support/shared/acts_as_watchable"
 
-describe News, type: :model do
+RSpec.describe News do
   include BecomeMember
 
   let(:project) do
     project = create(:public_project)
-    project.enabled_modules << EnabledModule.new(name: 'news')
+    project.enabled_modules << EnabledModule.new(name: "news")
     project.reload
   end
 
   let!(:news) { create(:news, project:) }
   let(:permissions) { [] }
-  let(:role) { build(:role, permissions:) }
+  let(:role) { build(:project_role, permissions:) }
 
-  it_behaves_like 'acts_as_watchable included' do
+  it_behaves_like "acts_as_watchable included" do
     let(:model_instance) { create(:news) }
     let(:watch_permission) { :view_news }
     let(:project) { model_instance.project }
   end
 
-  describe '.latest' do
+  describe ".latest" do
     let(:project_news) { described_class.where(project:) }
 
     before do
-      Role.anonymous
+      ProjectRole.anonymous
     end
 
-    it 'includes news elements from projects where news module is enabled' do
-      expect(described_class.latest).to match_array [news]
+    it "includes news elements from projects where news module is enabled" do
+      expect(described_class.latest).to contain_exactly(news)
     end
 
     it "doesn't include news elements from projects where news module is not enabled" do
-      EnabledModule.where(project_id: project.id, name: 'news').delete_all
+      EnabledModule.where(project_id: project.id, name: "news").delete_all
 
       expect(described_class.latest).to be_empty
     end
 
-    it 'only includes news elements from projects that are visible to the user' do
+    it "only includes news elements from projects that are visible to the user" do
       private_project = create(:project, public: false)
       create(:news, project: private_project)
 
       latest_news = described_class.latest(user: User.anonymous)
-      expect(latest_news).to match_array [news]
+      expect(latest_news).to contain_exactly(news)
     end
 
-    it 'limits the number of returned news elements' do
+    it "limits the number of returned news elements" do
       project_news.delete_all
 
       create_list(:news, 10, project:)
@@ -84,7 +84,7 @@ describe News, type: :model do
       expect(project_news.latest(user: User.current, count: 15).size).to eq(10)
     end
 
-    it 'returns five news elements by default' do
+    it "returns five news elements by default" do
       project_news.delete_all
 
       create_list(:news, 2, project:)
@@ -99,11 +99,10 @@ describe News, type: :model do
     end
   end
 
-  describe '#save' do
-    it 'sends email notifications when created' do
+  describe "#save" do
+    it "sends email notifications when created" do
       create(:user,
-             member_in_project: project,
-             member_through_role: role,
+             member_with_roles: { project => role },
              notification_settings: [
                build(:notification_setting,
                      news_added: true)
@@ -117,45 +116,45 @@ describe News, type: :model do
     end
   end
 
-  describe '#to_param' do
-    it 'includes includes id and title for a nicer url' do
-      title = 'OpenProject now has a Twitter Account'
+  describe "#to_param" do
+    it "includes includes id and title for a nicer url" do
+      title = "OpenProject now has a Twitter Account"
       news  = create(:news, title:)
       slug  = "#{news.id}-openproject-now-has-a-twitter-account"
 
       expect(news.to_param).to eq slug
     end
 
-    it 'returns nil for unsaved news' do
+    it "returns nil for unsaved news" do
       news = described_class.new
       expect(news.to_param).to be_nil
     end
   end
 
-  describe '#new_comment' do
-    subject(:comment) { news.new_comment(author: news.author, comments: 'some important words') }
+  describe "#new_comment" do
+    subject(:comment) { news.new_comment(author: news.author, comments: "some important words") }
 
-    it 'sets the comment`s news' do
+    it "sets the comment`s news" do
       expect(comment.commented)
         .to eq news
     end
 
-    it 'is saveable' do
+    it "is saveable" do
       expect(comment.save)
         .to be_truthy
     end
   end
 
-  describe '#comments_count' do
-    it 'counts the comments on the news when adding' do
-      expect { news.comments.create(author: news.author, comments: 'some important words') }
+  describe "#comments_count" do
+    it "counts the comments on the news when adding" do
+      expect { news.comments.create(author: news.author, comments: "some important words") }
         .to change { news.reload.comments_count }
               .from(0)
               .to(1)
     end
 
-    it 'counts the comments on the news when destroying a comment' do
-      comment = news.comments.build(author: news.author, comments: 'some important words')
+    it "counts the comments on the news when destroying a comment" do
+      comment = news.comments.build(author: news.author, comments: "some important words")
       comment.save
 
       expect { comment.destroy }

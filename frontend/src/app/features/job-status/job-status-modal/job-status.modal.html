@@ -2,8 +2,9 @@
   class="spot-modal job-status--modal"
 >
   <div
+    id="spotModalTitle"
     class="spot-modal--header"
-    data-qa-selector="job-status--header"
+    data-test-selector="job-status--header"
   >{{ title }}</div>
 
   <div class="spot-divider"></div>
@@ -27,6 +28,12 @@
           [attr.href]="downloadHref"
         ></a>
       </span>
+      <ng-container *ngIf="htmlContent">
+        <div
+          class="job-status--modal-additional-content"
+          [innerHTML]="htmlContent"
+        ></div>
+      </ng-container>
       <ng-container *ngIf="payload?.errors">
         <h3 class="job-status--modal-additional-errors" [textContent]="text.errors"></h3>
         <ul *ngFor="let error of payload.errors">

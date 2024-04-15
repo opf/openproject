@@ -34,7 +34,7 @@ module OpenProject
     end
 
     def self.settings_from_yaml
-      if (settings = Rails.root.join('config', 'plugins', 'auth_saml', 'settings.yml')).exist?
+      if (settings = Rails.root.join("config/plugins/auth_saml/settings.yml")).exist?
         Rails.logger.info("[auth_saml] Registering saml integration from settings file")
 
         YAML::load(File.open(settings)).symbolize_keys
@@ -73,12 +73,6 @@ module OpenProject
               redirect_to omniauth_start_path(h[:name]) + "/spslo"
             end
 
-            h[:openproject_attribute_map] = Proc.new do |auth|
-              {}.tap do |additional|
-                additional[:login] = auth.info[:login] if auth.info.key? :login
-                additional[:admin] = auth.info[:admin] if auth.info.key? :admin
-              end
-            end
             h.symbolize_keys
           end
         end

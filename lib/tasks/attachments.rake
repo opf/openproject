@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,15 +27,15 @@
 #++
 
 namespace :attachments do
-  desc 'Clear all attachments created before yesterday'
+  desc "Clear all attachments created before yesterday"
   task clear: [:environment] do
     Attachment.clean_cached_files!
   end
 
-  desc 'Copies all attachments from the current to the given storage.'
+  desc "Copies all attachments from the current to the given storage."
   task :copy_to, [:to] => :environment do |_task, args|
     if args.empty?
-      puts 'rake attachments:copy_to[file|fog]'
+      puts "rake attachments:copy_to[file|fog]"
       exit 1
     end
 
@@ -56,7 +56,7 @@ namespace :attachments do
     if target_uploader == :fog && (
          OpenProject::Configuration.fog_credentials.empty? ||
          OpenProject::Configuration.fog_directory.nil?)
-      puts 'the fog storage is not configured'
+      puts "the fog storage is not configured"
       exit 1
     end
 
@@ -68,9 +68,9 @@ namespace :attachments do
           STDOUT.flush
 
           if store! attachment
-            puts ' ok'
+            puts " ok"
           else
-            puts ' failed (missing file)'
+            puts " failed (missing file)"
           end
         end
       end
@@ -80,7 +80,7 @@ namespace :attachments do
       # which uses the destination uploader to store the original attachment's
       # file in the target location.
       def self.store!(attachment)
-        return nil unless attachment.attributes['file'].present? &&
+        return nil unless attachment.attributes["file"].present? &&
                           File.exist?(attachment.file.path)
 
         new.tap do |target|
@@ -93,7 +93,7 @@ namespace :attachments do
       ##
       # Pretends to be a plain old Attachment in order not to break store paths.
       def self.to_s
-        'attachment'
+        "attachment"
       end
     end
 
@@ -106,12 +106,12 @@ namespace :attachments do
     target_attachment.store_all! attachments
   end
 
-  desc 'Extract text content from attachment that were not extracted yet synchronously.'
+  desc "Extract text content from attachment that were not extracted yet synchronously."
   task extract_fulltext_where_missing: :environment do
     Attachment.extract_fulltext_where_missing(run_now: true)
   end
 
-  desc 'Extract text content from attachment that were not extracted yet.'
+  desc "Extract text content from attachment that were not extracted yet."
   task schedule_fulltext_extraction_where_missing: :environment do
     Attachment.extract_fulltext_where_missing(run_now: false)
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'will_paginate'
+require "will_paginate"
 
 module PaginationHelper
   def pagination_links_full(paginator, options = {})
@@ -34,10 +34,10 @@ module PaginationHelper
 
     pagination_options = default_options.merge(options)
 
-    content_tag(:div, class: 'op-pagination') do
+    content_tag(:div, class: "op-pagination") do
       content = content_tag(:nav,
                             pagination_entries(paginator, pagination_options),
-                            class: 'op-pagination--pages')
+                            class: "op-pagination--pages")
 
       if pagination_options[:per_page_links]
         content << pagination_option_links(paginator, pagination_options)
@@ -52,7 +52,7 @@ module PaginationHelper
                                        pagination_options[:params]
                                         .merge(safe_query_params(%w{filters sortBy expand})))
 
-    content_tag(:div, option_links, class: 'op-pagination--options')
+    content_tag(:div, option_links, class: "op-pagination--options")
   end
 
   ##
@@ -62,12 +62,12 @@ module PaginationHelper
     page_last = paginator.offset + paginator.length
     total = paginator.total_entries
 
-    content_tag(:ul, class: 'op-pagination--items op-pagination--items_start') do
+    content_tag(:ul, class: "op-pagination--items op-pagination--items_start") do
       # will_paginate will return nil early when no pages available
-      content = will_paginate(paginator, options) || ''
+      content = will_paginate(paginator, options) || ""
 
       range = "(#{page_first} - #{page_last}/#{total})"
-      content << content_tag(:li, range, class: 'op-pagination--range', title: range)
+      content << content_tag(:li, range, class: "op-pagination--range", title: range)
 
       content.html_safe
     end
@@ -80,8 +80,8 @@ module PaginationHelper
 
     if links.size > 1
       label = I18n.t(:label_per_page)
-      content_tag(:ul, class: 'op-pagination--items op-pagination--items_end') do
-        content_tag(:li, label + ':', class: 'op-pagination--label', title: label) + links
+      content_tag(:ul, class: "op-pagination--items op-pagination--items_end") do
+        content_tag(:li, label + ":", class: "op-pagination--label", title: label) + links
       end
     end
   end
@@ -90,12 +90,12 @@ module PaginationHelper
   # Constructs the 'n items per page' entries
   # determined from available options in the settings.
   def per_page_links(paginator, options)
-    Setting.per_page_options_array.inject('') do |html, n|
+    Setting.per_page_options_array.inject("") do |html, n|
       if n == paginator.per_page
-        html + content_tag(:li, n, class: 'op-pagination--item op-pagination--item_current')
+        html + content_tag(:li, n, class: "op-pagination--item op-pagination--item_current")
       else
-        link = link_to_content_update(n, options.merge(page: 1, per_page: n), { class: 'op-pagination--item-link' })
-        html + content_tag(:li, link.html_safe, class: 'op-pagination--item')
+        link = link_to_content_update(n, options.merge(page: 1, per_page: n), { class: "op-pagination--item-link" })
+        html + content_tag(:li, link.html_safe, class: "op-pagination--item")
       end
     end.html_safe
   end
@@ -159,43 +159,52 @@ module PaginationHelper
 
   class LinkRenderer < ::WillPaginate::ActionView::LinkRenderer
     def to_html
-      pagination.inject('') do |html, item|
+      pagination.inject("") do |html, item|
         html + (item.is_a?(Integer) ? page_number(item) : send(item))
       end.html_safe
     end
 
     protected
 
+    def merge_get_params(url_params)
+      params = super
+      params.except(*blocked_url_params)
+    end
+
     def page_number(page)
       if page == current_page
-        tag(:li, page, class: 'op-pagination--item op-pagination--item_current')
+        tag(:li, page, class: "op-pagination--item op-pagination--item_current")
       else
-        tag(:li, link(page, page, { class: 'op-pagination--item-link' }), class: 'op-pagination--item')
+        tag(:li, link(page, page, { class: "op-pagination--item-link" }), class: "op-pagination--item")
       end
     end
 
     def gap
-      tag(:li, '&#x2026;', class: 'op-pagination--space')
+      tag(:li, "&#x2026;", class: "op-pagination--space")
     end
 
     def previous_page
       num = @collection.current_page > 1 && (@collection.current_page - 1)
-      previous_or_next_page(num, I18n.t(:label_previous), 'prev')
+      previous_or_next_page(num, I18n.t(:label_previous), "prev")
     end
 
     def next_page
       num = @collection.current_page < total_pages && (@collection.current_page + 1)
-      previous_or_next_page(num, I18n.t(:label_next), 'next')
+      previous_or_next_page(num, I18n.t(:label_next), "next")
     end
 
     def previous_or_next_page(page, text, class_suffix)
       if page
         tag(:li,
-            link(text, page, { class: 'op-pagination--item-link op-pagination--item-link_' + class_suffix }),
-            class: 'op-pagination--item op-pagination--item_' + class_suffix)
+            link(text, page, { class: "op-pagination--item-link op-pagination--item-link_" + class_suffix }),
+            class: "op-pagination--item op-pagination--item_" + class_suffix)
       else
-        ''
+        ""
       end
+    end
+
+    def blocked_url_params
+      @options[:blocked_url_params] || [] # rubocop:disable Rails/HelperInstanceVariable
     end
   end
 

@@ -6,16 +6,27 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { TableActionRenderer } from 'core-app/features/work-packages/components/wp-fast-table/builders/table-action-renderer';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import {
+  internalBaselineColumn,
   internalContextMenuColumn,
   internalSortColumn,
+  sharedUserColumn,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { checkedClassName } from '../ui-state-link-builder';
 import { RelationCellbuilder } from '../relation-cell-builder';
-import { CellBuilder, tdClassName } from '../cell-builder';
-import { WorkPackageTable } from '../../wp-fast-table';
-import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
+import {
+  CellBuilder,
+  tdClassName,
+} from '../cell-builder';
+import {
+  isRelationColumn,
+  QueryColumn,
+} from '../../../wp-query/query-column';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { BaselineColumnBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/baseline/baseline-column-builder';
+import { ShareCellbuilder } from '../share-cell-builder';
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -28,6 +39,8 @@ export class SingleRowBuilder {
 
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
 
+  @InjectField() wpTableBaseline:WorkPackageViewBaselineService;
+
   @InjectField() I18n!:I18nService;
 
   // Cell builder instance
@@ -36,14 +49,22 @@ export class SingleRowBuilder {
   // Relation cell builder instance
   protected relationCellBuilder = new RelationCellbuilder(this.injector);
 
+  // Share cell builder instance
+  protected shareCellBuilder = new ShareCellbuilder(this.injector);
+
   // Details Link builder
   protected contextLinkBuilder = new TableActionRenderer(this.injector);
+
+  // Baseline column builder
+  protected baselineColumnBuilder = new BaselineColumnBuilder(this.injector);
 
   // Build the augmented columns set to render with
   protected readonly augmentedColumns:QueryColumn[] = this.buildAugmentedColumns();
 
-  constructor(public readonly injector:Injector,
-    protected workPackageTable:WorkPackageTable) {
+  constructor(
+    public readonly injector:Injector,
+    protected workPackageTable:WorkPackageTable,
+  ) {
   }
 
   /**
@@ -60,6 +81,10 @@ export class SingleRowBuilder {
   private buildAugmentedColumns():QueryColumn[] {
     const columns = [...this.columns, internalContextMenuColumn];
 
+    if (this.wpTableBaseline.isActive()) {
+      columns.unshift(internalBaselineColumn);
+    }
+
     if (this.workPackageTable.configuration.dragAndDropEnabled) {
       columns.unshift(internalSortColumn);
     }
@@ -73,17 +98,25 @@ export class SingleRowBuilder {
       return this.relationCellBuilder.build(workPackage, column);
     }
 
+    if (column.id === sharedUserColumn.id) {
+      return this.shareCellBuilder.build(workPackage, column);
+    }
+
     // Handle property types
     switch (column.id) {
       case internalContextMenuColumn.id:
         if (this.workPackageTable.configuration.actionsColumnEnabled) {
           return this.contextLinkBuilder.build(workPackage);
-        } if (this.workPackageTable.configuration.columnMenuEnabled) {
+        }
+        if (this.workPackageTable.configuration.columnMenuEnabled) {
           const td = document.createElement('td');
           td.classList.add('hide-when-print');
           return td;
         }
         return null;
+
+      case internalBaselineColumn.id:
+        return this.baselineColumnBuilder.build(workPackage, column);
 
       default:
         return this.cellBuilder.build(workPackage, column);

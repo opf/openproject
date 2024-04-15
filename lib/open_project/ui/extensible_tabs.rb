@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,60 +54,65 @@ module OpenProject
 
         private
 
+        # rubocop:disable Metrics/AbcSize
         def core_user_tabs
           [
             {
-              name: 'general',
-              partial: 'users/general',
+              name: "general",
+              partial: "users/general",
               path: ->(params) { edit_user_path(params[:user], tab: :general) },
-              label: :label_general
+              label: :label_general,
+              only_if: ->(context) {
+                         ::Users::UpdateContract.new(context[:user], context[:current_user]).allowed_to_update?
+                       }
             },
             {
-              name: 'memberships',
-              partial: 'individual_principals/memberships',
+              name: "memberships",
+              partial: "individual_principals/memberships",
               path: ->(params) { edit_user_path(params[:user], tab: :memberships) },
               label: :label_project_plural
             },
             {
-              name: 'groups',
-              partial: 'users/groups',
+              name: "groups",
+              partial: "users/groups",
               path: ->(params) { edit_user_path(params[:user], tab: :groups) },
               label: :label_group_plural,
               only_if: ->(*) { User.current.admin? && Group.any? }
             },
             {
-              name: 'global_roles',
-              partial: 'principals/global_roles',
+              name: "global_roles",
+              partial: "principals/global_roles",
               path: ->(params) { edit_user_path(params[:user], tab: :global_roles) },
               label: :label_global_roles,
               only_if: ->(*) { User.current.admin? }
             },
             {
-              name: 'notifications',
-              partial: 'users/notifications',
+              name: "notifications",
+              partial: "users/notifications",
               path: ->(params) { edit_user_path(params[:user], tab: :notifications) },
-              label: :'notifications.settings.title'
+              label: :"notifications.settings.title"
             },
             {
-              name: 'reminders',
-              partial: 'users/reminders',
+              name: "reminders",
+              partial: "users/reminders",
               path: ->(params) { edit_user_path(params[:user], tab: :reminders) },
-              label: :'reminders.settings.title'
+              label: :"reminders.settings.title"
             }
           ]
         end
+        # rubocop:enable Metrics/AbcSize
 
         def core_placeholder_user_tabs
           [
             {
-              name: 'general',
-              partial: 'placeholder_users/general',
+              name: "general",
+              partial: "placeholder_users/general",
               path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :general) },
               label: :label_general
             },
             {
-              name: 'memberships',
-              partial: 'individual_principals/memberships',
+              name: "memberships",
+              partial: "individual_principals/memberships",
               path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :memberships) },
               label: :label_project_plural
             }

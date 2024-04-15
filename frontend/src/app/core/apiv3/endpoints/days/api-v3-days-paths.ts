@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,5 +46,8 @@ export class ApiV3DaysPaths extends ApiV3ResourceCollection<IDay, ApiV3DayPaths>
   // Static paths
 
   // /api/v3/days/week
-  public readonly week = new ApiV3GettableResource(this.apiRoot, this.path, 'week', this);
+  public readonly week = new ApiV3ResourceCollection<IDay, ApiV3DayPaths>(this.apiRoot, this.path, 'week');
+
+  // /api/v3/days/nonWorkingDays
+  public readonly nonWorkingDays = new ApiV3ResourceCollection<IDay, ApiV3DayPaths>(this.apiRoot, this.path, 'non_working');
 }

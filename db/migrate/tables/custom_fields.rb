@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::CustomFields < Tables::Base
   # rubocop:disable Metrics/AbcSize
   def self.table(migration)
     create_table migration do |t|
-      t.string :type, limit: 30, default: '', null: false
-      t.string :field_format, limit: 30, default: '', null: false
-      t.string :regexp, default: ''
+      t.string :type, limit: 30, default: "", null: false
+      t.string :field_format, limit: 30, default: "", null: false
+      t.string :regexp, default: ""
       t.integer :min_length, default: 0, null: false
       t.integer :max_length, default: 0, null: false
       t.boolean :is_required, default: false, null: false
@@ -50,7 +50,7 @@ class Tables::CustomFields < Tables::Base
       t.datetime :created_at
       t.datetime :updated_at
 
-      t.index %i[id type], name: 'index_custom_fields_on_id_and_type'
+      t.index %i[id type], name: "index_custom_fields_on_id_and_type"
     end
   end
   # rubocop:enable Metrics/AbcSize

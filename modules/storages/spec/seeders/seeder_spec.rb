@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
+require_module_spec_helper
 
-describe RootSeeder, 'Storage module' do
-  it 'seeds role permissions for Storages' do
-    expect { described_class.new.do_seed! }.not_to raise_error
+RSpec.describe RootSeeder, "Storage module" do
+  it "seeds role permissions for Storages" do
+    described_class.new.seed_data!
 
-    expect(RolePermission.where(permission: :view_file_links).count).to eq 5
+    expect(RolePermission.where(permission: :view_file_links).count).to eq 7
     expect(RolePermission.where(permission: :manage_file_links).count).to eq 2
     expect(RolePermission.where(permission: :manage_storages_in_project).count).to eq 1
   end

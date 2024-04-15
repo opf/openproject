@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,16 +27,38 @@
 //++
 
 $badge-diameter: 1.25rem
+$badge-background: var(--control-checked-color)
+$badge-secondary-background: #F1F1F1
+$badge-color: var(--font-color-on-primary)
+
+@mixin badge-layout($diameter: $badge-diameter)
+  width: $diameter
+  height: $diameter
+
+@mixin badge-style($background: $badge-background, $color: $badge-color)
+  background: $background
+
+  @if $color == auto
+    color: is-light($background)
+
+  @else
+    color: $color
+
 
 .badge
-  @include badge
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  border-radius: 1000px
+  @include badge-layout
+  @include badge-style
   width: auto
   min-width: 1.25rem
   padding-left: 0.3rem
   padding-right: 0.3rem
 
   &.-secondary
-    @include badge-style($secondary-color, auto)
+    @include badge-style($badge-secondary-background, auto)
 
   &.-border-only
     border-color: var(--button--border-color)

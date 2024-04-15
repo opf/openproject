@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,7 @@ module API
       class AvailableProjectsOnEditAPI < ::API::OpenProjectAPI
         resource :available_projects do
           after_validation do
-            authorize(:edit_work_packages, context: @work_package.project)
-
-            checked_permissions = Projects::ProjectCollectionRepresenter.checked_permissions
-            current_user.preload_projects_allowed_to(checked_permissions)
+            authorize_in_work_package(:edit_work_packages, work_package: @work_package)
           end
 
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex

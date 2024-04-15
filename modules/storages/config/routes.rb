@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +28,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   namespace :admin do
     namespace :settings do
-      resources :storages, controller: '/storages/admin/storages' do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        member do
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
+      resources :storages, controller: "/storages/admin/storages", except: [:show] do
+        resource :oauth_client, controller: "/storages/admin/oauth_clients", only: %i[new create] do
+          patch :update, on: :member
+          get :show_redirect_uri
+          post :finish_setup
         end
+
+        resource :automatically_managed_project_folders, controller: "/storages/admin/automatically_managed_project_folders",
+                                                         only: %i[new create edit update]
+
+        resource :access_management, controller: "/storages/admin/access_management", only: %i[new create edit update]
+
+        get :select_provider, on: :collection
+
+        member do
+          get :show_oauth_application
+          get :edit_host
+          patch :change_health_notifications_enabled
+          get :confirm_destroy
+          delete :replace_oauth_application
+        end
+
+        get :upsale, on: :collection
       end
     end
   end
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages',
-                                    except: %i[show update]
+  get "projects/:project_id/project_storages/:id/open",
+      controller: "storages/project_storages",
+      action: "open",
+      as: "open_project_storage"
+
+  scope "projects/:project_id", as: "project" do
+    namespace "settings" do
+      resources :project_storages, controller: "/storages/admin/project_storages", except: %i[show] do
+        member do
+          get :oauth_access_grant
+          # Destroy uses a get request to prompt the user before the actual DELETE request
+          get :destroy_info, as: "confirm_destroy"
+        end
+
+        resources :members, controller: "/storages/project_settings/project_storage_members", only: %i[index]
+      end
     end
   end
 end

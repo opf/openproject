@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../shared_expectations'
+require "spec_helper"
+require_relative "../shared_expectations"
 
-describe CustomActions::Actions::EstimatedHours, type: :model do
+RSpec.describe CustomActions::Actions::EstimatedHours do
   let(:key) { :estimated_hours }
   let(:type) { :float_property }
   let(:value) { 1.0 }
 
-  it_behaves_like 'base custom action' do
-    describe '#apply' do
+  it_behaves_like "base custom action" do
+    describe "#apply" do
       let(:work_package) { build_stubbed(:work_package) }
 
-      it 'sets the done_ratio to the action\'s value' do
+      it "sets the done_ratio to the action's value" do
         instance.values = [95.56]
 
         instance.apply(work_package)
@@ -48,19 +48,19 @@ describe CustomActions::Actions::EstimatedHours, type: :model do
       end
     end
 
-    describe '#multi_value?' do
-      it 'is false' do
+    describe "#multi_value?" do
+      it "is false" do
         expect(instance)
           .not_to be_multi_value
       end
     end
 
-    describe 'validate' do
+    describe "validate" do
       let(:errors) do
         build_stubbed(:custom_action).errors
       end
 
-      it 'is valid for values equal to or greater than 0' do
+      it "is valid for values equal to or greater than 0" do
         instance.values = [50]
 
         instance.validate(errors)
@@ -69,7 +69,7 @@ describe CustomActions::Actions::EstimatedHours, type: :model do
           .to be_empty
       end
 
-      it 'is invalid for values smaller than 0' do
+      it "is invalid for values smaller than 0" do
         instance.values = [-0.00001]
 
         instance.validate(errors)

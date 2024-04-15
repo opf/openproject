@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,6 +43,12 @@ module OpenProject
     # sanitize_sql_array [str, param0: foo, param1: bar]
     def self.sanitize(sql, *args)
       sanitize_sql_array [sql, *args]
+    end
+
+    ##
+    # Quoted, escaped input for LIKE/ILIKE statements
+    def self.quoted_sanitized_sql_like(input)
+      connection.quote_string ActiveRecord::Base.sanitize_sql_like(input)
     end
   end
 end

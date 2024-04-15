@@ -1,13 +1,16 @@
 he:
-  export_to_excel: "Export XLS"
-  print_with_description: "Print preview with description"
-  sentence_separator_or: "or"
-  different_formats: Different formats
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
+  export_to_excel: "ייצוא לXLS"
+  print_with_description: "הדפסת תצוגה מקדימה עם תיאור"
+  sentence_separator_or: "או"
+  different_formats: פורמט שונה
   export:
     format:
       xls: "XLS"
       xls_with_descriptions: "XLS עם תיאור"
-      xls_with_relations: "XLS with relations"
+      xls_with_relations: "XLS עם תיאור"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: ילד (בן) של
+    parent_of: הורה (אב) של

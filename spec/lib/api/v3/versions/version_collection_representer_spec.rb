@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,67 +26,59 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Versions::VersionCollectionRepresenter do
-  let(:self_link) { '/api/v3/projects/1/versions' }
+RSpec.describe API::V3::Versions::VersionCollectionRepresenter do
+  let(:self_link) { "/api/v3/projects/1/versions" }
   let(:versions) { build_stubbed_list(:version, 3) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(versions, self_link:, current_user: user) }
+  let(:permissions) { [:manage_versions] }
 
   include API::V3::Utilities::PathHelper
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'projects/1/versions', 'Version'
+    it_behaves_like "unpaginated APIv3 collection", 3, "projects/1/versions", "Version"
 
-    context '_links' do
+    context "_links" do
       before do
-        allow(user)
-          .to receive(:allowed_to_globally?)
-          .and_return(false)
-
-        allow(user)
-          .to receive(:allowed_to_globally?)
-          .with(:manage_versions)
-          .and_return(allowed_to)
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project *permissions, project: build_stubbed(:project) # any project
+        end
       end
 
-      describe 'createVersionImmediately' do
-        context 'if the user is allowed to' do
-          let(:allowed_to) { true }
-
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'createVersionImmediately' }
+      describe "createVersionImmediately" do
+        context "if the user is allowed to" do
+          it_behaves_like "has an untitled link" do
+            let(:link) { "createVersionImmediately" }
             let(:href) { api_v3_paths.versions }
           end
         end
 
-        context 'if the user is not allowed to' do
-          let(:allowed_to) { false }
+        context "if the user is not allowed to" do
+          let(:permissions) { [] }
 
-          it_behaves_like 'has no link' do
-            let(:link) { 'createVersionImmediately' }
+          it_behaves_like "has no link" do
+            let(:link) { "createVersionImmediately" }
           end
         end
       end
 
-      describe 'createVersion' do
-        context 'if the user is allowed to' do
-          let(:allowed_to) { true }
-
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'createVersion' }
+      describe "createVersion" do
+        context "if the user is allowed to" do
+          it_behaves_like "has an untitled link" do
+            let(:link) { "createVersion" }
             let(:href) { api_v3_paths.create_version_form }
           end
         end
 
-        context 'if the user is not allowed to' do
-          let(:allowed_to) { false }
+        context "if the user is not allowed to" do
+          let(:permissions) { [] }
 
-          it_behaves_like 'has no link' do
-            let(:link) { 'createVersion' }
+          it_behaves_like "has no link" do
+            let(:link) { "createVersion" }
           end
         end
       end

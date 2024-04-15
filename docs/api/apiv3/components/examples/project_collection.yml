@@ -1,0 +1,40 @@
+# Example: Project collection
+---
+value:
+  _type: Collection
+  count: 2
+  total: 2
+  pageSize: 20
+  offset: 1
+  _embedded:
+    elements:
+      - _hint: Project resource shortened for brevity
+        id: 1
+        identifier: initialproject
+        name: DeathStar construction
+        active: true
+        public: true
+      - _hint: Project resource shortened for brevity
+        id: 2
+        identifier: mysecret
+        name: Palpatine's secret plan
+        active: true
+        public: false
+  _links:
+    self:
+      href: '/api/v3/projects?filters=%5B%5D&offset=1&pageSize=20'
+    jumpTo:
+      href: '/api/v3/projects?filters=%5B%5D&offset=%7Boffset%7D&pageSize=20'
+      templated: true
+    changeSize:
+      href: '/api/v3/projects?filters=%5B%5D&offset=1&pageSize=%7Bsize%7D'
+      templated: true
+    representations:
+      - href: '/projects.csv?filters=%5B%5D&offset=1&pageSize=20'
+        identifier: csv
+        type: text/csv
+        title: CSV
+      - href: '/projects.xls?filters=%5B%5D&offset=1&pageSize=20'
+        identifier: xls
+        type: application/vnd.ms-excel
+        title: XLS

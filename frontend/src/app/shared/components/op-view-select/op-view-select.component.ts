@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,6 @@ import { map } from 'rxjs/operators';
 import {
   BehaviorSubject,
   combineLatest,
-  Observable,
 } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -54,7 +53,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { MAGIC_PAGE_NUMBER } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
-export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner'|'WorkPackagesCalendar';
+export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner'|'WorkPackagesCalendar'|'Gantt';
 
 export const opViewSelectSelector = 'op-view-select';
 
@@ -74,8 +73,6 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     no_results: this.I18n.t('js.autocompleter.notFoundText'),
   };
 
-  public views$:Observable<IOpSidemenuItem[]>;
-
   @Input() menuItems:string[] = [];
 
   @Input() projectId:string|undefined;
@@ -83,6 +80,8 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
   @Input() baseRoute:string;
 
   @Input() viewType:ViewType;
+
+  public items:IOpSidemenuItem[] = [];
 
   private apiViewType:string;
 
@@ -122,22 +121,31 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       .onActivate(...this.menuItems)
       .subscribe(() => this.initializeAutocomplete());
 
-    this.views$ = combineLatest([
+    combineLatest([
       this.search$,
       this.viewCategories$,
     ]).pipe(
-      map(([searchText, categories]) => categories
-        .map((category) => {
-          if (ViewSelectComponent.matchesText(category.title, searchText)) {
-            return category;
-          }
+      map(([searchText, categories]) => {
+        // We go the way of assigning the variable instead of using the observable directly with the async pipe.
+        // For whatever the reason Angular's change detection does not catch the changes made here.
+        // Thus, the sidemenu items were only updated with the next global change event (e.g. notifications push or some user interaction).
+        this.items = categories
+          .map((category) => {
+            if (ViewSelectComponent.matchesText(category.title, searchText)) {
+              return category;
+            }
+            const filteredChildren = category.children
+              ?.filter((query) => ViewSelectComponent.matchesText(query.title, searchText));
 
-          const filteredChildren = category.children
-            ?.filter((query) => ViewSelectComponent.matchesText(query.title, searchText));
-          return { title: category.title, children: filteredChildren, collapsible: true };
-        })
-        .filter((category) => category.children && category.children.length > 0)),
-    );
+            return { title: category.title, children: filteredChildren, collapsible: true };
+          })
+          .filter((category) => category.children && category.children.length > 0);
+
+        this.cdRef.detectChanges();
+
+        return this.items;
+      }),
+    ).subscribe();
   }
 
   private initializeAutocomplete():void {
@@ -222,7 +230,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     return {
       title: query.title,
       uiSref: this.baseRoute,
-      uiParams: { query_id: idFromLink(query.href), query_props: '' },
+      uiParams: { query_id: idFromLink(query.href), query_props: undefined },
       uiOptions: { reload: true },
     };
   }

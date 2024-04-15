@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe UserPreferences::UpdateService, 'integration', type: :model do
+RSpec.describe UserPreferences::UpdateService, "integration", type: :model do
   shared_let(:current_user) do
     create(:user).tap do |u|
       u.pref.save
@@ -50,10 +50,10 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
     service_result.result
   end
 
-  describe 'notification_settings' do
+  describe "notification_settings" do
     subject { updated_pref.notification_settings }
 
-    context 'with a partial update' do
+    context "with a partial update" do
       let(:attributes) do
         {
           notification_settings: [
@@ -72,7 +72,7 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
         }
       end
 
-      it 'updates the existing one, removes the email one' do
+      it "updates the existing one, removes the email one" do
         default_ian = current_user.notification_settings.first
 
         expect(default_ian.watched).to be true
@@ -103,8 +103,8 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
       end
     end
 
-    context 'with a full replacement' do
-      let(:project) { create :project }
+    context "with a full replacement" do
+      let(:project) { create(:project) }
       let(:attributes) do
         {
           notification_settings: [
@@ -113,7 +113,7 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
         }
       end
 
-      it 'inserts the setting, removing the old one' do
+      it "inserts the setting, removing the old one" do
         default = current_user.notification_settings.to_a
         expect(default.count).to eq 1
 

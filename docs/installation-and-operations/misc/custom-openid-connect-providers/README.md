@@ -1,7 +1,7 @@
 # Custom OpenID Connect providers
 
 OpenProject's admin interface only allows you to configure providers from a pre-defined list.
-This includes Google Workspace and Microsoft Azure Active Directory right now. Find out how to use those in the [OpenID Providers Authentication Guide](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/).
+This includes Google Workspace and Microsoft Azure Active Directory right now. Find out how to use those in the [OpenID Providers Authentication Guide](../../../system-admin-guide/authentication/openid-providers/).
 
 You can still use an arbitrary provider. But for the time being there is no user interface for this.
 That means you will have to do it directly using the console on the server or via environment variables.
@@ -10,7 +10,7 @@ That means you will have to do it directly using the console on the server or vi
 
 First start the console.
 
-```
+```shell
 sudo openproject run console
 # if user the docker all-in-one container: docker exec -it openproject bundle exec rails console
 # if using docker-compose: docker-compose run --rm web bundle exec rails console
@@ -29,7 +29,8 @@ options = {
   "secret"=>"<secret>",
   "authorization_endpoint" => "/oauth2/v1/authorize",
   "token_endpoint" => "/oauth2/v1/token",
-  "userinfo_endpoint" => "/oauth2/v1/userinfo"
+  "userinfo_endpoint" => "/oauth2/v1/userinfo",
+  "end_session_endpoint" => "https://mypersonal.okta.com/oauth2/{authorizationServerId}/v1/logout"
 }
 ```
 
@@ -82,15 +83,15 @@ _**Note**: This is an Enterprise add-on. If you do not see the button you will h
 ## Environment variables
 
 Rather than setting these options via the rails console, you can also define them through the
-[OpenProject configuration](https://www.openproject.org/docs/installation-and-operations/configuration/) which can
+[OpenProject configuration](../../configuration/) which can
 also be defined through
-[environment variables](https://www.openproject.org/docs/installation-and-operations/configuration/environment/).
+[environment variables](../../configuration/environment/).
 
 The variable names can be derived from the options seen above. All variables will start with the prefix
 `OPENPROJECT_OPENID__CONNECT_` followed by the provider name. For instance the okta example from above would
 be defined via environment variables like this:
 
-```
+```shell
 OPENPROJECT_OPENID__CONNECT_OKTA_DISPLAY__NAME="Okta"
 OPENPROJECT_OPENID__CONNECT_OKTA_HOST="mypersonal.okta.com"
 OPENPROJECT_OPENID__CONNECT_OKTA_IDENTIFIER="<identifier or client id>"
@@ -111,7 +112,7 @@ There are a number of known providers where the endpoints are configured automat
 If you want to configure multiple connections using the same provider you can prefix an arbitrary name with the
 provider name followed by a period. For instance, if you want to configure 2 AzureAD connections and 1 Google connection it would look like this:
 
-```
+```ruby
 Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_openid_connect || {}).deep_merge({
   "providers" => {
     "azure.dept1" =>  { "display_name"=>"Department 1","identifier"=>"...","secret"=>"..." },
@@ -127,7 +128,7 @@ At the time of writing the known providers are: `azure`, `google`, `okta`
 
 You can override the default attribute mapping for values derived from the userinfo endpoint. For example, let's map the OpenProject login to the claim `preferred_username` that is sent by many OIDC providers.
 
-```
+```ruby
 options = { 
   # ... other options
   attribute_map: {
@@ -143,6 +144,23 @@ options = {
 OpenProject OIDC integration supports [back-channel logouts](https://openid.net/specs/openid-connect-backchannel-1_0.html) if OpenProject is configured for ActiveRecord based sessions (which is the default).
 
 On the identity provider side, you need to set `https://<OpenProject host>/auth/<provider>/backchannel-logout`. `<provider>` is the identifier of the OIDC configuration as provided above. 
+
+
+
+#### Respecting self-registration
+
+You can configure OpenProject to restrict which users can register on the system with the [authentication self-registration setting](../../../system-admin-guide/authentication/authentication-settings)
+
+ By default, users returning from a SAML idP will be automatically created. If you'd like for the SAML integration to respect the configured self-registration option, please use setting `limit_self_registration`:
+
+```ruby
+options = { 
+  # ... other options
+  limit_self_registration: true
+}
+```
+
+
 
 ### Claims
 
@@ -252,18 +270,56 @@ Next, you will need to create or note down the client secret for that client.
 
 In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables:
 
-```bash
+```shell
 # The name of the login button in OpenProject, you can freely set this to anything you like
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME="Keycloak"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST="<Hostname of the keycloak server>"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_IDENTIFIER="https://<Your OpenProject hostname>"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET="<The client secret you copied from keycloak>"
-OPENPROJECT_OPENID__CONNECT_KEYCLOAK_AUTHORIZATION__ENDPOINT="/realms/REALM/protocol/openid-connect/auth"
-OPENPROJECT_OPENID__CONNECT_KEYCLOAK_TOKEN__ENDPOINT="/realms/REALM/protocol/openid-connect/token"
-OPENPROJECT_OPENID__CONNECT_KEYCLOAK_USERINFO__ENDPOINT="/realms/REALM/protocol/openid-connect/userinfo"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ISSUER="https://<Hostname of the keycloak server>/realms/<REALM>"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_AUTHORIZATION__ENDPOINT="/realms/<REALM>/protocol/openid-connect/auth"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_TOKEN__ENDPOINT="/realms/<REALM>/protocol/openid-connect/token"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_USERINFO__ENDPOINT="/realms/<REALM>/protocol/openid-connect/userinfo"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT="http://<Hostname of the keycloak server>/realms/<REALM>/protocol/openid-connect/logout"
 # Optional, if you have created the client scope mapper as shown above
 # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ATTRIBUTE__MAP_LOGIN="preferred_username"
 ```
+
+
+
+### Azure with Microsoft Graph API
+
+The Azure integration for OpenProject uses the previous userinfo endpoints, which for some tenants results in not being able to access the user's email attribute. [See this bug report for more information](https://community.openproject.org/projects/openproject/work_packages/45832). While our UI is still being extended to accept the new endpoints, you can manually configure Azure like follows.
+
+
+
+**What you need from Azure**
+
+Use our [Azure Active Directory guide](../../../system-admin-guide/authentication/openid-providers/#azure-active-directory) to create the OpenProject client and note down these values
+
+-  The Client ID you set up for OpenProject  (assumed to be `https://<OpenProject hostname>`)
+- The client secret
+- The tenant's UUID ([Please see this guide](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc) for more information on the tenant value)
+
+
+
+#### Setting up OpenProject for Keycloak integration
+
+In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables:
+
+```shell
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_DISPLAY__NAME="Azure"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_HOST="login.microsoftonline.com"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_IDENTIFIER="https://<Your OpenProject hostname>"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_SECRET="<client secret>"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_AUTHORIZATION__ENDPOINT="https://login.microsoftonline.com/%3CUUID%3E/oauth2/v2.0/authorize"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_TOKEN__ENDPOINT="https://login.microsoftonline.com/%3CUUID%3E/oauth2/v2.0/token"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_USERINFO__ENDPOINT="https://graph.microsoft.com/oidc/userinfo"
+```
+
+
+
+Restart your OpenProject server and test the login button to see if it works.
 
 
 
@@ -276,7 +332,7 @@ A: This can happen if you previously created user accounts in OpenProject with t
 Spawn an interactive console in OpenProject. The following example shows the command for the packaged installation.
 See [our process control guide](../../../installation-and-operations/operation/control/) for information on other installation types.
 
-```bash
+```shell
 sudo openproject run console
 > Setting.oauth_allow_remapping_of_existing_users = true
 > exit

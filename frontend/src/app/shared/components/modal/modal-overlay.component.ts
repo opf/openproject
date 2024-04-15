@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,9 +38,12 @@ import {
   CdkPortalOutlet,
   ComponentPortal,
 } from '@angular/cdk/portal';
+import { combineLatest } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
+
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { OpModalComponent } from './modal.component';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { ModalData, OpModalService } from 'core-app/shared/components/modal/modal.service';
 
 export const opModalOverlaySelector = 'op-modal-overlay';
 
@@ -67,7 +70,7 @@ export class OpModalOverlayComponent {
 
   activeModalData$ = this.modalService.activeModalData$;
 
-  activeModalInstance$ = this.modalService.activeModalInstance$.asObservable();
+  activeModalInstance$ = this.modalService.activeModalInstance$;
 
   constructor(
     readonly modalService:OpModalService,
@@ -76,45 +79,25 @@ export class OpModalOverlayComponent {
   ) {}
 
   setupListener():void {
-    this.activeModalData$
-      .subscribe((modalData) => {
-        this.notFullscreen = false;
-
-        if (modalData === null) {
-          const ref = (this.portalOutlet.attachedRef as ComponentRef<OpModalComponent>);
-          if (!ref) {
-            return;
-          }
-
-          if (!ref.instance.onClose()) {
-            return;
-          }
-
-          ref.instance.closingEvent.emit(ref.instance);
-          this.modalService.activeModalInstance$.next(null);
-
-          this.portalOutlet.detach();
-
+    combineLatest([
+      this.activeModalInstance$,
+      // multiple 'closing' events in a row are squashed
+      this.activeModalData$.pipe(distinctUntilChanged()),
+    ])
+      .subscribe(([instance, data]) => {
+        if (instance === null && data === null) {
+          // do nothing
           return;
         }
 
-        const {
-          modal,
-          injector,
-          notFullscreen,
-        } = modalData;
-        this.notFullscreen = notFullscreen;
-        const portal = new ComponentPortal(modal, null, injector);
-        const ref = this.portalOutlet.attach(portal);
-        const instance = ref.instance;
-        this.modalService.activeModalInstance$.next(instance);
-        this.cdRef.detectChanges();
+        if (instance !== null && data === null) {
+          this.detachPortalInstance();
+          return;
+        }
 
-        // Focus on wrapper by default
-        (this.overlay.nativeElement as HTMLElement).focus();
-
-        // Focus on the first element
-        instance && instance.onOpen();
+        if (instance === null && data !== null) {
+          this.createAndAttachPortalInstance(data);
+        }
       });
   }
 
@@ -123,5 +106,37 @@ export class OpModalOverlayComponent {
       return;
     }
     this.modalService.close();
+  }
+
+  private detachPortalInstance():void {
+    const ref = (this.portalOutlet.attachedRef as ComponentRef<OpModalComponent>);
+    if (!ref) {
+      return;
+    }
+
+    if (!ref.instance.onClose()) {
+      return;
+    }
+
+    ref.instance.closingEvent.emit(ref.instance);
+    this.portalOutlet.detach();
+    this.modalService.activeModalInstance$.next(null);
+  }
+
+  private createAndAttachPortalInstance(data:ModalData):void {
+    const { modal, injector, notFullscreen } = data;
+    this.notFullscreen = notFullscreen;
+    const portal = new ComponentPortal(modal, null, injector);
+    const ref = this.portalOutlet.attach(portal);
+    const instance = ref.instance;
+
+    this.modalService.activeModalInstance$.next(instance);
+    this.cdRef.detectChanges();
+
+    // Focus on wrapper by default
+    (this.overlay.nativeElement as HTMLElement).focus();
+
+    // Focus on the first element
+    instance && instance.onOpen();
   }
 }

@@ -22,39 +22,78 @@ module OpenProject::Calendar
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-calendar',
-             author_url: 'https://www.openproject.org',
+    register "openproject-calendar",
+             author_url: "https://www.openproject.org",
              bundled: true,
-             settings: {},
-             name: 'OpenProject Calendar' do
+             settings: {} do
       project_module :calendar_view, dependencies: :work_package_tracking do
         permission :view_calendar,
-                   { 'calendar/calendars': %i[index show] },
+                   { "calendar/calendars": %i[index show] },
+                   permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { calendar: %i[read] }
         permission :manage_calendars,
-                   { 'calendar/calendars': %i[index show new destroy] },
+                   { "calendar/calendars": %i[index show new create destroy] },
+                   permissible_on: :project,
                    dependencies: %i[view_calendar add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { calendar: %i[create update destroy] }
+        permission :share_calendars,
+                   {},
+                   permissible_on: :project,
+                   dependencies: %i[view_calendar],
+                   contract_actions: { calendar: %i[read] }
       end
+
+      should_render = Proc.new do
+        (User.current.logged? || !Setting.login_required?) &&
+        User.current.allowed_in_any_project?(:view_calendar)
+      end
+
+      menu :top_menu,
+           :calendar_view, { controller: "/calendar/calendars", action: "index", project_id: nil },
+           context: :modules,
+           caption: :label_calendar_plural,
+           icon: "calendar",
+           after: :gantt,
+           if: should_render
+
+      menu :global_menu,
+           :calendar_view,
+           { controller: "/calendar/calendars", action: "index", project_id: nil },
+           caption: :label_calendar_plural,
+           icon: "calendar",
+           after: :gantt,
+           if: should_render
 
       menu :project_menu,
            :calendar_view,
-           { controller: '/calendar/calendars', action: 'index' },
+           { controller: "/calendar/calendars", action: "index" },
            caption: :label_calendar_plural,
-           icon: 'icon2 icon-calendar',
-           after: :work_packages
+           icon: "calendar",
+           after: :gantt
 
       menu :project_menu,
            :calendar_menu,
-           { controller: '/calendar/calendars', action: 'index' },
+           { controller: "/calendar/calendars", action: "index" },
            parent: :calendar_view,
-           partial: 'calendar/calendars/menu',
+           partial: "calendar/calendars/menu",
            last: true,
            caption: :label_calendar_plural
     end
 
     add_view :WorkPackagesCalendar,
-             contract_strategy: 'Calendar::Views::ContractStrategy'
+             contract_strategy: "Calendar::Views::ContractStrategy"
+
+    initializer "calendar.register_mimetypes" do
+      # next if defined? Mime::XLS
+
+      Mime::Type.register("text/calendar", :ics)
+    end
+
+    initializer "calendar.configuration" do
+      ::Settings::Definition.add "ical_enabled",
+                                 default: true,
+                                 format: :boolean
+    end
   end
 end

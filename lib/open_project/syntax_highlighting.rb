@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ module OpenProject
         guessers << Rouge::Guessers::Filename.new(filename) if filename.present?
 
         begin
-          Rouge::Lexer::guess guessers: guessers
+          Rouge::Lexer::guess(guessers:)
         rescue StandardError => e
           if !e.message.nil? && e.message == 'Ambiguous guess: can\'t decide between ["html", "xml"]'
             Rouge::Lexers::HTML.new

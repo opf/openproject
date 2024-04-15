@@ -3,12 +3,13 @@
   id="div-values-{{filter.id}}"
 >
   <op-project-autocompleter
-    [value]="filter.values"
+    [model]="filter.values"
     [focusDirectly]="shouldFocus"
     [multiple]="true"
+    [appendTo]="'body'"
     [id]="'values-' + filter.id"
     class="advanced-filters--ng-select -multi-select"
-    (valueChange)="onChange($event)"
-    [apiFilters]="additionalProjectApiFilters"
+    (change)="onChange($event)"
+    [filters]="additionalProjectApiFilters"
   ></op-project-autocompleter>
 </div>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
+RSpec.describe API::V3::Grids::Schemas::GridSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { build_stubbed(:user) }
 
-  let(:self_link) { '/a/self/link' }
+  let(:self_link) { "/a/self/link" }
   let(:embedded) { true }
   let(:new_record) { true }
   let(:allowed_scopes) { %w(/some/path /some/other/path) }
@@ -41,14 +41,14 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
     %w(first_widget second_widget)
   end
   let(:contract) do
-    contract = double('contract')
+    contract = double("contract")
 
     allow(contract)
       .to receive(:writable?) do |attribute|
       writable = %w(row_count column_count widgets)
 
       if new_record
-        writable << 'scope'
+        writable << "scope"
       end
 
       writable.include?(attribute.to_s)
@@ -65,7 +65,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
 
     allow(contract)
       .to receive(:model)
-      .and_return(double('model'))
+      .and_return(double("model"))
 
     contract
   end
@@ -76,89 +76,89 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
                            current_user:)
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:generated) { representer.to_json }
 
-    describe '_type' do
-      it 'is indicated as Schema' do
-        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
+    describe "_type" do
+      it "is indicated as Schema" do
+        expect(subject).to be_json_eql("Schema".to_json).at_path("_type")
       end
     end
 
-    describe 'id' do
-      let(:path) { 'id' }
+    describe "id" do
+      let(:path) { "id" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'Integer' }
-        let(:name) { I18n.t('attributes.id') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "Integer" }
+        let(:name) { I18n.t("attributes.id") }
         let(:required) { true }
         let(:writable) { false }
       end
     end
 
-    describe 'rowCount' do
-      let(:path) { 'rowCount' }
+    describe "rowCount" do
+      let(:path) { "rowCount" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'Integer' }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "Integer" }
         let(:name) { Grids::Grid.human_attribute_name(:row_count) }
         let(:required) { true }
         let(:writable) { true }
       end
     end
 
-    describe 'columnCount' do
-      let(:path) { 'columnCount' }
+    describe "columnCount" do
+      let(:path) { "columnCount" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'Integer' }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "Integer" }
         let(:name) { Grids::Grid.human_attribute_name(:column_count) }
         let(:required) { true }
         let(:writable) { true }
       end
     end
 
-    describe 'createdAt' do
-      let(:path) { 'createdAt' }
+    describe "createdAt" do
+      let(:path) { "createdAt" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'DateTime' }
-        let(:name) { Grids::Grid.human_attribute_name('created_at') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "DateTime" }
+        let(:name) { Grids::Grid.human_attribute_name("created_at") }
         let(:required) { true }
         let(:writable) { false }
       end
     end
 
-    describe 'updatedAt' do
-      let(:path) { 'updatedAt' }
+    describe "updatedAt" do
+      let(:path) { "updatedAt" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { 'DateTime' }
-        let(:name) { Grids::Grid.human_attribute_name('updated_at') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "DateTime" }
+        let(:name) { Grids::Grid.human_attribute_name("updated_at") }
         let(:required) { true }
         let(:writable) { false }
       end
     end
 
-    describe 'widgets' do
-      let(:path) { 'widgets' }
+    describe "widgets" do
+      let(:path) { "widgets" }
 
-      it_behaves_like 'has basic schema properties' do
-        let(:type) { '[]GridWidget' }
-        let(:name) { Grids::Grid.human_attribute_name('widgets') }
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "[]GridWidget" }
+        let(:name) { Grids::Grid.human_attribute_name("widgets") }
         let(:required) { true }
         let(:writable) { true }
-        let(:location) { '_links' }
+        let(:location) { "_links" }
       end
 
-      context 'when embedding' do
+      context "when embedding" do
         let(:embedded) { true }
 
-        it 'contains no link to the allowed values' do
+        it "contains no link to the allowed values" do
           expect(subject).not_to have_json_path("#{path}/_links/allowedValues")
         end
 
-        it 'embeds the allowed values' do
+        it "embeds the allowed values" do
           allowed_widgets.each_with_index do |identifier, index|
             href_path = "#{path}/_embedded/allowedValues/#{index}/identifier"
             expect(subject).to be_json_eql(identifier.to_json).at_path(href_path)
@@ -166,98 +166,98 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         end
       end
 
-      context 'when not embedding' do
+      context "when not embedding" do
         let(:embedded) { false }
 
-        it_behaves_like 'does not link to allowed values'
+        it_behaves_like "does not link to allowed values"
       end
     end
 
-    describe 'scope' do
-      let(:path) { 'scope' }
+    describe "scope" do
+      let(:path) { "scope" }
 
-      context 'when having a new record' do
-        it_behaves_like 'has basic schema properties' do
-          let(:type) { 'Href' }
-          let(:name) { Grids::Grid.human_attribute_name('scope') }
+      context "when having a new record" do
+        it_behaves_like "has basic schema properties" do
+          let(:type) { "Href" }
+          let(:name) { Grids::Grid.human_attribute_name("scope") }
           let(:required) { true }
           let(:writable) { true }
-          let(:location) { '_links' }
+          let(:location) { "_links" }
         end
 
-        context 'when embedding' do
+        context "when embedding" do
           let(:embedded) { true }
 
-          it_behaves_like 'links to allowed values directly' do
+          it_behaves_like "links to allowed values directly" do
             let(:hrefs) { allowed_scopes }
           end
 
-          it 'does not embed' do
+          it "does not embed" do
             expect(generated)
-              .not_to have_json_path('scope/embedded')
+              .not_to have_json_path("scope/embedded")
           end
         end
 
-        context 'when not embedding' do
+        context "when not embedding" do
           let(:embedded) { false }
 
-          it_behaves_like 'does not link to allowed values'
+          it_behaves_like "does not link to allowed values"
 
-          it 'does not embed' do
+          it "does not embed" do
             expect(generated)
-              .not_to have_json_path('scope/embedded')
+              .not_to have_json_path("scope/embedded")
           end
         end
       end
 
-      context 'when not having a new record' do
+      context "when not having a new record" do
         let(:new_record) { false }
         let(:allowed_scopes) { nil }
 
-        it_behaves_like 'has basic schema properties' do
-          let(:type) { 'Href' }
-          let(:name) { Grids::Grid.human_attribute_name('scope') }
+        it_behaves_like "has basic schema properties" do
+          let(:type) { "Href" }
+          let(:name) { Grids::Grid.human_attribute_name("scope") }
           let(:required) { true }
           let(:writable) { false }
-          let(:location) { '_links' }
+          let(:location) { "_links" }
         end
 
-        context 'when embedding' do
+        context "when embedding" do
           let(:embedded) { true }
 
-          it_behaves_like 'does not link to allowed values'
+          it_behaves_like "does not link to allowed values"
 
-          it 'does not embed' do
+          it "does not embed" do
             expect(generated)
-              .not_to have_json_path('scope/embedded')
+              .not_to have_json_path("scope/embedded")
           end
         end
 
-        context 'when not embedding' do
+        context "when not embedding" do
           let(:embedded) { false }
 
-          it_behaves_like 'does not link to allowed values'
+          it_behaves_like "does not link to allowed values"
 
-          it 'does not embed' do
+          it "does not embed" do
             expect(generated)
-              .not_to have_json_path('scope/embedded')
+              .not_to have_json_path("scope/embedded")
           end
         end
       end
     end
 
-    context '_links' do
-      describe 'self link' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'self' }
+    context "_links" do
+      describe "self link" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "self" }
           let(:href) { self_link }
         end
 
-        context 'embedded in a form' do
+        context "embedded in a form" do
           let(:self_link) { nil }
 
-          it_behaves_like 'has no link' do
-            let(:link) { 'self' }
+          it_behaves_like "has no link" do
+            let(:link) { "self" }
           end
         end
       end

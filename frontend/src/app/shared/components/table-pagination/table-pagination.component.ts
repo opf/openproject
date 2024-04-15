@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { PaginationInstance } from 'core-app/shared/components/table-pagination/pagination-instance';
-import { IPaginationOptions, PaginationService } from './pagination-service';
+import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 
 @Component({
   selector: '[tablePagination]',
@@ -77,20 +77,18 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
 
   public perPageOptions:number[] = [];
 
-  constructor(protected paginationService:PaginationService,
+  constructor(
+    protected paginationService:PaginationService,
     protected cdRef:ChangeDetectorRef,
-    protected I18n:I18nService) {
+    protected I18n:I18nService,
+  ) {
     super();
   }
 
   ngOnInit():void {
-    this.paginationService
-      .loadPaginationOptions()
-      .then((paginationOptions:IPaginationOptions) => {
-        this.perPageOptions = paginationOptions.perPageOptions;
-        this.pagination = new PaginationInstance(1, parseInt(this.totalEntries), paginationOptions.perPage);
-        this.cdRef.detectChanges();
-      });
+    const paginationOptions = this.paginationService.getPaginationOptions();
+    this.perPageOptions = paginationOptions.perPageOptions;
+    this.pagination = new PaginationInstance(1, parseInt(this.totalEntries, 10), paginationOptions.perPage);
   }
 
   public update() {

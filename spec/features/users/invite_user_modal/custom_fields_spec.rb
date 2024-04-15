@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,71 +26,73 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Invite user modal custom fields', type: :feature, js: true do
-  shared_let(:project) { create :project }
+RSpec.describe "Invite user modal custom fields", :js, :with_cuprite do
+  shared_let(:project) { create(:project) }
 
   let(:permissions) { %i[view_project manage_members] }
-  let(:global_permissions) { %i[manage_user] }
-  let(:principal) { build :invited_user }
+  let(:global_permissions) { %i[create_user manage_user] } # TODO: Figure out why create_user is not enough here
+  let(:principal) { build(:invited_user) }
   let(:modal) do
-    ::Components::Users::InviteUserModal.new project:,
-                                             principal:,
-                                             role:
+    Components::Users::InviteUserModal.new project:,
+                                           principal:,
+                                           role:
   end
   let!(:role) do
-    create :role,
-           name: 'Member',
-           permissions:
+    create(:project_role,
+           name: "Member",
+           permissions:)
   end
 
-  let!(:boolean_cf) { create :boolean_user_custom_field, name: 'bool', is_required: true }
-  let!(:integer_cf) { create :integer_user_custom_field, name: 'int', is_required: true }
-  let!(:text_cf) { create :text_user_custom_field, name: 'Text', is_required: true }
-  let!(:string_cf) { create :string_user_custom_field, name: 'String', is_required: true }
+  let!(:boolean_cf) { create(:user_custom_field, :boolean, name: "bool", is_required: true) }
+  let!(:integer_cf) { create(:user_custom_field, :integer, name: "int", is_required: true) }
+  let!(:text_cf) { create(:user_custom_field, :text, name: "Text", is_required: true) }
+  let!(:string_cf) { create(:user_custom_field, :string, name: "String", is_required: true) }
   # TODO float not supported yet
-  # let!(:float_cf) { create :float_user_custom_field, name: 'Float', is_required: true }
-  let!(:list_cf) { create :list_user_custom_field, name: 'List', is_required: true }
-  let!(:list_multi_cf) { create :list_user_custom_field, name: 'Multi list', multi_value: true, is_required: true }
+  # let!(:float_cf) { create :user_custom_field, :float, name: 'Float', is_required: true }
+  let!(:list_cf) { create(:user_custom_field, :list, name: "List", is_required: true) }
+  let!(:list_multi_cf) { create(:user_custom_field, :list, name: "Multi list", multi_value: true, is_required: true) }
 
-  let!(:non_req_cf) { create :string_user_custom_field, name: 'non req', is_required: false }
+  let!(:non_req_cf) { create(:user_custom_field, :string, name: "non req", is_required: false) }
 
-  let(:boolean_field) { ::FormFields::InputFormField.new boolean_cf }
-  let(:integer_field) { ::FormFields::InputFormField.new integer_cf }
-  let(:text_field) { ::FormFields::EditorFormField.new text_cf }
-  let(:string_field) { ::FormFields::InputFormField.new string_cf }
+  let(:boolean_field) { FormFields::InputFormField.new boolean_cf }
+  let(:integer_field) { FormFields::InputFormField.new integer_cf }
+  let(:text_field) { FormFields::EditorFormField.new text_cf }
+  let(:string_field) { FormFields::InputFormField.new string_cf }
   # TODO float not supported yet
   # let(:float_field) { ::FormFields::InputFormField.new float_cf }
-  let(:list_field) { ::FormFields::SelectFormField.new list_cf }
-  let(:list_multi_field) { ::FormFields::SelectFormField.new list_multi_cf }
+  let(:list_field) { FormFields::SelectFormField.new list_cf }
+  let(:list_multi_field) { FormFields::SelectFormField.new list_multi_cf }
 
-  let(:quick_add) { ::Components::QuickAddMenu.new }
+  let(:quick_add) { Components::QuickAddMenu.new }
 
   current_user do
-    create :user,
+    create(:user,
            :skip_validations,
-           member_in_project: project,
-           member_through_role: role,
-           global_permissions:
+           member_with_roles: { project => role },
+           global_permissions:)
   end
 
-  it 'shows the required fields during the principal step' do
-    visit home_path
+  it "shows the required fields during the principal step" do
+    retry_block do
+      visit home_path
 
-    quick_add.expect_visible
+      quick_add.expect_visible
 
-    quick_add.toggle
+      quick_add.toggle
 
-    quick_add.click_link 'Invite user'
+      wait_for_network_idle
 
-    modal.project_step
+      quick_add.click_link "Invite user"
 
-    # Fill the principal and try to go to next
-    sleep 1
-    modal.principal_step
+      modal.project_step
 
-    expect(page).to have_selector('form.ng-invalid', wait: 10)
+      # Fill the principal and try to go to next
+      modal.principal_step
+
+      page.find("form.ng-invalid", wait: 10)
+    end
 
     modal.within_modal do
       expect(page).to have_text "bool can't be blank."
@@ -106,23 +108,23 @@ describe 'Invite user modal custom fields', type: :feature, js: true do
 
     # Fill all fields
     boolean_field.input_element.check
-    integer_field.set_value '1234'
-    text_field.set_value 'A **markdown** value'
-    string_field.set_value 'String value'
+    integer_field.set_value "1234"
+    text_field.set_value "A **markdown** value"
+    string_field.set_value "String value"
 
-    list_field.select_option '1'
-    list_multi_field.select_option '1', '2'
+    list_field.select_option "A"
+    list_multi_field.select_option "A", "B"
 
     modal.click_next
 
     # Remaining steps
-    modal.confirmation_step
-    modal.click_modal_button 'Send invitation'
     modal.expect_text "Invite user"
+    modal.confirmation_step
+    modal.click_modal_button "Send invitation"
 
     # Close
-    modal.click_modal_button 'Send invitation'
     modal.expect_text "#{principal.mail} was invited!"
+    modal.click_modal_button "Continue"
 
     # Expect to be added to project
     invited = project.users.last
@@ -130,9 +132,9 @@ describe 'Invite user modal custom fields', type: :feature, js: true do
 
     expect(invited.custom_value_for(boolean_cf).typed_value).to be true
     expect(invited.custom_value_for(integer_cf).typed_value).to eq 1234
-    expect(invited.custom_value_for(text_cf).typed_value).to eq 'A **markdown** value'
-    expect(invited.custom_value_for(string_cf).typed_value).to eq 'String value'
-    expect(invited.custom_value_for(list_cf).typed_value).to eq '1'
-    expect(invited.custom_value_for(list_multi_cf).map(&:typed_value)).to eq %w[1 2]
+    expect(invited.custom_value_for(text_cf).typed_value).to eq "A **markdown** value"
+    expect(invited.custom_value_for(string_cf).typed_value).to eq "String value"
+    expect(invited.custom_value_for(list_cf).typed_value).to eq "A"
+    expect(invited.custom_value_for(list_multi_cf).map(&:typed_value)).to eq %w[A B]
   end
 end

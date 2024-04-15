@@ -1,5 +1,9 @@
 #English strings go here
 sk:
+  plugin_openproject_avatars:
+    name: "Avatary"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "Avatar"
   label_avatar_plural: "Avatary"
   label_current_avatar: "Aktuálny avatar"
@@ -35,6 +39,3 @@ sk:
       enable_gravatars: 'Povoliť Gravatar'
       gravatar_default: "Predvolený Gravatar obrázok"
       enable_local_avatars: 'Povoliť Gravatar'
-
-
-

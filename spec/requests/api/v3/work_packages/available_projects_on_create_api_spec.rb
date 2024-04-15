@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
+RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
   include API::V3::Utilities::PathHelper
 
   let(:add_role) do
-    create(:role, permissions: [:add_work_packages])
+    create(:project_role, permissions: [:add_work_packages])
   end
   let(:project) { create(:project) }
   let(:type_id) { nil }
 
   current_user do
     create(:user,
-           member_in_project: project,
-           member_through_role: add_role)
+           member_with_roles: { project => add_role })
   end
 
-  context 'with a type filter present' do
-    let(:type) { create :type }
+  context "with a type filter present" do
+    let(:type) { create(:type) }
     let(:type_id) { type.id }
-    let(:project_with_type) { create :project, types: [type] }
+    let(:project_with_type) { create(:project, types: [type]) }
     let(:member) do
       create(:member, principal: current_user, project: project_with_type, roles: [add_role])
     end
@@ -57,36 +56,36 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
       project_with_type
       member
 
-      params = [type_id: { operator: '=', values: [type_id] }]
-      escaped = CGI.escape(::JSON.dump(params))
+      params = [type_id: { operator: "=", values: [type_id] }]
+      escaped = CGI.escape(JSON.dump(params))
 
       get "#{api_v3_paths.available_projects_on_create}?filters=#{escaped}"
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'Project' do
+    it_behaves_like "API V3 collection response", 1, 1, "Project" do
       let(:elements) { [project_with_type] }
     end
   end
 
-  describe 'with a single project' do
+  describe "with a single project" do
     before do
       project
 
       get api_v3_paths.available_projects_on_create
     end
 
-    context 'with the necessary permissions' do
-      it_behaves_like 'API V3 collection response', 1, 1, 'Project' do
+    context "with the necessary permissions" do
+      it_behaves_like "API V3 collection response", 1, 1, "Project" do
         let(:elements) { [project] }
       end
     end
 
-    context 'without any add_work_packages permission' do
+    context "without any add_work_packages permission" do
       let(:add_role) do
-        create(:role, permissions: [])
+        create(:project_role, permissions: [])
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 end

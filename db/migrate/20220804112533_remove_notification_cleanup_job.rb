@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,9 @@
 
 class RemoveNotificationCleanupJob < ActiveRecord::Migration[7.0]
   def up
-    # Remove the cron job no longer desired.
-    # The code itself is removed but keeping it in the database would lead to UninitializedConstant errors.
-    Delayed::Job
-      .where('handler LIKE ?', "%job_class: Notifications::CleanupJob%")
-      .delete_all
-
+    execute("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Notifications::CleanupJob%'")
     Setting
-      .where(name: 'notification_retention_period_days')
+      .where(name: "notification_retention_period_days")
       .delete_all
   end
 end

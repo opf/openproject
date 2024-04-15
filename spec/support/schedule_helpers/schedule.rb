@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ module ScheduleHelpers
       return symbolic_name if @work_packages.has_key?(symbolic_name)
 
       spell_checker = DidYouMean::SpellChecker.new(dictionary: @work_packages.keys.map(&:to_s))
-      suggestions = spell_checker.correct(name).map(&:inspect).join(' ')
+      suggestions = spell_checker.correct(name).map(&:inspect).join(" ")
       did_you_mean = " Did you mean #{suggestions} instead?" if suggestions.present?
       raise "No work package with name #{name.inspect} in schedule.#{did_you_mean}"
     end

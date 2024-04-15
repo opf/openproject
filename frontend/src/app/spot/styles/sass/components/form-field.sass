@@ -12,6 +12,7 @@
     display: flex
     flex-direction: column
     margin: 0
+    font-weight: normal
 
   &--label
     display: flex
@@ -19,7 +20,7 @@
     align-items: center
     margin-bottom: $spot-spacing-0_25
 
-    @include spot-body-small($weight: bold)
+    @include spot-body-small($weight: var(--base-text-weight-bold))
     color: $spot-color-basic-gray-1
 
     &-indicator
@@ -39,7 +40,7 @@
 
   &--input
     margin-bottom: $spot-spacing-0_25
-    display: -webkit-flex /* Safari */     
+    display: -webkit-flex /* Safari */
     display: flex
 
     > *

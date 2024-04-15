@@ -81,8 +81,9 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
 
     // Load the attachments so that they are displayed in the list.
     // Once that is done, we can show the edit form.
-    this.resource.grid.updateAttachments().then(() => {
+    void this.resource.grid.updateAttachments().then(() => {
       this.handler.activate();
+      this.cdr.detectChanges();
     });
   }
 

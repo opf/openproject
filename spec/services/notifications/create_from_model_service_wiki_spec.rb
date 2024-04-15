@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,15 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require_relative './create_from_journal_job_shared'
+require "spec_helper"
+require_relative "create_from_journal_job_shared"
 
-describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe Notifications::CreateFromModelService, "wiki", with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:call) do
     described_class.new(journal).call(send_notifications)
   end
 
-  include_context 'with CreateFromJournalJob context'
+  include_context "with CreateFromJournalJob context"
 
   shared_let(:project) { create(:project) }
   shared_let(:wiki) { create(:wiki, project:) }
@@ -44,10 +44,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
   let(:wiki_page) do
     create(:wiki_page,
            wiki:,
-           content: build(:wiki_content,
-                          author: other_user))
+           author: other_user)
   end
-  let(:resource) { wiki_page.content }
+  let(:resource) { wiki_page }
   let(:journal) { resource.journals.last }
   let(:author) { other_user }
 
@@ -57,10 +56,10 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
     recipient
   end
 
-  describe '#perform' do
-    context 'with a newly created wiki page' do
-      context 'with the user having registered for all notifications' do
-        it_behaves_like 'creates notification' do
+  describe "#perform" do
+    context "with a newly created wiki page" do
+      context "with the user having registered for all notifications" do
+        it_behaves_like "creates notification" do
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
@@ -72,37 +71,37 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         end
       end
 
-      context 'with the user having registered for assignee notifications' do
+      context "with the user having registered for assignee notifications" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for responsible notifications' do
+      context "with the user having registered for responsible notifications" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for no notifications' do
+      context "with the user having registered for no notifications" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for watcher notifications and watching the wiki' do
+      context "with the user having registered for watcher notifications and watching the wiki" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(watched: true))
@@ -113,7 +112,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           wiki.watcher_users << recipient
         end
 
-        it_behaves_like 'creates notification' do
+        it_behaves_like "creates notification" do
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
@@ -125,7 +124,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         end
       end
 
-      context 'with the user not having registered for watcher notifications and watching the wiki' do
+      context "with the user not having registered for watcher notifications and watching the wiki" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false)
@@ -136,34 +135,34 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           wiki.watcher_users << recipient
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for watcher notifications and not watching the wiki' do
+      context "with the user having registered for watcher notifications and not watching the wiki" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for all notifications but lacking permissions' do
+      context "with the user having registered for all notifications but lacking permissions" do
         let(:permissions) { [] }
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
     end
 
-    context 'with an updated wiki page' do
+    context "with an updated wiki page" do
       before do
         resource.text = "Some new text to create a journal"
         resource.save!
       end
 
-      context 'with the user having registered for all notifications' do
-        it_behaves_like 'creates notification' do
+      context "with the user having registered for all notifications" do
+        it_behaves_like "creates notification" do
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
@@ -175,37 +174,37 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         end
       end
 
-      context 'with the user having registered for assignee notifications' do
+      context "with the user having registered for assignee notifications" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for responsible notifications' do
+      context "with the user having registered for responsible notifications" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for no notifications' do
+      context "with the user having registered for no notifications" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for watcher notifications and watching the wiki' do
+      context "with the user having registered for watcher notifications and watching the wiki" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(watched: true))
@@ -216,7 +215,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           wiki.watcher_users << recipient
         end
 
-        it_behaves_like 'creates notification' do
+        it_behaves_like "creates notification" do
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
@@ -228,7 +227,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         end
       end
 
-      context 'with the user not having registered for watcher notifications and watching the wiki' do
+      context "with the user not having registered for watcher notifications and watching the wiki" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false)
@@ -239,20 +238,20 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           wiki.watcher_users << recipient
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for watcher notifications and not watching the wiki nor the page' do
+      context "with the user having registered for watcher notifications and not watching the wiki nor the page" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for watcher notifications and watching the page' do
+      context "with the user having registered for watcher notifications and watching the page" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(watched: true))
@@ -263,7 +262,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           wiki_page.watcher_users << recipient
         end
 
-        it_behaves_like 'creates notification' do
+        it_behaves_like "creates notification" do
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
@@ -275,7 +274,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         end
       end
 
-      context 'with the user not having registered for watcher notifications and watching the page' do
+      context "with the user not having registered for watcher notifications and watching the page" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false)
@@ -286,13 +285,13 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           wiki_page.watcher_users << recipient
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for all notifications but lacking permissions' do
+      context "with the user having registered for all notifications but lacking permissions" do
         let(:permissions) { [] }
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
     end
   end

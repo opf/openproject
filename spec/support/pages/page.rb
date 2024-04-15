@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require_relative "../toasts/expectations"
+
 module Pages
   class Page
     include Capybara::DSL
     include Capybara::RSpecMatchers
     include RSpec::Matchers
     include OpenProject::StaticRouting::UrlHelpers
+    include Toasts::Expectations
 
     def current_page?
       URI.parse(current_url).path == path
     end
 
     def visit!
-      raise 'No path defined' unless path
+      raise "No path defined" unless path
 
       visit path
 
@@ -46,7 +49,12 @@ module Pages
     end
 
     def reload!
-      page.driver.browser.navigate.refresh
+      if using_cuprite?
+        page.driver.browser.refresh
+        wait_for_reload
+      else
+        page.driver.browser.navigate.refresh
+      end
     end
 
     def accept_alert_dialog!
@@ -80,47 +88,15 @@ module Pages
     end
 
     def expect_current_path(query_params = nil)
-      uri = URI.parse(current_url)
-      current_path = uri.path
-      current_path += "?#{uri.query}" if uri.query
-
       expected_path = path
       expected_path += "?#{query_params}" if query_params
 
-      expect(current_path).to eql expected_path
+      expect(page).to have_current_path expected_path, wait: 10
     end
 
-    def expect_toast(message:, type: :success)
-      if toast_type == :angular
-        expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 20)
-      elsif type == :error
-        expect(page).to have_selector(".errorExplanation", text: message)
-      elsif type == :success
-        expect(page).to have_selector(".flash.notice", text: message)
-      else
-        raise NotImplementedError
-      end
-    end
-
-    def expect_and_dismiss_toaster(message:, type: :success)
-      expect_toast(type: type, message: message)
-      dismiss_toaster!
-      expect_no_toaster(type: type, message: message)
-    end
-
-    def dismiss_toaster!
-      if toast_type == :angular
-        page.find('.op-toast--close').click
-      else
-        page.find('.flash .icon-close').click
-      end
-    end
-
-    def expect_no_toaster(type: :success, message: nil)
-      if type.nil?
-        expect(page).to have_no_selector(".op-toast")
-      else
-        expect(page).to have_no_selector(".op-toast.-#{type}", text: message)
+    def click_to_sort_by(header_name)
+      within ".generic-table thead" do
+        click_link header_name
       end
     end
 
@@ -177,8 +153,12 @@ module Pages
       nil
     end
 
-    def toast_type
-      :angular
+    def navigate_to_modules_menu_item(link_title)
+      visit root_path
+
+      within "#more-menu", visible: false do
+        click_on link_title, visible: false
+      end
     end
   end
 end

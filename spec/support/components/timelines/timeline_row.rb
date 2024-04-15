@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,22 +40,22 @@ module Components
       end
 
       def hover!
-        @container.find('.timeline-element').hover
+        @container.find(".timeline-element").hover
       end
 
       def expect_hovered_labels(left:, right:)
         hover!
 
         unless left.nil?
-          expect(container).to have_selector(".labelHoverLeft.not-empty", text: left)
+          expect(container).to have_css(".labelHoverLeft.not-empty", text: left)
         end
         unless right.nil?
-          expect(container).to have_selector(".labelHoverRight.not-empty", text: right)
+          expect(container).to have_css(".labelHoverRight.not-empty", text: right)
         end
 
-        expect(container).to have_selector(".labelLeft", visible: false)
-        expect(container).to have_selector(".labelRight", visible: false)
-        expect(container).to have_selector(".labelFarRight", visible: false)
+        expect(container).to have_css(".labelLeft", visible: false)
+        expect(container).to have_css(".labelRight", visible: false)
+        expect(container).to have_css(".labelFarRight", visible: false)
       end
 
       def expect_labels(left:, right:, farRight:)
@@ -65,16 +65,17 @@ module Components
           labelFarRight: farRight
         }.each do |className, text|
           if text.nil?
-            expect(container).to have_selector(".#{className}", visible: :all)
-            expect(container).to have_no_selector(".#{className}.not-empty", wait: 0)
+            expect(container).to have_css(".#{className}", visible: :all)
+            expect(container).to have_no_css(".#{className}.not-empty", wait: 0)
           else
-            expect(container).to have_selector(".#{className}.not-empty", text:)
+            expect(container).to have_css(".#{className}.not-empty", text:)
           end
         end
       end
 
       def hover_bar(offset_days: 0)
         wait_until_hoverable
+        scrollToLeft
         offset_x = offset_days * 30
         page.driver.browser.action.move_to(@container.native, offset_x).perform
       end
@@ -86,26 +87,27 @@ module Components
 
       def expect_hovered_bar(duration: 1)
         expected_length = duration * 30
-        expect(container).to have_selector('div[class^="__hl_background_"', style: { width: "#{expected_length}px" })
+        expect(container).to have_css('div[class^="__hl_background_"', style: { width: "#{expected_length}px" })
       end
 
       def expect_bar(duration: 1)
         loading_indicator_saveguard
         expected_length = duration * 30
-        expect(container).to have_selector('.timeline-element', style: { width: "#{expected_length}px" })
+        expect(container).to have_css(".timeline-element", style: { width: "#{expected_length}px" })
       end
 
       def expect_no_hovered_bar
-        expect(container).not_to have_selector('div[class^="__hl_background_"')
+        expect(container).to have_no_css('div[class^="__hl_background_"')
       end
 
       def expect_no_bar
         loading_indicator_saveguard
-        expect(container).not_to have_selector('.timeline-element')
+        expect(container).to have_no_css(".timeline-element")
       end
 
       def drag_and_drop(offset_days: 0, days: 1)
         wait_until_hoverable
+        scrollToLeft
         offset_x_start = offset_days * 30
         start_dragging(container, offset_x: offset_x_start)
         offset_x = ((days - 1) * 30) + offset_x_start
@@ -113,13 +115,19 @@ module Components
         drag_release
       end
 
-      private
-
       def wait_until_hoverable
         # The timeline element and the mouse handlers are lazily loaded and can
         # be hidden if no dates are set. Finding it waits until the lazy loading
         # has completed.
-        container.find('.timeline-element', visible: :all)
+        container.find(".timeline-element", visible: :all)
+      end
+
+      private
+
+      def scrollToLeft
+        # timeline being scrolled to today is potentially moving elements of the tests out of sight
+        # thus, let's scroll back timeline to the far left in order to restore ability to use e.g. "driver.move_to"
+        page.driver.execute_script("document.getElementsByClassName('work-packages-tabletimeline--timeline-side')[0].scrollLeft=0")
       end
     end
   end

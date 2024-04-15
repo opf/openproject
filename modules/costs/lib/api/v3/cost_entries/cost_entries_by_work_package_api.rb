@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
+require "api/v3/cost_types/cost_type_representer"
 
 module API
   module V3
     module CostEntries
       class CostEntriesByWorkPackageAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_any(%i[view_cost_entries view_own_cost_entries],
-                        projects: @work_package.project)
+          authorize_in_projects(%i[view_cost_entries view_own_cost_entries],
+                                projects: @work_package.project)
           @cost_helper = ::Costs::AttributesHelper.new(@work_package, current_user)
         end
 

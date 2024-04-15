@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,62 +26,74 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
+require "contracts/shared/model_contract_shared_context"
 
-describe ::OAuthClients::CreateContract do
-  include_context 'ModelContract shared context'
+RSpec.describe OAuthClients::CreateContract do
+  include_context "ModelContract shared context"
 
   let(:current_user) { create(:admin) }
   let(:client_id) { "1234567889" }
   let(:client_secret) { "asdfasdfasdf" }
-  let(:integration) { build_stubbed :storage }
+  let(:integration) { build_stubbed(:nextcloud_storage) }
   let(:oauth_client) do
     build(:oauth_client, client_id:, client_secret:, integration:)
   end
 
   let(:contract) { described_class.new(oauth_client, current_user) }
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  describe 'validations' do
-    context 'when all attributes are valid' do
-      include_examples 'contract is valid'
+  describe "validations" do
+    context "when all attributes are valid" do
+      include_examples "contract is valid"
     end
 
     %i[client_id client_secret].each do |attribute_name|
-      context 'when client_id is invalid' do
-        context 'as it is too long' do
-          let(attribute_name) { 'X' * 257 }
+      context "when client_id is invalid" do
+        context "as it is too long" do
+          let(attribute_name) { "X" * 257 }
 
-          include_examples 'contract is invalid', attribute_name => :too_long
+          include_examples "contract is invalid", attribute_name => :too_long
         end
 
-        context 'as it is empty' do
-          let(attribute_name) { '' }
+        context "as it is empty" do
+          let(attribute_name) { "" }
 
-          include_examples 'contract is invalid', attribute_name => :blank
+          include_examples "contract is invalid", attribute_name => :blank
         end
 
-        context 'as it is nil' do
+        context "as it is nil" do
           let(attribute_name) { nil }
 
-          include_examples 'contract is invalid', attribute_name => :blank
+          include_examples "contract is invalid", attribute_name => :blank
         end
       end
     end
 
-    context 'with integration (polymorphic attribute) linked' do
-      let(:integration) { create :storage }
+    context "with blank client ID" do
+      let(:client_id) { "" }
 
-      include_examples 'contract is valid'
+      it "is invalid" do
+        expect(contract).not_to be_valid
+
+        expect(contract.errors[:client_id]).to eq(["can't be blank."])
+      end
     end
 
-    context 'without integration (polymorphic attribute)' do
+    context "with integration (polymorphic attribute) linked" do
+      let(:integration) { create(:nextcloud_storage) }
+
+      include_examples "contract is valid"
+    end
+
+    context "without integration (polymorphic attribute)" do
       let(:integration) { nil }
 
-      include_examples 'contract is invalid', { integration_id: :blank, integration_type: :blank }
+      include_examples "contract is invalid", { integration_id: :blank, integration_type: :blank }
     end
   end
+
+  include_examples "contract reuses the model errors"
 end

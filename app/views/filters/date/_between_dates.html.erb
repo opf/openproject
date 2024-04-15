@@ -1,0 +1,18 @@
+<div class="between-dates">
+  <span><%= t(:label_date_from) %>:</span>
+  <%= angular_component_tag 'op-basic-single-date-picker',
+                            inputs: {
+                              value: from_value,
+                              id: "between-dates-from-value-#{filter.name}",
+                              name: "from_value"
+                            }
+  %>
+  <span><%= t(:label_date_to) %>:</span>
+  <%= angular_component_tag 'op-basic-single-date-picker',
+                            inputs: {
+                              value: to_value,
+                              id: "between-dates-to-value-#{filter.name}",
+                              name: "to_value"
+                            }
+  %>
+</div>

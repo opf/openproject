@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,15 +33,11 @@ class Queries::Projects::Orders::ProjectStatusOrder < Queries::Orders::Base
     :project_status
   end
 
-  def left_outer_joins
-    :status
-  end
-
   private
 
   def order
     with_raise_on_invalid do
-      model.order(Arel.sql("project_statuses.code").send(direction))
+      model.order(Arel.sql("status_code").send(direction))
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,16 +27,16 @@
 #++
 
 FactoryBot.define do
-  factory :repository_subversion, class: 'Repository::Subversion' do
-    url { 'file://tmp/svn_test_repo' }
-    scm_type { 'existing' }
+  factory :repository_subversion, class: "Repository::Subversion" do
+    url { "file://tmp/svn_test_repo" }
+    scm_type { "existing" }
     project
   end
 
-  factory :repository_git, class: 'Repository::Git' do
-    url { 'file://tmp/git_test_repo' }
-    scm_type { 'local' }
-    path_encoding { 'UTF-8' }
+  factory :repository_git, class: "Repository::Git" do
+    url { "file://tmp/git_test_repo" }
+    scm_type { "local" }
+    path_encoding { "UTF-8" }
     project
   end
 end

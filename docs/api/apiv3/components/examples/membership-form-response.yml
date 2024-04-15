@@ -1,0 +1,37 @@
+description: |- 
+  A simple form response example.
+value:
+  _type: Form
+  _embedded:
+    payload:
+      _meta:
+        notificationMessage:
+          format: markdown
+          raw: '*Hallo*'
+          html: '<p class="op-uc-p"><em>Hallo</em></p>'
+      _links:
+        project:
+          href: '/api/v3/projects/21'
+          title: Death Star v3
+        principal:
+          href: '/api/v3/users/14'
+          title: Mara Jade
+        roles: [ ]
+    schema:
+      _type: Schema
+      _hint: Schema resource shortened for brevity
+    validationErrors:
+      roles:
+        _type: Error
+        errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+        message: Roles need to be assigned.
+        _embedded: 
+          details: 
+            attribute: roles
+  _links:
+    self: 
+      href: '/api/v3/memberships/form'
+      method: post
+    validate: 
+      href: '/api/v3/memberships/form'
+      method: post

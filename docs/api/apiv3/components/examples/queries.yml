@@ -12,8 +12,8 @@ value:
       - _type: Query
         id: 9
         name: fdsfdsfdsf
-        createdAt: '2015-03-20T12:56:56Z'
-        updatedAt: '2015-05-20T18:16:53Z'
+        createdAt: '2015-03-20T12:56:56.413Z'
+        updatedAt: '2015-05-20T18:16:53.392Z'
         filters:
           - _type: StatusQueryFilter
             name: Status

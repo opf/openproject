@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 module API
   module Errors
     class PropertyFormatError < ErrorBase
-      identifier 'PropertyFormatError'
+      identifier "PropertyFormatError"
       code 422
 
       attr_accessor :property
@@ -37,11 +37,11 @@ module API
       def initialize(property, expected_format, actual_value)
         self.property = property
 
-        message = I18n.t('api_v3.errors.invalid_format',
+        message = I18n.t("api_v3.errors.invalid_format",
                          property:,
                          expected_format:,
                          actual: actual_value)
-        super message
+        super(message)
       end
 
       def details

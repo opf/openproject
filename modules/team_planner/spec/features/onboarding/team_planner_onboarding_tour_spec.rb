@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './../../support/onboarding/onboarding_steps'
+require "spec_helper"
+require_relative "../../support/onboarding/onboarding_steps"
 
-describe 'team planner onboarding tour', js: true do
-  let(:next_button) { find('.enjoyhint_next_btn') }
+RSpec.describe "team planner onboarding tour",
+               :js,
+               with_cuprite: false,
+               with_ee: %i[team_planner_view],
+               # We decrease the notification polling interval because some portions
+               # of the JS code rely on something triggering the Angular change detection.
+               # This is usually done by the notification polling, but we don't want to wait
+               with_settings: { notifications_polling_interval: 1_000 } do
+  let(:next_button) { find(".enjoyhint_next_btn") }
 
   let(:demo_project) do
-    create :project,
-           name: 'Demo project',
-           identifier: 'demo-project',
+    create(:project,
+           name: "Demo project",
+           identifier: "demo-project",
            public: true,
-           enabled_module_names: %w[work_package_tracking wiki team_planner_view]
-  end
-  let(:scrum_project) do
-    create :project,
-           name: 'Scrum project',
-           identifier: 'your-scrum-project',
-           public: true,
-           enabled_module_names: %w[work_package_tracking wiki]
+           enabled_module_names: %w[work_package_tracking gantt wiki team_planner_view])
   end
 
   let(:user) do
-    create :admin,
-           member_in_project: demo_project,
-           member_with_permissions: %w[view_work_packages edit_work_packages add_work_packages
-                                       view_team_planner manage_team_planner save_queries manage_public_queries
-                                       work_package_assigned]
+    create(:admin,
+           member_with_permissions: { demo_project => %w[view_work_packages edit_work_packages add_work_packages
+                                                         view_team_planner manage_team_planner save_queries
+                                                         manage_public_queries work_package_assigned] })
   end
 
   let!(:wp1) do
@@ -62,19 +61,17 @@ describe 'team planner onboarding tour', js: true do
            start_date: Time.zone.today,
            due_date: Time.zone.today)
   end
-  let!(:wp2) { create(:work_package, project: scrum_project) }
 
-  let(:query) { create :query, user:, project: demo_project, public: true, name: 'Team planner' }
+  let(:query) { create(:query, user:, project: demo_project, public: true, name: "Team planner") }
   let(:team_plan) do
-    create :view_team_planner,
+    create(:view_team_planner,
            query:,
            assignees: [user],
-           projects: [demo_project, scrum_project]
+           projects: [demo_project])
   end
 
   before do
     team_plan
-    with_enterprise_token :team_planner_view
     login_as user
 
     allow(Setting).to receive(:demo_projects_available).and_return(true)
@@ -86,26 +83,14 @@ describe 'team planner onboarding tour', js: true do
     page.execute_script("window.sessionStorage.clear();")
   end
 
-  context 'as a new user' do
-    it 'I see the team planner onboarding tour in the demo project' do
+  context "as a new user" do
+    it "I see the team planner onboarding tour in the demo project" do
       # Set the tour parameter so that we can start on the wp page
       visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 
       step_through_onboarding_wp_tour demo_project, wp1
 
       step_through_onboarding_team_planner_tour
-
-      step_through_onboarding_main_menu_tour has_full_capabilities: true
-    end
-
-    it "I do not see the team planner onboarding tour in the scrum project" do
-      # Set sessionStorage value so that the tour knows that it is in the scum tour
-      page.execute_script("window.sessionStorage.setItem('openProject-onboardingTour', 'startMainTourFromBacklogs');")
-
-      # Set the tour parameter so that we can start on the wp page
-      visit "/projects/#{scrum_project.identifier}/work_packages?start_onboarding_tour=true"
-
-      step_through_onboarding_wp_tour scrum_project, wp2
 
       step_through_onboarding_main_menu_tour has_full_capabilities: true
     end

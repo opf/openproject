@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ko:
+  plugin_openproject_backlogs:
+    name: "OpenProject 백로그"
+    description: "이 모듈은 애자일 팀이 Scrum 프로젝트에서 OpenProject로 작업할 수 있도록 하는 기능을 추가합니다."
   activerecord:
     attributes:
       work_package:
         position: "위치"
-        remaining_hours: "남은 시간"
-        remaining_time: "남은 시간"
         story_points: "스토리 포인트"
         backlogs_work_package_type: "백로그 유형"
     errors:
@@ -35,9 +36,6 @@ ko:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "은(는) 현재 스프린트에서 작업 패키지의 ID만 포함할 수 있습니다."
               must_block_at_least_one_work_package: "은(는) 티켓 하나 이상의 ID를 포함해야 합니다."
-            parent_id:
-              parent_child_relationship_across_projects: "은(는) 유효하지 않습니다. 작업 패키지 '%{work_package_name}'이(가) 백로그 작업이기 때문입니다. 따라서 현재 프로젝트 외부에 부모가 있을 수 없습니다."
-              type_must_be_one_of_the_following: "유형은 다음 중 하나여야 합니다. %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "은(는) 부모 스토리의 버전과 동일해야 합니다."
         sprint:
@@ -66,8 +64,8 @@ ko:
     properties: "속성"
     rebuild: "다시 빌드"
     rebuild_positions: "위치 다시 빌드"
-    remaining_hours: "남은 시간"
-    remaining_hours_ideal: "남은 시간(적합함)"
+    remaining_hours: "남은 작업"
+    remaining_hours_ideal: "남은 작업(적합함)"
     show_burndown_chart: "번다운 차트"
     story: "스토리"
     story_points: "스토리 포인트"
@@ -78,7 +76,6 @@ ko:
     x_more: "%{count}개 이상..."
   backlogs_active: "활성"
   backlogs_any: "모두"
-  backlogs_card_specification: "카드 인쇄용 레이블 유형"
   backlogs_inactive: "프로젝트가 작업을 표시하지 않습니다."
   backlogs_points_burn_direction: "포인트 번 업/다운"
   backlogs_product_backlog: "제품 백로그"
@@ -150,7 +147,7 @@ ko:
   rb_label_copy_tasks_none: "없음"
   rb_label_copy_tasks_open: "열기"
   rb_label_link_to_original: "원래 스토리의 링크 포함"
-  remaining_hours: "남은 시간"
+  remaining_hours: "남은 작업"
   required_burn_rate_hours: "필요한 진행 속도(시간)"
   required_burn_rate_points: "필요한 진행 속도(포인트)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

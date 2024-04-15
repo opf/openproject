@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,9 +35,9 @@ module API
         relation.base_class.per_page
       end
 
-      def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
+      def initialize(models, self_link:, current_user:, query_params: {}, page: nil, per_page: nil, groups: nil)
         @self_link_base = self_link
-        @query = query
+        @query_params = query_params
         @page = page.to_i > 0 ? page.to_i : 1
         resolved_page_size = resolve_page_size(per_page)
         @per_page = resulting_page_size(resolved_page_size, models)
@@ -50,14 +50,14 @@ module API
 
       link :jumpTo do
         {
-          href: make_page_link(page: '{offset}', page_size: @per_page),
+          href: make_page_link(page: "{offset}", page_size: @per_page),
           templated: true
         }
       end
 
       link :changeSize do
         {
-          href: make_page_link(page: @page, page_size: '{size}'),
+          href: make_page_link(page: @page, page_size: "{size}"),
           templated: true
         }
       end
@@ -103,7 +103,7 @@ module API
       end
 
       def query_params(page = @page, page_size = @per_page)
-        @query.merge(offset: page, pageSize: page_size)
+        @query_params.merge(offset: page, pageSize: page_size)
       end
 
       def paged_models(models)

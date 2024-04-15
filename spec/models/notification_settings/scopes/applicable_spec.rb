@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe NotificationSettings::Scopes::Applicable, type: :model do
-  describe '.applicable' do
-    subject(:scope) { ::NotificationSetting.applicable(project) }
+RSpec.describe NotificationSettings::Scopes::Applicable do
+  describe ".applicable" do
+    subject(:scope) { NotificationSetting.applicable(project) }
 
     let!(:user) do
       create(:user,
@@ -40,20 +40,20 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
       create(:project)
     end
 
-    context 'when only global settings exist' do
+    context "when only global settings exist" do
       let(:notification_settings) do
         [
           build(:notification_setting, project: nil)
         ]
       end
 
-      it 'returns the global settings' do
+      it "returns the global settings" do
         expect(scope)
           .to match_array(notification_settings)
       end
     end
 
-    context 'when global and project settings exist' do
+    context "when global and project settings exist" do
       let(:project_notification_settings) do
         [
           build(:notification_setting, project:)
@@ -66,13 +66,13 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
       end
       let(:notification_settings) { project_notification_settings + global_notification_settings }
 
-      it 'returns the project settings' do
+      it "returns the project settings" do
         expect(scope)
           .to match_array(project_notification_settings)
       end
     end
 
-    context 'when global and project settings exist but for a different project' do
+    context "when global and project settings exist but for a different project" do
       let(:other_project) { create(:project) }
       let(:project_notification_settings) do
         [
@@ -86,7 +86,7 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
       end
       let(:notification_settings) { project_notification_settings + global_notification_settings }
 
-      it 'returns the project settings' do
+      it "returns the project settings" do
         expect(scope)
           .to match_array(global_notification_settings)
       end

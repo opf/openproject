@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,21 +45,21 @@ module WorkPackage::Journalized
 
       def self.event_name
         Proc.new do |o|
-          I18n.t(o.event_type.underscore, scope: 'events')
+          I18n.t(o.event_type.underscore, scope: "events")
         end
       end
 
       def self.event_type
         Proc.new do |o|
           journal = o.last_journal
-          t = 'work_package'
+          t = "work_package"
 
           t << if journal && journal.details.empty? && !journal.initial?
-                 '-note'
+                 "-note"
                else
                  status = Status.find_by(id: o.status_id)
 
-                 status.try(:is_closed?) ? '-closed' : '-edit'
+                 status.try(:is_closed?) ? "-closed" : "-edit"
                end
           t
         end
@@ -77,33 +77,28 @@ module WorkPackage::Journalized
                   name: JournalizedProcs.event_name,
                   url: JournalizedProcs.event_url
 
-    register_journal_formatter(:cost_association) do |value, journable, field|
-      association = journable.class.reflect_on_association(field.to_sym)
-      if association
-        record = association.class_name.constantize.find_by(id: value.to_i)
-        record&.subject
-      end
-    end
-
-    register_on_journal_formatter(:id, 'parent_id')
-    register_on_journal_formatter(:fraction, 'estimated_hours')
-    register_on_journal_formatter(:fraction, 'derived_estimated_hours')
-    register_on_journal_formatter(:decimal, 'done_ratio')
-    register_on_journal_formatter(:diff, 'description')
-    register_on_journal_formatter(:schedule_manually, 'schedule_manually')
-    register_on_journal_formatter(:attachment, /attachments_?\d+/)
-    register_on_journal_formatter(:custom_field, /custom_fields_\d+/)
-    register_on_journal_formatter(:cost_association, 'budget_id')
-    register_on_journal_formatter(:ignore_non_working_days, 'ignore_non_working_days')
+    register_journal_formatted_fields(:id, "parent_id")
+    register_journal_formatted_fields(:fraction,
+                                      "estimated_hours", "derived_estimated_hours",
+                                      "remaining_hours", "derived_remaining_hours")
+    register_journal_formatted_fields(:percentage, "done_ratio")
+    register_journal_formatted_fields(:diff, "description")
+    register_journal_formatted_fields(:schedule_manually, "schedule_manually")
+    register_journal_formatted_fields(:attachment, /attachments_?\d+/)
+    register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
+    register_journal_formatted_fields(:ignore_non_working_days, "ignore_non_working_days")
+    register_journal_formatted_fields(:cause, "cause")
+    register_journal_formatted_fields(:file_link, /file_links_?\d+/)
 
     # Joined
-    register_on_journal_formatter :named_association, :parent_id, :project_id,
-                                  :status_id, :type_id,
-                                  :assigned_to_id, :priority_id,
-                                  :category_id, :version_id,
-                                  :author_id, :responsible_id
-    register_on_journal_formatter :datetime, :start_date, :due_date
-    register_on_journal_formatter :plaintext, :subject
-    register_on_journal_formatter :day_count, :duration
+    register_journal_formatted_fields :named_association, :parent_id, :project_id,
+                                      :budget_id,
+                                      :status_id, :type_id,
+                                      :assigned_to_id, :priority_id,
+                                      :category_id, :version_id,
+                                      :author_id, :responsible_id
+    register_journal_formatted_fields :datetime, :start_date, :due_date
+    register_journal_formatted_fields :plaintext, :subject
+    register_journal_formatted_fields :day_count, :duration
   end
 end

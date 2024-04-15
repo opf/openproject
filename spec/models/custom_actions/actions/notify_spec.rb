@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,10 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require_relative '../shared_expectations'
+require "spec_helper"
+require_relative "../shared_expectations"
 
-describe CustomActions::Actions::Notify, type: :model do
+RSpec.describe CustomActions::Actions::Notify do
   let(:key) { :notify }
   let(:type) { :associated_property }
   let(:allowed_values) do
@@ -39,14 +39,14 @@ describe CustomActions::Actions::Notify, type: :model do
       .to receive_message_chain(:not_locked, :select, :ordered_by_name)
             .and_return(users)
 
-    [{ value: nil, label: '-' },
+    [{ value: nil, label: "-" },
      { value: users.first.id, label: users.first.name },
      { value: users.last.id, label: users.last.name }]
   end
 
-  it_behaves_like 'base custom action' do
-    describe '#allowed_values' do
-      it 'is the list of all users' do
+  it_behaves_like "base custom action" do
+    describe "#allowed_values" do
+      it "is the list of all users" do
         allowed_values
 
         expect(instance.allowed_values)
@@ -54,12 +54,12 @@ describe CustomActions::Actions::Notify, type: :model do
       end
     end
 
-    it_behaves_like 'associated custom action validations'
+    it_behaves_like "associated custom action validations"
 
-    describe '#apply' do
+    describe "#apply" do
       let(:work_package) { build_stubbed(:work_package) }
 
-      it 'adds a note with all values distinguished by type' do
+      it "adds a note with all values distinguished by type" do
         principals = [build_stubbed(:user),
                       build_stubbed(:group),
                       build_stubbed(:user)]
@@ -78,8 +78,8 @@ describe CustomActions::Actions::Notify, type: :model do
       end
     end
 
-    describe '#multi_value?' do
-      it 'is true' do
+    describe "#multi_value?" do
+      it "is true" do
         expect(instance)
           .to be_multi_value
       end

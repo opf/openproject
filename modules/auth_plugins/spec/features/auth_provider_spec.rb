@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'rendering the login buttons', js: true do
+RSpec.describe "rendering the login buttons", :js do
   let(:providers) do
     [
-      { name: 'mock_auth' }
+      { name: "mock_auth" }
     ]
   end
 
@@ -39,15 +39,15 @@ describe 'rendering the login buttons', js: true do
     allow(OpenProject::Plugins::AuthPlugin).to receive(:providers).and_return(providers)
   end
 
-  describe 'in a public project', with_settings: { login_required: false } do
+  describe "in a public project", with_settings: { login_required: false } do
     let(:public_project) { build(:project, public: true) }
 
-    it 'renders correctly' do
+    it "renders correctly" do
       visit project_path(public_project)
 
-      page.find('a', text: 'Sign in').click
-      item = page.find('a.auth-provider', text: 'mock_auth')
-      expect(item[:href]).to end_with '/auth/mock_auth'
+      page.find("a", text: "Sign in").click
+      item = page.find("a.auth-provider", text: "mock_auth")
+      expect(item[:href]).to end_with "/auth/mock_auth"
     end
   end
 end

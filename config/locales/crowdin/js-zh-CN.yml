@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,18 +23,29 @@ zh-CN:
   js:
     ajax:
       hide: "隐藏"
-      loading: "加载中..."
+      loading: "正在加载…"
+      updating: "正在更新…"
     attachments:
+      delete: "删除附件"
+      delete_confirmation: |
+        确定要删除此规则吗？此操作无法撤消。
       draggable_hint: |
         将图片或附件拖到编辑区内即可添加。鼠标在关闭的编辑区上停留将打开这个编辑区。
+      quarantined_hint: "该文件由于发现了病毒已被隔离。该文件不可下载。"
+    autocomplete_ng_select:
+      add_tag: "添加项目"
+      clear_all: "全部清除"
+      loading: "加载中..."
+      not_found: "未找到项目"
+      type_to_search: "键入内容进行搜索"
     autocomplete_select:
       placeholder:
-        multi: "添加“%{name}”"
-        single: "选择“%{name}”"
-      remove: "移除%{name}"
+        multi: '添加“%{name}”'
+        single: '选择“%{name}”'
+      remove: "删除%{name}"
       active: "活跃的%{label} %{name}"
     backup:
-      attachments_disabled: 可能无法包含附件，因为它们超出了允许的最大总文件大小。您可以通过配置更改此设置（需要重新启动服务器）。
+      attachments_disabled: 可能无法包含附件，因为超过了最大文件限制。您可以配置修改限制（需要重新启动服务器）。
       info: >
         您可以在此处触发备份。该过程可能需要一些时间，具体取决于您的数据量（尤其是附件）。准备就绪后，您将收到一封电子邮件。
       note: >
@@ -61,9 +72,12 @@ zh-CN:
     button_confirm: "确认"
     button_continue: "继续"
     button_copy: "复制"
+    button_copy_to_clipboard: "复制到剪贴板"
+    button_copy_link_to_clipboard: "将链接复制到剪贴板"
+    button_copy_to_other_project: "复制到其他项目"
     button_custom-fields: "自定义字段"
     button_delete: "删除"
-    button_delete_watcher: "删除关注人"
+    button_delete_watcher: "删除关注者"
     button_details_view: "详细信息视图"
     button_duplicate: "复制"
     button_edit: "编辑"
@@ -75,116 +89,116 @@ zh-CN:
     button_show_view: "全屏视图"
     button_log_time: "记录时间"
     button_more: "更多"
-    button_open_details: "打开详细信息视图"
-    button_close_details: "关闭细节显示"
+    button_open_details: "打开详情视图"
+    button_close_details: "关闭详情视图"
     button_open_fullscreen: "打开全屏视图"
     button_show_cards: "显示卡片视图"
     button_show_list: "显示列表视图"
+    button_show_table: "显示表视图"
+    button_show_gantt: "显示甘特图"
+    button_show_fullscreen: "显示全屏视图"
+    button_more_actions: "更多操作"
     button_quote: "引用"
     button_save: "保存"
     button_settings: "设置"
     button_uncheck_all: "全部不选"
     button_update: "更新"
     button_export-pdf: "下载 PDF"
-    button_export-atom: "下载原子"
+    button_export-atom: "下载 Atom"
     button_create: "创建"
-    calendar:
-      title: '日历'
-      too_many: '总共有 %{count} 个工作包，但只能显示 %{max} 个。'
     card:
-      add_new: '添加新卡'
+      add_new: "添加新卡"
       highlighting:
-        inline: '突出显示内联：'
-        entire_card_by: '整个卡'
-      remove_from_list: '从列表中移除卡'
+        inline: "突出显示内联："
+        entire_card_by: "整个卡"
+      remove_from_list: "从列表中移除卡"
     caption_rate_history: "费率历史记录"
     clipboard:
-      browser_error: "您的浏览器不支持复制到剪贴板，请手动复制选定的文本。"
+      browser_error: "您的浏览器不支持复制到剪贴板，请手动复制：%{content}"
       copied_successful: "成功复制到剪贴板！"
     chart:
-      type: '图表类型'
-      axis_criteria: '轴条件'
-      modal_title: '工作包图配置'
+      type: "图表类型"
+      axis_criteria: "轴条件"
+      modal_title: "工作包图配置"
       types:
-        line: '线图'
-        horizontal_bar: '水平条形图'
-        bar: '条形图'
-        pie: '饼图'
-        doughnut: '圆环图'
-        radar: '雷达图'
-        polar_area: '极地区域图'
+        line: "线图"
+        horizontal_bar: "水平条形图"
+        bar: "条形图"
+        pie: "饼图"
+        doughnut: "圆环图"
+        radar: "雷达图"
+        polar_area: "极地区域图"
       tabs:
-        graph_settings: '通用'
-        dataset: '数据集 %{number}'
+        graph_settings: "通用"
+        dataset: "数据集 %{number}"
       errors:
-        could_not_load: '无法加载用于显示图表的数据。可能缺少必要的权限。'
+        could_not_load: "无法加载用于显示图表的数据。可能缺少必要的权限。"
     description_available_columns: "可用的列"
     description_current_position: "您现在的位置："
     description_select_work_package: "选择工作包 #%{id}"
-    description_selected_columns: "选定的列"
     description_subwork_package: "子工作包 #%{id}"
     editor:
-      preview: '切换预览模式'
-      source_code: '切换标记源模式'
-      error_saving_failed: '保存文档失败，出现以下错误：%{error}'
-      ckeditor_error: 'CKEditor 发生错误'
+      preview: "切换预览模式"
+      source_code: "切换 Markdown 模式"
+      error_saving_failed: "保存文档失败，出现以下错误：%{error}"
+      ckeditor_error: "CKEditor 发生错误"
       mode:
-        manual: '切换到标记源'
-        wysiwyg: '切换到 WYSIWYG 编辑器'
+        manual: "切换到 Markdown "
+        wysiwyg: "切换到 WYSIWYG 编辑器"
       macro:
-        error: '无法展开宏：%{message}'
+        error: "无法展开宏：%{message}"
         attribute_reference:
-          macro_help_tooltip: '此文本段正由宏动态呈现。'
-          not_found: '无法找到请求的资源'
+          macro_help_tooltip: "此文本段正由宏动态呈现。"
+          not_found: "无法找到请求的资源"
           invalid_attribute: "所选属性 '%{name}' 不存在。"
         child_pages:
-          button: '链接至子页面'
-          include_parent: '包括上级'
-          text: '[Placeholder] 子页面链接'
-          page: '维基页面'
-          this_page: '本页'
+          button: "链接至子页面"
+          include_parent: "包括上级"
+          text: "[Placeholder] 子页面链接"
+          page: "维基页面"
+          this_page: "本页"
           hint: |
             将此字段留空可列出当前页面的所有子页面。如果您想引用不同的页面，请提供其标题或标识符。
         code_block:
-          button: '插入代码片段'
-          title: '插入/编辑代码片段'
-          language: '格式化语言'
-          language_hint: '输入将用于突出显示（如果支持）的格式化语言。'
+          button: "插入代码片段"
+          title: "插入/编辑代码片段"
+          language: "格式化语言"
+          language_hint: "输入将用于突出显示（如果支持）的格式化语言。"
         dropdown:
-          macros: '宏'
-          chose_macro: '选择宏'
-        toc: '目录'
-        toolbar_help: '单击可以选择微件并显示工具栏。双击可以编辑微件'
+          macros: "宏"
+          chose_macro: "选择宏"
+        toc: "目录"
+        toolbar_help: "单击可以选择微件并显示工具栏。双击可以编辑微件"
         wiki_page_include:
-          button: '包括另一个Wiki页的内容'
-          text: '[Placeholder] 包含的 wiki 页面'
-          page: '维基页面'
-          not_set: '（页面未设置）'
+          button: "包括另一个维基页面的内容"
+          text: "[Placeholder] 包含的维基页面"
+          page: "维基页面"
+          not_set: "（页面未设置）"
           hint: |
-            通过指定其标题或Slug来包含其他Wiki页面的内容。
-            您可以通过使用冒号分隔另一个项目的Wiki页面，如下例所示。
+            通过指定其标题或简短链接来包含其他维基页面的内容。
+            您可以通过使用冒号分隔另一个项目的维基页面，如下例所示。
         work_package_button:
-          button: '插入创建工作包按钮'
-          type: '工作包类型'
-          button_style: '使用按键风格'
-          button_style_hint: '可选：选中以使宏显示为按钮，而不是链接。'
-          without_type: '创建工作包'
-          with_type: '创建工作包（种类：%{typename}）'
+          button: "插入创建工作包按钮"
+          type: "工作包类型"
+          button_style: "使用按键风格"
+          button_style_hint: "可选：选中以使宏显示为按钮，而不是链接。"
+          without_type: "创建工作包"
+          with_type: "创建工作包（类型：%{typename}）"
         embedded_table:
-          button: '嵌入工作包表'
-          text: '[Placeholder] 嵌入式工作包表'
+          button: "嵌入工作包表"
+          text: "[Placeholder] 嵌入式工作包表"
         embedded_calendar:
-          text: '[Placeholder]嵌入式日历'
+          text: "[Placeholder]嵌入式日历"
     admin:
       type_form:
-        custom_field: '自定义字段'
-        inactive: '非活动'
+        custom_field: "自定义字段"
+        inactive: "非活动"
         drag_to_activate: "从此处拖动字段将其激活"
         add_group: "增加属性组"
         add_table: "添加相关工作包表"
-        edit_query: '编辑查询'
-        new_group: '新的组'
-        reset_to_defaults: '重置为默认值'
+        edit_query: "编辑查询"
+        new_group: "新建组"
+        reset_to_defaults: "重置为默认值"
       enterprise:
         text_reprieve_days_left: "距宽限期结束还有 %{days} 天"
         text_expired: "已过期"
@@ -205,7 +219,8 @@ zh-CN:
             label_starts_at: "开始时间："
             label_expires_at: "到期时间"
             receive_newsletter: 我想要接收 OpenProject <a target="_blank" href="%{link}">简报</a>。
-            taken_domain: 每个域名只能有一个活跃的试用。
+            taken_domain: 每个域名只能有一个活动的试用。
+            domain_mismatch: 当前请求的主机名与配置的主机名不匹配。请仔细检查您的系统设置。
             taken_email: 每个用户只能创建一个试用。
           email_not_received: "没有收到电子邮件？您可以使用右侧的链接重新发送电子邮件。"
           try_another_email: "或者尝试使用另一个电子邮件地址。"
@@ -217,33 +232,51 @@ zh-CN:
           status_label: "状态："
           status_confirmed: "已确认"
           status_waiting: "电子邮件已发送 - 等待确认"
-          test_ee: "免费测试企业版 14 天"
-          quick_overview: "快速了解 OpenProject 企业版的项目管理和团队协作。"
+          test_ee: "免费体验企业版 14 天"
+          quick_overview: "用 OpenProject 企业版，快速了解项目管理和团队协作的概况。"
         upsale:
           become_hero: "成为英雄！"
+          enterprise_info_html: "%{feature_title} 是一个企业版<span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>的附加功能。"
+          upgrade_info: "请升级到付费方案，以激活并开始在您的团队中使用该功能。"
           benefits:
-            description: "本地部署的 Enterprise Edition 具有哪些优势？"
+            description: "本地部署的 Enterprise edition 具有哪些优势？"
             high_security: "安全功能"
-            high_security_text: "单点登录（SAML、OpenID Connect、CAS）、双重身份验证和 LDAP 组自动同步。"
+            high_security_text: "单点登录（SAML，OpenID Connect，CAS），LDAP 组。\n\n\n\n"
             installation: "安装支持"
-            installation_text: "经验丰富的软件工程师将指导您在自己的基础结构中完成整个安装和设置过程。"
-            premium_features: "高级功能"
+            installation_text: "经验丰富的软件工程师将指导您在自己的基础设施中完成整个安装和设置过程。"
+            premium_features: "企业版附加组件"
             premium_features_text: "敏捷面板，自定义主题和徽标，图表，包含自定义操作的智能工作流，全文搜索工作包附件和多选自定义字段。"
             professional_support: "专业支持"
             professional_support_text: "从高级支持工程师那里获得可靠的个性化支持，这些工程师拥有在业务关键型环境中运行 OpenProject 的专业知识。"
           button_start_trial: "开始免费试用"
+          button_upgrade: "立即升级"
+          button_contact_us: "联系我们获取演示"
           button_book_now: "立即预订"
           confidence: >
             我们秉承开源和开放心态，有信心提供经得起考验和充分支持的企业级项目管理软件。
           link_quote: "获取报价"
+          more_info: "更多信息"
           text: >
-            OpenProject 企业版以社区版为基础。它包括高级功能和专业支持，主要面向拥有 10 个以上用户并使用 OpenProject 管理业务关键型项目的组织。
+            OpenProject企业版是在社区版的基础上构建的。它包括企业版插件和专业支持，主要面向使用OpenProject管理业务关键项目的具有10个以上用户的组织。
           unlimited: "不受限制"
-          you_contribute: "开发者也需要支付账单。使用企业版，您可以为这项开源社区工作提供大力支持。"
+          you_contribute: "开发者也需要支付他们的账单。 通过升级到企业版，您将支持这个开放源码社区的努力，并有助于其发展、维护和不断改进。"
+      working_days:
+        calendar:
+          empty_state_header: "非工作日"
+          empty_state_description: '没有为今年定义特定的非工作日。请点击下方的“+ 非工作日”添加一个日期。'
+          new_date: "(新)"
+        add_non_working_day: "非工作日"
+        already_added_error: "该日期已存在非工作日。每个唯一日期只能创建一个非工作日。"
+        change_button: "保存并重新安排"
+        change_title: "更改工作日"
+        removed_title: "您将从非工作日列表中删除以下日期："
+        change_description: "更改一周中哪些天被视为工作日或非工作日可能会影响此实例中所有项目中所有工作包的开始和结束日期。"
+        warning: >
+          更改可能需要一些时间才能生效。当更新完所有相关工作包时，您将收到通知。
     custom_actions:
       date:
-        specific: '于'
-        current_date: '当前日期'
+        specific: "于"
+        current_date: "当前日期"
     error:
       internal: "发生了内部错误。"
       cannot_save_changes_with_message: "由于%{error} 原因，无法保存您的更改。"
@@ -253,6 +286,7 @@ zh-CN:
     enumeration_doc_categories: "文档类别"
     enumeration_work_package_priorities: "工作包优先级"
     filter:
+      more_values_not_shown: "还有 %{total} 条结果，搜索以筛选结果。"
       description:
         text_open_filter: "使用 ALT 和方向键打开筛选器。"
         text_close_filter: "要选择一个条目，请离开焦点，例如可以按 Enter。要在不使用筛选器的情况下离开，请选择第一个（空）条目。"
@@ -267,8 +301,34 @@ zh-CN:
           one: "第一个排序条件"
           two: "第二个排序条件"
           three: "第三个排序条件"
-      upsale_for_more: "有关更高级的筛选器, 请查看"
-      upsale_link: '企业版'
+    gantt_chart:
+      label: "甘特图"
+      quarter_label: "第 %{quarter_number} 季度"
+      labels:
+        title: "标签配置"
+        bar: "条形标签"
+        left: "左"
+        right: "右"
+        farRight: "最右"
+        description: >
+          选择要始终在甘特图的相应位置显示的属性。请注意，将鼠标悬停在元素上时会显示其日期标签，而不是这些属性。
+      button_activate: "显示甘特图"
+      button_deactivate: "隐藏甘特图"
+      filter:
+        noneSelection: "（无）"
+      selection_mode:
+        notification: "点击任何高亮显示的工作包以创建关系。按 Escape 键可以取消。"
+      zoom:
+        in: "放大"
+        out: "缩小"
+        auto: "自动缩放"
+        days: "天"
+        weeks: "周"
+        months: "月"
+        quarters: "季度"
+        years: "年"
+        description: >
+          选择自动缩放不可用时应显示的初始缩放级别。
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -287,26 +347,34 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          "13_4":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                此版本包含许多新功能和改进：<br> <ul class="%{list_styling_class}"> <li>借助新的<b>应用内通知</b>，您可以直接在应用程序中接收所有重要更新，不再需要收取大量电子邮件。</li> <li>新的<b>通知中心</b>可以显示所有变更，其中包含直观的筛选器选项，例如按通知原因或按项目筛选。它甚至支持直接在拆分视图中进行编辑。</li> <li>改进的<b>通知设置</b>使您可以对希望针对哪些操作和要接收通知的项目进行细微调整。</li> <li><b>电子邮件提醒</b>可以配置为通过每日电子邮件摘要的方式接收重要更新。</li> <li>工作包关系自动补全工具现在还会显示附加信息（项目名称、状态等），可以轻松识别相应的工作包。</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
-              new_features_html: >
-                该版本包含多种新增功能和改进：<br> <ul class="%{list_styling_class}"> <li>通知中心：减少您的邮件接收量。取而代之，您可以在一个中心场所查找所有相关通知并采取行动。</li> <li>现在，您也可以下载所有上传的 IFC 文件。</li> <li>IFC 的上传和处理速度更快，并会收到更好的错误消息。</li> <li><a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit 插件</a>修复了许多错误。</li> </ul>
+                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>GitLab 集成（最初由社区贡献者开发）</li> <li>自定义项目列表的高级功能</li> <li>会议模块的高级功能</li> <li>使用 ClamAV（企业插件）的病毒扫描功能</li> <li>PDF 导出：支持表格单元格中的列表</li> <li>添加 WebAuthn/FIDO/U2F 作为双因子认证</li> <li>在默认可用语言集中添加了更多语言</li> </ul>
+    ical_sharing_modal:
+      title: "订阅日历"
+      inital_setup_error_message: "获取数据时发生错误。"
+      description: "您可以使用 URL (iCalendar) 在外部客户端中订阅此日历，并从外部客户端查看最新工作包信息。"
+      warning: "请不要与其他用户共享此 URL 。拥有这个链接的任何人都可以在没有帐户或密码的情况下查看工作包的详细信息。"
+      token_name_label: "您将在哪里使用它？"
+      token_name_placeholder: '输入名称，例如“Phone”'
+      token_name_description_text: '如果您从多个设备订阅此日历，此名称将有助于在<a href="my/access_token", target="_blank">访问令牌</a>列表中区分它们。'
+      copy_url_label: "复制链接"
+      ical_generation_error_text: "生成日历 URL 时出错。"
+      success_message: 'URL“%{name}”已成功复制到剪贴板。请将其粘贴到日历客户端中以完成订阅。'
     label_activate: "激活"
+    label_assignee: "指定"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
-    label_add_columns: "增添列"
+    label_add_columns: "添加列"
     label_add_comment: "添加评论"
     label_add_comment_title: "写下评论并输入@ 以通知其他人"
     label_add_row_after: "之后添加行"
     label_add_row_before: "之前添加行"
     label_add_selected_columns: "添加所选的列"
-    label_added_by: "添加人"
-    label_added_time_by: "由 <a href=%{authorLink}>%{author}</a> 在 %{age} 添加"
+    label_added_by: "添加自"
+    label_added_time_by: '由 <a href=%{authorLink}>%{author}</a> 在 %{age} 添加'
     label_ago: "天前"
     label_all: "所有"
     label_all_work_packages: "所有工作包"
@@ -317,12 +385,12 @@ zh-CN:
     label_between: "介于"
     label_board: "面板"
     label_board_locked: "锁定"
-    label_board_plural: "面板"
+    label_board_plural: "看板"
     label_board_sticky: "置顶"
     label_change: "更改"
     label_create: "创建"
-    label_create_work_package: "创建新的工作包"
-    label_created_by: "创建者"
+    label_create_work_package: "创建新工作包"
+    label_created_by: "创建自"
     label_date: "日期"
     label_date_with_format: "以%{format} 的格式输入 %{date_attribute}"
     label_deactivate: "停用"
@@ -339,7 +407,7 @@ zh-CN:
     label_committed_at: "在 %{date} %{committed_revision_link}"
     label_committed_link: "上传的修订 %{revision_identifier}"
     label_contains: "包含"
-    label_created_on: "创建"
+    label_created_on: "创建于"
     label_edit_comment: "编辑此注释"
     label_edit_status: "编辑工作包的状态"
     label_email: "电子邮件"
@@ -355,8 +423,8 @@ zh-CN:
     label_general: "通用"
     label_global_roles: "全局角色"
     label_greater_or_equal: ">="
-    label_group: '组'
-    label_group_by: "分组依据"
+    label_group: "组"
+    label_group_by: "分组按照"
     label_group_plural: "组"
     label_hide_attributes: "隐藏显示"
     label_hide_column: "隐藏列"
@@ -366,14 +434,16 @@ zh-CN:
     label_in_more_than: "在多于"
     label_incoming_emails: "传入电子邮件"
     label_information_plural: "信息"
+    label_invalid: "无效"
     label_import: "导入"
     label_latest_activity: "最新活动"
-    label_last_updated_on: "最后更新日期"
+    label_last_updated_on: "最后更新于"
     label_learn_more_link: "了解更多信息"
     label_less_or_equal: "<="
     label_less_than_ago: "小于数日前"
     label_loading: "正在加载..."
     label_mail_notification: "电子邮件通知"
+    label_manage_columns: "管理和重新排序列"
     label_me: "我"
     label_meeting_agenda: "议程"
     label_meeting_minutes: "会议记录"
@@ -385,6 +455,7 @@ zh-CN:
     label_no_data: "没有要显示的数据"
     label_no_due_date: "没有完成日期"
     label_no_start_date: "没有开始日期"
+    label_no_date: "无日期"
     label_no_value: "无值"
     label_none: "无"
     label_not_contains: "不包含"
@@ -397,28 +468,32 @@ zh-CN:
     label_previous: "上一个"
     label_per_page: "每页："
     label_please_wait: "请稍等"
+    label_project: "项目"
+    label_project_list: "项目列表"
     label_project_plural: "项目"
     label_visibility_settings: "可见性设置"
     label_quote_comment: "引用这个评论"
     label_recent: "最近"
     label_reset: "重置"
     label_remove: "移除"
-    label_remove_column: "删除列"
-    label_remove_columns: "删除选定的列"
-    label_remove_row: "删除行"
+    label_remove_column: "移除列"
+    label_remove_columns: "移除选择的列"
+    label_remove_row: "移除行"
     label_report: "报告"
-    label_repository_plural: "代码库"
+    label_repository_plural: "存储库"
     label_save_as: "另存为"
-    label_select_watcher: "选择一位关注者..."
-    label_selected_filter_list: "所选的筛选器"
+    label_search_columns: "搜索列"
+    label_select_project: "选择项目"
+    label_select_watcher: "选择一个关注者..."
+    label_selected_filter_list: "已选筛选器"
     label_show_attributes: "显示所有属性"
     label_show_in_menu: "在菜单中显示视图"
     label_sort_by: "排序按"
-    label_sorted_by: "排序按照"
+    label_sorted_by: "排序按"
     label_sort_higher: "向上移动"
     label_sort_lower: "向下移动"
     label_sorting: "排序"
-    label_spent_time: "已耗时间"
+    label_spent_time: "已耗工时"
     label_star_query: "收藏夹"
     label_press_enter_to_save: "按回车键可以保存。"
     label_public_query: "公开"
@@ -428,7 +503,7 @@ zh-CN:
     label_subject: "主题"
     label_this_week: "这一周"
     label_today: "今天"
-    label_time_entry_plural: "已耗时间"
+    label_time_entry_plural: "已耗工时"
     label_up: "向上"
     label_user_plural: "用户"
     label_activity_show_only_comments: "仅显示批注的活动"
@@ -444,23 +519,23 @@ zh-CN:
     label_work_package_plural: "工作包"
     label_watch: "关注"
     label_watch_work_package: "关注工作包"
-    label_watcher_added_successfully: "已成功添加的关注者 ！"
+    label_watcher_added_successfully: "已成功添加关注者！"
     label_watcher_deleted_successfully: "已成功删除关注者！"
-    label_work_package_details_you_are_here: "您在 %{type} %{subject} 的 %{tab} 选项卡。"
+    label_work_package_details_you_are_here: "您位于%{type}%{subject}的“%{tab}”选项卡上。"
+    label_work_package_context_menu: "工作包上下文菜单"
     label_unwatch: "取消关注"
     label_unwatch_work_package: "取消工作包关注"
     label_uploaded_by: "上传者"
-    label_default_queries: "默认视图"
-    label_starred_queries: "收藏夹视图"
-    label_global_queries: "公共视图"
-    label_custom_queries: "私有视图"
-    label_create_new_query: "新建"
+    label_default_queries: "默认"
+    label_starred_queries: "收藏夹"
+    label_global_queries: "公开"
+    label_custom_queries: "不公开"
     label_columns: "列"
-    label_attachments: 文件
-    label_drop_files: 将文件拖至此处
-    label_drop_files_hint: 或单击以添加文件
+    label_attachments: 附件
+    label_drop_files: "将文件拖拽到此处以附加文件。"
+    label_drop_or_click_files: "将文件拖至此处，或点击附加文件。"
     label_drop_folders_hint: 您不能将文件夹作为附件上载。请选择单个文件。
-    label_add_attachments: "添加附件"
+    label_add_attachments: "添加文件"
     label_formattable_attachment_hint: "将文件拖拽到此区域或从剪贴板粘贴以附加文件"
     label_remove_file: "删除 %{fileName}"
     label_remove_watcher: "删除关注者 %{name}"
@@ -476,166 +551,214 @@ zh-CN:
     label_upload_counter: "%{count} 个中的 %{done} 个文件已完成"
     label_validation_error: "由于下列错误，无法保存工作包:"
     label_version_plural: "版本"
-    label_view_has_changed: "此视图有未保存的变更。单击以保存。"
+    label_view_has_changed: "此视图有未保存的更改。单击以保存。"
     help_texts:
-      show_modal: '显示属性帮助文本项'
+      show_modal: "显示属性帮助文本项"
     onboarding:
       buttons:
-        skip: '跳过'
-        next: '下一个'
-        got_it: '知道了'
+        skip: "跳过"
+        next: "下一个"
+        got_it: "已知晓"
       steps:
-        help_menu: '帮助 (?) 菜单中提供了<b>其他帮助资源</b>。您可在此找到用户指南和实用的使用方法视频等内容。<br>使用 OpenProject 尽情享受您的工作吧！'
-        members: '邀请新<b>成员</b>加入您的项目。'
-        project_selection: '请点击我们准备的演示项目之一。演示数据目前仅提供英文版本。<br>一般的<b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>则更适合敏捷项目管理。'
-        quick_add_button: '点击标题导航中的加号 (+) 图标可<b>创建新项目</b>或<b>邀请同事</b>。'
+        help_menu: "帮助 (?) 菜单中提供了<b>其他帮助资源</b>。您可以在这里找到用户指南、实用的使用方法视频等内容。<br>使用 OpenProject 尽情享受您的工作吧！"
+        members: "邀请新<b>成员</b>加入您的项目。"
+        quick_add_button: "点击标题导航中的加号 (+) 图标可<b>创建新项目</b>或<b>邀请同事</b>。"
         sidebar_arrow: "使用左上角的返回箭头可返回到项目的<b>主菜单</b>。"
-        welcome: '通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。'
-        wiki: '在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。'
+        welcome: "通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。"
+        wiki: "在 <b>维基</b> 中，您可以记录并与您的团队共享知识。"
         backlogs:
           overview: "在<b>待办清单</b>视图中管理您的工作。"
-          sprints: "右侧为产品待办清单和错误待办清单，左侧为各自的冲刺 (sprint)。在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到冲刺 (sprint) 中。"
-          task_board_arrow: '要查看您的<b>任务面板</b>，请打开冲刺 (sprint) 下拉菜单…'
-          task_board_select: '…并选择<b>任务面板</b>条目。'
+          sprints: "右侧为产品待办清单和缺陷待办清单，左侧为各自的冲刺 (Sprint)。在这里，您可以创建<b>史诗、用户故事和缺陷</b>，通过拖放来确定优先级，以及将它们添加到冲刺 (Sprint) 中。"
+          task_board_arrow: "要查看您的<b>任务面板</b>，请打开冲刺 (sprint) 下拉菜单…"
+          task_board_select: "…并选择<b>任务面板</b>条目。"
           task_board: "任务面板可以将<b>此冲刺 (sprint) 的进度</b>可视化。点击用户故事旁边的加号 (+) 图标可添加新任务或障碍。<br>状态可以通过拖放更新。"
         boards:
-          overview: '选择<b>面板</b>以切换视图并使用敏捷面板视图管理您的项目。'
-          lists: '在此，您可以在面板中创建多个列表（列）。例如，此功使让您可以创建<b>看板面板</b>。'
-          add: '点击加号 (+) 图标可<b>创建新卡片</b>或<b>添加现有卡片</b>到面板上的列表中。'
-          drag: '在给定列表中拖放您的卡片以重新排序，或者将卡片移动到其他列表中。<br>您可以点击右上角的信息 (i) 图标或双击卡片可打开其详细信息。'
+          overview: "选择<b>面板</b>以切换视图并使用敏捷面板视图管理您的项目。"
+          lists_kanban: "在此，您可以在面板中创建多个列表（列）。例如，此功使让您可以创建<b>看板面板</b>。"
+          lists_basic: "在这里，您可以在敏捷面板内创建多个列表（列）。"
+          add: "点击加号 (+) 图标可<b>创建新卡片</b>或<b>添加现有卡片</b>到面板上的列表中。"
+          drag: "在给定列表中拖放您的卡片以重新排序，或者将卡片移动到其他列表中。<br>您可以点击右上角的信息 (i) 图标或双击卡片可打开其详细信息。"
         wp:
           toggler: "现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。"
-          list: '此<b>工作</b>包概览提供了包含项目中所有工作的列表，例如任务、里程碑、阶段等。<br>可以直接从此视图创建和编辑工作包。要访问特定工作包的详细信息，只需双击该行即可。'
-          full_view: '<b>工作包详细信息</b>视图中提供了与给定工作包有关的所有相关信息，例如其描述、状态、优先级、活动、依赖项和评论。'
-          back_button: '使用左上角的返回箭头可退出并返回到工作包列表。'
-          create_button: '<b>+ 创建</b>按钮将为您的项目添加一个新工作包。'
-          timeline_button: '您可以激活<b>甘特图</b>视图来为项目创建时间轴。'
-          timeline: '您可以在此<b>编辑您的项目计划</b>、创建新的工作包（例如任务、里程碑、阶段等）以及<b>添加依赖项</b>。所有团队成员都可以随时查看和更新最新计划。'
+          list: "此<b>工作</b>包概览提供了包含项目中所有工作的列表，例如任务、里程碑、阶段等。<br>可以直接从此视图创建和编辑工作包。要访问特定工作包的详细信息，只需双击该行即可。"
+          full_view: "<b>工作包详细信息</b>视图中提供了与给定工作包有关的所有相关信息，例如其描述、状态、优先级、活动、依赖项和评论。"
+          back_button: "使用左上角的返回箭头可退出并返回到工作包列表。"
+          create_button: "<b>+ 创建</b>按钮将为您的项目添加一个新工作包。"
+          gantt_menu: "使用甘特图模块轻松创建项目时间表和时间线。"
+          timeline: "您可以在此<b>编辑您的项目计划</b>、创建新的工作包（例如任务、里程碑、阶段等）以及<b>添加依赖项</b>。所有团队成员都可以随时查看和更新最新计划。"
+        team_planner:
+          overview: "工作组规划器使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。"
+          calendar: "单周或双周规划面板可以显示分配给您的团队成员的所有工作包。"
+          add_assignee: "首先，请将受理人添加到工作组规划器。"
+          add_existing: "搜索现有工作包并将其拖动到工作组规划器，以立即将其分配给团队成员并定义开始日期和结束日期。"
+          card: "水平拖动工作包以前移或后移其时间，拖动边缘以更改开始日期和结束日期，甚至可以将其垂直拖动到不同的行以分配给其他成员。"
     notifications:
       title: "通知"
       no_unread: "没有未读通知"
       reasons:
-        mentioned: '被提及'
-        watched: '已关注'
-        assigned: '已分配'
-        responsible: '负责'
+        mentioned: "被提及"
+        watched: "关注者"
+        assigned: "受理人"
+        responsible: "负责人"
+        created: "已创建"
+        scheduled: "已安排"
+        commented: "已评论"
+        processed: "已处理"
+        prioritized: "已优先安排"
+        dateAlert: "日期提醒"
+        shared: "共享"
+      date_alerts:
+        milestone_date: "里程碑日期"
+        overdue: "逾期"
+        overdue_since: "自 %{difference_in_days}"
+        property_today: "今天"
+        property_is: "%{difference_in_days}后"
+        property_was: "%{difference_in_days}前"
+        property_is_deleted: "已被删除"
+        upsale:
+          title: "日期提醒"
+          description: "借助日期提醒，您将收到即将到来的开始或结束日期的通知，以免错过或忘记重要截止日期。"
       facets:
-        unread: '未读'
-        all: '全部'
+        unread: "未读"
+        unread_title: "显示未读信息"
+        all: "全部"
+        all_title: "全部显示"
       center:
+        label_actor_and: "和"
         and_more_users:
-          other: '和 %{count} 个其他'
+          other: "和 %{count} 个其他"
         no_results:
-          at_all: '存在与您有关的活动时会在此显示新通知'
-          with_current_filter: '目前此视图中没有通知'
-        mark_all_read: '全部标记为已读'
-        mark_as_read: '标记为已读'
+          at_all: "有与您有关的活动将在此处显示新的通知。"
+          with_current_filter: "目前此视图中没有通知"
+        mark_all_read: "全部标记为已读"
+        mark_as_read: "标记为已读"
         text_update_date: "%{date}，"
         total_count_warning: "正在显示 %{newest_count} 条最新通知。还有 %{more_count} 条未显示。"
         empty_state:
-          no_notification: "看来没有要处理的事务了。"
-          no_notification_with_current_filter: "更改参与或返回收件箱查看通知"
+          no_notification: "看起来您已查看所有通知。"
+          no_notification_with_current_project_filter: "看起来您已查看所选项目的所有通知。"
+          no_notification_with_current_filter: "看起来您已查看“%{filter}”筛选器的所有通知。"
           no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
-          message: '有新的通知。'
-          link_text: '点击此处加载'
+          message: "有新的通知。"
+          link_text: "点击此处加载"
       menu:
-        accountable: '负责'
-        assigned: '已分配'
-        by_project: '按项目筛选未读通知'
-        by_reason: '参与'
-        inbox: '收件箱'
-        mentioned: '@被提及'
-        watching: '关注中'
+        accountable: "负责人"
+        by_project: "按项目筛选未读通知"
+        by_reason: "原因"
+        inbox: "收件箱"
+        mentioned: "被提及"
+        watched: "关注者"
+        date_alert: "日期提醒"
+        shared: "共享"
       settings:
-        change_notification_settings: '要查看和更改您的通知设置，请<a target="_blank" href="%{url}">点击此处</a>'
+        change_notification_settings: '您可以修改您的<a target="_blank" href="%{url}">通知设置</a>，以确保您不会错过重要的更新。'
         title: "通知设置"
         notify_me: "通知我"
+        reminders:
+          no_notification: 无通知
+          timeframes:
+            normal:
+              PT0S: 当天
+              P1D: 提前 1 天
+              P3D: 提前 3 天
+              P7D: 提前一周
+            overdue:
+              P1D: 每天
+              P3D: 每 3 天
+              P7D: 每周
         reasons:
           mentioned:
-            title: '我@被提及'
-            description: '每当有人在任何位置提及我时都接收通知'
-          involved:
-            title: '分配给我或负责'
-            description: '针对我具有指定人或负责人身份的工作包接收所有活动通知'
-          watched: '关注项更新'
-          work_package_commented: '所有新评论'
-          work_package_created: '新工作包'
-          work_package_processed: '所有状态变更'
-          work_package_prioritized: '所有优先级变更'
-          work_package_scheduled: '所有日期变更'
+            title: "被提及"
+            description: "每当有人在任何位置提及我时都接收通知"
+          assignee: "受理人"
+          responsible: "负责人"
+          shared: "共享"
+          watched: "关注者"
+          work_package_commented: "所有新评论"
+          work_package_created: "新工作包"
+          work_package_processed: "所有状态更改"
+          work_package_prioritized: "所有优先级更改"
+          work_package_scheduled: "所有日期更改"
         global:
           immediately:
-            title: '立即通知我'
-            description: '这些设置适用于所有项目。您可以在下方创建特定于项目的例外。'
+            title: "参与"
+            description: "对于你参与的所有工作包（受理人、负责人或关注者），可以设置通知以接收所有活动的提醒。"
           delayed:
-            title: '还在以下情况下通知我'
-            description: '针对所有项目中的工作包的以下活动接收通知：'
+            title: "不参与"
+            description: "在所有项目中通知您所有活动。"
+          date_alerts:
+            title: "日期提醒"
+            description: "当你参与的开放工作包（作为受理人、负责人或关注者）的重要日期临近时，自动发送通知。"
+            teaser_text: "借助日期提醒，您将收到即将到来的开始或结束日期的通知，以免错过或忘记重要截止日期。"
+          overdue: 逾期时
         project_specific:
-          title: '项目特定通知设置'
-          description: '这些项目特定设置会覆盖上方的默认设置'
-          add: '为项目添加设置'
-          already_selected: '此项目已经选定'
-          remove: '移除项目设置'
+          title: "项目特定通知设置"
+          description: "这些特定于项目的设置会覆盖上面的默认设置。\n"
+          add: "为项目添加设置"
+          already_selected: "此项目已经选定"
+          remove: "移除项目设置"
     password_confirmation:
-      field_description: '输入密码以确认更改'
-      title: '输入密码以继续'
+      field_description: "输入密码以确认更改"
+      title: "输入密码以继续"
     pagination:
       no_other_page: "您位于唯一页面上。"
       pages:
         next: "前进到下一页"
         previous: "返回到上一页"
     placeholders:
-      default: '-'
-      subject: '在此处输入标题'
-      selection: '请选择'
-      relation_description: '点击为此关系添加描述'
+      default: "-"
+      subject: "在此处输入标题"
+      selection: "请选择"
+      description: "描述：点击以编辑…"
+      relation_description: "点击为此关系添加描述"
     project:
       required_outside_context: >
         请选择要创建工作包的项目以查看所有属性。 您只能选择已激活上述类型的项目。
-      context: '项目上下文'
-      work_package_belongs_to: '此工作包属于项目%{projectname}。'
-      click_to_switch_context: '在该项目中打开此工作包。'
-      confirm_template_load: '切换模板将重新加载页面，您将丢失此表单上的所有输入。是否继续？'
+      details_activity: "项目细节活动"
+      context: "项目上下文"
+      click_to_switch_to_project: "项目: %{projectname}"
+      confirm_template_load: "切换模板将重新加载页面，您将丢失此表单上的所有输入。是否继续？"
       use_template: "使用模板"
       no_template_selected: "（无）"
       copy:
         copy_options: "复制选项"
       autocompleter:
-        label: '项目自动补全'
+        label: "项目自动补全"
     reminders:
       settings:
         daily:
-          add_time: '添加时间'
-          enable: '启用每日电子邮件提醒'
-          explanation: '只有存在未读通知时，您才会在指定的时间收到这些提醒。%{no_time_zone}'
-          no_time_zone: '除非您为帐户配置时区，否则将以 UTC 显示时间。'
-          time_label: '时间 %{counter}：'
-          title: '向我发送针对未读通知的每日电子邮件提醒'
+          add_time: "添加时间"
+          enable: "启用每日电子邮件提醒"
+          explanation: "只有存在未读通知时，您才会在指定的时间收到这些提醒。%{no_time_zone}"
+          no_time_zone: "除非您为帐户配置时区，否则将以 UTC 显示时间。"
+          time_label: "时间 %{counter}："
+          title: "向我发送针对未读通知的每日电子邮件提醒"
         workdays:
-          title: '接收这几天的邮件提醒'
+          title: "在如下日期接收电子邮件提醒"
         immediate:
-          title: '向我发送邮件提醒'
-          mentioned: '当有人@提及我时立即'
+          title: "向我发送电子邮件提醒"
+          mentioned: "当有人@提及我时立即提醒"
         alerts:
-          title: '针对其他条目（非工作包）的电子邮件警报'
+          title: "其他项目（非工作包）的电子邮件提醒"
           explanation: >
-            今日通知仅限于工作包。您可以选择继续接收针对这些事件的电子邮件警报，直到它们包含在通知中：
-          news_added: '添加新闻'
-          news_commented: '新闻条目评论'
-          document_added: '已添加文档'
-          forum_messages: '新的论坛消息'
-          wiki_page_added: '添加 Wiki 页面'
-          wiki_page_updated: '更新 Wiki 页面'
-          membership_added: '已添加成员'
-          membership_updated: '已更新成员'
-        title: '电子邮件提醒'
+            今日提醒仅限于工作包。您可以选择继续接收这些事件的电子邮件提醒，直到它们被包含在通知中。
+          news_added: "添加新闻"
+          news_commented: "评论新闻"
+          document_added: "添加文档"
+          forum_messages: "新的论坛消息"
+          wiki_page_added: "添加维基页面"
+          wiki_page_updated: "更新维基页面"
+          membership_added: "添加成员"
+          membership_updated: "成员已更新"
+        title: "电子邮件提醒"
         pause:
-          label: '暂时暂停每日电子邮件提醒'
-          first_day: '第一天'
-          last_day: '最后一天'
+          label: "临时暂停每日电子邮件提醒"
+          first_day: "第一天"
+          last_day: "最后一天"
     text_are_you_sure: "是否确定？"
     text_data_lost: "输入的所有数据将全部丢失。"
+    text_user_wrote: "%{value} 写道："
     types:
       attribute_groups:
         error_duplicate_group_name: "名称 %{group} 已多次使用。组名不能重复。"
@@ -643,8 +766,8 @@ zh-CN:
         reset_title: "重置表单配置"
         confirm_reset: >
           警告：确定想要重置表单配置吗？这会将属性重置为它们的默认组，并禁用所有自定义字段。
-        upgrade_to_ee: "升级到本地部署的 Enterprise Edition"
-        upgrade_to_ee_text: "哇！如果您需要使用此功能，说明您非常专业！您是否愿意成为企业版客户来支持 OpenSource 开发人员？"
+        upgrade_to_ee: "升级到本地部署的 Enterprise edition"
+        upgrade_to_ee_text: "哇！如果您需要此插件，那么您是位超级行家！您是否考虑成为我们的企业版客户，以支持我们这些开源开发者？"
         more_information: "更多信息"
         nevermind: "我愿意"
       edit:
@@ -652,27 +775,28 @@ zh-CN:
         projects: "项目"
         settings: "设置"
     time_entry:
-      project: '项目'
-      work_package: '工作包'
-      work_package_required: '需要先选择一个工作包。'
-      activity: '活动'
-      comment: '评论'
-      duration: '持续时间'
-      spent_on: '日期'
-      hours: '小时'
-      title: '记录时间'
+      work_package_required: "需要先选择一个工作包。"
+      title: "记录时间"
+      tracking: "时间跟踪"
+      stop: "停止"
+    timer:
+      start_new_timer: "启动新计时器"
+      timer_already_running: "要启动新计时器，必须先停止当前计时器："
+      timer_already_stopped: "此工作包没有激活的计时器，您是否已在其他窗口中将其停止？"
+      tracking_time: "跟踪时间"
+      button_stop: "停止当前计时器"
     two_factor_authentication:
-      label_two_factor_authentication: '双重身份验证'
+      label_two_factor_authentication: "双因子认证"
     watchers:
-      label_loading: 正在加载关注人...
-      label_error_loading: 加载关注人时出错
-      label_search_watchers: 搜索关注人
-      label_add: 添加关注人
+      label_loading: 正在加载关注者...
+      label_error_loading: 加载关注者时出错
+      label_search_watchers: 搜索关注者
+      label_add: 添加关注者
       label_discard: 放弃选择
-      typeahead_placeholder: 查找可能的关注人
+      typeahead_placeholder: 查找可能的关注者
     relation_labels:
-      parent: "父"
-      children: "子类"
+      parent: "父级"
+      children: "子任务"
       relates: "关于"
       duplicates: "重复项"
       duplicated: "复制于"
@@ -686,29 +810,30 @@ zh-CN:
       required: "请求"
       relation_type: "关系类型"
     relations_hierarchy:
-      parent_headline: "父"
+      parent_headline: "父级"
       hierarchy_headline: "层次结构"
-      children_headline: "子类"
+      children_headline: "子任务"
     relation_buttons:
       set_parent: "设置父级"
       change_parent: "更改父级"
-      remove_parent: "删除上一级"
+      remove_parent: "删除父级"
       hierarchy_indent: "缩进层次结构"
       hierarchy_outdent: "减少缩进层次结构"
       group_by_wp_type: "按工作包类型分组"
       group_by_relation_type: "按关系类型分组"
       add_parent: "添加现有的上一级"
-      add_new_child: "创建子结点"
+      add_new_child: "创建新的子任务"
       create_new: "新建"
       add_existing: "添加现有"
-      add_existing_child: "增加现有的子节点"
-      remove_child: "删除子结点"
+      add_existing_child: "增加现有的子任务"
+      remove_child: "删除子任务"
       add_new_relation: "创建新的关系"
       add_existing_relation: "添加现有关系"
       update_description: "设置或更新此关系的描述"
       toggle_description: "切换关系描述"
       update_relation: "点击以更改关系类型"
       add_follower: "添加后置项"
+      show_relations: "显示关系"
       add_predecessor: "添加前置项"
       remove: "删除关系"
       save: "保存关系"
@@ -719,88 +844,30 @@ zh-CN:
     autocompleter:
       placeholder: "键入内容进行搜索"
       notFoundText: "没有找到条目"
-      typeToSearchText: "键入内容进行搜索"
+      project:
+        placeholder: "选择项目"
     repositories:
-      select_tag: '选择标签'
-      select_branch: '选择分支'
+      select_tag: "选择标签"
+      select_branch: "选择分支"
     field_value_enter_prompt: "为'%{field}'输入值"
     project_menu_details: "详细信息"
     scheduling:
-      manual: '手动计划'
-      automatic: '自动计划'
+      manual: "手动计划"
     sort:
-      sorted_asc: '升序排列已应用， '
-      sorted_dsc: '降序排列已应用， '
-      sorted_no: '无序已应用， '
-      sorting_disabled: '排序被禁用'
-      activate_asc: '激活以进行升序排序'
-      activate_dsc: '激活以进行降序排序'
-      activate_no: '激活以移除排序'
+      sorted_asc: "升序排列已应用， "
+      sorted_dsc: "降序排列已应用， "
+      sorted_no: "无序已应用， "
+      sorting_disabled: "排序被禁用"
+      activate_asc: "激活以进行升序排序"
+      activate_dsc: "激活以进行降序排序"
+      activate_no: "激活以移除排序"
     text_work_packages_destroy_confirmation: "确实要删除所选的工作包吗?"
     text_query_destroy_confirmation: "确定要删除所选视图吗？"
-    text_attachment_destroy_confirmation: "你确定要删除这个附件?"
-    timelines:
-      quarter_label: '第 %{quarter_number} 季度'
-      gantt_chart: '甘特图'
-      labels:
-        title: '标签配置'
-        bar: '条形标签'
-        left: '左'
-        right: '右'
-        farRight: '最右'
-        showNone: '--没有标签--'
-        description: >
-          选择要在甘特图的各个位置显示的属性。请注意, 在元素上悬停时, 将显示其日期标签而不是这些属性。
-      button_activate: '显示甘特图'
-      button_deactivate: '隐藏甘特图'
-      cancel: 取消
-      change: "更改计划"
-      due_date: "完成日期"
-      empty: "(空)"
-      error: "发生错误。"
-      errors:
-        not_implemented: "不会呈现时间轴，因为它使用了一种尚未实现的功能。"
-        report_comparison: "时间轴不能呈现配置对比。请检查配置中的相应内容，重置它可以帮助解决这一问题。"
-        report_epicfail: "发生意外错误，无法加载时间线。"
-        report_timeout: "不能在合理的时间内加载时间线。"
-      filter:
-        grouping_other: "其他"
-        noneSelection: "(无)"
-      name: "名称"
-      outline: "重置大纲"
-      outlines:
-        aggregation: "仅显示聚合"
-        level1: "展开 1 级"
-        level2: "展开 2 级"
-        level3: "展开 3 级"
-        level4: "展开 4 级"
-        level5: "展开 5 级"
-        all: "全部显示"
-      project_status: "项目状态"
-      really_close_dialog: "你真的想要关闭对话框并丢失输入的数据吗？"
-      responsible: "责任人"
-      save: 保存
-      start_date: "开始日期"
-      tooManyProjects: "超过 %{count} 个项目。请使用一个更好的筛选器 ！"
-      selection_mode:
-        notification: '点击任何突出显示的工作包以创建关系。按 Escape 键可以取消。'
-      zoom:
-        in: "放大"
-        out: "缩小"
-        auto: "自动缩放"
-        days: "天"
-        weeks: "周"
-        months: "月"
-        quarters: "季度"
-        years: "年"
-        slider: "缩放滑块"
-        description: >
-          选择自动缩放不可用时应显示的初始缩放级别。
     tl_toolbar:
       zooms: "缩放级别"
       outlines: "层次结构级别"
     upsale:
-      ee_only: '企业版特定功能'
+      ee_only: "企业版附加组件"
     wiki_formatting:
       strong: "加强"
       italic: "斜体"
@@ -815,19 +882,28 @@ zh-CN:
       quote: "引用"
       unquote: "取消引用"
       preformatted_text: "预格式化文本"
-      wiki_link: "链接到一个 Wiki 页面"
+      wiki_link: "链接到一个维基页面"
       image: "图片"
     work_packages:
       bulk_actions:
-        move: '批量更改项目'
-        edit: '批量编辑'
-        copy: '批量复制'
-        delete: '批量删除'
+        move: "批量更改项目"
+        edit: "批量编辑"
+        copy: "批量复制"
+        delete: "批量删除"
       button_clear: "清除"
       comment_added: "注释已成功添加。"
       comment_send_failed: "出错。无法提交评论。"
       comment_updated: "注释已成功更新。"
       confirm_edit_cancel: "是否确定想要取消编辑工作包？"
+      datepicker_modal:
+        automatically_scheduled_parent: "自动安排。日期来源于关系。"
+        manually_scheduled: "启用手动安排，忽略所有关系。"
+        start_date_limited_by_relations: "可用的开始日期和结束日期受关系限制。"
+        changing_dates_affects_follow_relations: "更改这些日期将影响相关工作包的日期。"
+        click_on_show_relations_to_open_gantt: '点击“%{button_name}”查看 GANTT 概览。'
+        show_relations: "显示关系"
+        ignore_non_working_days:
+          title: "仅工作日"
       description_filter: "筛选器"
       description_enter_text: "输入文本"
       description_options_hide: "隐藏选项"
@@ -847,23 +923,34 @@ zh-CN:
       message_work_package_read_only: "工作包被锁定在此状态。除状态外，其他属性均不可更改。"
       message_work_package_status_blocked: "由于处于关闭状态并且分配了关闭版本，因此工作包状态不可写。"
       placeholder_filter_by_text: "主题, 描述, 评论,..。"
+      progress:
+        title: "Work estimates and progress"
+      baseline:
+        addition_label: "在比较时间段内添加到视图"
+        removal_label: "在比较时间段内从视图删除"
+        modification_label: "在比较时间段内修改"
+        column_incompatible: "此列在基线模式下不显示更改。"
+      filters:
+        title: "筛选工作包"
+        baseline_incompatible: "在基线模式下，将不考虑此筛选器属性。"
+        baseline_warning: "基线模式已开启，但您的一些活动过滤器未包含在比较中。"
       inline_create:
-        title: '单击此处将新工作包添加至此列表'
+        title: "单击此处将新工作包添加至此列表"
       create:
-        title: '新工作包'
-        header: '新 %{type}'
-        header_no_type: '新工作包(类型尚未设置)'
-        header_with_parent: '新的 %{type} （%{parent_type} #%{id} 子）'
-        button: '创建'
+        title: "新工作包"
+        header: "新 %{type}"
+        header_no_type: "新工作包(类型尚未设置)"
+        header_with_parent: "新的 %{type} （%{parent_type} #%{id} 子）"
+        button: "创建"
       copy:
-        title: '复制工作包'
+        title: "复制工作包"
       hierarchy:
         show: "显示层次结构模式"
         hide: "隐藏层次结构模式"
-        toggle_button: '单击以切换层次结构模式。'
-        leaf: '工作包叶处于 %{level} 级。'
-        children_collapsed: '层次结构级别 %{level} 已折叠。单击以显示筛选的子任务'
-        children_expanded: '层次结构级别 %{level} 已展开。单击以折叠筛选的子任务'
+        toggle_button: "单击以切换层次结构模式。"
+        leaf: "工作包叶处于 %{level} 级。"
+        children_collapsed: "层次结构级别 %{level} 已折叠。单击以显示筛选的子任务"
+        children_expanded: "层次结构级别 %{level} 已展开。单击以折叠筛选的子任务"
       faulty_query:
         title: 无法加载工作包。
         description: 您的视图不正确，无法处理。
@@ -877,18 +964,22 @@ zh-CN:
         estimatesAndTime: "估计与时间"
         other: "其他"
       properties:
-        assignee: "指定人"
+        assignee: "受理人"
         author: "作者"
-        createdAt: "创建"
+        createdAt: "创建于"
         description: "描述"
         date: "日期"
+        percentComplete: "完成百分比"
+        percentCompleteAlternative: "进度"
         dueDate: "完成日期"
-        estimatedTime: "估计的时间"
-        spentTime: "已耗时间"
+        duration: "时长"
+        spentTime: "已耗工时"
         category: "类别"
         percentageDone: "完成百分比"
         priority: "优先级"
         projectName: "项目"
+        remainingWork: "剩余工作"
+        remainingWorkAlternative: "剩余小时数"
         responsible: "责任人"
         startDate: "开始日期"
         status: "状态"
@@ -896,16 +987,21 @@ zh-CN:
         subproject: "子项目"
         title: "标题"
         type: "类型"
-        updatedAt: "更新于"
+        updatedAt: "更新时间"
         versionName: "版本"
         version: "版本"
+        work: "工作"
+        workAlternative: "估算工时"
+        remainingTime: "剩余的工作"
       default_queries:
         latest_activity: "最新活动"
-        created_by_me: "由我创建"
+        created_by_me: "我创建的"
         assigned_to_me: "分配给我"
         recently_created: "最近创建"
         all_open: "全部打开"
         summary: "摘要"
+        shared_with_users: "与用户共享"
+        shared_with_me: "与我分享"
       jump_marks:
         pagination: "跳转到表格分页"
         label_pagination: "单击此处跳过工作包表格并转到分页"
@@ -914,11 +1010,10 @@ zh-CN:
       placeholders:
         default: "-"
         date: "选择日期"
-        formattable: "%{name}：点击以编辑…"
       query:
         column_names: "列"
         group_by: "汇总结果根据"
-        group: "分组依据"
+        group: "分组按照"
         group_by_disabled_by_hierarchy: "分组依据已禁用，因为层次结构模式处于活动状态。"
         hierarchy_disabled_by_group_by: "层次结构模式已禁用，因为结果依据 %{column} 分组。"
         sort_ascending: "升序排序"
@@ -926,13 +1021,13 @@ zh-CN:
         move_column_left: "左移列"
         move_column_right: "右移列"
         hide_column: "隐藏列"
-        insert_columns: "插入列..."
+        insert_columns: "插入列"
         filters: "筛选器"
         display_sums: "显示汇总"
         confirm_edit_cancel: "确定要取消编辑此视图的名称吗？标题将重置为上一个值。"
         click_to_edit_query_name: "单击可以编辑此视图的标题。"
         rename_query_placeholder: "此视图的名称"
-        star_text: "将该视图标记为收藏项，并添加到左侧的已保存视图边栏中。"
+        star_text: "将此视图标记为收藏项，并添加到左侧的已保存视图边栏中。"
         public_text: >
           发布此视图，以允许其他用户访问您的视图。具有“管理公共视图”权限的用户可以修改或移除公共查询。这不会影响工作包结果在该视图中的可见性，并且用户可能会看到不同的结果，具体取决于他们的权限。
         errors:
@@ -943,91 +1038,100 @@ zh-CN:
       scheduling:
         is_parent: "此工作包的日期会自动从其子项推导出。可激活“手动计划”来设置日期。"
         is_switched_from_manual_to_automatic: "由于与其他工作包的关系，在从手动计划切换为自动计划后，此工作包的日期可能需要重新计算。"
+      sharing:
+        share: "共享"
+        title: "共享工作包"
+        show_all_users: "显示所有共享用户"
+        selected_count: "%{count} 已选择"
+        selection:
+          mixed: "混合"
+        upsale:
+          description: "与非此项目成员的用户共享工作包。"
       table:
-        configure_button: '配置工作包表'
+        configure_button: "配置工作包表"
         summary: "行为工作包且列为工作包属性的表格。"
         text_inline_edit: "大多数此表格的单元格为激活工作包属性的直接编辑功能的按钮。"
         text_sort_hint: "使用表格标题中的链接，您可以对表格中的列排序、分组、重排序、删除和添加。"
         text_select_hint: "请使用Alt+方向键打开选择框。"
       table_configuration:
-        button: '配置当前工作包表'
-        choose_display_mode: '将工作包显示为'
-        modal_title: '工作包表配置'
+        button: "配置当前工作包表"
+        choose_display_mode: "将工作包显示为"
+        modal_title: "工作包表配置"
         embedded_tab_disabled: "此配置选项卡不适用于您正在编辑的嵌入式视图。"
         default: "默认"
-        display_settings: '显示设置'
+        display_settings: "显示设置"
         default_mode: "扁平列表"
         hierarchy_mode: "层次结构"
         hierarchy_hint: "所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。"
         display_sums_hint: "在表结果下方一行中显示所有可累加属性的总和。"
         show_timeline_hint: "在表格的右侧显示交互式甘特图。 您可以通过拖动表格和甘特图之间的分隔线来更改其宽度。"
-        highlighting: '突出显示'
+        highlighting: "突出显示"
         highlighting_mode:
           description: "使用颜色突出显示"
           none: "无突出显示"
-          inline: '突出显示的属性'
-          inline_all: '全部属性'
-          entire_row_by: '整行'
-          status: '状态'
-          priority: '优先级'
-          type: '类型'
+          inline: "高亮显示的属性"
+          inline_all: "全部属性"
+          entire_row_by: "整行"
+          status: "状态"
+          priority: "优先级"
+          type: "类型"
         sorting_mode:
-          description: '选择对您的工作包排序的模式：'
-          automatic: '自动'
-          manually: '手动'
-          warning: '激活自动排序模式时，您将丢失以前的排序结果。'
+          description: "选择对您的工作包排序的模式："
+          automatic: "自动"
+          manually: "手动"
+          warning: "激活自动排序模式时，您将丢失以前的排序结果。"
         columns_help_text: "使用上面的输入字段向表视图中添加列。您可以拖放列来将它们重新排序。"
         upsale:
-          attribute_highlighting: '需要特定的工作包以脱颖而出？'
-          relation_columns: '需要查看工作包列表中的关系吗？'
-          check_out_link: '签出企业版。'
+          attribute_highlighting: "需要特定的工作包以脱颖而出？"
+          relation_columns: "需要查看工作包列表中的关系吗？"
+          check_out_link: "退出企业版。"
         relation_filters:
-          filter_work_packages_by_relation_type: '按关系类型筛选工作包'
+          filter_work_packages_by_relation_type: "按关系类型筛选工作包"
       tabs:
         overview: 概述
         activity: 活动
         relations: 关系
-        watchers: 关注人
-        attachments: 附件
+        watchers: 关注者
+        files: 文件
       time_relative:
         days: "天"
         weeks: "周"
         months: "月"
     toolbar:
       settings:
-        configure_view: "配置视图…"
-        columns: "列..."
-        sort_by: "排序..."
-        group_by: "分组..."
+        configure_view: "配置视图"
+        columns: "列"
+        sort_by: "排序依据"
+        group_by: "分组依据"
         display_sums: "显示汇总"
         display_hierarchy: "显示层次结构"
         hide_hierarchy: "隐藏层次结构"
         hide_sums: "隐藏汇总"
         save: "保存"
-        save_as: "另存为..."
-        export: "导出..."
-        visibility_settings: "可见性设置…"
-        page_settings: "重命名视图…"
+        save_as: "另存为"
+        export: "导出"
+        visibility_settings: "可见性设置"
+        share_calendar: "订阅日历"
+        page_settings: "重命名视图"
         delete: "删除"
       filter: "筛选器"
       unselected_title: "工作包"
       search_query_label: "搜索已保存的视图"
-      search_query_title: "单击可以搜索已保存的视图"
-      placeholder_query_title: "为此视图设置标题"
     modals:
-      label_settings: "重命名视图"
       label_name: "名称"
       label_delete_page: "删除当前页面"
       button_apply: "应用"
       button_save: "保存"
       button_submit: "提交"
       button_cancel: "取消"
+      button_delete: "删除"
       form_submit:
-        title: '确认已继续'
-        text: '是否确定想要执行此操作？'
+        title: "确认已继续"
+        text: "是否确定想要执行此操作？"
       destroy_work_package:
         title: "确认删除%{label}"
-        text: "是否确实要删除以下%{label}？"
+        single_text: "确定要删除此工作包吗？"
+        bulk_text: "确定要删除以下%{label}吗？"
         has_children: "工作包有 %{childUnits}:"
         confirm_deletion_children: "我确认所列工作包的全部子工作包都将递归移除。"
         deletes_children: "所有子工作包及其子级也将递归删除。"
@@ -1055,15 +1159,15 @@ zh-CN:
       null_value_label: "无值"
       clear_value_label: "-"
       errors:
-        required: '%{field} 不能为空'
-        number: '%{field} 不是一个有效的数字'
-        maxlength: '%{field} 不能超过 %{maxLength} 位数'
-        minlength: '%{field} 不能少于 %{minLength} 位数'
-        messages_on_field: '此字段无效：%{messages}'
+        required: "%{field} 不能为空"
+        number: "%{field} 不是一个有效的数字"
+        maxlength: "%{field} 不能超过 %{maxLength} 位数"
+        minlength: "%{field} 不能少于 %{minLength} 位数"
+        messages_on_field: "此字段无效：%{messages}"
     error_could_not_resolve_version_name: "无法解析版本名称"
     error_could_not_resolve_user_name: "不能确定用户名"
     error_attachment_upload: "文件上传失败: %{error}"
-    error_attachment_upload_permission: "您没有上传此资源上文件的权限。"
+    error_attachment_upload_permission: "您没有上传文件到此资源的权限。"
     units:
       workPackage:
         other: "工作包"
@@ -1072,91 +1176,153 @@ zh-CN:
       hour:
         one: "1 小时"
         other: "%{count} 小时"
-        zero: "0 h"
+        zero: "0 小时"
+      day:
+        one: "1 天"
+        other: "%{count} 天"
+        zero: "0 天"
     zen_mode:
-      button_activate: '激活 zen 模式'
-      button_deactivate: '取消激活 zen 模式'
+      button_activate: "激活 zen 模式"
+      button_deactivate: "取消激活 zen 模式"
     global_search:
       all_projects: "在所有项目中"
-      search: "搜索"
       close_search: "关闭搜索"
-      current_project: "在当前项目中"
       current_project_and_all_descendants: "在当前项目和子项目中"
+      current_project: "在当前项目中"
+      recently_viewed: "最近浏览"
+      search: "搜索"
       title:
         all_projects: "所有项目"
         project_and_subprojects: "和所有子项目"
         search_for: "搜索"
     views:
-      card: '卡片'
-      list: '表'
-      timeline: '甘特图'
+      card: "卡片"
+      list: "表"
+      timeline: "甘特图"
     invite_user_modal:
-      back: '返回'
-      invite: '邀请'
+      back: "返回"
+      invite: "邀请"
       title:
-        invite: '邀请用户'
-        invite_to_project: '邀请%{type}加入 %{project}'
-        User: '用户'
-        Group: '群组'
-        PlaceholderUser: '占位符用户'
-        invite_principal_to_project: '邀请 %{principal} 加入 %{project}'
+        invite: "邀请用户"
+        invite_to_project: "邀请%{type}加入 %{project}"
+        User: "用户"
+        Group: "组"
+        PlaceholderUser: "占位符用户"
+        invite_principal_to_project: "邀请 %{principal} 加入 %{project}"
       project:
-        label: '项目'
-        required: '请选择一个项目'
-        lacking_permission: '请选择其他项目，因为您缺少将用户分配至当前选定项目的权限。'
-        lacking_permission_info: '您缺少将用户分配至您当前所在项目的权限。您需要选择其他项目。'
-        next_button: '下一个'
-        no_results: '没有找到项目'
-        no_invite_rights: '您无权邀请成员加入此项目'
+        label: "项目"
+        required: "请选择一个项目"
+        lacking_permission: "请选择其他项目，因为您缺少将用户分配至当前所选项目的权限。"
+        lacking_permission_info: "您缺少将用户分配至您当前所在项目的权限。您需要选择其他项目。"
+        next_button: "下一个"
+        no_results: "没有找到项目"
+        no_invite_rights: "您无权邀请成员加入此项目"
       type:
-        required: '请选择要邀请的类型'
+        required: "请选择要邀请的类型"
         user:
-          title: '用户'
-          description: '基于所选项目中所分配角色的权限'
+          title: "用户"
+          description: "基于所选项目中所分配角色的权限"
         group:
-          title: '组'
-          description: '基于所选项目中所分配角色的权限'
+          title: "组"
+          description: "基于所选项目中所分配角色的权限"
         placeholder:
-          title: '占位符用户'
-          title_no_ee: '占位符用户（Enterprise Edition 特定功能）'
-          description: '无法访问该项目并且未发送电子邮件。'
-          description_no_ee: '无法访问该项目并且未发送电子邮件。<br>请参见 <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title: "占位符用户"
+          title_no_ee: "占位符用户（Enterprise edition 附加功能）"
+          description: "无法访问该项目并且未发送电子邮件。"
+          description_no_ee: '由于没有访问项目的权限，所以不会发送电子邮件。<br>请查看<a href="%{eeHref}" target="_blank">企业版</a>。'
       principal:
         label:
-          name_or_email: '用户名或电子邮件地址'
-          name: '名称'
-        already_member_message: '已经是 %{project} 的成员'
-        no_results_user: '没有找到用户'
-        invite_user: '邀请：'
-        no_results_placeholder: '没有找到占位符'
-        create_new_placeholder: '创建新的占位符：'
-        no_results_group: '没有找到群组'
-        next_button: '下一个'
+          name_or_email: "用户名或电子邮件地址"
+          name: "名称"
+        already_member_message: "已经是 %{project} 的成员"
+        no_results_user: "没有找到用户"
+        invite_user: "邀请："
+        no_results_placeholder: "没有找到占位符"
+        create_new_placeholder: "创建新的占位符："
+        no_results_group: "没有找到组"
+        next_button: "下一个"
         required:
-          user: '请选择一个用户'
-          placeholder: '请选择一个占位符'
-          group: '请选择一个群组'
+          user: "请选择一个用户"
+          placeholder: "请选择一个占位符"
+          group: "请选择一个组"
       role:
-        label: '%{project} 中的角色'
-        no_roles_found: '没有找到角色'
-        description: '这是 %{principal} 在加入您的项目时将获得的角色。角色定义了允许其执行哪些操作以及允许其查看哪些信息。<a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">详细了解角色和权限</a>。'
-        required: '请选择一个角色'
-        next_button: '下一个'
+        label: "%{project} 中的角色"
+        no_roles_found: "没有找到角色"
+        description: '这是用户在加入您的项目时将获得的角色。角色定义了允许其执行哪些操作以及允许其查看哪些信息。<a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">详细了解角色和权限</a>。'
+        required: "请选择一个角色"
+        next_button: "下一个"
       message:
-        label: '邀请消息'
-        description: '我们将向 %{principal} 发送一封电子邮件，您可以在此处添加要向其发送的个人消息。提供邀请说明可能会很有用，您也可以添加一些有关该项目的信息以帮助他们入门。'
-        next_button: '检查邀请'
+        label: "邀请消息"
+        description: "我们将向用户发送一封电子邮件，您可以在此处添加要向其发送的个人消息。提供邀请说明可能会很有用，您也可以添加一些有关该项目的信息以帮助他们开始。"
+        next_button: "下一个"
       summary:
-        next_button: '发送邀请'
+        next_button: "发送邀请"
       success:
-        title: '%{principal} 已被邀请！'
+        title: "%{principal} 已被邀请！"
         description:
-          user: '该用户现在可以登录以访问 %{project}。同时，您已经可以与该用户一起制定计划并分配工作包等。'
-          placeholder: '现在可以在 %{project} 中使用占位符。同时，您已经可以与该用户一起制定计划并分配工作包等。'
-          group: '该群组现已加入 %{project}。同时，您已经可以与该群组一起制定计划并分配工作包等。'
-        next_button: '继续'
+          user: "该用户现在可以登录以访问 %{project}。同时，您已经可以与该用户一起制定计划并分配工作包等。"
+          placeholder: "现在可以在 %{project} 中使用占位符。同时，您已经可以与该用户一起制定计划并分配工作包等。"
+          group: "该组现已加入 %{project}。同时，您已经可以与该组一起制定计划并分配工作包等。"
+        next_button: "继续"
+    include_projects:
+      toggle_title: "包含项目"
+      title: "项目"
+      clear_selection: "清除选择"
+      apply: "应用"
+      selected_filter:
+        all: "所有项目"
+        selected: "仅限所选"
+      search_placeholder: "搜索项目…"
+      include_subprojects: "包含所有子项目"
+      tooltip:
+        include_all_selected: "自启用“包含所有子项目”后已包含的项目。"
+        current_project: "这是您当前所在的项目。"
+        does_not_match_search: "项目不符合搜索条件。"
+      no_results: "没有项目符合您的搜索条件。"
+    baseline:
+      toggle_title: "基线"
+      clear: "清除"
+      apply: "应用"
+      header_description: "高亮显示过去对该清单所作的修改。"
+      enterprise_header_description: "高亮显示过去企业版对该清单所作的修改。"
+      show_changes_since: "显示更改自"
+      baseline_comparison: "基线比较"
+      help_description: "基准参考时区。"
+      time_description: "在您的本地时间: %{datetime}"
+      time: "时间"
+      from: "从"
+      to: "到"
+      drop_down:
+        none: "-"
+        yesterday: "昨天"
+        last_working_day: "最后一个工作日"
+        last_week: "上周"
+        last_month: "上个月"
+        a_specific_date: "特定日期"
+        between_two_specific_dates: "两个具体日期之间"
+      legends:
+        changes_since: "更改自"
+        changes_between: "此范围内的更改："
+        now_meets_filter_criteria: "现在符合过滤条件"
+        no_longer_meets_filter_criteria: "不再符合过滤条件"
+        maintained_with_changes: "保持更改"
+        in_your_timezone: "在您的本地时区："
+      icon_tooltip:
+        added: "在比较时间段内添加到视图"
+        removed: "在比较时间段内从视图删除"
+        changed: "保留修改"
     forms:
-      submit_success_message: '表单已成功提交'
-      load_error_message: '加载表单时出错'
-      validation_error_message: '请修正表单中存在的错误'
-      advanced_settings: '高级设置'
+      submit_success_message: "表单已成功提交"
+      load_error_message: "加载表单时出错"
+      validation_error_message: "请修正表单中存在的错误"
+      advanced_settings: "高级设置"
+    spot:
+      filter_chip:
+        remove: "移除"
+      drop_modal:
+        focus_grab: "该信息是模态框的焦点锚点。按 Shift+Tab 可以返回到模态框的触发元素。"
+        Close: "关闭"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "网络有问题。"
+        network_on: "网络已恢复。我们正在努力。"

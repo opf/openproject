@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
-describe OpenProject::TextFormatting,
-         'work package button macro' do
-  include_context 'expected markdown modules'
-  shared_let(:admin) { create :admin }
+RSpec.describe OpenProject::TextFormatting,
+               "work package button macro" do
+  include_context "expected markdown modules"
+  shared_let(:admin) { create(:admin) }
 
-  let(:type) { create :type, name: 'MyTaskName' }
+  let(:type) { create(:type, name: "MyTaskName") }
   let(:options) { { project: } }
-  let(:project) { create :valid_project, identifier: 'my-project', name: 'My project name', types: [type] }
+  let(:project) { create(:valid_project, identifier: "my-project", name: "My project name", types: [type]) }
 
   before do
     login_as admin
@@ -47,8 +47,8 @@ describe OpenProject::TextFormatting,
       "Error executing the macro create_work_package_link (#{exception_msg}) </span></p>"
   end
 
-  context 'old macro syntax no longer works' do
-    it_behaves_like 'format_text produces' do
+  context "old macro syntax no longer works" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           {{create_work_package_link}}
@@ -63,8 +63,8 @@ describe OpenProject::TextFormatting,
     end
   end
 
-  context 'when nothing passed' do
-    it_behaves_like 'format_text produces' do
+  context "when nothing passed" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           <macro class="create_work_package_link"></macro>
@@ -74,15 +74,15 @@ describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <p class="op-uc-p">
-            <a class="op-uc-link" href="/projects/my-project/work_packages/new">New work package</a>
+            <a class="op-uc-link" target="_top" href="/projects/my-project/work_packages/new">New work package</a>
           </p>
         EXPECTED
       end
     end
   end
 
-  context 'with invalid type' do
-    it_behaves_like 'format_text produces' do
+  context "with invalid type" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           <macro class="create_work_package_link" data-type="InvalidType"></macro>
@@ -95,8 +95,8 @@ describe OpenProject::TextFormatting,
     end
   end
 
-  context 'with valid type' do
-    it_behaves_like 'format_text produces' do
+  context "with valid type" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           <macro class="create_work_package_link" data-type="MyTaskName"></macro>
@@ -106,14 +106,14 @@ describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <p class="op-uc-p">
-            <a class="op-uc-link" href="/projects/my-project/work_packages/new?type=#{type.id}">New MyTaskName</a>
+            <a class="op-uc-link" target="_top" href="/projects/my-project/work_packages/new?type=#{type.id}">New MyTaskName</a>
           </p>
         EXPECTED
       end
     end
 
-    context 'with button style' do
-      it_behaves_like 'format_text produces' do
+    context "with button style" do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             <macro class="create_work_package_link" data-type="MyTaskName" data-classes="button"></macro>
@@ -123,17 +123,17 @@ describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              <a class="button op-uc-link" href="/projects/my-project/work_packages/new?type=#{type.id}">New MyTaskName</a>
+              <a class="button op-uc-link" target="_top" href="/projects/my-project/work_packages/new?type=#{type.id}">New MyTaskName</a>
             </p>
           EXPECTED
         end
       end
     end
 
-    context 'without project context' do
+    context "without project context" do
       let(:options) { { project: nil } }
 
-      it_behaves_like 'format_text produces' do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             <macro class="create_work_package_link" data-type="MyTaskName"></macro>
@@ -141,7 +141,7 @@ describe OpenProject::TextFormatting,
         end
 
         let(:expected) do
-          error_html('Calling create_work_package_link macro from outside project context.')
+          error_html("Calling create_work_package_link macro from outside project context.")
         end
       end
     end

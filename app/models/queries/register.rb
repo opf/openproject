@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,12 +58,12 @@ module Queries::Register
       @group_bys[query] << group_by
     end
 
-    def column(query, column)
-      @columns ||= Hash.new do |hash, column_key|
-        hash[column_key] = []
+    def select(query, select)
+      @selects ||= Hash.new do |hash, select_key|
+        hash[select_key] = []
       end
 
-      @columns[query] << column
+      @selects[query] << select
     end
 
     def register(query, &)
@@ -73,7 +73,7 @@ module Queries::Register
     attr_accessor :filters,
                   :excluded_filters,
                   :orders,
-                  :columns,
+                  :selects,
                   :group_bys
   end
 
@@ -101,8 +101,8 @@ module Queries::Register
       Queries::Register.group_by(query, group_by)
     end
 
-    def column(column)
-      Queries::Register.column(query, column)
+    def select(select)
+      Queries::Register.select(query, select)
     end
   end
 end

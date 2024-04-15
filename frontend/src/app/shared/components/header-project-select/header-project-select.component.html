@@ -1,9 +1,9 @@
 <spot-drop-modal
-  [open]="dropModalOpen"
+  [opened]="dropModalOpen"
+  [allowRepositioning]="false"
   (closed)="close()"
-  alignment="bottom-left"
+  alignment="bottom-start"
   class="op-project-list-modal"
-  data-searchable-list-parent="true"
 >
   <button
     id="projects-menu"
@@ -30,13 +30,14 @@
     </div>
     <div
       class="op-project-list-modal--body spot-container"
+      data-searchable-list-parent="true"
       *ngIf="projects$ | async as projects"
     >
       <spot-text-field
         [placeholder]="text.search_placeholder"
         [(ngModel)]="searchableProjectListService.searchText"
         [ngModelOptions]="{standalone: true}"
-        data-qa-selector="op-header-project-select--search"
+        data-test-selector="op-header-project-select--search"
         data-modal-focus-catcher-container="true"
         (keydown)="searchableProjectListService.onKeydown($event, projects)"
         (inputFocus)="textFieldFocused = true"
@@ -57,7 +58,7 @@
           [searchText]="searchableProjectListService.searchText"
           [root]="true"
           data-list-root="true"
-          data-qa-selector="op-header-project-select--list"
+          data-test-selector="op-header-project-select--list"
         ></ul>
 
         <ng-template #noResultsTemplate>
@@ -78,7 +79,7 @@
           </a>
           <a
             *ngIf="canCreateNewProjects$ | async"
-            class="button -alt-highlight spot-action-bar--action"
+            class="button -primary spot-action-bar--action"
             [href]="newProjectPath()"
           >
             <span class="spot-icon spot-icon_add"></span>

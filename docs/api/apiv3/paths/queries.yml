@@ -1,6 +1,14 @@
 # /api/v3/queries
 ---
 get:
+  summary: List queries
+  operationId: List_queries
+  tags:
+  - Queries
+  description: Returns a collection of queries. The collection can be filtered via
+    query parameters similar to how work packages are filtered. Please note however,
+    that the filters are applied to the queries and not to the work packages the queries
+    in turn might return.
   parameters:
   - description: |-
       JSON specifying filter conditions.
@@ -44,15 +52,20 @@ get:
 
         **Required permission:** view work packages or manage public queries in any project
       headers: {}
+post:
+  summary: Create query
+  operationId: Create_query
   tags:
   - Queries
-  description: Returns a collection of queries. The collection can be filtered via
-    query parameters similar to how work packages are filtered. Please note however,
-    that the filters are applied to the queries and not to the work packages the queries
-    in turn might return.
-  operationId: List_queries
-  summary: List queries
-post:
+  description: |-
+    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+    The required fields of a Query can be found in its schema, which is embedded in the respective form.
+    Note that it is only allowed to provide properties or links supporting the write operation.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          "$ref": "../components/schemas/query_create_form.yml"
   responses:
     '201':
       content:
@@ -94,11 +107,3 @@ post:
         * the client provides a link to an invalid resource (`ResourceTypeMismatch`),
           e.g. a user, project or operator not found
       headers: {}
-  tags:
-  - Queries
-  description: |-
-    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
-    The required fields of a Query can be found in its schema, which is embedded in the respective form.
-    Note that it is only allowed to provide properties or links supporting the write operation.
-  operationId: Create_query
-  summary: Create query

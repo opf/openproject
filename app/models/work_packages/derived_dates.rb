@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ module WorkPackages::DerivedDates
   # WorkPackage.include_derived_dates in which case the work package has a
   # derived_start_date attribute or it is loaded on calling the method.
   def derived_start_date
-    derived_date('derived_start_date')
+    derived_date("derived_start_date")
   end
 
   # Returns the minimum of the dates of all descendants (start and due date)
@@ -44,7 +44,7 @@ module WorkPackages::DerivedDates
   # WorkPackage.include_derived_dates in which case the work package has a
   # derived_due_date attribute or it is loaded on calling the method.
   def derived_due_date
-    derived_date('derived_due_date')
+    derived_date("derived_due_date")
   end
 
   def derived_start_date=(date)

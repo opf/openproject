@@ -2,24 +2,26 @@
 zh-TW:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
-      unsaved_title: 'Unnamed team planner'
+      add_existing: '增加已有的'
+      add_existing_title: '新增現有的工作項目'
+      create_label: '團隊規劃'
+      create_title: '建立新的團隊計畫'
+      unsaved_title: '未命名的團隊計畫'
       no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Add assignee'
-      remove_assignee: 'Remove assignee'
-      two_weeks: '2-week'
-      one_week: '1-week'
-      work_week: 'Work week'
-      today: 'Today'
+      add_assignee: '增加「執行者」'
+      remove_assignee: '刪除執行者'
+      two_weeks: '兩週'
+      one_week: '1週'
+      four_weeks: '4 週'
+      eight_weeks: '8 週'
+      work_week: '工作週'
+      today: '今日'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
       quick_add:
         empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        search_placeholder: '搜尋...'
       modify:
         errors:
           permission_denied: 'You do not have the necessary permissions to modify this.'

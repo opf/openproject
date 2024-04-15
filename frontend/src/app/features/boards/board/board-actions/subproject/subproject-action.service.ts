@@ -9,6 +9,8 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BoardSubprojectActionService extends CachedBoardActionService {
@@ -43,7 +45,7 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
     changeset.setValue('project', { href });
   }
 
-  protected loadUncached():Promise<HalResource[]> {
+  protected loadUncached():Observable<HalResource[]> {
     const currentProjectId = this.currentProject.id!;
     return this
       .apiV3Service
@@ -54,7 +56,8 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
           .add('active', '=', true),
       )
       .get()
-      .toPromise()
-      .then((collection:CollectionResource<UserResource>) => collection.elements);
+      .pipe(
+        map((collection:CollectionResource<UserResource>) => collection.elements),
+      );
   }
 }

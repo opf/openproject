@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,6 +49,16 @@ module Boards
       "#{I18n.t('boards.label_board')} '#{name}'"
     end
 
+    def board_type
+      options.with_indifferent_access[:type]&.to_sym || :free
+    end
+
+    def board_type_attribute
+      return nil unless board_type == :action
+
+      options.with_indifferent_access[:attribute]
+    end
+
     private
 
     def delete_queries
@@ -57,8 +67,7 @@ module Boards
 
     def contained_query_ids
       widgets
-        .map { |w| w.options['queryId'] || w.options['query_id'] }
-        .compact
+        .filter_map { |w| w.options["queryId"] || w.options["query_id"] }
     end
   end
 end

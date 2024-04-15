@@ -1,13 +1,13 @@
 <div class="op-wp-breadcrumb -show"
-      data-qa-selector="op-wp-breadcrumb"
+      data-test-selector="op-wp-breadcrumb"
      *ngIf="workPackage">
   <ul class="op-breadcrumb"
-      data-qa-selector="op-breadcrumb">
+      data-test-selector="op-breadcrumb">
     <ng-container *ngIf="!inputActive && hierarchyCount > 0">
       <li>
         <span>{{ hierarchyLabel }}: </span>
       </li>
-      <ng-container *ngFor="let ancestor of workPackage.ancestors; let first = first ; let last = last">
+      <ng-container *ngFor="let ancestor of workPackage.getAncestors(); let first = first ; let last = last">
         <li
             *ngIf="!last"
             class="op-wp-breadcrumb--ellipsed"

@@ -51,11 +51,6 @@ export class GroupedRowsBuilder extends RowsBuilder {
     return this.querySpace.collapsedGroups.value || {};
   }
 
-  public get colspan() {
-    // Columns + manual sorting column + settings column
-    return this.wpTableColumns.columnCount + 2;
-  }
-
   public buildRows() {
     const builder = new GroupHeaderBuilder(this.injector);
     return new GroupedRenderPass(
@@ -63,7 +58,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       this.workPackageTable,
       this.getGroupData(),
       builder,
-      this.colspan,
+      this.workPackageTable.colspan,
     ).render();
   }
 
@@ -82,7 +77,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
         const group = groups[groupIndex];
 
         // Refresh the group header
-        const newRow = builder.buildGroupRow(group, this.colspan);
+        const newRow = builder.buildGroupRow(group, this.workPackageTable.colspan);
 
         if (oldRow.parentNode) {
           oldRow.parentNode.replaceChild(newRow, oldRow);

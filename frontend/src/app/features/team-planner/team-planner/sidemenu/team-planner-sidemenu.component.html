@@ -10,11 +10,11 @@
 <div class="op-sidebar--footer">
   <button
     *ngIf="(canAddTeamPlanner$ | async)"
-    class="button -alt-highlight -expand"
+    class="button -primary -expand"
     [uiSref]="createButton.uiSref"
     [uiParams]="createButton.uiParams"
     [title]="createButton.title"
-    data-qa-selector="team-planner--create-button"
+    data-test-selector="team-planner--create-button"
   >
     <span class="spot-icon spot-icon_add"></span>
     <span [textContent]="createButton.text"></span>

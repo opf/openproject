@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,17 +37,28 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
         include ::API::V3::FileLinks::FileLinkRelationRepresenter
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+        include TimestampedRepresenter
 
         cached_representer key_parts: %i(project),
                            disabled: false
 
-        def initialize(model, current_user:, embed_links: false)
+        attr_accessor :timestamps, :query
+
+        def initialize(model, current_user:, embed_links: false, timestamps: nil, query: nil)
+          @query = query
+          @timestamps = timestamps || query.try(:timestamps) || []
+
           model = load_complete_model(model)
 
-          super
+          super(model, current_user:, embed_links:)
         end
 
-        self_link title_getter: ->(*) { represented.subject }
+        def self_v3_path(*)
+          api_v3_paths.work_package(represented.id, timestamps:)
+        end
+
+        self_link title_getter: ->(*) { represented.subject },
+                  uncacheable: true
 
         link :update,
              cache_if: -> { current_user_update_allowed? } do
@@ -72,7 +83,7 @@ module API
         end
 
         link :delete,
-             cache_if: -> { current_user_allowed_to(:delete_work_packages, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:delete_work_packages, represented.project) } do
           {
             href: api_v3_paths.work_package(represented.id),
             method: :delete
@@ -80,10 +91,7 @@ module API
         end
 
         link :logTime,
-             cache_if: -> do
-               current_user_allowed_to(:log_time, context: represented.project) ||
-                 current_user_allowed_to(:log_own_time, context: represented.project)
-             end do
+             cache_if: -> { log_time_allowed? } do
           next if represented.new_record?
 
           {
@@ -93,12 +101,12 @@ module API
         end
 
         link :move,
-             cache_if: -> { current_user_allowed_to(:move_work_packages, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:move_work_packages, represented.project) } do
           next if represented.new_record?
 
           {
             href: new_work_package_move_path(represented),
-            type: 'text/html',
+            type: "text/html",
             title: "Move #{represented.subject}"
           }
         end
@@ -108,7 +116,7 @@ module API
           next if represented.new_record?
 
           {
-            href: work_package_path(represented, 'copy'),
+            href: work_package_path(represented, "copy"),
             title: "Copy #{represented.subject}"
           }
         end
@@ -119,8 +127,8 @@ module API
 
           {
             href: work_package_path(id: represented.id, format: :pdf),
-            type: 'application/pdf',
-            title: 'Export as PDF'
+            type: "application/pdf",
+            title: "Export as PDF"
           }
         end
 
@@ -130,8 +138,8 @@ module API
 
           {
             href: work_package_path(id: represented.id, format: :atom),
-            type: 'application/rss+xml',
-            title: 'Atom feed'
+            type: "application/rss+xml",
+            title: "Atom feed"
           }
         end
 
@@ -145,12 +153,12 @@ module API
         end
 
         link :customFields,
-             cache_if: -> { current_user_allowed_to(:select_custom_fields, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:select_custom_fields, represented.project) } do
           next if represented.project.nil?
 
           {
             href: project_settings_custom_fields_path(represented.project.identifier),
-            type: 'text/html',
+            type: "text/html",
             title: "Custom fields"
           }
         end
@@ -160,8 +168,8 @@ module API
           next unless represented.type_id
 
           {
-            href: edit_type_path(represented.type_id, tab: 'form_configuration'),
-            type: 'text/html',
+            href: edit_type_path(represented.type_id, tab: "form_configuration"),
+            type: "text/html",
             title: "Configure form"
           }
         end
@@ -173,7 +181,7 @@ module API
         end
 
         link :availableWatchers,
-             cache_if: -> { current_user_allowed_to(:add_work_package_watchers, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:add_work_package_watchers, represented.project) } do
           {
             href: api_v3_paths.available_watchers(represented.id)
           }
@@ -185,7 +193,8 @@ module API
           }
         end
 
-        link :revisions do
+        link :revisions,
+             cache_if: -> { current_user.allowed_in_project?(:view_changesets, represented.project) } do
           {
             href: api_v3_paths.work_package_revisions(represented.id)
           }
@@ -213,37 +222,37 @@ module API
         end
 
         link :watchers,
-             cache_if: -> { current_user_allowed_to(:view_work_package_watchers, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:view_work_package_watchers, represented.project) } do
           {
             href: api_v3_paths.work_package_watchers(represented.id)
           }
         end
 
         link :addWatcher,
-             cache_if: -> { current_user_allowed_to(:add_work_package_watchers, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:add_work_package_watchers, represented.project) } do
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
-            payload: { user: { href: api_v3_paths.user('{user_id}') } },
+            payload: { user: { href: api_v3_paths.user("{user_id}") } },
             templated: true
           }
         end
 
         link :removeWatcher,
-             cache_if: -> { current_user_allowed_to(:delete_work_package_watchers, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:delete_work_package_watchers, represented.project) } do
           {
-            href: api_v3_paths.watcher('{user_id}', represented.id),
+            href: api_v3_paths.watcher("{user_id}", represented.id),
             method: :delete,
             templated: true
           }
         end
 
         link :addRelation,
-             cache_if: -> { current_user_allowed_to(:manage_work_package_relations, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:manage_work_package_relations, represented) } do
           {
             href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
-            title: 'Add relation'
+            title: "Add relation"
           }
         end
 
@@ -259,7 +268,7 @@ module API
         end
 
         link :changeParent,
-             cache_if: -> { current_user_allowed_to(:manage_subtasks, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:manage_subtasks, represented.project) } do
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch,
@@ -268,11 +277,11 @@ module API
         end
 
         link :addComment,
-             cache_if: -> { current_user_allowed_to(:add_work_package_notes, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:add_work_package_notes, represented) } do
           {
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
-            title: 'Add comment'
+            title: "Add comment"
           }
         end
 
@@ -291,7 +300,7 @@ module API
 
           {
             href: api_v3_paths.path_for(:time_entries, filters:),
-            title: 'Time entries'
+            title: "Time entries"
           }
         end
 
@@ -352,11 +361,11 @@ module API
                         # handled in reader
                       },
                       reader: ->(decorator:, doc:, **) {
-                        next unless doc.key?('date')
+                        next unless doc.key?("date")
 
                         date = decorator
                           .datetime_formatter
-                          .parse_date(doc['date'],
+                          .parse_date(doc["date"],
                                       name.to_s.camelize(:lower),
                                       allow_nil: true)
 
@@ -394,6 +403,24 @@ module API
                  end,
                  render_nil: true
 
+        property :remaining_time,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_duration_from_hours(represented.remaining_hours,
+                                                                 allow_nil: true)
+                 end,
+                 writable: ->(*) { !WorkPackage.use_status_for_done_ratio? },
+                 render_nil: true
+
+        property :derived_remaining_time,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_duration_from_hours(represented.derived_remaining_hours,
+                                                                 allow_nil: true)
+                 end,
+                 writable: ->(*) { !WorkPackage.use_status_for_done_ratio? },
+                 render_nil: true
+
         property :duration,
                  exec_context: :decorator,
                  if: ->(represented:, **) { !represented.milestone? },
@@ -418,7 +445,12 @@ module API
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true,
-                 if: ->(*) { Setting.work_package_done_ratio != 'disabled' }
+                 if: ->(*) { Setting.work_package_done_ratio != "disabled" }
+
+        property :derived_done_ratio,
+                 as: :derivedPercentageDone,
+                 render_nil: true,
+                 if: ->(*) { Setting.work_package_done_ratio != "disabled" }
 
         date_time_property :created_at
 
@@ -494,15 +526,15 @@ module API
                             setter: ->(fragment:, **) do
                               next if fragment.empty?
 
-                              href = fragment['href']
+                              href = fragment["href"]
 
                               new_parent =
                                 if href
                                   id = ::API::Utilities::ResourceLinkParser
                                     .parse_id href,
-                                              property: 'parent',
-                                              expected_version: '3',
-                                              expected_namespace: 'work_packages'
+                                              property: "parent",
+                                              expected_version: "3",
+                                              expected_namespace: "work_packages"
 
                                   WorkPackage.find_by(id:) ||
                                     ::WorkPackage::InexistentWorkPackage.new(id:)
@@ -538,7 +570,7 @@ module API
                   end
 
         def _type
-          'WorkPackage'
+          "WorkPackage"
         end
 
         def to_hash(*args)
@@ -557,28 +589,44 @@ module API
 
         def current_user_update_allowed?
           @current_user_update_allowed ||=
-            current_user_allowed_to(:edit_work_packages, context: represented.project) ||
-              current_user_allowed_to(:assign_versions, context: represented.project)
+            current_user.allowed_in_work_package?(:edit_work_packages, represented) ||
+              current_user.allowed_in_project?(:change_work_package_status, represented.project) ||
+              current_user.allowed_in_project?(:assign_versions, represented.project)
         end
 
         def view_time_entries_allowed?
           @view_time_entries_allowed ||=
-            current_user_allowed_to(:view_time_entries, context: represented.project) ||
-              current_user_allowed_to(:view_own_time_entries, context: represented.project)
+            current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+            view_own_time_entries_allowed?
+        end
+
+        def view_own_time_entries_allowed?
+          @view_own_time_entries_allowed ||= if represented.new_record?
+                                               current_user.allowed_in_any_work_package?(:view_own_time_entries,
+                                                                                         in_project: represented.project)
+                                             else
+                                               current_user.allowed_in_work_package?(:view_own_time_entries, represented)
+                                             end
+        end
+
+        def log_time_allowed?
+          @log_time_allowed ||=
+            current_user.allowed_in_project?(:log_time, represented.project) ||
+              current_user.allowed_in_work_package?(:log_own_time, represented)
         end
 
         def view_budgets_allowed?
-          @view_budgets_allowed ||= current_user_allowed_to(:view_budgets, context: represented.project)
+          @view_budgets_allowed ||= current_user.allowed_in_project?(:view_budgets, represented.project)
         end
 
         def export_work_packages_allowed?
           @export_work_packages_allowed ||=
-            current_user_allowed_to(:export_work_packages, context: represented.project)
+            current_user.allowed_in_work_package?(:export_work_packages, represented)
         end
 
         def add_work_packages_allowed?
           @add_work_packages_allowed ||=
-            current_user_allowed_to(:add_work_packages, context: represented.project)
+            current_user.allowed_in_project?(:add_work_packages, represented.project)
         end
 
         def relations
@@ -599,14 +647,23 @@ module API
         delegate :schedule_manually=, to: :represented
 
         def estimated_time=(value)
-          represented.estimated_hours = datetime_formatter.parse_duration_to_hours(value,
-                                                                                   'estimatedTime',
-                                                                                   allow_nil: true)
+          represented.estimated_hours =
+            datetime_formatter.parse_duration_to_hours(value, "estimatedTime", allow_nil: true)
         end
 
         def derived_estimated_time=(value)
-          represented.derived_estimated_hours = datetime_formatter
-            .parse_duration_to_hours(value, 'derivedEstimatedTime', allow_nil: true)
+          represented.derived_estimated_hours =
+            datetime_formatter.parse_duration_to_hours(value, "derivedEstimatedTime", allow_nil: true)
+        end
+
+        def remaining_time=(value)
+          represented.remaining_hours =
+            datetime_formatter.parse_duration_to_hours(value, "remainingTime", allow_nil: true)
+        end
+
+        def derived_remaining_time=(value)
+          represented.derived_remaining_hours =
+            datetime_formatter.parse_duration_to_hours(value, "derivedRemainingTime", allow_nil: true)
         end
 
         def spent_time=(value)
@@ -615,7 +672,7 @@ module API
 
         def duration=(value)
           represented.duration = datetime_formatter.parse_duration_to_days(value,
-                                                                           'duration',
+                                                                           "duration",
                                                                            allow_nil: true)
         end
 
@@ -634,11 +691,11 @@ module API
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
         def json_cache_key
-          ['API',
-           'V3',
-           'WorkPackages',
-           'WorkPackageRepresenter',
-           'json',
+          ["API",
+           "V3",
+           "WorkPackages",
+           "WorkPackageRepresenter",
+           "json",
            I18n.locale,
            json_key_representer_parts,
            represented.cache_checksum,
@@ -647,7 +704,7 @@ module API
         end
 
         def load_complete_model(model)
-          ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user)
+          ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user, timestamps:, query:)
         end
       end
     end

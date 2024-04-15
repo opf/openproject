@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,32 +31,32 @@ class Message < ApplicationRecord
 
   belongs_to :forum
   has_one :project, through: :forum
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
   acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_at ASC"
   acts_as_attachable after_add: :attachments_changed,
                      after_remove: :attachments_changed,
                      add_on_new_permission: :add_messages,
                      add_on_persisted_permission: :edit_messages
-  belongs_to :last_reply, class_name: 'Message'
+  belongs_to :last_reply, class_name: "Message"
 
   acts_as_journalized
 
   acts_as_event title: Proc.new { |o| "#{o.forum.name}: #{o.subject}" },
                 description: :content,
-                type: Proc.new { |o| o.parent_id.nil? ? 'message' : 'reply' },
+                type: Proc.new { |o| o.parent_id.nil? ? "message" : "reply" },
                 url: (Proc.new do |o|
                         msg = o
                         if msg.parent_id.nil?
                           { id: msg.id }
                         else
                           { id: msg.parent_id, r: msg.id, anchor: "message-#{msg.id}" }
-                        end.reverse_merge controller: '/messages', action: 'show', forum_id: msg.forum_id
+                        end.reverse_merge controller: "/messages", action: "show", forum_id: msg.forum_id
                       end)
 
-  acts_as_searchable columns: ['subject', 'content'],
+  acts_as_searchable columns: ["subject", "content"],
                      include: { forum: :project },
                      references: [:forums],
-                     project_key: 'project_id',
+                     project_key: "project_id",
                      date_column: "#{table_name}.created_at"
 
   acts_as_watchable
@@ -77,14 +77,14 @@ class Message < ApplicationRecord
   }
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_to?(:view_messages, project)
+    !user.nil? && user.allowed_in_project?(:view_messages, project)
   end
 
   validate :validate_unlocked_root, on: :create
 
   # Can not reply to a locked topic
   def validate_unlocked_root
-    errors.add :base, 'Topic is locked' if root.locked? && self != root
+    errors.add :base, "Topic is locked" if root.locked? && self != root
   end
 
   def set_sticked_on_date
@@ -108,7 +108,7 @@ class Message < ApplicationRecord
   end
 
   def sticky=(arg)
-    write_attribute :sticky, (arg == true || arg.to_s == '1' ? 1 : 0)
+    write_attribute :sticky, (arg == true || arg.to_s == "1" ? 1 : 0)
   end
 
   def sticky?
@@ -116,13 +116,14 @@ class Message < ApplicationRecord
   end
 
   def editable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:edit_messages,
-                                           project) || (author == usr && usr.allowed_to?(:edit_own_messages, project)))
+    usr && usr.logged? &&
+    (usr.allowed_in_project?(:edit_messages, project) || (author == usr && usr.allowed_in_project?(:edit_own_messages, project)))
   end
 
   def destroyable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:delete_messages,
-                                           project) || (author == usr && usr.allowed_to?(:delete_own_messages, project)))
+    usr && usr.logged? &&
+    (usr.allowed_in_project?(:delete_messages,
+                             project) || (author == usr && usr.allowed_in_project?(:delete_own_messages, project)))
   end
 
   private

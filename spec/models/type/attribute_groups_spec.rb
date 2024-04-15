@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::Type, type: :model do
+RSpec.describe Type do
   let(:type) { build(:type) }
 
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   before do
     # Clear up the request store cache for all_work_package_attributes
@@ -39,7 +39,7 @@ describe ::Type, type: :model do
   end
 
   describe "#attribute_groups" do
-    shared_examples_for 'returns default attributes' do
+    shared_examples_for "returns default attributes" do
       it do
         expect(type.read_attribute(:attribute_groups)).to be_empty
 
@@ -51,65 +51,65 @@ describe ::Type, type: :model do
       end
     end
 
-    context 'with attributes provided' do
+    context "with attributes provided" do
       before do
-        type.attribute_groups = [['foo', []], ['bar', %w(blubs date)]]
+        type.attribute_groups = [["foo", []], ["bar", %w(blubs date)]]
       end
 
-      it 'removes unknown attributes from a group' do
+      it "removes unknown attributes from a group" do
         group = type.attribute_groups[1]
 
-        expect(group.key).to eql 'bar'
-        expect(group.members).to eql ['date']
+        expect(group.key).to eql "bar"
+        expect(group.members).to eql ["date"]
       end
 
-      it 'keeps groups without attributes' do
+      it "keeps groups without attributes" do
         group = type.attribute_groups[0]
 
-        expect(group.key).to eql 'foo'
+        expect(group.key).to eql "foo"
         expect(group.members).to eql []
       end
 
-      it 'does not have a children query' do
+      it "does not have a children query" do
         expect(type.attribute_groups.detect { |group| group.key == :children }).to be_nil
       end
     end
 
-    context 'with empty attributes provided' do
+    context "with empty attributes provided" do
       before do
         type.attribute_groups = []
       end
 
-      it 'returns an empty attribute_groups' do
+      it "returns an empty attribute_groups" do
         expect(type.attribute_groups).to be_empty
       end
     end
 
-    context 'with no attributes provided' do
-      it_behaves_like 'returns default attributes'
+    context "with no attributes provided" do
+      it_behaves_like "returns default attributes"
     end
 
-    context 'with a query group' do
+    context "with a query group" do
       let(:type) { create(:type) }
       let(:query) { build(:global_query, user_id: 0) }
 
       before do
         login_as(admin)
 
-        type.attribute_groups = [['some group', [query]]]
+        type.attribute_groups = [["some group", [query]]]
         type.save!
         type.reload
       end
 
-      it 'retrieves the query' do
+      it "retrieves the query" do
         expect(type.attribute_groups.length).to be 1
 
         expect(type.attribute_groups[0].class).to eql Type::QueryGroup
-        expect(type.attribute_groups[0].key).to eql 'some group'
+        expect(type.attribute_groups[0].key).to eql "some group"
         expect(type.attribute_groups[0].query).to eql query
       end
 
-      it 'removes the former query if a new one is assigned' do
+      it "removes the former query if a new one is assigned" do
         new_query = build(:global_query, user_id: 0)
         type.attribute_groups[0].attributes = new_query
         type.save!
@@ -118,7 +118,7 @@ describe ::Type, type: :model do
         expect(type.attribute_groups.length).to be 1
 
         expect(type.attribute_groups[0].class).to eql Type::QueryGroup
-        expect(type.attribute_groups[0].key).to eql 'some group'
+        expect(type.attribute_groups[0].key).to eql "some group"
         expect(type.attribute_groups[0].query).to eql new_query
 
         expect(Query.count).to be 1
@@ -126,14 +126,14 @@ describe ::Type, type: :model do
     end
   end
 
-  describe '#default_attribute_groups' do
+  describe "#default_attribute_groups" do
     subject { type.default_attribute_groups }
 
-    it 'returns an array' do
+    it "returns an array" do
       expect(subject.any?).to be_truthy
     end
 
-    it 'each attribute group is an array' do
+    it "each attribute group is an array" do
       expect(subject.detect { |g| g.class != Array }).to be_falsey
     end
 
@@ -145,7 +145,7 @@ describe ::Type, type: :model do
       expect(subject.detect { |g| g.second.class != Array }).to be_falsey
     end
 
-    it 'does not return empty groups' do
+    it "does not return empty groups" do
       # For instance, the `type` factory instance does not have custom fields.
       # Thus the `other` group shall not be returned.
       expect(subject.detect do |attribute_group|
@@ -155,64 +155,64 @@ describe ::Type, type: :model do
     end
   end
 
-  describe 'custom fields' do
+  describe "custom fields" do
     let!(:custom_field) do
       create(
         :work_package_custom_field,
-        field_format: 'string'
+        field_format: "string"
       )
     end
     let(:cf_identifier) do
-      :"custom_field_#{custom_field.id}"
+      custom_field.attribute_name
     end
 
-    it 'can be put into attribute groups' do
+    it "can be put into attribute groups" do
       # Enforce fresh lookup of groups
       OpenProject::Cache.clear
 
       # Can be enabled
-      type.attribute_groups = [['foo', [cf_identifier.to_s]]]
+      type.attribute_groups = [["foo", [cf_identifier]]]
       expect(type.save).to be_truthy
       expect(type.read_attribute(:attribute_groups)).not_to be_empty
     end
 
-    context 'with multiple CFs' do
+    context "with multiple CFs" do
       let!(:custom_field2) do
         create(
           :work_package_custom_field,
-          field_format: 'string'
+          field_format: "string"
         )
       end
       let(:cf_identifier2) do
-        :"custom_field_#{custom_field2.id}"
+        custom_field2.attribute_name
       end
 
-      it 'they are kept in their respective positions in the group (Regression test #27940)' do
+      it "they are kept in their respective positions in the group (Regression test #27940)" do
         # Enforce fresh lookup of groups
         OpenProject::Cache.clear
 
         # Can be enabled
-        type.attribute_groups = [['foo', [cf_identifier2.to_s, cf_identifier.to_s]]]
+        type.attribute_groups = [["foo", [cf_identifier2, cf_identifier]]]
         expect(type.save).to be_truthy
         expect(type.read_attribute(:attribute_groups)).not_to be_empty
 
         cf_group = type.attribute_groups[0]
-        expect(cf_group.members).to eq([cf_identifier2.to_s, cf_identifier.to_s])
+        expect(cf_group.members).to eq([cf_identifier2, cf_identifier])
       end
     end
   end
 
-  describe 'custom field added implicitly to type' do
+  describe "custom field added implicitly to type" do
     let(:custom_field) do
       create(
         :work_package_custom_field,
-        field_format: 'string',
+        field_format: "string",
         is_for_all: true
       )
     end
     let!(:type) { create(:type, custom_fields: [custom_field]) }
 
-    it 'has the custom field in the default group' do
+    it "has the custom field in the default group" do
       OpenProject::Cache.clear
       type.reload
 
@@ -220,7 +220,7 @@ describe ::Type, type: :model do
 
       other_group = type.attribute_groups.detect { |g| g.key == :other }
       expect(other_group).to be_present
-      expect(other_group.attributes).to eq([custom_field.accessor_name])
+      expect(other_group.attributes).to eq([custom_field.attribute_name])
 
       # It is removed again when resetting it
       type.reset_attribute_groups
@@ -231,18 +231,18 @@ describe ::Type, type: :model do
     end
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     let(:query) { build(:global_query, user_id: 0) }
 
     before do
       login_as(admin)
-      type.attribute_groups = [['some name', [query]]]
+      type.attribute_groups = [["some name", [query]]]
       type.save!
       type.reload
       type.destroy
     end
 
-    it 'destroys all queries references by query groups' do
+    it "destroys all queries references by query groups" do
       expect(Query.find_by(id: query.id)).to be_nil
     end
   end

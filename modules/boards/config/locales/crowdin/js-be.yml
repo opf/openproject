@@ -20,7 +20,7 @@ be:
         unlock_version: 'Unlock version'
         edit_version: 'Edit version'
         show_version: 'Show version'
-        locked: 'Locked'
+        locked: 'Заблакавана'
         closed: 'Closed'
       new_board: 'New board'
       add_list: 'Add list to board'
@@ -58,7 +58,7 @@ be:
           subproject: subproject
           subtasks: parent-child
         board_type_title:
-          assignee: Assignee
+          assignee: Прызначаная асоба
           status: Status
           version: Version
           subproject: Subproject

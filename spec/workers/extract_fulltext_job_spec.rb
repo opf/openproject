@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ExtractFulltextJob, type: :job do
+RSpec.describe Attachments::ExtractFulltextJob, type: :job do
   subject(:extracted_attributes) do
     perform_enqueued_jobs
 
@@ -46,10 +46,10 @@ describe ExtractFulltextJob, type: :job do
     SQL
   end
 
-  let(:text) { 'lorem ipsum' }
+  let(:text) { "lorem ipsum" }
   let(:attachment) do
     create(:attachment).tap do |attachment|
-      expect(ExtractFulltextJob)
+      expect(Attachments::ExtractFulltextJob)
         .to have_been_enqueued
         .with(attachment.id)
 
@@ -65,48 +65,48 @@ describe ExtractFulltextJob, type: :job do
       allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)
     end
 
-    context 'attachment is readable' do
+    context "attachment is readable" do
       before do
         allow(attachment).to receive(:readable?).and_return(true)
       end
 
-      it 'updates the attachment\'s DB record with fulltext, fulltext_tsv, and file_tsv' do
-        expect(extracted_attributes['fulltext']).to eq text
-        expect(extracted_attributes['fulltext_tsv'].size).to be > 0
-        expect(extracted_attributes['file_tsv'].size).to be > 0
+      it "updates the attachment's DB record with fulltext, fulltext_tsv, and file_tsv" do
+        expect(extracted_attributes["fulltext"]).to eq text
+        expect(extracted_attributes["fulltext_tsv"].size).to be > 0
+        expect(extracted_attributes["file_tsv"].size).to be > 0
       end
 
-      context 'without text extracted' do
+      context "without text extracted" do
         let(:text) { nil }
 
         # include_examples 'no fulltext but file name saved as TSV'
-        it 'updates the attachment\'s DB record with file_tsv' do
-          expect(extracted_attributes['fulltext']).to be_blank
-          expect(extracted_attributes['fulltext_tsv']).to be_blank
-          expect(extracted_attributes['file_tsv'].size).to be > 0
+        it "updates the attachment's DB record with file_tsv" do
+          expect(extracted_attributes["fulltext"]).to be_blank
+          expect(extracted_attributes["fulltext_tsv"]).to be_blank
+          expect(extracted_attributes["file_tsv"].size).to be > 0
         end
       end
     end
   end
 
-  shared_examples 'only file name indexed' do
-    it 'updates the attachment\'s DB record with file_tsv' do
-      expect(extracted_attributes['fulltext']).to be_blank
-      expect(extracted_attributes['fulltext_tsv']).to be_blank
-      expect(extracted_attributes['file_tsv'].size).to be > 0
+  shared_examples "only file name indexed" do
+    it "updates the attachment's DB record with file_tsv" do
+      expect(extracted_attributes["fulltext"]).to be_blank
+      expect(extracted_attributes["fulltext_tsv"]).to be_blank
+      expect(extracted_attributes["file_tsv"].size).to be > 0
     end
   end
 
-  context 'with the file not readable' do
+  context "with the file not readable" do
     before do
       allow(attachment).to receive(:readable?).and_return(false)
     end
 
-    include_examples 'only file name indexed'
+    include_examples "only file name indexed"
   end
 
-  context 'with exception in extraction' do
-    let(:exception_message) { 'boom-internal-error' }
+  context "with exception in extraction" do
+    let(:exception_message) { "boom-internal-error" }
     let(:logger) { Rails.logger }
 
     before do
@@ -117,11 +117,11 @@ describe ExtractFulltextJob, type: :job do
       allow(attachment).to receive(:readable?).and_return(true)
     end
 
-    it 'logs the error' do
+    it "logs the error" do
       extracted_attributes
       expect(logger).to have_received(:error).with(/boom-internal-error/)
     end
 
-    include_examples 'only file name indexed'
+    include_examples "only file name indexed"
   end
 end

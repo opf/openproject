@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,86 +26,86 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Project, 'acts_as_journalized' do
+RSpec.describe Project, "acts_as_journalized" do
   shared_let(:user) { create(:user) }
 
   let!(:project) do
     User.execute_as user do
       create(:project,
-             description: 'project description')
+             description: "project description")
     end
   end
 
-  context 'on project creation' do
-    it 'has one journal entry' do
+  context "on project creation" do
+    it "has one journal entry" do
       expect(Journal.all.count).to eq(1)
       expect(Journal.first.journable).to eq(project)
     end
 
-    it 'notes the changes to name' do
+    it "notes the changes to name" do
       expect(Journal.first.details[:name])
-        .to match_array [nil, project.name]
+        .to contain_exactly(nil, project.name)
     end
 
-    it 'notes the changes to description' do
+    it "notes the changes to description" do
       expect(Journal.first.details[:description])
-        .to match_array [nil, project.description]
+        .to contain_exactly(nil, project.description)
     end
 
-    it 'notes the changes to public flag' do
+    it "notes the changes to public flag" do
       expect(Journal.first.details[:public])
-        .to match_array [nil, project.public]
+        .to contain_exactly(nil, project.public)
     end
 
-    it 'notes the changes to identifier' do
+    it "notes the changes to identifier" do
       expect(Journal.first.details[:identifier])
-        .to match_array [nil, project.identifier]
+        .to contain_exactly(nil, project.identifier)
     end
 
-    it 'notes the changes to active flag' do
+    it "notes the changes to active flag" do
       expect(Journal.first.details[:active])
-        .to match_array [nil, project.active]
+        .to contain_exactly(nil, project.active)
     end
 
-    it 'notes the changes to template flag' do
+    it "notes the changes to template flag" do
       expect(Journal.first.details[:templated])
-        .to match_array [nil, project.templated]
+        .to contain_exactly(nil, project.templated)
     end
 
-    it 'has the timestamp of the project update time for created_at' do
+    it "has the timestamp of the project update time for created_at" do
       expect(Journal.first.created_at)
         .to eql(project.reload.updated_at)
     end
   end
 
-  context 'when nothing is changed' do
+  context "when nothing is changed" do
     it { expect { project.save! }.not_to change(Journal, :count) }
   end
 
-  describe 'on project update', with_settings: { journal_aggregation_time_minutes: 0 } do
+  describe "on project update", with_settings: { journal_aggregation_time_minutes: 0 } do
     shared_let(:parent_project) { create(:project) }
 
     before do
-      project.name = 'changed project name'
-      project.description = 'changed project description'
+      project.name = "changed project name"
+      project.description = "changed project description"
       project.public = !project.public
       project.parent = parent_project
-      project.identifier = 'changed-identifier'
+      project.identifier = "changed-identifier"
       project.active = !project.active
       project.templated = !project.templated
 
       project.save!
     end
 
-    context 'for last created journal' do
-      it 'has the timestamp of the project update time for created_at' do
+    context "for last created journal" do
+      it "has the timestamp of the project update time for created_at" do
         expect(project.last_journal.created_at)
           .to eql(project.reload.updated_at)
       end
 
-      it 'contains last changes' do
+      it "contains last changes" do
         %i[name description public parent_id identifier active templated].each do |prop|
           expect(project.last_journal.details).to have_key(prop.to_s), "Missing change for #{prop}"
         end
@@ -113,36 +113,36 @@ describe Project, 'acts_as_journalized' do
     end
   end
 
-  describe 'custom values', with_settings: { journal_aggregation_time_minutes: 0 } do
+  describe "custom values", with_settings: { journal_aggregation_time_minutes: 0 } do
     shared_let(:custom_field) { create(:string_project_custom_field) }
     let(:custom_value) do
       build(:custom_value,
-            value: 'some string value for project custom field',
+            value: "some string value for project custom field",
             custom_field:)
     end
     let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
 
-    shared_context 'for project with new custom value' do
+    shared_context "for project with new custom value" do
       before do
         project.update(custom_values: [custom_value])
       end
     end
 
-    context 'for new custom value' do
-      include_context 'for project with new custom value'
+    context "for new custom value" do
+      include_context "for project with new custom value"
 
-      it 'contains the new custom value change' do
+      it "contains the new custom value change" do
         expect(project.last_journal.details)
           .to include(custom_field_id => [nil, custom_value.value])
       end
     end
 
-    context 'for updated custom value' do
-      include_context 'for project with new custom value'
+    context "for updated custom value" do
+      include_context "for project with new custom value"
 
       let(:modified_custom_value) do
         build(:custom_value,
-              value: 'some modified value for project custom field',
+              value: "some modified value for project custom field",
               custom_field:)
       end
 
@@ -150,14 +150,14 @@ describe Project, 'acts_as_journalized' do
         project.update(custom_values: [modified_custom_value])
       end
 
-      it 'contains the change from previous value to updated value' do
+      it "contains the change from previous value to updated value" do
         expect(project.last_journal.details)
           .to include(custom_field_id => [custom_value.value, modified_custom_value.value])
       end
     end
 
-    context 'when project saved without any changes' do
-      include_context 'for project with new custom value'
+    context "when project saved without any changes" do
+      include_context "for project with new custom value"
 
       let(:unmodified_custom_value) do
         build(:custom_value,
@@ -172,25 +172,25 @@ describe Project, 'acts_as_journalized' do
       it { expect { project.save! }.not_to change(Journal, :count) }
     end
 
-    context 'when custom value removed' do
-      include_context 'for project with new custom value'
+    context "when custom value removed" do
+      include_context "for project with new custom value"
 
       before do
         project.update(custom_values: [])
       end
 
-      it 'contains the change from previous value to nil' do
+      it "contains the change from previous value to nil" do
         expect(project.last_journal.details)
           .to include(custom_field_id => [custom_value.value, nil])
       end
     end
   end
 
-  describe 'on project deletion' do
+  describe "on project deletion" do
     shared_let(:custom_field) { create(:string_project_custom_field) }
     let(:custom_value) do
       build(:custom_value,
-            value: 'some string value for project custom field',
+            value: "some string value for project custom field",
             custom_field:)
     end
     let!(:project) do
@@ -205,17 +205,17 @@ describe Project, 'acts_as_journalized' do
       project.destroy
     end
 
-    it 'removes the journal' do
+    it "removes the journal" do
       expect(Journal.find_by(id: journal.id))
         .to be_nil
     end
 
-    it 'removes the journal data' do
+    it "removes the journal data" do
       expect(Journal::ProjectJournal.find_by(id: journal.data_id))
         .to be_nil
     end
 
-    it 'removes the customizable journals' do
+    it "removes the customizable journals" do
       expect(Journal::CustomizableJournal.find_by(id: customizable_journals.map(&:id)))
         .to be_nil
     end

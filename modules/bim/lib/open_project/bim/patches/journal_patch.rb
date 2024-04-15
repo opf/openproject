@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 module OpenProject::Bim::Patches::JournalPatch
   def self.included(base)
     base.class_eval do
-      has_one :bcf_comment, class_name: 'Bim::Bcf::Comment', foreign_key: 'journal_id'
+      has_one :bcf_comment, class_name: "Bim::Bcf::Comment", foreign_key: "journal_id"
     end
   end
 end

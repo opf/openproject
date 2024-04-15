@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,16 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Views::ViewsAPI,
-         'create',
-         content_type: :json,
-         type: :request do
+RSpec.describe API::V3::Views::ViewsAPI,
+               "create",
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:permitted_user) { create(:user) }
-  shared_let(:role) { create(:role, permissions: %w[view_work_packages save_queries]) }
+  shared_let(:role) { create(:project_role, permissions: %w[view_work_packages save_queries]) }
   shared_let(:project) do
     create(:project,
            members: { permitted_user => role })
@@ -61,7 +60,7 @@ describe ::API::V3::Views::ViewsAPI,
   end
 
   let(:send_request) do
-    post api_v3_paths.views_type('work_packages_table'), body
+    post api_v3_paths.views_type("work_packages_table"), body
   end
 
   current_user { permitted_user }
@@ -74,83 +73,83 @@ describe ::API::V3::Views::ViewsAPI,
     send_request
   end
 
-  describe 'POST /api/v3/views/work_packages_table' do
-    context 'with a user allowed to save the query' do
-      it 'returns 201 CREATED' do
+  describe "POST /api/v3/views/work_packages_table" do
+    context "with a user allowed to save the query" do
+      it "returns 201 CREATED" do
         expect(response.status)
           .to eq(201)
       end
 
-      it 'returns the view' do
+      it "returns the view" do
         expect(response.body)
-          .to be_json_eql('Views::WorkPackagesTable'.to_json)
-                .at_path('_type')
+          .to be_json_eql("Views::WorkPackagesTable".to_json)
+                .at_path("_type")
 
         expect(response.body)
           .to be_json_eql(View.last.id.to_json)
-                .at_path('id')
+                .at_path("id")
       end
     end
 
-    context 'with a user not allowed to see the query' do
+    context "with a user not allowed to see the query" do
       let(:additional_setup) do
         role.update_attribute(:permissions, [])
       end
 
-      it 'responds with 422 and explains the error' do
+      it "responds with 422 and explains the error" do
         expect(last_response.status).to eq(422)
 
         expect(last_response.body)
           .to be_json_eql("Query does not exist.".to_json)
-                .at_path('message')
+                .at_path("message")
       end
     end
   end
 
-  describe 'POST /api/v3/views/work_packages_calendar' do
+  describe "POST /api/v3/views/work_packages_calendar" do
     let(:send_request) do
-      post api_v3_paths.views_type('work_packages_calendar'), body
+      post api_v3_paths.views_type("work_packages_calendar"), body
     end
 
-    context 'with a user allowed to save the query and see the calendar' do
+    context "with a user allowed to save the query and see the calendar" do
       let(:additional_setup) do
         role.update_attribute(:permissions, role.permissions + [:view_calendar])
       end
 
-      it 'returns 201 CREATED' do
+      it "returns 201 CREATED" do
         expect(response.status)
           .to eq(201)
       end
 
-      it 'returns the view' do
+      it "returns the view" do
         expect(response.body)
-          .to be_json_eql('Views::WorkPackagesCalendar'.to_json)
-                .at_path('_type')
+          .to be_json_eql("Views::WorkPackagesCalendar".to_json)
+                .at_path("_type")
 
         expect(response.body)
           .to be_json_eql(View.last.id.to_json)
-                .at_path('id')
+                .at_path("id")
       end
     end
 
-    context 'with a user allowed to save the query but not to view calendars' do
-      it_behaves_like 'unauthorized access'
+    context "with a user allowed to save the query but not to view calendars" do
+      it_behaves_like "unauthorized access"
     end
 
-    context 'with a user not allowed to see the query' do
+    context "with a user not allowed to see the query" do
       let(:additional_setup) do
         role.update_attribute(:permissions, [])
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 
-  describe 'POST /api/v3/views/bogus' do
+  describe "POST /api/v3/views/bogus" do
     let(:send_request) do
-      post api_v3_paths.views_type('bogus'), body
+      post api_v3_paths.views_type("bogus"), body
     end
 
-    it_behaves_like 'not found'
+    it_behaves_like "not found"
   end
 end

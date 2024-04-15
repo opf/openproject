@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ class HourlyRatesController < ApplicationController
   # TODO: this should be an index
   def show
     if @project
-      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project)
+      return deny_access unless User.current.allowed_in_project?(:view_hourly_rates, @project)
 
       @rates = HourlyRate.where(user_id: @user, project_id: @project)
                .order("#{HourlyRate.table_name}.valid_from desc")
@@ -59,7 +59,7 @@ class HourlyRatesController < ApplicationController
     # remove code where appropriate
     if @project
       # Hourly Rate
-      return deny_access unless User.current.allowed_to?(:edit_hourly_rates, @project)
+      return deny_access unless User.current.allowed_in_project?(:edit_hourly_rates, @project)
     else
       # Default Hourly Rate
       return deny_access unless User.current.admin?
@@ -75,7 +75,7 @@ class HourlyRatesController < ApplicationController
       @rates << @user.rates.build(valid_from: Date.today, project: @project) if @rates.empty?
     end
 
-    render action: 'edit', layout: !request.xhr?
+    render action: "edit", layout: !request.xhr?
   end
 
   current_menu_item :edit do
@@ -87,13 +87,13 @@ class HourlyRatesController < ApplicationController
     # remove code where appropriate
     if @project
       # Hourly Rate
-      return deny_access unless User.current.allowed_to?(:edit_hourly_rates, @project)
+      return deny_access unless User.current.allowed_in_project?(:edit_hourly_rates, @project)
     else
       # Default Hourly Rate
       return deny_access unless User.current.admin?
     end
 
-    if params.include? 'user'
+    if params.include? "user"
       update_rates @user,
                    @project,
                    permitted_params.user_rates[:new_rate_attributes],
@@ -105,9 +105,9 @@ class HourlyRatesController < ApplicationController
     if @user.save
       flash[:notice] = t(:notice_successful_update)
       if @project.nil?
-        redirect_back_or_default(controller: 'users', action: 'edit', id: @user)
+        redirect_back_or_default(controller: "users", action: "edit", id: @user)
       else
-        redirect_back_or_default(action: 'show', id: @user, project_id: @project)
+        redirect_back_or_default(action: "show", id: @user, project_id: @project)
       end
     else
       if @project.nil?
@@ -120,7 +120,7 @@ class HourlyRatesController < ApplicationController
                  .sort { |a, b| b.valid_from || Date.today <=> a.valid_from || Date.today }
         @rates << @user.rates.build(valid_from: Date.today, project: @project) if @rates.empty?
       end
-      render action: 'edit', layout: !request.xhr?
+      render action: "edit", layout: !request.xhr?
     end
   end
 
@@ -141,11 +141,11 @@ class HourlyRatesController < ApplicationController
       if request.xhr?
         render :update do |page|
           page.replace_html "rate_for_#{@user.id}",
-                            link_to(number_to_currency(rate.rate), action: 'edit', id: @user, project_id: @project)
+                            link_to(number_to_currency(rate.rate), action: "edit", id: @user, project_id: @project)
         end
       else
         flash[:notice] = t(:notice_successful_update)
-        redirect_to action: 'index'
+        redirect_to action: "index"
       end
     end
   end

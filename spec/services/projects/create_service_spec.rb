@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
-describe Projects::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service' do
-    let(:new_project_role) { build_stubbed(:role) }
+RSpec.describe Projects::CreateService, type: :model do
+  it_behaves_like "BaseServices create service" do
+    let(:new_project_role) { build_stubbed(:project_role) }
     let(:create_member_instance) { instance_double(Members::CreateService) }
 
     before do
-      allow(Role)
+      allow(ProjectRole)
         .to(receive(:in_new_project))
         .and_return(new_project_role)
 
@@ -48,7 +48,7 @@ describe Projects::CreateService, type: :model do
         .to(receive(:call))
     end
 
-    it 'adds the current user to the project' do
+    it "adds the current user to the project" do
       subject
 
       expect(create_member_instance)
@@ -58,8 +58,8 @@ describe Projects::CreateService, type: :model do
               roles: [new_project_role])
     end
 
-    context 'current user is admin' do
-      it 'does not add the user to the project' do
+    context "current user is admin" do
+      it "does not add the user to the project" do
         allow(user)
           .to(receive(:admin?))
           .and_return(true)

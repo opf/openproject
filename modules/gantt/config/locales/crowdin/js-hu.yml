@@ -1,0 +1,6 @@
+hu:
+  js:
+    queries:
+      all_open: 'Minden nyitott'
+      timeline: 'Idővonal'
+      milestones: 'Mérföldkövek'

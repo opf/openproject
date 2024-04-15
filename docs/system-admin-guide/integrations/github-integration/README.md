@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
-title: GitHub integration
-priority: 900
+  title: GitHub integration
+  priority: 900
 description: Integrate the GitHub pull request workflow into OpenProject.
 keywords: github integration
 ---
@@ -30,7 +30,7 @@ Pull request activities will also show up in the Activity tab when the pull requ
 
 ![Github comments on work package](workpackage-github-comments.png)
 
-## Creating a pull request
+## Create a pull request
 
 As pull requests are based on branches, a new branch needs to be created first. For that, open the GitHub tab in your OpenProject work package detail view. Click on 'Git snippets' to extend the menu. First, copy the branch name by clicking the corresponding button.
 
@@ -110,7 +110,7 @@ In addition, in *Project settings* and *Modules* you will need to activate the G
 
 ![GitHub-module](Github-module-2647262.png)
 
-Seeing the 'GitHub' tab requires permission so the permission needs to be granted to all roles in a project allowed to see the tab.
+Seeing the 'GitHub' tab requires **Show GitHub content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab.
 
 ### GitHub
 

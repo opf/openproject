@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,24 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require "spec_helper"
 
-describe Backlog, type: :model do
+RSpec.describe Backlog do
   let(:project) { build(:project) }
 
   before do
     @feature = create(:type_feature)
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [@feature.id.to_s],
-                                                                         'task_type' => '0' })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [@feature.id.to_s],
+                                                                         "task_type" => "0" })
     @status = create(:status)
   end
 
-  describe 'Class Methods' do
-    describe '#owner_backlogs' do
-      describe 'WITH one open version defined in the project' do
+  describe "Class Methods" do
+    describe "#owner_backlogs" do
+      describe "WITH one open version defined in the project" do
         before do
           @project = project
-          @work_packages = [create(:work_package, subject: 'work_package1', project: @project, type: @feature,
+          @work_packages = [create(:work_package, subject: "work_package1", project: @project, type: @feature,
                                                   status: @status)]
           @version = create(:version, project:, work_packages: @work_packages)
           @version_settings = @version.version_settings.create(display: VersionSetting::DISPLAY_RIGHT, project:)

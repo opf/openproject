@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.join("db", "migrate", "migration_utils", "migration_squasher").to_s
+require Rails.root.join("db/migrate/migration_utils/migration_squasher").to_s
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class ToV710AggregatedMeetingMigrations < ActiveRecord::Migration[5.1]
   MIGRATION_FILES = <<-MIGRATIONS
@@ -42,37 +42,37 @@ class ToV710AggregatedMeetingMigrations < ActiveRecord::Migration[5.1]
 
   def up
     Migration::MigrationSquasher.squash(migrations) do
-      create_table 'meeting_contents', id: :integer do |t|
-        t.string 'type'
-        t.integer 'meeting_id'
-        t.integer 'author_id'
-        t.text 'text'
-        t.integer 'lock_version'
-        t.datetime 'created_at',                      null: false
-        t.datetime 'updated_at',                      null: false
-        t.boolean 'locked', default: false
+      create_table "meeting_contents", id: :integer do |t|
+        t.string "type"
+        t.integer "meeting_id"
+        t.integer "author_id"
+        t.text "text"
+        t.integer "lock_version"
+        t.datetime "created_at",                      null: false
+        t.datetime "updated_at",                      null: false
+        t.boolean "locked", default: false
       end
 
-      create_table 'meeting_participants', id: :integer do |t|
-        t.integer 'user_id'
-        t.integer 'meeting_id'
-        t.string 'email'
-        t.string 'name'
-        t.boolean 'invited'
-        t.boolean 'attended'
-        t.datetime 'created_at',      null: false
-        t.datetime 'updated_at',      null: false
+      create_table "meeting_participants", id: :integer do |t|
+        t.integer "user_id"
+        t.integer "meeting_id"
+        t.string "email"
+        t.string "name"
+        t.boolean "invited"
+        t.boolean "attended"
+        t.datetime "created_at",      null: false
+        t.datetime "updated_at",      null: false
       end
 
-      create_table 'meetings', id: :integer do |t|
-        t.string 'title'
-        t.integer 'author_id'
-        t.integer 'project_id'
-        t.string 'location'
-        t.datetime 'start_time'
-        t.float 'duration'
-        t.datetime 'created_at', null: false
-        t.datetime 'updated_at', null: false
+      create_table "meetings", id: :integer do |t|
+        t.string "title"
+        t.integer "author_id"
+        t.integer "project_id"
+        t.string "location"
+        t.datetime "start_time"
+        t.float "duration"
+        t.datetime "created_at", null: false
+        t.datetime "updated_at", null: false
 
         t.index %i[project_id updated_at]
       end
@@ -98,9 +98,9 @@ class ToV710AggregatedMeetingMigrations < ActiveRecord::Migration[5.1]
   end
 
   def down
-    drop_table 'meeting_contents'
-    drop_table 'meeting_participants'
-    drop_table 'meetings'
+    drop_table "meeting_contents"
+    drop_table "meeting_participants"
+    drop_table "meetings"
     drop_table :meeting_journals
     drop_table :meeting_content_journals
   end
@@ -109,7 +109,7 @@ class ToV710AggregatedMeetingMigrations < ActiveRecord::Migration[5.1]
 
   def migrations
     MIGRATION_FILES.split.map do |m|
-      m.gsub(/_.*\z/, '')
+      m.gsub(/_.*\z/, "")
     end
   end
 end

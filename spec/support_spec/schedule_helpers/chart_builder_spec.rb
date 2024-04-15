@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ScheduleHelpers::ChartBuilder do
+RSpec.describe ScheduleHelpers::ChartBuilder do
   include ActiveSupport::Testing::TimeHelpers
 
   let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
@@ -42,14 +42,14 @@ describe ScheduleHelpers::ChartBuilder do
 
   subject(:builder) { described_class.new }
 
-  describe 'happy path' do
+  describe "happy path" do
     let(:next_tuesday) { tuesday + 7.days }
 
     before do
       travel_to(fake_today)
     end
 
-    it 'reads a chart and convert it into objects with attributes' do
+    it "reads a chart and convert it into objects with attributes" do
       chart = builder.parse(<<~CHART)
         days       | MTWTFSS   |
         main       | XX        |
@@ -61,12 +61,12 @@ describe ScheduleHelpers::ChartBuilder do
       CHART
       expect(chart.work_packages_attributes).to eq(
         [
-          { name: :main, subject: 'main', start_date: monday, due_date: tuesday },
-          { name: :other, subject: 'other', start_date: thursday, due_date: next_tuesday },
-          { name: :follower, subject: 'follower', start_date: wednesday, due_date: friday },
-          { name: :start_only, subject: 'start_only', start_date: tuesday, due_date: nil },
-          { name: :due_only, subject: 'due_only', start_date: nil, due_date: friday },
-          { name: :no_dates, subject: 'no_dates', start_date: nil, due_date: nil }
+          { name: :main, subject: "main", start_date: monday, due_date: tuesday },
+          { name: :other, subject: "other", start_date: thursday, due_date: next_tuesday },
+          { name: :follower, subject: "follower", start_date: wednesday, due_date: friday },
+          { name: :start_only, subject: "start_only", start_date: tuesday, due_date: nil },
+          { name: :due_only, subject: "due_only", start_date: nil, due_date: friday },
+          { name: :no_dates, subject: "no_dates", start_date: nil, due_date: nil }
         ]
       )
       expect(chart.predecessors_by_follower(:main)).to eq([])
@@ -75,12 +75,12 @@ describe ScheduleHelpers::ChartBuilder do
     end
   end
 
-  describe 'origin day' do
+  describe "origin day" do
     before do
       travel_to(fake_today)
     end
 
-    it 'is identified by the M in MTWTFSS and corresponds to next monday' do
+    it "is identified by the M in MTWTFSS and corresponds to next monday" do
       chart = builder.parse(<<~CHART)
         days       | MTWTFSS |
       CHART
@@ -88,7 +88,7 @@ describe ScheduleHelpers::ChartBuilder do
       expect(chart.monday).to eq(chart.first_day)
     end
 
-    it 'is not identified by mtwtfss which can be used as documentation instead' do
+    it "is not identified by mtwtfss which can be used as documentation instead" do
       chart = builder.parse(<<~CHART)
         days | mtwtfssMTWTFSSmtwtfss |
         wp   |   X                   |
@@ -98,43 +98,43 @@ describe ScheduleHelpers::ChartBuilder do
     end
   end
 
-  describe 'properties' do
-    describe 'follows <name>' do
-      it 'adds a follows relation to the named' do
+  describe "properties" do
+    describe "follows <name>" do
+      it "adds a follows relation to the named" do
         chart = builder.parse(<<~CHART)
           days       | MTWTFSS   |
           main       |           |
           follower   |           | follows main
         CHART
         expect(chart.predecessors_by_follower(:follower)).to eq([:main])
-        expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(0)
+        expect(chart.lag_between(predecessor: :main, follower: :follower)).to eq(0)
       end
 
-      it 'can be declared in any order' do
+      it "can be declared in any order" do
         chart = builder.parse(<<~CHART)
           days       | MTWTFSS   |
           follower   |           | follows main
           main       |           |
         CHART
         expect(chart.predecessors_by_follower(:follower)).to eq([:main])
-        expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(0)
+        expect(chart.lag_between(predecessor: :main, follower: :follower)).to eq(0)
       end
     end
 
-    describe 'follows <name> with delay <n>' do
-      it 'adds a follows relation to the named with a delay' do
+    describe "follows <name> with lag <n>" do
+      it "adds a follows relation to the named with a lag" do
         chart = builder.parse(<<~CHART)
           days       | MTWTFSS   |
           main       |           |
-          follower   |           | follows main with delay 3
+          follower   |           | follows main with lag 3
         CHART
         expect(chart.predecessors_by_follower(:follower)).to eq([:main])
-        expect(chart.delay_between(predecessor: :main, follower: :follower)).to eq(3)
+        expect(chart.lag_between(predecessor: :main, follower: :follower)).to eq(3)
       end
     end
 
-    describe 'child of <name>' do
-      it 'sets the parent to the named one' do
+    describe "child of <name>" do
+      it "sets the parent to the named one" do
         chart = builder.parse(<<~CHART)
           days        | MTWTFSS |
           parent      |         | child of grandparent
@@ -147,8 +147,8 @@ describe ScheduleHelpers::ChartBuilder do
       end
     end
 
-    describe 'duration <int>' do
-      it 'sets the duration of the work package' do
+    describe "duration <int>" do
+      it "sets the duration of the work package" do
         chart = builder.parse(<<~CHART)
           days        | MTWTFSS |
           main        |         | duration 3
@@ -157,8 +157,8 @@ describe ScheduleHelpers::ChartBuilder do
       end
     end
 
-    describe 'working days work week' do
-      it 'sets ignore_non_working_days to false for the work package' do
+    describe "working days work week" do
+      it "sets ignore_non_working_days to false for the work package" do
         chart = builder.parse(<<~CHART)
           days        | MTWTFSS |
           main        |         | working days work week
@@ -167,8 +167,8 @@ describe ScheduleHelpers::ChartBuilder do
       end
     end
 
-    describe 'working days include weekends' do
-      it 'sets ignore_non_working_days to true for the work package' do
+    describe "working days include weekends" do
+      it "sets ignore_non_working_days to true for the work package" do
         chart = builder.parse(<<~CHART)
           days        | MTWTFSS |
           main        |         | working days include weekends
@@ -178,8 +178,8 @@ describe ScheduleHelpers::ChartBuilder do
     end
   end
 
-  describe 'error handling' do
-    it 'raises an error if the relation references a non-existing work package predecessor' do
+  describe "error handling" do
+    it "raises an error if the relation references a non-existing work package predecessor" do
       expect do
         builder.parse(<<~CHART)
                     | MTWTFSS |

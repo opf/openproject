@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Memberships::MembershipCollectionRepresenter do
-  let(:self_base_link) { '/api/v3/members' }
+RSpec.describe API::V3::Memberships::MembershipCollectionRepresenter do
+  let(:self_base_link) { "/api/v3/members" }
   let(:members) do
     build_stubbed_list(:member, 3).tap do |members|
       allow(members)
@@ -59,13 +59,13 @@ describe ::API::V3::Memberships::MembershipCollectionRepresenter do
   let(:page) { 1 }
   let(:page_size) { 2 }
   let(:actual_count) { 3 }
-  let(:collection_inner_type) { 'Membership' }
+  let(:collection_inner_type) { "Membership" }
 
   include API::V3::Utilities::PathHelper
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'offset-paginated APIv3 collection', 3, 'members', 'Membership'
+    it_behaves_like "offset-paginated APIv3 collection", 3, "members", "Membership"
   end
 end

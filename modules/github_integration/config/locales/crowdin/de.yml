@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,16 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 de:
+  plugin_openproject_github_integration:
+    name: "OpenProject GitHub-Integration"
+    description: "Integriert OpenProject und GitHub für einen besseren Arbeitsablauf"
   project_module_github: "GitHub"
   permission_show_github_content: "Zeige weiteren Inhalt"
-  github_integration:
-    pull_request_opened_comment: >
-      **PR geöffnet:** Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) für [%{repository}](%{repository_url}) wurde von [%{github_user}](%{github_user_url}) geöffnet.
-    pull_request_closed_comment: >
-      **PR geschlossen:** Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) für [%{repository}](%{repository_url}) wurde von [%{github_user}](%{github_user_url}) geschlossen.
-    pull_request_merged_comment: >
-      **PR gemerged:** Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) für [%{repository}](%{repository_url}) wurde von [%{github_user}](%{github_user_url}) gemerged.
-    pull_request_referenced_comment: >
-      **Referenziert in PR:** [%{github_user}](%{github_user_url}) referenziert dieses Arbeitspaket in Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) auf [%{repository}](%{repository_url}).
-    pull_request_ready_for_review_comment: >
-      **PR gemerged:** Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) für [%{repository}](%{repository_url}) wurde von [%{github_user}](%{github_user_url}) gemerged.

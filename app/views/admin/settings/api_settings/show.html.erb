@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +31,20 @@ See COPYRIGHT and LICENSE files for more details.
 <%= styled_form_tag(admin_settings_api_path, method: :patch) do %>
   <section class="form--section">
     <div class="form--field">
+      <%= setting_check_box :rest_api_enabled %>
+    </div>
+    <div class="form--field">
       <%= setting_number_field :apiv3_max_page_size, min: 50, container_class: '-slim' %>
       <div class="form--field-instructions">
         <p><%= t(:setting_apiv3_max_page_instructions_html) %></p>
+      </div>
+    </div>
+    <div class="form--field">
+      <%= setting_check_box :apiv3_write_readonly_attributes, container_class: '-slim' %>
+      <div class="form--field-instructions">
+        <p><%= t(:setting_apiv3_write_readonly_attributes_instructions_html,
+                 api_documentation_link: static_link_to(:api_docs)
+               ) %></p>
       </div>
     </div>
   </section>
@@ -64,5 +75,5 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
   </section>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

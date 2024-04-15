@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,19 +35,23 @@
 .-no-border
   border: none !important
 
+/// Taken from Foundation for Apps
+.clearfix
+  @include clearfix
+
 // Disable user selection
 .-no-text-select
   user-select: none
 
 // Table borders
 .-table-border-top
-  border-top: 1px solid var(--table-row-border-color)
+  border-top: 1px solid var(--table-border-color)
 .-table-border-bottom
-  border-bottom: 1px solid var(--table-row-border-color)
+  border-bottom: 1px solid var(--table-border-color)
 .-table-border-left
-  border-left: 1px solid var(--table-row-border-color)
+  border-left: 1px solid var(--table-border-color)
 .-table-border-right
-  border-right: 1px solid var(--table-row-border-color)
+  border-right: 1px solid var(--table-border-color)
 
 .autoscroll
   overflow-x: auto
@@ -64,7 +68,7 @@
   padding-left: 10px
 
 .total-hours
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
 
 .-break-word
   word-wrap: break-word
@@ -75,13 +79,13 @@
 
 .other-formats
   font-size: 0.9em
-  color: var(--gray-dark)
+  color: var(--color-fg-muted)
 
   span + span:before
     content: "| "
 
 .-bold
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
 .-italic
   font-style: italic
 .-small-font

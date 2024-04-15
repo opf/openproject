@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :view_team_planner, parent: :view do
-    type { 'team_planner' }
+    type { "team_planner" }
     transient do
       assignees { [] }
       projects { [] }
@@ -38,11 +38,11 @@ FactoryBot.define do
       query = view.query
 
       if evaluator.assignees.any?
-        query.add_filter('assigned_to_id', '=', evaluator.assignees.map(&:id).uniq)
+        query.add_filter("assigned_to_id", "=", evaluator.assignees.map(&:id).uniq)
       end
 
       if evaluator.projects.any?
-        query.add_filter('project_id', '=', ([query.project.id] + evaluator.projects.map(&:id)).uniq)
+        query.add_filter("project_id", "=", ([query.project.id] + evaluator.projects.map(&:id)).uniq)
       end
 
       User.system.run_given do

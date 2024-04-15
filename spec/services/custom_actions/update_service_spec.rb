@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe CustomActions::UpdateService do
+RSpec.describe CustomActions::UpdateService do
   let(:action) do
     action = build_stubbed(:custom_action)
 
@@ -41,13 +41,13 @@ describe CustomActions::UpdateService do
   let(:user) { build_stubbed(:user) }
   let(:save_success) { true }
   let(:contract_success) { true }
-  let(:contract_errors) { double('contract errors') }
+  let(:contract_errors) { double("contract errors") }
   let(:instance) do
     contract
     described_class.new(action:, user:)
   end
   let(:contract) do
-    contract_instance = double('contract instance')
+    contract_instance = double("contract instance")
 
     allow(CustomActions::CuContract)
       .to receive(:new)
@@ -64,18 +64,18 @@ describe CustomActions::UpdateService do
     contract_instance
   end
 
-  describe '#call' do
-    it 'is successful' do
+  describe "#call" do
+    it "is successful" do
       expect(instance.call(attributes: {}))
         .to be_success
     end
 
-    it 'is has the action in the result' do
+    it "is has the action in the result" do
       expect(instance.call(attributes: {}).result)
         .to eql action
     end
 
-    it 'yields the result' do
+    it "yields the result" do
       yielded = false
 
       proc = Proc.new do |call|
@@ -88,10 +88,10 @@ describe CustomActions::UpdateService do
         .to be_success
     end
 
-    context 'unsuccessful saving' do
+    context "unsuccessful saving" do
       let(:save_success) { false }
 
-      it 'yields the result' do
+      it "yields the result" do
         yielded = false
 
         proc = Proc.new do |call|
@@ -105,10 +105,10 @@ describe CustomActions::UpdateService do
       end
     end
 
-    context 'unsuccessful contract' do
+    context "unsuccessful contract" do
       let(:contract_success) { false }
 
-      it 'yields the result' do
+      it "yields the result" do
         yielded = false
 
         proc = Proc.new do |call|
@@ -122,37 +122,37 @@ describe CustomActions::UpdateService do
       end
     end
 
-    it 'sets the name of the action' do
-      expect(instance.call(attributes: { name: 'new name' }).result.name)
-        .to eql 'new name'
+    it "sets the name of the action" do
+      expect(instance.call(attributes: { name: "new name" }).result.name)
+        .to eql "new name"
     end
 
-    it 'updates the actions' do
-      action.actions = [CustomActions::Actions::AssignedTo.new('1'),
-                        CustomActions::Actions::Status.new('3')]
+    it "updates the actions" do
+      action.actions = [CustomActions::Actions::AssignedTo.new("1"),
+                        CustomActions::Actions::Status.new("3")]
 
       new_actions = instance
-                    .call(attributes: { actions: { assigned_to: ['2'], priority: ['3'] } })
+                    .call(attributes: { actions: { assigned_to: ["2"], priority: ["3"] } })
                     .result
                     .actions
                     .map { |a| [a.key, a.values] }
 
       expect(new_actions)
-        .to match_array [[:assigned_to, [2]], [:priority, [3]]]
+        .to contain_exactly([:assigned_to, [2]], [:priority, [3]])
     end
 
-    it 'handles unknown actions' do
+    it "handles unknown actions" do
       new_actions = instance
-                    .call(attributes: { actions: { some_bogus_name: ['3'] } })
+                    .call(attributes: { actions: { some_bogus_name: ["3"] } })
                     .result
                     .actions
                     .map { |a| [a.key, a.values] }
 
       expect(new_actions)
-        .to match_array [[:inexistent, ['3']]]
+        .to contain_exactly([:inexistent, ["3"]])
     end
 
-    it 'updates the conditions' do
+    it "updates the conditions" do
       old_status = create(:status)
       new_status = create(:status)
 
@@ -165,18 +165,18 @@ describe CustomActions::UpdateService do
                        .map { |a| [a.key, a.values] }
 
       expect(new_conditions)
-        .to match_array [[:status, [new_status.id]]]
+        .to contain_exactly([:status, [new_status.id]])
     end
 
-    it 'handles unknown conditions' do
+    it "handles unknown conditions" do
       new_conditions = instance
-                       .call(attributes: { conditions: { some_bogus_name: ['3'] } })
+                       .call(attributes: { conditions: { some_bogus_name: ["3"] } })
                        .result
                        .conditions
                        .map { |a| [a.key, a.values] }
 
       expect(new_conditions)
-        .to match_array [[:inexistent, [3]]]
+        .to contain_exactly([:inexistent, [3]])
     end
   end
 end

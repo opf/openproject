@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,66 +26,77 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe OpenProject::Configuration, :settings_reset do
-  describe '.[setting]' do
-    it 'fetches the value' do
+RSpec.describe OpenProject::Configuration, :settings_reset do
+  describe ".[setting]" do
+    it "fetches the value" do
       expect(described_class.app_title)
-        .to eql('OpenProject')
+        .to eql("OpenProject")
     end
   end
 
-  describe '.[setting]?' do
-    it 'fetches the value' do
+  describe ".[setting]?" do
+    it "fetches the value" do
       expect(described_class.smtp_enable_starttls_auto?)
         .to be false
     end
 
-    it 'works for non boolean settings as well (deprecated)' do
+    it "works for non boolean settings as well (deprecated)" do
       expect(described_class.app_title?)
         .to be false
     end
   end
 
-  describe '.[setting]=' do
-    it 'raises an error' do
+  describe ".[setting]=" do
+    it "raises an error" do
       expect { described_class.smtp_enable_starttls_auto = true }
         .to raise_error NoMethodError
     end
   end
 
-  describe '.cache_store_configuration' do
+  describe ".cache_store_configuration" do
     subject { described_class.cache_store_configuration }
 
-    context 'without cache store already set' do
-
-      context 'with additional cache store configuration', with_config: { 'rails_cache_store' => 'bar' } do
-        it 'changes the cache store' do
+    context "without cache store already set" do
+      context "with additional cache store configuration", with_config: { "rails_cache_store" => "bar" } do
+        it "changes the cache store" do
           expect(subject).to eq([:bar])
         end
       end
 
-      context 'without additional cache store configuration', with_config: { 'rails_cache_store' => nil } do
+      context "without additional cache store configuration", with_config: { "rails_cache_store" => nil } do
         before do
-          described_class['rails_cache_store'] = nil
+          described_class["rails_cache_store"] = nil
         end
 
-        it 'defaults the cache store to :file_store' do
+        it "defaults the cache store to :file_store" do
           expect(subject.first).to eq(:file_store)
+        end
+      end
+
+      context "setting rails cache to redis", with_config: { "rails_cache_store" => "redis" } do
+        context "when setting the URL", with_config: { "cache_redis_url" => "redis://localhost:1234" } do
+          it "sets the cache to :redis_cache_store" do
+            expect(subject.first).to eq(:redis_cache_store)
+          end
+        end
+
+        it "raises an error trying to set redis without an URL" do
+          expect { subject }.to raise_error(ArgumentError, /CACHE_REDIS_URL is not set/)
         end
       end
     end
   end
 
-  describe '#direct_uploads?' do
+  describe "#direct_uploads?" do
     let(:value) { described_class.direct_uploads? }
 
-    it 'is false by default' do
+    it "is false by default" do
       expect(value).to be false
     end
 
-    context 'with remote storage' do
+    context "with remote storage" do
       def self.storage(provider)
         {
           attachments_storage: :fog,
@@ -97,14 +108,14 @@ describe OpenProject::Configuration, :settings_reset do
         }
       end
 
-      context 'with AWS', with_config: storage('AWS') do
-        it 'is true' do
+      context "with AWS", with_config: storage("AWS") do
+        it "is true" do
           expect(value).to be true
         end
       end
 
-      context 'with Azure', with_config: storage('azure') do
-        it 'is false' do
+      context "with Azure", with_config: storage("azure") do
+        it "is false" do
           expect(value).to be false
         end
       end

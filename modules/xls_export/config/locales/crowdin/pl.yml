@@ -1,4 +1,7 @@
 pl:
+  plugin_openproject_xls_export:
+    name: "OpenProject Eksport do XLS "
+    description: "Eksportuj listy zgłoszeń jako arkusze kalkulacyjne Excel (.xls)."
   export_to_excel: "Wyeksportuj XLS"
   print_with_description: "Podgląd wydruku z opisem"
   sentence_separator_or: "lub"

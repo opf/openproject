@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +33,12 @@ module API
         class MembershipSchemaAPI < ::API::OpenProjectAPI
           resources :schema do
             after_validation do
-              authorize_any %i[manage_members view_members],
-                            global: true
+              authorize_in_any_project(%i[manage_members view_members])
             end
 
             get &::API::V3::Utilities::Endpoints::Schema.new(model: Member,
                                                              contract: Members::CreateContract,
-                                                             api_name: 'Membership')
+                                                             api_name: "Membership")
                                                         .mount
           end
         end

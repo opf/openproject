@@ -2,7 +2,7 @@
 eu:
   js:
     calendar:
-      create_new: 'Create new calendar'
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      create_new: 'Sortu egutegi berria'
+      title: 'Egutegia'
+      too_many: ' %{count} lan-pakete daude denera, baina %{max} bakarrik ikus daitezke. '
+      unsaved_title: 'Izenik gabeko egutegia'

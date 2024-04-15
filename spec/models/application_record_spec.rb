@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ApplicationRecord, type: :model do
+RSpec.describe ApplicationRecord do
   describe '#most_recently_changed' do
     let!(:work_package) do
       create(:work_package).tap do |wp|
@@ -14,7 +14,7 @@ describe ApplicationRecord, type: :model do
       end
     end
 
-    let!(:status) { create :status }
+    let!(:status) { create(:status) }
 
     def expect_matched_date(postgres_time, rails_time)
       # Rails uses timestamp without timezone for timestamp columns

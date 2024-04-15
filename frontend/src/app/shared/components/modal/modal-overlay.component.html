@@ -6,9 +6,14 @@
   tabindex="0"
   cdkFocusInitial
   cdkTrapFocus
-  (click)="close($event, false)"
+  [cdkTrapFocusAutoCapture]="true"
+  (mousedown)="close($event, false)"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="spotModalTitle"
 >
   <button
+    *ngIf="(activeModalInstance$ | async)?.showCloseButton !== false"
     type="button"
     class="spot-button spot-modal-overlay--close-button"
     (click)="close($event)"

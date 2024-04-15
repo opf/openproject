@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 //++
 
 import * as moment from 'moment';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -35,7 +35,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 @Component({
   template: `
     <input type="number"
-           step="0.25"
+           step="any"
            class="inline-edit--field op-input"
            #input
            [attr.aria-required]="required"
@@ -46,11 +46,14 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
            [disabled]="inFlight"
            [id]="handler.htmlId" />
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HoursDurationEditFieldComponent extends EditFieldComponent {
   @InjectField() TimezoneService:TimezoneService;
 
-  public parser(value:any, input:any) {
+  inputValue:null|string;
+
+  public parser(value:null|string, input:HTMLInputElement):moment.Duration {
     // Managing decimal separators in a multi-language app is a complex topic:
     // https://www.ctrl.blog/entry/html5-input-number-localization.html
     // Depending on the locale of the OS, the browser or the app itself,
@@ -63,20 +66,27 @@ export class HoursDurationEditFieldComponent extends EditFieldComponent {
     // context, we check the validity of the input and, if it's not valid, we
     // default to the previous value, emulating the way the browsers work with
     // valid separators (e.g: introducing 1. would set 1 as a value).
-    if (value == null && !input.validity.valid) {
-      value = this.value || 0;
+    this.inputValue = input.value;
+    if (!input.validity.valid) {
+      if (value === null || input.value === '') {
+        value = null;
+      } else {
+        value = this.value as string;
+      }
     }
-
     return moment.duration(value, 'hours');
   }
 
-  public formatter(value:any) {
+  public formatter(value:null|string):number|null {
+    if (value === null) {
+      return null;
+    }
     return Number(moment.duration(value).asHours().toFixed(2));
   }
 
   protected parseValue(val:moment.Moment | null) {
-    if (val === null) {
-      return val;
+    if (val === null || this.inputValue === '') {
+      return null;
     }
 
     let parsedValue;

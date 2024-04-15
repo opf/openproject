@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Bim::Bcf::Issues::UpdateContract do
-  it_behaves_like 'issues contract' do
+RSpec.describe Bim::Bcf::Issues::UpdateContract do
+  it_behaves_like "issues contract" do
     let(:issue) do
       build_stubbed(:bcf_issue,
                     work_package: issue_work_package).tap do |i|
@@ -42,12 +42,12 @@ describe Bim::Bcf::Issues::UpdateContract do
 
     subject(:contract) { described_class.new(issue, current_user) }
 
-    context 'if work_package is altered' do
+    context "if work_package is altered" do
       before do
         issue.work_package = build_stubbed(:work_package)
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, work_package_id: %i(error_readonly))
       end
     end

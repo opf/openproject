@@ -1,0 +1,41 @@
+#English strings go here
+sr:
+  plugin_openproject_avatars:
+    name: "Avatari"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avatari"
+  label_current_avatar: "Trenutni Avatar"
+  label_choose_avatar: "Izaberite Avatar iz sopstvene datoteke"
+  message_avatar_uploaded: "Avatar je uspešno promenjen."
+  error_image_upload: "Greška prilikom čuvanja slike."
+  error_image_size: "Slika je prevelika."
+  button_change_avatar: "Promenite avatar"
+  are_you_sure_delete_avatar: "Da li ste sigurni da želite da obrišete svoj avatar?"
+  avatar_deleted: "Avatar je uspešno obrisan."
+  unable_to_delete_avatar: "Avatar nije moguće obrisati."
+  wrong_file_format: "Dozvoljeni formati su: jpg, png, gif"
+  empty_file_error: "Molim vas postavite sliku u ispravnom formatu (jpg, png, gif)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Trenutni avatar'
+    label_local_avatar: 'Prilagođeni avatar'
+    text_current_avatar: |
+      Sledeća slika prikazuje tekući avatar.
+    text_upload_instructions: |
+      Postavite svoj lični avatar, dimenzije: 128x128 piksela. Veće datoteke će biti isečene na traženu dimenziju.
+      Avatar će vam biti prikazan, pre postavljanja, onda kada budete izabrali željenu sliku.
+    text_change_gravatar_html: 'Za dodavanje Gravatar-a adrese vaše elektronske pošte idite na %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject ti dozvoljava da postaviš lični avatar prilagođen sebi.
+    text_local_avatar_over_gravatar: |
+      Ukoliko postavite jedan, prilagođeni avatar ima prednost u odnosu na ponuđeni gravatar iznad.
+    text_your_current_gravatar: |
+      OpenProject koristi tvoj gravatar, ukoliko ste registrovali jedna, ili podrazumevanu sliku ili ikonu ako ona postoji.
+      Trenutni gravatar je:
+    settings:
+      enable_gravatars: 'Omogućite gravatare korisnika'
+      gravatar_default: "Podrazumevana Gravatar slika"
+      enable_local_avatars: 'Omogući prilagođene avatare za korisnike'

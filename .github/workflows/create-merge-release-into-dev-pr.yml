@@ -1,6 +1,11 @@
 name: create-merge-release-into-dev-pr
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '30 3 * * *' # Daily at 03:30
+
+env:
+  BASE_BRANCH: dev
 
 permissions: {}
 jobs:
@@ -16,30 +21,82 @@ jobs:
       run: |
         BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
           https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-          jq -r .[].name | grep "release/" | sort --reverse | head -1
+          jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
         )
         if [ "$BRANCH" = "" ]; then
           echo "Invalid release branch found: $BRANCH"
           exit 1
         fi
 
-        echo "::set-output name=branch::${BRANCH}"
+        echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
 
-  crowdin:
+  merge-or-create-pr:
+    env:
+      RELEASE_BRANCH: ${{ needs.setup.outputs.latest_release_branch }}
+
     permissions:
       contents: write # for git push
+      pull-requests: write # for creating pull request
 
     runs-on: ubuntu-latest
     needs: setup
     timeout-minutes: 5
     steps:
-      - name: create pull request
-        run: gh pr create \
-          --base $BASE_BRANCH \
-          --head $RELEASE_BRANCH \
-          --title "Merge $RELEASE_BRANCH into $BASE_BRANCH" \
-          --body 'Created by GitHub action'
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BASE_BRANCH }}
+
+      - name: Fetch dev branch upto release branch
+        run: git fetch --shallow-exclude "$RELEASE_BRANCH" origin "$BASE_BRANCH" || git fetch --depth 1 origin "$BASE_BRANCH"
+
+      - name: Fetch release branch upto dev branch
+        run: git fetch --shallow-exclude "$BASE_BRANCH" origin "$RELEASE_BRANCH" || git fetch --depth 1 origin "$RELEASE_BRANCH"
+
+      - name: Resolve bug in git https://stackoverflow.com/a/63879454/96823
+        run: git repack -d
+
+      - name: Get one commit more to connect the history of dev and release branches
+        run: git fetch --deepen 1 origin "$BASE_BRANCH" "$RELEASE_BRANCH"
+
+      - name: Create branch without checkout just to have shorter automatic commit message
+        run: git branch "$RELEASE_BRANCH" origin/"$RELEASE_BRANCH"
+
+      - name: Required git config
+        run: |
+          git config user.name "OpenProject Actions CI"
+          git config user.email "operations+ci@openproject.com"
+
+      - name: Show diff
+        run: git diff ..."$RELEASE_BRANCH"
+
+      - name: Try merging or create a PR
+        run: |
+          if git diff --exit-code --quiet ..."$RELEASE_BRANCH"; then
+            echo "Nothing to merge from $RELEASE_BRANCH into $BASE_BRANCH"
+          else
+            if git merge --no-edit --no-ff "$RELEASE_BRANCH" && git push origin "$BASE_BRANCH"; then
+              echo "Successfully merged $RELEASE_BRANCH into $BASE_BRANCH and pushed"
+            else
+              # Close all previous PRs with label
+              for pr_number in $(gh pr list --label create-merge-release-into-dev-pr --json number --jq='.[].number'); do
+                gh pr close "$pr_number"
+              done
+
+              TEMP_BRANCH="merge-$RELEASE_BRANCH-$(date "+%Y%m%d%H%M%S")"
+
+              git branch "$TEMP_BRANCH" "$RELEASE_BRANCH"
+
+              git push origin "$TEMP_BRANCH"
+
+              gh pr create \
+                --base "$BASE_BRANCH" \
+                --head "$TEMP_BRANCH" \
+                --title "Merge $RELEASE_BRANCH into $BASE_BRANCH" \
+                --body 'Created by GitHub action' \
+                --label create-merge-release-into-dev-pr
+              echo "Created a PR to merge $RELEASE_BRANCH ($TEMP_BRANCH) into $BASE_BRANCH"
+            fi
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BASE_BRANCH: dev
-          RELEASE_BRANCH: ${{ needs.setup.outputs.latest_release_branch }}

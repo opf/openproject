@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2024 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module Accounts::AuthenticationStages
   def successful_authentication(user, reset_stages: true, just_registered: false)
     stages = authentication_stages after_activation: just_registered, reset: reset_stages
@@ -30,14 +58,14 @@ module Accounts::AuthenticationStages
 
         successful_authentication User.find(session[:authenticated_user_id]), reset_stages: false
       else
-        flash[:error] = I18n.t :notice_auth_stage_verification_error, stage: stage
+        flash[:error] = I18n.t(:notice_auth_stage_verification_error, stage:)
 
         redirect_to signin_path
       end
     else
       flash[:error] = I18n.t(
         :notice_auth_stage_wrong_stage,
-        expected: stage || '(none)',
+        expected: stage || "(none)",
         actual: params[:stage]
       )
 
@@ -91,7 +119,7 @@ module Accounts::AuthenticationStages
     session[:back_url] ||= params[:back_url]
 
     # Remember the autologin cookie decision
-    session[:autologin_requested] = params[:autologin]
+    session[:autologin_requested] = params[:autologin] == "1"
 
     stages
   end

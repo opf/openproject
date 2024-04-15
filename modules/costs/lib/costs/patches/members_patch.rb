@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 module Costs
   module Patches::MembersPatch
     def self.mixin!
-      ::Members::TableCell.add_column :current_rate
-      ::Members::TableCell.options :current_user # adds current_user option
+      ::Members::TableComponent.add_column :current_rate
+      ::Members::TableComponent.options :current_user # adds current_user option
 
       ::MembersController.prepend TableOptions
-      ::Members::TableCell.prepend TableCell
-      ::Members::RowCell.prepend RowCell
+      ::Members::TableComponent.prepend TableComponent
+      ::Members::RowComponent.prepend RowComponent
     end
 
     module TableOptions
@@ -43,9 +43,9 @@ module Costs
       end
     end
 
-    module TableCell
+    module TableComponent
       def sort_collection(query, sort_clause, sort_columns)
-        q = super query, sort_clause.gsub(/current_rate/, 'COALESCE(rate, 0.0)'), sort_columns
+        q = super(query, sort_clause.gsub("current_rate", "COALESCE(rate, 0.0)"), sort_columns)
 
         if sort_columns.include? :current_rate
           join_rate q
@@ -140,7 +140,7 @@ module Costs
       end
     end
 
-    module RowCell
+    module RowComponent
       include ActionView::Helpers::NumberHelper # for #number_to_currency
 
       ##
@@ -189,11 +189,11 @@ module Costs
       end
 
       def allow_view?
-        table.current_user.allowed_to? :view_hourly_rates, project
+        table.current_user.allowed_in_project?(:view_hourly_rates, project)
       end
 
       def allow_edit?
-        table.current_user.allowed_to? :edit_hourly_rates, project
+        table.current_user.allowed_in_project?(:edit_hourly_rates, project)
       end
     end
   end

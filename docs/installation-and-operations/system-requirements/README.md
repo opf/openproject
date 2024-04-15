@@ -37,11 +37,11 @@ There may come a point where you will have to make configuration changes to the 
 
 Using a rough estimate we can give the following recommendations based on the number of total users.
 
-| Users | CPU cores | RAM in GB  | web workers | background workers | Diskspace in GB |
-|-------|-----------|------------|-------------|--------------------|-----------------|
-| <=200 | 4         | 4          | 4           | 1                  | 20              |
-| 500   | 8         | 8          | 8           | 2                  | 40              |
-| 1500  | 16        | 16         | 16          | 4                  | 80              |
+| Users | CPU cores | RAM in GB  | web workers | background workers | disk space in GB |
+|-------|-----------|------------|-------------|--------------------|------------------|
+| <=200 | 4         | 4          | 4           | 1                  | 20               |
+| 500   | 8         | 8          | 8           | 2                  | 40               |
+| 1500  | 16        | 16         | 16          | 4                  | 80               |
 
 Mind, even just for 5 users we do recommend the default 4 workers as each page may require
 multiple requests to be made simultaneously. Having less workers will work, but pages may take longer to finish loading.
@@ -51,7 +51,7 @@ It's best to monitor your server and its resource usage. You can always allocate
 
 See [here](../operation/control/#scaling-the-number-of-web-workers) how to scale those up in a packaged installation. If you are using docker-compose you can [scale](https://docs.docker.com/compose/reference/scale/) the web and worker services too.
 
-> <sup>1</sup> When using [docker-compose](https://github.com/opf/openproject-deploy/tree/stable/12/compose) (with `USE_PUMA=true`) you can use fewer web workers which may use a bit more RAM, however. For instance for 200 users a single web worker would be enough.
+> <sup>1</sup> When using [docker-compose](https://github.com/opf/openproject-deploy/tree/stable/13/compose) (with `USE_PUMA=true`) you can use fewer web workers which may use a bit more RAM, however. For instance for 200 users a single web worker would be enough.
 
 **Scaling horizontally**
 
@@ -69,16 +69,16 @@ The [package-based installation](../installation/packaged) requires one of the f
 | ------------------------------- |
 | Ubuntu 22.04 Jammy              |
 | Ubuntu 20.04 Focal              |
-| Ubuntu 18.04 Bionic Beaver      |
-| Ubuntu 16.04 Xenial Xerus       |
+| Debian 12 Bookworm              |
 | Debian 11 Bullseye              |
 | Debian 10 Buster                |
-| Debian 9 Stretch                |
+| CentOS/RHEL 9.x                 |
 | CentOS/RHEL 8.x                 |
-| CentOS/RHEL 7.x                 |
-| Suse Linux Enterprise Server 12 |
+| Suse Linux Enterprise Server 15 |
 
 The [docker-based installation](../installation/docker) requires a system with Docker installed. Please see the [official Docker page](https://docs.docker.com/install/) for the list of supported systems.
+
+**Please note**, that we only provide packages for the **AMD64** (x86) architecture. We do provide *docker containers* for both **ARM64** and **PPC64** on top of **AMD64**.
 
 ### Overview of dependencies
 
@@ -95,9 +95,9 @@ PostgreSQL versions 9.6. and up will continue to work, but may result in incompa
 
 ## Client
 
-OpenProject supports the latest versions of the major browsers. 
+OpenProject supports the latest versions of the major browsers.
 
-* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 78.3.1)
+* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 102)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge) (only MS Edge version based on Chromium is supported)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 * [Apple Safari](https://www.apple.com/safari/)

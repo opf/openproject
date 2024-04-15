@@ -20,7 +20,7 @@ module API
     end
 
     def assemble_spec(file_path)
-      spec = YAML.safe_load File.read(file_path.to_s)
+      spec = YAML.safe_load_file(file_path.to_s)
 
       substitute_refs(spec, path: file_path.parent, root_path: file_path.parent)
     rescue Psych::SyntaxError => e
@@ -57,7 +57,7 @@ module API
     def substitute_refs_in_hash(spec, path:, root_path:, root_spec: spec)
       if spec.size == 1 && spec.keys.first == "$ref"
         ref_path = path.join spec.values.first
-        ref_value = YAML.safe_load File.read(ref_path.to_s)
+        ref_value = YAML.safe_load_file(ref_path.to_s)
 
         resolve_refs ref_value, path: ref_path.parent, root_path:, root_spec:
       else
@@ -80,7 +80,7 @@ module API
 
     def resolve_refs_in_hash(spec, path:, root_path:, root_spec:)
       if spec.size == 1 && spec.keys.first == "$ref"
-        resolve_ref spec, path: path, root_path: root_path, root_spec: root_spec
+        resolve_ref(spec, path:, root_path:, root_spec:)
       else
         spec.transform_values { |v| resolve_refs v, path:, root_path:, root_spec: }
       end
@@ -97,7 +97,7 @@ module API
     end
 
     def schema_ref(ref_path, path:, root_path:, root_spec:)
-      name = schema_name ref_path, path: path, root_path: root_path, root_spec: root_spec
+      name = schema_name(ref_path, path:, root_path:, root_spec:)
 
       path.join(ref_path).parent.join(name).to_s.sub(root_path.to_s, "#")
     end
@@ -111,15 +111,15 @@ module API
     end
 
     def schema_name(ref_path, path:, root_path:, root_spec:)
-      file = schema_file ref_path, path: path, root_path: root_path
-      spec_path = schema_path ref_path, path: path, root_path: root_path
+      file = schema_file(ref_path, path:, root_path:)
+      spec_path = schema_path(ref_path, path:, root_path:)
 
       spec_files = root_spec.dig(*spec_path)
 
       raise "Path not defined #{spec_path}" unless spec_files
 
       spec_file = spec_files.find { |_k, v| v["$ref"] == file }&.first
-      raise "Reference '#{file}' not valid within #{spec_path}" unless spec_file
+      raise "'#{file}' not defined under #{spec_path.join('.')} in `docs/api/apiv3/openapi-spec.yml`" unless spec_file
 
       spec_file
     end

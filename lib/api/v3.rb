@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 module API
   module V3
-    URN_PREFIX = 'urn:openproject-org:api:v3:'.freeze
+    URN_PREFIX = "urn:openproject-org:api:v3:".freeze
     URN_ERROR_PREFIX = "#{URN_PREFIX}errors:".freeze
     # For resources invisible to the user, a resource (including a payload) will contain
     # an "undisclosed uri" instead of a url. This indicates the existence of a value

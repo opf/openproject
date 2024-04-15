@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::SetScheduleService do
+RSpec.describe WorkPackages::SetScheduleService do
   create_shared_association_defaults_for_work_package_factory
 
   let(:work_package) do
@@ -39,34 +39,35 @@ describe WorkPackages::SetScheduleService do
   end
   let(:work_package_due_date) { Time.zone.today }
   let(:work_package_start_date) { nil }
+  let(:initiating_work_package) { work_package }
   let(:instance) do
-    described_class.new(user:, work_package:)
+    described_class.new(user:, work_package:, initiated_by: initiating_work_package)
   end
   let!(:following) { [] }
 
   let(:follower1_start_date) { Time.zone.today + 1.day }
   let(:follower1_due_date) { Time.zone.today + 3.days }
-  let(:follower1_delay) { 0 }
+  let(:follower1_lag) { 0 }
   let(:following_work_package1) do
     create_follower(follower1_start_date,
                     follower1_due_date,
-                    { work_package => follower1_delay })
+                    { work_package => follower1_lag })
   end
   let(:follower2_start_date) { Time.zone.today + 4.days }
   let(:follower2_due_date) { Time.zone.today + 8.days }
-  let(:follower2_delay) { 0 }
+  let(:follower2_lag) { 0 }
   let(:following_work_package2) do
     create_follower(follower2_start_date,
                     follower2_due_date,
-                    { following_work_package1 => follower2_delay })
+                    { following_work_package1 => follower2_lag })
   end
   let(:follower3_start_date) { Time.zone.today + 9.days }
   let(:follower3_due_date) { Time.zone.today + 10.days }
-  let(:follower3_delay) { 0 }
+  let(:follower3_lag) { 0 }
   let(:following_work_package3) do
     create_follower(follower3_start_date,
                     follower3_due_date,
-                    { following_work_package2 => follower3_delay })
+                    { following_work_package2 => follower3_lag })
   end
 
   let(:parent_follower1_start_date) { follower1_start_date }
@@ -92,9 +93,9 @@ describe WorkPackages::SetScheduleService do
                           due_date:,
                           parent:)
 
-    predecessors.map do |predecessor, delay|
+    predecessors.map do |predecessor, lag|
       create(:follows_relation,
-             delay:,
+             lag:,
              from: work_package,
              to: predecessor)
     end
@@ -134,10 +135,19 @@ describe WorkPackages::SetScheduleService do
 
     it 'updates the following work packages' do
       expected.each do |wp, (start_date, due_date)|
+        expected_cause_type = "work_package_related_changed_times"
         result = subject.all_results.find { |result_wp| result_wp.id == wp.id }
         expect(result)
           .to be_present,
               "Expected work package ##{wp.id} '#{wp.subject}' to be rescheduled"
+
+        expect(result.journal_cause['work_package_id'])
+          .to eql(initiating_work_package.id),
+              "Expected work package change to ##{wp.id} to have been caused by ##{initiating_work_package.id}."
+
+        expect(result.journal_cause['type'])
+        .to eql("work_package_related_changed_times"),
+            "Expected work package change to ##{wp.id} to have been caused because ##{expected_cause_type}."
 
         expect(result.start_date)
           .to eql(start_date),
@@ -175,7 +185,13 @@ describe WorkPackages::SetScheduleService do
 
     it 'does not change any other work packages' do
       expect(subject.all_results)
-        .to match_array [work_package]
+        .to contain_exactly(work_package)
+    end
+
+    it 'does not assign a journal cause' do
+      subject.all_results.each do |work_package|
+        expect(work_package.journal_cause).to be_blank
+      end
     end
   end
 
@@ -257,10 +273,10 @@ describe WorkPackages::SetScheduleService do
       it_behaves_like 'does not reschedule'
     end
 
-    context 'when moving forward with the follower having some space left and a delay' do
+    context 'when moving forward with the follower having some space left and a lag' do
       let(:follower1_start_date) { Time.zone.today + 5.days }
       let(:follower1_due_date) { Time.zone.today + 7.days }
-      let(:follower1_delay) { 3 }
+      let(:follower1_lag) { 3 }
 
       before do
         work_package.due_date = Time.zone.today + 5.days
@@ -405,7 +421,7 @@ describe WorkPackages::SetScheduleService do
       let(:following_work_package1) do
         create_follower(follower1_start_date,
                         follower1_due_date,
-                        { work_package => follower1_delay,
+                        { work_package => follower1_lag,
                           another_successor => 0 })
       end
       let(:another_successor) do
@@ -727,20 +743,20 @@ describe WorkPackages::SetScheduleService do
   context 'with a chain of successors with two paths leading to the same work package in the end' do
     let(:follower3_start_date) { Time.zone.today + 4.days }
     let(:follower3_due_date) { Time.zone.today + 7.days }
-    let(:follower3_delay) { 0 }
+    let(:follower3_lag) { 0 }
     let(:following_work_package3) do
       create_follower(follower3_start_date,
                       follower3_due_date,
-                      { work_package => follower3_delay })
+                      { work_package => follower3_lag })
     end
     let(:follower4_start_date) { Time.zone.today + 9.days }
     let(:follower4_due_date) { Time.zone.today + 10.days }
-    let(:follower4_delay2) { 0 }
-    let(:follower4_delay3) { 0 }
+    let(:follower4_lag2) { 0 }
+    let(:follower4_lag3) { 0 }
     let(:following_work_package4) do
       create_follower(follower4_start_date,
                       follower4_due_date,
-                      { following_work_package2 => follower4_delay2, following_work_package3 => follower4_delay3 })
+                      { following_work_package2 => follower4_lag2, following_work_package3 => follower4_lag3 })
     end
     let!(:following) do
       [following_work_package1,

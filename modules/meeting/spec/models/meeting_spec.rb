@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,78 +26,79 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + "/../spec_helper"
 
-describe Meeting, type: :model do
+RSpec.describe Meeting do
   shared_let (:user1) { create(:user) }
   shared_let (:user2) { create(:user) }
   let(:project) { create(:project, members: project_members) }
   let(:meeting) { create(:meeting, project:, author: user1) }
   let(:agenda) do
-    meeting.create_agenda text: 'Meeting Agenda text'
+    meeting.create_agenda text: "Meeting Agenda text"
     meeting.reload_agenda # avoiding stale object errors
   end
   let(:project_members) { {} }
 
-  let(:role) { create(:role, permissions: [:view_meetings]) }
+  let(:role) { create(:project_role, permissions: [:view_meetings]) }
 
   it { is_expected.to belong_to :project }
   it { is_expected.to belong_to :author }
   it { is_expected.to validate_presence_of :title }
 
-  describe 'new instance' do
-    let(:meeting) { build :meeting, title: 'dingens' }
+  describe "new instance" do
+    let(:meeting) { build(:meeting, project:, title: "dingens") }
 
-    describe 'to_s' do
-      it { expect(meeting.to_s).to eq('dingens') }
+    describe "to_s" do
+      it { expect(meeting.to_s).to eq("dingens") }
     end
 
-    describe 'start_date' do
+    describe "start_date" do
       it { expect(meeting.start_date).to eq(Date.tomorrow.iso8601) }
     end
 
-    describe 'start_month' do
+    describe "start_month" do
       it { expect(meeting.start_month).to eq(Date.tomorrow.month) }
     end
 
-    describe 'start_year' do
+    describe "start_year" do
       it { expect(meeting.start_year).to eq(Date.tomorrow.year) }
     end
 
-    describe 'end_time' do
+    describe "end_time" do
       it { expect(meeting.end_time).to eq(Date.tomorrow + 11.hours) }
     end
 
-    describe 'date validations' do
-      it 'marks invalid start dates' do
-        meeting.start_date = '-'
-        expect(meeting.start_date).to eq('-')
-        expect { meeting.start_time }.to raise_error(ArgumentError)
+    describe "date validations" do
+      it "marks invalid start dates" do
+        meeting.start_date = "-"
+        expect(meeting.start_date).to eq("-")
+        expect(meeting.start_time).to be_nil
         expect(meeting).not_to be_valid
         expect(meeting.errors.count).to eq(1)
       end
 
-      it 'marks invalid start hours' do
-        meeting.start_time_hour = '-'
-        expect(meeting.start_time_hour).to eq('-')
-        expect { meeting.start_time }.to raise_error(ArgumentError)
+      it "marks invalid start hours" do
+        meeting.start_time_hour = "-"
+        expect(meeting.start_time_hour).to eq("-")
+        expect(meeting.start_time).to be_nil
         expect(meeting).not_to be_valid
         expect(meeting.errors.count).to eq(1)
       end
 
-      it 'is not invalid when setting date_time explicitly' do
+      it "is not invalid when setting date_time explicitly" do
         meeting.start_time = DateTime.now
         expect(meeting).to be_valid
       end
 
-      it 'raises an error trying to set invalid time' do
-        expect { meeting.start_time = '-' }.to raise_error(Date::Error)
+      it "raises an error trying to set invalid time" do
+        expect { meeting.start_time = "-" }.to raise_error(Date::Error)
       end
 
-      it 'accepts changes after invalid dates' do
-        meeting.start_date = '-'
-        expect { meeting.start_time }.to raise_error(ArgumentError)
+      it "accepts changes after invalid dates" do
+        meeting.start_date = "-"
+        expect(meeting.start_time).to be_nil
         expect(meeting).not_to be_valid
+        expect(meeting.errors[:start_date]).to contain_exactly "is not a valid date. Required format: YYYY-MM-DD."
 
         meeting.start_date = Time.zone.today.iso8601
         expect(meeting).to be_valid
@@ -108,38 +109,38 @@ describe Meeting, type: :model do
     end
   end
 
-  describe 'all_changeable_participants' do
-    describe 'WITH a user having the view_meetings permission' do
+  describe "all_changeable_participants" do
+    describe "WITH a user having the view_meetings permission" do
       let(:project_members) { { user1 => role } }
 
-      it 'contains the user' do
+      it "contains the user" do
         expect(meeting.all_changeable_participants).to eq([user1])
       end
     end
 
-    describe 'WITH a user not having the view_meetings permission' do
-      let(:role2) { create(:role, permissions: []) }
+    describe "WITH a user not having the view_meetings permission" do
+      let(:role2) { create(:project_role, permissions: []) }
       let(:project_members) { { user1 => role, user2 => role2 } }
 
-      it 'does not contain the user' do
-        expect(meeting.all_changeable_participants.include?(user2)).to be_falsey
+      it "does not contain the user" do
+        expect(meeting.all_changeable_participants).not_to include(user2)
       end
     end
 
-    describe 'WITH a user being locked but invited' do
+    describe "WITH a user being locked but invited" do
       let(:locked_user) { create(:locked_user) }
 
       before do
-        meeting.participants_attributes = [{ 'user_id' => locked_user.id, 'invited' => 1 }]
+        meeting.participants_attributes = [{ user_id: locked_user.id, invited: 1 }]
       end
 
-      it 'contains the user' do
-        expect(meeting.all_changeable_participants.include?(locked_user)).to be_truthy
+      it "contains the user" do
+        expect(meeting.all_changeable_participants).to include(locked_user)
       end
     end
   end
 
-  describe 'participants and author as watchers' do
+  describe "participants and author as watchers" do
     let(:project_members) { { user1 => role, user2 => role } }
 
     before do
@@ -147,10 +148,10 @@ describe Meeting, type: :model do
       meeting.save!
     end
 
-    it { expect(meeting.watchers.collect(&:user)).to match_array([user1, user2]) }
+    it { expect(meeting.watchers.collect(&:user)).to contain_exactly(user1, user2) }
   end
 
-  describe '#close_agenda_and_copy_to_minutes' do
+  describe "#close_agenda_and_copy_to_minutes" do
     before do
       agenda # creating it
 
@@ -161,77 +162,49 @@ describe Meeting, type: :model do
       expect(meeting.minutes.text).to eq(meeting.agenda.text)
     end
 
-    it 'closes the agenda' do
-      expect(meeting.agenda.locked?).to be_truthy
+    it "closes the agenda" do
+      expect(meeting.agenda).to be_locked
     end
   end
 
-  describe 'Timezones' do
-    shared_examples 'uses that zone' do |zone|
+  describe "Timezones" do
+    shared_examples "uses that zone" do |zone|
       it do
-        meeting.start_date = '2016-07-01'
+        meeting.start_date = "2016-07-01"
         expect(meeting.start_time.zone).to eq(zone)
       end
     end
 
-    context 'default zone' do
-      it_behaves_like 'uses that zone', 'UTC'
+    context "default zone" do
+      it_behaves_like "uses that zone", "UTC"
     end
 
-    context 'other timezone set' do
+    context "other timezone set" do
       let!(:old_time_zone) { Time.zone }
 
       before do
-        Time.zone = 'EST'
+        Time.zone = "EST"
       end
 
       after do
         Time.zone = old_time_zone.name
       end
 
-      it_behaves_like 'uses that zone', 'EST'
+      it_behaves_like "uses that zone", "EST"
     end
   end
 
-  describe 'Copied meetings' do
-    let(:project_members) { { user1 => role, user2 => role } }
-
-    before do
-      meeting.start_date = '2013-03-27'
-      meeting.start_time_hour = '15:35'
-      meeting.participants.build(user: user2)
-      meeting.save!
+  describe "acts_as_watchable" do
+    it "is watchable" do
+      expect(described_class).to include(Redmine::Acts::Watchable::InstanceMethods)
     end
 
-    it 'has the same start_time as the original meeting' do
-      copy = meeting.copy({})
-      expect(copy.start_time).to eq(meeting.start_time)
+    it "uses the :view_meetings permission" do
+      expect(described_class.acts_as_watchable_permission).to eq(:view_meetings)
     end
 
-    it 'deletes the copied meeting author if no author is given as parameter' do
-      copy = meeting.copy({})
-      expect(copy.author).to be_nil
-    end
-
-    it 'sets the author to the provided author if one is given' do
-      copy = meeting.copy author: user2
-      expect(copy.author).to eq(user2)
-    end
-
-    it 'clears participant ids and attended flags for all copied attendees' do
-      copy = meeting.copy({})
-      expect(copy.participants.all? { |p| p.id.nil? && !p.attended }).to be_truthy
-    end
-
-    context 'when old meeting as user no longer in project' do
-      before do
-        user2.memberships.destroy_all
-      end
-
-      it 'does not copy that user' do
-        copy = meeting.copy({})
-        expect(copy.participants.map(&:user_id)).to eq [user1.id]
-      end
+    it "uses the :view_meetings permission in STI classes" do
+      expect(StructuredMeeting.acts_as_watchable_permission).to eq(:view_meetings)
     end
   end
 end

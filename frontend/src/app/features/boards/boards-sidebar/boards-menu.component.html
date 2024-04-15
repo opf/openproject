@@ -11,10 +11,10 @@
 <div class="op-sidebar--footer">
   <button
     *ngIf="canCreateBoards$ | async"
-    class="button -alt-highlight"
-    (click)="showNewBoardModal()"
+    class="button -primary -expand"
+    (click)="redirectToNewBoardForm()"
     [title]="text.create_new_board"
-    data-qa-selector="sidebar--create-board-button"
+    data-test-selector="sidebar--create-board-button"
   >
     <span class="spot-icon spot-icon_add"></span>
     <span [textContent]="text.board"></span>

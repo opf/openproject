@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,10 @@ class Authorization::UserProjectRolesQuery < Authorization::UserRolesQuery
   end
 
   transformations.register users_members_join, :project_id_limit do |statement, _, project|
-    statement.and(members_table[:project_id].eq(project.id))
+    statement
+      .and(members_table[:project_id].eq(project.id))
+      .and(members_table[:entity_type].eq(nil))
+      .and(members_table[:entity_id].eq(nil))
   end
 
   transformations.register roles_member_roles_join, :builtin_role do |statement, user, project|

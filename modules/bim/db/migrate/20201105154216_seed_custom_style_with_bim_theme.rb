@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,7 +72,7 @@ class SeedCustomStyleWithBimTheme < ActiveRecord::Migration[6.0]
   end
 
   def set_custom_style
-    custom_style = (CustomStyle.current || CustomStyle.create!)
+    custom_style = CustomStyle.current || CustomStyle.create!
     custom_style.attributes = { theme: theme[:theme], theme_logo: theme[:logo] }
     custom_style.save!
     custom_style
@@ -80,19 +80,19 @@ class SeedCustomStyleWithBimTheme < ActiveRecord::Migration[6.0]
 
   def theme
     {
-      theme: 'OpenProject BIM',
+      theme: "OpenProject BIM",
       colors: {
-        'primary-color' => "#3270DB",
-        'primary-color-dark' => "#163473",
-        'alternative-color' => "#349939",
-        'header-bg-color' => "#05002C",
-        'header-item-bg-hover-color' => "#163473",
-        'content-link-color' => "#275BB5",
-        'main-menu-bg-color' => "#0E2045",
-        'main-menu-bg-selected-background' => "#3270DB",
-        'main-menu-bg-hover-background' => "#163473"
+        "primary-color" => "#3270DB",
+        "primary-color-dark" => "#163473",
+        "alternative-color" => "#349939",
+        "header-bg-color" => "#05002C",
+        "header-item-bg-hover-color" => "#163473",
+        "content-link-color" => "#275BB5",
+        "main-menu-bg-color" => "#0E2045",
+        "main-menu-bg-selected-background" => "#3270DB",
+        "main-menu-bg-hover-background" => "#163473"
       },
-      logo: 'bim/logo_openproject_bim_big.png'
+      logo: "bim/logo_openproject_bim_big.png"
     }
   end
 end

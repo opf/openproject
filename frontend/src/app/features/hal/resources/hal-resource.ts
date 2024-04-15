@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { InputState } from 'reactivestates';
+import { InputState } from '@openproject/reactivestates';
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';

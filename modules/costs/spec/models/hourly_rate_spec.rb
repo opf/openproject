@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + "/../spec_helper"
 
-describe HourlyRate, type: :model do
+RSpec.describe HourlyRate do
   let(:project) { create(:project) }
   let(:user) { create(:user) }
   let(:rate) do
@@ -36,8 +36,8 @@ describe HourlyRate, type: :model do
                         user:)
   end
 
-  describe '#user' do
-    describe 'WHEN an existing user is provided' do
+  describe "#user" do
+    describe "WHEN an existing user is provided" do
       before do
         rate.user = user
         rate.save!
@@ -46,7 +46,7 @@ describe HourlyRate, type: :model do
       it { expect(rate.user).to eq(user) }
     end
 
-    describe 'WHEN a non existing user is provided (i.e. the user is deleted)' do
+    describe "WHEN a non existing user is provided (i.e. the user is deleted)" do
       before do
         rate.user = user
         rate.save!

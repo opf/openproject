@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Enterprise on-premises guide
-  priority: 999
+  priority: 997
 description: OpenProject Enterprise on-premises guide.
 keywords: enterprise edition, enterprise on-premises, self-hosted version, server
 ---
@@ -17,11 +17,8 @@ The Enterprise on-premises edition builds on top of the free Community edition. 
 
 ## Overview
 
-| Topic                                                                | Content                                                                      |
-|----------------------------------------------------------------------|:-----------------------------------------------------------------------------|
-| [Enterprise on-premises trial](./enterprise-on-premises-trial/)      | Can I test the Enterprise on-premises edition for free?                      |
-| [Activate Enterprise on-premises](./activate-enterprise-on-premises) | How can I upgrade my Community edition to an Enterprise on-premises edition? |
-| [Support](./support)                                                 | How can I get support or installation support?                               |
-
-![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/5-Reasons-to-upgrade-to-the-OpenProject-Enterprise-Edition.mp4)
-
+| Topic                                                                 | Content                                                                      |
+|-----------------------------------------------------------------------|:-----------------------------------------------------------------------------|
+| [Enterprise on-premises trial](./enterprise-on-premises-trial/)       | Can I test the Enterprise on-premises edition for free?                      |
+| [Activate Enterprise on-premises](./activate-enterprise-on-premises/) | How can I upgrade my Community edition to an Enterprise on-premises edition? |
+| [Support](../support/)                                                | How can I get support or installation support?                               |

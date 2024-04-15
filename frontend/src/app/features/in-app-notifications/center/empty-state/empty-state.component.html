@@ -1,6 +1,6 @@
 <div
         class="work-packages--details op-empty-state hidden-for-mobile"
-        data-qa-selector="op-empty-state"
+        data-test-selector="op-empty-state"
 >
     <div class="work-packages-tab-view--overflow op-empty-state--content">
       <ng-container *ngIf="(loading$ | async) === false; else loading">
@@ -13,7 +13,7 @@
         <ng-template #noNotification>
           <img [src]="image.no_notification" class="op-empty-state--content-image"/>
           <p class="op-empty-state--content-text">
-            <span [textContent]="noNotificationText(hasNotifications, (totalCount$ | async))"></span>
+            <span [textContent]="text.no_notification"></span>
           </p>
         </ng-template>
 

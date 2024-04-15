@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::StorageError
-  attr_reader :code, :log_message, :data
+module Storages
+  class StorageError
+    extend ActiveModel::Naming
 
-  def initialize(code:, log_message: nil, data: nil)
-    @code = code
-    @log_message = log_message
-    @data = data
-  end
+    attr_reader :code, :log_message, :data
 
-  def to_s
-    output = code.to_s
-    output << " | #{log_message}" unless log_message.nil?
-    output << " | #{data}" unless data.nil?
-    output
+    def initialize(code:, log_message: nil, data: nil)
+      @code = code
+      @log_message = log_message
+      @data = data
+    end
+
+    def to_active_model_errors
+      errors = ActiveModel::Errors.new(self)
+      errors.add(:storage_error, code, message: log_message)
+      errors
+    end
+
+    def to_s
+      output = code.to_s
+      output << " | #{log_message}" unless log_message.nil?
+      output << " | #{data}" unless data.nil?
+      output
+    end
+
+    def storage_error = "storage error"
+
+    def read_attribute_for_validation(attr) = send(attr)
+
+    def self.human_attribute_name(attr, _options = {}) = attr
+
+    def self.lookup_ancestors = [self]
   end
 end

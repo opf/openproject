@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
   end
 
   def human_name
-    I18n.t('query_fields.assigned_to_role')
+    I18n.t("query_fields.assigned_to_role")
   end
 
   def self.key
@@ -55,14 +55,13 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
     available_roles = roles.index_by(&:id)
 
     values
-      .map { |role_id| available_roles[role_id.to_i] }
-      .compact
+      .filter_map { |role_id| available_roles[role_id.to_i] }
   end
 
   def where
     operator_for_filtering.sql_for_field(user_ids_for_filtering.map(&:to_s),
                                          WorkPackage.table_name,
-                                         'assigned_to_id')
+                                         "assigned_to_id")
   end
 
   private
@@ -73,10 +72,10 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
 
   def operator_for_filtering
     case operator
-    when '*' # Any Role
+    when "*" # Any Role
       # Override the operator since we want to find by assigned_to
       ::Queries::Operators::Equals
-    when '!*' # No role
+    when "!*" # No role
       # Override the operator since we want to find by assigned_to
       ::Queries::Operators::NotEquals
     else
@@ -85,7 +84,7 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
   end
 
   def user_ids_for_filtering
-    scope = if ['*', '!*'].include?(operator)
+    scope = if ["*", "!*"].include?(operator)
               user_ids_for_filtering_scope
             elsif project
               user_ids_for_filter_project_scope

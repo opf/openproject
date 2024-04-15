@@ -2,7 +2,7 @@
 ja:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: '新しい掲示板を作成'
       label_unnamed_board: '無題のボード'
       label_unnamed_list: '無題のリスト'
       label_board_type: 'ボードの形式'
@@ -62,7 +62,7 @@ ja:
           status: ステータス
           version: バージョン
           subproject: 子プロジェクト
-          subtasks: Parent-child
+          subtasks: 親子
           basic: 基本
         select_attribute: "アクション属性"
       add_list_modal:

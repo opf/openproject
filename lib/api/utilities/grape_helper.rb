@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module API
       def grape_error_for(env, api)
         GrapeError.new(env).tap do |e|
           e.options[:content_types] = api.content_types
-          e.options[:format] = 'hal+json'
+          e.options[:format] = "hal+json"
         end
       end
 
@@ -67,7 +67,7 @@ module API
           original_exception = $!
           representer = error_representer.new e
           resp_headers = instance_exec &headers
-          env['api.format'] = error_content_type
+          env["api.format"] = error_content_type
 
           if log == true
             OpenProject.logger.error original_exception, reference: :APIv3

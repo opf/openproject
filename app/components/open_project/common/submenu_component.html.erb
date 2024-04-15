@@ -1,0 +1,47 @@
+<div class="op-sidebar">
+  <div class="op-sidebar--body">
+    <% if top_level_sidebar_menu_items.any? %>
+      <div class="op-sidemenu">
+        <ul class="op-sidemenu--items">
+          <% top_level_sidebar_menu_items.first.children.each do |menu_item| %>
+            <li class="op-sidemenu--item">
+              <% selected = menu_item.selected ? 'selected' : '' %>
+              <a class="op-sidemenu--item-action <%= selected %>" href="<%= menu_item.href %>">
+                <span class="op-sidemenu--item-title"><%= menu_item.title %></span>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <% nested_sidebar_menu_items.each do |menu_item| %>
+      <div class="op-sidemenu"
+           data-controller="menus--expandable-sidemenu"
+           data-application-target="dynamic">
+
+        <button class="op-sidemenu--title"
+                type="button"
+                data-action="click->menus--expandable-sidemenu#toggleContainer">
+          <%= menu_item.header %>
+          <span class="icon-small icon-arrow-up1"
+                aria-hidden="true"
+                data-menus--expandable-sidemenu-target="indicator">
+          </span>
+        </button>
+
+        <ul class="op-sidemenu--items"
+            data-menus--expandable-sidemenu-target="container">
+          <% menu_item.children.each do |child_item| %>
+            <li class="op-sidemenu--item">
+              <% selected = child_item.selected ? 'selected' : '' %>
+              <a class="op-sidemenu--item-action <%= selected %>" href="<%= child_item.href %>">
+                <span class="op-sidemenu--item-title"><%= child_item.title %></span>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>

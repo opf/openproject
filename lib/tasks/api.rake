@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 namespace :api do
-  desc 'Print all api routes'
+  desc "Print all api routes"
   task routes: [:environment] do
     puts <<~HEADER
 
@@ -40,7 +40,7 @@ namespace :api do
       .sort_by { |route| route.path + route.request_method }
       .each do |api|
       method = api.request_method.ljust(10)
-      path = api.path.gsub(/\A\/:version/, "/api/v3").gsub(/\(\/?\.:format\)/, '')
+      path = api.path.gsub(/\A\/:version/, "/api/v3").gsub(/\(\/?\.:format\)/, "")
 
       puts "#{method} #{path}"
     end

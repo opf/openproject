@@ -21,7 +21,7 @@ Read below to get a detailed overview of what is new in OpenProject 9.
 
 The board view is a new module for OpenProject and allows Scrum and Kanban-style agile project management. You can display display a board view with the different statuses shown as columns (similarly to a Kanban board) and quickly update the status. Alternatively, you can define a basic board with custom names or display versions as columns (e.g. to plan your roadmap).
 
-Since boards display work packages - just like the work packages list - you can easily combine traditional and agile project management. Simply schedule your tasks in the Gantt chart and work on them from the boards view.
+Since boards display work packages - just like the work package tables - you can easily combine traditional and agile project management. Simply schedule your tasks in the Gantt chart and work on them from the boards view.
 
 To use boards you need to use either the Enterprise cloud or the Enterprise on-premises edition. If you currently use the Community edition and would like to give boards a try, simply [request an Enterprise edition trial license]().
 
@@ -47,7 +47,7 @@ You can filter and group by work package attributes and also display Gantt chart
 
 
 
-## Updated work package list
+## Updated work package table
 
 Assignees are now directly displayed as avatars in the work package page. Additionally, the work package type selection has been updated.
 
@@ -59,11 +59,11 @@ Assignees are now directly displayed as avatars in the work package page. Additi
 
 OpenProject is even more user-friendly: You can add attachments (e.g. images) directly to meetings (agenda / minutes).
 
-Creating work packages on the global work package list is now easier as well: When you select a type, only the projects in which the types are activated can be selected in the project menu.
+Creating work packages on the global work package table is now easier as well: When you select a type, only the projects in which the types are activated can be selected in the project menu.
 
 Filters and work package attributes are improved and support auto-completion.
 
-For an overview of all new improvements, take a look at the [feature list](https://community.openproject.com/projects/openproject/work_packages?query_props={"c"%3A["id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%2C"version"]%2C"hi"%3Atrue%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A[{"n"%3A"status"%2C"o"%3A"!"%2C"v"%3A["6"]}%2C{"n"%3A"version"%2C"o"%3A"%3D"%2C"v"%3A["853"]}%2C{"n"%3A"subprojectId"%2C"o"%3A"*"%2C"v"%3A[]}%2C{"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A["6"%2C"8"]}]%2C"pa"%3A1%2C"pp"%3A100}).
+For an overview of all new improvements, take a look at the [feature list](https://community.openproject.org/projects/openproject/work_packages?query_props={"c"%3A["id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%2C"version"]%2C"hi"%3Atrue%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A[{"n"%3A"status"%2C"o"%3A"!"%2C"v"%3A["6"]}%2C{"n"%3A"version"%2C"o"%3A"%3D"%2C"v"%3A["853"]}%2C{"n"%3A"subprojectId"%2C"o"%3A"*"%2C"v"%3A[]}%2C{"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A["6"%2C"8"]}]%2C"pa"%3A1%2C"pp"%3A100}).
 
 
 
@@ -71,7 +71,7 @@ For an overview of all new improvements, take a look at the [feature list](https
 
 OpenProject 9.0 contains a large number of bugs fixes.
 
-For an extensive overview of bug fixes please refer to the [following list](https://community.openproject.com/projects/openproject/work_packages?query_props={"c"%3A["id"%2C"subject"%2C"type"%2C"status"%2C"assignee"]%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Adesc"%2C"f"%3A[{"n"%3A"version"%2C"o"%3A"%3D"%2C"v"%3A["853"]}%2C{"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A["1"]}%2C{"n"%3A"subprojectId"%2C"o"%3A"*"%2C"v"%3A[]}]%2C"pa"%3A1%2C"pp"%3A20}).
+For an extensive overview of bug fixes please refer to the [following list](https://community.openproject.org/projects/openproject/work_packages?query_props={"c"%3A["id"%2C"subject"%2C"type"%2C"status"%2C"assignee"]%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Adesc"%2C"f"%3A[{"n"%3A"version"%2C"o"%3A"%3D"%2C"v"%3A["853"]}%2C{"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A["1"]}%2C{"n"%3A"subprojectId"%2C"o"%3A"*"%2C"v"%3A[]}]%2C"pa"%3A1%2C"pp"%3A20}).
 
 
 

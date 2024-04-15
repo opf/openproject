@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackages::DeleteService, 'integration', type: :model do
+RSpec.describe WorkPackages::DeleteService, "integration", type: :model do
   shared_let(:project) { create(:project) }
   shared_let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[delete_work_packages view_work_packages add_work_packages manage_subtasks])
   end
   shared_let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
-  describe 'deleting a child with estimated_hours set' do
-    let(:parent) { create(:work_package, project:) }
+  describe "deleting a child with estimated_hours set" do
+    let(:parent) { create(:work_package, project:, subject: "parent") }
     let(:child) do
       create(:work_package,
              project:,
              parent:,
+             subject: "child",
              estimated_hours: 123)
     end
 
@@ -58,16 +57,17 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
 
     before do
       # Ensure estimated_hours is inherited
-      ::WorkPackages::UpdateAncestorsService.new(user:, work_package: child).call(%i[estimated_hours])
+      WorkPackages::UpdateAncestorsService.new(user:, work_package: child).call(%i[estimated_hours])
       parent.reload
     end
 
-    it 'updates the parent estimated_hours' do
+    it "updates the parent estimated_hours" do
       expect(child.estimated_hours).to eq 123
       expect(parent.derived_estimated_hours).to eq 123
       expect(parent.estimated_hours).to be_nil
 
-      expect(subject).to be_success
+      expect(subject).to be_success, "Expected service call to be successful, but failed\n" \
+                                     "service call errors: #{subject.errors.full_messages.inspect}"
 
       parent.reload
 
@@ -75,8 +75,8 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
     end
   end
 
-  describe 'with a stale work package reference' do
-    let!(:work_package) { create :work_package, project: }
+  describe "with a stale work package reference" do
+    let!(:work_package) { create(:work_package, project:) }
 
     let(:instance) do
       described_class.new(user:,
@@ -85,7 +85,7 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
 
     subject { instance.call }
 
-    it 'still destroys it' do
+    it "still destroys it" do
       # Cause lock version changes
       WorkPackage.where(id: work_package.id).update_all(lock_version: work_package.lock_version + 1)
 
@@ -94,14 +94,14 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
     end
   end
 
-  describe 'with a notification' do
-    let!(:work_package) { create :work_package, project: }
+  describe "with a notification" do
+    let!(:work_package) { create(:work_package, project:) }
     let!(:notification) do
-      create :notification,
+      create(:notification,
              recipient: user,
              actor: user,
              resource: work_package,
-             project:
+             project:)
     end
 
     let(:instance) do
@@ -111,7 +111,7 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
 
     subject { instance.call }
 
-    it 'deletes the notification' do
+    it "deletes the notification" do
       expect(subject).to be_success
       expect { work_package.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { notification.reload }.to raise_error(ActiveRecord::RecordNotFound)

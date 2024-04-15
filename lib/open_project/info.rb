@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ module OpenProject
 
       # Creates the url string to a specific Redmine issue
       def issue(issue_id)
-        url + 'issues/' + issue_id.to_s
+        url + "issues/" + issue_id.to_s
       end
     end
   end

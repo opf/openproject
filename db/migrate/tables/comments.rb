@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::Comments < Tables::Base
   def self.table(migration)
     create_table migration do |t|
-      t.string :commented_type, limit: 30, default: '', null: false
+      t.string :commented_type, limit: 30, default: "", null: false
       t.integer :commented_id, default: 0, null: false
       t.integer :author_id, default: 0, null: false
       t.text :comments
       t.datetime :created_on, null: false
       t.datetime :updated_on, null: false
 
-      t.index :author_id, name: 'index_comments_on_author_id'
-      t.index %i[commented_id commented_type], name: 'index_comments_on_commented_id_and_commented_type'
+      t.index :author_id, name: "index_comments_on_author_id"
+      t.index %i[commented_id commented_type], name: "index_comments_on_commented_id_and_commented_type"
     end
   end
 end

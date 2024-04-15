@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,21 +27,31 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { input, InputState } from 'reactivestates';
-import { take } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-import { EntityUIStore } from '@datorama/akita';
+import { input, InputState } from '@openproject/reactivestates';
+import {
+  filter,
+  map,
+  take,
+} from 'rxjs/operators';
+import {
+  firstValueFrom,
+  Observable,
+  of,
+} from 'rxjs';
 
-EntityUIStore;
+interface CacheInput<T> {
+  id:string;
+  value:T;
+}
 
 export abstract class WorkPackageLinkedResourceCache<T> {
   protected cacheDurationInSeconds = 120;
 
   // Cache activities for the last work package
   // to allow fast switching between work packages without refreshing.
-  protected cache:{ id:string|null, state:InputState<T> } = {
+  protected cache:{ id:string|null, state:InputState<CacheInput<T>> } = {
     id: null,
-    state: input<T>(),
+    state: input<CacheInput<T>>(),
   };
 
   /**
@@ -54,7 +64,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
    * @returns {Promise<T>}
    */
   public requireAndStream(workPackage:WorkPackageResource, force = false):Observable<T> {
-    const id = workPackage.id!;
+    const id = (workPackage.id as string|number).toString();
     const { state } = this.cache;
 
     // Clear cache if requesting different resource
@@ -63,24 +73,28 @@ export abstract class WorkPackageLinkedResourceCache<T> {
     }
 
     // Return cached value if id matches and value is present
-    if (this.isCached(id)) {
-      return of(state.value!);
+    if (this.isCached(id) && state.value) {
+      return of(state.value.value);
     }
 
-    // Ensure value is loaded only once
-    this.cache.id = id;
-    this.cache.state.putFromPromiseIfPristine(() => this.load(workPackage));
+    if (!this.isRequested(id)) {
+      // Ensure value is loaded only once
+      this.cache.id = id;
+      this.cache.state.clearAndPutFromPromise(this.load(workPackage).then((value) => ({ value, id })));
+    }
 
-    return this.cache.state.values$();
+    return this
+      .cache
+      .state
+      .values$()
+      .pipe(
+        filter((cached) => cached && cached.id === id),
+        map((cached) => cached.value),
+      );
   }
 
   public require(workPackage:WorkPackageResource, force = false):Promise<T> {
-    return this
-      .requireAndStream(workPackage, force)
-      .pipe(
-        take(1),
-      )
-      .toPromise();
+    return firstValueFrom(this.requireAndStream(workPackage, force));
   }
 
   public clear(workPackageId:string|null) {
@@ -97,6 +111,16 @@ export abstract class WorkPackageLinkedResourceCache<T> {
   public isCached(workPackageId:string) {
     const { state } = this.cache;
     return this.cache.id === workPackageId && state.hasValue() && !state.isValueOlderThan(this.cacheDurationInSeconds * 1000);
+  }
+
+  /**
+   * Return whether the given work package is cached.
+   * @param {string} workPackageId
+   * @returns {boolean}
+   */
+  public isRequested(workPackageId:string) {
+    const { state } = this.cache;
+    return this.cache.id === workPackageId && state.hasActivePromiseRequest();
   }
 
   /**

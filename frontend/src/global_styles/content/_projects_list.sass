@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -39,50 +39,6 @@ $project-table--description-indention: 9px
   // This does not work for big font-sizes
   padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} + #{$project-table--description-indention})
 
-form.project-filters
-  display: none
-  &.-expanded
-    display: block
-  .advanced-filters--filter-value
-    // visibility based on operator type
-    &.hidden
-      visibility: hidden
-      height: 55px
-
-    // visibility for list value selectors
-    .multi-select
-      display: none
-    .single-select
-      display: block
-    &.multi-value
-      .multi-select
-        display: block
-      .single-select
-        display: none
-
-    // visibility for datetime_past value selectors
-    &.between-dates
-      >.on-date,
-      >.days
-        display: none
-    &.on-date
-      >.between-dates,
-      >.days
-        display: none
-    &.days
-      >.on-date,
-      >.between-dates
-        display: none
-
-    // Special input field styles
-    &.between-dates
-      input[type="text"]
-        display: inline-block
-        max-width: 10rem
-
-  .advanced-filters--controls
-    margin-top: 1rem
-
 .projects-table--hierarchy-icon
   display: none
 
@@ -119,25 +75,11 @@ form.project-filters
         .menu-drop-down-container
           text-align: left
     .archived
-      color: var(--gray-dark)
+      color: var(--color-fg-muted)
       span.archived-label
         text-transform: uppercase
 
-  .project-description
-    display: none
-    td
-      padding-top: 0
-      padding-bottom: 1rem
-      p
-        font-size: inherit
-        padding-left: 0
-        max-width: 800px // improve readability
-      // Hide everything else than text for now to avoid a too large table
-      .flash, pre
-        display: none !important
 
-  .project-description.-expanded
-    display: table-row
 
   td.name
     @include text-shortener
@@ -159,17 +101,6 @@ form.project-filters
   .generic-table--sort-header
     min-width: 1rem
     max-width: 1rem
-
-// Ugly hack for now, so expanded more-menus do not get cut off. Actually that
-// should be handled from the drop down implementation with absolute positions
-// just as in the work package table.
-body.controller-projects.action-index
-  #content
-    overflow: visible
-    .generic-table--container
-      min-height: 1
-      overflow: visible
-
 
 // project list in types configuration
 #type_project_ids

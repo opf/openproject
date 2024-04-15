@@ -22,7 +22,7 @@ module TwoFactorAuthentication
 
     def validate_remember_time
       unless self.class.allow_remember_for_days > 0
-        errors.add :base, 'Invalid remember time'
+        errors.add :base, "Invalid remember time"
       end
     end
 

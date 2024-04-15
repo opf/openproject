@@ -1,13 +1,13 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Work Package table hierarchy parent below', js: true do
-  let(:user) { create :admin }
+RSpec.describe "Work Package table hierarchy parent below", :js do
+  let(:user) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
   let(:project) { create(:project, types: [type_task, type_bug]) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
   before do
     login_as(user)
@@ -33,17 +33,17 @@ describe 'Work Package table hierarchy parent below', js: true do
   # .. V Parent
   # .... Child
   # V Grandparent
-  describe 'grand-parent sorted below child, parent invisible' do
+  describe "grand-parent sorted below child, parent invisible" do
     let(:child) { create(:work_package, project:, type: type_task) }
     let(:parent) { create(:work_package, project:, type: type_bug) }
     let(:grandparent) { create(:work_package, project:, type: type_task) }
 
     let(:query) do
       query              = build(:query, user:, project:)
-      query.column_names = ['id', 'subject', 'type']
+      query.column_names = ["id", "subject", "type"]
       query.sort_criteria = [%w(id asc)]
       query.filters.clear
-      query.add_filter('type_id', '=', [type_task.id])
+      query.add_filter("type_id", "=", [type_task.id])
       query.show_hierarchies = true
 
       query.save!
@@ -61,7 +61,7 @@ describe 'Work Package table hierarchy parent below', js: true do
       query
     end
 
-    it 'shows hierarchy correctly' do
+    it "shows hierarchy correctly" do
       wp_table.visit_query query
       wp_table.expect_work_package_listed(child, parent, grandparent)
 
@@ -93,11 +93,11 @@ describe 'Work Package table hierarchy parent below', js: true do
     end
   end
 
-  describe 'grand-parent of 2+ children visible anywhere on the page, but parent is not (Regression #29652)' do
-    let(:child) { create(:work_package, subject: 'AA Child WP', project:, type: type_task) }
-    let(:child2) { create(:work_package, subject: 'BB Child WP', project:, type: type_task) }
-    let(:parent) { create(:work_package, subject: 'ZZ Parent WP', project:, type: type_task) }
-    let(:grandparent) { create(:work_package, subject: 'Grandparent', project:, type: type_task) }
+  describe "grand-parent of 2+ children visible anywhere on the page, but parent is not (Regression #29652)" do
+    let(:child) { create(:work_package, subject: "AA Child WP", project:, type: type_task) }
+    let(:child2) { create(:work_package, subject: "BB Child WP", project:, type: type_task) }
+    let(:parent) { create(:work_package, subject: "ZZ Parent WP", project:, type: type_task) }
+    let(:grandparent) { create(:work_package, subject: "Grandparent", project:, type: type_task) }
 
     let(:query) do
       query              = build(:query, user:, project:)
@@ -118,20 +118,20 @@ describe 'Work Package table hierarchy parent below', js: true do
       child2.update(parent_id: parent.id)
       parent.update(parent_id: grandparent.id)
 
-      allow(Setting).to receive(:per_page_options).and_return '3'
+      allow(Setting).to receive(:per_page_options).and_return "3"
       query
     end
 
-    it 'shows hierarchy correctly' do
+    it "shows hierarchy correctly" do
       wp_table.visit_query query
 
       wp_table.expect_work_package_listed(child, child2, parent, grandparent)
 
       # Expect pagination to be correct
-      expect(page).to have_selector('.op-pagination--item_current', text: '3')
+      expect(page).to have_css(".op-pagination--item_current", text: "3")
 
       # Expect count to be correct (one additional parent shown)
-      expect(page).to have_selector('.wp--row', count: 4)
+      expect(page).to have_css(".wp--row", count: 4)
 
       # Double order result from regression
       wp_table.expect_work_package_order(grandparent.id, parent.id, child.id, child2.id)
@@ -142,10 +142,10 @@ describe 'Work Package table hierarchy parent below', js: true do
     end
   end
 
-  describe 'An arrow is beside parent name' do
-    let(:child) { create(:work_package, subject: 'AA Child WP', project:, parent:) }
-    let(:parent) { create(:work_package, subject: 'ZZ Parent WP', project:) }
-    let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
+  describe "An arrow is beside parent name" do
+    let(:child) { create(:work_package, subject: "AA Child WP", project:, parent:) }
+    let(:parent) { create(:work_package, subject: "ZZ Parent WP", project:) }
+    let(:relations) { Components::WorkPackages::Relations.new(parent) }
 
     before do
       child
@@ -155,14 +155,14 @@ describe 'Work Package table hierarchy parent below', js: true do
       wp_table.visit!
       wp_table.expect_work_package_listed(child, parent)
 
-      expect(page).to have_selector('.wp-table--hierarchy-indicator-icon')
+      expect(page).to have_css(".wp-table--hierarchy-indicator-icon")
 
       split_page = wp_table.open_split_view(parent)
       split_page.visit_tab!("relations")
       relations.remove_child(child)
       loading_indicator_saveguard
 
-      expect(page).to have_no_selector('.wp-table--hierarchy-indicator-icon')
+      expect(page).to have_no_css(".wp-table--hierarchy-indicator-icon")
     end
   end
 end

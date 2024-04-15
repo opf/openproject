@@ -15,11 +15,11 @@ your OpenProject installation to this version.
 
   - Users who have multiple roles which grant the “View work packages”
     permission could not view all work packages in a project
-    ([#24509](https://community.openproject.com/projects/openproject/work_packages/24509/activity)).
+    ([#24509](https://community.openproject.org/wp/24509)).
     This error has been fixed.
 
 For further information on the release, please refer to the  
-[Changelog v.6.1.3](https://community.openproject.com/versions/826) 
+[Changelog v.6.1.3](https://community.openproject.org/versions/826) 
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v6.1.3).
 

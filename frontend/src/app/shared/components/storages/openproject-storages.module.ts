@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ import {
 import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import {
   StorageFileListItemComponent,
@@ -54,17 +54,26 @@ import {
 import {
   LoadingFileListComponent,
 } from 'core-app/shared/components/storages/loading-file-list/loading-file-list.component';
-import { UploadStorageFilesService } from 'core-app/shared/components/storages/services/upload-storage-files.service';
+import {
+  UploadConflictModalComponent,
+} from 'core-app/shared/components/storages/upload-conflict-modal/upload-conflict-modal.component';
+import {
+  StorageInformationService,
+} from 'core-app/shared/components/storages/storage-information/storage-information.service';
+import {
+  StorageLoginButtonComponent,
+} from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
 
 @NgModule({
   imports: [
     CommonModule,
     IconModule,
     OpSpotModule,
-    OPSharedModule,
+    OpSharedModule,
   ],
   declarations: [
     StorageComponent,
+    StorageLoginButtonComponent,
     FileLinkListItemComponent,
     FilePickerModalComponent,
     LocationPickerModalComponent,
@@ -72,6 +81,7 @@ import { UploadStorageFilesService } from 'core-app/shared/components/storages/s
     StorageInformationComponent,
     StorageFileListItemComponent,
     SortFilesPipe,
+    UploadConflictModalComponent,
   ],
   exports: [
     StorageComponent,
@@ -79,7 +89,7 @@ import { UploadStorageFilesService } from 'core-app/shared/components/storages/s
   providers: [
     SortFilesPipe,
     CookieService,
-    UploadStorageFilesService,
+    StorageInformationService,
   ],
 })
 export class OpenprojectStoragesModule {}

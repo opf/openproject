@@ -4,7 +4,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { TabInterface } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { Injectable } from '@angular/core';
 import { WpGraphConfigurationFiltersTabComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component';
-import { ChartOptions, ChartType } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
   WpGraphConfiguration,
@@ -14,6 +14,11 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageEmbeddedGraphDataset } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
+import {
+  firstValueFrom,
+  Observable,
+  switchMap,
+} from 'rxjs';
 
 @Injectable()
 export class WpGraphConfigurationService {
@@ -58,7 +63,7 @@ export class WpGraphConfigurationService {
 
   public ensureQueryAndLoad():Promise<unknown> {
     if (this.queryParams.length === 0) {
-      return this.createInitial()
+      return firstValueFrom(this.createInitial())
         .then((query) => {
           this.queryParams.push({ id: query.id! });
 
@@ -68,7 +73,7 @@ export class WpGraphConfigurationService {
     return this.loadQueries();
   }
 
-  private createInitial():Promise<QueryResource> {
+  private createInitial():Observable<QueryResource> {
     return this
       .apiv3Service
       .queries
@@ -79,12 +84,9 @@ export class WpGraphConfigurationService {
         this.currentProject.identifier,
         WpGraphConfiguration.queryCreationParams(this.I18n, !!this.currentProject.identifier),
       )
-      .toPromise()
-      .then(([form, query]) => this
-        .apiv3Service
-        .queries
-        .post(query, form)
-        .toPromise());
+      .pipe(
+        switchMap(([form, query]) => this.apiv3Service.queries.post(query, form)),
+      );
   }
 
   private loadQueries() {
@@ -93,16 +95,15 @@ export class WpGraphConfigurationService {
     return Promise.all(queryPromises);
   }
 
-  private loadQuery(params:WpGraphQueryParams) {
-    return this
+  private loadQuery(params:WpGraphQueryParams):Promise<unknown> {
+    return firstValueFrom(this
       .apiv3Service
       .queries
       .find(
         { pageSize: 0, ...params.props },
         params.id,
         this.currentProject.identifier,
-      )
-      .toPromise()
+      ))
       .then((query) => {
         if (params.name) {
           // eslint-ignore-next-line no-param-reassign
@@ -157,16 +158,16 @@ export class WpGraphConfigurationService {
 
   public loadForms():Promise<unknown> {
     if (!this._formsPromise) {
-      const formPromises = this.configuration.queries.map((query) => this
-        .apiv3Service
+      const formPromises = this
+        .configuration
         .queries
-        .form
-        .load(query)
-        .toPromise()
-        .then(([form]) => {
-          this._forms[query.id as string] = form;
-        })
-        .catch((error) => this.notificationService.handleRawError(error)));
+        .map(
+          (query) => firstValueFrom(this.apiv3Service.queries.form.load(query))
+            .then(([form]) => {
+              this._forms[query.id as string] = form;
+            })
+            .catch((error) => this.notificationService.handleRawError(error)),
+        );
 
       this._formsPromise = Promise.all(formPromises);
     }
@@ -174,11 +175,11 @@ export class WpGraphConfigurationService {
     return this._formsPromise;
   }
 
-  public get chartType():ChartType {
+  public get chartType():string {
     return this._configuration.chartType;
   }
 
-  public set chartType(type:ChartType) {
+  public set chartType(type:string) {
     this._configuration.chartType = type;
   }
 

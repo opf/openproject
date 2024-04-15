@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,6 +53,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     save_attachment(attachment)
     journalize_container(attachment)
     attachment_created_event(attachment)
+    schedule_jobs(attachment)
   rescue StandardError => e
     ::OpenProject.logger.error e
     attachment.destroy
@@ -63,7 +64,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
   def set_attributes_from_file(attachment, local_file)
     attachment.extend(OpenProject::ChangedBySystem)
     attachment.change_by_system do
-      attachment.downloads = 0
+      attachment.status = :uploaded
       attachment.set_file_size local_file
       attachment.set_content_type local_file
       attachment.set_digest local_file
@@ -78,7 +79,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     contract = create_contract attachment, whitelist
 
     unless contract.valid?
-      errors = contract.errors.full_messages.join(", ")
+      errors = contracterrors.full_messages.join(", ")
       raise "Failed to validate attachment #{attachment.id}: #{errors}"
     end
   end
@@ -88,6 +89,10 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     ::Attachments::CreateContract.new attachment,
                                       attachment.author,
                                       options:
+  end
+
+  def schedule_jobs(attachment)
+    attachment.extract_fulltext
   end
 
   def derive_contract_options(whitelist)

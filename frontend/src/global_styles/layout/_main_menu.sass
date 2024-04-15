@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,7 @@ $arrow-left-width: 40px
 @mixin main-menu-hover
   background: var(--main-menu-bg-hover-background)
   color: var(--main-menu-hover-font-color)
+  border: 1px solid var(--main-menu-hover-border-color)
 
 @mixin main-menu-selected
   background: var(--main-menu-bg-selected-background)
@@ -94,18 +95,17 @@ $arrow-left-width: 40px
     li a
       // work around due to dom manipulation on document: ready:
       // this isn't scoped to .main-item-wrapper to avoid flickering
-      padding-left: 11px
+      padding-left: 12px
       &.toggler
         // explicitly reset to zero to avoid selector precedence problems
         padding-left: 0
     .main-menu--children li a
       // children have no icon so we need to push them right.
-      padding-left: 32px
+      padding-left: 24px
 
   a
     text-decoration: none
     line-height: var(--main-menu-item-height)
-    display: block
     position: relative
     height: var(--main-menu-item-height)
     color: var(--main-menu-font-color)
@@ -113,27 +113,31 @@ $arrow-left-width: 40px
     font-weight: normal
     font-size: var(--main-menu-font-size)
     font-style: normal
+    padding: 0 12px
     &:hover
       text-decoration: none
 
   .toggler
     width: 40px
     height: var(--main-menu-item-height)
-    text-align: center
     overflow: hidden
+    display: flex
+    justify-content: center
+    align-items: center
 
   .icon-time
     background: none
     padding: 0
 
-.main-item-wrapper
+.main-item-wrapper,
+.main-menu .main-menu-item
   display: flex
-
 
   .toggler:hover
     @include main-menu-hover
 
   a
+    border: 1px solid transparent
     &.selected, &.selected + a
       @include main-menu-selected
 
@@ -183,14 +187,16 @@ $arrow-left-width: 40px
   border-radius: 3px
   padding-left: 14px
   padding-right: 14px
+  border: 1px solid transparent
   &:hover, &:focus, &:active
     @include main-menu-hover
 
 a.main-menu--parent-node
+  border: 1px solid transparent
   display: inline-block
   padding: 0 11px 0 11px
   font-size: var(--main-menu-font-size)
-  font-weight: 700
+  font-weight: var(--base-text-weight-bold)
   width: calc(100% - #{$arrow-left-width})
   height: var(--main-menu-item-height)
   line-height: var(--main-menu-item-height)
@@ -226,11 +232,7 @@ a.main-menu--parent-node
         display: list-item
         .main-menu--children-menu-header
           display: none
-    .spot-icon_enterprise-addons
-      margin-left: 0.25rem
-      color: $spot-color-feedback-warning-dark
-      font-size: 1rem
-      margin-right: 1px
+
 .hidden-navigation
   .main-menu
     width: var(--main-menu-folded-width)
@@ -255,29 +257,17 @@ a.main-menu--parent-node
 
 #sidebar
   margin: 30px 0 0 0
+
+#sidebar, #menu-sidebar .sidebar
   padding: 0 17px 0 17px
   width: auto
-  color: var(--main-menu-sidebar-font-color)
+  color: var(--main-menu-font-color)
   font-family: var(--body-font-family)
   font-style: normal
 
-  h3
-    display: block
-    border: none
-    color: var(--main-menu-sidebar-h3-color)
-    font-weight: normal
-    font-size: var(--main-menu-sidebar-h3-font-size)
-    margin: 30px 0 8px 0
-    padding: 10px 0 0 0
-
-    text-transform: uppercase
-
-  > h3:first-child
-    margin-top: 0
-
   a, a:link
     &:not(.searchable-menu--item-link):not(.searchable-menu--category-icon)
-      color: var(--main-menu-sidebar-link-color)
+      color: var(--main-menu-font-color)
       display: inline
       position: static
       text-decoration: underline
@@ -286,7 +276,7 @@ a.main-menu--parent-node
     text-decoration: underline
 
   label
-    color: var(--main-menu-sidebar-font-color)
+    color: var(--main-menu-font-color)
     @include text-shortener
     max-width: 80%
     vertical-align: top
@@ -299,19 +289,6 @@ a.main-menu--parent-node
     li a
       padding: 0
 
-  &.-hidden
-    display: none
-
-.menu-wiki-pages-tree
-  height: 100%
-  overflow: auto
-  border-top: var(--main-menu-border-width) solid var(--main-menu-border-color)
-  padding-top: 7px
-  padding-left: 7px
-  padding-right: 7px
-
-  @include styled-scroll-bar
-
 .main-menu--segment-header
   color: var(--main-menu-fieldset-header-color)
   text-transform: uppercase
@@ -321,8 +298,6 @@ a.main-menu--parent-node
 #main-menu ul ul.main-menu--children ul.pages-hierarchy
   .tree-menu--hierarchy-indicator
     color: var(--main-menu-font-color)
-  .tree-menu--hierarchy-span + a, a
-    padding-left: 0
   .tree-menu--item
     &.-selected
       background: var(--main-menu-bg-selected-background)
@@ -351,7 +326,7 @@ a.main-menu--parent-node
   &:hover
     border-left-color: var(--main-menu-resizer-color)
     i:before
-      color: var(--main-menu-navigation-toggler-font-hover-color)
+      color: var(--main-menu-resizer-color)
   &.show
     left: var(--main-menu-folded-width)
 
@@ -370,7 +345,7 @@ a.main-menu--parent-node
       position: absolute
       right: 0
   &:hover
-    color: var(--main-menu-navigation-toggler-font-hover-color)
+    color: var(--main-menu-resizer-color)
     .main-menu--navigation-toggler
       background-color: var(--main-menu-bg-color)
       &.open:before
@@ -391,8 +366,14 @@ $badge_offset: 4px
   top: -$badge_offset
   text-transform: uppercase
   margin-left: 5px
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
   font-style: italic
+
+.main-menu-toggler
+  background: transparent
+  color: var(--main-menu-font-color)
+  border: none
+
 
 #main-menu-toggle
   .icon-close

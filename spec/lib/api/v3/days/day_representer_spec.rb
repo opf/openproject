@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,115 +26,115 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Days::DayRepresenter do
+RSpec.describe API::V3::Days::DayRepresenter do
   let(:working) { true }
   let(:date) { Date.new(2022, 12, 27) }
   let(:day) do
     Day.from_range(from: Date.new(2022, 12, 1), to: Date.new(2022, 12, 31))
        .find(date.strftime("%Y%m%d").to_i)
   end
-  let(:current_user) { instance_double(User, name: 'current_user') }
+  let(:current_user) { instance_double(User, name: "current_user") }
   let(:representer) { described_class.new(day, current_user:) }
 
   subject(:generated) { representer.to_json }
 
   before do
-    set_week_days('tuesday', working:)
+    set_week_days("tuesday", working:)
   end
 
-  it 'has _type: Day' do
-    expect(subject).to be_json_eql('Day'.to_json).at_path('_type')
+  it "has _type: Day" do
+    expect(subject).to be_json_eql("Day".to_json).at_path("_type")
   end
 
-  it 'has date property' do
-    expect(subject).to have_json_type(String).at_path('date')
-    expect(subject).to be_json_eql('2022-12-27'.to_json).at_path('date')
+  it "has date property" do
+    expect(subject).to have_json_type(String).at_path("date")
+    expect(subject).to be_json_eql("2022-12-27".to_json).at_path("date")
   end
 
-  it 'has name string property' do
-    expect(subject).to have_json_type(String).at_path('name')
-    expect(subject).to be_json_eql(day.name.to_json).at_path('name')
+  it "has name string property" do
+    expect(subject).to have_json_type(String).at_path("name")
+    expect(subject).to be_json_eql(day.name.to_json).at_path("name")
   end
 
-  it 'has working boolean property' do
-    expect(subject).to have_json_type(TrueClass).at_path('working')
-    expect(subject).to be_json_eql(day.working.to_json).at_path('working')
+  it "has working boolean property" do
+    expect(subject).to have_json_type(TrueClass).at_path("working")
+    expect(subject).to be_json_eql(day.working.to_json).at_path("working")
   end
 
-  describe '_links' do
-    it 'is present' do
-      expect(subject).to have_json_type(Object).at_path('_links')
+  describe "_links" do
+    it "is present" do
+      expect(subject).to have_json_type(Object).at_path("_links")
     end
 
-    describe 'self' do
-      it 'links to this resource' do
+    describe "self" do
+      it "links to this resource" do
         expected_json = {
-          href: '/api/v3/days/2022-12-27',
-          title: 'Tuesday'
+          href: "/api/v3/days/2022-12-27",
+          title: "Tuesday"
         }.to_json
-        expect(subject).to be_json_eql(expected_json).at_path('_links/self')
+        expect(subject).to be_json_eql(expected_json).at_path("_links/self")
       end
     end
 
-    describe 'nonWorkingReasons' do
-      context 'when the day has working true' do
-        it { is_expected.not_to have_json_path('_links/nonWorkingReasons') }
+    describe "nonWorkingReasons" do
+      context "when the day has working true" do
+        it { is_expected.not_to have_json_path("_links/nonWorkingReasons") }
       end
 
-      context 'when day has working false' do
+      context "when day has working false" do
         let(:working) { false }
 
-        it 'links to the day resource' do
+        it "links to the day resource" do
           expected_json = [{
-            href: '/api/v3/days/week/2',
-            title: 'Tuesday'
+            href: "/api/v3/days/week/2",
+            title: "Tuesday"
           }].to_json
 
-          expect(subject).to be_json_eql(expected_json).at_path('_links/nonWorkingReasons')
+          expect(subject).to be_json_eql(expected_json).at_path("_links/nonWorkingReasons")
         end
       end
 
-      context 'when a non-working day is present' do
+      context "when a non-working day is present" do
         let!(:non_working_day) { create(:non_working_day, date:) }
 
-        it 'links to the non-working day resource' do
+        it "links to the non-working day resource" do
           expected_json = [{
             href: "/api/v3/days/non_working/2022-12-27",
             title: non_working_day.name
           }].to_json
 
-          expect(subject).to be_json_eql(expected_json).at_path('_links/nonWorkingReasons')
+          expect(subject).to be_json_eql(expected_json).at_path("_links/nonWorkingReasons")
         end
       end
 
-      context 'when the day has working false and a non-working day is present' do
+      context "when the day has working false and a non-working day is present" do
         let(:working) { false }
         let!(:non_working_day) { create(:non_working_day, date:) }
 
-        it 'links to the day resource and to the non-working day resource' do
+        it "links to the day resource and to the non-working day resource" do
           expected_json = [{
-            href: '/api/v3/days/week/2',
-            title: 'Tuesday'
+            href: "/api/v3/days/week/2",
+            title: "Tuesday"
           }, {
             href: "/api/v3/days/non_working/2022-12-27",
             title: non_working_day.name
           }].to_json
 
-          expect(subject).to be_json_eql(expected_json).at_path('_links/nonWorkingReasons')
+          expect(subject).to be_json_eql(expected_json).at_path("_links/nonWorkingReasons")
         end
       end
     end
 
-    describe 'weekday' do
-      it 'links to the weekday resource' do
+    describe "weekday" do
+      it "links to the weekday resource" do
         expected_json = {
-          href: '/api/v3/days/week/2',
-          title: 'Tuesday'
+          href: "/api/v3/days/week/2",
+          title: "Tuesday"
         }.to_json
 
-        expect(subject).to be_json_eql(expected_json).at_path('_links/weekday')
+        expect(subject).to be_json_eql(expected_json).at_path("_links/weekday")
       end
     end
   end

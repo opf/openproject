@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::StorageFile
-  attr_reader :id, :name, :size, :mime_type, :created_at, :last_modified_at, :created_by_name, :last_modified_by_name, :location
-
-  def initialize(id, name, size, mime_type, created_at, last_modified_at, created_by_name, last_modified_by_name, location)
-    @id = id
-    @name = name
-    @size = size
-    @mime_type = mime_type
-    @created_at = created_at
-    @last_modified_at = last_modified_at
-    @created_by_name = created_by_name
-    @last_modified_by_name = last_modified_by_name
-    @location = location
+module Storages
+  StorageFile = Data.define(
+    :id,
+    :name,
+    :size, # Integer >= 0
+    :mime_type,
+    :created_at, # Time? DateTime (deprecated)?
+    :last_modified_at, # Time? DateTime (deprecated)?
+    :created_by_name,
+    :last_modified_by_name,
+    :location, # Should always start with a '/'
+    :permissions # Array can be empty or nil
+  ) do
+    def initialize(
+      id:,
+      name:,
+      size: nil,
+      mime_type: nil,
+      created_at: nil,
+      last_modified_at: nil,
+      created_by_name: nil,
+      last_modified_by_name: nil,
+      location: nil,
+      permissions: nil
+    )
+      super(
+        id:,
+        name:,
+        size:,
+        mime_type:,
+        created_at:,
+        last_modified_at:,
+        created_by_name:,
+        last_modified_by_name:,
+        location:,
+        permissions:
+      )
+    end
   end
 end

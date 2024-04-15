@@ -1,11 +1,11 @@
-require 'support/components/autocompleter/ng_select_autocomplete_helpers'
-require_relative './edit_field'
+require "support/components/autocompleter/ng_select_autocomplete_helpers"
+require_relative "edit_field"
 
 class ProjectStatusField < EditField
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   def input_selector
-    '.ng-select.project-status'
+    ".ng-select.project-status"
   end
 
   def field_type
@@ -13,6 +13,6 @@ class ProjectStatusField < EditField
   end
 
   def set_to(status_name)
-    page.find('.ng-input input').set("#{status_name}\n")
+    page.find(".ng-input input").set("#{status_name}\n")
   end
 end

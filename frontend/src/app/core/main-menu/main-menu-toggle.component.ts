@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,6 @@ import {
 } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { DeviceService } from 'core-app/core/browser/device.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { MainMenuToggleService } from './main-menu-toggle.service';
@@ -56,8 +55,8 @@ export class MainMenuToggleComponent extends UntilDestroyedMixin implements OnIn
     readonly topMenu:TopMenuService,
     readonly toggleService:MainMenuToggleService,
     readonly cdRef:ChangeDetectorRef,
-    readonly deviceService:DeviceService,
-    readonly injector:Injector) {
+    readonly injector:Injector,
+  ) {
     super();
   }
 

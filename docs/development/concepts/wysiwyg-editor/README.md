@@ -72,10 +72,10 @@ CkEditor provides an alternative way to hook into the upcast and downcast (editi
 
 For example, we could hook on the data downcast whenever a mention attribute is parsed with:
 
-```
+```javascript
 editor.conversion.for( 'dataDowncast' ).add( dispatcher => {
    dispatcher.on( 'attribute:mention',
-   ( evt, data, conversionApi ) => {...},
+   ( evt, data, conversionApi ) => {/*...*/},
    { priority: 'high' } );
 })
 ```
@@ -89,7 +89,7 @@ CkEditor comes with a debugger inspector that will make the development process 
 In order to activate it, just import it (```import CKEditorInspector from '@ckeditor/ckeditor5-inspector';```) at the beginning of the ```op-config-customizer.js``` file and then attach it inside the editorClass.create method:
 
 
-```
+```javascript
 return editorClass.create(wrapper, configuration).then(editor => {
   CKEditorInspector.attach(editor);
 
@@ -113,7 +113,7 @@ In case it would be needed, it would be defined in the CommonMarkDataProcessor c
 
 Define how the mention elements of the HTML input data are going to be represented in the ckEditor's Model:
 
-```
+```javascript
 editor.conversion
   .for( 'upcast' )
   .elementToAttribute( {
@@ -151,7 +151,7 @@ This is defined in the CkEditor plugin (```mentions-caster.js```).
 Define how the mention attribute is going to be represented in the ckEditor's UI (Editing View):
 
 
-```
+```javascript
 editor.conversion
   .for('editingDowncast')
   .attributeToElement({
@@ -186,7 +186,7 @@ This is defined in the CkEditor plugin (```mentions-caster.js```).
 
 Define how the mention attribute is going to be represented in the ckEditor's output (Data View):
 
-```
+```javascript
 editor.conversion
   .for('dataDowncast')
   .attributeToElement({
@@ -223,7 +223,7 @@ The model update of the mentions when the user adds or removes a mention is hand
 
 Define how the HTML mention tags are going to be represented in the markdown. They should be placed as strings, so we need to turn any mention element into its string representation:
 
-```
+```javascript
 turndownService.addRule( 'mentions', {
   filter: (node) => {
      return (

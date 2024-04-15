@@ -6,4 +6,5 @@ export interface IProjectData {
   name:string;
   disabled:boolean;
   children:IProjectData[];
+  position:number;
 }

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -89,12 +89,6 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     views: {
       '!$default': { component: ApplicationBaseComponent },
     },
-  },
-  {
-    name: 'api-docs.**',
-    parent: 'optional_project',
-    url: '/api/docs',
-    loadChildren: () => import('../../features/api-docs/openproject-api-docs.module').then((m) => m.OpenprojectApiDocsModule),
   },
   {
     name: 'boards.**',

@@ -1,20 +1,29 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
-  UntypedFormGroup,
-  UntypedFormControl,
-  Validators,
   AbstractControl,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 import { take } from 'rxjs/internal/operators/take';
 import { map } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
-import { PrincipalData, PrincipalLike } from 'core-app/shared/components/principal/principal-types';
+import {
+  PrincipalData,
+  PrincipalLike,
+} from 'core-app/shared/components/principal/principal-types';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { PrincipalType } from '../invite-user.component';
@@ -53,7 +62,12 @@ export class PrincipalComponent implements OnInit {
 
   @Output() close = new EventEmitter<void>();
 
-  @Output() save = new EventEmitter<{ principalData:PrincipalData, isAlreadyMember:boolean, role:RoleResource, message:string }>();
+  @Output() save = new EventEmitter<{
+    principalData:PrincipalData,
+    isAlreadyMember:boolean,
+    role:RoleResource,
+    message:string
+  }>();
 
   @Output() back = new EventEmitter();
 

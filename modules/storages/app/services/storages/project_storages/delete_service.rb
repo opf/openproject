@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +32,12 @@ module Storages::ProjectStorages
   # Performs the deletion in the superclass. Associated FileLinks are deleted
   # by the model before_destroy hook.
   class DeleteService < ::BaseServices::Delete
+    def before_perform(*)
+      delete_project_folder if model.project_folder_automatic?
+
+      super
+    end
+
     # "persist" is a callback from BaseContracted.perform
     # that is supposed to do the actual work in a contract.
     # So in a DeleteService it performs the actual delete,
@@ -38,11 +46,22 @@ module Storages::ProjectStorages
     def persist(service_result)
       # Perform the @object.destroy etc. in the super-class
       super(service_result).tap do |deletion_result|
-        delete_associated_file_links if deletion_result.success?
+        if deletion_result.success?
+          delete_associated_file_links
+          OpenProject::Notifications.send(
+            OpenProject::Events::PROJECT_STORAGE_DESTROYED,
+            project_folder_mode: deletion_result.result.project_folder_mode.to_sym
+          )
+        end
       end
     end
 
     private
+
+    def delete_project_folder
+      ::Storages::Peripherals::Registry.resolve("#{model.storage.short_provider_type}.commands.delete_folder")
+        .call(storage: model.storage, location: model.project_folder_location)
+    end
 
     # Delete FileLinks with the same Storage as the ProjectStorage.
     # Also, they are attached to WorkPackages via the Project.

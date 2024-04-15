@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,12 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { Transition } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -47,9 +52,9 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   selector: 'wp-watchers-tab',
 })
 export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin implements OnInit {
-  public workPackageId:string;
+  @Input() public workPackage:WorkPackageResource;
 
-  public workPackage:WorkPackageResource;
+  public workPackageId:string;
 
   public trackByHref = trackByHref;
 

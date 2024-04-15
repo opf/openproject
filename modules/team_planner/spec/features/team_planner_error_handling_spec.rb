@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-describe 'Team planner error handling', type: :feature, js: true do
-  include_context 'with team planner full access'
+RSpec.describe "Team planner error handling", :js,
+               with_settings: { start_of_week: 1 } do
+  include_context "with team planner full access"
 
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            assigned_to: user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   let!(:custom_field) do
-    create :work_package_custom_field,
+    create(:work_package_custom_field,
            default_value: nil,
            is_for_all: true,
-           is_required: false
+           is_required: false)
   end
 
   let(:type) { create(:type, custom_fields: [custom_field]) }
 
-  context 'with full permissions' do
+  context "with full permissions", with_ee: %i[team_planner_view] do
     before do
-      with_enterprise_token(:team_planner_view)
       project.types << type
       project.save!
 
@@ -65,7 +65,7 @@ describe 'Team planner error handling', type: :feature, js: true do
       end
     end
 
-    it 'cannot change the wp because of required fields not being set' do
+    it "cannot change the wp because of required fields not being set" do
       custom_field.is_required = true
       custom_field.save!
 
@@ -80,10 +80,10 @@ describe 'Team planner error handling', type: :feature, js: true do
       end
     end
 
-    it 'cannot change the wp because of conflicting modifications' do
+    it "cannot change the wp because of conflicting modifications" do
       # Try to move the wp
       retry_block do
-        wp_strip = page.find('.fc-event', text: work_package.subject)
+        wp_strip = page.find(".fc-event", text: work_package.subject)
 
         page
           .driver
@@ -105,7 +105,7 @@ describe 'Team planner error handling', type: :feature, js: true do
           .perform
       end
 
-      team_planner.expect_toast(type: :error, message: I18n.t('api_v3.errors.code_409'))
+      team_planner.expect_toast(type: :error, message: I18n.t("api_v3.errors.code_409"))
 
       work_package.reload
       expect(work_package.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))

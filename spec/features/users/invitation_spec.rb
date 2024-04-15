@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,40 +26,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'invitation spec', type: :feature, js: true do
-  let(:user) { create :invited_user, mail: 'holly@openproject.com' }
+RSpec.describe "invitations", :js, :with_cuprite do
+  let(:user) { create(:invited_user, mail: "holly@openproject.com") }
 
-  before do
-    allow(User).to receive(:current).and_return current_user
+  shared_examples "resending invitations" do |redirect_to_edit_page: true|
+    it "resends the invitation" do
+      login_with current_user.login, "adminADMIN!"
+
+      visit user_path(user)
+      click_on I18n.t(:label_send_invitation)
+      expect(page).to have_text "An invitation has been sent to holly@openproject.com."
+      expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(user) : user_path(user)
+
+      # Logout admin
+      visit signout_path
+
+      # Visit invitation with wrong token
+      visit account_activate_path(token: "some invalid value")
+      expect(page).to have_text "Invalid activation token"
+
+      # Visit invitation link with correct token
+      visit account_activate_path(token: Token::Invitation.last.value)
+
+      expect(page).to have_css(".spot-modal--header", text: "Welcome to OpenProject")
+    end
   end
 
-  shared_examples 'resends the invitation' do
-    visit edit_user_path(user)
-    click_on I18n.t(:label_send_invitation)
-    expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
-
-    # Logout admin
-    logout
-
-    # Visit invitation with wrong token
-    visit account_activate_path(token: 'some invalid value')
-    expect(page).to have_text 'Invalid activation token'
-
-    # Visit invitation link with correct token
-    visit account_activate_path(token: Token::Invitation.last.value)
-
-    expect(page).to have_selector('.spot-modal--header', text: 'Welcome to OpenProject')
-  end
-
-  context 'as admin' do
-    shared_let(:admin) { create :admin }
+  context "as admin" do
+    shared_let(:admin) { create(:admin) }
     let(:current_user) { admin }
+
+    include_examples "resending invitations"
   end
 
-  context 'as global user' do
-    shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
-    let(:current_user) { global_manage_user }
+  context "as as user with global user_create permission" do
+    shared_let(:global_create_user) { create(:user, global_permissions: [:create_user]) }
+    let(:current_user) { global_create_user }
+
+    include_examples "resending invitations", redirect_to_edit_page: false
+  end
+
+  context "as as user with global user_create and manage_user permission" do
+    shared_let(:global_create_user) { create(:user, global_permissions: %i[create_user manage_user]) }
+    let(:current_user) { global_create_user }
+
+    include_examples "resending invitations", redirect_to_edit_page: true
   end
 end

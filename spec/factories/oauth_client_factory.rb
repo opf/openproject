@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,9 +27,9 @@
 #++
 
 FactoryBot.define do
-  factory :oauth_client, class: '::OAuthClient' do
+  factory :oauth_client, class: "::OAuthClient" do
     sequence(:client_id) { |n| "1234567890-#{n}" }
     sequence(:client_secret) { |n| "2345678901-#{n}" }
-    integration factory: :storage
+    integration factory: :nextcloud_storage
   end
 end

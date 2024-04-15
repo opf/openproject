@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
-describe OpenProject::TextFormatting,
-         'code' do
-  include_context 'expected markdown modules'
+RSpec.describe OpenProject::TextFormatting,
+               "code" do
+  include_context "expected markdown modules"
 
-  context 'inline code' do
-    it_behaves_like 'format_text produces' do
+  context "inline code" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           this is `some code`
@@ -50,7 +50,7 @@ describe OpenProject::TextFormatting,
       end
     end
 
-    it_behaves_like 'format_text produces' do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           this is `<Location /redmine>` some code
@@ -67,8 +67,8 @@ describe OpenProject::TextFormatting,
     end
   end
 
-  context 'block code' do
-    it_behaves_like 'format_text produces' do
+  context "block code" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           Text before
@@ -99,8 +99,8 @@ describe OpenProject::TextFormatting,
     end
   end
 
-  context 'code block with language specified' do
-    it_behaves_like 'format_text produces' do
+  context "code block with language specified" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           Text before
@@ -135,8 +135,8 @@ describe OpenProject::TextFormatting,
     end
   end
 
-  context 'blubs' do
-    it_behaves_like 'format_text produces' do
+  context "blubs" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         "\n\n    git clone git@github.com:opf/openproject.git\n\n"
       end

@@ -1,4 +1,7 @@
 ja:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
   export_to_excel: "XLS をエクスポート"
   print_with_description: "説明付きの印刷プレビュー"
   sentence_separator_or: "または"

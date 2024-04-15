@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,8 +48,8 @@ module OpenProject::TextFormatting::Matchers
         # prohibits links to things like #0123
         return if wp_id.to_s != matcher.identifier
 
-        if matcher.sep == '##' || matcher.sep == '###'
-          render_work_package_macro(wp_id, detailed: (matcher.sep === '###'))
+        if matcher.sep == "##" || matcher.sep == "###"
+          render_work_package_macro(wp_id, detailed: (matcher.sep === "###"))
         else
           render_work_package_link(wp_id)
         end
@@ -58,16 +58,15 @@ module OpenProject::TextFormatting::Matchers
       private
 
       def render_work_package_macro(wp_id, detailed: false)
-        ApplicationController.helpers.content_tag :macro,
-                                                  '',
-                                                  class: "macro--wp-quickinfo",
+        ApplicationController.helpers.content_tag "opce-macro-wp-quickinfo",
+                                                  "",
                                                   data: { id: wp_id, detailed: }
       end
 
       def render_work_package_link(wp_id)
         link_to("##{wp_id}",
                 work_package_path_or_url(id: wp_id, only_path: context[:only_path]),
-                class: 'issue work_package preview-trigger')
+                class: "issue work_package preview-trigger")
       end
     end
   end

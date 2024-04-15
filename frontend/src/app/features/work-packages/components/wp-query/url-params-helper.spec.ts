@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -93,7 +93,8 @@ describe('UrlParamsHelper', () => {
         timelineVisible: true,
         timelineZoomLevel: 'days',
         showHierarchies: true,
-        highlightingMode: 'disabled',
+        highlightingMode: 'inline',
+        highlightedAttributes: [{ href: 'a' }, { href: 'b' }],
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
           id: 'status',
@@ -112,7 +113,7 @@ describe('UrlParamsHelper', () => {
 
     it('should encode query to params JSON', () => {
       const encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      const expectedJSON = '{"c":["type","status","soße"],"hi":true,"g":"status","s":true,"tv":true,"tzl":"days","hl":"disabled","t":"type:desc","f":[{"n":"soße","o":"=","v":["knoblauch"]},{"n":"created_at","o":"<t-","v":["5"]}],"pa":10,"pp":100}'
+      const expectedJSON = '{"c":["type","status","soße"],"hi":true,"g":"status","s":true,"tv":true,"tzl":"days","hl":"inline","hla":["a","b"],"t":"type:desc","f":[{"n":"soße","o":"=","v":["knoblauch"]},{"n":"created_at","o":"<t-","v":["5"]}],"pa":10,"pp":100}';
 
       expect(encodedJSON).toEqual(expectedJSON);
     });
@@ -208,6 +209,7 @@ describe('UrlParamsHelper', () => {
           },
         ],
         filters: [filter1, filter2],
+        timestamps: ['PT0S'],
       };
 
       additional = {
@@ -243,6 +245,7 @@ describe('UrlParamsHelper', () => {
         'highlightedAttributes[]': ['a', 'b'],
         offset: 10,
         pageSize: 100,
+        timestamps: 'PT0S',
       };
 
       expect(_.isEqual(v3Params, expected)).toBeTruthy();
@@ -277,6 +280,7 @@ describe('UrlParamsHelper', () => {
         groupBy: '',
         timelineZoomLevel: 0,
         highlightingMode: 'inline',
+        timestamps: ['PT0S'],
         sums: false,
       };
 
@@ -300,8 +304,8 @@ describe('UrlParamsHelper', () => {
         showHierarchies: false,
         highlightingMode: 'inline',
         includeSubprojects: false,
-
         sortBy: '[]',
+        timestamps: 'PT0S',
       };
 
       expect(_.isEqual(v3Params, expected)).toBeTruthy();

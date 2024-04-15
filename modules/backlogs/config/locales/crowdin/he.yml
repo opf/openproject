@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 he:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "מיקום"
-        remaining_hours: "Remaining hours"
-        remaining_time: "Remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -35,23 +36,20 @@ he:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
         sprint:
           cannot_end_before_it_starts: "Sprint cannot end before it starts."
   backlogs:
     add_new_story: "New Story"
-    any: "any"
+    any: "הכל"
     backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
-    chart_options: "Chart options"
-    close: "סגור"
-    column_width: "Column width:"
-    date: "Day"
+    chart_options: "אפשרויות תרשים"
+    close: "סגירה"
+    column_width: "רוחב עמודות"
+    date: "ימים"
     definition_of_done: "Definition of Done"
     generating_chart: "Generating Graph..."
     hours: "שעות"
@@ -60,39 +58,38 @@ he:
     work_package_is_closed: "Work package is done, when"
     label_is_done_status: "Status %{status_name} means done"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
-    points: "Points"
+    points: "נקודות"
     positions_could_not_be_rebuilt: "Positions could not be rebuilt."
     positions_rebuilt_successfully: "Positions rebuilt successfully."
     properties: "Properties"
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining hours"
-    remaining_hours_ideal: "Remaining hours (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown Chart"
-    story: "Story"
+    story: "סטורי"
     story_points: "Story Points"
     story_points_ideal: "Story Points (ideal)"
     task: "משימה"
-    task_color: "Task color"
-    unassigned: "Unassigned"
+    task_color: "צבע משימה"
+    unassigned: "לא מוקצה"
     x_more: "%{count} more..."
-  backlogs_active: "active"
-  backlogs_any: "any"
-  backlogs_card_specification: "Label types for card printing"
+  backlogs_active: "פעיל"
+  backlogs_any: "הכל"
   backlogs_inactive: "Project shows no activity"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"
-  backlogs_product_backlog_is_empty: "Product backlog is empty"
+  backlogs_product_backlog_is_empty: "צבר המוצרים ריק"
   backlogs_product_backlog_unsized: "The top of the product backlog has unsized stories"
   backlogs_sizing_inconsistent: "Story sizes vary against their estimates"
   backlogs_sprint_notes_missing: "Closed sprints without retrospective/review notes"
   backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"
-  backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
+  backlogs_sprint_unsized: "לפרוייקט יש סיפורים על ספרינטים פעילים או שנסגרו לאחרונה שלא היו בגודל"
   backlogs_sprints: "Sprints"
-  backlogs_story: "Story"
+  backlogs_story: "סטורי"
   backlogs_story_type: "Story types"
   backlogs_task: "משימה"
-  backlogs_task_type: "Task type"
+  backlogs_task_type: "סוג משימה"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
   backlogs_wiki_template: "Template for sprint wiki page"
@@ -148,9 +145,9 @@ he:
   rb_label_copy_tasks: "Copy work packages"
   rb_label_copy_tasks_all: "All"
   rb_label_copy_tasks_none: "None"
-  rb_label_copy_tasks_open: "פתח"
+  rb_label_copy_tasks_open: "פתיחה"
   rb_label_link_to_original: "Include link to original story"
-  remaining_hours: "remaining hours"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "required burn rate (hours)"
   required_burn_rate_points: "required burn rate (points)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

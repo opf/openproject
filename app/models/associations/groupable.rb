@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 module Associations::Groupable
   def self.included(base)
     base.has_and_belongs_to_many :groups,
-                                 foreign_key: 'user_id',
+                                 foreign_key: "user_id",
                                  join_table: "#{base.table_name_prefix}group_users#{base.table_name_suffix}",
                                  after_remove: ->(user, group) { group.user_removed(user) }
   end

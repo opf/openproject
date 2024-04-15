@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
-
-require_relative './patches/api/work_package_representer'
-require_relative './notification_handler'
-require_relative './hook_handler'
-require_relative './services'
+require "open_project/plugins"
+require_relative "patches/api/work_package_representer"
 
 module OpenProject::GithubIntegration
   class Engine < ::Rails::Engine
@@ -39,27 +35,29 @@ module OpenProject::GithubIntegration
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-github_integration',
-             author_url: 'https://www.openproject.org/',
+    register "openproject-github_integration",
+             author_url: "https://www.openproject.org/",
              bundled: true do
       project_module(:github, dependencies: :work_package_tracking) do
-        permission(:show_github_content, {})
+        permission(:show_github_content,
+                   {},
+                   permissible_on: %i[work_package project])
       end
     end
 
-    initializer 'github.register_hook' do
-      ::OpenProject::Webhooks.register_hook 'github' do |hook, environment, params, user|
+    initializer "github.register_hook" do
+      ::OpenProject::Webhooks.register_hook "github" do |hook, environment, params, user|
         HookHandler.new.process(hook, environment, params, user)
       end
     end
 
-    initializer 'github.subscribe_to_notifications' do |app|
+    initializer "github.subscribe_to_notifications" do |app|
       app.config.after_initialize do
-        ::OpenProject::Notifications.subscribe('github.check_run',
+        ::OpenProject::Notifications.subscribe("github.check_run",
                                                &NotificationHandler.method(:check_run))
-        ::OpenProject::Notifications.subscribe('github.issue_comment',
+        ::OpenProject::Notifications.subscribe("github.issue_comment",
                                                &NotificationHandler.method(:issue_comment))
-        ::OpenProject::Notifications.subscribe('github.pull_request',
+        ::OpenProject::Notifications.subscribe("github.pull_request",
                                                &NotificationHandler.method(:pull_request))
       end
     end
@@ -79,13 +77,21 @@ module OpenProject::GithubIntegration
       "github_check_run/#{id}"
     end
 
-    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
       mount ::API::V3::GithubPullRequests::GithubPullRequestsByWorkPackageAPI
     end
 
-    config.to_prepare do
-      # Register the cron job to clean up old github pull requests
-      ::Cron::CronJob.register! ::Cron::ClearOldPullRequestsJob
+    add_api_endpoint "API::V3::Root" do
+      mount ::API::V3::GithubPullRequests::GithubPullRequestsAPI
+    end
+
+    add_cron_jobs do
+      {
+        "Cron::ClearOldPullRequestsJob": {
+          cron: "25 1 * * *", # runs at 1:25 nightly
+          class: ::Cron::ClearOldPullRequestsJob.name
+        }
+      }
     end
   end
 end

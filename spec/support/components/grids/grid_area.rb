@@ -14,12 +14,12 @@ module Components
       def resize_to(row, column)
         area.hover
 
-        area.find('.grid--resizer').drag_to self.class.of(row * 2, column * 2).area
+        area.find(".grid--resizer").drag_to self.class.of(row * 2, column * 2).area
       end
 
       def open_menu
         area.hover
-        area.find('icon-triggered-context-menu').click
+        area.find("icon-triggered-context-menu").click
       end
 
       def click_menu_item(text)
@@ -29,15 +29,26 @@ module Components
         open_menu
 
         SeleniumHubWaiter.wait
-        click_button text
+        click_link_or_button text
+      end
+
+      def expect_menu_item(text)
+        # Ensure there are no active toasters
+        dismiss_toaster!
+
+        open_menu
+
+        within("ul.dropdown-menu") do |element|
+          expect(element).to have_css("span", text:)
+        end
       end
 
       def remove
-        click_menu_item(I18n.t('js.grid.remove'))
+        click_menu_item(I18n.t("js.grid.remove"))
       end
 
       def configure_wp_table
-        click_menu_item(I18n.t('js.toolbar.settings.configure_view'))
+        click_menu_item(I18n.t("js.toolbar.settings.configure_view"))
       end
 
       def drag_to(row, column)
@@ -64,10 +75,11 @@ module Components
       end
 
       def expect_to_span(startRow, startColumn, endRow, endColumn)
-        [['grid-row-start', startRow * 2],
-         ['grid-column-start', startColumn * 2],
-         ['grid-row-end', (endRow * 2) - 1],
-         ['grid-column-end', (endColumn * 2) - 1]].each do |style, expected|
+        expect_to_exist
+        [["grid-row-start", startRow * 2],
+         ["grid-column-start", startColumn * 2],
+         ["grid-row-end", (endRow * 2) - 1],
+         ["grid-column-end", (endColumn * 2) - 1]].each do |style, expected|
           actual = area.native.style(style)
 
           expect(actual)
@@ -78,7 +90,7 @@ module Components
       def expect_not_resizable
         within area do
           expect(page)
-            .to have_no_selector('.grid--area.-widgeted resizer')
+            .to have_no_css(".grid--area.-widgeted resizer")
         end
       end
 
@@ -87,14 +99,14 @@ module Components
 
         within area do
           expect(page)
-            .to have_no_selector(".grid--area-drag-handle")
+            .to have_no_css(".grid--area-drag-handle")
         end
       end
 
       def expect_not_renameable
         within area do
           expect(page)
-            .to have_selector(".editable-toolbar-title--fixed")
+            .to have_css(".editable-toolbar-title--fixed")
         end
       end
 
@@ -103,7 +115,7 @@ module Components
 
         within area do
           expect(page)
-            .to have_no_selector(".icon-show-more-horizontal")
+            .to have_no_css(".icon-show-more-horizontal")
         end
       end
 
@@ -113,7 +125,7 @@ module Components
 
       def drag_handle
         area.hover
-        area.find('.cdk-drag-handle')
+        area.find(".cdk-drag-handle")
       end
 
       def self.of(row_number, column_number)
@@ -135,11 +147,11 @@ module Components
       end
 
       def dismiss_toaster!
-        if page.has_selector?('.op-toast--close')
-          page.find('.op-toast--close').click
+        if page.has_selector?(".op-toast--close")
+          page.find(".op-toast--close").click
         end
 
-        expect(page).to have_no_selector('.op-toast')
+        expect(page).to have_no_css(".op-toast")
       end
     end
   end

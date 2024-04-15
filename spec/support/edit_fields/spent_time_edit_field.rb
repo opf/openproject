@@ -1,11 +1,11 @@
-require_relative './edit_field'
+require_relative "edit_field"
 
 class SpentTimeEditField < EditField
   def time_log_icon_visible(visible)
     if visible
-      expect(page).to have_selector("#{@selector} #{display_selector} #{icon}")
+      expect(page).to have_css("#{@selector} #{display_selector} #{icon}")
     else
-      expect(page).to have_no_selector("#{@selector} #{display_selector} #{icon}")
+      expect(page).to have_no_css("#{@selector} #{display_selector} #{icon}")
     end
   end
 
@@ -16,6 +16,6 @@ class SpentTimeEditField < EditField
   private
 
   def icon
-    '.icon-time'
+    ".icon-time"
   end
 end

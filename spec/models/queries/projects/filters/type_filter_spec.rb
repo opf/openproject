@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Projects::Filters::TypeFilter, type: :model do
-  it_behaves_like 'basic query filter' do
+RSpec.describe Queries::Projects::Filters::TypeFilter do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :type_id }
     let(:type) { :list }
     let(:model) { Project }
     let(:attribute) { :type_id }
-    let(:values) { ['3'] }
+    let(:values) { ["3"] }
     let(:admin) { build_stubbed(:admin) }
     let(:user) { build_stubbed(:user) }
 
     before do
-      allow(Type).to receive(:pluck).with(:name, :id).and_return([['Foo', '1234']])
+      allow(Type).to receive(:pluck).with(:name, :id).and_return([["Foo", "1234"]])
     end
 
-    describe '#allowed_values' do
-      it 'is a list of the possible values' do
-        expect(instance.allowed_values).to match_array([['Foo', '1234']])
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
+        expect(instance.allowed_values).to contain_exactly(["Foo", "1234"])
       end
     end
   end

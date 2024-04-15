@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,17 +28,17 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
-describe 'Deleting a budget', type: :feature, js: true do
-  let(:project) { create :project, enabled_module_names: %i[budgets costs] }
-  let(:user) { create :admin }
+RSpec.describe "Deleting a budget", :js do
+  let(:project) { create(:project, enabled_module_names: %i[budgets costs]) }
+  let(:user) { create(:admin) }
   let(:budget_subject) { "A budget subject" }
   let(:budget_description) { "A budget description" }
   let!(:budget) do
-    create :budget,
+    create(:budget,
            subject: budget_subject,
            description: budget_description,
            author: user,
-           project:
+           project:)
   end
 
   let(:budget_page) { Pages::EditBudget.new budget.id }
@@ -49,8 +49,8 @@ describe 'Deleting a budget', type: :feature, js: true do
     budget_page.visit!
   end
 
-  context 'when no WP are assigned to this budget' do
-    it 'simply deletes the budget without additional checks' do
+  context "when no WP are assigned to this budget" do
+    it "simply deletes the budget without additional checks" do
       # Delete the budget
       budget_page.click_delete
 
@@ -59,9 +59,9 @@ describe 'Deleting a budget', type: :feature, js: true do
     end
   end
 
-  context 'when WPs are assigned to this budget' do
-    let(:wp1) { create :work_package, project:, budget: }
-    let(:wp2) { create :work_package, project:, budget: }
+  context "when WPs are assigned to this budget" do
+    let(:wp1) { create(:work_package, project:, budget:) }
+    let(:wp2) { create(:work_package, project:, budget:) }
     let(:budget_destroy_info_page) { Pages::DestroyInfo.new budget }
 
     before do
@@ -69,7 +69,7 @@ describe 'Deleting a budget', type: :feature, js: true do
       wp2
     end
 
-    context 'with no other budget to assign to' do
+    context "with no other budget to assign to" do
       before do
         # When deleting with WPs assigned we get to the destroy_info page
         budget_page.click_delete
@@ -79,7 +79,7 @@ describe 'Deleting a budget', type: :feature, js: true do
         budget_destroy_info_page.expect_delete_option
       end
 
-      it 'deletes the budget from the WPs' do
+      it "deletes the budget from the WPs" do
         # Select to delete the budget from the WPs
         budget_destroy_info_page.expect_no_reassign_option
         budget_destroy_info_page.select_delete_option
@@ -98,13 +98,13 @@ describe 'Deleting a budget', type: :feature, js: true do
       end
     end
 
-    context 'with another budget to assign to' do
+    context "with another budget to assign to" do
       let(:budget2) do
-        create :budget,
-               subject: 'Another budget',
+        create(:budget,
+               subject: "Another budget",
                description: budget_description,
                author: user,
-               project:
+               project:)
       end
 
       before do
@@ -118,7 +118,7 @@ describe 'Deleting a budget', type: :feature, js: true do
         budget_destroy_info_page.expect_delete_option
       end
 
-      it 'reassigns the WP to another budget' do
+      it "reassigns the WP to another budget" do
         # Select reassign
         budget_destroy_info_page.expect_reassign_option
         budget_destroy_info_page.select_reassign_option budget2.subject

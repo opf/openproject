@@ -34,7 +34,7 @@
       <%= hidden_field_tag :scope, @pre_auth.scope %>
       <%= hidden_field_tag :code_challenge, @pre_auth.code_challenge %>
       <%= hidden_field_tag :code_challenge_method, @pre_auth.code_challenge_method %>
-      <%= submit_tag t('oauth.authorization_dialog.authorize'), class: "button -highlight -expand" %>
+      <%= submit_tag t('oauth.authorization_dialog.authorize'), class: "button -primary -expand" %>
     <% end %>
     <br/>
     <%= form_tag oauth_authorization_path, method: :delete do %>

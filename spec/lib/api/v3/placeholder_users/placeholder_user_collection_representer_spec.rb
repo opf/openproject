@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
-  let(:self_base_link) { '/api/v3/placeholder_users' }
-  let(:collection_inner_type) { 'PlaceholderUser' }
+RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
+  let(:self_base_link) { "/api/v3/placeholder_users" }
+  let(:collection_inner_type) { "PlaceholderUser" }
   let(:total) { 3 }
   let(:page) { 1 }
   let(:page_size) { 2 }
   let(:actual_count) { 3 }
-  let(:current_user) { build_stubbed :user }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:placeholders) do
     placeholders = build_stubbed_list(:placeholder_user,
@@ -65,9 +65,9 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
                         current_user:)
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'offset-paginated APIv3 collection'
+    it_behaves_like "offset-paginated APIv3 collection"
   end
 end

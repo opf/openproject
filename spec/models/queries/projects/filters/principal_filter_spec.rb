@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Projects::Filters::PrincipalFilter, type: :model do
+RSpec.describe Queries::Projects::Filters::PrincipalFilter do
   let(:group1) { build_stubbed(:group) }
   let(:group2) { build_stubbed(:group) }
   let(:user1) { build_stubbed(:user) }
@@ -44,13 +44,13 @@ describe Queries::Projects::Filters::PrincipalFilter, type: :model do
                    user2.id])
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :principal }
     let(:type) { :list_optional }
     let(:name) { Principal.model_name.human }
 
-    describe '#allowed_values' do
-      it 'is a list of the possible values' do
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
         expected = [[group1.id, group1.id.to_s],
                     [group2.id, group2.id.to_s],
                     [user1.id, user1.id.to_s],

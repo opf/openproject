@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 require "#{File.dirname(__FILE__)}/../spec_helper"
 
-describe DocumentsController do
+RSpec.describe DocumentsController do
   render_views
 
   let(:admin) { create(:admin) }
   let(:project) { create(:project, name: "Test Project") }
   let(:user) { create(:user) }
-  let(:role) { create(:role, permissions: [:view_documents]) }
+  let(:role) { create(:project_role, permissions: [:view_documents]) }
 
   let(:default_category) do
     create(:document_category, project:, name: "Default Category")
@@ -62,13 +62,13 @@ describe DocumentsController do
     end
   end
 
-  describe 'new' do
+  describe "new" do
     before do
       get :new, params: { project_id: project.id }
     end
 
-    it 'show the new document form' do
-      expect(response).to render_template(partial: 'documents/_form')
+    it "show the new document form" do
+      expect(response).to render_template(partial: "documents/_form")
     end
   end
 
@@ -99,14 +99,14 @@ describe DocumentsController do
       end.to change(Document, :count).by 1
     end
 
-    it 'does trigger a workflow job for the document' do
+    it "does trigger a workflow job for the document" do
       expect(Notifications::WorkflowJob)
         .to have_been_enqueued
               .with(:create_notifications, document.journals.last, true)
     end
 
     describe "with attachments" do
-      let(:uncontainered) { create :attachment, container: nil, author: admin }
+      let(:uncontainered) { create(:attachment, container: nil, author: admin) }
 
       before do
         notify_project = project
@@ -119,7 +119,7 @@ describe DocumentsController do
                                         title: "New Document",
                                         project_id: notify_project.id,
                                         category_id: default_category.id),
-               attachments: { '1' => { id: uncontainered.id } }
+               attachments: { "1" => { id: uncontainered.id } }
              }
       end
 
@@ -137,7 +137,7 @@ describe DocumentsController do
     end
   end
 
-  describe 'show' do
+  describe "show" do
     before do
       document
       get :show, params: { id: document.id }
@@ -145,7 +145,7 @@ describe DocumentsController do
 
     it "shows the attachment" do
       expect(response).to be_successful
-      expect(response).to render_template('show')
+      expect(response).to render_template("show")
     end
   end
 

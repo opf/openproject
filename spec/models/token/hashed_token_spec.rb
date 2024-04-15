@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::Token::HashedToken, type: :model do
+RSpec.describe Token::HashedToken do
   let(:user) { build(:user) }
 
   subject { described_class.new user: }
 
-  describe 'token value' do
-    it 'is generated on a new instance' do
+  describe "token value" do
+    it "is generated on a new instance" do
       expect(subject.value).to be_present
     end
 
-    it 'provides the generated plain value on a new instance' do
+    it "provides the generated plain value on a new instance" do
       expect(subject.valid_plaintext?(subject.plain_value)).to be true
     end
 
-    it 'hashes the plain value to value' do
+    it "hashes the plain value to value" do
       expect(subject.value).not_to eq(subject.plain_value)
     end
 
-    it 'does not keep the value when finding it' do
+    it "does not keep the value when finding it" do
       subject.save!
 
       instance = described_class.where(user:).last
@@ -54,14 +54,14 @@ describe ::Token::HashedToken, type: :model do
     end
   end
 
-  describe '#find_by_plaintext_value' do
+  describe "#find_by_plaintext_value" do
     before do
       subject.save!
     end
 
-    it 'finds using the plaintext value' do
+    it "finds using the plaintext value" do
       expect(described_class.find_by_plaintext_value(subject.plain_value)).to eq subject
-      expect(described_class.find_by_plaintext_value('foobar')).to be_nil
+      expect(described_class.find_by_plaintext_value("foobar")).to be_nil
     end
   end
 end

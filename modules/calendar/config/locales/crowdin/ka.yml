@@ -1,0 +1,12 @@
+#English strings go here
+ka:
+  plugin_openproject_calendar:
+    name: "OpenProject Calendar"
+    description: "Provides calendar views."
+  label_calendar: "კალენდარი"
+  label_calendar_plural: "კალენდრები"
+  label_new_calendar: "ახალი კალენდარი"
+  permission_view_calendar: "View calendars"
+  permission_manage_calendars: "Manage calendars"
+  permission_share_calendars: "Subscribe to iCalendars"
+  project_module_calendar_view: "კალენდრები"

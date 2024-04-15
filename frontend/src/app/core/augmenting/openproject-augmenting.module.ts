@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,17 +29,13 @@
 import { NgModule } from '@angular/core';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpModalWrapperAugmentService } from 'core-app/shared/components/modal/modal-wrapper-augment.service';
-import { PathScriptAugmentService } from 'core-app/core/augmenting/services/path-script.augment.service';
 
 @NgModule({
   imports: [OpenprojectModalModule],
-  providers: [PathScriptAugmentService],
 })
 export class OpenprojectAugmentingModule {
-  constructor(modalWrapper:OpModalWrapperAugmentService,
-    pathScript:PathScriptAugmentService) {
+  constructor(modalWrapper:OpModalWrapperAugmentService) {
     // Setup augmenting services
     modalWrapper.setupListener();
-    pathScript.loadRequiredScripts();
   }
 }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ module API
               WorkPackage
                 .where(id: work_packages.map(&:id).uniq)
                 .left_joins(*checksum_associations)
-                .pluck('work_packages.id', Arel.sql(md5_concat.squish))
+                .pluck("work_packages.id", Arel.sql(md5_concat.squish))
                 .to_h
             end
 
@@ -67,15 +67,15 @@ module API
             end
 
             def checksum_associations
-              %i[status author responsible assigned_to version priority category type]
+              %i[status author responsible assigned_to version priority category type budget]
             end
 
             def md5_checksum_table_name(association_name)
               case association_name
               when :responsible
-                'responsibles_work_packages'
+                "responsibles_work_packages"
               when :assigned_to
-                'assigned_tos_work_packages'
+                "assigned_tos_work_packages"
               else
                 association_class(association_name).table_name
               end

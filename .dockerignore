@@ -1,6 +1,7 @@
 .github/
 .git
 .dockerignore
+.gitignore
 .bundle
 .env*
 .buildpacks
@@ -9,24 +10,25 @@
 .*ignore
 *.md
 *.log
-Vagrantfile
-Dockerfile
+docker/prod/Dockerfile
+docker/ci/Dockerfile
 Guardfile
 docker-compose.*
 browserslist
 
-docs
-!docs/api/apiv3/openapi-spec.yml
-!docs/api/apiv3/paths
-!docs/api/apiv3/tags
-!docs/api/apiv3/components
+/docs
+!/docs/api/apiv3/openapi-spec.yml
+!/docs/api/apiv3/paths
+!/docs/api/apiv3/tags
+!/docs/api/apiv3/components
 
 extra
 features
 help
 log/*.log
 spec
-tmp
+/tmp
+frontend/.angular/cache
 frontend/node_modules
 node_modules
 # travis

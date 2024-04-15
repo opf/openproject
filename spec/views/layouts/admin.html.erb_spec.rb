@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'layouts/admin', type: :view do
-  shared_let(:admin) { create :admin }
+RSpec.describe "layouts/admin" do
+  shared_let(:admin) { create(:admin) }
 
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
 
   before do
-    allow(view).to receive(:current_menu_item).and_return('overview')
+    allow(view).to receive(:current_menu_item).and_return("overview")
     allow(view).to receive(:default_breadcrumb)
     allow(controller).to receive(:default_search_scope)
 
@@ -51,26 +51,26 @@ describe 'layouts/admin', type: :view do
 
   # All password-based authentication is to be hidden and disabled if
   # `disable_password_login` is true. This includes LDAP.
-  describe 'LDAP authentication menu entry' do
-    context 'with password login enabled' do
+  describe "LDAP authentication menu entry" do
+    context "with password login enabled" do
       before do
         allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
         render
       end
 
-      it 'is shown' do
-        expect(rendered).to have_selector('a', text: I18n.t('label_ldap_authentication'))
+      it "is shown" do
+        expect(rendered).to have_css("a", text: I18n.t(:label_ldap_auth_source_plural))
       end
     end
 
-    context 'with password login disabled' do
+    context "with password login disabled" do
       before do
         allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         render
       end
 
-      it 'is hidden' do
-        expect(rendered).not_to have_selector('a', text: I18n.t('label_ldap_authentication'))
+      it "is hidden" do
+        expect(rendered).to have_no_css("a", text: I18n.t(:label_ldap_auth_source_plural))
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'securerandom'
-require 'api/v3/queries/query_representer'
+require "securerandom"
+require "api/v3/queries/query_representer"
 
 module API
   module V3
@@ -57,7 +57,9 @@ module API
           end
 
           get do
-            authorize_any %i(view_work_packages manage_public_queries), global: true
+            authorize_in_any_work_package(:view_work_packages) do
+              authorize_in_any_project(:manage_public_queries)
+            end
 
             queries_scope = Query.all.includes(QueryRepresenter.to_eager_load)
 
@@ -66,13 +68,13 @@ module API
                                                                     params)
           end
 
-          namespace 'available_projects' do
+          namespace "available_projects" do
             after_validation do
-              authorize(:view_work_packages, global: true, user: current_user)
+              authorize_in_any_work_package(:view_work_packages)
             end
 
             get do
-              available_projects = Project.allowed_to(current_user, :view_work_packages)
+              available_projects = Project.with_visible_work_packages
               self_link = api_v3_paths.query_available_projects
 
               ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
@@ -81,16 +83,15 @@ module API
             end
           end
 
-          namespace 'default' do
+          namespace "default" do
             params do
               optional :valid_subset, type: Boolean
             end
 
             get do
-              @query = Query.new_default(name: 'default',
-                                         user: current_user)
+              @query = Query.new_default(user: current_user)
 
-              authorize_by_policy(:show)
+              authorize_in_any_work_package(:view_work_packages)
 
               query_representer_response(@query, params, params.delete(:valid_subset))
             end
@@ -100,7 +101,7 @@ module API
             .new(model: Query)
             .mount
 
-          route_param :id, type: Integer, desc: 'Query ID' do
+          route_param :id, type: Integer, desc: "Query ID" do
             after_validation do
               @query = Query.find(params[:id])
 
@@ -158,6 +159,8 @@ module API
                             })
                        .mount
             end
+
+            mount API::V3::Queries::ICalUrl::QueryIcalUrlAPI
 
             mount API::V3::Queries::Order::QueryOrderAPI
           end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,45 +26,51 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
-require_relative 'support/pages/cost_report_page'
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
+require_relative "support/pages/cost_report_page"
 
-describe "updating a cost report's cost type", type: :feature, js: true do
-  let(:project) { create :project_with_types, members: { user => create(:role) } }
+RSpec.describe "updating a cost report's cost type", :js do
+  let(:project) { create(:project_with_types, members: { user => create(:project_role) }) }
   let(:user) do
     create(:admin)
   end
 
   let(:cost_type) do
-    create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+    create(:cost_type, name: "Post-war", unit: "cap", unit_plural: "caps")
   end
 
   let!(:cost_entry) do
-    create :cost_entry, user:, project:, cost_type:
+    create(:cost_entry, user:, project:, cost_type:)
   end
 
-  let(:report_page) { ::Pages::CostReportPage.new project }
+  let(:report_page) { Pages::CostReportPage.new project }
 
   before do
     login_as(user)
   end
 
-  it 'works' do
+  it "works" do
     report_page.visit!
-    report_page.save(as: 'My Query', public: true)
 
-    retry_block do
-      cost_query = CostQuery.find_by!(name: 'My Query')
-      raise "Expected path change" unless page.has_current_path?("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
-      expect(page).to have_field('Labor', checked: true)
-    end
+    report_page.save(as: "My Query", public: true)
+    report_page.wait_for_page_to_reload
+
+    cost_query = CostQuery.find_by!(name: "My Query")
+    expect(page).to have_current_path("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
+
+    expect(page).to have_field("Labor", checked: true)
 
     report_page.switch_to_type cost_type.name
     expect(page).to have_field(cost_type.name, checked: true, wait: 10)
 
     click_on "Save"
 
+    # Leave the just saved query.
+    report_page.visit!
+
+    # And load it again.
     click_on "My Query"
+
     expect(page).to have_field(cost_type.name, checked: true)
   end
 end

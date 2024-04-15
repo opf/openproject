@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -140,7 +140,7 @@ $advanced-filters--grid-gap: 10px
 .work-packages-embedded-view--container .advanced-filters--container
   margin: 0 0 1rem 0
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   .advanced-filters--filters
     .advanced-filters--filter
       grid-gap: 0 10px

@@ -5,9 +5,10 @@ uk:
       remove: 'Видалити віджет'
       configure: 'Налаштувати віджет'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "Деякі віджети, наприклад віджет графіку пакет робіт, доступні тільки у версії Enterprise."
+        link: 'Версія Enterprise.'
       widgets:
+        missing_permission: "У вас немає дозволів для перегляду цього віджета."
         custom_text:
           title: 'Текстовий блок'
         documents:

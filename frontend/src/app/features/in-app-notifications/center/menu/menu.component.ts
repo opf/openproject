@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,6 +41,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotificationPageQueryParameters } from '../../in-app-notifications.routes';
 import { IanMenuService } from './state/ian-menu.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const ianMenuSelector = 'op-ian-menu';
 
@@ -99,6 +100,13 @@ export class IanMenuComponent implements OnInit {
       icon: 'date-alert',
       isEnterprise: true,
       ...this.eeGuardedDateAlertRoute,
+    },
+    {
+      key: 'shared',
+      title: this.I18n.t('js.notifications.menu.shared'),
+      isEnterprise: true,
+      icon: 'share',
+      ...this.eeGuardedShareRoute,
     },
   ];
 
@@ -162,6 +170,7 @@ export class IanMenuComponent implements OnInit {
     readonly ianMenuService:IanMenuService,
     readonly state:StateService,
     readonly bannersService:BannersService,
+    readonly configurationService:ConfigurationService,
   ) { }
 
   ngOnInit():void {
@@ -174,5 +183,13 @@ export class IanMenuComponent implements OnInit {
     }
 
     return getUiLinkForFilters({ filter: 'reason', name: 'dateAlert' });
+  }
+
+  private get eeGuardedShareRoute() {
+    if (this.bannersService.eeShowBanners) {
+      return { uiSref: 'notifications.share_upsale', uiParams: null, uiOptions: { inherit: false } };
+    }
+
+    return getUiLinkForFilters({ filter: 'reason', name: 'shared' });
   }
 }

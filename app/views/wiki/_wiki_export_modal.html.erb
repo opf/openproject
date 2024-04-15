@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <div class="modal-delivery-element">
-  <div class="spot-modal--header">
+  <div id="spotModalTitle" class="spot-modal--header">
     <%= I18n.t('js.label_export') %>
   </div>
   <div class="spot-divider"></div>
@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
       </li>
       <li class="op-export-options--option">
         <%= link_to url_for(
-                      version: @content.version,
+                      version: @page.version,
                       id: @page,
                       format: 'markdown',
                     ), class: 'op-export-options--option-link' do %>

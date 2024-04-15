@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ar:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "الموقع"
-        remaining_hours: "الساعات المتبقية"
-        remaining_time: "الساعات المتبقية"
         story_points: "نقاط القصة"
         backlogs_work_package_type: "نوع الأعمال المتراكمة غير المنجزة"
     errors:
@@ -35,9 +36,6 @@ ar:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "يمكن أن تحتوي فقط على الهويات المعرّفة لمجموعات العمل في السباق الحالي."
               must_block_at_least_one_work_package: "يجب أن يحتوي على الأقل على الهوية المعرّفة لبطاقة واحدة."
-            parent_id:
-              parent_child_relationship_across_projects: "هو غير صالح لأن مجموعة العمل '%{work_package_name}' هي مهمة عمل متراكم غير منجز ولذلك لا يمكن أن يكون أحد الأصول خارج المشروع الحالي."
-              type_must_be_one_of_the_following: "النوع يجب أن يكون أحد الأنواع التالية: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "يجب أن يكون نفس نسخة القصة الأصلية."
         sprint:
@@ -66,8 +64,8 @@ ar:
     properties: "الخصائص"
     rebuild: "إعِدْ بناء"
     rebuild_positions: "أعِد بناء المواقع"
-    remaining_hours: "الساعات المتبقية"
-    remaining_hours_ideal: "الساعات المتبقية (المثالية)"
+    remaining_hours: ""
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "الرسم البياني للعمل المتبقي"
     story: "القصة"
     story_points: "نقاط القصة"
@@ -78,7 +76,6 @@ ar:
     x_more: "%{count} أكثر..."
   backlogs_active: "نشِط"
   backlogs_any: "أي"
-  backlogs_card_specification: "أنواع الملصقات لطباعة البطاقة"
   backlogs_inactive: "لا يُظهر المشروع أي نشاط"
   backlogs_points_burn_direction: "نقاط الاستهلاك الإيجابي/ السلبي"
   backlogs_product_backlog: "عمل المنتج المتراكم غير المنجز"
@@ -150,7 +147,7 @@ ar:
   rb_label_copy_tasks_none: "لا شيء"
   rb_label_copy_tasks_open: "مفتوح"
   rb_label_link_to_original: "ضمّن الرابط للقصة الأصلية"
-  remaining_hours: "الساعات المتبقية"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "معدّل الاستهلاك المطلوب (الساعات)"
   required_burn_rate_points: "معدّل الاستهلاك المطلوب (النقاط)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

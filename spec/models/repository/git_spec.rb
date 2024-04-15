@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Repository::Git, type: :model do
-  let(:encoding) { 'UTF-8' }
+RSpec.describe Repository::Git do
+  let(:encoding) { "UTF-8" }
   let(:instance) { build(:repository_git, path_encoding: encoding) }
   let(:adapter) { instance.scm }
   let(:config) { {} }
@@ -41,81 +41,81 @@ describe Repository::Git, type: :model do
     allow(adapter.class).to receive(:config).and_return(config)
   end
 
-  describe 'when disabled' do
+  describe "when disabled" do
     let(:enabled_scm) { [] }
 
-    it 'does not allow creating a repository' do
+    it "does not allow creating a repository" do
       expect { instance.save! }.to raise_error ActiveRecord::RecordInvalid
     end
   end
 
-  describe 'available types' do
-    it 'allow local by default' do
+  describe "available types" do
+    it "allow local by default" do
       expect(instance.class.available_types).to eq([:local])
     end
 
-    context 'with disabled types' do
+    context "with disabled types" do
       let(:config) { { disabled_types: %i[local managed] } }
 
-      it 'does not have any types' do
+      it "does not have any types" do
         expect(instance.class.available_types).to be_empty
       end
     end
 
-    context 'with mixed disabled types' do
-      let(:config) { { disabled_types: [:local, 'managed'] } }
+    context "with mixed disabled types" do
+      let(:config) { { disabled_types: [:local, "managed"] } }
 
-      it 'does not have any types' do
+      it "does not have any types" do
         expect(instance.class.available_types).to be_empty
       end
     end
   end
 
-  describe 'managed git' do
-    let(:managed_path) { '/tmp/managed_git' }
+  describe "managed git" do
+    let(:managed_path) { "/tmp/managed_git" }
 
-    it 'is not manageable unless configured explicitly' do
+    it "is not manageable unless configured explicitly" do
       expect(instance.manageable?).to be false
     end
 
-    context 'with managed config' do
+    context "with managed config" do
       let(:config) { { manages: managed_path } }
-      let(:project) { build :project }
-      let(:identifier) { project.identifier + '.git' }
+      let(:project) { build(:project) }
+      let(:identifier) { project.identifier + ".git" }
 
-      it 'is manageable' do
+      it "is manageable" do
         expect(instance.manageable?).to be true
         expect(instance.class.available_types).to eq(%i[local managed])
       end
 
-      context 'with disabled managed typed' do
+      context "with disabled managed typed" do
         let(:config) { { disabled_types: [:managed] } }
 
-        it 'is no longer manageable' do
+        it "is no longer manageable" do
           expect(instance.class.available_types).to eq([:local])
           expect(instance.manageable?).to be false
         end
       end
 
-      context 'with string disabled types',
-              with_config: { 'scm' => { 'git' => { 'disabled_types' => %w[managed local] } } } do
+      context "with string disabled types",
+              with_config: { "scm" => { "git" => { "disabled_types" => %w[managed local] } } } do
         before do
           allow(adapter.class).to receive(:config).and_call_original
         end
 
-        it 'is no longer manageable' do
+        it "is no longer manageable" do
           expect(instance.class.available_types).to eq([])
           expect(instance.class.disabled_types).to eq(%i[managed local])
           expect(instance.manageable?).to be false
         end
       end
 
-      context 'and associated project' do
+      context "and associated project" do
         before do
           instance.project = project
         end
 
-        it 'outputs valid managed paths' do
+        it "outputs valid managed paths" do
           expect(instance.repository_identifier).to eq(identifier)
           path = File.join(managed_path, identifier)
           expect(instance.managed_repository_path).to eq(path)
@@ -123,15 +123,15 @@ describe Repository::Git, type: :model do
         end
       end
 
-      context 'and associated project with parent' do
-        let(:parent) { build :project }
-        let(:project) { build :project, parent: }
+      context "and associated project with parent" do
+        let(:parent) { build(:project) }
+        let(:project) { build(:project, parent:) }
 
         before do
           instance.project = project
         end
 
-        it 'outputs the correct hierarchy path' do
+        it "outputs the correct hierarchy path" do
           expect(instance.managed_repository_path)
             .to eq(File.join(managed_path, identifier))
         end
@@ -139,44 +139,44 @@ describe Repository::Git, type: :model do
     end
   end
 
-  describe 'URL validation' do
+  describe "URL validation" do
     let(:instance) { build(:repository_git, url:) }
 
-    shared_examples 'repository url is valid' do
-      it 'is valid' do
+    shared_examples "repository url is valid" do
+      it "is valid" do
         expect(instance).to be_valid
       end
     end
 
-    context 'file:// URLs' do
-      let(:url) { 'file:///foo/bar' }
+    context "file:// URLs" do
+      let(:url) { "file:///foo/bar" }
 
-      it_behaves_like 'repository url is valid'
+      it_behaves_like "repository url is valid"
     end
 
-    context 'absolute paths' do
-      let(:url) { 'file:///foo/bar' }
+    context "absolute paths" do
+      let(:url) { "file:///foo/bar" }
 
-      it_behaves_like 'repository url is valid'
+      it_behaves_like "repository url is valid"
     end
 
-    context 'https URLs' do
-      let(:url) { 'https://localhost/git/foo' }
+    context "https URLs" do
+      let(:url) { "https://localhost/git/foo" }
 
-      it_behaves_like 'repository url is valid'
+      it_behaves_like "repository url is valid"
     end
 
-    context 'SSH URLs' do
-      let(:url) { 'ssh://-oProxyCommand=echo/wat' }
+    context "SSH URLs" do
+      let(:url) { "ssh://-oProxyCommand=echo/wat" }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance).not_to be_valid
         expect(instance.errors.full_messages).to eq(["URL must not be an SSH url."])
       end
     end
   end
 
-  describe 'with an actual repository' do
+  describe "with an actual repository" do
     with_git_repository do |repo_dir|
       let(:url) { repo_dir }
       let(:instance) do
@@ -191,7 +191,7 @@ describe Repository::Git, type: :model do
         instance.reload
       end
 
-      it 'is available' do
+      it "is available" do
         expect(instance.scm).to be_available
       end
 
@@ -224,36 +224,36 @@ describe Repository::Git, type: :model do
         end
       end
 
-      it 'fetches changesets from scratch' do
+      it "fetches changesets from scratch" do
         expect(instance.changesets.count).to eq(22)
         # This test fails on macs since they count file changes to be 33, *nix system count 34
         expect(instance.file_changes.count).to be_between(33, 34)
 
-        commit = instance.changesets.reorder(Arel.sql('committed_on ASC')).first
+        commit = instance.changesets.reorder(Arel.sql("committed_on ASC")).first
         expect(commit.comments).to eq("Initial import.\nThe repository contains 3 files.")
-        expect(commit.committer).to eq('jsmith <jsmith@foo.bar>')
+        expect(commit.committer).to eq("jsmith <jsmith@foo.bar>")
         # assert_equal User.find_by_login('jsmith'), commit.user
         # TODO: add a commit with commit time <> author time to the test repository
-        expect(commit.committed_on).to eq('2007-12-14 09:22:52')
-        expect(commit.commit_date).to eq('2007-12-14'.to_date)
-        expect(commit.revision).to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
-        expect(commit.scmid).to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
+        expect(commit.committed_on).to eq("2007-12-14 09:22:52")
+        expect(commit.commit_date).to eq("2007-12-14".to_date)
+        expect(commit.revision).to eq("7234cb2750b63f47bff735edc50a1c0a433c2518")
+        expect(commit.scmid).to eq("7234cb2750b63f47bff735edc50a1c0a433c2518")
         expect(commit.file_changes.count).to eq(3)
 
         change = commit.file_changes.min_by(&:path)
-        expect(change.path).to eq('README')
-        expect(change.action).to eq('A')
+        expect(change.path).to eq("README")
+        expect(change.action).to eq("A")
       end
 
-      it 'fetches changesets incremental' do
+      it "fetches changesets incremental" do
         # Remove the 3 latest changesets
-        instance.changesets.order(Arel.sql('committed_on DESC')).limit(8).each(&:destroy)
+        instance.changesets.order(Arel.sql("committed_on DESC")).limit(8).each(&:destroy)
         instance.reload
         expect(instance.changesets.count).to eq(14)
 
-        rev_a_commit = instance.changesets.order(Arel.sql('committed_on DESC')).first
-        expect(rev_a_commit.revision).to eq('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
-        expect(rev_a_commit.scmid).to eq('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
+        rev_a_commit = instance.changesets.order(Arel.sql("committed_on DESC")).first
+        expect(rev_a_commit.revision).to eq("ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
+        expect(rev_a_commit.scmid).to eq("ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
         # Mon Jul 5 22:34:26 2010 +0200
         committed_on = Time.gm(2010, 9, 18, 19, 59, 46)
         expect(rev_a_commit.committed_on).to eq(committed_on)
@@ -263,117 +263,117 @@ describe Repository::Git, type: :model do
         expect(instance.changesets.count).to eq(22)
       end
 
-      describe '.latest_changesets' do
-        it 'fetches changesets with limits' do
-          changesets = instance.latest_changesets('', nil, 2)
+      describe ".latest_changesets" do
+        it "fetches changesets with limits" do
+          changesets = instance.latest_changesets("", nil, 2)
           expect(changesets.size).to eq(2)
         end
 
-        it 'fetches changesets with paths' do
-          changesets = instance.latest_changesets('images', nil)
+        it "fetches changesets with paths" do
+          changesets = instance.latest_changesets("images", nil)
           expect(changesets.map(&:revision))
-            .to eq(['deff712f05a90d96edbd70facc47d944be5897e3',
-                    '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-                    '7234cb2750b63f47bff735edc50a1c0a433c2518'])
+            .to eq(["deff712f05a90d96edbd70facc47d944be5897e3",
+                    "899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
+                    "7234cb2750b63f47bff735edc50a1c0a433c2518"])
 
-          changesets = instance.latest_changesets('README', nil)
+          changesets = instance.latest_changesets("README", nil)
           expect(changesets.map(&:revision))
-            .to eq(['32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf',
-                    '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8',
-                    '713f4944648826f558cf548222f813dabe7cbb04',
-                    '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
-                    '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-                    '7234cb2750b63f47bff735edc50a1c0a433c2518'])
+            .to eq(["32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf",
+                    "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8",
+                    "713f4944648826f558cf548222f813dabe7cbb04",
+                    "61b685fbe55ab05b5ac68402d5720c1a6ac973d1",
+                    "899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
+                    "7234cb2750b63f47bff735edc50a1c0a433c2518"])
         end
 
-        it 'fetches changesets with path, revision and limit' do
-          changesets = instance.latest_changesets('images', '899a15dba')
+        it "fetches changesets with path, revision and limit" do
+          changesets = instance.latest_changesets("images", "899a15dba")
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-                    '7234cb2750b63f47bff735edc50a1c0a433c2518'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
+                    "7234cb2750b63f47bff735edc50a1c0a433c2518"])
 
-          changesets = instance.latest_changesets('images', '899a15dba', 1)
+          changesets = instance.latest_changesets("images", "899a15dba", 1)
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9"])
 
-          changesets = instance.latest_changesets('README', '899a15dba')
+          changesets = instance.latest_changesets("README", "899a15dba")
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-                    '7234cb2750b63f47bff735edc50a1c0a433c2518'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
+                    "7234cb2750b63f47bff735edc50a1c0a433c2518"])
 
-          changesets = instance.latest_changesets('README', '899a15dba', 1)
+          changesets = instance.latest_changesets("README", "899a15dba", 1)
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9"])
         end
 
-        it 'fetches changesets with tag' do
-          changesets = instance.latest_changesets('images', 'tag01.annotated')
+        it "fetches changesets with tag" do
+          changesets = instance.latest_changesets("images", "tag01.annotated")
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-                    '7234cb2750b63f47bff735edc50a1c0a433c2518'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
+                    "7234cb2750b63f47bff735edc50a1c0a433c2518"])
 
-          changesets = instance.latest_changesets('README', '899a15dba', 1)
+          changesets = instance.latest_changesets("README", "899a15dba", 1)
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9"])
 
-          changesets = instance.latest_changesets('README', 'tag01.annotated')
+          changesets = instance.latest_changesets("README", "tag01.annotated")
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-                    '7234cb2750b63f47bff735edc50a1c0a433c2518'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
+                    "7234cb2750b63f47bff735edc50a1c0a433c2518"])
 
-          changesets = instance.latest_changesets('README', 'tag01.annotated', 1)
+          changesets = instance.latest_changesets("README", "tag01.annotated", 1)
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9"])
         end
 
-        it 'fetches changesets with path, branch, and limit' do
-          changesets = instance.latest_changesets('images', 'test_branch')
+        it "fetches changesets with path, branch, and limit" do
+          changesets = instance.latest_changesets("images", "test_branch")
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-                    '7234cb2750b63f47bff735edc50a1c0a433c2518'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
+                    "7234cb2750b63f47bff735edc50a1c0a433c2518"])
 
-          changesets = instance.latest_changesets('images', 'test_branch', 1)
+          changesets = instance.latest_changesets("images", "test_branch", 1)
           expect(changesets.map(&:revision))
-            .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9'])
+            .to eq(["899a15dba03a3b350b89c3f537e4bbe02a03cdc9"])
 
-          changesets = instance.latest_changesets('README', 'test_branch')
+          changesets = instance.latest_changesets("README", "test_branch")
           expect(changesets.map(&:revision))
-            .to eq(['713f4944648826f558cf548222f813dabe7cbb04',
-                    '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
-                    '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-                    '7234cb2750b63f47bff735edc50a1c0a433c2518'])
+            .to eq(["713f4944648826f558cf548222f813dabe7cbb04",
+                    "61b685fbe55ab05b5ac68402d5720c1a6ac973d1",
+                    "899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
+                    "7234cb2750b63f47bff735edc50a1c0a433c2518"])
 
-          changesets = instance.latest_changesets('README', 'test_branch', 2)
+          changesets = instance.latest_changesets("README", "test_branch", 2)
           expect(changesets.map(&:revision))
-            .to eq(['713f4944648826f558cf548222f813dabe7cbb04',
-                    '61b685fbe55ab05b5ac68402d5720c1a6ac973d1'])
+            .to eq(["713f4944648826f558cf548222f813dabe7cbb04",
+                    "61b685fbe55ab05b5ac68402d5720c1a6ac973d1"])
         end
       end
 
-      it 'finds changeset by name' do
-        ['7234cb2750b63f47bff735edc50a1c0a433c2518', '7234cb2750b'].each do |r|
+      it "finds changeset by name" do
+        ["7234cb2750b63f47bff735edc50a1c0a433c2518", "7234cb2750b"].each do |r|
           expect(instance.find_changeset_by_name(r).revision)
-            .to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
+            .to eq("7234cb2750b63f47bff735edc50a1c0a433c2518")
         end
       end
 
-      it 'finds changeset by empty name' do
-        ['', ' ', nil].each do |r|
+      it "finds changeset by empty name" do
+        ["", " ", nil].each do |r|
           expect(instance.find_changeset_by_name(r)).to be_nil
         end
       end
 
-      it 'assigns scmid to identifier' do
-        c = instance.changesets.where(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518').first
+      it "assigns scmid to identifier" do
+        c = instance.changesets.where(revision: "7234cb2750b63f47bff735edc50a1c0a433c2518").first
         expect(c.scmid).to eq(c.identifier)
       end
 
-      it 'formats identifier' do
-        c = instance.changesets.where(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518').first
-        expect(c.format_identifier).to eq('7234cb27')
+      it "formats identifier" do
+        c = instance.changesets.where(revision: "7234cb2750b63f47bff735edc50a1c0a433c2518").first
+        expect(c.format_identifier).to eq("7234cb27")
       end
 
-      it 'finds previous changeset' do
+      it "finds previous changeset" do
         %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
           changeset = instance.find_changeset_by_name(r1)
           %w|64f1f3e89ad1cb57976ff0ad99a107012ba3481d 64f1f3e89ad1|.each do |r2|
@@ -382,14 +382,14 @@ describe Repository::Git, type: :model do
         end
       end
 
-      it 'returns nil when no previous changeset' do
+      it "returns nil when no previous changeset" do
         %w|7234cb2750b63f47bff735edc50a1c0a433c2518 7234cb2|.each do |r1|
           changeset = instance.find_changeset_by_name(r1)
           expect(changeset.previous).to be_nil
         end
       end
 
-      it 'finds next changeset' do
+      it "finds next changeset" do
         %w|64f1f3e89ad1cb57976ff0ad99a107012ba3481d 64f1f3e89ad1|.each do |r2|
           changeset = instance.find_changeset_by_name(r2)
           %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
@@ -398,81 +398,81 @@ describe Repository::Git, type: :model do
         end
       end
 
-      it 'nexts nil' do
+      it "nexts nil" do
         %w|71e5c1d3dca6304805b143b9d0e6695fb3895ea4 71e5c1d3|.each do |r1|
           changeset = instance.find_changeset_by_name(r1)
           expect(changeset.next).to be_nil
         end
       end
 
-      context 'with an admin browsing activity' do
+      context "with an admin browsing activity" do
         let(:user) { create(:admin) }
         let(:project) { create(:project) }
 
         def find_events(user, options = {})
-          options[:scope] = ['changesets']
+          options[:scope] = ["changesets"]
           fetcher = Activities::Fetcher.new(user, options)
-          fetcher.events(30.days.ago, 1.day.from_now)
+          fetcher.events(from: 30.days.ago, to: 1.day.from_now)
         end
 
-        it 'activitieses' do
+        it "activitieses" do
           Changeset.create(repository: instance,
                            committed_on: Time.now,
-                           revision: 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
-                           scmid: 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
-                           comments: 'test')
+                           revision: "abc7234cb2750b63f47bff735edc50a1c0a433c2",
+                           scmid: "abc7234cb2750b63f47bff735edc50a1c0a433c2",
+                           comments: "test")
 
           event = find_events(user).first
-          assert event.event_title.include?('abc7234c:')
+          assert event.event_title.include?("abc7234c:")
           assert event.event_path =~ /\?rev=abc7234cb2750b63f47bff735edc50a1c0a433c2$/
         end
       end
 
-      describe 'encoding' do
+      describe "encoding" do
         let(:felix_hex) { "Felix Sch\xC3\xA4fer" }
 
-        it 'displays UTF-8' do
-          c = instance.changesets.where(revision: 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b').first
+        it "displays UTF-8" do
+          c = instance.changesets.where(revision: "ed5bb786bbda2dee66a2d50faf51429dbc043a7b").first
           expect(c.committer).to eq("#{felix_hex} <felix@fachschaften.org>")
-          expect(c.committer).to eq('Felix Schäfer <felix@fachschaften.org>')
+          expect(c.committer).to eq("Felix Schäfer <felix@fachschaften.org>")
         end
 
-        context 'with latin-1 encoding' do
-          let (:encoding) { 'ISO-8859-1' }
-          let (:char1_hex) { "\xc3\x9c".force_encoding('UTF-8') }
+        context "with latin-1 encoding" do
+          let (:encoding) { "ISO-8859-1" }
+          let (:char1_hex) { "\xc3\x9c".force_encoding("UTF-8") }
 
-          it 'latests changesets latin 1 dir' do
+          it "latests changesets latin 1 dir" do
             instance.fetch_changesets
             instance.reload
             changesets = instance.latest_changesets(
-              "latin-1-dir/test-#{char1_hex}-subdir", '1ca7f5ed'
+              "latin-1-dir/test-#{char1_hex}-subdir", "1ca7f5ed"
             )
             expect(changesets.map(&:revision))
-              .to eq(['1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'])
+              .to eq(["1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127"])
           end
 
-          it 'browses changesets' do
+          it "browses changesets" do
             changesets = instance.latest_changesets(
-              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89'
+              "latin-1-dir/test-#{char1_hex}-2.txt", "64f1f3e89"
             )
             expect(changesets.map(&:revision))
-              .to eq(['64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
-                      '4fc55c43bf3d3dc2efb66145365ddc17639ce81e'])
+              .to eq(["64f1f3e89ad1cb57976ff0ad99a107012ba3481d",
+                      "4fc55c43bf3d3dc2efb66145365ddc17639ce81e"])
 
             changesets = instance.latest_changesets(
-              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89', 1
+              "latin-1-dir/test-#{char1_hex}-2.txt", "64f1f3e89", 1
             )
             expect(changesets.map(&:revision))
-              .to eq(['64f1f3e89ad1cb57976ff0ad99a107012ba3481d'])
+              .to eq(["64f1f3e89ad1cb57976ff0ad99a107012ba3481d"])
           end
         end
       end
 
-      it_behaves_like 'is a countable repository' do
+      it_behaves_like "is a countable repository" do
         let(:repository) { instance }
       end
     end
   end
 
-  it_behaves_like 'repository can be relocated', :git
+  it_behaves_like "repository can be relocated", :git
 end

@@ -18,6 +18,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { isInsideCollapsedGroup } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { firstValueFrom } from 'rxjs';
 
 export class DragAndDropTransformer {
   @InjectField() private readonly states:States;
@@ -76,12 +77,13 @@ export class DragAndDropTransformer {
         const workPackage = this.states.workPackages.get(wpId).value;
         return !!workPackage && this.actionService.canPickup(workPackage);
       },
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onMoved: async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
         const wpId:string = el.dataset.workPackageId!;
         let rowIndex;
 
         try {
-          const workPackage = await this.apiV3Service.work_packages.id(wpId).get().toPromise();
+          const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
 
           if (isInsideCollapsedGroup(sibling)) {
             const collapsedGroupCSSClass = Array.from(sibling!.classList).find((listClass) => listClass.includes(collapsedGroupClass()))!;
@@ -120,7 +122,7 @@ export class DragAndDropTransformer {
       },
       onAdded: async (el:HTMLElement) => {
         const wpId:string = el.dataset.workPackageId!;
-        const workPackage = await this.apiV3Service.work_packages.id(wpId).get().toPromise();
+        const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
         const rowIndex = this.findRowIndex(el);
 
         return this.actionService
@@ -134,10 +136,11 @@ export class DragAndDropTransformer {
           })
           .catch(() => false);
       },
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onCloned: async (clone:HTMLElement, original:HTMLElement) => {
         // Replace clone with one TD of the subject
         const wpId:string = original.dataset.workPackageId!;
-        const workPackage = await this.apiV3Service.work_packages.id(wpId).get().toPromise();
+        const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
 
         const colspan = clone.children.length;
         const td = document.createElement('td');
@@ -169,7 +172,7 @@ export class DragAndDropTransformer {
 
     const mappedOrder = await Promise.all(
       order.map(
-        (wpId) => this.apiV3Service.work_packages.id(wpId).get().toPromise(),
+        (wpId) => firstValueFrom(this.apiV3Service.work_packages.id(wpId).get()),
       ),
     );
 

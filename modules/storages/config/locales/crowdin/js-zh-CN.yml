@@ -1,0 +1,83 @@
+#English strings go here
+zh-CN:
+  js:
+    storages:
+      link_files_in_storage: "链接 %{storageType} 中的文件"
+      link_existing_files: "链接已有文件"
+      upload_files: "上传文件"
+      drop_files: "将文件放置到此处以上传 %{name}"
+      drop_or_click_files: "将文件拖到此处或单击以将其上传到 %{name}。"
+      login: "%{storageType} 登录"
+      login_to: "登录 %{storageType}"
+      no_connection: "无 %{storageType} 连接"
+      open_storage: "打开 %{storageType}"
+      select_location: "选择位置"
+      choose_location: "选择地点"
+      types:
+        nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
+        default: "存储"
+      information:
+        connection_error: >
+          某些 %{storageType} 设置不起作用。请联系您的 %{storageType} 管理员。
+        live_data_error: "获取文件详情时出错"
+        live_data_error_description: >
+          无法获取某些 %{storageType} 数据。请尝试重新加载此页面，或者联系您的 %{storageType} 管理员。
+        no_file_links: "要将文件链接到此工作包，请通过 %{storageType} 执行此操作。"
+        not_logged_in: >
+          要添加链接、查看或上传与此工作包相关的文件，请登录 %{storageType}。
+      files:
+        already_existing_header: "此文件已存在"
+        already_existing_body: >
+          名称为“%{fileName}”的文件在您要将此文件上传到的位置已经存在。您要执行什么操作？
+        directory_not_writeable: "您无权将文件添加到此文件夹。"
+        dragging_many_files: "上传到 %{storageType} 的每次仅支持一个文件。"
+        dragging_folder: "上传到 %{storageType} 不支持文件夹。"
+        empty_folder: "此文件夹为空。"
+        empty_folder_location_hint: "点击下方按钮以上传文件到此位置。"
+        file_not_selectable_location: "选择位置过程中无法选中文件。"
+        project_folder_no_access: >
+          您没有访问项目文件夹的权限。请联系您的管理员访问或上传文件到另一个位置。
+        managed_project_folder_not_available: >
+          尚未找到自动托管的项目文件夹。请稍等片刻，重新加载页面以获取最新数据，然后重试。
+        managed_project_folder_no_access: >
+          您目前还无法访问托管项目文件夹。请稍等片刻，然后重试。
+        upload_keep_both: "保留两者"
+        upload_replace: "替换"
+      file_links:
+        empty: >
+          当前的工作包没有链接的文件。请用下面操作或在%{storageType}内开始链接文件。
+        download: "下载 %{fileName}"
+        open: "在存储上打开文件"
+        open_location: "在位置打开文件"
+        remove: "移除文件链接"
+        remove_confirmation: >
+          确定要取消文件与此工作包的链接吗？取消链接不会影响原始文件，只会移除与此工作包的关联。
+        remove_short: "移除链接"
+        select: "选择文件"
+        select_all: "全选"
+        selection:
+          zero: "选择文件以链接"
+          other: "链接 %{count} 个文件"
+        success_create:
+          other: "您成功地创建了 %{count} 个文件链接。"
+        upload_error:
+          default: >
+            您的文件 (%{fileName}) 无法被上传。
+          403: >
+            由于系统限制，无法上传您的文件 (%{fileName})。请联系您的管理员了解更多信息。
+          413: >
+            您的文件 (%{fileName}) 超出 OpenProject 可以上传到 %{storageType} 的文件大小。您可以先将其直接上传到 %{storageType}，然后再链接该文件。
+          507: >
+            您的文件 (%{fileName}) 已超出存储配额允许的范围。请联系您的管理员修改此配额。
+          detail:
+            nextcloud: >
+              请检查是否安装了最新版本的 Nextcloud 应用程序 "OpenProject Integration"，如需更多信息，请联系您的管理员。
+        link_uploaded_file_error: >
+          在链接最近上传的文件 '%{fileName}' 到工作包 %{workPackageId} 时出现错误。
+        tooltip:
+          not_logged_in: "请登录到存储区来访问此文件。"
+          view_not_allowed: "您无权查看此文件。"
+          not_found: "找不到此文件。"
+        already_linked_file: "此文件已链接到该工作包。"
+        already_linked_directory: "此目录已连接到该工作包。"

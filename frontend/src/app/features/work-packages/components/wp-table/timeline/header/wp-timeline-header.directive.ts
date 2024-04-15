@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -164,7 +164,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     });
 
     this.renderTimeSlices(vp, 'quarter', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = this.I18n.t('js.timelines.quarter_label',
+      cell.innerHTML = this.I18n.t('js.gantt_chart.quarter_label',
         { quarter_number: start.format('Q') });
       cell.classList.add('-top-border');
       cell.style.height = '30px';
@@ -183,7 +183,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     });
 
     this.renderTimeSlices(vp, 'quarter', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = this.I18n.t('js.timelines.quarter_label',
+      cell.innerHTML = this.I18n.t('js.gantt_chart.quarter_label',
         { quarter_number: start.format('Q') });
       cell.classList.add('-top-border');
       cell.style.height = '30px';

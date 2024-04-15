@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "members_menu",
+                    src: project_members_menu_path(@project, params.permit(*Members::UserFilterComponent.filter_param_keys)),
+                    target: '_top',
+                    data: { turbo: false },
+                    loading: :lazy %>

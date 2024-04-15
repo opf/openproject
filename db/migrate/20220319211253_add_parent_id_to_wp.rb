@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -111,7 +111,6 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
 
   def add_closure_tree_table
     # Copied from closure tree migration
-    # rubocop:disable Rails/CreateTableWithTimestamps
     create_table :work_package_hierarchies, id: false do |t|
       t.integer :ancestor_id, null: false
       t.integer :descendant_id, null: false
@@ -125,7 +124,6 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
     add_index :work_package_hierarchies, [:descendant_id],
               name: "work_package_desc_idx"
     # End copied from closure tree migration
-    # rubocop:enable Rails/CreateTableWithTimestamps
   end
 
   # Creates the actual closure tree data.
@@ -249,7 +247,7 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
   end
 
   def build_typed_dag
-    require_relative '20180105130053_rebuild_dag'
+    require_relative "20180105130053_rebuild_dag"
 
     ::RebuildDag.new.up
   end
@@ -267,7 +265,7 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
 
   # rubocop:disable Rails/ApplicationRecord
   class ClosureTreeWorkPackage < ActiveRecord::Base
-    self.table_name = 'work_packages'
+    self.table_name = "work_packages"
 
     has_closure_tree
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Notifications::Scopes::Visible, type: :model do
-  describe '.visible' do
-    subject(:scope) { ::Notification.visible(user) }
+RSpec.describe Notifications::Scopes::Visible do
+  describe ".visible" do
+    subject(:scope) { Notification.visible(user) }
 
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: permissions)
+             member_with_permissions: { project => permissions })
     end
 
     let(:notification) do
@@ -51,30 +50,30 @@ describe Notifications::Scopes::Visible, type: :model do
 
     let!(:notifications) { notification }
 
-    shared_examples_for 'is empty' do
-      it 'is empty' do
+    shared_examples_for "is empty" do
+      it "is empty" do
         expect(scope)
           .to be_empty
       end
     end
 
-    context 'with the user being recipient and being allowed to see the work package' do
-      it 'returns the notification' do
+    context "with the user being recipient and being allowed to see the work package" do
+      it "returns the notification" do
         expect(scope)
-          .to match_array([notification])
+          .to contain_exactly(notification)
       end
     end
 
-    context 'with the user being recipient and not being allowed to see the work package' do
+    context "with the user being recipient and not being allowed to see the work package" do
       let(:permissions) { [] }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
-    context 'with the user not being recipient but being allowed to see the work package' do
+    context "with the user not being recipient but being allowed to see the work package" do
       let(:notification_recipient) { create(:user) }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
   end
 end

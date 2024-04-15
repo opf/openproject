@@ -9,18 +9,26 @@
 files: [
   {
     "source": "/config/locales/en.yml",
-    "translation": "/config/locales/crowdin/%two_letters_code%.yml",
+    "translation": "/config/locales/crowdin/%two_letters_code%.yml"
   },
   {
     "source": "/config/locales/js-en.yml",
-    "translation": "/config/locales/crowdin/js-%two_letters_code%.yml",
+    "translation": "/config/locales/crowdin/js-%two_letters_code%.yml"
+  },
+  {
+    "source": "/config/locales/en.seeders.yml",
+    "translation": "/config/locales/crowdin/%two_letters_code%.seeders.yml"
   },
   {
     "source": "/modules/**/config/locales/en.yml",
-    "translation": "/modules/**/config/locales/crowdin/%two_letters_code%.yml",
+    "translation": "/modules/**/config/locales/crowdin/%two_letters_code%.yml"
   },
   {
     "source": "/modules/**/config/locales/js-en.yml",
-    "translation": "/modules/**/config/locales/crowdin/js-%two_letters_code%.yml",
+    "translation": "/modules/**/config/locales/crowdin/js-%two_letters_code%.yml"
+  },
+  {
+    "source": "/modules/**/config/locales/en.seeders.yml",
+    "translation": "/modules/**/config/locales/crowdin/%two_letters_code%.seeders.yml"
   },
 ]

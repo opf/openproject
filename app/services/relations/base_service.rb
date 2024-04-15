@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Relations::BaseService < ::BaseServices::BaseCallable
+class Relations::BaseService < BaseServices::BaseCallable
   include Contracted
   include Shared::ServiceContext
 
@@ -42,9 +42,8 @@ class Relations::BaseService < ::BaseServices::BaseCallable
     model.attributes = model.attributes.merge attributes
 
     success, errors = validate_and_save(model, user)
-    success, errors = retry_with_inverse_for_relates(model, errors) unless success
 
-    result = ServiceResult.new success: success, errors: errors, result: model
+    result = ServiceResult.new success:, errors:, result: model
 
     if success && model.follows?
       reschedule_result = reschedule(model)
@@ -56,9 +55,9 @@ class Relations::BaseService < ::BaseServices::BaseCallable
 
   def set_defaults(model)
     if Relation::TYPE_FOLLOWS == model.relation_type
-      model.delay ||= 0
+      model.lag ||= 0
     else
-      model.delay = nil
+      model.lag = nil
     end
   end
 
@@ -76,16 +75,5 @@ class Relations::BaseService < ::BaseServices::BaseCallable
     schedule_result.success = save_result
 
     schedule_result
-  end
-
-  def retry_with_inverse_for_relates(model, errors)
-    if errors.symbols_for(:base).include?(:'typed_dag.circular_dependency') &&
-       model.canonical_type == Relation::TYPE_RELATES
-      model.from, model.to = model.to, model.from
-
-      validate_and_save(model, user)
-    else
-      [false, errors]
-    end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,20 +56,20 @@ module Storages::Peripherals
     def assert_elements_is_present
       return if elements.present?
 
-      raise API::Errors::PropertyMissingError.new('_embedded/elements')
+      raise API::Errors::PropertyMissingError.new("_embedded/elements")
     end
 
     def assert_elements_is_an_array
       return if elements.is_a?(Array)
 
-      raise API::Errors::PropertyFormatError.new('_embedded/elements', 'Array', elements.class.name)
+      raise API::Errors::PropertyFormatError.new("_embedded/elements", "Array", elements.class.name)
     end
 
     def assert_elements_does_not_exceed_maximum
       return if elements.size <= MAX_ELEMENTS
 
-      raise API::Errors::Validation.new('_embedded/elements',
-                                        I18n.t('api_v3.errors.too_many_elements_created_at_once',
+      raise API::Errors::Validation.new("_embedded/elements",
+                                        I18n.t("api_v3.errors.too_many_elements_created_at_once",
                                                max: MAX_ELEMENTS, actual: elements.size))
     end
   end

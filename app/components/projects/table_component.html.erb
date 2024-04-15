@@ -1,0 +1,104 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<div class="generic-table--flex-container">
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
+        <colgroup>
+          <% columns.each do |column| %>
+            <col <%= "opHighlightCol" unless column.attribute == :hierarchy %> >
+          <% end %>
+          <col opHighlightCol>
+        </colgroup>
+        <thead class="-sticky">
+        <tr>
+          <% columns.each do |column| %>
+            <% if column.attribute == :hierarchy %>
+              <th id="project-table--hierarchy-header">
+                <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
+                  <div class="generic-table--sort-header"
+                       data-controller="params-from-query"
+                       data-application-target="dynamic"
+                       data-params-from-query-all-anchors-value="true"
+                       data-params-from-query-allowed-value='["query_id", "per_page", "filters", "columns"]'>
+                    <%= content_tag :a,
+                                    helpers.op_icon("icon-hierarchy"),
+                                    href: href_only_when_not_sort_lft,
+                                    class: "spot-link #{deactivate_class_on_lft_sort}",
+                                    title: t(:label_sort_by, value: %("#{t(:label_project_hierarchy)}")) %>
+                  </div>
+                </div>
+              </th>
+            <% elsif sortable_column?(column) %>
+              <%= build_sort_header column.attribute,
+                                    order_options(column) %>
+            <% else %>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= column.caption %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            <% end %>
+          <% end %>
+          <th class="-right">
+            <div class="generic-table--header-outer">
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if rows.empty? %>
+          <tr class="generic-table--empty-row">
+            <td colspan="<%= headers.length + 1 %>"><%= empty_row_message %></td>
+          </tr>
+        <% end %>
+        <%= render_collection rows %>
+        </tbody>
+      </table>
+      <% if inline_create_link && show_inline_create %>
+        <div class="wp-inline-create-button">
+          <%= inline_create_link %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% if paginated? %>
+    <div data-controller="params-from-query"
+         data-application-target="dynamic"
+         data-params-from-query-all-anchors-value="true"
+         data-params-from-query-allowed-value='["query_id", "columns"]'>
+      <%= helpers.pagination_links_full model, { blocked_url_params: [:query_id, :columns] } %>
+    </div>
+  <% end %>
+</div>

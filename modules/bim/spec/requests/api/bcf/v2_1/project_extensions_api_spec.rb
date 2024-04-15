@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-require_relative './shared_responses'
+require_relative "shared_responses"
 
-describe 'BCF 2.1 project extensions resource', type: :request, content_type: :json do
+RSpec.describe "BCF 2.1 project extensions resource", content_type: :json do
   include Rack::Test::Methods
-  shared_let(:type_task) { create :type_task }
-  shared_let(:status) { create :default_status }
-  shared_let(:priority) { create :default_priority }
+  shared_let(:type_task) { create(:type_task) }
+  shared_let(:status) { create(:default_status) }
+  shared_let(:priority) { create(:default_priority) }
   shared_let(:project) { create(:project, enabled_module_names: [:bim], types: [type_task]) }
   subject(:response) { last_response }
 
   let(:path) { "/api/bcf/2.1/projects/#{project.id}/extensions" }
 
-  context 'with only view_project permissions' do
+  context "with only view_project permissions" do
     let(:current_user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: [:view_project])
+             member_with_permissions: { project => [:view_project] })
     end
 
     before do
@@ -53,7 +52,7 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
       get path
     end
 
-    it_behaves_like 'bcf api successful response' do
+    it_behaves_like "bcf api successful response" do
       let(:expected_body) do
         {
           topic_type: [],
@@ -71,17 +70,15 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
     end
   end
 
-  context 'with edit permissions in project' do
+  context "with edit permissions in project" do
     let(:current_user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[view_project edit_project manage_bcf view_members work_package_assigned])
+             member_with_permissions: { project => %i[view_project edit_project manage_bcf view_members work_package_assigned] })
     end
 
     let(:other_user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i[view_project work_package_assigned])
+             member_with_permissions: { project => %i[view_project work_package_assigned] })
     end
 
     before do
@@ -90,7 +87,7 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
       get path
     end
 
-    it_behaves_like 'bcf api successful response expectation' do
+    it_behaves_like "bcf api successful response expectation" do
       let(:expectations) do
         ->(body) {
           hash = JSON.parse(body)
@@ -100,15 +97,15 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
             stage snippet_type priority topic_label
           ]
 
-          expect(hash['topic_type']).to include type_task.name
-          expect(hash['topic_status']).to include status.name
+          expect(hash["topic_type"]).to include type_task.name
+          expect(hash["topic_status"]).to include status.name
 
-          expect(hash['user_id_type']).to include(other_user.mail, current_user.mail)
+          expect(hash["user_id_type"]).to include(other_user.mail, current_user.mail)
 
-          expect(hash['project_actions']).to eq %w[update viewTopic createTopic]
+          expect(hash["project_actions"]).to eq %w[update viewTopic createTopic]
 
-          expect(hash['topic_actions']).to eq %w[update updateRelatedTopics updateFiles createViewpoint]
-          expect(hash['comment_actions']).to eq []
+          expect(hash["topic_actions"]).to eq %w[update updateRelatedTopics updateFiles createViewpoint]
+          expect(hash["comment_actions"]).to eq []
         }
       end
     end

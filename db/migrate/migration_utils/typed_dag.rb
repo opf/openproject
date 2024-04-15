@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'typed_dag'
+require "typed_dag"
 
 module Migration
   module MigrationUtils
     module TypedDag
       # rubocop:disable Rails/ApplicationRecord
       class WorkPackage < ActiveRecord::Base
-        self.table_name = 'work_packages'
+        self.table_name = "work_packages"
       end
 
       class Relation < ActiveRecord::Base
-        self.table_name = 'relations'
+        self.table_name = "relations"
       end
       # rubocop:enable Rails/ApplicationRecord
 
       def self.configure
-        ::TypedDag::Configuration.set node_class_name: 'Migration::MigrationUtils::TypedDag::WorkPackage',
-                                      edge_class_name: 'Migration::MigrationUtils::TypedDag::Relation',
-                                      ancestor_column: 'from_id',
-                                      descendant_column: 'to_id',
+        ::TypedDag::Configuration.set node_class_name: "Migration::MigrationUtils::TypedDag::WorkPackage",
+                                      edge_class_name: "Migration::MigrationUtils::TypedDag::Relation",
+                                      ancestor_column: "from_id",
+                                      descendant_column: "to_id",
                                       types: {
                                         hierarchy: { from: { name: :parent, limit: 1 },
                                                      to: :children,

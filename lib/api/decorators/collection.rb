@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ module API
       def deduce_element_decorator
         name = self.class.name
 
-        unless name.end_with?('CollectionRepresenter')
+        unless name.end_with?("CollectionRepresenter")
           raise ArgumentError, "Can't deduce representer name from #{name}, please specify it with `element_decorator ClassName`"
         end
 
@@ -82,7 +82,7 @@ module API
                  embedded: true
 
       def _type
-        'Collection'
+        "Collection"
       end
 
       attr_reader :groups

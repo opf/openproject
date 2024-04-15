@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -324,7 +324,7 @@ Reporting.Filters = function($){
       .on("change", function (evt) {
         var filter_name = $(this).attr("data-filter-name");
         Reporting.Filters.operator_changed(filter_name, $(this));
-        const argVal =$('#' + filter_name + "_arg_1_val")[0]; 
+        const argVal = $('#' + filter_name + "_arg_1_val")[0];
         if (argVal) {
           Reporting.fireEvent(argVal, "change");
         }
@@ -340,7 +340,11 @@ Reporting.Filters = function($){
       var select = $(this);
       var select_value = select.val();
 
-      select.attr('multiple', select_value && select_value.length > 1);
+      // Don't try to set multiple on the autocompleters, it is already multi-select
+      // and will trigger weird change detection cycles
+      if (this.tagName.toLowerCase() !== 'opce-project-autocompleter') {
+        select.attr('multiple', select_value && select_value.length > 1);
+      }
 
       select.on("change", function (evt) {
         var filter_name = $(this).closest('li').attr("data-filter-name");

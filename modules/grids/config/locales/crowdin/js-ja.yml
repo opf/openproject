@@ -8,6 +8,7 @@ ja:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'カスタムテキスト'
         documents:
@@ -31,13 +32,13 @@ ja:
           no_results: 'プロジェクトにカスタムフィールドが定義されていません。'
         project_status:
           title: 'プロジェクトの進捗状況'
-          not_started: 'Not started'
+          not_started: '未着手'
           on_track: '順調'
           off_track: '脱線'
           at_risk: 'リスクあり'
           not_set: '未設定'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: '完了しました'
+          discontinued: '中止'
         subprojects:
           title: '子プロジェクト'
           no_results: '子プロジェクトはありません。'

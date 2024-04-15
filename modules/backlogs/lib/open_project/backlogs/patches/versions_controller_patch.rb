@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
           # (column=left|right|none) can be stored when current project does not
           # equal the version project (which is valid in inherited versions)
           if permitted_params.version.present? && permitted_params.version[:version_settings_attributes].present?
-            params['version'] = { version_settings_attributes: permitted_params.version[:version_settings_attributes] }
+            params["version"] = { version_settings_attributes: permitted_params.version[:version_settings_attributes] }
           else
             # This is an unfortunate hack giving how plugins work at the moment.
             # In this else branch we want the `version` to be an empty hash.
@@ -68,9 +68,9 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
       # This forces the current project for the nested version settings in order
       # to prevent it from being set through firebug etc. #mass_assignment
       def add_project_to_version_settings_attributes
-        if permitted_params.version['version_settings_attributes'].present?
-          params['version']['version_settings_attributes'].each do |attr_hash|
-            attr_hash['project_id'] = @project.id
+        if permitted_params.version["version_settings_attributes"].present?
+          params["version"]["version_settings_attributes"].each do |attr_hash|
+            attr_hash["project_id"] = @project.id
           end
         end
       end

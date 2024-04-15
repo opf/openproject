@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,9 @@ module API
     module TimeEntries
       class AvailableProjectsAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_any %i[log_time edit_time_entries edit_own_time_entries],
-                        global: true
+          authorize_in_any_work_package(:edit_own_time_entries) do
+            authorize_in_any_project(%i[log_time edit_time_entries])
+          end
         end
 
         resources :available_projects do
@@ -40,10 +41,10 @@ module API
                  .new(model: Project,
                       scope: -> {
                         Project
-                          .where(id: Project.allowed_to(User.current, :log_own_time))
+                          .where(id: WorkPackage.allowed_to(User.current, :log_own_time).select(:project_id))
                           .or(Project.where(id: Project.allowed_to(User.current, :log_time)))
                           .or(Project.where(id: Project.allowed_to(User.current, :edit_time_entries)))
-                          .or(Project.where(id: Project.allowed_to(User.current, :edit_own_time_entries)))
+                          .or(Project.where(id: WorkPackage.allowed_to(User.current, :edit_own_time_entries).select(:project_id)))
                       })
                  .mount
         end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-describe CustomFields::CreateContract do
-  include_context 'ModelContract shared context'
+RSpec.describe CustomFields::CreateContract do
+  include_context "ModelContract shared context"
 
-  let(:cf) { build :project_custom_field }
+  let(:cf) { build_stubbed(:project_custom_field) }
   let(:contract) do
     described_class.new(cf, current_user, options: {})
   end
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 end

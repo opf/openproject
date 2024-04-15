@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,53 +54,53 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe OpenProject::ContentTypeDetector do
-  it 'gives a sensible default when the name is empty' do
-    assert_equal 'application/binary', OpenProject::ContentTypeDetector.new('').detect
+RSpec.describe OpenProject::ContentTypeDetector do
+  it "gives a sensible default when the name is empty" do
+    expect(OpenProject::ContentTypeDetector.new("").detect).to eq("application/binary")
   end
 
-  it 'returns the empty content type when the file is empty' do
-    tempfile = Tempfile.new('empty')
-    assert_equal 'inode/x-empty', OpenProject::ContentTypeDetector.new(tempfile.path).detect
+  it "returns the empty content type when the file is empty" do
+    tempfile = Tempfile.new("empty")
+    expect(OpenProject::ContentTypeDetector.new(tempfile.path).detect).to eq("inode/x-empty")
     tempfile.close
   end
 
-  it 'returns content type of file if it is an acceptable type' do
-    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'),
-                                                         MIME::Type.new('audio/mp4')])
-    allow(::Open3).to receive(:capture2).and_return(['video/mp4', 0])
-    @filename = 'my_file.mp4'
-    assert_equal 'video/mp4', OpenProject::ContentTypeDetector.new(@filename).detect
+  it "returns content type of file if it is an acceptable type" do
+    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new("application/mp4"), MIME::Type.new("video/mp4"),
+                                                         MIME::Type.new("audio/mp4")])
+    allow(Open3).to receive(:capture2).and_return(["video/mp4", 0])
+    @filename = "my_file.mp4"
+    expect(OpenProject::ContentTypeDetector.new(@filename).detect).to eq("video/mp4")
   end
 
-  it 'returns the default when exitcode > 0' do
-    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'),
-                                                         MIME::Type.new('audio/mp4')])
-    allow(::Open3).to receive(:capture2).and_return(['', 1])
-    @filename = 'my_file.mp4'
-    assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
+  it "returns the default when exitcode > 0" do
+    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new("application/mp4"), MIME::Type.new("video/mp4"),
+                                                         MIME::Type.new("audio/mp4")])
+    allow(Open3).to receive(:capture2).and_return(["", 1])
+    @filename = "my_file.mp4"
+    expect(OpenProject::ContentTypeDetector.new(@filename).detect).to eq("application/binary")
   end
 
-  it 'finds the right type in the list via the file command' do
+  it "finds the right type in the list via the file command" do
     @filename = "#{Dir.tmpdir}/something.hahalolnotreal"
-    File.open(@filename, 'w+') do |file|
-      file.puts 'This is a text file.'
+    File.open(@filename, "w+") do |file|
+      file.puts "This is a text file."
       file.rewind
-      assert_equal 'text/plain', OpenProject::ContentTypeDetector.new(file.path).detect
+      expect(OpenProject::ContentTypeDetector.new(file.path).detect).to eq("text/plain")
     end
     FileUtils.rm @filename
   end
 
-  it 'returns a sensible default if something is wrong, like the file is gone' do
-    @filename = '/path/to/nothing'
-    assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
+  it "returns a sensible default if something is wrong, like the file is gone" do
+    @filename = "/path/to/nothing"
+    expect(OpenProject::ContentTypeDetector.new(@filename).detect).to eq("application/binary")
   end
 
-  it 'returns a sensible default when the file command is missing' do
-    allow(::Open3).to receive(:capture2).and_raise 'o noes!'
-    @filename = '/path/to/something'
-    assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
+  it "returns a sensible default when the file command is missing" do
+    allow(Open3).to receive(:capture2).and_raise "o noes!"
+    @filename = "/path/to/something"
+    expect(OpenProject::ContentTypeDetector.new(@filename).detect).to eq("application/binary")
   end
 end

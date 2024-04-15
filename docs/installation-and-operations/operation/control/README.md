@@ -14,7 +14,7 @@ sidebar_navigation:
 
 #### Restart all the OpenProject processes
 
-```bash
+```shell
 sudo openproject restart
 ```
 
@@ -26,13 +26,13 @@ The OpenProject command line tool supports running rake tasks and known scripts.
 
 Get the current version of OpenProject
 
-```bash
+```shell
 sudo openproject run bundle exec rake version
 ```
 
 Launch an interactive console to directly interact with the underlying Ruby on Rails application:
 
-```bash
+```shell
 sudo openproject run console
 # if user the docker all-in-one container: docker exec -it openproject bundle exec rails console
 # if using docker-compose: docker-compose run --rm web bundle exec rails console
@@ -40,7 +40,7 @@ sudo openproject run console
 
 Manually launch the database migrations:
 
-```bash
+```shell
 sudo openproject run rake db:migrate
 # if user the docker all-in-one container: docker exec -it openproject bundle exec rake db:migrate
 # if using docker-compose: docker-compose run --rm web bundle exec rake db:migrate
@@ -48,7 +48,7 @@ sudo openproject run rake db:migrate
 
 Check the version of Ruby used by OpenProject:
 
-```bash
+```shell
 sudo openproject run ruby -v
 # if user the docker all-in-one container: docker exec -it openproject ruby -v
 # if using docker-compose: docker-compose run --rm web ruby -v
@@ -62,13 +62,13 @@ Note: Depending on your free RAM on your system, we recommend you raise the defa
 
 We recommend at least 4 web processes. Please check your current web processes count with:
 
-```bash
+```shell
 sudo openproject config:get OPENPROJECT_WEB_WORKERS
 ```
 
 If it returns nothing, the default process count of `4` applies. To increase or decrease the process count, call
 
-```bash
+```shell
 sudo openproject config:set OPENPROJECT_WEB_WORKERS=number
 ```
 
@@ -76,7 +76,7 @@ Where `number` is a positive number between 1 and `round(AVAILABLE_RAM * 1.5)`.
 
 After changing these values, simply restart the web process:
 
-```bash
+```shell
 sudo openproject restart web
 ```
 
@@ -89,7 +89,7 @@ We recommend to have two background worker processes. Please check your current 
 
 To set the desired process count, call
 
-```bash
+```shell
 sudo openproject scale worker=number
 ```
 
@@ -107,7 +107,7 @@ You can spawn an interactive shell in your docker container to run commands in t
 
 First, find out the container ID of your web process with: 
 
-```bash
+```shell
 # Ensure the containers are running with the following output
 docker ps | grep web_1
 
@@ -121,19 +121,19 @@ We can now run commands against that container
 
 Run a bash shell in the container
 
-```bash
+```shell
 docker exec -it $CID bash
 ```
 
 Get the current version of OpenProject
 
-```bash
+```shell
 docker exec -it $CID bash -c "RAILS_ENV=production bundle exec rails version"
 ```
 
 In case of using kubernetes, the command is a bit different
 
-```bash
+```shell
 kubectl exec -it {POD_ID} -- bash -c "RAILS_ENV=production bundle exec rails console"
 ```
 
@@ -141,9 +141,11 @@ kubectl exec -it {POD_ID} -- bash -c "RAILS_ENV=production bundle exec rails con
 
 Launch an interactive console to directly interact with the underlying Ruby on Rails application:
 
-```bash
+```shell
 docker exec -it $CID bash -c "RAILS_ENV=production bundle exec rails console"
 ```
+
+
 
 ## docker-compose based installation
 
@@ -154,6 +156,35 @@ You can spawn an interactive shell in your docker-compose setup container to run
 
 The following command will spawn a Rails console in the container:
 
-```bash
+```shell
 docker-compose run web bash -c "RAILS_ENV=production bundle exec rails console"
 ```
+
+
+
+## Kubernetes and Helm-Charts
+
+For Kubernetes installations, you can use `kubectl` to access pods and get information about them. For example, to get a shell in one of the worker pods, you would have to do the following.
+
+First, get the pod name of the worker. Assuming your kubectl cluster has OpenProject installed at the `openproject` namespace:
+
+```
+kubectl get pods -n openproject	
+```
+
+
+
+Then spawn a shell in the relevant one
+
+```
+kubectl exec -n openproject -it pods/openproject-worker-656c77d594-xjdck -- bash
+```
+
+
+
+This spawns a bash console. In there, you could for example run a rails console like follows:
+
+```
+bundle exec rails console
+```
+

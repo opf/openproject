@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,9 +51,9 @@ class SecureContextUriValidator < ActiveModel::EachValidator
   end
 
   def self.secure_context_uri?(uri)
-    return true if uri.scheme == 'https' # https is always safe
-    return true if uri.host == 'localhost' # Simple localhost
-    return true if uri.host =~ /\.localhost\.?$/ # i.e. 'foo.localhost' or 'foo.localhost.'
+    return true if uri.scheme == "https" # https is always safe
+    return true if uri.host == "localhost" # Simple localhost
+    return true if /\.localhost\.?$/.match?(uri.host) # i.e. 'foo.localhost' or 'foo.localhost.'
 
     # Check for loopback interface. The constructor can throw an exception for non IP addresses.
     # Those are invalid. And if the host is an IP address then we can check if it is loopback.

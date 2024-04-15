@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,52 +37,60 @@ module Components
         open_table_column_context_menu(name)
 
         within_column_context_menu do
-          click_button('Group by')
+          click_button("Group by")
         end
       end
 
-      def enable_via_menu(name)
-        modal = TableConfigurationModal.new
+      def enable
+        set_display_mode("grouped")
+      end
 
-        modal.open_and_set_display_mode 'grouped'
-        select name, from: 'selected_grouping'
-        modal.save
+      def enable_via_menu(name)
+        set_display_mode("grouped") do
+          select name, from: "selected_grouping"
+        end
       end
 
       def disable_via_menu
-        modal = TableConfigurationModal.new
-        modal.open_and_set_display_mode 'default'
-        modal.save
+        set_display_mode("default")
       end
 
       def expect_number_of_groups(count)
-        expect(page).to have_selector('[data-qa-selector="op-group--value"] .count', count:)
+        expect(page).to have_css('[data-test-selector="op-group--value"] .count', count:)
       end
 
       def expect_grouped_by_value(value_name, count)
-        expect(page).to have_selector('[data-qa-selector="op-group--value"]', text: "#{value_name} (#{count})")
+        expect(page).to have_css('[data-test-selector="op-group--value"]', text: "#{value_name} (#{count})")
       end
 
       def expect_no_groups
-        expect(page).to have_no_selector('[data-qa-selector="op-group--value"]')
+        expect(page).to have_no_css('[data-test-selector="op-group--value"]')
       end
 
       def expect_not_grouped_by(name)
         open_table_column_context_menu(name)
 
         within_column_context_menu do
-          expect(page).to have_content('Group by')
+          expect(page).to have_content("Group by")
         end
       end
 
       private
+
+      def set_display_mode(mode)
+        modal = TableConfigurationModal.new
+
+        modal.open_and_set_display_mode mode
+        yield if block_given?
+        modal.save
+      end
 
       def open_table_column_context_menu(name)
         page.find(".generic-table--sort-header ##{name.downcase}").click
       end
 
       def within_column_context_menu(&)
-        page.within('#column-context-menu', &)
+        page.within("#column-context-menu", &)
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,7 +70,7 @@ class CategoriesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to project_settings_categories_path(@project)
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
@@ -82,7 +82,7 @@ class CategoriesController < ApplicationController
       redirect_to project_settings_categories_path(@project)
       return
     elsif params[:todo]
-      reassign_to = @project.categories.find_by(id: params[:reassign_to_id]) if params[:todo] == 'reassign'
+      reassign_to = @project.categories.find_by(id: params[:reassign_to_id]) if params[:todo] == "reassign"
       @category.destroy(reassign_to)
       redirect_to project_settings_categories_path(@project)
       return

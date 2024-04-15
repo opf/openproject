@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,51 +26,51 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'WorkPackage-Visibility', type: :model do
-  shared_let(:admin) { create :admin }
+RSpec.describe "WorkPackage-Visibility" do
+  shared_let(:admin) { create(:admin) }
   let(:anonymous) { create(:anonymous) }
   let(:user) { create(:user) }
   let(:public_project) { create(:project, public: true) }
   let(:private_project) { create(:project, public: false) }
   let(:other_project) { create(:project, public: true) }
-  let(:view_work_packages) { create(:role, permissions: [:view_work_packages]) }
-  let(:view_work_packages_role2) { create(:role, permissions: [:view_work_packages]) }
+  let(:view_work_packages) { create(:project_role, permissions: [:view_work_packages]) }
+  let(:view_work_packages_role2) { create(:project_role, permissions: [:view_work_packages]) }
 
-  describe 'of public projects' do
+  describe "of public projects" do
     subject { create(:work_package, project: public_project) }
 
-    it 'is viewable by anonymous, with the view_work_packages permission' do
+    it "is viewable by anonymous, with the view_work_packages permission" do
       # it is not really clear, where these kind of "preconditions" belong to: This setting
       # is a default in Redmine::DefaultData::Loader - but this not loaded in the tests: here we
       # just make sure, that the work package is visible, when this permission is set
-      Role.anonymous.add_permission! :view_work_packages
-      expect(WorkPackage.visible(anonymous)).to match_array [subject]
+      ProjectRole.anonymous.add_permission! :view_work_packages
+      expect(WorkPackage.visible(anonymous)).to contain_exactly(subject)
     end
   end
 
-  describe 'of private projects' do
+  describe "of private projects" do
     subject { create(:work_package, project: private_project) }
 
-    it 'is visible for the admin, even if the project is private' do
-      expect(WorkPackage.visible(admin)).to match_array [subject]
+    it "is visible for the admin, even if the project is private" do
+      expect(WorkPackage.visible(admin)).to contain_exactly(subject)
     end
 
-    it 'is not visible for anonymous users, when the project is private' do
-      expect(WorkPackage.visible(anonymous)).to match_array []
+    it "is not visible for anonymous users, when the project is private" do
+      expect(WorkPackage.visible(anonymous)).to be_empty
     end
 
-    it 'is visible for members of the project, with the view_work_packages permission' do
+    it "is visible for members of the project, with the view_work_packages permission" do
       create(:member,
              user:,
              project: private_project,
              role_ids: [view_work_packages.id])
 
-      expect(WorkPackage.visible(user)).to match_array [subject]
+      expect(WorkPackage.visible(user)).to contain_exactly(subject)
     end
 
-    it 'is only returned once for members with two roles having view_work_packages permission' do
+    it "is only returned once for members with two roles having view_work_packages permission" do
       subject
 
       create(:member,
@@ -79,21 +79,21 @@ describe 'WorkPackage-Visibility', type: :model do
              role_ids: [view_work_packages.id,
                         view_work_packages_role2.id])
 
-      expect(WorkPackage.visible(user).pluck(:id)).to match_array [subject.id]
+      expect(WorkPackage.visible(user).pluck(:id)).to contain_exactly(subject.id)
     end
 
-    it 'is not visible for non-members of the project without the view_work_packages permission' do
-      expect(WorkPackage.visible(user)).to match_array []
+    it "is not visible for non-members of the project without the view_work_packages permission" do
+      expect(WorkPackage.visible(user)).to be_empty
     end
 
-    it 'is not visible for members of the project, without the view_work_packages permission' do
-      no_permission = create(:role, permissions: [:no_permission])
+    it "is not visible for members of the project, without the view_work_packages permission" do
+      no_permission = create(:project_role, permissions: [:no_permission])
       create(:member,
              user:,
              project: private_project,
              role_ids: [no_permission.id])
 
-      expect(WorkPackage.visible(user)).to match_array []
+      expect(WorkPackage.visible(user)).to be_empty
     end
   end
 end

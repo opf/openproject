@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 nl:
+  plugin_openproject_recaptcha:
+    name: "OpenProject ReCaptcha"
+    description: "This module provides recaptcha checks during login."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Even geduld a.u.b.'
@@ -7,6 +10,8 @@ nl:
     error_captcha: "Uw account kon niet worden geverifieerd. Neem contact op met een beheerder."
     settings:
       website_key: 'Website sleutel'
+      response_limit: 'Antwoordlimiet voor HCaptcha'
+      response_limit_text: 'Het maximum aantal tekens om het HCaptcha antwoord als geldig te behandelen.'
       website_key_text: 'Vul de website sleutel in die je hebt gemaakt op de reCAPTCHA admin console voor dit domein.'
       secret_key: 'Geheime sleutel'
       secret_key_text: 'Voer de geheime sleutel in die u hebt aangemaakt op de reCAPTCHA admin console.'
@@ -14,5 +19,6 @@ nl:
       type_disabled: 'ReCAPTCHA uitschakelen'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
+      type_hcaptcha: 'HCaptcha'
       recaptcha_description_html: >
-        reCAPTCHA is een gratis dienst van Google die kan worden ingeschakeld voor uw OpenProject instantie. Indien ingeschakeld, zal een captcha formulier worden weergegeven bij het inloggen voor alle gebruikers die nog niet hebben geverifieerd. <br/> Zie de volgende link voor meer informatie over reCAPTCHA en de bijbehorende versies, en hoe de website en geheime sleutels te maken: %{recaptcha_link}
+        reCAPTCHA is een gratis dienst van Google die kan worden ingeschakeld voor uw OpenProject instantie. Indien ingeschakeld, zal een captcha formulier worden weergegeven bij het inloggen voor alle gebruikers die nog niet hebben geverifieerd. <br/> Zie de volgende link voor meer informatie over reCAPTCHA en de bijbehorende versies, en hoe de website en geheime sleutels te maken: %{recaptcha_link} <br/> HCaptcha is een alternatief dat u kunt gebruiken als u reCAPTCHA niet wilt gebruiken. Zie deze link voor meer informatie: %{hcaptcha_link}

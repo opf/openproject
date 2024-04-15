@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,16 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Views::ViewsAPI,
-         'show',
-         content_type: :json,
-         type: :request do
+RSpec.describe API::V3::Views::ViewsAPI,
+               "show",
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:permitted_user) { create(:user) }
-  shared_let(:role) { create(:role, permissions: %w[view_work_packages]) }
+  shared_let(:role) { create(:project_role, permissions: %w[view_work_packages]) }
   shared_let(:project) do
     create(:project,
            members: { permitted_user => role })
@@ -46,8 +45,8 @@ describe ::API::V3::Views::ViewsAPI,
            user: permitted_user)
   end
   shared_let(:view) do
-    create :view_work_packages_table,
-           query: private_user_query
+    create(:view_work_packages_table,
+           query: private_user_query)
   end
 
   let(:send_request) do
@@ -62,31 +61,30 @@ describe ::API::V3::Views::ViewsAPI,
     send_request
   end
 
-  context 'with a user allowed to see the query' do
-    it 'returns 200 OK' do
+  context "with a user allowed to see the query" do
+    it "returns 200 OK" do
       expect(response.status)
         .to eq(200)
     end
 
-    it 'returns the view' do
+    it "returns the view" do
       expect(response.body)
-        .to be_json_eql('Views::WorkPackagesTable'.to_json)
-              .at_path('_type')
+        .to be_json_eql("Views::WorkPackagesTable".to_json)
+              .at_path("_type")
 
       expect(response.body)
         .to be_json_eql(view.id.to_json)
-              .at_path('id')
+              .at_path("id")
     end
   end
 
-  context 'with a user not allowed to see the query' do
+  context "with a user not allowed to see the query" do
     current_user do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
-    it 'returns a 404 response' do
+    it "returns a 404 response" do
       expect(last_response.status).to eq(404)
     end
   end

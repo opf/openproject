@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,7 @@
 
 class Query < ApplicationRecord
   include Timelines
+  include Timestamps
   include Highlighting
   include ManualSorting
   include Queries::Filters::AvailableFilters
@@ -36,14 +37,17 @@ class Query < ApplicationRecord
   belongs_to :user
   has_many :views,
            dependent: :destroy
+  has_many :ical_token_query_assignments
+  has_many :ical_tokens,
+           through: :ical_token_query_assignments,
+           class_name: "Token::ICal"
+  # no `dependent: :destroy` as the ical_tokens are destroyed in the following before_destroy callback
+  # dependent: :destroy is not possible as this would only delete the ical_token_query_assignments
+  before_destroy :destroy_ical_tokens
 
-  serialize :filters, Queries::WorkPackages::FilterSerializer
-  serialize :column_names, Array
-  serialize :sort_criteria, Array
-
-  validates :name,
-            presence: true,
-            length: { maximum: 255 }
+  serialize :filters, coder: Queries::WorkPackages::FilterSerializer
+  serialize :column_names, type: Array
+  serialize :sort_criteria, type: Array
 
   validates :include_subprojects,
             inclusion: [true, false]
@@ -53,6 +57,7 @@ class Query < ApplicationRecord
   validate :validate_sort_criteria
   validate :validate_group_by
   validate :validate_show_hierarchies
+  validate :validate_timestamps
 
   include Scopes::Scoped
   scopes :visible,
@@ -98,7 +103,7 @@ class Query < ApplicationRecord
   def add_default_filter
     return if filters.present?
 
-    add_filter('status_id', 'o', [''])
+    add_filter("status_id", "o", [""])
   end
 
   def validate_work_package_filters
@@ -141,6 +146,13 @@ class Query < ApplicationRecord
     end
   end
 
+  def validate_timestamps
+    forbidden_timestamps = timestamps - allowed_timestamps
+    if forbidden_timestamps.any?
+      errors.add :timestamps, :forbidden, values: forbidden_timestamps.join(", ")
+    end
+  end
+
   def hidden
     views.empty?
   end
@@ -165,6 +177,7 @@ class Query < ApplicationRecord
     valid_group_by_subset!
     valid_sort_criteria_subset!
     valid_column_subset!
+    valid_timestamps_subset!
   end
 
   def add_filter(field, operator, values)
@@ -184,6 +197,14 @@ class Query < ApplicationRecord
     filter
   end
 
+  # Removes the filter with the given name
+  # from the query without persisting the change.
+  #
+  # @param [String] name the filter to remove
+  def remove_filter(name)
+    filters.delete_if { |f| f.field.to_s == name.to_s }
+  end
+
   def normalized_name
     name.parameterize.underscore
   end
@@ -200,7 +221,7 @@ class Query < ApplicationRecord
 
   def self.available_columns(project = nil)
     Queries::Register
-      .columns[self]
+      .selects[self]
       .map { |col| col.instances(project) }
       .flatten
   end
@@ -238,7 +259,7 @@ class Query < ApplicationRecord
       h
     end
 
-    { 'id' => "#{WorkPackage.table_name}.id" }
+    { "id" => "#{WorkPackage.table_name}.id" }
       .merge(column_sortability)
   end
 
@@ -250,14 +271,14 @@ class Query < ApplicationRecord
     column_list = if has_default_columns?
                     column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
                     # Adds the project column by default for cross-project lists
-                    column_list += [:project] if project.nil? && !column_list.include?(:project)
+                    column_list += [:project] if project.nil? && column_list.exclude?(:project)
                     column_list
                   else
                     column_names
                   end
 
     # preserve the order
-    column_list.map { |name| displayable_columns.find { |col| col.name == name.to_sym } }.compact
+    column_list.filter_map { |name| displayable_columns.find { |col| col.name == name.to_sym } }
   end
 
   def column_names=(names)
@@ -274,7 +295,7 @@ class Query < ApplicationRecord
   end
 
   def has_column?(column)
-    column_names && column_names.include?(column.name)
+    column_names&.include?(column.name)
   end
 
   def has_default_columns?
@@ -285,14 +306,14 @@ class Query < ApplicationRecord
     if arg.is_a?(Hash)
       arg = arg.keys.sort.map { |k| arg[k] }
     end
-    c = arg.reject { |k, _o| k.to_s.blank? }.slice(0, 3).map { |k, o| [k.to_s, o == 'desc' ? o : 'asc'] }
+    c = arg.reject { |k, _o| k.to_s.blank? }.slice(0, 3).map { |k, o| [k.to_s, o == "desc" ? o : "asc"] }
     write_attribute(:sort_criteria, c)
   end
 
   def sort_criteria
     (read_attribute(:sort_criteria) || []).tap do |criteria|
       criteria.map! do |attr, direction|
-        attr = 'id' if attr == 'parent'
+        attr = "id" if attr == "parent"
         [attr, direction]
       end
     end
@@ -342,12 +363,12 @@ class Query < ApplicationRecord
   end
 
   def statement
-    return '1=0' unless valid?
+    return "1=0" unless valid?
 
     statement_filters
       .map { |filter| "(#{filter.where})" }
       .compact_blank
-      .join(' AND ')
+      .join(" AND ")
   end
 
   # Returns the result set
@@ -360,11 +381,11 @@ class Query < ApplicationRecord
   def work_package_journals(options = {})
     Journal.includes(:user)
            .where(journable_type: WorkPackage.to_s)
-           .joins('INNER JOIN work_packages ON work_packages.id = journals.journable_id')
-           .joins('INNER JOIN projects ON work_packages.project_id = projects.id')
-           .joins('INNER JOIN users AS authors ON work_packages.author_id = authors.id')
-           .joins('INNER JOIN types ON work_packages.type_id = types.id')
-           .joins('INNER JOIN statuses ON work_packages.status_id = statuses.id')
+           .joins("INNER JOIN work_packages ON work_packages.id = journals.journable_id")
+           .joins("INNER JOIN projects ON work_packages.project_id = projects.id")
+           .joins("INNER JOIN users AS authors ON work_packages.author_id = authors.id")
+           .joins("INNER JOIN types ON work_packages.type_id = types.id")
+           .joins("INNER JOIN statuses ON work_packages.status_id = statuses.id")
            .order(options[:order])
            .limit(options[:limit])
            .offset(options[:offset])
@@ -381,9 +402,9 @@ class Query < ApplicationRecord
     subproject_filter.context = self
 
     subproject_filter.operator = if include_subprojects?
-                                   '*'
+                                   "*"
                                  else
-                                   '!*'
+                                   "!*"
                                  end
     subproject_filter
   end
@@ -415,6 +436,10 @@ class Query < ApplicationRecord
     end
   end
 
+  def allowed_timestamps
+    Timestamp.allowed(timestamps)
+  end
+
   def valid_filter_subset!
     filters.each(&:valid_values!).select! do |filter|
       filter.available? && filter.valid?
@@ -439,5 +464,15 @@ class Query < ApplicationRecord
     available_names = displayable_columns.map(&:name).map(&:to_sym)
 
     self.column_names &= available_names
+  end
+
+  def valid_timestamps_subset!
+    self.timestamps &= allowed_timestamps
+  end
+
+  # dependent::destroy does not work for has_many :through associations
+  # only the ical_token_query_assignments would be destroyed
+  def destroy_ical_tokens
+    ical_tokens.each(&:destroy)
   end
 end

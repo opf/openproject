@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Members::CreateService < ::BaseServices::Create
+class Members::CreateService < BaseServices::Create
   include Members::Concerns::NotificationSender
 
   around_call :post_process
@@ -47,9 +47,11 @@ class Members::CreateService < ::BaseServices::Create
   def add_group_memberships(member)
     return unless member.principal.is_a?(Group)
 
+    project_ids = member.project_id.nil? ? nil : [member.project_id]
+
     Groups::CreateInheritedRolesService
       .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call(user_ids: member.principal.user_ids, send_notifications: false, project_ids: [member.project_id])
+      .call(user_ids: member.principal.user_ids, send_notifications: false, project_ids:)
   end
 
   def event_type

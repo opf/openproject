@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,73 +26,73 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'acts_as_customizable included' do
-  describe '#custom_field_changes' do
-    context 'when no custom field value exists' do
+RSpec.shared_examples_for "acts_as_customizable included" do
+  describe "#custom_field_changes" do
+    context "when no custom field value exists" do
       before do
         model_instance.custom_values.destroy_all
       end
 
-      it 'returns no changes' do
+      it "returns no changes" do
         expect(model_instance.custom_field_changes).to be_empty
       end
 
-      context 'when a field value is set' do
+      context "when a field value is set" do
         before do
           model_instance.custom_values.destroy_all
         end
 
-        it 'returns the field changes' do
-          model_instance.custom_field_values = { custom_field.id => 'test' }
+        it "returns the field changes" do
+          model_instance.custom_field_values = { custom_field.id => "test" }
           expect(model_instance.custom_field_changes)
-            .to eq({ "custom_field_#{custom_field.id}": [nil, 'test'] })
+            .to eq({ custom_field.attribute_name.to_sym => [nil, "test"] })
         end
       end
     end
 
-    context 'when a field value is changed from nil' do
-      it 'returns the field changes' do
-        model_instance.custom_field_values = { custom_field.id => 'test' }
+    context "when a field value is changed from nil" do
+      it "returns the field changes" do
+        model_instance.custom_field_values = { custom_field.id => "test" }
         expect(model_instance.custom_field_changes)
-          .to eq({ "custom_field_#{custom_field.id}": [nil, 'test'] })
+          .to eq({ custom_field.attribute_name.to_sym => [nil, "test"] })
       end
     end
 
-    context 'when a field value is changed from a string' do
+    context "when a field value is changed from a string" do
       before do
-        model_instance.custom_field_values = { custom_field.id => 'test' }
+        model_instance.custom_field_values = { custom_field.id => "test" }
         model_instance.save
       end
 
-      it 'returns the field changes' do
-        model_instance.custom_field_values = { custom_field.id => 'test2' }
+      it "returns the field changes" do
+        model_instance.custom_field_values = { custom_field.id => "test2" }
         expect(model_instance.custom_field_changes)
-          .to eq({ "custom_field_#{custom_field.id}": ['test', 'test2'] })
+          .to eq({ custom_field.attribute_name.to_sym => ["test", "test2"] })
       end
     end
 
-    context 'when a field is set to the same value (unchanged)' do
+    context "when a field is set to the same value (unchanged)" do
       before do
-        model_instance.custom_field_values = { custom_field.id => 'test' }
+        model_instance.custom_field_values = { custom_field.id => "test" }
         model_instance.save
       end
 
-      it 'returns no changes' do
-        model_instance.custom_field_values = { custom_field.id => 'test' }
+      it "returns no changes" do
+        model_instance.custom_field_values = { custom_field.id => "test" }
         expect(model_instance.custom_field_changes).to be_empty
       end
     end
 
-    context 'when a field value is changed to nil' do
+    context "when a field value is changed to nil" do
       before do
-        model_instance.custom_field_values = { custom_field.id => 'test' }
+        model_instance.custom_field_values = { custom_field.id => "test" }
         model_instance.save
       end
 
-      it 'returns the field changes' do
+      it "returns the field changes" do
         model_instance.custom_field_values = { custom_field.id => nil }
         expect(model_instance.custom_field_changes)
-          .to eq({ "custom_field_#{custom_field.id}": ['test', nil] })
+          .to eq({ custom_field.attribute_name.to_sym => ["test", nil] })
       end
     end
   end

@@ -1,0 +1,34 @@
+@import 'helpers'
+
+$meeting-agenda-item--presenter-width: 300px
+
+.op-meeting-agenda-item
+  display: grid
+  grid-template-columns: 20px auto 1fr fit-content($meeting-agenda-item--presenter-width) fit-content(40px)
+  grid-template-areas: "drag-handle content duration presenter actions" ".notes notes notes notes"
+
+  &--drag-handle,
+  &--duration,
+  &--content,
+  &--presenter
+    align-self: center
+
+  &--actions
+    justify-self: end
+
+  &--presenter
+    max-width: $meeting-agenda-item--presenter-width
+    justify-self: end
+
+  &--duration
+    white-space: nowrap
+
+  &--content
+    @include text-shortener
+
+  @media screen and (max-width: $breakpoint-lg)
+    grid-template-columns: 20px auto 1fr calc($meeting-agenda-item--presenter-width - 50px) 50px
+    grid-template-areas: "drag-handle content content content actions" ". duration . presenter presenter" ". notes notes notes notes"
+
+    &--author
+      justify-self: stretch

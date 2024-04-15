@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,11 +33,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { Injectable } from '@angular/core';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import {
-  ApiV3Filter,
-  ApiV3FilterBuilder,
-  FilterOperator,
-} from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { ApiV3Filter, ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
@@ -77,6 +73,30 @@ export interface QueryProps {
   tv?:boolean;
   tzl?:string;
   tll?:string;
+
+  // Timestamps options
+  ts?:string;
+}
+
+export interface QueryRequestParams {
+  page?:string|number;
+  pageSize:string|number;
+  offset:string|number;
+  'columns[]':string[];
+  showSums:boolean;
+  timelineVisible:boolean;
+  timelineLabels:string;
+  timelineZoomLevel:string;
+  displayRepresentation:string;
+  includeSubprojects:boolean;
+  highlightingMode:string;
+  'highlightedAttributes[]':string[];
+  showHierarchies:boolean;
+  groupBy:string|null;
+  filters:string;
+  sortBy:string;
+  timestamps:string;
+  valid_subset?:boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -127,6 +147,7 @@ export class UrlParamsHelperService {
       ...this.encodeHighlightedAttributes(query),
       ...this.encodeSortBy(query),
       ...this.encodeFilters(query.filters),
+      ...this.encodeTimestamps(query),
     };
 
     if (typeof extender === 'function') {
@@ -159,7 +180,7 @@ export class UrlParamsHelperService {
   private encodeHighlightedAttributes(query:QueryResource):Partial<QueryProps> {
     if (query.highlightingMode === 'inline') {
       if (Array.isArray(query.highlightedAttributes) && query.highlightedAttributes.length > 0) {
-        return { hla: query.highlightedAttributes.map((el) => el.id as string) };
+        return { hla: query.highlightedAttributes.map((el) => idFromLink(el.href)) };
       }
     }
 
@@ -174,6 +195,14 @@ export class UrlParamsHelperService {
           .map((sort:QuerySortByResource) => (sort.id as string).replace('-', ':'))
           .join(),
       };
+    }
+
+    return {};
+  }
+
+  private encodeTimestamps(query:QueryResource):Partial<QueryProps> {
+    if (query.timestamps) {
+      return { ts: query.timestamps.join(',') };
     }
 
     return {};
@@ -212,7 +241,7 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetQueryFromJsonParams(updateJson:string|null) {
-    const queryData:any = {
+    const queryData:Partial<QueryRequestParams> = {
       pageSize: this.paginationService.getPerPage(),
     };
 
@@ -289,6 +318,10 @@ export class UrlParamsHelperService {
       queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort:any) => sort.split(':')));
     }
 
+    if (properties.ts) {
+      queryData.timestamps = properties.ts;
+    }
+
     // Pagination
     if (properties.pa) {
       queryData.offset = properties.pa;
@@ -300,8 +333,12 @@ export class UrlParamsHelperService {
     return queryData;
   }
 
-  public buildV3GetQueryFromQueryResource(query:QueryResource, additionalParams:any = {}, contextual:any = {}) {
-    const queryData:any = {};
+  public buildV3GetQueryFromQueryResource(
+    query:QueryResource,
+    additionalParams:object = {},
+    contextual:object = {},
+  ):Partial<QueryRequestParams> {
+    const queryData:Partial<QueryRequestParams> = {};
 
     queryData['columns[]'] = this.buildV3GetColumnsFromQueryResource(query);
     queryData.showSums = query.sums;
@@ -317,7 +354,7 @@ export class UrlParamsHelperService {
     }
 
     if (query.highlightedAttributes && query.highlightingMode === 'inline') {
-      queryData['highlightedAttributes[]'] = query.highlightedAttributes.map((el) => el.href);
+      queryData['highlightedAttributes[]'] = query.highlightedAttributes.map((el) => el.href as string);
     }
 
     if (query.displayRepresentation) {
@@ -333,8 +370,9 @@ export class UrlParamsHelperService {
 
     // Sortation
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
+    queryData.timestamps = query.timestamps.join(',');
 
-    return _.extend(additionalParams, queryData);
+    return _.extend(additionalParams, queryData) as Partial<QueryRequestParams>;
   }
 
   public queryFilterValueToParam(value:HalResource|string|boolean):string {
@@ -357,17 +395,15 @@ export class UrlParamsHelperService {
     return value.toString();
   }
 
-  private buildV3GetColumnsFromQueryResource(query:QueryResource) {
+  private buildV3GetColumnsFromQueryResource(query:QueryResource):string[] {
     if (query.columns) {
-      return query.columns.map((column:any) => column.id || idFromLink(column.href));
+      return query.columns.map((column:any) => column.id || idFromLink(column.href)) as string[];
     }
     if (query._links.columns) {
-      return query._links.columns.map((column:HalLink) => {
-        const id = column.href!;
-
-        return this.idFromHref(id);
-      });
+      return query._links.columns.map((column:HalLink) => idFromLink(column.href as string)) as string[];
     }
+
+    return [];
   }
 
   public buildV3GetFilters(filters:QueryFilterInstanceResource[], replacements = {}):ApiV3Filter[] {
@@ -397,7 +433,7 @@ export class UrlParamsHelperService {
     filters.forEach((filter:QueryFilterInstanceResource) => {
       const id = this.buildV3GetFilterIdFromFilter(filter);
       const operator = this.buildV3GetOperatorIdFromFilter(filter) as FilterOperator;
-      const values = this.buildV3GetValuesFromFilter(filter)
+      const values = this.buildV3GetValuesFromFilter(filter);
 
       builder.add(id, operator, values);
     });
@@ -412,14 +448,14 @@ export class UrlParamsHelperService {
   public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
     const href = filter.filter ? filter.filter.href : filter._links.filter.href;
 
-    return this.idFromHref(href);
+    return idFromLink(href as string);
   }
 
   public buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource|QueryFilterResource) {
     if (filter.values) {
       return _.map(filter.values, (v:any) => this.queryFilterValueToParam(v));
     }
-    return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
+    return _.map(filter._links.values, (v:any) => idFromLink(v.href as string));
   }
 
   private buildV3GetOperatorIdFromFilter(filter:QueryFilterInstanceResource) {
@@ -428,7 +464,7 @@ export class UrlParamsHelperService {
     }
     const { href } = filter._links.operator;
 
-    return this.idFromHref(href);
+    return idFromLink(href as string);
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {
@@ -437,19 +473,9 @@ export class UrlParamsHelperService {
       if (sort.id) {
         return sort.id;
       }
-      const href = sort.href!;
-
-      const id = this.idFromHref(href);
-
-      return id;
+      return idFromLink(sort.href);
     });
 
     return JSON.stringify(sortByIds.map((id:string) => id.split('-')));
-  }
-
-  private idFromHref(href:string) {
-    const id = href.substring(href.lastIndexOf('/') + 1, href.length);
-
-    return decodeURIComponent(id);
   }
 }

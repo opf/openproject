@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackages::ExportJob do
+RSpec.describe WorkPackages::ExportJob do
   let(:user) { build_stubbed(:user) }
-  let(:attachment) { double('Attachment', id: 1234) }
+  let(:attachment) { double("Attachment", id: 1234) }
   let(:export) do
     create(:work_packages_export)
   end
@@ -54,18 +54,18 @@ describe WorkPackages::ExportJob do
     job.tap(&:perform_now)
   end
 
-  shared_examples_for 'exporter returning string' do
+  shared_examples_for "exporter returning string" do
     let(:result) do
-      Exports::Result.new(format: 'blubs',
+      Exports::Result.new(format: "blubs",
                           title: "some_title.#{mime_type}",
-                          content: 'some string',
+                          content: "some string",
                           mime_type: "application/octet-stream")
     end
 
-    let(:service) { double('attachments create service') } # rubocop:disable RSpec/VerifiedDoubles
+    let(:service) { double("attachments create service") } # rubocop:disable RSpec/VerifiedDoubles
     let(:exporter_instance) { instance_double(exporter) }
 
-    it 'exports' do
+    it "exports" do
       expect(Attachments::CreateService)
         .to receive(:bypass_whitelist)
               .with(user:)
@@ -77,7 +77,7 @@ describe WorkPackages::ExportJob do
       expect(service)
         .to receive(:call) do |file:, **_args|
         expect(File.basename(file))
-          .to start_with 'some_title'
+          .to start_with "some_title"
 
         expect(File.basename(file))
           .to end_with ".#{mime_type}"
@@ -92,21 +92,21 @@ describe WorkPackages::ExportJob do
       # expect to create a status
       expect(subject.job_status).to be_present
       expect(subject.job_status.reference).to eq export
-      expect(subject.job_status[:status]).to eq 'success'
-      expect(subject.job_status[:payload]['download']).to eq '/api/v3/attachments/1234/content'
+      expect(subject.job_status[:status]).to eq "success"
+      expect(subject.job_status[:payload]["download"]).to eq "/api/v3/attachments/1234/content"
     end
   end
 
-  describe 'query passing' do
-    context 'when passing in group_by through attributes' do
-      let(:query_attributes) { { group_by: 'assigned_to' } }
+  describe "query passing" do
+    context "when passing in group_by through attributes" do
+      let(:query_attributes) { { group_by: "assigned_to" } }
       let(:mime_type) { :pdf }
       let(:exporter) { WorkPackage::PDFExport::WorkPackageListToPdf }
 
-      it 'updates the query from attributes' do
+      it "updates the query from attributes" do
         allow(exporter)
           .to receive(:new) do |query, _options|
-          expect(query.group_by).to eq 'assigned_to'
+          expect(query.group_by).to eq "assigned_to"
         end
           .and_call_original
 
@@ -115,19 +115,19 @@ describe WorkPackages::ExportJob do
     end
   end
 
-  describe '#perform' do
-    context 'with the pdf mime type' do
+  describe "#perform" do
+    context "with the pdf mime type" do
       let(:mime_type) { :pdf }
       let(:exporter) { WorkPackage::PDFExport::WorkPackageListToPdf }
 
-      it_behaves_like 'exporter returning string'
+      it_behaves_like "exporter returning string"
     end
 
-    context 'with the csv mime type' do
+    context "with the csv mime type" do
       let(:mime_type) { :csv }
       let(:exporter) { WorkPackage::Exports::CSV }
 
-      it_behaves_like 'exporter returning string'
+      it_behaves_like "exporter returning string"
     end
   end
 end

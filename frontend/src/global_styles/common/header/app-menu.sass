@@ -18,12 +18,14 @@
 
   &--item-title
     min-width: 0
-    line-height: 1
     white-space: nowrap
 
   &--item-action
     background: transparent
-    border: 0
+    border-right: 1px solid transparent
+    border-left: 1px solid transparent
+    border-top: 0
+    border-bottom: var(--header-border-bottom-width) solid transparent
     display: flex
     justify-content: center
     align-items: center
@@ -36,7 +38,7 @@
     min-width: 0px
     padding: 0 15px
 
-    @include breakpoint(680px down)
+    @media screen and (max-width: $breakpoint-sm)
       padding: 0 8px
 
     .op-app-menu--item_dropdown-open &,
@@ -44,7 +46,9 @@
       text-decoration: none
       background: var(--header-item-bg-hover-color)
       color: var(--header-item-font-hover-color)
-      border-bottom: var(--header-border-bottom-width) solid var(--header-border-bottom-color)
+      border-bottom: var(--header-border-bottom-width) solid var(--header-border-bottom-color) !important
+      border-left-color: var(--main-menu-hover-border-color)
+      border-right-color: var(--main-menu-hover-border-color)
 
     &:focus
       color: var(--header-item-font-hover-color)
@@ -80,7 +84,7 @@
       left: 0
       right: auto
 
-    @include breakpoint(680px down)
+    @media screen and (max-width: $breakpoint-sm)
       position: fixed
       top: var(--header-height)
       left: 0

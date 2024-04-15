@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe OpenProject::TextFormatting::Formats::Plain::Formatter do
+RSpec.describe OpenProject::TextFormatting::Formats::Plain::Formatter do
   subject { described_class.new({}) }
 
-  it 'plains text' do
-    assert_html_output('This is some input' => 'This is some input')
+  it "plains text" do
+    assert_html_output("This is some input" => "This is some input")
   end
 
-  it 'escapings' do
+  it "escapings" do
     assert_html_output(
-      'this is a <script>' => 'this is a &lt;script&gt;'
+      "this is a <script>" => "this is a &lt;script&gt;"
     )
   end
 
@@ -45,8 +45,8 @@ describe OpenProject::TextFormatting::Formats::Plain::Formatter do
 
   def assert_html_output(to_test, expect_paragraph = true)
     to_test.each do |text, expected|
-      assert_equal((expect_paragraph ? "<p>#{expected}</p>" : expected), subject.to_html(text),
-                   "Formatting the following text failed:\n===\n#{text}\n===\n")
+      expect((expect_paragraph ? "<p>#{expected}</p>" : expected)).to(eq(subject.to_html(text)),
+                                                                      "Formatting the following text failed:\n===\n#{text}\n===\n")
     end
   end
 

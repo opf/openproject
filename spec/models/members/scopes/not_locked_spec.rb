@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Members::Scopes::NotLocked, type: :model do
+RSpec.describe Members::Scopes::NotLocked do
   let(:project) { create(:project) }
-  let(:role) { create(:role) }
+  let(:role) { create(:project_role) }
 
   let!(:invited_user_member) do
     create(:member,
@@ -63,15 +63,12 @@ describe Members::Scopes::NotLocked, type: :model do
            principal: create(:group))
   end
 
-  describe '.fetch' do
+  describe ".fetch" do
     subject { Member.not_locked }
 
-    it 'returns only actual users and groups' do
+    it "returns only actual users and groups" do
       expect(subject)
-        .to match_array [active_user_member,
-                         invited_user_member,
-                         registered_user_member,
-                         group_member]
+        .to contain_exactly(active_user_member, invited_user_member, registered_user_member, group_member)
     end
   end
 end

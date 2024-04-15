@@ -51,6 +51,6 @@ value:
     format: markdown
     raw: Lorem **ipsum** dolor sit amet
     html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
-  createdAt: '2014-05-21T08:51:20Z'
-  updatedAt: '2014-05-21T08:51:20Z'
+  createdAt: '2014-05-21T08:51:20.396Z'
+  updatedAt: '2014-05-21T08:51:20.396Z'
   customField123: 123

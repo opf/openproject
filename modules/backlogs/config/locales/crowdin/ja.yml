@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ja:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "位置"
-        remaining_hours: "残り時間"
-        remaining_time: "残り時間"
         story_points: "ストーリーポイント"
         backlogs_work_package_type: "バックログの種類"
     errors:
@@ -35,9 +36,6 @@ ja:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "では現在のスプリント内の作業項目IDのみを含めることができます。"
               must_block_at_least_one_work_package: "は少なくとも 1つのチケットIDを含める必要があります。"
-            parent_id:
-              parent_child_relationship_across_projects: "は無効です。作業項目'%{work_package_name}'はバックログタスクで、現在のプロジェクト外の親を持つことはできません。"
-              type_must_be_one_of_the_following: "型は次のいずれかである必要があります: %{type_names}"
             version_id:
               task_version_must_be_the_same_as_story_version: "親ストーリーのバージョンと同じでなければなりません。"
         sprint:
@@ -66,8 +64,8 @@ ja:
     properties: "プロパティ"
     rebuild: "再構築"
     rebuild_positions: "位置情報を再構築"
-    remaining_hours: "残り時間"
-    remaining_hours_ideal: "残り時間 (理想)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "バーンダウングラフ"
     story: "ストーリー"
     story_points: "ストーリーポイント"
@@ -78,7 +76,6 @@ ja:
     x_more: "残%{count}件..."
   backlogs_active: "アクティブ"
   backlogs_any: "全て"
-  backlogs_card_specification: "カード印刷用ラベルの種類"
   backlogs_inactive: "プロジェクトの活動がありません。"
   backlogs_points_burn_direction: "ポイントのバーンアップ/バーンダウン"
   backlogs_product_backlog: "プロダクトバックログ"
@@ -137,7 +134,7 @@ ja:
   label_wiki: "Wiki"
   permission_view_master_backlog: "マスター バックログの表示"
   permission_view_taskboards: "かんばんの表示"
-  permission_select_done_statuses: "Select done statuses"
+  permission_select_done_statuses: "完了ステータスを選択"
   permission_update_sprints: "スプリントの更新"
   points_accepted: "進行中のポイント"
   points_committed: "承認されたポイント"
@@ -150,7 +147,7 @@ ja:
   rb_label_copy_tasks_none: "なし"
   rb_label_copy_tasks_open: "開く"
   rb_label_link_to_original: "元のストーリーへのリンクを含める"
-  remaining_hours: "残り時間"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "必要なバーンレート(時間)"
   required_burn_rate_points: "必要なバーンレート(ポイント)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

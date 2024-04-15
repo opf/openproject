@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,11 +32,11 @@ class GithubPullRequest < ApplicationRecord
   has_and_belongs_to_many :work_packages
   has_many :github_check_runs, dependent: :destroy
   belongs_to :github_user, optional: true
-  belongs_to :merged_by, optional: true, class_name: 'GithubUser'
+  belongs_to :merged_by, optional: true, class_name: "GithubUser"
 
   enum state: {
-    open: 'open',
-    closed: 'closed'
+    open: "open",
+    closed: "closed"
   }
 
   validates_presence_of :github_html_url,
@@ -54,7 +54,7 @@ class GithubPullRequest < ApplicationRecord
                         unless: :partial?
   validate :validate_labels_schema
 
-  scope :without_work_package, -> { left_outer_joins(:work_packages).where(work_packages: { id: nil }) }
+  scope :without_work_package, -> { where.missing(:work_packages) }
 
   def self.find_by_github_identifiers(id: nil, url: nil, initialize: false)
     raise ArgumentError, "needs an id or an url" if id.nil? && url.blank?
@@ -66,6 +66,12 @@ class GithubPullRequest < ApplicationRecord
     elsif initialize
       new(github_id: id, github_html_url: url)
     end
+  end
+
+  def visible?(user = User.current)
+    WorkPackage
+      .visible(user)
+      .exists?(id: work_packages.select(:id))
   end
 
   ##
@@ -86,6 +92,6 @@ class GithubPullRequest < ApplicationRecord
     return if labels.nil?
     return if labels.all? { |label| label.keys.sort == LABEL_KEYS }
 
-    errors.add(:labels, 'invalid schema')
+    errors.add(:labels, "invalid schema")
   end
 end

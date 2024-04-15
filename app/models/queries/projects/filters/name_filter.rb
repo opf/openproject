@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +33,13 @@ class Queries::Projects::Filters::NameFilter < Queries::Projects::Filters::Proje
 
   def where
     case operator
-    when '='
+    when "="
       ["LOWER(projects.name) IN (?)", sql_value]
-    when '!'
+    when "!"
       ["LOWER(projects.name) NOT IN (?)", sql_value]
-    when '~', '**'
+    when "~", "**"
       ["LOWER(projects.name) LIKE ?", "%#{sql_value}%"]
-    when '!~'
+    when "!~"
       ["LOWER(projects.name) NOT LIKE ?", "%#{sql_value}%"]
     end
   end
@@ -56,9 +56,9 @@ class Queries::Projects::Filters::NameFilter < Queries::Projects::Filters::Proje
 
   def sql_value
     case operator
-    when '=', '!'
-      values.map { |val| self.class.connection.quote_string(val.downcase) }.join(',')
-    when '**', '~', '!~'
+    when "=", "!"
+      values.map { |val| self.class.connection.quote_string(val.downcase) }.join(",")
+    when "**", "~", "!~"
       values.first.downcase
     end
   end

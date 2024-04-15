@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,15 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
-describe Notification,
-         type: :model do
-  describe '.save' do
-    context 'for a non existing journal (e.g. because it has been deleted)' do
+RSpec.describe Notification do
+  describe ".save" do
+    context "for a non existing journal (e.g. because it has been deleted)" do
       let(:notification) { build(:notification) }
 
-      it 'raises an error' do
+      it "raises an error" do
         notification.journal_id = 99999
         expect { notification.save }
           .to raise_error ActiveRecord::InvalidForeignKey

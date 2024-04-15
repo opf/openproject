@@ -1,0 +1,67 @@
+ms:
+  js:
+    grid:
+      add_widget: 'Tambah widget'
+      remove: 'Buang widget'
+      configure: 'Konfigurasi widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
+      widgets:
+        missing_permission: "Anda tidak mempunyai kebenaran yang diperlukan untuk melihat widget ini."
+        custom_text:
+          title: 'Teks custom'
+        documents:
+          title: 'Dokumen'
+          no_results: 'Tiada dokumen lagi.'
+        members:
+          title: 'Ahli'
+          no_results: 'Tiada ahli dipapar.'
+          view_all_members: 'Lihat semua ahli'
+          add: 'Ahli'
+          too_many: 'Memaparkan %{count} dari %{total} ahli.'
+        news:
+          title: 'Berita'
+          at: 'pada'
+          no_results: 'Tiada benda baru untuk dilapor.'
+        project_description:
+          title: 'Penerangan projek'
+          no_results: "Tiada penerangan yang tertulis lagi. Penerangan boleh diberikan di dalam 'Seting Projek'."
+        project_details:
+          title: 'Butiran projek'
+          no_results: 'Tiada medan langganan yang telah ditetapkan untuk projek.'
+        project_status:
+          title: 'Status projek'
+          not_started: 'Belum dimulakan'
+          on_track: 'Ikut jadual'
+          off_track: 'Lari jadual'
+          at_risk: 'Berisiko'
+          not_set: 'Tidak ditetapkan'
+          finished: 'Selesai'
+          discontinued: 'Dihentikan'
+        subprojects:
+          title: 'Subprojek'
+          no_results: 'Tiada subprojek.'
+        time_entries_current_user:
+          title: 'Masa yang saya gunakan'
+          displayed_days: 'Hari yang dipaparkan dalam widget:'
+        time_entries_list:
+          title: 'Masa yang diguna (7 hari lepas)'
+          no_results: 'Tiada catatan masa untuk 7 hari yang lalu.'
+        work_packages_accountable:
+          title: "Pakej kerja yang saya bertanggungjawab"
+        work_packages_assigned:
+          title: 'Pakej kerja yang ditugaskan pada saya'
+        work_packages_created:
+          title: 'Pakej kerja yang saya cipta'
+        work_packages_watched:
+          title: 'Pakej kerja yang saya pantau'
+        work_packages_table:
+          title: 'Jadual pakej kerja'
+        work_packages_graph:
+          title: 'Graf pakej kerja'
+        work_packages_calendar:
+          title: 'Kalendar'
+        work_packages_overview:
+          title: 'Gambaran keseluruhan pakej kerja'
+          placeholder: 'Klik untuk edit ...'

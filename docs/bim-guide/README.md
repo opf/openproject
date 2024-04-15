@@ -41,7 +41,7 @@ Details: [BIM Issue Management](bim-issue-management)
 
 ## Revit add-in
 
-Stay always connected to OpenProject in realtime, show and create tasks while you're working in the Revit, using the Revit Addin.
+Stay always connected to OpenProject in realtime, show and create tasks while you're working in the Revit, using the Revit Add-in.
 
 Details: [Revit Add-in](revit-add-in)
 
@@ -61,7 +61,7 @@ The BCF Module and the included IFC viewer can be enabled for every single proje
 
 ## Reporting bugs
 
-You found a bug? Please [report it](../development/report-a-bug) to our [OpenProject community](https://community.openproject.com/projects/revit-add-in). Thank you!
+You found a bug? Please [report it](../development/report-a-bug) to our [OpenProject community](https://community.openproject.org/projects/revit-add-in). Thank you!
 
 
 
@@ -85,13 +85,13 @@ In our [Installation & Upgrade Guide](../installation-and-operations/bim-edition
 
 ### Is OpenProject BIM compatible to other BIM software?
 
-Yes of course. We are of the opinion that the full potential of the BIM method only works through collaboration and the exchange of information (openBIM). For this reason we support the open BCF XML Standard. You are able to import and export all created BCF and stay interoparable with any other BCF software.
+Yes of course. We are of the opinion that the full potential of the BIM method only works through collaboration and the exchange of information (openBIM). For this reason we support the open BCF XML Standard. You are able to import and export all created BCF and stay interoperable with any other BCF software.
 
 
 
 ### Why do I need a Revit add-in?
 
-You don't need it, but it makes your BIM Issue Management much easier. The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoparable with any other BCF software.
+You don't need it, but it makes your BIM Issue Management much easier. The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoperable with any other BCF software.
 
 
 
@@ -103,7 +103,7 @@ The OpenProject Revit Add-In does not have any special system requirements. Only
 
 ### Which versions of Revit are supported?
 
-The OpenProject BIM Addin for Revit supports the following versions:
+The OpenProject BIM Add-in for Revit supports the following versions:
 
 - REVIT 2019 
 - REVIT 2020 
@@ -113,13 +113,13 @@ The OpenProject BIM Addin for Revit supports the following versions:
 
 ### Is it possible to use OpenProject BIM without Revit?
 
-Yes! The Revit Add-In is just additional to the OpenProject BIM core functionality. It's still possible to import and export BCF XML as you like and stay interoparable with any other Software for BIM Issue Management.
+Yes! The Revit Add-In is just additional to the OpenProject BIM core functionality. It's still possible to import and export BCF XML as you like and stay interoperable with any other Software for BIM Issue Management.
 
 
 
 ### Are integrations with other BIM software planned?
 
-Yes, we want to develop some other integrations to stay interoparable with other BIM software and make BIM Issue Management with OpenProject BIM much easier.
+Yes, we want to develop some other integrations to stay interoperable with other BIM software and make BIM Issue Management with OpenProject BIM much easier.
 
 
 

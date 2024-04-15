@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -34,36 +34,36 @@ See COPYRIGHT and LICENSE files for more details.
     <%= styled_label_tag("settings[story_types]", t(:backlogs_story_type)) %>
     <div class="form--field-container">
       <%= styled_select_tag("settings[story_types]",
-                   options_from_collection_for_select(Type.all, :id, :name, Story.types),
-                   :multiple => true,
-                   container_class: '-slim') %>
+                            options_from_collection_for_select(Type.all, :id, :name, Story.types),
+                            multiple: true,
+                            container_class: '-slim') %>
     </div>
   </div>
   <div class="form--field">
     <%= styled_label_tag("settings[task_type]", t(:backlogs_task_type)) %>
     <div class="form--field-container">
       <%= styled_select_tag("settings[task_type]",
-                   options_from_collection_for_select(Type.all, :id, :name, Task.type),
-                   container_class: '-slim') %>
+                            options_from_collection_for_select(Type.all, :id, :name, Task.type),
+                            container_class: '-slim') %>
     </div>
   </div>
   <div class="form--field">
     <%= styled_label_tag("settings[points_burn_direction]", t(:backlogs_points_burn_direction)) %>
     <div class="form--field-container">
       <%= styled_select_tag("settings[points_burn_direction]",
-                   options_for_select([[t(:label_points_burn_up), 'up'], [t(:label_points_burn_down), 'down']],
-                                      Setting.plugin_openproject_backlogs["points_burn_direction"]),
-                   container_class: '-slim') %>
+                            options_for_select([[t(:label_points_burn_up), 'up'], [t(:label_points_burn_down), 'down']],
+                                               Setting.plugin_openproject_backlogs["points_burn_direction"]),
+                            container_class: '-slim') %>
     </div>
   </div>
   <div class="form--field">
     <%= styled_label_tag("settings[wiki_template]", t(:backlogs_wiki_template)) %>
     <div class="form--field-container">
       <%= styled_text_field_tag("settings[wiki_template]",
-                       Setting.plugin_openproject_backlogs["wiki_template"],
-                       container_class: '-slim') %>
+                                Setting.plugin_openproject_backlogs["wiki_template"],
+                                container_class: '-slim') %>
     </div>
   </div>
 
-  <%= styled_submit_tag t(:button_apply), class: '-highlight' %>
+  <%= styled_submit_tag t(:button_apply), class: '-primary' %>
 <% end %>

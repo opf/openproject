@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,8 +36,8 @@ class HighlightingController < ApplicationController
 
     expires_in 1.year, public: true, must_revalidate: false
     if stale?(last_modified: Time.zone.parse(@max_updated_at), etag: @highlight_version_tag, public: true)
-      OpenProject::Cache.fetch('highlighting/styles', @highlight_version_tag) do
-        render template: 'highlighting/styles', formats: [:css]
+      OpenProject::Cache.fetch("highlighting/styles", @highlight_version_tag) do
+        render template: "highlighting/styles", formats: [:css]
       end
     end
   end

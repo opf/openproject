@@ -11,7 +11,7 @@ closely matches the way OpenProject is run in production systems for packaged an
 You will need a certificate to terminate SSL requests at Apache. For development purposes only, create a self-signed
 certificate as follows:
 
-```bash
+```shell
 sudo mkdir -p /etc/ssl/openproject-dev/
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/openproject-dev/privkey.key -out /etc/ssl/openproject-dev/cert.crt
 ```
@@ -29,7 +29,7 @@ it.
 First, you'll need to install the Apache2 web server. The actual command will differ depending on your actual
 distribution. For apt-based systems, the following command is used:
 
-```bash
+```shell
 sudo apt-get install apache2
 ```
 
@@ -39,7 +39,7 @@ are being loaded.
 
 You will then add a configuration for OpenProject under:
 
-```bash
+```shell
 nano /etc/apache2/sites-available/openproject-dev-ssl.conf
 ```
 
@@ -47,7 +47,7 @@ The path might differ. For RHEL/Fedora systems, the configuration directory resi
 
 The following contains an exemplary configuration:
 
-```
+```apache
 <VirtualHost *:80>
     ServerName openproject.example.com
     redirect permanent / https://openproject.example.com/

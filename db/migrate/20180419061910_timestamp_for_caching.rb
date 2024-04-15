@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,12 @@
 #++
 
 class TimestampForCaching < ActiveRecord::Migration[5.1]
+  class MigratingAuthSource < ApplicationRecord
+    self.table_name = "auth_sources"
+  end
+
   def change
-    [Enumeration, Status, Category, AuthSource].each do |model|
+    [Enumeration, Status, Category, MigratingAuthSource].each do |model|
       add_timestamps(model)
     end
   end

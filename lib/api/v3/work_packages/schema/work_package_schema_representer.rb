@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -39,8 +39,8 @@ module API
           include API::Caching::CachedRepresenter
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               User.current.roles_for_project(represented.project).map(&:permissions).flatten.uniq.sort +
-                                 [Setting.work_package_done_ratio]
+                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio,
+                                                                                Setting.plugin_openproject_backlogs]
                              }
 
           custom_field_injector type: :schema_representer
@@ -63,21 +63,21 @@ module API
               opts, = args
               opts[:attribute_group] = attribute_group property
 
-              super property, **opts
+              super(property, **opts)
             end
 
             def schema_with_allowed_link(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
 
-              super property, **opts
+              super(property, **opts)
             end
 
             def schema_with_allowed_collection(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
 
-              super property, **opts
+              super(property, **opts)
             end
           end
 
@@ -101,103 +101,121 @@ module API
                    uncacheable: true
 
           schema :lock_version,
-                 type: 'Integer',
-                 name_source: ->(*) { I18n.t('api_v3.attributes.lock_version') },
+                 type: "Integer",
+                 name_source: ->(*) { I18n.t("api_v3.attributes.lock_version") },
                  show_if: ->(*) { @show_lock_version }
 
           schema :id,
-                 type: 'Integer'
+                 type: "Integer"
 
           schema :subject,
-                 type: 'String',
+                 type: "String",
                  min_length: 1,
                  max_length: 255
 
           schema :description,
-                 type: 'Formattable',
+                 type: "Formattable",
                  required: false
 
           schema :duration,
-                 type: 'Duration',
+                 type: "Duration",
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
 
           schema :schedule_manually,
-                 type: 'Boolean',
+                 type: "Boolean",
                  required: false,
                  has_default: true
 
           schema :ignore_non_working_days,
-                 type: 'Boolean',
+                 type: "Boolean",
                  required: false
 
           schema :start_date,
-                 type: 'Date',
+                 type: "Date",
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
 
           schema :due_date,
-                 type: 'Date',
+                 type: "Date",
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
 
           schema :derived_start_date,
-                 type: 'Date',
+                 type: "Date",
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
 
           schema :derived_due_date,
-                 type: 'Date',
+                 type: "Date",
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
 
           schema :date,
-                 type: 'Date',
+                 type: "Date",
                  required: false,
                  show_if: ->(*) { represented.milestone? }
 
           schema :estimated_time,
-                 type: 'Duration',
+                 type: "Duration",
                  required: false
 
           schema :derived_estimated_time,
-                 name_source: ->(*) { I18n.t('attributes.derived_estimated_hours') },
-                 type: 'Duration',
+                 name_source: ->(*) { I18n.t("attributes.derived_estimated_hours") },
+                 type: "Duration",
                  required: false
 
+          schema :remaining_time,
+                 name_source: :remaining_hours,
+                 type: "Duration",
+                 required: false,
+                 writable: ->(*) { !WorkPackage.use_status_for_done_ratio? }
+
+          schema :derived_remaining_time,
+                 name_source: :derived_remaining_hours,
+                 type: "Duration",
+                 required: false,
+                 writable: false
+
           schema :spent_time,
-                 type: 'Duration',
+                 type: "Duration",
                  required: false,
                  show_if: ->(*) {
-                   current_user_allowed_to(:view_time_entries, context: represented.project) ||
-                     current_user_allowed_to(:view_own_time_entries, context: represented.project)
-                 }
+                            current_user.allowed_in_project?(:view_time_entries, represented.project) ||
+                            current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
+                          }
 
           schema :percentage_done,
-                 type: 'Integer',
+                 type: "Integer",
                  name_source: :done_ratio,
-                 show_if: ->(*) { Setting.work_package_done_ratio != 'disabled' },
+                 show_if: ->(*) { Setting.work_package_done_ratio != "disabled" },
+                 required: false
+
+          schema :derived_percentage_done,
+                 type: "Integer",
+                 name_source: :derived_done_ratio,
+                 show_if: ->(*) { Setting.work_package_done_ratio != "disabled" },
                  required: false
 
           schema :readonly,
-                 type: 'Boolean',
+                 type: "Boolean",
                  show_if: ->(*) { Status.can_readonly? },
                  required: false,
                  has_default: true
 
           schema :created_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :updated_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :author,
-                 type: 'User',
+                 type: "User",
                  location: :link,
                  writable: false
 
           schema_with_allowed_link :project,
-                                   type: 'Project',
+                                   type: "Project",
                                    required: true,
                                    href_callback: ->(*) {
                                      work_package = represented.work_package
@@ -209,7 +227,7 @@ module API
                                    }
 
           schema_with_allowed_link :parent,
-                                   type: 'WorkPackage',
+                                   type: "WorkPackage",
                                    required: false,
                                    writable: true,
                                    href_callback: ->(*) {
@@ -220,16 +238,20 @@ module API
                                    }
 
           schema_with_allowed_link :assignee,
-                                   type: 'User',
+                                   type: "User",
                                    required: false,
                                    href_callback: ->(*) {
-                                     if represented.project
-                                       api_v3_paths.available_assignees(represented.project_id)
+                                     work_package = represented.work_package
+
+                                     if work_package&.persisted?
+                                       api_v3_paths.available_assignees_in_work_package(represented.id)
+                                     elsif work_package&.project
+                                       api_v3_paths.available_assignees_in_project(represented.project_id)
                                      end
                                    }
 
           schema_with_allowed_link :responsible,
-                                   type: 'User',
+                                   type: "User",
                                    required: false,
                                    href_callback: ->(*) {
                                      if represented.project
@@ -289,7 +311,7 @@ module API
                                          has_default: true
 
           schema_with_allowed_collection :budget,
-                                         type: 'Budget',
+                                         type: "Budget",
                                          required: false,
                                          value_representer: ::API::V3::Budgets::BudgetRepresenter,
                                          link_factory: ->(budget) {
@@ -299,7 +321,7 @@ module API
                                            }
                                          },
                                          show_if: ->(*) {
-                                           current_user_allowed_to(:view_budgets, context: represented.project)
+                                           current_user.allowed_in_project?(:view_budgets, represented.project)
                                          }
 
           def attribute_groups
@@ -359,7 +381,7 @@ module API
           end
 
           def form_config_attribute_cache_key(group)
-            ['wp_schema_attribute_group',
+            ["wp_schema_attribute_group",
              group.key,
              I18n.locale,
              represented.project,
@@ -367,6 +389,16 @@ module API
              represented.available_custom_fields.sort_by(&:id)]
               .flatten
               .compact
+          end
+
+          def all_permissions_granted_to_user_under_project
+            Role
+              .joins(:members)
+              .where(members: { project_id: represented.project, principal: User.current })
+              .map(&:permissions)
+              .flatten
+              .uniq
+              .sort
           end
         end
       end

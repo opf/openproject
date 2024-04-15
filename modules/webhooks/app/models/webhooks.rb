@@ -1,5 +1,5 @@
 module Webhooks
   def self.table_name_prefix
-    'webhooks_'
+    "webhooks_"
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'carrierwave/storage/fog'
+require "carrierwave/storage/fog"
 
 class FogFileUploader < CarrierWave::Uploader::Base
   include FileUploader
@@ -64,7 +64,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
 
     return super if content_type.blank?
 
-    super.merge 'Content-Type': content_type
+    super.merge "Content-Type": content_type
   end
 
   ##
@@ -79,8 +79,8 @@ class FogFileUploader < CarrierWave::Uploader::Base
   def download_url(options = {})
     url_options = {}
 
-    set_content_disposition! url_options, options: options
-    set_expires_at! url_options, options: options
+    set_content_disposition!(url_options, options:)
+    set_expires_at!(url_options, options:)
 
     remote_file.url url_options
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,11 @@ module Bim
     class SettingSeeder < ::BasicData::SettingSeeder
       def data
         super.tap do |original_data|
-          unless original_data['default_projects_modules'].include? 'bim'
-            original_data['default_projects_modules'] << 'bim'
+          if original_data["default_projects_modules"]&.exclude? "bim"
+            original_data["default_projects_modules"] << "bim"
           end
 
-          original_data['attachment_max_size'] = 512 * 1024 # 512MB
+          original_data["attachment_max_size"] = 512 * 1024 # 512MB
         end
       end
     end

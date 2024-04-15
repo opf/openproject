@@ -1,4 +1,7 @@
 vi:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhooks"
+    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
   activerecord:
     attributes:
       webhooks/webhook:
@@ -54,7 +57,7 @@ vi:
         project_ids:
           title: 'Các dự án đã bật'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
+          all: 'Tất cả các dự án'
           selected: 'Selected projects only'
         selected_project_ids:
           title: 'Selected projects'

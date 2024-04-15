@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'workflows routes', type: :routing do
-  it { expect(get('/workflows')).to route_to('workflows#show') }
+RSpec.describe "workflows routes" do
+  it { expect(get("/workflows")).to route_to("workflows#show") }
 
-  it { expect(get('/workflows/edit')).to route_to('workflows#edit') }
-  it { expect(patch('/workflows')).to route_to('workflows#update') }
+  it { expect(get("/workflows/edit")).to route_to("workflows#edit") }
+  it { expect(patch("/workflows")).to route_to("workflows#update") }
 
-  it { expect(get('/workflows/copy')).to route_to('workflows#copy') }
-  it { expect(post('/workflows/copy')).to route_to('workflows#copy') }
+  it { expect(get("/workflows/copy")).to route_to("workflows#copy") }
+  it { expect(post("/workflows/copy")).to route_to("workflows#copy") }
 end

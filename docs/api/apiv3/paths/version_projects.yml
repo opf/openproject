@@ -31,7 +31,7 @@ get:
                         href: "/api/v3/projects/1/versions"
                     _type: Project
                     active: true
-                    createdAt: '2014-05-21T08:51:20Z'
+                    createdAt: '2014-05-21T08:51:20.396Z'
                     description:
                       format: markdown
                       html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
@@ -43,7 +43,7 @@ get:
                       format: markdown
                       html: "<p>Everything <strong>fine</strong></p>"
                       raw: Everything **fine**
-                    updatedAt: '2014-05-21T08:51:20Z'
+                    updatedAt: '2014-05-21T08:51:20.396Z'
                 _links:
                   self:
                     href: "/api/v3/versions/2/projects"

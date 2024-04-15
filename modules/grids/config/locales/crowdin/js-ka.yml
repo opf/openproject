@@ -1,0 +1,67 @@
+ka:
+  js:
+    grid:
+      add_widget: 'ვიჯეტის დამატება'
+      remove: 'ვიჯეტის წაშლა'
+      configure: 'Configure widget'
+      upsale:
+        text: "ზოგიერთი ვიჯეტი, როგორიცაა სამუშაო პაკეტის გრაფიკის ვიჯეტი, ხელმისაწვდომია, მხოლოდ, საწარმოო ვერსიაში."
+        link: 'საწარმოო რელიზი.'
+      widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
+        custom_text:
+          title: 'მომხმარებლის ტექსტი'
+        documents:
+          title: 'დოკუმენტები'
+          no_results: 'No documents yet.'
+        members:
+          title: 'წევრები'
+          no_results: 'No visible members.'
+          view_all_members: 'View all members'
+          add: 'წევრი'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'სიახლეები'
+          at: 'დრო'
+          no_results: 'Nothing new to report.'
+        project_description:
+          title: 'Project description'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Project details'
+          no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'პროექტის სტატუსი'
+          not_started: 'დაწყებული არაა'
+          on_track: 'გეგმის მიხედვით'
+          off_track: 'შეჩერებულია'
+          at_risk: 'რისკის ქვეშ'
+          not_set: 'არ არის დაყენებული'
+          finished: 'დასრულებულია'
+          discontinued: 'დასრულდა'
+        subprojects:
+          title: 'ქვეპროექტები'
+          no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'ჩემი დახარჯული დრო'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'Spent time (last 7 days)'
+          no_results: 'No time entries for the last 7 days.'
+        work_packages_accountable:
+          title: "Work packages I am accountable for"
+        work_packages_assigned:
+          title: 'Work packages assigned to me'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_watched:
+          title: 'Work packages watched by me'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'კალენდარი'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 import { Injector, NgModule } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
 import { FormsModule } from '@angular/forms';
@@ -57,6 +57,7 @@ import { WidgetWpOverviewComponent } from 'core-app/shared/components/grids/widg
 import { WidgetCustomTextComponent } from 'core-app/shared/components/grids/widgets/custom-text/custom-text.component';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { WidgetProjectDetailsComponent } from 'core-app/shared/components/grids/widgets/project-details/project-details.component';
+import { WidgetProjectDetailsMenuComponent } from 'core-app/shared/components/grids/widgets/project-details/project-details-menu.component';
 import { WidgetTimeEntriesProjectComponent } from 'core-app/shared/components/grids/widgets/time-entries/project/time-entries-project.component';
 import { WidgetSubprojectsComponent } from 'core-app/shared/components/grids/widgets/subprojects/subprojects.component';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
@@ -72,7 +73,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
     FormsModule,
     DragDropModule,
 
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectModalModule,
     OpenprojectWorkPackagesModule,
     OpenprojectWorkPackageGraphsModule,
@@ -81,21 +82,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
 
     OpenprojectAttachmentsModule,
 
-    DynamicModule.withComponents([
-      WidgetCustomTextComponent,
-      WidgetDocumentsComponent,
-      WidgetMembersComponent,
-      WidgetNewsComponent,
-      WidgetWpTableQuerySpaceComponent,
-      WidgetWpGraphComponent,
-      WidgetWpCalendarComponent,
-      WidgetWpOverviewComponent,
-      WidgetProjectDescriptionComponent,
-      WidgetProjectDetailsComponent,
-      WidgetProjectStatusComponent,
-      WidgetSubprojectsComponent,
-      WidgetTimeEntriesCurrentUserComponent,
-      WidgetTimeEntriesProjectComponent]),
+    DynamicModule,
 
     // Support for inline editig fields
     OpenprojectFieldsModule,
@@ -126,6 +113,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
     WidgetTimeEntriesProjectComponent,
 
     // Widget menus
+    WidgetProjectDetailsMenuComponent,
     WidgetMenuComponent,
     WidgetWpTableMenuComponent,
     WidgetWpGraphMenuComponent,
@@ -268,7 +256,7 @@ export function registerWidgets(injector:Injector) {
         },
       },
       {
-        identifier: 'time_entries_project',
+        identifier: 'time_entries_list',
         component: WidgetTimeEntriesProjectComponent,
         title: i18n.t('js.grid.widgets.time_entries_list.title'),
         properties: {

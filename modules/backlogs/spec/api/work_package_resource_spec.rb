@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Work package resource' do
+RSpec.describe "API v3 Work package resource" do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
@@ -39,6 +39,7 @@ describe 'API v3 Work package resource' do
     create(:work_package,
            project:,
            story_points: 8,
+           estimated_hours: 5,
            remaining_hours: 5)
   end
   let(:wp_path) { "/api/v3/work_packages/#{work_package.id}" }
@@ -47,8 +48,8 @@ describe 'API v3 Work package resource' do
     allow(Story).to receive(:types).and_return([work_package.type_id])
   end
 
-  describe '#get' do
-    shared_context 'query work package' do
+  describe "#get" do
+    shared_context "query work package" do
       before do
         allow(User).to receive(:current).and_return(current_user)
         get wp_path
@@ -57,33 +58,29 @@ describe 'API v3 Work package resource' do
       subject { last_response.body }
     end
 
-    context 'backlogs activated' do
-      include_context 'query work package'
+    context "backlogs activated" do
+      include_context "query work package"
 
-      it { is_expected.to be_json_eql(work_package.story_points.to_json).at_path('storyPoints') }
-
-      it { is_expected.to be_json_eql('PT5H'.to_json).at_path('remainingTime') }
+      it { is_expected.to be_json_eql(work_package.story_points.to_json).at_path("storyPoints") }
     end
 
-    context 'backlogs deactivated' do
+    context "backlogs deactivated" do
       let(:project) do
-        create(:project, disable_modules: 'backlogs')
+        create(:project, disable_modules: "backlogs")
       end
 
-      include_context 'query work package'
+      include_context "query work package"
 
       it { expect(last_response.status).to be 200 }
 
-      it { is_expected.not_to have_json_path('storyPoints') }
-
-      it { is_expected.not_to have_json_path('remainingTime') }
+      it { is_expected.not_to have_json_path("storyPoints") }
     end
   end
 
-  describe '#patch' do
+  describe "#patch" do
     let(:valid_params) do
       {
-        _type: 'WorkPackage',
+        _type: "WorkPackage",
         lockVersion: work_package.lock_version
       }
     end
@@ -92,21 +89,14 @@ describe 'API v3 Work package resource' do
 
     before do
       allow(User).to receive(:current).and_return current_user
-      patch wp_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      patch wp_path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    describe 'storyPoints' do
+    describe "storyPoints" do
       let(:params) { valid_params.merge(storyPoints: 12) }
 
       it { expect(subject.status).to eq(200) }
-      it { expect(subject.body).to be_json_eql(12.to_json).at_path('storyPoints') }
-    end
-
-    describe 'remainingTime' do
-      let(:params) { valid_params.merge(remainingTime: 'PT12H30M') }
-
-      it { expect(subject.status).to eq(200) }
-      it { expect(subject.body).to be_json_eql('PT12H30M'.to_json).at_path('remainingTime') }
+      it { expect(subject.body).to be_json_eql(12.to_json).at_path("storyPoints") }
     end
   end
 end

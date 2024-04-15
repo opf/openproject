@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,15 +33,15 @@ FactoryBot.define do
     end
 
     sequence(:name) { |n| "Custom Field Nr. #{n}" }
-    regexp { '' }
+    regexp { "" }
     is_required { false }
     min_length { false }
-    default_value { '' }
+    default_value { "" }
     max_length { false }
     editable { true }
-    possible_values { '' }
+    possible_values { "" }
     visible { true }
-    field_format { 'bool' }
-    type { 'WorkPackageCustomField' }
+    field_format { "bool" }
+    type { "WorkPackageCustomField" }
   end
 end

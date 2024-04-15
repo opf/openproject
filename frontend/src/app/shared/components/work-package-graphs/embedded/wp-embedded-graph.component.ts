@@ -1,8 +1,9 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { ChartOptions, ChartType } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
+import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -25,7 +26,7 @@ export class WorkPackageEmbeddedGraphComponent {
 
   @Input() public chartOptions:ChartOptions;
 
-  @Input() chartType:ChartType = 'horizontalBar';
+  @Input() chartType = 'bar';
 
   public configuration:WorkPackageTableConfiguration;
 
@@ -36,6 +37,8 @@ export class WorkPackageEmbeddedGraphComponent {
   public chartLabels:string[] = [];
 
   public chartData:ChartDataSet[] = [];
+
+  public chartPlugins = [DataLabelsPlugin];
 
   public internalChartOptions:ChartOptions;
 
@@ -79,7 +82,7 @@ export class WorkPackageEmbeddedGraphComponent {
     });
 
     uniqLabels = uniqLabels.map((label) => {
-      if (!label) {
+      if (label === null) {
         return this.i18n.t('js.placeholders.default');
       }
       return label;
@@ -98,34 +101,31 @@ export class WorkPackageEmbeddedGraphComponent {
     const defaults:ChartOptions = {
       responsive: true,
       maintainAspectRatio: false,
-      legend: {
-        // Only display legends if more than one dataset is provided.
-        display: this.datasets.length > 1,
-      },
+      indexAxis: this.chartType === 'horizontalBar' ? 'y' : 'x',
       plugins: {
+        legend: {
+          // Only display legends if more than one dataset is provided.
+          display: this.datasets.length > 1,
+        },
         datalabels: {
+          anchor: 'center',
           align: this.chartType === 'bar' ? 'top' : 'center',
         },
       },
     };
 
-    const chartTypeDefaults:ChartOptions = (() => {
-      if (this.chartType === 'horizontalBar' || this.chartType === 'bar') {
-        return this.setChartAxesValues();
-      }
-
-      return { scales: {} };
-    })();
-
     this.internalChartOptions = {
       ...defaults,
-      ...chartTypeDefaults,
       ...this.chartOptions,
     };
   }
 
   public get hasDataToDisplay() {
     return this.chartData.length > 0 && this.chartData.some((set) => set.data.length > 0);
+  }
+
+  public get mappedChartType():string {
+    return this.chartType === 'horizontalBar' ? 'bar' : this.chartType;
   }
 
   private setHeight() {
@@ -150,37 +150,5 @@ export class WorkPackageEmbeddedGraphComponent {
     } else {
       this.chartHeight = '100%';
     }
-  }
-
-  // function to set ticks of axis
-  private setChartAxesValues() {
-    const chartOptions:ChartOptions = { scales: {} };
-    const changeableValuesAxis = [{
-      stacked: true,
-      ticks: {
-        callback: (value:number) => {
-          if (Math.floor(value) === value) {
-            return value;
-          }
-          return null;
-        },
-      },
-    }];
-
-    const constantValuesAxis = [{
-      stacked: true,
-    }];
-
-    if (chartOptions.scales) {
-      if (this.chartType === 'bar') {
-        chartOptions.scales.yAxes = changeableValuesAxis;
-        chartOptions.scales.xAxes = constantValuesAxis;
-      } else if (this.chartType === 'horizontalBar') {
-        chartOptions.scales.xAxes = changeableValuesAxis;
-        chartOptions.scales.yAxes = constantValuesAxis;
-      }
-    }
-
-    return chartOptions;
   }
 }

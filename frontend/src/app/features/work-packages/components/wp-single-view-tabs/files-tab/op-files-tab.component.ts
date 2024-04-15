@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,28 +29,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
   OnInit,
 } from '@angular/core';
-import {
-  combineLatest,
-  Observable,
-} from 'rxjs';
-import {
-  catchError,
-  map,
-} from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HookService } from 'core-app/features/plugins/hook-service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
-import { IStorage } from 'core-app/core/state/storages/storage.model';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
+import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 
 @Component({
   selector: 'op-files-tab',
@@ -58,7 +48,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFilesTabComponent implements OnInit {
-  workPackage:WorkPackageResource;
+  @Input() workPackage:WorkPackageResource;
 
   text = {
     attachments: {
@@ -68,25 +58,14 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
   showAttachmentHeader$:Observable<boolean>;
 
-  storages$:Observable<IStorage[]>;
+  projectStorages:Observable<IProjectStorage[]>;
 
-  get storageFileUploadEnabled():boolean {
-    return this.configurationService.activeFeatureFlags.includes('storageFileUpload');
-  }
-
-  get storageFileLinkingEnabled():boolean {
-    return this.configurationService.activeFeatureFlags.includes('storageFileLinking');
-  }
+  allowManageFileLinks$:Observable<boolean>;
 
   constructor(
     private readonly i18n:I18nService,
-    private readonly hook:HookService,
     private readonly currentUserService:CurrentUserService,
-    private readonly projectsResourceService:ProjectsResourceService,
-    private readonly storagesResourceService:StoragesResourceService,
-    private readonly configurationService:ConfigurationService,
-    private readonly apiV3:ApiV3Service,
-    private readonly toast:ToastService,
+    private readonly projectStoragesResourceService:ProjectStoragesResourceService,
   ) { }
 
   ngOnInit():void {
@@ -97,19 +76,17 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
     const canViewFileLinks = this.currentUserService.hasCapabilities$('file_links/view', project.id);
 
-    this.storages$ = this
-      .storagesResourceService
-      .collection(project.href as string)
-      .pipe(
-        catchError((error) => {
-          this.toast.addError(error);
-          throw error;
-        }),
-      );
+    this.projectStorages = this
+      .projectStoragesResourceService
+      .requireCollection({ filters: [['projectId', '=', [project.id]]] });
+
+    this.allowManageFileLinks$ = this
+      .currentUserService
+      .hasCapabilities$('file_links/manage', project.id);
 
     this.showAttachmentHeader$ = combineLatest(
       [
-        this.storages$,
+        this.projectStorages,
         canViewFileLinks,
       ],
     ).pipe(

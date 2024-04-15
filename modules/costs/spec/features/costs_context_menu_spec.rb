@@ -1,11 +1,11 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Work package table log unit costs', js: true do
+RSpec.describe "Work package table log unit costs", :js do
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package) }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new }
-  let(:menu) { ::Components::WorkPackages::ContextMenu.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new }
+  let(:menu) { Components::WorkPackages::ContextMenu.new }
 
   def goto_context_menu
     # Go to table
@@ -24,8 +24,8 @@ describe 'Work package table log unit costs', js: true do
     goto_context_menu
   end
 
-  it 'renders the log unit costs menu item' do
+  it "renders the log unit costs menu item" do
     menu.choose(I18n.t(:label_log_costs))
-    expect(page).to have_selector('h2', text: I18n.t(:label_log_costs))
+    expect(page).to have_css("h2", text: I18n.t(:label_log_costs))
   end
 end

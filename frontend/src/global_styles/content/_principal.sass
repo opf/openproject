@@ -4,6 +4,9 @@
   justify-content: center
   vertical-align: middle
 
+  &_flex
+    display: flex
+
   &--avatar
     flex-grow: 0
     flex-shrink: 0
@@ -13,6 +16,7 @@
     flex-grow: 1
     flex-shrink: 1
     min-width: 0 // See: https://css-tricks.com/flexbox-truncated-text/
+    margin-left: $spot-spacing-0_25
 
   &_wrapped &--name
     white-space: normal
@@ -22,9 +26,6 @@
     margin-bottom: 2px
 
   &_hide-name-on-mobile &
-    @media screen and (max-width: 680px)
+    @media screen and (max-width: $breakpoint-sm)
       &--name
         display: none
-
-  .op-avatar + .op-principal--name
-    margin-left: $spot-spacing-0_5

@@ -2,6 +2,7 @@
 
 .op-wp-breadcrumb
   @include global-breadcrumb-styles
+  margin: 0
   height: initial
 
   &--ellipsed
@@ -11,12 +12,8 @@
   &--active-parent-select
     width: 500px
 
-  @media screen and (max-width: 1248px)
-    margin-top: 0
-
   ul.op-breadcrumb li wp-breadcrumb-parent
     white-space: initial
 
   .ng-placeholder
     @include text-shortener
-

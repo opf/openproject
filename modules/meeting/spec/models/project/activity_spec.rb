@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Projects::Activity, 'meeting' do
+RSpec.describe Projects::Activity, "meeting" do
   shared_let(:project) do
     create(:project, :updated_a_long_time_ago)
   end
@@ -54,8 +54,8 @@ describe Projects::Activity, 'meeting' do
     Project.with_latest_activity.find(project.id).latest_activity_at
   end
 
-  describe '.with_latest_activity' do
-    it 'set project.latest_activity_at to the latest updated meeting time' do
+  describe ".with_latest_activity" do
+    it "set project.latest_activity_at to the latest updated meeting time" do
       meeting.update(updated_at: initial_time - 10.seconds)
       meeting2.update(updated_at: initial_time - 20.seconds)
 
@@ -63,7 +63,7 @@ describe Projects::Activity, 'meeting' do
       expect(latest_activity).to be_within(0.00001).of(meeting.updated_at)
     end
 
-    it 'takes the time stamp of the latest activity across models' do
+    it "takes the time stamp of the latest activity across models" do
       work_package.update(updated_at: initial_time - 10.seconds)
       meeting.update(updated_at: initial_time - 20.seconds)
 

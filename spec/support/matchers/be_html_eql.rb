@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-::RSpec::Matchers.define :be_html_eql do |expected|
+RSpec::Matchers.define :be_html_eql do |expected|
   def path
     @path
   end
@@ -52,15 +52,15 @@
   end
 
   chain :within_path do |path|
-    @path = path + ' > *'
+    @path = path + " > *"
   end
 
   should_message = ->(actual) do
-    ['expected:', expected.to_s, 'got:', actual.to_s].join("\n")
+    ["expected:", expected.to_s, "got:", actual.to_s].join("\n")
   end
 
   should_not_message = ->(actual) do
-    ['expected:', actual.to_s, 'not to be equivalent to:', expected.to_s].join("\n")
+    ["expected:", actual.to_s, "not to be equivalent to:", expected.to_s].join("\n")
   end
 
   failure_message &should_message

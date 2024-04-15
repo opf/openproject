@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -50,7 +50,7 @@ module API
         end
 
         link :update,
-             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:manage_versions, represented.project) } do
           {
             href: api_v3_paths.version_form(represented.id),
             method: :post
@@ -58,7 +58,7 @@ module API
         end
 
         link :updateImmediately,
-             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:manage_versions, represented.project) } do
           {
             href: api_v3_paths.version(represented.id),
             method: :patch
@@ -66,7 +66,7 @@ module API
         end
 
         link :delete,
-             cache_if: -> { current_user_allowed_to(:manage_versions, context: represented.project) } do
+             cache_if: -> { current_user.allowed_in_project?(:manage_versions, represented.project) } do
           {
             href: api_v3_paths.version(represented.id),
             method: :delete
@@ -95,7 +95,7 @@ module API
         date_property :start_date
 
         date_property :effective_date,
-                      as: 'endDate',
+                      as: "endDate",
                       writable: true
 
         property :status
@@ -106,7 +106,7 @@ module API
         date_time_property :updated_at
 
         def _type
-          'Version'
+          "Version"
         end
       end
     end

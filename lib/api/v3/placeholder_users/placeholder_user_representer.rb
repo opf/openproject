@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,16 +51,27 @@ module API
         link :showUser do
           {
             href: api_v3_paths.placeholder_user_path(represented.id),
-            type: 'text/html'
+            type: "text/html"
           }
         end
 
+        property :status,
+                 getter: ->(*) { represented.status },
+                 setter: ->(fragment:, represented:, **) { represented.status = User.statuses[fragment.to_sym] },
+                 exec_context: :decorator,
+                 render_nil: true,
+                 cache_if: -> { current_user_can_manage? }
+
         def _type
-          'PlaceholderUser'
+          "PlaceholderUser"
+        end
+
+        def current_user_can_see_date_properties?
+          current_user_can_manage?
         end
 
         def current_user_can_manage?
-          current_user&.allowed_to_globally?(:manage_placeholder_user)
+          current_user&.allowed_globally?(:manage_placeholder_user)
         end
       end
     end

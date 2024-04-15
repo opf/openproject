@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Users::UpdateContract do
-  include_context 'ModelContract shared context'
+RSpec.describe Users::UpdateContract do
+  let!(:default_admin) { create(:admin) }
 
-  it_behaves_like 'user contract' do
+  it_behaves_like "user contract" do
+    let(:current_user) { create(:admin) }
     let(:user) { build_stubbed(:user, attributes) }
     let(:contract) { described_class.new(user, current_user) }
     let(:attributes) do
@@ -41,22 +41,60 @@ describe Users::UpdateContract do
         firstname: user_firstname,
         lastname: user_lastname,
         login: user_login,
-        mail: user_mail
+        mail: user_mail,
+        password: nil,
+        password_confirmation: nil
       }
     end
 
-    context 'when global user' do
-      let(:current_user) { create :user, global_permission: :manage_user }
+    context "with a system user" do
+      let(:current_user) { create(:system) }
+      let(:user) { create(:admin, attributes) }
 
-      describe 'can lock the user' do
+      context "when admin flag is removed" do
         before do
-          # needed for the stub
-          user.password = user.password_confirmation = nil
+          user.admin = false
+        end
 
+        it_behaves_like "contract is valid"
+
+        context "when no admins left" do
+          let(:default_admin) { nil }
+
+          it_behaves_like "contract is invalid", base: :one_must_be_active
+        end
+      end
+
+      context "when status is locked on an admin user" do
+        before do
+          user.status = :locked
+        end
+
+        it_behaves_like "contract is valid"
+
+        context "when no admins left" do
+          let(:default_admin) { nil }
+
+          it_behaves_like "contract is invalid", base: :one_must_be_active
+        end
+      end
+    end
+
+    context "when global user" do
+      let(:current_user) { create(:user, global_permissions: :manage_user) }
+
+      describe "can lock the user" do
+        before do
           user.status = Principal.statuses[:locked]
         end
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
+      end
+
+      describe "cannot update an administrator" do
+        let(:user) { build_stubbed(:admin, attributes) }
+
+        it_behaves_like "contract is invalid"
       end
     end
 
@@ -64,17 +102,14 @@ describe Users::UpdateContract do
       # That scenario is the only that is not covered by the shared examples
       let(:current_user) { user }
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
 
-      context 'when setting status' do
+      context "when setting status" do
         before do
-          # needed for the stub
-          user.password = user.password_confirmation = nil
-
           user.status = Principal.statuses[:locked]
         end
 
-        it_behaves_like 'contract is invalid', status: :error_readonly
+        it_behaves_like "contract is invalid", status: :error_readonly
       end
     end
   end

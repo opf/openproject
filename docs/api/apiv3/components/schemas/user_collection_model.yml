@@ -14,11 +14,11 @@ allOf:
         properties:
           self:
             allOf:
-              - $ref: "./link.yml"
+              - $ref: './link.yml'
               - description: |-
                   This user collection
                   
-                  **Resource**: UserCollectionModel
+                  **Resource**: Collection
       _embedded:
         type: object
         required:

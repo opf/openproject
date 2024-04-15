@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,17 +32,12 @@ require 'rails/all'
 require 'active_support'
 require 'active_support/dependencies'
 require 'core_extensions'
+require "view_component"
+require "primer/view_components/engine"
 
-# Silence deprecations early on for testing on CI and production
-ActiveSupport::Deprecation.silenced =
-  (Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']) ||
-  (Rails.env.test? && ENV['CI'])
-
-if defined?(Bundler)
-  # Require the gems listed in Gemfile, including any gems
-  # you've limited to :test, :development, or :production.
-  Bundler.require(*Rails.groups(:opf_plugins))
-end
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups(:opf_plugins))
 
 require_relative '../lib_static/open_project/configuration'
 
@@ -52,17 +47,33 @@ module OpenProject
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Initialize configuration defaults for a Rails version.
+    # Initialize configuration defaults for originally generated Rails version.
     #
     # This includes defaults for versions prior to the target version. See the
     # configuration guide at
     # https://guides.rubyonrails.org/configuring.html#versioned-default-values
     # for the default values associated with a particular version.
     #
-    # Currently, defaults from Rails 4.2 are applied. Goal is to reach 7.0
-    # defaults. Overridden defaults should be stored in specific initializers
-    # files. See https://community.openproject.org/wp/45463 for details.
-    # config.load_defaults 5.0
+    # Goal is to reach 7.0 defaults. Overridden defaults should be stored in
+    # specific initializers files. See
+    # https://community.openproject.org/wp/45463 for details.
+    config.load_defaults 5.0
+
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w(assets tasks))
+
+    # Configuration for the application, engines, and railties goes here.
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
+
+    # Do not require `belongs_to` associations to be present by default.
+    # Rails 5.0+ default is true. Because of history, lots of tests fail when
+    # set to true.
+    config.active_record.belongs_to_required_by_default = false
 
     # Sets up logging for STDOUT and configures the default logger formatter
     # so that all environments receive level and timestamp information
@@ -75,9 +86,11 @@ module OpenProject
 
     # Set up STDOUT logging if requested
     if ENV["RAILS_LOG_TO_STDOUT"].present?
-      logger           = ActiveSupport::Logger.new(STDOUT)
+      logger           = ActiveSupport::Logger.new($stdout)
       logger.formatter = config.log_formatter
-      config.logger    = ActiveSupport::TaggedLogging.new(logger)
+      # Prepend all log lines with the following tags.
+      config.log_tags = [:request_id]
+      config.logger = ActiveSupport::TaggedLogging.new(logger)
     end
 
     # Use Rack::Deflater to gzip/deflate all the responses if the
@@ -100,10 +113,12 @@ module OpenProject
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
 
-    # Custom directories with classes and modules you want to be autoloadable.
-    config.enable_dependency_loading = true
-    config.paths.add Rails.root.join('lib').to_s, eager_load: true
-    config.paths.add Rails.root.join('lib/constraints').to_s, eager_load: true
+    # Add lookbook preview paths when enabled
+    if OpenProject::Configuration.lookbook_enabled?
+      config.paths.add Primer::ViewComponents::Engine.root.join('app/components').to_s, eager_load: true
+      config.paths.add Rails.root.join("lookbook/previews").to_s, eager_load: true
+      config.paths.add Primer::ViewComponents::Engine.root.join('previews').to_s, eager_load: true
+    end
 
     # Constants in lib_static should only be loaded once and never be unloaded.
     # That directory contains configurations and patches to rails core functionality.
@@ -121,7 +136,7 @@ module OpenProject
     # config.time_zone = 'Central Time (US & Canada)'
 
     # Add locales from crowdin translations to i18n
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
+    config.i18n.load_path += Dir[Rails.root.join("config/locales/crowdin/*.{rb,yml}").to_s]
     config.i18n.default_locale = :en
 
     # Fall back to default locale
@@ -129,6 +144,9 @@ module OpenProject
 
     # Enable serialization of types [Symbol, Date, Time]
     config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::HashWithIndifferentAccess]
+
+    # Include tstzrange columns in the list of time zone aware types
+    ActiveRecord::Base.time_zone_aware_types += [:tstzrange]
 
     # Activate being able to specify the format in which full_message works.
     # Doing this, it is e.g. possible to avoid having the format of '%{attribute} %{message}' which
@@ -194,7 +212,20 @@ module OpenProject
     # This allows for setting the root either via config file or via environment variable.
     config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
 
-    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :good_job
+
+    config.good_job.retry_on_unhandled_error = false
+    # It has been commented out because AppSignal gem modifies ActiveJob::Base to report exceptions already.
+    # config.good_job.on_thread_error = -> (exception) { OpenProject.logger.error(exception) }
+    config.good_job.execution_mode = :external
+    config.good_job.preserve_job_records = true
+    config.good_job.cleanup_preserved_jobs_before_seconds_ago = OpenProject::Configuration[:good_job_cleanup_preserved_jobs_before_seconds_ago]
+    config.good_job.queues = OpenProject::Configuration[:good_job_queues]
+    config.good_job.max_threads = OpenProject::Configuration[:good_job_max_threads]
+    config.good_job.max_cache = OpenProject::Configuration[:good_job_max_cache]
+    config.good_job.enable_cron = OpenProject::Configuration[:good_job_enable_cron]
+    config.good_job.shutdown_timeout = 30
+    config.good_job.smaller_number_is_higher_priority = false
 
     config.action_controller.asset_host = OpenProject::Configuration::AssetHost.value
 
@@ -206,13 +237,17 @@ module OpenProject
     # Enable the Rails 7 cache format
     config.active_support.cache_format_version = 7.0
 
-    def self.root_url
-      Setting.protocol + "://" + Setting.host_name
+    config.after_initialize do
+      Settings::Definition.add_all
+    end
+
+    def root_url
+      "#{Setting.protocol}://#{Setting.host_name}"
     end
 
     ##
     # Load core and engine tasks we're interested in
-    def self.load_rake_tasks
+    def load_rake_tasks
       load_tasks
       Doorkeeper::Rake.load_tasks
     end

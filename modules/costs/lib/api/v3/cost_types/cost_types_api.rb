@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/cost_types/cost_type_representer'
+require "api/v3/cost_types/cost_type_representer"
 
 module API
   module V3
@@ -34,12 +34,10 @@ module API
       class CostTypesAPI < ::API::OpenProjectAPI
         resources :cost_types do
           after_validation do
-            authorize_any(%i[view_cost_entries view_own_cost_entries],
-                          global: true,
-                          user: current_user)
+            authorize_in_any_project(%i[view_cost_entries view_own_cost_entries])
           end
 
-          route_param :id, type: Integer, desc: 'Cost type ID' do
+          route_param :id, type: Integer, desc: "Cost type ID" do
             after_validation do
               @cost_type = CostType.active.find(params[:id])
             end

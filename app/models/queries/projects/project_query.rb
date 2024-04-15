@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::ProjectQuery < Queries::BaseQuery
+class Queries::Projects::ProjectQuery < ApplicationRecord
+  include Queries::BaseQuery
   include Queries::Serialization::Hash
+
+  belongs_to :user
+
+  serialize :filters, coder: Queries::Serialization::Filters.new(self)
+  serialize :orders, coder: Queries::Serialization::Orders.new(self)
+  serialize :selects, coder: Queries::Serialization::Selects.new(self)
 
   def self.model
     Project

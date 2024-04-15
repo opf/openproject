@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,31 +30,31 @@ namespace :copyright do
   def short_copyright(format, options = {})
     case format
     when :ruby, :rb
-      short_copyright_line('#', options)
+      short_copyright_line("#", options)
     when :js, :sass, :ts
-      short_copyright_line('//', options)
+      short_copyright_line("//", options)
     when :css
-      short_copyright_surrounding('/*', '*/', options)
+      short_copyright_surrounding("/*", "*/", options)
     when :sql
-      short_copyright_line('-- ', options)
+      short_copyright_line("-- ", options)
     when :erb
-      short_copyright_surrounding('<%#', '#%>', options)
+      short_copyright_surrounding("<%#", "#%>", options)
     when :rdoc
-      "----------\n#{short_copyright_line(' ', options)}\n----------\n".gsub(' -- copyright', "==== copyright\n")
+      "----------\n#{short_copyright_line(' ', options)}\n----------\n".gsub(" -- copyright", "==== copyright\n")
     when :md
-      short_copyright_surrounding('<!--', '-->', options)
+      short_copyright_surrounding("<!--", "-->", options)
     else
       raise "Undefined format #{format}"
     end
   end
 
   def copyright_file(options = {})
-    path = 'COPYRIGHT_short'
+    path = "COPYRIGHT_short"
     if options[:path]
-      path = File.join(options[:path], 'COPYRIGHT_short') if File.exist?(File.join(options[:path],
-                                                                                   'COPYRIGHT_short'))
-      path = File.join(options[:path], 'COPYRIGHT_short.md') if File.exist?(File.join(options[:path],
-                                                                                      'COPYRIGHT_short.md'))
+      path = File.join(options[:path], "COPYRIGHT_short") if File.exist?(File.join(options[:path],
+                                                                                   "COPYRIGHT_short"))
+      path = File.join(options[:path], "COPYRIGHT_short.md") if File.exist?(File.join(options[:path],
+                                                                                      "COPYRIGHT_short.md"))
     end
     path
   end
@@ -108,12 +108,12 @@ namespace :copyright do
 
   def rewrite_copyright(ending, additional_excludes, format, path, options = {})
     regexp = options[:regex] || copyright_regexp(format)
-    path = '.' if path.nil?
+    path = "." if path.nil?
     copyright = options[:copyright] || short_copyright(format, path:)
     file_list = options[:file_list] || Dir[File.absolute_path(path) + "/**/*.#{ending}"]
     excluded = exluded_paths.concat(additional_excludes)
 
-    raise 'Path not found' unless Dir.exist?(path)
+    raise "Path not found" unless Dir.exist?(path)
 
     file_list.each do |file_name|
       # Skip 3rd party code
@@ -130,135 +130,135 @@ namespace :copyright do
     end
   end
 
-  desc 'Update special files, which do not have an ending'
+  desc "Update special files, which do not have an ending"
   task :update_special_files, :arg1 do |_task, args|
     # ruby-like files
     file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}.map do |f|
       File.absolute_path f
     end
-    rewrite_copyright('rb', [], :rb, args[:arg1], file_list:)
+    rewrite_copyright("rb", [], :rb, args[:arg1], file_list:)
   end
 
-  desc 'Update the copyright on .rb source files'
+  desc "Update the copyright on .rb source files"
   task :update_rb, :arg1 do |_task, args|
     excluded = (%w(acts_as_tree rfpdf verification).map { |dir| "lib_static/plugins/#{dir}" })
 
-    rewrite_copyright('rb', excluded, :rb, args[:arg1])
+    rewrite_copyright("rb", excluded, :rb, args[:arg1])
   end
 
-  desc 'Update the copyright on .rake source files'
+  desc "Update the copyright on .rake source files"
   task :update_rake, :arg1 do |_task, args|
-    rewrite_copyright('rake', [], :rb, args[:arg1])
+    rewrite_copyright("rake", [], :rb, args[:arg1])
   end
 
-  desc 'Update the copyright on .yml source files'
+  desc "Update the copyright on .yml source files"
   task :update_yml, :arg1 do |_task, args|
-    rewrite_copyright('yml', [], :rb, args[:arg1])
+    rewrite_copyright("yml", [], :rb, args[:arg1])
   end
 
-  desc 'Update the copyright on .yml.example source files'
+  desc "Update the copyright on .yml.example source files"
   task :update_yml_example, :arg1 do |_task, args|
-    rewrite_copyright('yml.example', [], :rb, args[:arg1])
+    rewrite_copyright("yml.example", [], :rb, args[:arg1])
   end
 
-  desc 'Update the copyright on .rb.example source files'
+  desc "Update the copyright on .rb.example source files"
   task :update_rb_example, :arg1 do |_task, args|
-    rewrite_copyright('rb.example', [], :rb, args[:arg1])
+    rewrite_copyright("rb.example", [], :rb, args[:arg1])
   end
 
-  desc 'Update the copyright on .rjs source files'
+  desc "Update the copyright on .rjs source files"
   task :update_rjs, :arg1 do |_task, args|
-    rewrite_copyright('rjs', [], :rb, args[:arg1])
+    rewrite_copyright("rjs", [], :rb, args[:arg1])
   end
 
-  desc 'Update the copyright on .feature source files'
+  desc "Update the copyright on .feature source files"
   task :update_feature, :arg1 do |_task, args|
-    rewrite_copyright('feature', [], :rb, args[:arg1])
+    rewrite_copyright("feature", [], :rb, args[:arg1])
   end
 
-  desc 'Update the copyright on .css source files'
+  desc "Update the copyright on .css source files"
   task :update_css, :arg1 do |_task, args|
     excluded = []
 
-    rewrite_copyright('css', excluded, :css, args[:arg1])
+    rewrite_copyright("css", excluded, :css, args[:arg1])
   end
 
-  desc 'Update the copyright on .css.erb source files'
+  desc "Update the copyright on .css.erb source files"
   task :update_css_erb, :arg1 do |_task, args|
     excluded = []
 
-    rewrite_copyright('css.erb', excluded, :css, args[:arg1])
+    rewrite_copyright("css.erb", excluded, :css, args[:arg1])
   end
 
-  desc 'Update the copyright on .sass source files'
+  desc "Update the copyright on .sass source files"
   task :update_sass, :arg1 do |_task, args|
     excluded = %w(
       app/assets/stylesheets/default.css.sass
     )
-    rewrite_copyright('sass', excluded, :sass, args[:arg1])
+    rewrite_copyright("sass", excluded, :sass, args[:arg1])
   end
 
-  desc 'Update the copyright on .sql source files'
+  desc "Update the copyright on .sql source files"
   task :update_sql, :arg1 do |_task, args|
-    rewrite_copyright('sql', [], :sql, args[:arg1])
+    rewrite_copyright("sql", [], :sql, args[:arg1])
   end
 
-  desc 'Update the copyright on .js source files'
+  desc "Update the copyright on .js source files"
   task :update_js, :arg1 do |_task, args|
     excluded = []
 
-    rewrite_copyright('js', excluded, :js, args[:arg1])
+    rewrite_copyright("js", excluded, :js, args[:arg1])
   end
 
-  desc 'Update the copyright on .js.erb source files'
+  desc "Update the copyright on .js.erb source files"
   task :update_js_erb, :arg1 do |_task, args|
-    excluded = ['app/assets/javascripts/application.js.erb']
+    excluded = ["app/assets/javascripts/application.js.erb"]
 
-    rewrite_copyright('js.erb', excluded, :erb, args[:arg1])
+    rewrite_copyright("js.erb", excluded, :erb, args[:arg1])
   end
 
-  desc 'Update the copyright on .rdoc source files'
+  desc "Update the copyright on .rdoc source files"
   task :update_rdoc, :arg1 do |_task, args|
-    excluded = ['README.rdoc',
-                'LICENSE',
-                'COPYRIGHT',
-                'COPYRIGHT_short']
+    excluded = ["README.rdoc",
+                "LICENSE",
+                "COPYRIGHT",
+                "COPYRIGHT_short"]
 
-    rewrite_copyright('rdoc', excluded, :rdoc, args[:arg1], position: :bottom)
+    rewrite_copyright("rdoc", excluded, :rdoc, args[:arg1], position: :bottom)
   end
 
-  desc 'Update the copyright on .html.erb source files'
+  desc "Update the copyright on .html.erb source files"
   task :update_html_erb, :arg1 do |_task, args|
-    rewrite_copyright('html.erb', [], :erb, args[:arg1])
+    rewrite_copyright("html.erb", [], :erb, args[:arg1])
   end
 
-  desc 'Update the copyright on .json.erb source files'
+  desc "Update the copyright on .json.erb source files"
   task :update_json_erb, :arg1 do |_task, args|
-    rewrite_copyright('json.erb', [], :erb, args[:arg1])
+    rewrite_copyright("json.erb", [], :erb, args[:arg1])
   end
 
-  desc 'Update the copyright on .atom.builder source files'
+  desc "Update the copyright on .atom.builder source files"
   task :update_atom_builder, :arg1 do |_task, args|
-    rewrite_copyright('atom.builder', [], :rb, args[:arg1])
+    rewrite_copyright("atom.builder", [], :rb, args[:arg1])
   end
 
-  desc 'Update the copyright on .text.erb source files'
+  desc "Update the copyright on .text.erb source files"
   task :update_text_erb, :arg1 do |_task, args|
-    rewrite_copyright('text.erb', [], :erb, args[:arg1])
+    rewrite_copyright("text.erb", [], :erb, args[:arg1])
   end
 
-  desc 'Update the copyright on .ts source files'
+  desc "Update the copyright on .ts source files"
   task :update_typescript, :arg1 do |_task, args|
-    rewrite_copyright('ts', [], :ts, args[:arg1])
+    rewrite_copyright("ts", [], :ts, args[:arg1])
   end
 
-  desc 'Update the copyright on all source files'
+  desc "Update the copyright on all source files"
   task :update, :arg1 do |_task, args|
     %w{
       css rb js js_erb css_erb html_erb json_erb text_erb atom_builder rake
       feature rdoc rjs sql yml yml_example rb_example special_files sass
     }.each do |t|
-      Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])
+      Rake::Task["copyright:update_" + t.to_s].invoke(args[:arg1])
     end
   end
 end

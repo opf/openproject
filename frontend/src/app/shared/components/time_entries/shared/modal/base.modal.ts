@@ -4,6 +4,7 @@ import {
   ElementRef,
   Inject,
   Injector,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
@@ -18,7 +19,7 @@ import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-re
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Directive()
-export abstract class TimeEntryBaseModal extends OpModalComponent {
+export abstract class TimeEntryBaseModal extends OpModalComponent implements OnInit {
   @ViewChild('editForm', { static: true }) editForm:TimeEntryFormComponent;
 
   public text:{ [key:string]:string } = {
@@ -32,6 +33,8 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
 
   public formInFlight:boolean;
 
+  public changeset:ResourceChangeset<TimeEntryResource>;
+
   @InjectField() apiV3Service:ApiV3Service;
 
   constructor(readonly elementRef:ElementRef,
@@ -42,11 +45,12 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
     super(locals, cdRef, elementRef);
   }
 
-  public abstract setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }):void;
-
-  public get changeset():ResourceChangeset<TimeEntryResource> {
-    return this.locals.changeset;
+  ngOnInit() {
+    super.ngOnInit();
+    this.changeset = this.locals.changeset as ResourceChangeset<TimeEntryResource>;
   }
+
+  public abstract setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }):void;
 
   public get entry():TimeEntryResource {
     return this.changeset.projectedResource;
@@ -80,6 +84,8 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   }
 
   protected reloadWorkPackageAndClose():void {
+    this.service.close();
+    this.formInFlight = false;
     // reload workPackage
     if (this.entry.workPackage) {
       void this
@@ -88,8 +94,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
         .id(this.entry.workPackage)
         .refresh();
     }
-    this.service.close();
-    this.formInFlight = false;
+
     this.cdRef.detectChanges();
   }
 }

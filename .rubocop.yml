@@ -1,8 +1,20 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-rspec_rails
+  - ./lib_static/rubocop/cop/open_project/add_preview_for_view_component.rb
   - ./lib_static/rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect.rb
   - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
+  - rubocop-capybara
+  - rubocop-factory_bot
+  - rubocop-performance
+  - rubocop-inflector
+  - ./config/initializers/inflections.rb
+
+<% if File.exist?('.rubocop-local.yml') %>
+inherit_from:
+  - .rubocop-local.yml
+<% end %>
 
 inherit_mode:
   merge:
@@ -10,11 +22,17 @@ inherit_mode:
     - Exclude
 
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.2
   # Enable any new cops in new versions by default
   NewCops: enable
   Exclude:
     - '**/node_modules/**/*'
+
+FactoryBot/ConsistentParenthesesStyle:
+  Enabled: false
+
+FactoryBot/SyntaxMethods:
+  Enabled: true
 
 Gemspec/RequiredRubyVersion:
   Exclude:
@@ -127,6 +145,7 @@ Naming/PredicateName:
 Naming/VariableNumber:
   AllowedPatterns:
     - '\w_20\d\d' # allow dates like christmas_2022 or date_2034_04_12
+    - '\w\d++(_\d++)+' # allow hierarchical data like child1_2_5 (second + in regex is possessive qualifier)
 
 # There are valid cases in which to use methods like:
 # * update_all
@@ -145,6 +164,10 @@ Rails/I18nLocaleAssignment:
   Enabled: true
   Exclude:
     - 'spec/**/*.rb'
+
+# Do not bother if `let` statements use an index in their name
+RSpec/IndexedLet:
+  Enabled: false
 
 # The http verbs in Rack::Test do not accept named parameters (params: params)
 Rails/HttpPositionalArguments:
@@ -185,6 +208,11 @@ Rails/DynamicFindBy:
     - 'spec/support/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
+# We have config.active_record.belongs_to_required_by_default = false ,
+# which means, we do have to declare presence validators on belongs_to relations.
+Rails/RedundantPresenceValidationOnBelongsTo:
+  Enabled: false
+
 # See RSpec/ExampleLength for why feature specs are excluded
 RSpec/MultipleExpectations:
   Max: 15
@@ -206,8 +234,12 @@ RSpec/DescribeMethod:
 
 # Don't force the second argument of describe
 # to match the exact file name
-RSpec/FilePath:
-  SpecSuffixOnly: true
+RSpec/SpecFilePathFormat:
+  IgnoreMethods: true
+
+# Prevent  "fit" or similar to be committed
+RSpec/Focus:
+  Enabled: true
 
 # We use let!() to ensure dependencies are created
 # instead of let() and referencing them explicitly
@@ -222,18 +254,22 @@ RSpec/NamedSubject:
 
 RSpec/ContextWording:
   Prefixes:
+    - and
     - as
+    - even
     - for
+    - given
+    - having
     - if
+    - in
     - 'on'
     - to
     - unless
+    - via
     - when
     - with
+    - within
     - without
-
-RSpec/FactoryBot/SyntaxMethods:
-  Enabled: true
 
 Style/Alias:
   Enabled: false
@@ -382,10 +418,9 @@ Style/SpecialGlobalVars:
 #   For the record: using single quotes does NOT have any performance advantages.
 #   Even if it did, this would be a silly argument.
 #
-# Ideally we would just use double quotes everywhere but since that would result
-# in innumerable rubocop offenses we will just disable this. Quote away.
+# Quote away.
 Style/StringLiterals:
-  Enabled: false
+  EnforcedStyle: double_quotes
 
 Style/TrivialAccessors:
   Enabled: false
@@ -420,3 +455,6 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: true
+
+Performance/Casecmp:
+  Enabled: false

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class Taskboard < Page
@@ -45,13 +45,13 @@ module Pages
 
     def expect_task(task)
       expect(page)
-        .to have_selector("#work_package_#{task.id}")
+        .to have_css("#work_package_#{task.id}")
     end
 
     def expect_task_in_story_column(task, story, column)
       within ".story_#{story.id} td:nth-of-type(#{column + 2})" do
         expect(page)
-          .to have_selector("#work_package_#{task.id}")
+          .to have_css("#work_package_#{task.id}")
       end
     end
 
@@ -62,7 +62,7 @@ module Pages
 
     def expect_color_for_task(hex_color, task)
       expect(page)
-        .to have_selector("#work_package_#{task.id}[style='background-color:#{hex_color};']")
+        .to have_css("#work_package_#{task.id}[style='background-color:#{hex_color};']")
     end
 
     def add_task(story, attributes)
@@ -70,8 +70,8 @@ module Pages
 
       change_attributes_in_modal(attributes)
 
-      expect(page).to have_no_selector('.ui-dialog')
-      expect(page).to have_no_selector('#work_package_')
+      expect(page).to have_no_css(".ui-dialog")
+      expect(page).to have_no_css("#work_package_")
     end
 
     def update_task(task, attributes)
@@ -79,7 +79,7 @@ module Pages
 
       change_attributes_in_modal(attributes)
 
-      expect(page).to have_no_selector('.ui-dialog')
+      expect(page).to have_no_css(".ui-dialog")
 
       sleep(0.5)
     end
@@ -112,19 +112,19 @@ module Pages
     end
 
     def change_attributes_in_modal(attributes)
-      within '.ui-dialog' do
+      within ".ui-dialog" do
         attributes.each do |key, value|
           case key
           when :subject
-            fill_in 'subject', with: value
+            fill_in "Subject", with: value
           when :assignee
-            select value, from: 'assigned to'
+            select value, from: "Assignee"
           when :remaining_hours
-            fill_in 'remaining hours', with: value
+            fill_in "Remaining work", with: value
           end
         end
 
-        click_button 'OK'
+        click_button "OK"
       end
     end
   end

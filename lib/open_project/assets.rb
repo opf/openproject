@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'fileutils'
+require "fileutils"
 
 module OpenProject
   module Assets
@@ -43,11 +43,11 @@ module OpenProject
       end
 
       def frontend_asset_path
-        Rails.public_path.join('assets/frontend/')
+        Rails.public_path.join("assets/frontend/")
       end
 
       def manifest_path
-        Rails.root.join('config/frontend_assets.manifest.json')
+        Rails.root.join("config/frontend_assets.manifest.json")
       end
 
       def load_manifest
@@ -69,7 +69,7 @@ module OpenProject
       # Rebuilds the manifest file
       def rebuild_manifest!
         # Remove index html
-        FileUtils.remove File.join(frontend_asset_path, 'index2.html'), force: true
+        FileUtils.remove File.join(frontend_asset_path, "index2.html"), force: true
 
         # Create map of asset chunk name to current hash
         manifest = {}
@@ -87,7 +87,7 @@ module OpenProject
       end
 
       def current_assets
-        Dir.glob(OpenProject::Assets.frontend_asset_path + '*')
+        Dir.glob(OpenProject::Assets.frontend_asset_path + "*")
           .select { |f| File.file? f }
           .map { |f| File.basename(f) }
       end

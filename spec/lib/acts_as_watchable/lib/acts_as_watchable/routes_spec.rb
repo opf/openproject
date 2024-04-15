@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe OpenProject::Acts::Watchable::Routes do
+RSpec.describe OpenProject::Acts::Watchable::Routes do
   let(:request) do
     Struct.new(:type, :id) do
       def path_parameters
@@ -37,38 +37,38 @@ describe OpenProject::Acts::Watchable::Routes do
     end.new(type, id)
   end
 
-  describe 'matches?' do
-    shared_examples_for 'watched model' do
-      describe 'for a valid id string' do
-        let(:id) { '1' }
+  describe "matches?" do
+    shared_examples_for "watched model" do
+      describe "for a valid id string" do
+        let(:id) { "1" }
 
-        it 'is true' do
+        it "is true" do
           expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_truthy
         end
       end
 
-      describe 'for an invalid id string' do
-        let(:id) { 'schmu' }
+      describe "for an invalid id string" do
+        let(:id) { "schmu" }
 
-        it 'is false' do
+        it "is false" do
           expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
         end
       end
     end
 
-    ['work_packages', 'news', 'forums', 'messages', 'wikis', 'wiki_pages'].each do |type|
+    ["work_packages", "news", "forums", "messages", "wikis", "wiki_pages"].each do |type|
       describe "routing #{type} watches" do
         let(:type) { type }
 
-        it_behaves_like 'watched model'
+        it_behaves_like "watched model"
       end
     end
 
-    describe 'for a non watched model' do
-      let(:type) { 'schmu' }
-      let(:id) { '4' }
+    describe "for a non watched model" do
+      let(:type) { "schmu" }
+      let(:id) { "4" }
 
-      it 'is false' do
+      it "is false" do
         expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
       end
     end

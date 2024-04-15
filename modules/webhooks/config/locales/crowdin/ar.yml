@@ -1,4 +1,7 @@
 ar:
+  plugin_openproject_webhooks:
+    name: "OpenProject Webhooks"
+    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
   activerecord:
     attributes:
       webhooks/webhook:
@@ -52,7 +55,7 @@ ar:
         events:
           title: 'Enabled events'
         project_ids:
-          title: 'Enabled projects'
+          title: 'المشاريع الممكنة'
           description: 'Select for which projects this webhook should be executed for.'
           all: 'All projects'
           selected: 'Selected projects only'

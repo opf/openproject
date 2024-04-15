@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Navigate to overview', type: :feature, js: true do
+RSpec.describe "Navigate to overview", :js do
   let(:project) { create(:project) }
   let(:permissions) { [] }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
 
   before do
     login_as user
   end
 
-  it 'can visit the overview page' do
+  it "can visit the overview page" do
     visit project_path(project)
 
-    within '#menu-sidebar' do
+    within "#menu-sidebar" do
       click_link "Overview"
     end
 
-    within '#content' do
+    within "#content" do
       expect(page)
-        .to have_content('Overview')
+        .to have_content("Overview")
     end
   end
 end

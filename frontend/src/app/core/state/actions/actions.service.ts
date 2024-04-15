@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-  Observable,
-  Subject,
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ActionCreator } from 'ts-action/action';
 import { ActionType } from 'ts-action';
 import { ofType } from 'ts-action-operators';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 export interface Action {
   type:string;
@@ -33,6 +31,7 @@ export class ActionsService {
   }
 
   dispatch(action:Action):void {
+    debugLog('Dispatching action: %O', action.type);
     this.actions.next(action);
   }
 }

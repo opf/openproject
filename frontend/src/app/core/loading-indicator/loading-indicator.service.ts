@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -63,15 +63,11 @@ export function withDelayedLoadingIndicator<T>(indicator:() => LoadingIndicator)
 
 export class LoadingIndicator {
   private indicatorTemplate =
-  `<div class="loading-indicator--background">
-      <div class="loading-indicator">
-        <div class="block-1"></div>
-        <div class="block-2"></div>
-        <div class="block-3"></div>
-        <div class="block-4"></div>
-        <div class="block-5"></div>
+    `<div class="loading-indicator--background">
+        <div class="op-loading-indicator">
+           <div></div><div></div>
+        </div>
       </div>
-    </div>
    `;
 
   constructor(public indicator:JQuery) {

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,34 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'openid_connect_spec_helpers'
+require "spec_helper"
+require_relative "openid_connect_spec_helpers"
 
 RSpec.configure do |c|
   c.include OpenIDConnectSpecHelpers
 end
 
-describe 'OpenID Connect',
-         skip_2fa_stage: true, # Prevent redirects to 2FA stage
-         type: :rails_request do
-  let(:host) { OmniAuth::OpenIDConnect::Heroku.new('foo', {}).host }
+RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA stage
+               type: :rails_request,
+               with_ee: %i[openid_providers] do
+  let(:host) { OmniAuth::OpenIDConnect::Heroku.new("foo", {}).host }
   let(:user_info) do
     {
-      sub: '87117114115116',
-      name: 'Hans Wurst',
-      email: 'h.wurst@finn.de',
-      given_name: 'Hans',
-      family_name: 'Wurst'
+      sub: "87117114115116",
+      name: "Hans Wurst",
+      email: "h.wurst@finn.de",
+      given_name: "Hans",
+      family_name: "Wurst"
     }
   end
 
   before do
-    with_enterprise_token :openid_providers
-
     # The redirect will include an authorisation code.
     # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
     allow_any_instance_of(OpenIDConnect::Client).to receive(:access_token!) do
-      OpenIDConnect::AccessToken.new client: self, access_token: 'foo bar baz'
+      OpenIDConnect::AccessToken.new client: self, access_token: "foo bar baz"
     end
 
     # Using the granted AccessToken the client then performs another request to the OpenID Connect
@@ -67,134 +65,133 @@ describe 'OpenID Connect',
     # be true.
   end
 
-  describe 'sign-up and login' do
+  describe "sign-up and login" do
     before do
       allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
-        'providers' => {
-          'heroku' => {
-            'identifier' => 'does not',
-            'secret' => 'matter'
+        "providers" => {
+          "heroku" => {
+            "identifier" => "does not",
+            "secret" => "matter"
           }
         }
       )
     end
 
-    it 'works' do
+    it "works" do
       ##
       # it should redirect to the provider's openid connect authentication endpoint
       click_on_signin
 
-      expect(response.status).to be 302
+      expect(response).to have_http_status :found
       expect(response.location).to match /https:\/\/#{host}.*$/
 
-      params = Rack::Utils.parse_nested_query(response.location.gsub(/^.*\?/, ''))
+      params = Rack::Utils.parse_nested_query(response.location.gsub(/^.*\?/, ""))
 
-      expect(params).to include 'client_id'
-      expect(params['redirect_uri']).to match /^.*\/auth\/heroku\/callback$/
-      expect(params['scope']).to include 'openid'
+      expect(params).to include "client_id"
+      expect(params["redirect_uri"]).to match /^.*\/auth\/heroku\/callback$/
+      expect(params["scope"]).to include "openid"
 
       ##
       # it should redirect back from the provider to the login page
       redirect_from_provider
 
-      expect(response.status).to be 302
+      expect(response).to have_http_status :found
       expect(response.location).to match /\/\?first_time_user=true$/
 
       # after_login requires the optional third context parameter
       # remove this guard once we are on v4.1
       if OpenProject::OmniAuth::Authorization.method(:after_login!).arity.abs > 2
         # check that cookie is stored in the access token
-        expect(response.cookies['_open_project_session_access_token']).to eq 'foo bar baz'
+        expect(response.cookies["_open_project_session_access_token"]).to eq "foo bar baz"
       end
 
-      user = User.find_by_mail(user_info[:email])
+      user = User.find_by(mail: user_info[:email])
 
       expect(user).not_to be_nil
       expect(user.active?).to be true
 
       ##
       # it should redirect to the provider again upon clicking on sign-in when the user has been activated
-      user = User.find_by_mail(user_info[:email])
+      user = User.find_by(mail: user_info[:email])
       user.activate
       user.save!
 
       click_on_signin
 
-      expect(response.status).to be 302
+      expect(response).to have_http_status :found
       expect(response.location).to match /https:\/\/#{host}.*$/
 
       ##
       # it should then login the user upon the redirect back from the provider
       redirect_from_provider
 
-      expect(response.status).to be 302
+      expect(response).to have_http_status :found
       expect(response.location).to match /\/my\/page/
     end
 
-    context 'with a custom claim and mapping' do
+    context "with a custom claim and mapping" do
       let(:user_info) do
         {
-          sub: '87117114115116',
-          name: 'Hans Wurst',
-          email: 'h.wurst@finn.de',
-          given_name: 'Hans',
-          family_name: 'Wurst',
-          foobar: 'a.truly.random.value'
+          sub: "87117114115116",
+          name: "Hans Wurst",
+          email: "h.wurst@finn.de",
+          given_name: "Hans",
+          family_name: "Wurst",
+          foobar: "a.truly.random.value"
         }
       end
 
       before do
         allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
-          'providers' => {
-            'heroku' => {
-              'attribute_map' => { login: :foobar },
-              'identifier' => 'does not',
-              'secret' => 'matter'
+          "providers" => {
+            "heroku" => {
+              "attribute_map" => { login: :foobar },
+              "identifier" => "does not",
+              "secret" => "matter"
             }
           }
         )
       end
 
-      it 'maps to the login' do
+      it "maps to the login" do
         click_on_signin
         redirect_from_provider
 
-        user = User.find_by(login: 'a.truly.random.value')
+        user = User.find_by(login: "a.truly.random.value")
         expect(user).to be_present
       end
     end
   end
 
-  context 'provider configuration through the settings' do
+  context "provider configuration through the settings" do
     before do
       allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
-        'providers' => {
-          'google' => {
-            'identifier' => 'does not',
-            'secret' => 'matter'
+        "providers" => {
+          "google" => {
+            "identifier" => "does not",
+            "secret" => "matter"
           },
-          'azure' => {
-            'identifier' => 'IDENTIFIER',
-            'secret' => 'SECRET'
+          "azure" => {
+            "identifier" => "IDENTIFIER",
+            "secret" => "SECRET"
           }
         }
       )
     end
 
-    it 'will show no option unless EE' do
-      without_enterprise_token
-      get '/login'
+    it "shows no option unless EE", with_ee: false do
+      get "/login"
       expect(response.body).not_to match /Google/i
       expect(response.body).not_to match /Azure/i
     end
 
-    it 'makes providers that have been configured through settings available without requiring a restart' do
-      get '/login'
+    it "makes providers that have been configured through settings available without requiring a restart" do
+      get "/login"
       expect(response.body).to match /Google/i
       expect(response.body).to match /Azure/i
 
-      expect { click_on_signin('google') }.not_to raise_error
-      expect(response.status).to be 302
+      expect { click_on_signin("google") }.not_to raise_error
+      expect(response).to have_http_status :found
     end
   end
 end

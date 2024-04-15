@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ module Queries::WorkPackages::Filter
     end
 
     def dependency_class
-      '::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter'
+      "::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter"
     end
 
     def ar_object_filter?
@@ -57,8 +57,7 @@ module Queries::WorkPackages::Filter
       available_budgets = budgets.index_by(&:id)
 
       values
-        .map { |budget_id| available_budgets[budget_id.to_i] }
-        .compact
+        .filter_map { |budget_id| available_budgets[budget_id.to_i] }
     end
 
     def human_name
@@ -70,7 +69,7 @@ module Queries::WorkPackages::Filter
     def budgets
       Budget
         .where(project_id: project)
-        .order(Arel.sql('subject ASC'))
+        .order(Arel.sql("subject ASC"))
     end
   end
 end

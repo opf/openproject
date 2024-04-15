@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,16 +39,16 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def render_quick_add_dropdown
     render_menu_dropdown_with_items(
-      label: '',
+      label: "",
       label_options: {
-        title: I18n.t('menus.quick_add.label'),
-        icon: 'icon-add op-quick-add-menu--icon',
-        class: 'op-quick-add-menu--button'
+        title: I18n.t("menus.quick_add.label"),
+        icon: "icon-add op-quick-add-menu--icon",
+        class: "op-quick-add-menu--button"
       },
       items: first_level_menu_items_for(:quick_add_menu, @project),
       options: {
-        drop_down_id: 'quick-add-menu',
-        menu_item_class: 'op-quick-add-menu'
+        drop_down_id: "quick-add-menu",
+        menu_item_class: "op-quick-add-menu"
       },
       project: @project
     ) do
@@ -61,7 +61,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def work_package_quick_add_items
     return unless any_types?
 
-    concat content_tag(:hr, '', class: 'op-menu--separator')
+    concat content_tag(:hr, "", class: "op-menu--separator")
     concat work_package_type_heading
 
     visible_types
@@ -73,10 +73,10 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_type_heading
-    content_tag(:li, class: 'op-menu--item') do
+    content_tag(:li, class: "op-menu--item") do
       content_tag :span,
                   I18n.t(:label_work_package_plural),
-                  class: 'op-menu--headline'
+                  class: "op-menu--headline"
     end
   end
 
@@ -91,7 +91,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_create_link(type_id, type_name)
-    content_tag(:li, class: 'op-menu--item') do
+    content_tag(:li, class: "op-menu--item") do
       if in_project_context?
         link_to type_name,
                 new_project_work_packages_path(project_id: @project.identifier, type: type_id),
@@ -105,7 +105,11 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def user_can_create_work_package?
-    User.current.allowed_to?(:add_work_packages, @project, global: !in_project_context?)
+    if in_project_context?
+      User.current.allowed_in_project?(:add_work_packages, @project)
+    else
+      User.current.allowed_in_any_project?(:add_work_packages)
+    end
   end
 
   def show_quick_add_menu?
@@ -122,14 +126,13 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def global_add_permissions?
-    %i[add_project manage_members].any? do |permission|
-      User.current.allowed_to_globally?(permission)
-    end
+    User.current.allowed_globally?(:add_project) ||
+      User.current.allowed_in_any_project?(:manage_members)
   end
 
   def add_subproject_permission?
     in_project_context? &&
-      User.current.allowed_to?(:add_subprojects, @project)
+      User.current.allowed_in_project?(:add_subprojects, @project)
   end
 
   def any_types?

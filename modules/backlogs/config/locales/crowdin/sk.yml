@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 sk:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "Pozícia"
-        remaining_hours: "Zvyšné hodiny"
-        remaining_time: "Zvyšné hodiny"
         story_points: "História bodov"
         backlogs_work_package_type: "Typ oneskorenia"
     errors:
@@ -35,9 +36,6 @@ sk:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "môže obsahovať iba ID pracovných balíčkov v aktuálnom šprinte."
               must_block_at_least_one_work_package: "musí obsahovať ID najmenej jedného pracovného balíčku."
-            parent_id:
-              parent_child_relationship_across_projects: "je neplatný, pretože pracovný balíček '%{work_package_name}' je nevyriešená úloha a preto nemôže byť nadradeným mimo súčasného projektu."
-              type_must_be_one_of_the_following: "Typ musí byť jedným z nasledujúcich: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "musí byť rovnaká ako verzia nadradeného článku."
         sprint:
@@ -66,8 +64,8 @@ sk:
     properties: "Vlastnosti"
     rebuild: "Obnoviť"
     rebuild_positions: "Obnoviť pozície"
-    remaining_hours: "Zvyšné hodiny"
-    remaining_hours_ideal: "Zvyšné hodiny (ideálne)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown Graf"
     story: "Príbeh"
     story_points: "História bodov"
@@ -78,7 +76,6 @@ sk:
     x_more: "ďalších %{count}..."
   backlogs_active: "aktívne"
   backlogs_any: "akékoľvek"
-  backlogs_card_specification: "Typy štítkov pre tlač karty"
   backlogs_inactive: "Projekt nevykazuje žiadne činnosti"
   backlogs_points_burn_direction: "Burnup/-down body"
   backlogs_product_backlog: "Nevyriešený produkt"
@@ -150,7 +147,7 @@ sk:
   rb_label_copy_tasks_none: "Žiadne"
   rb_label_copy_tasks_open: "Otvorené"
   rb_label_link_to_original: "Obsahuje odkaz na pôvodný príbeh"
-  remaining_hours: "zvyšné hodiny"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "potrebné napáliť hodnotiť (hodiny)"
   required_burn_rate_points: "požadované horenia (body)"
   todo_work_package_description: "%{summary}: %{url}%{description}"

@@ -26,7 +26,7 @@ example:
           patria ago consectetur ventito sustineo nihil caecus. Supra officiis eos
           velociter somniculosus tonsor qui. Suffragium aduro arguo angustus cogito
           quia tolero vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
-      createdAt: '2015-03-20T12:57:01Z'
+      createdAt: '2015-03-20T12:57:01.509Z'
       _links:
         self:
           href: "/api/v3/news/1"
@@ -51,7 +51,7 @@ example:
           Officia adeptio spectaculum atavus nisi cum concido bis. Harum caecus auxilium
           sol theatrum eaque consequatur. Omnis aeger suus adipisci cicuta. Cur delicate
           alias curto cursim atqui talio fugiat.</p>"
-      createdAt: '2015-03-20T12:57:01Z'
+      createdAt: '2015-03-20T12:57:01.509Z'
       _links:
         self:
           href: "/api/v3/news/2"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
+require "spec_helper"
+require "services/base_services/behaves_like_update_service"
 
-describe UserPreferences::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service' do
+RSpec.describe UserPreferences::UpdateService, type: :model do
+  it_behaves_like "BaseServices update service" do
     let(:params_success) { true }
     let(:params_errors) { ActiveModel::Errors.new({}) }
     let(:params_contract) do
@@ -41,10 +41,10 @@ describe UserPreferences::UpdateService, type: :model do
       allow(UserPreferences::ParamsContract).to receive(:new).and_return(params_contract)
     end
 
-    context 'when the params contract is invalid' do
+    context "when the params contract is invalid" do
       let(:params_success) { false }
 
-      it 'returns that error' do
+      it "returns that error" do
         expect(subject).to be_failure
         expect(subject.errors).to eq(params_errors)
       end

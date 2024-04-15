@@ -1,12 +1,16 @@
 #English strings go here
 ckb-IR:
-  label_avatar: "Avatar"
-  label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
+  plugin_openproject_avatars:
+    name: "ئاڤاتارەکان"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+  label_avatar: "ئاڤاتار"
+  label_avatar_plural: "ئاڤاتارەکان"
+  label_current_avatar: "ئاڤاتاری ئێستا"
+  label_choose_avatar: "لە فایلەوە ئاڤاتار هەڵبژێرە"
+  message_avatar_uploaded: "ئاڤاتار بە سەرکەوتوویی گۆڕا."
+  error_image_upload: "هەڵە لە پاشەکەوتکردنی وێنەکە."
+  error_image_size: "وێنەکە زۆر گەورەیە."
   button_change_avatar: "Change avatar"
   are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
   avatar_deleted: "Avatar deleted successfully."
@@ -14,7 +18,7 @@ ckb-IR:
   wrong_file_format: "Allowed formats are jpg, png, gif"
   empty_file_error: "Please upload a valid image (jpg, png, gif)"
   avatars:
-    label_avatar: "Avatar"
+    label_avatar: "ئاڤاتار"
     label_gravatar: 'Gravatar'
     label_current_avatar: 'Current avatar'
     label_local_avatar: 'Custom avatar'
@@ -35,6 +39,3 @@ ckb-IR:
       enable_gravatars: 'Enable user gravatars'
       gravatar_default: "Default Gravatar image"
       enable_local_avatars: 'Enable user custom avatars'
-
-
-

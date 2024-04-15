@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_examples'
+require "spec_helper"
+require_relative "shared_examples"
 
-describe WorkPackageMailer, type: :mailer do
+RSpec.describe WorkPackageMailer do
   include OpenProject::ObjectLinking
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers
@@ -50,50 +50,50 @@ describe WorkPackageMailer, type: :mailer do
                   user: author)
   end
 
-  describe '#mentioned' do
+  describe "#mentioned" do
     subject(:mail) { described_class.mentioned(recipient, journal) }
 
     it "has a subject" do
       expect(mail.subject)
-        .to eql I18n.t(:'mail.mention.subject',
+        .to eql I18n.t(:"mail.mention.subject",
                        user_name: author.name,
                        id: work_package.id,
                        subject: work_package.subject)
     end
 
-    it 'is sent to the recipient' do
+    it "is sent to the recipient" do
       expect(mail.to)
-        .to match_array([recipient.mail])
+        .to contain_exactly(recipient.mail)
     end
 
-    it 'has a project header' do
-      expect(mail['X-OpenProject-Project'].value)
+    it "has a project header" do
+      expect(mail["X-OpenProject-Project"].value)
         .to eql project.identifier
     end
 
-    it 'has a work package id header' do
-      expect(mail['X-OpenProject-WorkPackage-Id'].value)
+    it "has a work package id header" do
+      expect(mail["X-OpenProject-WorkPackage-Id"].value)
         .to eql work_package.id.to_s
     end
 
-    it 'has a work package author header' do
-      expect(mail['X-OpenProject-WorkPackage-Author'].value)
+    it "has a work package author header" do
+      expect(mail["X-OpenProject-WorkPackage-Author"].value)
         .to eql work_package.author.login
     end
 
-    it 'has a type header' do
-      expect(mail['X-OpenProject-Type'].value)
-        .to eql 'WorkPackage'
+    it "has a type header" do
+      expect(mail["X-OpenProject-Type"].value)
+        .to eql "WorkPackage"
     end
 
-    it 'has a message id header' do
+    it "has a message id header" do
       Timecop.freeze(Time.current) do
         expect(mail.message_id)
           .to eql "op.journal-#{journal.id}.#{Time.current.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@example.net"
       end
     end
 
-    it 'has a references header' do
+    it "has a references header" do
       journal_part = "op.journal-#{journal.id}@example.net"
       work_package_part = "op.work_package-#{work_package.id}@example.net"
 
@@ -101,40 +101,40 @@ describe WorkPackageMailer, type: :mailer do
         .to eql [work_package_part, journal_part]
     end
 
-    it 'has a work package assignee header' do
-      expect(mail['X-OpenProject-WorkPackage-Assignee'].value)
+    it "has a work package assignee header" do
+      expect(mail["X-OpenProject-WorkPackage-Assignee"].value)
         .to eql work_package.assigned_to.login
     end
   end
 
-  describe '#watcher_changed' do
+  describe "#watcher_changed" do
     subject(:deliveries) { ActionMailer::Base.deliveries }
 
     let(:watcher_changer) { author }
 
-    context 'for an added watcher' do
-      subject(:mail) { described_class.watcher_changed(work_package, recipient, author, 'added') }
+    context "for an added watcher" do
+      subject(:mail) { described_class.watcher_changed(work_package, recipient, author, "added") }
 
-      it 'contains the WP subject in the mail subject' do
+      it "contains the WP subject in the mail subject" do
         expect(mail.subject)
           .to include(work_package.subject)
       end
 
-      it 'has a references header' do
+      it "has a references header" do
         expect(mail.references)
           .to eql "op.work_package-#{work_package.id}@example.net"
       end
     end
 
-    context 'for a removed watcher' do
-      subject(:mail) { described_class.watcher_changed(work_package, recipient, author, 'removed') }
+    context "for a removed watcher" do
+      subject(:mail) { described_class.watcher_changed(work_package, recipient, author, "removed") }
 
-      it 'contains the WP subject in the mail subject' do
+      it "contains the WP subject in the mail subject" do
         expect(mail.subject)
           .to include(work_package.subject)
       end
 
-      it 'has a references header' do
+      it "has a references header" do
         expect(mail.references)
           .to eql "op.work_package-#{work_package.id}@example.net"
       end

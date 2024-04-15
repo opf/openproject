@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +34,14 @@ class Setting
       ActionMailer::Base.perform_deliveries = true
       ActionMailer::Base.delivery_method = Setting.email_delivery_method if Setting.email_delivery_method
 
-      if Setting.email_delivery_method == :smtp
+      case Setting.email_delivery_method
+      when :smtp
         reload_smtp_settings!
+      when :sendmail
+        ActionMailer::Base.sendmail_settings = {
+          location: Setting.sendmail_location,
+          arguments: Setting.sendmail_arguments
+        }
       end
     rescue StandardError => e
       Rails.logger.error "Unable to set ActionMailer settings (#{e.message}). " \

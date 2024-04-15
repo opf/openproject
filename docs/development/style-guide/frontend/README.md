@@ -18,7 +18,7 @@ Encapsulate the implementation details in the subdomain service (e.g., login sho
 Encapsulate the implementation details in a component’s method or in a Presenter (service scoped/provided in the component). 
 
 #### Example
-```
+```javascript
 // Imperative programming
 const bestProducts = [];
 
@@ -59,7 +59,7 @@ Not capable of or susceptible to change. An immutable value can’t be changed, 
 Do not mutate objects, spread the word.
 *   Do not edit object’s, use the immutable alternatives:
 
-```
+```javascript
 const copy = {...originalObject}; 
 const add = {...originalObject, propertyToChange: 'new value'};
 const remove = {propertyToDelete, ...newObjectWithoutThePropertyToDelete}; 
@@ -67,7 +67,7 @@ const remove = {propertyToDelete, ...newObjectWithoutThePropertyToDelete};
 
 *   Avoid Array mutation methods (push, pop, shift, unshift, sort, reverse, splice, delete), use their immutable alternatives:
 
-```
+```javascript
 clone = x => [...x];
 push = y => x => [...x, y];
 pop = x => x.slice(0, -1);
@@ -121,7 +121,7 @@ means that the respective collections and entities have to be refreshed from the
 2. Changing the type of a work package in the split view changes the collection that is shown in the table, since the
    work package will be filtered out.
 
-For this usecase, we have implemented a global actions service. You can dispatch actions here, and other parts of the
+For this use-case, we have implemented a global actions service. You can dispatch actions here, and other parts of the
 application can listen to these actions. Think of it like a global event bus. These actions are typed.
 
 To reduce server requests, side effects **should be** be calculated in the frontend. If this is impossible, the updating store **must** send out a global event to notify other parts that the specific event occurred.

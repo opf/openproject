@@ -70,7 +70,8 @@ describe('autocompleter', () => {
 
     fixture = TestBed.createComponent(OpAutocompleterComponent);
 
-    fixture.componentInstance.resource = 'work_packages' as resource;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    fixture.componentInstance.resource = 'work_packages' as TOpAutocompleterResource;
     fixture.componentInstance.filters = [];
     fixture.componentInstance.searchKey = 'subjectOrId';
     fixture.componentInstance.appendTo = 'body';

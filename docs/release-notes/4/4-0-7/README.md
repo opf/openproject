@@ -18,7 +18,7 @@ In the previous OpenProject version it was possible to see some work
 package information without authorization. This error has been fixed
 with OpenProject 4.0.7.
 
-Additionally, several errors on the work package list have been fixed:
+Additionally, several errors on the work package table have been fixed:
 
   - Deleted work package queries which have been added to the side menu
     are now properly removed when the query is deleted
@@ -37,5 +37,4 @@ To get an overview of the new version, please refer to the
 [Changelog v.4.0.7](https://community.openproject.org/versions/602 "Changelog v.4.0.7") or
 take a look at
 [GitHub](https://github.com/opf/openproject/tree/v4.0.7 "GitHub").
-
 

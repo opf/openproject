@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,19 +34,19 @@ module Components
 
     def clear_tooltips
       # Just hover anything else
-      page.find("[data-qa-selector='project-include-search']").hover
+      page.find("[data-test-selector='project-include-search']").hover
     end
 
     def toggle!
-      page.find("[data-qa-selector='project-include-button']").click
+      page.find("[data-test-selector='project-include-button']").click
     end
 
     def expect_open
-      expect(page).to have_selector("[data-qa-selector='project-include-list']")
+      expect(page).to have_css("[data-test-selector='project-include-list']")
     end
 
-    def expect_count(count)
-      expect(page).to have_selector("[data-qa-selector='project-include-button'] .badge", text: count)
+    def expect_count(count, wait: 5)
+      expect(page).to have_css("[data-test-selector='project-include-button'] .badge", text: count, wait:)
     end
 
     def toggle_include_all_subprojects
@@ -60,7 +60,7 @@ module Components
 
     def set_filter_selected(filter)
       within_body do
-        page.find("[data-qa-selector='spot-toggle--option']", text: filter ? 'Only selected' : 'All projects').click
+        page.find("[data-test-selector='spot-toggle--option']", text: filter ? "Only selected" : "All projects").click
       end
     end
 
@@ -89,12 +89,12 @@ module Components
     end
 
     def expect_closed
-      expect(page).to have_no_selector("[data-qa-selector='project-include-list']")
+      expect(page).to have_no_css("[data-test-selector='project-include-list']")
     end
 
     def click_button(text)
       within_body do
-        page.find('button:not([disabled])', text:).click
+        page.find("button:not([disabled])", text:).click
       end
     end
 
@@ -103,19 +103,19 @@ module Components
     end
 
     def body_element
-      page.find(selector + ' .spot-drop-modal--body')
+      page.find(body_selector)
     end
 
     def body_selector
-      selector + ' .spot-drop-modal--body'
+      ".spot-drop-modal-portal .spot-drop-modal--body"
     end
 
     def selector
-      '.op-project-include'
+      ".op-project-include"
     end
 
     def no_loading_indicator
-      expect(page).to have_no_selector("[data-qa-selector='op-project-include--loading']")
+      expect(page).to have_no_css("[data-test-selector='op-project-include--loading']")
     end
   end
 end

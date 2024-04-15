@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ class SCM::CreateLocalRepositoryJob < ApplicationJob
     # Cowardly refusing to override existing local repository
     if File.directory?(repository.root_url)
       raise OpenProject::SCM::Exceptions::SCMError.new(
-        I18n.t('repositories.errors.exists_on_filesystem')
+        I18n.t("repositories.errors.exists_on_filesystem")
       )
     end
   end
@@ -49,7 +49,7 @@ class SCM::CreateLocalRepositoryJob < ApplicationJob
     self.class.ensure_not_existing!(repository)
 
     # Create the repository locally.
-    mode = (config[:mode] || default_mode)
+    mode = config[:mode] || default_mode
 
     # Ensure that chmod receives an octal number
     unless mode.is_a? Integer

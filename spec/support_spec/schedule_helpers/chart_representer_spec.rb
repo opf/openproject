@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ScheduleHelpers::ChartRepresenter do
-  describe '#normalized_to_s' do
+RSpec.describe ScheduleHelpers::ChartRepresenter do
+  describe "#normalized_to_s" do
     shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
-    context 'when both charts have different work packages items and/or order' do
+    context "when both charts have different work packages items and/or order" do
       def to_first_columns(charts)
-        charts.map { _1.split("\n").map(&:split).map(&:first).join(' ') }
+        charts.map { _1.split("\n").map(&:split).map(&:first).join(" ") }
       end
 
-      it 'returns charts ascii with work packages in same order as the first given chart' do
+      it "returns charts ascii with work packages in same order as the first given chart" do
         initial_expected_chart =
           ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
             days       |    MTWTFSS  |
@@ -59,7 +59,7 @@ describe ScheduleHelpers::ChartRepresenter do
         expect(actual_column).to eq(expected_column)
       end
 
-      it 'pushes extra elements of the second chart at the end' do
+      it "pushes extra elements of the second chart at the end" do
         initial_expected_chart =
           ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
             days       |    MTWTFSS  |
@@ -79,11 +79,11 @@ describe ScheduleHelpers::ChartRepresenter do
             .normalized_to_s(initial_expected_chart, initial_actual_chart)
             .then(&method(:to_first_columns))
 
-        expect(expected_column).to eq('days main other')
-        expect(actual_column).to eq('days main other extra')
+        expect(expected_column).to eq("days main other")
+        expect(actual_column).to eq("days main other extra")
       end
 
-      it 'keeps extra elements of the first chart at the same place' do
+      it "keeps extra elements of the first chart at the same place" do
         initial_expected_chart =
           ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
             days       |    MTWTFSS  |
@@ -103,17 +103,17 @@ describe ScheduleHelpers::ChartRepresenter do
             .normalized_to_s(initial_expected_chart, initial_actual_chart)
             .then(&method(:to_first_columns))
 
-        expect(expected_column).to eq('days main extra other')
-        expect(actual_column).to eq('days main other')
+        expect(expected_column).to eq("days main extra other")
+        expect(actual_column).to eq("days main other")
       end
     end
 
-    context 'when both charts have different first column width' do
+    context "when both charts have different first column width" do
       def to_first_cells(charts)
         charts.map { _1.split("\n").first.split(" | ").first }
       end
 
-      it 'returns charts ascii with identical first column width' do
+      it "returns charts ascii with identical first column width" do
         tiny_chart =
           ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
             days      | MTWTFSS |
@@ -131,7 +131,7 @@ describe ScheduleHelpers::ChartRepresenter do
             .normalized_to_s(tiny_chart, longer_chart)
             .then(&method(:to_first_cells))
 
-        expect(first_cell).to eq('days            ')
+        expect(first_cell).to eq("days            ")
         expect(first_cell).to eq(second_cell)
 
         # tiny_chart as reference chart
@@ -140,17 +140,17 @@ describe ScheduleHelpers::ChartRepresenter do
             .normalized_to_s(longer_chart, tiny_chart)
             .then(&method(:to_first_cells))
 
-        expect(first_cell).to eq('days            ')
+        expect(first_cell).to eq("days            ")
         expect(first_cell).to eq(second_cell)
       end
     end
 
-    context 'when both charts cover different time periods' do
+    context "when both charts cover different time periods" do
       def to_headers(charts)
         charts.map { _1.split("\n").first }
       end
 
-      it 'returns charts ascii with identical time periods' do
+      it "returns charts ascii with identical time periods" do
         larger_chart =
           ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
             days       |   MTWTFSS   |
@@ -180,12 +180,12 @@ describe ScheduleHelpers::ChartRepresenter do
       end
     end
 
-    context 'when expected chart does not have working days information' do
+    context "when expected chart does not have working days information" do
       def to_headers(charts)
         charts.map { _1.split("\n").first }
       end
 
-      it 'gets it from actual chart information' do
+      it "gets it from actual chart information" do
         # in real tests, actual will probably be created from WorkPackage instances
         actual_chart =
           ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
@@ -207,7 +207,7 @@ describe ScheduleHelpers::ChartRepresenter do
         expect(normalized_actual).to eq(normalized_expected)
       end
 
-      it 'ignores working days information for extra work packages not defined in actual' do
+      it "ignores working days information for extra work packages not defined in actual" do
         initial_actual_chart =
           ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
             days       |    MTWTFSS  |
@@ -225,12 +225,12 @@ describe ScheduleHelpers::ChartRepresenter do
       end
     end
 
-    context 'when expected chart has different working days information from actual' do
+    context "when expected chart has different working days information from actual" do
       def to_headers(charts)
         charts.map { _1.split("\n").first }
       end
 
-      it 'use each information from each side' do
+      it "use each information from each side" do
         # in real tests, actual will probably be created from WorkPackage instances
         actual_chart =
           ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 posts resource', type: :request do
+RSpec.describe "API v3 posts resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:forum) { create(:forum, project:) }
   let(:message) { create(:message, forum:) }
   let(:project) { create(:project) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i(view_messages) }
 
   subject(:response) { last_response }
@@ -48,32 +48,32 @@ describe 'API v3 posts resource', type: :request do
     login_as(current_user)
   end
 
-  describe 'GET /api/v3/posts/:id' do
+  describe "GET /api/v3/posts/:id" do
     let(:path) { api_v3_paths.post(message.id) }
 
     before do
       get path
     end
 
-    it 'returns 200 OK' do
+    it "returns 200 OK" do
       expect(subject.status)
         .to be(200)
     end
 
-    it 'returns the message page' do
+    it "returns the message page" do
       expect(subject.body)
-        .to be_json_eql('Post'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Post".to_json)
+        .at_path("_type")
 
       expect(subject.body)
         .to be_json_eql(message.id.to_json)
-        .at_path('id')
+        .at_path("id")
     end
 
-    context 'when lacking permissions' do
+    context "when lacking permissions" do
       let(:current_user) { create(:user) }
 
-      it 'returns 404 NOT FOUND' do
+      it "returns 404 NOT FOUND" do
         expect(subject.status)
           .to be(404)
       end

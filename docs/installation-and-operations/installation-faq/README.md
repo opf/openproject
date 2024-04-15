@@ -10,7 +10,7 @@ keywords: installation FAQ, upgrades, updates, operation faq
 
 ## Installation and configuration
 
-### Which options are there to install Openproject?
+### Which options are there to install OpenProject?
 
 There's the package based installation (recommended), installation via Docker, using a provider (like Univention, Bitnami, IONOS) and the manual installation.
 
@@ -39,7 +39,7 @@ If you want to install it on Windows or Mac you can use the Docker based install
 The package based installation (for Linux) offers an installation wizard.
 If you already use Univention, you can use it to install OpenProject, too.
 
-Alternatively, you could use OpenProject [as cloud version](https://www.openproject.org/hosting/) to avoid installation. 
+Alternatively, you could use OpenProject [as cloud version](https://www.openproject.org/enterprise-edition/#hosting-options) to avoid installation. 
 
 ### Why don't you support Windows?
 
@@ -52,7 +52,13 @@ Your Mac will have to be reachable from the Internet if you want to collaborate 
 
 ### Does the OpenProject docker container run on ARM technology like Apple M1 or Raspberry PI? 
 
-At the moment, OpenProject is supported only on x86-x64 technology (Intel). The Development of OpenProject started 2010, when ARM was out of scope for being supported. With strong ARM processors this might change in the future, but at the moment the only possible solution is to build OpenProject from source on your ARM hardware. OpenProject does not support ARM at the moment.
+Starting with OpenProject 12.5.6 we publish our containers for three architectures.
+
+1. AMD64 (x86)
+2. ARM64
+3. PPC64
+
+However, the OpenProject **BIM Edition** is only supported on AMD64.
 
 ### Can I install OpenProject offline?
 
@@ -84,7 +90,7 @@ Please follow these steps:
 
 ### Are there extra fees to pay, in terms of installing the OpenProject software?
 
-The Community edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
+The Community edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/enterprise-edition/#hosting-options) is hosted by us. 
 The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). 
 If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €300 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
 
@@ -94,7 +100,7 @@ You can either order the SSL certificates from your ISP or we can create them du
 
 ### How do you implement the routing so that the page requests intended for this project domain of ours land on the Apache server that is part of the OpenProject installation? What agreements or requirements do we have to discuss with our domain/webspace provider?
 
-A DNS record needs to be placed at the ISP that connects the domain name you would like your OpenProject installation to be reachable at (e.g. [community.openproject.org](https://community.openproject.com/)) to the IP Address of your designated server (e.g. 13.226.159.10). The ports do not matter here as they can simply all be routed to the server. The server will then only listen on 80 and 443 and redirect 80 to 443. Depending on your network configuration, additional configurations need to be carried out e.g. on intermediary load balancers or switches.
+A DNS record needs to be placed at the ISP that connects the domain name you would like your OpenProject installation to be reachable at (e.g. [community.openproject.org](https://community.openproject.org/)) to the IP Address of your designated server (e.g. 13.226.159.10). The ports do not matter here as they can simply all be routed to the server. The server will then only listen on 80 and 443 and redirect 80 to 443. Depending on your network configuration, additional configurations need to be carried out e.g. on intermediary load balancers or switches.
 
 ### Does the email address used by OpenProject have to be within the our domain for OpenProject or can this also be another address?
 
@@ -118,7 +124,7 @@ Set a higher number of web workers to allow more processes to be handled at the 
 
 There are two different types of emails in OpenProject: One sent directly within the request to the server (this includes the test mail) and one sent asynchronously, via a background job from the backend. The majority of mail sending jobs is run asynchronously to facilitate a faster response time for server request.
 
-Use a browser to call your domain name followed by "health_checks/all" (e.g. `https://myopenproject.com/health_checks/all`). There should be entries about "delayed_jobs_backed_up" and "delayed_jobs_never_ran". If PASSED is written behind it, everything is good.
+Use a browser to call your domain name followed by "health_checks/all" (e.g. `https://myopenproject.com/health_checks/all`). There should be entries about "worker" and "worker_backed_up". If PASSED is written behind it, everything is good.
 
 If the health check does not return satisfying results, have a look if the background worker is running by entering `ps aux | grep jobs` on the server. If it is not running, no entry is returned. If it is running an entry with "jobs:work" at the end is displayed.
 

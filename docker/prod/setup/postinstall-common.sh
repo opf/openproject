@@ -13,12 +13,14 @@ npm install
 popd
 
 # Bundle assets
+
 su - postgres -c "$PGBIN/initdb -D /tmp/nulldb"
-su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start"
-echo "create database assets; create user assets with encrypted password 'p4ssw0rd'; grant all privileges on database assets to assets;" | su - postgres -c psql
+su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -l /tmp/nulldb/log -w start"
 
 # give some more time for DB to start
 sleep 5
+
+echo "create database assets; create user assets with encrypted password 'p4ssw0rd'; grant all privileges on database assets to assets;" | su - postgres -c psql
 
 # dump schema
 DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bundle exec rake db:migrate db:schema:dump db:schema:cache:dump
@@ -46,11 +48,3 @@ rm -rf "$APP_PATH/frontend/.angular"
 rm -rf /root/.npm
 
 rm -f "$APP_PATH/log/production.log"
-
-cat > "$APP_PATH/config/database.yml" <<CONF
-production:
-  url: <%= ENV.fetch("DATABASE_URL") %>
-  variables:
-    # https://github.com/ankane/the-ultimate-guide-to-ruby-timeouts#postgresql
-    statement_timeout: <%= ENV.fetch("POSTGRES_STATEMENT_TIMEOUT", "90s") %>
-CONF

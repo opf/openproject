@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe MembersController, type: :routing do
-  context 'project scoped' do
+RSpec.describe MembersController do
+  describe "project scoped" do
     it {
-      expect(subject).to route(:post, '/projects/5234/members').to(controller: 'members',
-                                                                   action: 'create',
-                                                                   project_id: '5234')
+      expect(subject).to route(:post, "/projects/5234/members").to(controller: "members",
+                                                                   action: "create",
+                                                                   project_id: "5234")
     }
 
     it {
-      expect(subject).to route(:get, '/projects/5234/members/autocomplete_for_member')
-                       .to(controller: 'members',
-                           action: 'autocomplete_for_member',
-                           project_id: '5234')
+      expect(subject).to route(:get, "/projects/5234/members/autocomplete_for_member")
+                       .to(controller: "members",
+                           action: "autocomplete_for_member",
+                           project_id: "5234")
     }
   end
 
   it {
-    expect(subject).to route(:put, '/members/5234').to(controller: 'members',
-                                                       action: 'update',
-                                                       id: '5234')
+    expect(subject).to route(:put, "/members/5234").to(controller: "members",
+                                                       action: "update",
+                                                       id: "5234")
   }
 
   it {
-    expect(subject).to route(:delete, '/members/5234').to(controller: 'members',
-                                                          action: 'destroy',
-                                                          id: '5234')
+    expect(subject).to route(:delete, "/projects/5234/members/by_principal/8158").to(controller: "members",
+                                                                                     action: "destroy_by_principal",
+                                                                                     project_id: "5234",
+                                                                                     principal_id: "8158")
   }
 end

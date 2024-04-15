@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,11 +45,11 @@ module API
 
                         {
                           href: path,
-                          type: 'text/html'
+                          type: "text/html"
                         }
                       },
                       setter: ->(fragment:, **) {
-                        represented.scope = fragment['href']
+                        represented.scope = fragment["href"]
                       }
 
         self_link title_getter: ->(*) {}
@@ -112,7 +112,7 @@ module API
                            render_nil: false
 
         def _type
-          'Grid'
+          "Grid"
         end
 
         private
@@ -133,7 +133,7 @@ module API
           # Remove all query params
           # Those are added when the path does not actually require
           # project or user
-          path&.gsub(/(\?.+)|(\.\d+)\z/, '')
+          path&.gsub(/(\?.+)|(\.\d+)\z/, "")
         end
 
         def scope_path_attributes

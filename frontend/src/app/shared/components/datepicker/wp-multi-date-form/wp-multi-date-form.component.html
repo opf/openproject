@@ -1,0 +1,131 @@
+<form
+  data-test-selector="op-datepicker-modal"
+  [attr.id]="htmlId"
+  class="op-datepicker-modal op-datepicker-modal_wide"
+  #modalContainer
+  data-indicator-name="modal"
+  tabindex="0"
+  (submit)="doSave($event)"
+>
+  <op-datepicker-banner
+    [scheduleManually]="scheduleManually"
+    class="op-datepicker-modal--banner"
+  ></op-datepicker-banner>
+
+  <div class="spot-container op-datepicker-modal--stretch-content">
+    <div class="op-datepicker-modal--toggle-actions-container">
+      <op-datepicker-scheduling-toggle
+        name="scheduleManually"
+        [(ngModel)]="scheduleManually"
+        (ngModelChange)="changeSchedulingMode()"
+      ></op-datepicker-scheduling-toggle>
+      <op-datepicker-working-days-toggle
+        name="ignoreNonWorkingDays"
+        [disabled]="!(scheduleManually || ignoreNonWorkingDaysWritable)"
+        [(ngModel)]="ignoreNonWorkingDays"
+        (ngModelChange)="changeNonWorkingDays()"
+      ></op-datepicker-working-days-toggle>
+    </div>
+
+    <div class="op-datepicker-modal--dates-container">
+      <spot-form-field
+        [label]="text.startDate"
+        data-test-selector="datepicker-start-date"
+      >
+        <spot-text-field
+          slot="input"
+          name="startDate"
+          data-test-selector="op-datepicker-modal--start-date-field"
+          class="op-datepicker-modal--date-field"
+          [attr.data-qa-highlighted]="showFieldAsActive('start') || undefined"
+          [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('start')}"
+          [ngModel]="dates.start"
+          (ngModelChange)="startDateChanged$.next($event)"
+          [disabled]="!isSchedulable"
+          [showClearButton]="currentlyActivatedDateField === 'start'"
+          (focusin)="setCurrentActivatedField('start')"
+        ></spot-text-field>
+        <button
+          slot="action"
+          type="button"
+          class="spot-link"
+          [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
+          (click)="setToday('start')"
+          [textContent]="text.today">
+        </button>
+      </spot-form-field>
+      <spot-form-field
+        [label]="text.endDate"
+        data-test-selector="datepicker-end-date"
+      >
+        <spot-text-field
+          slot="input"
+          name="endDate"
+          data-test-selector="op-datepicker-modal--end-date-field"
+          class="op-datepicker-modal--date-field"
+          [attr.data-qa-highlighted]="showFieldAsActive('end') || undefined"
+          [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('end')}"
+          [ngModel]="dates.end"
+          (ngModelChange)="endDateChanged$.next($event)"
+          [disabled]="!isSchedulable"
+          [showClearButton]="currentlyActivatedDateField === 'end'"
+          (focusin)="setCurrentActivatedField('end')"
+        ></spot-text-field>
+        <button
+          slot="action"
+          type="button"
+          class="spot-link"
+          [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
+          (click)="setToday('end')"
+          [textContent]="text.today">
+        </button>
+      </spot-form-field>
+      <spot-form-field
+        [label]="text.duration"
+        data-test-selector="datepicker-duration"
+      >
+        <spot-text-field
+          #durationField
+          slot="input"
+          name="duration"
+          data-test-selector="op-datepicker-modal--duration-field"
+          class="op-datepicker-modal--date-field"
+          [attr.data-qa-highlighted]=" showFieldAsActive('duration') || undefined"
+          [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('duration')}"
+          [ngModel]="durationFocused ? duration : displayedDuration"
+          [showClearButton]="currentlyActivatedDateField === 'duration'"
+          pattern="\d*"
+          inputmode="numeric"
+          (ngModelChange)="durationChanges$.next($event)"
+          [disabled]="!isSchedulable"
+          (focusin)="handleDurationFocusIn()"
+          (focusout)="handleDurationFocusOut()"
+        ></spot-text-field>
+      </spot-form-field>
+    </div>
+
+    <input
+      #flatpickrTarget
+      id="flatpickr-input"
+      hidden
+    />
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        (click)="doCancel()"
+        class="spot-modal--cancel-button button spot-action-bar--action"
+        data-test-selector="op-datepicker-modal--action"
+        [textContent]="text.cancel"
+      ></button>
+      <button
+        type="submit"
+        class="button -primary spot-action-bar--action"
+        data-test-selector="op-datepicker-modal--action"
+        [textContent]="text.save"
+      ></button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,249 @@
+<section class="form--section">
+  <h3 class="form--section-title">Text fields</h3>
+
+  <label>Text:<input type="text" class="form--text-field"></label>
+  <label>Email:<input type="email" class="form--text-field" placeholder="a valid email"></label>
+  <label>Number:<input type="number" class="form--text-field"></label>
+</section>
+
+<section class="form--section">
+  <h3 class="form--section-title">Text areas</h3>
+
+  <textarea class="form--text-area">
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+  </textarea>
+
+</section>
+
+
+<section class="form--section">
+  <h3 class="form--section-title">Checkboxes</h3>
+
+  <label class="form--label-with-check-box -required">
+    <div class="form--check-box-container">
+      <input type="checkbox" class="form--check-box">
+    </div>
+    Pera
+  </label>
+  <label class="form--label-with-check-box -required">
+    <div class="form--check-box-container">
+      <input type="checkbox" class="form--check-box">
+    </div>
+    Maracujá
+  </label>
+  <label class="form--label-with-check-box">
+    <div class="form--check-box-container">
+      <input type="checkbox" class="form--check-box">
+    </div>
+    Abacaxi
+  </label>
+
+
+  <form class="form">
+    <div class="form--field">
+      <label class="form--label" for="checkbox_example_choice2">Eat fruit:</label>
+      <div class="form--field-container">
+        <div class="form--check-box-container">
+          <input type="checkbox" class="form--check-box" id="checkbox_example_choice2">
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+  <form class="form">
+    <div class="form--field">
+      <label class="form--label">Multiple choices:</label>
+      <div class="form--field-container -vertical">
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox" class="form--check-box">
+          </div>
+          Apple
+        </label>
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox" class="form--check-box">
+          </div>
+          Grapefruit
+        </label>
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox" class="form--check-box">
+          </div>
+          Banana
+        </label>
+      </div>
+    </div>
+  </form>
+</section>
+
+
+<section class="form--section">
+  <h3 class="form--section-title">Radio buttons</h3>
+  <form class="form">
+    <div class="form--field">
+      <label class="form--label" for="radio_button_example_choice1">Foo</label>
+      <div class="form--field-container">
+        <div class="form--radio-button-container">
+          <input type="radio" class="form--radio-button" id="radio_button_example_choice1" value="foo" name="choice">
+        </div>
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label" for="radio_button_example_choice2">Bar</label>
+      <div class="form--field-container">
+        <div class="form--radio-button-container">
+          <input type="radio" class="form--radio-button" id="radio_button_example_choice2" value="bar" name="choice">
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+<section class="form--section">
+  <h3 class="form--section-title">Select fields</h3>
+
+  <select class="form--select">
+    <option>one</option>
+    <option>two</option>
+    <option>three</option>
+  </select>
+
+
+  <select class="form--select" multiple>
+    <option>one</option>
+    <option>two</option>
+    <option>three</option>
+  </select>
+
+
+  <select class="form--select">
+    <optgroup label="group one">
+      <option>one dot one</option>
+    </optgroup>
+    <optgroup label="group two">
+      <option>two dot one</option>
+      <option>two dot two</option>
+    </optgroup>
+  </select>
+
+
+  <form class="form">
+    <div class="form--field">
+      <label class="form--label">Oranges:</label>
+      <div class="form--field-container">
+        <div class="form--select-container">
+          <select class="form--select">
+            <option>one</option>
+            <option>two</option>
+            <option>three</option>
+          </select>
+        </div>
+      </div>
+      <div class="form--field-instructions">
+        Oranges are rich in Vitamin C. Eat more than two!
+      </div>
+    </div>
+    <div class="form--field">
+      <label class="form--label">Apples:</label>
+      <div class="form--field-container">
+        <div class="form--select-container">
+          <select class="form--select" multiple>
+            <option>one</option>
+            <option>two</option>
+            <option>three</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+
+<section class="form--section">
+  <h3 class="form--section-title">Narrow select</h3>
+
+  <p>By default, a `form--select` will take the full width of its container element.
+  In most cases it is recommended to apply a width to the container element, but
+  in certain circumstances the `-narrow` variant may be preferable.</p>
+
+
+  <select class="form--select -narrow">
+    <option>one</option>
+    <option>two</option>
+    <option>three</option>
+  </select>
+
+  <select class="form--select -small -narrow">
+    <option>one</option>
+    <option>two</option>
+    <option>three</option>
+  </select>
+
+</section>
+
+
+
+<section class="form--section">
+  <h3 class="form--section-title">Checkbox matrices</h3>
+  <table class="form--matrix">
+    <thead>
+    <tr class="form--matrix-header-row">
+      <th class="form--matrix-header-cell">Attribute name</th>
+      <th class="form--matrix-header-cell">User access</th>
+      <th class="form--matrix-header-cell">Admin access</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="form--matrix-row">
+      <td class="form--matrix-cell">
+        Project
+      </td>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="attributes_project" name="settings[attributes][]" type="checkbox" value="project"></span>
+      </td>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="admin_attributes_project" name="settings[admin_attributes][]" type="checkbox" value="project"></span>
+      </td>
+    </tr>
+    <tr class="form--matrix-row">
+      <td class="form--matrix-cell">
+        Type
+      </td>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input checked="checked" class="form--check-box" id="attributes_type" name="settings[attributes][]" type="checkbox" value="type"></span>
+      </td>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="admin_attributes_type" name="settings[admin_attributes][]" type="checkbox" value="type"></span>
+      </td>
+    </tr>
+    <tr class="form--matrix-row">
+      <td class="form--matrix-cell">
+        Parent
+      </td>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="attributes_parent" name="settings[attributes][]" type="checkbox" value="parent"></span>
+      </td>
+      <td class="form--matrix-checkbox-cell">
+        <span class="form--check-box-container"><input class="form--check-box" id="admin_attributes_parent" name="settings[admin_attributes][]" type="checkbox" value="parent"></span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+
+
+<section class="form--section">
+  <h3 class="form--section-title">Inline buttons</h3>
+
+  <div class="form--field">
+    <div class="form--field-container">
+      <div class="form--field-inline-buttons-container">
+        <button class="form--field-inline-button button -primary">Highlight</button>
+        <button class="form--field-inline-button button -highlight-inverted">Alternative 1</button>
+        <button class="form--field-inline-button button -highlight-inverted">Alternative 2</button>
+      </div>
+    </div>
+  </div>
+</section>

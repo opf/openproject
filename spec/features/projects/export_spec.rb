@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-describe 'project export', type: :feature, js: true do
-  shared_let(:important_project) { create :project, name: 'Important schedule plan' }
-  shared_let(:party_project) { create :project, name: 'Christmas party' }
+RSpec.describe "project export", :js, :with_cuprite do
+  shared_let(:important_project) { create(:project, name: "Important schedule plan", description: "Important description") }
+  shared_let(:party_project) { create(:project, name: "Christmas party", description: "Christmas description") }
   shared_let(:user) do
-    create :user,
-           member_in_projects: [important_project, party_project],
-           member_with_permissions: %w[view_project edit_project view_work_packages]
+    create(:user, member_with_permissions: {
+             important_project => %i[view_project edit_project view_work_packages],
+             party_project => %i[view_project edit_project view_work_packages]
+           })
   end
 
-  let(:index_page) { ::Pages::Projects::Index.new }
+  let(:index_page) { Pages::Projects::Index.new }
 
   let(:current_user) { user }
 
@@ -57,11 +58,11 @@ describe 'project export', type: :feature, js: true do
   subject { @download_list.refresh_from(page).latest_downloaded_content } # rubocop:disable RSpec/InstanceVariable
 
   def export!(expect_success: true)
-    index_page.click_more_menu_item 'Export'
+    index_page.click_more_menu_item "Export"
     click_on export_type
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'),
+    expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue"),
                                  wait: 10
 
     begin
@@ -75,37 +76,72 @@ describe 'project export', type: :feature, js: true do
     end
   end
 
-  describe 'CSV export' do
-    let(:export_type) { 'CSV' }
+  describe "CSV export" do
+    let(:export_type) { "CSV" }
 
-    it 'exports the visible projects' do
-      expect(page).to have_selector('td.name', text: important_project.name)
+    it "exports the visible projects" do
+      index_page.expect_projects_listed(important_project)
 
       export!
 
       expect(subject).to have_text(important_project.name)
     end
 
-    context 'with a filter set to match only one project' do
-      it 'exports with that filter' do
-        expect(page).to have_text(important_project.name)
-        expect(page).to have_text(party_project.name)
+    context "with a filter set to match only one project" do
+      it "exports with that filter" do
+        index_page.expect_projects_listed(important_project, party_project)
 
         index_page.open_filters
 
-        index_page.set_filter('name_and_identifier',
-                              'Name or identifier',
-                              'contains',
-                              ['Important'])
+        index_page.set_filter("name_and_identifier",
+                              "Name or identifier",
+                              "contains",
+                              ["Important"])
 
-        click_on 'Apply'
-        expect(page).to have_text(important_project.name)
-        expect(page).to have_no_text(party_project.name)
+        click_on "Apply"
+
+        index_page.set_columns("Name", "Description")
+
+        index_page.expect_projects_listed(important_project)
+        index_page.expect_projects_not_listed(party_project)
 
         export!
 
         expect(subject).to have_text(important_project.name)
-        expect(subject).not_to have_text(party_project.name)
+        expect(subject).to have_text(important_project.description)
+        expect(subject).to have_no_text(party_project.name)
+        expect(subject).to have_no_text(party_project.description)
+      end
+    end
+
+    context "with a persisted list" do
+      let(:my_projects_list) do
+        create(:project_query, name: "My projects list", user:) do |query|
+          query.where("name_and_identifier", "~", ["Important"])
+          query.select("name", "description")
+
+          query.save!
+        end
+      end
+
+      before do
+        my_projects_list
+      end
+
+      it "exports with the filters persisted in the list" do
+        index_page.visit!
+
+        index_page.set_sidebar_filter(my_projects_list.name)
+
+        index_page.expect_projects_listed(important_project)
+        index_page.expect_projects_not_listed(party_project)
+
+        export!
+
+        expect(subject).to have_text(important_project.name)
+        expect(subject).to have_text(important_project.description)
+        expect(subject).to have_no_text(party_project.name)
+        expect(subject).to have_no_text(party_project.description)
       end
     end
   end

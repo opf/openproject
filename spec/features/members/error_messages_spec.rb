@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Group memberships through groups page', type: :feature do
-  shared_let(:admin) { create :admin }
-  let!(:project) { create :project, name: 'Project 1', identifier: 'project1' }
+RSpec.describe "Group memberships through groups page" do
+  shared_let(:admin) { create(:admin) }
+  let!(:project) { create(:project, name: "Project 1", identifier: "project1") }
 
-  let!(:peter) { create :user, firstname: 'Peter', lastname: 'Pan' }
+  let!(:peter) { create(:user, firstname: "Peter", lastname: "Pan") }
 
-  let!(:manager) { create :role, name: 'Manager' }
+  let!(:manager) { create(:project_role, name: "Manager") }
 
   let(:members_page) { Pages::Members.new project.identifier }
 
@@ -42,17 +42,17 @@ describe 'Group memberships through groups page', type: :feature do
     allow(User).to receive(:current).and_return admin
   end
 
-  shared_examples 'errors when adding members' do
-    it 'adding a role without a principal', js: true do
+  shared_examples "errors when adding members" do
+    it "adding a role without a principal", :js do
       members_page.visit!
       expect_angular_frontend_initialized
-      members_page.add_user! nil, as: 'Manager'
+      members_page.add_user! nil, as: "Manager"
 
-      expect(page).to have_text 'choose at least one user or group'
+      expect(page).to have_text "choose at least one user or group"
     end
   end
 
-  context 'creating membership with a user' do
-    it_behaves_like 'errors when adding members'
+  context "creating membership with a user" do
+    it_behaves_like "errors when adding members"
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,16 +43,28 @@ module TimeEntries
     # they have the :edit_time_entries or
     # user == editing user and :edit_own_time_entries
     def user_allowed_to_update?
-      with_unchanged_project_id do
-        user_allowed_to_update_in?(model.project)
-      end && user_allowed_to_update_in?(model.project)
+      if model.ongoing || model.ongoing_was
+        with_unchanged_project_id do
+          user_allowed_to_modify_ongoing?(model)
+        end && user_allowed_to_modify_ongoing?(model)
+      else
+        with_unchanged_project_id do
+          user_allowed_to_update_in?(model)
+        end && user_allowed_to_update_in?(model)
+      end
     end
 
     private
 
-    def user_allowed_to_update_in?(project)
-      user.allowed_to?(:edit_time_entries, project) ||
-        (model.user == user && user.allowed_to?(:edit_own_time_entries, project))
+    def user_allowed_to_update_in?(time_entry)
+      user.allowed_in_project?(:edit_time_entries, time_entry.project) ||
+        (model.user == user && user.allowed_in_work_package?(:edit_own_time_entries, time_entry.work_package))
+    end
+
+    def user_allowed_to_modify_ongoing?(time_entry)
+      model.user == user && (user.allowed_in_project?(:log_time,
+                                                      time_entry.project) || user.allowed_in_work_package?(:log_own_time,
+                                                                                                           time_entry.work_package))
     end
   end
 end

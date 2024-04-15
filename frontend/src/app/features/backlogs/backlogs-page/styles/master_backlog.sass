@@ -1,6 +1,6 @@
 /*-- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2012-2023 the OpenProject GmbH
+ * Copyright (C) 2012-2024 the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@
     top: 1px
     width: 100px
   #backlogs_container .backlog
-    border: 1px solid #E4E4E4
+    border: 1px solid var(--color-border-muted)
     display: block
     margin: 0 0 10px 0
     width: 100%
@@ -73,8 +73,8 @@
     height: 30px
     position: relative
     width: 100%
-  .backlog .header .menu
-    border-right: 1px solid #E4E4E4
+  .backlog .header .backlog-menu
+    border-right: 1px solid var(--color-border-muted)
     cursor: pointer
     height: 30px
     overflow: visible
@@ -95,7 +95,7 @@
     .items
       display: none
       background-color: #EEEEEE
-      border: 1px solid #E4E4E4
+      border: 1px solid var(--color-border-muted)
       position: absolute
       top: 30px
       right: -2px
@@ -175,7 +175,7 @@
 
         .name
           line-height: 2rem
-          font-weight: bold
+          font-weight: var(--base-text-weight-bold)
           overflow: hidden
           white-space: nowrap
           margin-left: 0.5em
@@ -199,8 +199,9 @@
 
         .error.icon.icon-bug
           text-align: left
-    .stories .story
+    .stories:not(.prevent_drag) .story
       cursor: move
+    .stories .story
       display: block
       font-size: 0.9rem
       margin: 0
@@ -269,7 +270,7 @@
       padding-left: 10px
       border: none
     .axislabel
-      font-weight: bold
+      font-weight: var(--base-text-weight-bold)
 
 /* In-place Sprint Editor */
 
@@ -283,6 +284,11 @@
       .velocity, .add_new_story
         display: none
   .backlog .sprint.editing
+    .editors
+      display: flex
+      align-items: center
+      flex-direction: row-reverse
+
     .editor
       font-size: 0.9rem
       line-height: 1.5rem
@@ -291,10 +297,11 @@
       padding: 0
 
       &.name
-        min-width: 15em
-        width: calc(100% - 2 * 85px - 10px)
-      &.start_date, &.effective_date
-        width: 85px
+        flex-basis: 15em
+      &.start_date,
+      &.effective_date
+        margin-left: 0.5em
+        flex-basis: 12.5em
 
   .stories .story.editing
     >

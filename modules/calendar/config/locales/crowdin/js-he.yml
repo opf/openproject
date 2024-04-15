@@ -2,7 +2,7 @@
 he:
   js:
     calendar:
-      create_new: 'Create new calendar'
-      title: 'Calendar'
+      create_new: 'יצירת לוח שנה'
+      title: 'לוח שנה'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      unsaved_title: 'לוח שנה ללא שם'

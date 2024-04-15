@@ -4,7 +4,7 @@ module LdapGroups
     before_action :check_ee
     before_action :find_filter, except: %i[new create]
 
-    layout 'admin'
+    layout "admin"
     menu_item :plugin_ldap_groups
 
     def new
@@ -59,7 +59,7 @@ module LdapGroups
       call.on_success do
         count = call.result
         symbol = count > 0 ? :notice : :info
-        flash[symbol] = I18n.t('ldap_groups.synchronized_filters.label_n_groups_found', count:)
+        flash[symbol] = I18n.t("ldap_groups.synchronized_filters.label_n_groups_found", count:)
       end
 
       call.on_failure do
@@ -79,7 +79,7 @@ module LdapGroups
 
     def check_ee
       unless EnterpriseToken.allows_to?(:ldap_groups)
-        render template: 'ldap_groups/synchronized_groups/upsale'
+        render template: "ldap_groups/synchronized_groups/upsale"
         false
       end
     end
@@ -87,11 +87,11 @@ module LdapGroups
     def permitted_params
       params
         .require(:synchronized_filter)
-        .permit(:filter_string, :name, :auth_source_id, :group_name_attribute, :sync_users, :base_dn)
+        .permit(:filter_string, :name, :ldap_auth_source_id, :group_name_attribute, :sync_users, :base_dn)
     end
 
     def default_breadcrumb
-      ActionController::Base.helpers.link_to(t('ldap_groups.synchronized_groups.plural'), ldap_groups_synchronized_groups_path)
+      ActionController::Base.helpers.link_to(t("ldap_groups.synchronized_groups.plural"), ldap_groups_synchronized_groups_path)
     end
 
     def show_local_breadcrumb

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Role, type: :model do
+RSpec.describe Role do
   let(:permissions) { %i[permission1 permission2] }
-  let(:build_role) { build(:role, permissions:) }
-  let(:created_role) { create(:role, permissions:) }
+  let(:build_role) { build(:project_role, permissions:) }
+  let(:created_role) { create(:project_role, permissions:) }
 
-  describe '#by_permission' do
-    it 'returns roles with given permission' do
+  describe ".create" do
+    it "is prevented for type Role" do
+      build_role.type = described_class.name
+
+      expect(build_role.save).to be_falsey
+    end
+  end
+
+  describe ".givable" do
+    let!(:project_role) { create(:project_role) }
+    let!(:non_member_role) { create(:non_member) }
+    let!(:anonymous_role) { create(:anonymous_role) }
+    let!(:work_package_role) { create(:work_package_role) }
+    let!(:global_role) { create(:global_role) }
+
+    it { expect(described_class.givable.to_a).to eql [project_role, work_package_role, global_role] }
+  end
+
+  describe "#by_permission" do
+    it "returns roles with given permission" do
       created_role
 
       expect(Role.by_permission(permissions[0])).to include created_role
@@ -42,9 +60,9 @@ describe Role, type: :model do
     end
   end
 
-  describe '#permissions' do
-    shared_examples_for 'writing and reading' do
-      it 'returns the values written before' do
+  describe "#permissions" do
+    shared_examples_for "writing and reading" do
+      it "returns the values written before" do
         perms = permissions + [:permission3]
 
         role.permissions = perms
@@ -52,15 +70,15 @@ describe Role, type: :model do
         expect(role.permissions).to match_array(perms)
       end
 
-      it 'removes empty permissions' do
-        perms = permissions + ['']
+      it "removes empty permissions" do
+        perms = permissions + [""]
 
         role.permissions = perms
 
         expect(role.permissions).to match_array(permissions)
       end
 
-      it 'does not readd permissions' do
+      it "does not readd permissions" do
         perms = permissions + permissions.map(&:to_s)
 
         role.permissions = perms
@@ -68,29 +86,29 @@ describe Role, type: :model do
         expect(role.permissions).to match_array(permissions)
       end
 
-      it 'allows clearing the permissions' do
+      it "allows clearing the permissions" do
         role.permissions = []
 
         expect(role.permissions).to be_empty
       end
     end
 
-    context 'for a non persisted role' do
+    context "for a non persisted role" do
       let(:role) { build_role }
 
-      it_behaves_like 'writing and reading'
+      it_behaves_like "writing and reading"
     end
 
-    context 'for a persisted role' do
+    context "for a persisted role" do
       let(:role) { created_role }
 
-      it_behaves_like 'writing and reading'
+      it_behaves_like "writing and reading"
     end
   end
 
-  describe '#remove_permission!' do
-    shared_examples_for 'removing' do
-      it 'removes the specified permission' do
+  describe "#remove_permission!" do
+    shared_examples_for "removing" do
+      it "removes the specified permission" do
         perm = permissions.first
 
         role.remove_permission!(perm)
@@ -99,158 +117,48 @@ describe Role, type: :model do
       end
     end
 
-    context 'for a non persisted role' do
+    context "for a non persisted role" do
       let(:role) { build_role }
 
-      it_behaves_like 'removing'
+      it_behaves_like "removing"
     end
 
-    context 'for a persisted role' do
+    context "for a persisted role" do
       let(:role) { created_role }
 
-      it_behaves_like 'removing'
+      it_behaves_like "removing"
     end
   end
 
-  describe '#add_permission!' do
-    shared_examples_for 'adding' do
-      it 'adds the specified permission' do
+  describe "#add_permission!" do
+    shared_examples_for "adding" do
+      it "adds the specified permission" do
         role.add_permission!(:permission3)
 
-        expect(role.role_permissions.map(&:permission)).to include 'permission3'
+        expect(role.role_permissions.map(&:permission)).to include "permission3"
       end
     end
 
-    context 'for a non persisted role' do
+    context "for a non persisted role" do
       let(:role) { build_role }
 
-      it_behaves_like 'adding'
+      it_behaves_like "adding"
     end
 
-    context 'for a persisted role' do
+    context "for a persisted role" do
       let(:role) { created_role }
 
-      it_behaves_like 'adding'
+      it_behaves_like "adding"
     end
   end
 
-  describe '.givable' do
-    before do
-      # this should not be necessary once Role (in a membership) and GlobalRole have
-      # a common ancestor class, e.g. Role (a new one)
-      @mem_role1 = Role.create name: 'mem_role', permissions: []
-      @builtin_role1 = Role.new name: 'builtin_role1', permissions: []
-      @builtin_role1.builtin = 3
-      @builtin_role1.save
-      @global_role1 = GlobalRole.create name: 'global_role1', permissions: []
-    end
-
-    it { expect(Role.givable.size).to eq(1) }
-    it { expect(Role.givable[0]).to eql @mem_role1 }
-  end
-
-  describe '.in_new_project' do
-    let!(:ungivable_role) { create(:role, builtin: Role::BUILTIN_NON_MEMBER) }
-    let!(:second_role) do
-      create(:role).tap do |r|
-        r.update_column(:position, 100)
-      end
-    end
-    let!(:first_role) do
-      create(:role).tap do |r|
-        r.update_column(:position, 1)
-      end
-    end
-
-    context 'without a specified role' do
-      it 'returns the first role (by position)' do
-        expect(Role.in_new_project)
-          .to eql first_role
-      end
-    end
-
-    context 'with a specified role' do
-      before do
-        allow(Setting)
-          .to receive(:new_project_user_role_id)
-          .and_return(second_role.id.to_s)
-      end
-
-      it 'returns that role' do
-        expect(Role.in_new_project)
-          .to eql second_role
-      end
-    end
-
-    context 'with a specified role but that one is faulty (e.g. does not exist any more)' do
-      before do
-        allow(Setting)
-          .to receive(:new_project_user_role_id)
-          .and_return("-1")
-      end
-
-      it 'returns the first role (by position)' do
-        expect(Role.in_new_project)
-          .to eql first_role
-      end
-    end
-  end
-
-  describe '.anonymous' do
-    subject { described_class.anonymous }
-
-    it 'has the constant\'s builtin value' do
-      expect(subject.builtin)
-        .to eql(Role::BUILTIN_ANONYMOUS)
-    end
-
-    it 'is builtin' do
-      expect(subject)
-        .to be_builtin
-    end
-
-    context 'with a missing anonymous role' do
-      before do
-        described_class.where(builtin: Role::BUILTIN_ANONYMOUS).delete_all
-      end
-
-      it 'creates a new anonymous role' do
-        expect { subject }.to change(described_class, :count)
-      end
-    end
-  end
-
-  describe '#non_member' do
-    subject { described_class.non_member }
-
-    it 'has the constant\'s builtin value' do
-      expect(subject.builtin)
-        .to eql(Role::BUILTIN_NON_MEMBER)
-    end
-
-    it 'is builtin' do
-      expect(subject)
-        .to be_builtin
-    end
-
-    context 'with a missing anonymous role' do
-      before do
-        described_class.where(builtin: Role::BUILTIN_NON_MEMBER).delete_all
-      end
-
-      it 'creates a new anonymous role' do
-        expect { subject }.to change(described_class, :count)
-      end
-    end
-  end
-
-  describe '.workflows.copy_from_role' do
+  describe ".workflows.copy_from_role" do
     before do
       allow(Workflow)
         .to receive(:copy)
     end
 
-    it 'calls Workflow.copy' do
+    it "calls Workflow.copy" do
       build_role.workflows.copy_from_role(created_role)
 
       expect(Workflow)

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::FileLinks::FileLinksDownloadAPI < ::API::OpenProjectAPI
+class API::V3::FileLinks::FileLinksDownloadAPI < API::OpenProjectAPI
   using Storages::Peripherals::ServiceResultRefinements
-  helpers Storages::Peripherals::StorageUrlHelper, Storages::Peripherals::StorageErrorHelper
+  helpers Storages::Peripherals::StorageErrorHelper
+
+  helpers do
+    def auth_strategy
+      Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+        .strategy
+        .with_user(User.current)
+    end
+  end
 
   resources :download do
     get do
-      Storages::Peripherals::StorageRequests
-        .new(storage: @file_link.storage)
-        .download_link_query(user: User.current)
+      Storages::Peripherals::Registry
+        .resolve("#{@file_link.storage.short_provider_type}.queries.download_link")
+        .call(storage: @file_link.storage, auth_strategy:, file_link: @file_link)
         .match(
-          on_success: ->(download_link_query) {
-            download_link_query
-              .call(@file_link)
-              .match(
-                on_success: ->(url) do
-                  redirect(url, body: "The requested resource can be downloaded from #{url}")
-                  status(303)
-                end,
-                on_failure: ->(error) { raise_error(error) }
-              )
-          },
+          on_success: ->(url) do
+            redirect(url, body: "The requested resource can be downloaded from #{url}")
+            status(303)
+          end,
           on_failure: ->(error) { raise_error(error) }
         )
     end

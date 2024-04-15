@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::Bim::Bcf::Issue, type: :model do
-  let(:type) { create :type, name: "Issue [BCF]" }
-  let(:work_package) { create :work_package, type: }
-  let(:issue) { create :bcf_issue, work_package: }
+RSpec.describe Bim::Bcf::Issue do
+  let(:type) { create(:type, name: "Issue [BCF]") }
+  let(:work_package) { create(:work_package, type:) }
+  let(:issue) { create(:bcf_issue, work_package:) }
 
-  describe '#markup_doc' do
+  describe "#markup_doc" do
     subject { issue }
 
     it "returns a Nokogiri::XML::Document" do
@@ -42,24 +42,24 @@ describe ::Bim::Bcf::Issue, type: :model do
 
     it "caches the document" do
       first_fetched_doc = subject.markup_doc
-      expect(subject.markup_doc).to be_eql(first_fetched_doc)
+      expect(subject.markup_doc).to eql(first_fetched_doc)
     end
 
     it "invalidates the cache after an update of the issue" do
       first_fetched_doc = subject.markup_doc
-      subject.markup = subject.markup + ' '
+      subject.markup = subject.markup + " "
       subject.save
-      expect(subject.markup_doc).not_to be_eql(first_fetched_doc)
+      expect(subject.markup_doc).not_to eql(first_fetched_doc)
     end
   end
 
-  describe '.of_project' do
-    let!(:other_work_package) { create :work_package, type: }
-    let!(:other_issue) { create :bcf_issue, work_package: other_work_package }
+  describe ".of_project" do
+    let!(:other_work_package) { create(:work_package, type:) }
+    let!(:other_issue) { create(:bcf_issue, work_package: other_work_package) }
 
-    it 'returns all issues of the provided project' do
+    it "returns all issues of the provided project" do
       expect(described_class.of_project(issue.project))
-        .to match_array [issue]
+        .to contain_exactly(issue)
     end
   end
 end

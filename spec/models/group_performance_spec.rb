@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/shared/become_member'
+require "spec_helper"
+require_relative "../support/shared/become_member"
 
-describe Group, type: :model do
+RSpec.describe Group do
   include BecomeMember
 
   let(:user) { build(:user) }
   let(:status) { create(:status) }
-  let(:role) { create :role, permissions: [:view_work_packages] }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
 
   let(:projects) do
-    projects = create_list :project_with_types, 20
+    projects = create_list(:project_with_types, 20)
 
     projects.each do |project|
       add_user_to_project! user: group, project:, role:
@@ -64,15 +64,15 @@ describe Group, type: :model do
     end
   end
 
-  let(:users) { create_list :user, 100 }
+  let(:users) { create_list(:user, 100) }
   let(:group) { build(:group, members: users) }
 
-  describe '#destroy' do
-    describe 'work packages assigned to the group' do
+  describe "#destroy" do
+    describe "work packages assigned to the group" do
       let(:deleted_user) { DeletedUser.first }
 
       before do
-        allow(::OpenProject::Notifications)
+        allow(OpenProject::Notifications)
           .to receive(:send)
 
         start = Time.now.to_i
@@ -88,8 +88,8 @@ describe Group, type: :model do
         expect(@seconds < 10).to be true
       end
 
-      it 'reassigns the work package to nobody and cleans up the journals' do
-        expect(::OpenProject::Notifications)
+      it "reassigns the work package to nobody and cleans up the journals" do
+        expect(OpenProject::Notifications)
           .to have_received(:send)
           .with(OpenProject::Events::MEMBER_DESTROYED, any_args)
           .exactly(projects.size).times

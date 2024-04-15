@@ -1,7 +1,32 @@
-import {
-  Injectable,
-  Injector,
-} from '@angular/core';
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { Injectable, Injector } from '@angular/core';
 import {
   debounceTime,
   defaultIfEmpty,
@@ -20,49 +45,38 @@ import {
   Observable,
   Subject,
 } from 'rxjs';
-import {
-  ID,
-  Query,
-} from '@datorama/akita';
+import { ID, Query } from '@datorama/akita';
+import { UIRouterGlobals } from '@uirouter/core';
+import { StateService } from '@uirouter/angular';
+
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  IToast,
-  ToastService,
-} from 'core-app/shared/components/toaster/toast.service';
+import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
+  markNotificationsAsReadByFilters,
   notificationCountIncreased,
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import {
-  EffectCallback,
-  EffectHandler,
-} from 'core-app/core/state/effects/effect-handler.decorator';
+import { EffectCallback, EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import {
-  collectionKey,
-  mapHALCollectionToIDCollection,
-} from 'core-app/core/state/collection-store';
+  InAppNotificationsResourceService,
+} from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { mapHALCollectionToIDCollection } from 'core-app/core/state/resource-store';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
   IAN_FACET_FILTERS,
   IanCenterStore,
   InAppNotificationFacet,
-} from './ian-center.store';
+} from 'core-app/features/in-app-notifications/center/state/ian-center.store';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { UIRouterGlobals } from '@uirouter/core';
-import { StateService } from '@uirouter/angular';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import {
-  ApiV3ListFilter,
-  ApiV3ListParameters,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
 @Injectable()
 @EffectHandler
@@ -76,8 +90,6 @@ export class IanCenterService extends UntilDestroyedMixin {
   activeFacet$ = this.query.select('activeFacet');
 
   notLoaded$ = this.query.select('notLoaded');
-
-  paramsChanges$ = this.query.select(['params', 'activeFacet']);
 
   activeCollection$ = this.query.select('activeCollection');
 
@@ -248,43 +260,39 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAllAsRead():void {
-    const key = collectionKey(this.params);
-    this
-      .resourceService
-      .collection(key)
-      .pipe(
-        take(1),
-      )
-      .subscribe((elements) => {
-        const ids:ID[] = elements
-          .filter((notification) => notification.readIAN === false)
-          .map((notification) => notification.id);
+    const filters = this.params.filters;
+    if (filters === undefined) {
+      return;
+    }
 
-        if (ids.length > 0) {
-          this.markAsRead(ids);
-        }
-      });
-  }
-
-  openSplitScreen(wpId:string|null, tabIdentifier:string = 'activity'):void {
-    void this.state.go(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
-      `${this.state.current.data.baseRoute}.details.tabs`,
-      { workPackageId: wpId, tabIdentifier },
+    this.actions$.dispatch(
+      markNotificationsAsReadByFilters({ origin: this.id, filters }),
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  openSplitScreen(workPackageId:string|null, tabIdentifier:string = 'activity'):void {
+    void this.state.go(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+      `${this.state.current.data.baseRoute}.details.tabs`,
+      { workPackageId, tabIdentifier },
+    );
+  }
+
+  openFullView(workPackageId:string|null):void {
+    void this.state.go('work-packages.show', { workPackageId });
+  }
+
   goToCenter():void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
     void this.state.go(this.state.current.data.baseRoute);
   }
 
   showNextNotification():void {
     void this
       .notifications$
-      .pipe(
-        take(1),
-      ).subscribe((notifications:INotification[][]) => {
+      .pipe(take(1))
+      .subscribe((notifications:INotification[][]) => {
         if (notifications.length <= 0) {
           void this.state.go(
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
@@ -341,6 +349,11 @@ export class IanCenterService extends UntilDestroyedMixin {
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
+    if (action.all) {
+      this.store.update({ activeCollection: { ids: [] } });
+      return;
+    }
+
     const { activeCollection } = this.query.getValue();
     this.store.update({
       activeCollection: {

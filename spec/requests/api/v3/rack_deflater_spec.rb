@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Rack::Deflater, type: :request do
+RSpec.describe Rack::Deflater do
   include API::V3::Utilities::PathHelper
 
-  let(:text) { 'text' }
+  let(:text) { "text" }
 
-  it 'produces an identical eTag whether content is deflated or not' do
+  it "produces an identical eTag whether content is deflated or not" do
     # Using the api_v3_paths.configuration because of the endpoint's simplicity.
     # It could be any endpoint really.
     get api_v3_paths.configuration
 
-    expect(last_response.headers['Content-Encoding']).to be_nil
+    expect(last_response.headers["Content-Encoding"]).to be_nil
 
-    etag = last_response.headers['Etag']
-    content_length = last_response.headers['Content-Length'].to_i
+    etag = last_response.headers["Etag"]
+    content_length = last_response.headers["Content-Length"].to_i
 
     header "Accept-Encoding", "gzip"
     get api_v3_paths.configuration
 
-    expect(last_response.headers['Etag']).to eql etag
-    expect(last_response.headers['Content-Length'].to_i).not_to eql content_length
-    expect(last_response.headers['Content-Encoding']).to eql 'gzip'
+    expect(last_response.headers["Etag"]).to eql etag
+    expect(last_response.headers["Content-Length"].to_i).not_to eql content_length
+    expect(last_response.headers["Content-Encoding"]).to eql "gzip"
   end
 end

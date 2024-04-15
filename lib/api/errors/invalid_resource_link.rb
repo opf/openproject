@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,18 @@
 module API
   module Errors
     class InvalidResourceLink < ErrorBase
-      identifier 'ResourceTypeMismatch'
+      identifier "ResourceTypeMismatch"
       code 422
 
       def initialize(property_name, expected_link, actual_link)
         expected_i18n = Array(expected_link).join("' #{I18n.t('concatenation.single')} '")
 
-        message = I18n.t('api_v3.errors.invalid_resource',
+        message = I18n.t("api_v3.errors.invalid_resource",
                          property: property_name,
                          expected: expected_i18n,
                          actual: actual_link)
 
-        super message
+        super(message)
       end
     end
   end

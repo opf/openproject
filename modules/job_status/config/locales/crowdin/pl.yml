@@ -1,0 +1,4 @@
+pl:
+  plugin_openproject_job_status:
+    name: "Status zadania OpenProject"
+    description: "Lista i status zadań w tle."

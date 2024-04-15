@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Relation resource', type: :request do
+RSpec.describe "API v3 Relation resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project_with_types) }
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:permissions) { [] }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:work_package) do
     create(:work_package,
@@ -73,10 +71,10 @@ describe 'API v3 Relation resource', type: :request do
 
   subject(:response) { last_response }
 
-  describe '#get' do
+  describe "#get" do
     let(:path) { api_v3_paths.work_package_relations(work_package.id) }
 
-    context 'when having the view_work_packages permission' do
+    context "when having the view_work_packages permission" do
       let(:permissions) { [:view_work_packages] }
 
       before do
@@ -86,20 +84,20 @@ describe 'API v3 Relation resource', type: :request do
         get path
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'Relation' do
+      it_behaves_like "API V3 collection response", 1, 1, "Relation" do
         let(:elements) { [visible_relation] }
       end
     end
 
-    context 'when not having view_work_packages' do
+    context "when not having view_work_packages" do
       let(:permissions) { [] }
 
       before do
         get path
       end
 
-      it_behaves_like 'not found',
-                      I18n.t('api_v3.errors.not_found.work_package')
+      it_behaves_like "not found",
+                      I18n.t("api_v3.errors.not_found.work_package")
     end
   end
 end

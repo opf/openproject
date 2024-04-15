@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,102 +26,128 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'edit users', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+RSpec.describe "edit users", :js, :with_cuprite do
+  shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
-  let(:user) { create :user, mail: 'foo@example.com' }
+  let(:user) { create(:user, mail: "foo@example.com") }
 
-  let!(:auth_source) { create :auth_source }
+  let!(:auth_source) { create(:ldap_auth_source) }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
   def auth_select
-    find :css, 'select#user_auth_source_id'
+    find "select#user_ldap_auth_source_id"
   end
 
   def user_password
-    find :css, 'input#user_password'
+    find "input#user_password"
   end
 
-  context 'with internal authentication' do
+  context "with internal authentication" do
     before do
       visit edit_user_path(user)
     end
 
-    it 'shows internal authentication being selected including password settings' do
-      expect(auth_select.value).to eq '' # selected internal
+    it "shows internal authentication being selected including password settings" do
+      expect(auth_select.value).to eq "" # selected internal
       expect(user_password).to be_visible
     end
 
-    it 'hides password settings when switching to an LDAP auth source' do
+    it "hides password settings when switching to an LDAP auth source" do
       auth_select.select auth_source.name
 
-      expect(page).not_to have_selector('input#user_password')
+      expect(page).to have_no_field("#user_password")
     end
   end
 
-  context 'with external authentication' do
+  context "with external authentication" do
     before do
-      user.auth_source = auth_source
+      user.ldap_auth_source = auth_source
       user.save!
 
       visit edit_user_path(user)
     end
 
-    it 'shows external authentication being selected and no password settings' do
+    it "shows external authentication being selected and no password settings" do
       expect(auth_select.value).to eq auth_source.id.to_s
-      expect(page).not_to have_selector('input#user_password')
+      expect(page).to have_no_field("#user_password")
     end
 
-    it 'shows password settings when switching back to internal authentication' do
-      auth_select.select I18n.t('label_internal')
+    it "shows password settings when switching back to internal authentication" do
+      auth_select.select I18n.t("label_internal")
 
       expect(user_password).to be_visible
     end
   end
 
-  context 'as global user' do
-    shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
+  def have_visible_tab(label)
+    have_css(".op-tab-row--link", text: label.upcase)
+  end
+
+  context "as admin" do
+    it "can edit attributes of an admin user" do
+      another_admin = create(:admin)
+      visit edit_user_path(another_admin)
+
+      expect(page).to have_visible_tab("GENERAL")
+    end
+  end
+
+  context "as global user" do
+    shared_let(:global_manage_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manage_user }
 
-    it 'can too edit the user' do
+    it "can too edit the user" do
       visit edit_user_path(user)
 
-      expect(page).to have_no_selector('.admin-overview-menu-item', text: 'Overview')
-      expect(page).to have_no_selector('.users-and-permissions-menu-item', text: 'Users and permissions')
-      expect(page).to have_selector('.users-menu-item.selected', text: 'Users')
+      expect(page).to have_visible_tab("GENERAL")
 
-      expect(page).to have_selector 'select#user_auth_source_id'
-      expect(page).to have_no_selector 'input#user_password'
+      expect(page).to have_no_css(".admin-overview-menu-item", text: "Overview")
+      expect(page).to have_no_css(".users-and-permissions-menu-item", text: "Users and permissions")
+      expect(page).to have_css(".users-menu-item.selected", text: "Users")
 
-      expect(page).to have_selector '#user_login'
-      expect(page).to have_selector '#user_firstname'
-      expect(page).to have_selector '#user_lastname'
-      expect(page).to have_selector '#user_mail'
+      expect(page).to have_select(id: "user_ldap_auth_source_id")
+      expect(page).to have_no_field "#user_password"
 
-      fill_in 'user[firstname]', with: 'NewName', fill_options: { clear: :backspace }
-      select auth_source.name, from: 'user[auth_source_id]'
+      expect(page).to have_css "#user_login"
+      expect(page).to have_css "#user_firstname"
+      expect(page).to have_css "#user_lastname"
+      expect(page).to have_css "#user_mail"
 
-      click_on 'Save'
+      firstname_field = find_by_id("user_firstname")
+      firstname_field.value.length.times do
+        firstname_field.send_keys(:backspace)
+      end
+      firstname_field.set "NewName"
+      select auth_source.name, from: "user[ldap_auth_source_id]"
 
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      click_button "Save"
+
+      expect(page).to have_css(".op-toast.-success", text: "Successful update.")
 
       user.reload
 
-      expect(user.firstname).to eq 'NewName'
-      expect(user.auth_source).to eq auth_source
+      expect(user.firstname).to eq "NewName"
+      expect(user.ldap_auth_source).to eq auth_source
     end
 
-    it 'can reinvite the user' do
+    it "can reinvite the user" do
       visit edit_user_path(user)
 
-      click_on 'Send invitation'
+      click_button "Send invitation"
 
-      expect(page).to have_selector('.flash.notice', text: 'An invitation has been sent to foo@example.com')
+      expect(page).to have_css(".op-toast.-success", text: "An invitation has been sent to foo@example.com")
+    end
+
+    it "can not edit attributes of an admin user" do
+      visit edit_user_path(admin)
+
+      expect(page).to have_visible_tab("PROJECTS")
+      expect(page).not_to have_visible_tab("GENERAL")
     end
   end
 end

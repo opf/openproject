@@ -1,7 +1,7 @@
 #!/bin/bash
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2023 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2024 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,12 +54,6 @@ fi
 if [ $1 = 'npm' ]; then
   run "for i in {1..3}; do (cd frontend; npm install && break || sleep 15;) done"
   echo "No asset compilation required"
-fi
-
-if [ $1 = 'units' ]; then
-  # Install pandoc for testing textile migration
-  run "sudo apt-get update -qq"
-  run "sudo apt-get install -qq pandoc"
 fi
 
 if [ ! -f "public/assets/frontend_assets.manifest.json" ]; then

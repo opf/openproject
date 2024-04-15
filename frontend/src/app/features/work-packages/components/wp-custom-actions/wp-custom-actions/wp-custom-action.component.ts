@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,45 +26,62 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, Component, HostListener, Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {
+  WorkPackagesActivityService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
   selector: 'wp-custom-action',
   templateUrl: './wp-custom-action.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WpCustomActionComponent {
+export class WpCustomActionComponent extends UntilDestroyedMixin implements OnInit {
   @Input() workPackage:WorkPackageResource;
 
   @Input() action:CustomActionResource;
 
-  constructor(private halResourceService:HalResourceService,
+  constructor(
+    private halResourceService:HalResourceService,
     private apiV3Service:ApiV3Service,
-    private wpSchemaCacheService:SchemaCacheService,
     private wpActivity:WorkPackagesActivityService,
     private notificationService:WorkPackageNotificationService,
     private halEditing:HalResourceEditingService,
-    private halEvents:HalEventsService) {
+    private halEvents:HalEventsService,
+    private cdRef:ChangeDetectorRef,
+  ) {
+    super();
+  }
+
+  ngOnInit() {
+    this
+      .halEvents
+      .events$
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe(() => this.cdRef.detectChanges());
   }
 
   private fetchAction() {
     if (this.action.href === null) return;
 
-    void this.halResourceService.get<CustomActionResource>(this.action.href)
-      .toPromise()
-      .then((action) => {
+    void this.halResourceService
+      .get<CustomActionResource>(this.action.href)
+      .subscribe((action) => {
         this.action = action;
       });
   }
@@ -80,7 +97,7 @@ export class WpCustomActionComponent {
       lockVersion: this.workPackage.lockVersion,
       _links: {
         workPackage: {
-          href: this.workPackage.href,
+          href: this.workPackage.previewPath(),
         },
       },
     };
@@ -101,11 +118,13 @@ export class WpCustomActionComponent {
             this.halEditing.stopEditing(savedWp);
             this.halEvents.push(savedWp, { eventType: 'updated' });
             this.change.inFlight = false;
+            this.cdRef.detectChanges();
           });
         },
         (errorResource) => {
           this.notificationService.handleRawError(errorResource, this.workPackage);
           this.change.inFlight = false;
+          this.cdRef.detectChanges();
         },
       );
   }

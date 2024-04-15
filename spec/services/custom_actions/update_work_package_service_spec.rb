@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe CustomActions::UpdateWorkPackageService do
+RSpec.describe CustomActions::UpdateWorkPackageService do
   let(:custom_action) do
     action = build_stubbed(:custom_action)
 
@@ -39,18 +39,18 @@ describe CustomActions::UpdateWorkPackageService do
     action
   end
   let(:alter_action1) do
-    action = double('custom actions action 1', key: 'abc', priority: 100)
+    action = double("custom actions action 1", key: "abc", priority: 100)
 
     allow(action)
       .to receive(:apply)
       .with(work_package) do
-      work_package.subject = ''
+      work_package.subject = ""
     end
 
     action
   end
   let(:alter_action2) do
-    action = double('custom actions action 2', key: 'def', priority: 10)
+    action = double("custom actions action 2", key: "def", priority: 10)
 
     allow(action)
       .to receive(:apply)
@@ -88,7 +88,7 @@ describe CustomActions::UpdateWorkPackageService do
   end
   let(:validation_result) { true }
   let!(:contract) do
-    contract = double('contract')
+    contract = double("contract")
 
     allow(WorkPackages::UpdateContract)
       .to receive(:new)
@@ -102,18 +102,18 @@ describe CustomActions::UpdateWorkPackageService do
     contract
   end
 
-  describe '#call' do
+  describe "#call" do
     let(:call) do
       instance.call(work_package:)
     end
     let(:subject) { call }
 
-    it 'returns the update wp service result' do
+    it "returns the update wp service result" do
       expect(call)
         .to eql result
     end
 
-    it 'yields the result' do
+    it "yields the result" do
       yielded = false
 
       proc = Proc.new do |call|
@@ -126,7 +126,7 @@ describe CustomActions::UpdateWorkPackageService do
         .to be_success
     end
 
-    it 'calls each registered action with the work package' do
+    it "calls each registered action with the work package" do
       [alter_action1, alter_action2].each do |alter_action|
         expect(alter_action)
           .to receive(:apply)
@@ -136,7 +136,7 @@ describe CustomActions::UpdateWorkPackageService do
       call
     end
 
-    it 'calls the registered actions based on their priority' do
+    it "calls the registered actions based on their priority" do
       call_order = []
 
       [alter_action1, alter_action2].each do |alter_action|
@@ -153,7 +153,7 @@ describe CustomActions::UpdateWorkPackageService do
         .to eql [alter_action2, alter_action1]
     end
 
-    context 'on validation error' do
+    context "on validation error" do
       before do
         allow(contract)
           .to receive(:validate) do
@@ -174,7 +174,7 @@ describe CustomActions::UpdateWorkPackageService do
           # check that the work package retains only the valid changes
           # when passing it to the update service
           expect(work_package.subject)
-            .not_to eql ''
+            .not_to eql ""
 
           expect(work_package.status_id)
             .to be 100
@@ -186,13 +186,13 @@ describe CustomActions::UpdateWorkPackageService do
         end
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject)
           .to be_success
       end
     end
 
-    context 'on unfixable validation error' do
+    context "on unfixable validation error" do
       let(:result) do
         ServiceResult.failure(result: work_package)
       end
@@ -227,7 +227,7 @@ describe CustomActions::UpdateWorkPackageService do
         subject
       end
 
-      it 'is failure' do
+      it "is failure" do
         expect(subject)
           .to be_failure
       end

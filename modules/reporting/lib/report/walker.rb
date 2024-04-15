@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -87,7 +87,7 @@ class Report::Walker
   end
 
   def reverse_headers
-    fail 'call header first' unless @header_stack
+    fail "call header first" unless @header_stack
 
     first = true
     @header_stack.reverse_each do |list|
@@ -99,13 +99,13 @@ class Report::Walker
   end
 
   def headers_empty?
-    fail 'call header first' unless @header_stack
+    fail "call header first" unless @header_stack
 
     @header_stack.empty?
   end
 
   def sort_keys
-    @sort_keys ||= query.chain.map { |c| c.group_fields.map(&:to_s) if c.group_by? }.compact.flatten
+    @sort_keys ||= query.chain.filter_map { |c| c.group_fields.map(&:to_s) if c.group_by? }.flatten
   end
 
   def sort(result)

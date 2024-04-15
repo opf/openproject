@@ -5,9 +5,10 @@ ar:
       remove: 'إزالة الأداة'
       configure: 'Configure widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "بعض الأدوات، مثل أداة الرسم البياني لحزمة العمل، متوفرة فقط في النسخة المدفوعة."
+        link: 'طبعة المؤسسة.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'نص مخصص'
         documents:
@@ -36,7 +37,7 @@ ar:
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Not set'
-          finished: 'Finished'
+          finished: 'مكتمل'
           discontinued: 'Discontinued'
         subprojects:
           title: 'المشاريع الفرعية'

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -56,13 +56,16 @@ import {
   HalResourceFactoryConfigInterface,
   HalResourceService,
 } from 'core-app/features/hal/services/hal-resource.service';
-import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
+import {
+  QueryFilterInstanceSchemaResource,
+} from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { SchemaDependencyResource } from 'core-app/features/hal/resources/schema-dependency-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -178,6 +181,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   WikiPage: {
     cls: WikiPageResource,
+  },
+  Meeting: {
+    cls: MeetingResource,
   },
   MeetingContent: {
     cls: MeetingContentResource,

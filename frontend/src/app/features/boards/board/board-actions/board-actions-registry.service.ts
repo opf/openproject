@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
-import { ITileViewEntry } from 'core-app/features/boards/tile-view/tile-view.component';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
+
+export interface ITileViewEntry {
+  text:string;
+  attribute:string;
+  icon:string;
+  description:string;
+  image:string;
+  disabled?:boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class BoardActionsRegistryService {

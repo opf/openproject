@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'group show page', type: :feature do
-  let!(:member) { create :user }
-  let!(:group) { create :group, lastname: "Bob's Team", members: [member] }
+RSpec.describe "group show page" do
+  let!(:member) { create(:user) }
+  let!(:group) { create(:group, lastname: "Bob's Team", members: [member]) }
 
   before do
     login_as current_user
   end
 
-  context 'as an admin' do
-    shared_let(:admin) { create :admin }
+  context "as an admin" do
+    shared_let(:admin) { create(:admin) }
     let(:current_user) { admin }
 
-    it 'I can visit the group page' do
+    it "I can visit the group page" do
       visit show_group_path(group)
-      expect(page).to have_selector('h2', text: "Bob's Team")
-      expect(page).to have_selector('.toolbar-item', text: 'Edit')
-      expect(page).to have_selector('li', text: member.name)
+      expect(page).to have_css("h2", text: "Bob's Team")
+      expect(page).to have_css(".toolbar-item", text: "Edit")
+      expect(page).to have_css("li", text: member.name)
     end
   end
 
-  context 'as a regular user' do
-    let(:current_user) { create :user }
+  context "as a regular user" do
+    let(:current_user) { create(:user) }
 
-    it 'I can visit the group page' do
+    it "I can visit the group page" do
       visit show_group_path(group)
-      expect(page).to have_selector('h2', text: "Bob's Team")
-      expect(page).to have_no_selector('.toolbar-item')
-      expect(page).to have_no_selector('li', text: member.name)
+      expect(page).to have_css("h2", text: "Bob's Team")
+      expect(page).to have_no_css(".toolbar-item")
+      expect(page).to have_no_css("li", text: member.name)
     end
   end
 end

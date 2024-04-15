@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 sv:
+  plugin_openproject_bim:
+    name: "OpenProject BIM and BCF functionality"
+    description: "This OpenProject plugin introduces BIM and BCF functionality."
   bim:
     label_bim: 'BIM'
   bcf:
@@ -23,7 +26,7 @@ sv:
       export: 'Exportera'
       import_update_comment: '(Uppdaterad i BCF-import)'
       import_failed: 'Kan inte importera BCF-fil: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_failed_unsupported_bcf_version: 'Det gick inte att läsa BCF-filen: BCF-versionen stöds inte. Se till att versionen är minst %{minimal_version} eller högre.'
       import_successful: 'Importerade %{count} BCF-ärenden'
       import_canceled: 'BCF-XML-import avbruten.'
       type_not_active: "Ärendetypen är inte aktiverad för detta projekt."
@@ -31,7 +34,7 @@ sv:
         num_issues_found: '%{x_bcf_issues} finns i BCF-XML-filen, deras detaljer listas nedan.'
         button_prepare: 'Förbered import'
         button_perform_import: 'Bekräfta import'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Gå vidare med importen'
         button_back_to_list: 'Tillbaka till listan'
         no_permission_to_add_members: 'Du har inte tillräcklig behörighet för att lägga till dem som medlemmar i projektet.'
         contact_project_admin: 'Kontakta din projektadministratör för att lägga till dem som medlemmar och börja importera igen.'
@@ -57,7 +60,7 @@ sv:
         import_as_system_user: 'Importera dem som "System" användare.'
         what_to_do: "Vad vill du göra?"
         work_package_has_newer_changes: "Föråldrad! Detta ämne uppdaterades inte eftersom de senaste ändringarna på servern var nyare än \"ModifiedDate\" i det importerade ämnet. Kommentar till ämnet importerades."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        bcf_file_not_found: "Det gick inte att hitta BCF-filen. Starta uppladdningsprocessen igen."
   export:
     format:
       bcf: "BCF-XML"
@@ -67,7 +70,7 @@ sv:
   project_module_bim: "BCF"
   permission_view_linked_issues: "Visa BCF-problem"
   permission_manage_bcf: "Importera och hantera BCF-problem"
-  permission_delete_bcf: "Delete BCF issues"
+  permission_delete_bcf: "Ta bort BCF-ärenden"
   oauth:
     scopes:
       bcf_v2_1: "Full tillgång till BCF v2.1 API"
@@ -131,4 +134,3 @@ sv:
   extraction:
     available:
       ifc_convert: "IFC conversion pipeline available"
-

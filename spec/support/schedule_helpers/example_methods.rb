@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ module ScheduleHelpers
     #   create(:work_package, subject: 'follower', start_date: next_monday + 2.days, due_date: next_monday + 4.days) }
     #   create(:work_package, subject: 'start_only', start_date: next_monday + 1.day) }
     #   create(:work_package, subject: 'due_only', due_date: next_monday + 3.days) }
-    #   create(:follows_relation, from: follower, to: main, delay: 0) }
+    #   create(:follows_relation, from: follower, to: main, lag: 0) }
     #
     def create_schedule(chart_representation)
       chart = Chart.for(chart_representation)

@@ -6,7 +6,7 @@ sidebar_navigation: false
 
 > **IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../../installation).**
 >
-> **This guide is simply provided as an OLD and OUTDATED reference, and is NOT up to date with relation to the latest OpenProject releases and will be NOT maintained NOR supported. You are on your own and maybe could ask experienced users in the forum in order to use this guide for any integrations taht you would like to solve. We also removed it from the navigation sidebar on the left in order to hide it.**
+> **This guide is simply provided as an OLD and OUTDATED reference, and is NOT up to date with relation to the latest OpenProject releases and will be NOT maintained NOR supported. You are on your own and maybe could ask experienced users in the forum in order to use this guide for any integrations that you would like to solve. We also removed it from the navigation sidebar on the left in order to hide it.**
 
 Please be aware that:
 
@@ -23,7 +23,7 @@ derivative.
 
 > **NOTE:** We have highlighted commands to execute like this
 
-```bash
+```shell
 [user@host] command to execute
 ```
 
@@ -35,7 +35,7 @@ tutorial, please, feel free to create a pull request against this guide.
 
 ## Create a dedicated OpenProject user
 
-```bash
+```shell
 sudo groupadd openproject
 sudo useradd --create-home --gid openproject openproject
 sudo passwd openproject #(enter desired password)
@@ -43,7 +43,7 @@ sudo passwd openproject #(enter desired password)
 
 ## Install the required system dependencies
 
-```bash
+```shell
 [root@host] apt-get update -y
 [root@host] apt-get install -y zlib1g-dev build-essential           \
                     libssl-dev libreadline-dev                      \
@@ -57,7 +57,7 @@ sudo passwd openproject #(enter desired password)
 
 ## Install the caching server (memcached)
 
-```bash
+```shell
 [root@host] apt-get install -y memcached
 ```
 
@@ -65,31 +65,31 @@ sudo passwd openproject #(enter desired password)
 
 OpenProject requires PostgreSQL v9.5+. If you system package is too old, you can check [postgresql.org](https://www.postgresql.org/download/) to get a newer version installed. In our case, Ubuntu 18.04 comes with a recent-enough version so we can use the system packages:
 
-```bash
+```shell
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
 ```
 
 Once installed, switch to the PostgreSQL system user.
 
-```bash
+```shell
 [root@host] su - postgres
 ```
 
 Then, as the PostgreSQL user, create the database user for OpenProject. This will prompt you for a password. We are going to assume in the following guide that this password is 'openproject'. Of course, please choose a strong password and replace the values in the following guide with it!
 
-```bash
+```shell
 [postgres@host] createuser -W openproject
 ```
 
 Next, create the database owned by the new user
 
-```bash
+```shell
 [postgres@host] createdb -O openproject openproject
 ```
 
 Lastly, revert to the previous system user:
 
-```bash
+```shell
 [postgres@host] exit
 # You will be root again now.
 ```
@@ -100,7 +100,7 @@ The are several possibilities to install Ruby on your machine. We will
 use [rbenv](https://github.com/rbenv/rbenv). Please be aware that the actual installation of a specific Ruby version takes some
 time to finish.
 
-```bash
+```shell
 [root@host] su openproject --login
 [openproject@host] git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 [openproject@host] echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.profile
@@ -108,16 +108,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 3.2.0
+[openproject@host] rbenv install 3.2.3
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 3.2.0
+[openproject@host] rbenv global 3.2.3
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 3.2.0 (2022-12-25 revision a528908271) [x86_64-linux]
+ruby 3.2.3 (2024-01-18 revision 52bb2ac0a6) [arm64-darwin23]
 ```
 
 ## Installation of Node
@@ -129,7 +129,7 @@ already the `openproject` user you can skip this command. Please be
 aware that the actual installation of a specific node version takes some
 time to finish.
 
-```bash
+```shell
 [openproject@host] git clone https://github.com/OiNutter/nodenv.git ~/.nodenv
 [openproject@host] echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.profile
 [openproject@host] echo 'eval "$(nodenv init -)"' >> ~/.profile
@@ -144,7 +144,7 @@ time to finish.
 To check our Node installation we run `node --version`. It should output something very similar to:
 
 ```
-v16.17.0
+v20.9.0
 ```
 
 ## Installation of OpenProject
@@ -153,7 +153,7 @@ We will install the OpenProject Community Edition. It contains the recommended s
 with OpenProject. For more information, see [github.com/opf/openproject](https://github.com/opf/openproject).
 
 
-```bash
+```shell
 [openproject@host] cd ~
 [openproject@host] git clone https://github.com/opf/openproject.git --branch stable/9 --depth 1
 [openproject@host] cd openproject
@@ -170,7 +170,7 @@ with OpenProject. For more information, see [github.com/opf/openproject](https:/
 Create and configure the database configuration file in config/database.yml
 (relative to the openproject directory).
 
-```bash
+```shell
 [openproject@host] cp config/database.yml.example config/database.yml
 ```
 
@@ -190,7 +190,7 @@ production:
 
 Next we configure email notifications (this example uses a gmail account) by creating the `configuration.yml` in config directory.
 
-```bash
+```shell
 [openproject@host] cp config/configuration.yml.example config/configuration.yml
 ```
 
@@ -222,7 +222,7 @@ To configure the environment variables such as the number of web server threads 
 
 ## Finish the installation of OpenProject
 
-```bash
+```shell
 [openproject@host] cd ~/openproject
 [openproject@host] RAILS_ENV="production" ./bin/rake db:create
 [openproject@host] RAILS_ENV="production" ./bin/rake db:migrate
@@ -230,20 +230,20 @@ To configure the environment variables such as the number of web server threads 
 [openproject@host] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
-> **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
+> **NOTE:** When not specified differently, the default data loaded via db:seed will have an English localization. You can choose to seed in a different language by specifying the language with `OPENPROJECT_DEFAULT_LANGUAGE` or `OPENPROJECT_SEED_LOCALE` environment variable on the initial call to `db:seed`. For instance:
 
-```bash
-[openproject@all] RAILS_ENV="production" OPENPROJECT_SEED_LOCALE=fr ./bin/rake db:seed
+```shell
+[openproject@all] RAILS_ENV="production" OPENPROJECT_DEFAULT_LANGUAGE=fr ./bin/rake db:seed
 ```
-will seed the database in the french language. A large portion of the seed data is only available in english, however.
+will seed the database in the French language.
 
 ### Secret token
 
-You need to generate a secret key base for the production environment with `./bin/rake secret` and make that available through the environment variable `SECRET_KEY_BASE`.
+You need to generate a secret key base for the production environment with `./bin/rails secret` and make that available through the environment variable `SECRET_KEY_BASE`.
 In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively set the environment variable in `/etc/environment` or pass it to the server upon start manually in `/etc/apache2/envvars`.
 
-```bash
-[openproject@host] echo "export SECRET_KEY_BASE=$(./bin/rake secret)" >> ~/.profile
+```shell
+[openproject@host] echo "export SECRET_KEY_BASE=$(./bin/rails secret)" >> ~/.profile
 [openproject@host] source ~/.profile
 ```
 
@@ -252,13 +252,13 @@ In this installation guide, we will use the local `.profile` of the OpenProject 
 First, we exit the current bash session with the openproject user,
 so that we are again in a root shell.
 
-```bash
+```shell
 [openproject@ubuntu] exit
 ```
 
 Then, we prepare apache and passenger:
 
-```bash
+```shell
 [root@host] apt-get install -y apache2 libcurl4-gnutls-dev      \
                                apache2-dev libapr1-dev \
                                libaprutil1-dev
@@ -267,7 +267,7 @@ Then, we prepare apache and passenger:
 
 Now, the Passenger gem is installed and integrated into apache.
 
-```bash
+```shell
 [root@ubuntu] su openproject --login
 [openproject@ubuntu] cd ~/openproject
 [openproject@ubuntu] gem install passenger
@@ -283,7 +283,7 @@ interested in?". We are interested only in ruby.
 The passenger installer tells us to edit the apache config files.
 To do this, continue as the root user:
 
-```bash
+```shell
 [openproject@host] exit
 ```
 
@@ -306,7 +306,7 @@ Then create the file /etc/apache2/mods-available/passenger.conf with the followi
 
 Then run:
 
-```bash
+```shell
 [root@openproject] a2enmod passenger
 ```
 
@@ -338,14 +338,14 @@ SetEnv EXECJS_RUNTIME Disabled
 
 Let's enable our new openproject site (and disable the default site, if necessary)
 
-```bash
+```shell
 [root@host] a2dissite 000-default
 [root@host] a2ensite openproject
 ```
 
 Now, we (re-)start Apache:
 
-```bash
+```shell
 [root@host] service apache2 restart
 ```
 
@@ -360,7 +360,7 @@ Please, change the password on the first login. Also, we highly recommend to con
 
 OpenProject sends (some) mails asynchronously by using background jobs. All such jobs are collected in a queue, so that a separate process can work on them. This means that we have to start the background worker. To automate this, we put the background worker into a cronjob.
 
-```bash
+```shell
 [root@all] su - openproject -c "bash -l"
 [openproject@all] crontab -e
 ```
@@ -393,7 +393,7 @@ gem "openproject-meeting", git: "https://github.com/finnlabs/openproject-meeting
 
 If you have modified the `Gemfile.plugin` file, always repeat the following steps of the OpenProject installation:
 
-```bash
+```shell
 [openproject@all] cd ~/openproject
 [openproject@all] bundle install
 [openproject@all] npm install
@@ -404,27 +404,25 @@ If you have modified the `Gemfile.plugin` file, always repeat the following step
 
 Restart the OpenProject server afterwards:
 
-```bash
+```shell
 [openproject@all] touch ~/openproject/tmp/restart.txt
 ```
 
 The next web-request to the server will take longer (as the application is restarted). All subsequent request should be as fast as always.
 
-We encourage you to extend OpenProject yourself by writing a plug-in. Please, read the [plugin-contributions](https://community.openproject.org/projects/openproject/wiki/Developing_Plugins) guide for more information.
+We encourage you to extend OpenProject yourself by writing a plug-in. Please, read the [plugin creation guide](../../../development/create-openproject-plugin/) for more information.
 
 ## Troubleshooting
 
-You can find the error logs for apache here:
-<pre>/var/log/apache2/error.log</pre>
+You can find the error logs for apache here: `/var/log/apache2/error.log`
 
-The OpenProject logfile can be found here:
-<pre>/home/openproject/openproject/log/production.log</pre>
+The OpenProject logfile can be found here: `/home/openproject/openproject/log/production.log`
 
 If an error occurs, it should be logged there.
 
 If you need to restart the server (for example after a configuration change), do
 
-```bash
+```shell
 [openproject@all] touch ~/openproject/tmp/restart.txt
 ```
 
@@ -435,16 +433,15 @@ If you need to restart the server (for example after a configuration change), do
   The `db:seed` command listed above creates a default admin-user. The username is `admin` and the default password is `admin`. You are forced to change the admin password on the first login.
   If you cannot login as the admin user, make sure that you have executed the `db:seed` command.
 
-  ```bash
+  ```shell
   [openproject@all] RAILS_ENV="production" ./bin/rake db:seed
   ```
 
 * **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
 
-  Things can go wrong on different levels. You can find the apache error logs here:
-  <pre>/var/log/apache2/error.log</pre>
-  The OpenProject log can be found here:
-  <pre>/home/openproject/openproject/log/production.log</pre>
+  Things can go wrong on different levels. You can find the apache error logs here: `/var/log/apache2/error.log`
+ 
+  The OpenProject log can be found here: `/home/openproject/openproject/log/production.log`
 
 * **I cannot solve an error, not even with the log files. How do I get help?**
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,14 +30,13 @@ class TzinfoTimeZones < ActiveRecord::Migration[6.1]
   def up
     zone_mappings = ActiveSupport::TimeZone
                     .all
-                    .map do |tz|
+                    .flat_map do |tz|
                       [
                         [tz.name, tz.tzinfo.canonical_zone.name],
                         # Some entries seem to already be in that format so we leave them unchanged
                         [tz.tzinfo.canonical_zone.name, tz.tzinfo.canonical_zone.name]
                       ]
                     end
-                    .flatten(1)
 
     migrate_user_time_zone(zone_mappings)
     migrate_default_time_zone(zone_mappings)

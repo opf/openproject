@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,9 +42,9 @@ module API
         base.extend(ClassMethods)
 
         base.representable_attrs.each do |property|
-          next if property.name == 'meta'
+          next if property.name == "meta"
 
-          if property.name == 'links'
+          if property.name == "links"
             add_filter(property, LinkRenderBlock)
             next
           end
@@ -99,7 +99,7 @@ module API
         # Prevent entries in _embedded from overriding anything in the _links section
         copied_hash = hash.deep_dup
 
-        copied_hash.delete('_embedded')
+        copied_hash.delete("_embedded")
 
         super(copied_hash, *args)
       end

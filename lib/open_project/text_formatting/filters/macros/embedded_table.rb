@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,8 @@
 
 module OpenProject::TextFormatting::Filters::Macros
   module EmbeddedTable
-    HTML_CLASS = 'embedded-table'.freeze
+    CUSTOM_ELEMENT = "opce-macro-embedded-table".freeze
+    HTML_CLASS = "embedded-table".freeze
 
     module_function
 
@@ -36,12 +37,13 @@ module OpenProject::TextFormatting::Filters::Macros
       HTML_CLASS
     end
 
-    def apply(macro, result:, context:)
-      macro['class'] = macro['class'].gsub('op-uc-placeholder', '').squish
+    def apply(macro, **)
+      macro.name = CUSTOM_ELEMENT
+      macro["class"] = macro["class"].gsub("op-uc-placeholder", "").squish
     end
 
     def is?(macro)
-      macro['class'].include?(HTML_CLASS)
+      macro["class"].include?(HTML_CLASS)
     end
   end
 end

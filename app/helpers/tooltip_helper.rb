@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ module TooltipHelper
   # @param placement [string] placement (top, left, right, bottom)
   # @param span_classes [string] Additional classes on the span
   # @param icon [string] icon class
-  def tooltip_tag(text, placement: 'left', icon: 'icon-help', span_classes: nil)
+  def tooltip_tag(text, placement: "left", icon: "icon-help", span_classes: nil)
     content_tag :span,
                 class: "tooltip--#{placement} #{span_classes}",
                 data: { tooltip: text } do

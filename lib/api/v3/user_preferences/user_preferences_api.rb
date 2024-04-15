@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,11 +32,11 @@ module API
       class UserPreferencesAPI < ::API::OpenProjectAPI
         resource :my_preferences do
           get do
-            redirect api_v3_paths.user_preferences('me'), permanent: true
+            redirect api_v3_paths.user_preferences("me"), permanent: true
           end
 
           patch do
-            redirect api_v3_paths.user_preferences('me'), permanent: true
+            redirect api_v3_paths.user_preferences("me"), permanent: true
             # HTTP 301: GET method unchanged, other methods may or may not be
             # changed to GET depending on the user agent.
             #

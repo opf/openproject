@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,11 +62,13 @@ module Projects
     ##
     # Schedule the project copy job
     def schedule_copy_job(params)
-      CopyProjectJob.perform_later(user_id: user.id,
-                                   source_project_id: source.id,
-                                   target_project_params: params[:target_project_params],
-                                   associations_to_copy: params[:only].to_a,
-                                   send_mails: ActiveRecord::Type::Boolean.new.cast(params[:send_notifications]))
+      job = nil
+      GoodJob::Batch.enqueue(on_finish: SendCopyProjectStatusEmailJob, user:, source_project: source) do
+        job = CopyProjectJob.perform_later(target_project_params: params[:target_project_params],
+                                           associations_to_copy: params[:only].to_a,
+                                           send_mails: ActiveRecord::Type::Boolean.new.cast(params[:send_notifications]))
+      end
+      job
     end
   end
 end

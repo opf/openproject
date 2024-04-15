@@ -1,0 +1,113 @@
+# Schema: TimeEntryCollectionModel
+---
+type: object
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This time entry collection
+
+                  **Resource**: TimeEntryCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './time_entry_model.yml'
+
+examples:
+  - _type: Collection
+    total: 39
+    count: 2
+    pageSize: 2
+    offset: 1
+    _embedded:
+      elements:
+        - _type: TimeEntry
+          id: 5
+          comment:
+            format: plain
+            raw: Some comment
+            html: "<p>Some comment</p>"
+          spentOn: '2015-03-20'
+          hours: PT5H
+          createdAt: '2015-03-20T12:56:56.803Z'
+          updatedAt: '2015-03-20T12:56:56.803Z'
+          _links:
+            self:
+              href: "/api/v3/time_entries/1"
+            updateImmediately:
+              href: "/api/v3/time_entries/1"
+              method: patch
+            delete:
+              href: "/api/v3/time_entries/1"
+              method: delete
+            project:
+              href: "/api/v3/projects/1"
+              title: Some project
+            workPackage:
+              href: "/api/v3/work_packages/1"
+              title: Some work package
+            user:
+              href: "/api/v3/users/2"
+              title: Some user
+            activity:
+              href: "/api/v3/time_entries/activities/18"
+              title: Some time entry activity
+        - _type: TimeEntry
+          id: 10
+          comment:
+            format: plain
+            raw: Another comment
+            html: "<p>Another comment</p>"
+          spentOn: '2015-03-21'
+          hours: PT7H
+          createdAt: '2015-03-20T12:56:56.569Z'
+          updatedAt: '2015-03-20T12:56:56.371Z'
+          _links:
+            self:
+              href: "/api/v3/time_entries/2"
+            project:
+              href: "/api/v3/projects/42"
+              title: Some other project
+            workPackage:
+              href: "/api/v3/work_packages/541"
+              title: Some other work package
+            user:
+              href: "/api/v3/users/6"
+              title: Some other project
+            activity:
+              href: "/api/v3/time_entries/activities/14"
+              title: some other time entry activity
+    _links:
+      self:
+        href: "/api/v3/time_entries?offset=1&pageSize=2"
+      jumpTo:
+        href: "/api/v3/time_entries?offset=%7Boffset%7D&pageSize=2"
+        templated: true
+      changeSize:
+        href: "/api/v3/time_entries?offset=1&pageSize=%7Bsize%7D"
+        templated: true
+      nextByOffset:
+        href: "/api/v3/time_entries?offset=2&pageSize=2"
+      createTimeEntry:
+        href: "/api/v3/time_entries/form"
+        method: post
+      createTimeEntryImmediately:
+        href: "/api/v3/time_entries"
+        method: post

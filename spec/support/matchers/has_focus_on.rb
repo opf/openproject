@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,9 @@ module Capybara
       return_value = false
 
       while !return_value && Time.now - starting_time < Capybara.default_max_wait_time
+        focused_element = evaluate_script("document.activeElement")
 
-        focused_element = driver.browser.switch_to.active_element
-
-        return_value = find(selector).native == focused_element
+        return_value = find(selector) == focused_element
       end
 
       return_value

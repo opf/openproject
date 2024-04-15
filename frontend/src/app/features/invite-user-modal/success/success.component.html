@@ -1,16 +1,25 @@
-<div class="op-ium-success">
-  <div class="spot-modal--body spot-container op-ium-success--content">
-    <img [src]="type === PrincipalType.Placeholder ? placeholder_image : user_image" />
+<div
+  id="spotModalTitle"
+  class="spot-modal--header"
+  [textContent]="text.title()"
+></div>
 
-    <h1 [textContent]="text.title()"></h1>
+<div class="spot-divider"></div>
 
-    <p [textContent]="text.description[type]()"></p>
-    <p>
-      <button
-        (click)="close.emit()"
-        class="button -highlight"
-        type="button"
-      >{{ text.nextButton }}</button>
-    </p>
+<div class="spot-modal--body spot-container">
+  <img class="op-ium-success-image"
+       [src]="type === PrincipalType.Placeholder ? placeholder_image : user_image"/>
+
+  <span [textContent]="text.description[type]()"></span>
+</div>
+
+<div class="spot-action-bar">
+  <div class="spot-action-bar--right">
+    <button
+      type="button"
+      class="button -primary spot-action-bar--action"
+      (click)="close.emit()"
+      [textContent]="text.nextButton"
+    ></button>
   </div>
 </div>

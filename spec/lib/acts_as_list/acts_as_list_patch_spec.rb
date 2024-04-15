@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Models acting as list (acts_as_list)' do
-  it 'includes the patch' do
+RSpec.describe "Models acting as list (acts_as_list)" do
+  it "includes the patch" do
     expect(ActiveRecord::Acts::List::InstanceMethods.included_modules).to include(OpenProject::Patches::ActsAsList)
   end
 
-  describe '#move_to=' do
+  describe "#move_to=" do
     let(:includer) do
       class ActsAsListPatchIncluder
         include OpenProject::Patches::ActsAsList
@@ -42,28 +42,28 @@ describe 'Models acting as list (acts_as_list)' do
       ActsAsListPatchIncluder.new
     end
 
-    it 'moves to top when wanting to move highest' do
+    it "moves to top when wanting to move highest" do
       expect(includer).to receive :move_to_top
 
-      includer.move_to = 'highest'
+      includer.move_to = "highest"
     end
 
-    it 'moves to bottom when wanting to move lowest' do
+    it "moves to bottom when wanting to move lowest" do
       expect(includer).to receive :move_to_bottom
 
-      includer.move_to = 'lowest'
+      includer.move_to = "lowest"
     end
 
-    it 'moves higher when wanting to move higher' do
+    it "moves higher when wanting to move higher" do
       expect(includer).to receive :move_higher
 
-      includer.move_to = 'higher'
+      includer.move_to = "higher"
     end
 
-    it 'moves lower when wanting to move lower' do
+    it "moves lower when wanting to move lower" do
       expect(includer).to receive :move_lower
 
-      includer.move_to = 'lower'
+      includer.move_to = "lower"
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,11 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
-describe HookHelper do
-  describe '#call_hook' do
-    context 'when called within a controller' do
+RSpec.describe HookHelper do
+  describe "#call_hook" do
+    context "when called within a controller" do
       let(:test_hook_controller_class) do
         # Also tests that the application controller has the model included
         Class.new(ApplicationController)
@@ -49,7 +49,7 @@ describe HookHelper do
         instance_double(ActionDispatch::Request)
       end
 
-      it 'adds to the context' do
+      it "adds to the context" do
         allow(OpenProject::Hook)
           .to receive(:call_hook)
 
@@ -64,7 +64,7 @@ describe HookHelper do
       end
     end
 
-    context 'when called within a view' do
+    context "when called within a view" do
       let(:test_hook_view_class) do
         # Also tests that the application controller has the model included
         Class.new(ActionView::Base) do
@@ -73,7 +73,7 @@ describe HookHelper do
       end
       let(:instance) do
         test_hook_view_class
-          .new(ActionView::LookupContext.new(Rails.root.join('app/views')), {}, nil)
+          .new(ActionView::LookupContext.new(Rails.root.join("app/views")), {}, nil)
           .tap do |inst|
           inst.instance_variable_set(:@project, project)
           allow(inst)
@@ -94,7 +94,7 @@ describe HookHelper do
         instance_double(ApplicationController)
       end
 
-      it 'adds to the context' do
+      it "adds to the context" do
         # mimics having two different classes registered for the hook
         allow(OpenProject::Hook)
           .to receive(:call_hook)

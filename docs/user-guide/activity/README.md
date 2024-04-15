@@ -8,38 +8,66 @@ keywords: activity
 
 # Activity
 
-In OpenProject you can display the activities in a project to gain a quick overview about the current status and changes. The activity page lists the newest developments in your project.
+OpenProject lets you view an overview of all recent changes within a project. These include changes to:
 
-<div class="glossary">
-**Activity** is defined as a module that displays the actions performed in a project over a certain period of time.
-</div>
+- work packages (new work packages, new comments, changes to status, assignee, dates, custom fields...)
+- project attributes (name, description, custom fields..)
+- other modules (news, budget, wiki edits, forum messages, logged time...)
 
-The changes are listed in newest first order, with the latest changes appearing on top. Apply a filter (located below the project navigation on the left), to select which attributes are included in the activity.
+![Project activity module](project-activity-overview.png)
 
-The activity includes changes to work packages, repository changes, new, wiki entries or forum messages.
+To view project activity, the **Activity** module must first be enabled.
 
 ## Activate Activity in a project
 
-To activate the Activity module in a project, select the arrow next to Project Settings in the Project menu on the left hand side.
+Within a project, navigate to the **Project settings > Modules** page. Make sure the **Activity** module is enabled and click on the **Save** button at the bottom of the page.
 
-Then choose the sub menu entry **Modules**.
+![Enable the Activity module](enable-activity-module.png)
 
-Enable the **Activity** module and click the blue **Save** button.
+### View project activity
 
-![project-settings-modules](project-settings-modules.png)
+Click on the **Activity** option that is now visible in the sidebar of a project. This will show you recent activity in the project, with the most recent changes at the top. 
 
-### How to display the Activities of a project
+For each update concerning a work package, you will see:
 
-The Activities from a project are displayed in the Activity module.
+- the work package id and title
+- the name of the project or sub-project that work package belongs to (in brackets)
+- the user who was responsible for the change
+- the date and time of the (aggregated) changes
+- a list of attributes that were changed
 
-You can filter for different activities, e.g. for Work packages, News, or Wiki in the Filter section below the project menu.
+![Work package activity updates](project-activity-workpackge-attributes.png)
 
-![Activity](1567416672913.png)
+Starting with version 12.5, the Activity module also lists changes to project attributes, including project custom fields. For each update, you will see:
+
+- the name of the project or sub-project
+- the user who was responsible for the change
+- the date and time of the (aggregated) changes
+- a list of attributes that were changed
+
+![Work package activity updates](project-activity-project-attributes.png)
+
+### Filter project activity
+
+To filter the project activity list, use the filters on the sidebar. You may filter to show only one or a combination of changes concerning:
+
+- Budgets
+- News
+- Spent time
+- Wiki edits
+- Work packages
+- Project attributes
+
+Additionally, you can choose to include or exclude updates concerning sub-projects. 
+
+![Project activity filters](project-activity-filter-list.png)
 
 ### How far back can I trace the project activities?
 
 The retrospective for the project activities is not limited. You can therefore trace all the project activities back to the beginning of the project.
 You can [configure in the admin settings](../../system-admin-guide/) how many days are shown on each activity page. Due to performance reasons, the days displayed should be set at a low level (e.g. 7 days).
+
+> **Note:** The project activity list is paginated. You can click on the "Previous" or "Next" links at the bottom of the page (where applicable) to navigate between pages.
 
 ### Work package Activity
 

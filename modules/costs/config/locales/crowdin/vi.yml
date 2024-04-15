@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 vi:
+  plugin_costs:
+    name: "Time and costs"
+    description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:
       cost_entry:
@@ -31,12 +34,12 @@ vi:
         unit: "Tên đơn vị"
         unit_plural: "Tên đơn vị đa năng"
       work_package:
-        costs_by_type: "Spent units"
+        costs_by_type: "Đơn vị chi phí"
         labor_costs: "Chi phí nhân công"
         material_costs: "Chi phí đơn vị"
         overall_costs: "Tổng chi phí"
         spent_costs: "Chi phí"
-        spent_units: "Spent units"
+        spent_units: "Đơn vị chi phí"
       rate:
         rate: "Tỷ giá"
       user:
@@ -48,24 +51,24 @@ vi:
     errors:
       models:
         work_package:
-          is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
-          nullify_is_not_valid_for_cost_entries: "Cost entries can not be assigned to a project."
+          is_not_a_valid_target_for_cost_entries: "Công việc #%{id} không phải là một mục tiêu hợp lệ để gán lại các mục chi phí."
+          nullify_is_not_valid_for_cost_entries: "Các mục chi phí không thể được chỉ định cho một dự án."
   attributes:
     comment: "Nhận xét"
     cost_type: "Loại chi phí"
     costs: "Chi phí"
     current_rate: "Tỷ giá hiện tại"
     hours: "Giờ"
-    units: "Units"
+    units: "Đơn vị"
     valid_from: "Có hiệu lực từ"
     fixed_date: "Ngày cố định"
-  button_add_rate: "Add rate"
-  button_log_costs: "Log unit costs"
-  caption_booked_on_project: "Booked on project"
+  button_add_rate: "Thêm tỷ giá"
+  button_log_costs: "Ghi lại chi phí đơn vị"
+  caption_booked_on_project: "Đã đặt chỗ dự án"
   caption_default: "Mặc định"
-  caption_default_rate_history_for: "Default rate history for %{user}"
-  caption_locked_on: "Locked on"
-  caption_materials: "Units"
+  caption_default_rate_history_for: "Lịch sử tỷ lệ mặc định cho %{user}"
+  caption_locked_on: "Thao dấu"
+  caption_materials: "Đơn vị"
   caption_rate_history: "Rate history"
   caption_rate_history_for: "Rate history for %{user}"
   caption_rate_history_for_project: "Rate history for %{user} in project %{project}"
@@ -79,7 +82,7 @@ vi:
   label_costlog: "Logged unit costs"
   label_cost_plural: "Chi phí"
   label_cost_type_plural: "Loại chi phí"
-  label_cost_type_specific: "Cost type #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
   label_costs_per_page: "Costs per page"
   label_currency: "Currency"
   label_currency_format: "Format of currency"

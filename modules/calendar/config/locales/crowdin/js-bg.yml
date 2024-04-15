@@ -3,6 +3,6 @@ bg:
   js:
     calendar:
       create_new: 'Create new calendar'
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      title: 'Календар'
+      too_many: 'Общо има %{count} работни пакети, но могат да бъдат показани само %{max}.'
       unsaved_title: 'Unnamed calendar'

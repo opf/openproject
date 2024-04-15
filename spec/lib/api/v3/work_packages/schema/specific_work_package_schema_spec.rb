@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
+RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:project) { build_stubbed(:project) }
   let(:type) { build_stubbed(:type) }
   let(:work_package) do
@@ -36,33 +36,28 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
                   project:,
                   type:)
   end
-  let(:current_user) do
-    double('current user').tap do |u|
-      allow(u)
-        .to receive(:allowed_to?)
-        .and_return(true)
-    end
-  end
+  let(:current_user) { build_stubbed(:user) }
 
   before do
+    mock_permissions_for(current_user, &:allow_everything)
     login_as(current_user)
   end
 
   subject { described_class.new(work_package:) }
 
-  it 'has the project set' do
+  it "has the project set" do
     expect(subject.project).to eql(project)
   end
 
-  it 'has the type set' do
+  it "has the type set" do
     expect(subject.type).to eql(type)
   end
 
-  it 'has an id' do
+  it "has an id" do
     expect(subject.id).to eql(work_package.id)
   end
 
-  describe '#milestone?' do
+  describe "#milestone?" do
     it "shows the work_package's value" do
       allow(work_package)
         .to receive(:milestone?)
@@ -78,15 +73,15 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
   end
 
-  describe '#readonly?' do
+  describe "#readonly?" do
     it "modifies the writable attributes" do
       allow(work_package)
         .to receive(:readonly_status?)
         .and_return(true)
 
       expect(subject).to be_readonly
-      expect(subject).to be_writable('status')
-      expect(subject).not_to be_writable('subject')
+      expect(subject).to be_writable("status")
+      expect(subject).not_to be_writable("subject")
 
       allow(work_package)
         .to receive(:readonly_status?)
@@ -95,13 +90,13 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       # As the writability is memoized we need to have a new schema
       new_schema = described_class.new(work_package:)
       expect(new_schema).not_to be_readonly
-      expect(new_schema).to be_writable('status')
-      expect(new_schema).to be_writable('subject')
+      expect(new_schema).to be_writable("status")
+      expect(new_schema).to be_writable("subject")
     end
   end
 
-  describe '#available_custom_fields' do
-    it 'delegates to work_package' do
+  describe "#available_custom_fields" do
+    it "delegates to work_package" do
       expect(work_package)
         .to receive(:available_custom_fields)
 
@@ -109,29 +104,29 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
   end
 
-  describe '#assignable_types' do
+  describe "#assignable_types" do
     let(:result) do
       result = double
       allow(result).to receive(:includes).and_return(result)
       result
     end
 
-    it 'calls through to the project' do
+    it "calls through to the project" do
       expect(project).to receive(:types).and_return(result)
       expect(subject.assignable_values(:type, current_user)).to eql(result)
     end
   end
 
-  describe '#assignable_versions' do
+  describe "#assignable_versions" do
     let(:result) { double }
 
-    it 'calls through to the work package' do
+    it "calls through to the work package" do
       expect(work_package).to receive(:assignable_versions).and_return(result)
       expect(subject.assignable_values(:version, current_user)).to eql(result)
     end
   end
 
-  describe '#assignable_priorities' do
+  describe "#assignable_priorities" do
     let(:active_priority) { build(:priority, active: true) }
     let(:inactive_priority) { build(:priority, active: false) }
 
@@ -140,7 +135,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       inactive_priority.save!
     end
 
-    it 'returns only active priorities' do
+    it "returns only active priorities" do
       expect(subject.assignable_values(:priority, current_user).size).to be >= 1
       subject.assignable_values(:priority, current_user).each do |priority|
         expect(priority.active).to be_truthy
@@ -148,175 +143,159 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
   end
 
-  describe '#assignable_categories' do
-    let(:category) { double('category') }
+  describe "#assignable_categories" do
+    let(:category) { instance_double(Category) }
 
     before do
       allow(project).to receive(:categories).and_return([category])
     end
 
-    it 'returns all categories of the project' do
-      expect(subject.assignable_values(:category, current_user)).to match_array([category])
+    it "returns all categories of the project" do
+      expect(subject.assignable_values(:category, current_user)).to contain_exactly(category)
     end
   end
 
-  describe '#assignable_budgets' do
+  describe "#assignable_budgets" do
     subject { described_class.new(work_package:) }
 
     before do
-      allow(project).to receive(:budgets).and_return(double('Budgets'))
+      allow(project).to receive(:budgets).and_return([instance_double(Budget)])
     end
 
-    it 'returns project.budgets' do
+    it "returns project.budgets" do
       expect(subject.assignable_values(:budget, nil)).to eql(project.budgets)
     end
   end
 
-  describe '#writable?' do
-    context 'percentage done' do
-      it 'is not writable when inferred by status' do
-        allow(Setting).to receive(:work_package_done_ratio).and_return('status')
+  describe "#writable?" do
+    describe "% Complete" do
+      it "is not writable" do
         expect(subject).not_to be_writable(:done_ratio)
-      end
-
-      it 'is not writable when disabled' do
-        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
-        expect(subject).not_to be_writable(:done_ratio)
-      end
-
-      it 'is not writable when the work package is a parent' do
-        allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject).not_to be_writable(:done_ratio)
-      end
-
-      it 'is writable when the work package is a leaf' do
-        allow(work_package).to receive(:leaf?).and_return(true)
-        expect(subject).to be_writable('done_ratio')
       end
     end
 
-    context 'estimated time' do
-      it 'is writable when the work package is a parent' do
+    describe "work" do
+      it "is writable when the work package is a parent" do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject).to be_writable(:estimated_hours)
       end
 
-      it 'is writable when the work package is a leaf' do
+      it "is writable when the work package is a leaf" do
         allow(work_package).to receive(:leaf?).and_return(true)
         expect(subject).to be_writable(:estimated_hours)
       end
     end
 
-    context 'derived estimated time' do
-      it 'is not writable when the work package is a parent' do
+    describe "derived work" do
+      it "is not writable when the work package is a parent" do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject).not_to be_writable(:derived_estimated_time)
       end
 
-      it 'is not writable when the work package is a leaf' do
+      it "is not writable when the work package is a leaf" do
         allow(work_package).to receive(:leaf?).and_return(true)
         expect(subject).not_to be_writable(:derived_estimated_time)
       end
     end
 
-    context 'start date' do
-      context 'work package is parent' do
+    describe "start date" do
+      context "when work package is parent" do
         before do
           allow(work_package)
             .to receive(:leaf?)
             .and_return(false)
         end
 
-        context 'scheduled automatically' do
-          it 'is not writable' do
+        context "when scheduled automatically" do
+          it "is not writable" do
             expect(subject).not_to be_writable(:start_date)
           end
         end
 
-        context 'scheduled manually' do
+        context "when scheduled manually" do
           before do
             work_package.schedule_manually = true
           end
 
-          it 'is writable' do
+          it "is writable" do
             expect(subject).to be_writable(:start_date)
           end
         end
       end
 
-      context 'work package is a leaf' do
-        it 'is writable' do
+      context "when work package is a leaf" do
+        it "is writable" do
           allow(work_package).to receive(:leaf?).and_return(true)
           expect(subject).to be_writable(:start_date)
         end
       end
     end
 
-    context 'due date' do
-      context 'work package is parent' do
+    describe "due date" do
+      context "when work package is parent" do
         before do
           allow(work_package)
             .to receive(:leaf?)
             .and_return(false)
         end
 
-        context 'scheduled automatically' do
-          it 'is not writable' do
+        context "when scheduled automatically" do
+          it "is not writable" do
             expect(subject).not_to be_writable(:due_date)
           end
         end
 
-        context 'scheduled manually' do
+        context "when scheduled manually" do
           before do
             work_package.schedule_manually = true
           end
 
-          it 'is writable' do
+          it "is writable" do
             expect(subject).to be_writable(:due_date)
           end
         end
       end
 
-      context 'work package is a leaf' do
-        it 'is writable' do
+      context "when work package is a leaf" do
+        it "is writable" do
           allow(work_package).to receive(:leaf?).and_return(true)
           expect(subject).to be_writable(:due_date)
         end
       end
     end
 
-    context 'date' do
+    describe "date" do
       # As a date only exists on milestones, which can have no children
       # we do not need to check for differences caused by scheduling modes.
       before do
         allow(work_package.type).to receive(:is_milestone?).and_return(true)
       end
 
-      it 'is not writable when the work package is a parent' do
+      it "is not writable when the work package is a parent" do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject).not_to be_writable(:date)
       end
 
-      it 'is writable when the work package is a leaf' do
+      it "is writable when the work package is a leaf" do
         allow(work_package).to receive(:leaf?).and_return(true)
         expect(subject).to be_writable(:date)
       end
     end
 
-    context 'priority' do
-      it 'is writable when the work package is a parent' do
+    describe "priority" do
+      it "is writable when the work package is a parent" do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject).to be_writable(:priority)
       end
 
-      it 'is writable when the work package is a leaf' do
+      it "is writable when the work package is a leaf" do
         allow(work_package).to receive(:leaf?).and_return(true)
         expect(subject).to be_writable(:priority)
       end
     end
   end
 
-  describe '#assignable_custom_field_values' do
+  describe "#assignable_custom_field_values" do
     let(:list_cf) { create(:list_wp_custom_field) }
     let(:version_cf) { build_stubbed(:version_wp_custom_field) }
 
@@ -326,7 +305,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     it "is a version custom fields' project values" do
-      result = double('versions')
+      result = [instance_double(Version)]
 
       allow(work_package)
         .to receive(:assignable_versions)

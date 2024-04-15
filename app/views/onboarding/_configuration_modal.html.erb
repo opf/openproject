@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="modal-delivery-element">
   <%= labelled_tabular_form_for current_user, url: { action: 'user_settings', controller: 'onboarding' }, html: { id: 'user-form' } do |f| %>
-    <div class="spot-modal--header">
+    <div id="spotModalTitle" class="spot-modal--header">
       <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>, <%= current_user.name %>
     </div>
 
@@ -47,13 +47,13 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="onboarding--footer spot-action-bar">
       <div class="spot-action-bar--right">
         <button
-          class="button button_no-margin spot-action-bar--action"
+          class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
+          data-tour-selector="modal-close-button"
           dynamic-content-modal-close-button
           title=<%= t(:button_close) %>
         ><%= t(:button_close) %></button>
-        <%= styled_button_tag t(:button_save), class: 'button_no-margin -highlight -with-icon icon-checkmark spot-action-bar--action' %>
+        <%= styled_button_tag t(:button_save), class: 'button_no-margin -primary -with-icon icon-checkmark spot-action-bar--action' %>
       </div>
     </div>
   <% end %>
 </div>
-

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,6 @@
 
 module Relations
   class DeleteContract < ::DeleteContract
-    delete_permission -> {
-      user.allowed_to? :manage_work_package_relations, model.from.project
-    }
+    delete_permission -> { user.allowed_in_work_package?(:manage_work_package_relations, model.from) }
   end
 end

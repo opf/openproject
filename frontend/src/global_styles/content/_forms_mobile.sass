@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   form
     .grid-block
       display: block
@@ -42,6 +42,7 @@
       @include grid-content(12)
       display: flex
       flex: 1
+      flex-basis: 100%
       margin-left: 0
       padding: 0
     .form--field-instructions
@@ -49,23 +50,24 @@
       flex-basis: 100%
       max-width: 100%
 
-  #tab-content-info form,
-    .form--label,
-    .form--field-container
-      flex-basis: 100% !important
-      max-width: 100% !important
+  .form--label,
+  .form--field-container
+    flex-basis: 100%
+    max-width: 100%
 
   autocomplete-select-decoration
     width: 100%
 
-  .form--field-inline-buttons-container
-    .form--field-inline-button
-      width: auto !important
+  .form--field-inline-buttons-container,
+  .form--field-inline-button
+    width: auto
 
-  .-browser-safari, .-browser-chrome
+  .-browser-safari,
+  .-browser-chrome
     // Special rule for mobile safari and chrome to prevent zooming into the text field
     // when focused.
     select,
     textarea,
-    input
+    input,
+    .op-uc-container.op-uc-container_editing
       font-size: 16px !important

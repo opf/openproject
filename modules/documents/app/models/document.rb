@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,12 +34,12 @@ class Document < ApplicationRecord
 
   acts_as_journalized
   acts_as_event title: Proc.new { |o| "#{Document.model_name.human}: #{o.title}" },
-                url: Proc.new { |o| { controller: '/documents', action: 'show', id: o.id } },
+                url: Proc.new { |o| { controller: "/documents", action: "show", id: o.id } },
                 author: Proc.new { |o|
                           o.attachments.find(:first, order: "#{Attachment.table_name}.created_at ASC").try(:author)
                         }
 
-  acts_as_searchable columns: ['title', "#{table_name}.description"],
+  acts_as_searchable columns: ["title", "#{table_name}.description"],
                      include: :project,
                      references: :projects,
                      date_column: "#{table_name}.created_at"
@@ -62,21 +62,10 @@ class Document < ApplicationRecord
   after_initialize :set_default_category
 
   def visible?(user = User.current)
-    !user.nil? && user.allowed_to?(:view_documents, project)
+    !user.nil? && user.allowed_in_project?(:view_documents, project)
   end
 
   def set_default_category
     self.category ||= DocumentCategory.default if new_record?
-  end
-
-  # TODO: This should not be necessary as the Attachments::CreateService in combination
-  # with acts_as_journalized should touch the document after an attachment has been added.
-  def updated_at
-    @updated_at ||= [attachments.maximum(:updated_at), read_attribute(:updated_at)].compact.max
-  end
-
-  def reload(options = nil)
-    @updated_at = nil
-    super
   end
 end

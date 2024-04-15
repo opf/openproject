@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,6 @@
 
 module AttributeHelpTexts
   class BaseContract < ::ModelContract
-    include RequiresAdminGuard
     include Attachments::ValidateReplacements
 
     def self.model
@@ -38,5 +37,13 @@ module AttributeHelpTexts
     attribute :type
     attribute :attribute_name
     attribute :help_text
+
+    validate :user_allowed
+
+    private
+
+    def user_allowed
+      errors.add :base, :error_unauthorized unless user.allowed_globally?(:edit_attribute_help_texts)
+    end
   end
 end

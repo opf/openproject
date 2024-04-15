@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,54 +20,59 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 "no":
+  plugin_budgets_engine:
+    name: 'Budsjetter'
   activerecord:
     attributes:
       budget:
         author: "Forfatter"
-        available: "Available"
-        budget: "Planned"
-        budget_ratio: "Spent (ratio)"
+        available: "Tilgjengelig"
+        budget: "Planlagt"
+        budget_ratio: "Brukt (forhold)"
         description: "Beskrivelse"
-        spent: "Spent"
+        spent: "Brukt"
         status: "Status"
         subject: "Emne"
-        type: "Cost type"
-        labor_budget: "Planned labor costs"
-        material_budget: "Planned unit costs"
+        type: "Type kostnader"
+        labor_budget: "Planlagte arbeidskostnader"
+        material_budget: "Planlagte enhetskostnader"
       work_package:
-        budget_subject: "Budget title"
+        budget_subject: "Budsjett tittel"
     models:
-      budget: "Budget"
-      material_budget_item: "Unit"
+      budget: "Budsjett"
+      material_budget_item: "Enhet"
+  activity:
+    filter:
+      budget: "Budsjetter"
   attributes:
-    budget: "Budget"
-  button_add_budget_item: "Add planned costs"
-  button_add_budget: "Add budget"
-  button_add_cost_type: "Add cost type"
-  button_cancel_edit_budget: "Cancel editing budget"
-  button_cancel_edit_costs: "Cancel editing costs"
-  caption_labor: "Labor"
-  caption_labor_costs: "Actual labor costs"
-  caption_material_costs: "Actual unit costs"
-  budgets_title: "Budgets"
+    budget: "Budsjett"
+  button_add_budget_item: "Legg til planlagte kostnader"
+  button_add_budget: "Legg til budsjett"
+  button_add_cost_type: "Legg til kostnadstype"
+  button_cancel_edit_budget: "Avbryt redigering av budsjett"
+  button_cancel_edit_costs: "Avbryt redigering av kostnader"
+  caption_labor: "Arbeid"
+  caption_labor_costs: "Reelle arbeidkostnader"
+  caption_material_costs: "Reell utgift"
+  budgets_title: "Budsjetter"
   events:
-    budget: "Budget edited"
-  help_click_to_edit: "Click here to edit."
-  help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
-  help_override_rate: "Enter a value here to override the default rate."
-  label_budget: "Budget"
-  label_budget_new: "New budget"
-  label_budget_plural: "Budgets"
-  label_budget_id: "Budget #%{id}"
-  label_deliverable: "Budget"
-  label_example_placeholder: 'e.g., %{decimal}'
-  label_view_all_budgets: "View all budgets"
+    budget: "Budsjett endret"
+  help_click_to_edit: "Klikk her for å redigere."
+  help_currency_format: "Formatet på vist valuta %n erstattes med valutaverdien, %u"
+  help_override_rate: "Skriv inn en verdi her for å overstyre standard sats."
+  label_budget: "Budsjett"
+  label_budget_new: "Nytt budsjett"
+  label_budget_plural: "Budsjetter"
+  label_budget_id: "Budsjett #%{id}"
+  label_deliverable: "Budsjett"
+  label_example_placeholder: 'f.eks %{decimal}'
+  label_view_all_budgets: "Vis alle budsjett"
   label_yes: "Ja"
-  notice_budget_conflict: "Work packages must be of the same project."
-  notice_no_budgets_available: "No budgets available."
-  permission_edit_budgets: "Edit budgets"
-  permission_view_budgets: "View budgets"
-  project_module_budgets: "Budgets"
-  text_budget_reassign_to: "Reassign them to this budget:"
-  text_budget_delete: "Delete the budget from all work packages"
-  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+  notice_budget_conflict: "Arbeidspakker må være i samme prosjekt."
+  notice_no_budgets_available: "Ingen budsjetter tilgjengelig."
+  permission_edit_budgets: "Rediger budsjetter"
+  permission_view_budgets: "Vis budsjetter"
+  project_module_budgets: "Budsjetter"
+  text_budget_reassign_to: "Flytt dem til dette budsjettet:"
+  text_budget_delete: "Slett budsjettet fra alle oppgaver"
+  text_budget_destroy_assigned_wp: "Det er %{count} oppgaver i dette budsjettet. Hva vil du gjøre?"

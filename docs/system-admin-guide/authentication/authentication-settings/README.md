@@ -13,7 +13,9 @@ You can adapt the following under the authentication settings:
 
 ## General authentication settings
 
-1. Select if the **authentication is required** to access OpenProject. **Watch out**: If you un-tick this box your OpenProject instance will be visible to the general public without logging in. The visibility of individual projects depends on [this setting](../../../user-guide/projects/#set-a-project-to-public). 
+1. Select if the **authentication is required** to access OpenProject. For versions 13.1 and higher of OpenProject, this setting will be checked by default
+
+   **Important note**: If you un-tick this box your OpenProject instance will be visible to the general public without logging in. The visibility of individual projects depends on [this setting](../../../user-guide/projects/#set-a-project-to-public). 
 
 2. Select an option for **self-registration**. Self-registration can either be **disabled**, or it can be allowed with the following criteria:
 
@@ -22,6 +24,8 @@ You can adapt the following under the authentication settings:
    b) **Manual account activation** means that a system administrator needs to manually activate the newly registered user.
 
    c) **Automatic account activation** means that a newly registered user will automatically be active.
+
+   **Note:** By default, self-registration is only applied to internal users (logging in with username and password). If you have an identity provider such as LDAP, SAML or OpenID Connect, use the respective settings in their configuration to control which users are applicable for automatic user creation.
 
 3. Define if the **email address should be used as login** name.
 

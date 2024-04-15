@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :user_session, class: '::Sessions::SqlBypass' do
+  factory :user_session, class: "::Sessions::SqlBypass" do
     to_create { |instance| instance.save }
     # AR::SessionStore::SqlStore#initialize requires an attribute
     initialize_with { new(**attributes) }
@@ -40,7 +40,7 @@ FactoryBot.define do
 
     callback(:after_build) do |session, evaluator|
       session.data = evaluator.data
-      session.data['user_id'] = evaluator.user&.id
+      session.data["user_id"] = evaluator.user&.id
     end
   end
 end

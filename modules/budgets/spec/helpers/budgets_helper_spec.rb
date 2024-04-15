@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + "/../spec_helper"
 
-describe BudgetsHelper, type: :helper do
+RSpec.describe BudgetsHelper do
   let(:project) { build(:project) }
   let(:budget) { build(:budget, project:) }
 
-  describe '#budgets_to_csv' do
-    describe 'WITH a list of one cost object' do
-      it 'outputs the cost objects attributes' do
+  describe "#budgets_to_csv" do
+    describe "WITH a list of one cost object" do
+      it "outputs the cost objects attributes" do
         expected = [
           budget.id,
           budget.project.name,
@@ -52,9 +52,9 @@ describe BudgetsHelper, type: :helper do
         expect(budgets_to_csv([budget]).include?(expected)).to be_truthy
       end
 
-      it 'starts with a header explaining the fields' do
+      it "starts with a header explaining the fields" do
         expected = [
-          '#',
+          "#",
           Project.model_name.human,
           Budget.human_attribute_name(:subject),
           Budget.human_attribute_name(:author),

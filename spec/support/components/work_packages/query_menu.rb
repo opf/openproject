@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'support/components/autocompleter/autocomplete_helpers'
+require "support/components/autocompleter/autocomplete_helpers"
 
 module Components
   module WorkPackages
@@ -47,15 +47,19 @@ module Components
       end
 
       def autocompleter_results_selector
-        '.op-view-select--search-results'
+        ".op-view-select--search-results"
       end
 
       def autocompleter_item_selector
-        '.op-sidemenu--item-title'
+        ".op-sidemenu--item-title"
       end
 
       def autocompleter_selector
-        '#query-title-filter'
+        "#query-title-filter"
+      end
+
+      def click_item(name)
+        page.find(autocompleter_item_selector, text: name).click
       end
 
       def expect_menu_entry(name)
@@ -63,11 +67,11 @@ module Components
       end
 
       def expect_menu_entry_not_visible(name)
-        expect(page).not_to have_selector(autocompleter_item_selector, text: name)
+        expect(page).to have_no_selector(autocompleter_item_selector, text: name)
       end
 
       def expect_no_menu_entry
-        expect(page).not_to have_selector(autocompleter_item_selector)
+        expect(page).to have_no_selector(autocompleter_item_selector)
       end
     end
   end

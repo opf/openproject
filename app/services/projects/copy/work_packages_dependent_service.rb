@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,12 +60,12 @@ module Projects::Copy
       source
         .work_packages
         .includes(:custom_values, :version, :assigned_to, :responsible)
-        .order_by_ancestors('asc')
-        .order('id ASC')
+        .order_by_ancestors("asc")
+        .order("id ASC")
     end
 
     def copy_work_packages(to_copy)
-      user_cf_ids = WorkPackageCustomField.where(field_format: 'user').pluck(:id)
+      user_cf_ids = WorkPackageCustomField.where(field_format: "user").pluck(:id)
 
       to_copy.inject({}) do |work_packages_map, wp|
         parent_id = work_packages_map[wp.parent_id] || wp.parent_id
@@ -115,7 +115,7 @@ module Projects::Copy
 
         Relation.create(source_relation
                           .attributes
-                          .except('id', 'from_id', 'to_id')
+                          .except("id", "from_id", "to_id")
                           .merge(to_id:, from_id:))
       end
     end
@@ -139,9 +139,8 @@ module Projects::Copy
         # We don't support copying budgets right now
         budget_id: nil,
 
-        # We fetch the value from the global registry to persist it in the job which
-        # will trigger a delayed job for potentially sending the journal notifications.
-        send_notifications: ActionMailer::Base.perform_deliveries
+        # We persist the setting in the job which will trigger a delayed job for potentially sending the journal notifications.
+        send_notifications: params[:send_notifications]
       }
     end
 

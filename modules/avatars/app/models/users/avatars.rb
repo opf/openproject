@@ -21,12 +21,15 @@ module Users
     extend ActiveSupport::Concern
 
     included do
-      acts_as_attachable
+      acts_as_attachable view_permission: :view_users,
+                         add_on_new_permission: :manage_user,
+                         add_on_persisted_permission: :manage_user,
+                         delete_permission: :manage_user
     end
 
     class_methods do
       def get_local_avatar(user_id)
-        Attachment.find_by(container_id: user_id, container_type: 'Principal', description: 'avatar')
+        Attachment.find_by(container_id: user_id, container_type: "Principal", description: "avatar")
       end
     end
 
@@ -38,7 +41,7 @@ module Users
 
     def local_avatar_attachment
       defined?(@local_avatar_attachment) || begin
-        @local_avatar_attachment = attachments.find_by(description: 'avatar')
+        @local_avatar_attachment = attachments.find_by(description: "avatar")
       end
 
       @local_avatar_attachment
@@ -50,7 +53,7 @@ module Users
 
       @local_avatar_attachment = Attachments::CreateService
         .new(user: User.system, contract_class: EmptyContract)
-        .call(file:, container: self, filename: file.original_filename, description: 'avatar')
+        .call(file:, container: self, filename: file.original_filename, description: "avatar")
         .result
 
       touch

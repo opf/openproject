@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -40,12 +40,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_for @user,
                               url: { controller: '/users',
-                                        action: "update",
-                                        tab: nil },
-                              html: { method: :put,
-                                         autocomplete: 'off' },
+                                     action: "update",
+                                     tab: nil },
+                              html: {
+                                method: :put,
+                                autocomplete: 'off'
+                              },
+                              data: {
+                                controller: 'admin--users',
+                                'application-target': 'dynamic',
+                                'admin--users-password-auth-selected-value': @user.ldap_auth_source_id.blank?,
+                              },
                               as: :user do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
 
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

@@ -5,7 +5,9 @@ sidebar_navigation:
 
 # OpenProject in Univention App Center
 
-Univention App Center is the marketplace in [Univention Corporate Server (UCS)](https://www.univention.com/products/ucs/), an enterprise operating platform for infrastructure and identity management. OpenProject is available in the [App Center](https://www.univention.com/appid/openproject/) and comes integrated with the identity management.
+> Important notice: currently it is not possible to update your OpenProject installation via UCS. Please choose one of our supported installation methods.
+
+Univention App Center is the marketplace in [Univention Corporate Server (UCS)](https://www.univention.com/products/ucs/), an enterprise operating platform for infrastructure and identity management. OpenProject is available in the [App Center](https://www.univention.com/products/app-catalog/openproject/) and comes integrated with the identity management. Please note that only App Center 5 is receiving updates for OpenProject due to the incompatibility between AppCenter 4.3 and 5.0 for Docker-based installations.
 
 
 **App Appliance for easy deployment**
@@ -23,4 +25,4 @@ With the App Appliance you can easily deploy your own OpenProject server in a vi
 2. Install OpenProject via Univention App Center
 3. Add user accounts
 
-[![Available in Univention App Center](logo_uac_final.svg)](https://www.univention.com/appid/openproject)
+[![Available in Univention App Center](logo_uac_final.svg)](https://www.univention.com/products/app-catalog/openproject/)

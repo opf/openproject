@@ -36,7 +36,7 @@ Show checkout instructions for Subversion and GIT.
 
 ![Sys-admin-system-settings-repositories-checkout-instructions](Sys-admin-system-settings-repositories-checkout-instructions.png)
 
-## Referencing and fixing work packages in commit messages
+## Reference and fix work packages in commit messages
 
 1. **Define referencing keywords** for work packages in commit messages.  Used to reference keywords used to link revisions to work packages.
 2. Define **fixing keywords for work packages** in commit messages. Fixing keywords allow status or progress changes using certain keywords in commit messages, e.g. changing a work package to closed and set to 100%.

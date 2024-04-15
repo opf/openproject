@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Roles::UpdateService < ::BaseServices::Update
-  include Roles::NotifyMixin
-
+class Roles::UpdateService < BaseServices::Update
   private
 
-  def after_safe
-    notify_changed_roles(:updated, model)
+  def before_perform(params, service_call)
+    @permissions_old = service_call.result.permissions
+    super
+  end
+
+  def after_perform(call)
+    permissions_new = call.result.permissions
+    permissions_diff = (@permissions_old - permissions_new) | (permissions_new - @permissions_old)
+    OpenProject::Notifications.send(
+      OpenProject::Events::ROLE_UPDATED,
+      permissions_diff:
+    )
+    call
   end
 end

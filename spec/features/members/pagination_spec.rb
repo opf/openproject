@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'members pagination', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+RSpec.describe "members pagination", :js do
+  shared_let(:admin) { create(:admin) }
   let(:project) do
-    create :project,
-           name: 'Project 1',
-           identifier: 'project1',
-           members: project_members
+    create(:project,
+           name: "Project 1",
+           identifier: "project1",
+           members: project_members)
   end
   let(:project_members) do
     {
@@ -43,33 +43,33 @@ describe 'members pagination', type: :feature, js: true do
     }
   end
 
-  let!(:peter) { create :user, firstname: 'Peter', lastname: 'Pan' }
-  let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:alice) { create :user, firstname: 'Alice', lastname: 'Alison' }
+  let!(:peter) { create(:user, firstname: "Peter", lastname: "Pan") }
+  let(:bob)   { create(:user, firstname: "Bob", lastname: "Bobbit") }
+  let(:alice) { create(:user, firstname: "Alice", lastname: "Alison") }
 
-  let(:manager)   { create :role, name: 'Manager' }
-  let(:developer) { create :role, name: 'Developer' }
+  let(:manager)   { create(:project_role, name: "Manager") }
+  let(:developer) { create(:project_role, name: "Developer") }
 
   let(:members_page) { Pages::Members.new project.identifier }
 
   current_user { admin }
 
-  context 'when adding a member' do
-    it 'paginates' do
+  context "when adding a member" do
+    it "paginates" do
       members_page.set_items_per_page! 2
 
       members_page.visit!
       SeleniumHubWaiter.wait
-      expect(members_page).to have_user 'Alice Alison' # members are sorted by last name desc
-      members_page.add_user! 'Peter Pan', as: 'Manager'
+      expect(members_page).to have_user "Alice Alison" # members are sorted by last name desc
+      members_page.add_user! "Peter Pan", as: "Manager"
 
       SeleniumHubWaiter.wait
       members_page.go_to_page! 2
-      expect(members_page).to have_user 'Peter Pan'
+      expect(members_page).to have_user "Peter Pan"
     end
   end
 
-  context 'when removing a member' do
+  context "when removing a member" do
     let(:project_members) do
       {
         bob => manager,
@@ -78,34 +78,34 @@ describe 'members pagination', type: :feature, js: true do
       }
     end
 
-    it 'paginates' do
+    it "paginates" do
       members_page.set_items_per_page! 1
 
       members_page.visit!
       SeleniumHubWaiter.wait
-      members_page.remove_user! 'Alice Alison'
-      expect(members_page).to have_user 'Bob Bobbit'
+      members_page.remove_user! "Alice Alison"
+      expect(members_page).to have_user "Bob Bobbit"
 
       SeleniumHubWaiter.wait
       members_page.go_to_page! 2
-      expect(members_page).to have_user 'Peter Pan'
+      expect(members_page).to have_user "Peter Pan"
     end
   end
 
-  context 'when updating a member' do
-    it 'paginates' do
+  context "when updating a member" do
+    it "paginates" do
       members_page.set_items_per_page! 1
 
       members_page.visit!
       SeleniumHubWaiter.wait
       members_page.go_to_page! 2
-      members_page.edit_user! 'Bob Bobbit', add_roles: ['Developer']
-      expect(page).to have_text 'Successful update'
-      expect(members_page).to have_user 'Bob Bobbit', roles: ['Developer', 'Manager']
+      members_page.edit_user! "Bob Bobbit", add_roles: ["Developer"]
+      expect(page).to have_text "Successful update"
+      expect(members_page).to have_user "Bob Bobbit", roles: ["Developer", "Manager"]
 
       SeleniumHubWaiter.wait
       members_page.go_to_page! 1
-      expect(members_page).to have_user 'Alice Alison'
+      expect(members_page).to have_user "Alice Alison"
     end
   end
 end

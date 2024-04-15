@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ module OAuth
   class GrantsController < ::ApplicationController
     before_action :require_login
 
-    layout 'my'
+    layout "my"
     menu_item :access_token
 
     def index
@@ -49,8 +49,8 @@ module OAuth
         current_user
       )
 
-      flash[:notice] = I18n.t('oauth.grants.successful_application_revocation', application_name: application.name)
-      redirect_to controller: '/my', action: :access_token
+      flash[:notice] = I18n.t("oauth.grants.successful_application_revocation", application_name: application.name)
+      redirect_to controller: "/my", action: :access_token
     end
 
     private

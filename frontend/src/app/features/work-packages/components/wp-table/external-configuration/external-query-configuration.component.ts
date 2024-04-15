@@ -6,6 +6,9 @@ import { WpTableConfigurationService } from 'core-app/features/work-packages/com
 import { RestrictedWpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/restricted-wp-table-configuration.service';
 import { OpQueryConfigurationLocalsToken } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.constants';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 export interface QueryConfigurationLocals {
   service:any;
@@ -17,12 +20,13 @@ export interface QueryConfigurationLocals {
 
 @Component({
   templateUrl: './external-query-configuration.template.html',
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   providers: [[{ provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService }]],
 })
 export class ExternalQueryConfigurationComponent implements OnInit, AfterViewInit {
   @ViewChild('embeddedTableForConfiguration', { static: true }) private embeddedTable:WorkPackageEmbeddedTableComponent;
 
-  queryProps:string;
+  queryProps:string|object;
 
   constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals,
     readonly urlParamsHelper:UrlParamsHelperService,
@@ -33,7 +37,7 @@ export class ExternalQueryConfigurationComponent implements OnInit, AfterViewIni
     if (this.locals.urlParams) {
       this.queryProps = this.urlParamsHelper.buildV3GetQueryFromJsonParams(this.locals.currentQuery);
     } else {
-      this.queryProps = this.locals.currentQuery;
+      this.queryProps = this.locals.currentQuery as string;
     }
   }
 

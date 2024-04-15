@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ class WikiMenuItemsController < ApplicationController
     menu_item = controller.default_menu_item(page)
     return unless menu_item
 
-    "no-menu-item-#{menu_item.menu_identifier}".to_sym
+    :"no-menu-item-#{menu_item.menu_identifier}"
   end
 
   before_action :find_project_by_project_id
@@ -68,7 +68,7 @@ class WikiMenuItemsController < ApplicationController
 
     get_data_from_params(params)
 
-    if wiki_menu_setting == 'no_item'
+    if wiki_menu_setting == "no_item"
       unless @wiki_menu_item.nil?
         if @wiki_menu_item.is_only_main_item?
           if @page.only_wiki_page?
@@ -86,9 +86,9 @@ class WikiMenuItemsController < ApplicationController
       @wiki_menu_item.name = @page.slug
       @wiki_menu_item.title = wiki_menu_item_params[:title] || @page_title
 
-      if wiki_menu_setting == 'sub_item'
+      if wiki_menu_setting == "sub_item"
         @wiki_menu_item.parent_id = parent_wiki_menu_item
-      elsif wiki_menu_setting == 'main_item'
+      elsif wiki_menu_setting == "main_item"
         @wiki_menu_item.parent_id = nil
         assign_wiki_menu_item_params @wiki_menu_item
       end
@@ -101,11 +101,11 @@ class WikiMenuItemsController < ApplicationController
         flash[:notice] = t(:notice_successful_update)
       end
 
-      redirect_back_or_default(action: 'edit', id: @page)
+      redirect_back_or_default(action: "edit", id: @page)
     else
       respond_to do |format|
         format.html do
-          render action: 'edit', id: @page
+          render action: "edit", id: @page
         end
       end
     end
@@ -163,15 +163,15 @@ class WikiMenuItemsController < ApplicationController
   end
 
   def assign_wiki_menu_item_params(menu_item)
-    if wiki_menu_item_params[:new_wiki_page] == '1'
+    if wiki_menu_item_params[:new_wiki_page] == "1"
       menu_item.new_wiki_page = true
-    elsif wiki_menu_item_params[:new_wiki_page] == '0'
+    elsif wiki_menu_item_params[:new_wiki_page] == "0"
       menu_item.new_wiki_page = false
     end
 
-    if wiki_menu_item_params[:index_page] == '1'
+    if wiki_menu_item_params[:index_page] == "1"
       menu_item.index_page = true
-    elsif wiki_menu_item_params[:index_page] == '0'
+    elsif wiki_menu_item_params[:index_page] == "0"
       menu_item.index_page = false
     end
   end

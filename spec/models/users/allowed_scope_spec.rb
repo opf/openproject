@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe User, 'allowed scope' do
+RSpec.describe User, "allowed scope" do
   let(:user) { member.principal }
   let(:anonymous) { build(:anonymous) }
   let(:project) { build(:project, public: false) }
   let(:project2) { build(:project, public: false) }
-  let(:role) { build(:role) }
-  let(:role2) { build(:role) }
+  let(:role) { build(:project_role) }
+  let(:role2) { build(:project_role) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:member) do
     build(:member, project:,
@@ -48,8 +48,8 @@ describe User, 'allowed scope' do
   before do
     user.save!
     anonymous.save!
-    Role.anonymous
-    Role.non_member
+    ProjectRole.anonymous
+    ProjectRole.non_member
   end
 
   context 'w/ the context being a project
@@ -62,8 +62,8 @@ describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to match_array [user]
+    it "returns the user" do
+      expect(described_class.allowed(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -75,8 +75,8 @@ describe User, 'allowed scope' do
       user.update_attribute(:admin, true)
     end
 
-    it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to match_array [user]
+    it "returns the user" do
+      expect(described_class.allowed(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -91,7 +91,7 @@ describe User, 'allowed scope' do
       user.update_attribute(:admin, true)
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -105,7 +105,7 @@ describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -118,7 +118,7 @@ describe User, 'allowed scope' do
       role.add_permission! action
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -135,7 +135,7 @@ describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -154,7 +154,7 @@ describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -166,14 +166,14 @@ describe User, 'allowed scope' do
     before do
       project.public = true
 
-      non_member = Role.non_member
+      non_member = ProjectRole.non_member
       non_member.add_permission! action
 
       project.save!
     end
 
-    it 'returns the user' do
-      expect(described_class.allowed(action, project).where(id: user.id)).to match_array [user]
+    it "returns the user" do
+      expect(described_class.allowed(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -184,14 +184,14 @@ describe User, 'allowed scope' do
     before do
       project.public = true
 
-      anonymous_role = Role.anonymous
+      anonymous_role = ProjectRole.anonymous
       anonymous_role.add_permission! action
 
       project.save!
     end
 
-    it 'returns the anonymous user' do
-      expect(described_class.allowed(action, project).where(id: [user.id, anonymous.id])).to match_array([anonymous])
+    it "returns the anonymous user" do
+      expect(described_class.allowed(action, project).where(id: [user.id, anonymous.id])).to contain_exactly(anonymous)
     end
   end
 
@@ -202,13 +202,13 @@ describe User, 'allowed scope' do
     before do
       project.public = true
 
-      non_member = Role.non_member
+      non_member = ProjectRole.non_member
       non_member.add_permission! other_action
 
       project.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -218,13 +218,13 @@ describe User, 'allowed scope' do
            w/o the user being member in the project
            w/ the non member role having the permission' do
     before do
-      non_member = Role.non_member
+      non_member = ProjectRole.non_member
       non_member.add_permission! action
 
       project.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -241,11 +241,11 @@ describe User, 'allowed scope' do
       role.add_permission! other_action
       member.save!
 
-      non_member = Role.non_member
+      non_member = ProjectRole.non_member
       non_member.add_permission! action
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -259,8 +259,8 @@ describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
-      expect(described_class.allowed(public_action, project).where(id: user.id)).to match_array [user]
+    it "returns the user" do
+      expect(described_class.allowed(public_action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -274,8 +274,9 @@ describe User, 'allowed scope' do
       project.save
     end
 
-    it 'returns the user and anonymous' do
-      expect(described_class.allowed(public_action, project).where(id: [user.id, anonymous.id])).to match_array [user, anonymous]
+    it "returns the user and anonymous" do
+      expect(described_class.allowed(public_action,
+                                     project).where(id: [user.id, anonymous.id])).to contain_exactly(user, anonymous)
     end
   end
 
@@ -295,7 +296,7 @@ describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(permission.name, project).where(id: user.id)).to eq []
     end
   end
@@ -316,7 +317,7 @@ describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed(permission.name, project).where(id: user.id)).to eq [user]
     end
   end
@@ -333,7 +334,7 @@ describe User, 'allowed scope' do
       project.update(active: false)
     end
 
-    it 'is empty' do
+    it "is empty" do
       expect(described_class.allowed(action, project)).to eq []
     end
   end
@@ -348,8 +349,8 @@ describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
-      expect(described_class.allowed_members(action, project).where(id: user.id)).to match_array [user]
+    it "returns the user" do
+      expect(described_class.allowed_members(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -361,7 +362,7 @@ describe User, 'allowed scope' do
       user.update_attribute(:admin, true)
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed_members(action, project).where(id: user.id)).to be_empty
     end
   end
@@ -378,8 +379,8 @@ describe User, 'allowed scope' do
       member.save!
     end
 
-    it 'returns the user' do
-      expect(described_class.allowed_members(action, project).where(id: user.id)).to match_array [user]
+    it "returns the user" do
+      expect(described_class.allowed_members(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
@@ -393,8 +394,47 @@ describe User, 'allowed scope' do
       role.add_permission! action
     end
 
-    it 'returns the user' do
+    it "returns the user" do
       expect(described_class.allowed_members(action, project).where(id: user.id)).to be_empty
+    end
+  end
+
+  describe ".allowed_members_on_work_package" do
+    shared_let(:richard)  { create(:user) }
+    shared_let(:dinesh)   { create(:user) }
+    shared_let(:gilfoyle) { create(:user) }
+    shared_let(:gavin)    { create(:user) }
+    shared_let(:erlich)   { create(:user) }
+    shared_let(:jared)    { create(:user) }
+
+    shared_let(:project)       { create(:project) }
+    shared_let(:other_project) { create(:project) }
+
+    shared_let(:work_package)       { create(:work_package, project:) }
+    shared_let(:other_work_package) { create(:work_package, project: other_project) }
+
+    shared_let(:allowed_work_package_role)     { create(:work_package_role, permissions: %i[view_work_packages]) }
+    shared_let(:non_allowed_work_package_role) { create(:work_package_role, permissions: []) }
+
+    shared_let(:allowed_project_role)     { create(:project_role, permissions: %i[view_work_packages]) }
+    shared_let(:non_allowed_project_role) { create(:project_role, permissions: []) }
+
+    before_all do
+      create(:work_package_member,
+             principal: richard, entity: work_package, roles: [allowed_work_package_role])
+      create(:work_package_member,
+             principal: dinesh, entity: work_package, roles: [non_allowed_work_package_role])
+      create(:work_package_member,
+             principal: gilfoyle, entity: other_work_package, roles: [allowed_work_package_role])
+
+      create(:member, principal: gavin, project:, roles: [allowed_project_role])
+      create(:member, principal: erlich, project:, roles: [non_allowed_project_role])
+      create(:member, principal: jared, project: other_project, roles: [allowed_project_role])
+    end
+
+    it "returns members of the work package and the work package's project with the given permission" do
+      expect(described_class.allowed_members_on_work_package(action, work_package))
+        .to contain_exactly(richard, gavin)
     end
   end
 end

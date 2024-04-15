@@ -1,8 +1,9 @@
 <form
+  class="spot-modal"
   [formGroup]="projectAndTypeForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <div class="spot-modal--header">{{text.title}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
 
   <div class="spot-divider"></div>
 
@@ -14,7 +15,7 @@
       <op-project-autocompleter
         slot="input"
         formControlName="project"
-        [apiFilters]="APIFiltersForProjects"
+        [filters]="APIFiltersForProjects"
         [mapResultsFn]="projectFilterFn.bind(this)"
         appendTo=".spot-modal-overlay"
       ></op-project-autocompleter>
@@ -67,10 +68,14 @@
       <button
         type="button"
         class="button spot-action-bar--action spot-modal--cancel-button"
-        (click)="close.emit()"> {{ text.cancelButton }}
-      </button>
-      <button class="button -highlight spot-action-bar--action">{{ text.nextButton }}</button>
-
+        (click)="close.emit()"
+        [textContent]="text.cancelButton"
+      ></button>
+      <button
+        type="submit"
+        class="button -primary spot-action-bar--action"
+        [textContent]="text.nextButton"
+      ></button>
     </div>
   </div>
 </form>

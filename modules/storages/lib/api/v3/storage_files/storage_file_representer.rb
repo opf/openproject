@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,17 @@ module API::V3::StorageFiles
   class StorageFileRepresenter < ::API::Decorators::Single
     include API::Decorators::DateProperty
 
+    def initialize(model, storage, current_user:)
+      super(model, current_user:)
+
+      @storage_id = storage.id
+    end
+
     link :self do
-      { href: "#{::API::V3::URN_PREFIX}storages:storage_file:no_link_provided" }
+      {
+        href: api_v3_paths.storage_file(@storage_id, represented.id),
+        title: represented.name
+      }
     end
 
     property :id
@@ -43,9 +52,10 @@ module API::V3::StorageFiles
     property :created_by_name
     property :last_modified_by_name
     property :location
+    property :permissions
 
     def _type
-      Storages::StorageFile.name.split('::').last
+      Storages::StorageFile.name.split("::").last
     end
   end
 end

@@ -92,4 +92,4 @@ You can directly create new time entries by clicking on the day, change the date
 
 Watch the short video to see how to activate the spent time widget, add spent time, edit spent time (e.g. change the date or work packages or change the time booked) and delete spent time.
 
-![my pagetime log](my-page-time-log.gif)
+![my page time log](my-page-time-log.gif)

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
+  plugin_costs:
+    name: "工时和成本"
+    description: "该模块增加了项目规划和费用跟踪的功能。"
   activerecord:
     attributes:
       cost_entry:
@@ -29,10 +32,10 @@ zh-CN:
         spent_on: "日期"
       cost_type:
         unit: "单位名称"
-        unit_plural: "多元化单位名称"
+        unit_plural: "单位名称（复数）"
       work_package:
-        costs_by_type: "已支出单位成本"
-        labor_costs: "劳动力成本"
+        costs_by_type: "支出单位"
+        labor_costs: "人工成本"
         material_costs: "单位成本"
         overall_costs: "总成本"
         spent_costs: "已支出成本"
@@ -51,10 +54,10 @@ zh-CN:
           is_not_a_valid_target_for_cost_entries: "工作包 #%{id} 不是重新分配成本条目的有效目标。"
           nullify_is_not_valid_for_cost_entries: "无法将成本条目分配到项目。"
   attributes:
-    comment: "评论"
+    comment: "注释"
     cost_type: "成本类型"
     costs: "成本"
-    current_rate: "当前利率"
+    current_rate: "当前费率"
     hours: "小时"
     units: "单位"
     valid_from: "有效起始日期"
@@ -62,7 +65,7 @@ zh-CN:
   button_add_rate: "添加费率"
   button_log_costs: "记录单位成本"
   caption_booked_on_project: "已记录在项目上"
-  caption_default: "默认"
+  caption_default: "基本"
   caption_default_rate_history_for: "%{user} 的基本费率历史记录"
   caption_locked_on: "锁定时间"
   caption_materials: "单位"
@@ -84,11 +87,11 @@ zh-CN:
   label_currency: "货币"
   label_currency_format: "货币格式"
   label_current_default_rate: "当前基本费率"
-  label_date_on: "于"
+  label_date_on: "日期"
   label_deleted_cost_types: "已删除的成本类型"
   label_locked_cost_types: "锁定成本类型"
   label_display_cost_entries: "显示单位成本"
-  label_display_time_entries: "显示上报的小时数"
+  label_display_time_entries: "显示已上报工时"
   label_display_types: "显示类型"
   label_edit: "编辑"
   label_generic_user: "一般用户"
@@ -112,7 +115,7 @@ zh-CN:
   label_until: "到"
   label_valid_from: "有效起始日期"
   label_yes: "是"
-  notice_something_wrong: "出现错误。请重试。"
+  notice_something_wrong: "出错了。请重试。"
   notice_successful_restore: "成功恢复。"
   notice_successful_lock: "锁定成功。"
   notice_cost_logged_successfully: '单位成本记录成功。'
@@ -129,13 +132,13 @@ zh-CN:
   permission_view_own_cost_entries: "查看自己记录的成本"
   permission_view_own_hourly_rate: "查看自己的小时费率"
   permission_view_own_time_entries: "查看自己的耗时"
-  project_module_costs: "时间和成本"
-  text_assign_time_and_cost_entries_to_project: "将已上报的小时数和成本提交到项目中"
+  project_module_costs: "工时和成本"
+  text_assign_time_and_cost_entries_to_project: "将已上报的工时和成本提交到项目中"
   text_destroy_cost_entries_question: "您要删除的工作包已经上报了 %{cost_entries}。您想进行哪种操作？"
-  text_destroy_time_and_cost_entries: "删除上报的小时数和成本"
+  text_destroy_time_and_cost_entries: "删除已上报的工时和成本"
   text_destroy_time_and_cost_entries_question: "您要删除的工作包已经上报了 %{hours} 小时的工作量、%{cost_entries} 的成本。您想进行哪种操作？"
-  text_reassign_time_and_cost_entries: "将已上报的小时数和成本重新提交到工作包中："
-  text_warning_hidden_elements: "一些条目可能已排除在聚合之外。"
+  text_reassign_time_and_cost_entries: "将已上报的工时和成本重新提交到工作包中："
+  text_warning_hidden_elements: "某些条目可能已被排除在聚合之外。"
   week: "周"
   js:
     text_are_you_sure: "是否确定？"

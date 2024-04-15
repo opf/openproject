@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ja:
+  plugin_budgets_engine:
+    name: '予算'
   activerecord:
     attributes:
       budget:
@@ -39,6 +41,9 @@ ja:
     models:
       budget: "予算"
       material_budget_item: "ユニット"
+  activity:
+    filter:
+      budget: "予算"
   attributes:
     budget: "予算"
   button_add_budget_item: "計画コストを追加"

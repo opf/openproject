@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::TimeEntries < Tables::Base
   # rubocop:disable Metrics/AbcSize
@@ -45,11 +45,11 @@ class Tables::TimeEntries < Tables::Base
       t.datetime :created_on, null: false
       t.datetime :updated_on, null: false
 
-      t.index :activity_id, name: 'index_time_entries_on_activity_id'
-      t.index :created_on, name: 'index_time_entries_on_created_on'
-      t.index :work_package_id, name: 'time_entries_issue_id' # issue_id for backwards compatibility
-      t.index :project_id, name: 'time_entries_project_id'
-      t.index :user_id, name: 'index_time_entries_on_user_id'
+      t.index :activity_id, name: "index_time_entries_on_activity_id"
+      t.index :created_on, name: "index_time_entries_on_created_on"
+      t.index :work_package_id, name: "time_entries_issue_id" # issue_id for backwards compatibility
+      t.index :project_id, name: "time_entries_project_id"
+      t.index :user_id, name: "index_time_entries_on_user_id"
       t.index %i[project_id updated_on]
     end
   end

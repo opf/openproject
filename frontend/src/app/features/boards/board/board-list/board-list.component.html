@@ -1,7 +1,8 @@
 <div #loadingIndicator
      [attr.data-query-name]="listName"
      class="op-board-list loading-indicator--location"
-     data-qa-selector="op-board-list"
+     data-test-selector="op-board-list"
+     data-tour-selector="op-board-list"
      [ngClass]="{ '-action-list': board.isAction }">
   <ng-container *ngIf="query">
 
@@ -11,7 +12,7 @@
     </div>
 
     <div class="op-board-list--header"
-          data-qa-selector="op-board-list--header">
+          data-test-selector="op-board-list--header">
       <ndc-dynamic *ngIf="headerComponent"
                    [ndcDynamicComponent]="headerComponent"
                    [ndcDynamicInputs]="{ resource: actionResource }">
@@ -27,7 +28,7 @@
       </editable-toolbar-title>
 
       <board-list-menu class="op-board-list--menu"
-                       data-qa-selector="op-board-list--menu"
+                       data-test-selector="op-board-list--menu"
                        [board]="board"
                        (onRemove)="deleteList()">
       </board-list-menu>
@@ -38,7 +39,8 @@
       <div class="op-board-list--button-container">
         <button [title]="text.addCard"
                 *ngIf="showAddButton"
-                data-qa-selector="op-board-list--card-dropdown-add-button"
+                data-test-selector="op-board-list--card-dropdown-add-button"
+                data-tour-selector="op-board-list--card-dropdown-add-button"
                 class="op-board-list--add-button op-board-list--card-dropdown-button button"
                 op-addCardDropdown>
           <op-icon icon-classes="icon-small icon-add"></op-icon>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Journalized Objects' do
-  describe 'journal_editable_by?' do
-    context 'when the journable is a work package' do
-      let!(:user) { create(:user, member_in_project: project, member_with_permissions: []) }
+RSpec.describe "Journalized Objects" do
+  describe "journal_editable_by?" do
+    context "when the journable is a work package" do
+      let!(:user) { create(:user, member_with_permissions: { project => [] }) }
       let!(:project) { create(:project_with_types) }
       let!(:work_package) do
         create(:work_package,
                type: project.types.first,
                author: user,
                project:,
-               description: '')
+               description: "")
       end
 
       subject { work_package.journal_editable_by?(work_package.journals.first, user) }

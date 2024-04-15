@@ -24,26 +24,26 @@ get:
                         self:
                           href: "/api/v3/statuses/1"
                       _type: Status
-                      createdAt: '2014-05-21T08:51:20Z'
+                      createdAt: '2014-05-21T08:51:20.396Z'
                       defaultDoneRatio: 0
                       id: 1
                       isClosed: false
                       isDefault: true
                       name: New
                       position: 1
-                      updatedAt: '2014-05-21T09:12:00Z'
+                      updatedAt: '2014-05-21T09:12:00.441Z'
                     - _links:
                         self:
                           href: "/api/v3/statuses/2"
                       _type: Status
-                      createdAt: '2014-05-21T08:51:20Z'
+                      createdAt: '2014-05-21T08:51:20.396Z'
                       defaultDoneRatio: 100
                       id: 2
                       isClosed: true
                       isDefault: false
                       name: Closed
                       position: 2
-                      updatedAt: '2014-05-21T09:12:00Z'
+                      updatedAt: '2014-05-21T09:12:00.441Z'
                   _links:
                     allowedValues:
                     - href: "/api/v3/statuses/1"

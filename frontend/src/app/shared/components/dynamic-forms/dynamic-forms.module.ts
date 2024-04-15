@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { TextInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component';
 import { IntegerInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component';
 import { SelectInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-input/select-input.component';
 import { ProjectInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/project-input/project-input.component';
 import { SelectProjectStatusInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-project-status-input/select-project-status-input.component';
-import { DatePickerControlModule } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/components/date-picker-control/date-picker-control.module';
 import { BooleanInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/boolean-input/boolean-input.component';
 import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
 import { FormattableTextareaInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
@@ -18,15 +20,17 @@ import { InviteUserButtonModule } from 'core-app/features/invite-user-modal/butt
 import { DateInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/date-input.component';
 import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component';
 import { FormattableControlModule } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.module';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { UserInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/user-input/user-input.component';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     AttributeHelpTextModule,
+    OpSpotModule,
     FormlyModule.forRoot({
       types: [
         { name: 'booleanInput', component: BooleanInputComponent },
@@ -50,13 +54,13 @@ import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-he
         },
       ],
     }),
-    OPSharedModule,
+    OpSharedModule,
 
     // Input dependencies
+    FormsModule,
     NgSelectModule,
     NgOptionHighlightModule,
     InviteUserButtonModule,
-    DatePickerControlModule,
     FormattableControlModule,
   ],
   declarations: [

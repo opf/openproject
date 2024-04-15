@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Projects::Filters::ProjectStatusFilter, type: :model do
-  it_behaves_like 'basic query filter' do
+RSpec.describe Queries::Projects::Filters::ProjectStatusFilter do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :project_status_code }
     let(:type) { :list_optional }
     let(:model) { Project }
-    let(:attribute) { :project_status_code }
-    let(:values) { ['On track'] }
-    let(:human_name) { 'Project status' }
+    let(:attribute) { :status_code }
+    let(:values) { ["On track"] }
+    let(:human_name) { "Project status" }
     let(:admin) { build_stubbed(:admin) }
     let(:user) { build_stubbed(:user) }
     let(:expected) do
@@ -49,8 +49,8 @@ describe Queries::Projects::Filters::ProjectStatusFilter, type: :model do
       ]
     end
 
-    describe '#allowed_values' do
-      it 'is a list of the possible values' do
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
         expect(instance.allowed_values).to match_array(expected)
       end
     end

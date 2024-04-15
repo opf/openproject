@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -42,29 +42,27 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <div class="grid-content medium-6 -visible-overflow">
-    <% users = User
-      .user
-      .active
-      .not_in_group(@group)
-      .limit(1) %>
-    <% if users.any? %>
+    <% if User.user
+              .not_in_group(@group)
+              .where(status: [User.statuses[:active], User.statuses[:invited]])
+              .exists? %>
       <%= styled_form_tag(members_of_group_path(@group), method: :post) do %>
 
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=t(:label_user_new)%></legend>
           <div class="form--field -vertical">
             <%=
-            angular_component_tag 'op-user-autocompleter',
+              angular_component_tag 'opce-user-autocompleter',
                                   inputs: {
-                                    additionalFilters: autocompleter_filters(@group),
-                                    name: 'user_ids',
+                                    inputName: 'user_ids',
+                                    filters: autocompleter_filters(@group),
                                   },
                                   class: "new-group-members--autocomplete"
             %>
           </div>
           <div>
             <%= styled_button_tag t(:button_add),
-                                  class: '-highlight -with-icon icon-checkmark' %>
+                                  class: '-primary -with-icon icon-checkmark' %>
           </div>
         </fieldset>
       <% end %>

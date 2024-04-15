@@ -5,9 +5,10 @@ es:
       remove: 'Quitar widget'
       configure: 'Configurar widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Edición Enterprise.'
+        text: "Algunos widgets, como el widget de gráfico de paquetes de trabajo, solo están disponibles con Enterprise."
+        link: 'Enterprise.'
       widgets:
+        missing_permission: "No tiene los permisos necesarios para ver este widget."
         custom_text:
           title: 'Texto personalizado'
         documents:
@@ -42,10 +43,10 @@ es:
           title: 'Subproyectos'
           no_results: 'No hay subproyectos.'
         time_entries_current_user:
-          title: 'Tiempo que he invertido'
+          title: 'Mi tiempo invertido'
           displayed_days: 'Días mostrados en el widget:'
         time_entries_list:
-          title: 'Tiempo gastado (últimos 7 días)'
+          title: 'Tiempo invertido (últimos 7 días)'
           no_results: 'Sin registros temporales en los últimos 7 días.'
         work_packages_accountable:
           title: "Paquetes de trabajo de los que soy responsable"

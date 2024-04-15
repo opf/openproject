@@ -1,4 +1,7 @@
 uk:
+  plugin_openproject_xls_export:
+    name: "Експорт XLS в OpenProject"
+    description: "Експортуйте списки проблем у форматі таблиці Excel (.xls)."
   export_to_excel: "Експорт XLS"
   print_with_description: "Друкувати попередній перегляд з описом"
   sentence_separator_or: "або"

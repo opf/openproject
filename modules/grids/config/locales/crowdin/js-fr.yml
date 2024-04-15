@@ -5,9 +5,10 @@ fr:
       remove: 'Supprimer le widget'
       configure: 'Configurer le widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "Certains composants, comme le composant de graphique des lots de travaux, ne sont disponibles que dans l'édition Entreprise."
+        link: 'Version Entreprise'
       widgets:
+        missing_permission: "Vous n'avez pas les autorisations nécessaires pour voir ce widget."
         custom_text:
           title: 'Texte personnalisé'
         documents:
@@ -30,7 +31,7 @@ fr:
           title: 'Détails du projet'
           no_results: 'Aucun champ personnalisé n''a été défini pour les projets.'
         project_status:
-          title: 'État du projet'
+          title: 'Statut du projet'
           not_started: 'Non démarré'
           on_track: 'Sur la bonne voie'
           off_track: 'Sur la mauvaise voie'
@@ -48,9 +49,9 @@ fr:
           title: 'Temps passé (7 derniers jours)'
           no_results: 'Aucune entrée de temps pour les 7 derniers jours.'
         work_packages_accountable:
-          title: "Lots de Travaux dont je suis responsable"
+          title: "Lots de travaux dont je suis responsable"
         work_packages_assigned:
-          title: 'Lots de Travaux m''étant assignés'
+          title: 'Lots de travaux m''étant assignés'
         work_packages_created:
           title: 'Lots de travaux que j''ai créés'
         work_packages_watched:

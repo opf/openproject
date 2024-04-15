@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,39 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Work Package table hierarchy vs grouping', js: true do
-  let(:user) { create :admin }
+RSpec.describe "Work Package table hierarchy vs grouping", :js do
+  let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   before do
     login_as(user)
   end
 
-  it 'is mutually exclusive' do
+  it "is mutually exclusive" do
     wp_table.visit!
 
     hierarchy.expect_mode_enabled
 
-    group_by.enable_via_header('Type')
+    group_by.enable_via_header("Type")
 
     hierarchy.expect_mode_disabled
 
     hierarchy.enable_via_menu
 
-    group_by.expect_not_grouped_by('Type')
+    group_by.expect_not_grouped_by("Type")
 
-    group_by.enable_via_menu('Type')
+    group_by.enable_via_menu("Type")
 
     hierarchy.expect_mode_disabled
 
     hierarchy.enable_via_header
 
-    group_by.expect_not_grouped_by('Type')
+    group_by.expect_not_grouped_by("Type")
   end
 end

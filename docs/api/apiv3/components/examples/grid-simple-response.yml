@@ -1,0 +1,48 @@
+# Example: Simple grid response
+---
+value:
+  _type: Grid
+  id: 2
+  rowCount: 8
+  columnCount: 5
+  widgets:
+    - _type: GridWidget
+      identifier: tasks
+      startRow: 1
+      endRow: 8
+      startColumn: 1
+      endColumn: 3
+    - _type: GridWidget
+      identifier: news
+      startRow: 3
+      endRow: 8
+      startColumn: 4
+      endColumn: 5
+    - _type: GridWidget
+      identifier: documents
+      startRow: 1
+      endRow: 3
+      startColumn: 3
+      endColumn: 6
+  createdAt: '2018-12-03T16:58:30.915Z'
+  updatedAt: '2018-12-13T19:36:40.588Z'
+  _links:
+    self:
+      href: "/api/v3/grids/2"
+    attachments:
+      href: "/api/v3/grids/2/attachments"
+    addAttachment:
+      href: "/api/v3/grids/2/attachments"
+      method: post
+    scope:
+      href: "/my/page"
+      type: text/html
+    updateImmediately:
+      href: "/api/v3/grids/2"
+      method: patch
+    update:
+      href: "/api/v3/grids/2/form"
+      method: post
+    delete:
+      href: "/api/v3/grids/2"
+      method: delete

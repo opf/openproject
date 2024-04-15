@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
+require "spec_helper"
+require_module_spec_helper
 
-describe ::Storages::Storages::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service' do
-    let(:factory) { :storage }
-    let!(:user) { create :admin }
+require "services/base_services/behaves_like_update_service"
+
+RSpec.describe Storages::Storages::UpdateService, type: :model do
+  it_behaves_like "BaseServices update service" do
+    let(:factory) { :nextcloud_storage }
+    let!(:user) { create(:admin) }
 
     let(:instance) do
       described_class.new(user:,
@@ -42,33 +46,33 @@ describe ::Storages::Storages::UpdateService, type: :model do
 
     let(:call_attributes) do
       {
-        name: 'My updated storage',
-        host: 'https://new.example.org'
+        name: "My updated storage",
+        host: "https://new.example.org"
       }
     end
 
     let!(:model_instance) do
       build_stubbed(factory,
                     creator: user,
-                    name: 'My updated storage',
-                    host: 'https://updated.example.org',
-                    provider_type: 'nextcloud')
+                    name: "My updated storage",
+                    host: "https://updated.example.org")
     end
 
-    let!(:oauth_application) { create :oauth_application, integration: model_instance }
+    let!(:oauth_application) { create(:oauth_application, integration: model_instance) }
 
     it "creates an OAuth application (::Doorkeeper::Application)" do
       expect(subject).to be_success
-      expect(subject.result.oauth_application).to be_a(::Doorkeeper::Application)
-      expect(subject.result.oauth_application.name).to include 'My updated storage'
-      expect(subject.result.oauth_application.redirect_uri).to include 'https://updated.example.org'
+      expect(subject.result.oauth_application).to be_a(Doorkeeper::Application)
+      expect(subject.result.oauth_application.name).to include "My updated storage"
+      expect(subject.result.oauth_application.redirect_uri).to include "https://updated.example.org"
     end
   end
 
-  it 'cannot update storage creator' do
+  it "cannot update storage creator" do
     storage_creator = create(:admin, login: "storage_creator")
-    storage = create(:storage, creator: storage_creator)
-    service = described_class.new(user: create(:admin), model: storage)
+    storage = create(:nextcloud_storage, creator: storage_creator)
+    service = described_class.new(user: create(:admin),
+                                  model: storage)
 
     service_result = service.call(creator: create(:user, login: "impostor"))
 
@@ -77,11 +81,11 @@ describe ::Storages::Storages::UpdateService, type: :model do
     expect(storage.reload.creator).to eq(storage_creator)
   end
 
-  describe 'updates the nested OAuth application' do
-    let(:storage) { create(:storage) }
+  describe "updates the nested OAuth application" do
+    let(:storage) { create(:nextcloud_storage) }
     let!(:oauth_application) { create(:oauth_application, integration: storage) }
     let(:user) { create(:admin) }
-    let(:name) { 'Awesome Storage' }
+    let(:name) { "Awesome Storage" }
 
     subject do
       described_class
@@ -89,8 +93,8 @@ describe ::Storages::Storages::UpdateService, type: :model do
         .call({ name: })
     end
 
-    it 'must update the name of the OAuth application' do
-      expect(subject.result.oauth_application.name).to eq("#{name} (#{storage.provider_type.to_s.capitalize})")
+    it "must update the name of the OAuth application" do
+      expect(subject.result.oauth_application.name).to eq("Awesome Storage (Nextcloud)")
     end
   end
 end

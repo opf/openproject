@@ -1,0 +1,18 @@
+<span class="op-baseline-legends--filter">
+  <span [textContent]="legendDescription"></span>
+  &ngsp;
+  <span
+    *ngIf="userOffset !== offset"
+    data-test-selector="baseline-legend-time-offset"
+    class="spot-icon spot-icon_1 spot-icon_info2"
+    title="{{ text.in_your_timezone }} {{ localDate }}"
+  ></span>
+</span>
+<div class="op-baseline-legends--details hidden-for-mobile">
+  <span class="spot-icon spot-icon_1 spot-icon_arrow-in op-baseline-legends--details-icon-added"></span>
+  <span class="op-baseline-legends--details-added">{{text.now_meets_filter_criteria}}</span>
+  <span class="spot-icon spot-icon_1 spot-icon_arrow-out op-baseline-legends--details-icon-removed"></span>
+  <span class="op-baseline-legends--details-removed">{{text.no_longer_meets_filter_criteria}}</span>
+  <span class="spot-icon spot-icon_1 spot-icon_delta-triangle op-baseline-legends--details-icon-changed"></span>
+  <span class="op-baseline-legends--details-changed">{{text.maintained_with_changes}}</span>
+</div>

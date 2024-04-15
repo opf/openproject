@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 sl:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "Položaj"
-        remaining_hours: "Preostale ure"
-        remaining_time: "Preostale ure"
         story_points: "Točke v zgodbi"
         backlogs_work_package_type: "Tip opravila na čakanju"
     errors:
@@ -35,9 +36,6 @@ sl:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "lahko vsebuje samo ID-je delovnih paketov iz trenutnega teka."
               must_block_at_least_one_work_package: "vsebovati mora ID vsaj enega zahtevka."
-            parent_id:
-              parent_child_relationship_across_projects: "je neveljaven, ker je delovni paket '%{work_package_name}' opravilo zaostankov in zato ne more imeti nadrejenega zunaj trenutnega projekta."
-              type_must_be_one_of_the_following: "Dovoljeni tipi so sledeči: %{type_names}"
             version_id:
               task_version_must_be_the_same_as_story_version: "mora biti enako različici nadrejene zgodbe."
         sprint:
@@ -66,8 +64,8 @@ sl:
     properties: "Lastnosti"
     rebuild: "Obnovi"
     rebuild_positions: "Obnovi položaj"
-    remaining_hours: "Preostale ure"
-    remaining_hours_ideal: "Preostale ure (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Graf burndown"
     story: "Zgodba"
     story_points: "Točke v zgodbi"
@@ -78,7 +76,6 @@ sl:
     x_more: "%{count} več..."
   backlogs_active: "aktiven"
   backlogs_any: "katerikoli"
-  backlogs_card_specification: "Vrste nalepk za tiskanje kartic"
   backlogs_inactive: "Na projektu ni aktivnosti"
   backlogs_points_burn_direction: "Točke gorijo gor/dol"
   backlogs_product_backlog: "Zaostanki produkta"
@@ -137,7 +134,7 @@ sl:
   label_wiki: "Wiki"
   permission_view_master_backlog: "glavni zaostanek prejšnje poizvedbe"
   permission_view_taskboards: "Prikaz delovne table"
-  permission_select_done_statuses: "Select done statuses"
+  permission_select_done_statuses: "Označi statuse narejeno"
   permission_update_sprints: "Posodobi šprinte"
   points_accepted: "sprejete točke"
   points_committed: "Oddane točke"
@@ -150,12 +147,12 @@ sl:
   rb_label_copy_tasks_none: "Brez"
   rb_label_copy_tasks_open: "Odpri"
   rb_label_link_to_original: "Vključi povezavo do izvirne zgodbe"
-  remaining_hours: "Preostale ure"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "potrebna hitrost porabe (ure)"
   required_burn_rate_points: "potrebna hitrost porabe (točke)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Stolpec v zaostanku"
   version_settings_display_option_left: "levo"
-  version_settings_display_option_none: "Brez"
+  version_settings_display_option_none: "brez"
   version_settings_display_option_right: "desno"

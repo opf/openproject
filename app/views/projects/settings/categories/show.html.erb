@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,12 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= toolbar title: t(:label_work_package_category_plural) do -%>
-  <% if current_user.allowed_to?(:manage_categories, @project)  %>
+  <% if current_user.allowed_in_project?(:manage_categories, @project)  %>
     <li class="toolbar-item">
       <%= link_to_if_authorized({ controller: '/categories', action: 'new', project_id: @project },
                                 { aria: { label: t(:label_work_package_category_new) },
                                   title: t(:label_work_package_category_new),
-                                  class: 'button -alt-highlight'}) do %>
+                                  class: 'button -primary'}) do %>
         <%= op_icon('icon-add button--icon') %>
         <span class="button--text"><%= t('activerecord.models.category') %></span>
       <% end %>

@@ -1,0 +1,16 @@
+ka:
+  plugin_openproject_xls_export:
+    name: "OpenProject XLS Export"
+    description: "Export issue lists as Excel spreadsheets (.xls)."
+  export_to_excel: "XLS-ის გატანა"
+  print_with_description: "დაბეჭდვის გადახედვა აღწერიტ"
+  sentence_separator_or: "ან"
+  different_formats: სხვადასხვა ფორმატები
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS აღწერებით"
+      xls_with_relations: "XLS ურთიერთობებით"
+  xls_export:
+    child_of: მშობელია
+    parent_of: შვილია

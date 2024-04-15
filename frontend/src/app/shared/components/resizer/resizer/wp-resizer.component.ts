@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -84,7 +84,10 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   ngOnInit() {
     // Get element
-    this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
+    // We use this more complicated approach of taking the last element of the class as it allows
+    // to still work in case an element is duplicated by Angular.
+    const elements = document.getElementsByClassName(this.elementClass);
+    this.resizingElement = <HTMLElement>elements[elements.length - 1];
 
     // Get initial width from local storage and apply
     const localStorageValue = this.parseLocalStorageValue();

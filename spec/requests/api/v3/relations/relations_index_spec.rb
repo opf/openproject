@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'GET /api/v3/relations', type: :request do
-  let(:user) { create :admin }
+RSpec.describe "GET /api/v3/relations" do
+  let(:user) { create(:admin) }
 
-  let(:work_package) { create :work_package }
-  let(:other_work_package) { create :work_package }
+  let(:work_package) { create(:work_package) }
+  let(:other_work_package) { create(:work_package) }
 
   let!(:relations) do
     def new_relation(opts = {})
       relation_type = opts.delete(:type)
 
-      relation = create :relation, opts.merge(relation_type:)
+      relation = create(:relation, opts.merge(relation_type:))
       relation.id
     end
 
     def new_work_package
-      create :work_package
+      create(:work_package)
     end
 
     [
-      new_relation(from: work_package, to: other_work_package, type: 'follows'),
-      new_relation(from: work_package, to: new_work_package, type: 'blocks'),
-      new_relation(from: new_work_package, to: work_package, type: 'follows'),
-      new_relation(from: new_work_package, to: new_work_package, type: 'blocks')
+      new_relation(from: work_package, to: other_work_package, type: "follows"),
+      new_relation(from: work_package, to: new_work_package, type: "blocks"),
+      new_relation(from: new_work_package, to: work_package, type: "follows"),
+      new_relation(from: new_work_package, to: new_work_package, type: "blocks")
     ]
   end
 
@@ -83,33 +83,33 @@ describe 'GET /api/v3/relations', type: :request do
     # Initializing the relations takes very long (about 2s) and it's unnecessary
     # to repeat that step for every example as we are not mutating anything.
     # This saves about 75% on the runtime (6s vs 24s on this machine) of the spec.
-    it 'work' do
+    it "work" do
       expect(filter_relations("id", "=", [relations[0], relations[2]]))
-        .to match_array [relations[0], relations[2]]
+        .to contain_exactly(relations[0], relations[2])
       expect(filter_relations("id", "!", [relations[0], relations[2]]))
-        .to match_array [relations[1], relations[3]]
+        .to contain_exactly(relations[1], relations[3])
 
       expect(filter_relations("from", "=", [work_package.id]))
-        .to match_array [relations[0], relations[1]]
+        .to contain_exactly(relations[0], relations[1])
       expect(filter_relations("from", "!", [work_package.id]))
-        .to match_array [relations[2], relations[3]]
+        .to contain_exactly(relations[2], relations[3])
 
       expect(filter_relations("to", "=", [work_package.id]))
         .to eq [relations[2]]
       expect(filter_relations("to", "!", [work_package.id]))
-        .to match_array [relations[0], relations[1], relations[3]]
+        .to contain_exactly(relations[0], relations[1], relations[3])
 
       expect(filter_relations("involved", "=", [work_package.id]))
-        .to match_array [relations[0], relations[1], relations[2]]
+        .to contain_exactly(relations[0], relations[1], relations[2])
       expect(filter_relations("involved", "!", [work_package.id]))
         .to eq [relations[3]]
 
       expect(filter_relations("type", "=", ["blocks"]))
-        .to match_array [relations[1], relations[3]]
+        .to contain_exactly(relations[1], relations[3])
       expect(filter_relations("type", "=", ["blocks", "precedes"]))
-        .to match_array [relations[0], relations[1], relations[2], relations[3]]
+        .to contain_exactly(relations[0], relations[1], relations[2], relations[3])
       expect(filter_relations("type", "!", ["blocks"]))
-        .to match_array [relations[0], relations[2]]
+        .to contain_exactly(relations[0], relations[2])
     end
   end
 end

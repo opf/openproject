@@ -1,0 +1,105 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default
+    headers:
+      User-Agent:
+      - Rack::OAuth2 (2.2.1)
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - 76b17450-1dfe-419b-9152-9a113e63be00
+      X-Ms-Ests-Server:
+      - 2.1.17282.6 - FRC ProdSlices
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=AokVI2gc9RtEpXdh6MBn5eykbDoXAQAAAA_4Xt0OAAAA; expires=Fri, 15-Mar-2024
+        18:06:08 GMT; path=/; secure; HttpOnly; SameSite=None
+      - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
+      - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
+      Date:
+      - Wed, 14 Feb 2024 18:06:08 GMT
+      Content-Length:
+      - '1708'
+    body:
+      encoding: UTF-8
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
+  recorded_at: Wed, 14 Feb 2024 18:06:08 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/THIS-IS-NOT-A-DRIVE-ID/root/children
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.2
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - dc640ba4-6220-42d5-ad89-ac3b48215995
+      Client-Request-Id:
+      - dc640ba4-6220-42d5-ad89-ac3b48215995
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000166"}}'
+      Date:
+      - Wed, 14 Feb 2024 18:06:07 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"invalidRequest","message":"The provided drive id
+        appears to be malformed, or does not represent a valid drive.","innerError":{"date":"2024-02-14T18:06:08","request-id":"dc640ba4-6220-42d5-ad89-ac3b48215995","client-request-id":"dc640ba4-6220-42d5-ad89-ac3b48215995"}}}'
+  recorded_at: Wed, 14 Feb 2024 18:06:08 GMT
+recorded_with: VCR 6.2.0

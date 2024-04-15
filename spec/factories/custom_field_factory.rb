@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,281 +28,204 @@
 
 FactoryBot.define do
   factory :custom_field do
-    name { 'Custom Field' }
-    regexp { '' }
+    transient do
+      # These values are used internally to customize the  custom field name
+      # when using traits. They are not meant to be set externally.
+      _format_name do
+        [
+          multi_value ? "multi-" : nil,
+          field_format
+        ].compact.join
+      end
+      _type_name { instance.class.name.underscore.humanize(capitalize: false) }
+    end
+    sequence(:name) do |n, _e|
+      [_format_name, _type_name, n.to_s].join(" ").capitalize
+    end
+    regexp { "" }
     is_required { false }
     min_length { false }
-    default_value { '' }
+    default_value { "" }
     max_length { false }
     editable { true }
-    possible_values { '' }
+    possible_values { "" }
     visible { true }
-    field_format { 'bool' }
+    field_format { "bool" }
 
-    callback(:after_create) do
+    after(:create) do
       # As the request store keeps track of the created custom fields
       RequestStore.clear!
     end
 
-    factory :project_custom_field, class: 'ProjectCustomField' do
-      sequence(:name) { |n| "Project custom field #{n}" }
+    trait :boolean do
+      _format_name { "boolean" }
+      field_format { "bool" }
+    end
 
-      factory :list_project_custom_field do
-        sequence(:name) { |n| "List project custom field #{n}" }
-        multi_value { false }
-        field_format { 'list' }
-        possible_values { ['A', 'B', 'C', 'D', 'E', 'F', 'G'] }
+    trait :string do
+      field_format { "string" }
+    end
+
+    trait :text do
+      field_format { "text" }
+    end
+
+    trait :integer do
+      _format_name { "integer" }
+      field_format { "int" }
+    end
+
+    trait :float do
+      field_format { "float" }
+    end
+
+    trait :date do
+      field_format { "date" }
+    end
+
+    trait :list do
+      transient do
+        default_option { nil }
+        default_options { nil }
+      end
+      field_format { "list" }
+      multi_value { false }
+      possible_values { ["A", "B", "C", "D", "E", "F", "G"] }
+
+      # update custom options default value from the default_option transient
+      # field for non-multiselect field
+      after(:create) do |custom_field, evaluator|
+        default_option = evaluator.default_option
+        next if default_option.blank?
+
+        # ensure the right options are used
+        if evaluator.multi_value
+          raise "Please use default_options instead of default_option for multi_value list field."
+        end
+
+        if default_option.is_a?(Array)
+          raise "default_option #{default_option.inspect} is an array but the list custom field is not a multi_value." \
+                "Please use a single value instead."
+        end
+
+        default_custom_option = custom_field.possible_values.find_by(value: default_option)
+        if default_custom_option.nil?
+          raise "Default option #{default_option.inspect} not found. " \
+                "Possible options are #{custom_field.possible_values.pluck(:value).inspect}"
+        end
+
+        default_custom_option.update!(default_value: true)
       end
 
-      factory :version_project_custom_field do
-        sequence(:name) { |n| "Version project custom field #{n}" }
-        field_format { 'version' }
-      end
+      # update custom options default value from the default_options transient
+      # field for multiselect field
+      after(:create) do |custom_field, evaluator|
+        default_options = Array(evaluator.default_options)
+        next if default_options.blank?
 
-      factory :bool_project_custom_field do
-        sequence(:name) { |n| "Bool project custom field #{n}" }
-        field_format { 'bool' }
-      end
+        default_custom_options = custom_field.possible_values.where(value: default_options)
+        if default_custom_options.size != default_options.size
+          not_found_options = default_options - default_custom_options.pluck(:value)
+          raise "Default options #{not_found_options.inspect} not found. " \
+                "Possible options are #{custom_field.possible_values.pluck(:value).inspect}"
+        end
 
-      factory :user_project_custom_field do
-        sequence(:name) { |n| "User project custom field #{n}" }
-        field_format { 'user' }
-      end
-
-      factory :int_project_custom_field do
-        sequence(:name) { |n| "Int project custom field #{n}" }
-        field_format { 'int' }
-      end
-
-      factory :float_project_custom_field do
-        sequence(:name) { |n| "Float project custom field #{n}" }
-        field_format { 'float' }
-      end
-
-      factory :text_project_custom_field do
-        sequence(:name) { |n| "Text project custom field #{n}" }
-        field_format { 'text' }
-      end
-
-      factory :string_project_custom_field do
-        sequence(:name) { |n| "String project custom field #{n}" }
-        field_format { 'string' }
-      end
-
-      factory :date_project_custom_field do
-        sequence(:name) { |n| "Date project custom field #{n}" }
-        field_format { 'date' }
+        default_custom_options.update_all(default_value: true)
       end
     end
 
-    factory :user_custom_field, class: 'UserCustomField' do
-      sequence(:name) { |n| "User Custom Field #{n}" }
-      type { 'UserCustomField' }
-
-      factory :boolean_user_custom_field do
-        name { 'BooleanUserCustomField' }
-        field_format { 'bool' }
-      end
-
-      factory :integer_user_custom_field do
-        name { 'IntegerUserCustomField' }
-        field_format { 'int' }
-      end
-
-      factory :text_user_custom_field do
-        name { 'TextUserCustomField' }
-        field_format { 'text' }
-      end
-
-      factory :string_user_custom_field do
-        name { 'StringUserCustomField' }
-        field_format { 'string' }
-      end
-
-      factory :float_user_custom_field do
-        name { 'FloatUserCustomField' }
-        field_format { 'float' }
-      end
-
-      factory :list_user_custom_field do
-        name { 'ListUserCustomField' }
-        field_format { 'list' }
-        possible_values { ['1', '2', '3', '4', '5', '6', '7'] }
-      end
-
-      factory :date_user_custom_field do
-        name { 'DateUserCustomField' }
-        field_format { 'date' }
-      end
+    trait :multi_list do
+      list
+      multi_value { true }
     end
 
-    factory :group_custom_field, class: 'GroupCustomField' do
-      sequence(:name) { |n| "User Custom Field #{n}" }
-      type { 'GroupCustomField' }
-
-      factory :boolean_group_custom_field do
-        name { 'BooleanGroupCustomField' }
-        field_format { 'bool' }
-      end
-
-      factory :integer_group_custom_field do
-        name { 'IntegerGroupCustomField' }
-        field_format { 'int' }
-      end
-
-      factory :text_group_custom_field do
-        name { 'TextGroupCustomField' }
-        field_format { 'text' }
-      end
-
-      factory :string_group_custom_field do
-        name { 'StringGroupCustomField' }
-        field_format { 'string' }
-      end
-
-      factory :float_group_custom_field do
-        name { 'FloatGroupCustomField' }
-        field_format { 'float' }
-      end
-
-      factory :list_group_custom_field do
-        name { 'ListGroupCustomField' }
-        field_format { 'list' }
-        possible_values { ['1', '2', '3', '4', '5', '6', '7'] }
-      end
-
-      factory :date_group_custom_field do
-        name { 'DateGroupCustomField' }
-        field_format { 'date' }
-      end
+    trait :version do
+      field_format { "version" }
     end
 
-    factory :wp_custom_field, class: 'WorkPackageCustomField' do
-      sequence(:name) { |n| "Work package custom field #{n}" }
-      type { 'WorkPackageCustomField' }
+    trait :multi_version do
+      field_format { "version" }
+      multi_value { true }
+    end
+
+    trait :user do
+      field_format { "user" }
+    end
+
+    trait :multi_user do
+      field_format { "user" }
+      multi_value { true }
+    end
+
+    factory :project_custom_field, class: "ProjectCustomField" do
+      project_custom_field_section
+
+      transient do
+        projects { [] }
+      end
+
+      # enable the the custom_field for the given projects
+      after(:create) do |custom_field, evaluator|
+        projects = Array(evaluator.projects)
+        next if projects.blank?
+
+        projects.each do |project|
+          unless project.project_custom_fields.include?(custom_field)
+            create(:project_custom_field_project_mapping, project:, project_custom_field: custom_field)
+          end
+        end
+      end
+
+      factory :boolean_project_custom_field, traits: [:boolean]
+      factory :string_project_custom_field, traits: [:string]
+      factory :text_project_custom_field, traits: [:text]
+      factory :integer_project_custom_field, traits: [:integer]
+      factory :float_project_custom_field, traits: [:float]
+      factory :date_project_custom_field, traits: [:date]
+      factory :list_project_custom_field, traits: [:list]
+      factory :version_project_custom_field, traits: [:version]
+      factory :user_project_custom_field, traits: [:user]
+    end
+
+    factory :user_custom_field, class: "UserCustomField"
+
+    factory :group_custom_field, class: "GroupCustomField"
+
+    factory :wp_custom_field, class: "WorkPackageCustomField" do
+      _type_name { "WP custom field" }
       is_filter { true }
 
-      factory :list_wp_custom_field do
-        sequence(:name) { |n| "List CF #{n}" }
-        field_format { 'list' }
-        possible_values { ['A', 'B', 'C', 'D', 'E', 'F', 'G'] }
+      transient do
+        projects { [] }
       end
 
-      factory :version_wp_custom_field do
-        sequence(:name) { |n| "Version WP custom field #{n}" }
-        field_format { 'version' }
+      after(:create) do |custom_field, evaluator|
+        evaluator.projects.each do |project|
+          project.work_package_custom_fields << custom_field
+        end
       end
 
-      factory :bool_wp_custom_field do
-        sequence(:name) { |n| "Bool WP custom field #{n}" }
-        field_format { 'bool' }
-      end
-
-      factory :user_wp_custom_field do
-        sequence(:name) { |n| "User WP custom field #{n}" }
-        field_format { 'user' }
-      end
-
-      factory :int_wp_custom_field do
-        sequence(:name) { |n| "Int WP custom field #{n}" }
-        field_format { 'int' }
-      end
-
-      factory :float_wp_custom_field do
-        sequence(:name) { |n| "Float WP custom field #{n}" }
-        field_format { 'float' }
-      end
-
-      factory :text_wp_custom_field do
-        sequence(:name) { |n| "Text WP custom field #{n}" }
-        field_format { 'text' }
-      end
-
-      factory :string_wp_custom_field do
-        sequence(:name) { |n| "String WP custom field #{n}" }
-        field_format { 'string' }
-      end
-
-      factory :date_wp_custom_field do
-        sequence(:name) { |n| "Date WP custom field #{n}" }
-        field_format { 'date' }
-      end
+      factory :boolean_wp_custom_field, traits: [:boolean]
+      factory :string_wp_custom_field, traits: [:string]
+      factory :text_wp_custom_field, traits: [:text]
+      factory :integer_wp_custom_field, traits: [:integer]
+      factory :float_wp_custom_field, traits: [:float]
+      factory :date_wp_custom_field, traits: [:date]
+      factory :list_wp_custom_field, traits: [:list]
+      factory :version_wp_custom_field, traits: [:version]
+      factory :user_wp_custom_field, traits: [:user]
     end
 
-    factory :issue_custom_field, class: 'WorkPackageCustomField' do
-      sequence(:name) { |n| "Issue Custom Field #{n}" }
-
-      factory :user_issue_custom_field do
-        field_format { 'user' }
-        sequence(:name) { |n| "UserWorkPackageCustomField #{n}" }
-      end
-
-      factory :text_issue_custom_field do
-        field_format { 'text' }
-        sequence(:name) { |n| "TextWorkPackageCustomField #{n}" }
-      end
-
-      factory :integer_issue_custom_field do
-        field_format { 'int' }
-        sequence(:name) { |n| "IntegerWorkPackageCustomField #{n}" }
-      end
+    factory :issue_custom_field, class: "WorkPackageCustomField" do
+      _type_name { "issue custom field" }
     end
 
-    factory :time_entry_custom_field, class: 'TimeEntryCustomField' do
-      sequence(:name) { |n| "User Custom Field #{n}" }
-      type { 'TimeEntryCustomField' }
-
-      factory :boolean_time_entry_custom_field do
-        name { 'BooleanTimeEntryCustomField' }
-        field_format { 'bool' }
-      end
-
-      factory :integer_time_entry_custom_field do
-        name { 'IntegerTimeEntryCustomField' }
-        field_format { 'int' }
-      end
-
-      factory :text_time_entry_custom_field do
-        name { 'TextTimeEntryCustomField' }
-        field_format { 'text' }
-      end
-
-      factory :string_time_entry_custom_field do
-        name { 'StringTimeEntryCustomField' }
-        field_format { 'string' }
-      end
-
-      factory :float_time_entry_custom_field do
-        name { 'FloatTimeEntryCustomField' }
-        field_format { 'float' }
-      end
-
-      factory :list_time_entry_custom_field do
-        name { 'ListTimeEntryCustomField' }
-        field_format { 'list' }
-        possible_values { ['A', 'B'] }
-      end
-
-      factory :date_time_entry_custom_field do
-        name { 'DateTimeEntryCustomField' }
-        field_format { 'date' }
-      end
+    factory :time_entry_custom_field, class: "TimeEntryCustomField" do
+      field_format { "text" }
     end
 
-    factory :version_custom_field, class: 'VersionCustomField' do
-      field_format { 'text' }
-      sequence(:name) { |n| "Version Custom Field #{n}" }
-
-      factory :int_version_custom_field do
-        sequence(:name) { |n| "Int version custom field #{n}" }
-        field_format { 'int' }
-      end
-
-      factory :list_version_custom_field do
-        sequence(:name) { |n| "List version custom field #{n}" }
-        field_format { 'list' }
-        possible_values { ['A', 'B', 'C', 'D', 'E', 'F', 'G'] }
-      end
+    factory :version_custom_field, class: "VersionCustomField" do
+      field_format { "text" }
     end
   end
 end

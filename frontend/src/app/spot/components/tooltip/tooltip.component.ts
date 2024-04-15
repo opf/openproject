@@ -14,6 +14,9 @@ import SpotDropAlignmentOption from '../../drop-alignment-options';
 export class SpotTooltipComponent {
   @HostBinding('class.spot-tooltip') public className = true;
 
+  /**
+   * Show a dark-gray version of the tooltip
+   */
   @Input() @HostBinding('class.spot-tooltip_dark') public dark = false;
 
   /**

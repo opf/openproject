@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t(:label_roadmap) do %>
   <li class="toolbar-item">
     <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
-                { class: 'button -alt-highlight',
+                { class: 'button -primary',
                   aria: { label: t(:label_version_new) },
                   title: t(:label_version_new) }) do %>
         <%= op_icon('button--icon icon-add') %>
@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= link_to_version(version, name: h(version.name), id: "version-#{version.name}") %>
       </h3>
       <%= render partial: 'versions/overview', locals: {version: version} %>
-      <%= render(partial: "wiki/content", locals: {content: version.wiki_page.content}) if version.wiki_page %>
+      <%= render(partial: "wiki/text", locals: { page: version.wiki_page }) if version.wiki_page %>
       <% if (issues = @wps_by_version[version]) && issues.size > 0 %>
       <form>
         <fieldset class="form--fieldset -collapsible">

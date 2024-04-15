@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,12 +42,12 @@ module WorkPackage::AskBeforeDestruction
       !associated_to_ask_before_destruction_of(work_packages).empty?
     end
 
-    def cleanup_associated_before_destructing_if_required(work_packages, user, to_do = { action: 'destroy' })
+    def cleanup_associated_before_destructing_if_required(work_packages, user, to_do = { action: "destroy" })
       cleanup_required = cleanup_action_required_before_destructing?(work_packages)
 
-      (!cleanup_required ||
+      !cleanup_required ||
        (cleanup_required &&
-        cleanup_each_associated_class(work_packages, user, to_do)))
+        cleanup_each_associated_class(work_packages, user, to_do))
     end
 
     def associated_classes_to_address_before_destruction_of(work_packages)

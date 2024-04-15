@@ -25,48 +25,48 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Comment, type: :model do
+RSpec.describe Comment do
   shared_let(:user) { create(:user) }
   shared_let(:news) { create(:news) }
-  let(:comment) { described_class.new(author: user, comments: 'some important words', commented: news) }
+  let(:comment) { described_class.new(author: user, comments: "some important words", commented: news) }
 
-  describe '#create' do
-    it 'creates the comment' do
-      expect(described_class.create(commented: news, author: user, comments: 'some important words'))
+  describe "#create" do
+    it "creates the comment" do
+      expect(described_class.create(commented: news, author: user, comments: "some important words"))
         .to be_truthy
     end
   end
 
-  describe '#texts' do
-    it 'reads the comments' do
-      expect(described_class.new(comments: 'some important words').text)
-        .to eql 'some important words'
+  describe "#texts" do
+    it "reads the comments" do
+      expect(described_class.new(comments: "some important words").text)
+        .to eql "some important words"
     end
   end
 
-  describe '#valid?' do
-    it 'is valid' do
+  describe "#valid?" do
+    it "is valid" do
       expect(comment)
         .to be_valid
     end
 
-    it 'is invalid on an empty comments' do
-      comment.comments = ''
+    it "is invalid on an empty comments" do
+      comment.comments = ""
 
       expect(comment)
         .not_to be_valid
     end
 
-    it 'is invalid without comments' do
+    it "is invalid without comments" do
       comment.comments = nil
 
       expect(comment)
         .not_to be_valid
     end
 
-    it 'is invalid without author' do
+    it "is invalid without author" do
       comment.author = nil
 
       expect(comment)

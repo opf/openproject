@@ -5,7 +5,7 @@
   margin: 0
   padding: 0
   position: relative
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
   text-transform: uppercase
   overflow-x: auto
   white-space: nowrap
@@ -44,12 +44,12 @@
       border-bottom-color: var(--light-gray)
 
     &_selected, &_selected:hover
-      color: var(--content-link-color)
+      color: var(--accent-color)
       border-bottom: 2px solid
-      border-bottom-color: var(--content-link-color)
+      border-bottom-color: var(--accent-color)
 
     &_disabled
       cursor: default
       pointer-events: none
       border-bottom-width: 0
-      color: var(--tabs-font-color-disabled)
+      color: var(--color-fg-muted)

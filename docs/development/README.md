@@ -10,7 +10,7 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 ## Get in touch
 
-Please get in touch with us using our [development forum](https://community.openproject.com/projects/openproject/forums/7) or send us an email to info@openproject.org.
+Please get in touch with us using our [development forum](https://community.openproject.org/projects/openproject/forums/7) or send us an email to info@openproject.org.
 
 
 
@@ -18,17 +18,17 @@ Please get in touch with us using our [development forum](https://community.open
 
 We eat our own ice cream so we use OpenProject for roadmap planning and team collaboration. Please have a look at the following pages:
 
-- [Development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=1993)
+- [Development roadmap](https://community.openproject.org/projects/openproject/roadmap)
 
-- [Wish list](https://community.openproject.com/versions/26)
+- [Wish list](https://community.openproject.org/projects/openproject/work_packages?query_id=180)
 
-- [Bug backlog](https://community.openproject.com/projects/openproject/work_packages?query_id=491)
+- [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491)
 
 - [Reporting a bug](report-a-bug)
 
 - [Submit a feature idea](submit-feature-idea)
 
-  
+
 
 ## Development Environment
 
@@ -36,9 +36,17 @@ Take a look at the bottom under Additional resources to see how to setup your de
 
 
 
+## Highlighting Development Environment
+
+To make it easier to distinguish a development instance, it is using a tinted website icon and modified app header.
+
+This behavior can be disabled by setting an environment variable `OPENPROJECT_DEVELOPMENT_HIGHLIGHT_ENABLED=false` (see also [documentation on configuration](../installation-and-operations/configuration/)).
+
+
+
 ## Branching model and development flow
 
-Please see this separate guide for the [git branching model and core development](git-workflow).
+Please see this separate guide for the [git branching model and core development](git-workflow/).
 
 
 
@@ -50,7 +58,7 @@ We prepared a set of documentation concepts for an introduction into various bac
 
 ## Translations
 
-If you want to contribute to the localization of OpenProject and its plugins you can do so on the [Crowdin OpenProject page](https://crowdin.com/project/openproject). Once a day we fetch those locales and automatically them to GitHub. Contributing there will ensure your language will be up to date for the next release!
+If you want to contribute to the localization of OpenProject and its plugins you can do so on the [Crowdin OpenProject page](https://crowdin.com/project/openproject). Once a day we fetch those locales and automatically upload them to GitHub. Contributing there will ensure your language will be up to date for the next release!
 
 More on this topic can be found in our [blog post](https://www.openproject.org/blog/help-translate-openproject-into-your-language/).
 

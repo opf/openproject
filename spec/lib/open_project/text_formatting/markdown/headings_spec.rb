@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
-describe OpenProject::TextFormatting,
-         'headings' do
-  include_context 'expected markdown modules'
+RSpec.describe OpenProject::TextFormatting,
+               "headings" do
+  include_context "expected markdown modules"
 
-  describe '.format_text' do
-    shared_examples_for 'bem heading' do |level|
-      it_behaves_like 'format_text produces' do
+  describe ".format_text" do
+    shared_examples_for "bem heading" do |level|
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             Some text before
@@ -59,16 +59,16 @@ describe OpenProject::TextFormatting,
       end
     end
 
-    it_behaves_like 'bem heading', 1
-    it_behaves_like 'bem heading', 2
-    it_behaves_like 'bem heading', 3
-    it_behaves_like 'bem heading', 4
-    it_behaves_like 'bem heading', 5
-    it_behaves_like 'bem heading', 6
+    it_behaves_like "bem heading", 1
+    it_behaves_like "bem heading", 2
+    it_behaves_like "bem heading", 3
+    it_behaves_like "bem heading", 4
+    it_behaves_like "bem heading", 5
+    it_behaves_like "bem heading", 6
 
-    context 'with the heading being in a code bock' do
-      shared_examples_for 'unchanged heading' do |level|
-        it_behaves_like 'format_text produces' do
+    context "with the heading being in a code bock" do
+      shared_examples_for "unchanged heading" do |level|
+        it_behaves_like "format_text produces" do
           let(:raw) do
             <<~RAW
               Some text before
@@ -97,16 +97,16 @@ describe OpenProject::TextFormatting,
         end
       end
 
-      it_behaves_like 'unchanged heading', 1
-      it_behaves_like 'unchanged heading', 2
-      it_behaves_like 'unchanged heading', 3
-      it_behaves_like 'unchanged heading', 4
-      it_behaves_like 'unchanged heading', 5
-      it_behaves_like 'unchanged heading', 6
+      it_behaves_like "unchanged heading", 1
+      it_behaves_like "unchanged heading", 2
+      it_behaves_like "unchanged heading", 3
+      it_behaves_like "unchanged heading", 4
+      it_behaves_like "unchanged heading", 5
+      it_behaves_like "unchanged heading", 6
     end
 
-    context 'with the heading being a date (number and backslash)' do
-      it_behaves_like 'format_text produces' do
+    context "with the heading being a date (number and backslash)" do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           '# 2009\02\09'
         end

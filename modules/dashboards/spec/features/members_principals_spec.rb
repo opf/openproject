@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
-  shared_let(:type) { create :type }
-  shared_let(:project) { create :project, types: [type], description: 'My **custom** description' }
+RSpec.describe "Dashboard page members", :js do
+  shared_let(:type) { create(:type) }
+  shared_let(:project) { create(:project, types: [type], description: "My **custom** description") }
 
   shared_let(:permissions) do
     %i[manage_dashboards
@@ -42,24 +42,21 @@ describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
 
   shared_let(:user) do
     create(:user,
-           firstname: 'Foo',
-           lastname: 'Bar',
-           member_in_project: project,
-           member_with_permissions: permissions)
+           firstname: "Foo",
+           lastname: "Bar",
+           member_with_permissions: { project => permissions })
   end
 
   shared_let(:group) do
     create(:group,
-           name: 'DEV Team',
-           member_in_project: project,
-           member_with_permissions: permissions)
+           name: "DEV Team",
+           member_with_permissions: { project => permissions })
   end
 
   shared_let(:placeholder) do
     create(:placeholder_user,
-           name: 'DEVELOPER PLACEHOLDER',
-           member_in_project: project,
-           member_with_permissions: permissions)
+           name: "DEVELOPER PLACEHOLDER",
+           member_with_permissions: { project => permissions })
   end
 
   let(:dashboard_page) do
@@ -72,21 +69,21 @@ describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
     dashboard_page.visit!
   end
 
-  it 'renders the default view, allows altering and saving' do
+  it "renders the default view, allows altering and saving" do
     # within top-right area, add an additional widget
-    dashboard_page.add_widget(1, 1, :within, 'Members')
+    dashboard_page.add_widget(1, 1, :within, "Members")
 
-    members_block = page.find('.widget-box', text: 'MEMBERS')
+    members_block = page.find(".widget-box", text: "MEMBERS")
 
     within(members_block) do
-      user_link = find('op-principal a', text: user.name)
-      expect(user_link['href']).to end_with user_path(user.id)
+      user_link = find("op-principal a", text: user.name)
+      expect(user_link["href"]).to end_with user_path(user.id)
 
-      group_link = find('op-principal a', text: group.name)
-      expect(group_link['href']).to end_with show_group_path(group.id)
+      group_link = find("op-principal a", text: group.name)
+      expect(group_link["href"]).to end_with show_group_path(group.id)
 
-      placeholder_link = find('op-principal a', text: placeholder.name)
-      expect(placeholder_link['href']).to end_with placeholder_user_path(placeholder.id)
+      placeholder_link = find("op-principal a", text: placeholder.name)
+      expect(placeholder_link["href"]).to end_with placeholder_user_path(placeholder.id)
     end
   end
 end

@@ -1,5 +1,5 @@
 <a style="text-decoration: none;display: block;"
-   href="<%= notifications_path(work_package.id) %>"
+   href="<%= local_assigns[:notification_url] || notifications_path(work_package.id) %>"
    target="_blank">
   <%= render layout: 'mailer/border_table' do %>
     <tr>
@@ -67,11 +67,10 @@
             <td>
               <table <%= placeholder_table_styles(style: 'font-size:16px;font-weight:bold') %>>
                 <tr>
-                  <td style="color: <%= type_color(work_package.type, '#333333') %>;white-space: nowrap;">
-                    <%= work_package.type.to_s.upcase %>
-                  </td>
-                  <%= placeholder_cell('4px', vertical: true) %>
                   <td width="100%" style="color: #333333;">
+                    <span style="color: <%= type_color(work_package.type, '#333333') %>;white-space: nowrap;">
+                      <%= work_package.type.to_s.upcase %>
+                    </span>
                     <%= work_package.subject %>
                   </td>
                 </tr>
@@ -97,3 +96,22 @@
     </tr>
   <% end %>
 </a>
+
+<table>
+  <tr>
+    <%= placeholder_cell('0px', vertical: false) %>
+  </tr>
+</table>
+
+<a style="margin-left: 12px;"
+   href="<%= defined?(open_in_browser_path) ? open_in_browser_path : notifications_path(work_package.id) %>"
+   target="_blank"
+   rel="noopener noreferrer">
+  <%= I18n.t('mail.work_packages.open_in_browser') %>
+</a>
+
+<table>
+  <tr>
+    <%= placeholder_cell('20px', vertical: false) %>
+  </tr>
+</table>

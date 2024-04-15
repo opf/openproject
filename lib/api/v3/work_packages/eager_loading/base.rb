@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,9 +30,12 @@ module API
   module V3
     module WorkPackages
       module EagerLoading
-        class Base < SimpleDelegator
-          def initialize(work_packages)
+        class Base
+          def initialize(work_packages, **options)
             self.work_packages = work_packages
+            options.each do |key, value|
+              send(:"#{key}=", value) if respond_to?(:"#{key}=")
+            end
           end
 
           def apply(_work_package)

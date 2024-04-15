@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,71 +26,69 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
-describe 'Only see your own rates', type: :feature, js: true do
+RSpec.describe "Only see your own rates", :js do
   let(:project) { work_package.project }
   let(:user) do
-    create :user,
-           member_in_project: project,
-           member_through_role: role
+    create(:user,
+           member_with_roles: { project => role })
   end
   let(:role) do
-    create :role, permissions: %i[view_own_hourly_rate
-                                  view_work_packages
-                                  view_work_packages
-                                  view_own_time_entries
-                                  view_own_cost_entries
-                                  view_cost_rates
-                                  log_costs]
+    create(:project_role, permissions: %i[view_own_hourly_rate
+                                          view_work_packages
+                                          view_work_packages
+                                          view_own_time_entries
+                                          view_own_cost_entries
+                                          view_cost_rates
+                                          log_costs])
   end
-  let(:work_package) { create :work_package }
-  let(:wp_page) { ::Pages::FullWorkPackage.new(work_package) }
+  let(:work_package) { create(:work_package) }
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:hourly_rate) do
-    create :default_hourly_rate, user:,
-                                 rate: 10.00
+    create(:default_hourly_rate, user:,
+                                 rate: 10.00)
   end
   let(:time_entry) do
-    create :time_entry, user:,
+    create(:time_entry, user:,
                         work_package:,
                         project:,
-                        hours: 1.00
+                        hours: 1.00)
   end
   let(:cost_type) do
-    type = create :cost_type, name: 'Translations'
-    create :cost_rate, cost_type: type,
-                       rate: 7.00
+    type = create(:cost_type, name: "Translations")
+    create(:cost_rate, cost_type: type,
+                       rate: 7.00)
     type
   end
   let(:cost_entry) do
-    create :cost_entry, work_package:,
+    create(:cost_entry, work_package:,
                         project:,
                         units: 2.00,
                         cost_type:,
-                        user:
+                        user:)
   end
-  let(:other_role) { create :role, permissions: [] }
+  let(:other_role) { create(:project_role, permissions: []) }
   let(:other_user) do
-    create :user,
-           member_in_project: project,
-           member_through_role: other_role
+    create(:user,
+           member_with_roles: { project => other_role })
   end
   let(:other_hourly_rate) do
-    create :default_hourly_rate, user: other_user,
-                                 rate: 11.00
+    create(:default_hourly_rate, user: other_user,
+                                 rate: 11.00)
   end
   let(:other_time_entry) do
-    create :time_entry, user: other_user,
+    create(:time_entry, user: other_user,
                         hours: 3.00,
                         project:,
-                        work_package:
+                        work_package:)
   end
   let(:other_cost_entry) do
-    create :cost_entry, work_package:,
+    create(:cost_entry, work_package:,
                         project:,
                         units: 5.00,
                         user: other_user,
-                        cost_type:
+                        cost_type:)
   end
 
   before do
@@ -109,12 +107,12 @@ describe 'Only see your own rates', type: :feature, js: true do
     wp_page.ensure_page_loaded
   end
 
-  it 'only displays own entries and rates' do
+  it "only displays own entries and rates" do
     # All the values do not include the entries made by the other user
-    wp_page.expect_attributes spent_time: '1 h',
-                              costs_by_type: '2 Translations',
-                              overall_costs: '24.00 EUR',
-                              labor_costs: '10.00 EUR',
-                              material_costs: '14.00 EUR'
+    wp_page.expect_attributes spent_time: "1 h",
+                              costs_by_type: "2 Translations",
+                              overall_costs: "24.00 EUR",
+                              labor_costs: "10.00 EUR",
+                              material_costs: "14.00 EUR"
   end
 end

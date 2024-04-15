@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,13 +52,12 @@ class Queries::WorkPackages::Filter::TypeFilter <
     available_types = types.index_by(&:id)
 
     values
-      .map { |type_id| available_types[type_id.to_i] }
-      .compact
+      .filter_map { |type_id| available_types[type_id.to_i] }
   end
 
   private
 
   def types
-    project.nil? ? ::Type.order(Arel.sql('position')) : project.rolled_up_types
+    project.nil? ? ::Type.order(Arel.sql("position")) : project.rolled_up_types
   end
 end

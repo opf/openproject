@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,10 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
+RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -40,23 +40,21 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   end
 
   shared_let(:source_project) do
-    create :project,
+    create(:project,
            custom_field_values: {
-             text_custom_field.id => 'source text',
+             text_custom_field.id => "source text",
              list_custom_field.id => list_custom_field.custom_options.last.id
-           }
+           })
   end
 
   shared_let(:current_user) do
-    create :user,
-           member_in_project: source_project,
-           member_with_permissions: %i[copy_projects view_project view_work_packages]
+    create(:user,
+           member_with_permissions: { source_project => %i[copy_projects view_project view_work_packages] })
   end
 
   let(:path) { api_v3_paths.project_copy_form(source_project.id) }
   let(:params) do
-    {
-    }
+    {}
   end
 
   before do
@@ -67,20 +65,20 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
   subject(:response) { last_response }
 
-  it 'returns 200 FORM response', :aggregate_failures do
+  it "returns 200 FORM response", :aggregate_failures do
     expect(response.status).to eq(200)
 
     expect(response.body)
-      .to be_json_eql('Form'.to_json)
-            .at_path('_type')
+      .to be_json_eql("Form".to_json)
+            .at_path("_type")
 
     expect(Project.count)
       .to be 1
   end
 
-  it 'retains the values from the source project' do
+  it "retains the values from the source project" do
     expect(response.body)
-      .to be_json_eql('source text'.to_json)
+      .to be_json_eql("source text".to_json)
             .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
 
     expect(response.body)
@@ -88,8 +86,8 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
             .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
   end
 
-  it 'contains a meta property with copy properties for every module' do
-    ::Projects::CopyService.copyable_dependencies.each do |dep|
+  it "contains a meta property with copy properties for every module" do
+    Projects::CopyService.copyable_dependencies.each do |dep|
       identifier = dep[:identifier].to_s.camelize
       expect(response.body)
         .to be_json_eql(true.to_json)
@@ -97,9 +95,9 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     end
   end
 
-  it 'shows an empty name as not set' do
+  it "shows an empty name as not set" do
     expect(response.body)
-      .to be_json_eql(''.to_json)
+      .to be_json_eql("".to_json)
             .at_path("_embedded/payload/name")
 
     expect(response.body)
@@ -107,45 +105,45 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
             .at_path("_embedded/validationErrors/name/message")
   end
 
-  context 'updating the form payload' do
+  context "updating the form payload" do
     let(:params) do
       {
-        name: 'My copied project',
-        identifier: 'foobar',
-        "customField#{text_custom_field.id}": {
+        name: "My copied project",
+        identifier: "foobar",
+        text_custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         },
         statusExplanation: { raw: "A magic dwells in each beginning." },
         _links: {
-          "customField#{list_custom_field.id}": {
+          list_custom_field.attribute_name(:camel_case) => {
             href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
           },
           status: {
-            href: api_v3_paths.project_status('on_track')
+            href: api_v3_paths.project_status("on_track")
           }
         }
       }
     end
 
-    it 'sets those values' do
+    it "sets those values" do
       expect(response.body)
-        .to be_json_eql('My copied project'.to_json)
+        .to be_json_eql("My copied project".to_json)
               .at_path("_embedded/payload/name")
 
       expect(response.body)
-        .to be_json_eql('foobar'.to_json)
+        .to be_json_eql("foobar".to_json)
               .at_path("_embedded/payload/identifier")
 
       expect(response.body)
-        .to be_json_eql(api_v3_paths.project_status('on_track').to_json)
+        .to be_json_eql(api_v3_paths.project_status("on_track").to_json)
               .at_path("_embedded/payload/_links/status/href")
 
       expect(response.body)
-        .to be_json_eql('A magic dwells in each beginning.'.to_json)
+        .to be_json_eql("A magic dwells in each beginning.".to_json)
               .at_path("_embedded/payload/statusExplanation/raw")
 
       expect(response.body)
-        .to be_json_eql('CF text'.to_json)
+        .to be_json_eql("CF text".to_json)
               .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
 
       expect(response.body)
@@ -170,7 +168,7 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     end
   end
 
-  context 'when setting copy meta properties' do
+  context "when setting copy meta properties" do
     let(:params) do
       {
         _meta: {
@@ -179,8 +177,8 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
       }
     end
 
-    it 'sets all values to true' do
-      ::Projects::CopyService.copyable_dependencies.each do |dep|
+    it "sets all values to true" do
+      Projects::CopyService.copyable_dependencies.each do |dep|
         identifier = dep[:identifier].to_s.camelize
         expect(response.body)
           .to be_json_eql(true.to_json)
@@ -189,20 +187,20 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     end
   end
 
-  describe 'send_notification' do
-    context 'when not present' do
+  describe "send_notification" do
+    context "when not present" do
       let(:params) do
         {}
       end
 
-      it 'returns it as false' do
+      it "returns it as false" do
         expect(response.body)
-          .to be_json_eql(true.to_json)
+          .to be_json_eql(false.to_json)
                 .at_path("_embedded/payload/_meta/sendNotifications")
       end
     end
 
-    context 'when set to false' do
+    context "when set to false" do
       let(:params) do
         {
           _meta: {
@@ -211,14 +209,14 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
         }
       end
 
-      it 'returns it as false' do
+      it "returns it as false" do
         expect(response.body)
           .to be_json_eql(false.to_json)
                 .at_path("_embedded/payload/_meta/sendNotifications")
       end
     end
 
-    context 'when set to true' do
+    context "when set to true" do
       let(:params) do
         {
           _meta: {
@@ -227,7 +225,7 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
         }
       end
 
-      it 'returns it as true' do
+      it "returns it as true" do
         expect(response.body)
           .to be_json_eql(true.to_json)
                 .at_path("_embedded/payload/_meta/sendNotifications")
@@ -235,14 +233,13 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     end
   end
 
-  context 'without the necessary permission' do
+  context "without the necessary permission" do
     let(:current_user) do
-      create :user,
-             member_in_project: source_project,
-             member_with_permissions: %i[view_project view_work_packages]
+      create(:user,
+             member_with_permissions: { source_project => %i[view_project view_work_packages] })
     end
 
-    it 'returns 403 Not Authorized' do
+    it "returns 403 Not Authorized" do
       expect(response.status).to eq(403)
     end
   end

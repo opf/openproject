@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-$form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file)
+$form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file, date-picker)
+$base-line-height: 1.5
+$form-label-color: var(--body-font-color)
+$content-form-input-border: 1px solid var(--color-border-default)
 
 %input-style
-  border: var(--content-form-input-border)
+  border: $content-form-input-border
   border-radius: 2px
-  font-size: 0.9rem
+  font-size: var(--body-font-size)
 
-  &:hover, &:focus
+  &:focus
     border: var(--content-form-input-hover-border)
 
   vertical-align: middle
@@ -50,7 +53,6 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 
 %required-star
   @include default-transition
-  color: var(--primary-color-dark)
   content: '*'
   padding: 0 0.325rem
 
@@ -76,7 +78,7 @@ form
   &.-bordered
     padding: 30px 20px
     background-color: var(--content-form-bg-color)
-    border: var(--content-form-border)
+    border: 1px solid var(--color-border-muted)
 
     &.-compressed
       padding: 10px 20px 0 20px
@@ -110,7 +112,7 @@ form
       font-style: italic
 
     p.danger-zone--warning
-      font-weight: bold
+      font-weight: var(--base-text-weight-bold)
       color: var(--content-form-danger-zone-bg-color)
 
       span.icon,
@@ -140,7 +142,7 @@ form
       .button
         @extend %input--sizing
 
-        &.-highlight
+        &.-primary
           background: var(--content-form-danger-zone-bg-color)
           color: var(--content-form-danger-zone-font-color)
           border-color: var(--content-form-danger-zone-bg-color)
@@ -179,7 +181,7 @@ hr
   border: 0
 
   &.form--separator
-    border-bottom: 1px solid var(--content-form-separator-color)
+    border-bottom: 1px solid var(--color-border-muted)
     margin: 0 0 30px
     background: none
 
@@ -225,11 +227,11 @@ hr
 
 %form--fieldset-legend-or-section-title
   color: #4d4d4d
-  font-size: 1rem
-  font-weight: bold
+  font-size: var(--body-font-size)
+  font-weight: var(--base-text-weight-bold)
   line-height: 1.8
   text-transform: uppercase
-  border-bottom: 1px solid $gray
+  border-bottom: 1px solid var(--color-border-muted)
 
 // HACK. TODO: Remove fieldset element rules in various places.
 .form--fieldset,
@@ -261,14 +263,15 @@ fieldset.form--fieldset
       @include icon-mixin-arrow-down1
       padding: 0.625rem 0.25rem 0 0.25rem
 
-#sidebar .form--fieldset-legend
+#main-menu .form--fieldset-legend
   color: var(--main-menu-fieldset-header-color)
+  margin-bottom: 1rem
 
 .form--toolbar
   float: right
   text-align: right
   color: #4d4d4d
-  font-size: 1rem
+  font-size: var(--body-font-size)
   font-style: italic
   line-height: 1.8
   margin-top: -1.8rem
@@ -316,6 +319,12 @@ fieldset.form--fieldset
   // to the container because it's duplicated there.
   &.-visible-overflow .form--field-container
     overflow: visible
+
+  &.-align-start
+    align-items: start
+
+  &.-top-margin
+    margin-top: 1rem
 
   &.-vertical,
   .form.-vertical &
@@ -392,7 +401,7 @@ fieldset.form--fieldset
   &.-error
     @extend .icon-error
     color: var(--content-form-error-color)
-    font-weight: bold
+    font-weight: var(--base-text-weight-bold)
 
     &::before
       @include icon-common
@@ -401,7 +410,11 @@ fieldset.form--fieldset
       padding-right: 0.325rem
 
   &.-bold
-    font-weight: bold
+    font-weight: var(--base-text-weight-bold)
+
+  &.-flex
+    display: flex
+    align-items: center
 
   &.-top
     align-self: flex-start
@@ -420,22 +433,36 @@ fieldset.form--fieldset
   flex-grow: 2
   align-items: stretch
 
+  .option-label .option-label--select
+    margin-left: $spot-spacing-1
+
   &.-wrap-around
     display: flex
     flex-wrap: wrap
+
+  &.-empty
+    margin-bottom: 1rem
+
+  &.-with-children-spacing
+    > *:not(:last-child)
+      margin-right: 0.5rem
 
   &.-vertical
     display: block
 
   &.-horizontal
     flex-direction: column
-    
-    @include breakpoint(1080px up)
+
+    @include breakpoint(lg)
       flex-direction: row
       flex-wrap: wrap
 
       > *:last-child
         margin-right: auto
+
+  &.-enterprise-restricted
+    flex-direction: column
+    align-items: start
 
   .form--field.-visible-overflow &
     overflow: visible
@@ -507,6 +534,22 @@ fieldset.form--fieldset
   &.-labeled-checkbox
     margin-left: 25px
 
+  &.-with-bottom-spacing
+    margin-bottom: 1rem
+
+  .form--field.-vertical &
+    @include grid-size(12)
+    @include grid-offset(0)
+
+.form--field-error
+  @extend %form--field-after-container
+  font-style: italic
+  max-width: 500px
+  color: var(--content-form-error-color)
+
+  &.-with-bottom-spacing
+    margin-bottom: 1rem
+
 .form--inline-instructions
   font-style: italic
   display: inline
@@ -537,7 +580,7 @@ fieldset.form--fieldset
       max-width: 50px
 
     &.-xslim
-      max-width: 110px
+      max-width: 120px
 
     &.-slim
       max-width: 200px
@@ -569,11 +612,11 @@ fieldset.form--fieldset
 #{$text-input-selectors},
 select
   line-height: 100%
-  margin-bottom: 0rem
-  font-size: 0.9rem
+  margin-bottom: 0
+  font-size: var(--body-font-size)
 
-  &:hover, &:focus, &:active
-    border-color: #999
+  &:focus, &:active
+    border-color: var(--color-accent-fg)
 
 .-hide-placeholder-on-focus
   &:focus::placeholder
@@ -589,10 +632,6 @@ select
     &:focus,
     &:active
       border-color: transparent
-
-    // But as an indicator, do show one on hover
-    &:hover
-      border-color: #999
 
 select
   &[disabled=disabled],
@@ -723,7 +762,7 @@ input[readonly].-clickable
   margin-bottom: 0.8rem
 
 .form--matrix
-  border: var(--content-form-input-border)
+  border: $content-form-input-border
   border-radius: 2px
   background: none
   margin: 0 0 2rem 0
@@ -731,9 +770,9 @@ input[readonly].-clickable
   line-height: 1.5
 
 .form--matrix-header-row
-  font-weight: bold
-  border-bottom: var(--content-form-input-border)
-  background-color: $gray-light
+  font-weight: var(--base-text-weight-bold)
+  border-bottom: $content-form-input-border
+  background-color: var(--gray-light)
 
 .form--matrix-header-cell
   padding: 0 1rem
@@ -741,7 +780,7 @@ input[readonly].-clickable
 .form--matrix-row
 
   &:nth-child(odd)
-    background-color: $gray-light
+    background-color: var(--gray-light)
 
   &:nth-child(even)
     background-color: white
@@ -782,9 +821,6 @@ input[readonly].-clickable
     .form--field.-required > &
       &::after
         @extend %required-star
-
-      &:hover::after
-        color: var(--primary-color)
 
     > a
       display: block
@@ -828,16 +864,26 @@ input[readonly].-clickable
     top: -1px
     position: relative
 
+.form--label-with-radio-button
+  display: block
+  clear: both
+  line-height: $base-line-height
+  padding: 0 2rem 0 0
+
+  & > .form--radio-button-container
+    display: block
+    float: left
+    padding-right: 0.5rem
+
 .form--field-affix
   flex: 0 0 auto
   display: flex
   font-size: 0.9rem
-  background: $inlinelabel-background
-  color: $inlinelabel-color
-  border: var(--content-form-input-border)
-  // OR $inlinelabel-border
+  background: #EEEEEE
+  color: var(--body-font-color)
+  border: $content-form-input-border
   border-radius: 2px
-  padding: 0 $form-padding
+  padding: 0 0.5rem
   margin-bottom: 0rem
   align-items: center
   line-height: 1
@@ -891,10 +937,10 @@ input[readonly].-clickable
   margin: 0
   @include grid-layout(3)
 
-  @include breakpoint(large)
+  @media screen and (max-width: $breakpoint-lg)
     @include grid-layout(4)
 
-  @include breakpoint(xlarge)
+  @media screen and (max-width: $breakpoint-xl)
     @include grid-layout(6)
 
   li, div
@@ -905,25 +951,10 @@ input[readonly].-clickable
 textarea
   text-rendering: optimizeLegibility
 
-// Overwriting Foundation color variables.
-// Unfortunatel I do not know how to get it DRY.
-input[type=range]::-moz-range-thumb
-  background: var(--primary-color)
-
-input[type=range]::-webkit-slider-thumb
-  background: var(--primary-color)
-
-input[type=range]::-ms-thumb
-  background: var(--primary-color)
-
-input[type=range]::-moz-range-thumb:hover
-  background: var(--primary-color-dark)
-
-input[type=range]::-webkit-slider-thumb:hover
-  background: var(--primary-color-dark)
-
-input[type=range]::-ms-thumb:hover
-  background: var(--primary-color-dark)
+// Date and time inputs should be left-aligned on iOS
+input[type=date], input[type=time]
+  &::-webkit-date-and-time-value
+    text-align: left !important
 
 // Special handling for the permissions_form of Admin/Roles --> permission report
 // Since FF ESR is not able to handle the overflow of fieldsets correctly, a workaround is needed.

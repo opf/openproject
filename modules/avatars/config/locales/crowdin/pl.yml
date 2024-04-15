@@ -1,5 +1,9 @@
 #English strings go here
 pl:
+  plugin_openproject_avatars:
+    name: "Awatary"
+    description: >-
+      Ta wtyczka pozwala użytkownikom OpenProject na przesyłanie obrazu jako awatar lub używanie zarejestrowanych obrazów z Gravatar.
   label_avatar: "Awatar"
   label_avatar_plural: "Awatary"
   label_current_avatar: "Bieżący awatar"
@@ -35,6 +39,3 @@ pl:
       enable_gravatars: 'Włącz Gravatary użytkownika'
       gravatar_default: "Domyślny obraz Gravatar"
       enable_local_avatars: 'Włącz niestandardowe awatary użytkownika'
-
-
-

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 module Projects::Copy
   class MembersDependentService < Dependency
     def self.human_name
-      I18n.t(:'projects.copy.members')
+      I18n.t(:"projects.copy.members")
     end
 
     def source_count
@@ -54,7 +54,7 @@ module Projects::Copy
       return if role_ids.empty?
 
       attributes = member
-                     .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
+                     .attributes.dup.except("id", "project_id", "created_at", "updated_at")
                      .merge(role_ids:,
                             project: target,
                             # This is magic for now. The settings has been set before in the Projects::CopyService

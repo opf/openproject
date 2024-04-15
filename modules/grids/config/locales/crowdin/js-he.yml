@@ -1,22 +1,23 @@
 he:
   js:
     grid:
-      add_widget: 'Add widget'
+      add_widget: 'הוסף ווידג''ט'
       remove: 'הסר רכיב'
       configure: 'הגדר תוסף'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
-          title: 'Custom text'
+          title: 'טקסט מותאם אישית'
         documents:
-          title: 'Documents'
-          no_results: 'No documents yet.'
+          title: 'מסמכים'
+          no_results: 'עדיין אין מסמכים'
         members:
-          title: 'Members'
+          title: 'חברים'
           no_results: 'No visible members.'
-          view_all_members: 'View all members'
+          view_all_members: 'הצגת כל החברים'
           add: 'חבר'
           too_many: 'Displaying %{count} of %{total} members.'
         news:
@@ -24,10 +25,10 @@ he:
           at: 'at'
           no_results: 'Nothing new to report.'
         project_description:
-          title: 'Project description'
+          title: 'תיאור הפרויקט'
           no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
-          title: 'Project details'
+          title: 'פרטי הפרויקט'
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'מצב הפרוייקט'
@@ -36,16 +37,16 @@ he:
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Not set'
-          finished: 'Finished'
+          finished: 'הסתיים'
           discontinued: 'Discontinued'
         subprojects:
-          title: 'Subprojects'
+          title: 'תת־פרויקטים'
           no_results: 'No subprojects.'
         time_entries_current_user:
-          title: 'My spent time'
+          title: 'הזמן שהשקעתי'
           displayed_days: 'מספר ימים בתוסף:'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
+          title: 'זמן משוקע(7 ימים אחרונים)'
           no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
           title: "Work packages I am accountable for"

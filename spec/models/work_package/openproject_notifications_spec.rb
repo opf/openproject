@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 ##
 # Tests that email notifications will be sent upon creating or changing a work package.
-describe WorkPackage, type: :model, with_settings: { journal_aggregation_time_minutes: 0 } do
-  describe 'OpenProject notifications' do
-    shared_let(:admin) { create :admin }
+RSpec.describe WorkPackage, with_settings: { journal_aggregation_time_minutes: 0 } do
+  describe "OpenProject notifications" do
+    shared_let(:admin) { create(:admin) }
 
-    let(:project) { create :project }
+    let(:project) { create(:project) }
     let(:work_package) do
-      create :work_package,
+      create(:work_package,
              author: admin,
-             subject: 'I can see you',
-             project:
+             subject: "I can see you",
+             project:)
     end
 
     let(:journal_ids) { [] }
@@ -54,7 +54,7 @@ describe WorkPackage, type: :model, with_settings: { journal_aggregation_time_mi
       OpenProject::Notifications.unsubscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY, subscription)
     end
 
-    context 'when after creation' do
+    context "when after creation" do
       before do
         work_package
         perform_enqueued_jobs
@@ -65,13 +65,13 @@ describe WorkPackage, type: :model, with_settings: { journal_aggregation_time_mi
       end
     end
 
-    describe 'when after update' do
+    describe "when after update" do
       before do
         work_package
         perform_enqueued_jobs
         journal_ids.clear
 
-        work_package.update(subject: 'the wind of change')
+        work_package.update(subject: "the wind of change")
 
         perform_enqueued_jobs
       end

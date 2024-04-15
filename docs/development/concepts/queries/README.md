@@ -9,7 +9,7 @@ keywords: queries, query space, work package views
 
 # Query
 
-The Query object is the concept of holding the configuration for a specific work package view as well as computing and outputting its results.  They are fundamental building blocks in OpenProject and used in many modules (Work packages, BIM, boards, timeline, embedded tables).  Their flexibility allows for building complex features with relatively little effort on the backend side. For an OpenProject developer who wants to improve or create new features it is fundamental to understand how queries work. 
+The Query object is the concept of holding the configuration for a specific work package view as well as computing and outputting its results.  They are fundamental building blocks in OpenProject and used in many modules (Work packages, BIM, boards, timeline, embedded tables).  Their flexibility allows for building complex features with relatively little effort on the backend side. For an OpenProject developer who wants to improve or create new features it is fundamental to understand how queries work.
 
 Most of the communication in OpenProject is organized in work packages. Work packages are managed and displayed in many different places, such as the work package table in the *Work packages* module, or as cards the *Boards* module, within the *Calendar* or in *My page* widgets, such as charts for instance. Even the list of child work packages within a work package is a query.
 
@@ -58,12 +58,12 @@ Currently, the Queries endpoint and object is highly specific to work packages, 
 
 Queries are regular APIv3 grape endpoints that can be accessed through the `/api/v3/queries` namespace. In general, they can be maintained in two ways:
 
-1. By accessing a previously saved query by their ID such as `/api/v3/queries/2453` ([Example JSON response](https://community.openproject.com/api/v3/queries/2453) on community)
-2. By setting dynamic GET parameters on a saved or `default` query such as `/api/v3/queries/default?columns[]=id` ([Example JSON response](https://community.openproject.com/api/v3/queries/default?columns[]=id) on community)
+1. By accessing a previously saved query by their ID such as `/api/v3/queries/2453` ([Example JSON response](https://community.openproject.org/api/v3/queries/2453) on community)
+2. By setting dynamic GET parameters on a saved or `default` query such as `/api/v3/queries/default?columns[]=id` ([Example JSON response](https://community.openproject.org/api/v3/queries/default?columns[]=id) on community)
 
 The default query `/api/v3/queries/default`  and `/api/v3/:project_id/queries/default` contains a default set of configuration (back-end and front-end) global and for the given project, respectively. They can only be modified administrators through some global settings.
 
-A number of parameters can be passed to the Query through parameters as elaborated on in [the respective APIv3 documentation](../../../api/endpoints/queries/).
+A number of parameters can be passed to the Query through parameters as elaborated on in [the APIv3 Queries documentation](../../../api/endpoints/queries/).
 
 Clients can define a query once, save it and use it later on to load the same set of filters, columns, and so on. When retrieved from the database (a query id is passed), the query has been previously stored. Saved properties may be overridden through URL parameters, which override the existing saved query.
 
@@ -71,7 +71,7 @@ Clients can define a query once, save it and use it later on to load the same se
 
 ### Query collections responses
 
-Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 section](../../../api/endpoints/queries/).
+Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 Queries filtering section](../../../api/endpoints/queries/#query-filter-instance).
 
 This response will end up representing the available queries on the `work packages` module sidebar as shown below.
 
@@ -84,7 +84,7 @@ When accessing a singular query resource, the response will always contain the s
 - **Basic properties** of the query object itself
   - `id` of the query (if any)
   - `name` of the query set by the saving user
-  - `starred` whether the user favorited this query (special place in sidebar)
+  - `starred` whether the user favorites this query (special place in sidebar)
   - `public` whether the query is shared with other users
   - `createdAt` / `updatedAt` timestamps for the resource
   - `_links.project` to the project it is saved in (if project-scoped)
@@ -94,7 +94,7 @@ When accessing a singular query resource, the response will always contain the s
   - `filters` selected filters array
   - `columns` embedded array of selected `columns`
   - `sortBy` array of one or multiple sort criteria.
-  - `groupBy` (optional) information on whether results are aggregated into groups 
+  - `groupBy` (optional) information on whether results are aggregated into groups
 - **Results** of work packages embedded in `_embedded.results`, showing the total number of matched results, as well as including the requested _page_ of results. The results will contain work package resources and the schema objects necessary to render them to reduce requests.
 
 ### Filtering
@@ -105,13 +105,13 @@ A major, but complex functionality of the query is the `filters` object to deter
 
 
 
-These filters are also saved within the queries. If you would like to read more about how filters and their syntax work, you will find [their own documentation guide here](../../../api/filters/).
+These filters are also saved within the queries. Read the [APIv3 filters documentation guide](../../../api/filters/) to know more about how filters and their syntax work.
 
 
 
 ### Exemplary query response
 
-Due to the public nature of the OpenProject community, you can check out the following exemplary query response in HAL+JSON: [community.openproject.com/api/v3/queries/2453](https://community.openproject.com/api/v3/queries/2453)
+Due to the public nature of the OpenProject community, you can check out the following exemplary query response in HAL+JSON: [community.openproject.org/api/v3/queries/2453](https://community.openproject.org/api/v3/queries/2453)
 
 It returns a saved query for the OpenProject 11.0 release, with a type filter `type is not [Idea, Phase, Release]` , a version filter `version = 11.0.0` and a "show all subprojects" filter with `subProject = all` . It is sorted by `type ascending`.
 
@@ -175,7 +175,6 @@ In practice, you will likely not only access the query resource itself, but rath
 
 The `WorkPackagesListService` can also update and save existing queries passed to it. This flow will often happen in the [`PartitionedQuerySpaceComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.ts), which is the basis for the modules showing work packages as a table or grid such as the [`WorkPackageViewPageComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/wp-view-page/wp-view-page.component.ts) or the [`IfcViewerPageComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/bim/ifc_models/pages/viewer/ifc-viewer-page.component.ts).
 
-`PartitionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as [community.openproject.com/work_packages](https://community.openproject.com/work_packages).
+`PartitionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as [community.openproject.org/work_packages](https://community.openproject.org/work_packages).
 
 The partitioning comes from showing a work package table (or cards view) on one side, and a details view of a single work package on another side, splitting the page in two. The width of the split areas can be customized by the user through a drag-handle.
-

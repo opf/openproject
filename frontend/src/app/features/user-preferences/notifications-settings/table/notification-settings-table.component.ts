@@ -13,6 +13,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
   selector: 'op-notification-settings-table',
@@ -64,6 +65,7 @@ export class NotificationSettingsTableComponent implements OnInit {
     },
     assignee: this.I18n.t('js.notifications.settings.reasons.assignee'),
     responsible: this.I18n.t('js.notifications.settings.reasons.responsible'),
+    shared: this.I18n.t('js.notifications.settings.reasons.shared'),
     watched_header: this.I18n.t('js.notifications.settings.reasons.watched'),
     work_package_commented_header: this.I18n.t('js.notifications.settings.reasons.work_package_commented'),
     work_package_created_header: this.I18n.t('js.notifications.settings.reasons.work_package_created'),
@@ -80,6 +82,7 @@ export class NotificationSettingsTableComponent implements OnInit {
     private I18n:I18nService,
     private pathHelper:PathHelperService,
     readonly bannersService:BannersService,
+    readonly configurationService:ConfigurationService,
   ) {}
 
   ngOnInit():void {
@@ -95,6 +98,7 @@ export class NotificationSettingsTableComponent implements OnInit {
       project: new UntypedFormControl(project),
       assignee: new UntypedFormControl(false),
       responsible: new UntypedFormControl(false),
+      shared: new UntypedFormControl(false),
       workPackageCreated: new UntypedFormControl(false),
       workPackageProcessed: new UntypedFormControl(false),
       workPackageScheduled: new UntypedFormControl(false),

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ class CostQuery < ApplicationRecord
   belongs_to :project
 
   before_save :serialize
-  serialize :serialized, Hash
+  serialize :serialized, type: Hash
 
   def_delegators :result, :real_costs
 
@@ -60,24 +60,24 @@ class CostQuery < ApplicationRecord
 
   def self.public(project)
     if project
-      CostQuery.where(['is_public = ? AND (project_id IS NULL OR project_id = ?)', true, project])
-        .order(Arel.sql('name ASC'))
+      CostQuery.where(["is_public = ? AND (project_id IS NULL OR project_id = ?)", true, project])
+        .order(Arel.sql("name ASC"))
     else
-      CostQuery.where(['is_public = ? AND project_id IS NULL', true])
-        .order(Arel.sql('name ASC'))
+      CostQuery.where(["is_public = ? AND project_id IS NULL", true])
+        .order(Arel.sql("name ASC"))
     end
   end
 
   def self.private(project, user)
     if project
-      CostQuery.where(['user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)',
+      CostQuery.where(["user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)",
                        user,
                        false,
                        project])
-        .order(Arel.sql('name ASC'))
+        .order(Arel.sql("name ASC"))
     else
-      CostQuery.where(['user_id = ? AND is_public = ? AND project_id IS NULL', user, false])
-        .order(Arel.sql('name ASC'))
+      CostQuery.where(["user_id = ? AND is_public = ? AND project_id IS NULL", user, false])
+        .order(Arel.sql("name ASC"))
     end
   end
 
@@ -87,13 +87,13 @@ class CostQuery < ApplicationRecord
 
   def serialize
     # have to take the reverse group_bys to retain the original order when deserializing
-    self.serialized = { filters: (filters.map(&:serialize).reject(&:nil?).sort { |a, b| a.first <=> b.first }),
+    self.serialized = { filters: filters.map(&:serialize).reject(&:nil?).sort_by(&:first),
                         group_bys: group_bys.map(&:serialize).reject(&:nil?).reverse }
   end
 
   def deserialize
     if @chain
-      raise ArgumentError, 'Cannot deserialize a report which already has a chain'
+      raise ArgumentError, "Cannot deserialize a report which already has a chain"
     else
       hash = serialized || serialize
       self.class.deserialize(hash, self)
@@ -214,9 +214,9 @@ class CostQuery < ApplicationRecord
 
   def cache_key
     deserialize unless @chain
-    parts = [self.class.table_name.sub('_reports', '')]
-    parts.concat [filters.sort, group_bys].map { |l| l.map(&:cache_key).join(' ') }
-    parts.join '/'
+    parts = [self.class.table_name.sub("_reports", "")]
+    parts.concat([filters.sort, group_bys].map { |l| l.map(&:cache_key).join(" ") })
+    parts.join "/"
   end
 
   def self.engine

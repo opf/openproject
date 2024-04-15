@@ -1,10 +1,14 @@
 #English strings go here
 de:
+  plugin_openproject_team_planner:
+    name: "OpenProject-Teamplaner"
+    description: "Stellt Ansichten für Teamplaner zur Verfügung."
   permission_view_team_planner: "Teamplaner anzeigen"
   permission_manage_team_planner: "Teamplaner verwalten"
   project_module_team_planner_view: "Teamplaner"
   team_planner:
     label_team_planner: "Teamplaner"
+    label_new_team_planner: "Neuer Teamplaner"
     label_create_new_team_planner: "Neuen Teamplaner erstellen"
     label_team_planner_plural: "Teamplaner"
     label_assignees: "Zugewiesene Benutzer"

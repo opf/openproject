@@ -27,12 +27,12 @@ import { IProjectAutocompleteItem } from 'core-app/shared/components/autocomplet
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'op-ium-project-selection',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project-selection.component.html',
-  styleUrls: ['./project-selection.component.sass'],
 })
 export class ProjectSelectionComponent implements OnInit {
   @Input() type:PrincipalType;
@@ -152,7 +152,7 @@ export class ProjectSelectionComponent implements OnInit {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const projectId = idFromLink(this.projectControl?.value?.href);
-    const project = await this.apiV3Service.projects.id(projectId).get().toPromise();
+    const project = await firstValueFrom(this.apiV3Service.projects.id(projectId).get());
 
     this.save.emit({
       project,
@@ -160,7 +160,7 @@ export class ProjectSelectionComponent implements OnInit {
     });
   }
 
-  APIFiltersForProjects = [['active', '=', true]];
+  APIFiltersForProjects:IAPIFilter[] = [{ name: 'active', operator: '=', values: ['t'] }];
 
   projectFilterFn(projects:IProjectAutocompleteItem[]):IProjectAutocompleteItem[] {
     const mapped = projects.map((project) => {

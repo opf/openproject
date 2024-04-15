@@ -1,19 +1,32 @@
 "no":
+  plugin_openproject_openid_connect:
+    name: "OpenProject OpenID tilkobling"
+    description: "Legger til OmniAuth OpenID Koble strategileverandører til Openproject."
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Du har blitt logget ut. Innholdet kan gå tapt. Vennligst [logg in].
   activemodel:
     attributes:
       openid_connect/provider:
         name: Navn
-        display_name: Display name
+        display_name: Visningsnavn
         identifier: Identifikator
-        secret: Secret
-        scope: Scope
+        secret: Hemmelig
+        scope: Omfang
+        limit_self_registration: Begrens egenregistrering
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: OpenID leverandører
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Legg til ny OpenID-leverandør
+      label_edit: Rediger OpenID-leverandør %{name}
+      no_results_table: Ingen leverandører har blitt definert ennå.
+      plural: OpenID leverandører
+      singular: OpenID-leverandør
+    setting_instructions:
+      azure_deprecation_warning: >
+        Den konfigurerte Asur-appen peker på et utdatert API fra Azure. Vennligst lag en ny Azure app for å sikre funksjonaliteten i fremtiden.
+      azure_graph_api: >
+        Bruk «graph.microsoft.com»-brukerinfo til å be om brukerdata. Dette skal være standard med mindre du har en eldre azure applikasjon.
+      azure_tenant_html: >
+        Sett leverandøren av ditt azure endepunkt. Dette vil kontrollere hvem som får tilgang til OpenProject instansen. For mer informasjon, se <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">vår brukerveiledning på Azure OpenID tilkobling</a>.
+      limit_self_registration: >
+        Hvis aktivert kan brukere bare registrere seg ved hjelp av denne leverandøren hvis selvregistreringsinnstillingen tillater det.

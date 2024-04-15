@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ module OpenProject::TextFormatting
       ##
       # Faster inclusion check before the regex is being applied
       def self.applicable?(content)
-        content.include?('Label:') || content.include?('Value:')
+        content.include?("Label:") || content.include?("Value:")
       end
 
       def self.process_match(m, _matched_string, _context)
@@ -59,9 +59,8 @@ module OpenProject::TextFormatting
         }
         type = m[2].downcase
 
-        ApplicationController.helpers.content_tag :macro,
-                                                  '',
-                                                  class: "macro--attribute-#{type}",
+        ApplicationController.helpers.content_tag "opce-macro-attribute-#{type}",
+                                                  "",
                                                   data: macro_attributes
       end
     end

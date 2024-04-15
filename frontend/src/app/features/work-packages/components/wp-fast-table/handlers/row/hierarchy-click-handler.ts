@@ -29,7 +29,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
     return jQuery(view.workPackageTable.tbody);
   }
 
-  public processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
+  public processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):void {
     const target = jQuery(evt.target);
 
     // Locate the row from event
@@ -40,6 +40,5 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
 
     evt.stopImmediatePropagation();
     evt.preventDefault();
-    return false;
   }
 }

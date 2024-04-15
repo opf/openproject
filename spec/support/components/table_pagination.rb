@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,21 +35,21 @@ module Components
     def expect_range(from, to, total)
       within_pagination do
         expect(page)
-          .to have_selector('.op-pagination--range', text: "(#{from} - #{to}/#{total})")
+          .to have_css(".op-pagination--range", text: "(#{from} - #{to}/#{total})")
       end
     end
 
     def expect_no_per_page_options
       within_pagination do
         expect(page)
-          .to have_no_selector('.op-pagination--options')
+          .to have_no_css(".op-pagination--options")
       end
     end
 
     protected
 
     def within_pagination(&)
-      within('.op-pagination', &)
+      within(".op-pagination", &)
     end
   end
 end

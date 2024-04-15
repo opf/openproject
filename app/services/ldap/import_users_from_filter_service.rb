@@ -22,7 +22,7 @@ module Ldap
       ldap_con.search(
         base: ldap.base_dn,
         filter: filter & ldap.default_filter,
-        attributes: ldap.search_attributes(true),
+        attributes: ldap.search_attributes,
         &
       )
     end

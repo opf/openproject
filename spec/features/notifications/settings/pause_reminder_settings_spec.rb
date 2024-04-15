@@ -1,10 +1,10 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe "Pause reminder settings", type: :feature, js: true do
-  shared_examples 'pause reminder settings' do
+RSpec.describe "Pause reminder settings", :js, :with_cuprite do
+  shared_examples "pause reminder settings" do
     let(:first) { Time.zone.today.beginning_of_month }
     let(:last) { (Time.zone.today.beginning_of_month + 10.days) }
-    it 'allows to configure the reminder settings' do
+    it "allows to configure the reminder settings" do
       # Save prefs so we can reload them later
       pref.save!
 
@@ -14,21 +14,19 @@ describe "Pause reminder settings", type: :feature, js: true do
       # By default the pause reminder is unchecked
       reminders_settings_page.expect_paused false
 
-      reminders_settings_page.set_paused true,
-                                         first: first,
-                                         last: last
-
-      sleep 2
+      reminders_settings_page.set_paused(true,
+                                         first:,
+                                         last:)
 
       reminders_settings_page.save
 
-      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
 
       reminders_settings_page.reload!
 
-      reminders_settings_page.expect_paused true,
-                                            first: first,
-                                            last: last
+      reminders_settings_page.expect_paused(true,
+                                            first:,
+                                            last:)
 
       pref.reload
       expect(pref.pause_reminders[:enabled]).to be true
@@ -37,27 +35,27 @@ describe "Pause reminder settings", type: :feature, js: true do
     end
   end
 
-  context 'with the my page' do
+  context "with the my page" do
     let(:reminders_settings_page) { Pages::My::Reminders.new(current_user) }
     let(:pref) { current_user.pref }
 
     current_user do
-      create :user
+      create(:user)
     end
 
-    it_behaves_like 'pause reminder settings'
+    it_behaves_like "pause reminder settings"
   end
 
-  context 'with the user administration page' do
+  context "with the user administration page" do
     let(:reminders_settings_page) { Pages::Reminders::Settings.new(other_user) }
 
-    let(:other_user) { create :user }
+    let(:other_user) { create(:user) }
     let(:pref) { other_user.pref }
 
     current_user do
-      create :admin
+      create(:admin)
     end
 
-    it_behaves_like 'pause reminder settings'
+    it_behaves_like "pause reminder settings"
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Query name inline edit', js: true do
+RSpec.describe "Query name inline edit", :js do
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_work_packages
                            save_queries])
   end
@@ -51,21 +49,21 @@ describe 'Query name inline edit', js: true do
 
   let(:assignee_query) do
     query = create(:query,
-                   name: 'Assignee Query',
+                   name: "Assignee Query",
                    project:,
                    user:)
 
-    query.add_filter('assigned_to_id', '=', [user.id])
+    query.add_filter("assigned_to_id", "=", [user.id])
     query.save!
 
     query
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
 
   before do
     login_as(user)
@@ -73,7 +71,7 @@ describe 'Query name inline edit', js: true do
     wp_table.visit_query assignee_query
   end
 
-  it 'allows renaming the query and shows changed state' do
+  it "allows renaming the query and shows changed state" do
     wp_table.expect_work_package_listed work_package
     query_title.expect_not_changed
 
@@ -92,7 +90,7 @@ describe 'Query name inline edit', js: true do
 
     # TODO: The notification should actually not be shown at all since no update
     # has taken place
-    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: "Successful update."
 
     assignee_query.reload
     expect(assignee_query.filters.count).to eq(1)
@@ -103,35 +101,35 @@ describe 'Query name inline edit', js: true do
     expect(url).not_to match(/query_props=.+/)
 
     # Rename query
-    query_title.rename 'Not my assignee query'
-    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
+    query_title.rename "Not my assignee query"
+    wp_table.expect_and_dismiss_toaster message: "Successful update."
 
     assignee_query.reload
-    expect(assignee_query.name).to eq 'Not my assignee query'
+    expect(assignee_query.name).to eq "Not my assignee query"
 
     # Rename query through context menu
-    wp_table.click_setting_item 'Rename view ...'
+    wp_table.click_setting_item "Rename view"
 
-    expect(page).to have_focus_on('.editable-toolbar-title--input')
-    page.driver.browser.switch_to.active_element.send_keys('Some other name')
+    expect(page).to have_focus_on(".editable-toolbar-title--input")
+    page.driver.browser.switch_to.active_element.send_keys("Some other name")
     page.driver.browser.switch_to.active_element.send_keys(:return)
 
-    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: "Successful update."
 
     assignee_query.reload
-    expect(assignee_query.name).to eq 'Some other name'
+    expect(assignee_query.name).to eq "Some other name"
   end
 
-  it 'shows the save icon when changing the columns (Regression #32835)' do
+  it "shows the save icon when changing the columns (Regression #32835)" do
     wp_table.expect_work_package_listed work_package
     query_title.expect_not_changed
 
     modal.open!
-    modal.switch_to 'Columns'
+    modal.switch_to "Columns"
 
     columns.assume_opened
     columns.uncheck_all save_changes: false
-    columns.add 'Subject', save_changes: true
+    columns.add "Subject", save_changes: true
 
     query_title.expect_changed
   end

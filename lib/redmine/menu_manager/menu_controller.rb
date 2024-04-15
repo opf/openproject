@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ module Redmine::MenuManager::MenuController
     end
 
     def current_menu_item(actions = :default, &block)
-      raise ArgumentError '#current_menu_item requires a block' unless block_given?
+      raise ArgumentError "#current_menu_item requires a block" unless block
 
       if actions == :default
         menu_items[controller_path.to_sym][:default] = block
@@ -80,7 +80,7 @@ module Redmine::MenuManager::MenuController
                          elsif @current_menu_item.is_a?(Proc)
                            @current_menu_item.call(self)
                          else
-                           raise ArgumentError 'Invalid'
+                           raise ArgumentError "Invalid"
                          end
 
     @current_menu_item_determined = true
@@ -110,6 +110,6 @@ module Redmine::MenuManager::MenuController
   end
 
   def user_allowed_to_access_item?(project, item)
-    item && User.current.allowed_to?(item.url(project), project) && (item.condition.nil? || item.condition.call(project))
+    item && User.current.allowed_in_project?(item.url(project), project) && (item.condition.nil? || item.condition.call(project))
   end
 end

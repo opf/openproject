@@ -1,13 +1,13 @@
 module Webhooks
   class Log < ApplicationRecord
-    belongs_to :webhook, foreign_key: :webhooks_webhook_id, class_name: '::Webhooks::Webhook', dependent: :destroy
+    belongs_to :webhook, foreign_key: :webhooks_webhook_id, class_name: "::Webhooks::Webhook", dependent: :destroy
 
     validates :url, presence: true
     validates :event_name, presence: true
     validates :response_code, presence: true
 
-    serialize :response_headers, Hash
-    serialize :request_headers, Hash
+    serialize :response_headers, type: Hash
+    serialize :request_headers, type: Hash
 
     validates :request_headers, presence: true
     validates :request_body, presence: true

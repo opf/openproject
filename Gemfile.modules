@@ -10,11 +10,11 @@ end
 
 gem 'omniauth-openid_connect-providers',
     git: 'https://github.com/opf/omniauth-openid_connect-providers.git',
-    ref: 'a6c0c3ed78fac79cf4d007e40d4029e524ec7751'
+    ref: 'c7e2498a8b093cfc5693d4960cae2e903a5e10cd'
 
 gem 'omniauth-openid-connect',
     git: 'https://github.com/opf/omniauth-openid-connect.git',
-    ref: '27d9d4a05c80a9b29709ae8681696de11156e0e5'
+    ref: 'd63f5967514d10db9ddece798dadfa2ac532cbe0'
 
 group :opf_plugins do
     # included so that engines can reference OpenProject::Version
@@ -28,12 +28,12 @@ group :opf_plugins do
   gem 'costs',                                 path: 'modules/costs'
   gem 'openproject-reporting',                 path: 'modules/reporting'
   gem 'openproject-meeting',                   path: 'modules/meeting'
-  gem 'openproject-pdf_export',                path: 'modules/pdf_export'
   gem "openproject-backlogs",                  path: 'modules/backlogs'
   gem 'openproject-avatars',                   path: 'modules/avatars'
   gem 'openproject-two_factor_authentication', path: 'modules/two_factor_authentication'
   gem 'openproject-webhooks',                  path: 'modules/webhooks'
   gem 'openproject-github_integration',        path: 'modules/github_integration'
+  gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'
   gem 'openproject-ldap_groups',               path: 'modules/ldap_groups'
   gem 'openproject-recaptcha',                 path: 'modules/recaptcha'
   gem 'openproject-job_status',                path: 'modules/job_status'
@@ -45,6 +45,7 @@ group :opf_plugins do
   gem 'overviews',                             path: 'modules/overviews'
   gem 'budgets',                               path: 'modules/budgets'
   gem 'openproject-team_planner',              path: 'modules/team_planner'
+  gem 'openproject-gantt',                     path: 'modules/gantt'
   gem 'openproject-calendar',                  path: 'modules/calendar'
   gem 'openproject-storages',                  path: 'modules/storages'
 

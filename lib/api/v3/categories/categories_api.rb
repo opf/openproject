@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/categories/category_representer'
+require "api/v3/categories/category_representer"
 
 module API
   module V3
     module Categories
       class CategoriesAPI < ::API::OpenProjectAPI
         resources :categories do
-          route_param :id, type: Integer, desc: 'Category ID' do
+          route_param :id, type: Integer, desc: "Category ID" do
             after_validation do
               @category = Category.find(params[:id])
-              authorize(:view_project, context: @category.project) do
+              authorize_in_project(:view_project, project: @category.project) do
                 raise API::Errors::NotFound.new
               end
             end

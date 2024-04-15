@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require_relative './board_page'
+require "support/pages/page"
+require_relative "board_list_page"
+require_relative "board_new_page"
 
 module Pages
-  class BoardIndex < Page
+  class BoardIndex < BoardListPage
     attr_reader :project
 
     def initialize(project = nil)
@@ -47,37 +48,43 @@ module Pages
 
     def expect_editable(editable)
       # Editable / draggable check
-      expect(page).to have_conditional_selector(editable, '.buttons a.icon-delete')
+      expect(page).to have_conditional_selector(editable, ".buttons a.icon-delete")
       # Create button
-      expect(page).to have_conditional_selector(editable, '.toolbar-item a', text: 'Board')
+      expect(page).to have_conditional_selector(editable, ".toolbar-item a", text: "Board")
     end
 
     def expect_board(name, present: true)
-      expect(page).to have_conditional_selector(present, 'td.name', text: name)
+      expect(page).to have_conditional_selector(present, "td.name", text: name)
     end
 
-    def create_board(action: nil, expect_empty: false, via_toolbar: false)
+    def create_board(action: "Basic", title: "#{action} Board", expect_empty: false, via_toolbar: true)
       if via_toolbar
-        page.find('[data-qa-selector="sidebar--create-board-button"]').click
+        within ".toolbar-items" do
+          click_link "Board"
+        end
       else
-        page.find('.toolbar-item a', text: 'Board').click
+        find('[data-test-selector="sidebar--create-board-button"]').click
       end
 
-      text = action == nil ? 'Basic' : action.to_s[0..5]
-      find('[data-qa-selector="op-tile-block-title"]', text:).click
+      new_board_page = NewBoard.new
+
+      new_board_page.set_title title
+      new_board_page.set_board_type action
+      new_board_page.click_on_submit
 
       if expect_empty
-        expect(page).to have_selector('.boards-list--add-item-text', wait: 10)
-        expect(page).to have_no_selector('.boards-list--item')
+        expect(page).to have_css(".boards-list--add-item-text", wait: 10)
+        expect(page).to have_no_css(".boards-list--item")
       else
-        expect(page).to have_selector('.boards-list--item', wait: 10)
+        expect(page).to have_css(".boards-list--item", wait: 10)
       end
 
       ::Pages::Board.new ::Boards::Grid.last
     end
 
     def open_board(board)
-      page.find('td.name a', text: board.name).click
+      page.find("td.name a", text: board.name).click
+      wait_for_reload if using_cuprite?
       ::Pages::Board.new board
     end
   end

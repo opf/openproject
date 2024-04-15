@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,21 +62,21 @@ module Users
     end
 
     def no_auth?
-      model.password.blank? && model.auth_source_id.blank? && model.identity_url.blank?
+      model.password.blank? && model.ldap_auth_source_id.blank? && model.identity_url.blank?
     end
 
     ##
     # Users can only be created by Admins or users with
-    # the global right to :manage_user
+    # the global right to :create_user
     def user_allowed_to_add
-      unless user.allowed_to_globally?(:manage_user)
+      unless user.allowed_globally?(:create_user)
         errors.add :base, :error_unauthorized
       end
     end
 
     def type_is_user
       unless model.type == User.name
-        errors.add(:type, 'Type and class mismatch')
+        errors.add(:type, "Type and class mismatch")
       end
     end
   end

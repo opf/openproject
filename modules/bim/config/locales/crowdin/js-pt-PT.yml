@@ -1,0 +1,29 @@
+#English strings go here
+pt-PT:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importar'
+      import_bcf_xml_file: 'Importar ficheiro XML BCF (versão 2.1)'
+      export: 'Exportar'
+      export_bcf_xml_file: 'Exportar ficheiro XML BCF (BCF versão 2.1)'
+      viewpoint: 'Visualização'
+      add_viewpoint: 'Adicionar ponto de vista'
+      show_viewpoint: 'Mostrar ponto de vista'
+      delete_viewpoint: 'Excluir ponto de vista'
+      management: 'Gestão BCF'
+      refresh: 'Atualizar'
+      refresh_work_package: 'Atualizar pacote de tarefas'
+    ifc_models:
+      empty_warning: "Este projeto ainda não tem nenhum modelo IFC."
+      use_this_link_to_manage: "Use este link para fazer upload e gerenciar seus modelos IFC"
+      keyboard_input_disabled: "O visualizador não tem controlos de teclado. Clique no visualizador para fornecer o controlo do teclado ao espetador."
+      models:
+        ifc_models: 'Modelos IFC'
+      views:
+        viewer: 'Visualizador'
+        split: 'Visualizador e tabela'
+        split_cards: 'Visualizador e cards'
+    revit:
+      revit_add_in: "Complemento Revit"
+      revit_add_in_settings: "Configurações do complemento Revit"

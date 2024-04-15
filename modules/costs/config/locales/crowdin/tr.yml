@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 tr:
+  plugin_costs:
+    name: "Zaman ve maliyetler"
+    description: "This module adds features for planning and tracking costs of projects."
   activerecord:
     attributes:
       cost_entry:
@@ -31,7 +34,7 @@ tr:
         unit: "Birim adı"
         unit_plural: "Birden fazla birim adı"
       work_package:
-        costs_by_type: "Harcanan birimler"
+        costs_by_type: "Harcanan maliyet"
         labor_costs: "İşçilik maliyetleri"
         material_costs: "Birim maliyeti"
         overall_costs: "Tüm maliyetler"
@@ -40,26 +43,26 @@ tr:
       rate:
         rate: "Oran"
       user:
-        default_rates: "Varsayılan oranlar"
+        default_rates: "Varsayılan Fiyatlar"
     models:
       cost_type:
         one: "Maliyet türü"
         other: "Maliyet türü"
-      rate: "Oran"
+      rate: "Oranlar"
     errors:
       models:
         work_package:
           is_not_a_valid_target_for_cost_entries: "İş numarası # {id}, maliyet girişlerini yeniden atamak için geçerli bir hedef değil.%{id}."
           nullify_is_not_valid_for_cost_entries: "Maliyet girdileri bir projeye atanamaz."
   attributes:
-    comment: "Yorum"
-    cost_type: "Maliyet türü"
+    comment: "Yorumlar"
+    cost_type: "Maliyet türleri"
     costs: "Ücretler"
     current_rate: "Aktüel oran"
     hours: "Saat"
     units: "Birimler"
     valid_from: "Geçerlilik"
-    fixed_date: "Düzenleme tarihi"
+    fixed_date: "Düzenleme Tarihi"
   button_add_rate: "Oran ekle"
   button_log_costs: "Günlük birim maliyetleri"
   caption_booked_on_project: "Proje rezervasyonu yaptırdı"
@@ -80,7 +83,7 @@ tr:
   label_costlog: "Günlüğe kaydedilen birim maliyetler"
   label_cost_plural: "Ücretler"
   label_cost_type_plural: "Maliyet türleri"
-  label_cost_type_specific: "Maliyet türü #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Maliyet türü #%{id}: %{name}"
   label_costs_per_page: "Her sayfa için maliyet"
   label_currency: "Kur"
   label_currency_format: "Para biriminin biçimi"

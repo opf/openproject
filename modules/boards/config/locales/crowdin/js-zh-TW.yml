@@ -2,85 +2,84 @@
 zh-TW:
   js:
     boards:
-      create_new: 'Create new board'
-      label_unnamed_board: 'Unnamed board'
-      label_unnamed_list: 'Unnamed list'
-      label_board_type: 'Board type'
+      create_new: '建立新看板'
+      label_unnamed_board: '未命名看板'
+      label_unnamed_list: '未命名列表'
+      label_board_type: '看板類型'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
+        teaser_text: '你想用看板來自動化你的工作流程嗎？進階看板是一項企業功能。請升級到付費計劃。'
+        upgrade: '立即更新'
       lists:
-        delete: 'Delete list'
+        delete: '刪除列表'
       version:
-        is_locked: 'Version is locked. No items can be added to this version.'
-        is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'Show version'
-        locked: '鎖定'
+        is_locked: '版本已鎖定，無法新增該項目'
+        is_closed: '版本已關閉，無法新增該項目'
+        close_version: '關閉版本'
+        open_version: '開啟版本'
+        lock_version: '鎖定版本'
+        unlock_version: '解除鎖定'
+        edit_version: '編輯版本'
+        show_version: '顯示版本'
+        locked: '停用'
         closed: '已關閉'
-      new_board: 'New board'
-      add_list: 'Add list to board'
-      add_card: 'Add card'
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      error_loading_the_list: "Error loading the list: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
-      click_to_remove_list: "Click to remove this list"
+      new_board: '新增看板'
+      add_list: '新增列表至看板'
+      add_card: '新增卡片'
+      error_attribute_not_writable: "無法移動該工作項目, %{attribute} 不可寫入"
+      error_loading_the_list: "列表讀取錯誤: %{error_message}"
+      error_permission_missing: "缺少建立公開查詢的權限"
+      error_cannot_move_into_self: "不可將任務移至自己的欄位"
+      text_hidden_list_warning: "因權限限制，清單無法全部顯示，請聯絡管理員。"
+      click_to_remove_list: "移除列表"
       board_type:
-        text: 'Board type'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        text: '看板類型'
+        free: '基本'
+        select_board_type: '選擇您需要的看板類型'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+          啟用空白看板。手動增加新卡片和列表到這個看板。
+        action: '行動項看板'
+        action_by_attribute: '行動項看板 (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          一個含 %{attribute} 屬性篩選看板。(將工作項目移動到其他列表會更新其屬性)
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          有子專案的看板。將工作項目拖動到其他列表會相應地更新（子）項目。
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          有子元件的看板。將工作項目拖動到其他列表會相應地更新主要項目。
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          基本看板樣式的面板，包含「待辦」、「正在進行」、「已完成」等狀態的列。
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          「執行者」視角的看板。適合分發工作項目。
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          基於版本屬性的自動列面板。理想用於產品開發規劃。
         action_type:
-          assignee: assignee
-          status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
-        board_type_title:
-          assignee: 負責執行者
+          assignee: 執行者
           status: 狀態
           version: 版本
           subproject: 子專案
-          subtasks: Parent-child
-          basic: Basic
-        select_attribute: "Action attribute"
+          subtasks: 父-子
+        board_type_title:
+          assignee: 執行者
+          status: 狀態
+          version: 版本
+          subproject: 子專案
+          subtasks: 父-子
+          basic: 基本
+        select_attribute: "動作屬性"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: 選擇使用者至新的「執行者」列表
+          status: 依選擇狀態新增清單
+          version: 依選擇版本新增清單
+          subproject: 依選擇子專案新增清單
+          subtasks: 依選擇任務新增清單
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            目前無可用狀態
+          assignee: 沒有任何符合您設定篩選值的人員
+          no_member: 此專案目前沒有任何可以加入的人員
+          add_members: <a href="%{link}">新增成員至此專案</a> 再次選擇使用者。
       configuration_modal:
-        title: 'Configure this board'
+        title: '設定此看板'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "顯示為卡片"
+          table_mode: "顯示為預覽圖"

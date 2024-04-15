@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, only: :roadmap
 
   before_action :find_project, except: %i[index new]
+  before_action :load_query_or_deny_access, only: %i[index]
   before_action :authorize, only: %i[copy]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[destroy destroy_info]
@@ -39,38 +40,30 @@ class ProjectsController < ApplicationController
   include PaginationHelper
   include QueriesHelper
   include ProjectsHelper
+  include Projects::QueryLoading
+
+  helper_method :has_managed_project_folders?
 
   current_menu_item :index do
-    :list_projects
+    :projects
   end
 
   def index
-    query = load_query
-
-    unless query.valid?
-      flash[:error] = query.errors.full_messages
-    end
-
-    @projects = load_projects query
-    @orders = set_sorting query
-
     respond_to do |format|
       format.html do
-        render layout: 'no_menu'
+        flash.now[:error] = @query.errors.full_messages if @query.errors.any?
+
+        render layout: "global", locals: { query: @query, state: :show }
       end
 
       format.any(*supported_export_formats) do
-        export_list(request.format.symbol)
+        export_list(@query, request.format.symbol)
       end
     end
   end
 
-  current_menu_item :index do
-    :list_projects
-  end
-
   def new
-    render layout: 'no_menu'
+    render layout: "no_menu"
   end
 
   def copy
@@ -84,12 +77,12 @@ class ProjectsController < ApplicationController
                      .call
 
     if service_call.success?
-      flash[:notice] = I18n.t('projects.delete.scheduled')
+      flash[:notice] = I18n.t("projects.delete.scheduled")
     else
-      flash[:error] = I18n.t('projects.delete.schedule_failed', errors: service_call.errors.full_messages.join("\n"))
+      flash[:error] = I18n.t("projects.delete.schedule_failed", errors: service_call.errors.full_messages.join("\n"))
     end
 
-    redirect_to project_path_with_status
+    redirect_to projects_path
   end
 
   def destroy_info
@@ -100,6 +93,10 @@ class ProjectsController < ApplicationController
 
   private
 
+  def has_managed_project_folders?(project)
+    project.project_storages.any?(&:project_folder_automatic?)
+  end
+
   def find_optional_project
     return true unless params[:id]
 
@@ -109,60 +106,23 @@ class ProjectsController < ApplicationController
     render_404
   end
 
-  def redirect_work_packages_or_overview
-    return if redirect_to_project_menu_item(@project, :work_packages)
-
-    redirect_to project_overview_path(@project)
-  end
-
   def hide_project_in_layout
     @project = nil
   end
 
-  def project_path_with_status
-    acceptable_params = params.permit(:status).to_h.compact.select { |_, v| v.present? }
-
-    projects_path(acceptable_params)
-  end
-
-  def load_query
-    @query = ParamsToQueryService.new(Project, current_user).call(params)
-
-    # Set default filter on status no filter is provided.
-    @query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE) unless params[:filters]
-
-    # Order lft if no order is provided.
-    @query.order(lft: :asc) unless params[:sortBy]
-
-    @query
-  end
-
-  def export_list(mime_type)
+  def export_list(query, mime_type)
     job = Projects::ExportJob.perform_later(
       export: Projects::Export.create,
       user: current_user,
       mime_type:,
-      query: @query.to_hash
+      query: query.to_hash
     )
 
-    if request.headers['Accept']&.include?('application/json')
+    if request.headers["Accept"]&.include?("application/json")
       render json: { job_id: job.job_id }
     else
       redirect_to job_status_path(job.job_id)
     end
-  end
-
-  def load_projects(query)
-    query
-      .results
-      .with_required_storage
-      .with_latest_activity
-      .includes(:custom_values, :enabled_modules)
-      .paginate(page: page_param, per_page: per_page_param)
-  end
-
-  def set_sorting(query)
-    query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
   end
 
   def supported_export_formats

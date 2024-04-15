@@ -24,23 +24,23 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe MailHandler::UserCreator, type: :model do
-  describe '.new_user_from_attributes' do
-    context 'with sufficient information' do
+RSpec.describe MailHandler::UserCreator do
+  describe ".new_user_from_attributes" do
+    context "with sufficient information" do
       # [address, name] => [login, firstname, lastname]
       {
-        ['jsmith@example.net', nil] => %w[jsmith@example.net jsmith -],
+        ["jsmith@example.net", nil] => %w[jsmith@example.net jsmith -],
         %w[jsmith@example.net John] => %w[jsmith@example.net John -],
-        ['jsmith@example.net', 'John Smith'] => %w[jsmith@example.net John Smith],
-        ['jsmith@example.net', 'John Paul Smith'] => ['jsmith@example.net', 'John', 'Paul Smith'],
-        ['jsmith@example.net', 'AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength Smith'] =>
+        ["jsmith@example.net", "John Smith"] => %w[jsmith@example.net John Smith],
+        ["jsmith@example.net", "John Paul Smith"] => ["jsmith@example.net", "John", "Paul Smith"],
+        ["jsmith@example.net", "AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength Smith"] =>
           %w[jsmith@example.net AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength Smith],
-        ['jsmith@example.net', 'John AVeryLongLastnameThatNoLongerExceedsTheMaximumLength'] =>
+        ["jsmith@example.net", "John AVeryLongLastnameThatNoLongerExceedsTheMaximumLength"] =>
           %w[jsmith@example.net John AVeryLongLastnameThatNoLongerExceedsTheMaximumLength]
       }.each do |(provided_mail, provided_fullname), (expected_login, expected_firstname, expected_lastname)|
-        it 'returns a valid user' do
+        it "returns a valid user" do
           user = described_class.send(:new_user_from_attributes, provided_mail, provided_fullname)
 
           expect(user)
@@ -57,10 +57,10 @@ describe MailHandler::UserCreator, type: :model do
       end
     end
 
-    context 'with min password length',
+    context "with min password length",
             with_legacy_settings: { password_min_length: 15 } do
-      it 'respects minimum password length' do
-        user = described_class.send(:new_user_from_attributes, 'jsmith@example.net')
+      it "respects minimum password length" do
+        user = described_class.send(:new_user_from_attributes, "jsmith@example.net")
 
         expect(user)
           .to be_valid
@@ -70,10 +70,10 @@ describe MailHandler::UserCreator, type: :model do
       end
     end
 
-    context 'when the attributes are invalid',
+    context "when the attributes are invalid",
             with_legacy_settings: { password_min_length: 15 } do
-      it 'respects minimum password length' do
-        user = described_class.send(:new_user_from_attributes, 'foo&bar@example.net')
+      it "respects minimum password length" do
+        user = described_class.send(:new_user_from_attributes, "foo&bar@example.net")
 
         expect(user)
           .to be_valid
@@ -82,7 +82,7 @@ describe MailHandler::UserCreator, type: :model do
           .to match /^user[a-f0-9]+$/
 
         expect(user.mail)
-          .to eq 'foo&bar@example.net'
+          .to eq "foo&bar@example.net"
       end
     end
   end

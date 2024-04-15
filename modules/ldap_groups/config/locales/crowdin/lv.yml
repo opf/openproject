@@ -1,13 +1,16 @@
 lv:
+  plugin_openproject_ldap_groups:
+    name: "OpenProject LDAP groups"
+    description: "Synchronization of LDAP group memberships."
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP connection'
         sync_users: 'Sync users'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filter'
-        auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP connection'
         group_name_attribute: "Group name attribute"
         sync_users: 'Sync users'
         base_dn: "Search base DN"
@@ -32,6 +35,7 @@ lv:
       label_n_groups_found:
         one: "1 group found by the filter"
         other: "%{count} groups found by the filter"
+        zero: "No groups were found by the filter"
       destroy:
         title: 'Remove synchronized filter %{name}'
         confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
@@ -67,4 +71,3 @@ lv:
         group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
       upsale:
         description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
-

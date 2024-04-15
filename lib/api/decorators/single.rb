@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/hypermedia'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/hypermedia"
+require "roar/json/hal"
 
 module API
   module Decorators
@@ -52,7 +52,7 @@ module API
       end
 
       def initialize(model, current_user:, embed_links: false)
-        raise 'no represented object passed' if model_required? && model.nil?
+        raise "no represented object passed" if model_required? && model.nil?
 
         @current_user = current_user
         @embed_links = embed_links
@@ -65,13 +65,8 @@ module API
                render_nil: false,
                writable: false
 
-
       class_attribute :to_eager_load
       class_attribute :checked_permissions
-
-      def current_user_allowed_to(permission, context: represented.respond_to?(:project) ? represented.project : nil)
-        current_user.allowed_to?(permission, context)
-      end
 
       # Override in subclasses to specify the JSON indicated "_type" of this representer
       def _type; end

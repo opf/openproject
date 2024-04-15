@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,39 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Wysiwyg linking',
-         type: :feature, js: true do
-  let(:user) { create :admin }
+RSpec.describe "Wysiwyg linking", :js do
+  let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)
   end
 
-  describe 'creating a wiki page' do
+  describe "creating a wiki page" do
     before do
       visit project_wiki_path(project, :wiki)
     end
 
-    it 'can create links with spaces (Regression #29742)' do
+    it "can create links with spaces (Regression #29742)" do
       # single hash autocomplete
-      editor.insert_link 'http://example.org/link with spaces'
+      editor.insert_link "http://example.org/link with spaces"
 
       # Save wiki page
-      click_on 'Save'
+      click_on "Save"
 
-      expect(page).to have_selector('.flash.notice')
+      expect(page).to have_css(".op-toast.-success")
 
       wiki_page = project.wiki.pages.first.reload
 
-      expect(wiki_page.content.text).to eq(
+      expect(wiki_page.text).to eq(
         "[http://example.org/link with spaces](http://example.org/link%20with%20spaces)"
       )
 
-      expect(page).to have_selector('a[href="http://example.org/link%20with%20spaces"]')
+      expect(page).to have_css('a[href="http://example.org/link%20with%20spaces"]')
     end
   end
 end

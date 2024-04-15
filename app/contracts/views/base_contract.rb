@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,9 +41,10 @@ module Views
       # needs to validate additionally. E.g. a contract can have additional permission checks.
       if (strategy_class = Constants::Views.contract_strategy(model.type))
         strategy = strategy_class.new(model, user)
-        strategy.valid?
 
-        errors.merge!(strategy.errors)
+        with_merged_former_errors do
+          strategy.valid?
+        end
       end
 
       errors.empty?
@@ -85,7 +86,11 @@ module Views
     end
 
     def user_allowed_on_query?(permission)
-      user.allowed_to?(permission, model.query.project, global: model.query.project.nil?)
+      if model.query.project
+        user.allowed_in_project?(permission, model.query.project)
+      else
+        user.allowed_in_any_project?(permission)
+      end
     end
   end
 end

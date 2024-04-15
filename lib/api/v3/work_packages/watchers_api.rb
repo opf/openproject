@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'hashie'
+require "hashie"
 
 module API
   module V3
@@ -36,7 +36,7 @@ module API
 
         resources :available_watchers do
           after_validation do
-            authorize(:add_work_package_watchers, context: @work_package.project)
+            authorize_in_project(:add_work_package_watchers, project: @work_package.project)
           end
 
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
@@ -48,7 +48,7 @@ module API
         resources :watchers do
           helpers do
             def watchers_collection
-              watchers = @work_package.watcher_users.merge(Principal.not_locked, rewhere: true)
+              watchers = @work_package.watcher_users.merge(Principal.not_locked)
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UnpaginatedUserCollectionRepresenter.new(watchers,
                                                               self_link:,
@@ -57,14 +57,14 @@ module API
           end
 
           get do
-            authorize(:view_work_package_watchers, context: @work_package.project)
+            authorize_in_project(:view_work_package_watchers, project: @work_package.project)
 
             watchers_collection
           end
 
           post do
             unless request_body
-              fail ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.missing_request_body'))
+              fail ::API::Errors::InvalidRequestBody.new(I18n.t("api_v3.errors.missing_request_body"))
             end
 
             representer = ::API::V3::Watchers::WatcherRepresenter.create(API::ParserStruct.new, current_user:)
@@ -72,9 +72,9 @@ module API
             user_id = representer.represented.user_id.to_i
 
             if current_user.id == user_id
-              authorize(:view_work_packages, context: @work_package.project)
+              authorize_in_work_package(:view_work_packages, work_package: @work_package)
             else
-              authorize(:add_work_package_watchers, context: @work_package.project)
+              authorize_in_project(:add_work_package_watchers, project: @work_package.project)
             end
 
             user = User.find user_id
@@ -89,16 +89,16 @@ module API
             ::API::V3::Users::UserRepresenter.create(user, current_user:)
           end
 
-          namespace ':user_id' do
+          namespace ":user_id" do
             params do
-              requires :user_id, desc: 'The watcher\'s user id', type: Integer
+              requires :user_id, desc: "The watcher's user id", type: Integer
             end
 
             delete do
               if current_user.id == params[:user_id]
-                authorize(:view_work_packages, context: @work_package.project)
+                authorize_in_work_package(:view_work_packages, work_package: @work_package)
               else
-                authorize(:delete_work_package_watchers, context: @work_package.project)
+                authorize_in_project(:delete_work_package_watchers, project: @work_package.project)
               end
 
               user = User.find_by(id: params[:user_id])

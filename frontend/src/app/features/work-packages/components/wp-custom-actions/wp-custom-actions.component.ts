@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,8 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 @Component({
   selector: 'wp-custom-actions',
@@ -42,10 +44,15 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 export class WpCustomActionsComponent extends UntilDestroyedMixin implements OnInit {
   @Input() workPackage:WorkPackageResource;
 
+  trackByHref = trackByHref;
+
   actions:CustomActionResource[] = [];
 
-  constructor(readonly apiV3Service:ApiV3Service,
-    readonly cdRef:ChangeDetectorRef) {
+  constructor(
+    readonly apiV3Service:ApiV3Service,
+    readonly cdRef:ChangeDetectorRef,
+    readonly bannersService:BannersService,
+  ) {
     super();
   }
 
@@ -59,7 +66,7 @@ export class WpCustomActionsComponent extends UntilDestroyedMixin implements OnI
         this.untilDestroyed(),
       )
       .subscribe((wp) => {
-        this.actions = wp.customActions ? [...wp.customActions] : [];
+        this.actions = wp.customActions as CustomActionResource[];
         this.cdRef.detectChanges();
       });
   }

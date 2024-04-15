@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ module WorkPackages::Scopes::IncludeSpentTime
       scope = left_join_self_and_descendants(user, work_package)
               .joins(query.join_sources)
               .group(:id)
-              .select('SUM(time_entries.hours) AS hours')
+              .select("SUM(time_entries.hours) AS hours")
 
       if work_package
         scope.where(id: work_package.id)
@@ -58,7 +58,7 @@ module WorkPackages::Scopes::IncludeSpentTime
     end
 
     def allowed_to_view_time_entries(user)
-      time_entries_table[:id].in(TimeEntry.visible(user).select(:id).arel)
+      time_entries_table[:id].in(TimeEntry.not_ongoing.visible(user).select(:id).arel)
     end
 
     def wp_table
@@ -68,7 +68,7 @@ module WorkPackages::Scopes::IncludeSpentTime
     def wp_descendants
       # Relies on a table called descendants to exist in the scope
       # which is provided by left_join_self_and_descendants
-      @wp_descendants ||= wp_table.alias('descendants')
+      @wp_descendants ||= wp_table.alias("descendants")
     end
 
     def time_entries_table

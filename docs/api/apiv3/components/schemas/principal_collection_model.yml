@@ -1,0 +1,53 @@
+# Schema: PrincipalCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+          - representations
+        properties:
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This principal collection
+                  
+                  **Resource**: Collection
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              anyOf:
+                - $ref: './user_model.yml'
+                - $ref: './placeholder_user_model.yml'
+                - $ref: './group_model.yml'
+
+example:
+  _type: Collection
+  total: 3
+  count: 3
+  _links:
+    self:
+      href: '/api/v3/principals'
+  _embedded:
+    elements:
+      - _hint: User resource shortened for brevity
+        _type: User
+        id: 1337
+      - _hint: Group resource shortened for brevity
+        _type: Group
+        id: 1338
+      - _hint: PlaceholderUser resource shortened for brevity
+        _type: PlaceholderUser
+        id: 1339

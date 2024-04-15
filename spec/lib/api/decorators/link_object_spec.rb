@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::Decorators::LinkObject do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::Decorators::LinkObject do
+  include API::V3::Utilities::PathHelper
 
   let(:represented) { API::ParserStruct.new }
 
-  context 'minimal constructor call' do
+  context "minimal constructor call" do
     let(:representer) { described_class.new(represented, property_name: :foo) }
 
     before do
@@ -41,50 +41,50 @@ describe ::API::Decorators::LinkObject do
       allow(api_v3_paths).to receive(:foo) { |id| "/api/v3/foos/#{id}" }
     end
 
-    describe 'generation' do
+    describe "generation" do
       subject { representer.to_json }
 
-      it { is_expected.to be_json_eql('/api/v3/foos/1'.to_json).at_path('href') }
+      it { is_expected.to be_json_eql("/api/v3/foos/1".to_json).at_path("href") }
     end
 
-    describe 'parsing' do
+    describe "parsing" do
       subject { represented }
 
       let(:parsed_hash) do
         {
-          'href' => '/api/v3/foos/42'
+          "href" => "/api/v3/foos/42"
         }
       end
 
-      it 'parses the id from the URL' do
+      it "parses the id from the URL" do
         representer.from_hash parsed_hash
-        expect(subject.foo_id).to eql('42')
+        expect(subject.foo_id).to eql("42")
       end
 
-      context 'wrong namespace' do
+      context "wrong namespace" do
         let(:parsed_hash) do
           {
-            'href' => '/api/v3/bars/42'
+            "href" => "/api/v3/bars/42"
           }
         end
 
-        it 'throws an error' do
+        it "throws an error" do
           expect { representer.from_hash parsed_hash }.to raise_error(
-            ::API::Errors::InvalidResourceLink
+            API::Errors::InvalidResourceLink
           )
         end
       end
     end
   end
 
-  context 'full constructor call' do
+  context "full constructor call" do
     let(:representer) do
       described_class.new(represented,
                           property_name: :foo,
                           path: :foo_path,
-                          namespace: 'fuhs',
+                          namespace: "fuhs",
                           getter: :getter,
-                          setter: :'setter=')
+                          setter: :"setter=")
     end
 
     before do
@@ -92,36 +92,36 @@ describe ::API::Decorators::LinkObject do
       allow(api_v3_paths).to receive(:foo_path) { |id| "/api/v3/fuhs/#{id}" }
     end
 
-    describe 'generation' do
+    describe "generation" do
       subject { representer.to_json }
 
-      it { is_expected.to be_json_eql('/api/v3/fuhs/1'.to_json).at_path('href') }
+      it { is_expected.to be_json_eql("/api/v3/fuhs/1".to_json).at_path("href") }
     end
 
-    describe 'parsing' do
+    describe "parsing" do
       subject { represented }
 
       let(:parsed_hash) do
         {
-          'href' => '/api/v3/fuhs/42'
+          "href" => "/api/v3/fuhs/42"
         }
       end
 
-      it 'parses the id from the URL' do
+      it "parses the id from the URL" do
         representer.from_hash parsed_hash
-        expect(subject.setter).to eql('42')
+        expect(subject.setter).to eql("42")
       end
 
-      context 'wrong namespace' do
+      context "wrong namespace" do
         let(:parsed_hash) do
           {
-            'href' => '/api/v3/foos/42'
+            "href" => "/api/v3/foos/42"
           }
         end
 
-        it 'throws an error' do
+        it "throws an error" do
           expect { representer.from_hash parsed_hash }.to raise_error(
-            ::API::Errors::InvalidResourceLink
+            API::Errors::InvalidResourceLink
           )
         end
       end

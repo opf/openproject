@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,19 +39,13 @@ module API
                 @query.ordered_work_packages.where(work_package_id: wp_id).delete_all
               end
 
-              ##
-              # Upsert with old rails ways, use +UPSERT+ once available.
               def upsert_order(wp_id, position)
                 record = @query
                   .ordered_work_packages
                   .find_or_initialize_by(work_package_id: wp_id)
 
-                if record.persisted?
-                  record.update_column(:position, position)
-                else
-                  record.position = position
-                  record.save
-                end
+                upsert_attributes = record.attributes.merge(position:).compact
+                OrderedWorkPackage.upsert(upsert_attributes)
               end
             end
 

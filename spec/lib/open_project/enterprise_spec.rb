@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'open_project/passwords'
+require "spec_helper"
+require "open_project/passwords"
 
-describe OpenProject::Enterprise do
+RSpec.describe OpenProject::Enterprise do
   # create 3 built-in users, only 2 of which are active
   # Also create a placeholder user which will not count against the limit
   let!(:system_user) { User.system }
@@ -48,7 +48,7 @@ describe OpenProject::Enterprise do
   describe "#user_limit_reached?" do
     context "with fewer active users than the limit allows" do
       before do
-        create :user
+        create(:user)
 
         expect(User.active.count).to eq 1 # created user
       end
@@ -63,7 +63,7 @@ describe OpenProject::Enterprise do
         let(:num_active_users) { 0 }
 
         before do
-          create_list :user, num_active_users
+          create_list(:user, num_active_users)
 
           expect(User.active.count).to eq num_active_users
         end
@@ -93,8 +93,8 @@ describe OpenProject::Enterprise do
         let(:num_invited_users) { 0 }
 
         before do
-          create :user
-          create_list :invited_user, num_invited_users
+          create(:user)
+          create_list(:invited_user, num_invited_users)
 
           expect(User.human.not_locked.count).to eq num_invited_users + 1
         end
@@ -119,8 +119,8 @@ describe OpenProject::Enterprise do
 
     context "with the number of active + invited users over the user limit" do
       before do
-        create :user
-        create_list :invited_user, user_limit
+        create(:user)
+        create_list(:invited_user, user_limit)
       end
 
       it "is true" do

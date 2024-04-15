@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'index placeholder users', type: :feature, js: true do
-  before do
-    with_enterprise_token(:placeholder_users)
-  end
-
-  let!(:current_user) { create :admin }
-  let!(:anonymous) { create :anonymous }
+RSpec.describe "index placeholder users", :js, with_ee: %i[placeholder_users] do
+  let!(:current_user) { create(:admin) }
+  let!(:anonymous) { create(:anonymous) }
   let!(:placeholder_user_1) do
     create(:placeholder_user,
-           name: 'B',
+           name: "B",
            created_at: 3.minutes.ago)
   end
   let!(:placeholder_user_2) do
     create(:placeholder_user,
-           name: 'A',
+           name: "A",
            created_at: 2.minutes.ago)
   end
   let!(:placeholder_user_3) do
     create(:placeholder_user,
-           name: 'C',
+           name: "C",
            created_at: 1.minute.ago)
   end
-  let(:manager_role) { create :existing_role, permissions: [:manage_members] }
-  let(:member_role) { create :existing_role, permissions: [:view_work_packages] }
+  let(:manager_role) { create(:existing_project_role, permissions: [:manage_members]) }
+  let(:member_role) { create(:existing_project_role, permissions: [:view_work_packages]) }
   let(:index_page) { Pages::Admin::PlaceholderUsers::Index.new }
 
-  shared_examples 'placeholders index flow' do
-    it 'shows the placeholder users and allows filtering and ordering' do
+  shared_examples "placeholders index flow" do
+    it "shows the placeholder users and allows filtering and ordering" do
       index_page.visit!
 
       index_page.expect_not_listed(anonymous, current_user)
@@ -64,16 +60,16 @@ describe 'index placeholder users', type: :feature, js: true do
       # so first ones created are on top.
       index_page.expect_listed(placeholder_user_1, placeholder_user_2, placeholder_user_3)
 
-      index_page.order_by('Name')
+      index_page.order_by("Name")
       index_page.expect_ordered(placeholder_user_2, placeholder_user_1, placeholder_user_3)
 
-      index_page.order_by('Name')
+      index_page.order_by("Name")
       index_page.expect_ordered(placeholder_user_3, placeholder_user_1, placeholder_user_2)
 
-      index_page.order_by('Created on')
+      index_page.order_by("Created on")
       index_page.expect_ordered(placeholder_user_3, placeholder_user_2, placeholder_user_1)
 
-      index_page.order_by('Created on')
+      index_page.order_by("Created on")
       index_page.expect_ordered(placeholder_user_1, placeholder_user_2, placeholder_user_3)
 
       index_page.filter_by_name(placeholder_user_3.name)
@@ -82,23 +78,23 @@ describe 'index placeholder users', type: :feature, js: true do
     end
   end
 
-  context 'as admin' do
-    current_user { create :admin }
+  context "as admin" do
+    current_user { create(:admin) }
 
-    it_behaves_like 'placeholders index flow'
+    it_behaves_like "placeholders index flow"
   end
 
-  context 'as user with global permission' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+  context "as user with global permission" do
+    current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    it_behaves_like 'placeholders index flow'
+    it_behaves_like "placeholders index flow"
 
-    context 'when all placeholder users are not members of any project' do
+    context "when all placeholder users are not members of any project" do
       before do
         index_page.visit!
       end
 
-      it 'allows the deletion of all placeholder users' do
+      it "allows the deletion of all placeholder users" do
         # Reason: As the placeholder users are not used anywhere it is safe to delete them.
         index_page.expect_delete_button(placeholder_user_1)
         index_page.expect_delete_button(placeholder_user_2)
@@ -106,7 +102,7 @@ describe 'index placeholder users', type: :feature, js: true do
       end
     end
 
-    context 'when user is allowed to manage members only in some projects of the placeholder users' do
+    context "when user is allowed to manage members only in some projects of the placeholder users" do
       let(:shared_project) do
         create(:project, members: {
                  placeholder_user_1 => member_role,
@@ -129,7 +125,7 @@ describe 'index placeholder users', type: :feature, js: true do
         index_page.visit!
       end
 
-      it 'shows the delete buttons where allowed' do
+      it "shows the delete buttons where allowed" do
         # Show the delete buttons only for those placeholder users that are only in projects
         # where the current user has the permission to manage members.
         index_page.expect_delete_button(placeholder_user_1)
@@ -139,12 +135,12 @@ describe 'index placeholder users', type: :feature, js: true do
     end
   end
 
-  context 'as user without global permission' do
-    current_user { create :user }
+  context "as user without global permission" do
+    current_user { create(:user) }
 
-    it 'returns an error' do
+    it "returns an error" do
       index_page.visit!
-      expect(page).to have_text 'You are not authorized to access this page.'
+      expect(page).to have_text "You are not authorized to access this page."
     end
   end
 end

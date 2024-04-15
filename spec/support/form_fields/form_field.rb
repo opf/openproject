@@ -17,7 +17,7 @@ module FormFields
 
     def expect_required
       expect(field_container)
-        .to have_selector '.spot-form-field--label-indicator', text: '*'
+        .to have_css ".spot-form-field--label-indicator", text: "*"
     end
 
     def field_container
@@ -26,7 +26,7 @@ module FormFields
 
     def property_name
       if property.is_a? CustomField
-        "customField#{property.id}"
+        property.attribute_name(:camel_case)
       else
         property.to_s
       end

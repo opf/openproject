@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: Bim::IfcModels::IfcModel.model_name.human %>
 
 <%= labelled_tabular_form_for @ifc_model, url: bcf_project_ifc_model_path(@project, @ifc_model), method: 'PATCH' do |f| -%>
-  <%= error_messages_for_contract @ifc_model, @errors %>
+  <%= error_messages_for @ifc_model %>
   <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
+  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
 <% end %>

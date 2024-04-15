@@ -45,7 +45,7 @@ module API
               deduce_fallback_render_representer
                 .new(results,
                      self_link: self_path,
-                     query: resulting_params,
+                     query_params: resulting_params,
                      page: resulting_params[:offset],
                      per_page: resulting_params[:pageSize],
                      groups: calculate_groups(query),

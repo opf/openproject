@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 class CustomActions::Actions::CustomField < CustomActions::Actions::Base
   def self.key
-    :"custom_field_#{custom_field.id}"
+    custom_field.attribute_name.to_sym
   end
 
   def self.custom_field
@@ -44,7 +44,7 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
   end
 
   def apply(work_package)
-    work_package.send(:"#{custom_field.accessor_name}=", values) if work_package.respond_to?(:"#{custom_field.accessor_name}=")
+    work_package.send(custom_field.attribute_setter, values) if work_package.respond_to?(custom_field.attribute_setter)
   end
 
   def self.all
@@ -76,21 +76,21 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
 
   def self.strategy(custom_field)
     case custom_field.field_format
-    when 'string'
+    when "string"
       CustomActions::Actions::Strategies::String
-    when 'text'
+    when "text"
       CustomActions::Actions::Strategies::Text
-    when 'int'
+    when "int"
       CustomActions::Actions::Strategies::Integer
-    when 'float'
+    when "float"
       CustomActions::Actions::Strategies::Float
-    when 'date'
+    when "date"
       CustomActions::Actions::Strategies::Date
-    when 'bool'
+    when "bool"
       CustomActions::Actions::Strategies::Boolean
-    when 'user'
+    when "user"
       CustomActions::Actions::Strategies::UserCustomField
-    when 'list', 'version'
+    when "list", "version"
       CustomActions::Actions::Strategies::AssociatedCustomField
     end
   end

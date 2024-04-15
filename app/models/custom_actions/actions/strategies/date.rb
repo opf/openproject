@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,7 @@ module CustomActions::Actions::Strategies::Date
   private
 
   def date_to_apply
-    if values.first == '%CURRENT_DATE%'
+    if values.first == "%CURRENT_DATE%"
       Date.today
     else
       values.first
@@ -54,7 +54,7 @@ module CustomActions::Actions::Strategies::Date
 
   def to_date_or_nil(value)
     case value
-    when nil, '%CURRENT_DATE%'
+    when nil, "%CURRENT_DATE%"
       value
     else
       value.to_date

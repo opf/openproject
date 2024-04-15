@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t('oauth.application.plural'), title_class: 'no-padding-bottom' do %>
   <li class="toolbar-item">
     <%= link_to new_oauth_application_path,
-        { class: 'button -alt-highlight',
+        { class: 'button -primary',
           title: t('oauth.application.new')} do %>
       <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= t(:button_add) %></span>
@@ -39,4 +39,4 @@ See COPYRIGHT and LICENSE files for more details.
   </li>
 <% end %>
 
-<%= rails_cell ::OAuth::Applications::TableCell, @applications, current_user: current_user %>
+<%= render ::OAuth::Applications::TableComponent.new(rows: @applications) %>

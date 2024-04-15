@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Notifications
   # Creates date alert jobs for users whose local time is 1:00 am.
-  class ScheduleDateAlertsNotificationsJob < Cron::CronJob
-    # runs every quarter of an hour, so 00:00, 00:15,..., 15:30, 15:45, 16:00, ...
-    self.cron_expression = '*/15 * * * *'
-
+  class ScheduleDateAlertsNotificationsJob < ApplicationJob
     def perform
       return unless EnterpriseToken.allows_to?(:date_alerts)
 
-      service = Service.new(times_from_scheduled_to_execution)
-      service.call
+      Service.new(times_from_scheduled_to_execution).call
     end
 
     # Returns times from scheduled execution time to current time in 15 minutes
@@ -57,7 +53,7 @@ module Notifications
     end
 
     def scheduled_time
-      self.class.delayed_job.run_at.then { |t| t.change(min: t.min / 15 * 15) }
+      job_scheduled_at.then { |t| t.change(min: t.min / 15 * 15) }
     end
   end
 end

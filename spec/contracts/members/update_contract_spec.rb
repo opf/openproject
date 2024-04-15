@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Members::UpdateContract do
-  include_context 'ModelContract shared context'
+RSpec.describe Members::UpdateContract do
+  include_context "ModelContract shared context"
 
-  it_behaves_like 'member contract' do
+  it_behaves_like "member contract" do
     let(:member) do
       build_stubbed(:member,
                     project: member_project,
@@ -43,27 +42,27 @@ describe Members::UpdateContract do
 
     let(:contract) { described_class.new(member, current_user) }
 
-    describe 'validation' do
-      context 'if the principal is changed' do
+    describe "validation" do
+      context "if the principal is changed" do
         before do
           member.principal = build_stubbed(:user)
         end
 
-        it_behaves_like 'contract is invalid', user_id: :error_readonly
+        it_behaves_like "contract is invalid", user_id: :error_readonly
       end
 
-      context 'if the project is changed' do
+      context "if the project is changed" do
         before do
           member.project = build_stubbed(:project)
         end
 
-        it_behaves_like 'contract is invalid', project_id: :error_readonly
+        it_behaves_like "contract is invalid", project_id: :error_readonly
       end
 
-      context 'if the principal is a locked user' do
+      context "if the principal is a locked user" do
         let(:member_principal) { build_stubbed(:locked_user) }
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
     end
   end

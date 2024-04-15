@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= styled_form_tag({action: 'create'},
                     id: 'move_form',
-                    data: { 'refresh-url': url_for(action: 'new'), 'input-selector': '[name="new_project_id"],[name="new_type_id"]' },
+                    data: {
+                      'controller': 'refresh-on-form-changes',
+                      'refresh-on-form-changes-target': 'form',
+                      'refresh-on-form-changes-refresh-url-value': url_for(action: 'new')
+                    },
                     class: '-wide-labels augment--refresh-on-form-changes') do %>
   <% @work_packages.each do |wp| %>
     <%= hidden_field_tag 'ids[]', wp.id %>
@@ -53,22 +57,24 @@ See COPYRIGHT and LICENSE files for more details.
     <section class="form--section">
       <fieldset class="form--fieldset">
         <legend class="form--fieldset-legend"><%= t(:label_change_properties) %></legend>
-        <div class="grid-block">
+        <div class="grid-block grid-block_visible-overflow">
           <div class="grid-content medium-6">
               <div class="form--field">
                 <label class="form--label" for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
                   <div class="form--field-container">
-                    <%= angular_component_tag 'op-project-autocompleter',
+                    <%= angular_component_tag 'opce-project-autocompleter',
                                               inputs: {
-                                                apiFilters: [['user_action', '=', ['work_packages/move']]],
-                                                name: 'new_project_id',
-                                                value: @target_project,
+                                                filters: [{ name: 'user_action', operator: '=', values: ['work_packages/move'] }],
+                                                inputName: 'new_project_id',
+                                                model: @target_project,
                                                 appendTo: 'body',
+                                                hiddenFieldAction: 'change->refresh-on-form-changes#triggerReload',
+                                                clearable: false,
                                               },
                                               id: 'new_project_id',
                                               class: 'remote-field--input',
                                               data: {
-                                                'qa-selector': 'new_project_id'
+                                                'test-selector': 'new_project_id'
                                               }
                     %>
                   </div>
@@ -78,7 +84,10 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="form--field-container">
                 <%= styled_select_tag("new_type_id",
                        content_tag('option', t(:label_no_change_option), value: '') +
-                       options_from_collection_for_select(@types, "id", "name", @target_type&.id)) %>
+                       options_from_collection_for_select(@types, "id", "name", @target_type&.id),
+                       data: {
+                         'action': 'change->refresh-on-form-changes#triggerReload'
+                       }) %>
               </div>
             </div>
             <div class="form--field">
@@ -133,14 +142,24 @@ See COPYRIGHT and LICENSE files for more details.
           <div class="grid-content medium-6">
             <div class="form--field">
               <label class="form--label" for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
-              <div class="form--field-container">
-                <%= styled_text_field_tag 'start_date', '', size: 10, class: '-augmented-datepicker' %>
+              <div class="form--field-container -visible-overflow">
+                <%= angular_component_tag 'op-basic-single-date-picker',
+                                          inputs: {
+                                            id: "start_date",
+                                            name: "start_date"
+                                          }
+                %>
               </div>
             </div>
             <div class="form--field">
               <label class="form--label" for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
-              <div class="form--field-container">
-                <%= styled_text_field_tag 'due_date', '', size: 10, class: '-augmented-datepicker' %>
+              <div class="form--field-container -visible-overflow">
+                <%= angular_component_tag 'op-basic-single-date-picker',
+                                          inputs: {
+                                            id: "due_date",
+                                            name: "due_date"
+                                          }
+                %>
               </div>
             </div>
             <% if @target_type %>
@@ -165,11 +184,11 @@ See COPYRIGHT and LICENSE files for more details.
     </section>
   <% if @copy %>
     <%= hidden_field_tag("copy") %>
-    <%= styled_submit_tag t(:button_copy), class: '-highlight' %>
-    <%= styled_submit_tag t(:button_copy_and_follow), name: 'follow', class: '-highlight' %>
+    <%= styled_submit_tag t(:button_copy), class: '-primary' %>
+    <%= styled_submit_tag t(:button_copy_and_follow), name: 'follow', class: '-primary' %>
   <% else %>
-    <%= styled_submit_tag t(:button_move), class: '-highlight' %>
-    <%= styled_submit_tag t(:button_move_and_follow), name: 'follow', class: '-highlight' %>
+    <%= styled_submit_tag t(:button_move), class: '-primary' %>
+    <%= styled_submit_tag t(:button_move_and_follow), name: 'follow', class: '-primary' %>
   <% end %>
 <% end %>
 <% content_for :header_tags do %>

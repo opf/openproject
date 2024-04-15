@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Notifications::CreateService, 'integration', type: :model do
+RSpec.describe Notifications::CreateService, "integration", type: :model do
   let(:work_package) { create(:work_package) }
   let(:project) { work_package.project }
   let(:journal) { work_package.journals.first }
@@ -43,7 +43,7 @@ describe Notifications::CreateService, 'integration', type: :model do
 
   current_user { create(:user) }
 
-  describe '#call' do
+  describe "#call" do
     let(:attributes) do
       {
         recipient:,
@@ -58,7 +58,7 @@ describe Notifications::CreateService, 'integration', type: :model do
       }
     end
 
-    it 'creates a notification' do
+    it "creates a notification" do
       # successful
       expect { service_result }
         .to change(Notification, :count)
@@ -68,12 +68,12 @@ describe Notifications::CreateService, 'integration', type: :model do
         .to be_success
     end
 
-    context 'with the journal being deleted in the meantime (e.g. via a different process)' do
+    context "with the journal being deleted in the meantime (e.g. via a different process)" do
       before do
         Journal.where(id: journal.id).delete_all
       end
 
-      it 'creates no notification' do
+      it "creates no notification" do
         # successful
         expect { service_result }
           .not_to change(Notification, :count)
@@ -82,7 +82,7 @@ describe Notifications::CreateService, 'integration', type: :model do
           .to be_failure
 
         expect(service_result.errors.details[:journal_id])
-          .to match_array [{ error: :does_not_exist }]
+          .to contain_exactly({ error: :does_not_exist })
       end
     end
   end

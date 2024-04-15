@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,66 +26,60 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Work package filtering by assignee', js: true do
-  let(:project) { create :project }
-  let(:invisible_project) { create :project }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
+RSpec.describe "Work package filtering by assignee", :js do
+  let(:project) { create(:project) }
+  let(:invisible_project) { create(:project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do
-    create :user,
-           firstname: 'Other',
-           lastname: 'User',
-           member_in_project: project,
-           member_through_role: role
+    create(:user,
+           firstname: "Other",
+           lastname: "User",
+           member_with_roles: { project => role })
   end
   let(:invisible_user) do
-    create :user,
-           firstname: 'Invisible',
-           lastname: 'User',
-           member_in_project: invisible_project,
-           member_through_role: role
+    create(:user,
+           firstname: "Invisible",
+           lastname: "User",
+           member_with_roles: { invisible_project => role })
   end
   let(:placeholder_user) do
-    create :placeholder_user,
-           member_in_project: project,
-           member_through_role: role
+    create(:placeholder_user, member_with_roles: { project => role })
   end
 
   let!(:work_package_user_assignee) do
-    create :work_package,
+    create(:work_package,
            project:,
-           assigned_to: other_user
+           assigned_to: other_user)
   end
   let!(:work_package_placeholder_user_assignee) do
-    create :work_package,
+    create(:work_package,
            project:,
-           assigned_to: placeholder_user
+           assigned_to: placeholder_user)
   end
 
   current_user do
-    create :user,
-           member_in_project: project,
-           member_through_role: role
+    create(:user, member_with_roles: { project => role })
   end
 
-  it 'shows the work package matching the assigned to filter' do
+  it "shows the work package matching the assigned to filter" do
     wp_table.visit!
     wp_table.expect_work_package_listed(work_package_user_assignee, work_package_placeholder_user_assignee)
 
     filters.open
-    filters.expect_missing_filter_value_by('Assignee', 'is', [invisible_user.name])
+    filters.expect_missing_filter_value_by("Assignee", "is (OR)", [invisible_user.name])
 
-    filters.add_filter_by('Assignee', 'is', [other_user.name])
+    filters.add_filter_by("Assignee", "is (OR)", [other_user.name])
 
     wp_table.ensure_work_package_not_listed!(work_package_placeholder_user_assignee)
     wp_table.expect_work_package_listed(work_package_user_assignee)
 
-    wp_table.save_as('Subject query')
+    wp_table.save_as("Subject query")
 
-    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+    wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
     # Revisit query
     wp_table.visit_query Query.last
@@ -93,9 +87,9 @@ describe 'Work package filtering by assignee', js: true do
     wp_table.expect_work_package_listed(work_package_user_assignee)
 
     filters.open
-    filters.expect_filter_by('Assignee', 'is', [other_user.name])
-    filters.remove_filter 'assignee'
-    filters.add_filter_by('Assignee', 'is', [placeholder_user.name])
+    filters.expect_filter_by("Assignee", "is (OR)", [other_user.name])
+    filters.remove_filter "assignee"
+    filters.add_filter_by("Assignee", "is (OR)", [placeholder_user.name])
 
     wp_table.ensure_work_package_not_listed!(work_package_user_assignee)
     wp_table.expect_work_package_listed(work_package_placeholder_user_assignee)

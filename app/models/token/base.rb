@@ -18,7 +18,8 @@
 
 module Token
   class Base < ApplicationRecord
-    self.table_name = 'tokens'
+    self.table_name = "tokens"
+    serialize :data, coder: ::Serializers::IndifferentHashSerializer
 
     # Hashed tokens belong to a user and are unique per type
     belongs_to :user
@@ -37,6 +38,12 @@ module Token
     # Find a token from the token value
     def self.find_by_plaintext_value(input)
       find_by(value: input)
+    end
+
+    ##
+    # Find tokens for the given user
+    def self.for_user(user)
+      where(user:)
     end
 
     ##

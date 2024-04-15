@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -48,6 +48,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Component({
   selector: 'user-activity',
@@ -65,6 +66,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   @Input() public isInitial:boolean;
 
   @Input() public hasUnreadNotification:boolean;
+
+  private additionalScrollMargin = 200;
 
   public userCanEdit = false;
 
@@ -97,18 +100,21 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   private $element:JQuery;
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly injector:Injector,
     readonly sanitization:DomSanitizer,
     readonly PathHelper:PathHelperService,
     readonly wpLinkedActivities:WorkPackagesActivityService,
     readonly commentService:CommentService,
-    readonly ConfigurationService:ConfigurationService,
+    readonly configurationService:ConfigurationService,
     readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly ngZone:NgZone,
-    protected appRef:ApplicationRef) {
+    readonly deviceService:DeviceService,
+    protected appRef:ApplicationRef,
+  ) {
     super(elementRef, injector);
   }
 
@@ -128,8 +134,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.$element.bind('focusin', this.focus.bind(this));
     this.$element.bind('focusout', this.blur.bind(this));
 
-    _.each(this.activity.details, (detail:any) => {
-      this.details.push(detail.html);
+    _.each(this.activity.details, (detail:{ html:string }) => {
+      this.details.push(this.sanitization.bypassSecurityTrustHtml(detail.html));
     });
 
     this
@@ -148,7 +154,14 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     if (window.location.hash === `#activity-${this.activityNo}`) {
       this.ngZone.runOutsideAngular(() => {
         setTimeout(() => {
-          this.elementRef.nativeElement.scrollIntoView(true);
+          if (this.deviceService.isMobile) {
+            (this.elementRef.nativeElement as HTMLElement).scrollIntoView(true);
+            return;
+          }
+          const activityElement = document.querySelectorAll(`[data-qa-activity-number='${this.activityNo}']`)[0] as HTMLElement;
+          const scrollContainer = document.querySelectorAll("[data-notification-selector='notification-scroll-container']")[0];
+          const scrollOffset = activityElement.offsetTop - (scrollContainer as HTMLElement).offsetTop - this.additionalScrollMargin;
+          scrollContainer.scrollTop = scrollOffset;
         });
       });
     }
@@ -221,7 +234,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     return this.focused;
   }
 
-  setErrors(newErrors:string[]):void {
+  setErrors(_newErrors:string[]):void {
     // interface
   }
 
@@ -229,7 +242,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     const quoted = rawComment.split('\n')
       .map((line:string) => `\n> ${line}`)
       .join('');
-    return `${this.userName} wrote:\n${quoted}`;
+    const userWrote = this.I18n.instance_locale_translate('js.text_user_wrote', { value: this.userName });
+    return `${userWrote}\n${quoted}`;
   }
 
   deactivate(focus:boolean):void {

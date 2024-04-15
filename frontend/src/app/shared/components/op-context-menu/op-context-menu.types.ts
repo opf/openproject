@@ -2,12 +2,6 @@ import { InjectionToken } from '@angular/core';
 
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
 
-export interface OpContextMenuLocalsMap {
-  items:OpContextMenuItem[];
-  contextMenuId?:string;
-  [key:string]:any;
-}
-
 export interface OpContextMenuItem {
   disabled?:boolean;
   hidden?:boolean;
@@ -19,4 +13,13 @@ export interface OpContextMenuItem {
   title?:string;
   divider?:boolean;
   onClick?:($event:JQuery.TriggeredEvent|MouseEvent) => boolean;
+}
+
+export interface OpContextMenuLocalsMap {
+  items:OpContextMenuItem[];
+  showAnchorRight?:boolean;
+  contextMenuId?:string;
+  label?:string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  [key:string]:any;
 }

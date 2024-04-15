@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,8 +39,8 @@ module RuboCop::Cop::OpenProject
   class UseServiceResultFactoryMethods < RuboCop::Cop::Base
     extend RuboCop::Cop::AutoCorrector
 
-    MSG = 'Use ServiceResult.%<factory_method>s(...) instead of ServiceResult.new(success: %<success_value>s, ...).'.freeze
-    MSG_IMPLICIT_FAILURE = 'Use ServiceResult.failure instead of ServiceResult.new.'.freeze
+    MSG = "Use ServiceResult.%<factory_method>s(...) instead of ServiceResult.new(success: %<success_value>s, ...).".freeze
+    MSG_IMPLICIT_FAILURE = "Use ServiceResult.failure instead of ServiceResult.new.".freeze
 
     def_node_matcher :service_result_constructor?, <<~PATTERN
       (send
@@ -104,7 +104,7 @@ module RuboCop::Cop::OpenProject
 
     def add_offense_for_implicit_failure(node)
       add_offense(node.loc.selector, message: MSG_IMPLICIT_FAILURE) do |corrector|
-        corrector.replace(node.loc.selector, 'failure')
+        corrector.replace(node.loc.selector, "failure")
       end
     end
 
@@ -113,7 +113,7 @@ module RuboCop::Cop::OpenProject
     end
 
     def factory_method(success_argument)
-      success_argument.value.source == 'true' ? 'success' : 'failure'
+      success_argument.value.source == "true" ? "success" : "failure"
     end
 
     def removal_range(node, success_argument)

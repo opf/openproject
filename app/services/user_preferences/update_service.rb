@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,8 +60,8 @@ module UserPreferences
                           .map { |item| item.merge(user_id: model.user_id) }
                           .partition { |setting| setting[:project_id].nil? }
 
-      global_ids = upsert_notifications(global, %i[user_id], 'project_id IS NULL')
-      project_ids = upsert_notifications(project, %i[user_id project_id], 'project_id IS NOT NULL')
+      global_ids = upsert_notifications(global, %i[user_id], "project_id IS NULL")
+      project_ids = upsert_notifications(project, %i[user_id project_id], "project_id IS NOT NULL")
 
       global_ids + project_ids
     end
@@ -92,6 +92,7 @@ module UserPreferences
             columns: %i[watched
                         assignee
                         responsible
+                        shared
                         mentioned
                         start_date
                         due_date

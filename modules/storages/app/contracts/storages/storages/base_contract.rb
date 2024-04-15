@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +28,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 # Purpose: common functionalities shared by CreateContract and UpdateContract
 # UpdateService by default checks if UpdateContract exists
 # and uses the contract to validate the model under consideration
 # (normally it's a model).
 module Storages::Storages
-  class BaseContract < ::ModelContract
-    MINIMAL_NEXTCLOUD_VERSION = 22
-
+  class BaseContract < ::BaseContract
     include ::Storages::Storages::Concerns::ManageStoragesGuarded
-    include ActiveModel::Validations
 
     attribute :name
     validates :name, presence: true, length: { maximum: 255 }
 
     attribute :provider_type
-    validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }
+    validates :provider_type, inclusion: { in: Storages::Storage::PROVIDER_TYPES }, allow_nil: false
 
-    attribute :host
-    validates :host, url: { message: I18n.t('activerecord.errors.messages.invalid_url') }, length: { maximum: 255 }
-    # Check that a host actually is a storage server.
-    # But only do so if the validations above for URL were successful.
-    validates :host, secure_context_uri: true, nextcloud_compatible_host: true, unless: -> { errors.include?(:host) }
+    attribute :provider_fields
+
+    validate :provider_type_strategy,
+             unless: -> { errors.include?(:provider_type) || @options.delete(:skip_provider_type_strategy) }
+
+    private
+
+    def provider_type_strategy
+      contract = ::Storages::Peripherals::Registry.resolve("#{model.short_provider_type}.contracts.storage")
+                                                  .new(model, @user, options: @options)
+
+      # Append the attributes defined in the internal contract
+      # to the list of writable attributes.
+      # Otherwise, we get :readonly validation errors.
+      contract.writable_attributes.append(*writable_attributes)
+
+      # Validating the contract will clear the errors
+      # of this contract so we save them for later.
+      with_merged_former_errors do
+        contract.validate
+      end
+    end
+
+    def require_ee_token_for_one_drive
+      if ::Storages::Storage.one_drive_without_ee_token?(provider_type)
+        errors.add(:base, I18n.t("api_v3.errors.code_500_missing_enterprise_token"))
+      end
+    end
   end
 end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,13 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
-import { RelationsStateValue, WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  RelationsStateValue,
+  WorkPackageRelationsService,
+} from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -39,29 +44,37 @@ import { RelationResource } from 'core-app/features/hal/resources/relation-resou
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { ShareResource } from 'core-app/features/hal/resources/share-resource';
+import { map } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
-  constructor(readonly querySpace:IsolatedQuerySpace,
+  constructor(
+    readonly querySpace:IsolatedQuerySpace,
     readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly notificationService:WorkPackageNotificationService,
     readonly halResourceService:HalResourceService,
     readonly apiV3Service:ApiV3Service,
     readonly schemaCache:SchemaCacheService,
-    readonly wpRelations:WorkPackageRelationsService) {
+    readonly wpRelations:WorkPackageRelationsService,
+  ) {
   }
 
   public initialize(query:QueryResource, results:WorkPackageCollectionResource):void {
     const rows = results.elements;
+    const workPackageIds = rows.map((el) => el.id!);
 
     // Add relations to the stack
     Promise.all([
-      this.requireInvolvedRelations(rows.map((el) => el.id!)),
+      this.requireInvolvedRelations(workPackageIds),
       this.requireHierarchyElements(rows),
+      this.requireWorkPackageShares(workPackageIds),
       this.requireSumsSchema(results),
-    ]).then((results:string[][]) => {
-      this.loadAdditional(_.flatten(results));
+    ]).then((wpResults:string[][]) => {
+      this.loadAdditional(_.flatten(wpResults));
     });
   }
 
@@ -105,7 +118,10 @@ export class WorkPackageViewAdditionalElementsService {
       return Promise.resolve([]);
     }
 
-    const ids = _.flatten(rows.map((el) => el.ancestorIds));
+    const resultIds = rows.map((el:WorkPackageResource) => (el.id as string | number).toString());
+    const ids = _.flatten(rows.map((el) => el.ancestorIds))
+      .filter((id) => !resultIds.includes(id));
+
     return Promise.resolve(ids);
   }
 
@@ -134,5 +150,39 @@ export class WorkPackageViewAdditionalElementsService {
     }
 
     return Promise.resolve([]);
+  }
+
+  private requireWorkPackageShares(wpIds:string[]):Promise<string[]> {
+    if (!this.wpTableColumns.hasShareColumn()) { return Promise.resolve([]); }
+    if (wpIds.length === 0) { return Promise.resolve([]); }
+
+    const filters = new ApiV3FilterBuilder()
+      .add('entityType', '=', ['WorkPackage'])
+      .add('entityId', '=', wpIds);
+
+    const workPackageShareRequest = this
+      .apiV3Service
+      .shares
+      .filtered(filters, { pageSize: '-1' })
+      .getPaginatedResults()
+      .pipe(
+        map((elements) => {
+          const shares = elements as ShareResource[];
+
+          const sharedWpIds = _.uniq(shares.map((share) => share.entity.id as string));
+
+          sharedWpIds.forEach((wpId) => {
+            this
+              .querySpace
+              .workPackageSharesCache
+              .get(wpId)
+              .putValue(shares.filter((share) => share.entity.id === wpId));
+          });
+
+          return [];
+        }),
+      );
+
+      return firstValueFrom(workPackageShareRequest);
   }
 }

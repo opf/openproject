@@ -22,7 +22,7 @@ module OpenProject::OpenIDConnect
 
     attr_reader :session_link
 
-    delegate :oidc_session, to: :session_link
+    delegate :oidc_session, to: :session_link, allow_nil: true
 
     def initialize(link)
       @session_link = link

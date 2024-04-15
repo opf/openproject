@@ -1,6 +1,6 @@
 module OpenIDConnect
   class ProvidersController < ::ApplicationController
-    layout 'admin'
+    layout "admin"
     menu_item :plugin_openid_connect
 
     before_action :require_admin
@@ -13,7 +13,7 @@ module OpenIDConnect
       if openid_connect_providers_available_for_configure.none?
         redirect_to action: :index
       else
-        @provider = ::OpenIDConnect::Provider.initialize_with({})
+        @provider = ::OpenIDConnect::Provider.initialize_with({ use_graph_api: true })
       end
     end
 
@@ -56,17 +56,21 @@ module OpenIDConnect
 
     def check_ee
       unless EnterpriseToken.allows_to?(:openid_providers)
-        render template: '/openid_connect/providers/upsale'
+        render template: "/openid_connect/providers/upsale"
         false
       end
     end
 
     def create_params
-      params.require(:openid_connect_provider).permit(:name, :display_name, :identifier, :secret)
+      params
+        .require(:openid_connect_provider)
+        .permit(:name, :display_name, :identifier, :secret, :limit_self_registration, :tenant, :use_graph_api)
     end
 
     def update_params
-      params.require(:openid_connect_provider).permit(:display_name, :identifier, :secret)
+      params
+        .require(:openid_connect_provider)
+        .permit(:display_name, :identifier, :secret, :limit_self_registration, :tenant, :use_graph_api)
     end
 
     def find_provider
@@ -87,8 +91,8 @@ module OpenIDConnect
     helper_method :openid_connect_providers_available_for_configure
 
     def default_breadcrumb
-      if action_name != 'index'
-        ActionController::Base.helpers.link_to(t('openid_connect.providers.plural'), openid_connect_providers_path)
+      if action_name != "index"
+        ActionController::Base.helpers.link_to(t("openid_connect.providers.plural"), openid_connect_providers_path)
       end
     end
 

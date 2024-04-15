@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,181 +28,179 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
+require_module_spec_helper
 
-describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::FileLinks::FileLinkRepresenter, "rendering" do
+  include API::V3::Utilities::PathHelper
 
-  let(:storage) { build_stubbed(:storage) }
+  let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:container) { build_stubbed(:work_package) }
-  let(:creator) { build_stubbed(:user, firstname: 'Rey', lastname: 'Palpatine') }
-  let(:origin_permission) { :view }
-  let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:, origin_permission:) }
+  let(:project) { container.project }
+  let(:creator) { build_stubbed(:user, firstname: "Rey", lastname: "Palpatine") }
+  let(:origin_status) { :view_allowed }
+  let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:, origin_status:) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(file_link, current_user: user) }
 
   subject(:generated) { representer.to_json }
 
-  describe '_links' do
-    describe 'self' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
+  describe "_links" do
+    describe "self" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
         let(:href) { "/api/v3/file_links/#{file_link.id}" }
         let(:title) { file_link.name }
       end
     end
 
-    describe 'storage' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'storage' }
+    describe "storage" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "storage" }
         let(:href) { "/api/v3/storages/#{storage.id}" }
         let(:title) { storage.name }
       end
     end
 
-    describe 'container' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'container' }
+    describe "container" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "container" }
         let(:href) { "/api/v3/work_packages/#{container.id}" }
         let(:title) { container.name }
       end
     end
 
-    describe 'creator' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'creator' }
+    describe "creator" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "creator" }
         let(:href) { "/api/v3/users/#{creator.id}" }
         let(:title) { creator.name }
       end
     end
 
-    describe 'delete' do
+    describe "delete" do
       let(:permission) { :manage_file_links }
 
-      it_behaves_like 'has an untitled action link' do
-        let(:link) { 'delete' }
+      it_behaves_like "has an untitled action link" do
+        let(:link) { "delete" }
         let(:href) { "/api/v3/file_links/#{file_link.id}" }
         let(:method) { :delete }
       end
     end
 
-    describe 'permission' do
-      context 'with permission granted' do
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'permission' }
-          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:View' }
-          let(:title) { 'View' }
+    describe "status" do
+      context "with permission" do
+        it_behaves_like "has a titled link" do
+          let(:link) { "status" }
+          let(:href) { "urn:openproject-org:api:v3:file-links:permission:ViewAllowed" }
+          let(:title) { "View allowed" }
         end
       end
 
-      context 'with permission NotAllowed' do
-        let(:origin_permission) { :not_allowed }
+      context "without permission" do
+        let(:origin_status) { :view_not_allowed }
 
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'permission' }
-          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:NotAllowed' }
-          let(:title) { 'Not allowed' }
+        it_behaves_like "has a titled link" do
+          let(:link) { "status" }
+          let(:href) { "urn:openproject-org:api:v3:file-links:permission:ViewNotAllowed" }
+          let(:title) { "View not allowed" }
         end
       end
 
-      context 'with permission not defined (nil)' do
-        let(:origin_permission) { nil }
+      context "if not found" do
+        let(:origin_status) { :not_found }
 
-        it_behaves_like 'has no link' do
-          let(:link) { 'permission' }
+        it_behaves_like "has a titled link" do
+          let(:link) { "status" }
+          let(:href) { "urn:openproject-org:api:v3:file-links:NotFound" }
+          let(:title) { "Not found" }
         end
       end
 
-      context 'with permission check had an Error' do
-        let(:origin_permission) { :error }
+      context "with status not defined (nil)" do
+        let(:origin_status) { nil }
 
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'permission' }
-          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:Error' }
-          let(:title) { 'Error' }
+        it_behaves_like "has no link" do
+          let(:link) { "status" }
+        end
+      end
+
+      context "with status check had an error" do
+        let(:origin_status) { :error }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "status" }
+          let(:href) { "urn:openproject-org:api:v3:file-links:Error" }
+          let(:title) { "Error" }
         end
       end
     end
 
-    describe 'originOpen' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'originOpen' }
-        let(:href) { "#{storage.host}/index.php/f/#{file_link.origin_id}?openfile=1" }
-      end
-    end
-
-    describe 'staticOriginOpen' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'staticOriginOpen' }
+    describe "staticOriginOpen" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "staticOriginOpen" }
         let(:href) { "/api/v3/file_links/#{file_link.id}/open" }
       end
     end
 
-    describe 'originOpenLocation' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'originOpenLocation' }
-        let(:href) { "#{storage.host}/index.php/f/#{file_link.origin_id}?openfile=0" }
-      end
-    end
-
-    describe 'staticOriginOpenLocation' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'staticOriginOpenLocation' }
+    describe "staticOriginOpenLocation" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "staticOriginOpenLocation" }
         let(:href) { "/api/v3/file_links/#{file_link.id}/open?location=true" }
       end
     end
 
-    describe 'staticOriginDownload' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'staticOriginDownload' }
+    describe "staticOriginDownload" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "staticOriginDownload" }
         let(:href) { "/api/v3/file_links/#{file_link.id}/download" }
       end
     end
   end
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'FileLink' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "FileLink" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { file_link.id }
     end
 
-    it_behaves_like 'datetime property', :createdAt do
+    it_behaves_like "datetime property", :createdAt do
       let(:value) { file_link.created_at }
     end
 
-    it_behaves_like 'datetime property', :updatedAt do
+    it_behaves_like "datetime property", :updatedAt do
       let(:value) { file_link.updated_at }
     end
 
-    describe 'originData' do
-      it_behaves_like 'property', 'originData/id' do
+    describe "originData" do
+      it_behaves_like "property", "originData/id" do
         let(:value) { file_link.origin_id }
       end
 
-      it_behaves_like 'property', 'originData/name' do
+      it_behaves_like "property", "originData/name" do
         let(:value) { file_link.origin_name }
       end
 
-      it_behaves_like 'property', 'originData/mimeType' do
+      it_behaves_like "property", "originData/mimeType" do
         let(:value) { file_link.origin_mime_type }
       end
 
-      it_behaves_like 'datetime property', 'originData/createdAt' do
+      it_behaves_like "datetime property", "originData/createdAt" do
         let(:value) { file_link.origin_created_at }
       end
 
-      it_behaves_like 'datetime property', 'originData/lastModifiedAt' do
+      it_behaves_like "datetime property", "originData/lastModifiedAt" do
         let(:value) { file_link.origin_updated_at }
       end
 
-      it_behaves_like 'property', 'originData/createdByName' do
+      it_behaves_like "property", "originData/createdByName" do
         let(:value) { file_link.origin_created_by_name }
       end
 
-      it_behaves_like 'property', 'originData/lastModifiedByName' do
+      it_behaves_like "property", "originData/lastModifiedByName" do
         let(:value) { file_link.origin_last_modified_by_name }
       end
     end

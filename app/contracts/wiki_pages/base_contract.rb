@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,45 +39,30 @@ module WikiPages
 
     validate :validate_author_is_set
     validate :validate_wiki_is_set
-    validate :validate_content_is_set
     validate :validate_user_edit_allowed
     validate :validate_user_protect_permission
 
     private
 
     def validate_user_edit_allowed
-      if (model.project && !user.allowed_to?(:edit_wiki_pages, model.project)) ||
-         (model.protected_was && !user.allowed_to?(:protect_wiki_pages, model.project))
+      if (model.project && !user.allowed_in_project?(:edit_wiki_pages, model.project)) ||
+         (model.protected_was && !user.allowed_in_project?(:protect_wiki_pages, model.project))
         errors.add :base, :error_unauthorized
       end
     end
 
     def validate_author_is_set
-      errors.add :author, :blank if model.content&.author.nil?
+      errors.add :author, :blank if model.author.nil?
     end
 
     def validate_wiki_is_set
       errors.add :wiki, :blank if model.wiki.nil?
     end
 
-    def validate_content_is_set
-      errors.add :content, :blank if model.content.nil?
-    end
-
     def validate_user_protect_permission
-      if model.protected_changed? && !user.allowed_to?(:protect_wiki_pages, model.project)
+      if model.protected_changed? && !user.allowed_in_project?(:protect_wiki_pages, model.project)
         errors.add :protected, :error_unauthorized
       end
-    end
-
-    def changed_by_user
-      content_changed = if model.content
-                          model.content.respond_to?(:changed_by_user) ? model.content.changed_by_user : model.content.changed
-                        else
-                          []
-                        end
-
-      super + content_changed
     end
   end
 end

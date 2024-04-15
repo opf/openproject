@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -35,19 +35,6 @@ See COPYRIGHT and LICENSE files for more details.
                             collapsible: true,
                             textMessage: t('text_project_custom_field_html'),
                             moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
-                          }
-    %>
-  <% end %>
-<% end %>
-
-<% if tab[:name] == 'WorkPackageCustomField' %>
-  <% unless EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
-    <%=
-    angular_component_tag 'op-enterprise-banner',
-                          inputs: {
-                            collapsible: true,
-                            textMessage: t('text_wp_custom_field_html'),
-                            moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_multiselect][:href],
                           }
     %>
   <% end %>

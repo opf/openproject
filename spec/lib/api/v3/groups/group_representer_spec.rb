@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Groups::GroupRepresenter, "rendering" do
+  include API::V3::Utilities::PathHelper
 
   subject(:generated) { representer.to_json }
 
@@ -48,26 +48,25 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
   let(:embed_links) { true }
 
   before do
-    allow(current_user)
-      .to receive(:allowed_to_globally?) do |permission|
-      permissions.include?(permission)
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project(*permissions, project: build_stubbed(:project)) # any project
     end
   end
 
-  describe '_links' do
-    describe 'self' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
+  describe "_links" do
+    describe "self" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.group group.id }
         let(:title) { group.name }
       end
     end
 
-    describe 'members' do
-      let(:link) { 'members' }
+    describe "members" do
+      let(:link) { "members" }
 
-      context 'with the necessary permissions' do
-        it_behaves_like 'has a link collection' do
+      context "with the necessary permissions" do
+        it_behaves_like "has a link collection" do
           let(:hrefs) do
             members.map do |member|
               {
@@ -79,107 +78,118 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
         end
       end
 
-      context 'without the necessary permissions' do
+      context "without the necessary permissions" do
         let(:permissions) { [] }
 
-        it_behaves_like 'has no link'
+        it_behaves_like "has no link"
+      end
+
+      context "when first having the necessary permissions and then not (caching)" do
+        before do
+          representer.to_json
+          # here the json will have links, afterwards we change the permissions
+
+          mock_permissions_for(current_user, &:forbid_everything)
+        end
+
+        it_behaves_like "has no link"
       end
     end
 
-    describe 'updateImmediately' do
-      let(:link) { 'updateImmediately' }
+    describe "updateImmediately" do
+      let(:link) { "updateImmediately" }
 
-      context 'with the necessary permissions' do
+      context "with the necessary permissions" do
         let(:current_user_admin) { true }
 
-        it_behaves_like 'has an untitled link' do
+        it_behaves_like "has an untitled link" do
           let(:href) { api_v3_paths.group group.id }
         end
       end
 
-      context 'without the necessary permissions' do
+      context "without the necessary permissions" do
         let(:current_user_admin) { false }
 
-        it_behaves_like 'has no link'
+        it_behaves_like "has no link"
       end
     end
 
-    describe 'delete' do
-      let(:link) { 'delete' }
+    describe "delete" do
+      let(:link) { "delete" }
 
-      context 'with the necessary permissions' do
+      context "with the necessary permissions" do
         let(:current_user_admin) { true }
 
-        it_behaves_like 'has an untitled link' do
+        it_behaves_like "has an untitled link" do
           let(:href) { api_v3_paths.group group.id }
         end
       end
 
-      context 'without the necessary permissions' do
+      context "without the necessary permissions" do
         let(:current_user_admin) { false }
 
-        it_behaves_like 'has no link'
+        it_behaves_like "has no link"
       end
     end
   end
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'Group' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "Group" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { group.id }
     end
 
-    it_behaves_like 'property', :name do
+    it_behaves_like "property", :name do
       let(:value) { group.name }
     end
 
-    describe 'createdAt' do
-      context 'without admin' do
-        it 'hides the createdAt property' do
-          expect(subject).not_to have_json_path('createdAt')
+    describe "createdAt" do
+      context "without admin" do
+        it "hides the createdAt property" do
+          expect(subject).not_to have_json_path("createdAt")
         end
       end
 
-      context 'with an admin' do
+      context "with an admin" do
         let(:current_user) { build_stubbed(:admin) }
 
-        it_behaves_like 'has UTC ISO 8601 date and time' do
+        it_behaves_like "has UTC ISO 8601 date and time" do
           let(:date) { group.created_at }
-          let(:json_path) { 'createdAt' }
+          let(:json_path) { "createdAt" }
         end
       end
     end
 
-    describe 'updatedAt' do
-      context 'without admin' do
-        it 'hides the updatedAt property' do
-          expect(subject).not_to have_json_path('updatedAt')
+    describe "updatedAt" do
+      context "without admin" do
+        it "hides the updatedAt property" do
+          expect(subject).not_to have_json_path("updatedAt")
         end
       end
 
-      context 'with an admin' do
+      context "with an admin" do
         let(:current_user) { build_stubbed(:admin) }
 
-        it_behaves_like 'has UTC ISO 8601 date and time' do
+        it_behaves_like "has UTC ISO 8601 date and time" do
           let(:date) { group.updated_at }
-          let(:json_path) { 'updatedAt' }
+          let(:json_path) { "updatedAt" }
         end
       end
     end
   end
 
-  describe '_embedded' do
-    describe 'members' do
-      let(:embedded_path) { '_embedded/members' }
+  describe "_embedded" do
+    describe "members" do
+      let(:embedded_path) { "_embedded/members" }
 
-      context 'with the necessary permissions' do
-        it 'has an array of users embedded' do
+      context "with the necessary permissions" do
+        it "has an array of users embedded" do
           members.each_with_index do |user, index|
             expect(subject)
-              .to be_json_eql('User'.to_json)
+              .to be_json_eql("User".to_json)
               .at_path("#{embedded_path}/#{index}/_type")
 
             expect(subject)
@@ -189,10 +199,10 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
         end
       end
 
-      context 'without the necessary permissions' do
+      context "without the necessary permissions" do
         let(:permissions) { [] }
 
-        it 'has no members embedded' do
+        it "has no members embedded" do
           expect(subject)
             .not_to have_json_path embedded_path
         end
@@ -200,10 +210,10 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
     end
   end
 
-  describe 'caching' do
+  describe "caching" do
     let(:embed_links) { false }
 
-    it 'is based on the representer\'s cache_key' do
+    it "is based on the representer's cache_key" do
       expect(OpenProject::Cache)
         .to receive(:fetch)
         .with(representer.json_cache_key)
@@ -212,22 +222,22 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
       representer.to_json
     end
 
-    describe '#json_cache_key' do
+    describe "#json_cache_key" do
       let!(:former_cache_key) { representer.json_cache_key }
 
-      it 'includes the name of the representer class' do
+      it "includes the name of the representer class" do
         expect(representer.json_cache_key)
-          .to include('API', 'V3', 'Groups', 'GroupRepresenter')
+          .to include("API", "V3", "Groups", "GroupRepresenter")
       end
 
-      it 'changes when the locale changes' do
+      it "changes when the locale changes" do
         I18n.with_locale(:fr) do
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
         end
       end
 
-      it 'changes when the group is updated' do
+      it "changes when the group is updated" do
         group.updated_at = Time.now + 20.seconds
 
         expect(representer.json_cache_key)

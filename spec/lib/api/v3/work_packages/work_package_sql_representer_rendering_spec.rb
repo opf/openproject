@@ -24,13 +24,13 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
+  include API::V3::Utilities::PathHelper
 
   subject(:json) do
-    ::API::V3::Utilities::SqlRepresenterWalker
+    API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
            current_user:,
            url_query: { select: })
@@ -50,20 +50,20 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
            author:,
            responsible:)
   end
-  let(:project) { create :project, types: [create(:type, is_milestone:)] }
+  let(:project) { create(:project, types: [create(:type, is_milestone:)]) }
   let(:is_milestone) { false }
   let(:assignee) { nil }
   let(:author) { create(:user) }
   let(:responsible) { nil }
 
-  let(:select) { { '*' => {} } }
+  let(:select) { { "*" => {} } }
 
   current_user do
     create(:user)
   end
 
-  context 'when rendering all supported properties' do
-    context 'for a work_package' do
+  context "when rendering all supported properties" do
+    context "for a work_package" do
       let(:expected) do
         {
           _type: "WorkPackage",
@@ -94,13 +94,13 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
         }
       end
 
-      it 'renders as expected' do
+      it "renders as expected" do
         expect(json)
           .to be_json_eql(expected.to_json)
       end
     end
 
-    context 'for a milestone work_package' do
+    context "for a milestone work_package" do
       let(:is_milestone) { true }
       let(:expected) do
         {
@@ -131,16 +131,16 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
         }
       end
 
-      it 'renders as expected' do
+      it "renders as expected" do
         expect(json).to be_json_eql(expected.to_json)
       end
     end
   end
 
-  shared_examples_for 'principal link' do |link_name, only_user: false|
+  shared_examples_for "principal link" do |link_name, only_user: false|
     let(:select) { { link_name => {} } }
 
-    context 'with a user' do
+    context "with a user" do
       let(:principal_object) { create(:user) }
 
       let(:expected) do
@@ -154,14 +154,14 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
         }
       end
 
-      it 'renders as expected' do
+      it "renders as expected" do
         expect(json)
           .to be_json_eql(expected.to_json)
       end
     end
 
     unless only_user
-      context 'with a group' do
+      context "with a group" do
         let(:principal_object) { create(:group) }
 
         let(:expected) do
@@ -175,13 +175,13 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
           }
         end
 
-        it 'renders as expected' do
+        it "renders as expected" do
           expect(json)
             .to be_json_eql(expected.to_json)
         end
       end
 
-      context 'with a placeholder user' do
+      context "with a placeholder user" do
         let(:principal_object) { create(:placeholder_user) }
 
         let(:expected) do
@@ -195,7 +195,7 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
           }
         end
 
-        it 'renders as expected' do
+        it "renders as expected" do
           expect(json)
             .to be_json_eql(expected.to_json)
         end
@@ -203,20 +203,20 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
     end
   end
 
-  describe 'assignee link' do
-    it_behaves_like 'principal link', 'assignee' do
+  describe "assignee link" do
+    it_behaves_like "principal link", "assignee" do
       let(:assignee) { principal_object }
     end
   end
 
-  describe 'responsible link' do
-    it_behaves_like 'principal link', 'responsible' do
+  describe "responsible link" do
+    it_behaves_like "principal link", "responsible" do
       let(:responsible) { principal_object }
     end
   end
 
-  describe 'author link' do
-    it_behaves_like 'principal link', 'author', only_user: true do
+  describe "author link" do
+    it_behaves_like "principal link", "author", only_user: true do
       let(:author) { principal_object }
     end
   end

@@ -29,9 +29,13 @@ In order to see a project and work in it, you have to be a member of a project. 
 
 ## View members
 
-To view the list of **all project members and their roles** in the project, select Members in the project menu.
+To view the list of **all project members and their roles** in the project, select Members in the project menu on the left side. It will open a list of all the project members, including groups and external users, that work packages have been shared with.  
 
-![invite members](invite-members.png)
+You can use both filters in the left hand menu, as well as the filter options next to the **+ Member** button. 
+
+Please also refer to [Members module guide](../../user-guide/members).
+
+![invite members](project-members-module.png)
 
 ## Add existing users
 
@@ -45,7 +49,7 @@ Type the name of the user, placeholder user or group which you want to add. You 
 
 Please note that you will have to click on the new member's name or press the Enter key before clicking the Add button.
 
-![search bar for member selection invite members](search-bar-invite-members.png)
+![search bar for member selection invite members](invite-new-member.png)
 
 ## Invite new members
 
@@ -59,7 +63,7 @@ Type in the email address of the new member. If OpenProject does not find an exi
 
 An email invitation will be sent out to the user with a link to [create an account](../sign-in-registration/#create-a-new-account) for OpenProject.
 
-![invite new member via email in the members module](invite-new-member-via-email.png)
+![invite new member via email in the members module](invite-new-member-email.png)
 
 **Invite from header**
 
@@ -67,19 +71,19 @@ In the header menu that is always present, you find a green button that allows y
 
 ![green button for project creation](create-project-button.png)
 
-Once clicked on **Invite user**, a pop up comes up where you decide to which project you invite the new members and which roles they get.
+Once you clicked the **Invite user**, a dialogue will open. Here you can select the project, to which you want to invite new members and which roles they get.
 
 ![invite user pop up](invite-user-pop-up.png)
 
 **Invite within a work package**
 
-When you are working in the work package list, you can also invite users from there. For example when you want to set an assignee for a work package that has not got access to OpenProject yet, you can select Invite from the drop down. The same applies to accountables or custom fields for your project.
+When you are working in the work package table, you can also invite users from there. For example when you want to set an assignee for a work package that has not got access to OpenProject yet, you can select the Invite option from the drop down menu. The same applies to the column Accountable or custom fields for your project.
 
 ![invite user over assignment](invite-user-over-assignment.png)
 
 You can now collaborate with your team in OpenProject. Newly invited users will be shown with a letter symbol next to their name.
 
-Please note that removing a member who has not accepted the invite yet from a project will lead to the deletion of this user, which can't be reversed.
+> Please note that removing a member who has not accepted the invite from a project yet will lead to the deletion of this user, which can't be reversed.
 
 
 

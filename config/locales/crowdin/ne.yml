@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -26,15 +26,14 @@ ne:
       no_results_title_text: यो अवधिमा आयोजनाको कुनै पनि क्रियाकलाप भएको छैन ।
   admin:
     plugins:
-      no_results_title_text: हाल कुनै प्लगइनहरू उपलब्ध छैन।
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "रंग विषयवस्तु"
       color_theme_custom: "(अनुकूलन)"
       colors:
-        alternative-color: "वैकल्पिक"
-        content-link-color: "फन्ट लिंक गर्नुहोस् "
-        primary-color: "प्राथमिक"
-        primary-color-dark: "प्राथमिक (अँध्यारो)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "हेडर पृष्ठभूमि"
         header-item-bg-hover-color: "होभरमा हेडर पृष्ठभूमि"
         header-item-font-color: "हेडर फन्ट"
@@ -53,10 +52,8 @@ ne:
       enterprise_more_info: "नोट: प्रयोग गरिएको लोगो सार्वजनिक रूपमा पहुँचयोग्य हुनेछ।"
       manage_colors: "रङ चयन गर्न सकिने विकल्पहरू सम्पादन गर्नुहोस्"
       instructions:
-        alternative-color: "कडा उच्चारण रंग, सामान्यतया स्क्रिनमा सबै भन्दा महत्वपूर्ण बटन को लागी प्रयोग गरिने।"
-        content-link-color: "अधिकांश लिङ्कहरूको फन्ट रङ।"
-        primary-color: "मुख्य रंग "
-        primary-color-dark: "सामान्यतया मुख्य रंगको गाढा संस्करण होभर प्रभावहरूको लागि प्रयोग गरिन्छ।"
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
         header-item-font-color: "Font color of clickable header items."
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
@@ -74,13 +71,13 @@ ne:
       paste: "Paste your Enterprise edition support token"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "For more information, click here."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: "Start free trial"
+      book_now: "Book now"
+      get_quote: "Get a quote"
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -90,24 +87,33 @@ ne:
     show_until: Show until
     is_active: currently displayed
     is_inactive: currently not displayed
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
-    text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
-    label_plural: 'Attribute help texts'
-    show_preview: 'Preview text'
-    add_new: 'Add help text'
+    note_public: "Any text and images you add to this field is publicly visible to all logged in users!"
+    text_overview: "In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute."
+    label_plural: "Attribute help texts"
+    show_preview: "Preview text"
+    add_new: "Add help text"
     edit: "Edit help text for %{attribute_caption}"
-    enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
-  auth_sources:
-    index:
-      no_results_content_title: There are currently no authentication modes.
-      no_results_content_text: Create a new authentication mode
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
       <br/>
@@ -137,21 +143,21 @@ ne:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-    connection_encryption: 'Connection encryption'
-    encryption_details: 'LDAPS / STARTTLS options'
-    system_account: 'System account'
+    connection_encryption: "Connection encryption"
+    encryption_details: "LDAPS / STARTTLS options"
+    system_account: "System account"
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+    ldap_details: "LDAP details"
+    user_settings: "Attribute mapping"
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
-      plain: 'none'
-      simple_tls: 'LDAPS'
-      start_tls: 'STARTTLS'
+      plain: "none"
+      simple_tls: "LDAPS"
+      start_tls: "STARTTLS"
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
       start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
@@ -169,38 +175,56 @@ ne:
     index:
       no_results_title_text: There are currently no colors.
       no_results_content_text: Create a new color
-    label_no_color: 'No color'
+      label_new_color: "New color"
+    new:
+      label_new_color: "New Color"
+    edit:
+      label_edit_color: "Edit Color"
+    form:
+      label_new_color: "New color"
+      label_edit_color: "Edit color"
+    label_no_color: "No color"
+    label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color? Types using this color will not be deleted.
   custom_actions:
     actions:
-      name: 'Actions'
-      add: 'Add action'
+      name: "Actions"
+      add: "Add action"
       assigned_to:
-        executing_user_value: '(Assign to executing user)'
-    conditions: 'Conditions'
-    plural: 'Custom actions'
-    new: 'New custom action'
-    edit: 'Edit custom action %{name}'
-    execute: 'Execute %{name}'
+        executing_user_value: "(Assign to executing user)"
+    conditions: "Conditions"
+    plural: "Custom actions"
+    new: "New custom action"
+    edit: "Edit custom action %{name}"
+    execute: "Execute %{name}"
     upsale:
-      title: 'Custom actions'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      title: "Custom actions"
+      description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before you can add them to this project.
-    is_enabled_globally: 'Is enabled globally'
-    enabled_in_project: 'Enabled in project'
-    contained_in_type: 'Contained in type'
+    is_enabled_globally: "Is enabled globally"
+    enabled_in_project: "Enabled in project"
+    contained_in_type: "Contained in type"
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
   concatenation:
-    single: 'or'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    single: "or"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -218,13 +242,13 @@ ne:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: "Project members"
+      overviews: "Project overview"
+      queries: "Work packages: saved views"
+      wiki_page_attachments: "Wiki pages: attachments"
+      work_package_attachments: "Work packages: attachments"
+      work_package_categories: "Work packages: categories"
+      work_package_file_links: "Work packages: file links"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "परियोजना मेटिने छैन: %{errors}"
@@ -232,12 +256,21 @@ ne:
       failed_text: "परियोजना '%{name}' मेटाउने अनुरोध असफल भयो। परियोजना संग्रहित अवस्थामा छ।"
       completed: "परियोजना '%{name}' मेटाउने कार्य पुरा भयो"
       completed_text: "परियोजना '%{name}' मेट्ने अनुरोध पुरा भयो।"
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
-      open_as_gantt: 'Open as Gantt view'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      open_as_gantt: "Open as Gantt view"
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
+      new:
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Change identifier
       activities:
@@ -250,34 +283,122 @@ ne:
         no_results_content_text: Create a new work package category
       custom_fields:
         no_results_title_text: There are currently no custom fields available.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       types:
         no_results_title_text: There are currently no types available.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
       no_results_content_text: Add a member to the project
     invite_by_mail: "Send invite to %{mail}"
+    send_invite_to: "Send invite to"
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: "All shares"
+    menu:
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
+    delete_member_dialog:
+      title: "Remove member"
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      will_remove_the_groups_role: "This will remove the group role from this project."
+      however_work_packages_shared_with_user_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this user."
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_work_packages_shared_with_group_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this group."
+        other: "However, %{shared_work_packages_link} have also been shared with this group."
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+      also_work_packages_shared_with_user_html:
+        one: "Also, %{shared_work_packages_link} has been shared with this user."
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
+      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
+      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
+      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+    delete_work_package_shares_dialog:
+      title: "Revoke work package shares"
+      shared_with_this_user_html:
+        one: "%{all_shared_work_packages_link} has been shared with this user."
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        one: "%{all_shared_work_packages_link} has been shared with this group."
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
+      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
+      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
     index:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
   users:
+    autologins:
+      prompt: "Stay logged in for %{num_days}"
+    sessions:
+      remembered_devices: "Remembered devices"
+      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: "Browser"
+      device: "Device / OS"
+      unknown_browser: "unknown browser"
+      unknown_os: "unknown operating system"
+      current: "Current session"
+      title: "Session management"
+      instructions: "This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to."
+      may_not_delete_current: "You cannot delete your current session."
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
+      member_in_these_groups: "This user is currently a member of the following groups:"
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -314,6 +435,9 @@ ne:
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
   types:
     index:
       no_results_title_text: There are currently no types.
@@ -333,6 +457,7 @@ ne:
         in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
       no_results_title_text: There are currently no work packages assigned to this version.
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
@@ -345,9 +470,11 @@ ne:
       no_results_title_text: There are currently no workflows.
   work_packages:
     x_descendants:
-      one: 'One descendant work package'
-      other: '%{count} work package descendants'
+      one: "One descendant work package"
+      other: "%{count} work package descendants"
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "निम्न कार्य प्याकेजहरू सुरक्षित गर्न सकिँदैन:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -355,7 +482,12 @@ ne:
       descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
-      unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
+      unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
+    sharing:
+      missing_workflow_waring:
+        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -379,8 +511,8 @@ ne:
     deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
-        other: "Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
-        self: "Of the data you created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
+        other: 'Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.'
+        self: 'Of the data you created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account.'
       heading: "%{name} काे खाता मेटाउनुहोस्"
       info:
         other: "प्रयोगकर्ता खाता हटाउने, एक अपरिवर्तनीय कार्य हो।"
@@ -397,6 +529,8 @@ ne:
       Your account has not yet been activated. Please wait for an administrator to activate your account.
     error_self_registration_disabled: >
       यस प्रणालीमा प्रयोगकर्ता दर्ता असक्षम बनाइएको छ । कृपया प्रणाली प्रशासकलाई सोध्नुहोस् तपाईको खाता बनाउनको लागी।
+    error_self_registration_limited_provider: >
+      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
     login_with_auth_provider: "वा तपाईंको हालको खाताबाट साइन इन गर्नुहोस्"
     signup_with_auth_provider: "or sign up using"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
@@ -414,9 +548,9 @@ ne:
         filename: "फाइल"
         filesize: "साइज"
       attribute_help_text:
-        attribute_name: 'Attribute'
-        help_text: 'Help text'
-      auth_source:
+        attribute_name: "Attribute"
+        help_text: "Help text"
+      ldap_auth_source:
         account: "खाता"
         attr_firstname: "Firstname attribute"
         attr_lastname: "Lastname attribute"
@@ -429,11 +563,14 @@ ne:
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
+      color:
+        hexcode: "Hex code"
       comment:
         commented: "Commented" #an object that this comment belongs to
       custom_action:
         actions: "Actions"
       custom_field:
+        allow_non_open_versions: "Allow non-open versions"
         default_value: "पूर्वनिर्धारित मान"
         editable: "सम्पादन योग्य"
         field_format: "ढाँचा"
@@ -450,7 +587,6 @@ ne:
         value: "मान"
       enterprise_token:
         starts_at: "Valid since"
-        expires_at: "Expires at"
         subscriber: "Subscriber"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
@@ -459,8 +595,10 @@ ne:
         row_count: "पङ्क्तिहरूको संख्या"
         column_count: "स्तम्भहरूको संख्या"
         widgets: "विजेटहरू"
+      oauth_client:
+        client: "Client ID"
       relation:
-        delay: "ढिलो"
+        lag: "Lag"
         from: "Work package"
         to: "Related work package"
       status:
@@ -471,24 +609,34 @@ ne:
       member:
         roles: "भूमिकाहरु"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "परिचायक"
         latest_activity_at: "Latest activity at"
         parent: "Subproject of"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Queries"
+        status_code: "Project status"
+        description: "Description"
+        status_explanation: "Project status description"
+        status_codes:
+          not_started: "Not started"
+          on_track: "On track"
+          at_risk: "At risk"
+          off_track: "Off track"
+          finished: "Finished"
+          discontinued: "Discontinued"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Types"
         versions: "Versions"
         work_packages: "Work Packages"
-        templated: 'Template project'
-      projects/status:
-        code: 'Status'
-        explanation: 'Status description'
-        codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
       query:
         column_names: "Columns"
         relations_to_type_column: "Relations to %{type}"
@@ -505,16 +653,19 @@ ne:
         hours: "Hours"
         spent_on: "Date"
         type: "Type"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
-        attribute_groups: ''
+        attribute_groups: ""
         is_in_roadmap: "Displayed in roadmap by default"
         is_default: "Activated for new projects by default"
         is_milestone: "Is milestone"
         color: "Color"
       user:
         admin: "Administrator"
-        auth_source: "Authentication mode"
+        auth_source: "Authentication source"
+        ldap_auth_source: "LDAP connection"
+        identity_url: "Identity URL"
         current_password: "Current password"
         force_password_change: "Enforce password change on next login"
         language: "Language"
@@ -529,6 +680,7 @@ ne:
         time_zone: "Time zone"
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        theme: "Mode"
       version:
         effective_date: "Finish date"
         sharing: "Sharing"
@@ -539,25 +691,34 @@ ne:
         redirect_existing_links: "Redirect existing links"
       planning_element_type_color:
         hexcode: Hex code
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
-        done_ratio: "Progress (%)"
+        derived_done_ratio: "Total % complete"
+        derived_remaining_hours: "Total remaining work"
+        derived_remaining_time: "Total remaining work"
+        done_ratio: "% Complete"
         duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         ignore_non_working_days: "Ignore non working days"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: "Working days"
+          false: "working days only"
+          true: "include non-working days"
+        notify: "Notify" #used in custom actions
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
         priority: "Priority"
-        progress: "Progress (%)"
+        progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "Spent time"
         spent_time: "Spent time"
@@ -566,7 +727,7 @@ ne:
         type: "Type"
         version: "Version"
         watcher: "Watcher"
-      'doorkeeper/application':
+      "doorkeeper/application":
         uid: "Client ID"
         secret: "Client secret"
         owner: "मालिक"
@@ -591,6 +752,7 @@ ne:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        error_conflict: "Information has been updated by at least one other user in the meantime."
         email: "is not a valid email address."
         empty: "can't be empty."
         even: "must be even."
@@ -606,8 +768,8 @@ ne:
         inclusion: "is not set to one of the allowed values."
         inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "is invalid."
-        invalid_url: 'is not a valid URL.'
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: "is not a valid URL."
+        invalid_url_scheme: "is not a supported protocol (allowed: %{allowed_schemes})."
         less_than_or_equal_to: "must be less than or equal to %{count}."
         not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
@@ -635,7 +797,7 @@ ne:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
-        auth_source:
+        ldap_auth_source:
           attributes:
             tls_certificate_string:
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
@@ -648,7 +810,7 @@ ne:
               format: "%{message}"
         capability:
           context:
-            global: 'Global'
+            global: "Global"
           query:
             filters:
               minimum: "need to include at least one filter for principal, context or id with the '=' operator."
@@ -666,30 +828,35 @@ ne:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'टुक्रा समावेश गर्न सक्दैन।'
-              invalid_uri: 'वैध URI हुनु पर्दछ।'
-              relative_uri: 'पूर्ण URI हुनु पर्दछ।'
+              fragment_present: "टुक्रा समावेश गर्न सक्दैन।"
+              invalid_uri: "वैध URI हुनु पर्दछ।"
+              relative_uri: "पूर्ण URI हुनु पर्दछ।"
               secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
-              forbidden_uri: 'सर्भरद्वारा निषेध गरिएको छ।'
+              forbidden_uri: "सर्भरद्वारा निषेध गरिएको छ।"
             scopes:
               not_match_configured: "उपलब्ध scope हरु मेल खाँदैन।"
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'अन्तिम मान सुरु मान भन्दा ठूलो हुनु आवश्यक छ।'
+          overlaps: "overlap."
+          outside: "is outside of the grid."
+          end_before_start: "अन्तिम मान सुरु मान भन्दा ठूलो हुनु आवश्यक छ।"
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: "At least one channel for sending notifications needs to be specified."
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: "cannot be set to true on notification creation."
             mail_reminder_sent:
-              set_on_creation: 'cannot be set to true on notification creation.'
+              set_on_creation: "cannot be set to true on notification creation."
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: "cannot be blank as IAN is chosen as a channel."
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: "cannot be blank as mail digest is chosen as a channel."
         non_working_day:
           attributes:
             date:
@@ -702,8 +869,8 @@ ne:
               invalid_values: "A value is invalid."
               id_filter_required: "An 'id' filter is required."
         project:
-          archived_ancestor: 'The project has an archived ancestor.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          archived_ancestor: "The project has an archived ancestor."
+          foreign_wps_reference_version: "Work packages in non descendant projects reference versions of the project or its descendants."
           attributes:
             base:
               archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
@@ -726,6 +893,14 @@ ne:
               format: "%{message}"
             sort_criteria:
               invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
+              format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
@@ -759,8 +934,8 @@ ne:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              working_days_are_missing: "At least one day of the week must be defined as a working day."
+              previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
         time_entry:
           attributes:
             hours:
@@ -772,16 +947,17 @@ ne:
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: "There must only be one global notification setting."
+              email_alerts_global: "The email notification settings can only be set globally."
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: "Wrong value for Start date, Due date, or Overdue."
         watcher:
           attributes:
             user_id:
               not_allowed_to_view: "is not allowed to view this resource."
               locked: "is locked."
         wiki_page:
+          error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
             slug:
               undeducible: "cannot be deduced from the title '%{title}'."
@@ -817,8 +993,13 @@ ne:
               only_same_project_categories_allowed: "The category of a work package must be within the same project as the work package."
               does_not_exist: "The specified category does not exist."
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
+              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+            remaining_hours:
+              cant_exceed_work: "can't exceed 'Work'."
+              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+          readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
             attribute_groups:
@@ -831,6 +1012,7 @@ ne:
           attributes:
             base:
               user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              one_must_be_active: "Admin User cannot be locked/removed. At least one admin must be active."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -848,6 +1030,8 @@ ne:
                 description: "'Password confirmation' should match the input in the 'New password' field."
             status:
               invalid_on_create: "is not a valid status for new users."
+            ldap_auth_source:
+              error_not_found: "not found"
             auth_source:
               error_not_found: "not found"
         member:
@@ -856,9 +1040,11 @@ ne:
           attributes:
             roles:
               ungrantable: "has an unassignable role."
+              more_than_one: "has more than one role."
             principal:
               unassignable: "cannot be assigned to a project."
         version:
+          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
@@ -870,13 +1056,14 @@ ne:
     models:
       attachment: "फाइल"
       attribute_help_text: "Attribute help text"
-      forum: "Forum"
+      category: "Category"
       comment: "Comment"
       custom_action: "Custom action"
       custom_field: "Custom field"
+      "doorkeeper/application": "OAuth application"
+      forum: "Forum"
+      global_role: "Global role"
       group: "Group"
-      category: "Category"
-      status: "Work package status"
       member: "Member"
       news: "News"
       notification:
@@ -888,20 +1075,70 @@ ne:
       role:
         one: "Role"
         other: "भूमिकाहरु"
+      status: "Work package status"
       type: "Type"
       user: "User"
       version: "Version"
-      wiki: "Wiki"
-      wiki_page: "Wiki page"
       workflow: "Workflow"
       work_package: "Work package"
-      'doorkeeper/application': "OAuth application"
+      wiki: "Wiki"
+      wiki_page: "Wiki page"
   errors:
-    header_invalid_fields: "There were problems with the following fields:"
+    header_invalid_fields:
+      one: "There was a problem with the following field:"
+      other: "There were problems with the following fields:"
+    header_additional_invalid_fields:
+      one: "Additionally, there was a problem with the following field:"
+      other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
   activity:
-    created: "Created: %{title}"
-    updated: "Updated: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      created_on_time_entry: "time logged on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Active"
@@ -923,12 +1160,13 @@ ne:
     default_columns: "Default columns"
     description: "Description"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Total work"
     derived_start_date: "Derived start date"
     display_sums: "Display Sums"
     due_date: "Finish date"
-    estimated_hours: "Estimated time"
-    estimated_time: "Estimated time"
+    estimated_hours: "Work"
+    estimated_time: "Work"
+    expires_at: "Expires at"
     firstname: "First name"
     group: "Group"
     groups: "Groups"
@@ -958,7 +1196,7 @@ ne:
     updated_on: "Updated on"
     uploader: "अप्लोडेर"
     user: "User"
-    value: "Value"
+    value: "मान"
     version: "Version"
     work_package: "Work package"
   backup:
@@ -989,6 +1227,7 @@ ne:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
+  button_actions: "Actions"
   button_add: "Add"
   button_add_comment: "Add comment"
   button_add_member: Add member
@@ -1004,11 +1243,13 @@ ne:
   button_check_all: "Check all"
   button_clear: "Clear"
   button_click_to_reveal: "हेर्न क्लिक गर्नुहोस"
-  button_close: 'Close'
+  button_close: "Close"
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
   button_continue: "Continue"
   button_copy: "Copy"
+  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
@@ -1037,6 +1278,8 @@ ne:
   button_reset: "Reset"
   button_rollback: "Rollback to this version"
   button_save: "Save"
+  button_save_as: "Save as"
+  button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "Show"
   button_sort: "Sort"
@@ -1055,6 +1298,14 @@ ne:
   button_add_menu_entry: "Add menu item"
   button_configure_menu_entry: "Configure menu item"
   button_delete_menu_entry: "Delete menu item"
+  button_view_shared_work_packages: "View shared work packages"
+  button_manage_roles: "Manage roles"
+  button_remove_member: "Remove member"
+  button_remove_member_and_shares: "Remove member and shares"
+  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_access: "Revoke access"
+  button_revoke_all: "Revoke all"
+  button_revoke_only: "Revoke only %{shared_role_name}"
   consent:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
@@ -1069,19 +1320,19 @@ ne:
     update_consent_last_time: "Last update of consent: %{update_time}"
   copy_project:
     title: 'Copy project "%{source_project_name}"'
-    started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
+    started: 'Started to copy project "%{source_project_name}" to "%{target_project_name}". You will be informed by mail as soon as "%{target_project_name}" is available.'
     failed: "Cannot copy project %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
     succeeded: "Created project %{target_project_name}"
     errors: "Error"
-    project_custom_fields: 'Custom fields on project'
+    project_custom_fields: "Custom fields on project"
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: "No objects of this type"
+      one: "One object of this type"
+      other: "%{count} objects of this type"
     text:
-      failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
-      succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
+      failed: 'Could not copy project "%{source_project_name}" to project "%{target_project_name}".'
+      succeeded: 'Copied project "%{source_project_name}" to "%{target_project_name}".'
   create_new_page: "Wiki page"
   date:
     abbr_day_names:
@@ -1106,7 +1357,7 @@ ne:
       - "Oct"
       - "Nov"
       - "Dec"
-    abbr_week: 'Wk'
+    abbr_week: "Wk"
     day_names:
       - "Sunday"
       - "Monday"
@@ -1123,7 +1374,7 @@ ne:
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names:
+    month_names:  #Used in date_select and datetime_select.
       - null
       - "January"
       - "February"
@@ -1137,7 +1388,6 @@ ne:
       - "October"
       - "November"
       - "December"
-    #Used in date_select and datime_select.
     order:
       - :year
       - :month
@@ -1172,71 +1422,34 @@ ne:
       x_minutes:
         one: "1 minute"
         other: "%{count} minutes"
+      x_minutes_abbreviated:
+        one: "1 min"
+        other: "%{count} mins"
+      x_hours:
+        one: "1 hour"
+        other: "%{count} hours"
+      x_hours_abbreviated:
+        one: "1 hr"
+        other: "%{count} hrs"
+      x_weeks:
+        one: "1 week"
+        other: "%{count} weeks"
       x_months:
         one: "1 month"
         other: "%{count} months"
+      x_years:
+        one: "1 year"
+        other: "%{count} years"
       x_seconds:
         one: "1 second"
         other: "%{count} seconds"
+      x_seconds_abbreviated:
+        one: "1 s"
+        other: "%{count} s"
     units:
       hour:
         one: "hour"
         other: "hours"
-  default_activity_development: "Development"
-  default_activity_management: "Management"
-  default_activity_other: "Other"
-  default_activity_specification: "Specification"
-  default_activity_support: "Support"
-  default_activity_testing: "Testing"
-  default_color_black: "Black"
-  default_color_blue: "Blue"
-  default_color_blue_dark: "Blue (dark)"
-  default_color_blue_light: "Blue (light)"
-  default_color_green_dark: "Green (dark)"
-  default_color_green_light: "Green (light)"
-  default_color_grey_dark: "Grey (dark)"
-  default_color_grey_light: "Grey (light)"
-  default_color_grey: "Grey"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Orange"
-  default_color_red: "Red"
-  default_color_white: "White"
-  default_color_yellow: "Yellow"
-  default_status_closed: "Closed"
-  default_status_confirmed: "Confirmed"
-  default_status_developed: "Developed"
-  default_status_in_development: "In development"
-  default_status_in_progress: "In progress"
-  default_status_in_specification: "In specification"
-  default_status_in_testing: "In testing"
-  default_status_new: "New"
-  default_status_on_hold: "On hold"
-  default_status_rejected: "Rejected"
-  default_status_scheduled: "Scheduled"
-  default_status_specified: "Specified"
-  default_status_tested: "Tested"
-  default_status_test_failed: "Test failed"
-  default_status_to_be_scheduled: "To be scheduled"
-  default_priority_low: "Low"
-  default_priority_normal: "Normal"
-  default_priority_high: "High"
-  default_priority_immediate: "Immediate"
-  default_role_anonymous: "Anonymous"
-  default_role_developer: "Developer"
-  default_role_project_admin: "Project admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Non member"
-  default_role_reader: "Reader"
-  default_role_member: "Member"
-  default_type: "Work Package"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Deliverable"
-  default_type_epic: "Epic"
-  default_type_feature: "Feature"
-  default_type_milestone: "Milestone"
-  default_type_phase: "Phase"
-  default_type_task: "Task"
-  default_type_user_story: "User story"
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
   description_autocomplete: >
@@ -1283,9 +1496,10 @@ ne:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Unable to delete custom field"
+  error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
+  error_can_not_delete_in_use_archived_work_packages: "There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}"
   error_can_not_delete_type:
     explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standard types cannot be deleted."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
@@ -1294,30 +1508,31 @@ ne:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Error %{code}"
-  error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
+  error_color_could_not_be_saved: "Color could not be saved"
+  error_cookie_missing: "The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without."
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
-  error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_failed_to_delete_entry: "Failed to delete this entry."
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
-  error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again.'
-  error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
+  error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
-  error_no_default_work_package_status: "No default work package status is defined. Please check your configuration (Go to \"Administration -> Work package statuses\")."
+  error_no_default_work_package_status: 'No default work package status is defined. Please check your configuration (Go to "Administration -> Work package statuses").'
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
   error_unable_delete_default_status: "Unable to delete the default work package status. Please select another default work package status before deleting the current one."
   error_unable_to_connect: "Unable to connect (%{value})"
@@ -1332,19 +1547,21 @@ ne:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    changeset: 'Changeset edited'
+    changeset: "Changeset edited"
     message: Message edited
     news: News
-    project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    project_attributes: "Project attributes edited"
+    project: "Project edited"
+    projects: "Project edited"
     reply: Replied
-    time_entry: 'Timelog edited'
-    wiki_page: 'Wiki page edited'
-    work_package_closed: 'Work Package closed'
-    work_package_edit: 'Work Package edited'
-    work_package_note: 'Work Package note added'
+    time_entry: "Timelog edited"
+    wiki_page: "Wiki page edited"
+    work_package_closed: "Work Package closed"
+    work_package_edit: "Work Package edited"
+    work_package_note: "Work Package note added"
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1353,11 +1570,14 @@ ne:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "छवि निर्यात गरिएको छैन।"
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"
@@ -1370,7 +1590,6 @@ ne:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "नेपाली"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "yes"
@@ -1395,17 +1614,46 @@ ne:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
       forums: "Community forum"
       newsletter: "Security alerts / Newsletter"
   image_conversion:
-    imagemagick: 'Imagemagick'
+    imagemagick: "Imagemagick"
   journals:
     changes_retracted: "The changes were retracted."
+    caused_changes:
+      dates_changed: "Dates changed"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
+      system_update: "OpenProject system update:"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+      system_update:
+        file_links_journal: >
+          From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_changed: >
+          Progress calculation updated.
   links:
-    configuration_guide: 'Configuration guide'
+    configuration_guide: "Configuration guide"
     get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."
@@ -1413,11 +1661,13 @@ ne:
   menus:
     admin:
       mail_notification: "Email notifications"
-      mails_and_notifications: "Emails and notification"
-      aggregation: 'Aggregation'
+      mails_and_notifications: "Emails and notifications"
+      aggregation: "Aggregation"
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1428,6 +1678,34 @@ ne:
         action: "Action"
         expiration: "Expires"
       indefinite_expiration: "Never"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      api:
+        title: "API"
+        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        static_token_name: "API token"
+        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      ical:
+        title: "iCalendar"
+        text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
+        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+      oauth:
+        title: "OAuth"
+        text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
+        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+      rss:
+        title: "RSS"
+        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        static_token_name: "RSS token"
+        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+      storages:
+        title: "File Storages"
+        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        empty_text_hint: "There is no storage access linked to your account."
+        revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
+        removed: "File Storage token successfully removed"
+        failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1446,13 +1724,13 @@ ne:
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
         We hope you find in-app notifications useful and that they makes you even more productive.
         Sincerely, The OpenProject team
-      body_header: 'Version 12.0 with Notification Center'
-      body_subheader: 'News'
-      subject: 'Important changes to notifications with the release of 12.0'
+      body_header: "Version 12.0 with Notification Center"
+      body_subheader: "News"
+      subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "Accessibility"
   label_account: "खाता"
   label_active: "Active"
-  label_activate_user: 'Activate user'
+  label_activate_user: "Activate user"
   label_active_in_new_projects: "Active in new projects"
   label_activity: "Activity"
   label_add_edit_translations: "Add and edit translations"
@@ -1462,6 +1740,7 @@ ne:
   label_add_related_work_packages: "Add related work packages"
   label_add_subtask: "Add subtask"
   label_added: "added"
+  label_added_by: "Added by %{author}"
   label_added_time_by: "Added by %{author} %{age} ago"
   label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"
@@ -1475,30 +1754,39 @@ ne:
   label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: 'iCalendar token "%{token_name}" for "%{calendar_name}" in "%{project_name}"'
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "रद्द गर्नुहोस्"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
   label_ascending: "Ascending"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
-  label_attachment_delete: "Delete file"
-  label_attachment_new: "New file"
-  label_attachment_plural: "Files"
+  label_attachment_plural: "Attachments"
   label_attribute: "Attribute"
   label_attribute_plural: "Attributes"
-  label_auth_source: "Authentication mode"
-  label_auth_source_new: "New authentication mode"
-  label_auth_source_plural: "Authentication modes"
+  label_ldap_auth_source_new: "New LDAP connection"
+  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Authentication"
-  label_available_project_work_package_categories: 'Available work package categories'
-  label_available_project_work_package_types: 'उपलब्ध कार्य प्याकेजको प्रकारहरू'
-  label_available_project_forums: 'उपलब्ध फोरमहरु'
-  label_available_project_versions: 'Available versions'
-  label_available_project_repositories: 'Available repositories'
-  label_api_documentation: "API documentation"
+  label_available_global_roles: "Available global roles"
+  label_available_project_forums: "उपलब्ध फोरमहरु"
+  label_available_project_repositories: "Available repositories"
+  label_available_project_versions: "Available versions"
+  label_available_project_work_package_categories: "Available work package categories"
+  label_available_project_work_package_types: "उपलब्ध कार्य प्याकेजको प्रकारहरू"
+  label_available_projects: "Available projects"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "between"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
@@ -1508,11 +1796,13 @@ ne:
   label_forum_plural: "Forums"
   label_forum_sticky: "Sticky"
   label_boolean: "Boolean"
+  label_board_plural: "Boards"
   label_branch: "Branch"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
-  label_bundled: '(बन्डल)'
+  label_bundled: "(बन्डल)"
   label_calendar: "Calendar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
   label_consent_settings: "User Consent"
@@ -1533,6 +1823,7 @@ ne:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
@@ -1548,14 +1839,15 @@ ne:
   label_confirmation: "Confirmation"
   label_contains: "contains"
   label_content: "Content"
+  label_color_plural: "Colors"
   label_copied: "copied"
-  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Same as target"
   label_copy_source: "Source"
   label_copy_target: "Target"
   label_copy_workflow_from: "Copy workflow from"
   label_copy_project: "Copy project"
   label_core_version: "Core version"
+  label_core_build: "Core build"
   label_current_status: "Current status"
   label_current_version: "Current version"
   label_custom_field_add_no_type: "Add this field to a work package type"
@@ -1563,9 +1855,11 @@ ne:
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
+  label_date_format: "Date format"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
   label_date_to: "To"
@@ -1576,6 +1870,7 @@ ne:
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_option: "(deleted option)"
+  label_empty_element: "(empty)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descending"
   label_details: "Details"
@@ -1583,8 +1878,9 @@ ne:
   label_diff: "diff"
   label_diff_inline: "inline"
   label_diff_side_by_side: "side by side"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "disabled"
+  label_disabled_uppercase: "Disabled"
   label_display: "Display"
   label_display_per_page: "Per page: %{value}"
   label_display_used_statuses_only: "Only display statuses that are used by this type"
@@ -1597,9 +1893,9 @@ ne:
   label_edit: "Edit"
   label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Toggle multiselect"
-  label_enabled_project_custom_fields: 'Enabled custom fields'
-  label_enabled_project_modules: 'Enabled modules'
-  label_enabled_project_activities: 'Enabled time tracking activities'
+  label_enabled_project_custom_fields: "Enabled custom fields"
+  label_enabled_project_modules: "Enabled modules"
+  label_enabled_project_activities: "Enabled time tracking activities"
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
   label_enumeration_new: "New enumeration value"
@@ -1608,22 +1904,31 @@ ne:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
+  label_enterprise_addon: "Enterprise add-on"
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
   label_equals: "is"
   label_everywhere: "सबैतिर"
   label_example: "Example"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
+  label_expand: "Expand"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
+  label_favoured: "Favoured"
   label_feed_plural: "Feeds"
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Files"
   label_filter_add: "Add filter"
+  label_filter: "Filters"
   label_filter_plural: "Filters"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"
@@ -1631,8 +1936,8 @@ ne:
   label_follows: "follows"
   label_force_user_language_to_default: "Set language of users having a non allowed language to default"
   label_form_configuration: "Form configuration"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt chart"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "General"
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
@@ -1649,29 +1954,32 @@ ne:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Home"
   label_subject_or_id: "Subject or ID"
-  label_impressum: "Legal notice"
+  label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
   label_inactive: "Inactive"
   label_incoming_emails: "Incoming emails"
-  label_includes: 'includes'
+  label_includes: "includes"
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
   label_information: "Information"
   label_information_plural: "Information"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: "Installation guides"
   label_integer: "Integer"
   label_internal: "Internal"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_language: "Language"
+  label_languages: "Languages"
   label_jump_to_a_project: "Jump to a project..."
-  label_keyword_plural: 'शब्दकुञ्जी'
+  label_keyword_plural: "शब्दकुञ्जी"
   label_language_based: "Based on user's language"
   label_last_activity: "Last activity"
   label_last_change_on: "Last change on"
@@ -1683,14 +1991,20 @@ ne:
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
   label_list: "List"
   label_loading: "Loading..."
-  label_lock_user: 'Lock user'
+  label_lock_user: "Lock user"
   label_logged_as: "Logged in as"
   label_login: "Sign in"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
+  label_custom_export_cover: "Custom export cover background"
+  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover_text_color: "Text color"
+  label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
@@ -1702,12 +2016,13 @@ ne:
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Members"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  label_membership_plural: "Memberships"
+  lable_membership_added: "Member added"
+  lable_membership_updated: "Member updated"
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: "pre-alpha"
+    alpha: "alpha"
+    beta: "beta"
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"
@@ -1727,8 +2042,9 @@ ne:
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
+  label_my_activity: "My activity"
   label_my_account_data: "My account data"
-  label_my_projects: "My projects"
+  label_my_avatar: "My avatar"
   label_my_queries: "My custom queries"
   label_name: "Name"
   label_never: "Never"
@@ -1750,12 +2066,17 @@ ne:
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
   label_nobody: "nobody"
-  label_not_found: 'not found'
+  label_not_found: "not found"
   label_none: "none"
   label_none_parentheses: "(none)"
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
   label_on: "on"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
+  label_operator_shared_with_user_any: "any"
   label_open_menu: "Open menu"
   label_open_work_packages: "open"
   label_open_work_packages_plural: "open"
@@ -1773,7 +2094,6 @@ ne:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
   label_people: "People"
   label_permissions: "Permissions"
@@ -1789,14 +2109,16 @@ ne:
   label_precedes: "precedes"
   label_preferences: "Preferences"
   label_preview: "Preview"
+  label_preview_not_available: "Preview not available"
   label_previous: "Previous"
   label_previous_week: "Previous week"
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: "Add existing users or groups"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
-  label_professional_support: "Professional support"
   label_profile: "Profile"
+  label_percent_complete: "% Complete"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
@@ -1805,8 +2127,13 @@ ne:
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
   label_project_plural: "Projects"
+  label_project_list_plural: "Project lists"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Project settings"
-  label_project_storage_plural: "Storages"
+  label_project_attributes_settings: "Project attributes settings"
+  label_project_storage_plural: "File Storages"
+  label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
   label_project_show_details: "Show project details"
@@ -1827,6 +2154,7 @@ ne:
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
   label_release_notes: "Release notes"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Remove selected columns"
   label_renamed: "renamed"
   label_reply_plural: "Replies"
@@ -1839,8 +2167,8 @@ ne:
   label_repository: "Repository"
   label_repository_root: "Repository root"
   label_repository_plural: "Repositories"
-  label_required: 'required'
-  label_requires: 'requires'
+  label_required: "required"
+  label_requires: "requires"
   label_result_plural: "Results"
   label_reverse_chronological_order: "Newest first"
   label_revision: "Revision"
@@ -1857,8 +2185,9 @@ ne:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "Search"
-  label_send_information: "Send account information to the user"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
+  label_session: "Session"
   label_setting_plural: "Settings"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
@@ -1874,7 +2203,6 @@ ne:
   label_start_to_start: "start to start"
   label_statistics: "Statistics"
   label_status: "Status"
-  label_stay_logged_in: "Stay logged in"
   label_storage_free_space: "Remaining disk space"
   label_storage_used_space: "Used disk space"
   label_storage_group: "Storage filesystem %{identifier}"
@@ -1889,11 +2217,14 @@ ne:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
+  label_team_planner: "Team Planner"
   label_text: "Long text"
   label_this_month: "this month"
   label_this_week: "this week"
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
+  label_time_entry_activity_plural: "Spent time activities"
+  label_title: "Title"
   label_projects_menu: "Projects"
   label_today: "today"
   label_top_menu: "Top Menu"
@@ -1902,11 +2233,10 @@ ne:
   label_type_new: "New type"
   label_type_plural: "Types"
   label_ui: "User Interface"
-  label_update_work_package_done_ratios: "Update work package done ratios"
   label_updated_time: "Updated %{value} ago"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
-  label_upgrade_guides: 'Upgrade guides'
+  label_upgrade_guides: "Upgrade guides"
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
@@ -1925,6 +2255,7 @@ ne:
   label_user_plural: "Users"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "With subprojects"
@@ -1956,6 +2287,7 @@ ne:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_wiki_start: "Start page"
+  label_work: "Work"
   label_work_package: "Work package"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "New category"
@@ -1986,74 +2318,122 @@ ne:
     one: "1 open"
     other: "%{count} open"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 project"
     other: "%{count} projects"
     zero: "no projects"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "yesterday"
+  label_zen_mode: "Zen mode"
   label_role_type: "Type"
-  label_member_role: "Project Role"
-  label_global_role: "Global Role"
+  label_member_role: "Project role"
+  label_global_role: "Global role"
   label_not_changeable: "(not changeable)"
   label_global: "Global"
-  auth_source:
-    using_abstract_auth_source: "Can't use an abstract authentication source."
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+  label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macros:
-    placeholder: '[Placeholder] Macro %{macro_name}'
+    placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
-      missing_or_invalid_parameter: 'Missing or invalid macro parameter.'
+      missing_or_invalid_parameter: "Missing or invalid macro parameter."
     legacy_warning:
-      timeline: 'This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro.'
+      timeline: "This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro."
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: "The macro does no longer exist."
     wiki_child_pages:
       errors:
         page_not_found: "Cannot find the wiki page '%{name}'."
     create_work_package_link:
       errors:
-        no_project_context: 'Calling create_work_package_link macro from outside project context.'
+        no_project_context: "Calling create_work_package_link macro from outside project context."
         invalid_type: "No type found with name '%{type}' in project '%{project}'."
-      link_name: 'New work package'
-      link_name_type: 'New %{type_name}'
+      link_name: "New work package"
+      link_name_type: "New %{type_name}"
   mail:
-    actions: 'Actions'
+    actions: "Actions"
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+      including_mention_singular: "including a mention"
+      including_mention_plural: "including %{number_mentioned} mentions"
+      unread_notification_singular: "1 unread notification"
+      unread_notification_plural: "%{number_unread} unread notifications"
+      you_have: "You have"
+    logo_alt_text: "Logo"
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
-      mentioned_by: '%{user} mentioned you in a comment'
+      created_at: "Created at %{timestamp} by %{user} "
+      login_to_see_all: "Log in to see all notifications."
+      mentioned: "You have been <b>mentioned in a comment</b>"
+      mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        one: 'There is 1 more work package with notifications.'
-        other: 'There are %{count} more work packages with notifications.'
+        one: "There is 1 more work package with notifications."
+        other: "There are %{count} more work packages with notifications."
+      open_in_browser: "Open in browser"
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
-        responsible: 'Accountable'
-        mentioned: 'Mentioned'
-        subscribed: 'all'
-        prefix: 'Received because of the notification setting: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
-      see_all: 'See all'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+        watched: "Watched"
+        assigned: "Assigned"
+        responsible: "Accountable"
+        mentioned: "Mentioned"
+        shared: "Shared"
+        subscribed: "all"
+        prefix: "Received because of the notification setting: %{reason}"
+        date_alert_start_date: "Date alert"
+        date_alert_due_date: "Date alert"
+      see_all: "See all"
+      updated_at: "Updated at %{timestamp} by %{user}"
+    sharing:
+      work_packages:
+        allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        open_work_package: "Open work package"
+        subject: "Work package #%{id} was shared with you"
+        enterprise_text: "Share work packages with users who are not members of the project."
+        summary:
+          user: "%{user} shared a work package with you with %{role_rights} rights"
+          group: "%{user} shared a work package with the group %{group} you are a member of"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -2067,6 +2447,10 @@ ne:
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
   mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "To change your password, click on the following link:"
+  mail_password_change_not_possible:
+    title: "Password change not possible"
+    body: "Your account at %{app_title} is connected to an external authentication provider (%{name})."
+    subtext: "Passwords for external account cannot be changed in the application. Please use the lost password functionality of your authentication provider."
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
@@ -2078,9 +2462,9 @@ ne:
   mail_body_register_closing: "Your OpenProject team"
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
-  mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
+  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2155,7 +2539,6 @@ ne:
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "Work package done ratios updated."
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
@@ -2187,7 +2570,7 @@ ne:
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
-  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
+  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_attachment_migration_wiki_page: >
     This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
@@ -2219,19 +2602,25 @@ ne:
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
-  permission_add_project: "Create project"
+  permission_add_project: "Create projects"
+  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archive project"
-  permission_manage_user: "Create and edit users"
+  permission_create_user: "Create users"
+  permission_manage_user: "Edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_wiki_parent_page: "Change parent wiki page"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
-  permission_create_backup: "Create backup"
+  permission_copy_work_packages: "Copy work packages"
+  permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
@@ -2258,6 +2647,7 @@ ne:
   permission_log_time: "Log time for other users"
   permission_manage_forums: "Manage forums"
   permission_manage_categories: "Manage work package categories"
+  permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "Manage work package relations"
   permission_manage_members: "Manage members"
   permission_manage_news: "Manage news"
@@ -2272,27 +2662,40 @@ ne:
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Save views"
+  permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Select project modules"
+  permission_share_work_packages: "Share work packages"
   permission_manage_types: "Select types"
+  permission_view_project: "View projects"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
+  permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
+  permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "View reportings"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+  permission_view_project_activity: "View project activity"
+  permission_save_bcf_queries: "Save BCF queries"
+  permission_manage_public_bcf_queries: "Manage public BCF queries"
+  permission_edit_attribute_help_texts: "Edit attribute help texts"
   placeholders:
     default: "-"
   project:
     destroy:
-      confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Deleting the project is an irreversible action."
       project_verification: "Enter the project's name %{name} to verify the deletion."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
@@ -2304,18 +2707,23 @@ ne:
     template:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+      use_template: "Use template"
+      make_template: "Set as template"
+      remove_from_templates: "Remove from templates"
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "Activity"
   project_module_forums: "Forums"
-  project_module_work_package_tracking: "Work package tracking"
+  project_module_work_package_tracking: "Work packages"
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2323,21 +2731,23 @@ ne:
   query_fields:
     active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
-    member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    member_of_group: "Assignee's group"
     name_or_identifier: "Name or identifier"
+    only_subproject_id: "Only subproject"
+    shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
+    subproject_id: "Including subproject"
   repositories:
-    at_identifier: 'at %{identifier}'
-    atom_revision_feed: 'Atom revision feed'
+    at_identifier: "at %{identifier}"
+    atom_revision_feed: "Atom revision feed"
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
     checkout:
       access:
-        readwrite: 'Read + Write'
-        read: 'Read-only'
-        none: 'No checkout access, you may only view the repository through this application.'
-      access_permission: 'Your permissions on this repository'
+        readwrite: "Read + Write"
+        read: "Read-only"
+        none: "No checkout access, you may only view the repository through this application."
+      access_permission: "Your permissions on this repository"
       url: "Checkout URL"
       base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
       default_instructions:
@@ -2437,13 +2847,16 @@ ne:
     warnings:
       cannot_annotate: "This file cannot be annotated."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: "activated"
+    deactivated: "deactivated"
   search_input_placeholder: "Search ..."
   setting_apiv3_cors_enabled: "Enable CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
@@ -2453,6 +2866,7 @@ ne:
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Email delivery method"
+  setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
   setting_smtp_ssl: "Use SSL connection"
@@ -2466,6 +2880,8 @@ ne:
   setting_app_subtitle: "Application subtitle"
   setting_app_title: "Application title"
   setting_attachment_max_size: "Attachment max. size"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch repository changes"
   setting_autologin: "Autologin"
   setting_available_languages: "Available languages"
@@ -2474,7 +2890,7 @@ ne:
   setting_brute_force_block_minutes: "Time the user is blocked for"
   setting_cache_formatted_text: "Cache formatted text"
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
-  setting_column_options: "Customize the appearance of the work package lists"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Fixing keywords"
   setting_commit_logs_encoding: "Commit messages encoding"
   setting_commit_logtime_activity_id: "Activity for logged time"
@@ -2486,7 +2902,7 @@ ne:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date format"
+  setting_date_format: "Date"
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -2496,17 +2912,18 @@ ne:
   setting_emails_header: "Emails header"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Enable Feeds"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate the work package done ratio with"
-  setting_work_package_done_ratio_field: "Use the work package field"
-  setting_work_package_done_ratio_status: "Use the work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the progress)"
-  setting_work_package_list_default_columns: "Display by default"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2548,9 +2965,9 @@ ne:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time format"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2559,29 +2976,43 @@ ne:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
-    general: "General"
-    other: "Other"
-    passwords: "Passwords"
-    session: "Session"
-    brute_force_prevention: "Automated user blocking"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
+    brute_force_prevention: "Automated user blocking"
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      deletion: "Deletion"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
+    general: "General"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2589,11 +3020,46 @@ ne:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    language_name_being_default: "%{language_name} (default)"
+    notifications:
+      events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Other"
+    passwords: "Passwords"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+    projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project lists"
+    session: "Session"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
-    markdown: 'Markdown'
-    plain: 'Plain text'
+    markdown: "Markdown"
+    plain: "Plain text"
   status_active: "active"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: locked
   status_registered: registered
@@ -2621,18 +3087,20 @@ ne:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_cover_instructions: >
+    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
@@ -2658,12 +3126,17 @@ ne:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_attachment_added: "%{label} %{value} added as attachment"
+  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
+  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2708,6 +3181,12 @@ ne:
   text_zoom_in: "Zoom in"
   text_zoom_out: "Zoom out"
   text_setup_mail_configuration: "Configure your email provider"
+  help_texts:
+    views:
+      project: >
+        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "am"
     formats:
@@ -2720,153 +3199,6 @@ ne:
     show: "Show timeframe"
     end: "to"
     start: "from"
-  timelines:
-    admin_menu:
-      color: "Color"
-      colors: "Colors"
-    associations: "Dependencies"
-    button_delete_all: "Delete all"
-    change: "Change in planning"
-    children: "Child elements"
-    color_could_not_be_saved: "Color could not be saved"
-    current_planning: "Current planning"
-    dates: "Dates"
-    dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
-    delete_all: "Delete all"
-    delete_thing: "Delete"
-    duration: "Duration"
-    duration_days:
-      one: "1 day"
-      other: "%{count} days"
-    edit_color: "Edit color"
-    edit_thing: "Edit"
-    edit_timeline: "Edit timeline report %{timeline}"
-    delete_timeline: "Delete timeline report %{timeline}"
-    empty: "(empty)"
-    enable_type_in_project: 'Enable type "%{type}"'
-    end: "End"
-    errors:
-      not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-      report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-      report_epicfail: "The timeline could not be loaded due to an unexpected error."
-      report_timeout: "The timeline could not be loaded in a reasonable amount of time."
-    filter:
-      errors:
-        timeframe_start: "The timeframe start "
-        timeframe_end: "The timeframe end "
-        compare_to_relative: "The value of the relative comparison "
-        compare_to_absolute: "The value of the absolute comparison "
-        planning_element_time_relative_one: "The start for work packages in a certain timeframe "
-        planning_element_time_relative_two: "The end for work packages in a certain timeframe "
-        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
-      sort:
-        sortation: "Sort by"
-        alphabet: "alphabet"
-        explicit_order: "explicit order"
-        project_sortation: "Sort projects by"
-        date: "date"
-        default: "default"
-      column:
-        assigned_to: "Assignee"
-        type: "Type"
-        due_date: "End date"
-        name: "Name"
-        status: "Status"
-        start_date: "Start date"
-      columns: "Columns"
-      comparisons: "Comparisons"
-      comparison:
-        absolute: "Absolute"
-        none: "None"
-        relative: "Relative"
-        compare_relative_prefix: "Compare current planning to"
-        compare_relative_suffix: "ago"
-        compare_absolute: "Compare current planning to %{date}"
-      time_relative:
-        days: "days"
-        weeks: "weeks"
-        months: "months"
-      exclude_own_work_packages: "Hide work packages from this project"
-      exclude_reporters: "Hide other projects"
-      exclude_empty: "Hide empty projects"
-      grouping: "Grouping"
-      grouping_hide_group: "Hide group \"%{group}\""
-      grouping_one: "First grouping criterion"
-      grouping_one_phrase: "Is a subproject of"
-      grouping_other: "Other"
-      hide_chart: "Hide chart"
-      noneElement: "(none)"
-      noneSelection: "(none)"
-      outline: "Initial outline expansion"
-      parent: "Show subprojects of"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Show work packages with assignee"
-      types: "Show types"
-      status: "Show status"
-      project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
-      project_time_filter_timeframe: "Timeframe"
-      project_time_filter_historical_from: "from"
-      project_time_filter_historical_to: "to"
-      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: "Filter projects"
-      project_responsible: "Show projects with accountable"
-      project_status: "Show project status"
-      timeframe: "Show timeframe"
-      timeframe_end: "to"
-      timeframe_start: "from"
-      timeline: "General Settings"
-      zoom: "Zoom factor"
-    history: "History"
-    new_color: "New color"
-    new_association: "New dependency"
-    new_work_package: "New work package"
-    new_reporting: "New reporting"
-    new_timeline: "New timeline report"
-    no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
-    no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
-    no_timeline_for_id: "There is no timeline with ID %{id}."
-    notice_successful_deleted_all_elements: "Successfully deleted all elements"
-    outline: "Reset Outline"
-    outlines:
-      aggregation: "Show aggregations only"
-      level1: "Expand level 1"
-      level2: "Expand level 2"
-      level3: "Expand level 3"
-      level4: "Expand level 4"
-      level5: "Expand level 5"
-      all: "Show all"
-    reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
-    reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
-    planning_element_update: "Update: %{title}"
-    type_could_not_be_saved: "Type could not be saved"
-    reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Properties"
-    really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
-    really_delete_reporting: >
-      Are you sure, you want to delete the following reporting? Previous reporting statuses will be deleted, too.
-    start: "Start"
-    timeline: "Timeline report"
-    timelines: "Timeline reports"
-    settings: "Timelines"
-    vertical_work_package: "Vertical work packages"
-    you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
-    zoom:
-      in: "Zoom in"
-      out: "Zoom out"
-      days: "Days"
-      weeks: "Weeks"
-      months: "Months"
-      quarters: "Quarters"
-      years: "Years"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >
@@ -2878,6 +3210,12 @@ ne:
       If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Apply preconfigured filter
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"
@@ -2889,6 +3227,7 @@ ne:
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
+    identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
       This user authenticates via an external authentication provider, so there is no password in OpenProject to be changed.
     authorization_rejected: "You are not allowed to sign in."
@@ -2911,6 +3250,7 @@ ne:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "closed"
@@ -2926,23 +3266,25 @@ ne:
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
   warning_user_limit_reached: >
-    User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
+    Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this instance.
+  warning_user_limit_reached_admin: >
+    Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this instance.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: "HTTPS mode setup mismatch"
       text_html: >
         Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: "Hostname setting mismatch"
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
-  wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
+  wiki_menu_item_for: 'Menu item for wikipage "%{title}"'
   wiki_menu_item_setting: "Visibility"
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
@@ -2954,22 +3296,81 @@ ne:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+    sharing:
+      count:
+        zero: "0 users"
+        one: "1 user"
+        other: "%{count} users"
+      filter:
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Role"
+        type: "Type"
+      label_search: "Search for users to invite"
+      label_search_placeholder: "Search by user or email address"
+      label_toggle_all: "Toggle all shares"
+      permissions:
+        comment: "Comment"
+        comment_description: "Can view and comment this work package."
+        denied: "You don't have permissions to share work packages."
+        edit: "Edit"
+        edit_description: "Can view, comment and edit this work package."
+        view: "View"
+        view_description: "Can view this work package."
+      remove: "Remove"
+      share: "Share"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_state_description: "The work package has not been shared with anyone yet."
+      text_empty_state_header: "Not shared"
+      text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
+      text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
+      warning_user_limit_reached: >
+        Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
+      warning_user_limit_reached_admin: >
+        Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      user_details:
+        locked: "Locked user"
+        invited: "Invite sent. "
+        resend_invite: "Resend."
+        invite_resent: "Invite has been resent"
+        not_project_member: "Not a project member"
+        project_group: "Group members might have additional privileges (as project members)"
+        not_project_group: "Group (shared with all members)"
+        additional_privileges_project: "Might have additional privileges (as project member)"
+        additional_privileges_group: "Might have additional privileges (as group member)"
+        additional_privileges_project_or_group: "Might have additional privileges (as project or group member)"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nothing to preview"
   api_v3:
     attributes:
       lock_version: "Lock Version"
-      property: 'Property'
+      property: "Property"
     errors:
       code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."
@@ -2979,6 +3380,8 @@ ne:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3007,49 +3410,49 @@ ne:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
       eprops:
         invalid_gzip: "is invalid gzip: %{message}"
         invalid_json: "is invalid json: %{message}"
     resources:
-      schema: 'Schema'
+      schema: "Schema"
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
-      status: 'Pre-authorization'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+      status: "Pre-authorization"
+    auth_url: "Auth URL"
+    access_token_url: "Access token URL"
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+          unknown: "The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed."
+          missing_param: "Missing required parameter: %{value}."
+          request_not_authorized: "Request need to be authorized. Required parameter for authorizing request is missing or invalid."
         invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'यस बिधि द्वारा अनुरोधगर्ने अधिकार यो clientलाई छैन।'
-        access_denied: 'Resource owner or authorization server ले अनुरोध अस्वीकार गर्यो।'
-        invalid_scope: 'अनुरोध गरिएको दायरा अवैध, अज्ञात वा विकृत छ।'
-        invalid_code_challenge_method: 'कोड चुनौती विधि plain वा S256 मा हुनुपर्दछ।'
-        server_error: 'Authorization serverले अप्रत्याशित स्थितिको सामना गर्यो, त्यो कारणले, अनुरोध पूरा गर्नबाट रोक्यो।'
-        temporarily_unavailable: 'अस्थाई अत्यधिक चाप वा मर्मतसम्भारको कारणले Authorization server तत्काललाई अनुरोध बुझ्न नसक्ने अवस्थामा छ।'
+        unauthorized_client: "यस बिधि द्वारा अनुरोधगर्ने अधिकार यो clientलाई छैन।"
+        access_denied: "Resource owner or authorization server ले अनुरोध अस्वीकार गर्यो।"
+        invalid_scope: "अनुरोध गरिएको दायरा अवैध, अज्ञात वा विकृत छ।"
+        invalid_code_challenge_method: "कोड चुनौती विधि plain वा S256 मा हुनुपर्दछ।"
+        server_error: "Authorization serverले अप्रत्याशित स्थितिको सामना गर्यो, त्यो कारणले, अनुरोध पूरा गर्नबाट रोक्यो।"
+        temporarily_unavailable: "अस्थाई अत्यधिक चाप वा मर्मतसम्भारको कारणले Authorization server तत्काललाई अनुरोध बुझ्न नसक्ने अवस्थामा छ।"
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'प्रशासनको प्यानलमा पहुँच निस्क्रिय गरिएको छ किनकि Doorke.configure.admin_authenticator कन्फिगर गरिएको छैन।'
+        credential_flow_not_configured: "Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured."
+        resource_owner_authenticator_not_configured: "Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured."
+        admin_authenticator_not_configured: "प्रशासनको प्यानलमा पहुँच निस्क्रिय गरिएको छ किनकि Doorke.configure.admin_authenticator कन्फिगर गरिएको छैन।"
         #Access grant errors
-        unsupported_response_type: 'Authorization सर्भरले यस प्रकारको प्रतिक्रिया समर्थन गर्दैन।'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_type: "Authorization सर्भरले यस प्रकारको प्रतिक्रिया समर्थन गर्दैन।"
+        unsupported_response_mode: "The authorization server does not support this response mode."
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_client: "Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method."
+        invalid_grant: "The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
+        unsupported_grant_type: "The authorization grant type is not supported by the authorization server."
         invalid_token:
           revoked: "Access token रद्द गरियो"
           expired: "Access token को समयावधि समाप्त भयो"
@@ -3061,7 +3464,7 @@ ne:
   unsupported_browser:
     title: "तपाईंको browser पुरानो र असमर्थित छ।"
     message: "तपाइँ यस पृष्ठमा त्रुटिहरू र घटाइएको अनुभवमा चल्न सक्नुहुन्छ।"
-    update_message: 'Please update your browser.'
+    update_message: "Please update your browser."
     close_warning: "Ignore this warning."
   oauth:
     application:
@@ -3098,8 +3501,8 @@ ne:
       successful_application_revocation: "Revocation of application %{application_name} successful."
       none_given: "No OAuth applications have been granted access to your user account."
     x_active_tokens:
-      one: 'one active token'
-      other: '%{count} active token'
+      one: "one active token"
+      other: "%{count} active token"
     flows:
       authorization_code: "Authorization code flow"
       client_credentials: "Client credentials flow"
@@ -3122,7 +3525,7 @@ ne:
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "OAuth2 provider reported"
       oauth_returned_error: "OAuth2 returned an error"
       oauth_returned_json_error: "OAuth2 returned a JSON error"
@@ -3159,3 +3562,10 @@ ne:
     response:
       unexpected: "Unexpected response received."
   you: you
+  link: link
+  plugin_openproject_auth_plugins:
+    name: "OpenProject Auth Plugins"
+    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+  plugin_openproject_auth_saml:
+    name: "OmniAuth SAML / Single-Sign On"
+    description: "Adds the OmniAuth SAML provider to OpenProject"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,81 +26,73 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require 'features/work_packages/work_packages_page'
-require 'support/edit_fields/edit_field'
+require "features/work_packages/work_packages_page"
+require "support/edit_fields/edit_field"
 
-describe 'Activity tab',
-         js: true,
-         selenium: true do
-  def alter_work_package_at(work_package, attributes:, at:, user: User.current)
-    work_package.update(attributes.merge(updated_at: at))
-
-    note_journal = work_package.journals.last
-    note_journal.update(created_at: at, updated_at: at, user:)
+RSpec.describe "Activity tab", :js, :with_cuprite do
+  let(:project) do
+    create(:project_with_types,
+           types: [type_with_cf],
+           work_package_custom_fields: [string_cf],
+           public: true)
   end
 
-  let(:project) { create :project_with_types, public: true }
+  let(:string_cf) { create(:text_wp_custom_field) }
+
+  let(:type_with_cf) do
+    create(:type, custom_fields: [string_cf])
+  end
+
+  let(:creation_time) { 5.days.ago }
+  let(:subject_change_time) { 3.days.ago }
+  let(:revision_time) { 2.days.ago }
+  let(:comment_time) { 1.day.ago }
+
   let!(:work_package) do
-    work_package = create(:work_package,
-                          project:,
-                          created_at: 5.days.ago.to_date.to_fs(:db),
-                          subject: initial_subject,
-                          journal_notes: initial_comment)
-
-    note_journal = work_package.journals.reload.last
-    note_journal.update(created_at: 5.days.ago.to_date.to_s, updated_at: 5.days.ago.to_date.to_s)
-
-    work_package
+    create(:work_package,
+           project:,
+           created_at: creation_time,
+           subject: initial_subject,
+           journals: {
+             creation_time => { notes: initial_comment },
+             subject_change_time => { subject: "New subject", description: "Some not so long description." },
+             comment_time => { notes: "A comment by a different user", user: create(:admin) }
+           }).tap do |wp|
+      Journal::CustomizableJournal.create!(journal: wp.journals[1],
+                                           custom_field_id: string_cf.id,
+                                           value: "*   [x] Task 1\n*   [ ] Task 2")
+    end
   end
 
-  let(:initial_subject) { 'My Subject' }
-  let(:initial_comment) { 'First comment on this wp.' }
+  let(:initial_subject) { "My Subject" }
+  let(:initial_comment) { "First comment on this wp." }
   let(:comments_in_reverse) { false }
-  let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
+  let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
-  let(:initial_note) do
-    work_package.journals.reload[0]
+  let(:creation_journal) do
+    work_package.journals.reload.first
   end
+  let(:subject_change_journal) { work_package.journals[1] }
+  let(:comment_journal) { work_package.journals[2] }
 
-  let!(:note1) do
-    attributes = { subject: 'New subject', description: 'Some not so long description.' }
-
-    alter_work_package_at(work_package,
-                          attributes:,
-                          at: 3.days.ago.to_date.to_fs(:db),
-                          user:)
-
-    work_package.journals.reload.last
-  end
-
-  let!(:note2) do
-    attributes = { journal_notes: 'Another comment by a different user' }
-
-    alter_work_package_at(work_package,
-                          attributes:,
-                          at: 1.day.ago.to_date.to_fs(:db),
-                          user: create(:admin))
-
-    work_package.journals.reload.last
-  end
+  current_user { user }
 
   before do
-    login_as(user)
     allow(user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
-    allow(user.pref).to receive(:comments_sorting).and_return(comments_in_reverse ? 'desc' : 'asc')
+    allow(user.pref).to receive(:comments_sorting).and_return(comments_in_reverse ? "desc" : "asc")
     allow(user.pref).to receive(:comments_in_reverse_order?).and_return(comments_in_reverse)
   end
 
-  shared_examples 'shows activities in order' do
+  shared_examples "shows activities in order" do
     let(:journals) do
-      journals = [initial_note, note1, note2]
+      journals = [creation_journal, subject_change_journal, comment_journal]
 
       journals
     end
 
-    it 'shows activities in ascending order' do
+    it "shows activities in ascending order" do
       journals.each_with_index do |journal, idx|
         actual_index =
           if comments_in_reverse
@@ -117,85 +109,84 @@ describe 'Activity tab',
 
         activity = page.find("#activity-#{idx + 1}")
 
-        if journal.id != note1.id
-          expect(activity).to have_selector('.op-user-activity--user-line', text: journal.user.name)
-          expect(activity).to have_selector('.user-comment > .message', text: journal.notes, visible: :all)
+        if journal.id != subject_change_journal.id
+          expect(activity).to have_css(".op-user-activity--user-line", text: journal.user.name)
+          expect(activity).to have_css(".user-comment > .message", text: journal.notes, visible: :all)
         end
 
-        if activity == note1
-          expect(activity).to have_selector('.work-package-details-activities-messages .message',
-                                            count: 2)
-          expect(activity).to have_selector('.message',
-                                            text: "Subject changed from #{initial_subject} " \
-                                                  "to #{journal.data.subject}")
+        if activity == subject_change_journal
+          expect(activity).to have_css(".work-package-details-activities-messages .message",
+                                       count: 2)
+          expect(activity).to have_css(".message",
+                                       text: "Subject changed from #{initial_subject} " \
+                                             "to #{journal.data.subject}")
         end
       end
     end
   end
 
-  shared_examples 'activity tab' do
+  shared_examples "activity tab" do
     before do
-      work_package_page.visit_tab! 'activity'
+      work_package_page.visit_tab! "activity"
       work_package_page.ensure_page_loaded
-      expect(page).to have_selector('.user-comment > .message',
-                                    text: initial_comment)
+      expect(page).to have_css(".user-comment > .message",
+                               text: initial_comment)
     end
 
-    context 'with permission' do
+    context "with permission" do
       let(:role) do
-        create(:role, permissions: %i[view_work_packages add_work_package_notes])
+        create(:project_role, permissions: %i[view_work_packages add_work_package_notes])
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
 
-      context 'with ascending comments' do
+      context "with ascending comments" do
         let(:comments_in_reverse) { false }
 
-        it_behaves_like 'shows activities in order'
+        it_behaves_like "shows activities in order"
       end
 
-      context 'with reversed comments' do
+      context "with reversed comments" do
         let(:comments_in_reverse) { true }
 
-        it_behaves_like 'shows activities in order'
+        it_behaves_like "shows activities in order"
       end
 
-      it 'can deep link to an activity' do
-        visit "/work_packages/#{work_package.id}/activity#activity-#{note2.id}"
+      it "can deep link to an activity" do
+        visit "/work_packages/#{work_package.id}/activity#activity-#{comment_journal.id}"
 
         work_package_page.ensure_page_loaded
-        expect(page).to have_selector('.user-comment > .message',
-                                      text: initial_comment)
+        expect(page).to have_css(".user-comment > .message",
+                                 text: initial_comment)
 
-        expect(page.current_url).to match /\/work_packages\/#{work_package.id}\/activity#activity-#{note2.id}/
+        expect(page.current_url).to match /\/work_packages\/#{work_package.id}\/activity#activity-#{comment_journal.id}/
       end
 
-      it 'can toggle between activities and comments-only' do
-        expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 3)
-        expect(page).to have_selector('.user-comment > .message', text: note2.notes)
+      it "can toggle between activities and comments-only" do
+        expect(page).to have_css(".work-package-details-activities-activity-contents", count: 3)
+        expect(page).to have_css(".user-comment > .message", text: comment_journal.notes)
 
         # Show only comments
-        find('.activity-comments--toggler').click
+        find(".activity-comments--toggler").click
 
         # It should remove the middle
-        expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 2)
-        expect(page).to have_selector('.user-comment > .message', text: initial_comment)
-        expect(page).to have_selector('.user-comment > .message', text: note2.notes)
+        expect(page).to have_css(".work-package-details-activities-activity-contents", count: 2)
+        expect(page).to have_css(".user-comment > .message", text: initial_comment)
+        expect(page).to have_css(".user-comment > .message", text: comment_journal.notes)
 
         # Show all again
-        find('.activity-comments--toggler').click
-        expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 3)
+        find(".activity-comments--toggler").click
+        expect(page).to have_css(".work-package-details-activities-activity-contents", count: 3)
       end
 
-      it 'can quote a previous comment' do
-        activity_tab.hover_action('1', :quote)
+      it "can quote a previous comment" do
+        activity_tab.hover_action("1", :quote)
 
         field = TextEditorField.new work_package_page,
-                                    'comment',
-                                    selector: '.work-packages--activity--add-comment'
+                                    "comment",
+                                    selector: ".work-packages--activity--add-comment"
 
         field.expect_active!
 
@@ -205,36 +196,44 @@ describe 'Activity tab',
         field.input_element.base.send_keys "\nthis is some remark under a quote"
         field.submit_by_click
 
-        expect(page).to have_selector('.user-comment > .message', count: 3)
-        expect(page).to have_selector('.user-comment > .message blockquote')
+        expect(page).to have_css(".user-comment > .message", count: 3)
+        expect(page).to have_css(".user-comment > .message blockquote")
+      end
+
+      it "can render checkboxes as part of the activity" do
+        task_list = page.all('[data-qa-activity-number="2"] ul.op-uc-list_task-list li.op-uc-list--item')
+        expect(task_list.size).to eq(2)
+        expect(task_list[0]).to have_text("Task 1")
+        expect(task_list[0]).to have_checked_field(disabled: true)
+        expect(task_list[1]).to have_text("Task 2")
+        expect(task_list[1]).to have_unchecked_field(disabled: true)
       end
     end
 
-    context 'with no permission' do
+    context "with no permission" do
       let(:role) do
-        create(:role, permissions: [:view_work_packages])
+        create(:project_role, permissions: [:view_work_packages])
       end
       let(:user) do
         create(:user,
-               member_in_project: project,
-               member_through_role: role)
+               member_with_roles: { project => role })
       end
 
-      it 'shows the activities, but does not allow commenting' do
-        expect(page).not_to have_selector('.work-packages--activity--add-comment', visible: :visible)
+      it "shows the activities, but does not allow commenting" do
+        expect(page).to have_no_css(".work-packages--activity--add-comment", visible: :visible)
       end
     end
   end
 
-  context 'if on split screen' do
+  context "if on split screen" do
     let(:work_package_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
-    it_behaves_like 'activity tab'
+    it_behaves_like "activity tab"
   end
 
-  context 'if on full screen' do
+  context "if on full screen" do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
 
-    it_behaves_like 'activity tab'
+    it_behaves_like "activity tab"
   end
 end

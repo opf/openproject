@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackages::BulkController, type: :routing do
-  it 'connects GET /work_packages/bulk/edit to work_package_bulk/edit' do
-    expect(get('/work_packages/bulk/edit')).to route_to(controller: 'work_packages/bulk',
-                                                        action: 'edit')
+RSpec.describe WorkPackages::BulkController do
+  it "connects GET /work_packages/bulk/edit to work_package_bulk/edit" do
+    expect(get("/work_packages/bulk/edit")).to route_to(controller: "work_packages/bulk",
+                                                        action: "edit")
   end
 
-  it 'connects PUT /work_packages/bulk/update to work_package_bulk#update' do
-    expect(put('/work_packages/bulk')).to route_to(controller: 'work_packages/bulk',
-                                                   action: 'update')
+  it "connects PUT /work_packages/bulk/update to work_package_bulk#update" do
+    expect(put("/work_packages/bulk")).to route_to(controller: "work_packages/bulk",
+                                                   action: "update")
   end
 
-  it 'connects DELETE /work_packages/bulk to work_package_bulk#destroy' do
-    expect(delete('/work_packages/bulk')).to route_to(controller: 'work_packages/bulk',
-                                                      action: 'destroy')
+  it "connects DELETE /work_packages/bulk to work_package_bulk#destroy" do
+    expect(delete("/work_packages/bulk")).to route_to(controller: "work_packages/bulk",
+                                                      action: "destroy")
   end
 end

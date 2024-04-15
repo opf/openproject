@@ -3,7 +3,7 @@
   (submit)="applyAndClose($event)"
   data-indicator-name="modal"
 >
-  <div class="spot-modal--header">{{text.title}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
 
   <div class="spot-divider"></div>
 
@@ -68,7 +68,7 @@
         [textContent]="text.button_cancel"
       ></button>
       <button
-        class="spot-modal--submit-button button button_no-margin -highlight spot-action-bar--action"
+        class="spot-modal--submit-button button button_no-margin -primary spot-action-bar--action"
         tabindex="3"
         [textContent]="text.button_save"
       ></button>

@@ -1,24 +1,24 @@
 module OpenProject
   module Recaptcha
     module Configuration
-      CONFIG_KEY = 'recaptcha_via_hcaptcha'.freeze
+      CONFIG_KEY = "recaptcha_via_hcaptcha".freeze
 
       extend self
 
+      def enabled?
+        type.present? && type != ::OpenProject::Recaptcha::TYPE_DISABLED
+      end
+
       def use_hcaptcha?
-        OpenProject::Configuration[CONFIG_KEY]
+        type == ::OpenProject::Recaptcha::TYPE_HCAPTCHA
+      end
+
+      def type
+        ::Setting.plugin_openproject_recaptcha["recaptcha_type"]
       end
 
       def hcaptcha_response_limit
-        @hcaptcha_response_limit ||= (ENV["RECAPTCHA_RESPONSE_LIMIT"].presence || 5000).to_i
-      end
-
-      def api_server_url_override
-        ENV["RECAPTCHA_API_SERVER_URL"].presence || ((use_hcaptcha? || nil) && hcaptcha_api_server_url)
-      end
-
-      def verify_url_override
-        ENV["RECAPTCHA_VERIFY_URL"].presence || ((use_hcaptcha? || nil) && hcaptcha_verify_url)
+        (::Setting.plugin_openproject_recaptcha["response_limit"] || "5000").to_i
       end
 
       def hcaptcha_verify_url

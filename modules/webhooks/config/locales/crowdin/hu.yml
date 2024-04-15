@@ -1,4 +1,7 @@
 hu:
+  plugin_openproject_webhooks:
+    name: "OpenProject webhookok"
+    description: "Az OpenProject webhooks támogatásához egy API-t biztosít a jobb 3rd party integráció érdekében."
   activerecord:
     attributes:
       webhooks/webhook:

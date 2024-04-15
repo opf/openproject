@@ -10,13 +10,9 @@ keywords: documentation style guide, style guide, format, style
 
 This document defines the standards for the OpenProject documentation, including grammar, formatting, wording and more.
 
-
-
 ## Markup language
 
 All OpenProject documentation is written in Markdown. Feel free to either work directly in the Markdown files or to use [GitHub desktop](https://desktop.github.com) with a markdown editor like [Typora](https://typora.io) or others.
-
-
 
 ## Documentation structure
 
@@ -31,8 +27,6 @@ The OpenProject documentation is divided into the top level folders:
 Within each folder there is a sub-hierarchy of topics. E.g. in the Getting started guide you find amongst others the Introduction to OpenProject and Sign in and registration as sub-topics. Sub-topics are individual documentation pages in GitHub. You will notice the sub-topics in the documentation menu on the left when unfolding each folder's menu.
 
 ![OpenProject_documentation_menu_left_side_unfolded_sub_topics](OpenProject_documentation_menu.png)
-
-
 
 ### Folder content
 
@@ -51,8 +45,6 @@ Find an overview of content per folder here:
 | [Release notes](../../../release-notes/)                                   | OpenProject is regularly upgraded with new features, security updates  and more. The release notes inform you about the news in each release.                                                                                                                                       |
 | [Development](../../../development/)                                       | This guide details how to contribute to the code of  the OpenProject application.                                                                                                                                                                                                   |
 | [API](../../../api/)                                                       | This part of the documentation deals with the API specification, what endpoints  and functionality are available.                                                                                                                                                                   |
-
- 
 
 ## Directory and file names
 
@@ -80,12 +72,9 @@ Please respect the following when working with directories and files:
 
 If you are unsure where to place a document or a content addition, this should not stop you from authoring and contributing. Use your best judgment, and then add a comment to your pull request.
 
-
 ## No duplication of information
 
 Do not include the same information in multiple places. Instead, link through to the information in the documentation where it is already mentioned so that there is only a single source of truth that needs to be maintained.
-
- 
 
 ## References across the documentation
 
@@ -95,13 +84,9 @@ Do not include the same information in multiple places. Instead, link through to
 
 - When making reference to third-party products or technologies, link out to their external sites, documentation and resources.
 
-  
-
 ## Structure in documents
 
 - Structure content in tables or lists etc. in alphabetical order unless there is a reason to use any other order of importance. 
-
-  
 
 ## Documentation language
 
@@ -111,7 +96,7 @@ The OpenProject documentation should be as clear and easy to understand as possi
 
 - Write in US English with US grammar.  
 
-  
+We aim to use fair language on our language and documentation and choose gender-neutral terms whenever possible. If this is not possible due to the language, e.g. German, we use : to be as inclusive as possible. Please refer to the [fair language guide](../../translate-openproject/fair-language/) for more specific instructions. 
 
 ## Capitalization
 
@@ -123,13 +108,9 @@ Use sentences that describe the content and capitalize the first letter in the s
 
 `## Start a new trial installation`
 
-
-
 ### UI text
 
 When referring to specific user interface text, like a button label or menu item, use the name as in the application and start the word with a capital letter. Moreover, please make it bold. Example: **Start free trial** button.
-
-
 
 ### Feature names
 
@@ -141,9 +122,6 @@ Feature names are typically capitalized (the first word) and in bold. For exampl
 - **News**
 - **Wiki**
 
-  
-
-
 #### Other terms
 
 Capitalize names of:
@@ -152,8 +130,6 @@ Capitalize names of:
 - Third-party organizations, software, and products. For example Nextcloud, The Linux Foundation etc.
 
 Follow the capitalization style by the third party which may use non-standard case styles. For example: OpenProject, GitHub.
-
-
 
 ## Placeholders 
 
@@ -167,21 +143,15 @@ You may need to include user information in entries. Do not use real user inform
 
 - Screenshots: When inserting screenshots in the documentation, make sure you are not giving away your identity by using your actual avatar. Rather create a fake user name and avatar.
 
-  
-
 ### URLs
 
 When including sample URLs in the documentation, use example.com when the domain name is generic.
-
-
 
 ### Tokens
 
 There may be times where a token is needed to demonstrate an API call. It is strongly advised not to use real tokens in documentation even if the probability of a token being exploited is low.
 
 You can use this fake token as example: 12345678910ABCDE
-
-
 
 ### Commands
 
@@ -191,17 +161,13 @@ In these cases, use `<` customize `>` to call out where a reader must replace te
 
 For example:
 
-```
+```shell
 cp <your_source_directory> <your_destination_directory>
 ```
-
-
 
 ## Contractions
 
 Please do not use any contractions like don’t or isn’t.
-
-
 
 ## Copy
 
@@ -217,19 +183,13 @@ Follow these guidelines for punctuation:
 
 - When a colon is part of a sentence, always use lowercase after the colon.
 
-
-
 ### Spaces between words
 
 Use only standard spaces between words so that the search engine can find individual search terms.
 
-
-
 ## Lists
 
 Always start list items with a capital letter.
-
-
 
 ### Ordered and unordered lists
 
@@ -245,8 +205,6 @@ Follow these steps:
 
 3. And then finish off with something else.
 
- 
-
 Example for an unordered list: 
 
 - Feature 1
@@ -255,13 +213,9 @@ Example for an unordered list:
 
 - Feature 3
 
-  
-
 ### Markup
 
 - Use dashes (`-`) for unordered lists.
-
-  
 
 ### Punctuation
 
@@ -270,13 +224,9 @@ Example for an unordered list:
     - Feature 1: very attractive new feature
     - Feature 2: description of an additional feature
 
- 
-
 ## Tables
 
 Tables should be used to describe complex information. Note that in many cases, an unordered list is sufficient to describe a list of items with a single, simple description per item. But, if you have data that is best described by a matrix, tables are the best choice.
-
- 
 
 ### Creation guidelines
 
@@ -300,11 +250,9 @@ instead of:
 | Best feature | Use it to synchronize your example table with OpenProject |
 ```
 
-
-
 ## Headings
 
-- Add only one H1 in each documentation page, by adding # at the beginning of ithe headline (when using Markdown).
+- Add only one H1 in each documentation page, by adding # at the beginning of the headline (when using Markdown).
 
 - Start with an H2 (##)  and respect the order H2 > H3. Never skip the hierarchy level, such as H3 > H2. Do not go lower in the hierarchy than H3 (###).
 
@@ -320,35 +268,25 @@ instead of:
 
 - See  [Capitalization](#capitalization) for guidelines on capitalizing headings.
 
-  
-
 ### Heading titles
 
 Keep heading titles clear and direct. Make every word count. Where possible, use the imperative. Example: Sign in with an existing account (**not** Signing in with an existing account).
 
-
-
 ### Anchor links
 
-Headings generate anchor links when rendered. ##This is an example generates the anchor #this-is-an-example.
+Headings generate anchor links when rendered. `## This is an example` generates the anchor `#this-is-an-example`.
 
 Keep in mind that there are various links to OpenProject documentation pages and anchor links on the internet to take the users to the right spot. Thus, please avoid changing headings.
-
-
 
 ## Links
 
 Links are important in the documentation. Use links instead of duplicating content to help preserve a single source of truth in the OpenProject documentation.
-
-
 
 ### Basic link criteria
 
 - Use inline link Markdown markup `[Description](https://example.com)`. It is easier to read, review, and maintain.
 
 - Use meaningful anchor text descriptions. For example, instead of writing something like `Read more about Gantt charts [here](LINK)`, write `Read more about [Gantt charts](LINK)`.
-
-
 
 ### Links to internal documentation
 
@@ -359,19 +297,13 @@ To link to internal documentation:
 - Use relative links to Markdown files in the same repository.
 - Use ../ to navigate to higher-level directories.
 
-
-
 ### Links to external documentation
 
 When linking to external information, you have to use absolute URLs. Make sure that you are only linking to an authoritative source, i.e. official and credible sources written by the people who created the item or product. These sources are the most likely to be accurate and remain up to date.
 
- 
-
 ## Navigation
 
 When documenting navigation through the OpenProject application, use these terms.
-
-
 
 ### Menus
 
@@ -382,9 +314,7 @@ Use these terms when referring to OpenProject’s main application elements:
 
 All project menu items are spelled as in the application in bold, e.g.
 
-- In the project menu, select **Work packages** to open your work package list.
-
-  
+- In the project menu, select **Work packages** to open your work package table.
 
 ### How to document a navigation path
 
@@ -398,7 +328,6 @@ Images, including screenshots, can help a reader better understand a guide. Howe
 
 Before including an image in the documentation, ensure it provides value to the reader.
 
-
 ### Capture images
 
 Use images to help the reader understand where they are in a process, or how they need to interact with the application.
@@ -408,7 +337,6 @@ When you take screenshots:
 - Capture the most relevant area: Do not include unnecessary blank space or areas of the page that do not help illustrate the point. The project menu on the left of the OpenProject application can change, so don’t include it unless it is necessary.
 
 - Be consistent: Coordinate screenshots with the other screenshots already on a documentation page. For example, if other screenshots include the left sidebar, include the sidebar in all screenshots.
-
 
 ### Highlight specific areas and add numbered labels
 
@@ -428,7 +356,6 @@ This is an example of a screenshot with both highlighted areas and numbered labe
 
 When referring to the numbered labels in the documentation text, use either an ordered list starting at number 1, with the numbers corresponding to the labeled parts of the screenshot. You may also refer to them within a line of text by using the word "Area" followed by the number, in parentheses, like so: "(Area 1)".
 
-
 ### Save images
 
 - Save the image with a file name that describes the image. Use lower cases and no spaces (see [file names requirements](#directory-and-file-names)).
@@ -439,27 +366,21 @@ When referring to the numbered labels in the documentation text, use either an o
 
 - Compress GIFs, maximum size 250KB.
 
-  
-
 ### Add the image link to content
 
 The Markdown code for including an image in a document is: `![Image description which will be the alt tag](document_image_title_v_x_y.png)`
 
 The image description is the alt text for the rendered image on the documentation page. For accessibility and SEO, use descriptions that are short and precise.
 
-
-
 ## Videos
 
 At the moment it is not possible for external contributors to upload videos to the documentation. Please open a ticket in case you want to add a video.
-
-
 
 ## Alert boxes
 
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
-```
+```markdown
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
 ```
 

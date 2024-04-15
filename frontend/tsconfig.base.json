@@ -11,17 +11,13 @@
     "noEmitOnError": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    // Increase strictness
-    // Enable strict once "use strict" errors can be resolved
-    // "strict": true;
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
-//    "strictFunctionTypes": true,
-    // Causes lots of errors in linked angularjs properties
-//    "strictPropertyInitialization": false,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "baseUrl": "./src/",
     "typeRoots": [
@@ -29,12 +25,15 @@
       "src/types"
     ],
     "lib": [
-      "es2017",
+      "es2018",
       "dom"
     ],
     "paths": {
       "@ng-select/ng-select": ["../node_modules/@ng-select/ng-select/"],
       "core-app/*": ["./app/*"],
+      "core-typings/*": [
+        "./typings/*"
+      ],
       "core-components/*": ["./app/components/*"],
       "core-vendor/*": ["./vendor/*"]
     }

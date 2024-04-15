@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path('shared/become_member', __dir__)
+require File.expand_path("shared/become_member", __dir__)
 
 module PermissionSpecs
   def self.included(base)
@@ -49,7 +49,7 @@ module PermissionSpecs
       end
 
       def self.check_permission_required_for(controller_action, permission)
-        controller_name, action_name = controller_action.split('#')
+        controller_name, action_name = controller_action.split("#")
 
         it "allows calling #{controller_action} when having the permission #{permission}" do
           become_member_with_permissions(project, current_user, permission)
@@ -66,7 +66,7 @@ module PermissionSpecs
 
       before do
         # As failures generate a response we need to prevent calls to nil
-        controller.response = ActionDispatch::TestResponse.new
+        controller.set_response!(ActionDispatch::TestResponse.new)
 
         allow(User).to receive(:current).and_return(current_user)
 

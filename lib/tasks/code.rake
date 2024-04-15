@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,18 +27,18 @@
 #++
 
 namespace :code do
-  desc 'Fix line endings of all source files'
+  desc "Fix line endings of all source files"
   task :fix_line_endings do
-    Dir.chdir(File.join(File.dirname(__FILE__), '../..')) do
-      files = Dir['**/**{.rb,.html.erb,.rhtml,.rjs,.plain.erb,.rxml,.yml,.rake,.eml}']
+    Dir.chdir(File.join(File.dirname(__FILE__), "../..")) do
+      files = Dir["**/**{.rb,.html.erb,.rhtml,.rjs,.plain.erb,.rxml,.yml,.rake,.eml}"]
       files.reject! do |f|
-        f.include?('lib_static/plugins') ||
-          f.include?('lib_static/diff')
+        f.include?("lib_static/plugins") ||
+          f.include?("lib_static/diff")
       end
 
       # handle files in chunks of 50 to avoid too long command lines
       while (slice = files.slice!(0, 50)).present?
-        system('ruby', '-i', '-pe', 'gsub(/\s+\z/,"\n")', *slice)
+        system("ruby", "-i", "-pe", 'gsub(/\s+\z/,"\n")', *slice)
       end
     end
   end

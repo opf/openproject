@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
   let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
   let(:custom_field_filter) do
-    filter = Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field
+    filter = Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field!(custom_field:)
 
     allow(WorkPackageCustomField)
       .to receive(:find_by)
@@ -51,22 +51,22 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
                         form_embedded:)
   end
   let(:form_embedded) { false }
-  let(:self_link) { 'bogus_self_path' }
+  let(:self_link) { "bogus_self_path" }
   let(:project) { nil }
   let(:user) { build_stubbed(:user) }
   let(:json_cacheable) { true }
-  let(:json_cache_key) { 'some key' }
+  let(:json_cache_key) { "some key" }
   let(:dependency) do
-    double('dependency',
-           to_hash: { lorem: 'ipsum' },
+    double("dependency",
+           to_hash: { lorem: "ipsum" },
            json_cacheable?: json_cacheable,
            json_cache_key:)
   end
 
-  context 'generation' do
+  context "generation" do
     before do
       filter.available_operators.each do |operator|
-        allow(::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
+        allow(API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
           .to receive(:create)
           .with(filter,
                 operator,
@@ -77,138 +77,138 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
 
     subject(:generated) { instance.to_json }
 
-    context '_links' do
-      describe 'self' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'self' }
+    context "_links" do
+      describe "self" do
+        it_behaves_like "has an untitled link" do
+          let(:link) { "self" }
           let(:href) { self_link }
         end
       end
     end
 
-    context 'properties' do
-      describe '_type' do
-        it 'QueryFilterInstanceSchema' do
+    context "properties" do
+      describe "_type" do
+        it "QueryFilterInstanceSchema" do
           expect(subject)
-            .to be_json_eql('QueryFilterInstanceSchema'.to_json)
-            .at_path('_type')
+            .to be_json_eql("QueryFilterInstanceSchema".to_json)
+            .at_path("_type")
         end
       end
 
-      describe 'name' do
-        let(:path) { 'name' }
+      describe "name" do
+        let(:path) { "name" }
 
-        it_behaves_like 'has basic schema properties' do
-          let(:type) { 'String' }
-          let(:name) { 'Name' }
+        it_behaves_like "has basic schema properties" do
+          let(:type) { "String" }
+          let(:name) { "Name" }
           let(:required) { true }
           let(:writable) { false }
           let(:has_default) { true }
         end
       end
 
-      describe 'filter' do
-        let(:path) { 'filter' }
+      describe "filter" do
+        let(:path) { "filter" }
 
-        it_behaves_like 'has basic schema properties' do
-          let(:type) { 'QueryFilter' }
-          let(:name) { Query.human_attribute_name('filter') }
+        it_behaves_like "has basic schema properties" do
+          let(:type) { "QueryFilter" }
+          let(:name) { Query.human_attribute_name("filter") }
           let(:required) { true }
           let(:writable) { true }
-          let(:location) { '_links' }
+          let(:location) { "_links" }
         end
 
-        it_behaves_like 'does not link to allowed values'
+        it_behaves_like "does not link to allowed values"
 
-        context 'when embedding' do
+        context "when embedding" do
           let(:form_embedded) { true }
 
-          it_behaves_like 'links to and embeds allowed values directly' do
-            let(:hrefs) { [api_v3_paths.query_filter('status')] }
+          it_behaves_like "links to and embeds allowed values directly" do
+            let(:hrefs) { [api_v3_paths.query_filter("status")] }
           end
 
-          context 'with a custom field filter' do
+          context "with a custom field filter" do
             let(:filter) { custom_field_filter }
 
-            it_behaves_like 'links to and embeds allowed values directly' do
-              let(:hrefs) { [api_v3_paths.query_filter("customField#{custom_field.id}")] }
+            it_behaves_like "links to and embeds allowed values directly" do
+              let(:hrefs) { [api_v3_paths.query_filter(custom_field.attribute_name(:camel_case))] }
             end
           end
         end
       end
 
-      describe 'operator' do
-        let(:path) { 'operator' }
+      describe "operator" do
+        let(:path) { "operator" }
 
-        it_behaves_like 'has basic schema properties' do
-          let(:type) { 'QueryOperator' }
-          let(:name) { Query.human_attribute_name('operator') }
+        it_behaves_like "has basic schema properties" do
+          let(:type) { "QueryOperator" }
+          let(:name) { Query.human_attribute_name("operator") }
           let(:required) { true }
           let(:writable) { true }
-          let(:location) { '_links' }
+          let(:location) { "_links" }
         end
 
-        it_behaves_like 'does not link to allowed values'
+        it_behaves_like "does not link to allowed values"
 
-        context 'when embedding' do
+        context "when embedding" do
           let(:form_embedded) { true }
 
-          it_behaves_like 'links to and embeds allowed values directly' do
+          it_behaves_like "links to and embeds allowed values directly" do
             let(:hrefs) do
-              [api_v3_paths.query_operator(CGI.escape('o')),
-               api_v3_paths.query_operator(CGI.escape('=')),
-               api_v3_paths.query_operator(CGI.escape('c')),
-               api_v3_paths.query_operator(CGI.escape('!')),
-               api_v3_paths.query_operator(CGI.escape('*'))]
+              [api_v3_paths.query_operator(CGI.escape("o")),
+               api_v3_paths.query_operator(CGI.escape("=")),
+               api_v3_paths.query_operator(CGI.escape("c")),
+               api_v3_paths.query_operator(CGI.escape("!")),
+               api_v3_paths.query_operator(CGI.escape("*"))]
             end
           end
         end
       end
 
-      describe '_dependencies/0 (we only have one)' do
-        describe '_type' do
-          it 'is SchemaDependency' do
+      describe "_dependencies/0 (we only have one)" do
+        describe "_type" do
+          it "is SchemaDependency" do
             expect(subject)
-              .to be_json_eql('SchemaDependency'.to_json)
-              .at_path('_dependencies/0/_type')
+              .to be_json_eql("SchemaDependency".to_json)
+              .at_path("_dependencies/0/_type")
           end
         end
 
-        describe 'on' do
+        describe "on" do
           it 'is "operator"' do
             expect(subject)
-              .to be_json_eql('operator'.to_json)
-              .at_path('_dependencies/0/on')
+              .to be_json_eql("operator".to_json)
+              .at_path("_dependencies/0/on")
           end
         end
 
-        describe 'dependencies' do
-          it 'is the hash' do
+        describe "dependencies" do
+          it "is the hash" do
             expected = {
-              api_v3_paths.query_operator(CGI.escape('=')) => { lorem: "ipsum" },
-              api_v3_paths.query_operator(CGI.escape('c')) => { lorem: "ipsum" },
-              api_v3_paths.query_operator(CGI.escape('!')) => { lorem: "ipsum" },
-              api_v3_paths.query_operator(CGI.escape('*')) => { lorem: "ipsum" },
-              api_v3_paths.query_operator(CGI.escape('o')) => { lorem: "ipsum" }
+              api_v3_paths.query_operator(CGI.escape("=")) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape("c")) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape("!")) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape("*")) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape("o")) => { lorem: "ipsum" }
             }
 
             expect(subject)
               .to be_json_eql(expected.to_json)
-              .at_path('_dependencies/0/dependencies')
+              .at_path("_dependencies/0/dependencies")
           end
 
-          context 'when filter is a list filter' do
+          context "when filter is a list filter" do
             let(:filter) { Queries::WorkPackages::Filter::AuthorFilter.create! }
 
-            it 'is the hash' do
+            it "is the hash" do
               expected = {
-                api_v3_paths.query_operator(CGI.escape('=')) => { lorem: "ipsum" },
-                api_v3_paths.query_operator(CGI.escape('!')) => { lorem: "ipsum" }
+                api_v3_paths.query_operator(CGI.escape("=")) => { lorem: "ipsum" },
+                api_v3_paths.query_operator(CGI.escape("!")) => { lorem: "ipsum" }
               }
 
               expect(subject)
                 .to be_json_eql(expected.to_json)
-                .at_path('_dependencies/0/dependencies')
+                .at_path("_dependencies/0/dependencies")
             end
           end
         end
@@ -216,34 +216,30 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
     end
   end
 
-  describe 'caching' do
+  describe "caching" do
     before do
       filter.available_operators.each do |operator|
-        allow(::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
+        allow(API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
           .to receive(:create)
           .with(filter,
                 operator,
                 form_embedded:)
           .and_return(dependency)
       end
-    end
-
-    before do
-      # fill the cache
       instance.to_json
     end
 
-    it 'is cached' do
+    it "is cached" do
       expect(instance)
         .not_to receive(:to_hash)
 
       instance.to_json
     end
 
-    context 'with an uncacheable dependency' do
+    context "with an uncacheable dependency" do
       let(:json_cacheable) { false }
 
-      it 'is not cached' do
+      it "is not cached" do
         expect(instance)
           .to receive(:to_hash)
 
@@ -251,7 +247,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
       end
     end
 
-    it 'busts the cache on the form_embedded attribute' do
+    it "busts the cache on the form_embedded attribute" do
       instance.form_embedded = !form_embedded
 
       expect(instance)
@@ -260,10 +256,10 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
       instance.to_json
     end
 
-    it 'busts the cache on a different cache key from a dependency' do
+    it "busts the cache on a different cache key from a dependency" do
       allow(dependency)
         .to receive(:json_cache_key)
-        .and_return(['and', 'now', 'to', 'something', 'completely', 'different'])
+        .and_return(["and", "now", "to", "something", "completely", "different"])
 
       expect(instance)
         .to receive(:to_hash)
@@ -271,7 +267,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
       instance.to_json
     end
 
-    it 'busts the cache on changes to the locale' do
+    it "busts the cache on changes to the locale" do
       expect(instance)
         .to receive(:to_hash)
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'delete placeholder user', type: :feature, js: true do
-  shared_let(:placeholder_user) { create :placeholder_user, name: 'UX Developer' }
+RSpec.describe "delete placeholder user", :js do
+  shared_let(:placeholder_user) { create(:placeholder_user, name: "UX Developer") }
 
-  shared_examples 'placeholders delete flow' do
-    it 'can delete name' do
+  shared_examples "placeholders delete flow" do
+    it "can delete name" do
       visit placeholder_user_path(placeholder_user)
 
-      expect(page).to have_selector '.button', text: 'Delete'
+      expect(page).to have_css ".button", text: "Delete"
 
       visit edit_placeholder_user_path(placeholder_user)
 
-      expect(page).to have_selector '.button', text: 'Delete'
-      click_on 'Delete'
+      expect(page).to have_css ".button", text: "Delete"
+      click_on "Delete"
 
       # Expect to be on delete confirmation
-      expect(page).to have_selector('.danger-zone--verification button[disabled]')
-      fill_in 'name_verification', with: placeholder_user.name
+      expect(page).to have_css(".danger-zone--verification button[disabled]")
+      fill_in "name_verification", with: placeholder_user.name
 
-      expect(page).to have_selector('.danger-zone--verification button:not([disabled])')
-      click_on 'Delete'
+      expect(page).to have_css(".danger-zone--verification button:not([disabled])")
+      click_on "Delete"
 
-      expect(page).to have_selector('.flash.info', text: I18n.t(:notice_deletion_scheduled))
+      expect(page).to have_css(".op-toast.-info", text: I18n.t(:notice_deletion_scheduled))
 
       # The user is still there
       placeholder_user.reload
@@ -60,49 +60,49 @@ describe 'delete placeholder user', type: :feature, js: true do
     end
   end
 
-  context 'as admin' do
-    current_user { create :admin }
+  context "as admin" do
+    current_user { create(:admin) }
 
-    it_behaves_like 'placeholders delete flow'
+    it_behaves_like "placeholders delete flow"
   end
 
-  context 'as user with global permission' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+  context "as user with global permission" do
+    current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    it_behaves_like 'placeholders delete flow'
+    it_behaves_like "placeholders delete flow"
   end
 
-  context 'as user with global permission, but placeholder in an invisible project' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+  context "as user with global permission, but placeholder in an invisible project" do
+    current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    let!(:project) { create :project }
+    let!(:project) { create(:project) }
     let!(:member) do
-      create :member,
+      create(:member,
              principal: placeholder_user,
              project:,
-             roles: [create(:role)]
+             roles: [create(:project_role)])
     end
 
-    it 'returns an error when trying to delete and disables the button' do
+    it "returns an error when trying to delete and disables the button" do
       visit deletion_info_placeholder_user_path(placeholder_user)
-      expect(page).to have_content I18n.t('placeholder_users.right_to_manage_members_missing').strip
+      expect(page).to have_content I18n.t("placeholder_users.right_to_manage_members_missing").strip
 
       visit placeholder_user_path(placeholder_user)
 
-      expect(page).to have_selector '.button.-disabled', text: 'Delete'
+      expect(page).to have_css ".button.-disabled", text: "Delete"
 
       visit edit_placeholder_user_path(placeholder_user)
 
-      expect(page).to have_selector '.button.-disabled', text: 'Delete'
+      expect(page).to have_css ".button.-disabled", text: "Delete"
     end
   end
 
-  context 'as user without global permission' do
-    current_user { create :user }
+  context "as user without global permission" do
+    current_user { create(:user) }
 
-    it 'returns an error' do
+    it "returns an error" do
       visit deletion_info_placeholder_user_path(placeholder_user)
-      expect(page).to have_text 'You are not authorized to access this page.'
+      expect(page).to have_text "You are not authorized to access this page."
     end
   end
 end

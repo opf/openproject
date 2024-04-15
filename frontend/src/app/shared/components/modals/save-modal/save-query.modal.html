@@ -4,8 +4,8 @@
   name="modalSaveForm"
   (submit)="saveQueryAs($event)"
 >
-  <h1 class="spot-modal--header">{{text.save_as}}</h1>
-  
+  <h1 id="spotModalTitle" class="spot-modal--header">{{text.save_as}}</h1>
+
   <div class="spot-divider"></div>
 
   <div
@@ -29,9 +29,9 @@
       </div>
     </div>
     <div class="spot-divider"></div>
-    
+
     <h2 class="spot-subheader-extra-small">{{ text.label_visibility_settings }}</h2>
-      
+
       <query-sharing-form
         [isSave]="true"
         (onChange)="setValues($event)"
@@ -49,7 +49,7 @@
         (click)="closeMe($event)"
       ></button>
       <button
-        class="button button_no-margin -highlight -with-icon icon-save spot-action-bar--action"
+        class="button button_no-margin -primary -with-icon icon-save spot-action-bar--action"
         [textContent]="text.button_save"
         [disabled]="isBusy || !queryName"
       ></button>

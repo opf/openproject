@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Types::Scopes::Milestone, type: :model do
+RSpec.describe Types::Scopes::Milestone do
   let!(:milestone) { create(:type, is_milestone: true) }
   let!(:other_type) { create(:type, is_milestone: false) }
 
-  describe '.milestone' do
+  describe ".milestone" do
     subject { Type.milestone }
 
-    it 'returns only milestones' do
+    it "returns only milestones" do
       expect(subject)
-        .to match_array [milestone]
+        .to contain_exactly(milestone)
     end
   end
 end

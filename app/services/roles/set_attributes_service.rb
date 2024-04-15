@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,16 @@
 
 module Roles
   class SetAttributesService < ::BaseServices::SetAttributes
+    def set_attributes(params)
+      super(params)
+
+      if model.is_a?(ProjectRole)
+        model.permissions += OpenProject::AccessControl.public_permissions.map(&:name)
+      end
+    end
+
     def set_default_attributes(*)
-      model.permissions = Role.non_member.permissions if model.permissions.nil? || model.permissions.empty?
+      model.permissions = ProjectRole.non_member.permissions if model.permissions.blank? && model.is_a?(ProjectRole)
     end
   end
 end

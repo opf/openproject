@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :bcf_viewpoint_attachment, class: 'Attachment' do
+  factory :bcf_viewpoint_attachment, class: "Attachment" do
     description  { "snapshot" }
     filename     { "image.png" }
     content_type { "image/jpeg" }
@@ -35,7 +35,7 @@ FactoryBot.define do
     file do
       Rack::Test::UploadedFile.new(
         Rails.root.join("spec/fixtures/files/image.png"),
-        'image/png',
+        "image/png",
         true
       )
     end

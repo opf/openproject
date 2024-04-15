@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -16,7 +16,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTALITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
@@ -30,6 +30,8 @@ class Settings::WorkingDaysUpdateService < Settings::UpdateService
   def call(params)
     params = params.to_h.deep_symbolize_keys
     self.non_working_days_params = params.delete(:non_working_days) || []
+    self.previous_working_days = Setting[:working_days]
+    self.previous_non_working_days = NonWorkingDay.pluck(:date)
     super
   end
 
@@ -54,9 +56,19 @@ class Settings::WorkingDaysUpdateService < Settings::UpdateService
     results
   end
 
+  def after_perform(call)
+    super.tap do
+      WorkPackages::ApplyWorkingDaysChangeJob.perform_later(
+        user_id: User.current.id,
+        previous_working_days:,
+        previous_non_working_days:
+      )
+    end
+  end
+
   private
 
-  attr_accessor :non_working_days_params
+  attr_accessor :non_working_days_params, :previous_working_days, :previous_non_working_days
 
   def persist_non_working_days
     # We don't support update for now
@@ -81,7 +93,11 @@ class Settings::WorkingDaysUpdateService < Settings::UpdateService
   end
 
   def destroy_records(ids)
-    wrap_result NonWorkingDay.where(id: ids).destroy_all
+    records = NonWorkingDay.where(id: ids)
+    # In case the transaction fails we also mark the records for destruction,
+    # this way we can display them correctly on the frontend.
+    records.each(&:mark_for_destruction)
+    wrap_result records.destroy_all
   end
 
   def wrap_result(result)

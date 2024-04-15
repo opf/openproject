@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module API
     module JobStatus
       class JobStatusAPI < ::API::OpenProjectAPI
         resources :job_statuses do
-          route_param :job_id, type: String, desc: 'Job UUID' do
+          route_param :job_id, type: String, desc: "Job UUID" do
             after_validation do
               @job = ::JobStatus::Status
                 .find_by(job_id: params[:job_id], user_id: current_user.id)

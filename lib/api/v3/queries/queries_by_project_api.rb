@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,19 +34,22 @@ module API
           helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
 
           after_validation do
-            authorize(:view_work_packages, context: @project, user: current_user)
+            authorize_in_any_work_package(:view_work_packages, in_project: @project)
           end
 
           mount API::V3::Queries::Schemas::QueryProjectFilterInstanceSchemaAPI
           mount API::V3::Queries::Schemas::QueryProjectSchemaAPI
 
           namespace :default do
+            params do
+              optional :valid_subset, type: Boolean
+            end
+
             get do
-              query = Query.new_default(name: 'default',
-                                        user: current_user,
+              query = Query.new_default(user: current_user,
                                         project: @project)
 
-              query_representer_response(query, params)
+              query_representer_response(query, params, params.delete(:valid_subset))
             end
           end
         end

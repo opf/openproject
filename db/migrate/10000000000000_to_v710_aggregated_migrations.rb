@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Dir["#{Rails.root}/db/migrate/tables/*.rb"].each { |file| require file }
-Dir["#{Rails.root}/db/migrate/aggregated/*.rb"].each { |file| require file }
+Dir["#{Rails.root.join('db/migrate/tables/*.rb')}"].each { |file| require file }
+Dir["#{Rails.root.join('db/migrate/aggregated/*.rb')}"].each { |file| require file }
 
 # This migration aggregates a set of former migrations
 class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]
@@ -122,7 +122,7 @@ class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration, 'Use OpenProject v7.4 for the down migrations'
+    raise ActiveRecord::IrreversibleMigration, "Use OpenProject v7.4 for the down migrations"
   end
 
   private
@@ -137,7 +137,7 @@ class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]
   # been applied. In this case, remove the information about those
   # migrations from the schema_migrations table and we're done.
   def remove_applied_migration_entries(intersection)
-    execute <<-SQL + (intersection.map { |version| <<-CONDITIONS }).join(' OR ')
+    execute <<-SQL + (intersection.map { |version| <<-CONDITIONS }).join(" OR ")
         DELETE FROM
           #{quoted_schema_migrations_table_name}
         WHERE
@@ -147,11 +147,11 @@ class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]
   end
 
   def raise_on_incomplete_3_0_migrations
-    raise_on_incomplete_migrations(aggregated_versions_3_0, 'v2.4.0', 'ChiliProject')
+    raise_on_incomplete_migrations(aggregated_versions_3_0, "v2.4.0", "ChiliProject")
   end
 
   def raise_on_incomplete_7_1_migrations
-    raise_on_incomplete_migrations(aggregated_versions_7_1, 'v7.4.0', 'OpenProject')
+    raise_on_incomplete_migrations(aggregated_versions_7_1, "v7.4.0", "OpenProject")
   end
 
   def raise_on_incomplete_migrations(aggregated_versions, version_number, app_name)
@@ -163,7 +163,7 @@ class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]
 
       # Only a part of the migrations that this migration aggregates
       # have already been applied. In this case, fail miserably.
-      raise IncompleteMigrationsError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
+      raise IncompleteMigrationsError, <<-MESSAGE.split("\n").map(&:strip!).join(" ") + "\n"
         It appears you are migrating from an incompatible version of
         #{app_name}. Yourdatabase has only some migrations from #{app_name} <
         #{version_number} Please update your database to the schema of #{app_name}
@@ -192,7 +192,7 @@ class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]
   end
 
   def schema_migrations_table_name
-    ActiveRecord::SchemaMigration.table_name
+    ActiveRecord::Base.connection.schema_migration.table_name
   end
 
   def quoted_schema_migrations_table_name
@@ -200,7 +200,7 @@ class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]
   end
 
   def quoted_version_column_name
-    ActiveRecord::Base.connection.quote_table_name('version')
+    ActiveRecord::Base.connection.quote_table_name("version")
   end
 
   def version_column_for_comparison

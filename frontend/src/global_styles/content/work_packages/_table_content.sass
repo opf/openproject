@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@
   &.-dragged
     height: 0px
     border: none !important
-    outline: 1px solid var(--primary-color)
+    outline: 1px solid var(--accent-color)
     opacity: 1
 
     .wp-table--cell-td
@@ -59,7 +59,7 @@
     height: 0
 
 .wp-table--sum-container
-  font-weight: bold
+  font-weight: var(--base-text-weight-bold)
   padding: 3px 6px
 
   &.__internal-sorthandle
@@ -120,10 +120,10 @@ html:not(.-browser-mobile)
 .wp-table--context-menu-td a
   vertical-align: -3px
   .icon:before
-    color: var(--content-link-color)
+    color: var(--accent-color)
     padding: 0 0 0 0.25rem
   &.-disabled .icon:before
-    color: var(--gray-dark)
+    color: var(--color-fg-muted)
   &:hover
     text-decoration: none
 
@@ -153,7 +153,7 @@ html:not(.-browser-mobile)
       outline: none
 
 // Some padding for the inner cells of the display fields
-.inline-edit--display-field
+.inline-edit--display-field:not(.op-table-baseline--field)
   padding: 2px
 
 body.-browser-edge

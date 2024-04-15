@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Observable } from 'rxjs';
+import {
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubtasksBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/subtasks/subtasks-board-header.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -67,11 +70,6 @@ export class BoardSubtasksActionService extends BoardActionService {
   }
 
   protected require(id:string):Promise<HalResource> {
-    return this
-      .apiV3Service
-      .work_packages
-      .id(id)
-      .get()
-      .toPromise();
+    return firstValueFrom(this.apiV3Service.work_packages.id(id).get());
   }
 }

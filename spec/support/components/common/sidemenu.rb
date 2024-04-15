@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ module Components
       include RSpec::Matchers
 
       def expect_open
-        expect(page).to have_selector('[data-qa-selector="op-sidemenu"]')
+        expect(page).to have_css('[data-test-selector="op-sidemenu"]')
       end
 
       def expect_item_not_visible(item)
@@ -60,25 +60,26 @@ module Components
       end
 
       def finished_loading
-        expect(page).to have_no_selector('[data-qa-selector="op-ian-center--loading-indicator"]')
+        wait_for_network_idle if using_cuprite?
+        expect(page).to have_no_css('[data-test-selector="op-ian-center--loading-indicator"]')
       end
 
       private
 
       def expect_count(count)
-        expect(page).to have_selector('.op-bubble', text: count)
+        expect(page).to have_css(".op-bubble", text: count)
       end
 
       def expect_no_count
-        expect(page).to have_no_selector('.op-bubble')
+        expect(page).to have_no_css(".op-bubble")
       end
 
       def item_action_selector(item)
-        "[data-qa-selector='op-sidemenu--item-action--#{item.delete(' ')}']"
+        "[data-test-selector='op-sidemenu--item-action--#{item.delete(' ')}']"
       end
 
       def item_selector
-        '[data-qa-selector="op-sidemenu--item"]'
+        '[data-test-selector="op-sidemenu--item"]'
       end
     end
   end

@@ -1,0 +1,48 @@
+<div
+  data-controller="attribute"
+  data-application-target="dynamic"
+  data-attribute-background-reference-id-value="<%= background_reference_id %>"
+  class="op-long-text-attribute">
+
+  <%= render(
+        Primer::Beta::Text.new(tag: :div,
+                               classes: ['op-long-text-attribute--text', PARAGRAPH_CSS_CLASS],
+                               color: text_color,
+                               style: "max-height: #{max_height};",
+                               data: {
+                                 'attribute-target': "descriptionText"
+                               })) { short_text }
+  %>
+
+  <%= render(
+       Primer::Beta::Text.new(tag: :div,
+                              display: display_expand_button_value,
+                              classes: 'op-long-text-attribute--text-hider',
+                              data: { 'attribute-target': 'textHider' }))
+  %>
+
+  <%= render(
+        Primer::Alpha::HiddenTextExpander.new(inline: false,
+                                              "aria-label": I18n.t('label_attribute_expand_text', attribute: name),
+                                              display: display_expand_button_value,
+                                              data: {
+                                                'attribute-target': 'expandButton',
+                                                'test-selector': 'expand-button'
+                                              },
+                                              button_arguments: { 'data-show-dialog-id': id },
+                                              classes: 'op-long-text-attribute--text-expander'
+                                              ))
+  %>
+
+  <%= render(
+        Primer::Alpha::Dialog.new(id: id,
+                                  data: {
+                                    'test-selector': 'attribute-dialog'
+                                  },
+                                  title: name,
+                                  size: :large)) do |component|
+      component.with_body(mt: 2) { full_text }
+      component.with_header(variant: :large)
+    end
+  %>
+</div>

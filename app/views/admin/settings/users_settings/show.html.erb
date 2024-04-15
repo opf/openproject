@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -36,21 +36,28 @@ See COPYRIGHT and LICENSE files for more details.
     <legend class="form--fieldset-legend"><%= t(:'settings.user.default_preferences')%></legend>
 
     <div class="form--field" id="setting_default_language">
-      <%= setting_select :default_language, all_lang_options_for_select(false), container_class: '-slim' %>
+      <%= setting_select :default_language, all_lang_options_for_select, container_class: '-slim' %>
     </div>
 
-    <%=
-      cell(
-          Settings::TimeZoneSettingCell,
+    <%= render Settings::TimeZoneSettingComponent.new(
           "user_default_timezone",
           container_class: "-slim",
           title: I18n.t("tooltip_user_default_timezone")
-      )
+        )
     %>
 
     <div class="form--field">
       <%= setting_check_box :default_auto_hide_popups, label: 'activerecord.attributes.user_preference.auto_hide_popups' %>
     </div>
+  </fieldset>
+
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t(:'settings.user.display_format')%></legend>
+
+    <div class="form--field">
+      <%= setting_select :user_format, @options[:user_format], container_class: '-slim' %>
+    </div>
+
   </fieldset>
 
   <fieldset class="form--fieldset">
@@ -71,12 +78,11 @@ See COPYRIGHT and LICENSE files for more details.
       <%= setting_check_box :consent_required %>
     </div>
 
-    <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
+    <%= render Settings::TextSettingComponent.new(I18n.locale, name: "consent_info") %>
 
     <div class="form--field">
       <%= setting_block("consent_time") do %>
         <span class="form--check-box-field-container -slim">
-          <input type="hidden" name="settings[consent_time]" disabled id="settings_consent_time">
           <%= check_box_tag 'toggle_consent_time',
                             '1',
                             !Setting.consent_time.present?,
@@ -99,5 +105,5 @@ See COPYRIGHT and LICENSE files for more details.
       </span>
     </div>
   </fieldset>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 import { EntityStore, StoreConfig } from '@datorama/akita';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
+import { ResourceState, createInitialResourceState } from 'core-app/core/state/resource-store';
 
-export interface AttachmentsState extends CollectionState<IAttachment> {}
+export interface AttachmentsState extends ResourceState<IAttachment> {}
 
 @StoreConfig({ name: 'attachments' })
 export class AttachmentsStore extends EntityStore<AttachmentsState> {
   constructor() {
-    super(createInitialCollectionState());
+    super(createInitialResourceState());
   }
 }

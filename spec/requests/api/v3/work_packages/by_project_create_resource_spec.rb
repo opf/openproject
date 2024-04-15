@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,15 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, content_type: :json do
+RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project_with_types, public: false) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:path) { api_v3_paths.work_packages_by_project project.id }
   let(:permissions) { %i[add_work_packages view_project] }
   let(:status) { build(:status, is_default: true) }
@@ -41,7 +41,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   let(:other_user) { nil }
   let(:parameters) do
     {
-      subject: 'new work packages',
+      subject: "new work packages",
       _links: {
         type: {
           href: api_v3_paths.type(project.types.first.id)
@@ -51,7 +51,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   end
 
   current_user do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   before do
@@ -64,87 +64,86 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
     end
   end
 
-  describe 'notifications' do
+  describe "notifications" do
     let(:other_user) do
       create(:user,
-             member_in_project: project,
-             member_with_permissions: %i(view_work_packages),
+             member_with_permissions: { project => %i(view_work_packages) },
              notification_settings: [
                build(:notification_setting,
                      work_package_created: true)
              ])
     end
 
-    it 'creates a notification' do
+    it "creates a notification" do
       expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
         .to exist
     end
 
-    context 'without notifications' do
+    context "without notifications" do
       let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=false" }
 
-      it 'creates no notification' do
+      it "creates no notification" do
         expect(Notification)
           .not_to exist
       end
     end
 
-    context 'with notifications' do
+    context "with notifications" do
       let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=true" }
 
-      it 'creates a notification' do
+      it "creates a notification" do
         expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
           .to exist
       end
     end
   end
 
-  it 'returns Created(201)' do
+  it "returns Created(201)" do
     expect(last_response.status).to eq(201)
   end
 
-  it 'creates a work package' do
+  it "creates a work package" do
     expect(WorkPackage.all.count).to eq(1)
   end
 
-  it 'uses the given parameters' do
+  it "uses the given parameters" do
     expect(WorkPackage.first.subject).to eq(parameters[:subject])
   end
 
-  context 'without permissions' do
+  context "without permissions" do
     let(:current_user) { create(:user) }
 
-    it 'hides the endpoint' do
+    it "hides the endpoint" do
       expect(last_response.status).to eq(404)
     end
   end
 
-  context 'with view_project permission' do
+  context "with view_project permission" do
     # Note that this just removes the add_work_packages permission
     # view_project is actually provided by being a member of the project
     let(:permissions) { [:view_project] }
 
-    it 'points out the missing permission' do
+    it "points out the missing permission" do
       expect(last_response.status).to eq(403)
     end
   end
 
-  context 'with empty parameters' do
+  context "with empty parameters" do
     let(:parameters) { {} }
 
-    it_behaves_like 'constraint violation' do
+    it_behaves_like "constraint violation" do
       let(:message) { "Subject can't be blank" }
     end
 
-    it 'does not create a work package' do
+    it "does not create a work package" do
       expect(WorkPackage.all.count).to eq(0)
     end
   end
 
-  context 'with bogus parameters' do
+  context "with bogus parameters" do
     let(:parameters) do
       {
-        bogus: 'bogus',
+        bogus: "bogus",
         _links: {
           type: {
             href: api_v3_paths.type(project.types.first.id)
@@ -153,16 +152,16 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
       }
     end
 
-    it_behaves_like 'constraint violation' do
+    it_behaves_like "constraint violation" do
       let(:message) { "Subject can't be blank" }
     end
 
-    it 'does not create a work package' do
+    it "does not create a work package" do
       expect(WorkPackage.all.count).to eq(0)
     end
   end
 
-  context 'with an invalid value' do
+  context "with an invalid value" do
     let(:parameters) do
       {
         subject: nil,
@@ -174,11 +173,11 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
       }
     end
 
-    it_behaves_like 'constraint violation' do
+    it_behaves_like "constraint violation" do
       let(:message) { "Subject can't be blank" }
     end
 
-    it 'does not create a work package' do
+    it "does not create a work package" do
       expect(WorkPackage.all.count).to eq(0)
     end
   end

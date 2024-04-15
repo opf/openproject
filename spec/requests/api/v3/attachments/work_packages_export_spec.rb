@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './attachment_resource_shared_examples'
+require "spec_helper"
+require_relative "attachment_resource_shared_examples"
 
-describe "WorkPackages::Export attachments" do
-  it_behaves_like "an APIv3 attachment resource", include_by_container = false do
+RSpec.describe "#{WorkPackages::Export} attachments" do
+  it_behaves_like "an APIv3 attachment resource", include_by_container: false do
     let(:attachment_type) { :export }
 
     let(:create_permission) { :export_work_packages }
@@ -44,7 +44,7 @@ describe "WorkPackages::Export attachments" do
 
     let(:other_user_attachment) { create(:attachment, container: export, author: other_user) }
 
-    describe '#get' do
+    describe "#get" do
       subject(:response) { last_response }
 
       let(:get_path) { api_v3_paths.attachment attachment.id }
@@ -53,23 +53,23 @@ describe "WorkPackages::Export attachments" do
         get get_path
       end
 
-      context 'for a user different from the author' do
+      context "for a user different from the author" do
         let(:attachment) { other_user_attachment }
 
-        it 'responds with 404' do
+        it "responds with 404" do
           expect(subject.status).to eq(404)
         end
       end
     end
 
-    describe '#delete' do
+    describe "#delete" do
       let(:path) { api_v3_paths.attachment attachment.id }
 
       before do
         delete path
       end
 
-      context 'for a user different from the author' do
+      context "for a user different from the author" do
         let(:attachment) { other_user_attachment }
 
         subject(:response) { last_response }
@@ -78,13 +78,13 @@ describe "WorkPackages::Export attachments" do
           expect(subject.status).to eq 404
         end
 
-        it 'does not delete the attachment' do
+        it "does not delete the attachment" do
           expect(Attachment.exists?(attachment.id)).to be_truthy
         end
       end
     end
 
-    describe '#content' do
+    describe "#content" do
       let(:path) { api_v3_paths.attachment_content attachment.id }
 
       before do
@@ -93,7 +93,7 @@ describe "WorkPackages::Export attachments" do
 
       subject(:response) { last_response }
 
-      context 'for a user different from the author' do
+      context "for a user different from the author" do
         let(:attachment) { other_user_attachment }
 
         it "responds with 404" do

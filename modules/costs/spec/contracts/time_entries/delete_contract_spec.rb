@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe TimeEntries::DeleteContract do
-  let(:current_user) do
-    build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && time_entry_project == permission_project
-      end
-    end
-  end
+RSpec.describe TimeEntries::DeleteContract do
+  let(:current_user) { build_stubbed(:user) }
   let(:other_user) { build_stubbed(:user) }
-  let(:time_entry_work_package) do
-    build_stubbed(:work_package,
-                  project: time_entry_project)
-  end
+  let(:time_entry_work_package) { build_stubbed(:work_package, project: time_entry_project) }
   let(:time_entry_project) { build_stubbed(:project) }
   let(:time_entry_user) { current_user }
   let(:time_entry_activity) { build_stubbed(:time_entry_activity) }
   let(:time_entry_spent_on) { Date.today }
   let(:time_entry_hours) { 5 }
+  let(:time_entry_ongoing) { false }
   let(:time_entry_comments) { "A comment" }
   let(:work_package_visible) { true }
   let(:permissions) { %i[edit_time_entries] }
-
   let(:time_entry) do
     build_stubbed(:time_entry,
                   project: time_entry_project,
                   work_package: time_entry_work_package,
                   user: time_entry_user,
+                  ongoing: time_entry_ongoing,
                   activity: time_entry_activity,
                   spent_on: time_entry_spent_on,
                   hours: time_entry_hours,
@@ -63,10 +54,14 @@ describe TimeEntries::DeleteContract do
   end
 
   before do
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: time_entry_project
+    end
+
     allow(time_entry_work_package)
-      .to receive(:visible?)
-      .with(current_user)
-      .and_return(work_package_visible)
+          .to receive(:visible?)
+          .with(current_user)
+          .and_return(work_package_visible)
   end
 
   subject(:contract) { described_class.new(time_entry, current_user) }
@@ -79,37 +74,53 @@ describe TimeEntries::DeleteContract do
     end
   end
 
-  shared_examples 'is valid' do
-    it 'is valid' do
+  shared_examples "is valid" do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  it_behaves_like 'is valid'
+  it_behaves_like "is valid"
 
-  context 'when user is not allowed to delete time entries' do
+  context "when user is not allowed to delete time entries" do
     let(:permissions) { [] }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect_valid(false, base: %i(error_unauthorized))
     end
   end
 
-  context 'when time_entry user is not contract user' do
+  context "when time entry ongoing and user as log_time permission" do
+    let(:time_entry_ongoing) { true }
+    let(:permissions) { %i[log_own_time] }
+
+    it_behaves_like "is valid"
+  end
+
+  context "when time entry not ongoing and user as log_time permission" do
+    let(:time_entry_ongoing) { false }
+    let(:permissions) { %i[log_own_time] }
+
+    it "is invalid" do
+      expect_valid(false, base: %i(error_unauthorized))
+    end
+  end
+
+  context "when time_entry user is not contract user" do
     let(:time_entry_user) { other_user }
 
-    context 'when has permission' do
+    context "when has permission" do
       let(:permissions) { %i[edit_time_entries] }
 
-      it 'is valid' do
+      it "is valid" do
         expect_valid(true)
       end
     end
 
-    context 'when has no permission' do
+    context "when has no permission" do
       let(:permissions) { %i[edit_own_time_entries] }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, base: %i(error_unauthorized))
       end
     end

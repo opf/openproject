@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,7 @@ module API
             date_and_time = DateTime.iso8601(value)
           rescue ArgumentError
             raise API::Errors::PropertyFormatError.new(property_name,
-                                                       I18n.t('api_v3.errors.expected.date'),
+                                                       I18n.t("api_v3.errors.expected.date"),
                                                        value)
           end
 
@@ -55,7 +55,7 @@ module API
           # However Date.iso8601 is too generous and would accept that
           unless date_and_time == date_only
             raise API::Errors::PropertyFormatError.new(property_name,
-                                                       I18n.t('api_v3.errors.expected.date'),
+                                                       I18n.t("api_v3.errors.expected.date"),
                                                        value)
           end
 
@@ -69,7 +69,7 @@ module API
             date_and_time = DateTime.iso8601(value)
           rescue ArgumentError
             raise API::Errors::PropertyFormatError.new(property_name,
-                                                       I18n.t('api_v3.errors.expected.datetime'),
+                                                       I18n.t("api_v3.errors.expected.datetime"),
                                                        value)
           end
 
@@ -79,7 +79,7 @@ module API
         def format_datetime(datetime, allow_nil: false)
           return nil if datetime.nil? && allow_nil
 
-          datetime.to_datetime.utc.iso8601
+          datetime.to_datetime.utc.iso8601(3)
         end
 
         def format_duration_from_hours(hours, allow_nil: false)
@@ -96,7 +96,7 @@ module API
             iso_duration.to_seconds / 3600.0
           rescue ISO8601::Errors::UnknownPattern
             raise API::Errors::PropertyFormatError.new(property_name,
-                                                       I18n.t('api_v3.errors.expected.duration'),
+                                                       I18n.t("api_v3.errors.expected.duration"),
                                                        duration)
           end
         end

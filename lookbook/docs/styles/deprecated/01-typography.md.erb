@@ -1,0 +1,191 @@
+---
+title: Typography
+---
+
+<%= include_spot_assets %>
+
+## Considerations
+
+A few things to keep in mind:
+
+### Black text
+
+“Black” text in OpenProject does not use the standard black HEX code (#000000); instead, black is defined as Grey-1 (#333333).
+
+### Line height
+
+The default line height is 16px, which corresponds to 1 REM with our Spacing baseline.
+
+For each style, line height is specified with a slash. For example, for Header Small Bold, 24/32 represents 1.5 REM font size and 2 REM line height.
+
+## Header Big
+
+This is a larger header than the default, used in rare occasions where a header is needed for a containing element to a page. To be used only if absolutely necessary. Prefer "Header small" as much as possible.
+
+So far, zero recorded use. Might get removed if this style is not used in until mid-2022.
+
+<blockquote class="not-prose">
+<p class="spot-header-big">
+  Aa
+  <br/>
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  <br/>
+  abcdefghijklmnopqrstuvwxyz
+  <br/>
+  0123456789 ! ? & / ( ) € $ £ ¥ ¢ = @ ; : , .
+</p>
+</blockquote>
+
+
+
+## Header Small
+
+This is the default type used for page headers. "Bold" is default and is almost always preferred, unless there is a need to use regular to distinguish additional or supporting information.
+
+<blockquote class="not-prose">
+<p class="spot-header-small">
+  Aa
+  <br/>
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  <br/>
+  abcdefghijklmnopqrstuvwxyz
+  <br/>
+  0123456789 ! ? & / ( ) € $ £ ¥ ¢ = @ ; : , .
+</p>
+</blockquote>
+
+
+
+## Subheader Big
+
+Very rarely used. Used if we need a header small than the regular header but still distinct from body text.
+
+So far, zero recorded use. Might get removed if this style is not used in until mid-2022.
+
+<blockquote class="not-prose">
+<p class="spot-subheader-big">
+  Aa
+  <br/>
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  <br/>
+  abcdefghijklmnopqrstuvwxyz
+  <br/>
+  0123456789 ! ? & / ( ) € $ £ ¥ ¢ = @ ; : , .
+</p>
+</blockquote>
+
+
+
+## Subheader Small
+
+Very rarely used. Used if we need a header small than the regular header but still distinct from body text.
+
+<blockquote class="not-prose">
+<p class="spot-subheader-small">
+  Aa
+  <br/>
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  <br/>
+  abcdefghijklmnopqrstuvwxyz
+  <br/>
+  0123456789 ! ? & / ( ) € $ £ ¥ ¢ = @ ; : , .
+</p>
+</blockquote>
+
+
+
+## Subheader Extra Small
+
+This is really an alias of _Body Small/Bold_ when this style is used as a header (in some modals) instead of body text.
+
+<blockquote class="not-prose">
+<p class="spot-subheader-extra-small">
+  Aa
+  <br/>
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  <br/>
+  abcdefghijklmnopqrstuvwxyz
+  <br/>
+  0123456789 ! ? & / ( ) € $ £ ¥ ¢ = @ ; : , .
+</p>
+</blockquote>
+
+
+
+## Body Big
+
+Used occasionally (where?)
+
+<blockquote class="not-prose">
+<p class="spot-body-big">
+  Aa
+  <br/>
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  <br/>
+  abcdefghijklmnopqrstuvwxyz
+  <br/>
+  0123456789 ! ? & / ( ) € $ £ ¥ ¢ = @ ; : , .
+</p>
+</blockquote>
+
+## Body Small
+
+This is the default style for most text on OpenProject. This goes for labels but also input text. By far the most used
+style style in the application.
+
+The regular version is used, among other places, on:
+- Button text
+- Drop down select
+- Text fields
+- Table text
+- Card: work package title
+- Sidebar element
+
+The bold version is used in:
+
+- Table headers
+- Calendar header
+- Sidebar header
+
+**Example**
+
+<blockquote class="not-prose">
+<p class="spot-body-small">
+  Aa
+  <br/>
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  <br/>
+  abcdefghijklmnopqrstuvwxyz
+  <br/>
+  0123456789 ! ? & / ( ) € $ £ ¥ ¢ = @ ; : , .
+</p>
+</blockquote>
+
+## Caption
+
+The caption is used for indications and auxiliary information that usually adds context to a view, but are not primary elements. They are also used on elements where space is limited (like the date information on Team planner or Board cards).
+
+The regular version is used, among other places, in:
+
+- Chips
+- Toast text
+- Tooltips
+- Card: project name and ID
+
+The bold version is used in:
+
+- Sidebar tabs
+
+**Example**
+
+<blockquote class="not-prose">
+<p class="spot-caption">
+  Aa
+  <br/>
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  <br/>
+  abcdefghijklmnopqrstuvwxyz
+  <br/>
+  0123456789 ! ? & / ( ) € $ £ ¥ ¢ = @ ; : , .
+</p>
+</blockquote>

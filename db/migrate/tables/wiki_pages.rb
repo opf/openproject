@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::WikiPages < Tables::Base
   def self.table(migration)
@@ -38,10 +38,10 @@ class Tables::WikiPages < Tables::Base
       t.integer :parent_id
       t.string :slug, null: false
 
-      t.index %i[wiki_id slug], name: 'wiki_pages_wiki_id_slug', unique: true
-      t.index :parent_id, name: 'index_wiki_pages_on_parent_id'
-      t.index %i[wiki_id title], name: 'wiki_pages_wiki_id_title'
-      t.index :wiki_id, name: 'index_wiki_pages_on_wiki_id'
+      t.index %i[wiki_id slug], name: "wiki_pages_wiki_id_slug", unique: true
+      t.index :parent_id, name: "index_wiki_pages_on_parent_id"
+      t.index %i[wiki_id title], name: "wiki_pages_wiki_id_title"
+      t.index :wiki_id, name: "index_wiki_pages_on_wiki_id"
     end
   end
 end

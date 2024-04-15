@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 # This file is required by `modules/storages/lib/openproject-storages.rb` and
 # loads the Rails engine associated with the plugin.
 
-require 'open_project/storages/engine'
+require "open_project/storages/engine"
 
 module OpenProject
   module Storages

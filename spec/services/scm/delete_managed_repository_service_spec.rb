@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,9 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe SCM::DeleteManagedRepositoryService do
+RSpec.describe SCM::DeleteManagedRepositoryService, skip_if_command_unavailable: "svnadmin" do
   let(:user) { build(:user) }
   let(:config) { {} }
   let(:project) { build(:project) }
@@ -38,36 +38,36 @@ describe SCM::DeleteManagedRepositoryService do
 
   before do
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
-    allow(OpenProject::Configuration).to receive(:[]).with('scm').and_return(config)
-    allow(Setting).to receive(:enabled_scm).and_return(['subversion', 'git'])
+    allow(OpenProject::Configuration).to receive(:[]).with("scm").and_return(config)
+    allow(Setting).to receive(:enabled_scm).and_return(["subversion", "git"])
   end
 
-  shared_examples 'does not delete the repository' do
-    it 'does not delete the repository' do
+  shared_examples "does not delete the repository" do
+    it "does not delete the repository" do
       expect(repository.managed?).to be false
       expect(service.call).to be false
     end
   end
 
-  context 'with no managed configuration' do
-    it_behaves_like 'does not delete the repository'
+  context "with no managed configuration" do
+    it_behaves_like "does not delete the repository"
   end
 
-  context 'with managed repository, but no config' do
+  context "with managed repository, but no config" do
     let(:repository) { build(:repository_subversion, scm_type: :managed) }
 
-    it 'does allow to delete the repository' do
+    it "does allow to delete the repository" do
       expect(repository.managed?).to be true
       expect(service.call).to be true
     end
   end
 
-  context 'with managed repository and managed config' do
-    include_context 'with tmpdir'
+  context "with managed repository and managed config" do
+    include_context "with tmpdir"
     let(:config) do
       {
-        subversion: { manages: File.join(tmpdir, 'svn') },
-        git: { manages: File.join(tmpdir, 'git') }
+        subversion: { manages: File.join(tmpdir, "svn") },
+        git: { manages: File.join(tmpdir, "git") }
       }
     end
 
@@ -81,13 +81,13 @@ describe SCM::DeleteManagedRepositoryService do
       repo
     end
 
-    it 'deletes the repository' do
+    it "deletes the repository" do
       expect(File.directory?(repository.root_url)).to be true
       expect(service.call).to be true
       expect(File.directory?(repository.root_url)).to be false
     end
 
-    it 'does not raise an exception upon permission errors' do
+    it "does not raise an exception upon permission errors" do
       expect(File.directory?(repository.root_url)).to be true
       expect(SCM::DeleteLocalRepositoryJob)
         .to receive(:new).and_raise(Errno::EACCES)
@@ -95,14 +95,14 @@ describe SCM::DeleteManagedRepositoryService do
       expect(service.call).to be false
     end
 
-    context 'and parent project' do
+    context "and parent project" do
       let(:parent) { create(:project) }
       let(:project) { create(:project, parent:) }
       let(:repo_path) do
-        Pathname.new(File.join(tmpdir, 'svn', project.identifier))
+        Pathname.new(File.join(tmpdir, "svn", project.identifier))
       end
 
-      it 'does not delete anything but the repository itself' do
+      it "does not delete anything but the repository itself" do
         expect(service.call).to be true
 
         path = Pathname.new(repository.root_url)
@@ -115,8 +115,8 @@ describe SCM::DeleteManagedRepositoryService do
     end
   end
 
-  context 'with managed remote config', webmock: true do
-    let(:url) { 'http://myreposerver.example.com/api/' }
+  context "with managed remote config", :webmock do
+    let(:url) { "http://myreposerver.example.com/api/" }
     let(:config) do
       {
         subversion: { manages: url }
@@ -131,13 +131,13 @@ describe SCM::DeleteManagedRepositoryService do
       repo
     end
 
-    context 'with a valid remote' do
+    context "with a valid remote" do
       before do
         stub_request(:post, url).to_return(status: 200, body: {}.to_json)
       end
 
-      it 'calls the callback' do
-        expect(::SCM::DeleteRemoteRepositoryJob)
+      it "calls the callback" do
+        expect(SCM::DeleteRemoteRepositoryJob)
           .to receive(:perform_now)
           .and_call_original
 
@@ -145,18 +145,18 @@ describe SCM::DeleteManagedRepositoryService do
         expect(WebMock)
           .to have_requested(:post, url)
           .with(body: hash_including(identifier: repository.repository_identifier,
-                                     action: 'delete'))
+                                     action: "delete"))
       end
     end
 
-    context 'with a remote callback returning an error' do
+    context "with a remote callback returning an error" do
       before do
         stub_request(:post, url)
-          .to_return(status: 400, body: { success: false, message: 'An error occurred' }.to_json)
+          .to_return(status: 400, body: { success: false, message: "An error occurred" }.to_json)
       end
 
-      it 'calls the callback' do
-        expect(::SCM::DeleteRemoteRepositoryJob)
+      it "calls the callback" do
+        expect(SCM::DeleteRemoteRepositoryJob)
           .to receive(:perform_now)
           .and_call_original
 
@@ -166,7 +166,7 @@ describe SCM::DeleteManagedRepositoryService do
           .to eq("Calling the managed remote failed with message 'An error occurred' (Code: 400)")
         expect(WebMock)
           .to have_requested(:post, url)
-                .with(body: hash_including(action: 'delete'))
+                .with(body: hash_including(action: "delete"))
       end
     end
   end

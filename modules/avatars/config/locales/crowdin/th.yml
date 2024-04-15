@@ -1,5 +1,9 @@
 #English strings go here
 th:
+  plugin_openproject_avatars:
+    name: "รูปโปรไฟล์"
+    description: >-
+      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
   label_avatar: "รูปโปรไฟล์"
   label_avatar_plural: "รูปโปรไฟล์"
   label_current_avatar: "รูปปัจจุบัน"
@@ -33,6 +37,3 @@ th:
       enable_gravatars: 'แสดงรูปโปรไฟล์'
       gravatar_default: "ค่าตั้งต้นของรูป Gravatar"
       enable_local_avatars: 'แสดงรูปโปรไฟล์พื้นฐาน'
-
-
-

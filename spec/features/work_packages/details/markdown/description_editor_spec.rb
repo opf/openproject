@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/details/inplace_editor/shared_examples'
-require 'features/work_packages/shared_contexts'
-require 'support/edit_fields/edit_field'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/details/inplace_editor/shared_examples"
+require "features/work_packages/shared_contexts"
+require "support/edit_fields/edit_field"
+require "features/work_packages/work_packages_page"
 
-describe 'description inplace editor', js: true, selenium: true do
-  let(:project) { create :project_with_types, public: true }
+RSpec.describe "description inplace editor", :js, :selenium do
+  let(:project) { create(:project_with_types, public: true) }
   let(:property_name) { :description }
-  let(:property_title) { 'Description' }
-  let(:description_text) { 'Ima description' }
+  let(:property_title) { "Description" }
+  let(:description_text) { "Ima description" }
   let!(:work_package) do
     create(
       :work_package,
@@ -44,8 +44,8 @@ describe 'description inplace editor', js: true, selenium: true do
       description: description_text
     )
   end
-  let(:user) { create :admin }
-  let(:field) { TextEditorField.new wp_page, 'description' }
+  let(:user) { create(:admin) }
+  let(:field) { TextEditorField.new wp_page, "description" }
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
   before do
@@ -55,8 +55,8 @@ describe 'description inplace editor', js: true, selenium: true do
     wp_page.ensure_page_loaded
   end
 
-  context 'with permission' do
-    it 'allows editing description field' do
+  context "with permission" do
+    it "allows editing description field" do
       field.expect_state_text(description_text)
 
       # Regression test #24033
@@ -84,47 +84,55 @@ describe 'description inplace editor', js: true, selenium: true do
       # Cancelling through the action panel
       field.cancel_by_click
       field.expect_inactive!
+
+      # Saving the field with ctrl+enter
+      field.activate!
+      field.set_value "Edit to be saved by keyboard"
+      field.submit_by_enter
+
+      wp_page.expect_toast message: I18n.t("js.notice_successful_update")
+      field.expect_state_text "Edit to be saved by keyboard"
     end
   end
 
-  context 'when is empty' do
-    let(:description_text) { '' }
+  context "when is empty" do
+    let(:description_text) { "" }
 
-    it 'renders a placeholder' do
-      field.expect_state_text 'Description: Click to edit...'
+    it "renders a placeholder" do
+      field.expect_state_text "Description: Click to edit..."
 
       field.activate!
       # An empty description is also allowed
       field.expect_save_button(enabled: true)
-      field.set_value 'A new hope ...'
+      field.set_value "A new hope ..."
       field.expect_save_button(enabled: true)
       field.submit_by_click
 
-      wp_page.expect_toast message: I18n.t('js.notice_successful_update')
-      field.expect_state_text 'A new hope ...'
+      wp_page.expect_toast message: I18n.t("js.notice_successful_update")
+      field.expect_state_text "A new hope ..."
     end
   end
 
-  context 'with no permission' do
-    let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create :role, permissions: %i(view_work_packages) }
+  context "with no permission" do
+    let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
+    let(:user) { create(:user, member_with_roles: { project => role }) }
 
-    it 'does not show the field' do
-      expect(page).to have_no_selector('.inline-edit--display-field.description.-editable')
+    it "does not show the field" do
+      expect(page).to have_no_css(".inline-edit--display-field.description.-editable")
 
       field.display_element.click
       field.expect_inactive!
     end
 
-    context 'when is empty' do
-      let(:description_text) { '' }
+    context "when is empty" do
+      let(:description_text) { "" }
 
-      it 'renders a placeholder' do
-        field.expect_state_text ''
+      it "renders a placeholder" do
+        field.expect_state_text ""
       end
     end
   end
 
-  it_behaves_like 'a workpackage autocomplete field'
-  it_behaves_like 'a principal autocomplete field'
+  it_behaves_like "a workpackage autocomplete field"
+  it_behaves_like "a principal autocomplete field"
 end

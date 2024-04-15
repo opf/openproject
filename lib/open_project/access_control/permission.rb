@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,16 +33,17 @@ module OpenProject
                   :controller_actions,
                   :contract_actions,
                   :project_module,
-                  :dependencies
+                  :dependencies,
+                  :permissible_on
 
       # @param public [Boolean] when true, the permission is granted to anybody
       # having at least one role in a project, regardless of the role's
       # permissions.
       def initialize(name,
                      hash,
+                     permissible_on:,
                      public: false,
                      require: nil,
-                     global: false,
                      enabled: true,
                      project_module: nil,
                      contract_actions: [],
@@ -51,7 +52,7 @@ module OpenProject
         @name = name
         @public = public
         @require = require
-        @global = global
+        @permissible_on = Array(permissible_on)
         @enabled = enabled
         @project_module = project_module
         @contract_actions = contract_actions
@@ -71,8 +72,20 @@ module OpenProject
         @public
       end
 
+      def work_package?
+        permissible_on? :work_package
+      end
+
+      def project?
+        permissible_on? :project
+      end
+
       def global?
-        @global
+        permissible_on? :global
+      end
+
+      def permissible_on?(context_type)
+        @permissible_on.include?(context_type)
       end
 
       def grant_to_admin?
@@ -93,6 +106,14 @@ module OpenProject
         else
           @enabled
         end
+      end
+
+      def disable!
+        @enabled = false
+      end
+
+      def enable!
+        @enabled = true
       end
     end
   end

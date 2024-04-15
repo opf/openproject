@@ -8,7 +8,7 @@ keywords: sign in, login, registration
 
 # Sign in and registration
 
-Here you will get an overview how to sign in and register to an existing OpenProject installation.
+This page will give you an overview of how to register or sign in to an existing OpenProject installation.
 
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
@@ -28,11 +28,11 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 
 To sign in to an OpenProject installation with an existing account, please enter the URL of your OpenProject in a modern browser, e.g. documentation.openproject.com.
 
-![modern-browser-searchbar](modern-browser-searchbar.png)
+![modern browser search bar](modern-browser-searchbar.png)
 
-Type in your user name and password in the respective fields and click the blue Sign in button. You will then be signed in to your OpenProject environment.
+Type in your user name and password in the respective fields and click the blue Sign in button. You will then be signed in to your OpenProject environment. If the autologin option was activated for your installation you will also be able to stay logged in for several days.
 
-![Sign-in to OpenProject](1565974792215.png)
+![Sign-in to OpenProject](openproject_user_guide_sign_in.png)
 
 ## Sign in with a Google account
 
@@ -48,7 +48,7 @@ Enter you password and click the blue Next button.
 
 If you have activated Two-factor authentication, please enter your second factor and click the blue Next button.
 
-![1566204298041](1566204298041.png)
+![Enter second factor for Google authentication](1566204298041.png)
 
 Then, you are asked to create your OpenProject Account.
 
@@ -97,7 +97,7 @@ If you forgot your password, you can reset your password by clicking the blue **
 
 ![Forgot-password](1566205596114.png)
 
-You are then asked to enter you email address with which you have registered to OpenProject. 
+You are then asked to enter your email address with which you registered to OpenProject. 
 
 ![enter-email-address](1566205903097.png)
 

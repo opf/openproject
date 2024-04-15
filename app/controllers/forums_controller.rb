@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,26 +47,26 @@ class ForumsController < ApplicationController
   end
 
   def show
-    sort_init 'updated_at', 'desc'
-    sort_update 'created_at' => "#{Message.table_name}.created_at",
-                'replies' => "#{Message.table_name}.replies_count",
-                'updated_at' => "#{Message.table_name}.updated_at"
+    sort_init "updated_at", "desc"
+    sort_update "created_at" => "#{Message.table_name}.created_at",
+                "replies" => "#{Message.table_name}.replies_count",
+                "updated_at" => "#{Message.table_name}.updated_at"
 
     respond_to do |format|
       format.html do
         set_topics
         @message = Message.new
-        render action: 'show', layout: !request.xhr?
+        render action: "show", layout: !request.xhr?
       end
       format.json do
         set_topics
 
-        render template: 'messages/index'
+        render template: "messages/index"
       end
       format.atom do
         @messages = @forum
                     .messages
-                    .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
+                    .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(", "))
                     .includes(:author, :forum)
                     .limit(Setting.feeds_limit.to_i)
 
@@ -78,7 +78,7 @@ class ForumsController < ApplicationController
   def set_topics
     @topics =  @forum
                .topics
-               .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
+               .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(", "))
                .includes(:author, last_reply: :author)
                .page(page_param)
                .per_page(per_page_param)
@@ -86,21 +86,21 @@ class ForumsController < ApplicationController
 
   def new; end
 
+  def edit; end
+
   def create
     if @forum.save
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to action: 'index'
+      redirect_to action: "index"
     else
       render :new
     end
   end
 
-  def edit; end
-
   def update
     if @forum.update(permitted_params.forum)
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'index'
+      redirect_to action: "index"
     else
       render :edit
     end
@@ -110,16 +110,16 @@ class ForumsController < ApplicationController
     if @forum.update(permitted_params.forum_move)
       flash[:notice] = t(:notice_successful_update)
     else
-      flash.now[:error] = t('forum_could_not_be_saved')
-      render action: 'edit'
+      flash.now[:error] = t("forum_could_not_be_saved")
+      render action: "edit"
     end
-    redirect_to action: 'index'
+    redirect_to action: "index"
   end
 
   def destroy
     @forum.destroy
     flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to action: 'index'
+    redirect_to action: "index"
   end
 
   private

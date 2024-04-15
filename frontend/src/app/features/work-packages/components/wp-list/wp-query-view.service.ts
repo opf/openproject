@@ -4,6 +4,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Observable } from 'rxjs';
 import { IView } from 'core-app/core/state/views/view.model';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Injectable()
 export class WorkPackagesQueryViewService {
@@ -44,6 +45,9 @@ export class WorkPackagesQueryViewService {
     }
     if (this.$state.includes('calendar')) {
       return 'work_packages_calendar';
+    }
+    if (this.$state.includes('gantt')) {
+      return 'gantt';
     }
 
     throw new Error('Not on a path defined for query views');

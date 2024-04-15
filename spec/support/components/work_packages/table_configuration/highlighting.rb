@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,9 +46,9 @@ module Components
 
         # Open select field
         within(page.all(".form--field")[1]) do
-          page.find('.ng-input input').click
+          page.find(".ng-input input").click
         end
-        page.find('.ng-dropdown-panel .ng-option', text: label).click
+        page.find(".ng-dropdown-panel .ng-option", text: label).click
         apply
       end
 
@@ -58,14 +58,14 @@ module Components
 
         # Open select field
         within(page.all(".form--field")[0]) do
-          page.find('.ng-input input').click
+          page.find(".ng-input input").click
         end
 
         # Delete all previously selected options
-        page.all('.ng-dropdown-panel .ng-option-selected').each { |option| option.click }
+        page.all(".ng-dropdown-panel .ng-option-selected").each { |option| option.click }
 
         labels.each do |label|
-          page.find('.ng-dropdown-panel .ng-option', text: label).click
+          page.find(".ng-dropdown-panel .ng-option", text: label).click
         end
 
         apply
@@ -74,15 +74,15 @@ module Components
       def apply
         @opened = false
 
-        click_button('Apply')
+        click_button("Apply")
       end
 
       def open_modal
         @opened = true
-        ::Components::WorkPackages::SettingsMenu.new.open_and_choose 'Configure view'
+        ::Components::WorkPackages::SettingsMenu.new.open_and_choose "Configure view"
 
         retry_block do
-          find(".op-tab-row--link", text: 'HIGHLIGHTING', wait: 10).click
+          find(".op-tab-row--link", text: "HIGHLIGHTING", wait: 10).click
         end
       end
 
@@ -93,7 +93,7 @@ module Components
       private
 
       def within_modal(&)
-        page.within('.wp-table--configuration-modal', &)
+        page.within(".wp-table--configuration-modal", &)
       end
 
       def modal_open?

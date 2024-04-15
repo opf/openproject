@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-shared_examples_for 'has ISO 8601 date only' do
-  it 'exists' do
+RSpec.shared_examples_for "has ISO 8601 date only" do
+  it "exists" do
     expect(subject).to have_json_path(json_path)
   end
 
-  it 'indicates date only as ISO 8601' do
-    allow(::API::V3::Utilities::DateTimeFormatter).to receive(:format_date)
+  it "indicates date only as ISO 8601" do
+    allow(API::V3::Utilities::DateTimeFormatter).to receive(:format_date)
 
     subject
 
-    expect(::API::V3::Utilities::DateTimeFormatter)
+    expect(API::V3::Utilities::DateTimeFormatter)
       .to have_received(:format_date)
       .with(date, anything)
       .at_least(:once)
   end
 end
 
-shared_examples_for 'has UTC ISO 8601 date and time' do
-  it 'exists' do
+RSpec.shared_examples_for "has UTC ISO 8601 date and time" do
+  it "exists" do
     expect(subject).to have_json_path(json_path)
   end
 
-  it 'indicates date and time as ISO 8601' do
-    allow(::API::V3::Utilities::DateTimeFormatter).to receive(:format_datetime)
+  it "indicates date and time as ISO 8601" do
+    allow(API::V3::Utilities::DateTimeFormatter).to receive(:format_datetime)
 
     subject
 
-    expect(::API::V3::Utilities::DateTimeFormatter)
+    expect(API::V3::Utilities::DateTimeFormatter)
       .to have_received(:format_datetime)
       .with(date.utc, anything)
       .at_least(:once)

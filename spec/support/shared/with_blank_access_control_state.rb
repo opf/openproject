@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,14 @@
 # Makes OpenProject::AccessControl clean before each example, like if no
 # permission initialization code was run at all, and restore it after each
 # example.
-RSpec.shared_context 'with blank access control state' do
+RSpec.shared_context "with blank access control state" do
   around do |example|
     stash = stash_instance_variables(OpenProject::AccessControl, :@mapped_permissions, :@modules,
                                      :@project_modules_without_permissions)
     OpenProject::AccessControl.clear_caches
     example.run
   ensure
-    unstash_instance_variables(OpenProject::AccessControl, stash)
+    pop_instance_variables(OpenProject::AccessControl, stash)
     OpenProject::AccessControl.clear_caches
   end
 
@@ -47,7 +47,7 @@ RSpec.shared_context 'with blank access control state' do
     end
   end
 
-  def unstash_instance_variables(instance, stash)
+  def pop_instance_variables(instance, stash)
     stash.each do |instance_variable, value|
       instance.instance_variable_set(instance_variable, value)
     end

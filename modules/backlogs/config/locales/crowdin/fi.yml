@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 fi:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "Sijainti"
-        remaining_hours: "Jäljellä olevat tunnit"
-        remaining_time: "Jäljellä olevat tunnit"
         story_points: "Tarinapisteet"
         backlogs_work_package_type: "Työjonon tyyppi"
     errors:
@@ -35,9 +36,6 @@ fi:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "voi sisältää vain tässä sprintissä mukana olevia typaketteja."
               must_block_at_least_one_work_package: "vähintään yhden tehtävän ID-mainittava."
-            parent_id:
-              parent_child_relationship_across_projects: "ei kelpaa, koska työpaketti \"%{work_package_name}\" on työjonossa ja siksi sillä ei voi olla edeltäjää nykyisen projektin ulkopuolella."
-              type_must_be_one_of_the_following: "Tyypin on oltava jokin seuraavista: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
         sprint:
@@ -66,8 +64,8 @@ fi:
     properties: "Ominaisuudet"
     rebuild: "Luo uudelleen"
     rebuild_positions: "Luo paikat uudellee"
-    remaining_hours: "Jäljellä olevat tunnit"
-    remaining_hours_ideal: "Jäljellläolevat tunnit (ihanteellinen)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Edistymiskuvaaja"
     story: "Tarina"
     story_points: "Tarinapisteet"
@@ -78,7 +76,6 @@ fi:
     x_more: "%{count} lisää..."
   backlogs_active: "aktiivinen"
   backlogs_any: "kaikki"
-  backlogs_card_specification: "Otsikoiden tyypit kortin tulostuksessa"
   backlogs_inactive: "Projektissa ei ole toimintaa"
   backlogs_points_burn_direction: "Pisteiden poltto ylös/alas"
   backlogs_product_backlog: "Tuotteen työjono"
@@ -150,7 +147,7 @@ fi:
   rb_label_copy_tasks_none: "Ei mitään"
   rb_label_copy_tasks_open: "Avoin"
   rb_label_link_to_original: "Sisällytä linkki alkuperäiseen tarinaan"
-  remaining_hours: "jäljellä olevat tunnit"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "tarvittava eistymisnopeus (tuntia)"
   required_burn_rate_points: "tarvittava eistymisnopeus (pistettä)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

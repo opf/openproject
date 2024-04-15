@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Users::CreateContract do
-  include_context 'ModelContract shared context'
-
-  it_behaves_like 'user contract' do
+RSpec.describe Users::CreateContract do
+  it_behaves_like "user contract" do
     let(:user) { User.new(attributes) }
     let(:contract) { described_class.new(user, current_user) }
     let(:attributes) do
@@ -48,35 +45,35 @@ describe Users::CreateContract do
       }
     end
 
-    context 'when admin' do
+    context "when admin" do
       let(:current_user) { build_stubbed(:admin) }
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
 
-      describe 'requires a password set when active' do
+      describe "requires a password set when active" do
         before do
           user.password = nil
           user.password_confirmation = nil
           user.activate
         end
 
-        it_behaves_like 'contract is invalid', password: :blank
+        it_behaves_like "contract is invalid", password: :blank
 
-        context 'when password is set' do
+        context "when password is set" do
           before do
-            user.password = user.password_confirmation = 'password!password!'
+            user.password = user.password_confirmation = "password!password!"
           end
 
-          it_behaves_like 'contract is valid'
+          it_behaves_like "contract is valid"
         end
       end
 
-      context 'when user limit reached' do
+      context "when user limit reached" do
         before do
           allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
         end
 
-        it_behaves_like 'contract is invalid', base: :user_limit_reached
+        it_behaves_like "contract is invalid", base: :user_limit_reached
       end
     end
   end

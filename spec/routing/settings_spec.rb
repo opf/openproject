@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'settings routes', type: :routing do
+RSpec.describe "settings routes" do
   it do
-    expect(get('/admin/settings/plugin/abc'))
-      .to route_to(controller: 'admin/settings',
-                   action: 'show_plugin',
-                   id: 'abc')
+    expect(get("/admin/settings/plugin/abc"))
+      .to route_to(controller: "admin/settings",
+                   action: "show_plugin",
+                   id: "abc")
   end
 
   it do
-    expect(post('/admin/settings/plugin/abc'))
-      .to route_to(controller: 'admin/settings',
-                   action: 'update_plugin',
-                   id: 'abc')
+    expect(post("/admin/settings/plugin/abc"))
+      .to route_to(controller: "admin/settings",
+                   action: "update_plugin",
+                   id: "abc")
   end
 end

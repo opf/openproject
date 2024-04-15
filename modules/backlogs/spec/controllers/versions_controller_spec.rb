@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,57 +26,53 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe VersionsController, type: :controller do
+RSpec.describe VersionsController do
   let(:version) do
     create(:version,
-           sharing: 'system')
+           sharing: "system")
   end
 
   let(:other_project) do
     create(:project).tap do |p|
       create(:member,
              user: current_user,
-             roles: [create(:role, permissions: [:manage_versions])],
+             roles: [create(:project_role, permissions: [:manage_versions])],
              project: p)
     end
   end
 
   let(:current_user) do
     create(:user,
-           member_in_project: version.project,
-           member_with_permissions: [:manage_versions])
+           member_with_permissions: { version.project => [:manage_versions] })
   end
 
   before do
     # Create a version assigned to a project
     @oldVersionName = version.name
-    @newVersionName = 'NewVersionName'
+    @newVersionName = "NewVersionName"
 
     # Create params to update version
     @params = {}
     @params[:id] = version.id
     @params[:version] = { name: @newVersionName }
-  end
-
-  before do
     login_as current_user
   end
 
-  describe 'update' do
-    it 'does not allow to update versions from different projects' do
+  describe "update" do
+    it "does not allow to update versions from different projects" do
       @params[:project_id] = other_project.id
-      patch 'update', params: @params
+      patch "update", params: @params
       version.reload
 
       expect(response).to redirect_to project_settings_versions_path(other_project)
       expect(version.name).to eq(@oldVersionName)
     end
 
-    it 'allows to update versions from the version project' do
+    it "allows to update versions from the version project" do
       @params[:project_id] = version.project.id
-      patch 'update', params: @params
+      patch "update", params: @params
       version.reload
 
       expect(response).to redirect_to project_settings_versions_path(version.project)

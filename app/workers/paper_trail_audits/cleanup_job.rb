@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,11 @@
 #++
 
 module PaperTrailAudits
-  class CleanupJob < ::Cron::CronJob
-    # runs at 4:03 on Saturday
-    self.cron_expression = '3 4 * * 6'
-
+  class CleanupJob < ApplicationJob
     # Clean any paper trails older than 60 days
     def perform
       ::PaperTrailAudit
-        .where('created_at < ?', 60.days.ago)
+        .where("created_at < ?", 60.days.ago)
         .delete_all
     end
   end

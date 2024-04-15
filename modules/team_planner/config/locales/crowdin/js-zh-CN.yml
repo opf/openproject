@@ -1,0 +1,28 @@
+#English strings go here
+zh-CN:
+  js:
+    team_planner:
+      add_existing: '添加现有'
+      add_existing_title: '添加现有工作包'
+      create_label: '工作组规划器'
+      create_title: '创建新的工作组规划器'
+      unsaved_title: '未命名的工作组规划器'
+      no_data: '添加受理人以设置您的工作组规划器。'
+      add_assignee: '添加受理人'
+      remove_assignee: '移除受理人'
+      two_weeks: '2 周'
+      one_week: '1 周'
+      four_weeks: '4 周'
+      eight_weeks: '8 周'
+      work_week: '工作周'
+      today: '今天'
+      drag_here_to_remove: '拖动到此处可移除受理人及开始日期和结束日期。'
+      cannot_drag_here: '由于权限或编辑限制，无法移除工作包。'
+      cannot_drag_to_non_working_day: '这个工作包不能在非工作日开始/完成。'
+      quick_add:
+        empty_state: '使用搜索字段查找工作包并将它们拖动到规划工具以将其分配给某人并定义开始日期和结束日期。'
+        search_placeholder: '搜索…'
+      modify:
+        errors:
+          permission_denied: '您没有修改此项的必要权限。'
+          fallback: '无法编辑此工作包。'

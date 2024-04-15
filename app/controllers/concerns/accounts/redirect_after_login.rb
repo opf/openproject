@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,21 +42,19 @@ module Accounts::RedirectAfterLogin
     end
   end
 
-  #    * * *
-
   def default_redirect
-    if url = OpenProject::Configuration.after_login_default_redirect_url
-      redirect_to url
+    if (url = OpenProject::Configuration.after_login_default_redirect_url)
+      redirect_back_or_default url
     else
       redirect_back_or_default my_page_path
     end
   end
 
   def first_login_redirect
-    if url = OpenProject::Configuration.after_first_login_redirect_url
-      redirect_to url
+    if (url = OpenProject::Configuration.after_first_login_redirect_url)
+      redirect_back_or_default url
     else
-      redirect_to home_url(first_time_user: true)
+      redirect_back_or_default home_url(first_time_user: true)
     end
   end
 end

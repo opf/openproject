@@ -1,0 +1,37 @@
+<%=
+  if storages.present?
+    render(border_box_container) do |component|
+      component.with_header(color: :muted) do
+        grid_layout('op-storage-list--header', tag: :div, align_items: :center) do |grid|
+          grid.with_area(:name, tag: :div, mr: 3) do
+            render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.label_name') }
+          end
+
+          grid.with_area(:user, tag: :div, color: :muted, mr: 3, hide: :sm) do
+            render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.label_creator') }
+          end
+
+          grid.with_area(:provider, tag: :div, color: :muted, mr: 3, hide: :sm) do
+            render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.label_provider') }
+          end
+
+          grid.with_area(:time, tag: :div, color: :muted, hide: :sm) do
+            render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t('storages.label_creation_time') }
+          end
+        end
+      end
+
+      storages.map do |storage|
+        component.with_row(scheme: :default, id: storage_row_css_id(storage)) do
+          render(Storages::Admin::StorageRowComponent.new(storage))
+        end
+      end
+    end
+  else
+    render Primer::Beta::Blankslate.new(border: true) do |component|
+      component.with_visual_icon(icon: :cloud)
+      component.with_heading(tag: :h2).with_content(I18n.t('storages.storage_list_blank_slate.heading'))
+      component.with_description { I18n.t('storages.storage_list_blank_slate.description') }
+    end
+  end
+%>

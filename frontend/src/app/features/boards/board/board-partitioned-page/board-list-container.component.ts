@@ -1,5 +1,9 @@
 import { Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import {
+  EMPTY,
+  Observable,
+  Subscription,
+} from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 import { StateService } from '@uirouter/core';
@@ -19,7 +23,12 @@ import { BoardPartitionedPageComponent } from 'core-app/features/boards/board/bo
 import { AddListModalComponent } from 'core-app/features/boards/board/add-list-modal/add-list-modal.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
-import { filter, tap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  finalize,
+  tap,
+} from 'rxjs/operators';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
@@ -73,7 +82,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   showHiddenListWarning:boolean = false;
 
-  eeShowBanners = this.Banner.eeShowBanners;
+  needEnterpriseEdition = this.Banner.eeShowBanners;
 
   private currentQueryUpdatedMonitoring:Subscription;
 
@@ -107,6 +116,10 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .pipe(
         tap((board) => this.setupQueryUpdatedMonitoring(board)),
       );
+
+    this.board$.subscribe((board) => {
+      this.needEnterpriseEdition = this.Banner.eeShowBanners && !board.isFree;
+    });
 
     this.Boards.currentBoard$.next(id);
 
@@ -155,7 +168,21 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   }
 
   saveBoard(board:Board):void {
-    this.boardComponent.boardSaver.request(board);
+    this.Boards
+      .save(board)
+      .pipe(
+        catchError((error) => {
+          this.halNotification.handleRawError(error);
+          return EMPTY;
+        }),
+        finalize(() => {
+          this.boardComponent.toolbarDisabled = false;
+          this.boardComponent.cdRef.detectChanges();
+        }),
+      ).subscribe(() => {
+        this.toastService.addSuccess(this.text.updateSuccessful);
+      },
+    );
   }
 
   private setupQueryUpdatedMonitoring(board:Board) {

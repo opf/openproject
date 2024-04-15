@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ module Projects::Exports
         .results
         .with_required_storage
         .with_latest_activity
-        .includes(:custom_values, :status)
+        .includes(:custom_values)
         .page(page)
         .per_page(Setting.work_packages_projects_export_limit.to_i)
     end
@@ -54,19 +54,15 @@ module Projects::Exports
     def forced_columns
       [
         { name: :id, caption: Project.human_attribute_name(:id) },
-        { name: :identifier, caption: Project.human_attribute_name(:identifier) },
-        { name: :name, caption: Project.human_attribute_name(:name) },
-        { name: :description, caption: Project.human_attribute_name(:description) }
+        { name: :identifier, caption: Project.human_attribute_name(:identifier) }
       ]
     end
 
     def selected_columns
-      ::Projects::TableCell
-        .new(nil, current_user: User.current)
-        .all_columns
-        .reject { |_, options| options[:builtin] } # We add builtin columns ourselves
-        .select { |name, _| Setting.enabled_projects_columns.include?(name.to_s) }
-        .map { |name, options| { name:, caption: options[:caption] } }
+      query
+        .selects
+        .reject { |s| s.is_a?(Queries::Selects::NotExistingSelect) }
+        .map { |s| { name: s.attribute, caption: s.caption } }
     end
   end
 end

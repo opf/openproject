@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 de:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "Dieses Modul fügt Funktionen hinzu, die es agilen Teams ermöglichen, mit OpenProject in Scrum-Projekten zu arbeiten."
   activerecord:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Verbleibende Stunden"
-        remaining_time: "Verbleibende Stunden"
         story_points: "Story-Punkte"
         backlogs_work_package_type: "Backlog Typ"
     errors:
@@ -35,9 +36,6 @@ de:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "kann nur die IDs von Arbeitspaketen des aktuellen Sprints enthalten."
               must_block_at_least_one_work_package: "muss die ID von mindestens einem Arbeitspaket enthalten."
-            parent_id:
-              parent_child_relationship_across_projects: "ist ungültig da '%{work_package_name}' ein backlog Task ist und daher kein Eltern-Arbeitspaket außerhalb  des jetzigen Projekts haben kann."
-              type_must_be_one_of_the_following: "muss einer der folgenden Typen sein: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "muss der Version der übergeordneten Story entsprechen."
         sprint:
@@ -66,8 +64,8 @@ de:
     properties: "Eigenschaften"
     rebuild: "Neu berechnen"
     rebuild_positions: "Positionen neu berechnen"
-    remaining_hours: "Verbleibende Stunden"
-    remaining_hours_ideal: "Verbleibende Stunden (ideal)"
+    remaining_hours: "Verbleibender Aufwand"
+    remaining_hours_ideal: "Verbleibender Aufwand (ideal)"
     show_burndown_chart: "Burndown-Chart"
     story: "Story"
     story_points: "Story Punkte"
@@ -78,7 +76,6 @@ de:
     x_more: "%{count} mehr..."
   backlogs_active: "aktiv"
   backlogs_any: "beliebig"
-  backlogs_card_specification: "Etikettenart für den Kartendruck"
   backlogs_inactive: "Projekt zeigt keine Aktivität"
   backlogs_points_burn_direction: "Burnup/-down Punkte"
   backlogs_product_backlog: "Produkt-Backlog"
@@ -150,7 +147,7 @@ de:
   rb_label_copy_tasks_none: "Keine"
   rb_label_copy_tasks_open: "Öffnen"
   rb_label_link_to_original: "Link zur Original-Story einfügen"
-  remaining_hours: "Verbleibende Stunden"
+  remaining_hours: "verbleibender Aufwand"
   required_burn_rate_hours: "benötigte Burn-Rate (Stunden)"
   required_burn_rate_points: "benötigte Burn-Rate (Punkte)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

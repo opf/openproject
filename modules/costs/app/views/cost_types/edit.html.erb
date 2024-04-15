@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -89,7 +89,7 @@ See COPYRIGHT and LICENSE files for more details.
           </tr>
         </thead>
         <tbody id="rates_body" class="subform-container">
-          <%= render partial: "rate", object: CostRate.new, locals: { templated: true } %>
+          <%= render partial: "rate", object: CostRate.new(valid_from: Date.current), locals: { templated: true } %>
           <% @cost_type.rates.sort do |a,b|
             case
             when !a.valid? && !b.valid?

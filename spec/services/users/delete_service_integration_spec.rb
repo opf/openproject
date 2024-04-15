@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::Users::DeleteService, 'Integration', type: :model do
+RSpec.describe Users::DeleteService, "Integration", type: :model do
   let(:input_user) { create(:user) }
   let(:actor) { build_stubbed(:admin) }
 
@@ -36,13 +36,13 @@ describe ::Users::DeleteService, 'Integration', type: :model do
 
   subject { instance.call }
 
-  context 'when input user is invalid',
+  context "when input user is invalid",
           with_settings: { users_deletable_by_admins: true } do
     before do
-      input_user.update_column(:mail, '')
+      input_user.update_column(:mail, "")
     end
 
-    it 'can still delete the user' do
+    it "can still delete the user" do
       expect(input_user).not_to be_valid
 
       expect(subject).to be_success

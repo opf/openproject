@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::Bim::Bcf::IssuesController, type: :controller do
+RSpec.describe Bim::Bcf::IssuesController do
   let(:manage_bcf_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[manage_bcf view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:collaborator_role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:bcf_manager) { create(:user, firstname: "BCF Manager") }
@@ -42,7 +42,7 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
 
   let(:non_member) { create(:user) }
   let(:project) do
-    create(:project, enabled_module_names: %w[bim], identifier: 'bim_project')
+    create(:project, enabled_module_names: %w[bim], identifier: "bim_project")
   end
   let(:member) do
     create(:member,
@@ -63,19 +63,19 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
     login_as(bcf_manager)
   end
 
-  shared_examples_for 'check permissions' do
-    context 'without sufficient permissions' do
+  shared_examples_for "check permissions" do
+    context "without sufficient permissions" do
       before { action }
 
-      context 'not member of project' do
+      context "not member of project" do
         let(:bcf_manager_member) {}
 
-        it 'will return "not authorized"' do
+        it 'returns "not authorized"' do
           expect(response).not_to be_successful
         end
       end
 
-      context 'no manage_bcf permission' do
+      context "no manage_bcf permission" do
         let(:bcf_manager_member) do
           create(:member,
                  project:,
@@ -83,14 +83,14 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
                  roles: [collaborator_role])
         end
 
-        it 'will return "not authorized"' do
+        it 'returns "not authorized"' do
           expect(response).not_to be_successful
         end
       end
     end
   end
 
-  describe '#prepare_import' do
+  describe "#prepare_import" do
     let(:params) do
       {
         project_id: project.identifier.to_s,
@@ -101,16 +101,16 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
       post :prepare_import, params:
     end
 
-    context 'with valid BCF file' do
-      let(:filename) { 'MaximumInformation.bcf' }
+    context "with valid BCF file" do
+      let(:filename) { "MaximumInformation.bcf" }
       let(:file) do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
-          'application/zip'
+          Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
+          "application/zip"
         )
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect { action }.to change { Attachment.count }.by(1)
         expect(response).to be_successful
       end
@@ -118,27 +118,27 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
       it_behaves_like "check permissions"
     end
 
-    context 'with invalid BCF file' do
+    context "with invalid BCF file" do
       let(:file) { FileHelpers.mock_uploaded_file }
 
-      it 'redirects back to where we started from' do
+      it "redirects back to where we started from" do
         expect { action }.not_to change { Attachment.count }
-        expect(response).to redirect_to '/projects/bim_project/issues/upload'
+        expect(response).to redirect_to "/projects/bim_project/issues/upload"
       end
     end
   end
 
-  describe '#configure_import' do
+  describe "#configure_import" do
     let(:action) do
       post :configure_import, params: { project_id: project.identifier.to_s }
     end
 
-    context 'with valid BCF file' do
-      let(:filename) { 'MaximumInformation.bcf' }
+    context "with valid BCF file" do
+      let(:filename) { "MaximumInformation.bcf" }
       let(:file) do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
-          'application/octet-stream'
+          Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
+          "application/octet-stream"
         )
       end
 
@@ -147,7 +147,7 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
         allow(Attachment).to receive(:find_by).and_return(Attachment.new)
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect { action }.not_to change { Attachment.count }
         expect(response).to be_successful
       end
@@ -156,17 +156,17 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
     end
   end
 
-  describe '#perform_import' do
+  describe "#perform_import" do
     let(:action) do
       post :perform_import, params: { project_id: project.identifier.to_s }
     end
 
-    context 'with valid BCF file' do
-      let(:filename) { 'MaximumInformation.bcf' }
+    context "with valid BCF file" do
+      let(:filename) { "MaximumInformation.bcf" }
       let(:file) do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
-          'application/octet-stream'
+          Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
+          "application/octet-stream"
         )
       end
 
@@ -175,7 +175,7 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
         allow(Attachment).to receive(:find_by).and_return(Attachment.new)
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect { action }.not_to change { Attachment.count }
         expect(response).to be_successful
       end

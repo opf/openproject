@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -21,70 +21,181 @@
 #++
 #English strings go here for Rails i18n
 eu:
+  plugin_openproject_meeting:
+    name: "OpenProject Meeting"
+    description: >-
+      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
   activerecord:
     attributes:
       meeting:
-        location: "Location"
-        duration: "Duration"
-        participants: "Participants"
-        participants_attended: "Attendees"
-        participants_invited: "Invitees"
-        start_time: "Time"
-        start_time_hour: "Starting time"
+        type: "Meeting type"
+        location: "Lekua"
+        duration: "Iraupena"
+        notes: "Notes"
+        participants: "Parte-hartzaileak"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
+        participants_attended: "Bertaratuak"
+        participants_invited: "Gonbidatuak"
+        project: "Project"
+        start_date: "Date"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "min"
+        description: "Notes"
+        presenter: "Presenter"
     errors:
       messages:
-        invalid_time_format: "is not a valid time. Required format: HH:MM"
+        invalid_time_format: "ez da baliozko ordua. Eskatzen den formatua: OO:MM"
     models:
+      structured_meeting: "Meeting (dynamic)"
+      meeting_agenda_item: "Agenda item"
       meeting_agenda: "Agenda"
-      meeting_minutes: "Minutes"
-  description_attended: "attended"
-  description_invite: "invited"
+      meeting_minutes: "Aktak"
+  activity:
+    filter:
+      meeting: "Hitzorduak"
+  description_attended: "Egon da"
+  description_invite: "Gonbidatua izan da"
   events:
-    meeting: Meeting edited
-    meeting_agenda: Meeting agenda edited
-    meeting_agenda_closed: Meeting agenda closed
-    meeting_agenda_opened: Meeting agenda opened
-    meeting_minutes: Meeting minutes edited
-    meeting_minutes_created: Meeting minutes created
-  error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
-  label_meeting: "Meeting"
-  label_meeting_plural: "Meetings"
-  label_meeting_new: "New Meeting"
-  label_meeting_edit: "Edit Meeting"
+    meeting: Hitzordua aldatu da
+    meeting_agenda: Hitzorduaren agenda aldatua
+    meeting_agenda_closed: Hitzorduaren agenda itxi da
+    meeting_agenda_opened: Hitzorduaren agenda ireki da
+    meeting_minutes: Hitzorduaren aktak aldatu dira
+    meeting_minutes_created: Hitzorduaren akta sortu da
+  error_notification_with_errors: "Jakinarazpena bidaltzean akats bat egon da. Ondorengo hartzaileei ezin izan zaie jakinarazi:  %{recipients}"
+  label_meeting: "Hitzordua"
+  label_meeting_plural: "Hitzorduak"
+  label_meeting_new: "Hitzordu berria"
+  label_meeting_edit: "Aldatu hitzordua"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minutes"
-  label_meeting_close: "Close"
-  label_meeting_open: "Open"
-  label_meeting_agenda_close: "Close the agenda to begin the Minutes"
-  label_meeting_date_time: "Date/Time"
-  label_meeting_diff: "Diff"
-  label_notify: "Send for review"
-  label_icalendar: "Send iCalendar"
-  label_version: "Version"
-  label_time_zone: "Time zone"
-  label_start_date: "Start date"
+  label_meeting_minutes: "Aktak"
+  label_meeting_close: "Itxi"
+  label_meeting_open: "Ireki"
+  label_meeting_agenda_close: "Itxi agenda Aktak hasteko."
+  label_meeting_date_time: "Data/Ordua"
+  label_meeting_diff: "Diferentzia"
+  label_upcoming_meetings: "Upcoming meetings"
+  label_past_meetings: "Past meetings"
+  label_upcoming_meetings_short: "Upcoming"
+  label_past_meetings_short: "Past"
+  label_involvement: "Involvement"
+  label_upcoming_invitations: "Upcoming invitations"
+  label_past_invitations: "Past invitations"
+  label_attendee: "Attendee"
+  label_author: "Creator"
+  label_notify: "Berrikustera bidali"
+  label_icalendar: "Bidali iEgutegia"
+  label_icalendar_download: "Download iCalendar event"
+  label_version: "Bertsioa"
+  label_time_zone: "Ordu-eremua"
+  label_start_date: "Hasiera data"
   meeting:
-    copied: "Copied from Meeting #%{id}"
-  notice_successful_notification: "Notification sent successfully"
-  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
-  permission_create_meetings: "Create meetings"
-  permission_edit_meetings: "Edit meetings"
-  permission_delete_meetings: "Delete meetings"
-  permission_view_meetings: "View meetings"
-  permission_create_meeting_agendas: "Manage agendas"
-  permission_close_meeting_agendas: "Close agendas"
-  permission_send_meeting_agendas_notification: "Send review notification for agendas"
-  permission_create_meeting_minutes: "Manage minutes"
-  permission_send_meeting_minutes_notification: "Send review notification for minutes"
-  permission_meetings_send_invite: "Invite users to meetings"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
-  project_module_meetings: "Meetings"
-  text_duration_in_hours: "Duration in hours"
+    attachments:
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+    copy:
+      title: "Copy meeting %{title}"
+      attachments: "Copy attachments"
+      attachments_text: "Copy over all attached files to the new meeting"
+      agenda: "Copy agenda"
+      agenda_text: "Copy the agenda of the old meeting"
+    email:
+      open_meeting_link: "Open meeting"
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+      rescheduled:
+        header: "Meeting %{title} has been rescheduled"
+        summary: "Meeting %{title} has been rescheduled by %{actor}"
+        body: "The meeting %{title} has been rescheduled by %{actor}."
+        old_date_time: "Old date/time"
+        new_date_time: "New date/time"
+    label_mail_all_participants: "Send email to all participants"
+    types:
+      classic: "Classic"
+      classic_text: "Organize your meeting in a formattable text agenda and protocol."
+      structured: "Dynamic"
+      structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
+      structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
+    copied: "#%{id} Hitzordutik kopiatua"
+  notice_successful_notification: "Jakinarazpena ondo bidali da"
+  notice_timezone_missing: Ez da ordu-eremurik zehaztu eta %{zone} hartu da ontzat. Ordu-eremua aukeratzeko klikatu hemen, mesedez.
+  permission_create_meetings: "Sortu hitzordua"
+  permission_edit_meetings: "Aldatu hitzorduak"
+  permission_delete_meetings: "Ezabatu hitzorduak"
+  permission_view_meetings: "Ikusi hitzorduak"
+  permission_create_meeting_agendas: "Create meeting agendas"
+  permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
+  permission_manage_agendas: "Kudeatu agendak"
+  permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
+  permission_close_meeting_agendas: "Itxi agendak"
+  permission_send_meeting_agendas_notification: "Bidali agendak berrikusteko jakinarazpena"
+  permission_create_meeting_minutes: "Kudeatu aktak"
+  permission_send_meeting_minutes_notification: "Bidali aktak berrikusteko jakinarazpena"
+  permission_meetings_send_invite: "Gonbidatu erabiltzaileak hitzorduetara"
+  permission_send_meeting_agendas_icalendar: "Bidali hitzorduen agenda egutegiaren sarrera gisa"
+  project_module_meetings: "Hitzorduak"
+  text_duration_in_hours: "Iraupena ordutan"
   text_in_hours: "in hours"
   text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
-  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
-  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
   text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_meeting_empty_heading: "Your meeting is empty"
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
+  text_meeting_empty_description_2: 'You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package''s "Meetings" tab.'
+  label_meeting_empty_action: "Add agenda item"
+  label_meeting_actions: "Meeting actions"
+  label_meeting_edit_title: "Edit meeting title"
+  label_meeting_delete: "Delete meeting"
+  label_meeting_created_by: "Created by"
+  label_meeting_last_updated: "Last updated"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
+  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
+  label_agenda_item_deleted_wp: "Deleted work package reference"
+  label_agenda_item_actions: "Agenda items actions"
+  label_agenda_item_move_to_top: "Move to top"
+  label_agenda_item_move_to_bottom: "Move to bottom"
+  label_agenda_item_move_up: "Move up"
+  label_agenda_item_move_down: "Move down"
+  label_agenda_item_add_notes: "Add notes"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
+  label_meeting_details: "Meeting details"
+  label_meeting_details_edit: "Edit meeting details"
+  label_meeting_state: "Meeting status"
+  label_meeting_state_open: "Ireki"
+  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_closed: "Closed"
+  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_reopen_action: "Reopen meeting"
+  label_meeting_close_action: "Close meeting"
+  text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."
+  text_meeting_closed_description: "This meeting is closed. You cannot add/remove agenda items anymore."
+  label_meeting_manage_participants: "Manage participants"
+  label_meeting_no_participants: "No participants"
+  label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
+  label_meeting_add_participants: "Add participants"
+  text_meeting_not_editable_anymore: "This meeting is not editable anymore."
+  text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."
+  label_add_work_package_to_meeting_dialog_title: "Add work package to meeting"
+  label_add_work_package_to_meeting_dialog_button: "Add to meeting"
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
+  text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
+  text_agenda_item_no_notes: "No notes provided"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
+  text_work_package_add_to_meeting_hint: 'Use the "Add to meeting" button to add this work package to an upcoming meeting.'
+  text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

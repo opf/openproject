@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class WorkPackageCards < Page
@@ -36,23 +36,27 @@ module Pages
       super()
     end
 
+    def expect_work_package_count(count)
+      expect(page).to have_css("wp-single-card", count:, wait: 20)
+    end
+
     def expect_work_package_listed(*work_packages)
       work_packages.each do |wp|
-        expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp.id}']", wait: 10)
+        expect(page).to have_css("wp-single-card[data-work-package-id='#{wp.id}']", wait: 10)
       end
     end
 
     def expect_work_package_not_listed(*work_packages)
       work_packages.each do |wp|
-        expect(page).not_to have_selector("wp-single-card[data-work-package-id='#{wp.id}']")
+        expect(page).to have_no_css("wp-single-card[data-work-package-id='#{wp.id}']")
       end
     end
 
     def expect_work_package_order(*ids)
       retry_block do
-        rows = page.all 'wp-single-card'
+        rows = page.all "wp-single-card"
         expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
-        found = rows.map { |el| el['data-work-package-id'] }
+        found = rows.map { |el| el["data-work-package-id"] }
 
         raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
       end
@@ -64,7 +68,7 @@ module Pages
         page.driver.browser.action.double_click(card(work_package).native).perform
 
         # Ensure we show the subject field
-        page.find('.work-packages--subject-type-row')
+        page.find(".work-packages--subject-type-row")
       end
 
       Pages::FullWorkPackage.new(work_package, project)
@@ -73,14 +77,15 @@ module Pages
     def open_split_view_by_info_icon(work_package)
       element = card(work_package)
       scroll_to_element(element)
-      element.hover
-      element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
+
+      # The offset is needed to ensure that the resizer does not catch the click, instead of the info icon
+      element.hover.find('[data-test-selector="op-wp-single-card--details-button"]').click(x: -5, y: 0)
 
       ::Pages::SplitWorkPackage.new(work_package, project)
     end
 
     def drag_and_drop_work_package(from:, to:)
-      drag_and_drop_list(from: from, to: to, elements: 'wp-single-card', handler: '.op-wp-single-card--content')
+      drag_and_drop_list(from:, to:, elements: "wp-single-card", handler: ".op-wp-single-card--content")
     end
 
     def select_work_package(work_package)
@@ -90,12 +95,12 @@ module Pages
     def click_info_icon(work_package)
       card_element = card(work_package)
       card_element.hover
-      card_element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
+      card_element.find('[data-test-selector="op-wp-single-card--details-button"]').click
     end
 
     def click_id_link(work_package)
       card_element = card(work_package)
-      card_element.find('.__ui-state-link').click
+      card_element.find(".__ui-state-link").click
     end
 
     def deselect_work_package(work_package)
@@ -117,13 +122,13 @@ module Pages
     end
 
     def select_all_work_packages
-      find('body').send_keys [:control, 'a']
-      expect(page).to have_no_selector '#work-package-context-menu'
+      find("body").send_keys [:control, "a"]
+      expect(page).to have_no_css "#work-package-context-menu"
     end
 
     def deselect_all_work_packages
-      find('body').send_keys [:control, 'd']
-      expect(page).to have_no_selector '#work-package-context-menu'
+      find("body").send_keys [:control, "d"]
+      expect(page).to have_no_css "#work-package-context-menu"
     end
 
     def card(work_package)

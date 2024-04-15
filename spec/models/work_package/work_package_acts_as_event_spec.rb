@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackage, type: :model do
-  describe 'acts_as_event' do
+RSpec.describe WorkPackage do
+  describe "acts_as_event" do
     let(:stub_work_package) { build_stubbed(:work_package) }
 
-    describe '#event_url' do
+    describe "#event_url" do
       let(:expected_url) { { controller: :work_packages, action: :show, id: stub_work_package.id } }
 
       it { expect(stub_work_package.event_url).to eq(expected_url) }

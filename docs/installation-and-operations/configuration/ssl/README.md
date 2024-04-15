@@ -10,7 +10,7 @@ sidebar_navigation:
 
 SSL configuration can be applied any time by reconfiguring the application with:
 
-```bash
+```shell
 sudo openproject reconfigure
 ```
 
@@ -33,7 +33,7 @@ This requires your OpenProject server to be reachable using a domain name (e.g. 
 2. Follow the installation instructions to get the `certbot` CLI installed.
 3. Run the `certbot` CLI to generate the certificate (and only the certificate):
 
-    ```bash
+    ```shell
     sudo certbot certonly --apache
     ```
 
@@ -51,7 +51,7 @@ This requires your OpenProject server to be reachable using a domain name (e.g. 
 
 4. Let's Encrypt certificates are only valid for 90 days. An entry in your OS crontab should have automatically been added when `certbot` was installed. You can optionally confirm that the renewal will work by issuing the following command in dry-run mode:
 
-    ```bash
+    ```shell
     sudo certbot renew --dry-run
     ```
 

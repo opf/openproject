@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,14 +36,14 @@ module MailNotificationHelper
   end
 
   def notifications_path(id)
-    notifications_center_url(['details', id, 'activity'])
+    notifications_center_url(["details", id, "activity"])
   end
 
   def type_color(type, default_fallback)
     color_id = selected_color(type)
     if color_id
       color = Color.find(color_id)
-      return color.super_bright? ? darken_color(color.hexcode, 0.75) : color.hexcode
+      return color.super_bright? ? color.darken(0.75) : color.hexcode
     end
 
     default_fallback
@@ -51,41 +51,6 @@ module MailNotificationHelper
 
   def status_colors(status)
     color_id = selected_color(status)
-    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ') if color_id
-  end
-
-  def placeholder_table_styles(options = {})
-    default_options = {
-      style: 'table-layout:fixed;border-collapse:separate;border-spacing:0;font-family:Helvetica;' <<
-             (options[:style].present? ? options.delete(:style) : ''),
-      cellspacing: "0",
-      cellpadding: "0"
-    }
-
-    default_options.merge(options).map { |k, v| "#{k}=#{v}" }.join(' ')
-  end
-
-  def placeholder_text_styles(**overwrites)
-    {
-      color: '#878787',
-      'line-height': '24px',
-      'font-size': '14px',
-      'white-space': 'normal',
-      overflow: 'hidden',
-      'max-width': '100%',
-      width: '100%'
-    }.merge(overwrites)
-     .map { |k, v| "#{k}: #{v}" }
-     .join('; ')
-  end
-
-  def placeholder_cell(number, vertical:)
-    style = if vertical
-              "max-width:#{number}; min-width:#{number}; width:#{number}"
-            else
-              "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
-            end
-
-    content_tag('td', '&nbsp;'.html_safe, style:)
+    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(" ") if color_id
   end
 end

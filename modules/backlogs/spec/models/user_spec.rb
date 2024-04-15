@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require "spec_helper"
 
-describe User, type: :model do
-  describe 'backlogs_preference' do
-    describe 'task_color' do
-      it 'reads from and writes to a user preference' do
+RSpec.describe User do
+  describe "backlogs_preference" do
+    describe "task_color" do
+      it "reads from and writes to a user preference" do
         u = create(:user)
-        u.backlogs_preference(:task_color, '#FFCC33')
+        u.backlogs_preference(:task_color, "#FFCC33")
 
-        expect(u.backlogs_preference(:task_color)).to eq('#FFCC33')
+        expect(u.backlogs_preference(:task_color)).to eq("#FFCC33")
         u.reload
-        expect(u.backlogs_preference(:task_color)).to eq('#FFCC33')
+        expect(u.backlogs_preference(:task_color)).to eq("#FFCC33")
       end
 
-      it 'computes a random color and persists it, when none is set' do
+      it "computes a random color and persists it, when none is set" do
         u = create(:user)
         u.backlogs_preference(:task_color, nil)
         u.save!

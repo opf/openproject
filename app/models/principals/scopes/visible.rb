@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,9 @@ module Principals::Scopes
 
     class_methods do
       def visible(user = ::User.current)
-        if user.allowed_to_globally?(:manage_members) || user.allowed_to_globally?(:manage_user)
+        if user.allowed_in_any_project?(:manage_members) ||
+          user.allowed_globally?(:manage_user) ||
+          user.allowed_in_any_project?(:share_work_packages)
           all
         else
           in_visible_project_or_me(user)

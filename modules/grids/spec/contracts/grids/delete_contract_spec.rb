@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Grids::DeleteContract do
+RSpec.describe Grids::DeleteContract do
   let(:user) { build_stubbed(:user) }
   let(:grid) do
     build_stubbed(:grid)
@@ -44,29 +44,29 @@ describe Grids::DeleteContract do
     allow(grid).to receive(:user_deletable?).and_return(user_deletable)
   end
 
-  context 'when writable' do
+  context "when writable" do
     let(:writable) { true }
     let(:user_deletable) { true }
 
-    it 'deletes the grid even if no valid widgets' do
+    it "deletes the grid even if no valid widgets" do
       expect(instance.validate).to be_truthy
     end
   end
 
-  context 'when not writable' do
+  context "when not writable" do
     let(:writable) { false }
     let(:user_deletable) { true }
 
-    it 'deletes the grid even if not valid' do
+    it "deletes the grid even if not valid" do
       expect(instance.validate).to be_falsey
     end
   end
 
-  context 'when not deletable' do
+  context "when not deletable" do
     let(:writable) { true }
     let(:user_deletable) { false }
 
-    it 'deletes the grid even if not valid' do
+    it "deletes the grid even if not valid" do
       expect(instance.validate).to be_falsey
     end
   end

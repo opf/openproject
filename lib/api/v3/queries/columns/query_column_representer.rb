@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ module API
         class QueryColumnRepresenter < ::API::Decorators::Single
           include API::Utilities::RepresenterToJsonCache
 
-          self_link path: 'query_column',
+          self_link path: "query_column",
                     id_attribute: ->(*) { converted_name },
                     title_getter: ->(*) { represented.caption }
 

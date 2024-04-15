@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,21 +32,21 @@ module OAuth
     before_action :new_app, only: %i[new create]
     before_action :find_app, only: %i[edit update show destroy]
 
-    layout 'admin'
+    layout "admin"
     menu_item :oauth_applications
 
     def index
       @applications = ::Doorkeeper::Application.without_integration.includes(:owner).all
     end
 
-    def new; end
-
-    def edit; end
-
     def show
       @reveal_secret = flash[:reveal_secret]
       flash.delete :reveal_secret
     end
+
+    def new; end
+
+    def edit; end
 
     def create
       call = ::OAuth::PersistApplicationService.new(@application, user: current_user)
@@ -57,7 +57,6 @@ module OAuth
         flash[:_application_secret] = call.result.plaintext_secret
         redirect_to action: :show, id: call.result.id
       else
-        @errors = call.errors
         render action: :new
       end
     end
@@ -70,7 +69,6 @@ module OAuth
         flash[:notice] = t(:notice_successful_update)
         redirect_to action: :index
       else
-        @errors = call.errors
         flash[:error] = call.errors.full_messages.join('\n')
         render action: :edit
       end
@@ -89,10 +87,10 @@ module OAuth
     protected
 
     def default_breadcrumb
-      if action_name == 'index'
-        t('oauth.application.plural')
+      if action_name == "index"
+        t("oauth.application.plural")
       else
-        ActionController::Base.helpers.link_to(t('oauth.application.plural'), oauth_applications_path)
+        ActionController::Base.helpers.link_to(t("oauth.application.plural"), oauth_applications_path)
       end
     end
 

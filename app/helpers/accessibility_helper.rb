@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,12 @@ module AccessibilityHelper
     elsif condition && disabled
       "<span style = 'display: none' class = 'position-label hidden-for-sighted'>#{I18n.t(:description_current_position)}</span>".html_safe
     else
-      ''
+      ""
     end
   end
 
   def empty_element_tag
-    @empty_element_tag ||= ApplicationController.new.render_to_string(partial: 'accessibility/empty_element_tag').html_safe
+    @empty_element_tag ||= ApplicationController.new.render_to_string(partial: "accessibility/empty_element_tag").html_safe
   end
 
   # Returns the locale :en for the given menu item if the user locale is

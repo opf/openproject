@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,11 +58,11 @@
 # - sensible default changed to "application/binary"
 # - removed references to paperclip
 
-require 'open3'
+require "open3"
 
 module OpenProject
   class FileCommandContentTypeDetector
-    SENSIBLE_DEFAULT = 'application/binary'
+    SENSIBLE_DEFAULT = "application/binary"
 
     def initialize(filename)
       @filename = filename
@@ -76,7 +76,7 @@ module OpenProject
 
     def type_from_file_command
       # On BSDs, `file` doesn't give a result code of 1 if the file doesn't exist.
-      type, status = Open3.capture2('file', '-b', '--mime', @filename)
+      type, status = Open3.capture2("file", "-b", "--mime", @filename)
 
       if type.nil? || status.to_i > 0 || type.match(/\(.*?\)/)
         type = SENSIBLE_DEFAULT

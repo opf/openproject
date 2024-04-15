@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,9 +37,11 @@ module OpenProject
     # Most importantly it does work for the '#{model}_path|url' helpers, though.
     module UrlHelpers
       extend ActiveSupport::Concern
-      include Rails.application.routes.url_helpers
 
       included do
+        # See https://github.com/rails/rails/pull/50403
+        include Rails.application.routes.url_helpers
+
         def default_url_options
           options = ActionMailer::Base.default_url_options.clone
 
@@ -58,7 +60,7 @@ module OpenProject
       end
 
       def self.host
-        Setting.host_name&.gsub(/\/.*$/, '') # remove path in case it got into the host
+        Setting.host_name&.gsub(/\/.*$/, "") # remove path in case it got into the host
       end
     end
 
@@ -82,7 +84,7 @@ module OpenProject
 
       # Remove relative URL root
       if (relative_url = OpenProject::Configuration.rails_relative_url_root)
-        path = path.gsub relative_url, ''
+        path = path.gsub relative_url, ""
       end
 
       Rails.application.routes.recognize_path(path)

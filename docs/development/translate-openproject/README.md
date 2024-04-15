@@ -18,7 +18,7 @@ In order to translate OpenProject, we use [CrowdIn](https://crowdin.com/projects
 We highly appreciate the help of anyone who wants to translate OpenProject to additional languages.
 In order to provide translations not only for the OpenProject core but also for the plugins, we created several translation projects on CrowdIn:
 
-* <a href="https://crowdin.com/project/openproject" target="_blank">Translate OpenProject</a>
+* [Translate OpenProject](https://crowdin.com/project/openproject)
 
 To help us translate OpenProject, please follow the links above and follow the instructions below.
 
@@ -30,7 +30,7 @@ Here is how the translation process works in detail:
 
 ![Translation process via GitHub and CrowdIn in detail](GitHub-CrowdIn-OP.png "Translation process via GitHub and CrowdIn in detail")
 
-1. When a new OpenProject version is developed which contains new English words (strings) (on GitHub) the new strings are copied to the CrowdIn projects for the core and the plugins via a Github action.
+1. When a new OpenProject version is developed which contains new English words (strings) (on GitHub) the new strings are copied to the CrowdIn projects for the core and the plugins via a GitHub Action.
 2. Once the strings have been copied, they can be translated, voted on and approved via CrowdIn. Afterwards, these translations are copied to GitHub via the OpenProject CI and included in the release branch.
 3. When the new OpenProject version is released users can use the translations in their own instances with the next OpenProject version.
 
@@ -56,7 +56,7 @@ Some strings might have pluralization rules, in which case there is a tab that y
 
 ![crowdin-multi-translation](crowdin-multi-translation.png "A translation string with pluralization rules")
 
-As soon as a translation has been provided by another user (green square next to string), you can also vote on a translation provided by another user. The translation with the most votes is used unless a different translation has been approved by a proof reader.
+As soon as a translation has been provided by another user (green square next to string), you can also vote on a translation provided by another user. The translation with the most votes is used unless a different translation has been approved by a proofreader.
 
 Once a translation has been provided, a proof reader can approve the translation and mark it for use in OpenProject.
 
@@ -64,7 +64,7 @@ Once a translation has been provided, a proof reader can approve the translation
 
 ## Becoming a proof reader
 
-If you are interested in becoming a proof reader, please contact one of the project managers in the Openproject CrowdIn project or send us an email at support@openproject.org.
+If you are interested in becoming a proof reader, please contact one of the project managers in the OpenProject CrowdIn project or send us an email at support@openproject.org.
 
 If your language is not listed in the list of CrowdIn languages, please contact our project managers or send us an email so we can add your language.
 

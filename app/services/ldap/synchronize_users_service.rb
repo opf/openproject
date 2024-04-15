@@ -14,7 +14,7 @@ module Ldap
 
       applicable_users.find_each do |user|
         synchronize_user(user, ldap_con)
-      rescue ::AuthSource::Error => e
+      rescue ::LdapAuthSource::Error => e
         Rails.logger.error { "Failed to synchronize user #{ldap.name} due to LDAP error: #{e.message}" }
         # Reset the LDAP connection
         ldap_con = new_ldap_connection

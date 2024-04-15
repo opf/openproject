@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe Versions::Scopes::OrderBySemverName, type: :model do
+RSpec.describe Versions::Scopes::OrderBySemverName do
   let(:project) { create(:project) }
   let!(:version1) do
     create(:version, name: "aaaaa 1.", project:)
@@ -26,7 +26,7 @@ describe Versions::Scopes::OrderBySemverName, type: :model do
 
   subject { Version.order_by_semver_name }
 
-  it 'returns the versions in semver order' do
+  it "returns the versions in semver order" do
     expect(subject.to_a)
       .to eql [version6, version7, version4, version5, version3, version2, version1]
   end

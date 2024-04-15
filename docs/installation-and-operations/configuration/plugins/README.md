@@ -18,7 +18,7 @@ Previously, using them in a packaged installation was not possible without losin
 
 If you have a plugin you wish to add to your packaged OpenProject installation, create a separate Gemfile with the Gem dependencies, such as the following:
 
-```
+```ruby
 group :opf_plugins do
   gem 'openproject-gitlab_integration', git: 'https://github.com/btey/openproject-gitlab-integration.git'
 end
@@ -34,13 +34,13 @@ We suggest to store the Gemfile under `/etc/openproject/Gemfile.custom`, but the
 
 You have to tell your installation to use the custom gemfile via a config setting:
 
-```bash
+```shell
 openproject config:set CUSTOM_PLUGIN_GEMFILE="/etc/openproject/Gemfile.custom"
 ```
 
 If your plugin links into the Angular frontend, you will need to set the following environment variable to ensure it gets recompiled. Please note that NPM dependencies will be installed during the installation, and the angular CLI compilation will take place which will delay the configuration process by a few minutes.
 
-```bash
+```shell
 openproject config:set RECOMPILE_ANGULAR_ASSETS="true"
 ```
 
@@ -52,7 +52,7 @@ openproject config:set RECOMPILE_ANGULAR_ASSETS="true"
 
 To re-bundle the application including the new plugins, as well as running migrations and precompiling their assets, simply re-run the installer while using the same configuration as before.
 
-```bash
+```shell
 sudo openproject configure
 ```
 

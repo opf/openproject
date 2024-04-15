@@ -12,6 +12,8 @@ tr:
       remove_assignee: 'Atananı kaldır'
       two_weeks: '2 hafta'
       one_week: '1 hafta'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
       work_week: 'Çalışma Haftası'
       today: 'Bugün'
       drag_here_to_remove: 'Atanan kişiyi ve başlangıç ve bitiş tarihlerini kaldırmak için buraya sürükleyin.'

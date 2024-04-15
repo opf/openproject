@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,15 +34,16 @@ module OpenProject::Backlogs::Hooks
       version = context[:version]
       project = version.project
 
-      return '' unless project.module_enabled? 'backlogs'
+      return "" unless project.module_enabled? "backlogs"
 
-      snippet = ''
+      snippet = ""
 
-      if User.current.allowed_to?(:edit_wiki_pages, project)
+      if User.current.allowed_in_project?(:edit_wiki_pages, project)
         snippet += '<span id="edit_wiki_page_action">'
         snippet += link_to I18n.t(:button_edit_wiki),
-                           { controller: '/rb_wikis', action: 'edit', project_id: project.id, sprint_id: version.id }, class: 'icon icon-edit'
-        snippet += '</span>'
+                           { controller: "/rb_wikis", action: "edit", project_id: project.id, sprint_id: version.id },
+                           class: "icon icon-edit"
+        snippet += "</span>"
 
         # This wouldn't be necessary if the schedules plugin didn't disable the
         # contextual hook
@@ -59,7 +60,7 @@ module OpenProject::Backlogs::Hooks
     def view_my_settings(context = {})
       context[:controller].send(
         :render_to_string,
-        partial: 'shared/view_my_settings',
+        partial: "shared/view_my_settings",
         locals: {
           user: context[:user],
           color: context[:user].backlogs_preference(:task_color),
@@ -86,17 +87,17 @@ module OpenProject::Backlogs::Hooks
         end
 
         if params[:copy_tasks]
-          params[:copy_tasks] += ':' if params[:copy_tasks] !~ /:/
-          action, id = *params[:copy_tasks].split(/:/)
+          params[:copy_tasks] += ":" if params[:copy_tasks].exclude?(":")
+          action, id = *params[:copy_tasks].split(":")
 
           story = (id.nil? ? nil : Story.find(Integer(id)))
 
-          if !story.nil? && action != 'none'
+          if !story.nil? && action != "none"
             tasks = story.tasks
             case action
-            when 'open'
+            when "open"
               tasks = tasks.select { |t| !t.closed? }
-            when 'all', 'none'
+            when "all", "none"
             else
               raise "Unexpected value #{params[:copy_tasks]}"
             end

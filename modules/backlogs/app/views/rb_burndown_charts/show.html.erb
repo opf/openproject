@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,23 +27,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_for :header_tags do %>
-  <%= render :partial => 'shared/backlogs_header' %>
-<% end %>
-
 <h2>
   <%= "#{@sprint.name}: #{@sprint.start_date.present? ? I18n.l(@sprint.start_date) : ''} - #{@sprint.effective_date.present? ? I18n.l(@sprint.effective_date) : ''}" %>
 </h2>
 
 <% if @burndown %>
-  <%= render :partial => 'burndown', :locals => {:div => 'burndown_', :burndown => @burndown } %>
+  <%= render partial: 'burndown', locals: { div: 'burndown_', burndown: @burndown } %>
 
-  <div class="burndown_chart autoscroll" id="burndown_<%= @burndown.sprint_id %>" style="width:900px;height:450px;"><div class="loading"><%=t('backlogs.generating_chart')%></div></div>
+  <div class="burndown_chart autoscroll" id="burndown_<%= @burndown.sprint_id %>" style="width:900px;height:450px;"><div class="loading"><%= t('backlogs.generating_chart') %></div></div>
 
   <fieldset class="burndown_control form--fieldset">
       <legend class="form--fieldset-legend"><%= t('backlogs.chart_options') %></legend>
       <%= burndown_series_checkboxes(@burndown) %>
   </fieldset>
 <% else %>
-  <%= t('backlogs.no_burndown_data')%>
+  <%= t('backlogs.no_burndown_data') %>
 <% end %>

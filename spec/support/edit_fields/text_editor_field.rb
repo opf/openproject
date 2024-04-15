@@ -1,4 +1,4 @@
-require_relative './edit_field'
+require_relative "edit_field"
 
 class TextEditorField < EditField
   def ckeditor
@@ -6,14 +6,14 @@ class TextEditorField < EditField
   end
 
   def input_selector
-    '.ck-content'
+    ".ck-content"
   end
 
   def expect_save_button(enabled: true)
     if enabled
-      expect(field_container).to have_no_selector("#{control_link}[disabled]")
+      expect(field_container).to have_no_css("#{control_link}[disabled]")
     else
-      expect(field_container).to have_selector("#{control_link}[disabled]")
+      expect(field_container).to have_css("#{control_link}[disabled]")
     end
   end
 
@@ -49,6 +49,10 @@ class TextEditorField < EditField
     input_element.native.send_keys :tab
   end
 
+  def submit_by_enter
+    input_element.native.send_keys %i[control enter]
+  end
+
   def cancel_by_click
     target = field_container.find(control_link(:cancel), wait: 10)
     scroll_to_element(target)
@@ -60,7 +64,7 @@ class TextEditorField < EditField
   end
 
   def control_link(action = :save)
-    raise 'Invalid link' unless %i[save cancel].include?(action)
+    raise "Invalid link" unless %i[save cancel].include?(action)
 
     ".inplace-edit--control--#{action}:not([disabled])"
   end

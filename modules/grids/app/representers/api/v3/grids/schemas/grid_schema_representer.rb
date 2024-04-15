@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,28 +39,28 @@ module API
           end
 
           schema :id,
-                 type: 'Integer'
+                 type: "Integer"
 
           schema :created_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :updated_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :row_count,
-                 type: 'Integer'
+                 type: "Integer"
 
           schema :column_count,
-                 type: 'Integer'
+                 type: "Integer"
 
           schema :name,
-                 type: 'String'
+                 type: "String"
 
           schema :options,
-                 type: 'JSON'
+                 type: "JSON"
 
           schema_with_allowed_collection :scope,
-                                         type: 'Href',
+                                         type: "Href",
                                          required: true,
                                          has_default: false,
                                          value_representer: false,
@@ -71,7 +71,7 @@ module API
                                          }
 
           schema_with_allowed_collection :widgets,
-                                         type: '[]GridWidget',
+                                         type: "[]GridWidget",
                                          required: true,
                                          has_default: false,
                                          values_callback: -> do

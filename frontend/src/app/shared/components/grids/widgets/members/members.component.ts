@@ -1,6 +1,10 @@
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Injector,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -10,6 +14,8 @@ import { RoleResource } from 'core-app/features/hal/resources/role-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 const DISPLAYED_MEMBERS_LIMIT = 100;
 
@@ -31,14 +37,16 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
 
   private entriesLoaded = false;
 
-  public membersAddable = false;
+  public membersAddable$:Observable<boolean>;
 
-  constructor(readonly pathHelper:PathHelperService,
+  constructor(
+    readonly pathHelper:PathHelperService,
     readonly apiV3Service:ApiV3Service,
     readonly i18n:I18nService,
     protected readonly injector:Injector,
     readonly currentProject:CurrentProjectService,
-    readonly cdr:ChangeDetectorRef) {
+    readonly cdr:ChangeDetectorRef,
+  ) {
     super(i18n, injector);
   }
 
@@ -56,13 +64,14 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
         this.cdr.detectChanges();
       });
 
-    this.apiV3Service
+    this.membersAddable$ = this
+      .apiV3Service
       .memberships
       .available_projects
       .list(this.listAvailableProjectsParams)
-      .subscribe((collection) => {
-        this.membersAddable = collection.total > 0;
-      });
+      .pipe(
+        map((collection) => collection.total > 0),
+      );
   }
 
   public get isEditable() {

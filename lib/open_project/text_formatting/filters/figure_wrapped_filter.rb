@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,9 +33,9 @@ module OpenProject::TextFormatting
       include ActionView::Helpers::TagHelper
 
       def call
-        doc.search('table', 'img').each do |element|
+        doc.search("table", "img").each do |element|
           case element.name
-          when 'img', 'table'
+          when "img", "table"
             wrap_element(element)
           else
             # nothing
@@ -70,15 +70,15 @@ module OpenProject::TextFormatting
       end
 
       def wrap_in_figure(element)
-        element.wrap('<figure>') unless element.parent&.name == 'figure'
+        element.wrap("<figure>") unless element.parent&.name == "figure"
       end
 
       def wrap_in_div(element)
-        element.wrap('<div>') unless element.parent&.name == 'div'
+        element.wrap("<div>") unless element.parent&.name == "div"
 
         div = element.parent
 
-        div['class'] = 'op-uc-figure--content'
+        div["class"] = "op-uc-figure--content"
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,18 @@
 module API
   module Errors
     class MultipleErrors < ErrorBase
-      identifier 'MultipleErrors'
+      identifier "MultipleErrors"
       code 422
 
       def self.create_if_many(errors)
-        raise ArgumentError, 'expected at least one error' unless errors.any?
+        raise ArgumentError, "expected at least one error" unless errors.any?
         return errors.first if errors.count == 1
 
         MultipleErrors.new(errors)
       end
 
       def initialize(errors)
-        super I18n.t('api_v3.errors.multiple_errors')
+        super(I18n.t("api_v3.errors.multiple_errors"))
 
         @errors = errors
       end

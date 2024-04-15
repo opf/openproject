@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,56 +28,115 @@
 
 module Users
   class LoginService
-    attr_accessor :controller, :request
+    attr_accessor :controller, :request, :browser, :user, :cookies
 
     delegate :session, to: :controller
 
-    def initialize(controller:, request:)
+    def initialize(user:, controller:, request:)
+      self.user = user
       self.controller = controller
       self.request = request
+      self.browser = controller.send(:browser)
+      self.cookies = controller.send(:cookies)
     end
 
-    def call(user)
-      # retain custom session values
-      retained_values = retain_sso_session_values!
+    def call!
+      autologin_requested = session.delete(:autologin_requested)
+      retain_session_values do
+        reset_session!
 
-      # retain flash values
-      flash_values = controller.flash.to_h
+        User.current = user
 
-      controller.reset_session
+        set_autologin_cookie if autologin_requested
+      end
 
-      flash_values.each { |k, v| controller.flash[k] = v }
-
-      User.current = user
-
-      ::Sessions::InitializeSessionService.call(user, session)
-
-      session.merge!(retained_values) if retained_values
-
-      user.log_successful_login
-
-      after_login_hook(user)
-
-      ServiceResult.success(result: user)
+      successful_login
     end
 
     private
 
-    def after_login_hook(user)
-      context = { user:, request:, session: }
+    def set_autologin_cookie
+      return unless Setting::Autologin.enabled?
 
+      # generate a key and set cookie if autologin
+      expires_on =  Setting.autologin.days.from_now.beginning_of_day
+      token = Token::AutoLogin.create(user:, data: session_identification, expires_on:)
+      cookie_options = {
+        value: token.plain_value,
+        # The autologin expiry is checked on validating the token
+        # but still expire the cookie to avoid unnecessary retries
+        expires: expires_on,
+        path: OpenProject::Configuration["autologin_cookie_path"],
+        secure: OpenProject::Configuration.https?,
+        httponly: true
+      }
+      cookies[OpenProject::Configuration["autologin_cookie_name"]] = cookie_options
+    end
+
+    def successful_login
+      user.log_successful_login
+
+      context = { user:, request:, session: }
       OpenProject::Hook.call_hook(:user_logged_in, context)
     end
 
-    def retain_sso_session_values!
+    def reset_session!
+      ::Sessions::DropAllSessionsService.call(user) if drop_old_sessions?
+      controller.reset_session
+    end
+
+    def retain_session_values
+      # retain flash values
+      flash_values = controller.flash.to_h
+
+      # retain session values
+      retained_session = retained_session_values || {}
+
+      yield
+
+      flash_values.each { |k, v| controller.flash[k] = v }
+
+      session.merge!(retained_session)
+      session.merge!(session_identification)
+      apply_default_values(session)
+    end
+
+    def apply_default_values(session)
+      session[:user_id] = user.id
+      session[:updated_at] = Time.zone.now
+    end
+
+    def session_identification
+      {
+        platform: browser.platform&.name,
+        browser: browser.name,
+        browser_version: browser.version
+      }
+    end
+
+    def retained_session_values
+      controller.session.to_h.slice *(default_retained_keys + omniauth_provider_keys)
+    end
+
+    def omniauth_provider_keys
       provider_name = session[:omniauth_provider]
-      return unless provider_name
+      return [] unless provider_name
 
       provider = ::OpenProject::Plugins::AuthPlugin.find_provider_by_name(provider_name)
-      return unless provider && provider[:retain_from_session]
+      return [] unless provider && provider[:retain_from_session]
 
-      retained_keys = provider[:retain_from_session] + ['omniauth_provider']
-      controller.session.to_h.slice(*retained_keys)
+      provider[:retain_from_session]
+    end
+
+    def default_retained_keys
+      %w[omniauth_provider user_from_auth_header]
+    end
+
+    ##
+    # We can only drop old sessions if they're stored in the database
+    # and enabled by configuration.
+    def drop_old_sessions?
+      OpenProject::Configuration.drop_old_sessions_on_login?
     end
   end
 end

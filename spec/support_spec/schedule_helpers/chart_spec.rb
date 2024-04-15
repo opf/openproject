@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ScheduleHelpers::Chart do
+RSpec.describe ScheduleHelpers::Chart do
   include ActiveSupport::Testing::TimeHelpers
 
   let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
@@ -46,12 +46,12 @@ describe ScheduleHelpers::Chart do
     travel_to(fake_today)
   end
 
-  describe '#first_day' do
-    it 'returns the first day represented on the graph, which is next Monday' do
+  describe "#first_day" do
+    it "returns the first day represented on the graph, which is next Monday" do
       expect(chart.first_day).to eq(monday)
     end
 
-    it 'can be set to an earlier date by setting the origin monday to an earlier date' do
+    it "can be set to an earlier date by setting the origin monday to an earlier date" do
       expect(chart.first_day).to eq(monday)
 
       # no change when origin is moved forward
@@ -63,31 +63,31 @@ describe ScheduleHelpers::Chart do
         .to change(chart, :first_day).to(monday - 14.days)
     end
 
-    context 'with work packages' do
-      it 'returns the minimum between work packages dates and origin Monday' do
+    context "with work packages" do
+      it "returns the minimum between work packages dates and origin Monday" do
         expect(chart.first_day).to eq(monday)
 
-        chart.add_work_package(subject: 'wp1', start_date: tuesday)
+        chart.add_work_package(subject: "wp1", start_date: tuesday)
         expect(chart.first_day).to eq(monday)
 
-        chart.add_work_package(subject: 'wp2', start_date: monday - 3.days)
+        chart.add_work_package(subject: "wp2", start_date: monday - 3.days)
         expect(chart.first_day).to eq(monday - 3.days)
 
-        chart.add_work_package(subject: 'wp3', start_date: sunday)
+        chart.add_work_package(subject: "wp3", start_date: sunday)
         expect(chart.first_day).to eq(monday - 3.days)
 
-        chart.add_work_package(subject: 'wp4', due_date: monday - 6.days)
+        chart.add_work_package(subject: "wp4", due_date: monday - 6.days)
         expect(chart.first_day).to eq(monday - 6.days)
       end
     end
   end
 
-  describe '#last_day' do
-    it 'returns the last day represented on the graph, which is the Sunday following origin Monday' do
+  describe "#last_day" do
+    it "returns the last day represented on the graph, which is the Sunday following origin Monday" do
       expect(chart.last_day).to eq(sunday)
     end
 
-    it 'can be set to an later date by setting the origin Monday to a later date' do
+    it "can be set to an later date by setting the origin Monday to a later date" do
       expect(chart.last_day).to eq(sunday)
 
       # no change when origin is moved backward
@@ -99,28 +99,28 @@ describe ScheduleHelpers::Chart do
         .to change(chart, :last_day).to(sunday + 14.days)
     end
 
-    context 'with work packages' do
-      it 'returns the maximum between work packages dates and the Sunday following origin Monday' do
+    context "with work packages" do
+      it "returns the maximum between work packages dates and the Sunday following origin Monday" do
         expect(chart.last_day).to eq(sunday)
 
-        chart.add_work_package(subject: 'wp1', due_date: tuesday + 7.days)
+        chart.add_work_package(subject: "wp1", due_date: tuesday + 7.days)
         expect(chart.last_day).to eq(tuesday + 7.days)
 
-        chart.add_work_package(subject: 'wp2', start_date: monday - 3.days)
+        chart.add_work_package(subject: "wp2", start_date: monday - 3.days)
         expect(chart.last_day).to eq(tuesday + 7.days)
 
-        chart.add_work_package(subject: 'wp3', start_date: monday + 20.days)
+        chart.add_work_package(subject: "wp3", start_date: monday + 20.days)
         expect(chart.last_day).to eq(monday + 20.days)
       end
     end
   end
 
-  describe '#compact_dates' do
-    it 'makes the chart dates fit with the work packages dates' do
-      chart.add_work_package(subject: 'wp1', start_date: friday - 21.days, due_date: tuesday - 14.days)
-      chart.add_work_package(subject: 'wp2', start_date: wednesday - 14.days)
-      chart.add_work_package(subject: 'wp3', due_date: thursday - 14.days)
-      chart.add_work_package(subject: 'wp4', due_date: thursday - 14.days)
+  describe "#compact_dates" do
+    it "makes the chart dates fit with the work packages dates" do
+      chart.add_work_package(subject: "wp1", start_date: friday - 21.days, due_date: tuesday - 14.days)
+      chart.add_work_package(subject: "wp2", start_date: wednesday - 14.days)
+      chart.add_work_package(subject: "wp3", due_date: thursday - 14.days)
+      chart.add_work_package(subject: "wp4", due_date: thursday - 14.days)
 
       expect { chart.compact_dates }
         .to change { [chart.monday, chart.first_day, chart.last_day] }
@@ -128,62 +128,62 @@ describe ScheduleHelpers::Chart do
             .to([monday - 14.days, friday - 21.days, sunday - 14.days])
     end
 
-    it 'does nothing if there are no work packages' do
+    it "does nothing if there are no work packages" do
       expect { chart.compact_dates }
         .not_to change { [chart.monday, chart.first_day, chart.last_day] }
     end
 
-    it 'does nothing if none of the work packages have any dates' do
-      chart.add_work_package(subject: 'wp1')
-      chart.add_work_package(subject: 'wp2')
-      chart.add_work_package(subject: 'wp3')
+    it "does nothing if none of the work packages have any dates" do
+      chart.add_work_package(subject: "wp1")
+      chart.add_work_package(subject: "wp2")
+      chart.add_work_package(subject: "wp3")
 
       expect { chart.compact_dates }
         .not_to change { [chart.monday, chart.first_day, chart.last_day] }
     end
   end
 
-  describe '#set_duration' do
-    it 'sets the duration for a work package' do
-      chart.add_work_package(subject: 'wp')
-      chart.set_duration('wp', 3)
-      expect(chart.work_package_attributes('wp')).to include(duration: 3)
+  describe "#set_duration" do
+    it "sets the duration for a work package" do
+      chart.add_work_package(subject: "wp")
+      chart.set_duration("wp", 3)
+      expect(chart.work_package_attributes("wp")).to include(duration: 3)
     end
 
-    it 'must set the duration to a positive integer' do
-      chart.add_work_package(subject: 'wp')
-      expect { chart.set_duration('wp', 0) }
-        .to raise_error(ArgumentError, 'unable to set duration for wp: duration must be a positive integer (got 0)')
+    it "must set the duration to a positive integer" do
+      chart.add_work_package(subject: "wp")
+      expect { chart.set_duration("wp", 0) }
+        .to raise_error(ArgumentError, "unable to set duration for wp: duration must be a positive integer (got 0)")
 
-      expect { chart.set_duration('wp', -5) }
-        .to raise_error(ArgumentError, 'unable to set duration for wp: duration must be a positive integer (got -5)')
+      expect { chart.set_duration("wp", -5) }
+        .to raise_error(ArgumentError, "unable to set duration for wp: duration must be a positive integer (got -5)")
 
-      expect { chart.set_duration('wp', 'hello') }
+      expect { chart.set_duration("wp", "hello") }
         .to raise_error(ArgumentError, 'unable to set duration for wp: duration must be a positive integer (got "hello")')
 
-      expect { chart.set_duration('wp', '42') }
+      expect { chart.set_duration("wp", "42") }
         .to raise_error(ArgumentError, 'unable to set duration for wp: duration must be a positive integer (got "42")')
     end
 
-    it 'cannot set the duration if the work package has dates' do
-      chart.add_work_package(subject: 'wp_start', start_date: monday)
-      expect { chart.set_duration('wp_start', 3) }
-        .to raise_error(ArgumentError, 'unable to set duration for wp_start: start_date is set')
+    it "cannot set the duration if the work package has dates" do
+      chart.add_work_package(subject: "wp_start", start_date: monday)
+      expect { chart.set_duration("wp_start", 3) }
+        .to raise_error(ArgumentError, "unable to set duration for wp_start: start_date is set")
 
-      chart.add_work_package(subject: 'wp_due', due_date: monday)
-      expect { chart.set_duration('wp_due', 3) }
-        .to raise_error(ArgumentError, 'unable to set duration for wp_due: due_date is set')
+      chart.add_work_package(subject: "wp_due", due_date: monday)
+      expect { chart.set_duration("wp_due", 3) }
+        .to raise_error(ArgumentError, "unable to set duration for wp_due: due_date is set")
 
-      chart.add_work_package(subject: 'wp_both', start_date: monday, due_date: monday)
-      expect { chart.set_duration('wp_both', 3) }
-        .to raise_error(ArgumentError, 'unable to set duration for wp_both: start_date and due_date is set')
+      chart.add_work_package(subject: "wp_both", start_date: monday, due_date: monday)
+      expect { chart.set_duration("wp_both", 3) }
+        .to raise_error(ArgumentError, "unable to set duration for wp_both: start_date and due_date is set")
     end
   end
 
-  describe '#to_s' do
+  describe "#to_s" do
     shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
-    context 'with a chart built from ascii representation' do
+    context "with a chart built from ascii representation" do
       let(:chart) do
         ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
           days       |    MTWTFSS  |
@@ -196,7 +196,7 @@ describe ScheduleHelpers::Chart do
         CHART
       end
 
-      it 'returns the same ascii representation without properties information' do
+      it "returns the same ascii representation without properties information" do
         expect(chart.to_s).to eq(<<~CHART.chomp)
           days       |    MTWTFSS  |
           main       | X..X        |
@@ -209,19 +209,19 @@ describe ScheduleHelpers::Chart do
       end
     end
 
-    context 'with a chart built from real work packages' do
-      let(:work_package1) { build_stubbed(:work_package, subject: 'main', start_date: monday, due_date: tuesday) }
+    context "with a chart built from real work packages" do
+      let(:work_package1) { build_stubbed(:work_package, subject: "main", start_date: monday, due_date: tuesday) }
       let(:work_package2) do
-        build_stubbed(:work_package, subject: 'working_days', ignore_non_working_days: false,
+        build_stubbed(:work_package, subject: "working_days", ignore_non_working_days: false,
                                      start_date: tuesday, due_date: monday + 7.days)
       end
       let(:work_package2bis) do
-        build_stubbed(:work_package, subject: 'all_days', ignore_non_working_days: true,
+        build_stubbed(:work_package, subject: "all_days", ignore_non_working_days: true,
                                      start_date: tuesday, due_date: monday + 7.days)
       end
-      let(:work_package3) { build_stubbed(:work_package, subject: 'start_only', start_date: monday - 3.days) }
-      let(:work_package4) { build_stubbed(:work_package, subject: 'due_only', due_date: wednesday) }
-      let(:work_package5) { build_stubbed(:work_package, subject: 'no_dates') }
+      let(:work_package3) { build_stubbed(:work_package, subject: "start_only", start_date: monday - 3.days) }
+      let(:work_package4) { build_stubbed(:work_package, subject: "due_only", due_date: wednesday) }
+      let(:work_package5) { build_stubbed(:work_package, subject: "no_dates") }
       let(:chart) do
         ScheduleHelpers::ChartBuilder.new.use_work_packages(
           [
@@ -235,7 +235,7 @@ describe ScheduleHelpers::Chart do
         )
       end
 
-      it 'returns the same ascii representation without properties information' do
+      it "returns the same ascii representation without properties information" do
         expect(chart.to_s).to eq(<<~CHART.chomp)
           days         |    MTWTFSS  |
           main         |    XX       |

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,89 +26,76 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Admin::Settings::WorkingDaysSettingsController do
+RSpec.describe Admin::Settings::WorkingDaysSettingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
 
-  describe 'show' do
-    describe 'permissions' do
-      let(:fetch) { get 'show' }
+  require_admin_and_render_template("working_days_settings")
 
-      it_behaves_like 'a controller action with require_admin'
-    end
-
-    it 'contains check boxes for the working days' do
-      get 'show'
-
-      expect(response).to be_successful
-      expect(response).to render_template 'admin/settings/working_days_settings/show'
-    end
-  end
-
-  describe 'update' do
-    let(:working_days) { [*'1'..'7'] }
-    let(:non_working_days) { {} }
+  describe "update" do
+    let(:working_days) { [*"1".."7"] }
+    let(:non_working_days_attributes) { {} }
     let(:params) do
-      { settings: { working_days:, non_working_days: } }
+      { settings: { working_days:, non_working_days_attributes: } }
     end
 
-    subject { patch 'update', params: }
+    subject { patch "update", params: }
 
-    it 'succeeds' do
+    it "succeeds" do
       subject
 
-      expect(response).to redirect_to action: 'show'
+      expect(response).to redirect_to action: "show"
       expect(flash[:notice]).to eq I18n.t(:notice_successful_update)
     end
 
-    context 'with non_working_days' do
-      let(:non_working_days) do
-        { '0' => { 'name' => 'Christmas Eve', 'date' => '2022-12-24' } }
+    context "with non_working_days" do
+      let(:non_working_days_attributes) do
+        { "0" => { "name" => "Christmas Eve", "date" => "2022-12-24" } }
       end
 
-      it 'succeeds' do
+      it "succeeds" do
         subject
 
-        expect(response).to redirect_to action: 'show'
+        expect(response).to redirect_to action: "show"
         expect(flash[:notice]).to eq I18n.t(:notice_successful_update)
       end
 
-      it 'creates the non_working_days' do
+      it "creates the non_working_days" do
         expect { subject }.to change(NonWorkingDay, :count).by(1)
-        expect(NonWorkingDay.first).to have_attributes(name: 'Christmas Eve', date: Date.parse('2022-12-24'))
+        expect(NonWorkingDay.first).to have_attributes(name: "Christmas Eve", date: Date.parse("2022-12-24"))
       end
     end
 
-    context 'when fails with a duplicate entry' do
-      let(:nwd_to_delete) { create(:non_working_day, name: 'NWD to delete') }
-      let(:non_working_days) do
+    context "when fails with a duplicate entry" do
+      let(:nwd_to_delete) { create(:non_working_day, name: "NWD to delete") }
+      let(:non_working_days_attributes) do
         {
-          '0' => { 'name' => 'Christmas Eve', 'date' => '2022-12-24' },
-          '1' => { 'name' => 'Christmas Eve2', 'date' => '2022-12-24' },
-          '2' => { 'id' => nwd_to_delete.id, '_destroy' => true }
+          "0" => { "name" => "Christmas Eve", "date" => "2022-12-24" },
+          "1" => { "name" => "Christmas Eve2", "date" => "2022-12-24" },
+          "2" => { "id" => nwd_to_delete.id, "_destroy" => true }
         }
       end
 
-      it 'displays the error message' do
+      it "displays the error message" do
         subject
 
         expect(response).to render_template :show
-        expect(flash[:error]).to eq 'A non-working day already exists for 2022-12-24.'
+        expect(flash[:error]).to eq "A non-working day already exists for 2022-12-24."
       end
 
-      it 'sets the @modified_non_working_days variable' do
+      it "sets the @modified_non_working_days variable" do
         subject
         expect(assigns(:modified_non_working_days)).to contain_exactly(
-          have_attributes(name: 'Christmas Eve', date: Date.parse('2022-12-24')),
-          have_attributes(name: 'Christmas Eve2', date: Date.parse('2022-12-24')),
-          have_attributes(nwd_to_delete.slice(:id, :name, :date))
+          hash_including("name" => "Christmas Eve", "date" => "2022-12-24"),
+          hash_including("name" => "Christmas Eve2", "date" => "2022-12-24"),
+          hash_including(nwd_to_delete.as_json(only: %i[id name date]).merge("_destroy" => true))
         )
       end
 
-      it 'does not destroys other records' do
+      it "does not destroys other records" do
         subject
         expect { nwd_to_delete.reload }.not_to raise_error
       end

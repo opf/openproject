@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::HelpTexts::HelpTextRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::HelpTexts::HelpTextRepresenter do
+  include API::V3::Utilities::PathHelper
 
-  let(:user) { build_stubbed :admin }
+  let(:user) { build_stubbed(:admin) }
 
   let(:help_text) do
-    build_stubbed :work_package_help_text,
-                  attribute_name: 'status',
-                  help_text: 'This is a help text for **status** attribute.'
+    build_stubbed(:work_package_help_text,
+                  attribute_name: "status",
+                  help_text: "This is a help text for **status** attribute.")
   end
 
   let(:representer) { described_class.new help_text, current_user: user }
@@ -65,14 +65,14 @@ describe ::API::V3::HelpTexts::HelpTextRepresenter do
       "attribute" => "status",
       "attributeCaption" => "Status",
       "helpText" => {
-        "format" => 'markdown',
-        "raw" => 'This is a help text for **status** attribute.',
+        "format" => "markdown",
+        "raw" => "This is a help text for **status** attribute.",
         "html" => '<p class="op-uc-p">This is a help text for <strong>status</strong> attribute.</p>'
       }
     }
   end
 
-  it 'serializes the relation correctly' do
+  it "serializes the relation correctly" do
     data = JSON.parse representer.to_json
     expect(data).to eq result
   end

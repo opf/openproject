@@ -2,7 +2,8 @@
   <canvas baseChart
           [datasets]="chartData"
           [labels]="chartLabels"
-          [chartType]="chartType"
+          [plugins]="chartPlugins"
+          [type]="mappedChartType"
           [options]="internalChartOptions"
           *ngIf="hasDataToDisplay">
   </canvas>
@@ -10,4 +11,3 @@
               [title]="text.noResults">
   </op-no-results>
 </div>
-

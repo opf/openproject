@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'story'
-require 'task'
+require "story"
+require "task"
 
 module OpenProject::Backlogs
   class WorkPackageFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     def allowed_values
-      [[I18n.t('backlogs.story'), 'story'],
-       [I18n.t('backlogs.task'), 'task'],
-       [I18n.t('backlogs.impediment'), 'impediment'],
-       [I18n.t('backlogs.any'), 'any']]
+      [[I18n.t("backlogs.story"), "story"],
+       [I18n.t("backlogs.task"), "task"],
+       [I18n.t("backlogs.impediment"), "impediment"],
+       [I18n.t("backlogs.any"), "any"]]
     end
 
     def available?
@@ -60,7 +60,7 @@ module OpenProject::Backlogs
     end
 
     def dependency_class
-      '::API::V3::Queries::Schemas::BacklogsTypeDependencyRepresenter'
+      "::API::V3::Queries::Schemas::BacklogsTypeDependencyRepresenter"
     end
 
     def ar_object_filter?
@@ -71,8 +71,7 @@ module OpenProject::Backlogs
       available_backlog_types = allowed_values.index_by(&:last)
 
       values
-        .map { |backlog_type_id| available_backlog_types[backlog_type_id] }
-        .compact
+        .filter_map { |backlog_type_id| available_backlog_types[backlog_type_id] }
         .map { |value| BacklogsType.new(*value) }
     end
 
@@ -87,28 +86,28 @@ module OpenProject::Backlogs
     end
 
     def sql_for_field(values)
-      selected_values = if values.include?('any')
-                          ['story', 'task']
+      selected_values = if values.include?("any")
+                          ["story", "task"]
                         else
                           values
                         end
 
       sql_parts = selected_values.map do |val|
         case val
-        when 'story'
+        when "story"
           sql_for_story
-        when 'task'
+        when "task"
           sql_for_task
-        when 'impediment'
+        when "impediment"
           sql_for_impediment
         end
       end
 
       case operator
-      when '='
-        sql_parts.join(' OR ')
-      when '!'
-        'NOT (' + sql_parts.join(' OR ') + ')'
+      when "="
+        sql_parts.join(" OR ")
+      when "!"
+        "NOT (" + sql_parts.join(" OR ") + ")"
       end
     end
 
@@ -117,7 +116,7 @@ module OpenProject::Backlogs
     end
 
     def sql_for_story
-      story_types = Story.types.map(&:to_s).join(',')
+      story_types = Story.types.map(&:to_s).join(",")
 
       "(#{db_table}.type_id IN (#{story_types}))"
     end

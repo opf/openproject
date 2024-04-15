@@ -27,7 +27,7 @@ To test Kerberos, you'll need to setup a local kerberos admin and kdc server. Th
 
 First, install kdc and admin server:
 
-```
+```shell
 apt install krb5-kdc krb5-admin-server krb5-config -y
 ```
 
@@ -112,7 +112,7 @@ The OpenProject Apache module for kerberos will call the kerberos with its own s
 
 In the `kadmin.local` prompt, run this:
 
-```
+```shell
 addprinc -randkey HTTP/openproject.local
 ```
 
@@ -120,12 +120,12 @@ Note that this will not require a password prompt.
 
 This adds a principal for the HTTP/openproject.local service. Next, add it to a keyfile at `/etc/apache2/openproject.keytab`:
 
-```
+```shell
 ktadd -k /etc/apache2/openproject.keytab HTTP/openproject.local
 ```
 
 Exit the `kadmin.local` console. Make sure the file is readable by apache2:
-```
+```shell
 chown www-data:www-data /etc/apache2/openproject.keytab
 chmod 400 /etc/apache2/openproject.keytab
 ```
@@ -136,7 +136,7 @@ chmod 400 /etc/apache2/openproject.keytab
 
 First, install the GSSAPI apache module with:
 
-```
+```shell
 apt install libapache2-mod-auth-gssapi
 ```
 
@@ -146,7 +146,7 @@ Add the customization dir `mkdir -p /etc/openproject/addons/apache2/custom/vhost
 
 Add the following contents:
 
-```
+```apache
 <Location />
   AuthType GSSAPI
   # The Basic Auth dialog name shown to the user
@@ -189,7 +189,7 @@ If your OpenProject installation isn't yet running under `openproject.local`, ru
 
 The rest is the same as the production config. You need to tell OpenProject to use header based SSO:
 
-```
+```shell
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_HEADER="X-Authenticated-User"
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_SECRET="MyPassword"
 ```
@@ -215,7 +215,7 @@ This is expected, as there is no `user1` login with an auth source connected. To
 ```ruby
 auth_source = LdapAuthSource.create! name: 'test', host: 'localhost', attr_login: 'uid'
 
-user = User.create! login: 'user1', firstname: 'user', lastname: 'one', mail: 'user1@example.org', admin: true, auth_source: auth_source
+user = User.create! login: 'user1', firstname: 'user', lastname: 'one', mail: 'user1@example.org', admin: true, ldap_auth_source: auth_source
 ```
 
 

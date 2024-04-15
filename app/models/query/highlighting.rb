@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ module Query::Highlighting
 
     QUERY_HIGHLIGHTING_MODES = %i[inline none status type priority].freeze
 
-    serialize :highlighted_attributes, Array
+    serialize :highlighted_attributes, type: Array
 
     validates :highlighting_mode,
               inclusion: { in: QUERY_HIGHLIGHTING_MODES,

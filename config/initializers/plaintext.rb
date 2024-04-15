@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-file_name = File.join([Rails.root.to_s, 'config', 'plaintext.yml'])
+file_name = Rails.root.join.to_s
 if File.file?(file_name)
   config_file = File.read(file_name)
   Plaintext::Configuration.load(config_file)

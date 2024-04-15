@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,16 +34,20 @@ module OpenProject::Reporting
 
     config.eager_load_paths += Dir["#{config.root}/lib/"]
 
-    register 'openproject-reporting',
-             author_url: 'https://www.openproject.org',
+    register "openproject-reporting",
+             author_url: "https://www.openproject.org",
              bundled: true do
-      view_actions = %i[index show drill_down available_values display_report_list]
+      view_actions = %i[index show drill_down available_values]
       edit_actions = %i[create update rename destroy]
 
       # register reporting_module including permissions
       project_module :costs do
-        permission :save_cost_reports, { cost_reports: edit_actions }
-        permission :save_private_cost_reports, { cost_reports: edit_actions }
+        permission :save_cost_reports,
+                   { cost_reports: edit_actions },
+                   permissible_on: :project
+        permission :save_private_cost_reports,
+                   { cost_reports: edit_actions },
+                   permissible_on: :project
       end
 
       Rails.application.reloader.to_prepare do
@@ -58,55 +62,72 @@ module OpenProject::Reporting
         end
       end
 
+      should_render = Proc.new do
+        (User.current.logged? || !Setting.login_required?) &&
+          (
+            User.current.allowed_in_any_project?(:view_time_entries) ||
+              User.current.allowed_in_any_work_package?(:view_own_time_entries) ||
+              User.current.allowed_in_any_project?(:view_cost_entries) ||
+              User.current.allowed_in_any_project?(:view_own_cost_entries)
+          )
+      end
+
       # menu extensions
       menu :top_menu,
            :cost_reports_global,
-           { controller: '/cost_reports', action: 'index', project_id: nil },
+           { controller: "/cost_reports", action: "index", project_id: nil },
            caption: :cost_reports_title,
-           if: Proc.new {
-             (User.current.logged? || !Setting.login_required?) &&
-               (
-               User.current.allowed_to_globally?(:view_time_entries) ||
-                 User.current.allowed_to_globally?(:view_own_time_entries) ||
-                 User.current.allowed_to_globally?(:view_cost_entries) ||
-                 User.current.allowed_to_globally?(:view_own_cost_entries)
-             )
-           }
+           icon: "cost-reports",
+           if: should_render
+
+      menu :global_menu,
+           :cost_reports_global,
+           { controller: "/cost_reports", action: "index", project_id: nil },
+           after: :news,
+           caption: :cost_reports_title,
+           icon: "cost-reports",
+           if: should_render
+
+      menu :global_menu,
+           :cost_reports_global_report_menu,
+           { controller: "/cost_reports", action: "index", project_id: nil },
+           parent: :cost_reports_global,
+           partial: "cost_reports/report_menu",
+           if: should_render
 
       menu :project_menu,
            :costs,
-           { controller: '/cost_reports', action: 'index' },
+           { controller: "/cost_reports", action: "index" },
            after: :news,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
-           icon: 'icon2 icon-cost-reports'
+           icon: "cost-reports"
 
       menu :project_menu,
            :costs_menu,
-           { controller: '/cost_reports', action: 'index' },
+           { controller: "/cost_reports", action: "index" },
            if: Proc.new { |project| project.module_enabled?(:costs) },
-           partial: '/cost_reports/report_menu',
+           partial: "/cost_reports/report_menu",
            parent: :costs
     end
 
     initializer "reporting.register_hooks" do
       # don't use require_dependency to not reload hooks in development mode
-      require 'open_project/reporting/hooks'
+      require "open_project/reporting/hooks"
     end
 
-    initializer 'reporting.load_patches' do
-      require_relative 'patches/big_decimal_patch'
-      require_relative 'patches/to_date_patch'
+    initializer "reporting.load_patches" do
+      require_relative "patches/big_decimal_patch"
+      require_relative "patches/to_date_patch"
     end
 
-    initializer 'reporting.configuration' do
-      ::Settings::Definition.add 'cost_reporting_cache_filter_classes',
+    initializer "reporting.configuration" do
+      ::Settings::Definition.add "cost_reporting_cache_filter_classes",
                                  default: true,
                                  format: :boolean
     end
 
     patches %i[CustomFieldsController]
-    patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
   end
 end

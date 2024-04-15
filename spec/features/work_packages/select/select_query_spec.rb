@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-describe 'Query selection', type: :feature do
-  let(:project) { create :project, identifier: 'test_project', public: false }
-  let(:role) { create :role, permissions: [:view_work_packages] }
+RSpec.describe "Query selection" do
+  let(:project) { create(:project, identifier: "test_project", public: false) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:current_user) do
-    create :user, member_in_project: project,
-                  member_through_role: role
+    create(:user, member_with_roles: { project => role })
   end
 
   let(:default_status) { create(:default_status) }
-  let(:wp_page) { ::Pages::WorkPackagesTable.new project }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_page) { Pages::WorkPackagesTable.new project }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:query) do
     build(:query, project:, public: true).tap do |query|
       query.filters.clear
-      query.add_filter('assigned_to_id', '=', ['me'])
-      query.add_filter('done_ratio', '>=', [10])
+      query.add_filter("assigned_to_id", "=", ["me"])
+      query.add_filter("done_ratio", ">=", [10])
       query.save!
       create(:view_work_packages_table,
              query:)
@@ -62,35 +61,35 @@ describe 'Query selection', type: :feature do
     login_as(current_user)
   end
 
-  context 'default view, without a query selected' do
+  context "default view, without a query selected" do
     before do
       work_packages_page.visit_index
       filters.open
     end
 
-    it 'shows the default (status) filter', js: true do
+    it "shows the default (status) filter", :js do
       filters.expect_filter_count 1
-      filters.expect_filter_by 'Status', 'open', nil
+      filters.expect_filter_by "Status", "open", nil
     end
   end
 
-  context 'when a query is selected' do
+  context "when a query is selected" do
     before do
       query
 
       work_packages_page.select_query query
     end
 
-    it 'shows the saved filters', js: true do
+    it "shows the saved filters", :js do
       filters.open
-      filters.expect_filter_by 'Assignee', 'is', ['me']
-      filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
+      filters.expect_filter_by "Assignee", "is (OR)", ["me"]
+      filters.expect_filter_by "Percent Complete", ">=", ["10"], "percentageDone"
 
-      expect(page).to have_selector('[data-qa-selector="wp-filter-button"] .badge', text: '2')
+      expect(page).to have_css("#{test_selector('wp-filter-button')} .badge", text: "2")
     end
   end
 
-  context 'when the selected query is changed' do
+  context "when the selected query is changed" do
     let(:query2) do
       create(:query_with_view_work_packages_table,
              project:,
@@ -104,10 +103,10 @@ describe 'Query selection', type: :feature do
       work_packages_page.select_query query
     end
 
-    it 'updates the page upon query switching', js: true do
+    it "updates the page upon query switching", :js do
       wp_page.expect_title query.name, editable: false
 
-      find('.op-sidemenu--item-action', text: query2.name).click
+      find(".op-sidemenu--item-action", text: query2.name).click
     end
   end
 end

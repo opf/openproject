@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ class Watcher < ApplicationRecord
   validate :validate_user_allowed_to_watch
 
   def self.prune(user: [], project_id: nil)
-    user_ids = Array(user).compact.map { |u| u.is_a?(User) ? u.id : nil }.compact
+    user_ids = Array(user).compact.filter_map { |u| u.is_a?(User) ? u.id : nil }
 
     projects = project_id ? Project.where(id: project_id) : Project.all
 
@@ -138,7 +138,7 @@ class Watcher < ApplicationRecord
                     .joins(:watchers)
                     .joins(:project)
                     .where(projects: { id: projects.map(&:id) })
-                    .select('watchers.id')
+                    .select("watchers.id")
 
       id_subquery = id_subquery.where(watchers: { user_id: user_ids }) unless user_ids.empty?
 

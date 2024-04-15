@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -74,6 +74,8 @@ module API
 
         property :id
 
+        property :ongoing
+
         formattable_property :comments,
                              as: :comment,
                              plain: true
@@ -104,31 +106,33 @@ module API
                                 .new(represented,
                                      path: :time_entries_activity,
                                      property_name: :time_entries_activity,
-                                     namespace: 'time_entries/activities',
+                                     namespace: "time_entries/activities",
                                      getter: :activity_id,
-                                     setter: :'activity_id=')
+                                     setter: :"activity_id=")
                                 .from_hash(fragment)
                             }
 
         def _type
-          'TimeEntry'
+          "TimeEntry"
         end
 
         def update_allowed?
-          current_user_allowed_to(:edit_time_entries, context: represented.project) ||
-            (represented.user_id == current_user.id &&
-              current_user_allowed_to(:edit_own_time_entries, context: represented.project))
-        end
-
-        def current_user_allowed_to(permission, context:)
-          current_user.allowed_to?(permission, context)
+          @update_allowed ||= begin
+            contract = ::TimeEntries::UpdateContract.new(represented, current_user)
+            contract.user_allowed_to_update?
+          end
         end
 
         def hours=(value)
           represented.hours = datetime_formatter.parse_duration_to_hours(value,
-                                                                         'hours',
+                                                                         "hours",
                                                                          allow_nil: true)
         end
+
+        self.to_eager_load = [:work_package,
+                              :user,
+                              :activity,
+                              { project: :enabled_modules }]
       end
     end
   end

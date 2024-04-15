@@ -2,7 +2,7 @@
   class="spot-modal spot-modal_autoheight confirm-form-submit--modal loading-indicator--location"
   data-indicator-name="modal"
 >
-  <div class="spot-modal--header">{{text.title}}</div>
+  <div id="spotModalTitle" class="spot-modal--header">{{text.title}}</div>
 
   <div class="spot-divider"></div>
 
@@ -49,14 +49,14 @@
     <div class="spot-action-bar--right">
       <button
         class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
-        data-qa-selector="confirmation-modal--cancel"
+        data-test-selector="confirmation-modal--cancel"
         (click)="closeMe($event)"
         [textContent]="text.button_cancel"
         [attr.title]="text.button_cancel"
       ></button>
       <button
-        class="button button_no-margin -highlight spot-action-bar--action"
-        data-qa-selector="confirmation-modal--confirmed"
+        class="button button_no-margin -primary spot-action-bar--action"
+        data-test-selector="confirmation-modal--confirmed"
         (click)="create()"
         [disabled]="!this.selectedAttribute || inFlight"
         [textContent]="text.button_add"

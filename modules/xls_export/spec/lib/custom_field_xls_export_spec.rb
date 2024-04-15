@@ -1,9 +1,9 @@
-require 'spec_helper'
-require 'spreadsheet'
+require "spec_helper"
+require "spreadsheet"
 
-describe "WorkPackageXlsExport Custom Fields" do
-  let(:type) { create :type }
-  let(:project) { create :project, types: [type] }
+RSpec.describe "WorkPackageXlsExport Custom Fields" do
+  let(:type) { create(:type) }
+  let(:project) { create(:project, types: [type]) }
 
   let!(:custom_field) do
     create(
@@ -17,30 +17,30 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   let(:work_package1) do
-    wp = create :work_package, project: project, type: type
+    wp = create(:work_package, project:, type:)
     wp.custom_field_values = {
-      custom_field.id => custom_values_for('ham', 'onions')
+      custom_field.id => custom_values_for("ham", "onions")
     }
     wp.save
     wp
   end
 
   let(:work_package2) do
-    wp = create :work_package, project: project, type: type
+    wp = create(:work_package, project:, type:)
     wp.custom_field_values = {
-      custom_field.id => custom_values_for('pineapple')
+      custom_field.id => custom_values_for("pineapple")
     }
     wp.save
     wp
   end
 
-  let(:work_package3) { create :work_package, project:, type: }
+  let(:work_package3) { create(:work_package, project:, type:) }
   let(:work_packages) { [work_package1, work_package2, work_package3] }
-  let(:current_user) { create :admin }
+  let(:current_user) { create(:admin) }
 
   let!(:query) do
     query              = build(:query, user: current_user, project:)
-    query.column_names = ['subject', "cf_#{custom_field.id}"]
+    query.column_names = ["subject", custom_field.column_name]
     query.sort_criteria = [%w[id asc]]
 
     query.save!
@@ -66,9 +66,9 @@ describe "WorkPackageXlsExport Custom Fields" do
     end
   end
 
-  it 'produces the valid XLS result' do
-    expect(query.columns.map(&:name)).to eq [:subject, :"cf_#{custom_field.id}"]
-    expect(sheet.rows.first.take(2)).to eq ['Subject', 'Ingredients']
+  it "produces the valid XLS result" do
+    expect(query.columns.map(&:name)).to eq [:subject, custom_field.column_name.to_sym]
+    expect(sheet.rows.first.take(2)).to eq ["Subject", "Ingredients"]
 
     # Subjects
     expect(sheet.row(1)[0]).to eq(work_package1.subject)
@@ -76,8 +76,8 @@ describe "WorkPackageXlsExport Custom Fields" do
     expect(sheet.row(3)[0]).to eq(work_package3.subject)
 
     # CF values
-    expect(sheet.row(1)[1]).to eq('ham, onions')
-    expect(sheet.row(2)[1]).to eq('pineapple')
+    expect(sheet.row(1)[1]).to eq("ham, onions")
+    expect(sheet.row(2)[1]).to eq("pineapple")
     expect(sheet.row(3)[1]).to be_nil
   end
 end

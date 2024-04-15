@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-if OpenProject::Configuration.blacklisted_routes.any?
-  # Block logins from a bad user agent
-  Rack::Attack.blocklist('block forbidden routes') do |req|
-    regex = OpenProject::Configuration.blacklisted_routes.map! { |str| Regexp.new(str) }
-    regex.any? { |i| i =~ req.path }
-  end
+Rails.application.reloader.to_prepare do
+  # In test mode, enable rules and rack-attack using "with_rack_attack:" metadata
+  Rack::Attack.enabled = !Rails.env.test?
+  OpenProject::RateLimiting.set_defaults!
 
-  Rack::Attack.blocklisted_response = lambda do |_env|
-    # All blacklisted routes would return a 404.
-    [404, {}, ['Not found']]
+  if OpenProject::Configuration.blacklisted_routes.any?
+    # Block logins from a bad user agent
+    Rack::Attack.blocklist("block forbidden routes") do |req|
+      regex = OpenProject::Configuration.blacklisted_routes.map! { |str| Regexp.new(str) }
+      regex.any? { |i| i =~ req.path }
+    end
+
+    Rack::Attack.blocklisted_responder = lambda do |_env|
+      # All blacklisted routes would return a 404.
+      [404, {}, ["Not found"]]
+    end
   end
 end

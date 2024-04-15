@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'wiki child pages', type: :feature, js: true do
+RSpec.describe "wiki child pages", :js do
   let(:project) do
     create(:project)
   end
   let(:user) do
-    create :user,
-           member_in_project: project,
-           member_through_role: role
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_wiki_pages edit_wiki_pages])
   end
   let(:parent_page) do
-    create(:wiki_page_with_content,
+    create(:wiki_page,
            wiki: project.wiki)
   end
   let(:child_page_name) { 'The child page !@#{$%^&*()_},./<>?;\':' }
@@ -51,25 +49,25 @@ describe 'wiki child pages', type: :feature, js: true do
     login_as user
   end
 
-  it 'adding a childpage' do
+  it "adding a childpage" do
     visit project_wiki_path(project, parent_page.title)
 
-    click_on 'Wiki page'
+    click_on "Wiki page"
 
     SeleniumHubWaiter.wait
-    fill_in 'content_page_title', with: child_page_name
+    fill_in "page_title", with: child_page_name
 
-    find('.ck-content').set('The child page\'s content')
+    find(".ck-content").set("The child page's content")
 
-    click_button 'Save'
+    click_button "Save"
 
     # hierarchy displayed in the breadcrumb
-    expect(page).to have_selector('#breadcrumb [data-qa-selector="op-breadcrumb"]',
-                                  text: parent_page.title.to_s)
+    expect(page).to have_css("#breadcrumb #{test_selector('op-breadcrumb')}",
+                             text: parent_page.title.to_s)
 
     # hierarchy displayed in the sidebar
-    expect(page).to have_selector('.pages-hierarchy',
-                                  text: "#{parent_page.title}\n#{child_page_name}")
+    expect(page).to have_css(".pages-hierarchy",
+                             text: "#{parent_page.title}\n#{child_page_name}")
 
     # on toc page
     visit index_project_wiki_index_path(project)

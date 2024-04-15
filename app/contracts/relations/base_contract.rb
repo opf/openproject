@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'model_contract'
-
 module Relations
   class BaseContract < ::ModelContract
     attribute :relation_type
-    attribute :delay
+    attribute :lag
     attribute :description
     attribute :from
     attribute :to
@@ -46,13 +44,6 @@ module Relations
       Relation
     end
 
-    def validate!(*args)
-      # same as before_validation callback
-      model.send(:reverse_if_needed)
-
-      super
-    end
-
     private
 
     def validate_from_exists
@@ -65,8 +56,8 @@ module Relations
 
     def validate_nodes_relatable
       if (model.from_id_changed? || model.to_id_changed?) &&
-         WorkPackage.relatable(model.from, model.relation_type).where(id: model.to).empty?
-        errors.add :base, I18n.t(:'activerecord.errors.messages.circular_dependency')
+         WorkPackage.relatable(model.from, model.relation_type, ignored_relation: model).where(id: model.to_id).empty?
+        errors.add :base, I18n.t(:"activerecord.errors.messages.circular_dependency")
       end
     end
 
@@ -87,7 +78,7 @@ module Relations
     end
 
     def manage_relations?
-      user.allowed_to? :manage_work_package_relations, model.from.project
+      user.allowed_in_work_package?(:manage_work_package_relations, model.from)
     end
   end
 end

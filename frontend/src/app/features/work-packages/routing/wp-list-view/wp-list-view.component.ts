@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -54,6 +54,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { WorkPackageViewBaselineService } from '../wp-view-base/view-services/wp-view-baseline.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'wp-list-view',
@@ -86,6 +88,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   /** Whether we should render a blocked view */
   showResultOverlay$ = this.wpViewFilters.incomplete$;
 
+  public baselineEnabled:boolean;
+
   /** */
   readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
     dragAndDropEnabled: true,
@@ -104,6 +108,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
     private ngZone:NgZone,
+    readonly wpTableBaseline:WorkPackageViewBaselineService,
   ) {
     super();
   }
@@ -111,12 +116,16 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   ngOnInit() {
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
-
-    this.querySpace.query.values$().pipe(
+    const statesCombined = combineLatest([
+      this.querySpace.query.values$(),
+      this.wpTableBaseline.live$(),
+    ]);
+    statesCombined.pipe(
       this.untilDestroyed(),
-    ).subscribe((query) => {
+    ).subscribe(([query]) => {
       // Update the visible representation
       this.updateViewRepresentation(query);
+      this.baselineEnabled = this.wpTableBaseline.isActive();
       this.noResults = query.results.total === 0;
       this.cdRef.detectChanges();
     });
@@ -131,7 +140,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         const selectedRow = this.elementRef.nativeElement.querySelector('.wp-table--row.-checked');
-        const selectedCard = this.elementRef.nativeElement.querySelector('[data-qa-selector="op-wp-single-card"].-checked');
+        const selectedCard = this.elementRef.nativeElement.querySelector('[data-test-selector="op-wp-single-card"].-checked');
 
         // The header of the table hides the scrolledIntoView element
         // so we scrollIntoView the previous element, if any

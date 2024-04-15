@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-describe Attachments::CreateContract, 'integration' do
-  include_context 'ModelContract shared context'
+RSpec.describe Attachments::CreateContract, "integration" do
+  include_context "ModelContract shared context"
 
   let(:model) do
-    build :attachment,
+    build(:attachment,
           container:,
           content_type:,
           file:,
           filename:,
-          author: current_user
+          author: current_user)
   end
   let(:contract) { described_class.new model, user, options: contract_options }
   let(:contract_options) { {} }
@@ -48,33 +48,36 @@ describe Attachments::CreateContract, 'integration' do
   let(:file) do
     Rack::Test::UploadedFile.new(
       Rails.root.join("spec/fixtures/files/image.png"),
-      'image/png',
+      "image/png",
       true
     )
   end
-  let(:content_type) { 'image/png' }
-  let(:filename) { 'image.png' }
+  let(:content_type) { "image/png" }
+  let(:filename) { "image.png" }
 
-  context 'with anonymous user that can export' do
+  context "with anonymous user that can view the project" do
     current_user do
       create(:anonymous_role, permissions: %i[view_project])
       User.anonymous
     end
 
-    describe 'uncontainered' do
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+    describe "uncontainered" do
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
 
-    describe 'invalid container' do
-      let(:container) { build_stubbed :work_package }
+    describe "invalid container" do
+      let(:container) { build_stubbed(:work_package) }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
 
-    describe 'valid container' do
-      let(:container) { build_stubbed :project_export }
+    describe "valid container" do
+      # create a project so that the anonymous permission has something to attach to
+      let!(:project) { create(:project, public: true) }
 
-      it_behaves_like 'contract is valid'
+      let(:container) { build_stubbed(:project_export) }
+
+      it_behaves_like "contract is valid"
     end
   end
 end

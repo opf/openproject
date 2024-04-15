@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,11 +41,11 @@ module TimeEntries
     end
 
     def allowed_to_log_for_others?
-      user.allowed_to?(:log_time, model.project)
+      user.allowed_in_project?(:log_time, model.project)
     end
 
     def allowed_to_log_to_himself?
-      model.user == user && user.allowed_to?(:log_own_time, model.project)
+      model.user == user && user.allowed_in_work_package?(:log_own_time, model.work_package)
     end
   end
 end

@@ -4,7 +4,7 @@
     uiSref="work-packages.show"
     [uiParams]="{ workPackageId: parent.id }"
     class="op-wp-breadcrumb-parent nocut"
-    data-qa-selector="op-wp-breadcrumb-parent">
+    data-test-selector="op-wp-breadcrumb-parent">
     <span [textContent]="parent.name"></span>
   </a>
   <button
@@ -30,9 +30,10 @@
 
 <wp-relations-autocomplete
   *ngIf="active"
-  [inputPlaceholder]="text.set_or_remove_parent"
+  [placeholder]="text.set_or_remove_parent"
   [workPackage]="workPackage"
-  (onCancel)="close()"
-  (onSelected)="updateParent($event)"
+  (cancel)="close()"
+  (change)="updateParent($event)"
+  data-test-selector="wp-relations-autocomplete"
   filterCandidatesFor="parent">
 </wp-relations-autocomplete>

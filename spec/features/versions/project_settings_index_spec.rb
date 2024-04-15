@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'project settings index', type: :feature do
+RSpec.describe "project settings index" do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[manage_versions])
+           member_with_permissions: { project => %i[manage_versions] })
   end
   let(:project) { create(:project) }
   let!(:version1) { create(:version, name: "aaaaa 1.", project:) }
@@ -47,10 +46,10 @@ describe 'project settings index', type: :feature do
   end
 
   @javascript
-  it 'see versions listed in semver order' do
+  it "see versions listed in semver order" do
     visit project_settings_versions_path(project)
 
-    names_in_order = page.all('.version .name').map { |el| el.text.strip }
+    names_in_order = page.all(".version .name").map { |el| el.text.strip }
 
     expect(names_in_order)
       .to eql [version6.name, version4.name, version5.name, version3.name, version2.name, version1.name]

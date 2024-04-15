@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,22 +31,26 @@ module Redmine
     include ActionView::Helpers::NumberHelper
 
     IN_CONTEXT_TRANSLATION_CODE = :lol
-    IN_CONTEXT_TRANSLATION_NAME = 'In-Context Crowdin Translation'.freeze
+    IN_CONTEXT_TRANSLATION_NAME = "In-Context Crowdin Translation".freeze
 
     def self.included(base)
       base.extend Redmine::I18n
     end
 
     def self.all_languages
-      @@all_languages ||= Dir.glob(Rails.root.join('config/locales/**/*.yml'))
-          .map { |f| File.basename(f).split('.').first }
-          .reject! { |l| /\Ajs-/.match(l.to_s) }
+      @@all_languages ||= Rails.root.glob("config/locales/**/*.yml")
+          .map { |f| f.basename.to_s.split(".").first }
+          .reject! { |l| l.start_with?("js-") }
           .uniq
-          .map(&:to_sym)
+          .sort
+    end
+
+    def self.valid_languages
+      all_languages & (Setting.available_languages + [Setting.default_language])
     end
 
     def l_or_humanize(s, options = {})
-      k = "#{options[:prefix]}#{s}".to_sym
+      k = :"#{options[:prefix]}#{s}"
       ::I18n.t(k, default: s.to_s.humanize)
     end
 
@@ -59,11 +63,7 @@ module Redmine
       number_with_precision(number, locale:, precision:)
     rescue StandardError => e
       Rails.logger.error("Failed to localize float number #{number}: #{e}")
-      ('%.2f' % hours.to_f)
-    end
-
-    def ll(lang, str, value = nil)
-      ::I18n.t(str.to_s, value:, locale: lang.to_s.gsub(%r{(.+)-(.+)$}) { "#{$1}-#{$2.upcase}" })
+      ("%.2f" % hours.to_f)
     end
 
     def format_date(date)
@@ -143,20 +143,20 @@ module Redmine
               else
                 (time.utc? ? time.to_time.localtime : time)
               end
-      (include_date ? "#{format_date(local)} " : '') +
+      (include_date ? "#{format_date(local)} " : "") +
         (Setting.time_format.blank? ? ::I18n.l(local, format: :time) : local.strftime(Setting.time_format))
     end
 
     def day_name(day)
-      ::I18n.t('date.day_names')[day % 7]
+      ::I18n.t("date.day_names")[day % 7]
     end
 
     def month_name(month)
-      ::I18n.t('date.month_names')[month]
+      ::I18n.t("date.month_names")[month]
     end
 
     def valid_languages
-      all_languages & Setting.available_languages.map(&:to_sym)
+      Redmine::I18n.valid_languages
     end
 
     def all_languages
@@ -189,8 +189,8 @@ module Redmine
     def all_attribute_translations(locale)
       @cached_attribute_translations ||= {}
       @cached_attribute_translations[locale] ||= begin
-        general_attributes = ::I18n.t('attributes', locale:)
-        ::I18n.t('activerecord.attributes',
+        general_attributes = ::I18n.t("attributes", locale:)
+        ::I18n.t("activerecord.attributes",
                  locale:).inject(general_attributes) do |attr_t, model_t|
           attr_t.merge(model_t.last || {})
         end

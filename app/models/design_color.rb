@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,8 @@
 #++
 
 class DesignColor < ApplicationRecord
+  include ::Colors::HexColor
+
   before_validation :normalize_hexcode
   after_commit -> do
     # CustomStyle.current.updated_at determines the cache key for inline_css
@@ -58,23 +60,6 @@ class DesignColor < ApplicationRecord
 
       all.to_a.select do |color|
         overridable.include?(color.variable) && color.hexcode.present?
-      end
-    end
-  end
-
-  protected
-
-  # This could be DRY! This method is taken from model Color.
-  def normalize_hexcode
-    if hexcode.present? and hexcode_changed?
-      self.hexcode = hexcode.strip.upcase
-
-      unless hexcode.starts_with? '#'
-        self.hexcode = '#' + hexcode
-      end
-
-      if hexcode.size == 4 # =~ /#.../
-        self.hexcode = hexcode.gsub(/([^#])/, '\1\1')
       end
     end
   end

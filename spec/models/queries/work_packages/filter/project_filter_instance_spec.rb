@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
-  let(:query) { build :query }
+RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
+  let(:query) { build(:query) }
   let(:instance) do
-    described_class.create!(name: 'project', context: query, operator: '=', values: [])
+    described_class.create!(name: "project", context: query, operator: "=", values: [])
   end
 
-  describe '#allowed_values' do
-    let!(:project) { create :project }
-    let!(:archived_project) { create :project, active: false }
+  describe "#allowed_values" do
+    let!(:project) { create(:project) }
+    let!(:archived_project) { create(:project, active: false) }
 
-    let(:user) { create(:user, member_in_projects: [project, archived_project], member_through_role: role) }
-    let(:role) { create :role, permissions: %i(view_work_packages) }
+    let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
+    let(:user) { create(:user, member_with_roles: { project => role, archived_project => role }) }
 
     before do
       login_as user
     end
 
-    it 'does not include the archived project (Regression #36026)' do
+    it "does not include the archived project (Regression #36026)" do
       expect(instance.allowed_values)
-        .to match_array [[project.name, project.id.to_s]]
+        .to contain_exactly([project.name, project.id.to_s])
     end
   end
 end

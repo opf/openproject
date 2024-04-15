@@ -4,6 +4,22 @@ import {
   ICKEditorType,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
+export interface CKEditorEvent {
+  stop:() => void;
+}
+
+export interface CKEditorListenOptions {
+  priority:string;
+}
+
+export interface CKEditorDomEventData {
+  altKey:boolean;
+  shiftKey:boolean;
+  ctrlKey:boolean;
+  metaKey:boolean;
+  keyCode:number;
+}
+
 export interface ICKEditorInstance {
   getData(options:{ trim:boolean }):string;
 
@@ -12,12 +28,26 @@ export interface ICKEditorInstance {
   destroy():void;
 
   enableReadOnlyMode(lockId:string):void;
+
   disableReadOnlyMode(lockId:string):void;
 
   on(event:string, callback:() => unknown):void;
 
-  model:any;
-  editing:any;
+  listenTo(node:unknown, key:string, callback:(evt:CKEditorEvent, data:CKEditorDomEventData) => unknown, options:CKEditorListenOptions):void;
+
+  model:{
+    on(ev:string, callback:() => unknown):void
+    fire(ev:string, data:unknown):void
+    document:{
+      on(ev:string, callback:() => unknown):void
+    };
+  };
+  editing:{
+    view:{
+      focus():void;
+      document:Document
+    }
+  };
   config:any;
   ui:any;
   element:HTMLElement;

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,84 +28,68 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe OAuthClientToken, type: :model do
+RSpec.describe OAuthClientToken do
   let(:access_token) { "x" }
   let(:refresh_token) { "x" }
-  let(:user) { create :user }
-  let(:oauth_client) { create :oauth_client }
+  let(:user) { create(:user) }
+  let(:oauth_client) { create(:oauth_client) }
   let(:instance) { described_class.new(access_token:, refresh_token:, user:, oauth_client:) }
 
-  describe '#valid?' do
+  describe "#valid?" do
     subject { instance.valid? }
 
-    context 'with default arguments' do
-      it 'succeeds' do
+    context "with default arguments" do
+      it "succeeds" do
         expect(subject).to be_truthy
       end
     end
 
-    context 'with access_token too long' do
-      let(:access_token) { "x" * 257 }
-
-      it 'fails with access_token too long' do
-        expect(subject).to be_falsey
-      end
-    end
-
-    context 'with refresh_token too long' do
-      let(:refresh_token) { "x" * 257 }
-
-      it 'fails with refresh_token too long' do
-        expect(subject).to be_falsey
-      end
-    end
-
-    context 'with access_token too short' do
+    context "with access_token too short" do
       let(:access_token) { "" }
 
-      it 'fails with access_token too short' do
+      it "fails with access_token too short" do
         expect(subject).to be_falsey
       end
     end
 
-    context 'with refresh_token too short' do
+    context "with refresh_token too short" do
       let(:refresh_token) { "" }
 
-      it 'fails with refresh_token too short' do
+      it "fails with refresh_token too short" do
         expect(subject).to be_falsey
       end
     end
 
-    context 'without access_token' do
+    context "without access_token" do
       let(:access_token) { nil }
 
-      it 'fails with access_token is nil' do
+      it "fails with access_token is nil" do
         expect(subject).to be_falsey
       end
     end
 
-    context 'without refresh_token' do
+    context "without refresh_token" do
       let(:refresh_token) { nil }
 
-      it 'fails with refresh_token is nil' do
+      it "fails with refresh_token is nil" do
         expect(subject).to be_falsey
       end
     end
 
-    context 'with invalid user' do
+    context "with invalid user" do
       let(:user) { nil }
 
-      it 'fails with invalid user' do
+      it "fails with invalid user" do
         expect(subject).to be_falsey
       end
     end
 
-    context 'with invalid oauth_client' do
+    context "with invalid oauth_client" do
       let(:oauth_client) { nil }
 
-      it 'fails with invalid oauth_client' do
+      it "fails with invalid oauth_client" do
         expect(subject).to be_falsey
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/decorators/single'
+require "api/decorators/single"
 
 module API
   module V3
@@ -44,8 +44,8 @@ module API
       end
 
       link :memberships do
-        next unless current_user.allowed_to_globally?(:view_members) ||
-                    current_user.allowed_to_globally?(:manage_members)
+        next unless current_user.allowed_in_any_project?(:view_members) ||
+                    current_user.allowed_in_any_project?(:manage_members)
 
         {
           href: api_v3_paths.memberships
@@ -112,7 +112,7 @@ module API
                if: ->(*) { current_user.admin? }
 
       def _type
-        'Root'
+        "Root"
       end
     end
   end

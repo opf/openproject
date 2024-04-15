@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,13 +37,13 @@ class RemoveWikiContentVersions < ActiveRecord::Migration[5.1]
       t.integer :page_id, null: false
       t.integer :author_id
       t.binary :data, limit: 16.megabytes
-      t.string :compression, limit: 6, default: ''
-      t.string :comments, default: ''
+      t.string :compression, limit: 6, default: ""
+      t.string :comments, default: ""
       t.datetime :updated_on, null: false
       t.integer :version, null: false
     end
 
-    add_index :wiki_content_versions, [:updated_on], name: 'index_wiki_content_versions_on_updated_on'
-    add_index :wiki_content_versions, [:wiki_content_id], name: 'wiki_content_versions_wcid'
+    add_index :wiki_content_versions, [:updated_on], name: "index_wiki_content_versions_on_updated_on"
+    add_index :wiki_content_versions, [:wiki_content_id], name: "wiki_content_versions_wcid"
   end
 end

@@ -1,0 +1,21 @@
+<% if (@provider.new_record? && !providers.map(&:name).include?('azure')) || @provider.name == 'azure' %>
+  <%= content_tag :fieldset,
+                  class: 'form--fieldset',
+                  data: {
+                    'admin--openid-connect-providers-target': 'azureForm',
+                  },
+                  hidden: @provider.name.present? && @provider.name != 'azure' do %>
+    <div class="form--field -required">
+      <%= f.text_field :tenant, required: true, placeholder: 'common', container_class: '-middle' %>
+      <div class="form--field-instructions">
+        <%= t('openid_connect.setting_instructions.azure_tenant_html') %>
+      </div>
+    </div>
+    <div class="form--field -hidden">
+      <%= f.check_box :use_graph_api, container_class: '-middle' %>
+      <div class="form--field-instructions">
+        <%= t('openid_connect.setting_instructions.azure_graph_api') %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,15 +32,17 @@
 # are locale specific, and you may define rules for as many different
 # locales as you wish. All of these examples are active by default:
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
+#   inflect.plural /^(ox)$/i, "\\1en"
+#   inflect.singular /^(ox)en/i, "\\1"
+#   inflect.irregular "person", "people"
 #   inflect.uncountable %w( fish sheep )
 # end
 
 # These inflection rules are supported but not enabled by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "API"
-  inflect.acronym 'OAuth'
-  inflect.acronym 'OpenID'
+  inflect.acronym "OAuth"
+  inflect.acronym "OpenID"
+  inflect.acronym "ICal"
+  inflect.acronym "ClamAV"
 end

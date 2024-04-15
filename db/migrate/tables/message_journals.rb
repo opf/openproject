@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::MessageJournals < Tables::Base
   def self.table(migration)
@@ -34,7 +34,7 @@ class Tables::MessageJournals < Tables::Base
       t.integer :journal_id, null: false
       t.integer :board_id, null: false
       t.integer :parent_id
-      t.string :subject, default: '', null: false
+      t.string :subject, default: "", null: false
       t.text :content
       t.integer :author_id
       t.integer :replies_count, default: 0, null: false

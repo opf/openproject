@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -81,7 +81,7 @@ module UserPreferences
         if time_zones.length == 1
           time_zones.first
         else
-          time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.gsub(' ', '_')) }
+          time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.tr(" ", "_")) }
         end
       end
     end
@@ -103,13 +103,13 @@ module UserPreferences
     # User preferences can only be accessed with the manage_user permission
     # or if an active, logged user is editing their own prefs
     def user_allowed_to_access
-      unless user.allowed_to_globally?(:manage_user) || (user.logged? && user.active? && user.id == model.user_id)
+      unless user.allowed_globally?(:manage_user) || (user.logged? && user.active? && user.id == model.user_id)
         errors.add :base, :error_unauthorized
       end
     end
 
     def full_hour_reminder_time
-      unless model.daily_reminders[:times].all? { |time| time.match?(/00:00\+00:00\z/) }
+      unless model.daily_reminders[:times].all? { |time| time.end_with?("00:00+00:00") }
         errors.add :daily_reminders, :full_hour
       end
     end

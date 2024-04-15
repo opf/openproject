@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,48 +26,47 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'webmock/rspec'
+require "spec_helper"
 
-describe ::OAuthClients::RedirectUriFromStateService, type: :model do
-  let(:state) { 'asdf123425' }
-  let(:redirect_uri) { File.join(::API::V3::Utilities::PathHelper::ApiV3Path::root_url, 'foo/bar') }
-  let(:cookies) { { "oauth_state_#{state}": redirect_uri }.with_indifferent_access }
+RSpec.describe OAuthClients::RedirectUriFromStateService, type: :model do
+  let(:state) { "asdf123425" }
+  let(:redirect_uri) { File.join(API::V3::Utilities::PathHelper::ApiV3Path::root_url, "foo/bar") }
+  let(:cookies) { { "oauth_state_#{state}": { href: redirect_uri }.to_json }.with_indifferent_access }
   let(:instance) { described_class.new(state:, cookies:) }
 
-  describe '#call' do
+  describe "#call" do
     subject { instance.call }
 
-    shared_examples 'failed service result' do
-      it 'return a failed service result' do
+    shared_examples "failed service result" do
+      it "return a failed service result" do
         expect(subject).to be_failure
       end
     end
 
-    context 'when cookie found' do
-      context 'when redirect_uri has same origin' do
-        it 'returns the redirect URL value from the cookie' do
+    context "when cookie found" do
+      context "when redirect_uri has same origin" do
+        it "returns the redirect URL value from the cookie" do
           expect(subject).to be_success
         end
       end
 
-      context 'when redirect_uri does not share same origin' do
-        let(:redirect_uri) { 'https://some-other-origin.com/bla' }
+      context "when redirect_uri does not share same origin" do
+        let(:redirect_uri) { "https://some-other-origin.com/bla" }
 
-        it_behaves_like 'failed service result'
+        it_behaves_like "failed service result"
       end
     end
 
-    context 'when no cookie present' do
+    context "when no cookie present" do
       let(:cookies) { {} }
 
-      it_behaves_like 'failed service result'
+      it_behaves_like "failed service result"
     end
 
-    context 'when no state present' do
+    context "when no state present" do
       let(:state) { nil }
 
-      it_behaves_like 'failed service result'
+      it_behaves_like "failed service result"
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,11 +45,11 @@ class Widget::CostTypes < Widget::Base
           types = label_tag "unit_#{id}", h(label), class: "form--label"
           types += content_tag :span, class: "form--field-container" do
             content_tag :span, class: "form--radio-button-container" do
-              radio_button_tag('unit', id, id == @selected_type_id, class: "form--radio-button")
+              radio_button_tag("unit", id, id == @selected_type_id, class: "form--radio-button")
             end
           end
         end
-      end.join('').html_safe
+      end.join("").html_safe
     end
   end
 end

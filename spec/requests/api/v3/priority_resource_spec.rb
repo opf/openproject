@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,87 +26,79 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Priority resource' do
+RSpec.describe "API v3 Priority resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:project) { create(:project, public: false) }
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
 
   let!(:priorities) { create_list(:priority, 2) }
 
-  describe 'priorities' do
+  describe "priorities" do
     subject(:response) { last_response }
 
     let(:get_path) { api_v3_paths.priorities }
 
-    context 'logged in user' do
+    context "logged in user" do
       before do
         allow(User).to receive(:current).and_return current_user
 
         get get_path
       end
 
-      it_behaves_like 'API V3 collection response', 2, 2, 'Priority'
+      it_behaves_like "API V3 collection response", 2, 2, "Priority"
     end
 
-    context 'not logged in user' do
+    context "not logged in user" do
       before do
         get get_path
       end
 
-      it_behaves_like 'error response',
-                      403,
-                      'MissingPermission',
-                      I18n.t('api_v3.errors.code_403')
+      it_behaves_like "forbidden response based on login_required"
     end
   end
 
-  describe 'priorities/:id' do
+  describe "priorities/:id" do
     subject(:response) { last_response }
 
     let(:get_path) { api_v3_paths.priority priorities.first.id }
 
-    context 'logged in user' do
+    context "logged in user" do
       before do
         allow(User).to receive(:current).and_return current_user
 
         get get_path
       end
 
-      context 'valid priority id' do
-        it 'returns HTTP 200' do
+      context "valid priority id" do
+        it "returns HTTP 200" do
           expect(response.status).to be(200)
         end
       end
 
-      context 'invalid priority id' do
-        let(:get_path) { api_v3_paths.priority 'bogus' }
+      context "invalid priority id" do
+        let(:get_path) { api_v3_paths.priority "bogus" }
 
-        it_behaves_like 'param validation error' do
-          let(:id) { 'bogus' }
-          let(:type) { 'IssuePriority' }
+        it_behaves_like "param validation error" do
+          let(:id) { "bogus" }
+          let(:type) { "IssuePriority" }
         end
       end
     end
 
-    context 'not logged in user' do
+    context "when not logged in user" do
       before do
         get get_path
       end
 
-      it_behaves_like 'error response',
-                      403,
-                      'MissingPermission',
-                      I18n.t('api_v3.errors.code_403')
+      it_behaves_like "forbidden response based on login_required"
     end
   end
 end

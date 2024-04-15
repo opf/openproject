@@ -30,8 +30,8 @@ example:
       email: shep@mail.com
       avatar: https://example.org/users/1/avatar
       status: active
-      createdAt: '2014-05-21T08:51:20Z'
-      updatedAt: '2014-05-21T08:51:20Z'
+      createdAt: '2014-05-21T08:51:20.977Z'
+      updatedAt: '2014-05-21T08:51:20.977Z'
     - _type: User
       _links:
         self:
@@ -52,5 +52,5 @@ example:
       email: shep@mail.net
       avatar: https://example.org/users/1/avatar
       status: active
-      createdAt: '2014-05-21T08:51:20Z'
-      updatedAt: '2014-05-21T08:51:20Z'
+      createdAt: '2014-05-21T08:51:20.977Z'
+      updatedAt: '2014-05-21T08:51:20.977Z'

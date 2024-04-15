@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'cache/cache_key'
+require_relative "cache/cache_key"
 
 module OpenProject
   module Cache
-    def self.fetch(*parts, **options, &)
-      Rails.cache.fetch(CacheKey.key(*parts), **options, &)
+    def self.fetch(*, **, &)
+      Rails.cache.fetch(CacheKey.key(*), **, &)
+    end
+
+    def self.read(name, **, &)
+      Rails.cache.read(CacheKey.key(name), **, &)
+    end
+
+    def self.write(name, value, **, &)
+      Rails.cache.write(CacheKey.key(name), value, **, &)
     end
 
     def self.clear

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Groups::UpdateService < ::BaseServices::Update
+class Groups::UpdateService < BaseServices::Update
   protected
 
   def persist(call)
@@ -58,7 +58,7 @@ class Groups::UpdateService < ::BaseServices::Update
   end
 
   def groups_removed_users(group)
-    group.group_users.select(&:marked_for_destruction?).map(&:user).compact
+    group.group_users.select(&:marked_for_destruction?).filter_map(&:user)
   end
 
   def remove_member_roles(member_role_ids)
@@ -72,7 +72,7 @@ class Groups::UpdateService < ::BaseServices::Update
 
     MemberRole
       .includes(member: :member_roles)
-      .where(inherited_from: model.members.joins(:member_roles).select('member_roles.id'))
+      .where(inherited_from: model.members.joins(:member_roles).select("member_roles.id"))
       .where(members: { user_id: users.map(&:id) })
   end
 

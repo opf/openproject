@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,47 +26,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../../support/pages/my/page'
+require_relative "../../support/pages/my/page"
 
-describe 'Accountable widget on my page', type: :feature, js: true do
-  let!(:type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+RSpec.describe "Accountable widget on my page", :js do
+  let!(:type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:accountable_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:accountable_by_other_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           responsible: other_user
+           responsible: other_user)
   end
   let!(:accountable_but_invisible_work_package) do
-    create :work_package,
+    create(:work_package,
            project: other_project,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let(:other_user) do
     create(:user)
   end
 
-  let(:role) { create(:role, permissions: %i[view_work_packages add_work_packages save_queries]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages add_work_packages save_queries]) }
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -78,12 +77,12 @@ describe 'Accountable widget on my page', type: :feature, js: true do
     my_page.visit!
   end
 
-  it 'can add the widget and see the work packages the user is accountable for' do
+  it "can add the widget and see the work packages the user is accountable for" do
     # Added to ensure the page has finished loading.
     # The page starts with a "wp created widget".
-    created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    created_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
     expect(created_area.area)
-      .to have_selector('.subject', text: accountable_work_package.subject)
+      .to have_css(".subject", text: accountable_work_package.subject)
 
     # Add widget below existing widgets
     my_page.add_widget(2, 2, :row, "Work packages I am accountable for")
@@ -93,30 +92,30 @@ describe 'Accountable widget on my page', type: :feature, js: true do
     # browser can get confused. Therefore we wait.
     sleep(1)
 
-    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
-    accountable_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
+    accountable_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(3)")
 
     accountable_area.expect_to_span(2, 2, 3, 3)
 
-    assigned_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    assigned_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
     assigned_area.remove
 
-    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
-    created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    created_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
     created_area.expect_to_span(1, 1, 2, 2)
     # as the assigned widget was removed, the numbers have changed
-    accountable_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    accountable_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
     accountable_area.expect_to_span(2, 1, 3, 2)
 
     expect(accountable_area.area)
-      .to have_selector('.subject', text: accountable_work_package.subject)
+      .to have_css(".subject", text: accountable_work_package.subject)
 
     expect(accountable_area.area)
-      .to have_no_selector('.subject', text: accountable_by_other_work_package.subject)
+      .to have_no_css(".subject", text: accountable_by_other_work_package.subject)
 
     expect(accountable_area.area)
-      .to have_no_selector('.subject', text: accountable_but_invisible_work_package.subject)
+      .to have_no_css(".subject", text: accountable_but_invisible_work_package.subject)
   end
 end

@@ -1,21 +1,21 @@
 #!/usr/bin/env ruby
 
-if ARGV.join(" ") =~ /((-h)|(--help))/
+if /((-h)|(--help))/.match?(ARGV.join(" "))
   puts "Prints the self-contained OpenAPI 3.0 specification of OpenProject's APIv3"
   puts
   puts "usage: ./script/api/spec [--format JSON|yaml]"
   return
 end
 
-require 'pathname'
-require 'yaml'
-require 'json'
+require "pathname"
+require "yaml"
+require "json"
 
-require_relative '../../lib/api/open_api'
+require_relative "../../lib/api/open_api"
 
 path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
 spec = API::OpenAPI.assemble_spec path
-format = ARGV.join(" ") =~ /((--format)|(-f))((=)|(\s+))ya?ml/ ? :yaml : :json
+format = /((--format)|(-f))((=)|(\s+))ya?ml/.match?(ARGV.join(" ")) ? :yaml : :json
 
 begin
   if format == :yaml

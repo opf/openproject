@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,7 @@
 
 class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters::PrincipalFilter
   def allowed_values
-    Project.active.all.map do |project|
-      [project.name, project.id]
-    end
+    Project.active.pluck(:name, :id)
   end
 
   def type
@@ -43,13 +41,13 @@ class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters:
 
   def scope
     case operator
-    when '='
+    when "="
       visible_scope.in_project(values)
-    when '!'
+    when "!"
       visible_scope.not_in_project(values)
-    when '*'
+    when "*"
       member_included_scope.where.not(members: { id: nil })
-    when '!*'
+    when "!*"
       member_included_scope.where.not(id: Member.distinct(:user_id).select(:user_id))
     end
   end
@@ -61,6 +59,8 @@ class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters:
   end
 
   def member_included_scope
-    visible_scope.includes(:members)
+    visible_scope
+      .includes(:members)
+      .merge(Member.of_any_project)
   end
 end

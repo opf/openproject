@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 zh-TW:
+  plugin_openproject_backlogs:
+    name: "OpenProject待辦事項"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "位置"
-        remaining_hours: "剩餘時數"
-        remaining_time: "剩餘時數"
         story_points: "需求重要性"
         backlogs_work_package_type: "待辦項目類型"
     errors:
@@ -35,11 +36,8 @@ zh-TW:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "只可以在現在進度中包含工作項目的 IDs"
               must_block_at_least_one_work_package: "必須包含至少一個項目的 ID"
-            parent_id:
-              parent_child_relationship_across_projects: "是不正確的，因為這個工作項目 '%{work_package_name}' 是一個待辦任務，它不可以擁有一個在目前的專案以外的上層項目"
-              type_must_be_one_of_the_following: "類型必須是以下其中一種: %{type_names}"
             version_id:
-              task_version_must_be_the_same_as_story_version: "必須與\"父\"直屬故事的版本相同。"
+              task_version_must_be_the_same_as_story_version: "必須與上層「使用者需求」(User Story)的版本相同。"
         sprint:
           cannot_end_before_it_starts: "進度不可以在開始前結束"
   backlogs:
@@ -52,12 +50,12 @@ zh-TW:
     close: "關閉"
     column_width: "欄位寬度"
     date: "日"
-    definition_of_done: "完成的定義"
+    definition_of_done: "定義"
     generating_chart: "產生圖表中"
     hours: "小時"
     impediment: "阻礙"
-    label_versions_default_fold_state: "顯示精簡版本"
-    work_package_is_closed: "工作項目已完成，當"
+    label_versions_default_fold_state: "顯示合攏的待辦事項"
+    work_package_is_closed: "視為工作項目已完成"
     label_is_done_status: "狀態 %{status_name} 表示完成"
     no_burndown_data: "沒有未完成的資料。起始和結束日期在進度中是必須的"
     points: "點"
@@ -66,19 +64,18 @@ zh-TW:
     properties: "屬性"
     rebuild: "重建"
     rebuild_positions: "重建位置"
-    remaining_hours: "剩餘時數"
-    remaining_hours_ideal: "(理想) 剩餘時數"
+    remaining_hours: "剩餘工時"
+    remaining_hours_ideal: "剩餘工時(ideal)"
     show_burndown_chart: "未完成圖"
     story: "使用者需求"
-    story_points: "需求重要性"
+    story_points: "需求重點"
     story_points_ideal: "(理想) 需求重要性"
     task: "任務"
     task_color: "任務顏色"
     unassigned: "尚未指派"
     x_more: "還有 %{count} 個 ..."
   backlogs_active: "啟用"
-  backlogs_any: "任何"
-  backlogs_card_specification: "卡片印製的標籤類型"
+  backlogs_any: "全部"
   backlogs_inactive: "專案顯示沒有活動"
   backlogs_points_burn_direction: "重要性 增加/減少"
   backlogs_product_backlog: "產品待辦事項"
@@ -97,7 +94,7 @@ zh-TW:
   backlogs_velocity_varies: "完成速度在不同進度中差異很大"
   backlogs_wiki_template: "進度的 Wiki 頁面樣板"
   backlogs_empty_title: "未定義要在積壓事項中使用的版本"
-  backlogs_empty_action_text: "要開始積壓事項, 請創建一個新版本並將其分配給積壓事項列。"
+  backlogs_empty_action_text: "要開始待辦事項, 請新增一個新版本並將其分配給待辦事項項欄位。"
   button_edit_wiki: "編輯 Wiki 頁面"
   error_backlogs_task_cannot_be_story: "設定無效。所選任務類型不能同時為使用者需求類型。"
   error_intro_plural: "發生以下的錯誤:"
@@ -150,7 +147,7 @@ zh-TW:
   rb_label_copy_tasks_none: "無"
   rb_label_copy_tasks_open: "開啟"
   rb_label_link_to_original: "包含連結到原本的使用者需求"
-  remaining_hours: "剩餘時數"
+  remaining_hours: "剩餘工時"
   required_burn_rate_hours: "必須的完成率 (小時)"
   required_burn_rate_points: "必須的完成率 (點數)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

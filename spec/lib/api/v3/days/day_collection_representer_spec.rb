@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Days::DayCollectionRepresenter do
+RSpec.describe API::V3::Days::DayCollectionRepresenter do
   let(:days) do
     [
       build(:day, date: Date.new(2022, 12, 27)),
@@ -36,16 +36,16 @@ describe ::API::V3::Days::DayCollectionRepresenter do
       build(:day, date: Date.new(2022, 12, 29))
     ]
   end
-  let(:current_user) { instance_double(User, name: 'current_user') }
+  let(:current_user) { instance_double(User, name: "current_user") }
   let(:representer) do
     described_class.new(days,
-                        self_link: '/api/v3/self_link_untested',
+                        self_link: "/api/v3/self_link_untested",
                         current_user:)
   end
 
-  describe '#to_json' do
+  describe "#to_json" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'self_link_untested', 'Day'
+    it_behaves_like "unpaginated APIv3 collection", 3, "self_link_untested", "Day"
   end
 end

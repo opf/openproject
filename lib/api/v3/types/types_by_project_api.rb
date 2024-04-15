@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/types/type_collection_representer'
+require "api/v3/types/type_collection_representer"
 
 module API
   module V3
@@ -34,7 +34,7 @@ module API
       class TypesByProjectAPI < ::API::OpenProjectAPI
         resources :types do
           after_validation do
-            authorize_any %i[view_work_packages manage_types], projects: @project
+            authorize_in_project %i[view_work_packages manage_types], project: @project
           end
 
           get do

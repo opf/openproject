@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Grids::Query, type: :model do
+RSpec.describe Grids::Query, type: :model do
   include OpenProject::StaticRouting::UrlHelpers
 
   shared_let(:project) { create(:project) }
   shared_let(:other_project) { create(:project) }
-  shared_let(:show_board_views_role) { create(:role, permissions: [:show_board_views]) }
-  shared_let(:other_role) { create(:role, permissions: []) }
+  shared_let(:show_board_views_role) { create(:project_role, permissions: [:show_board_views]) }
+  shared_let(:other_role) { create(:project_role, permissions: []) }
   shared_let(:current_user) do
     create(:user).tap do |user|
       create(:member, user:, project:, roles: [show_board_views_role])
@@ -53,28 +53,28 @@ describe Grids::Query, type: :model do
     login_as(current_user)
   end
 
-  context 'without a filter' do
-    describe '#results' do
-      it 'is the same as getting all the boards visible to the user' do
-        expect(instance.results).to match_array [board_grid]
+  context "without a filter" do
+    describe "#results" do
+      it "is the same as getting all the boards visible to the user" do
+        expect(instance.results).to contain_exactly(board_grid)
       end
     end
   end
 
-  context 'with a scope filter' do
-    context 'filtering for a projects/:project_id/boards' do
+  context "with a scope filter" do
+    context "filtering for a projects/:project_id/boards" do
       before do
-        instance.where('scope', '=', [project_work_package_boards_path(project)])
+        instance.where("scope", "=", [project_work_package_boards_path(project)])
       end
 
-      describe '#results' do
-        it 'yields boards assigned to the project' do
-          expect(instance.results).to match_array [board_grid]
+      describe "#results" do
+        it "yields boards assigned to the project" do
+          expect(instance.results).to contain_exactly(board_grid)
         end
       end
 
-      describe '#valid?' do
-        it 'is true' do
+      describe "#valid?" do
+        it "is true" do
           expect(instance).to be_valid
         end
       end

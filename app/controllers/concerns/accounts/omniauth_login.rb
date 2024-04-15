@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'uri'
+require "uri"
 
 ##
 # Intended to be used by the AccountController to handle omniauth logins
@@ -47,11 +47,10 @@ module Accounts::OmniauthLogin
   end
 
   def omniauth_login
-    # Set back url to page the omniauth login link was clicked on
-    params[:back_url] = request.env['omniauth.origin']
+    params[:back_url] = request.env["omniauth.origin"] if remember_back_url?
 
     # Extract auth info and perform check / login or activate user
-    auth_hash = request.env['omniauth.auth']
+    auth_hash = request.env["omniauth.auth"]
     handle_omniauth_authentication(auth_hash)
   end
 
@@ -74,9 +73,18 @@ module Accounts::OmniauthLogin
     onthefly_creation_failed(user, session_info)
   end
 
+  # Avoid remembering the back_url if we're coming from the login page
+  def remember_back_url?
+    provided_back_url = request.env["omniauth.origin"]
+    return if provided_back_url.blank?
+
+    account_routes = /\/(login|account)/
+    omniauth_direct_login? || !provided_back_url.match?(account_routes)
+  end
+
   def show_error(error)
     flash[:error] = error
-    redirect_to action: 'login'
+    redirect_to action: "login"
   end
 
   def register_via_omniauth(session, user_attributes)
@@ -85,7 +93,7 @@ module Accounts::OmniauthLogin
 
   def handle_omniauth_authentication(auth_hash, user_params: nil)
     call = ::Authentication::OmniauthService
-      .new(strategy: request.env['omniauth.strategy'], auth_hash:, controller: self)
+      .new(strategy: request.env["omniauth.strategy"], auth_hash:, controller: self)
       .call(user_params)
 
     if call.success?

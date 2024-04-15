@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,42 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe HourlyRatesController, type: :routing do
-  describe 'routing' do
+RSpec.describe HourlyRatesController do
+  describe "routing" do
     it {
-      expect(get('/projects/blubs/hourly_rates/5')).to route_to(controller: 'hourly_rates',
-                                                                action: 'show',
-                                                                project_id: 'blubs',
-                                                                id: '5')
+      expect(get("/projects/blubs/hourly_rates/5")).to route_to(controller: "hourly_rates",
+                                                                action: "show",
+                                                                project_id: "blubs",
+                                                                id: "5")
     }
 
     it {
-      expect(get('/projects/blubs/hourly_rates/5/edit')).to route_to(controller: 'hourly_rates',
-                                                                     action: 'edit',
-                                                                     project_id: 'blubs',
-                                                                     id: '5')
+      expect(get("/projects/blubs/hourly_rates/5/edit")).to route_to(controller: "hourly_rates",
+                                                                     action: "edit",
+                                                                     project_id: "blubs",
+                                                                     id: "5")
     }
 
     it {
-      expect(get('/hourly_rates/5/edit')).to route_to(controller: 'hourly_rates',
-                                                      action: 'edit',
-                                                      id: '5')
+      expect(get("/hourly_rates/5/edit")).to route_to(controller: "hourly_rates",
+                                                      action: "edit",
+                                                      id: "5")
     }
 
     it {
-      expect(put('/projects/blubs/hourly_rates/5')).to route_to(controller: 'hourly_rates',
-                                                                action: 'update',
-                                                                project_id: 'blubs',
-                                                                id: '5')
+      expect(put("/projects/blubs/hourly_rates/5")).to route_to(controller: "hourly_rates",
+                                                                action: "update",
+                                                                project_id: "blubs",
+                                                                id: "5")
     }
 
     it {
-      expect(post('/projects/blubs/hourly_rates/5/set_rate')).to route_to(controller: 'hourly_rates',
-                                                                          action: 'set_rate',
-                                                                          project_id: 'blubs',
-                                                                          id: '5')
+      expect(post("/projects/blubs/hourly_rates/5/set_rate")).to route_to(controller: "hourly_rates",
+                                                                          action: "set_rate",
+                                                                          project_id: "blubs",
+                                                                          id: "5")
     }
   end
 end

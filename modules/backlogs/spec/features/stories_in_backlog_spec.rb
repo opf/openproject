@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/backlogs'
+require "spec_helper"
+require_relative "../support/pages/backlogs"
 
-describe 'Stories in backlog',
-         type: :feature,
-         js: true do
+RSpec.describe "Stories in backlog", :js,
+               with_cuprite: false do
   let!(:project) do
     create(:project,
            types: [story, task, other_story],
@@ -51,7 +50,7 @@ describe 'Stories in backlog',
            type_id: story.id)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i(view_master_backlog
                            add_work_packages
                            view_work_packages
@@ -61,8 +60,7 @@ describe 'Stories in backlog',
   end
   let!(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+           member_with_roles: { project => role })
   end
   let!(:sprint_story1) do
     create(:work_package,
@@ -131,24 +129,17 @@ describe 'Stories in backlog',
            version: sprint,
            story_points: 10)
   end
-  let!(:export_card_configurations) do
-    ExportCardConfiguration.create!(name: 'Default',
-                                    per_page: 1,
-                                    page_size: 'A4',
-                                    orientation: 'landscape',
-                                    rows: "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false")
-  end
   let(:backlogs_page) { Pages::Backlogs.new(project) }
 
   before do
     login_as current_user
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-            .and_return('story_types' => [story.id.to_s, other_story.id.to_s],
-                        'task_type' => task.id.to_s)
+            .and_return("story_types" => [story.id.to_s, other_story.id.to_s],
+                        "task_type" => task.id.to_s)
   end
 
-  it 'displays stories which are editable' do
+  it "displays stories which are editable" do
     backlogs_page.visit!
 
     # All stories are visible in their sprint/backlog
@@ -181,16 +172,16 @@ describe 'Stories in backlog',
     SeleniumHubWaiter.wait
     # Creating a story
     backlogs_page
-      .click_in_backlog_menu(sprint, 'New Story')
+      .click_in_backlog_menu(sprint, "New Story")
 
     SeleniumHubWaiter.wait
     backlogs_page
-      .edit_new_story(subject: 'New story',
+      .edit_new_story(subject: "New story",
                       story_points: 10)
 
     new_story = nil
     retry_block do
-      new_story = WorkPackage.find_by(subject: 'New story')
+      new_story = WorkPackage.find_by(subject: "New story")
       raise "Expected story" unless new_story
     end
 
@@ -199,7 +190,7 @@ describe 'Stories in backlog',
 
     # All positions will be unique in the sprint
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3])
+      .to contain_exactly(1, 2, 3)
 
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story1, sprint_story2)
@@ -213,16 +204,16 @@ describe 'Stories in backlog',
     SeleniumHubWaiter.wait
     backlogs_page
       .edit_story(sprint_story1,
-                  subject: 'Altered story1',
+                  subject: "Altered story1",
                   story_points: 15)
 
     retry_block do
       sprint_story1.reload
-      raise "Expected story to be renamed" unless sprint_story1.subject == 'Altered story1'
+      raise "Expected story to be renamed" unless sprint_story1.subject == "Altered story1"
     end
 
     backlogs_page
-      .expect_for_story(sprint_story1, subject: 'Altered story1')
+      .expect_for_story(sprint_story1, subject: "Altered story1")
 
     # Updating the story_points of a story will update the velocity of the sprint
     backlogs_page
@@ -237,19 +228,17 @@ describe 'Stories in backlog',
       .expect_stories_in_order(sprint, sprint_story1, new_story, sprint_story2)
 
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3])
+      .to contain_exactly(1, 2, 3)
 
     # Moving a story to bottom
     backlogs_page
       .drag_in_sprint(sprint_story1, sprint_story2, before: false)
 
-    sleep(0.5)
-
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story2, sprint_story1)
 
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3])
+      .to contain_exactly(1, 2, 3)
 
     # Moving a story to from the backlog to the sprint (3rd position)
 
@@ -257,13 +246,11 @@ describe 'Stories in backlog',
     backlogs_page
       .drag_in_sprint(backlog_story1, sprint_story2, before: false)
 
-    sleep(0.5)
-
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story2, backlog_story1, sprint_story1)
 
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3, 4])
+      .to contain_exactly(1, 2, 3, 4)
 
     # Available statuses when editing
 
@@ -279,14 +266,14 @@ describe 'Stories in backlog',
     SeleniumHubWaiter.wait
     backlogs_page
       .alter_attributes_in_edit_story_mode(backlog_story1,
-                                           subject: 'Altered backlog story1',
+                                           subject: "Altered backlog story1",
                                            status: other_status.name)
     backlogs_page
       .save_story_from_edit_mode(backlog_story1)
 
     retry_block do
       backlog_story1.reload
-      raise "Expected story to be renamed" unless backlog_story1.subject == 'Altered backlog story1'
+      raise "Expected story to be renamed" unless backlog_story1.subject == "Altered backlog story1"
     end
 
     expect(backlog_story1.status)
@@ -294,7 +281,7 @@ describe 'Stories in backlog',
 
     backlogs_page
       .expect_for_story(backlog_story1,
-                        subject: 'Altered backlog story1',
+                        subject: "Altered backlog story1",
                         status: other_status.name)
 
     SeleniumHubWaiter.wait
@@ -316,20 +303,14 @@ describe 'Stories in backlog',
 
     backlogs_page
       .expect_for_story(backlog_story1,
-                        subject: 'Altered backlog story1',
+                        subject: "Altered backlog story1",
                         status: default_status.name,
                         type: other_story.name)
-
-    # The pdf export is reachable via the menu
-    SeleniumHubWaiter.wait
-    backlogs_page
-      .click_in_backlog_menu(sprint, 'Export')
-    # Will download something that is currently not speced
 
     # Clicking would lead to having the burndown chart opened in another tab
     # which seems hard to test with selenium.
     backlogs_page
-      .expect_in_backlog_menu(sprint, 'Burndown Chart')
+      .expect_in_backlog_menu(sprint, "Burndown Chart")
 
     # One can switch to the work package page by clicking on the id
     # Clicking on it will open the wp in another tab which seems to trip up selenium.
@@ -338,7 +319,7 @@ describe 'Stories in backlog',
 
     # Go to the index page of work packages within that sprint via the menu
     backlogs_page
-      .click_in_backlog_menu(sprint, 'Stories/Tasks')
+      .click_in_backlog_menu(sprint, "Stories/Tasks")
 
     wp_table = Pages::WorkPackagesTable.new(project)
 

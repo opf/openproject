@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,6 @@ class CostQuery::Filter::PriorityId < Report::Filter::Base
   end
 
   def self.available_values(*)
-    IssuePriority.order(Arel.sql('position DESC')).pluck(:name, :id)
+    IssuePriority.order(Arel.sql("position DESC")).pluck(:name, :id)
   end
 end

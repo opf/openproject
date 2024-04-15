@@ -10,7 +10,7 @@ sidebar_navigation:
 
 For packaged installations, you can restart the configuration process by issuing the following command on the server where OpenProject runs:
 
-```bash
+```shell
 sudo openproject reconfigure
 ```
 
@@ -28,12 +28,12 @@ The wizard will automatically set environment variables to be used by OpenProjec
 
 For the Compose-based docker installation, you should not update the `docker-compose.yml` file as it refreshes with each pull, but use the file `docker-compose.override.yml` instead. There you could add any [environment variable](../../configuration/environment) that you may require. Docker Compose supports [file overrides](https://docs.docker.com/compose/extends/) so you may also want to use that. Then simply issue the following command:
 
-```
+```shell
 docker-compose up -d
 ```
 
 For all-in-one docker installations, you should update the environment file given to the `--env-file` docker option, and issue the following command:
 
-```bash
+```shell
 docker restart openproject
 ```

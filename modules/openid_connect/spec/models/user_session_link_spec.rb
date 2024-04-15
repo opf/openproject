@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,15 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
-describe OpenIDConnect::UserSessionLink do
-  describe 'session' do
+RSpec.describe OpenIDConnect::UserSessionLink do
+  describe "session" do
     let(:plain_session) { create(:user_session) }
     let(:user_session) { Sessions::UserSession.find_by(session_id: plain_session.session_id) }
     let(:link) { create(:user_session_link, session: user_session) }
 
-    it 'gets deleted when session is deleted' do
+    it "gets deleted when session is deleted" do
       expect(link).to be_present
       expect(link.session).to eq user_session
 

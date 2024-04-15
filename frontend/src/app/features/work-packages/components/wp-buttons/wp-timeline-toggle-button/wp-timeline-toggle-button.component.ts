@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -72,12 +72,12 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     public wpTableTimeline:WorkPackageViewTimelineService) {
     super(I18n);
 
-    this.activateLabel = I18n.t('js.timelines.button_activate');
-    this.deactivateLabel = I18n.t('js.timelines.button_deactivate');
+    this.activateLabel = I18n.t('js.gantt_chart.button_activate');
+    this.deactivateLabel = I18n.t('js.gantt_chart.button_deactivate');
 
-    this.text.zoomIn = I18n.t('js.timelines.zoom.in');
-    this.text.zoomOut = I18n.t('js.timelines.zoom.out');
-    this.text.zoomAuto = I18n.t('js.timelines.zoom.auto');
+    this.text.zoomIn = I18n.t('js.gantt_chart.zoom.in');
+    this.text.zoomOut = I18n.t('js.gantt_chart.zoom.out');
+    this.text.zoomAuto = I18n.t('js.gantt_chart.zoom.auto');
   }
 
   ngOnInit():void {

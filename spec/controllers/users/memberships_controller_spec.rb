@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'work_package'
+require "spec_helper"
+require "work_package"
 
-describe Users::MembershipsController, type: :controller do
-  shared_let(:admin) { create :admin }
+RSpec.describe Users::MembershipsController do
+  shared_let(:admin) { create(:admin) }
 
   let(:user) { create(:user) }
   let(:anonymous) { create(:anonymous) }
 
-  describe 'update memberships' do
+  describe "update memberships" do
     let(:project) { create(:project) }
-    let(:role) { create(:role) }
+    let(:role) { create(:project_role) }
 
-    it 'works' do
+    it "works" do
       # i.e. it should successfully add a user to a project's members
       as_logged_in_user admin do
         post :create,
@@ -52,7 +52,7 @@ describe Users::MembershipsController, type: :controller do
              }
       end
 
-      expect(response).to redirect_to(controller: '/users', action: 'edit', id: user.id, tab: 'memberships')
+      expect(response).to redirect_to(controller: "/users", action: "edit", id: user.id, tab: "memberships")
 
       is_member = user.reload.memberships.any? do |m|
         m.project_id == project.id && m.role_ids.include?(role.id)

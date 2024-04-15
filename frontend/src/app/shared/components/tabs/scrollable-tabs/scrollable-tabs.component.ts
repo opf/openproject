@@ -14,7 +14,15 @@ import {
 } from '@angular/core';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
-import { RawParams, StateService } from '@uirouter/core';
+import {
+  RawParams,
+  StateService,
+  UIRouterGlobals,
+} from '@uirouter/core';
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Component({
   templateUrl: 'scrollable-tabs.component.html',
@@ -23,7 +31,7 @@ import { RawParams, StateService } from '@uirouter/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
+export class ScrollableTabsComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
   @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef;
 
   @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef;
@@ -44,13 +52,17 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   @Output() public tabSelected = new EventEmitter<TabDefinition>();
 
+  @InjectField() uiRouterGlobals:UIRouterGlobals;
+
   trackById = trackByProperty('id');
+
+  counters:Record<string, Observable<number>> = {};
 
   private container:Element;
 
   private pane:Element;
 
-  private debouncedTabActivationTimeout:NodeJS.Timeout|null;
+  private debouncedTabActivationTimeout:ReturnType<typeof setTimeout>|null;
 
   private dragTargetStack = 0;
 
@@ -58,19 +70,44 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
     protected readonly $state:StateService,
     private cdRef:ChangeDetectorRef,
     public injector:Injector,
-  ) { }
+  ) {
+    super();
+  }
 
   ngAfterViewInit():void {
     this.container = this.scrollContainer.nativeElement as HTMLElement;
     this.pane = this.scrollPane.nativeElement as HTMLElement;
 
     this.updateScrollableArea();
+    this
+      .uiRouterGlobals
+      .params$
+      ?.pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe((params) => {
+        if (params.tabIdentifier) {
+          this.currentTabId = params.tabIdentifier as string;
+        }
+      });
   }
 
   ngOnChanges(_changes:SimpleChanges):void {
     if (this.pane) {
       this.updateScrollableArea();
     }
+  }
+
+  counter(tab:TabDefinition):Observable<number>|null {
+    if (!tab.counter) {
+      return null;
+    }
+
+    if (!this.counters[tab.id]) {
+      this.counters[tab.id] = tab.counter(this.injector).pipe(share());
+    }
+
+    return this.counters[tab.id];
   }
 
   private updateScrollableArea() {

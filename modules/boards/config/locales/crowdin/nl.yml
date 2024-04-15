@@ -1,8 +1,39 @@
 #English strings go here
 nl:
+  plugin_openproject_boards:
+    name: "OpenProject Boards"
+    description: "Provides board views."
   permission_show_board_views: "Bekijk borden"
   permission_manage_board_views: "Beheer boards"
   project_module_board_view: "Borden"
   boards:
     label_board: "Bord"
     label_boards: "Borden"
+    label_create_new_board: "Maak een nieuw bord"
+    label_board_type: "Type bord"
+    board_types:
+      free: Basis
+      action: "Actiebord (%{attribute})"
+    board_type_attributes:
+      assignee: Toegewezene
+      status: Status
+      version: Versie
+      subproject: Subproject
+      subtasks: Ouder-kind
+      basic: Basis
+    board_type_descriptions:
+      basic: >
+        Begin vanaf nul met een leeg bord. Voeg handmatig kaarten en kolommen toe aan dit bord.
+      status: >
+        Basis kanban stijl board met kolommen voor status zoals Doen, Gereed.
+      assignee: >
+        Bord met geautomatiseerde kolommen gebaseerd op toegewezen gebruikers. Ideaal voor verzenden van werkpakketten.
+      version: >
+        Board met geautomatiseerde kolommen op basis van het versienummer. Ideaal voor het plannen van productontwikkeling.
+      subproject: >
+        Bord met geautomatiseerde kolommen voor subprojecten. Werkpakketten naar andere lijsten verplaatsen, werkt het (sub)project dienovereenkomstig bij.
+      subtasks: >
+        Bord met geautomatiseerde kolommen voor subelementen. Het verslepen van werkpakketten naar andere lijsten werkt de bovenliggende map bij.
+    upsale:
+      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      upgrade: 'Nu upgraden'

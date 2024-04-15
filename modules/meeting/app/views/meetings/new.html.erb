@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+<% copy_from = local_assigns[:copy_from] %>
+<% if copy_from %>
+  <% html_title t('meeting.copy.title', title: copy_from.title) %>
+  <%= toolbar title: t('meeting.copy.title', title: copy_from.title) %>
+<% else %>
+  <% html_title t(:label_meeting_new) %>
+  <%= toolbar title: t(:label_meeting_new) %>
+<% end %>
 
-<% html_title t(:label_meeting_new) %>
-<%= toolbar title: t(:label_meeting_new) %>
-<%= labelled_tabular_form_for @meeting, :url => {:controller => '/meetings', :action => 'create', :project_id => @project}, :html => {:id => 'meeting-form'} do |f| -%>
-  <%= render :partial => 'form', :locals => {:f => f} %>
-  <%= styled_button_tag t(:button_create), class: '-highlight' %>
+<%= labelled_tabular_form_for @meeting,
+                              as: :meeting,
+                              url: {:controller => '/meetings', :action => 'create', :project_id => @project},
+                              :html => {:id => 'meeting-form',
+                                        :data => { :controller => 'refresh-on-form-changes',
+                                                   'refresh-on-form-changes-target': 'form',
+                                                   'refresh-on-form-changes-turbo-stream-url-value': new_meeting_url }} do |f| -%>
+  <%= render :partial => 'form', :locals => { f:, copy_from: } %>
+  <%= styled_button_tag t(:button_create), class: '-primary' %>
   <%= link_to t(:button_cancel), { :action => 'index', :project_id => @project },
         class: 'button' %>
-<% end if @project %>
+<% end %>

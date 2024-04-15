@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,12 @@ See COPYRIGHT and LICENSE files for more details.
 <% resource = message_attachment_representer(representer_object) %>
 
 <div class="form--field -required">
-  <%= f.text_field :subject, required: true, container_class: '-wide', autofocus: true %>
+  <%= f.text_field :subject,
+                   required: true,
+                   container_class: '-wide',
+                   autofocus: true,
+                   data: { 'forum-messages-target': 'subject' }
+  %>
 </div>
 <% unless replying %>
   <div class="form--field">
@@ -42,9 +47,9 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.check_box :locked, label: I18n.t('js.label_board_locked') %>
   </div>
 <% end %>
-<% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
+<% if !replying && !@message.new_record? && User.current.allowed_in_project?(:edit_messages, @project) %>
   <div class="form--field">
-    <%= f.select :forum_id, @project.forums.collect {|b| [b.name, b.id]}, label: Forum.name.humanize, container_class: '-wide' %>
+    <%= f.select :forum_id, @project.forums.collect {|b| [b.name, b.id]}, label: Forum.model_name.human, container_class: '-wide' %>
   </div>
 <% end %>
 

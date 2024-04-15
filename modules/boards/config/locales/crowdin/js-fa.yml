@@ -21,7 +21,7 @@ fa:
         edit_version: 'ویرایش نسخه'
         show_version: 'Show version'
         locked: 'قفل شده'
-        closed: 'Closed'
+        closed: 'بسته'
       new_board: 'New board'
       add_list: 'Add list to board'
       add_card: 'Add card'

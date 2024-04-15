@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Session TTL',
-         with_settings: { session_ttl_enabled?: true, session_ttl: '10' },
-         type: :feature do
-  shared_let(:admin) { create :admin }
-  let(:admin_password) { 'adminADMIN!' }
+RSpec.describe "Session TTL",
+               with_settings: { session_ttl_enabled?: true, session_ttl: "10" } do
+  shared_let(:admin) { create(:admin) }
+  let(:admin_password) { "adminADMIN!" }
 
-  let!(:work_package) { create :work_package }
+  let!(:work_package) { create(:work_package) }
 
   before do
     login_with(admin.login, admin_password)
@@ -44,32 +43,32 @@ describe 'Session TTL',
     page.set_rack_session(updated_at: Time.now - 1.hour)
   end
 
-  describe 'outdated TTL on Rails request' do
-    it 'expires on the next Rails request' do
-      visit '/my/account'
-      expect(page).to have_selector('.form--field-container', text: admin.login)
+  describe "outdated TTL on Rails request" do
+    it "expires on the next Rails request" do
+      visit "/my/account"
+      expect(page).to have_css(".form--field-container", text: admin.login)
 
       # Expire the session
       expire!
 
-      visit '/'
-      expect(page).to have_selector('.action-login')
+      visit "/"
+      expect(page).to have_css(".action-login")
     end
   end
 
-  describe 'outdated TTL on API request' do
-    it 'expires on the next APIv3 request' do
-      page.driver.header('X-Requested-With', 'XMLHttpRequest')
+  describe "outdated TTL on API request" do
+    it "expires on the next APIv3 request" do
+      page.driver.header("X-Requested-With", "XMLHttpRequest")
       visit "/api/v3/work_packages/#{work_package.id}"
 
       body = JSON.parse(page.body)
-      expect(body['id']).to eq(work_package.id)
+      expect(body["id"]).to eq(work_package.id)
 
       # Expire the session
       expire!
       visit "/api/v3/work_packages/#{work_package.id}"
 
-      expect(page.body).to eq('unauthorized')
+      expect(page.body).to eq("unauthorized")
     end
   end
 end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,40 +27,54 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_for :header_tags do %>
-  <meta name="required_script" content="administration_settings" />
-<% end %>
-
 <%= toolbar title: t(:label_working_days) %>
 
 <div class="op-toast -warning">
   <div class="op-toast--content">
-    <p><%= t("working_days.warning") %></p>
+    <p>
+    <%= t("working_days.warning").html_safe %>
+    </p>
   </div>
 </div>
 
 <%= styled_form_tag(
       admin_settings_working_days_path,
       method: :patch,
-      data: augmented_confirmation_dialog(
-        title: t('working_days.change_button'),
-        button_continue: t('working_days.change_button'),
-        text: "#{t('working_days.warning')}\n#{t(:text_are_you_sure_continue)}",
-        danger_zone: true,
-        divider: true
-      ),
       class: 'op-working-days-admin-settings'
     ) do %>
+
   <section class="form--section">
-    <p>
-      <%= t("working_days.info").html_safe %>
-    </p>
-    <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
-      <%= setting_multiselect :working_days,
-            I18n.t('date.day_names').rotate.zip(WeekDay::DAY_RANGE),
-            direction: :horizontal,
-            label: false %>
-    </div>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t('settings.working_days.section_work_week') %></legend>
+
+      <p>
+        <%= t("working_days.info").html_safe %>
+      </p>
+
+      <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
+        <%= setting_multiselect :working_days,
+
+              I18n.t('date.day_names').rotate.zip(WeekDay::DAY_RANGE),
+              direction: :horizontal %>
+      </div>
+
+    </fieldset>
   </section>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t('settings.working_days.section_holidays_and_closures') %></legend>
+
+      <p>
+        <%= t("working_days.instance_wide_info").html_safe %>
+      </p>
+      <%= angular_component_tag 'op-non-working-days-list',
+                                data: { modified_non_working_days: @modified_non_working_days } %>
+
+    </fieldset>
+  </section>
+
+
+
+  <%= styled_button_tag t(:button_apply_changes), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

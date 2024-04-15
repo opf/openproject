@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,12 +32,12 @@ module API
       class RolesAPI < ::API::OpenProjectAPI
         resources :roles do
           after_validation do
-            authorize_any(%i[view_members manage_members], global: true)
+            authorize_in_any_project(%i[view_members manage_members])
           end
 
           get &::API::V3::Utilities::Endpoints::Index.new(model: Role).mount
 
-          route_param :id, type: Integer, desc: 'Role ID' do
+          route_param :id, type: Integer, desc: "Role ID" do
             after_validation do
               @role = Role.find(declared_params[:id])
             end

@@ -15,47 +15,47 @@ your OpenProject installation to this version.
 ## Bug fixes (15)
 
   - The page navigation in the forums was not displayed
-    ([#25463](https://community.openproject.com/work_packages/25463))
+    ([#25463](https://community.openproject.org/wp/25463))
   - The Zen mode raised a JS error on iOS
-    ([#25461](https://community.openproject.com/work_packages/25461))
+    ([#25461](https://community.openproject.org/wp/25461))
   - The mobile dropdown menus closed on click on a child menu item
-    ([#25460](https://community.openproject.com/work_packages/25460))
+    ([#25460](https://community.openproject.org/wp/25460))
   - Error on position attribute (cannot write read-only attributes) when
     copying work package
-    ([#25458](https://community.openproject.com/work_packages/25458))
+    ([#25458](https://community.openproject.org/wp/25458))
   - Work package inline-create fails when subproject filter is
     active
-    ([#25455](https://community.openproject.com/work_packages/25455))
+    ([#25455](https://community.openproject.org/wp/25455))
   - Show loading indicator earlier when switching queries through
     dropdown
-    ([#25454](https://community.openproject.com/work_packages/25454))
+    ([#25454](https://community.openproject.org/wp/25454))
   - Button text alignment for meeting and budget create button wrong
-    ([#25447](https://community.openproject.com/work_packages/25447))
+    ([#25447](https://community.openproject.org/wp/25447))
   - Costs (Budget) filter not applied on saved query
-    ([#25446](https://community.openproject.com/work_packages/25446))
+    ([#25446](https://community.openproject.org/wp/25446))
   - Project settings not accessible with a project user custom field
-    ([#25442](https://community.openproject.com/work_packages/25442))
+    ([#25442](https://community.openproject.org/wp/25442))
   - Version custom field of type “List” could not be assigned
-    ([#25439](https://community.openproject.com/work_packages/25439))
+    ([#25439](https://community.openproject.org/wp/25439))
   - Moving columns left/right while retaining default column set did not
     save
-    ([#25438](https://community.openproject.com/work_packages/25438))
+    ([#25438](https://community.openproject.org/wp/25438))
   - The drop down menu of the mobile create button opened in the wrong
     direction
-    ([#25433](https://community.openproject.com/work_packages/25433))
+    ([#25433](https://community.openproject.org/wp/25433))
   - Inline edit text inputs did not take up the entire possible width
-    ([#25430](https://community.openproject.com/work_packages/25430))
+    ([#25430](https://community.openproject.org/wp/25430))
   - Sums cannot be displayed on second query unless deactivated first
-    ([#25420](https://community.openproject.com/work_packages/25420))
+    ([#25420](https://community.openproject.org/wp/25420))
   - Subject
     and back button in fullscreen view were not aligned correctly
-    ([#25378](https://community.openproject.com/work_packages/25378))
+    ([#25378](https://community.openproject.org/wp/25378))
 
 Thanks a lot to the community, in particular to Mike Lewis and Harsha BS
 for reporting and fixing bugs!
 
 For further information on the release, please refer to the [Changelog
-v7.0.1](https://community.openproject.com/versions/924) 
+v7.0.1](https://community.openproject.org/versions/924) 
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.0.1).
 

@@ -4,13 +4,13 @@
   <section
     class="op-tab-content--tab-section"
     [ngClass]="{ 'op-tab-content--tab-section_no-header': (showAttachmentHeader$ | async) === false }"
-    data-qa-selector="op-tab-content--tab-section"
+    data-test-selector="op-tab-content--tab-section"
   >
     <div
       *ngIf="showAttachmentHeader$ | async"
       class="op-tab-content--header"
     >
-      <span class="spot-icon spot-icon_attachment op-files-tab--icon op-files-tab--icon_clip"></span>
+      <span class="spot-icon spot-icon_attachment op-tab-content--header-icon op-files-tab--icon_clip"></span>
       <span class="op-tab-content--header-text" [textContent]="text.attachments.label"></span>
     </div>
 
@@ -18,15 +18,15 @@
   </section>
 
   <section
-    *ngFor="let storage of storages$ | async"
-    data-qa-selector="op-tab-content--tab-section"
+    *ngFor="let storage of projectStorages | async"
+    data-test-selector="op-tab-content--tab-section"
     class="op-tab-content--tab-section"
   >
     <op-storage
       [resource]="workPackage"
-      [storage]="storage"
-      [allowUploading]="storageFileUploadEnabled"
-      [allowLinking]="storageFileLinkingEnabled"
+      [projectStorage]="storage"
+      [allowUploading]="allowManageFileLinks$ | async"
+      [allowLinking]="allowManageFileLinks$ | async"
     ></op-storage>
   </section>
 </div>

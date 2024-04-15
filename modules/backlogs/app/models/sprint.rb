@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'date'
+require "date"
 
 class Sprint < Version
   scope :open_sprints, lambda { |project|
@@ -46,7 +46,7 @@ class Sprint < Version
         " OR (#{Project.table_name}.lft >= #{project.root.lft} AND #{Project.table_name}.rgt <= #{project.root.rgt} AND #{Version.table_name}.sharing = 'tree')" +
         " OR (#{Project.table_name}.lft < #{project.lft} AND #{Project.table_name}.rgt > #{project.rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
         " OR (#{Project.table_name}.lft > #{project.lft} AND #{Project.table_name}.rgt < #{project.rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
-        '))')
+        "))")
       .includes(:project)
       .references(:projects)
   }
@@ -54,13 +54,13 @@ class Sprint < Version
   scope :displayed_left, lambda { |project|
     joins(sanitize_sql_array([
                                "LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
-                                 ' WHERE project_id = ? ) version_settings' +
-                                 ' ON version_settings.version_id = versions.id',
+                                 " WHERE project_id = ? ) version_settings" +
+                                 " ON version_settings.version_id = versions.id",
                                project.id
                              ]))
       .where([
-               '(version_settings.project_id = ? AND version_settings.display = ?)' +
-                 ' OR (version_settings.project_id is NULL)',
+               "(version_settings.project_id = ? AND version_settings.display = ?)" +
+                 " OR (version_settings.project_id is NULL)",
                project.id,
                VersionSetting::DISPLAY_LEFT
              ])
@@ -76,7 +76,7 @@ class Sprint < Version
   }
 
   scope :displayed_right, lambda { |project|
-    where(['version_settings.project_id = ? AND version_settings.display = ?',
+    where(["version_settings.project_id = ? AND version_settings.display = ?",
            project.id, VersionSetting::DISPLAY_RIGHT])
       .includes(:version_settings)
       .references(:version_settings)
@@ -96,14 +96,14 @@ class Sprint < Version
     page = project.wiki.find_page(wiki_page_title)
     return false if !page
 
-    template = project.wiki.find_page(Setting.plugin_openproject_backlogs['wiki_template'])
+    template = project.wiki.find_page(Setting.plugin_openproject_backlogs["wiki_template"])
     return false if template && page.text == template.text
 
     true
   end
 
   def wiki_page
-    return '' unless project.wiki
+    return "" unless project.wiki
 
     create_wiki_page(name) unless project.wiki.find_page(name)
     update_attribute(:wiki_page_title, name) if wiki_page_title.blank?
@@ -124,13 +124,13 @@ class Sprint < Version
   end
 
   def activity
-    bd = burndown('up')
+    bd = burndown("up")
     return false if bd.blank?
 
     # Assume a sprint is active if it's only 2 days old
     return true if bd.remaining_hours.size <= 2
 
-    WorkPackage.exists?(['version_id = ? and ((updated_at between ? and ?) or (created_at between ? and ?))',
+    WorkPackage.exists?(["version_id = ? and ((updated_at between ? and ?) or (created_at between ? and ?))",
                          id, -2.days.from_now, Time.now, -2.days.from_now, Time.now])
   end
 
@@ -142,9 +142,9 @@ class Sprint < Version
 
   def self.generate_burndown(only_current = true)
     conditions = if only_current
-                   ['? BETWEEN start_date AND effective_date', Date.today]
+                   ["? BETWEEN start_date AND effective_date", Date.today]
                  else
-                   '1 = 1'
+                   "1 = 1"
                  end
 
     Version.where(conditions).each(&:burndown)
@@ -158,16 +158,15 @@ class Sprint < Version
 
   private
 
-  def create_wiki_page(page_title)
-    template = project.wiki.find_page(Setting.plugin_openproject_backlogs['wiki_template'])
+  def create_wiki_page(page_title, author: User.current)
+    template = project.wiki.find_page(Setting.plugin_openproject_backlogs["wiki_template"])
     page_text = if template
                   "h1. #{name}\n\n#{template.text}"
                 else
                   "h1. #{name}"
                 end
 
-    page = project.wiki.pages.build(title: page_title)
-    page.build_content(text: page_text)
+    page = project.wiki.pages.build(title: page_title, text: page_text, author:)
     page.save!
   end
 end

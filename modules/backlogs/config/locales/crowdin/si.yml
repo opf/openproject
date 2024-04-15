@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 si:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "තත්ත්වය"
-        remaining_hours: "ඉතිරි පැය"
-        remaining_time: "ඉතිරි පැය"
         story_points: "කතන්දර කරුණු"
         backlogs_work_package_type: "බැක්ලොග් වර්ගය"
     errors:
@@ -35,9 +36,6 @@ si:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "පමණක් වත්මන් ස්ප්රින්ට් වැඩ පැකේජ IDS අඩංගු විය හැක."
               must_block_at_least_one_work_package: "අවම වශයෙන් එක් ටිකට් පතක හැඳුනුම්පත අඩංගු විය යුතුය."
-            parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "වර්ගය පහත සඳහන් එකක් විය යුතුය: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "මව් කතාවේ අනුවාදයට සමාන විය යුතුය."
         sprint:
@@ -66,8 +64,8 @@ si:
     properties: "ගුණාංග"
     rebuild: "නැවත"
     rebuild_positions: "තනතුරු නැවත"
-    remaining_hours: "ඉතිරි පැය"
-    remaining_hours_ideal: "ඉතිරි පැය (කදිම)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "බර්න්ඩවුන් සටහන"
     story: "කතාව"
     story_points: "කතන්දර කරුණු"
@@ -78,7 +76,6 @@ si:
     x_more: "%{count} තවත්..."
   backlogs_active: "ක්රියාකාරී"
   backlogs_any: "ඔනෑම"
-  backlogs_card_specification: "කාඩ් මුද්රණය සඳහා ලේබල් වර්ග"
   backlogs_inactive: "ව්යාපෘතිය කිසිදු ක්රියාකාරකමක් පෙන්වයි"
   backlogs_points_burn_direction: "ලකුණු ඉහළ/පහළ පිළිස්සීම"
   backlogs_product_backlog: "නිෂ්පාදන බැක්ලොග්"
@@ -150,7 +147,7 @@ si:
   rb_label_copy_tasks_none: "කිසිවක් නැත"
   rb_label_copy_tasks_open: "විවෘත"
   rb_label_link_to_original: "මුල් කතාවට සබැඳිය ඇතුළත් කරන්න"
-  remaining_hours: "ඉතිරි පැය"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "අවශ්ය පිළිස්සීම් අනුපාතය (පැය)"
   required_burn_rate_points: "අවශ්ය පිළිස්සීම් අනුපාතය (ලකුණු)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

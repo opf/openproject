@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-describe 'Team planner index', type: :feature, js: true do
-  include_context 'with team planner full access'
+RSpec.describe "Team planner index", :js, :with_cuprite do
+  include_context "with team planner full access"
 
   let(:current_user) { user }
 
@@ -38,17 +38,21 @@ describe 'Team planner index', type: :feature, js: true do
     login_as current_user
   end
 
-  it 'redirects routes to upsale' do
+  it "redirects routes to upsale" do
+    visit team_planners_path
+
+    expect(page).to have_text "Upgrade now"
+
     visit project_team_planners_path(project)
 
-    expect(page).to have_text 'Upgrade now'
+    expect(page).to have_text "Upgrade now"
 
     visit new_project_team_planners_path(project)
 
-    expect(page).to have_text 'Upgrade now'
+    expect(page).to have_text "Upgrade now"
 
-    visit project_team_planner_path(project, id: 'new')
+    visit project_team_planner_path(project, id: "new")
 
-    expect(page).to have_text 'Upgrade now'
+    expect(page).to have_text "Upgrade now"
   end
 end

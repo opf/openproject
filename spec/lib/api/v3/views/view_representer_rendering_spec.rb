@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Views::ViewRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Views::ViewRepresenter, "rendering" do
+  include API::V3::Utilities::PathHelper
 
   subject(:generated) { representer.to_json }
 
@@ -47,89 +47,89 @@ describe ::API::V3::Views::ViewRepresenter, 'rendering' do
                            embed_links:
   end
 
-  describe 'properties' do
-    describe '_type' do
-      it_behaves_like 'property', :_type do
-        let(:value) { 'Views::WorkPackagesTable' }
+  describe "properties" do
+    describe "_type" do
+      it_behaves_like "property", :_type do
+        let(:value) { "Views::WorkPackagesTable" }
       end
     end
 
-    describe 'id' do
-      it_behaves_like 'property', :id do
+    describe "id" do
+      it_behaves_like "property", :id do
         let(:value) { view.id }
       end
     end
 
-    describe 'public' do
-      context 'with the query being public' do
-        it_behaves_like 'property', :public do
+    describe "public" do
+      context "with the query being public" do
+        it_behaves_like "property", :public do
           let(:value) { true }
         end
       end
 
-      context 'with the query being private' do
+      context "with the query being private" do
         let(:query_public) { false }
 
-        it_behaves_like 'property', :public do
+        it_behaves_like "property", :public do
           let(:value) { false }
         end
       end
     end
 
-    describe 'starred' do
-      context 'with the query being starred' do
-        it_behaves_like 'property', :starred do
+    describe "starred" do
+      context "with the query being starred" do
+        it_behaves_like "property", :starred do
           let(:value) { true }
         end
       end
 
-      context 'without the query being starred' do
+      context "without the query being starred" do
         let(:query_starred) { false }
 
-        it_behaves_like 'property', :starred do
+        it_behaves_like "property", :starred do
           let(:value) { false }
         end
       end
     end
 
-    describe 'name' do
-      context 'with the query being name' do
-        it_behaves_like 'property', :name do
+    describe "name" do
+      context "with the query being name" do
+        it_behaves_like "property", :name do
           let(:value) { query.name }
         end
       end
     end
 
-    describe 'timestamps' do
-      it_behaves_like 'datetime property', :createdAt do
+    describe "timestamps" do
+      it_behaves_like "datetime property", :createdAt do
         let(:value) { view.created_at }
       end
 
-      it_behaves_like 'datetime property', :updatedAt do
+      it_behaves_like "datetime property", :updatedAt do
         let(:value) { view.updated_at }
       end
     end
   end
 
-  describe '_links' do
-    describe 'self' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'self' }
+  describe "_links" do
+    describe "self" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.view view.id }
       end
     end
 
-    describe 'query' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'query' }
+    describe "query" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "query" }
         let(:href) { api_v3_paths.query query.id }
         let(:title) { query.name }
       end
     end
 
-    describe 'project' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'project' }
+    describe "project" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "project" }
         let(:href) { api_v3_paths.project query.project_id }
         let(:title) { query.project.name }
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,15 @@
 
 module AdminHelper
   def project_status_options_for_select(selected)
-    options_for_select([[I18n.t(:label_all), ''],
+    options_for_select([[I18n.t(:label_all), ""],
                         [I18n.t(:status_active), 1]], selected)
+  end
+
+  def linked_sha_reference(sha, url)
+    if sha && url
+      link_to sha, url, target: "_blank", rel: "noopener"
+    else
+      sha
+    end
   end
 end

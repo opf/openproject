@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ module OpenProject::TextFormatting
       end
 
       def call
-        doc.search('.//text()').each do |node|
+        doc.search(".//text()").each do |node|
           next if has_ancestor?(node, PREFORMATTED_BLOCKS)
 
           self.class.matchers.each do |matcher|

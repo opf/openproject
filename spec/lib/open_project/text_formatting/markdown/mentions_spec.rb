@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,50 +26,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
-describe OpenProject::TextFormatting,
-         'mentions' do
-  include_context 'expected markdown modules'
+RSpec.describe OpenProject::TextFormatting,
+               "mentions" do
+  include_context "expected markdown modules"
 
-  describe '.format_text' do
-    shared_let(:project) { create :valid_project }
+  describe ".format_text" do
+    shared_let(:project) { create(:valid_project) }
     let(:identifier) { project.identifier }
     let(:options) { { project: } }
 
     shared_let(:role) do
-      create :role,
+      create(:project_role,
              permissions: %i(view_work_packages edit_work_packages
-                             browse_repository view_changesets view_wiki_pages)
+                             browse_repository view_changesets view_wiki_pages))
     end
 
     shared_let(:project_member) do
-      create :user,
-             member_in_project: project,
-             member_through_role: role
+      create(:user,
+             member_with_roles: { project => role })
     end
 
     before do
       login_as(project_member)
     end
 
-    context 'User links' do
+    context "User links" do
       let(:role) do
-        create :role,
+        create(:project_role,
                permissions: %i[view_work_packages edit_work_packages
-                               browse_repository view_changesets view_wiki_pages]
+                               browse_repository view_changesets view_wiki_pages])
       end
 
       let(:linked_project_member) do
-        create :user,
-               member_in_project: project,
-               member_through_role: role
+        create(:user,
+               member_with_roles: { project => role })
       end
 
-      context 'User link via mention' do
-        context 'existing user' do
-          it_behaves_like 'format_text produces' do
+      context "User link via mention" do
+        context "existing user" do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 <mention class="mention"
@@ -87,15 +85,16 @@ describe OpenProject::TextFormatting,
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
                             title: "User #{linked_project_member.name}",
-                            class: 'user-mention op-uc-link')}
+                            class: 'user-mention op-uc-link',
+                            target: '_top')}
                 </p>
               EXPECTED
             end
           end
         end
 
-        context 'inexistent user' do
-          it_behaves_like 'format_text produces' do
+        context "inexistent user" do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 <mention class="mention"
@@ -118,9 +117,9 @@ describe OpenProject::TextFormatting,
         end
       end
 
-      context 'User link via ID' do
-        context 'when linked user visible for reader' do
-          it_behaves_like 'format_text produces' do
+      context "User link via ID" do
+        context "when linked user visible for reader" do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 user##{linked_project_member.id}
@@ -133,17 +132,18 @@ describe OpenProject::TextFormatting,
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
                             title: "User #{linked_project_member.name}",
-                            class: 'user-mention op-uc-link')}
+                            class: 'user-mention op-uc-link',
+                            target: '_top')}
                 </p>
               EXPECTED
             end
           end
         end
 
-        context 'when linked user not visible for reader' do
+        context "when linked user not visible for reader" do
           let(:role) { create(:non_member) }
 
-          it_behaves_like 'format_text produces' do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 user##{linked_project_member.id}
@@ -156,7 +156,8 @@ describe OpenProject::TextFormatting,
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
                             title: "User #{linked_project_member.name}",
-                            class: 'user-mention op-uc-link')}
+                            class: 'user-mention op-uc-link',
+                            target: '_top')}
                 </p>
               EXPECTED
             end
@@ -164,10 +165,10 @@ describe OpenProject::TextFormatting,
         end
       end
 
-      context 'User link via login name' do
-        context 'when linked user visible for reader' do
-          context 'with a common login name' do
-            it_behaves_like 'format_text produces' do
+      context "User link via login name" do
+        context "when linked user visible for reader" do
+          context "with a common login name" do
+            it_behaves_like "format_text produces" do
               let(:raw) do
                 <<~RAW
                   user:"#{linked_project_member.login}"
@@ -180,7 +181,8 @@ describe OpenProject::TextFormatting,
                     #{link_to(linked_project_member.name,
                               { controller: :users, action: :show, id: linked_project_member.id },
                               title: "User #{linked_project_member.name}",
-                              class: 'user-mention op-uc-link')}
+                              class: 'user-mention op-uc-link',
+                              target: '_top')}
                   </p>
                 EXPECTED
               end
@@ -189,13 +191,12 @@ describe OpenProject::TextFormatting,
 
           context "with an email address as login name" do
             let(:linked_project_member) do
-              create :user,
-                     member_in_project: project,
-                     member_through_role: role,
-                     login: "foo@bar.com"
+              create(:user,
+                     member_with_roles: { project => role },
+                     login: "foo@bar.com")
             end
 
-            it_behaves_like 'format_text produces' do
+            it_behaves_like "format_text produces" do
               let(:raw) do
                 <<~RAW
                   user:"#{linked_project_member.login}"
@@ -208,7 +209,8 @@ describe OpenProject::TextFormatting,
                     #{link_to(linked_project_member.name,
                               { controller: :users, action: :show, id: linked_project_member.id },
                               title: "User #{linked_project_member.name}",
-                              class: 'user-mention op-uc-link')}
+                              class: 'user-mention op-uc-link',
+                              target: '_top')}
                   </p>
                 EXPECTED
               end
@@ -216,10 +218,10 @@ describe OpenProject::TextFormatting,
           end
         end
 
-        context 'when linked user not visible for reader' do
+        context "when linked user not visible for reader" do
           let(:role) { create(:non_member) }
 
-          it_behaves_like 'format_text produces' do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 user:"#{linked_project_member.login}"
@@ -232,7 +234,8 @@ describe OpenProject::TextFormatting,
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
                             title: "User #{linked_project_member.name}",
-                            class: 'user-mention op-uc-link')}
+                            class: 'user-mention op-uc-link',
+                            target: '_top')}
                 </p>
               EXPECTED
             end
@@ -240,9 +243,9 @@ describe OpenProject::TextFormatting,
         end
       end
 
-      context 'User link via mail' do
-        context 'for user references not existing' do
-          it_behaves_like 'format_text produces' do
+      context "User link via mail" do
+        context "for user references not existing" do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 Link to user:"foo@bar.com"
@@ -259,21 +262,19 @@ describe OpenProject::TextFormatting,
           end
         end
 
-        context 'when visible user exists' do
-          let(:project) { create :project }
-          let(:role) { create(:role, permissions: %i(view_work_packages)) }
+        context "when visible user exists" do
+          let(:project) { create(:project) }
+          let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
           let(:current_user) do
             create(:user,
-                   member_in_project: project,
-                   member_through_role: role)
+                   member_with_roles: { project => role })
           end
           let(:user) do
             create(:user,
-                   login: 'foo@bar.com',
-                   firstname: 'Foo',
-                   lastname: 'Barrit',
-                   member_in_project: project,
-                   member_through_role: role)
+                   login: "foo@bar.com",
+                   firstname: "Foo",
+                   lastname: "Barrit",
+                   member_with_roles: { project => role })
           end
 
           before do
@@ -281,8 +282,8 @@ describe OpenProject::TextFormatting,
             login_as current_user
           end
 
-          context 'with only_path true (default)' do
-            it_behaves_like 'format_text produces' do
+          context "with only_path true (default)" do
+            it_behaves_like "format_text produces" do
               let(:raw) do
                 <<~RAW
                   Link to user:"foo@bar.com"
@@ -292,17 +293,17 @@ describe OpenProject::TextFormatting,
               let(:expected) do
                 <<~EXPECTED
                   <p class="op-uc-p">
-                    Link to <a class="user-mention op-uc-link" href="/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>
+                    Link to <a class="user-mention op-uc-link" target="_top" href="/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>
                   </p>
                 EXPECTED
               end
             end
           end
 
-          context 'with only_path false (default)', with_settings: { host_name: "openproject.org" } do
+          context "with only_path false (default)", with_settings: { host_name: "openproject.org" } do
             let(:options) { { only_path: false } }
 
-            it_behaves_like 'format_text produces' do
+            it_behaves_like "format_text produces" do
               let(:raw) do
                 <<~RAW
                   Link to user:"foo@bar.com"
@@ -322,24 +323,19 @@ describe OpenProject::TextFormatting,
       end
     end
 
-    context 'Group reference' do
+    context "Group reference" do
       let(:role) do
-        create :role,
-               permissions: []
+        create(:project_role,
+               permissions: [])
       end
 
       let(:linked_project_member_group) do
-        create(:group).tap do |group|
-          create(:member,
-                 principal: group,
-                 project:,
-                 roles: [role])
-        end
+        create(:group, member_with_roles: { project => role })
       end
 
-      context 'via hash syntax' do
-        context 'group exists' do
-          it_behaves_like 'format_text produces' do
+      context "via hash syntax" do
+        context "group exists" do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 Link to group##{linked_project_member_group.id}
@@ -351,6 +347,7 @@ describe OpenProject::TextFormatting,
                 <p class="op-uc-p">
                   Link to
                   <a class="user-mention op-uc-link"
+                     target="_top"
                      href="/groups/#{linked_project_member_group.id}"
                      title="Group #{linked_project_member_group.name}">
                     #{linked_project_member_group.name}
@@ -361,8 +358,8 @@ describe OpenProject::TextFormatting,
           end
         end
 
-        context 'group does not exist' do
-          it_behaves_like 'format_text produces' do
+        context "group does not exist" do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 Link to group#000000
@@ -380,9 +377,9 @@ describe OpenProject::TextFormatting,
         end
       end
 
-      context 'via mention' do
-        context 'existing group' do
-          it_behaves_like 'format_text produces' do
+      context "via mention" do
+        context "existing group" do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 <mention class="mention"
@@ -396,6 +393,7 @@ describe OpenProject::TextFormatting,
               <<~EXPECTED
                 <p class="op-uc-p">
                   <a class="user-mention op-uc-link"
+                     target="_top"
                      href="/groups/#{linked_project_member_group.id}"
                      title="Group #{linked_project_member_group.name}">
                     #{linked_project_member_group.name}
@@ -406,8 +404,8 @@ describe OpenProject::TextFormatting,
           end
         end
 
-        context 'inexistent group' do
-          it_behaves_like 'format_text produces' do
+        context "inexistent group" do
+          it_behaves_like "format_text produces" do
             let(:raw) do
               <<~RAW
                 <mention class="mention"

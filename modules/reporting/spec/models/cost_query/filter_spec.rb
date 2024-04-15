@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,13 +27,13 @@
 #++
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
-require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
+require File.join(File.dirname(__FILE__), "..", "..", "support", "custom_field_filter")
 
-describe CostQuery, type: :model, reporting_query_helper: true do
+RSpec.describe CostQuery, :reporting_query_helper do
   minimal_query
 
   let!(:project) { create(:project_with_types) }
-  let!(:user) { create(:user, member_in_project: project) }
+  let!(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
 
   def create_work_package_with_entry(entry_type, work_package_params = {}, entry_params = {})
     work_package_params = { project: }.merge!(work_package_params)
@@ -69,16 +69,16 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     # Test Work Package attributes that are included in of the result set
 
     [
-      [CostQuery::Filter::ProjectId,        'project',    "project_id",      2],
-      [CostQuery::Filter::UserId,           'user',       "user_id",         2],
-      [CostQuery::Filter::CostTypeId,       'cost_type',  "cost_type_id",    1],
-      [CostQuery::Filter::WorkPackageId,    'work_package', "work_package_id", 2],
-      [CostQuery::Filter::ActivityId, 'activity', "activity_id", 1]
+      [CostQuery::Filter::ProjectId,        "project",    "project_id",      2],
+      [CostQuery::Filter::UserId,           "user",       "user_id",         2],
+      [CostQuery::Filter::CostTypeId,       "cost_type",  "cost_type_id",    1],
+      [CostQuery::Filter::WorkPackageId,    "work_package", "work_package_id", 2],
+      [CostQuery::Filter::ActivityId, "activity", "activity_id", 1]
     ].each do |filter, object_name, field, expected_count|
       describe filter do
         let!(:non_matching_entry) { create(:cost_entry) }
         let!(:object) { send(object_name) }
-        let!(:author) { create(:user, member_in_project: project) }
+        let!(:author) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
         let!(:work_package) do
           create(:work_package,
                  project:,
@@ -133,7 +133,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
     describe CostQuery::Filter::AuthorId do
       let!(:non_matching_entry) { create(:cost_entry) }
-      let!(:author) { create(:user, member_in_project: project) }
+      let!(:author) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
       let!(:work_package) do
         create(:work_package,
                project:,
@@ -157,7 +157,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "onlies return entries from the given CostQuery::Filter::AuthorId" do
-        query.filter 'author_id', value: author.id
+        query.filter "author_id", value: author.id
         query.result.each do |result|
           work_package_id = result["work_package_id"]
           expect(WorkPackage.find(work_package_id).author.id).to eq(author.id)
@@ -165,8 +165,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "allows chaining the same filter" do
-        query.filter 'author_id', value: author.id
-        query.filter 'author_id', value: author.id
+        query.filter "author_id", value: author.id
+        query.filter "author_id", value: author.id
         query.result.each do |result|
           work_package_id = result["work_package_id"]
           expect(WorkPackage.find(work_package_id).author.id).to eq(author.id)
@@ -174,32 +174,32 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "returns no results for excluding filters" do
-        query.filter 'author_id', value: author.id
-        query.filter 'author_id', value: author.id + 1
+        query.filter "author_id", value: author.id
+        query.filter "author_id", value: author.id + 1
         expect(query.result.count).to eq(0)
       end
 
       it "computes the correct number of results" do
-        query.filter 'author_id', value: author.id
+        query.filter "author_id", value: author.id
         expect(query.result.count).to eq(2)
       end
     end
 
     it "filters spent_on" do
-      query.filter :spent_on, operator: 'w'
-      expect(query.result.count).to eq(Entry.all.select { |e| e.spent_on.cweek == TimeEntry.all.first.spent_on.cweek }.count)
+      query.filter :spent_on, operator: "w"
+      expect(query.result.count).to eq(Entry.all.count { |e| e.spent_on.cweek == TimeEntry.all.first.spent_on.cweek })
     end
 
     it "filters created_at" do
-      query.filter :created_on, operator: 't'
+      query.filter :created_on, operator: "t"
       # we assume that some of our fixtures set created_at to Time.now
-      expect(query.result.count).to eq(Entry.all.select { |e| e.created_at.to_date == Time.zone.today }.count)
+      expect(query.result.count).to eq(Entry.all.count { |e| e.created_at.to_date == Time.zone.today })
     end
 
     it "filters updated_at" do
-      query.filter :updated_on, value: Time.zone.today.years_ago(20), operator: '>d'
+      query.filter :updated_on, value: Time.zone.today.years_ago(20), operator: ">d"
       # we assume that our were updated in the last 20 years
-      expect(query.result.count).to eq(Entry.all.select { |e| e.updated_at.to_date > Time.zone.today.years_ago(20) }.count)
+      expect(query.result.count).to eq(Entry.all.count { |e| e.updated_at.to_date > Time.zone.today.years_ago(20) })
     end
 
     it "filters user_id" do
@@ -209,7 +209,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       create_work_package_with_time_entry({}, { user: anonymous })
       # create matching entry
       create_work_package_with_time_entry
-      query.filter :user_id, value: user.id, operator: '='
+      query.filter :user_id, value: user.id, operator: "="
       expect(query.result.count).to eq(1)
     end
 
@@ -227,46 +227,46 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "filters overridden_costs" do
-        query.filter :overridden_costs, operator: 'y'
-        expect(query.result.count).to eq(Entry.all.reject { |e| e.overridden_costs.nil? }.count)
+        query.filter :overridden_costs, operator: "y"
+        expect(query.result.count).to eq(Entry.all.count { |e| !e.overridden_costs.nil? })
       end
 
       it "filters status" do
         matching_status = create(:status, is_closed: true)
         create_work_packages_and_time_entries(3, status: matching_status)
-        query.filter :status_id, operator: 'c'
+        query.filter :status_id, operator: "c"
         expect(query.result.count).to eq(3)
       end
 
       it "filters types" do
         matching_type = project.types.first
         create_work_packages_and_time_entries(3, type: matching_type)
-        query.filter :type_id, operator: '=', value: matching_type.id
+        query.filter :type_id, operator: "=", value: matching_type.id
         expect(query.result.count).to eq(3)
       end
 
       it "filters work_package authors" do
         matching_author = create_matching_object_with_time_entries(:user, :author, 3)
-        query.filter :author_id, operator: '=', value: matching_author.id
+        query.filter :author_id, operator: "=", value: matching_author.id
         expect(query.result.count).to eq(3)
       end
 
       it "filters priority" do
         matching_priority = create_matching_object_with_time_entries(:priority, :priority, 3)
-        query.filter :priority_id, operator: '=', value: matching_priority.id
+        query.filter :priority_id, operator: "=", value: matching_priority.id
         expect(query.result.count).to eq(3)
       end
 
       it "filters assigned to" do
         matching_user = create_matching_object_with_time_entries(:user, :assigned_to, 3)
-        query.filter :assigned_to_id, operator: '=', value: matching_user.id
+        query.filter :assigned_to_id, operator: "=", value: matching_user.id
         expect(query.result.count).to eq(3)
       end
 
       it "filters category" do
         category = create(:category, project:)
         create_work_packages_and_time_entries(3, category:)
-        query.filter :category_id, operator: '=', value: category.id
+        query.filter :category_id, operator: "=", value: category.id
         expect(query.result.count).to eq(3)
       end
 
@@ -274,32 +274,32 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         matching_version = create(:version, project:)
         create_work_packages_and_time_entries(3, version: matching_version)
 
-        query.filter :version_id, operator: '=', value: matching_version.id
+        query.filter :version_id, operator: "=", value: matching_version.id
         expect(query.result.count).to eq(3)
       end
 
       it "filters subject" do
-        matching_work_package = create_work_package_with_time_entry(subject: 'matching subject')
-        query.filter :subject, operator: '=', value: 'matching subject'
+        matching_work_package = create_work_package_with_time_entry(subject: "matching subject")
+        query.filter :subject, operator: "=", value: "matching subject"
         expect(query.result.count).to eq(1)
       end
 
       it "filters start" do
         start_date = Date.new(2013, 1, 1)
         matching_work_package = create_work_package_with_time_entry(start_date:)
-        query.filter :start_date, operator: '=d', value: start_date
+        query.filter :start_date, operator: "=d", value: start_date
         expect(query.result.count).to eq(1)
       end
 
       it "filters due date" do
         due_date = Date.new(2013, 1, 1)
         matching_work_package = create_work_package_with_time_entry(due_date:)
-        query.filter :due_date, operator: '=d', value: due_date
+        query.filter :due_date, operator: "=d", value: due_date
         expect(query.result.count).to eq(1)
       end
 
       it "raises an error if operator is not supported" do
-        expect { query.filter :spent_on, operator: 'c' }.to raise_error(ArgumentError)
+        expect { query.filter :spent_on, operator: "c" }.to raise_error(ArgumentError)
       end
     end
 
@@ -333,7 +333,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       CostQuery::Filter::WorkPackageId
     ].each do |filter|
       it "onlies allow default operators for #{filter}" do
-        expect(filter.new.available_operators.uniq).to match_array([CostQuery::Operator.default_operator])
+        expect(filter.new.available_operators.uniq).to contain_exactly(CostQuery::Operator.default_operator)
       end
     end
 
@@ -353,15 +353,15 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     describe CostQuery::Filter::CustomFieldEntries do
       let!(:custom_field) do
         cf = create(:work_package_custom_field,
-                    name: 'My custom field')
+                    name: "My custom field")
         clear_cache
         cf
       end
 
       let(:custom_field2) do
-        build(:work_package_custom_field, name: 'Database',
+        build(:work_package_custom_field, name: "Database",
                                           field_format: "list",
-                                          possible_values: ['value'])
+                                          possible_values: ["value"])
       end
 
       after(:all) do
@@ -457,15 +457,15 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       it "is usable as filter" do
         create_searchable_fields_and_values
-        id = WorkPackageCustomField.find_by(name: "Searchable Field").id
-        query.filter "custom_field_#{id}".to_sym, operator: '=', value: "125"
+        cf = WorkPackageCustomField.find_by(name: "Searchable Field")
+        query.filter cf.attribute_name, operator: "=", value: "125"
         expect(query.result.count).to eq(2)
       end
 
       it "is usable as filter #2" do
         create_searchable_fields_and_values
-        id = WorkPackageCustomField.find_by(name: "Searchable Field").id
-        query.filter "custom_field_#{id}".to_sym, operator: '=', value: "finnlabs"
+        cf = WorkPackageCustomField.find_by(name: "Searchable Field")
+        query.filter cf.attribute_name, operator: "=", value: "finnlabs"
         expect(query.result.count).to eq(0)
       end
     end

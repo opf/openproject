@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/page_objects/notification'
-require 'features/work_packages/shared_contexts'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/page_objects/notification"
+require "features/work_packages/shared_contexts"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'Query menu items', js: true do
-  let(:user) { create :admin }
-  let(:project) { create :project }
+RSpec.describe "Query menu items", :js, :with_cuprite do
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-  let(:status) { create :status }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
+  let(:status) { create(:status) }
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
@@ -50,21 +50,21 @@ RSpec.describe 'Query menu items', js: true do
     allow(User).to receive(:current).and_return user
   end
 
-  context 'with identical names' do
+  context "with identical names" do
     let(:query_a) do
-      create :query_with_view_work_packages_table,
+      create(:query_with_view_work_packages_table,
              public: true,
-             name: 'some query.',
-             project:
+             name: "some query.",
+             project:)
     end
     let(:query_b) do
-      create :query_with_view_work_packages_table,
+      create(:query_with_view_work_packages_table,
              public: true,
              name: query_a.name,
-             project:
+             project:)
     end
 
-    it 'can be shown' do
+    it "can be shown" do
       visit_index_page(query_a)
 
       wp_table.visit_query query_a
@@ -72,53 +72,53 @@ RSpec.describe 'Query menu items', js: true do
     end
   end
 
-  context 'with dots in their name' do
+  context "with dots in their name" do
     let(:query) do
-      create :query_with_view_work_packages_table,
+      create(:query_with_view_work_packages_table,
              public: true,
-             name: 'OP 3.0',
-             project:
+             name: "OP 3.0",
+             project:)
     end
 
     after do
       work_packages_page.ensure_loaded
     end
 
-    it 'can be added', js: true, selenium: true do
+    it "can be added" do
       visit_index_page(query)
 
-      click_on 'More actions'
-      click_on I18n.t('js.toolbar.settings.visibility_settings')
-      check 'Favored'
-      click_on 'Save'
+      click_on "More actions"
+      click_on I18n.t("js.toolbar.settings.visibility_settings")
+      check "Favored"
+      click_on "Save"
 
-      notification.expect_success('Successful update')
-      expect(page).to have_selector('.op-sidemenu--item', text: query.name)
+      notification.expect_success("Successful update")
+      expect(page).to have_css(".op-sidemenu--item", text: query.name)
     end
   end
 
-  describe 'renaming a menu item' do
-    let(:query_a) do
-      create :query_with_view_work_packages_table,
+  describe "renaming a menu item" do
+    let!(:query_a) do
+      create(:query_with_view_work_packages_table,
              public: true,
-             name: 'bbbb',
+             name: "bbbb",
              project:,
-             user:
+             user:)
     end
-    let(:query_b) do
-      create :query_with_view_work_packages_table,
+    let!(:query_b) do
+      create(:query_with_view_work_packages_table,
              public: true,
-             name: 'zzzz',
+             name: "zzzz",
              project:,
-             user:
+             user:)
     end
 
-    let(:new_name) { 'aaaaa' }
+    let(:new_name) { "aaaaa" }
 
     before do
       visit_index_page(query_b)
 
-      query_title.expect_title 'zzzz'
+      query_title.expect_title "zzzz"
       input = query_title.input_field
       input.set new_name
       input.send_keys :return
@@ -128,14 +128,14 @@ RSpec.describe 'Query menu items', js: true do
       work_packages_page.ensure_loaded
     end
 
-    it 'displaying a success message' do
-      notification.expect_success('Successful update')
+    it "displaying a success message" do
+      notification.expect_success("Successful update")
     end
 
-    it 'is renaming and reordering the list' do
+    it "is renaming and reordering the list" do
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
-      expect(page).to have_selector('li:nth-child(3) a', text: new_name)
+      expect(page).to have_css(".op-sidemenu--items li:first-child", text: new_name)
     end
   end
 end

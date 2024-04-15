@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Grids::Filters::ScopeFilter, type: :model do
-  include_context 'filter tests'
-  let(:values) { ['/my/page'] }
+RSpec.describe Grids::Filters::ScopeFilter, type: :model do
+  include_context "filter tests"
+  let(:values) { ["/my/page"] }
   let(:user) { build_stubbed(:user) }
   let(:model) { Grids::Grid }
 
@@ -38,19 +38,19 @@ describe Grids::Filters::ScopeFilter, type: :model do
     login_as(user)
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :scope }
     let(:type) { :list }
     let(:model) { Grids::Grid.where(user_id: user.id) }
-    let(:values) { ['/my/page'] }
+    let(:values) { ["/my/page"] }
   end
 
-  describe '#scope' do
+  describe "#scope" do
     context 'for "="' do
-      let(:operator) { '=' }
+      let(:operator) { "=" }
 
-      context 'for /my/page do' do
-        it 'is the same as handwriting the query' do
+      context "for /my/page do" do
+        it "is the same as handwriting the query" do
           expected = model.where("(grids.type IN ('Grids::MyPage'))")
 
           expect(instance.scope.to_sql).to eql expected.to_sql

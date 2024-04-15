@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'rinku'
 
 module OpenProject::TextFormatting
   module Filters
@@ -51,7 +50,7 @@ module OpenProject::TextFormatting
           enabled: true,
           # Having to specify the link class again here is unfortunate. But as rinku seems to run latest,
           # it cannot receive the link class like all the rest of the links.
-          classes: 'op-uc-link'
+          classes: "op-uc-link"
         }
       end
     end

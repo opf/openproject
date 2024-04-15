@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe RbImpedimentsController, type: :routing do
-  describe 'routing' do
+RSpec.describe RbImpedimentsController do
+  describe "routing" do
     it {
-      expect(post('/projects/project_42/sprints/21/impediments')).to route_to(controller: 'rb_impediments',
-                                                                              action: 'create',
-                                                                              project_id: 'project_42',
-                                                                              sprint_id: '21')
+      expect(post("/projects/project_42/sprints/21/impediments")).to route_to(controller: "rb_impediments",
+                                                                              action: "create",
+                                                                              project_id: "project_42",
+                                                                              sprint_id: "21")
     }
 
     it {
-      expect(put('/projects/project_42/sprints/21/impediments/85')).to route_to(controller: 'rb_impediments',
-                                                                                action: 'update',
-                                                                                project_id: 'project_42',
-                                                                                sprint_id: '21',
-                                                                                id: '85')
+      expect(put("/projects/project_42/sprints/21/impediments/85")).to route_to(controller: "rb_impediments",
+                                                                                action: "update",
+                                                                                project_id: "project_42",
+                                                                                sprint_id: "21",
+                                                                                id: "85")
     }
   end
 end

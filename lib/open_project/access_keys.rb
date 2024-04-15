@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +29,15 @@
 module OpenProject
   module AccessKeys
     unless const_defined?(:ACCESSKEYS)
-      ACCESSKEYS = { preview: '1',
-                     new_work_package: '2',
-                     edit: '3',
-                     quick_search: '4',
-                     project_search: '5',
-                     help: '6',
-                     more_menu: '7',
-                     details: '8',
-                     new_project: '9' }.freeze
+      ACCESSKEYS = { preview: "1",
+                     new_work_package: "2",
+                     edit: "3",
+                     quick_search: "4",
+                     project_search: "5",
+                     help: "6",
+                     more_menu: "7",
+                     details: "8",
+                     new_project: "9" }.freeze
     end
 
     def self.key_for(action)

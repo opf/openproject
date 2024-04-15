@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Members::RolesDiff, type: :model do
+RSpec.describe Members::RolesDiff do
   let(:project) { build_stubbed(:project) }
   let(:group) { build_stubbed(:group) }
   let(:user) { build_stubbed(:user) }
-  let(:role) { build_stubbed(:role) }
-  let(:role_other) { build_stubbed(:role) }
+  let(:role) { build_stubbed(:project_role) }
+  let(:role_other) { build_stubbed(:project_role) }
 
   let(:group_member_role) { build_stubbed(:member_role, role:) }
   let(:group_member_role_other) { build_stubbed(:member_role, role: role_other) }
-  let(:group_member_roles) { raise NotImplementedError('please set group_member_roles') }
+  let(:group_member_roles) { raise NotImplementedError("please set group_member_roles") }
   let(:group_member) do
     build_stubbed(:member, principal: group, project:, member_roles: group_member_roles)
   end
@@ -54,7 +54,7 @@ describe Members::RolesDiff, type: :model do
   let(:user_member_role_other_inherited) do
     build_stubbed(:member_role, role: role_other, inherited_from: group_member_role_other.id)
   end
-  let(:user_member_roles) { raise NotImplementedError('please set user_member_roles') }
+  let(:user_member_roles) { raise NotImplementedError("please set user_member_roles") }
   let(:user_member) do
     build_stubbed(:member, principal: user, project:, member_roles: user_member_roles)
   end
@@ -63,25 +63,25 @@ describe Members::RolesDiff, type: :model do
     described_class.new(user_member, group_member)
   end
 
-  shared_examples 'roles created' do
-    it 'results in roles created' do
+  shared_examples "roles created" do
+    it "results in roles created" do
       expect(difference.result).to eq(:roles_created)
     end
   end
 
-  shared_examples 'roles updated' do
-    it 'results in roles updated' do
+  shared_examples "roles updated" do
+    it "results in roles updated" do
       expect(difference.result).to eq(:roles_updated)
     end
   end
 
-  shared_examples 'roles unchanged' do
-    it 'results in roles unchanged' do
+  shared_examples "roles unchanged" do
+    it "results in roles unchanged" do
       expect(difference.result).to eq(:roles_unchanged)
     end
   end
 
-  context 'when group has added all its roles to a user' do
+  context "when group has added all its roles to a user" do
     let(:group_member_roles) { [group_member_role, group_member_role_other] }
     let(:user_member_roles) do
       [
@@ -90,10 +90,10 @@ describe Members::RolesDiff, type: :model do
       ]
     end
 
-    include_examples 'roles created'
+    include_examples "roles created"
   end
 
-  context 'when group has added all its roles to a user who already had some preexisting other roles' do
+  context "when group has added all its roles to a user who already had some preexisting other roles" do
     let(:group_member_roles) { [group_member_role] }
     let(:user_member_roles) do
       [
@@ -102,10 +102,10 @@ describe Members::RolesDiff, type: :model do
       ]
     end
 
-    include_examples 'roles updated'
+    include_examples "roles updated"
   end
 
-  context 'when group has added a new role and an existing role to a user' do
+  context "when group has added a new role and an existing role to a user" do
     let(:group_member_roles) { [group_member_role, group_member_role_other] }
     let(:user_member_roles) do
       [
@@ -115,10 +115,10 @@ describe Members::RolesDiff, type: :model do
       ]
     end
 
-    include_examples 'roles updated'
+    include_examples "roles updated"
   end
 
-  context 'when group has added already existing roles to a user' do
+  context "when group has added already existing roles to a user" do
     let(:group_member_roles) { [group_member_role, group_member_role_other] }
     let(:user_member_roles) do
       [
@@ -129,10 +129,10 @@ describe Members::RolesDiff, type: :model do
       ]
     end
 
-    include_examples 'roles unchanged'
+    include_examples "roles unchanged"
   end
 
-  context 'when group did not add any roles' do
+  context "when group did not add any roles" do
     let(:group_member_roles) { [group_member_role, group_member_role_other] }
     let(:user_member_roles) do
       [
@@ -141,10 +141,10 @@ describe Members::RolesDiff, type: :model do
       ]
     end
 
-    include_examples 'roles unchanged'
+    include_examples "roles unchanged"
   end
 
-  context 'when the projects are different between members' do
+  context "when the projects are different between members" do
     let(:group_member) do
       build_stubbed(
         :member,
@@ -160,12 +160,12 @@ describe Members::RolesDiff, type: :model do
       )
     end
 
-    it 'raises ArgumentError' do
+    it "raises ArgumentError" do
       expect { difference.result }.to raise_error(ArgumentError)
     end
   end
 
-  context 'with another group defined' do
+  context "with another group defined" do
     let(:other_group_member_role) { build_stubbed(:member_role, role:) }
     let(:other_group_member_role_other) { build_stubbed(:member_role, role: role_other) }
     let(:user_member_role_inherited_from_other_group) do
@@ -175,7 +175,7 @@ describe Members::RolesDiff, type: :model do
       build_stubbed(:member_role, role: role_other, inherited_from: other_group_member_role_other.id)
     end
 
-    context 'when group has added to a user a new role and a role that already existed from another group membership' do
+    context "when group has added to a user a new role and a role that already existed from another group membership" do
       let(:group_member_roles) { [group_member_role, group_member_role_other] }
       let(:user_member_roles) do
         [
@@ -185,10 +185,10 @@ describe Members::RolesDiff, type: :model do
         ]
       end
 
-      include_examples 'roles updated'
+      include_examples "roles updated"
     end
 
-    context 'when group has added to a user some roles that already existed from another group membership' do
+    context "when group has added to a user some roles that already existed from another group membership" do
       let(:group_member_roles) { [group_member_role, group_member_role_other] }
       let(:user_member_roles) do
         [
@@ -199,7 +199,7 @@ describe Members::RolesDiff, type: :model do
         ]
       end
 
-      include_examples 'roles unchanged'
+      include_examples "roles unchanged"
     end
   end
 end

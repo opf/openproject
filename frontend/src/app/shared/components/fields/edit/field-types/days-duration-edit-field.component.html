@@ -1,0 +1,24 @@
+<spot-drop-modal
+  [opened]="opened"
+  (closed)="cancel()"
+  alignment="bottom-center"
+>
+  <input
+    type="number"
+    slot="trigger"
+    class="inline-edit--field op-input"
+    [ngModel]="formattedValue"
+    (click)="onInputClick($event)"
+    (focus)="opened = true"
+    disabled="disabled"
+    [id]="handler.htmlId"
+  />
+  
+  <op-wp-multi-date-form
+    [changeset]="change"
+    [fieldName]="name"
+    (save)="save()"
+    (cancel)="cancel()"
+    slot="body"
+  ></op-wp-multi-date-form>
+</spot-drop-modal>

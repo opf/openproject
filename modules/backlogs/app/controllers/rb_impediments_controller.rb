@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,7 +54,7 @@ class RbImpedimentsController < RbApplicationController
     @include_meta = true
 
     respond_to do |format|
-      format.html { render partial: 'impediment', object: @impediment, status:, locals: { errors: call.errors } }
+      format.html { render partial: "impediment", object: @impediment, status:, locals: { errors: call.errors } }
     end
   end
 
@@ -71,10 +71,10 @@ class RbImpedimentsController < RbApplicationController
 
     # We block block_ids only when user is not allowed to create or update the
     # instance passed.
-    unless instance && ((instance.new_record? && User.current.allowed_to?(:add_work_packages,
-                                                                          @project)) || User.current.allowed_to?(
-                                                                            :edit_work_packages, @project
-                                                                          ))
+    unless instance && ((instance.new_record? && User.current.allowed_in_project?(:add_work_packages,
+                                                                                  @project)) || User.current.allowed_in_any_work_package?(
+                                                                                    :edit_work_packages, in_project: @project
+                                                                                  ))
       hash.delete(:block_ids)
     end
 

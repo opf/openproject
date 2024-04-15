@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,41 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::Query::Results, 'Sorting of custom field floats', type: :model, with_mail: false do
+RSpec.describe Query::Results, "Sorting of custom field floats" do
   let(:query_results) do
-    ::Query::Results.new query
+    Query::Results.new query
   end
   let(:user) do
     create(:user,
-           firstname: 'user',
-           lastname: '1',
-           member_in_project: project,
-           member_with_permissions: [:view_work_packages])
+           firstname: "user",
+           lastname: "1",
+           member_with_permissions: { project => [:view_work_packages] })
   end
 
   let(:type) { create(:type_standard, custom_fields: [custom_field]) }
   let(:project) do
-    create :project,
+    create(:project,
            types: [type],
-           work_package_custom_fields: [custom_field]
+           work_package_custom_fields: [custom_field])
   end
   let(:work_package_with_float) do
-    create :work_package,
+    create(:work_package,
            type:,
            project:,
-           custom_values: { custom_field.id => "6.25" }
+           custom_values: { custom_field.id => "6.25" })
   end
 
   let(:work_package_without_float) do
-    create :work_package,
+    create(:work_package,
            type:,
-           project:
+           project:)
   end
 
   let(:custom_field) do
-    create(:float_wp_custom_field, name: 'MyFloat')
+    create(:float_wp_custom_field, name: "MyFloat")
   end
 
   let(:query) do
@@ -79,19 +78,19 @@ describe ::Query::Results, 'Sorting of custom field floats', type: :model, with_
     work_package_without_float
   end
 
-  describe 'sorting ASC by float cf' do
-    let(:sort_criteria) { [["cf_#{custom_field.id}", 'asc']] }
+  describe "sorting ASC by float cf" do
+    let(:sort_criteria) { [[custom_field.column_name, "asc"]] }
 
-    it 'returns the correctly sorted result' do
+    it "returns the correctly sorted result" do
       expect(query_results.work_packages.pluck(:id))
         .to match [work_package_without_float, work_package_with_float].map(&:id)
     end
   end
 
-  describe 'sorting DESC by float cf' do
-    let(:sort_criteria) { [["cf_#{custom_field.id}", 'desc']] }
+  describe "sorting DESC by float cf" do
+    let(:sort_criteria) { [[custom_field.column_name, "desc"]] }
 
-    it 'returns the correctly sorted result' do
+    it "returns the correctly sorted result" do
       expect(query_results.work_packages.pluck(:id))
         .to match [work_package_with_float, work_package_without_float].map(&:id)
     end

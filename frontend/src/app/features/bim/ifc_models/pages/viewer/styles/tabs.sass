@@ -54,7 +54,7 @@
   .xeokit-tab-btn
     display: inline-block
     color: var(--main-menu-font-color)
-    font-weight: bold
+    font-weight: var(--base-text-weight-bold)
     padding: 0 5px !important
 
     &:hover
@@ -76,8 +76,8 @@
       font-style: normal
 
     &.active a.xeokit-tab-btn
-      color: var(--content-link-color)
-      border-bottom-color: var(--content-link-color)
+      color: var(--accent-color)
+      border-bottom-color: var(--accent-color)
 
     .xeokit-tab-content
       position: relative
@@ -97,13 +97,13 @@
       width: 100%
 
       tr:first-child
-        border-top: 1px solid var(--table-row-border-color)
+        border-top: 1px solid var(--table-border-color)
 
       tr
-        border-bottom: 1px solid var(--table-row-border-color)
+        border-bottom: 1px solid var(--table-border-color)
 
       td:first-child
-        font-weight: bold
+        font-weight: var(--base-text-weight-bold)
 
       td:last-child
         overflow-wrap: anywhere

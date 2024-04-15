@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -82,10 +82,6 @@ export class PaginationService {
     return this.paginationOptions;
   }
 
-  public get isPerPageKnown() {
-    return !!(this.localStoragePerPage || this.paginationOptions);
-  }
-
   public getPerPage() {
     return this.localStoragePerPage || this.paginationOptions.perPage;
   }
@@ -111,16 +107,12 @@ export class PaginationService {
     this.paginationOptions.perPageOptions = perPageOptions;
   }
 
-  public loadPaginationOptions() {
-    return this.configuration.initialized.then(() => {
-      this.paginationOptions = {
-        perPage: this.getCachedPerPage(this.configuration.perPageOptions),
-        perPageOptions: this.configuration.perPageOptions,
-        maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
-        optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize,
-      };
-
-      return this.paginationOptions;
-    });
+  private loadPaginationOptions():void {
+    this.paginationOptions = {
+      perPage: this.getCachedPerPage(this.configuration.perPageOptions),
+      perPageOptions: this.configuration.perPageOptions,
+      maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
+      optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize,
+    };
   }
 }

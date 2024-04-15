@@ -1,0 +1,66 @@
+<%=
+  component_wrapper(data: wrapper_data_attributes) do
+    primer_form_with(
+      model: @meeting_agenda_item,
+      method: @method,
+      url: @submit_path
+    ) do |f|
+      grid_layout('op-meeting-agenda-item-form', tag: :div) do |grid|
+        grid.with_area(:title) do
+          case @type
+          when :simple
+            render(MeetingAgendaItem::Title.new(f))
+          when :work_package
+            render(MeetingAgendaItem::WorkPackage.new(f))
+          end
+        end
+
+        grid.with_area(:duration) do
+          render(MeetingAgendaItem::Duration.new(f))
+        end
+
+        grid.with_area(:presenter) do
+          render(MeetingAgendaItem::Presenter.new(f))
+        end
+
+        grid.with_area(:notes,
+                       display: display_notes_input_value,
+                       data: { 'meeting-agenda-item-form-target': "notesInput" }) do
+          render(MeetingAgendaItem::Notes.new(f))
+        end
+
+        grid.with_area(:add_note,
+                       display: display_notes_add_button_value,
+                       data: { 'meeting-agenda-item-form-target': "notesAddButton" }) do
+          render(Primer::Beta::Button.new(
+            scheme: :secondary,
+            data: {
+              action: 'click->meeting-agenda-item-form#addNotes keydown.enter->meeting-agenda-item-form#addNotes'
+            }
+          )) do |component|
+            component.with_leading_visual_icon(icon: :plus)
+            MeetingAgendaItem.human_attribute_name(:notes)
+          end
+        end
+
+        grid.with_area(:actions) do
+          flex_layout do |flex|
+            flex.with_column(mr: 2) do
+              render(Primer::Beta::Button.new(
+                scheme: :secondary,
+                tag: :a,
+                href: @cancel_path,
+                data: { 'turbo-stream': true }
+              )) do |_c|
+                t("button_cancel")
+              end
+            end
+            flex.with_column do
+              render(MeetingAgendaItem::Submit.new(f, type: @type))
+            end
+          end
+        end
+      end
+    end
+  end
+%>

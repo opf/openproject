@@ -168,7 +168,14 @@ module WorkPackages::Scopes
       # * includes_hierarchy - boolean indicating that the last relation taken was a hierarchy relation. For a queried for
       #                        PARENT relation, whenever that is the case, the work package is a valid relation target although
       #                        it appears in the CTE.
-      def relatable(work_package, relation_type)
+      #
+      # The caller can can also provide a relation that is ignored for the calculation of which
+      # work packages are relatable. This can be helpful in case an existing relation is updated
+      # especially if the the direction is switched. Only a single relation can be provided and
+      # that one has to either be from or to the work package queried for.
+      def relatable(work_package, relation_type, ignored_relation: nil)
+        relatable_ensure_single_relation(ignored_relation, work_package)
+
         return all if work_package.new_record?
 
         scope = case relation_type
@@ -177,11 +184,11 @@ module WorkPackages::Scopes
                 when Relation::TYPE_CHILD
                   not_having_potential_tree_relation_child(work_package)
                 else
-                  where.not(id: directly_related(work_package))
+                  where.not(id: directly_related(work_package, ignored_relation:))
                 end
 
         scope = scope
-                  .not_having_transitive_relation(work_package, relation_type)
+                  .not_having_transitive_relation(work_package, relation_type, ignored_relation:)
                   .where.not(id: work_package.id)
 
         if Setting.cross_project_work_package_relations
@@ -191,7 +198,7 @@ module WorkPackages::Scopes
         end
       end
 
-      def not_having_transitive_relation(work_package, relation_type)
+      def not_having_transitive_relation(work_package, relation_type, ignored_relation:)
         if relation_type == Relation::TYPE_RELATES
           # Bypassing the recursive query in this case as only children and parent needs to be excluded.
           # Using this more complicated statement since
@@ -204,7 +211,7 @@ module WorkPackages::Scopes
           sql = <<~SQL.squish
             WITH
               RECURSIVE
-              #{non_relatable_paths_sql(work_package, relation_type)}
+              #{non_relatable_paths_sql(work_package, relation_type, ignored_relation:)}
 
               SELECT id
               FROM related
@@ -243,7 +250,7 @@ module WorkPackages::Scopes
           .where.not(id: where(parent_id: work_package.id).select(:id))
       end
 
-      def non_relatable_paths_sql(work_package, relation_type)
+      def non_relatable_paths_sql(work_package, relation_type, ignored_relation: nil)
         <<~SQL.squish
           related (id,
                    from_hierarchy,
@@ -268,7 +275,7 @@ module WorkPackages::Scopes
               FROM
                 related
               JOIN LATERAL (
-                #{joined_existing_connections(relation_type)}
+                #{joined_existing_connections(relation_type, ignored_relation:)}
               ) relations ON 1 = 1
           )
         SQL
@@ -308,7 +315,7 @@ module WorkPackages::Scopes
                     id: work_package.id
       end
 
-      def joined_existing_connections(relation_type)
+      def joined_existing_connections(relation_type, ignored_relation:)
         unions = [existing_hierarchy_lateral(with_descendants: relation_type != Relation::TYPE_CHILD)]
 
         case relation_type
@@ -316,19 +323,19 @@ module WorkPackages::Scopes
           unions << existing_relation_of_type_lateral(Relation::TYPE_FOLLOWS, limit_direction: true)
           unions << existing_relation_of_type_lateral(Relation::TYPE_PRECEDES, limit_direction: true)
         else
-          unions << existing_relation_of_type_lateral(relation_type)
+          unions << existing_relation_of_type_lateral(relation_type, ignored_relation:)
         end
 
-        unions.join(' UNION ')
+        unions.join(" UNION ")
       end
 
       # rubocop:disable Metrics/PerceivedComplexity
-      def existing_relation_of_type_lateral(relation_type, limit_direction: false)
+      def existing_relation_of_type_lateral(relation_type, ignored_relation: nil, limit_direction: false)
         canonical_type = Relation.canonical_type(relation_type)
 
         is_canonical = canonical_type == relation_type
-        true_on_canonical = is_canonical ? 'TRUE' : 'FALSE'
-        false_on_canonical = is_canonical ? 'FALSE' : 'TRUE'
+        true_on_canonical = is_canonical ? "TRUE" : "FALSE"
+        false_on_canonical = is_canonical ? "FALSE" : "TRUE"
 
         direction1, direction2 = if is_canonical
                                    %w[from_id to_id]
@@ -337,9 +344,9 @@ module WorkPackages::Scopes
                                  end
 
         direction_limit = if limit_direction && is_canonical
-                            'related.includes_to_relation'
+                            "related.includes_to_relation"
                           elsif limit_direction
-                            'related.includes_from_relation'
+                            "related.includes_from_relation"
                           end
 
         sql = <<~SQL.squish
@@ -356,6 +363,7 @@ module WorkPackages::Scopes
           WHERE (relations.#{direction2} = related.id AND relations.relation_type = :relation_type)
             AND NOT related.from_#{direction2}
             #{direction_limit ? "AND NOT #{direction_limit}" : ''}
+            #{ignored_relation&.id ? " AND NOT relations.id = #{ignored_relation.id}" : ''}
         SQL
 
         ::OpenProject::SqlSanitization
@@ -392,7 +400,7 @@ module WorkPackages::Scopes
         when Relation::TYPE_PARENT, Relation::TYPE_CHILD
           "NOT includes_hierarchy"
         else
-          '1 = 1'
+          "1 = 1"
         end
       end
 
@@ -406,6 +414,14 @@ module WorkPackages::Scopes
         WorkPackageHierarchy
           .where(descendant_id: work_packages)
           .select(:ancestor_id)
+      end
+
+      def relatable_ensure_single_relation(ignored_relation, work_package)
+        if ignored_relation && (!ignored_relation.is_a?(Relation) ||
+          (ignored_relation.from_id != work_package.id && ignored_relation.to_id != work_package.id))
+          raise ArgumentError, "only a single relation with from_id or to_id pointing " \
+                               "to the work package for which relatable is queried for is supported"
+        end
       end
     end
   end

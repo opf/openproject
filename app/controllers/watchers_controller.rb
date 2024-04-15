@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ class WatchersController < ApplicationController
   def find_watched_by_object
     klass = params[:object_type].singularize.camelcase.constantize
 
-    return false unless klass.respond_to?('watched_by') and
+    return false unless klass.respond_to?(:watched_by) and
                         klass.ancestors.include? Redmine::Acts::Watchable and
                         params[:object_id].to_s =~ /\A\d+\z/
 

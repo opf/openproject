@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackages::BulkController, type: :controller do
+RSpec.describe WorkPackages::BulkController do
   let(:project) { create(:project_with_types) }
-  let(:controller_role) { build(:role, permissions: %i[view_work_packages edit_work_packages]) }
-  let(:user) { create :user, member_in_project: project, member_through_role: controller_role }
-  let(:budget) { create :budget, project: }
+  let(:controller_role) { build(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
+  let(:user) { create(:user, member_with_roles: { project => controller_role }) }
+  let(:budget) { create(:budget, project:) }
   let(:work_package) { create(:work_package, project:) }
 
   before do
     allow(User).to receive(:current).and_return user
   end
 
-  describe '#update' do
-    context 'when a cost report is assigned' do
+  describe "#update" do
+    context "when a cost report is assigned" do
       before do
         put :update, params: { ids: [work_package.id],
                                work_package: { budget_id: budget.id } }

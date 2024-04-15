@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe CustomValue::FormatStrategy do
+RSpec.describe CustomValue::FormatStrategy do
   let(:custom_value) do
-    double('CustomValue',
+    double("CustomValue",
            value:)
   end
 
-  describe '#value_present?' do
+  describe "#value_present?" do
     subject { described_class.new(custom_value).value_present? }
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
       it { is_expected.to be(false) }
     end
 
-    context 'value is empty string' do
-      let(:value) { '' }
+    context "value is empty string" do
+      let(:value) { "" }
 
       it { is_expected.to be(false) }
     end
 
-    context 'value is present string' do
-      let(:value) { 'foo' }
+    context "value is present string" do
+      let(:value) { "foo" }
 
       it { is_expected.to be(true) }
     end
 
-    context 'value is present integer' do
+    context "value is present integer" do
       let(:value) { 42 }
 
       it { is_expected.to be(true) }

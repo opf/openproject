@@ -4,7 +4,7 @@
   <div
     *ngIf="(first && !last) || i === content.crumbs.length - 2 || i === content.crumbs.length - 3"
     class="spot-breadcrumbs--crumb"
-    data-qa-selector="op-breadcrumb"
+    data-test-selector="op-breadcrumb"
     [ngClass]="{
       'spot-breadcrumbs--crumb_root': first,
       'spot-breadcrumbs--crumb_parent': i === content.crumbs.length - 2,
@@ -35,11 +35,11 @@
   <div
     *ngIf="last"
     class="spot-breadcrumbs--crumb spot-breadcrumbs--crumb_last"
-    data-qa-selector="op-breadcrumb"
+    data-test-selector="op-breadcrumb"
   >
     <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
     <span
-      class="spot-breadcrumbs--crumb-action-item"
+      class="spot-breadcrumbs--crumb-action-item-text"
       [textContent]="crumb.text"
     ></span>
   </div>

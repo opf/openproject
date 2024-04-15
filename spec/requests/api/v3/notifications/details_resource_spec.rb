@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,11 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Notifications::NotificationsAPI,
-         'fetch notification details',
-         content_type: :json do
+RSpec.describe API::V3::Notifications::NotificationsAPI,
+               "fetch notification details",
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project) }
@@ -48,8 +48,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
   shared_let(:recipient) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages])
+           member_with_permissions: { project => %i[view_work_packages] })
   end
 
   let(:notification) { create(:notification, recipient:, resource:, project:, reason:) }
@@ -70,100 +69,100 @@ describe ::API::V3::Notifications::NotificationsAPI,
     login_as current_user
   end
 
-  describe 'recipient user' do
+  describe "recipient user" do
     let(:current_user) { recipient }
 
-    context 'for a non dateAlert notification' do
+    context "for a non dateAlert notification" do
       let(:reason) { :mentioned }
 
-      it 'returns a 404 response' do
+      it "returns a 404 response" do
         send_request
         expect(last_response.status).to eq(404)
       end
     end
 
-    context 'for a start date alert notification' do
+    context "for a start date alert notification" do
       let(:reason) { :date_alert_start_date }
 
-      it 'can get the notification details for a start date' do
+      it "can get the notification details for a start date" do
         send_request
         expect(last_response.body)
-          .to be_json_eql('startDate'.to_json)
-                .at_path('property')
+          .to be_json_eql("startDate".to_json)
+                .at_path("property")
         expect(last_response.body)
-          .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_date(resource.start_date).to_json)
-                .at_path('value')
+          .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_date(resource.start_date).to_json)
+                .at_path("value")
         expect(last_response.body)
           .to be_json_eql(notification_detail_path.to_json)
-                .at_path('_links/self/href')
+                .at_path("_links/self/href")
         expect(last_response.body)
           .to be_json_eql("/api/v3/values/schemas/startDate".to_json)
-                .at_path('_links/schema/href')
+                .at_path("_links/schema/href")
       end
     end
 
-    context 'for a due date alert notification' do
+    context "for a due date alert notification" do
       let(:reason) { :date_alert_due_date }
 
-      it 'can get the notification details for a due date' do
+      it "can get the notification details for a due date" do
         send_request
         expect(last_response.body)
-          .to be_json_eql('dueDate'.to_json)
-                .at_path('property')
+          .to be_json_eql("dueDate".to_json)
+                .at_path("property")
         expect(last_response.body)
-          .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
-                .at_path('value')
+          .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
+                .at_path("value")
         expect(last_response.body)
           .to be_json_eql(notification_detail_path.to_json)
-                .at_path('_links/self/href')
+                .at_path("_links/self/href")
         expect(last_response.body)
           .to be_json_eql("/api/v3/values/schemas/dueDate".to_json)
-                .at_path('_links/schema/href')
+                .at_path("_links/schema/href")
       end
     end
 
-    context 'for a start date alert notification with a milestone resource' do
+    context "for a start date alert notification with a milestone resource" do
       let(:notification) { milestone_notification }
       let(:reason) { :date_alert_start_date }
 
-      it 'can get the notification details for a start date' do
+      it "can get the notification details for a start date" do
         send_request
         expect(last_response.body)
-          .to be_json_eql('date'.to_json)
-                .at_path('property')
+          .to be_json_eql("date".to_json)
+                .at_path("property")
         expect(last_response.body)
-          .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
-                .at_path('value')
+          .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
+                .at_path("value")
         expect(last_response.body)
           .to be_json_eql(notification_detail_path.to_json)
-                .at_path('_links/self/href')
+                .at_path("_links/self/href")
         expect(last_response.body)
           .to be_json_eql("/api/v3/values/schemas/date".to_json)
-                .at_path('_links/schema/href')
+                .at_path("_links/schema/href")
       end
     end
   end
 
-  describe 'admin user' do
+  describe "admin user" do
     current_user { build_stubbed(:admin) }
 
     before do
       send_request
     end
 
-    it 'returns a 404 response' do
+    it "returns a 404 response" do
       expect(last_response.status).to eq(404)
     end
   end
 
-  describe 'unauthorized user' do
+  describe "unauthorized user" do
     current_user { build_stubbed(:user) }
 
     before do
       send_request
     end
 
-    it 'returns a 404 response' do
+    it "returns a 404 response" do
       expect(last_response.status).to eq(404)
     end
   end

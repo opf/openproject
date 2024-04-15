@@ -1,16 +1,16 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Manual scheduling', js: true do
+RSpec.describe "Manual scheduling", :js do
   let(:project) { create(:project, types: [type]) }
-  let(:type) { create :type }
+  let(:type) { create(:type) }
 
-  let(:user) { create :user, member_in_project: project, member_through_role: role }
+  let(:user) { create(:user, member_with_roles: { project => role }) }
 
   let!(:parent) do
     create(:work_package,
            project:,
            type:,
-           subject: 'Parent')
+           subject: "Parent")
   end
 
   let!(:child) do
@@ -18,7 +18,7 @@ describe 'Manual scheduling', js: true do
            project:,
            parent:,
            type:,
-           subject: 'Child')
+           subject: "Child")
   end
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -39,10 +39,10 @@ describe 'Manual scheduling', js: true do
     wp_table.expect_work_package_listed parent, child
   end
 
-  context 'with a user allowed to edit dates' do
-    let(:role) { create :role, permissions: %i[view_work_packages edit_work_packages] }
+  context "with a user allowed to edit dates" do
+    let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
 
-    it 'allows to edit start and due date multiple times switching between scheduling modes' do
+    it "allows to edit start and due date multiple times switching between scheduling modes" do
       start_date = wp_table.edit_field(parent, :startDate)
       due_date = wp_table.edit_field(parent, :dueDate)
 
@@ -55,20 +55,20 @@ describe 'Manual scheduling', js: true do
 
       # Expect not editable
       start_date.within_modal do
-        expect(page).to have_selector('input[name="startDate"][disabled]')
-        expect(page).to have_selector('input[name="endDate"][disabled]')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
+        expect(page).to have_css('input[name="startDate"][disabled]')
+        expect(page).to have_css('input[name="endDate"][disabled]')
+        expect(page).to have_css("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: "Cancel")
+        expect(page).to have_css("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: "Save")
       end
 
       start_date.toggle_scheduling_mode
 
       # Expect editable
       start_date.within_modal do
-        expect(page).to have_selector('input[name="startDate"]:not([disabled])')
-        expect(page).to have_selector('input[name="endDate"]:not([disabled])')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
+        expect(page).to have_css('input[name="startDate"]:not([disabled])')
+        expect(page).to have_css('input[name="endDate"]:not([disabled])')
+        expect(page).to have_css("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: "Cancel")
+        expect(page).to have_css("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: "Save")
       end
 
       start_date.cancel_by_click
@@ -89,10 +89,10 @@ describe 'Manual scheduling', js: true do
 
       # Expect not editable
       start_date.within_modal do
-        expect(page).to have_selector('input[name=startDate][disabled]')
-        expect(page).to have_selector('input[name=endDate][disabled]')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
+        expect(page).to have_css("input[name=startDate][disabled]")
+        expect(page).to have_css("input[name=endDate][disabled]")
+        expect(page).to have_css("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: "Cancel")
+        expect(page).to have_css("#{test_selector('op-datepicker-modal--action')}:not([disabled])", text: "Save")
       end
 
       start_date.toggle_scheduling_mode
@@ -100,25 +100,25 @@ describe 'Manual scheduling', js: true do
 
       # Expect not editable
       start_date.within_modal do
-        fill_in 'startDate', with: '2020-07-20'
-        fill_in 'endDate', with: '2020-07-25'
+        fill_in "startDate", with: "2020-07-20"
+        fill_in "endDate", with: "2020-07-25"
       end
 
       # Wait for the debounce to be done
       sleep 1
 
       start_date.save!
-      start_date.expect_state_text '07/20/2020'
-      due_date.expect_state_text '07/25/2020'
+      start_date.expect_state_text "07/20/2020"
+      due_date.expect_state_text "07/25/2020"
 
       parent.reload
       expect(parent).to be_schedule_manually
-      expect(parent.start_date.iso8601).to eq('2020-07-20')
-      expect(parent.due_date.iso8601).to eq('2020-07-25')
+      expect(parent.start_date.iso8601).to eq("2020-07-20")
+      expect(parent.due_date.iso8601).to eq("2020-07-25")
     end
   end
 
-  context 'with a user allowed to view only' do
-    let(:role) { create :role, permissions: %i[view_work_packages] }
+  context "with a user allowed to view only" do
+    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   end
 end

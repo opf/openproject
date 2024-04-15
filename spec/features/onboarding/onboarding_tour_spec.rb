@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,64 +26,54 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'onboarding tour for new users', js: true do
-  let(:user) { create :admin }
+RSpec.describe "onboarding tour for new users",
+               :js do
+  let(:user) { create(:admin) }
   let(:project) do
-    create :project, name: 'Demo project', identifier: 'demo-project', public: true,
-                     enabled_module_names: %w[work_package_tracking wiki]
+    create(:project, name: "Demo project", identifier: "demo-project", public: true,
+                     enabled_module_names: %w[work_package_tracking gantt wiki])
   end
-  let(:project_link) { "<a href=/projects/#{project.identifier}> #{project.name} </a>" }
-
-  let(:scrum_project) do
-    create :project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
-                     enabled_module_names: %w[work_package_tracking]
-  end
-  let(:scrum_project_link) { "<a href=/projects/#{scrum_project.identifier}> #{scrum_project.name} </a>" }
 
   let!(:wp1) { create(:work_package, project:) }
-  let(:next_button) { find('.enjoyhint_next_btn') }
+  let(:next_button) { find(".enjoyhint_next_btn") }
 
-  context 'with a new user' do
+  context "with a new user" do
     before do
       login_as user
       allow(Setting).to receive(:demo_projects_available).and_return(true)
-      allow(Setting).to receive(:welcome_title).and_return('Hey ho!')
-      allow(Setting).to receive(:welcome_on_homescreen?).and_return(true)
     end
 
-    it 'I can select a language' do
+    it "I can select a language" do
       visit home_path first_time_user: true
-      expect(page).to have_text 'Please select your language'
+      expect(page).to have_text "Please select your language"
 
-      select 'Deutsch', from: 'user_language'
-      click_button 'Save'
+      select "Deutsch", from: "user_language"
+      click_button "Save"
 
       expect(page).to have_text "Neueste sichtbare Projekte in dieser Instanz."
     end
 
-    context 'the tutorial does not start' do
+    it "I can start the tour without selecting a language" do
+      visit home_path start_home_onboarding_tour: true
+      expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.welcome")), normalize_ws: true
+      expect(page).to have_css ".enjoyhint_next_btn:not(.enjoyhint_hide)"
+    end
+
+    context "the tutorial does not start" do
       before do
         allow(Setting).to receive(:welcome_text).and_return("<a> #{project.name} </a>")
         visit home_path first_time_user: true
 
         # SeleniumHubWaiter.wait
-        select 'English', from: 'user_language'
-        click_button 'Save'
-      end
-
-      it 'when the welcome block does not include the demo projects' do
-        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_no_selector '.enjoyhint_next_btn'
+        select "English", from: "user_language"
+        click_button "Save"
       end
     end
 
-    context 'when I skip the language selection' do
+    context "when I skip the language selection" do
       before do
-        allow(Setting)
-          .to receive(:welcome_text)
-          .and_return(project_link + scrum_project_link)
         visit home_path first_time_user: true
       end
 
@@ -92,28 +82,26 @@ describe 'onboarding tour for new users', js: true do
         page.execute_script("window.sessionStorage.clear();")
       end
 
-      it 'the tutorial starts directly' do
+      it "the tutorial starts directly" do
         visit home_path first_time_user: true
-        expect(page).to have_text 'Please select your language'
+        expect(page).to have_text "Please select your language"
 
-        # Cancel language selection
-        page.find('.spot-modal-overlay').click(x: -400, y: 1)
+        # Selenium's click doesn't properly fire a mousedown event, so we trigger both explicitly
+        page.execute_script("document.querySelector('.spot-modal-overlay').dispatchEvent(new Event('mousedown'));")
+        page.execute_script("document.querySelector('.spot-modal-overlay').dispatchEvent(new Event('click'));")
 
         # The tutorial appears
-        expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_selector '.enjoyhint_next_btn:not(.enjoyhint_hide)'
+        expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.welcome")), normalize_ws: true
+        expect(page).to have_css ".enjoyhint_next_btn:not(.enjoyhint_hide)"
       end
     end
 
-    context 'the tutorial starts' do
+    context "the tutorial starts" do
       before do
-        allow(Setting)
-          .to receive(:welcome_text)
-          .and_return(project_link + scrum_project_link)
         visit home_path first_time_user: true
 
-        select 'English', from: 'user_language'
-        click_button 'Save'
+        select "English", from: "user_language"
+        click_button "Save"
         SeleniumHubWaiter.wait
       end
 
@@ -122,32 +110,29 @@ describe 'onboarding tour for new users', js: true do
         page.execute_script("window.sessionStorage.clear();")
       end
 
-      it 'directly after the language selection' do
+      it "directly after the language selection" do
         # The tutorial appears
-        expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_selector '.enjoyhint_next_btn:not(.enjoyhint_hide)'
+        expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.welcome")), normalize_ws: true
+        expect(page).to have_css ".enjoyhint_next_btn:not(.enjoyhint_hide)"
       end
 
-      it 'and I skip the tutorial' do
-        find('.enjoyhint_skip_btn').click
+      it "and I skip the tutorial" do
+        find(".enjoyhint_skip_btn").click
 
         # The tutorial disappears
-        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_no_selector '.enjoyhint_next_btn'
+        expect(page).to have_no_text sanitize_string(I18n.t("js.onboarding.steps.welcome")), normalize_ws: true
+        expect(page).to have_no_css ".enjoyhint_next_btn"
 
         page.driver.browser.navigate.refresh
 
         # The tutorial did not start again
-        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_no_selector '.enjoyhint_next_btn'
+        expect(page).to have_no_text sanitize_string(I18n.t("js.onboarding.steps.welcome")), normalize_ws: true
+        expect(page).to have_no_css ".enjoyhint_next_btn"
       end
 
-      it 'and I continue the tutorial' do
+      it "and I continue the tutorial" do
         next_button.click
-        expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.project_selection')), normalize_ws: true
-
-        # SeleniumHubWaiter.wait
-        find('.welcome').click_link 'Demo project'
+        # Continue on WP page
         expect(page).to have_current_path "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
 
         step_through_onboarding_wp_tour project, wp1
@@ -157,10 +142,10 @@ describe 'onboarding tour for new users', js: true do
     end
   end
 
-  context 'with a new user who is not allowed to see the parts of the tour' do
+  context "with a new user who is not allowed to see the parts of the tour" do
     # necessary to be able to see public projects
-    let(:non_member_role) { create :non_member, permissions: [:view_work_packages] }
-    let(:non_member_user) { create :user }
+    let(:non_member_role) { create(:non_member, permissions: [:view_work_packages]) }
+    let(:non_member_user) { create(:user) }
 
     before do
       allow(Setting).to receive(:demo_projects_available).and_return(true)
@@ -168,7 +153,7 @@ describe 'onboarding tour for new users', js: true do
       login_as non_member_user
     end
 
-    it 'skips these steps and continues directly' do
+    it "skips these steps and continues directly" do
       # Set the tour parameter so that we can start on the overview page
       visit "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
       step_through_onboarding_wp_tour project, wp1

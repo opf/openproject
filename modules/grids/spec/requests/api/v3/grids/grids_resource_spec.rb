@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Grids resource', type: :request, content_type: :json do
+RSpec.describe "API v3 Grids resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -43,26 +43,26 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
   subject(:response) { last_response }
 
-  describe '#get INDEX' do
+  describe "#get INDEX" do
     let(:path) { api_v3_paths.grids }
 
     before do
       get path
     end
 
-    it 'responds with 200 OK' do
+    it "responds with 200 OK" do
       expect(subject.status).to eq(200)
     end
   end
 
-  describe '#post' do
+  describe "#post" do
     let(:path) { api_v3_paths.grids }
 
     before do
-      post path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      post path, params.to_json, "CONTENT_TYPE" => "application/json"
     end
 
-    context 'without a page link' do
+    context "without a page link" do
       let(:params) do
         {
           rowCount: 5,
@@ -77,23 +77,23 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         }.with_indifferent_access
       end
 
-      it 'responds with 422' do
+      it "responds with 422" do
         expect(subject.status).to eq(422)
       end
 
-      it 'does not create a grid' do
+      it "does not create a grid" do
         expect(Grids::Grid.count)
           .to be(0)
       end
 
-      it 'returns the errors' do
+      it "returns the errors" do
         expect(subject.body)
-          .to be_json_eql('Error'.to_json)
-          .at_path('_type')
+          .to be_json_eql("Error".to_json)
+          .at_path("_type")
 
         expect(subject.body)
           .to be_json_eql("Scope is not set to one of the allowed values.".to_json)
-          .at_path('message')
+          .at_path("message")
       end
     end
   end

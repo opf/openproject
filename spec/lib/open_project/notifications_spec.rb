@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,70 +26,74 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe OpenProject::Notifications do
-  let(:probe) { lambda { |*_args| } }
-  let(:payload) { { 'test' => 'payload' } }
+RSpec.describe OpenProject::Notifications do
+  describe ".send" do
+    let(:probe) { lambda { |*_args| } }
+    let(:payload) { { "test" => "payload" } }
 
-  describe '.send' do
     before do
       # We can't clean this up, so we need to use a unique name
-      OpenProject::Notifications.subscribe('notifications_spec_send', &probe)
-
-      expect(probe).to receive(:call) do |payload|
-        # Don't check for object identity for the payload as it might be
-        # marshalled and unmarshalled before being delivered in the future.
-        expect(payload).to eql(payload)
+      described_class.subscribe("notifications_spec_send") do |*args, **kwargs|
+        probe.call(*args, **kwargs)
       end
+
+      allow(probe).to receive(:call)
     end
 
-    it 'delivers a notification' do
-      OpenProject::Notifications.send('notifications_spec_send', payload)
+    it "delivers a notification" do
+      described_class.send(:notifications_spec_send, payload)
+
+      expect(probe).to have_received(:call) do |call_payload|
+        # Don't check for object identity for the payload as it might be
+        # marshalled and unmarshalled before being delivered in the future.
+        expect(call_payload).to eql(payload)
+      end
     end
   end
 
-  describe '.subscribe' do
-    it 'throws an error when no callback is given' do
+  describe ".subscribe" do
+    it "throws an error when no callback is given" do
       expect do
-        OpenProject::Notifications.subscribe('notifications_spec_send')
+        described_class.subscribe("notifications_spec_send")
       end.to raise_error ArgumentError, /provide a block as a callback/
     end
 
-    describe 'clear_subscriptions:' do
-      let(:key) { 'test_clear_subs' }
+    describe "clear_subscriptions:" do
+      let(:key) { "test_clear_subs" }
       let(:as) { [] }
       let(:bs) { [] }
 
-      def example_with(clear:)
-        OpenProject::Notifications.subscribe(key) do |out|
+      def example_with(clear_subscriptions:)
+        described_class.subscribe(key) do |out|
           as << out
         end
-        OpenProject::Notifications.send(key, 1)
+        described_class.send(key, 1)
 
-        OpenProject::Notifications.subscribe(key, clear_subscriptions: clear) do |out|
+        described_class.subscribe(key, clear_subscriptions:) do |out|
           bs << out
         end
-        OpenProject::Notifications.send(key, 2)
+        described_class.send(key, 2)
       end
 
-      context 'true' do
+      context "when true" do
         before do
-          example_with clear: true
+          example_with clear_subscriptions: true
         end
 
-        it 'clears previous subscriptions' do
+        it "clears previous subscriptions" do
           expect(as).to eq [1]
           expect(bs).to eq [2]
         end
       end
 
-      context 'false' do
+      context "when false" do
         before do
-          example_with clear: false
+          example_with clear_subscriptions: false
         end
 
-        it 'notifies both subscriptions' do
+        it "notifies both subscriptions" do
           expect(as).to eq [1, 2]
           expect(bs).to eq [2]
         end

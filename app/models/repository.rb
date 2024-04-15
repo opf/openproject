@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -170,8 +170,8 @@ class Repository < ApplicationRecord
 
   delegate :diff, to: :scm
 
-  def diff_format_revisions(cs, cs_to, sep = ':')
-    text = ''
+  def diff_format_revisions(cs, cs_to, sep = ":")
+    text = ""
     text << (cs_to.format_identifier + sep) if cs_to
     text << cs.format_identifier if cs
     text
@@ -204,7 +204,7 @@ class Repository < ApplicationRecord
     name = name.to_s
     return nil if name.blank?
 
-    changesets.where((name.match(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%'])).first
+    changesets.where((name.match?(/\A\d*\z/) ? ["revision = ?", name] : ["revision LIKE ?", name + "%"])).first
   end
 
   def latest_changeset
@@ -220,7 +220,7 @@ class Repository < ApplicationRecord
         .limit(limit)
     else
       changesets.includes(changeset: :user)
-        .where(['path = ?', path.with_leading_slash])
+        .where(["path = ?", path.with_leading_slash])
         .order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
         .limit(limit)
         .map(&:changeset)
@@ -243,7 +243,7 @@ class Repository < ApplicationRecord
         new_user_id = h[committer]
         if new_user_id && (new_user_id.to_i != user_id.to_i)
           new_user_id = (new_user_id.to_i > 0 ? new_user_id.to_i : nil)
-          Changeset.where(['repository_id = ? AND committer = ?', id, committer])
+          Changeset.where(["repository_id = ? AND committer = ?", id, committer])
             .update_all("user_id = #{new_user_id.nil? ? 'NULL' : new_user_id}")
         end
       end
@@ -281,7 +281,7 @@ class Repository < ApplicationRecord
 
   def repo_log_encoding
     encoding = log_encoding.to_s.strip
-    encoding.presence || 'UTF-8'
+    encoding.presence || "UTF-8"
   end
 
   # Fetches new changesets for all repositories of active projects
@@ -345,7 +345,7 @@ class Repository < ApplicationRecord
 
     if klass.nil?
       raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
-        I18n.t('repositories.errors.disabled_or_unknown_vendor', vendor:)
+        I18n.t("repositories.errors.disabled_or_unknown_vendor", vendor:)
       )
     else
       klass
@@ -359,7 +359,7 @@ class Repository < ApplicationRecord
       repository.scm_type = type
     else
       raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
-        I18n.t('repositories.errors.disabled_or_unknown_type',
+        I18n.t("repositories.errors.disabled_or_unknown_type",
                type:,
                vendor: repository.vendor)
       )

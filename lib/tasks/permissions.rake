@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,9 +27,9 @@
 #++
 
 namespace :redmine do
-  desc 'List all permissions and the actions registered with them'
+  desc "List all permissions and the actions registered with them"
   task permissions: :environment do
-    puts 'Permission Name - controller/action pairs'
+    puts "Permission Name - controller/action pairs"
     OpenProject::AccessControl.permissions.sort { |a, b| a.name.to_s <=> b.name.to_s }.each do |permission|
       puts ":#{permission.name} - #{permission.controller_actions.join(', ')}"
     end

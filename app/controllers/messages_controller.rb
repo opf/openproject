@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,22 +42,22 @@ class MessagesController < ApplicationController
   def show
     @topic = @message.root
 
-    page = params[:page]
+    @offset = params[:page]
     # Find the page of the requested reply
-    if params[:r] && page.nil?
+    if params[:r] && @offset.nil?
       offset = @topic.children.where(["#{Message.table_name}.id < ?", params[:r].to_i]).count
-      page = 1 + (offset / REPLIES_PER_PAGE)
+      @offset = 1 + (offset / REPLIES_PER_PAGE)
     end
 
     @replies = @topic
                .children
-               .includes(:author, :attachments, forum: :project)
+               .includes(:author, :attachments, :project, forum: :project)
                .order(created_at: :asc)
-               .page(page)
+               .page(@offset)
                .per_page(per_page_param)
 
     @reply = Message.new(subject: "RE: #{@message.subject}", parent: @topic, forum: @topic.forum)
-    render action: 'show', layout: !request.xhr?
+    render action: "show", layout: !request.xhr?
   end
 
   # new topic
@@ -70,6 +70,13 @@ class MessagesController < ApplicationController
       .result
   end
 
+  # Edit a message
+  def edit
+    return render_403 unless @message.editable_by?(User.current)
+
+    @message.attributes = permitted_params.message(@message.project)
+  end
+
   # Create a new topic
   def create
     call = create_message(@forum)
@@ -80,7 +87,7 @@ class MessagesController < ApplicationController
 
       redirect_to topic_path(@message)
     else
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -98,13 +105,6 @@ class MessagesController < ApplicationController
   end
 
   # Edit a message
-  def edit
-    return render_403 unless @message.editable_by?(User.current)
-
-    @message.attributes = permitted_params.message(@message)
-  end
-
-  # Edit a message
   def update
     # TODO: move into contract
     return render_403 unless @message.editable_by?(User.current)
@@ -114,9 +114,9 @@ class MessagesController < ApplicationController
     if call.success?
       flash[:notice] = t(:notice_successful_update)
       @message.reload
-      redirect_to topic_path(@message.root, r: (@message.parent_id && @message.id))
+      redirect_to topic_path(@message.root, r: @message.parent_id && @message.id)
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
@@ -128,9 +128,9 @@ class MessagesController < ApplicationController
     @message.destroy
     flash[:notice] = t(:notice_successful_delete)
     redirect_target = if @message.parent.nil?
-                        { controller: '/forums', action: 'show', project_id: @project, id: @forum }
+                        { controller: "/forums", action: "show", project_id: @project, id: @forum }
                       else
-                        { action: 'show', id: @message.parent, r: @message }
+                        { action: "show", id: @message.parent, r: @message }
                       end
 
     redirect_to redirect_target
@@ -139,10 +139,11 @@ class MessagesController < ApplicationController
   def quote
     user = @message.author
     text = @message.content
-    subject = @message.subject.gsub('"', '\"')
-    subject = "RE: #{subject}" unless subject.starts_with?('RE:')
-    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
-    content << (text.to_s.strip.gsub(%r{<pre>(.+?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n")
+    subject = @message.subject
+    subject = "RE: #{subject}" unless subject.starts_with?("RE:")
+    user_wrote = I18n.t(:text_user_wrote, value: ERB::Util.html_escape(user), locale: Setting.default_language)
+    content = "#{user_wrote}\n> "
+    content << (text.to_s.strip.gsub(%r{<pre>(.+?)</pre>}m, "[...]").gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n")
 
     respond_to do |format|
       format.json { render json: { subject:, content: } }

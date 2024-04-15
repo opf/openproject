@@ -14,6 +14,7 @@
     justify-items: center
     text-align: center
     background: #cccccc30
+    border: 1px solid var(--color-border-muted)
 
     &:hover
       outline: 1px solid grey
@@ -25,7 +26,7 @@
     &:before
       padding-left: 10px
 
-@include breakpoint(680px down)
+@media screen and (max-width: $breakpoint-sm)
   .menu-blocks--container
     grid-template: unset
     grid-gap: 15px

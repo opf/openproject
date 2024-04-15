@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Shared::ServiceContext, 'integration', type: :model do
+RSpec.describe Shared::ServiceContext, "integration", type: :model do
   let(:user) { build_stubbed(:user) }
 
   let(:instance) do
@@ -42,7 +42,7 @@ describe Shared::ServiceContext, 'integration', type: :model do
       end
 
       def test_method_failure(model)
-        in_context model, true do
+        in_context model do
           Setting.connection.execute <<~SQL
             INSERT INTO settings (name, value)
             VALUES ('test_setting', 'abc')
@@ -53,7 +53,7 @@ describe Shared::ServiceContext, 'integration', type: :model do
       end
 
       def test_method_success(model)
-        in_context model, true do
+        in_context model do
           Setting.connection.execute <<~SQL
             INSERT INTO settings (name, value)
             VALUES ('test_setting', 'abc')
@@ -65,37 +65,37 @@ describe Shared::ServiceContext, 'integration', type: :model do
     end.new(user)
   end
 
-  describe '#in_context' do
-    context 'with a model' do
+  describe "#in_context" do
+    context "with a model" do
       let(:model) { User.new } # model implementation is irrelevant
 
-      context 'with a failure result' do
-        it 'reverts all database changes' do
+      context "with a failure result" do
+        it "reverts all database changes" do
           expect { instance.test_method_failure(model) }
             .not_to change { Setting.count }
         end
       end
 
-      context 'with a success result' do
-        it 'keeps database changes' do
+      context "with a success result" do
+        it "keeps database changes" do
           expect { instance.test_method_success(model) }
             .to change { Setting.count }
         end
       end
     end
 
-    context 'without a model' do
+    context "without a model" do
       let(:model) { nil }
 
-      context 'with a failure result' do
-        it 'reverts all database changes' do
+      context "with a failure result" do
+        it "reverts all database changes" do
           expect { instance.test_method_failure(model) }
             .not_to change { Setting.count }
         end
       end
 
-      context 'with a success result' do
-        it 'keeps database changes' do
+      context "with a success result" do
+        it "keeps database changes" do
           expect { instance.test_method_success(model) }
             .to change { Setting.count }
         end

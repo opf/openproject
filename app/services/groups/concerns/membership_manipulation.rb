@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,8 @@ module Groups::Concerns
 
       with_error_handled do
         ::Group.transaction do
-          exec_query!(params, params.fetch(:send_notifications, true), params[:message])
+          send_notifications = params.fetch(:send_notifications, Journal::NotificationConfiguration.active?)
+          exec_query!(params, send_notifications, params[:message])
         end
       end
     end
@@ -46,7 +47,10 @@ module Groups::Concerns
       yield
       ServiceResult.success result: model
     rescue StandardError => e
-      Rails.logger.error { "Failed to modify members and associated roles of group #{model.id}: #{e} #{e.message}" }
+      Rails.logger.error do
+        "Failed to modify members and associated roles of group #{model.id}: " \
+          "#{e}\n#{e.backtrace.first(5).join("\n")}"
+      end
       ServiceResult.failure(message: I18n.t(:notice_internal_server_error, app_title: Setting.app_title))
     end
 
@@ -55,7 +59,9 @@ module Groups::Concerns
 
       touch_updated(affected_member_ids)
 
-      send_notifications(affected_member_ids, message, send_notifications) if affected_member_ids.any? && send_notifications
+      if affected_member_ids.any? && send_notifications && Journal::NotificationConfiguration.active?
+        send_notifications(affected_member_ids, message)
+      end
     end
 
     def modify_members_and_roles(_params)
@@ -76,12 +82,12 @@ module Groups::Concerns
         .touch_all
     end
 
-    def send_notifications(member_ids, message, send_notifications)
+    def send_notifications(member_ids, message)
       Notifications::GroupMemberAlteredJob.perform_later(
         User.current,
         member_ids,
         message,
-        send_notifications
+        true
       )
     end
   end

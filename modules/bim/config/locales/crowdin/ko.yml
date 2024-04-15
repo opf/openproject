@@ -1,5 +1,8 @@
 #English strings go here for Rails i18n
 ko:
+  plugin_openproject_bim:
+    name: "OpenProject BIM 및 BCF 기능"
+    description: "이 OpenProject 플러그인은 BIM 및 BCF 기능을 도입합니다."
   bim:
     label_bim: 'BIM'
   bcf:
@@ -131,4 +134,3 @@ ko:
   extraction:
     available:
       ifc_convert: "IFC 변환 파이프라인 사용 가능"
-

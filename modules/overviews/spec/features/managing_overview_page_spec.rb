@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/overview'
+require_relative "../support/pages/overview"
 
-describe 'Overview page managing', type: :feature, js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:project) { create :project, types: [type], description: 'My **custom** description' }
-  let!(:open_status) { create :default_status }
+RSpec.describe "Overview page managing", :js do
+  let!(:type) { create(:type) }
+  let!(:project) { create(:project, types: [type], description: "My **custom** description") }
+  let!(:open_status) { create(:default_status) }
   let!(:created_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           author: user
+           author: user)
   end
   let!(:assigned_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           assigned_to: user
+           assigned_to: user)
   end
 
   let(:permissions) do
@@ -58,8 +58,7 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+           member_with_permissions: { project => permissions })
   end
   let(:overview_page) do
     Pages::Overview.new(project)
@@ -71,12 +70,12 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     overview_page.visit!
   end
 
-  it 'renders the default view, allows altering and saving' do
-    description_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
-    status_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
-    details_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
-    overview_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(4)')
-    members_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(5)')
+  it "renders the default view, allows altering and saving" do
+    description_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
+    status_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
+    details_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(3)")
+    overview_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(4)")
+    members_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(5)")
 
     description_area.expect_to_exist
     status_area.expect_to_exist
@@ -92,32 +91,35 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     # The widgets load their respective contents
     within description_area.area do
       expect(page)
-        .to have_content('My custom description')
+        .to have_content("My custom description")
     end
 
     # within top-left area, add an additional widget
-    overview_page.add_widget(1, 1, :row, 'Work packages table')
-
+    overview_page.add_widget(1, 1, :row, "Work packages table")
     # Actually there are two success messages displayed currently. One for the grid getting updated and one
     # for the query assigned to the new widget being created. A user will not notice it but the automated
-    # browser can get confused. Therefore we wait.
-    sleep(1)
+    # browser can get confused. Therefore we dismiss it twice.
+    overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
-    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    # Fixing flaky spec: for some reason, the second request to load the table is not executed until
+    # some activity happens on the page. Sending an enter key to trigger the second request.
+    page.find("body").send_keys(:enter)
 
-    table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(6)')
+    overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+
+    table_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(6)")
     table_area.expect_to_span(1, 1, 2, 2)
 
     # A useless resizing shows no message and does not alter the size
     table_area.resize_to(1, 1)
 
-    overview_page.expect_no_toaster message: I18n.t('js.notice_successful_update')
+    overview_page.expect_no_toaster message: I18n.t("js.notice_successful_update")
 
     table_area.expect_to_span(1, 1, 2, 2)
 
     table_area.resize_to(1, 2)
 
-    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
     # Resizing leads to the table area now spanning a larger area
     table_area.expect_to_span(1, 1, 2, 3)

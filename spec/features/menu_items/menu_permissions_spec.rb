@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,62 +26,61 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'menu permissions', type: :feature, js: true do
+RSpec.describe "menu permissions", :js, :with_cuprite do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[manage_versions view_work_packages])
+           member_with_permissions: { project => %i[manage_versions view_work_packages] })
   end
   let(:admin) { create(:admin) }
 
   let(:project) { create(:project) }
 
-  context 'as an admin' do
+  context "as an admin" do
     before do
-      login_as(admin)
+      login_as admin
 
       # Allowed to see the settings version page
       visit project_settings_versions_path(project)
     end
 
-    it 'I can see all menu entries' do
-      expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Versions')
-      expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Information')
-      expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Modules')
+    it "I can see all menu entries" do
+      expect(page).to have_css("#menu-sidebar .op-menu--item-title", text: "Versions")
+      expect(page).to have_css("#menu-sidebar .op-menu--item-title", text: "Information")
+      expect(page).to have_css("#menu-sidebar .op-menu--item-title", text: "Modules")
     end
 
-    it 'the parent node directs to the general settings page' do
+    specify "the parent node directs to the general settings page" do
       # The settings menu item exists
-      expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Project settings', visible: false)
+      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: false)
 
       # Clicking the menu parent item leads to the version page
-      find('.main-menu--parent-node', text: 'Project settings').click
+      find(".main-menu--parent-node", text: "Project settings").click
       expect(page).to have_current_path "/projects/#{project.identifier}/settings/general/"
     end
   end
 
-  context 'as an user who can only manage_versions' do
+  context "as a user who can only manage_versions" do
     before do
-      login_as(user)
+      login_as user
 
       # Allowed to see the settings version page
       visit project_settings_versions_path(project)
     end
 
-    it 'I can only see the version settings page' do
-      expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Versions')
-      expect(page).not_to have_selector('#menu-sidebar .op-menu--item-title', text: 'Information')
-      expect(page).not_to have_selector('#menu-sidebar .op-menu--item-title', text: 'Modules')
+    it "I can only see the version settings page" do
+      expect(page).to have_css("#menu-sidebar .op-menu--item-title", text: "Versions")
+      expect(page).to have_no_css("#menu-sidebar .op-menu--item-title", text: "Information")
+      expect(page).to have_no_css("#menu-sidebar .op-menu--item-title", text: "Modules")
     end
 
-    it 'the parent node directs to the only visible children page' do
+    specify "the parent node directs to the only visible children page" do
       # The settings menu item exists
-      expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Project settings', visible: false)
+      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: false)
 
       # Clicking the menu parent item leads to the version page
-      find('.main-menu--parent-node', text: 'Project settings').click
+      find(".main-menu--parent-node", text: "Project settings").click
       expect(page).to have_current_path(project_settings_versions_path(project))
     end
   end

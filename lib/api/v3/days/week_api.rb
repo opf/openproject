@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ module API::V3::Days
                                          current_user:)
       end
 
-      route_param :day, type: Integer, desc: 'WeekDay ID' do
+      route_param :day, type: Integer, desc: "WeekDay ID" do
         after_validation do
           @week_day = WeekDay.find_by!(day: declared_params[:day])
         end

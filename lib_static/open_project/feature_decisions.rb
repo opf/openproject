@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ module OpenProject
   #
   # New feature flags can automatically be added by calling
   #
-  #   OpenProject::Application.initializer 'set flag' do
+  #   Rails.application.initializer 'set flag' do
   #     OpenProject::FeatureDecisions.add :the_name_of_the_flag
   #   end
   #
@@ -65,7 +65,7 @@ module OpenProject
     end
 
     def active
-      all.filter { |flag_name| send("#{flag_name}_active?") }.map(&:to_s)
+      all.filter { |flag_name| send(:"#{flag_name}_active?") }.map(&:to_s)
     end
 
     def all
@@ -73,8 +73,8 @@ module OpenProject
     end
 
     def define_flag_methods(flag_name)
-      define_singleton_method "#{flag_name}_active?" do
-        Setting.exists?("feature_#{flag_name}_active") && Setting.send("feature_#{flag_name}_active?")
+      define_singleton_method :"#{flag_name}_active?" do
+        Setting.exists?("feature_#{flag_name}_active") && Setting.send(:"feature_#{flag_name}_active?")
       end
     end
 

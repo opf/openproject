@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,9 +41,9 @@ module API
             params.merge!(props)
           end
         rescue Zlib::DataError => e
-          raise_invalid_eprops(e, 'api_v3.errors.eprops.invalid_gzip')
+          raise_invalid_eprops(e, "api_v3.errors.eprops.invalid_gzip")
         rescue JSON::ParserError, NoMethodError => e
-          raise_invalid_eprops(e, 'api_v3.errors.eprops.invalid_json')
+          raise_invalid_eprops(e, "api_v3.errors.eprops.invalid_json")
         end
       end
     end

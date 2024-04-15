@@ -1,5 +1,6 @@
 # Response: UnsupportedMediaType
 ---
+description: Occurs when the client sends an unsupported Content-Type header.
 content:
   application/hal+json:
     schema:
@@ -8,4 +9,3 @@ content:
       _type: Error
       errorIdentifier: urn:openproject-org:api:v3:errors:TypeNotSupported
       message: Expected CONTENT-TYPE to be (expected value) but got (actual value).
-description: Occurs when the client sends an unsupported Content-Type header.

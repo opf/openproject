@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,8 +32,8 @@ class WebhookJob < ApplicationJob
   # Retry webhook jobs three times with exponential backoff
   # in case of timeouts
   retry_on Timeout::Error,
-           RestClient::RequestTimeout,
-           wait: :exponentially_longer,
+           Faraday::TimeoutError,
+           wait: :polynomially_longer,
            attempts: 3
 
   def perform(webhook_id, event_name)

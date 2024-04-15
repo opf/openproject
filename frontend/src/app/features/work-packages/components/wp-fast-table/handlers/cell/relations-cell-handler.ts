@@ -28,7 +28,7 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     super();
   }
 
-  protected processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
+  protected processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):void {
     debugLog('Handled click on relation cell %o', evt.target);
     evt.preventDefault();
 
@@ -46,7 +46,5 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     } else {
       this.wpTableRelationColumns.setExpandFor(workPackageId, columnId);
     }
-
-    return false;
   }
 }

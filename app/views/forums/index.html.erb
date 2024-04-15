@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,12 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_forum_plural) %>
 <%= toolbar title: t(:label_forum_plural) do %>
-  <% if User.current.allowed_to?(:manage_forums, @project) %>
+  <% if User.current.allowed_in_project?(:manage_forums, @project) %>
     <li class="toolbar-item">
       <%= link_to(new_project_forum_path(@project),
                   { aria: { label: t(:label_forum_new) },
                     title: t(:label_forum_new),
-                    class: 'button -alt-highlight' }) do %>
+                    class: 'button -primary' }) do %>
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('activerecord.models.forum') %></span>
       <% end %>
@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
           <col opHighlightCol>
           <col opHighlightCol>
           <col opHighlightCol>
-          <% if User.current.allowed_to?(:manage_forums, @project) %>
+          <% if User.current.allowed_in_project?(:manage_forums, @project) %>
             <col opHighlightCol>
             <col>
           <% end %>
@@ -63,7 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= Forum.name.humanize %>
+                    <%= Forum.model_name.human %>
                   </span>
                 </div>
               </div>
@@ -95,7 +95,7 @@ See COPYRIGHT and LICENSE files for more details.
                 </div>
               </div>
             </th>
-            <% if User.current.allowed_to?(:manage_forums, @project) %>
+            <% if User.current.allowed_in_project?(:manage_forums, @project) %>
               <th>
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
@@ -125,7 +125,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <%= link_to_message forum.last_message, no_root: true %>
                 <% end %>
               </td>
-              <% if User.current.allowed_to?(:manage_forums, @project) %>
+              <% if User.current.allowed_in_project?(:manage_forums, @project) %>
                 <td class="small-icons">
                   <% if authorize_for 'forums', 'edit' %>
                     <%= reorder_links 'forum', controller: '/forums',

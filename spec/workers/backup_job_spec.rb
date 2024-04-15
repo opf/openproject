@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe BackupJob, type: :model do
+RSpec.describe BackupJob, type: :model do
   shared_examples "it creates a backup" do |opts = {}|
     let(:job) { BackupJob.new }
 
-    let(:previous_backup) { create :backup }
-    let(:backup) { create :backup }
+    let(:previous_backup) { create(:backup) }
+    let(:backup) { create(:backup) }
     let(:status) { :in_queue }
     let(:job_id) { 42 }
 
@@ -59,7 +59,7 @@ describe BackupJob, type: :model do
 
     let(:arguments) { [{ backup:, user:, **opts.except(:remote_storage) }] }
 
-    let(:user) { create :admin }
+    let(:user) { create(:admin) }
 
     before do
       previous_backup
@@ -85,8 +85,33 @@ describe BackupJob, type: :model do
       job.perform **arguments.first
     end
 
-    describe '#pg_env' do
-      subject { job.pg_env }
+    describe 'environment variables' do
+      let(:hash_config) do
+        ActiveRecord::DatabaseConfigurations::HashConfig.new('test', 'primary', config_double)
+      end
+
+      before do
+        allow(ActiveRecord::Base).to receive(:connection_db_config).and_return(hash_config)
+      end
+
+      context 'when config has username' do
+        let(:config_double) do
+          {
+            adapter: :postgresql,
+            password: "blabla",
+            database: "test",
+            username: "foobar"
+          }
+        end
+
+        it 'sets PGUSER and other variables' do
+          perform
+
+          expect(Open3).to have_received(:capture3) do |*args|
+            expect(args[0]).to include('PGUSER' => 'foobar', 'PGPASSWORD' => 'blabla', 'PGDATABASE' => 'test')
+          end
+        end
+      end
 
       context 'when config has user reference, not username (regression #44251)' do
         let(:config_double) do
@@ -98,14 +123,12 @@ describe BackupJob, type: :model do
           }
         end
 
-        before do
-          allow(job).to receive(:database_config).and_return(config_double)
-        end
+        it 'still sets PGUSER and other variables' do
+          perform
 
-        it 'still sets a PGUSER' do
-          expect(subject['PGUSER']).to eq 'foobar'
-          expect(subject['PGPASSWORD']).to eq 'blabla'
-          expect(subject['PGDATABASE']).to eq 'test'
+          expect(Open3).to have_received(:capture3) do |*args|
+            expect(args[0]).to include('PGUSER' => 'foobar', 'PGPASSWORD' => 'blabla', 'PGDATABASE' => 'test')
+          end
         end
       end
     end
@@ -123,8 +146,8 @@ describe BackupJob, type: :model do
     context "with a successful database dump" do
       let(:db_dump_success) { true }
 
-      let!(:attachment) { create :attachment }
-      let!(:pending_direct_upload) { create :pending_direct_upload }
+      let!(:attachment) { create(:attachment) }
+      let!(:pending_direct_upload) { create(:pending_direct_upload) }
       let(:stored_backup) { Attachment.where(container_type: "Export").last }
       let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
 
@@ -191,7 +214,7 @@ describe BackupJob, type: :model do
       }
     }
   ) do
-    let(:dummy_path) { "/tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext" }
+    let(:dummy_path) { "#{LocalFileUploader.cache_dir}/1639754082-3468-0002-0911/file.ext" }
 
     before do
       FileUtils.mkdir_p Pathname(dummy_path).parent.to_s

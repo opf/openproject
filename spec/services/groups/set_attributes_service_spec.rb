@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Groups::SetAttributesService, type: :model do
+RSpec.describe Groups::SetAttributesService, type: :model do
   subject(:service_call) { instance.call(call_attributes) }
 
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
-    contract = double('contract_class')
+    contract = double("contract_class")
 
     allow(contract)
       .to receive(:new)
@@ -64,10 +64,10 @@ describe Groups::SetAttributesService, type: :model do
     end
   end
 
-  describe 'call' do
+  describe "call" do
     let(:call_attributes) do
       {
-        name: 'The name'
+        name: "The name"
       }
     end
 
@@ -81,29 +81,29 @@ describe Groups::SetAttributesService, type: :model do
         .and_return(contract_valid)
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(service_call)
         .to be_success
     end
 
-    it 'sets the attributes' do
+    it "sets the attributes" do
       service_call
 
       expect(group.lastname)
         .to eql call_attributes[:name]
     end
 
-    it 'does not persist the group' do
+    it "does not persist the group" do
       service_call
 
       expect(group)
         .not_to have_received(:save)
     end
 
-    context 'with no changes to the users' do
+    context "with no changes to the users" do
       let(:call_attributes) do
         {
-          name: 'My new group name'
+          name: "My new group name"
         }
       end
       let(:first_user) { build_stubbed(:user) }
@@ -119,8 +119,8 @@ describe Groups::SetAttributesService, type: :model do
         service_call.result
       end
 
-      it 'does not change the users (Regression #38017)' do
-        expect(updated_group.name).to eq 'My new group name'
+      it "does not change the users (Regression #38017)" do
+        expect(updated_group.name).to eq "My new group name"
         expect(updated_group.group_users.map(&:user_id))
           .to eql [first_user.id, second_user.id]
 
@@ -128,7 +128,7 @@ describe Groups::SetAttributesService, type: :model do
       end
     end
 
-    context 'with changes to the users do' do
+    context "with changes to the users do" do
       let(:first_user) { build_stubbed(:user) }
       let(:second_user) { build_stubbed(:user) }
       let(:third_user) { build_stubbed(:user) }
@@ -139,7 +139,7 @@ describe Groups::SetAttributesService, type: :model do
         }
       end
 
-      shared_examples_for 'updates the users' do
+      shared_examples_for "updates the users" do
         let(:first_group_user) { build_stubbed(:group_user, user: first_user) }
         let(:second_group_user) { build_stubbed(:group_user, user: second_user) }
 
@@ -147,58 +147,58 @@ describe Groups::SetAttributesService, type: :model do
           build_stubbed(:group, group_users: [first_group_user, second_group_user])
         end
 
-        it 'adds the new users' do
+        it "adds the new users" do
           expect(service_call.result.group_users.map(&:user_id))
             .to eql [first_user.id, second_user.id, third_user.id]
         end
 
-        it 'does not persist the new association' do
+        it "does not persist the new association" do
           expect(service_call.result.group_users.find { |gu| gu.user_id == third_user.id })
             .to be_new_record
         end
 
-        it 'keeps the association already existing before' do
+        it "keeps the association already existing before" do
           expect(service_call.result.group_users.find { |gu| gu.user_id == second_user.id })
             .not_to be_marked_for_destruction
         end
 
-        it 'marks not mentioned users to be removed' do
+        it "marks not mentioned users to be removed" do
           expect(service_call.result.group_users.find { |gu| gu.user_id == first_user.id })
             .to be_marked_for_destruction
         end
       end
 
-      context 'with a persisted record and integer values' do
+      context "with a persisted record and integer values" do
         let(:call_attributes) do
           {
             user_ids: [second_user.id, third_user.id]
           }
         end
 
-        it_behaves_like 'updates the users'
+        it_behaves_like "updates the users"
       end
 
-      context 'with a persisted record and string values' do
+      context "with a persisted record and string values" do
         let(:call_attributes) do
           {
             user_ids: [second_user.id.to_s, third_user.id.to_s]
           }
         end
 
-        it_behaves_like 'updates the users'
+        it_behaves_like "updates the users"
       end
 
-      context 'with a new record' do
+      context "with a new record" do
         let(:group) do
           Group.new
         end
 
-        it 'sets the user' do
+        it "sets the user" do
           expect(service_call.result.group_users.map(&:user_id))
             .to eql [second_user.id, third_user.id]
         end
 
-        it 'does not persist the association' do
+        it "does not persist the association" do
           expect(service_call.result.group_users.all(&:new_record?))
             .to be_truthy
         end

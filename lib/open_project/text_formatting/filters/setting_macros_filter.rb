@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +39,8 @@ module OpenProject::TextFormatting
       def self.regexp
         %r{
         \{\{opSetting:(.+?)\}\}
+        |
+        https?://[^% ]+?/%7B%7BopSetting:(base_url)%7D%7D
         }x
       end
 
@@ -44,8 +48,8 @@ module OpenProject::TextFormatting
         return html unless applicable?
 
         html.gsub(self.class.regexp) do |matched_string|
-          variable = $1.to_s
-          variable.gsub!('\\', '')
+          variable = ($1.presence || $2.presence).dup
+          variable.delete!("\\")
 
           if ALLOWED_SETTINGS.include?(variable)
             send variable
@@ -62,7 +66,7 @@ module OpenProject::TextFormatting
       end
 
       def base_url
-        url_helpers.root_url.chomp('/')
+        url_helpers.root_url.chomp("/")
       end
 
       def url_helpers
@@ -72,7 +76,7 @@ module OpenProject::TextFormatting
       ##
       # Faster inclusion check before the regex is being applied
       def applicable?
-        html.include?('{{opSetting:')
+        html.include?("{{opSetting:") || html.include?("%7B%7BopSetting:")
       end
     end
   end

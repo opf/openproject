@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,7 @@ import { StateService } from '@uirouter/core';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import { ViewType } from 'core-app/shared/components/op-view-select/op-view-select.component';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 interface IStaticQuery extends IOpSidemenuItem {
   view:ViewType;
@@ -44,11 +45,14 @@ interface IStaticQuery extends IOpSidemenuItem {
 export class StaticQueriesService {
   private staticQueries:IStaticQuery[] = [];
 
-  constructor(private readonly I18n:I18nService,
+  constructor(
+    private readonly I18n:I18nService,
     private readonly $state:StateService,
     private readonly CurrentProject:CurrentProjectService,
     private readonly PathHelper:PathHelperService,
-    private readonly CurrentUser:CurrentUserService) {
+    private readonly CurrentUser:CurrentUserService,
+    private readonly bannersService:BannersService,
+  ) {
     this.staticQueries = this.buildQueries();
   }
 
@@ -59,12 +63,14 @@ export class StaticQueriesService {
     updated_at: this.I18n.t('js.work_packages.properties.updatedAt'),
     status: this.I18n.t('js.work_packages.properties.status'),
     work_packages: this.I18n.t('js.label_work_package_plural'),
-    gantt: this.I18n.t('js.timelines.gantt_chart'),
+    gantt: this.I18n.t('js.gantt_chart.label'),
     latest_activity: this.I18n.t('js.work_packages.default_queries.latest_activity'),
     created_by_me: this.I18n.t('js.work_packages.default_queries.created_by_me'),
     assigned_to_me: this.I18n.t('js.work_packages.default_queries.assigned_to_me'),
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
+    shared_with_users: this.I18n.t('js.work_packages.default_queries.shared_with_users'),
+    shared_with_me: this.I18n.t('js.work_packages.default_queries.shared_with_me'),
     summary: this.I18n.t('js.work_packages.default_queries.summary'),
     overdue: this.I18n.t('js.notifications.date_alerts.overdue'),
   };
@@ -84,6 +90,11 @@ export class StaticQueriesService {
       if (matched) {
         return matched.title;
       }
+
+      if (this.$state.params.name) {
+        const nameKey = this.$state.params.name as string;
+        return this.I18n.t(`js.queries.${nameKey}`);
+      }
     }
 
     // Try to detect the all open filter
@@ -102,14 +113,14 @@ export class StaticQueriesService {
       {
         title: this.text.all_open,
         uiSref: 'work-packages',
-        uiParams: { query_id: '', query_props: '' },
+        uiParams: { query_id: undefined, query_props: undefined },
         view: 'WorkPackagesTable',
       },
       {
         title: this.text.latest_activity,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"*","v":[]}]}',
         },
         view: 'WorkPackagesTable',
@@ -118,17 +129,8 @@ export class StaticQueriesService {
         title: this.text.recently_created,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
-        },
-        view: 'WorkPackagesTable',
-      },
-      {
-        title: this.text.gantt,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: '',
-          query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
         },
         view: 'WorkPackagesTable',
       },
@@ -136,7 +138,7 @@ export class StaticQueriesService {
         title: this.text.overdue,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"dueDate","o":"<t-","v":["1"]},{"n":"status","o":"o","v":[]}]}',
         },
         view: 'WorkPackagesTable',
@@ -145,7 +147,7 @@ export class StaticQueriesService {
         title: this.text.all_open,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}',
         },
         view: 'Bim',
@@ -154,7 +156,7 @@ export class StaticQueriesService {
         title: this.text.latest_activity,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
         view: 'Bim',
@@ -163,7 +165,7 @@ export class StaticQueriesService {
         title: this.text.recently_created,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","createdAt"],"t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
         view: 'Bim',
@@ -209,7 +211,7 @@ export class StaticQueriesService {
         title: this.text.created_by_me,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
         },
         view: 'WorkPackagesTable',
@@ -218,16 +220,28 @@ export class StaticQueriesService {
         title: this.text.assigned_to_me,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
         },
         view: 'WorkPackagesTable',
       },
       {
+        title: this.text.shared_with_users,
+        view: 'WorkPackagesTable',
+        isEnterprise: true,
+        ...this.eeGuardedShareRoute,
+      },
+      {
+        title: this.text.shared_with_me,
+        view: 'WorkPackagesTable',
+        isEnterprise: true,
+        ...this.eeGuardedShareWithMeRoute,
+      },
+      {
         title: this.text.created_by_me,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
         },
         view: 'Bim',
@@ -236,11 +250,39 @@ export class StaticQueriesService {
         title: this.text.assigned_to_me,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","author","updatedAt"],"t":"id:desc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
         },
         view: 'Bim',
       },
     ];
+  }
+
+  private get eeGuardedShareWithMeRoute() {
+    if (this.bannersService.eeShowBanners) {
+      return { uiSref: 'work-packages.share_upsale', uiParams: null, uiOptions: { inherit: false } };
+    }
+
+    return {
+      uiSref: 'work-packages',
+      uiParams: {
+        query_id: undefined,
+        query_props: '{"c":["id","subject","type","project"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"sharedWithMe","o":"=","v":"t"}]}',
+      },
+    };
+  }
+
+  private get eeGuardedShareRoute() {
+    if (this.bannersService.eeShowBanners) {
+      return { uiSref: 'work-packages.share_upsale', uiParams: null, uiOptions: { inherit: false } };
+    }
+
+    return {
+      uiSref: 'work-packages',
+      uiParams: {
+        query_id: undefined,
+        query_props: '{"c":["id","subject","type","project","sharedWithUsers"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"sharedWithUser","o":"*","v":[]}]}',
+      },
+    };
   }
 }

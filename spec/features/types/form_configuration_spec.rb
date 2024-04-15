@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,40 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'form configuration', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
-  let(:type) { create :type }
+RSpec.describe "form configuration", :js do
+  shared_let(:admin) { create(:admin) }
+  let(:type) { create(:type) }
 
-  let(:project) { create :project, types: [type] }
-  let(:category) { create :category, project: }
+  let(:project) { create(:project, types: [type]) }
+  let(:category) { create(:category, project:) }
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            done_ratio: 10,
-           category:
+           category:)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:form) { ::Components::Admin::TypeConfigurationForm.new }
+  let(:form) { Components::Admin::TypeConfigurationForm.new }
 
-  describe "with EE token" do
-    before do
-      with_enterprise_token(:edit_attribute_groups)
-    end
-
-    describe 'default configuration' do
-      let(:dialog) { ::Components::ConfirmationDialog.new }
+  describe "with EE token", with_ee: %i[edit_attribute_groups] do
+    describe "default configuration" do
+      let(:dialog) { Components::ConfirmationDialog.new }
 
       before do
         login_as(admin)
         visit edit_type_tab_path(id: type.id, tab: "form_configuration")
       end
 
-      it 'resets the form properly after changes' do
-        form.rename_group('Details', 'Whatever')
+      it "resets the form properly after changes" do
+        form.rename_group("Details", "Whatever")
         form.expect_attribute(key: :assignee)
 
         # Reset and cancel
@@ -67,7 +63,7 @@ describe 'form configuration', type: :feature, js: true do
         dialog.expect_open
         dialog.cancel
 
-        expect(page).to have_selector('.group-edit-handler', text: 'WHATEVER')
+        expect(page).to have_css(".group-edit-handler", text: "WHATEVER")
 
         # Click the dialog again after some time
         # Otherwise this may cause issues due to the animation,
@@ -82,20 +78,20 @@ describe 'form configuration', type: :feature, js: true do
         # Wait for page reload
         sleep 1
 
-        expect(page).to have_no_selector('.group-head', text: 'WHATEVER')
-        form.expect_group('details', 'Details')
+        expect(page).to have_no_css(".group-head", text: "WHATEVER")
+        form.expect_group("details", "Details")
         form.expect_attribute(key: :assignee)
       end
 
-      it 'can remove all groups to be left with an invisible one (Regression #33592)' do
-        form.remove_group 'Details'
-        form.remove_group 'Estimates and Time'
-        form.remove_group 'People'
-        form.remove_group 'Costs'
+      it "can remove all groups to be left with an invisible one (Regression #33592)" do
+        form.remove_group "Details"
+        form.remove_group "Estimates and Time"
+        form.remove_group "People"
+        form.remove_group "Costs"
 
         # Save configuration
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
 
         form.expect_empty
 
@@ -117,32 +113,33 @@ describe 'form configuration', type: :feature, js: true do
         wp_page.expect_hidden_field(:category)
         wp_page.expect_hidden_field(:done_ratio)
 
-        groups = page.all('.attributes-group--header-text').map(&:text)
-        expect(groups).to eq ['FILES']
+        groups = page.all(".attributes-group--header-text").map(&:text)
+        expect(groups).to eq []
         expect(page)
-          .to have_selector('.work-packages--details--description', text: work_package.description)
+          .to have_css(".work-packages--details--description", text: work_package.description)
       end
 
-      it 'allows modification of the form configuration' do
+      it "allows modification of the form configuration" do
         #
         # Test default set of groups
         #
-        form.expect_group 'people',
-                          'People',
-                          key: :responsible, translation: 'Accountable'
+        form.expect_group "people",
+                          "People",
+                          key: :responsible, translation: "Accountable"
 
-        form.expect_group 'estimates_and_time',
-                          'Estimates and time',
-                          { key: :estimated_time, translation: 'Estimated time' },
-                          { key: :spent_time, translation: 'Spent time' }
+        form.expect_group "estimates_and_time",
+                          "Estimates and time",
+                          { key: :estimated_time, translation: "Work" },
+                          { key: :spent_time, translation: "Spent time" },
+                          { key: :remaining_time, translation: "Remaining work" }
 
-        form.expect_group 'details',
-                          'Details',
-                          { key: :category, translation: 'Category' },
-                          { key: :date, translation: 'Date' },
-                          { key: :percentage_done, translation: 'Progress (%)' },
-                          { key: :priority, translation: 'Priority' },
-                          { key: :version, translation: 'Version' }
+        form.expect_group "details",
+                          "Details",
+                          { key: :category, translation: "Category" },
+                          { key: :date, translation: "Date" },
+                          { key: :percentage_done, translation: "% Complete" },
+                          { key: :priority, translation: "Priority" },
+                          { key: :version, translation: "Version" }
 
         #
         # Modify configuration
@@ -153,55 +150,56 @@ describe 'form configuration', type: :feature, js: true do
         form.expect_inactive(:version)
 
         # Rename group
-        form.rename_group('Details', 'Whatever')
-        form.rename_group('People', 'Cool Stuff')
+        form.rename_group("Details", "Whatever")
+        form.rename_group("People", "Cool Stuff")
 
         # Start renaming, but cancel
-        find('.group-edit-handler', text: 'COOL STUFF').click
-        input = find('.group-edit-in-place--input')
-        input.set('FOOBAR')
+        find(".group-edit-handler", text: "COOL STUFF").click
+        input = find(".group-edit-in-place--input")
+        input.set("FOOBAR")
         input.send_keys(:escape)
-        expect(page).to have_selector('.group-edit-handler', text: 'COOL STUFF')
-        expect(page).to have_no_selector('.group-edit-handler', text: 'FOOBAR')
+        expect(page).to have_css(".group-edit-handler", text: "COOL STUFF")
+        expect(page).to have_no_css(".group-edit-handler", text: "FOOBAR")
 
         # Create new group
-        form.add_attribute_group('New Group')
-        form.move_to(:category, 'New Group')
+        form.add_attribute_group("New Group")
+        form.move_to(:category, "New Group")
 
         # Delete attribute from group
-        form.remove_attribute('assignee')
+        form.remove_attribute("assignee")
 
         # Save configuration
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
 
         # Expect configuration to be correct now
-        form.expect_no_attribute('assignee', 'Cool Stuff')
+        form.expect_no_attribute("assignee", "Cool Stuff")
 
-        form.expect_group 'Cool Stuff',
-                          'Cool Stuff',
-                          { key: :responsible, translation: 'Accountable' }
+        form.expect_group "Cool Stuff",
+                          "Cool Stuff",
+                          { key: :responsible, translation: "Accountable" }
 
-        form.expect_group 'estimates_and_time',
-                          'Estimates and time',
-                          { key: :estimated_time, translation: 'Estimated time' },
-                          { key: :spent_time, translation: 'Spent time' }
+        form.expect_group "estimates_and_time",
+                          "Estimates and time",
+                          { key: :estimated_time, translation: "Work" },
+                          { key: :spent_time, translation: "Spent time" },
+                          { key: :remaining_time, translation: "Remaining work" }
 
-        form.expect_group 'Whatever',
-                          'Whatever',
-                          { key: :date, translation: 'Date' },
-                          { key: :percentage_done, translation: 'Progress (%)' }
+        form.expect_group "Whatever",
+                          "Whatever",
+                          { key: :date, translation: "Date" },
+                          { key: :percentage_done, translation: "% Complete" }
 
-        form.expect_group 'New Group',
-                          'New Group',
-                          { key: :category, translation: 'Category' }
+        form.expect_group "New Group",
+                          "New Group",
+                          { key: :category, translation: "Category" }
 
         form.expect_inactive(:version)
 
         # Test the actual type backend
         type.reload
         expect(type.attribute_groups.map(&:key))
-          .to include('Cool Stuff', :estimates_and_time, 'Whatever', 'New Group')
+          .to include("Cool Stuff", :estimates_and_time, "Whatever", "New Group")
 
         # Visit work package with that type
         wp_page.visit!
@@ -210,25 +208,25 @@ describe 'form configuration', type: :feature, js: true do
         # Version should be hidden
         wp_page.expect_hidden_field(:version)
 
-        wp_page.expect_group('New Group') do
+        wp_page.expect_group("New Group") do
           wp_page.expect_attributes category: category.name
         end
 
-        wp_page.expect_group('Whatever') do
-          wp_page.expect_attributes percentageDone: '10'
+        wp_page.expect_group("Whatever") do
+          wp_page.expect_attributes percentageDone: "10"
         end
 
-        wp_page.expect_group('Cool Stuff') do
-          wp_page.expect_attributes responsible: '-'
+        wp_page.expect_group("Cool Stuff") do
+          wp_page.expect_attributes responsible: "-"
         end
 
         # Empty attributes should be shown on toggle
         wp_page.expect_hidden_field(:assignee)
         wp_page.expect_hidden_field(:spent_time)
 
-        wp_page.expect_group('Estimates and time') do
-          wp_page.expect_attributes estimated_time: '-'
-          wp_page.expect_attributes spent_time: '0 h'
+        wp_page.expect_group("Estimates and time") do
+          wp_page.expect_attributes estimated_time: "-"
+          wp_page.expect_attributes spent_time: "0 h"
         end
 
         # New work package has the same configuration
@@ -236,21 +234,21 @@ describe 'form configuration', type: :feature, js: true do
         wp_page.expect_hidden_field(:spent_time)
         wp_page.click_create_wp_button(type)
 
-        wp_page.expect_group('Estimates and time') do
-          expect(page).to have_selector('.inline-edit--container.estimatedTime')
+        wp_page.expect_group("Estimates and time") do
+          expect(page).to have_css(".inline-edit--container.estimatedTime")
         end
 
-        find('#work-packages--edit-actions-cancel').click
+        find_by_id("work-packages--edit-actions-cancel").click
         expect(wp_page).not_to have_alert_dialog
         loading_indicator_saveguard
       end
     end
 
-    describe 'required custom field' do
+    describe "required custom field" do
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
-      let(:cf_identifier) { "custom_field_#{custom_field.id}" }
-      let(:cf_identifier_api) { "customField#{custom_field.id}" }
+      let(:custom_field) { create(:issue_custom_field, :integer, is_required: true, name: "MyNumber") }
+      let(:cf_identifier) { custom_field.attribute_name }
+      let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 
       before do
         project
@@ -260,29 +258,29 @@ describe 'form configuration', type: :feature, js: true do
         visit edit_type_tab_path(id: type.id, tab: "form_configuration")
       end
 
-      it 'shows the field' do
+      it "shows the field" do
         # Should be initially disabled
         form.expect_inactive(cf_identifier)
 
         # Add into new group
-        form.add_attribute_group('New Group')
-        form.move_to(cf_identifier, 'New Group')
+        form.add_attribute_group("New Group")
+        form.move_to(cf_identifier, "New Group")
         form.expect_attribute(key: cf_identifier)
 
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
       end
     end
 
-    describe 'custom fields' do
+    describe "custom fields" do
       let(:project_settings_page) { Pages::Projects::Settings.new(project) }
 
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { create(:integer_issue_custom_field, name: 'MyNumber') }
-      let(:cf_identifier) { "custom_field_#{custom_field.id}" }
-      let(:cf_identifier_api) { "customField#{custom_field.id}" }
+      let(:custom_field) { create(:issue_custom_field, :integer, name: "MyNumber") }
+      let(:cf_identifier) { custom_field.attribute_name }
+      let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 
-      before do
+      def add_cf_to_group
         project
         custom_field
 
@@ -293,98 +291,100 @@ describe 'form configuration', type: :feature, js: true do
         form.expect_inactive(cf_identifier)
 
         # Add into new group
-        form.add_attribute_group('New Group')
-        form.move_to(cf_identifier, 'New Group')
+        form.add_attribute_group("New Group")
+        form.move_to(cf_identifier, "New Group")
 
         # Make visible
         form.expect_attribute(key: cf_identifier)
 
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
       end
 
-      context 'if inactive in project' do
-        it 'can be added to the type, but is not shown' do
+      context "if inactive in project" do
+        it "can be added to the type, but is not shown" do
+          add_cf_to_group
           # Disable in project, should be invisible
           # This step is necessary, since we auto-activate custom fields
           # when adding them to the form configuration
-          project_settings_page.visit_tab!('custom_fields')
+          project_settings_page.visit_tab!("custom_fields")
 
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: "MyNumber")
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
 
           id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
           expect(id_checkbox).to be_checked
           id_checkbox.set(false)
 
-          click_button 'Save'
+          click_button "Save"
 
           # Visit work package with that type
           wp_page.visit!
           wp_page.ensure_page_loaded
 
           # CF should be hidden
-          wp_page.expect_no_group('New Group')
+          wp_page.expect_no_group("New Group")
           wp_page.expect_attribute_hidden(cf_identifier_api)
 
           # Enable in project, should then be visible
-          project_settings_page.visit_tab!('custom_fields')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
+          project_settings_page.visit_tab!("custom_fields")
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: "MyNumber")
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
 
           id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
           expect(id_checkbox).not_to be_checked
           id_checkbox.set(true)
 
-          click_button 'Save'
+          click_button "Save"
 
           # Visit work package with that type
           wp_page.visit!
           wp_page.ensure_page_loaded
 
           # Category should be hidden
-          wp_page.expect_group('New Group') do
-            wp_page.expect_attributes cf_identifier_api => '-'
+          wp_page.expect_group("New Group") do
+            wp_page.expect_attributes cf_identifier_api => "-"
           end
         end
       end
 
-      context 'if active in project' do
+      context "if active in project" do
         let(:project) do
-          create :project,
+          create(:project,
                  types: [type],
-                 work_package_custom_fields: custom_fields
+                 work_package_custom_fields: custom_fields)
         end
 
-        it 'can be added to type and is visible' do
+        it "can be added to type and is visible" do
+          add_cf_to_group
+
           # Visit work package with that type
           wp_page.visit!
           wp_page.ensure_page_loaded
 
           # Category should be hidden
-          wp_page.expect_group('New Group') do
-            wp_page.expect_attributes cf_identifier_api => '-'
+          wp_page.expect_group("New Group") do
+            wp_page.expect_attributes cf_identifier_api => "-"
           end
 
           # Ensure CF is checked
-          project_settings_page.visit_tab!('custom_fields')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
-          expect(page).to have_selector("#project_work_package_custom_field_ids_#{custom_field.id}[checked]")
+          project_settings_page.visit_tab!("custom_fields")
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: "MyNumber")
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
+          expect(page).to have_css("#project_work_package_custom_field_ids_#{custom_field.id}[checked]")
         end
       end
     end
   end
 
-  describe "without EE token" do
-    let(:dialog) { ::Components::ConfirmationDialog.new }
+  describe "without EE token", with_ee: false do
+    let(:dialog) { Components::ConfirmationDialog.new }
 
     it "must disable adding and renaming groups" do
-      with_enterprise_token(nil)
       login_as(admin)
       visit edit_type_tab_path(id: type.id, tab: "form_configuration")
 
-      find('.group-edit-handler', text: "DETAILS").click
+      find(".group-edit-handler", text: "DETAILS").click
       dialog.expect_open
     end
   end

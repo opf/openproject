@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,13 +37,13 @@ module PlaceholderUsers
     #
     # @param actor [User] User who wants to delete the given placeholder user.
     def self.deletion_allowed?(placeholder_user, actor)
-      actor.allowed_to_globally?(:manage_placeholder_user) &&
+      actor.allowed_globally?(:manage_placeholder_user) &&
         affected_projects_managed_by_actor?(placeholder_user, actor)
     end
 
     def self.affected_projects_managed_by_actor?(placeholder_user, actor)
       placeholder_user.projects.active.empty? ||
-        actor.allowed_to?(:manage_members, placeholder_user.projects.active)
+        actor.allowed_in_project?(:manage_members, placeholder_user.projects.active)
     end
     private_class_method :affected_projects_managed_by_actor?
 

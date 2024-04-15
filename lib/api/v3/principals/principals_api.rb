@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +32,23 @@ module API
       class PrincipalsAPI < ::API::OpenProjectAPI
         resource :principals do
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
-                 .new(model: Principal,
-                      scope: -> { Principal.visible(current_user).includes(:preference) })
-                 .mount
+            .new(model: Principal,
+                 scope: -> { Principal.includes(:preference) })
+            .mount
+
+          params do
+            requires :id, desc: "Principal ID"
+          end
+          route_param :id, type: Integer, desc: "Principal ID" do
+            after_validation do
+              @principal = Principal.visible.find(params[:id])
+            end
+
+            get &::API::V3::Utilities::Endpoints::Show
+              .new(model: Principal,
+                   render_representer: PrincipalRepresenterFactory)
+              .mount
+          end
         end
       end
     end

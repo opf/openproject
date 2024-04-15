@@ -1,0 +1,11 @@
+<%= render TooltipComponent.new do |component| %>
+  <% component.with_trigger do %>
+    Hover me to see the tooltip
+  <% end %>
+
+  <% component.with_body do %>
+    <span class="spot-body-small">
+      Content of the tooltip
+    </span>
+  <% end %>
+<% end %>

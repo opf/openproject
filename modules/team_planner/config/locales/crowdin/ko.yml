@@ -1,10 +1,14 @@
 #English strings go here
 ko:
+  plugin_openproject_team_planner:
+    name: "OpenProject 팀 플래너"
+    description: "팀 플래너 보기를 제공합니다."
   permission_view_team_planner: "팀 플래너 보기"
   permission_manage_team_planner: "팀 플래너 관리"
   project_module_team_planner_view: "팀 플래너"
   team_planner:
     label_team_planner: "팀 플래너"
+    label_new_team_planner: "새 팀 플래너"
     label_create_new_team_planner: "새로운 팀 플래너 만들기"
     label_team_planner_plural: "팀 플래너"
     label_assignees: "담당자"

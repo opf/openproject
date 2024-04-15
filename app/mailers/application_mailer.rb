@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,11 +27,12 @@
 #++
 
 class ApplicationMailer < ActionMailer::Base
-  layout 'mailer'
+  layout "mailer"
 
   helper :application, # for format_text
          :work_packages, # for css classes
-         :custom_fields # for show_value
+         :custom_fields, # for show_value
+         :mail_layout # for layouting
 
   include OpenProject::LocaleHelper
 
@@ -55,7 +56,7 @@ class ApplicationMailer < ActionMailer::Base
       if OpenProject::Configuration.rails_relative_url_root.blank?
         Setting.host_name
       else
-        Setting.host_name.to_s.gsub(%r{/.*\z}, '')
+        Setting.host_name.to_s.gsub(%r{/.*\z}, "")
       end
     end
 
@@ -64,7 +65,7 @@ class ApplicationMailer < ActionMailer::Base
     end
 
     def default_url_options
-      options = super.merge host: host, protocol: protocol
+      options = super.merge(host:, protocol:)
       if OpenProject::Configuration.rails_relative_url_root.present?
         options[:script_name] = OpenProject::Configuration.rails_relative_url_root
       end
@@ -86,7 +87,7 @@ class ApplicationMailer < ActionMailer::Base
   # Because of this, the message id and the value affected by it (In-Reply-To) is not relied upon when an email response
   # is handled by OpenProject.
   def message_id(object, user)
-    headers['Message-ID'] = "<#{message_id_value(object, user)}>"
+    headers["Message-ID"] = "<#{message_id_value(object, user)}>"
   end
 
   # Sets a References header.
@@ -104,7 +105,7 @@ class ApplicationMailer < ActionMailer::Base
       end
     end
 
-    headers['References'] = refs.join(' ')
+    headers["References"] = refs.join(" ")
   end
 
   # Prepends given fields with 'X-OpenProject-' to save some duplication
@@ -119,8 +120,9 @@ class ApplicationMailer < ActionMailer::Base
     format.text
   end
 
-  def send_mail(user, subject)
+  def send_localized_mail(user)
     with_locale_for(user) do
+      subject = yield
       mail to: user.mail, subject:
     end
   end
@@ -140,12 +142,12 @@ class ApplicationMailer < ActionMailer::Base
                        else
                          "#{object.class.name.demodulize.underscore}-#{object.id}"
                        end
-    hash = 'op' \
-           '.' \
+    hash = "op" \
+           "." \
            "#{object_reference}" \
-           '.' \
+           "." \
            "#{Time.current.strftime('%Y%m%d%H%M%S')}" \
-           '.' \
+           "." \
            "#{recipient.id}"
 
     "#{hash}@#{header_host_value}"
@@ -160,15 +162,15 @@ class ApplicationMailer < ActionMailer::Base
   # It in fact is aimed not not so that similar messages (i.e. those belonging to the same
   # work package and journal) end up being grouped together.
   def references_value(object)
-    hash = 'op' \
-           '.' \
+    hash = "op" \
+           "." \
            "#{object.class.name.demodulize.underscore}-#{object.id}"
 
     "#{hash}@#{header_host_value}"
   end
 
   def header_host_value
-    host = Setting.mail_from.to_s.gsub(%r{\A.*@}, '')
+    host = Setting.mail_from.to_s.gsub(%r{\A.*@}, "")
     host = "#{::Socket.gethostname}.openproject" if host.empty?
     host
   end

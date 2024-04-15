@@ -49,11 +49,11 @@
     <% end %>
 
     <%= link_to(OpenProject::Static::Links.links[:pricing][:href],
-                { class: 'button -highlight',
+                { class: 'button -primary',
                   aria: {label: t('admin.enterprise.buttons.upgrade')},
                   target: '_blank',
                   title: t('admin.enterprise.buttons.upgrade')}) do %>
-      <%= spot_icon('enterprise-addons enterprise-addons--button-icon') %>
+      <%= spot_icon('enterprise-addons') %>
       <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
     <% end %>
     <free-trial-button></free-trial-button>

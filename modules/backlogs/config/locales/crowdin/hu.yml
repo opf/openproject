@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,12 +20,13 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 hu:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
       work_package:
         position: "Pozició"
-        remaining_hours: "Fennmaradó órák"
-        remaining_time: "Fennmaradó órák"
         story_points: "Story pontok"
         backlogs_work_package_type: "Backlog típus"
     errors:
@@ -35,9 +36,6 @@ hu:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "csak a jelenlegi sprint munkacsomagjainak azonosítóit tartalmazhatja."
               must_block_at_least_one_work_package: "legalább egy munkacsomag azonosítóját tartalmaznia kell."
-            parent_id:
-              parent_child_relationship_across_projects: "érvénytelen, mert a munka csomag \"%{work_package_name}\" egy backlog feladat, ezért nem lehet a szülő nem az aktuális projektben."
-              type_must_be_one_of_the_following: "A következő típusok egyikének kell lennie: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "a szülő story verziójával megegyezőnek kell lennie."
         sprint:
@@ -78,7 +76,6 @@ hu:
     x_more: "további %{count}..."
   backlogs_active: "aktív"
   backlogs_any: "bármely"
-  backlogs_card_specification: "A kártya nyomtatásához használt címke típusok"
   backlogs_inactive: "A projekt nem mutat tevékenységet"
   backlogs_points_burn_direction: "Pontok teendő fel/le"
   backlogs_product_backlog: "Termék backlog"
@@ -144,18 +141,18 @@ hu:
   points_resolved: "points resolved"
   points_to_accept: "points not accepted"
   points_to_resolve: "points not resolved"
-  project_module_backlogs: "Backlogs"
+  project_module_backlogs: "Elvégzendő feladatok"
   rb_label_copy_tasks: "Copy work packages"
   rb_label_copy_tasks_all: "Mind"
   rb_label_copy_tasks_none: "None"
   rb_label_copy_tasks_open: "Open"
   rb_label_link_to_original: "Include link to original story"
-  remaining_hours: "remaining hours"
+  remaining_hours: "Fennmaradó órák"
   required_burn_rate_hours: "required burn rate (hours)"
   required_burn_rate_points: "required burn rate (points)"
-  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_description: "%{összegzés}: %{url}\n%{leírás}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Column in backlog"
+  version_settings_display_label: "Hátralévő feladatok oszlopa"
   version_settings_display_option_left: "balra"
   version_settings_display_option_none: "none"
   version_settings_display_option_right: "jobbra"

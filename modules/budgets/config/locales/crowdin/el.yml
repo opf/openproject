@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 el:
+  plugin_budgets_engine:
+    name: 'Προϋπολογισμοί'
   activerecord:
     attributes:
       budget:
@@ -39,6 +41,9 @@ el:
     models:
       budget: "Προϋπολογισμός"
       material_budget_item: "Μονάδα"
+  activity:
+    filter:
+      budget: "Προϋπολογισμοί"
   attributes:
     budget: "Προϋπολογισμός"
   button_add_budget_item: "Προσθήκη σχεδιασμένου κόστους"
@@ -69,5 +74,5 @@ el:
   permission_view_budgets: "Εμφάνιση προϋπολογισμών"
   project_module_budgets: "Προϋπολογισμοί"
   text_budget_reassign_to: "Reassign them to this budget:"
-  text_budget_delete: "Delete the budget from all work packages"
-  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+  text_budget_delete: "Διαγραφή του προϋπολογισμού από όλα τα πακέτα εργασίας"
+  text_budget_destroy_assigned_wp: "Υπάρχουν %{count} πακέτα εργασίας που έχουν συνδεθεί με αυτόν τον προϋπολογισμό. Τι θέλετε να κάνετε;"

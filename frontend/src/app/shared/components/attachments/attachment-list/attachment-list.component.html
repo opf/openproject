@@ -6,8 +6,9 @@
     *ngFor="let attachment of attachments; let i = index;"
     op-attachment-list-item
     class="spot-list--item op-file-list--item"
-    data-qa-selector="op-attachment-list-item"
+    data-test-selector="op-attachment-list-item"
     [attachment]="attachment"
+    [showTimestamp]="showTimestamp"
     [index]="i"
     (removeAttachment)="removeAttachment(attachment)"
   ></li>

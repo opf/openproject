@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
+RSpec.describe API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }
@@ -52,9 +52,9 @@ describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
                 cost_type: cost_type_B)
   end
   let(:current_user) do
-    create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
-  let(:role) { build(:role, permissions: [:view_cost_entries]) }
+  let(:role) { build(:project_role, permissions: [:view_cost_entries]) }
 
   let(:representer) { described_class.new(work_package, current_user:) }
 
@@ -66,25 +66,25 @@ describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
     cost_entries_B
   end
 
-  it 'has a type' do
-    expect(subject).to be_json_eql('Collection'.to_json).at_path('_type')
+  it "has a type" do
+    expect(subject).to be_json_eql("Collection".to_json).at_path("_type")
   end
 
-  it 'has one element per type' do
-    expect(subject).to have_json_size(2).at_path('_embedded/elements')
+  it "has one element per type" do
+    expect(subject).to have_json_size(2).at_path("_embedded/elements")
   end
 
-  it 'indicates the cost types' do
-    elements = JSON.parse(subject)['_embedded']['elements']
-    types = elements.map { |entry| entry['_links']['costType']['href'] }
+  it "indicates the cost types" do
+    elements = JSON.parse(subject)["_embedded"]["elements"]
+    types = elements.map { |entry| entry["_links"]["costType"]["href"] }
     expect(types).to include(api_v3_paths.cost_type(cost_type_A.id))
     expect(types).to include(api_v3_paths.cost_type(cost_type_B.id))
   end
 
-  it 'aggregates the units' do
-    elements = JSON.parse(subject)['_embedded']['elements']
+  it "aggregates the units" do
+    elements = JSON.parse(subject)["_embedded"]["elements"]
     units_by_type = elements.inject({}) do |hash, entry|
-      hash[entry['_links']['costType']['href']] = entry['spentUnits']
+      hash[entry["_links"]["costType"]["href"]] = entry["spentUnits"]
       hash
     end
 

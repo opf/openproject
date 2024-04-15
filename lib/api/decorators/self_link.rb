@@ -55,8 +55,12 @@ module API
         def self_link(path: nil,
                       id_attribute: :id,
                       title: true,
-                      title_getter: ->(*) { represented.name })
-          link :self do
+                      title_getter: ->(*) { represented.name },
+                      **options)
+
+          self_config = { rel: :self }.merge(options)
+
+          link self_config do
             self_path = self_v3_path(path, id_attribute)
 
             link_object = { href: self_path }

@@ -10,7 +10,8 @@
       class="button op-team-planner--add-existing-toggle"
       [ngClass]="{'-active': (showAddExistingPane | async)}"
       [title]="text.add_existing_title"
-      data-qa-selector="op-team-planner--add-existing-toggle"
+      data-test-selector="op-team-planner--add-existing-toggle"
+      data-tour-selector="op-team-planner--add-existing-toggle"
       (click)="toggleAddExistingPane()">
       <op-icon icon-classes="icon-add button--icon"></op-icon>
       <span
@@ -22,7 +23,7 @@
     <op-add-existing-pane
       *ngIf="(showAddExistingPane | async)"
       class="op-team-planner--add-existing-pane"
-      data-qa-selector="add-existing-pane"
+      data-test-selector="add-existing-pane"
     >
     </op-add-existing-pane>
 
@@ -33,7 +34,7 @@
       opTeamPlannerViewSelectDropdown
       [viewOptions]="viewOptions"
       (viewSelected)="switchView($event)"
-      data-qa-selector="op-team-planner--view-select-dropdown">
+      data-test-selector="op-team-planner--view-select-dropdown">
       <span class="button--text ellipsis"
             [textContent]="currentViewTitle"
             aria-hidden="true"></span>
@@ -43,7 +44,8 @@
 
   <div
     class="op-team-planner--calendar-pane"
-    data-qa-selector="op-team-planner--calendar-pane"
+    data-test-selector="op-team-planner--calendar-pane"
+    data-tour-selector="op-team-planner--calendar-pane"
   >
     <ng-container
       *ngIf="(calendarOptions$ | async) as calendarOptions"
@@ -130,8 +132,8 @@
         <span [textContent]="text.noData"></span>
         <button
           type="button"
-          class="op-team-planner--empty-state-button button -highlight"
-          data-qa-selector="op-team-planner--empty-state-button"
+          class="op-team-planner--empty-state-button button -primary"
+          data-test-selector="op-team-planner--empty-state-button"
           (click)="showAssigneeAddRow()"
           [textContent]="text.add_assignee"
         >
@@ -139,7 +141,7 @@
       </div>
     </ng-container>
 
-    <div class="op-team-planner--footer" data-qa-selector="op-team-planner-footer">
+    <div class="op-team-planner--footer" data-test-selector="op-team-planner-footer">
       <div
         class="op-team-planner--add-assignee"
         *ngIf="!(showAddAssignee$ | async) && !(dropzone$ | async)?.dragging"
@@ -148,7 +150,8 @@
           type="button"
           class="spot-link"
           (click)="showAssigneeAddRow()"
-          data-qa-selector="tp-assignee-add-button"
+          data-test-selector="tp-assignee-add-button"
+          data-tour-selector="tp-assignee-add-button"
         >
           <span class="spot-icon spot-icon_user-plus"></span>
           <span [textContent]="text.add_assignee"></span>
@@ -162,7 +165,7 @@
           (mouseleave)="dropzoneHovered$.next(false)"
           (mouseup)="dropzone.canDrop && removeEvent(dropzone.dragging)"
           class="op-team-planner--remove-dropzone"
-          data-qa-selector="op-team-planner-dropzone"
+          data-test-selector="op-team-planner-dropzone"
           [class.op-team-planner--remove-dropzone_active]="dropzone.isHovering && dropzone.canDrop"
           [class.op-team-planner--remove-dropzone_forbidden]="!dropzone.canDrop"
         >

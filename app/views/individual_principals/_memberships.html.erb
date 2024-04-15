@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% roles = Role.givable %>
+<% roles = ProjectRole.givable %>
 <% projects = ::Members::CreateContract
   .new(@individual_principal.memberships.build, current_user)
   .assignable_projects
   .order(Arel.sql('lft')) %>
-<% memberships = @individual_principal.memberships.visible(current_user) %>
+<% memberships = @individual_principal.memberships.where(id: Member.visible(current_user)) %>
 
 <div class="grid-block">
   <div class="grid-content">
@@ -104,7 +104,7 @@ See COPYRIGHT and LICENSE files for more details.
                             </label>
                         <% end %>
                       </div>
-                      <p><%= submit_tag t(:button_change), class: 'memberships--edit-submit-button button -highlight -small' %>
+                      <p><%= submit_tag t(:button_change), class: 'memberships--edit-submit-button button -primary -small' %>
                         <%= link_to_function t(:button_cancel),
                                              "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
                   class: 'button -small' %></p>
@@ -116,7 +116,7 @@ See COPYRIGHT and LICENSE files for more details.
                                                                  roles: roles,
                                                                  projects: projects) %>
                   <td class="buttons">
-                    <% if User.current.allowed_to?(:manage_members, membership.project) %>
+                    <% if User.current.allowed_in_project?(:manage_members, membership.project) %>
                       <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
                                            "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
                                            class: "member-#{membership.id}--edit-toggle-item memberships--edit-button",
@@ -144,17 +144,17 @@ See COPYRIGHT and LICENSE files for more details.
                                     url: polymorphic_path([@individual_principal, :memberships]),
                                     html: {id: "new_project_membership"}) do %>
         <fieldset class="form--fieldset">
-          <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
+          <legend class="form--fieldset-legend"><%=t(:label_available_projects)%></legend>
           <% principal_project_ids = @individual_principal.projects.ids  %>
-          <% filter = [['active', '=', 't']] %>
-          <% filter << ['id', '!', principal_project_ids.map(&:to_s)] if principal_project_ids.any? %>
-          <%= angular_component_tag 'op-project-autocompleter',
+          <% filter = [{ name: 'active', operator: '=', values: ['t'] }] %>
+          <% filter << { name: 'id', operator: '!', values: principal_project_ids.map(&:to_s)} if principal_project_ids.any? %>
+          <%= angular_component_tag 'opce-project-autocompleter',
                                     inputs: {
-                                      apiFilters: filter,
-                                      name: 'membership[project_id]'
+                                      filters: filter,
+                                      inputName: 'membership[project_id]'
                                     },
                                     data: {
-                                      'qa-selector': 'membership_project_id'
+                                      'test-selector': 'membership_project_id'
                                     },
                                     class: 'form--field'
           %>
@@ -164,7 +164,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
             </div>
           </div>
-          <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
+          <div><%= styled_button_tag t(:button_add), class: '-primary -with-icon icon-checkmark' %></div>
         </fieldset>
       <% end %>
     <% end %>

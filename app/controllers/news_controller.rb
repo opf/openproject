@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ class NewsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render layout: layout_non_or_no_menu
+        render locals: { menu_name: project_or_global_menu }
       end
       format.atom do
         render_feed(@newss,
@@ -70,33 +70,33 @@ class NewsController < ApplicationController
     @news = News.new(project: @project, author: User.current)
   end
 
+  def edit; end
+
   def create
     @news = News.new(project: @project, author: User.current)
     @news.attributes = permitted_params.news
     if @news.save
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to controller: '/news', action: 'index', project_id: @project
+      redirect_to controller: "/news", action: "index", project_id: @project
     else
-      render action: 'new'
+      render action: "new"
     end
   end
-
-  def edit; end
 
   def update
     @news.attributes = permitted_params.news
     if @news.save
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'show', id: @news
+      redirect_to action: "show", id: @news
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
   def destroy
     @news.destroy
     flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to action: 'index', project_id: @project
+    redirect_to action: "index", project_id: @project
   end
 
   private

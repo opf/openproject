@@ -1,0 +1,55 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<tr
+  <%= "id=\"#{row_css_id}\"".html_safe if row_css_id %>
+  <%= "class=\"#{row_css_class}\"".html_safe if row_css_class %>
+>
+  <% columns.each do |column| %>
+    <td class="<%= column_css_class(column) %>">
+      <%= column_value(column) %>
+    </td>
+  <% end %>
+  <td class="buttons">
+    <% if more_menu_items.any?  %>
+      <ul class="project-actions">
+        <li aria-haspopup="true" title="<%= I18n.t(:label_open_menu) %>" class="drop-down">
+          <a class="icon icon-show-more-horizontal context-menu--icon" title="<%= t(:label_open_menu) %>" href></a>
+          <ul style="display:none;" class="menu-drop-down-container">
+            <% more_menu_items.each do |item| %>
+              <li>
+                <%= link_to(*item) %>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      </ul>
+    <% end %>
+  </td>
+</tr>

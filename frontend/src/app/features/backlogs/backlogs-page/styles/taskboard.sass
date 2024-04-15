@@ -1,6 +1,6 @@
 /*-- copyright
  * OpenProject is an open source project management software.
- * Copyright (C) 2012-2023 the OpenProject GmbH
+ * Copyright (C) 2012-2024 the OpenProject GmbH
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -69,14 +69,14 @@
     /* Must be the same as min-width */
   #board_header
     background-color: #EBEBEB
-    border: 1px solid #CCCCCC
+    border: 1px solid var(--color-border-muted)
     margin-bottom: 0
     margin-right: 10px
     td
       background-color: #EBEBEB
       border-right: 1px dotted #CFCFCF
       color: black
-      font-weight: bold
+      font-weight: var(--base-text-weight-bold)
       text-align: center
       vertical-align: middle
       padding-top: 0
@@ -88,7 +88,7 @@
 
   .board
     background-color: #FCFCFC
-    border: 1px solid #CCCCCC
+    border: 1px solid var(--color-border-muted)
     border-top: none
     margin-right: 10px
     /* IE7 table fix */
@@ -121,8 +121,7 @@
     background-color: #F8F6A5
     border: none
     display: block
-    float: left
-    min-height: 84px
+    min-height: 100px
     margin: 5px
     padding: 5px
     position: relative
@@ -142,9 +141,8 @@
     border: none
     cursor: move
     display: block
-    float: left
     font-size: 10px
-    height: 80px
+    height: 85px
     padding: 5px
     margin: 5px 0px
     position: relative
@@ -167,7 +165,7 @@
       bottom: -5px
       color: #FFFFFF
       font-size: 9px
-      height: 13px
+      height: 18px
       padding-left: 5px
       padding-right: 5px
       position: absolute
@@ -220,8 +218,6 @@
   &.ui-widget-content
     background: none
     border: none
-    .editor
-      color: var(--body-font-color)
   .ui-dialog-buttonpane.ui-widget-content
     background: none
     background-color: none
@@ -230,25 +226,24 @@
 .ui-dialog-titlebar-close
   overflow: hidden
 
-.dark #task_editor label
-  color: #FFFFFF
+.dark
+  #task_editor label, .subject, .assigned_to_id, div
+    color: #FFFFFF
+    option
+      color: var(--body-font-color)
 
-.light #task_editor label
-  color: #000000
-
-.dark div
-  color: #FFFFFF
-
-.light div
-  color: #000000
+.light
+  #task_editor label, .subject, .assigned_to_id, div
+    color: var(--body-font-color)
 
 /* item editor */
 
 #task_editor
+  label:first-letter
+    text-transform: capitalize
   label
     display: block
     font-size: 11px
-    text-transform: capitalize
     width: 100%
   .editor
     font-size: 11px

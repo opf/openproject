@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class CustomFields < Page
     def path
-      '/custom_fields'
+      "/custom_fields"
     end
 
     def visit_tab(name)
       visit!
-      within('content-tabs') do
+      within("content-tabs") do
         click_link name.to_s
       end
     end
@@ -46,15 +46,15 @@ module Pages
     end
 
     def set_name(name)
-      find("#custom_field_name").set name
+      find_by_id("custom_field_name").set name
     end
 
     def set_default_value(value)
-      fill_in 'custom_field[default_value]', with: value
+      fill_in "custom_field[default_value]", with: value
     end
 
     def set_all_projects(value)
-      find('#custom_field_is_for_all').set value
+      find_by_id("custom_field_is_for_all").set value
     end
 
     def has_form_element?(name)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,34 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require_relative "../spec_helper"
 
-describe 'Work Package table cost entries', type: :feature, js: true do
-  let(:project) { create :project }
-  let(:user) { create :admin }
+RSpec.describe "Work Package table cost entries", :js do
+  shared_let(:project) { create(:project_with_types) }
+  shared_let(:user) { create(:admin) }
 
-  let(:parent) { create :work_package, project: }
-  let(:work_package) { create :work_package, project:, parent: }
-  let(:hourly_rate) { create :default_hourly_rate, user:, rate: 1.00 }
+  shared_let(:parent) { create(:work_package, project:) }
+  shared_let(:work_package) { create(:work_package, project:, parent:) }
+  shared_let(:hourly_rate) { create(:default_hourly_rate, user:, rate: 1.00) }
 
   let!(:time_entry1) do
-    create :time_entry,
+    create(:time_entry,
            user:,
            work_package: parent,
            project:,
-           hours: 10
+           hours: 10)
   end
 
   let!(:time_entry2) do
-    create :time_entry,
+    create(:time_entry,
            user:,
            work_package:,
            project:,
-           hours: 2.50
+           hours: 2.50)
   end
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let!(:query) do
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:query) do
     query              = build(:query, user:, project:)
     query.column_names = %w(id subject spent_hours)
 
@@ -63,29 +63,30 @@ describe 'Work Package table cost entries', type: :feature, js: true do
 
   before do
     login_as(user)
+  end
 
+  it "shows the correct sum of the time entries" do
     wp_table.visit_query(query)
     wp_table.expect_work_package_listed(parent)
     wp_table.expect_work_package_listed(work_package)
-  end
 
-  it 'shows the correct sum of the time entries' do
     parent_row = wp_table.row(parent)
     wp_row = wp_table.row(work_package)
 
-    expect(parent_row).to have_selector('.inline-edit--container.spentTime', text: '12.5 h')
-    expect(wp_row).to have_selector('.inline-edit--container.spentTime', text: '2.5 h')
+    expect(parent_row).to have_css(".inline-edit--container.spentTime", text: "12.5 h")
+    expect(wp_row).to have_css(".inline-edit--container.spentTime", text: "2.5 h")
   end
 
-  it 'creates an activity' do
+  it "creates an activity" do
     visit project_activities_path project
 
-    # Activate budget filter
-    check('Spent time')
-    check('Budgets')
-    click_on 'Apply'
+    # Activate the spent time filter
+    check("Spent time")
+    click_on "Apply"
 
-    expect(page).to have_selector('.time-entry a', text: '10.00 h')
-    expect(page).to have_selector('.time-entry a', text: '2.50 h')
+    wp1 = time_entry1.work_package
+    wp2 = time_entry2.work_package
+    expect(page).to have_css(".op-activity-list--item-title", text: "#{wp1.type.name} ##{wp1.id}: #{wp1.subject}")
+    expect(page).to have_css(".op-activity-list--item-title", text: "#{wp2.type.name} ##{wp2.id}: #{wp2.subject}")
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,96 +26,96 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Capabilities::CapabilityQuery, type: :model do
+RSpec.describe Queries::Capabilities::CapabilityQuery do
   let(:instance) { described_class.new }
 
   current_user do
     build_stubbed(:user)
   end
 
-  describe '#valid?' do
-    context 'without filters' do
-      it 'is invalid' do
+  describe "#valid?" do
+    context "without filters" do
+      it "is invalid" do
         expect(instance)
           .not_to be_valid
       end
     end
 
-    context 'with a principal filter having the `=` operator' do
+    context "with a principal filter having the `=` operator" do
       before do
-        instance.where('principal_id', '=', ['1'])
+        instance.where("principal_id", "=", ["1"])
       end
 
-      it 'is valid' do
+      it "is valid" do
         expect(instance)
           .to be_valid
       end
     end
 
-    context 'with a principal filter having the `!` operator' do
+    context "with a principal filter having the `!` operator" do
       before do
-        instance.where('principal_id', '!', ['1'])
+        instance.where("principal_id", "!", ["1"])
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance)
           .not_to be_valid
       end
     end
 
-    context 'with a principal filter having the `=` operator but without values' do
+    context "with a principal filter having the `=` operator but without values" do
       before do
-        instance.where('principal_id', '=', [])
+        instance.where("principal_id", "=", [])
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance)
           .not_to be_valid
       end
     end
 
-    context 'with a context filter having the `=` operator' do
+    context "with a context filter having the `=` operator" do
       before do
-        instance.where('context', '=', ['p1'])
+        instance.where("context", "=", ["p1"])
       end
 
-      it 'is valid' do
+      it "is valid" do
         expect(instance)
           .to be_valid
       end
     end
 
-    context 'with a context filter having the `=` operator but without values' do
+    context "with a context filter having the `=` operator but without values" do
       before do
-        instance.where('context', '=', [])
+        instance.where("context", "=", [])
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance)
           .not_to be_valid
       end
     end
 
-    context 'with a context filter having the `!` operator' do
+    context "with a context filter having the `!` operator" do
       before do
-        instance.where('context', '!', ['g'])
+        instance.where("context", "!", ["g"])
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(instance)
           .not_to be_valid
       end
     end
 
-    context 'with a context filter having the `!` operator and also with a principal filter having the `=` operator' do
+    context "with a context filter having the `!` operator and also with a principal filter having the `=` operator" do
       before do
-        instance.where('context', '!', ['g'])
-        instance.where('principal_id', '=', ['1'])
+        instance.where("context", "!", ["g"])
+        instance.where("principal_id", "=", ["1"])
       end
 
-      it 'is valid' do
+      it "is valid" do
         expect(instance)
           .to be_valid
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Query Filter resource', type: :request do
+RSpec.describe "API v3 Query Filter resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  describe '#get queries/filters/:id' do
+  describe "#get queries/filters/:id" do
     let(:path) { api_v3_paths.query_filter(filter_name) }
-    let(:filter_name) { 'assignee' }
+    let(:filter_name) { "assignee" }
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     before do
@@ -53,45 +52,45 @@ describe 'API v3 Query Filter resource', type: :request do
       get path
     end
 
-    it 'succeeds' do
+    it "succeeds" do
       expect(last_response.status)
         .to eq(200)
     end
 
-    it 'returns the filter' do
+    it "returns the filter" do
       expect(last_response.body)
         .to be_json_eql(path.to_json)
-        .at_path('_links/self/href')
+        .at_path("_links/self/href")
     end
 
-    context 'user not allowed' do
+    context "user not allowed" do
       let(:permissions) { [] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
 
-    context 'non existing filter' do
-      let(:filter_name) { 'bogus' }
+    context "non existing filter" do
+      let(:filter_name) { "bogus" }
 
-      it 'returns 404' do
+      it "returns 404" do
         expect(last_response.status)
           .to be(404)
       end
     end
 
-    context 'custom field filter' do
+    context "custom field filter" do
       let(:list_wp_custom_field) { create(:list_wp_custom_field) }
-      let(:filter_name) { "customField#{list_wp_custom_field.id}" }
+      let(:filter_name) { list_wp_custom_field.attribute_name(:camel_case) }
 
-      it 'succeeds' do
+      it "succeeds" do
         expect(last_response.status)
           .to eq(200)
       end
 
-      it 'returns the filter' do
+      it "returns the filter" do
         expect(last_response.body)
           .to be_json_eql(path.to_json)
-          .at_path('_links/self/href')
+          .at_path("_links/self/href")
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Capabilities::Contexts::GlobalRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Capabilities::Contexts::GlobalRepresenter, "rendering" do
+  include API::V3::Utilities::PathHelper
 
   subject { representer.to_json }
 
@@ -40,22 +40,22 @@ describe ::API::V3::Capabilities::Contexts::GlobalRepresenter, 'rendering' do
               embed_links: true)
   end
 
-  describe '_links' do
-    describe 'self' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'self' }
+  describe "_links" do
+    describe "self" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.capabilities_contexts_global }
       end
     end
   end
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'CapabilityContext' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "CapabilityContext" }
     end
 
-    it_behaves_like 'property', :id do
-      let(:value) { 'global' }
+    it_behaves_like "property", :id do
+      let(:value) { "global" }
     end
   end
 end

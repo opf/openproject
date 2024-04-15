@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,6 +20,8 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
+  plugin_budgets_engine:
+    name: '预算'
   activerecord:
     attributes:
       budget:
@@ -32,13 +34,16 @@ zh-CN:
         status: "状态"
         subject: "主题"
         type: "成本类型"
-        labor_budget: "计划劳动力成本"
+        labor_budget: "计划人工成本"
         material_budget: "计划单位成本"
       work_package:
         budget_subject: "预算标题"
     models:
       budget: "预算"
       material_budget_item: "单位"
+  activity:
+    filter:
+      budget: "预算"
   attributes:
     budget: "预算"
   button_add_budget_item: "添加计划成本"
@@ -46,8 +51,8 @@ zh-CN:
   button_add_cost_type: "添加成本类型"
   button_cancel_edit_budget: "取消编辑预算"
   button_cancel_edit_costs: "取消编辑成本"
-  caption_labor: "劳动力"
-  caption_labor_costs: "实际劳动力成本"
+  caption_labor: "人工"
+  caption_labor_costs: "实际人工成本"
   caption_material_costs: "实际单位成本"
   budgets_title: "预算"
   events:
@@ -63,7 +68,7 @@ zh-CN:
   label_example_placeholder: '例如，%{decimal}'
   label_view_all_budgets: "查看所有预算"
   label_yes: "是"
-  notice_budget_conflict: "工作包必须具有相同的项目。"
+  notice_budget_conflict: "工作包必须属于同一个项目。"
   notice_no_budgets_available: "无可用预算。"
   permission_edit_budgets: "编辑预算"
   permission_view_budgets: "查看预算"

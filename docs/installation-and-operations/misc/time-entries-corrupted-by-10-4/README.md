@@ -26,14 +26,14 @@ As a result of this step, a second database, not the database OpenProject is cur
 
 First, connect to the OpenProject server and get the necessary details about your current database:
 
-```bash
+```shell
 $ openproject config:get DATABASE_URL
 #=> e.g.: postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<dbname>
 ```
 
 Example:
 
-```bash
+```shell
 $ openproject config:get DATABASE_URL
 postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject
 ```
@@ -42,27 +42,27 @@ postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproj
 
 Using this connection string, the following command will create the database the backup will be restored to (named `openproject_backup` in this example):
 
-```bash
+```shell
 $ psql "postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<dbname>" -c 'CREATE DATABASE <new_dbname>'
 CREATE DATABASE
 ```
 
 Example:
 
-```bash
+```shell
 $ psql "postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject" -c 'CREATE DATABASE openproject_backup'
 CREATE DATABASE
 ```
 
 The command above might not work for some installations. In that case the following is a viable alternative:
 
-```bash
+```shell
 $ su postgres -c createdb -O <dbusernamer> openproject_backup
 ```
 
 Example:
 
-```bash
+```shell
 $ su postgres -c createdb -O openproject openproject_backup
 ```
 
@@ -70,7 +70,7 @@ $ su postgres -c createdb -O openproject openproject_backup
 
 Next, that newly created database will receive the data from a backup file which typically can be found in `/var/db/openproject/backup`
 
-```bash
+```shell
 $ ls -al /var/db/openproject/backup/
 total 1680
 drwxr-xr-x 2 openproject openproject    4096 Nov 19 21:00 .
@@ -86,13 +86,13 @@ We will need the most recently created (but created before the migration to 10.4
 
 Using that file we can then restore the database to the newly created database (called `openproject_backup` in our example). **In the following steps, ensure that you do not restore to the currently running database**. 
 
-```bash
+```shell
 $ pg_restore -d "postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<new_dbname>" /var/db/openproject/backup/postgresql-dump-<TIMESTAMP>.pgdump` 
 ```
 
 Example:
 
-```bash
+```shell
 $ pg_restore -d "postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject_backup" /var/db/openproject/backup/postgresql-dump-20191119210038.pgdump` 
 ```
 
@@ -102,19 +102,19 @@ That command will restore the contents of the backup file into the auxiliary dat
 
 The script that fixes the time entries can then be called:
 
-```bash
+```shell
 $ BACKUP_DATABASE_URL="postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<new_dbname>" sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
 ```
 
 Example
 
-```bash
+```shell
 $ BACKUP_DATABASE_URL="postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject_backup" sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
 ```
 
 The script will then print out the number of time entries it has fixed.
 
-```bash
+```shell
 
 Fixing 341 time entries.
 Done.
@@ -125,14 +125,14 @@ Done.
 
 The database containing the backup data can be removed once the script has finished (again, **ensure to reference the auxiliary database for the drop command**):
 
-```bash
+```shell
 $ psql "postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<dbname>" -c 'DROP DATABASE <new_dbname>'
 DROP DATABASE
 ```
 
 Example:
 
-```bash
+```shell
 $ psql "postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject" -c 'DROP DATABASE openproject_backup'
 DROP DATABASE
 ```

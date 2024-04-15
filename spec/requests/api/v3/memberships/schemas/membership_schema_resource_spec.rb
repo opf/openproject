@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Membership schema resource', type: :request, content_type: :json do
+RSpec.describe "API v3 Membership schema resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   let(:permissions) { [:manage_members] }
@@ -50,30 +48,30 @@ describe 'API v3 Membership schema resource', type: :request, content_type: :jso
 
   subject(:response) { last_response }
 
-  describe '#GET /memberships/schema' do
+  describe "#GET /memberships/schema" do
     before do
       get path
     end
 
-    it 'responds with 200 OK' do
+    it "responds with 200 OK" do
       expect(subject.status).to eq(200)
     end
 
-    it 'returns a schema' do
+    it "returns a schema" do
       expect(subject.body)
-        .to be_json_eql('Schema'.to_json)
-        .at_path '_type'
+        .to be_json_eql("Schema".to_json)
+        .at_path "_type"
     end
 
-    it 'does not embed' do
+    it "does not embed" do
       expect(subject.body)
-        .not_to have_json_path('project/_links/allowedValues')
+        .not_to have_json_path("project/_links/allowedValues")
     end
 
-    context 'if lacking permissions' do
+    context "if lacking permissions" do
       let(:permissions) { [] }
 
-      it 'responds with 403' do
+      it "responds with 403" do
         expect(subject.status).to eq(403)
       end
     end

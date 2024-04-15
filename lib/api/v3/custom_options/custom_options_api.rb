@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module API
     module CustomOptions
       class CustomOptionsAPI < ::API::OpenProjectAPI
         resources :custom_options do
-          namespace ':id' do
+          namespace ":id" do
             params do
               requires :id, type: Integer
             end
@@ -42,9 +42,13 @@ module API
                 when WorkPackageCustomField
                   authorized_work_package_option(custom_option)
                 when ProjectCustomField
-                  authorize_any(%i[view_project], global: true) { raise API::Errors::NotFound }
+                  authorize_in_any_project(%i[view_project]) { raise API::Errors::NotFound }
                 when TimeEntryCustomField
-                  authorize_any(%i[log_time log_own_time], global: true) { raise API::Errors::NotFound }
+                  authorize_in_any_work_package(:log_own_time) do
+                    authorize_in_any_project(:log_time) do
+                      raise API::Errors::NotFound
+                    end
+                  end
                 when UserCustomField, GroupCustomField
                   true
                 else
@@ -54,7 +58,7 @@ module API
 
               def authorized_work_package_option(custom_option)
                 allowed = Project
-                  .allowed_to(current_user, :view_work_packages)
+                  .with_visible_work_packages(current_user)
                   .joins(:work_package_custom_fields)
                   .exists?(custom_fields: { id: custom_option.custom_field_id })
 

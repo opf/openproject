@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,151 +26,178 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Estimated hours display' do
-  let(:user) { create :admin }
-  let(:project) { create :project }
-
-  let(:hierarchy) { [] }
-
-  let!(:work_packages) do
-    build_work_package_hierarchy(
-      hierarchy,
-      :subject,
-      :estimated_hours,
-      shared_attributes: {
-        project:
-      }
-    )
+RSpec.describe "Estimated hours display", :js do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
+  shared_let(:query) do
+    create(:query,
+           project:,
+           user:,
+           show_hierarchies: true,
+           column_names: %i[id subject estimated_hours])
   end
 
-  let(:parent) { work_packages.first }
-  let(:child) { work_packages.last }
-
-  let!(:query) do
-    query = build :query, user: user, project: project
-    query.column_names = %w[id subject estimated_hours]
-
-    query.save!
-    query
+  before_all do
+    set_factory_default(:project, project)
+    set_factory_default(:project_with_types, project)
+    set_factory_default(:user, user)
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new project }
+  let(:editor) { Components::WysiwygEditor.new }
+  let(:initiator_work_package) { child }
 
   before do
     WorkPackages::UpdateAncestorsService
-      .new(user:, work_package: child)
+      .new(user:, work_package: initiator_work_package)
       .call([:estimated_hours])
 
     login_as(user)
   end
 
-  context "with both estimated and derived estimated time" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", 1] => [
-            ["Child", 3]
-          ]
-        }
-      ]
-    end
-
-    it 'work package index', js: true do
+  shared_examples "estimated time display" do |expected_text:|
+    it "work package index" do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
       wp_table.expect_work_package_with_attributes(
-        parent, estimatedTime: "1 h(+3 h)"
+        parent, estimatedTime: expected_text
       )
     end
 
-    it 'work package details', js: true do
+    it "work package details" do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Estimated time\n1 h(+3 h)")
+      expect(page).to have_content("Work\n#{expected_text}")
+    end
+
+    it "wiki page workPackageValue:id:estimatedTime macro" do
+      visit edit_project_wiki_path(project, wiki_page.id)
+
+      editor.set_markdown("workPackageValue:#{parent.id}:estimatedTime")
+      click_on "Save"
+
+      expect(page).to have_css(".wiki-content", text: expected_text)
     end
   end
 
-  context "with just estimated time" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", 1] => [
-            ["Child", 0]
-          ]
-        }
-      ]
-    end
+  context "with both work and derived work" do
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |   1h |
+        child     |   3h |
+    TABLE
 
-    it 'work package index', js: true do
-      wp_table.visit_query query
-      wp_table.expect_work_package_listed child
-
-      wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "1 h"
-      )
-    end
-
-    it 'work package details', js: true do
-      visit work_package_path(parent.id)
-
-      expect(page).to have_content("Estimated time\n1 h")
-    end
+    include_examples "estimated time display", expected_text: "1 h·Σ 4 h"
   end
 
-  context "with just derived estimated time" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", 0] => [
-            ["Child", 3]
-          ]
-        }
-      ]
-    end
+  context "with just work" do
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |   1h |
+        child     |   0h |
+    TABLE
 
-    it 'work package index', js: true do
-      wp_table.visit_query query
-      wp_table.expect_work_package_listed child
-
-      wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "0 h(+3 h)"
-      )
-    end
-
-    it 'work package details', js: true do
-      visit work_package_path(parent.id)
-
-      expect(page).to have_content("Estimated time\n0 h(+3 h)")
-    end
+    include_examples "estimated time display", expected_text: "1 h"
   end
 
-  context "with neither estimated nor derived estimated time" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", 0] => [
-            ["Child", 0]
-          ]
-        }
-      ]
-    end
+  context "with just derived work with (parent work 0 h)" do
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |   0h |
+        child     |   3h |
+    TABLE
 
-    it 'work package index', js: true do
+    include_examples "estimated time display", expected_text: "0 h·Σ 3 h"
+  end
+
+  context "with just derived work (parent work unset)" do
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |      |
+        child     |   3h |
+    TABLE
+
+    include_examples "estimated time display", expected_text: "-·Σ 3 h"
+  end
+
+  context "with neither work nor derived work (both 0 h)" do
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |   0h |
+        child     |   0h |
+    TABLE
+
+    include_examples "estimated time display", expected_text: "0 h"
+  end
+
+  context "with neither work nor derived work (both unset)" do
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |      |
+        child     |      |
+    TABLE
+
+    include_examples "estimated time display", expected_text: "-"
+  end
+
+  describe "link to detailed view" do
+    let_work_packages(<<~TABLE)
+      hierarchy          | work |
+      parent             |   5h |
+        child 1          |   0h |
+        child 2          |   3h |
+          grand child 21 |  12h |
+        child 3          |      |
+      other one          |   2h |
+    TABLE
+
+    # Run UpdateAncestorsService on the grand child to update the whole hierarchy derived values
+    let(:initiator_work_package) { grand_child21 }
+
+    it "displays a link to a detailed view explaining work calculation" do
       wp_table.visit_query query
-      wp_table.expect_work_package_listed child
 
-      wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "0 h"
-      )
+      # parent
+      expect(page).to have_content("5 h·Σ 20 h")
+      expect(page).to have_link("Σ 20 h")
+      # child 2
+      expect(page).to have_content("3 h·Σ 15 h")
+      expect(page).to have_link("Σ 15 h")
     end
 
-    it 'work package details', js: true do
-      visit work_package_path(parent.id)
+    context "when clicking the link of a top parent" do
+      before do
+        visit work_package_path(parent)
+      end
 
-      expect(page).to have_content("Estimated time\n0 h")
+      it "shows a work package table with a parent filter to list the direct children" do
+        click_on("Σ 20 h")
+
+        wp_table.expect_work_package_count(4)
+        wp_table.expect_work_package_listed(parent, child1, child2, child3)
+        within(:table) do
+          expect(page).to have_columnheader("Work")
+          expect(page).to have_columnheader("Remaining work")
+        end
+      end
+    end
+
+    context "when clicking the link of an intermediate parent" do
+      before do
+        visit work_package_path(child2)
+      end
+
+      it "shows also all ancestors in the work package table" do
+        expect(page).to have_content("Work\n3 h·Σ 15 h")
+        click_on("Σ 15 h")
+
+        wp_table.expect_work_package_count(3)
+        wp_table.expect_work_package_listed(parent, child2, grand_child21)
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,19 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'common/_validation_error', type: :view do
-  let(:error_message) { ['Something went completely wrong!'] }
+RSpec.describe "common/_validation_error" do
+  let(:base_error_messages) { ["Something went completely wrong!"] }
+  let(:fields_error_messages) { ["This field is incorrect.", "This cannot be blank."] }
 
   before do
-    view.content_for(:error_details, 'Clear this!')
+    view.content_for(:error_details, "Clear this!")
 
-    render partial: 'common/validation_error',
-           locals: { error_messages: error_message,
-                     classes: 'Foo',
-                     object_name: 'Test' }
+    render partial: "common/validation_error",
+           locals: { base_error_messages:,
+                     fields_error_messages:,
+                     object_name: "Test" }
   end
 
-  it { expect(view.content_for(:error_details)).not_to include('Clear this!') }
+  it "flushes the buffer before rendering" do
+    # that means the same partial can be called multiple times without side effects
+    expect(rendered).not_to include("Clear this!")
+  end
+
+  it "includes all given error messages" do
+    expect(rendered).to include("Something went completely wrong!")
+    expect(rendered).to include("This field is incorrect.")
+    expect(rendered).to include("This cannot be blank.")
+  end
 end

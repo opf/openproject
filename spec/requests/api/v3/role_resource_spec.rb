@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 roles resource', type: :request do
+RSpec.describe "API v3 roles resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions:)
   end
   let(:permissions) { %i[view_members manage_members] }
@@ -47,7 +45,7 @@ describe 'API v3 roles resource', type: :request do
 
   subject(:response) { last_response }
 
-  describe 'GET api/v3/roles' do
+  describe "GET api/v3/roles" do
     let(:get_path) { api_v3_paths.roles }
     let(:response) { last_response }
     let(:roles) { [role] }
@@ -60,70 +58,70 @@ describe 'API v3 roles resource', type: :request do
       get get_path
     end
 
-    it 'succeeds' do
+    it "succeeds" do
       expect(last_response.status)
         .to be(200)
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'Role'
+    it_behaves_like "API V3 collection response", 1, 1, "Role"
 
-    context 'filtering by assignable' do
+    context "filtering by assignable" do
       let(:filters) do
-        [{ grantable: { operator: '=', values: ['t'] } }]
+        [{ grantable: { operator: "=", values: ["t"] } }]
       end
 
-      let(:non_member_role) { Role.non_member }
+      let(:non_member_role) { ProjectRole.non_member }
       let(:roles) { [role, non_member_role] }
 
       let(:get_path) { api_v3_paths.path_for(:roles, filters:) }
 
-      it 'contains only the filtered member in the response' do
+      it "contains only the filtered member in the response" do
         expect(subject.body)
-          .to be_json_eql('1')
-          .at_path('total')
+          .to be_json_eql("1")
+          .at_path("total")
 
         expect(subject.body)
           .to be_json_eql(role.id.to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path("_embedded/elements/0/id")
       end
     end
 
-    context 'filtering by unit' do
+    context "filtering by unit" do
       let(:filters) do
-        [{ 'unit' => {
-          'operator' => '=',
-          'values' => ['project']
+        [{ "unit" => {
+          "operator" => "=",
+          "values" => ["project"]
         } }]
       end
 
-      let(:non_member_role) { Role.non_member }
+      let(:non_member_role) { ProjectRole.non_member }
       let(:global_role) { create(:global_role) }
       let(:roles) { [role, non_member_role, global_role] }
 
       let(:get_path) { api_v3_paths.path_for(:roles, filters:) }
 
-      it 'contains only the filtered member in the response' do
+      it "contains only the filtered member in the response" do
         expect(subject.body)
-          .to be_json_eql('1')
-          .at_path('total')
+          .to be_json_eql("1")
+          .at_path("total")
 
         expect(subject.body)
           .to be_json_eql(role.id.to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path("_embedded/elements/0/id")
       end
     end
 
-    context 'without the necessary permissions' do
+    context "without the necessary permissions" do
       let(:permissions) { [] }
 
-      it 'returns 403' do
+      it "returns 403" do
         expect(subject.status)
           .to be(403)
       end
     end
   end
 
-  describe 'GET /api/v3/roles/:id' do
+  describe "GET /api/v3/roles/:id" do
     let(:path) { api_v3_paths.role(role.id) }
 
     let(:roles) { [role] }
@@ -136,34 +134,34 @@ describe 'API v3 roles resource', type: :request do
       get path
     end
 
-    it 'returns 200 OK' do
+    it "returns 200 OK" do
       expect(subject.status)
         .to be(200)
     end
 
-    it 'returns the member' do
+    it "returns the member" do
       expect(subject.body)
-        .to be_json_eql('Role'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Role".to_json)
+        .at_path("_type")
 
       expect(subject.body)
         .to be_json_eql(role.id.to_json)
-        .at_path('id')
+        .at_path("id")
     end
 
-    context 'if querying an non existent' do
+    context "if querying an non existent" do
       let(:path) { api_v3_paths.role(0) }
 
-      it 'returns 404 NOT FOUND' do
+      it "returns 404 NOT FOUND" do
         expect(subject.status)
           .to be(404)
       end
     end
 
-    context 'without the necessary permissions' do
+    context "without the necessary permissions" do
       let(:permissions) { [] }
 
-      it 'returns 403' do
+      it "returns 403" do
         expect(subject.status)
           .to be(403)
       end

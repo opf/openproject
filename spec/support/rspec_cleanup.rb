@@ -15,13 +15,13 @@ RSpec.configure do |config|
   end
 
   # We don't want this to be reported on CI as it breaks the build
-  unless ENV['CI']
+  unless ENV["CI"]
     config.append_after(:suite) do
-      [User, Project, WorkPackage].each do |cls|
+      [User.not_builtin, Project, WorkPackage].each do |cls|
         next if cls.count == 0
 
         raise <<-EOS
-          Your specs left a #{cls} in the DB
+          Your specs left #{cls.count} #{cls.model_name.plural} in the DB
           Did you use before(:all) instead of before
           or forget to kill the instances in a after(:all)?
         EOS

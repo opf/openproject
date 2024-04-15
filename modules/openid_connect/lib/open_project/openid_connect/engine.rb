@@ -28,15 +28,10 @@ module OpenProject::OpenIDConnect
     class_inflection_override('openid_connect' => 'OpenIDConnect')
 
     register_auth_providers do
-      # Use OpenSSL default certificate store instead of HTTPClient's.
-      # It's outdated and it's unclear how it's managed.
-      OpenIDConnect.http_config do |config|
-        config.ssl_config.set_default_paths
-      end
-
       OmniAuth::OpenIDConnect::Providers.configure custom_options: %i[
         display_name? icon? sso? issuer?
         check_session_iframe? end_session_endpoint?
+        limit_self_registration? use_graph_api?
       ]
 
       strategy :openid_connect do
@@ -48,18 +43,10 @@ module OpenProject::OpenIDConnect
           end
 
           # Remember oidc session values when logging in user
-          h[:retain_from_session] = %w[omniauth.openid_sid]
+          h[:retain_from_session] = %w[omniauth.oidc_sid]
 
           h[:backchannel_logout_callback] = ->(logout_token) do
             ::OpenProject::OpenIDConnect::SessionMapper.handle_logout(logout_token)
-          end
-
-          # Allow username mapping from custom 'login' claim
-          h[:openproject_attribute_map] = Proc.new do |auth|
-            {}.tap do |additional|
-              mapped_login = auth.dig(:info, :login)
-              additional[:login] = mapped_login if mapped_login.present?
-            end
           end
 
           h

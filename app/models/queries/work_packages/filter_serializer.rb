@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,13 +35,13 @@ module Queries::WorkPackages::FilterSerializer
 
     # yeah, dunno, but apparently '=' may have been serialized as a Syck::DefaultKey instance...
     yaml = serialized_filter_hash
-           .gsub('!ruby/object:Syck::DefaultKey {}', '"="')
+           .gsub("!ruby/object:Syck::DefaultKey {}", '"="')
 
     (YAML.load(yaml, permitted_classes: [Symbol, Date]) || {}).each_with_object([]) do |(field, options), array|
       options = options.with_indifferent_access
       filter = filter_for(field, no_memoization: true)
-      filter.operator = options['operator']
-      filter.values = options['values']
+      filter.operator = options["operator"]
+      filter.values = options["values"]
       array << filter
     end
   end

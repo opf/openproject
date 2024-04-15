@@ -27,17 +27,12 @@ To create a new wiki page in a project, navigate to the wiki module in your proj
 
 The editor window will open, allowing you to enter title and content of the new page.
 
-(1) Enter your page title
-
-(2) Enter your wiki content. You can use the editor bar to format your texts.  [Learn here how to format texts in wiki](../#general-wiki-information) with the editor toolbar.
-
-(3) Files can be inserted directly via drag and drop or copy and paste into the text input field, or via the image button in the editor toolbar.
-
-(4) Choose a parent wiki page.
-
-(5) Comment which changes you have made to a wiki page.
-
-(6) Save (or cancel) your changes to the page.
+1. Enter your page title
+2. Enter your wiki content. You can use the editor bar to format your texts.  [Learn here how to format texts in wiki](../#general-wiki-information) with the editor toolbar.
+3. Files can be inserted directly via drag and drop or copy and paste into the text input field, or via the image button in the editor toolbar.
+4. Choose a parent wiki page.
+5. Comment which changes you have made to a wiki page.
+6. Save (or cancel) your changes to the page.
 
 ![create-wiki](create-wiki-1568199670933.png)
 

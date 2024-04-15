@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,6 +20,9 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ja:
+  plugin_openproject_reporting:
+    name: "OpenProject Reporting"
+    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
   button_save_as: "名前を付けてレポートの保存"
   comments: "コメント"
   cost_reports_title: "時間とコスト"
@@ -44,6 +47,7 @@ ja:
   label_is_project_with_subprojects: "は(サブプロジェクトを含む)"
   label_work_package_attributes: "作業項目の属性"
   label_less: "<"
+  label_logged_by_reporting: "Logged by"
   label_money: "金額"
   label_month_reporting: "月 (経過)"
   label_new_report: "新しいコストレポート"
@@ -81,6 +85,9 @@ ja:
   units: "単位"
   validation_failure_date: "は有効な日付ではありません。"
   validation_failure_integer: "は有効な整数ではありません。"
+  export:
+    cost_reports:
+      title: "あなたのコストレポートXLSのエクスポート"
   reporting:
     group_by:
       selected_columns: "選択された列"

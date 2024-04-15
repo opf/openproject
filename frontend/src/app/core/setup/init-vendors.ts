@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -44,29 +44,26 @@ require('expose-loader?dragula!dragula/dist/dragula.min.js');
 require('@uirouter/angular');
 
 // Jquery UI
-require('jquery-ui/ui/core.js');
-require('jquery-ui/ui/position.js');
-require('jquery-ui/ui/disable-selection.js');
-require('jquery-ui/ui/widgets/sortable.js');
-require('jquery-ui/ui/widgets/dialog.js');
-require('jquery-ui/ui/widgets/tooltip.js');
+require('jquery-ui/ui/core');
+require('jquery-ui/ui/position');
+require('jquery-ui/ui/disable-selection');
+require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/widgets/dialog');
+require('jquery-ui/ui/widgets/tooltip');
 
 require('expose-loader?moment!moment');
-require('moment/locale/en-gb.js');
-require('moment/locale/de.js');
+require('moment/locale/de');
+require('moment/locale/en-gb');
 
 require('jquery.caret');
 // Text highlight for autocompleter
-require('mark.js/dist/jquery.mark.min.js');
+require('mark.js/dist/jquery.mark.min');
 // Micro Text fuzzy search library
 require('fuse.js');
 
-require('moment-timezone/builds/moment-timezone-with-data.min.js');
+require('moment-timezone/builds/moment-timezone-with-data.min');
+// eslint-disable-next-line import/extensions,import/no-extraneous-dependencies
+require('@openproject/primer-view-components/app/assets/javascripts/primer_view_components.js');
 
 require('expose-loader?URI!urijs');
 require('urijs/src/URITemplate');
-
-require('expose-loader?I18n!core-vendor/i18n');
-
-// Localization for fullcalendar
-require('@fullcalendar/core/locales-all');

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ module API
         link :executeImmediately do
           {
             href: api_v3_paths.custom_action_execute(represented.id),
-            title: I18n.t('custom_actions.execute', name: represented.name),
-            method: 'post'
+            title: I18n.t("custom_actions.execute", name: represented.name),
+            method: "post"
           }
         end
 
@@ -45,7 +45,7 @@ module API
                  render_nil: true
 
         def _type
-          'CustomAction'
+          "CustomAction"
         end
       end
     end

@@ -10,7 +10,7 @@ description: |-
 
   For example, a resource `/api/v3/bogus` that without signaling returns:
 
-  ```
+  ```json
     {
       "_type": "Collection"
       "count": 20,
@@ -42,7 +42,7 @@ description: |-
 
   can via signaling `/api/v3/bogus?select=total,elements/name,bar` be instructed to return:
 
-  ```
+  ```json
     {
       "total": 554,
       "_embedded": {

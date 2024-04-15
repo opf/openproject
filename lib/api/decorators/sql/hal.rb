@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ module API
       module Hal
         extend ActiveSupport::Concern
 
-        TO_BE_REMOVED = '_to_be_removed_'.freeze
+        TO_BE_REMOVED = "_to_be_removed_".freeze
 
         included do
           extend ::API::V3::Utilities::PathHelper
@@ -66,7 +66,7 @@ module API
                  '#{name}', #{representation}
                 SQL
               end
-            end.join(', ')
+            end.join(", ")
           end
 
           def property(name,
@@ -127,7 +127,7 @@ module API
                 end
               end
             end
-              .join(', ')
+              .join(", ")
           end
 
           def embedded(name,
@@ -152,7 +152,7 @@ module API
               SQL
             end
               .flatten
-              .join(', ')
+              .join(", ")
           end
 
           def select_sql(select, walker_result)
@@ -195,7 +195,7 @@ module API
              select_links(select, walker_result),
              select_embedded(select, walker_result)]
               .compact_blank
-              .join(', ')
+              .join(", ")
           end
 
           # All properties and links that the client can correctly signal to have selected.
@@ -206,13 +206,13 @@ module API
           private
 
           def select_embedded(select, walker_result)
-            namespaced_json_object('_embedded') do
+            namespaced_json_object("_embedded") do
               embedded_selects(select, walker_result)
             end
           end
 
           def select_links(select, walker_result)
-            links_section = namespaced_json_object('_links') do
+            links_section = namespaced_json_object("_links") do
               links_selects(select, walker_result)
             end
 

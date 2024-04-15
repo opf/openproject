@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -36,31 +36,37 @@ export class PreviewTriggerService {
 
   private mouseInModal = false;
 
-  constructor(readonly opModalService:OpModalService,
+  constructor(
+    readonly opModalService:OpModalService,
     readonly ngZone:NgZone,
-    readonly injector:Injector) {
+    readonly injector:Injector,
+  ) {
   }
 
   setupListener() {
     jQuery(document.body).on('mouseover', '.preview-trigger', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const el = jQuery(e.target);
-      const href = el.attr('href');
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const el = e.target as HTMLElement;
+      if (el) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const href = el.getAttribute('href');
 
-      if (!href) {
-        return;
+        if (!href) {
+          return;
+        }
+
+        this.opModalService.show(
+          WpPreviewModalComponent,
+          this.injector,
+          { workPackageLink: href, event: e },
+          true,
+        ).subscribe((previewModal) => {
+          this.modalElement = previewModal.elementRef.nativeElement as HTMLElement;
+          void previewModal.reposition(this.modalElement, el);
+        });
       }
-
-      this.opModalService.show(
-        WpPreviewModalComponent,
-        this.injector,
-        { workPackageLink: href, event: e },
-        true,
-      ).subscribe((previewModal) => {
-        this.modalElement = previewModal.elementRef.nativeElement as HTMLElement;
-        previewModal.reposition(jQuery(this.modalElement), el);
-      });
     });
 
     jQuery(document.body).on('mouseleave', '.preview-trigger', () => {
@@ -93,11 +99,12 @@ export class PreviewTriggerService {
     }
 
     const previewElement = jQuery(this.modalElement.children[0]);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (previewElement && previewElement.offset()) {
-      const horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left)
-        && e.pageX < previewElement.offset()!.left + previewElement.width()!;
-      const verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top)
-        && e.pageY < previewElement.offset()!.top + previewElement.height()!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left) && e.pageX < previewElement.offset()!.left + previewElement.width()!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top) && e.pageY < previewElement.offset()!.top + previewElement.height()!;
       return horizontalHover && verticalHover;
     }
     return false;

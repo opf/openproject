@@ -1,6 +1,8 @@
 <div class="op-wp-list-view--result-overlay"
      *ngIf="(showResultOverlay$ | async) && showTableView"></div>
-
+<op-baseline-legends
+     *ngIf="baselineEnabled"
+></op-baseline-legends>
 <!-- TABLE + TIMELINE horizontal split -->
 <wp-table *ngIf="tableInformationLoaded && showTableView"
           [projectIdentifier]="CurrentProject.identifier"

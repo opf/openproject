@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Views::UpdateContract do
+RSpec.describe Views::UpdateContract do
   # TODO: this is just a stub to ensure that the type is not altered
-  it_behaves_like 'view contract' do
+  it_behaves_like "view contract" do
     let(:view) do
-      FactoryBot
-        .build_stubbed(:view_work_packages_table).tap do |view|
+      build_stubbed(:view_work_packages_table).tap do |view|
         view.type = view_type if defined?(view_type)
         view.query = view_query
       end
@@ -44,11 +43,11 @@ describe Views::UpdateContract do
       described_class.new(view, current_user)
     end
 
-    describe 'validation' do
-      context 'with the type being changed' do
-        let(:view_type) { 'team_planner' }
+    describe "validation" do
+      context "with the type being changed" do
+        let(:view_type) { "team_planner" }
 
-        it_behaves_like 'contract is invalid', type: %i[error_readonly]
+        it_behaves_like "contract is invalid", type: %i[error_readonly]
       end
     end
   end

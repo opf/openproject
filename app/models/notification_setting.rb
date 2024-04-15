@@ -3,6 +3,7 @@ class NotificationSetting < ApplicationRecord
   ASSIGNEE = :assignee
   RESPONSIBLE = :responsible
   MENTIONED = :mentioned
+  SHARED = :shared
   START_DATE = :start_date
   DUE_DATE = :due_date
   OVERDUE = :overdue
@@ -26,6 +27,7 @@ class NotificationSetting < ApplicationRecord
       ASSIGNEE,
       RESPONSIBLE,
       MENTIONED,
+      SHARED,
       WORK_PACKAGE_CREATED,
       WORK_PACKAGE_COMMENTED,
       WORK_PACKAGE_PROCESSED,
@@ -57,7 +59,7 @@ class NotificationSetting < ApplicationRecord
     ]
   end
 
-  belongs_to :project
+  belongs_to :project, optional: true
   belongs_to :user
 
   include Scopes::Scoped

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Relations::Filters::InvolvedFilter, type: :model do
-  include_context 'filter tests'
-  let(:values) { ['1'] }
+RSpec.describe Queries::Relations::Filters::InvolvedFilter do
+  include_context "filter tests"
+  let(:values) { ["1"] }
   let(:model) { Relation }
   let(:current_user) { build_stubbed(:user) }
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :involved }
     let(:type) { :integer }
 
-    describe '#allowed_values' do
-      it 'is nil' do
+    describe "#allowed_values" do
+      it "is nil" do
         expect(instance.allowed_values).to be_nil
       end
     end
   end
 
-  describe '#visibility_checked?' do
-    it 'is true' do
+  describe "#visibility_checked?" do
+    it "is true" do
       expect(instance).to be_visibility_checked
     end
   end
 
-  describe '#scope' do
+  describe "#scope" do
     before do
       login_as(current_user)
     end
@@ -59,9 +59,9 @@ describe Queries::Relations::Filters::InvolvedFilter, type: :model do
     let(:visible_sql) { WorkPackage.visible(current_user).select(:id).to_sql }
 
     context 'for "="' do
-      let(:operator) { '=' }
+      let(:operator) { "=" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         sql = "(from_id IN ('1') AND to_id IN (#{visible_sql})) OR (to_id IN ('1') AND from_id IN (#{visible_sql}))"
         expected = model.where(sql)
 
@@ -70,9 +70,9 @@ describe Queries::Relations::Filters::InvolvedFilter, type: :model do
     end
 
     context 'for "!"' do
-      let(:operator) { '!' }
+      let(:operator) { "!" }
 
-      it 'is the same as handwriting the query' do
+      it "is the same as handwriting the query" do
         sql = "(from_id NOT IN ('1') AND to_id IN (#{visible_sql})) AND (to_id NOT IN ('1') AND from_id IN (#{visible_sql}))"
         expected = model.where(sql)
 

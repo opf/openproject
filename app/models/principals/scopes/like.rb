@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,11 +42,14 @@ module Principals::Scopes
 
         s = "%#{query.to_s.downcase.strip.tr(',', '')}%"
 
-        where(['LOWER(login) LIKE :s OR ' +
-               "LOWER(#{firstnamelastname}) LIKE :s OR " +
-               "LOWER(#{lastnamefirstname}) LIKE :s OR " +
-               'LOWER(mail) LIKE :s',
-               { s: }])
+        sql = <<~SQL
+          LOWER(login) LIKE :s
+          OR unaccent(LOWER(#{firstnamelastname})) LIKE unaccent(:s)
+          OR unaccent(LOWER(#{lastnamefirstname})) LIKE unaccent(:s)
+          OR LOWER(mail) LIKE :s
+        SQL
+
+        where([sql, { s: }])
           .order(:type, :login, :lastname, :firstname, :mail)
       end
     end

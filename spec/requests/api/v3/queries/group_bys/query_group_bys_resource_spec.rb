@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe 'API v3 Query Group By resource', type: :request do
+RSpec.describe "API v3 Query Group By resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  describe '#get queries/group_bys/:id' do
+  describe "#get queries/group_bys/:id" do
     let(:path) { api_v3_paths.query_group_by(group_by_name) }
-    let(:group_by_name) { 'status' }
+    let(:group_by_name) { "status" }
     let(:project) { create(:project) }
-    let(:role) { create(:role, permissions:) }
+    let(:role) { create(:project_role, permissions:) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
       create(:user,
-             member_in_project: project,
-             member_through_role: role)
+             member_with_roles: { project => role })
     end
 
     before do
@@ -53,36 +52,36 @@ describe 'API v3 Query Group By resource', type: :request do
       get path
     end
 
-    it 'succeeds' do
+    it "succeeds" do
       expect(last_response.status)
         .to be(200)
     end
 
-    it 'returns the group_by' do
+    it "returns the group_by" do
       expect(last_response.body)
         .to be_json_eql(path.to_json)
-        .at_path('_links/self/href')
+        .at_path("_links/self/href")
     end
 
-    context 'user not allowed' do
+    context "user not allowed" do
       let(:permissions) { [] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
 
-    context 'non existing group by' do
-      let(:path) { api_v3_paths.query_group_by('bogus') }
+    context "non existing group by" do
+      let(:path) { api_v3_paths.query_group_by("bogus") }
 
-      it 'returns 404' do
+      it "returns 404" do
         expect(last_response.status)
           .to be(404)
       end
     end
 
-    context 'non groupable group by' do
-      let(:path) { api_v3_paths.query_group_by('id') }
+    context "non groupable group by" do
+      let(:path) { api_v3_paths.query_group_by("id") }
 
-      it 'returns 404' do
+      it "returns 404" do
         expect(last_response.status)
           .to be(404)
       end

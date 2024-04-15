@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :ifc_model, class: '::Bim::IfcModels::IfcModel' do
+  factory :ifc_model, class: "::Bim::IfcModels::IfcModel" do
     sequence(:title) { |n| "Unconverted IFC model #{n}" }
     project factory: :project
     uploader factory: :user
@@ -35,8 +35,8 @@ FactoryBot.define do
     transient do
       ifc_attachment do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/minimal.ifc"),
-          'application/binary'
+          Rails.root.join("modules/bim/spec/fixtures/files/minimal.ifc").to_s,
+          "application/binary"
         )
       end
 
@@ -55,8 +55,8 @@ FactoryBot.define do
       transient do
         xkt_attachment do
           Rack::Test::UploadedFile.new(
-            File.join(Rails.root, "modules/bim/spec/fixtures/files/minimal.xkt"),
-            'application/binary'
+            Rails.root.join("modules/bim/spec/fixtures/files/minimal.xkt").to_s,
+            "application/binary"
           )
         end
       end
@@ -69,7 +69,7 @@ FactoryBot.define do
     end
   end
 
-  factory :ifc_model_without_ifc_attachment, class: '::Bim::IfcModels::IfcModel' do
+  factory :ifc_model_without_ifc_attachment, class: "::Bim::IfcModels::IfcModel" do
     sequence(:title) { |n| "Model without ifc_attachment #{n}" }
     project factory: :project
     uploader factory: :user

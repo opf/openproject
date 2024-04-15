@@ -8,6 +8,7 @@ et:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'Kohandatud tekst'
         documents:
@@ -36,7 +37,7 @@ et:
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Not set'
-          finished: 'Finished'
+          finished: 'Lõpetatud'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Alamprojektid'

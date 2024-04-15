@@ -15,7 +15,7 @@ project member table and improved work package relations.
 
 OpenProject 6.1 improves the project member table and adds filters to
 the project member
-list ([#22859](https://community.openproject.com/work_packages/22859/activity)).
+list ([#22859](https://community.openproject.org/wp/22859)).
 
 This provides an easy way to quickly find, remove or edit the
 permissions of project members in large projects.
@@ -27,7 +27,7 @@ permissions of project members in large projects.
 The work package relations tab has been improved: It has a clearer
 structure, allows to add existing children to a work package and adds
 new relation types
-([#23709](https://community.openproject.com/work_packages/23709/activity)).
+([#23709](https://community.openproject.org/wp/23709)).
 
 Hierarchical relationships are immediately clear through a
 tree-structure.
@@ -36,9 +36,9 @@ tree-structure.
 
 ## Improved performance for work packages
 
-The work package list is now loaded more quickly and changes can be made
+The work package table is now loaded more quickly and changes can be made
 faster
-([#23780](https://community.openproject.com/work_packages/23780/activity)).
+([#23780](https://community.openproject.org/wp/23780)).
 
 ## Add meetings to calendar
 
@@ -70,4 +70,4 @@ there is enough space.
 OpenProject 6.1 contains a large number of bugs fixes.
 
 For an extensive overview of bug fixes please refer to the 
-[following list](https://community.openproject.com/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22p%22:%22openproject%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22t%22:%22list_optional%22,%22v%22:%22667%22%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22t%22:%22list_model%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22t%22:%22list_subprojects%22%7D%5D,%22pa%22:1,%22pp%22:20%7D).
+[following list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22p%22:%22openproject%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22t%22:%22list_optional%22,%22v%22:%22667%22%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22t%22:%22list_model%22,%22v%22:%5B%221%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22t%22:%22list_subprojects%22%7D%5D,%22pa%22:1,%22pp%22:20%7D).

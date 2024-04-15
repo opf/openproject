@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,12 @@
 //++
 
 import {
-  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Injector, Output,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Injector,
+  Output,
 } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
@@ -36,6 +41,7 @@ import { VersionResource } from 'core-app/features/hal/resources/version-resourc
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   templateUrl: '../create-autocompleter/create-autocompleter.component.html',
@@ -77,12 +83,13 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
       return Promise.resolve(false);
     }
 
-    return this
-      .apiV3Service
-      .versions
-      .available_projects
-      .exists(this.currentProject.id)
-      .toPromise()
+    return firstValueFrom(
+      this
+        .apiV3Service
+        .versions
+        .available_projects
+        .exists(this.currentProject.id),
+    )
       .catch(() => false);
   }
 

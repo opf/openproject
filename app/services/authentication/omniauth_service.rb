@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,10 +66,13 @@ module Authentication
       update_user_from_omniauth!(assignable_params)
 
       # If we have a new or invited user, we still need to register them
-      activation_call = activate_user!
+      call = activate_user!
+
+      # Update the admin flag when present successful
+      call = update_admin_flag(call) if call.success?
 
       # The user should be logged in now
-      tap_service_result activation_call
+      tap_service_result call
     end
 
     private
@@ -162,7 +165,7 @@ module Authentication
     def remap_existing_user
       return unless Setting.oauth_allow_remapping_of_existing_users?
 
-      User.find_by_login(user_attributes[:login])
+      User.not_builtin.find_by_login(user_attributes[:login]) # rubocop:disable Rails/DynamicFindBy
     end
 
     ##
@@ -181,12 +184,40 @@ module Authentication
         ::Users::SetAttributesService
           .new(user: User.system, model: user, contract_class: ::Users::UpdateContract)
           .call(user_attributes)
-          .result
       else
-        # Update the user, but never change the admin flag
+        # Update the user, but do not change the admin flag
+        # as this call is not validated.
+        # we do this separately in +update_admin_flag+
         ::Users::UpdateService
           .new(user: User.system, model: user)
           .call(user_attributes.except(:admin))
+      end
+    end
+
+    def update_admin_flag(call)
+      return call unless user_attributes.key?(:admin)
+
+      new_admin = ActiveRecord::Type::Boolean.new.cast(user_attributes[:admin])
+      return call if user.admin == new_admin
+
+      ::Users::UpdateService
+        .new(user: User.system, model: user)
+        .call(admin: new_admin)
+        .on_failure { |res| update_admin_flag_failure(res) }
+        .on_success { update_admin_flag_success(new_admin) }
+    end
+
+    def update_admin_flag_success(new_admin)
+      if new_admin
+        OpenProject.logger.info { "[OmniAuth strategy #{strategy.name}] Granted user##{update.result.id} admin permissions" }
+      else
+        OpenProject.logger.info { "[OmniAuth strategy #{strategy.name}] Revoked user##{update.result.id} admin permissions" }
+      end
+    end
+
+    def update_admin_flag_failure(call)
+      OpenProject.logger.error do
+        "[OmniAuth strategy #{strategy.name}] Failed to update admin user permissions: #{call.message}"
       end
     end
 
@@ -217,12 +248,15 @@ module Authentication
       info = auth_hash[:info]
 
       attribute_map = {
-        login: info[:email],
+        login: info[:login] || info[:email],
         mail: info[:email],
         firstname: info[:first_name] || info[:name],
         lastname: info[:last_name],
         identity_url: identity_url_from_omniauth
       }
+
+      # Map the admin attribute if provided in an attribute mapping
+      attribute_map[:admin] = ActiveRecord::Type::Boolean.new.cast(info[:admin]) if info.key?(:admin)
 
       # Allow strategies to override mapping
       if strategy.respond_to?(:omniauth_hash_to_user_attributes)
@@ -231,7 +265,7 @@ module Authentication
 
       # Remove any nil values to avoid
       # overriding existing attributes
-      attribute_map.compact_blank!
+      attribute_map.reject! { |_, value| value.nil? || value == "" }
 
       Rails.logger.debug { "Mapped auth_hash user attributes #{attribute_map.inspect}" }
       attribute_map
@@ -250,8 +284,8 @@ module Authentication
     ##
     # Try to provide some context of the auth_hash in case of errors
     def auth_uid
-      hash = (auth_hash || {})
-      hash.dig(:info, :uid) || hash.dig(:uid) || 'unknown'
+      hash = auth_hash || {}
+      hash.dig(:info, :uid) || hash.dig(:uid) || "unknown"
     end
   end
 end

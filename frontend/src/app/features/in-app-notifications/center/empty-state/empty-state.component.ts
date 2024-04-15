@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,15 +30,10 @@ import {
   ChangeDetectionStrategy,
   Component,
 } from '@angular/core';
+
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { IanCenterService } from '../state/ian-center.service';
-import {
-  debounceTime,
-  distinctUntilChanged,
-} from 'rxjs/operators';
-import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
-import { combineLatest } from 'rxjs';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 @Component({
   templateUrl: './empty-state.component.html',
@@ -55,24 +50,16 @@ export class EmptyStateComponent {
 
   text = {
     no_notification: this.I18n.t('js.notifications.center.empty_state.no_notification'),
-    no_notification_with_current_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter'),
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
   };
 
   hasNotifications$ = this.storeService.hasNotifications$;
-
-  totalCount$ = this.bellService.unread$;
 
   loading$ = this.storeService.query.selectLoading();
 
   constructor(
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
-    readonly bellService:IanBellService,
   ) {
-  }
-
-  noNotificationText(hasNotifications:boolean, totalNotifications:number):string {
-    return (!hasNotifications && totalNotifications > 0) ? this.text.no_notification_with_current_filter : this.text.no_notification;
   }
 }

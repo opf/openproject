@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ module Components
     include RSpec::Matchers
 
     def container
-      '.spot-modal'
+      ".spot-modal"
     end
 
     def expect_open
@@ -42,13 +42,13 @@ module Components
 
     def confirm
       page.within(container) do
-        page.find('[data-qa-selector="confirmation-modal--confirmed"]').click
+        page.find('[data-test-selector="confirmation-modal--confirmed"]').click
       end
     end
 
     def cancel
       page.within(container) do
-        page.find('[data-qa-selector="confirmation-modal--cancel"]').click
+        page.find('[data-test-selector="confirmation-modal--cancel"]').click
       end
     end
   end

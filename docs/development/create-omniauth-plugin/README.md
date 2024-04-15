@@ -6,7 +6,7 @@ This page describes how to create an OpenProject plugin to authenticate users vi
 
 ## Warning
 
-This howto is in a preliminary state and explains a low-level way to create an OmniAuth authentication plugin for OpenProject. We will provide a more high-level API and update this howto soon.
+This how-to is in a preliminary state and explains a low-level way to create an OmniAuth authentication plugin for OpenProject. We will provide a more high-level API and update this how-to soon.
 
 ## OpenID Connect
 
@@ -40,7 +40,7 @@ In the following section we will go through the basic steps required to create a
 First off you can use the [plugin generator](https://github.com/opf/openproject-plugins) to create a basic plugin to base yours on.
 How to do that is described [here](../create-openproject-plugin/). In short it’s the following command:
 
-```bash
+```shell
 # in OpenProject directory
 rails generate open_project:plugin my_auth_plugin path/to/where/you/want/to/have/it
 ```
@@ -57,7 +57,7 @@ E.g. for twitter ‘omniauth twitter’ will lead you to [this](https://github.c
 
 If you want to use settings for your plugin in order to configure your authentication provider you will have to register them in `lib/open_project/my_auth_plugin/engine.rb` by adding them to the already generated plugin registration call like this:
 
-```
+```ruby
 register 'openproject-my_auth_plugin',
   :author_url => 'Hans Wurst',
   :requires_openproject => '>= 3.1.0',
@@ -66,7 +66,7 @@ register 'openproject-my_auth_plugin',
 
 You can access your plugin’s settings like this:
 
-```
+```ruby
 server_addr = Setting.plugin_openproject_my_auth_plugin["auth_server_address"]
 ```
 
@@ -108,7 +108,7 @@ For instance you could configure two OpenID Connect providers using the same str
 All that’s that left to do is declaring your plugin in the file `Gemfile.plugins` in your OpenProject application’s root directory.
 If you haven’t published it as a gem yet you can also use a local copy:
 
-```
+```ruby
   gem "openproject-auth_plugins", :git => 'https://github.com/opf/openproject-auth_plugins.git', :branch => 'dev'
   gem 'openproject-my_auth_plugin', :path => 'plugins/openproject-my_auth_plugin'
 ```

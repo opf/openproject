@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,38 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
-describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
-  it 'modifierses' do
+RSpec.describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
+  it "modifierses" do
     assert_html_output(
-      '**bold**' => '<strong>bold</strong>',
-      'before **bold**' => 'before <strong>bold</strong>',
-      '**bold** after' => '<strong>bold</strong> after',
-      '**two words**' => '<strong>two words</strong>',
-      '**two*words**' => '<strong>two*words</strong>',
-      '**two * words**' => '<strong>two * words</strong>',
-      '**two** **words**' => '<strong>two</strong> <strong>words</strong>',
-      '**(two)** **(words)**' => '<strong>(two)</strong> <strong>(words)</strong>'
+      "**bold**" => "<strong>bold</strong>",
+      "before **bold**" => "before <strong>bold</strong>",
+      "**bold** after" => "<strong>bold</strong> after",
+      "**two words**" => "<strong>two words</strong>",
+      "**two*words**" => "<strong>two*words</strong>",
+      "**two * words**" => "<strong>two * words</strong>",
+      "**two** **words**" => "<strong>two</strong> <strong>words</strong>",
+      "**(two)** **(words)**" => "<strong>(two)</strong> <strong>(words)</strong>"
     )
   end
 
-  it 'escapes script tags' do
+  it "escapes script tags" do
     assert_html_output(
-      'this is a <script>' => 'this is a &lt;script&gt;'
+      "this is a <script>" => "this is a &lt;script&gt;"
     )
   end
 
-  it 'doubles dashes should not strikethrough' do
+  it "doubles dashes should not strikethrough" do
     assert_html_output(
-      'double -- dashes -- test' => 'double -- dashes -- test',
-      'double -- **dashes** -- test' => 'double -- <strong>dashes</strong> -- test'
+      "double -- dashes -- test" => "double -- dashes -- test",
+      "double -- **dashes** -- test" => "double -- <strong>dashes</strong> -- test"
     )
   end
 
-  it 'does not mangle brackets' do
-    expect(to_html('[msg1][msg2]')).to eq '<p class="op-uc-p">[msg1][msg2]</p>'
+  it "does not mangle brackets" do
+    expect(to_html("[msg1][msg2]")).to eq '<p class="op-uc-p">[msg1][msg2]</p>'
   end
 
   private
@@ -67,7 +67,7 @@ describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     expect_paragraph = options.delete :expect_paragraph
 
     to_test.each do |text, expected|
-      expected = expect_paragraph ? "<p class=\"op-uc-p\">#{expected}</p>" : expected
+      expected = "<p class=\"op-uc-p\">#{expected}</p>" if expect_paragraph
       expect(to_html(text, options)).to be_html_eql expected
     end
   end

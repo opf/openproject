@@ -2,6 +2,10 @@
     [name]="widgetName"
     [editable]="isEditable">
 
+  <attribute-help-text slot="prepend"
+                       attribute="members"
+                       [attributeScope]="'Project'"></attribute-help-text>
+
   <widget-menu
       slot="menu"
       [resource]="resource">
@@ -36,9 +40,9 @@
 </div>
 
 <div class="op-members-widget--grid--widget-footer">
-  <a *ngIf="membersAddable"
+  <a *ngIf="membersAddable$ | async"
      [href]="projectMembershipsPath + '?show_add_members=true'"
-     class="button -alt-highlight">
+     class="button -primary">
     <i class="button--icon icon-add" aria-hidden="true"></i>
     <span class="button--text"
           [textContent]="text.add">

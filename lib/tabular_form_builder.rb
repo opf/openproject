@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'action_view/helpers/form_helper'
-require 'securerandom'
+require "action_view/helpers/form_helper"
+require "securerandom"
 
 class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
   include ActionView::Helpers::AssetTagHelper
   include ERB::Util
   include TextFormattingHelper
+  include AngularHelper
 
   def self.tag_with_label_method(selector, &)
     ->(field, options = {}, *args) do
@@ -43,7 +44,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       input_options, label_options = extract_from options
 
       if field_has_errors?(field)
-        input_options[:class] << ' -error'
+        input_options[:class] << " -error"
       end
 
       label = label_for_field(field, label_options)
@@ -82,6 +83,46 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
+  def date_picker(field, options = {})
+    options[:class] = Array(options[:class])
+    options[:container_class] ||= "-xslim"
+    merge_required_attributes(options[:required], options)
+    options[:visible_overflow] = true
+
+    input_options, label_options = extract_from options
+
+    if field_has_errors?(field)
+      input_options[:class] << " -error"
+    end
+
+    @object_name.to_s.sub!(/\[\]$/, "") || @object_name.to_s.sub!(/\[\]\]$/, "]")
+
+    inputs = {
+      value: @object.public_send(field),
+      id: field_id(field, index: options[:index]),
+      name: field_name(field, index: options[:index])
+    }
+
+    if options.dig(:data, :"remote-field-key")
+      inputs["remote-field-key"] = options.dig(:data, :"remote-field-key")
+      inputs[:inputClassNames] = "remote-field--input"
+    end
+
+    if !options[:show_ignore_non_working_days].nil?
+      inputs["show-ignore-non-working-days"] = options[:show_ignore_non_working_days]
+    end
+
+    if options[:required]
+      inputs[:required] = options[:required]
+    end
+
+    label = label_for_field(field, label_options)
+    input = angular_component_tag("op-basic-single-date-picker",
+                                  class: options[:class],
+                                  inputs:)
+    (label + container_wrap_field(input, :date_picker, options))
+  end
+
   def radio_button(field, value, options = {}, *args)
     options[:class] = Array(options[:class]) + %w(form--radio-button)
 
@@ -89,13 +130,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_options[:for] = "#{sanitized_object_name}_#{field}_#{value.downcase}"
 
     if field_has_errors?(field)
-      input_options[:class] << ' -error'
+      input_options[:class] << " -error"
     end
 
     label = label_for_field(field, label_options)
     input = super(field, value, input_options, *args)
 
-    (label + container_wrap_field(input, 'radio-button', options))
+    (label + container_wrap_field(input, "radio-button", options))
   end
 
   def select(field, choices, options = {}, html_options = {})
@@ -105,17 +146,17 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
 
     if field_has_errors?(field)
-      html_options[:class] << ' -error'
+      html_options[:class] << " -error"
     end
 
     merge_required_attributes(options[:required], html_options)
-    label_for_field(field, options) + container_wrap_field(super, 'select', options)
+    label_for_field(field, options) + container_wrap_field(super, "select", options)
   end
 
   def collection_select(field, collection, value_method, text_method, options = {}, html_options = {})
     html_options[:class] = Array(html_options[:class]) + %w(form--select)
 
-    label_for_field(field, options) + container_wrap_field(super, 'select', options)
+    label_for_field(field, options) + container_wrap_field(super, "select", options)
   end
 
   def collection_check_box(field,
@@ -124,8 +165,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                            text = field.to_s + "_#{checked_value}",
                            options = {})
 
-    label_for = "#{sanitized_object_name}_#{field}_#{checked_value}".to_sym
-    unchecked_value = options.delete(:unchecked_value) { '' }
+    label_for = :"#{sanitized_object_name}_#{field}_#{checked_value}"
+    unchecked_value = options.delete(:unchecked_value) { "" }
 
     input_options = options.reverse_merge(multiple: true,
                                           checked:,
@@ -155,24 +196,28 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   ).freeze
 
   def container_wrap_field(field_html, selector, options = {})
-    ret = content_tag(:span, field_html, class: field_container_css_class(selector, options))
+    ret = if options.delete(:no_field_container)
+            field_html
+          else
+            content_tag(:span, field_html, class: field_container_css_class(selector, options))
+          end
 
     prefix, suffix = options.values_at(:prefix, :suffix)
 
     if prefix
       ret.prepend content_tag(:span,
                               prefix.html_safe,
-                              class: 'form--field-affix',
+                              class: "form--field-affix",
                               id: options[:prefix_id],
-                              'aria-hidden': true)
+                              "aria-hidden": true)
     end
 
     if suffix
       ret.concat content_tag(:span,
                              suffix.html_safe,
-                             class: 'form--field-affix',
+                             class: "form--field-affix",
                              id: options[:suffix_id],
-                             'aria-hidden': true)
+                             "aria-hidden": true)
     end
 
     field_container_wrap_field(ret, options)
@@ -180,7 +225,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def merge_required_attributes(required, options = nil)
     if required
-      options.merge!(required: true, 'aria-required': 'true')
+      options.merge!(required: true, "aria-required": "true")
     end
   end
 
@@ -188,18 +233,19 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     if options[:no_label]
       field_html
     else
-      content_tag(:span, field_html, class: options[:no_class] ? '' : 'form--field-container')
+      classes = options[:visible_overflow] ? "-visible-overflow" : ""
+      content_tag(:span, field_html, class: options[:no_class] ? classes : "#{classes} form--field-container")
     end
   end
 
   def field_container_css_class(selector, options)
     classes = if TEXT_LIKE_FIELDS.include?(selector)
-                'form--text-field-container'
+                "form--text-field-container"
               else
                 "form--#{selector.to_s.tr('_', '-')}-container"
               end
 
-    classes << (' ' + options.fetch(:container_class, ''))
+    classes << (" #{options.fetch(:container_class, '')}")
 
     classes.strip
   end
@@ -207,7 +253,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   ##
   # Create a wrapper for the text formatting toolbar for this field
   def text_formatting_wrapper(target_id, options)
-    return ''.html_safe unless target_id.present?
+    return "".html_safe if target_id.blank?
 
     ::OpenProject::TextFormatting::Formats
       .rich_helper
@@ -225,7 +271,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   # Returns a label tag for the given field
   def label_for_field(field, options = {})
-    return ''.html_safe if options[:no_label]
+    return "".html_safe if options[:no_label]
 
     label_options = {
       class: label_for_field_class(options[:class]),
@@ -239,23 +285,21 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     # Render a help text icon
     if options[:help_text]
-      content << content_tag('attribute-help-text', '', data: options[:help_text])
+      content << content_tag("attribute-help-text", "", data: options[:help_text])
     end
 
     label_options[:lang] = options[:lang]
-    label_options.reject! do |_k, v|
-      v.nil?
-    end
+    label_options.compact!
 
     @template.label(@object_name, field, content, label_options)
   end
 
   def label_for_field_errors(content, options, field)
     if field_has_errors?(field)
-      options[:class] << ' -error'
-      error_label = I18n.t('errors.field_erroneous_label',
-                           full_errors: @object.errors.full_messages_for(field).join(' '))
-      content << content_tag('p', error_label, class: 'hidden-for-sighted')
+      options[:class] << " -error"
+      error_label = I18n.t("errors.field_erroneous_label",
+                           full_errors: @object.errors.full_messages_for(field).join(" "))
+      content << content_tag("p", error_label, class: "hidden-for-sighted")
     end
   end
 
@@ -265,7 +309,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def label_for_field_prefix(content, options)
     if options[:prefix]
-      content << content_tag(:span, options[:prefix].html_safe, class: 'hidden-for-sighted')
+      content << content_tag(:span, options[:prefix].html_safe, class: "hidden-for-sighted")
     end
   end
 
@@ -288,7 +332,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     elsif @object.class.respond_to?(:human_attribute_name)
       @object.class.human_attribute_name(field)
     else
-      I18n.t(field)
+      I18n.t(field, scope: sanitized_object_name)
     end
   end
 
@@ -305,7 +349,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     if options[:suffix]
       options[:suffix_id] ||= SecureRandom.uuid
 
-      input_options[:'aria-describedby'] ||= options[:suffix_id]
+      input_options[:"aria-describedby"] ||= options[:suffix_id]
     end
     if options[:prefix]
       options[:prefix_id] ||= SecureRandom.uuid
@@ -315,7 +359,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def sanitized_object_name
-    object_name.to_s.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/_$/, '')
+    object_name.to_s.gsub(/\]\[|[^-a-zA-Z0-9:.]/, "_").sub(/_$/, "")
   end
 
   def title_from_context(method)

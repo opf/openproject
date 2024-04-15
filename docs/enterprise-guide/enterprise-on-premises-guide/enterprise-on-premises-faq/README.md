@@ -67,7 +67,7 @@ Yes. If you want to switch from a hosted version of OpenProject (Enterprise clou
 
 Until this issue is fixed you can set the token manually via the console. Copy the new token and then do the following.
 
-```
+```shell
 sudo openproject run console
 # if user the docker all-in-one container: docker exec -it openproject bundle exec rails console
 # if using docker-compose: docker-compose run --rm web bundle exec rails console

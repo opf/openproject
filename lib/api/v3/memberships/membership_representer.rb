@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ module API
         end
 
         link :update do
-          next unless current_user_allowed_to(:manage_members, context: represented.project)
+          next unless current_user.allowed_in_project?(:manage_members, represented.project)
 
           {
             href: api_v3_paths.membership_form(represented.id),
@@ -51,7 +51,7 @@ module API
         end
 
         link :updateImmediately do
-          next unless current_user_allowed_to(:manage_members, context: represented.project)
+          next unless current_user.allowed_in_project?(:manage_members, represented.project)
 
           {
             href: api_v3_paths.membership(represented.id),
@@ -69,7 +69,7 @@ module API
                             setter: ::API::V3::Principals::PrincipalRepresenterFactory
                                       .create_setter_lambda(:user),
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
-                                    .create_link_lambda(:principal, getter: 'user_id')
+                                    .create_link_lambda(:principal, getter: "user_id")
 
         associated_resources :roles,
                              getter: ->(*) do
@@ -92,12 +92,12 @@ module API
         date_time_property :created_at
         date_time_property :updated_at
 
-        self.to_eager_load = %i[principal
-                                project
-                                roles]
+        self.to_eager_load = [:principal,
+                              { project: :enabled_modules },
+                              { member_roles: :role }]
 
         def _type
-          'Membership'
+          "Membership"
         end
 
         def unmarked_roles

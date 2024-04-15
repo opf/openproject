@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,37 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-describe Queries::CreateContract do
-  include_context 'ModelContract shared context'
-  include_context 'with queries contract'
+RSpec.describe Queries::CreateContract do
+  include_context "with queries contract"
 
-  describe 'include subprojects' do
+  describe "include subprojects" do
     let(:query) do
-      Query.new name: 'foo',
+      Query.new name: "foo",
                 include_subprojects:,
                 project:
     end
 
-    context 'when true' do
+    context "when true" do
       let(:include_subprojects) { true }
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
 
-    context 'when falsea' do
+    context "when false" do
       let(:include_subprojects) { false }
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
 
-    context 'when nil' do
+    context "when nil" do
       let(:include_subprojects) { nil }
 
-      it_behaves_like 'contract is invalid', include_subprojects: %i[inclusion]
+      it_behaves_like "contract is invalid", include_subprojects: %i[inclusion]
     end
   end
 end

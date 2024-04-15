@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,37 +25,43 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Authentication::OmniauthService do
-  let(:strategy) { double('Omniauth Strategy', name: 'saml') }
+RSpec.describe Authentication::OmniauthService do
+  let(:strategy) { double("Omniauth Strategy", name: "saml") }
+  let(:additional_info) do
+    {}
+  end
   let(:auth_hash) do
     OmniAuth::AuthHash.new(
-      provider: 'google',
-      uid: '123545',
-      info: { name: 'foo',
-              email: 'foo@bar.com',
-              first_name: 'foo',
-              last_name: 'bar' }
+      provider: "google",
+      uid: "123545",
+      info: {
+        name: "foo",
+        email: auth_email,
+        first_name: "foo",
+        last_name: "bar"
+      }.merge(additional_info)
     )
   end
-  let(:controller) { double('Controller', session: session_stub) }
+  let(:auth_email) { "foo@bar.com" }
+  let(:controller) { double("Controller", session: session_stub) }
   let(:session_stub) { [] }
 
   let(:instance) { described_class.new(strategy:, auth_hash:, controller:) }
   let(:user_attributes) { instance.send :build_omniauth_hash_to_user_attributes }
 
-  describe '#contract' do
+  describe "#contract" do
     before do
       allow(instance.contract)
         .to(receive(:validate))
         .and_return(valid)
     end
 
-    context 'if valid' do
+    context "if valid" do
       let(:valid) { true }
 
-      it 'calls the registration service' do
+      it "calls the registration service" do
         expect(Users::RegisterUserService)
           .to(receive(:new))
           .with(kind_of(User))
@@ -65,38 +71,32 @@ describe Authentication::OmniauthService do
       end
     end
 
-    context 'if invalid' do
+    context "if invalid" do
       let(:valid) { false }
 
-      it 'does not call the registration service' do
+      it "does not call the registration service" do
         expect(Users::RegisterUserService)
           .not_to(receive(:new))
 
         expect(instance.contract)
           .to(receive(:errors))
-          .and_return(['foo'])
+          .and_return(["foo"])
 
         call = instance.call
         expect(call).to be_failure
-        expect(call.errors).to eq ['foo']
+        expect(call.errors).to eq ["foo"]
       end
     end
   end
 
-  describe 'activation of users' do
+  describe "activation of users" do
     let(:call) { instance.call }
 
-    context 'with an active found user' do
-      let(:user) { build_stubbed :user }
+    context "with an active found user" do
+      shared_let(:user) { create(:user, login: "foo@bar.com", identity_url: "google:123545") }
 
-      before do
-        expect(instance).to receive(:find_existing_user).and_return(user)
-        expect(Users::RegisterUserService).not_to receive(:new)
-      end
-
-      it 'does not call register user service and logs in the user' do
-        # should update the user attributes
-        allow(user).to receive(:save)
+      it "does not call register user service and logs in the user" do
+        allow(Users::RegisterUserService).to receive(:new)
 
         expect(OpenProject::OmniAuth::Authorization)
           .to(receive(:after_login!))
@@ -104,79 +104,146 @@ describe Authentication::OmniauthService do
 
         expect(call).to be_success
         expect(call.result).to eq user
-        expect(call.result.firstname).to eq 'foo'
-        expect(call.result.lastname).to eq 'bar'
-        expect(call.result.mail).to eq 'foo@bar.com'
-        expect(user).to have_received(:save)
+        expect(call.result.firstname).to eq "foo"
+        expect(call.result.lastname).to eq "bar"
+        expect(call.result.mail).to eq "foo@bar.com"
+
+        expect(Users::RegisterUserService).not_to have_received(:new)
+      end
+
+      context "if the user is to become admin" do
+        let(:additional_info) { { admin: true } }
+
+        it "updates the user" do
+          expect(user).not_to be_admin
+          expect(call).to be_success
+          expect(call.result).to eq user
+          expect(call.result).to be_admin
+        end
+
+        context "if the user cannot be updated for some reason" do
+          let(:stub) { instance_double(Users::UpdateService) }
+
+          it "fails the request" do
+            allow(Users::UpdateService).to receive(:new).and_return(stub)
+            allow(stub).to receive(:call).and_return(ServiceResult.failure(message: "Oh noes!"))
+
+            expect(call).not_to be_success
+            expect(call.result).to be_nil
+            expect(user.reload).not_to be_admin
+          end
+        end
+      end
+
+      context "if the user is the last admin and is about to be revoked" do
+        let(:additional_info) { { admin: false } }
+
+        it "does not revoke admin status" do
+          user.update!(admin: true)
+          expect(user).to be_admin
+
+          expect(call).not_to be_success
+          expect(call.result).to eq user
+          expect(user.reload).to be_admin
+          expect(call.errors.details[:base]).to contain_exactly({ error: :one_must_be_active })
+        end
+      end
+
+      context "if the user is not the last admin and is about to be revoked" do
+        let!(:other_admin) { create(:admin) }
+        let(:additional_info) { { admin: false } }
+
+        it "revokes admin status" do
+          user.update!(admin: true)
+          expect(user).to be_admin
+
+          expect(call).to be_success
+          expect(call.result).to eq user
+          expect(user.reload).not_to be_admin
+        end
       end
     end
 
-    context 'without remapping allowed',
+    context "without remapping allowed",
             with_settings: { oauth_allow_remapping_of_existing_users?: false } do
-      it 'does not look for the user by login' do
-        # Regular find
-        expect(User)
-          .to(receive(:find_by))
-          .with(identity_url: 'google:123545')
-          .and_return(nil)
+      let!(:user) { create(:user, login: "foo@bar.com") }
 
-        # Remap find
-        expect(User)
-          .not_to(receive(:find_by_login))
-          .with('foo@bar.com')
+      it "does not look for the user by login" do
+        allow(Users::RegisterUserService).to receive(:new).and_call_original
 
-        call
+        expect(call).not_to be_success
+        expect(call.result.firstname).to eq "foo"
+        expect(call.result.lastname).to eq "bar"
+        expect(call.result.mail).to eq "foo@bar.com"
+        expect(call.result).not_to eq user
+        expect(call.result).to be_new_record
+        expect(call.result.errors[:login]).to eq ["has already been taken."]
+
+        expect(Users::RegisterUserService).to have_received(:new)
       end
     end
 
-    context 'with an active user remapped',
+    context "with an active user remapped",
             with_settings: { oauth_allow_remapping_of_existing_users?: true } do
-      let(:user) { build_stubbed :user, identity_url: 'foo' }
+      let!(:user) { create(:user, identity_url: "foo", login: auth_email.downcase) }
 
-      before do
-        # Regular find
-        expect(User)
-          .to(receive(:find_by))
-          .with(identity_url: 'google:123545')
-          .and_return(nil)
+      shared_examples_for "a successful remapping of foo" do
+        before do
+          allow(Users::RegisterUserService).to receive(:new)
+          allow(OpenProject::OmniAuth::Authorization)
+            .to(receive(:after_login!))
+            .with(user, auth_hash, instance)
+        end
 
-        # Remap find
-        expect(User)
-          .to(receive(:find_by_login))
-          .with('foo@bar.com')
-          .and_return(user)
+        it "does not call register user service and logs in the user" do
+          aggregate_failures "Service call" do
+            expect(call).to be_success
+            expect(call.result).to eq user
+            expect(call.result.firstname).to eq "foo"
+            expect(call.result.lastname).to eq "bar"
+            expect(call.result.login).to eq auth_email
+            expect(call.result.mail).to eq auth_email
+          end
 
-        expect(Users::RegisterUserService).not_to receive(:new)
+          user.reload
+
+          aggregate_failures "User attributes" do
+            expect(user.firstname).to eq "foo"
+            expect(user.lastname).to eq "bar"
+            expect(user.identity_url).to eq "google:123545"
+          end
+
+          aggregate_failures "Message expectations" do
+            expect(OpenProject::OmniAuth::Authorization)
+              .to(have_received(:after_login!))
+
+            expect(Users::RegisterUserService).not_to have_received(:new)
+          end
+        end
       end
 
-      it 'does not call register user service and logs in the user' do
-        # should update the user attributes
-        allow(user).to receive(:save)
+      context "with an all lower case login on the IdP side" do
+        it_behaves_like "a successful remapping of foo"
+      end
 
-        expect(OpenProject::OmniAuth::Authorization)
-          .to(receive(:after_login!))
-          .with(user, auth_hash, instance)
+      context "with a partially upper case login on the IdP side" do
+        let(:auth_email) { "FoO@Bar.COM" }
 
-        expect(call).to be_success
-        expect(call.result).to eq user
-        expect(call.result.firstname).to eq 'foo'
-        expect(call.result.lastname).to eq 'bar'
-        expect(call.result.mail).to eq 'foo@bar.com'
-        expect(user).to have_received(:save)
+        it_behaves_like "a successful remapping of foo"
       end
     end
 
-    describe 'assuming registration/activation worked' do
+    describe "assuming registration/activation worked" do
       let(:register_call) { ServiceResult.new(success: register_success, message: register_message) }
       let(:register_success) { true }
-      let(:register_message) { 'It worked!' }
+      let(:register_message) { "It worked!" }
 
       before do
         expect(Users::RegisterUserService).to receive_message_chain(:new, :call).and_return(register_call)
       end
 
-      describe 'with a new user' do
-        it 'calls the register service' do
+      describe "with a new user" do
+        it "calls the register service" do
           expect(call).to be_success
 
           # The user might get activated in the register service
@@ -189,26 +256,26 @@ describe Authentication::OmniauthService do
       end
     end
 
-    describe 'assuming registration/activation failed' do
+    describe "assuming registration/activation failed" do
       let(:register_success) { false }
-      let(:register_message) { 'Oh noes :(' }
+      let(:register_message) { "Oh noes :(" }
     end
   end
 
-  describe '#identity_url_from_omniauth' do
-    let(:auth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: {} } }
+  describe "#identity_url_from_omniauth" do
+    let(:auth_hash) { { provider: "developer", uid: "veryuniqueid", info: {} } }
 
     subject { instance.send(:identity_url_from_omniauth) }
 
-    it 'returns the correct identity_url' do
-      expect(subject).to eql('developer:veryuniqueid')
+    it "returns the correct identity_url" do
+      expect(subject).to eql("developer:veryuniqueid")
     end
 
-    context 'with uid mapped from info' do
-      let(:auth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: { uid: 'internal' } } }
+    context "with uid mapped from info" do
+      let(:auth_hash) { { provider: "developer", uid: "veryuniqueid", info: { uid: "internal" } } }
 
-      it 'returns the correct identity_url' do
-        expect(subject).to eql('developer:internal')
+      it "returns the correct identity_url" do
+        expect(subject).to eql("developer:internal")
       end
     end
   end

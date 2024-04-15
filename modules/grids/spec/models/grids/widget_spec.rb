@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,45 +26,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Grids::Widget, type: :model do
+RSpec.describe Grids::Widget do
   let(:instance) { Grids::Widget.new }
 
-  describe 'attributes' do
-    it '#start_row' do
+  describe "attributes" do
+    it "#start_row" do
       instance.start_row = 5
       expect(instance.start_row)
         .to be 5
     end
 
-    it '#end_row' do
+    it "#end_row" do
       instance.end_row = 5
       expect(instance.end_row)
         .to be 5
     end
 
-    it '#start_column' do
+    it "#start_column" do
       instance.start_column = 5
       expect(instance.start_column)
         .to be 5
     end
 
-    it '#end_column' do
+    it "#end_column" do
       instance.end_column = 5
       expect(instance.end_column)
         .to be 5
     end
 
-    it '#identifier' do
-      instance.identifier = 'some_identifier'
+    it "#identifier" do
+      instance.identifier = "some_identifier"
       expect(instance.identifier)
-        .to eql 'some_identifier'
+        .to eql "some_identifier"
     end
 
-    it '#options' do
+    it "#options" do
       value = {
-        some: 'value',
+        some: "value",
         and: {
           also: 1
         }
@@ -75,7 +75,7 @@ describe Grids::Widget, type: :model do
         .to eql value
     end
 
-    it '#grid' do
+    it "#grid" do
       grid = Grids::Grid.new
       instance.grid = grid
       expect(instance.grid)

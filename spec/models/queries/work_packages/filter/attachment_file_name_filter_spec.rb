@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,50 +26,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::WorkPackages::Filter::AttachmentFileNameFilter, type: :model do
+RSpec.describe Queries::WorkPackages::Filter::AttachmentFileNameFilter do
   if OpenProject::Database.allows_tsv?
-    before do
-      allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
-    end
-
-    it_behaves_like 'basic query filter' do
+    it_behaves_like "basic query filter" do
       let(:type) { :text }
       let(:class_key) { :attachment_file_name }
 
-      describe '#available?' do
-        it 'is available' do
+      describe "#available?" do
+        it "is available" do
           expect(instance).to be_available
         end
       end
 
-      describe '#allowed_values' do
-        it 'is nil' do
+      describe "#allowed_values" do
+        it "is nil" do
           expect(instance.allowed_values).to be_nil
         end
       end
 
-      describe '#valid_values!' do
-        it 'is a noop' do
-          instance.values = ['none', 'is', 'changed']
+      describe "#valid_values!" do
+        it "is a noop" do
+          instance.values = ["none", "is", "changed"]
 
           instance.valid_values!
 
           expect(instance.values)
-            .to match_array ['none', 'is', 'changed']
+            .to contain_exactly("none", "is", "changed")
         end
       end
 
-      describe '#available_operators' do
-        it 'supports ~ and !~' do
+      describe "#available_operators" do
+        it "supports ~ and !~" do
           expect(instance.available_operators)
             .to eql [Queries::Operators::Contains, Queries::Operators::NotContains]
         end
       end
 
-      it_behaves_like 'non ar filter'
+      it_behaves_like "non ar filter"
     end
   end
 end

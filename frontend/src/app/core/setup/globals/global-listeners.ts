@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { refreshOnFormChanges } from 'core-app/core/setup/globals/global-listeners/refresh-on-form-changes';
 import { registerRequestForConfirmation } from 'core-app/core/setup/globals/global-listeners/request-for-confirmation';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { scrollHeaderOnMobile } from 'core-app/core/setup/globals/global-listeners/top-menu-scroll';
@@ -37,25 +36,52 @@ import { dangerZoneValidation } from 'core-app/core/setup/globals/global-listene
 import { setupServerResponse } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
 import { listenToSettingChanges } from 'core-app/core/setup/globals/global-listeners/settings';
 import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
-import { augmentedDatePicker } from './global-listeners/augmented-date-picker';
-import { performAnchorHijacking } from './global-listeners/link-hijacking';
+import { openExternalLinksInNewTab, performAnchorHijacking } from './global-listeners/link-hijacking';
+import { fixFragmentAnchors } from 'core-app/core/setup/globals/global-listeners/fix-fragment-anchors';
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
  */
 export function initializeGlobalListeners():void {
-  jQuery(document.documentElement)
-    .on('click', (evt:any) => {
-      const target = jQuery(evt.target) as JQuery;
+  document
+    .documentElement
+    .addEventListener('click', (evt:MouseEvent) => {
+      const target = evt.target as HTMLElement;
 
-      // Create datepickers dynamically for Rails-based views
-      augmentedDatePicker(evt, target);
+      // Avoid defaulting clicks on elements already removed from DOM
+      if (!document.contains(target)) {
+        evt.preventDefault();
+        return;
+      }
+
+      // Avoid handling clicks on anything other than a
+      const linkElement = target.closest<HTMLAnchorElement>('a');
+      if (!linkElement) {
+        return;
+      }
+
+      // Avoid opening new tab when clicking links while editing in ckeditor
+      if (linkElement.classList.contains('ck-link_selected')) {
+        evt.preventDefault();
+        return;
+      }
+
+      const callbacks = [
+        openExternalLinksInNewTab,
+        performAnchorHijacking,
+      ];
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const fn of callbacks) {
+        if (fn.call(linkElement, evt, linkElement)) {
+          evt.preventDefault();
+          break;
+        }
+      }
 
       // Prevent angular handling clicks on href="#..." links from other libraries
       // (especially jquery-ui and its datepicker) from routing to <base url>/#
-      performAnchorHijacking(evt, target);
-
-      return true;
+      performAnchorHijacking(evt, linkElement);
     });
 
   // Jump to the element given by location.hash, if present
@@ -63,7 +89,7 @@ export function initializeGlobalListeners():void {
   if (hash && hash.startsWith('#')) {
     try {
       const el = document.querySelector(hash);
-      el && el.scrollIntoView();
+      el && el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (e) {
       // This is very likely an invalid selector such as a Google Analytics tag.
       // We can safely ignore this and just not scroll in this case.
@@ -104,8 +130,6 @@ export function initializeGlobalListeners():void {
       return false;
     });
 
-  refreshOnFormChanges();
-
   // Allow forms with [request-for-confirmation]
   // to show the password confirmation dialog
   registerRequestForConfirmation(jQuery);
@@ -143,4 +167,7 @@ export function initializeGlobalListeners():void {
 
   // Bootstrap legacy app code
   setupServerResponse();
+
+  // Replace fragment
+  fixFragmentAnchors();
 }

@@ -1,0 +1,38 @@
+# Schema: ProjectCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+          - representations
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This project collection
+                  
+                  **Resource**: ProjectStorageCollectionModel
+          representations:
+            type: array
+            items:
+              allOf:
+                - $ref: './link.yml'
+                - description: |-
+                    A project collection representation in a specific file format.
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './project_model.yml'

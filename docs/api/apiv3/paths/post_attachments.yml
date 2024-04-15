@@ -35,7 +35,7 @@ get:
                         title: 200.gif
                     _type: Attachment
                     contentType: image/gif
-                    createdAt: '2018-06-01T07:24:19Z'
+                    createdAt: '2018-06-01T07:24:19.706Z'
                     description:
                       format: plain
                       html: ''
@@ -117,16 +117,16 @@ post:
                     _type: User
                     admin: true
                     avatar: ''
-                    createdAt: '2015-03-20T12:56:52Z'
-                    email: 
+                    createdAt: '2015-03-20T12:56:52.850Z'
+                    email:
                     firstName: OpenProject
                     id: 1
-                    identityUrl: 
+                    identityUrl:
                     lastName: Admin
                     login: admin
                     name: OpenProject Admin
                     status: active
-                    updatedAt: '2018-05-29T13:57:44Z'
+                    updatedAt: '2018-05-29T13:57:44.604Z'
                   container:
                     _links:
                       addAttachment:
@@ -159,7 +159,7 @@ post:
                     title: 200.gif
                 _type: Attachment
                 contentType: image/gif
-                createdAt: '2018-06-01T07:53:36Z'
+                createdAt: '2018-06-01T07:53:36.831Z'
                 description:
                   format: plain
                   html: ''

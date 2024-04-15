@@ -1,66 +1,67 @@
 "no":
   js:
     grid:
-      add_widget: 'Add widget'
+      add_widget: 'Legg til widget'
       remove: 'Fjern widget'
-      configure: 'Configure widget'
+      configure: 'Konfigurer widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        text: "Noen widgeter, som arbeidspakke-diagram-modulen, er bare tilgjengelig i Enterprise versjonen."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "Du har ikke nødvendige tillatelser til å se denne widgeten."
         custom_text:
-          title: 'Custom text'
+          title: 'Tilpasset tekst'
         documents:
           title: 'Dokumenter'
-          no_results: 'No documents yet.'
+          no_results: 'Ingen dokumenter ennå.'
         members:
           title: 'Medlemmer'
-          no_results: 'No visible members.'
-          view_all_members: 'View all members'
+          no_results: 'Ingen synlige medlemmer.'
+          view_all_members: 'Vis alle medlemmer'
           add: 'Medlem'
-          too_many: 'Displaying %{count} of %{total} members.'
+          too_many: 'Viser %{count} av %{total} medlemmer.'
         news:
           title: 'Nyheter'
-          at: 'at'
-          no_results: 'Nothing new to report.'
+          at: 'på'
+          no_results: 'Ingenting nytt å rapportere.'
         project_description:
-          title: 'Project description'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          title: 'Prosjektbeskrivelse'
+          no_results: "Ingen beskrivelse har blitt skrevet ennå. Den kan oppgis i \"Prosjektinnstillinger\"."
         project_details:
-          title: 'Project details'
-          no_results: 'No custom fields have been defined for projects.'
+          title: 'Prosjektdetaljer'
+          no_results: 'Ingen egendefinerte felt for prosjekter er definert'
         project_status:
           title: 'Prosjektstatus'
-          not_started: 'Not started'
+          not_started: 'Ikke påbegynt'
           on_track: 'På rett spor'
           off_track: 'Sporet av'
           at_risk: 'I fare'
-          not_set: 'Not set'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_set: 'Ikke angitt'
+          finished: 'Fullført'
+          discontinued: 'Utløpt'
         subprojects:
           title: 'Underprosjekter'
-          no_results: 'No subprojects.'
+          no_results: 'Ingen delprosjekter.'
         time_entries_current_user:
-          title: 'My spent time'
-          displayed_days: 'Days displayed in the widget:'
+          title: 'Min tidsbruk'
+          displayed_days: 'Dager vist i widgetet:'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
-          no_results: 'No time entries for the last 7 days.'
+          title: 'Brukstid (siste 7 dager)'
+          no_results: 'Ingen timeføringer de siste 7 dagene.'
         work_packages_accountable:
-          title: "Work packages I am accountable for"
+          title: "Arbeidspakker jeg er ansvarlig for"
         work_packages_assigned:
           title: 'Arbeidspakker tildelt meg'
         work_packages_created:
           title: 'Arbeidspakker laget av meg'
         work_packages_watched:
-          title: 'Work packages watched by me'
+          title: 'Arbeidspakker sett av meg'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Tabell for arbeidspakker'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Arbeidspakkediagram'
         work_packages_calendar:
           title: 'Kalender'
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          title: 'Oversikt over arbeidspakker'
+          placeholder: 'Klikk for å redigere...'

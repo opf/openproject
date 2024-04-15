@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
-describe JournalFormatter::DayCount do
+RSpec.describe JournalFormatter::DayCount do
   let(:klass) { described_class }
   let(:id) { 1 }
   let(:journal) do
@@ -37,34 +37,34 @@ describe JournalFormatter::DayCount do
   let(:instance) { klass.new(journal) }
   let(:key) { :duration }
 
-  describe '#render' do
-    describe 'when setting the old value to 1 day, and the new value to 3 days' do
+  describe "#render" do
+    describe "when setting the old value to 1 day, and the new value to 3 days" do
       let(:expected) do
-        I18n.t(:text_journal_changed_html,
+        I18n.t(:text_journal_changed_plain,
                label: "<strong>Duration</strong>",
-               old: '<i title="1 day">1 day</i>',
-               new: '<i title="3 days">3 days</i>',
-               linebreak: '')
+               old: "<i>1 day</i>",
+               new: "<i>3 days</i>",
+               linebreak: "")
       end
 
       it { expect(instance.render(key, [1, 3])).to eq(expected) }
     end
 
-    describe 'when setting the initial value to 3 days' do
+    describe "when setting the initial value to 3 days" do
       let(:expected) do
         I18n.t(:text_journal_set_to,
                label: "<strong>Duration</strong>",
-               value: '<i title="3 days">3 days</i>')
+               value: "<i>3 days</i>")
       end
 
       it { expect(instance.render(key, [nil, 3])).to eq(expected) }
     end
 
-    describe 'when deleting the initial value of 3 days' do
+    describe "when deleting the initial value of 3 days" do
       let(:expected) do
         I18n.t(:text_journal_deleted,
                label: "<strong>Duration</strong>",
-               old: '<strike><i title="3 days">3 days</i></strike>')
+               old: "<strike><i>3 days</i></strike>")
       end
 
       it { expect(instance.render(key, [3, nil])).to eq(expected) }

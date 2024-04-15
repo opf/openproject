@@ -1,0 +1,35 @@
+---
+EnableDefaultLinters: true
+inherit_gem:
+  erblint-github:
+    - config/accessibility.yml
+exclude:
+  - '**/frontend/**/*'
+  - '**/node_modules/**/*'
+  - '**/vendor/**/*'
+linters:
+  ErbSafety:
+    enabled: true
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      inherit_from:
+        - .rubocop.yml
+      Layout/InitialIndentation:
+        Enabled: false
+      Layout/LeadingEmptyLines:
+        Enabled: false
+      Layout/LineLength:
+        Enabled: false
+      Layout/TrailingEmptyLines:
+        Enabled: false
+      Layout/TrailingWhitespace:
+        Enabled: false
+      Naming/FileName:
+        Enabled: false
+      Style/FrozenStringLiteralComment:
+        Enabled: false
+      Lint/UselessAssignment:
+        Enabled: false
+      Rails/OutputSafety:
+        Enabled: false

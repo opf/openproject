@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
-import { input } from 'reactivestates';
-import { Observable } from 'rxjs';
+import { input } from '@openproject/reactivestates';
+import {
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Board } from 'core-app/features/boards/board/board';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -13,7 +16,7 @@ export abstract class CachedBoardActionService extends BoardActionService {
   protected loadValues(matching?:string):Observable<HalResource[]> {
     this
       .cache
-      .putFromPromiseIfPristine(() => this.loadUncached());
+      .putFromPromiseIfPristine(() => firstValueFrom(this.loadUncached()));
 
     return this
       .cache
@@ -42,17 +45,11 @@ export abstract class CachedBoardActionService extends BoardActionService {
   protected require(id:string):Promise<HalResource> {
     this
       .cache
-      .putFromPromiseIfPristine(() => this.loadUncached());
+      .putFromPromiseIfPristine(() => firstValueFrom(this.loadUncached()));
 
-    return this
-      .cache
-      .values$()
-      .pipe(
-        take(1),
-      )
-      .toPromise()
-      .then((results) => results.find((resource) => resource.id === id)!);
+    return firstValueFrom(this.cache.values$())
+      .then((results:HalResource[]) => results.find((resource) => resource.id === id) as HalResource);
   }
 
-  protected abstract loadUncached():Promise<HalResource[]>;
+  protected abstract loadUncached():Observable<HalResource[]>;
 }

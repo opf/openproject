@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,9 +34,9 @@ class Projects::Settings::BacklogsController < Projects::SettingsController
   end
 
   def update
-    selected_statuses = (params[:statuses] || []).map do |work_package_status|
+    selected_statuses = (params[:statuses] || []).filter_map do |work_package_status|
       Status.find(work_package_status[:status_id].to_i)
-    end.compact
+    end
 
     @project.done_statuses = selected_statuses
     @project.save!
@@ -48,11 +48,11 @@ class Projects::Settings::BacklogsController < Projects::SettingsController
 
   def rebuild_positions
     @project.rebuild_positions
-    flash[:notice] = I18n.t('backlogs.positions_rebuilt_successfully')
+    flash[:notice] = I18n.t("backlogs.positions_rebuilt_successfully")
 
     redirect_to_backlogs_settings
   rescue ActiveRecord::ActiveRecordError
-    flash[:error] = I18n.t('backlogs.positions_could_not_be_rebuilt')
+    flash[:error] = I18n.t("backlogs.positions_could_not_be_rebuilt")
 
     log_rebuild_position_error
 

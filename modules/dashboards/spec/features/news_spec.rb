@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,24 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-describe 'News widget on dashboard', type: :feature, js: true do
-  let!(:project) { create :project }
-  let!(:other_project) { create :project }
+RSpec.describe "News widget on dashboard", :js do
+  let!(:project) { create(:project) }
+  let!(:other_project) { create(:project) }
   let!(:visible_news) do
-    create :news,
+    create(:news,
            project:,
-           description: 'blubs'
+           description: "blubs")
   end
   let!(:invisible_news) do
-    create :news,
-           project: other_project
+    create(:news,
+           project: other_project)
   end
   let(:role) do
-    create(:role,
+    create(:project_role,
            permissions: %i[view_news
                            view_dashboards
                            manage_dashboards])
@@ -65,11 +65,11 @@ describe 'News widget on dashboard', type: :feature, js: true do
     dashboard.visit!
   end
 
-  it 'can add the widget and see the visible news' do
+  it "can add the widget and see the visible news" do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, :within, 'News')
+    dashboard.add_widget(1, 1, :within, "News")
 
-    news_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    news_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
     within news_widget.area do
       expect(page)
@@ -79,7 +79,7 @@ describe 'News widget on dashboard', type: :feature, js: true do
       expect(page)
         .to have_content visible_news.project.name
       expect(page)
-        .to have_content visible_news.created_at.strftime('%m/%d/%Y')
+        .to have_content visible_news.created_at.strftime("%m/%d/%Y")
 
       expect(page)
         .to have_no_content invisible_news.title

@@ -2,7 +2,7 @@
 el:
   js:
     team_planner:
-      add_existing: 'Add existing'
+      add_existing: 'Προσθήκη υπάρχοντος'
       add_existing_title: 'Add existing work packages'
       create_label: 'Team planner'
       create_title: 'Create new team planner'
@@ -12,8 +12,10 @@ el:
       remove_assignee: 'Remove assignee'
       two_weeks: '2-week'
       one_week: '1-week'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
       work_week: 'Work week'
-      today: 'Today'
+      today: 'Σήμερα '
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'

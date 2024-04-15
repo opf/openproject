@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
+RSpec.describe API::V3::Relations::RelationPaginatedCollectionRepresenter do
   let(:work_package) do
     build_stubbed(:work_package)
   end
@@ -66,10 +66,10 @@ describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
   let(:page) { 1 }
   let(:page_size) { 20 }
   let(:actual_count) { total }
-  let(:self_base_link) { 'api/v3/relations' }
-  let(:collection_inner_type) { 'Relation' }
+  let(:self_base_link) { "api/v3/relations" }
+  let(:collection_inner_type) { "Relation" }
 
   subject(:collection) { representer.to_json }
 
-  it_behaves_like 'offset-paginated APIv3 collection', 3, 'relations', 'Relation'
+  it_behaves_like "offset-paginated APIv3 collection", 3, "relations", "Relation"
 end

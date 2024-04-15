@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,34 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::BaseQuery
-  class << self
+module Queries::BaseQuery
+  extend ActiveSupport::Concern
+
+  included do
+    include Queries::Filters::AvailableFilters
+    include Queries::Selects::AvailableSelects
+    include Queries::Orders::AvailableOrders
+    include Queries::GroupBys::AvailableGroupBys
+    include ActiveModel::Validations
+
+    validate :filters_valid,
+             :sortation_valid
+    validate :group_by_valid, if: -> { respond_to?(:group_by) }
+  end
+
+  class_methods do
     def model
-      @model ||= name.demodulize.gsub('Query', '').constantize
+      @model ||= name.demodulize.gsub("Query", "").constantize
     end
 
     def i18n_scope
       :activerecord
     end
-  end
 
-  attr_accessor :filters, :orders
-  attr_reader :group_by
-
-  include Queries::Filters::AvailableFilters
-  include Queries::Orders::AvailableOrders
-  include Queries::GroupBys::AvailableGroupBys
-  include ActiveModel::Validations
-
-  validate :filters_valid,
-           :sortation_valid,
-           :group_by_valid
-
-  def initialize(user: nil)
-    @filters = []
-    @orders = []
-    @group_by = nil
-    @user = user
+    # Use the Query class' error messages.
+    # So everything under
+    #
+    # activerecord.errors.models.query
+    #
+    # is found.
+    def lookup_ancestors
+      [Query]
+    end
   end
 
   def results
@@ -69,11 +74,11 @@ class Queries::BaseQuery
     return empty_scope unless valid?
 
     apply_group_by(apply_filters(default_scope))
-      .select(group_by.name, Arel.sql('COUNT(*)'))
+      .select(group_by.name, Arel.sql("COUNT(*)"))
   end
 
   def group_values
-    groups_hash = groups.pluck(group_by.name, Arel.sql('COUNT(*)')).to_h
+    groups_hash = groups.pluck(group_by.name, Arel.sql("COUNT(*)")).to_h
     instantiate_group_keys groups_hash
   end
 
@@ -88,10 +93,22 @@ class Queries::BaseQuery
     self
   end
 
+  def select(*select_values, add_not_existing: true)
+    select_values.each do |select_value|
+      select_column = select_for(select_value)
+
+      if !select_column.is_a?(::Queries::Selects::NotExistingSelect) || add_not_existing
+        selects << select_column
+      end
+    end
+
+    self
+  end
+
   def order(hash)
     hash.each do |attribute, direction|
       order = order_for(attribute)
-      order.direction = direction
+      order.direction = direction.to_sym
       orders << order
     end
 
@@ -121,9 +138,6 @@ class Queries::BaseQuery
   end
 
   protected
-
-  attr_accessor :user
-  attr_writer :group_by
 
   def filters_valid
     filters.each do |filter|
@@ -195,7 +209,7 @@ class Queries::BaseQuery
   end
 
   def build_orders
-    return orders if group_by.nil? || has_group_by_order?
+    return orders if !respond_to?(:group_by) || group_by.nil? || has_group_by_order?
 
     [group_by_order] + orders
   end
@@ -224,7 +238,7 @@ class Queries::BaseQuery
     scope.order_values.any? do |order|
       order.respond_to?(:value) && order.value.respond_to?(:relation) &&
         order.value.relation.name == self.class.model.table_name &&
-        order.value.name == 'id'
+        order.value.name == "id"
     end
   end
 end

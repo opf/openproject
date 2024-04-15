@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,12 +53,19 @@ module Pages
         finished_loading
       end
 
+      # Visits the BCF module with the specified query.
+      #
+      # @param query [Query] The query object.
+      def visit_query(query)
+        visit "#{path}?query_id=#{query.id}"
+      end
+
       def expect_details_path
         expect(page).to have_current_path /\/bcf\/details/, ignore_query: true
       end
 
       def finished_loading
-        expect(page).to have_selector('.xeokit-busy-modal', visible: :all, wait: 30)
+        expect(page).to have_css('.xeokit-busy-modal', visible: :all, wait: 30)
       end
 
       def model_viewer_visible(visible)
@@ -74,12 +81,12 @@ module Pages
         selector = '.xeokit-btn'
 
         if visible
-          within('[data-qa-selector="op-ifc-viewer--toolbar-container"]') do
+          within('[data-test-selector="op-ifc-viewer--toolbar-container"]') do
             expect(page).to have_selector(selector, count: 8)
           end
         else
           expect(page).to have_no_selector(selector)
-          expect(page).to have_no_selector('[data-qa-selector="op-ifc-viewer--toolbar-container"]')
+          expect(page).to have_no_css('[data-test-selector="op-ifc-viewer--toolbar-container"]')
         end
       end
 
@@ -90,7 +97,7 @@ module Pages
       end
 
       def page_has_a_toolbar
-        expect(page).to have_selector('.toolbar-container')
+        expect(page).to have_css('.toolbar-container')
       end
 
       def page_shows_a_filter_button(visible)
@@ -107,7 +114,7 @@ module Pages
 
       def switch_view(value)
         retry_block do
-          page.find('#bcf-view-toggle-button').click
+          page.find_by_id('bcf-view-toggle-button').click
           within('#bcf-view-context-menu') do
             page.find('.menu-item', text: value, exact_text: true).click
           end
@@ -115,11 +122,11 @@ module Pages
       end
 
       def expect_view_toggle_at(value)
-        expect(page).to have_selector('#bcf-view-toggle-button', text: value)
+        expect(page).to have_css('#bcf-view-toggle-button', text: value)
       end
 
       def has_no_menu_item_with_text?(value)
-        expect(page).to have_no_selector('.menu-item', text: value)
+        expect(page).to have_no_css('.menu-item', text: value)
       end
 
       private

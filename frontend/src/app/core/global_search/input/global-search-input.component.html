@@ -16,28 +16,31 @@
     [id]="'global-search-input'"
     [accesskey]="4"
     class="global-search"
-    [placeholder]="text.search_dots"
+    [placeholder]="placeholder"
     [classes]="{'top-menu-search--input': true, '-markable': markable, '-expanded': expanded }"
-    [inputAttrs]="{ 'class': 'global-search--input' }"
-    [openOnEnter]="false"
+    [inputAttrs]="{ 'class': 'global-search--input', 'name': 'global-search--input' }"
+    [openOnEnter]="true"
     [labelRequired]="false"
     [focusDirectly]="isFocusedDirectly"
     [model]="selectedItem"
     [searchFn]="customSearchFn"
+    [virtualScroll]="false"
     (focus)="onFocus()"
     (blur)="onFocusOut()"
     (search)="search($event)"
-    (open)="openCloseMenu(currentValue)"
     (close)="onClose()"
     (change)="followItem($event)"
     (keydown.enter)="onEnterBeforeResultsLoaded()"
-    (keydown.escape)="blur()"
+    (keydown.escape)="onFocusOut()"
     (clear)="clearSearch()"
     [filters]="autocompleterOptions.filters"
     [resource]="autocompleterOptions.resource"
     [searchKey]="autocompleterOptions.searchKey"
     [getOptionsFn]="autocompleterOptions.getOptionsFn"
   >
+    <ng-template op-autocompleter-header-tmp>
+      <div *ngIf="!searchTerm && (hasRecentItems$ | async)">{{text.recently_viewed}}</div>
+    </ng-template>
     <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="searchTerm">
       <div *ngIf="!item.id; else workPackageItemTemplate">
         <div tabindex="-1" class="global-search--option" (click)="followItem(item)">

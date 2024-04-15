@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/ui/extensible_tabs'
-require_relative '../../../config/constants/api_patch_registry'
-require_relative '../../../config/constants/open_project/activity'
-require_relative '../../../config/constants/views'
-require_relative '../../../config/constants/settings/definition'
+require "open_project/ui/extensible_tabs"
+require_relative "../../../config/constants/api_patch_registry"
+require_relative "../../../config/constants/open_project/activity"
+require_relative "../../../config/constants/views"
+require_relative "../../../config/constants/settings/definition"
 
 module OpenProject::Plugins
   module ActsAsOpEngine
@@ -43,10 +43,10 @@ module OpenProject::Plugins
         config.before_configuration do |app|
           # This is required for the routes to be loaded first
           # as the routes should be prepended so they take precedence over the core.
-          app.config.paths['config/routes.rb'].unshift File.join(config.root, 'config', 'routes.rb')
+          app.config.paths["config/routes.rb"].unshift File.join(config.root, "config", "routes.rb")
         end
 
-        initializer "#{engine_name}.remove_duplicate_routes", after: 'add_routing_paths' do |app|
+        initializer "#{engine_name}.remove_duplicate_routes", after: "add_routing_paths" do |app|
           # removes duplicate entry from app.routes_reloader
           # As we prepend the plugin's routes to the load_path up front and rails
           # adds all engines' config/routes.rb later, we have double loaded the routes
@@ -59,25 +59,18 @@ module OpenProject::Plugins
         end
 
         initializer "#{engine_name}.i18n_load_paths" do |app|
-          app.config.i18n.load_path += Dir[config.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
-        end
-
-        current_engine = self
-        config.to_prepare do
-          pathname = current_engine.root.join("app/cells/views")
-
-          ::RailsCell.view_paths << pathname.to_path if pathname.exist?
+          app.config.i18n.load_path += Dir[config.root.join("config", "locales", "crowdin", "*.{rb,yml}").to_s]
         end
 
         # adds our factories to factory girl's load path
-        initializer "#{engine_name}.register_factories", after: 'factory_bot.set_factory_paths' do |_app|
+        initializer "#{engine_name}.register_factories", after: "factory_bot.set_factory_paths" do |_app|
           FactoryBot.definition_file_paths << File.expand_path("#{root}/spec/factories") if defined?(FactoryBot)
         end
 
         initializer "#{engine_name}.append_migrations" do |app|
           unless app.root.to_s.match root.to_s
-            config.paths['db/migrate'].expanded.each do |expanded_path|
-              app.config.paths['db/migrate'] << expanded_path
+            config.paths["db/migrate"].expanded.each do |expanded_path|
+              app.config.paths["db/migrate"] << expanded_path
             end
 
             ##
@@ -85,7 +78,7 @@ module OpenProject::Plugins
             # in order to re-enable chained rake tasks
             # finding all migrations.
             # http://blog.pivotal.io/pivotal-labs/labs/leave-your-migrations-in-your-rails-engines
-            paths = app.config.paths['db/migrate'].to_a
+            paths = app.config.paths["db/migrate"].to_a
             ActiveRecord::Tasks::DatabaseTasks.migrations_paths = paths
             ActiveRecord::Migrator.migrations_paths = paths
           end
@@ -129,7 +122,7 @@ module OpenProject::Plugins
             "#{plugin_module}::Patches::#{klass_name}Patch".constantize
           end
 
-          qualified_class_name = args.map(&:to_s).join('::')
+          qualified_class_name = args.map(&:to_s).join("::")
           klass = qualified_class_name.to_s.constantize
           klass.send(:include, patch) unless klass.included_modules.include?(patch)
         end
@@ -184,12 +177,11 @@ module OpenProject::Plugins
       # block:         Pass a block to the plugin (for defining permissions, menu items and the like)
       def register(gem_name, options, &block)
         self.class.initializer "#{engine_name}.register_plugin" do
-          spec = Bundler.load.specs[gem_name][0]
+          spec = Gem.loaded_specs[gem_name]
 
           p = Redmine::Plugin.register engine_name.to_sym do
-            name spec.summary
+            gem_name spec.name
             author spec.authors.is_a?(Array) ? spec.authors[0] : spec.authors
-            description spec.description
             version spec.version
             url spec.homepage
 
@@ -231,7 +223,7 @@ module OpenProject::Plugins
 
       def extend_api_response(*args, &)
         config.to_prepare do
-          representer_namespace = args.map { |arg| arg.to_s.camelize }.join('::')
+          representer_namespace = args.map { |arg| arg.to_s.camelize }.join("::")
           representer_class     = "::API::#{representer_namespace}Representer".constantize
           representer_class.instance_eval(&)
         end
@@ -279,7 +271,7 @@ module OpenProject::Plugins
         end
 
         config.to_prepare do
-          representer_namespace = path.map { |arg| arg.to_s.camelize }.join('::')
+          representer_namespace = path.map { |arg| arg.to_s.camelize }.join("::")
           representer_class     = "::API::#{representer_namespace}Representer".constantize
           representer_class.prepend mod
         end
@@ -301,13 +293,9 @@ module OpenProject::Plugins
         OpenProject::Activity.register(event_type, options)
       end
 
-      ##
-      # Register a "cron"-like background job
       def add_cron_jobs(&block)
         config.to_prepare do
-          Array(block.call).each do |clz|
-            ::Cron::CronJob.register!(clz.is_a?(Class) ? clz : clz.to_s.constantize)
-          end
+          Rails.application.config.good_job.cron.merge!(block.call)
         end
       end
 

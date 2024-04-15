@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'gravatar_image_tag'
+require "gravatar_image_tag"
 
 module AvatarHelper
   include ::GravatarImageTag
@@ -45,11 +45,11 @@ module AvatarHelper
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(principal, options = {})
-    build_principal_avatar_tag principal, options
+  def avatar(principal, size: "default", hide_name: true, name_classes: "", **)
+    build_principal_avatar_tag(principal, size:, hide_name:, name_classes:, **)
   rescue StandardError => e
     Rails.logger.error "Failed to create avatar for #{principal}: #{e}"
-    ''.html_safe
+    "".html_safe
   end
 
   def avatar_url(user, options = {})
@@ -58,11 +58,11 @@ module AvatarHelper
     elsif avatar_manager.gravatar_enabled?
       build_gravatar_image_url user, options
     else
-      ''.html_safe
+      "".html_safe
     end
   rescue StandardError => e
     Rails.logger.error "Failed to create avatar url for #{user}: #{e}"
-    ''.html_safe
+    "".html_safe
   end
 
   def local_avatar?(user)
@@ -78,7 +78,7 @@ module AvatarHelper
 
   def build_gravatar_image_url(user, options = {})
     mail = extract_email_address(user)
-    raise ArgumentError.new('Invalid Mail') if mail.blank?
+    raise ArgumentError.new("Invalid Mail") if mail.blank?
 
     opts = options.merge(gravatar: default_gravatar_options)
     # gravatar_image_url expects gravatar options as second arg
@@ -89,8 +89,8 @@ module AvatarHelper
     gravatar_image_url(mail, opts)
   end
 
-  def build_principal_avatar_tag(user, options = {})
-    tag_options = merge_default_avatar_options(user, options)
+  def build_principal_avatar_tag(user, **)
+    tag_options = merge_default_avatar_options(user, **)
 
     principal_type = API::V3::Principals::PrincipalType.for(user)
     principal = {
@@ -99,18 +99,21 @@ module AvatarHelper
       id: user.id
     }
 
-    angular_component_tag 'op-principal',
+    angular_component_tag "opce-principal",
                           class: tag_options[:class],
                           inputs: {
                             principal:,
+                            link: tag_options[:link],
                             size: tag_options[:size],
-                            hideName: tag_options[:hide_name]
+                            hideName: tag_options[:hide_name],
+                            nameClasses: tag_options[:name_classes],
+                            title: tag_options.fetch(:title, "")
                           }
   end
 
   def merge_default_avatar_options(user, options)
     default_options = {
-      size: 'default',
+      size: "default",
       hide_name: true
     }
 

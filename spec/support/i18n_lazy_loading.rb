@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,11 +38,6 @@ module I18nLazyLoading
   module RedmineI18nPatch
     def all_attribute_translations(locale)
       I18nLazyLoading.load_locale(locale)
-      super
-    end
-
-    def ll(lang, _str, _value = nil)
-      I18nLazyLoading.load_locale(lang)
       super
     end
   end

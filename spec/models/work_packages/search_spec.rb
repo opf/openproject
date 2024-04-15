@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe WorkPackage, 'search', type: :model do
+RSpec.describe WorkPackage, "search" do
   shared_let(:description_searchword) { "descKeyword" }
   shared_let(:project) { create(:project) }
   shared_let(:work_package) do
@@ -36,31 +36,31 @@ describe WorkPackage, 'search', type: :model do
   end
 
   let(:permissions) { [:view_work_packages] }
-  let(:searchword) { 'keyword' }
+  let(:searchword) { "keyword" }
 
-  current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  current_user { create(:user, member_with_permissions: { project => permissions }) }
 
   subject { described_class.search("%#{searchword}%").first }
 
-  context 'with the keyword being in the description' do
+  context "with the keyword being in the description" do
     let(:searchword) { description_searchword }
 
-    it 'finds the work package' do
+    it "finds the work package" do
       expect(subject)
         .to eq [work_package]
     end
 
-    context 'when lacking the permissions to see the work package' do
+    context "when lacking the permissions to see the work package" do
       let(:permissions) { [] }
 
-      it 'does not find the work package' do
+      it "does not find the work package" do
         expect(subject)
           .to be_empty
       end
     end
   end
 
-  context 'with multiple hits in journals', with_settings: { journal_aggregation_time_minutes: 0 } do
+  context "with multiple hits in journals", with_settings: { journal_aggregation_time_minutes: 0 } do
     before do
       # Adding two journals with the keyword in it
       work_package.journals.first.update_column(:notes, "A note with the #{searchword} in it.")
@@ -69,7 +69,7 @@ describe WorkPackage, 'search', type: :model do
       work_package.save
     end
 
-    it 'finds the work package' do
+    it "finds the work package" do
       expect(subject)
         .to eq [work_package]
     end

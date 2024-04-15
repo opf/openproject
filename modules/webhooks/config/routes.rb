@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace 'webhooks' do
-    match ":hook_name", to: 'incoming/hooks#handle_hook', via: %i(get post)
+Rails.application.routes.draw do
+  namespace "webhooks" do
+    match ":hook_name", to: "incoming/hooks#handle_hook", via: %i(get post)
   end
 
-  scope 'admin' do
+  scope "admin" do
     scope :settings do
       resources :webhooks,
                 param: :webhook_id,
-                controller: 'webhooks/outgoing/admin',
-                as: 'admin_outgoing_webhooks'
+                controller: "webhooks/outgoing/admin",
+                as: "admin_outgoing_webhooks"
     end
   end
 end

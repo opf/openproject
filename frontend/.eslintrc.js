@@ -1,7 +1,6 @@
 module.exports = {
   extends: [
     "eslint:recommended",
-    "plugin:storybook/recommended",
   ],
   env: {
     browser: true,
@@ -44,11 +43,11 @@ module.exports = {
          */
         "@angular-eslint/directive-selector": [
           "error",
-          { "type": "attribute", "prefix": ["op", "spot"], "style": "camelCase" }
+          {"type": "attribute", "prefix": ["op", "opce"], "style": "camelCase"},
         ],
         "@angular-eslint/component-selector": [
           "error",
-          { "type": "element", "prefix": ["op", "spot"], "style": "kebab-case" }
+          {"type": "element", "prefix": ["op", "opce"], "style": "kebab-case"},
         ],
         "@angular-eslint/component-class-suffix": ["error", { "suffixes": ["Component", "Example"] }],
 
@@ -71,6 +70,9 @@ module.exports = {
 
         // Who cares about line length
         "max-len": "off",
+
+        // Disable forcing newlines in braces to prevent empty objects and import errors
+        "object-curly-newline": "off",
 
         // Allow short circuit evaluations
         "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true }],
@@ -96,13 +98,23 @@ module.exports = {
         // Sometimes, arrow functions implicit return looks better below, so allow both
         "implicit-arrow-linebreak": "off",
 
+        // Sometimes, arrow functions look better broken down
+        "arrow-body-style": "off",
+
         // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
-        // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
+        // Until we do that, `void` is a good way to explicitly mark unhandled promises.
         "no-void": ["error", { allowAsStatement: true }],
 
         // Disable no-use for functions and classes
         "no-use-before-define": ["error", { "functions": false, "classes": false }],
         "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": false }],
+
+        // Allow subsequent single fields in typescript classes
+        "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+
+        // Disable indentation rule as it breaks in edge cases and is covered by editorconfig
+        "indent": "off",
+        "@typescript-eslint/indent": "off",
 
         /*
         // Disable use before define, as irrelevant for TS interfaces
@@ -143,6 +155,7 @@ module.exports = {
               "_embedded",
               "_meta",
               "_type",
+              "_destroy",
             ],
             allowAfterThis: true,
             allowAfterSuper: false,

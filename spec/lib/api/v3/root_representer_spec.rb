@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::RootRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::RootRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new({}, current_user: user) }
-  let(:app_title) { 'Foo Project' }
-  let(:version) { 'The version is over 9000!' }
+  let(:app_title) { "Foo Project" }
+  let(:version) { "The version is over 9000!" }
   let(:permissions) { [:view_members] }
 
   before do
-    allow(user)
-      .to receive(:allowed_to_globally?) do |action|
-        permissions.include?(action)
-      end
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project(*permissions, project: build_stubbed(:project)) # any project
+    end
   end
 
-  context 'generation' do
+  context "generation" do
     subject { representer.to_json }
 
     before do
@@ -52,123 +51,123 @@ describe ::API::V3::RootRepresenter do
       allow(OpenProject::VERSION).to receive(:to_semver).and_return version
     end
 
-    describe '_links' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'self' }
+    describe "_links" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.root }
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'configuration' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "configuration" }
         let(:href) { api_v3_paths.configuration }
       end
 
-      describe 'memberships' do
-        context 'if having the view_members permission in any project' do
+      describe "memberships" do
+        context "if having the view_members permission in any project" do
           let(:permissions) { [:view_members] }
 
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'memberships' }
+          it_behaves_like "has an untitled link" do
+            let(:link) { "memberships" }
             let(:href) { api_v3_paths.memberships }
           end
         end
 
-        context 'if having the manage_members permission in any project' do
+        context "if having the manage_members permission in any project" do
           let(:permissions) { [:manage_members] }
 
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'memberships' }
+          it_behaves_like "has an untitled link" do
+            let(:link) { "memberships" }
             let(:href) { api_v3_paths.memberships }
           end
         end
 
-        context 'if lacking permissions' do
+        context "if lacking permissions" do
           let(:permissions) { [] }
 
-          it_behaves_like 'has no link' do
-            let(:link) { 'members' }
+          it_behaves_like "has no link" do
+            let(:link) { "members" }
           end
         end
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'priorities' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "priorities" }
         let(:href) { api_v3_paths.priorities }
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'statuses' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "statuses" }
         let(:href) { api_v3_paths.statuses }
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'types' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "types" }
         let(:href) { api_v3_paths.types }
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'workPackages' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "workPackages" }
         let(:href) { api_v3_paths.work_packages }
       end
 
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'user' }
+      it_behaves_like "has a titled link" do
+        let(:link) { "user" }
         let(:href) { api_v3_paths.user(user.id) }
         let(:title) { user.name }
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'userPreferences' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "userPreferences" }
         let(:href) { api_v3_paths.user_preferences(user.id) }
       end
 
-      context 'anonymous user' do
+      context "anonymous user" do
         let(:representer) { described_class.new({}, current_user: User.anonymous) }
 
-        it_behaves_like 'has no link' do
-          let(:link) { 'user' }
+        it_behaves_like "has no link" do
+          let(:link) { "user" }
         end
 
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'userPreferences' }
+        it_behaves_like "has an untitled link" do
+          let(:link) { "userPreferences" }
           let(:href) { api_v3_paths.user_preferences(User.anonymous.id) }
         end
       end
     end
 
-    context 'attributes' do
-      describe '_type' do
+    context "attributes" do
+      describe "_type" do
         it 'is "Root"' do
           expect(subject)
-            .to be_json_eql('Root'.to_json)
-            .at_path('_type')
+            .to be_json_eql("Root".to_json)
+            .at_path("_type")
         end
       end
 
-      describe 'coreVersion' do
-        context 'for a non admin user' do
-          it 'has no coreVersion property' do
+      describe "coreVersion" do
+        context "for a non admin user" do
+          it "has no coreVersion property" do
             expect(subject)
-              .not_to have_json_path('coreVersion')
+              .not_to have_json_path("coreVersion")
           end
         end
 
-        context 'for an admin user' do
+        context "for an admin user" do
           let(:user) { build_stubbed(:admin) }
 
-          it 'indicates the OpenProject version number' do
+          it "indicates the OpenProject version number" do
             expect(subject)
               .to be_json_eql(version.to_json)
-              .at_path('coreVersion')
+              .at_path("coreVersion")
           end
         end
       end
 
-      describe 'instanceName' do
-        it 'shows the name of the instance' do
+      describe "instanceName" do
+        it "shows the name of the instance" do
           expect(subject)
             .to be_json_eql(app_title.to_json)
-            .at_path('instanceName')
+            .at_path("instanceName")
         end
       end
     end

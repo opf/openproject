@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'htmldiff'
+require "htmldiff"
 
 # The WikiController follows the Rails REST controller pattern but with
 # a few differences
@@ -53,7 +53,7 @@ class WikiController < ApplicationController
                                               destroy]
   before_action :find_wiki_page, only: %i[show]
   before_action :handle_new_wiki_page, only: %i[show]
-  before_action :build_wiki_page_and_content, only: %i[new create]
+  before_action :build_wiki_page, only: %i[new]
 
   include AttachableServiceCall
   include AttachmentsHelper
@@ -76,11 +76,28 @@ class WikiController < ApplicationController
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
-    slug = wiki_page_title.nil? ? 'wiki' : WikiPage.slug(wiki_page_title)
+    slug = wiki_page_title.nil? ? "wiki" : WikiPage.slug(wiki_page_title)
     @related_page = WikiPage.find_by(wiki_id: @wiki.id, slug:)
 
-    @pages = @wiki.pages.order(Arel.sql('title')).includes(wiki: :project)
+    @pages = @wiki.pages.order(Arel.sql("title")).includes(wiki: :project)
     @pages_by_parent_id = @pages.group_by(&:parent_id)
+  end
+
+  # display a page (in editing mode if it doesn't exist)
+  def show
+    # Set the related page ID to make it the parent of new links
+    flash[:_related_wiki_page_id] = @page.id
+
+    version = params[:version] if User.current.allowed_in_project?(:view_wiki_edits, @project)
+
+    @page = ::WikiPages::AtVersion.new(@page, version)
+
+    if params[:format] == "markdown" && User.current.allowed_in_project?(:export_wiki_pages, @project)
+      send_data(@page.text, type: "text/plain", filename: "#{@page.title}.md")
+      return
+    end
+
+    @editable = editable?
   end
 
   def new; end
@@ -91,61 +108,44 @@ class WikiController < ApplicationController
 
     old_page = @page
 
-    build_wiki_page_and_content
+    build_wiki_page
 
     @page.parent = old_page
-    render action: 'new'
+    render action: "new"
+  end
+
+  def menu
+    @page = @wiki.pages.find_by(id: params[:id])
+    render layout: nil
+  end
+
+  # edit an existing page or a new one
+  def edit
+    page = @wiki.find_or_new_page(wiki_page_title)
+    return render_403 unless editable?(page)
+
+    if page.new_record? && flash[:_related_wiki_page_id]
+      page.parent_id = flash[:_related_wiki_page_id]
+    end
+
+    version = params[:version] if User.current.allowed_in_project?(:view_wiki_edits, @project)
+
+    @page = ::WikiPages::AtVersion.new(page, version)
   end
 
   def create
     call = attachable_create_call ::WikiPages::CreateService,
-                                  args: permitted_params.wiki_page_with_content.to_h.merge(wiki: @wiki)
+                                  args: permitted_params.wiki_page.to_h.merge(wiki: @wiki)
 
     @page = call.result
-    @content = @page.content
 
     if call.success?
       call_hook(:controller_wiki_edit_after_save, params:, page: @page)
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to_show
     else
-      @errors = call.errors
-      render action: 'new'
+      render action: "new"
     end
-  end
-
-  # display a page (in editing mode if it doesn't exist)
-  def show
-    # Set the related page ID to make it the parent of new links
-    flash[:_related_wiki_page_id] = @page.id
-
-    if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
-      # Redirects user to the current version if he's not allowed to view previous versions
-      redirect_to version: nil
-      return
-    end
-    @content = @page.content_for_version(params[:version])
-    if params[:format] == 'markdown' && User.current.allowed_to?(:export_wiki_pages, @project)
-      send_data(@content.text, type: 'text/plain', filename: "#{@page.title}.md")
-      return
-    end
-    @editable = editable?
-  end
-
-  # edit an existing page or a new one
-  def edit
-    @page = @wiki.find_or_new_page(wiki_page_title)
-    return render_403 unless editable?
-
-    if @page.new_record?
-      @page.parent_id = flash[:_related_wiki_page_id] if flash[:_related_wiki_page_id]
-      @page.content = WikiContent.new(page: @page)
-    end
-
-    @content = @page.content_for_version(params[:version])
-
-    # To prevent StaleObjectError exception when reverting to a previous version
-    @content.lock_version = @page.content.lock_version
   end
 
   # Creates a new page or updates an existing one
@@ -161,23 +161,21 @@ class WikiController < ApplicationController
 
     call = attachable_update_call ::WikiPages::UpdateService,
                                   model: @page,
-                                  args: permitted_params.wiki_page_with_content.to_h
+                                  args: permitted_params.wiki_page.to_h
 
     @page = call.result
-    @content = @page.content
 
     if call.success?
       call_hook(:controller_wiki_edit_after_save, params:, page: @page)
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to_show
     else
-      @errors = call.errors
-      render action: 'edit'
+      render action: "edit"
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash.now[:error] = I18n.t(:notice_locking_conflict)
-    render action: 'edit'
+    render action: "edit"
   end
 
   # rename a page
@@ -239,7 +237,7 @@ class WikiController < ApplicationController
       redirect_to_show
     else
       @parent_pages = @wiki.pages.includes(:parent) - @page.self_and_descendants
-      render 'edit_parent_page'
+      render "edit_parent_page"
     end
   end
 
@@ -252,10 +250,9 @@ class WikiController < ApplicationController
   def history
     # don't load text
     @versions = @page
-                .content
                 .journals
                 .select(:id, :user_id, :notes, :created_at, :version)
-                .order(Arel.sql('version DESC'))
+                .order(Arel.sql("version DESC"))
                 .page(page_param)
                 .per_page(per_page_param)
 
@@ -289,12 +286,12 @@ class WikiController < ApplicationController
     @descendants_count = @page.descendants.size
     if @descendants_count > 0
       case params[:todo]
-      when 'nullify'
+      when "nullify"
         # Nothing to do
-      when 'destroy'
+      when "destroy"
         # Removes all its descendants
         @page.descendants.each(&:destroy)
-      when 'reassign'
+      when "reassign"
         # Reassign children to another parent page
         reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].presence)
         return unless reassign_to
@@ -311,7 +308,7 @@ class WikiController < ApplicationController
 
     if page = @wiki.find_page(@wiki.start_page) || @wiki.pages.first
       flash[:notice] = I18n.t(:notice_successful_delete)
-      redirect_to action: 'index', project_id: @project, id: page
+      redirect_to action: "index", project_id: @project, id: page
     else
       flash[:notice] = I18n.t(:notice_successful_delete)
       redirect_to project_path(@project)
@@ -320,12 +317,12 @@ class WikiController < ApplicationController
 
   # Export wiki to a single html file
   def export
-    if User.current.allowed_to?(:export_wiki_pages, @project)
-      @pages = @wiki.pages.order(Arel.sql('title'))
-      export = render_to_string action: 'export_multiple', layout: false
-      send_data(export, type: 'text/html', filename: 'wiki.html')
+    if User.current.allowed_in_project?(:export_wiki_pages, @project)
+      @pages = @wiki.pages.order(Arel.sql("title"))
+      export = render_to_string action: "export_multiple", layout: false
+      send_data(export, type: "text/html", filename: "wiki.html")
     else
-      redirect_to action: 'show', project_id: @project, id: nil
+      redirect_to action: "show", project_id: @project, id: nil
     end
   end
 
@@ -339,7 +336,7 @@ class WikiController < ApplicationController
     default_item = default_menu_item(page)
     return unless default_item
 
-    "no-menu-item-#{default_item.menu_identifier}".to_sym
+    :"no-menu-item-#{default_item.menu_identifier}"
   end
 
   private
@@ -363,7 +360,7 @@ class WikiController < ApplicationController
   end
 
   def wiki_page_title
-    params[:title] || (action_name == 'new_child' ? '' : params[:id].to_s.capitalize.tr('-', ' '))
+    params[:title] || (action_name == "new_child" ? "" : params[:id].to_s.capitalize.tr("-", " "))
   end
 
   def find_wiki
@@ -384,11 +381,11 @@ class WikiController < ApplicationController
   def handle_new_wiki_page
     return unless @page.new_record?
 
-    if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
+    if User.current.allowed_in_project?(:edit_wiki_pages, @project) && editable?
       edit
       render action: :new
-    elsif params[:id] == 'wiki'
-      flash[:info] = I18n.t('wiki.page_not_editable_index')
+    elsif params[:id] == "wiki"
+      flash[:info] = I18n.t("wiki.page_not_editable_index")
       redirect_to action: :index
     else
       render_404
@@ -401,15 +398,13 @@ class WikiController < ApplicationController
     render_404 if @page.nil?
   end
 
-  def build_wiki_page_and_content
-    @page = WikiPage.new wiki: @wiki, title: wiki_page_title.presence
-    @page.content = WikiContent.new page: @page
-
-    if flash[:_related_wiki_page_id]
-      @page.parent_id = flash[:_related_wiki_page_id]
-    end
-
-    @content = @page.content_for_version nil
+  def build_wiki_page
+    # Using the empty contract here as we use the method to instantiate the model, not to save it (new and new_child action).
+    # Errors are expected here as the user has not yet entered any data.
+    @page = WikiPages::SetAttributesService
+            .new(model: WikiPage.new, user: current_user, contract_class: EmptyContract)
+            .call(wiki: @wiki, title: wiki_page_title.presence, parent_id: flash[:_related_wiki_page_id])
+            .result
   end
 
   # Returns true if the current user is allowed to edit the page, otherwise false
@@ -418,7 +413,7 @@ class WikiController < ApplicationController
   end
 
   def default_breadcrumb
-    Wiki.name.humanize
+    Wiki.model_name.human
   end
 
   def show_local_breadcrumb

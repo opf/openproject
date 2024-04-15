@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,32 +27,32 @@
 #++
 
 class ActivitiesController < ApplicationController
+  include Layout
+
   menu_item :activity
   before_action :find_optional_project,
                 :verify_activities_module_activated,
-                :determine_date_range,
                 :determine_subprojects,
-                :determine_author
+                :determine_author,
+                :set_activity
+
+  before_action :determine_date_range,
+                :set_current_activity_page,
+                only: :index
 
   after_action :set_session
 
   accept_key_auth :index
 
   def index
-    @activity = Activities::Fetcher.new(User.current,
-                                        project: @project,
-                                        with_subprojects: @with_subprojects,
-                                        author: @author,
-                                        scope: activity_scope)
-
-    events = @activity.events(@date_from.to_datetime, @date_to.to_datetime)
+    @events = @activity.events(from: @date_from.to_datetime, to: @date_to.to_datetime)
 
     respond_to do |format|
       format.html do
-        respond_html(events)
+        respond_html
       end
       format.atom do
-        respond_atom(events)
+        respond_atom
       end
     end
   rescue ActiveRecord::RecordNotFound => e
@@ -60,10 +60,22 @@ class ActivitiesController < ApplicationController
     render_404 I18n.t(:error_can_not_find_all_resources)
   end
 
+  def menu
+    render layout: nil
+  end
+
   private
 
+  def set_activity
+    @activity = Activities::Fetcher.new(User.current,
+                                        project: @project,
+                                        with_subprojects: @with_subprojects,
+                                        author: @author,
+                                        scope: activity_scope)
+  end
+
   def verify_activities_module_activated
-    render_403 if @project && !@project.module_enabled?('activity')
+    render_403 if @project && !@project.module_enabled?("activity")
   end
 
   def determine_date_range
@@ -78,10 +90,18 @@ class ActivitiesController < ApplicationController
   end
 
   def determine_subprojects
-    @with_subprojects = if params[:with_subprojects].nil?
+    # In OP < 13.0 session[:activity] was an Array.
+    # If such a session is still present, we need to reset it.
+    # This line can probably be removed in OP 14.0.
+    session[:activity] = nil unless session[:activity].is_a?(Hash)
+
+    @with_subprojects = if params[:with_subprojects].nil? &&
+                          (session[:activity].nil? || session[:activity][:with_subprojects].nil?)
                           Setting.display_subprojects_work_packages?
+                        elsif params[:with_subprojects].nil?
+                          session[:activity][:with_subprojects]
                         else
-                          params[:with_subprojects] == '1'
+                          params[:with_subprojects] == "1"
                         end
   end
 
@@ -89,26 +109,25 @@ class ActivitiesController < ApplicationController
     @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
   end
 
-  def respond_html(events)
-    @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
-    render layout: !request.xhr?
+  def respond_html
+    render locals: { menu_name: project_or_global_menu }
   end
 
-  def respond_atom(events)
+  def respond_atom
     title = t(:label_activity)
     if @author
       title = @author.name
     elsif @activity.scope.size == 1
       title = t("label_#{@activity.scope.first.singularize}_plural")
     end
-    render_feed(events, title: "#{@project || Setting.app_title}: #{title}")
+    render_feed(@events, title: "#{@project || Setting.app_title}: #{title}")
   end
 
   def activity_scope
     if params[:event_types]
       params[:event_types]
     elsif session[:activity]
-      session[:activity]
+      session[:activity][:scope]
     elsif @author.nil?
       :default
     else
@@ -116,7 +135,12 @@ class ActivitiesController < ApplicationController
     end
   end
 
+  def set_current_activity_page
+    @activity_page = @project ? "projects/#{@project.identifier}" : "all"
+  end
+
   def set_session
-    session[:activity] = @activity.scope
+    session[:activity] = { scope: @activity.scope,
+                           with_subprojects: @with_subprojects }
   end
 end

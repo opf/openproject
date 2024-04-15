@@ -1,5 +1,3 @@
-version: "3.7"
-
 networks:
   network:
   testing:
@@ -36,8 +34,7 @@ x-op-backend: &backend
   build:
     <<: *build
     target: develop
-  <<: *image
-  <<: *restart_policy
+  <<: [*image, *restart_policy]
   environment:
     LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
     RAILS_ENV: development
@@ -45,7 +42,10 @@ x-op-backend: &backend
     OPENPROJECT_RAILS__CACHE__STORE: file_store
     OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
     DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}
-    OPENPROJECT_EDITION: $OPENPROJECT_EDITION
+    OPENPROJECT_EDITION: ${OPENPROJECT_EDITION:-standard}
+    OPENPROJECT_WEB_MAX__THREADS: 1
+    OPENPROJECT_WEB_MIN__THREADS: 1
+    OPENPROJECT_WEB_WORKERS: 0
   volumes:
     - ".:/home/dev/openproject"
     - "opdata:/var/openproject/assets"
@@ -60,15 +60,13 @@ services:
     tty: true
     stdin_open: true
     command: run-app
-    ports:
-      - "3000:3000"
     depends_on:
       - db
       - cache
 
   worker:
     <<: *backend
-    command: bundle exec rake jobs:work
+    command: bundle exec good_job start
     depends_on:
       - db
       - cache
@@ -76,13 +74,10 @@ services:
   frontend:
     build:
       <<: *frontend-build
-    command: "npm run serve"
+    command: "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --public-host ${OPENPROJECT_DEV_URL}"
     volumes:
       - ".:/home/dev/openproject"
       - "${CKEDITOR_BUILD_DIR:-./frontend/src/vendor/ckeditor/}:/home/dev/openproject/frontend/src/vendor/ckeditor/"
-    ports:
-      - "4200:4200"
-      - "9999:9999"
     environment:
       PROXY_HOSTNAME: backend
     networks:
@@ -90,25 +85,12 @@ services:
     depends_on:
       - backend
 
-  storybook:
-    build:
-      <<: *frontend-build
-    command: "npm run storybook:serve"
-    volumes:
-      - ".:/home/dev/openproject"
-    ports:
-      - "6006:6006"
-    networks:
-      - network
-
   db:
     image: postgres:13
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
       - "pgdata:/var/lib/postgresql/data"
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
@@ -129,8 +111,6 @@ services:
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
-    ports:
-      - "5433:5432"
     environment:
       POSTGRES_DB: openproject
       POSTGRES_USER: openproject
@@ -163,12 +143,14 @@ services:
       - db-test
       - selenium-hub
       - frontend-test
+      - cuprite-chrome
     environment:
       RAILS_ENV: test
       OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
       DATABASE_URL: postgresql://openproject:openproject@db-test/openproject
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
+      CHROME_URL: http://cuprite-chrome:3333
       CAPYBARA_SERVER_PORT: 3000
       CAPYBARA_DYNAMIC_BIND_IP: 1
       CAPYBARA_APP_HOSTNAME: backend-test
@@ -197,8 +179,6 @@ services:
       - opera
     networks:
       - testing
-    ports:
-      - "4442-4444:4442-4444"
 
   chrome:
     image: selenium/node-chrome:4
@@ -207,8 +187,6 @@ services:
       - "downloads-test:/home/seluser/Downloads"
     networks:
       - testing
-    ports:
-      - "5900-5915:5900"
     shm_size: 2g
     environment:
       SE_EVENT_BUS_HOST: selenium-hub
@@ -227,8 +205,6 @@ services:
       - "downloads-test:/home/seluser/Downloads"
     networks:
       - testing
-    ports:
-      - "5916-5931:5900"
     shm_size: 2g
     environment:
       SE_EVENT_BUS_HOST: selenium-hub
@@ -247,8 +223,6 @@ services:
       - "downloads-test:/home/seluser/Downloads"
     networks:
       - testing
-    ports:
-      - "5932-5957:5900"
     environment:
       SE_EVENT_BUS_HOST: selenium-hub
       SE_EVENT_BUS_PUBLISH_PORT: 4442
@@ -259,5 +233,17 @@ services:
       NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
-
-# Volumes below here
+  cuprite-chrome:
+    # Currently, Apple M1 is only supported in unnumbered "latest" versions.
+    # See https://github.com/browserless/chrome/issues/1393
+    image: browserless/chrome:latest
+    networks:
+      - testing
+    ports:
+      - "3333:3333"
+    environment:
+      # By default, it uses 3000, which is typically used by Rails.
+      PORT: 3333
+      # Set connection timeout to avoid timeout exception during debugging
+      # https://docs.browserless.io/docs/docker.html#connection-timeout
+      CONNECTION_TIMEOUT: 600000

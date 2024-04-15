@@ -14,7 +14,7 @@ and bring you [3.0.3](https://github.com/opf/openproject/tree/v3.0.3)
 with this issue resolved.
 
 If you want to know more about the vulnerability check out Rafael
-França’s 
+França's
 [blog post](https://weblog.rubyonrails.org/2014/5/6/Rails_3_2_18_4_0_5_and_4_1_1_have_been_released/)
 about the Rails release.
 
@@ -52,6 +52,6 @@ variable to configure the session store. See
 if you want to know how to do that exactly.
 
 And here is the full changelog
-[3.0.3](https://community.openproject.com/versions/313)
+[3.0.3](https://community.openproject.org/versions/313)
 
 

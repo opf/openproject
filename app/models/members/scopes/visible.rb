@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,16 +43,16 @@ module Members::Scopes
       private
 
       def visible_for_non_admins(user)
-        view_members = Project.where(id: Project.allowed_to(user, :view_members))
-        manage_members = Project.where(id: Project.allowed_to(user, :manage_members))
+        view_members = Project.allowed_to(user, :view_members)
+        manage_members = Project.allowed_to(user, :manage_members)
+        view_work_packages = Project.allowed_to(user, :view_shared_work_packages)
 
-        project_scope = view_members.or(manage_members)
-
-        Member.where(project_id: project_scope.select(:id))
+        where(project_id: view_members.or(manage_members).select(:id), entity_type: nil)
+          .or(where(project_id: view_work_packages.select(:id), entity_type: WorkPackage.name))
       end
 
       def visible_for_admins
-        Member.all
+        all
       end
     end
   end

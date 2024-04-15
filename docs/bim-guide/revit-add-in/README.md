@@ -8,7 +8,7 @@ keywords: BIM, BCF, IFC, Viewer
 
 # Revit add-in (BIM feature)
 
-The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoparable with any other software for BIM Issue Management.
+The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoperable with any other software for BIM Issue Management.
 
 To download the latest version (v2.2.3) of our OpenProject Revit AddIn click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
 
@@ -22,10 +22,10 @@ To download the latest version (v2.2.3) of our OpenProject Revit AddIn click her
 Please check the following steps before using the OpenProject BIM edition.
 
 1. Does OpenProject BIM support your [Version of Revit](#system-requirements)?
-2. Did you already install the latest Version of our OpenProject BIM Addin?
+2. Did you already install the latest Version of our OpenProject BIM Add-in?
 3. Is the latest IFC Model uploaded to your Project in OpenProject BIM?
 
-If you can answer all questions with "yes" you are ready to start using our Revit Addin.
+If you can answer all questions with "yes" you are ready to start using our Revit Add-in.
 
 
 
@@ -40,6 +40,7 @@ The **OpenProject Revit AddIn** does not have any special system requirements. A
 - 2019
 - 2020
 - 2021
+- 2022
 
 
 
@@ -114,7 +115,7 @@ The settings will appear in a new tab. Within this tab you have to insert your o
 
 After connecting your OpenProject BIM instance you are able to start working with your BCF Tasks within Revit. Firstly you have to open the **OpenProject Tab** in the taskbar and start the application. 
 
-![Start OpenProject BIM Addin](OpenProject_BIM_Start.png)
+![Start OpenProject BIM Add-in](OpenProject_BIM_Start.png)
 
 
 
@@ -132,7 +133,7 @@ To work with BIM Issues, please open our AddIn and navigate to our BCF Module.
 
 
 
-Within this module all existing work packages are displayed. Within this demo project no work package exist yet. To create a new one, click on the "add new workpackage"-Button.  
+Within this module all existing work packages are displayed. Within this demo project no work package exist yet. To create a new one, click on the "add new work package"-Button.  
 
 ![OpenProject BIM - Create BCF](OpenProject_BIM_Create_BCF.png)
 
@@ -212,4 +213,4 @@ To proceed with the installation, click on *Run Anyway* and the installation wil
 
 ## Reporting bugs
 
-You found a bug? Please [report it](../../development/report-a-bug) to our [OpenProject community](https://community.openproject.com/projects/revit-add-in). Thank you!
+You found a bug? Please [report it](../../development/report-a-bug) to our [OpenProject community](https://community.openproject.org/projects/revit-add-in). Thank you!

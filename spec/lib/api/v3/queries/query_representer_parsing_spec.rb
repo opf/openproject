@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::Queries::QueryRepresenter, "parsing" do
+  include API::V3::Utilities::PathHelper
 
-  let(:query) { ::API::ParserStruct.new }
+  let(:query) { API::ParserStruct.new }
   let(:project) { build_stubbed(:project) }
   let(:user) { build_stubbed(:user) }
   let(:representer) do
@@ -68,42 +68,42 @@ describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
 
   subject { representer.from_hash(request_body) }
 
-  describe 'empty group_by (Regression #25606)' do
+  describe "empty group_by (Regression #25606)" do
     before do
-      query.group_by = 'project'
+      query.group_by = "project"
     end
 
     let(:request_body) do
       {
-        '_links' => {
-          'groupBy' => { 'href' => nil }
+        "_links" => {
+          "groupBy" => { "href" => nil }
         }
       }
     end
 
-    it 'unsets group_by' do
+    it "unsets group_by" do
       expect(subject.group_by).to be_nil
     end
   end
 
-  describe 'highlighted_attributes', with_ee: [:conditional_highlighting] do
+  describe "highlighted_attributes", with_ee: %i[conditional_highlighting] do
     let(:request_body) do
       {
-        '_links' => {
-          'highlightedAttributes' => [{ 'href' => "/api/v3/queries/columns/type" }]
+        "_links" => {
+          "highlightedAttributes" => [{ "href" => "/api/v3/queries/columns/type" }]
         }
       }
     end
 
-    it 'sets highlighted_attributes' do
+    it "sets highlighted_attributes" do
       expect(subject.highlighted_attributes).to eq(%i{type})
     end
   end
 
-  describe 'ordered work packages' do
+  describe "ordered work packages" do
     let(:request_body) do
       {
-        'orderedWorkPackages' => {
+        "orderedWorkPackages" => {
           50 => 0,
           38 => 1234,
           102 => 81234123
@@ -111,18 +111,18 @@ describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
       }
     end
 
-    it 'sets ordered_work_packages' do
+    it "sets ordered_work_packages" do
       expect(subject.ordered_work_packages)
         .to eq({ "50" => 0, "38" => 1234, "102" => 81234123 })
     end
   end
 
-  describe 'project' do
+  describe "project" do
     let(:request_body) do
       {
-        '_links' => {
-          'project' => {
-            'href' => "/api/v3/projects/#{project_id}"
+        "_links" => {
+          "project" => {
+            "href" => "/api/v3/projects/#{project_id}"
           }
         }
       }
@@ -141,32 +141,44 @@ describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
               .and_return(project.id)
     end
 
-    context 'for a number only id' do
+    context "for a number only id" do
       let(:project_id) { project.id }
 
-      it 'sets the project_id accordingly' do
+      it "sets the project_id accordingly" do
         expect(subject.project_id)
           .to eql project.id
       end
     end
 
-    context 'for a text only id (identifier)' do
+    context "for a text only id (identifier)" do
       let(:project_id) { project.identifier }
 
-      it 'deduces the id for the project_id accordingly' do
+      it "deduces the id for the project_id accordingly" do
         expect(subject.project_id)
           .to eql project.id
       end
     end
 
-    context 'for a text starting with numbers (identifier)' do
-      let(:project) { build_stubbed(:project, identifier: '5555-numbered-identifier') }
+    context "for a text starting with numbers (identifier)" do
+      let(:project) { build_stubbed(:project, identifier: "5555-numbered-identifier") }
       let(:project_id) { project.identifier }
 
-      it 'deduces the id for the project_id accordingly' do
+      it "deduces the id for the project_id accordingly" do
         expect(subject.project_id)
           .to eql project.id
       end
+    end
+  end
+
+  describe "timestamps" do
+    let(:timestamp_params) { [1.week.ago.iso8601, "lastWorkingDay@12:00", "P0D"] }
+    let(:request_body) do
+      { "timestamps" => timestamp_params }
+    end
+
+    it "sets timestamps" do
+      expect(subject.timestamps)
+        .to eq([1.week.ago.iso8601, "lastWorkingDay@12:00", "P0D"])
     end
   end
 end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t(:label_custom_field_plural) do %>
   <li class="toolbar-item">
     <%= link_to new_custom_field_path(type: selected_tab(custom_fields_tabs)[:name]),
-                { class: 'button -alt-highlight',
+                { class: 'button -primary',
                   aria: {label: t(:label_custom_field_new)},
                   title: t(:label_custom_field_new)} do %>
       <%= op_icon('button--icon icon-add') %>

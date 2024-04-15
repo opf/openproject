@@ -18,15 +18,14 @@ jobs:
       run: |
         BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
           https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-          jq -r .[].name | grep "release/" | sort -r | head -1
+          jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
         )
         if [ "$BRANCH" = "" ]; then
           echo "Invalid release branch found: $BRANCH"
           exit 1
         fi
 
-        echo "::set-output name=branch::${BRANCH}"
-        echo "::set-output name=crowdin_release_branch::release"
+        echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
 
   crowdin:
     permissions:
@@ -42,11 +41,13 @@ jobs:
           - dev
           - "${{ needs.setup.outputs.latest_release_branch }}"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
       - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: "Set crowdin branch name"
         id: vars
         env:
@@ -54,12 +55,17 @@ jobs:
         run: |
           echo "Setting crowdin branch from $BRANCH"
           if [ "$BRANCH" = "dev" ]; then
-            echo "::set-output name=crowdin_branch::dev"
+            echo "crowdin_branch=dev" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=crowdin_branch::release"
+            echo "crowdin_branch=release" >> $GITHUB_OUTPUT
           fi
-      - name: "Updating translations"
-        uses: crowdin/github-action@1.4.4
+      - name: "Generate seeders i18n source file"
+        run: |
+          if [ -f script/i18n/generate_seeders_i18n_source_file ]; then
+            bundle exec script/i18n/generate_seeders_i18n_source_file
+          fi
+      - name: "Crowdin: upload sources and download translations"
+        uses: crowdin/github-action@v1
         with:
           # Upload current source files
           upload_sources: true
@@ -72,14 +78,22 @@ jobs:
         env:
           OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDINV2_PROJECT }}
           OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
-      - name: "Fixing translation names"
+      - name: "Fix root key in Portuguese crowdin translation files"
         run: |
-          ruby script/crowdin/fix_locale_keys.rb
+          script/i18n/fix_crowdin_pt_language_root_key
       - name: "Commit translations"
+        env:
+          BRANCH: ${{ matrix.branch }}
         run: |
           git config user.name "OpenProject Actions CI"
           git config user.email "operations+ci@openproject.com"
           echo "Updating combined translations"
           git ls-files -m -o | grep 'crowdin\/.*\.yml$' | xargs git add
           git diff --staged --name-only
-          git diff --staged --exit-code --quiet || ( git commit -m "update locales from crowdin [ci skip]" && git pull --rebase && git push origin $BRANCH )
+          if ! git diff --staged --exit-code --quiet; then
+            git commit -m "update locales from crowdin [ci skip]"
+            echo "Run git pull --rebase origin $BRANCH"
+            git pull --rebase origin "$BRANCH"
+            echo "Run git push origin $BRANCH"
+            git push origin "$BRANCH"
+          fi

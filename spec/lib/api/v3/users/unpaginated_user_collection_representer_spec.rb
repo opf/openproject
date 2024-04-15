@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::Users::UnpaginatedUserCollectionRepresenter do
+RSpec.describe API::V3::Users::UnpaginatedUserCollectionRepresenter do
   let(:users) do
     build_stubbed_list(:user,
                        3)
   end
   let(:representer) do
     described_class.new(users,
-                        self_link: '/api/v3/work_package/1/watchers',
+                        self_link: "/api/v3/work_package/1/watchers",
                         current_user: users.first)
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'work_package/1/watchers', 'User'
+    it_behaves_like "unpaginated APIv3 collection", 3, "work_package/1/watchers", "User"
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,10 +35,10 @@ module Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
                           .where(relation_type: normalized_relation_type)
                           .select(relation_select)
 
-    operator = if operator_class == Queries::Operators::Equals
-                 'IN'
+    operator = if operator_class <= Queries::Operators::Equals
+                 "IN"
                else
-                 'NOT IN'
+                 "NOT IN"
                end
 
     "#{WorkPackage.table_name}.id #{operator} (#{relations_subselect.to_sql})"

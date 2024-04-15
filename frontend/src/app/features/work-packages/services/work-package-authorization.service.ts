@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -48,6 +48,9 @@ export class WorkPackageAuthorization {
       case 'copy':
         link = this.copyLink();
         break;
+      case 'copy_link_to_clipboard':
+        link = this.shortLink();
+        break;
       case 'copy_to_other_project':
         link = this.bulkCopyLink();
         break;
@@ -80,6 +83,10 @@ export class WorkPackageAuthorization {
       return this.PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id as string);
     }
     return this.PathHelper.workPackageCopyPath(this.workPackage.id as string);
+  }
+
+  private shortLink() {
+    return this.PathHelper.workPackageShortPath(this.workPackage.id as string);
   }
 
   private bulkCopyLink():string {

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,11 @@ class CostEntry < ApplicationRecord
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
-  belongs_to :logged_by, class_name: 'User'
+  belongs_to :logged_by, class_name: "User"
   include ::Costs::DeletedUserFallback
   belongs_to :cost_type
   belongs_to :budget
-  belongs_to :rate, class_name: 'CostRate'
+  belongs_to :rate, class_name: "CostRate"
 
   include ActiveModel::ForbiddenAttributesProtection
 
@@ -101,17 +101,17 @@ class CostEntry < ApplicationRecord
 
   # Returns true if the cost entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    usr.allowed_to?(:edit_cost_entries, project) ||
-      (usr.allowed_to?(:edit_own_cost_entries, project) && user_id == usr.id)
+    usr.allowed_in_project?(:edit_cost_entries, project) ||
+      (usr.allowed_in_project?(:edit_own_cost_entries, project) && user_id == usr.id)
   end
 
   def creatable_by?(usr)
-    usr.allowed_to?(:log_costs, project) ||
-      (usr.allowed_to?(:log_own_costs, project) && user_id == usr.id)
+    usr.allowed_in_project?(:log_costs, project) ||
+      (usr.allowed_in_project?(:log_own_costs, project) && user_id == usr.id)
   end
 
   def costs_visible_by?(usr)
-    usr.allowed_to?(:view_cost_rates, project) ||
+    usr.allowed_in_project?(:view_cost_rates, project) ||
       (usr.id == user_id && !overridden_costs.nil?)
   end
 

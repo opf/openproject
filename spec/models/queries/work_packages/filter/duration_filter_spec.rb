@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::WorkPackages::Filter::DurationFilter, type: :model do
-  it_behaves_like 'basic query filter' do
+RSpec.describe Queries::WorkPackages::Filter::DurationFilter do
+  it_behaves_like "basic query filter" do
     let(:type) { :integer }
     let(:class_key) { :duration }
 
-    describe '#available?' do
-      it 'is true' do
+    describe "#available?" do
+      it "is true" do
         expect(instance).to be_available
       end
     end
 
-    describe '#allowed_values' do
-      it 'is nil' do
+    describe "#allowed_values" do
+      it "is nil" do
         expect(instance.allowed_values).to be_nil
       end
     end
 
-    it_behaves_like 'non ar filter'
+    it_behaves_like "non ar filter"
 
-    describe '#where' do
+    describe "#where" do
       # TODO: 0 duration should not happen in 12.x. Should we remove it?
       let!(:work_package_zero_duration) { create(:work_package, duration: 0) }
       let!(:work_package_no_duration) { create(:work_package, duration: nil) }
@@ -62,13 +62,13 @@ describe Queries::WorkPackages::Filter::DurationFilter, type: :model do
           instance.operator = Queries::Operators::None.to_sym.to_s
         end
 
-        it 'finds zero and none values also including milestones' do
-          expect(subject).to match_array [work_package_zero_duration, work_package_no_duration, work_package_with_milestone]
+        it "finds zero and none values also including milestones" do
+          expect(subject).to contain_exactly(work_package_zero_duration, work_package_no_duration, work_package_with_milestone)
         end
       end
 
-      it 'does not returns milestone work packages' do
-        expect(subject).to match_array [work_package_with_duration]
+      it "does not returns milestone work packages" do
+        expect(subject).to contain_exactly(work_package_with_duration)
       end
     end
   end

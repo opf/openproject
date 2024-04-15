@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,8 @@ module WorkPackages
         # This is not an all or nothing service. We currently accept that
         # one work package might be moved while another one fails.
         # Personally, I'd rather wrap it in a transaction.
-        without_context_transaction(params[:send_notification] == '1') do
+        send_notifications = params[:send_notification] == "1"
+        without_context_transaction(send_notifications:) do
           bulk(params)
         end
       end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,8 +46,10 @@ import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource'
 export class ApiV3TimeEntriesPaths
   extends ApiV3Collection<TimeEntryResource, ApiV3TimeEntryPaths>
   implements ApiV3ListResourceInterface<TimeEntryResource> {
-  constructor(protected apiRoot:ApiV3Service,
-    protected basePath:string) {
+  constructor(
+    protected apiRoot:ApiV3Service,
+    protected basePath:string,
+  ) {
     super(apiRoot, basePath, 'time_entries', ApiV3TimeEntryPaths);
   }
 

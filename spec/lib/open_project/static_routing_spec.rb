@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe OpenProject::StaticRouting do
-  describe '.recognize_route' do
+RSpec.describe OpenProject::StaticRouting do
+  describe ".recognize_route" do
     subject { described_class.recognize_route path }
 
-    context 'with no relative URL root', with_config: { rails_relative_url_root: nil } do
-      let(:path) { '/news/1' }
+    context "with no relative URL root", with_config: { rails_relative_url_root: nil } do
+      let(:path) { "/news/1" }
 
-      it 'detects the route' do
+      it "detects the route" do
         expect(subject).to be_present
         expect(subject[:controller]).to be_present
       end
     end
 
-    context 'with a relative URL root', with_config: { rails_relative_url_root: '/foobar' } do
-      let(:path) { '/foobar/news/1' }
+    context "with a relative URL root", with_config: { rails_relative_url_root: "/foobar" } do
+      let(:path) { "/foobar/news/1" }
 
-      it 'detects the route' do
+      it "detects the route" do
         expect(subject).to be_present
         expect(subject[:controller]).to be_present
       end

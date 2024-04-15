@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ class UpdateProjectsTypesService < BaseProjectService
     if types_missing?(type_ids)
       project.errors.add(:types,
                          :in_use_by_work_packages,
-                         types: missing_types(type_ids).map(&:name).join(', '))
+                         types: missing_types(type_ids).map(&:name).join(", "))
       false
     else
       update_project_types(type_ids)

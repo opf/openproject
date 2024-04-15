@@ -55,8 +55,8 @@ example:
             isDefault: true
             isClosed: false
             defaultDoneRatio: 0
-            createdAt: '2014-05-21T08:51:20Z'
-            updatedAt: '2014-05-21T09:12:00Z'
+            createdAt: '2014-05-21T08:51:20.759Z'
+            updatedAt: '2014-05-21T09:12:00.237Z'
           - _links:
               self:
                 href: "/api/v3/statuses/2"
@@ -67,8 +67,8 @@ example:
             isDefault: false
             isClosed: true
             defaultDoneRatio: 100
-            createdAt: '2014-05-21T08:51:20Z'
-            updatedAt: '2014-05-21T09:12:00Z'
+            createdAt: '2014-05-21T08:51:20.759Z'
+            updatedAt: '2014-05-21T09:12:00.237Z'
     validationErrors:
       subject:
         _type: Error

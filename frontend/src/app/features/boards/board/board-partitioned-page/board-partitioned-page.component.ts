@@ -21,7 +21,12 @@ import { ZenModeButtonComponent } from 'core-app/features/work-packages/componen
 import { BoardsMenuButtonComponent } from 'core-app/features/boards/board/toolbar-menu/boards-menu-button.component';
 import { RequestSwitchmap } from 'core-app/shared/helpers/rxjs/request-switchmap';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { finalize, take } from 'rxjs/operators';
+import {
+  catchError,
+  finalize,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -30,6 +35,11 @@ import { BoardFiltersService } from 'core-app/features/boards/board/board-filter
 import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
+import {
+  EMPTY,
+  Observable,
+  of,
+} from 'rxjs';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
@@ -111,30 +121,18 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     },
   };
 
-  // We remember when we want to update the board
-  boardSaver = new RequestSwitchmap(
-    (board:Board) => {
-      this.toolbarDisabled = true;
-      return this.Boards
-        .save(board)
-        .pipe(
-          finalize(() => (this.toolbarDisabled = false)),
-        );
-    },
-  );
-
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageFilterButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
     },
     {
       component: BoardsMenuButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: 'hidden-for-tablet',
       show: () => this.editable,
       inputs: {
         board$: this.board$,
@@ -142,7 +140,8 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     },
   ];
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
     readonly $transitions:TransitionService,
     readonly state:StateService,
@@ -152,22 +151,14 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     readonly apiV3Service:ApiV3Service,
     readonly boardFilters:BoardFiltersService,
     readonly Boards:BoardService,
-    readonly titleService:OpTitleService) {
+    readonly titleService:OpTitleService,
+  ) {
     super();
   }
 
   ngOnInit():void {
     // Ensure board is being loaded
     this.Boards.loadAllBoards();
-
-    this.boardSaver
-      .observe(componentDestroyed(this))
-      .subscribe(
-        () => {
-          this.toastService.addSuccess(this.text.updateSuccessful);
-        },
-        (error:unknown) => this.halNotification.handleRawError(error),
-      );
 
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       const toState = transition.to();
@@ -216,7 +207,22 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
         const params = { isNew: false, query_props: null };
         this.state.go('.', params, { custom: { notify: false } });
 
-        this.boardSaver.request(board);
+        this.toolbarDisabled = true;
+        this.Boards
+          .save(board)
+          .pipe(
+            catchError((error) => {
+              this.halNotification.handleRawError(error);
+              return EMPTY;
+            }),
+            finalize(() => {
+              this.toolbarDisabled = false;
+              this.cdRef.detectChanges();
+            }),
+          ).subscribe(() => {
+            this.toastService.addSuccess(this.text.updateSuccessful);
+          },
+        );
       });
   }
 

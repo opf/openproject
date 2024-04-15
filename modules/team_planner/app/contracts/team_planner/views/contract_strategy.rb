@@ -17,7 +17,11 @@ module ::TeamPlanner
       end
 
       def user_allowed_on_query?(permission)
-        user.allowed_to?(permission, model.query.project, global: model.query.project.nil?)
+        if model.query.project
+          user.allowed_in_project?(permission, model.query.project)
+        else
+          user.allowed_in_any_project?(permission)
+        end
       end
     end
   end

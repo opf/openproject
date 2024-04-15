@@ -1,0 +1,17 @@
+# Schema: GridCollectionModel
+---
+allOf:
+  - $ref: './paginated_collection_model.yml'
+  - type: object
+    required:
+      - _embedded
+    properties:
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './grid_read_model.yml'

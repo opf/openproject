@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Refreshing query menu item', js: true do
-  let(:user) { create :admin }
-  let(:project) { create :project }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+RSpec.describe "Refreshing query menu item", :js do
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
-  let(:work_package) { create :work_package, project: }
-  let(:other_work_package) { create :work_package, project: }
+  let(:work_package) { create(:work_package, project:) }
+  let(:other_work_package) { create(:work_package, project:) }
 
   before do
     login_as(user)
@@ -42,17 +42,17 @@ describe 'Refreshing query menu item', js: true do
     wp_table.visit!
   end
 
-  it 'allows refreshing the current query (Bug #26921)' do
+  it "allows refreshing the current query (Bug #26921)" do
     wp_table.expect_work_package_listed work_package
     # Instantiate lazy let here
     wp_table.ensure_work_package_not_listed! other_work_package
 
-    wp_table.save_as('Some query name')
+    wp_table.save_as("Some query name")
 
     # Publish query
-    wp_table.click_setting_item I18n.t('js.toolbar.settings.visibility_settings')
-    find('#show-in-menu').set true
-    find('.button', text: 'Save').click
+    wp_table.click_setting_item I18n.t("js.toolbar.settings.visibility_settings")
+    find_by_id("show-in-menu").set true
+    find(".button", text: "Save").click
 
     last_query = Query.last
     url = URI.parse(page.current_url).query

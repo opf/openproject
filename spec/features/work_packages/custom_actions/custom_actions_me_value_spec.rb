@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe 'Custom actions me value', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+RSpec.describe "Custom actions me value", :js, :with_cuprite, with_ee: %i[custom_actions] do
+  shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages) }
-  let(:role) { create(:role, permissions:) }
+  let(:role) { create(:project_role, permissions:) }
   let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_through_role: role)
+    create(:user, member_with_roles: { project => role })
   end
   let(:type) { create(:type_task) }
-  let(:project) { create(:project, types: [type], name: 'This project') }
-  let!(:custom_field) { create :user_wp_custom_field, types: [type], projects: [project] }
+  let(:project) { create(:project, types: [type], name: "This project") }
+  let!(:custom_field) { create(:user_wp_custom_field, types: [type], projects: [project]) }
   let!(:work_package) do
     create(:work_package,
            type:,
@@ -49,38 +47,34 @@ describe 'Custom actions me value', type: :feature, js: true do
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:default_priority) do
-    create(:default_priority, name: 'Normal')
+    create(:default_priority, name: "Normal")
   end
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
 
   before do
-    with_enterprise_token(:custom_actions)
     login_as(admin)
   end
 
-  it 'can assign user custom field to self' do
+  it "can assign user custom field to self" do
     # create custom action 'Unassign'
     index_ca_page.visit!
 
     new_ca_page = index_ca_page.new
-    retry_block do
-      new_ca_page.visit!
-      new_ca_page.set_name('Set CF to me')
-      new_ca_page.add_action(custom_field.name, I18n.t('custom_actions.actions.assigned_to.executing_user_value'))
-    end
+    new_ca_page.set_name("Set CF to me")
+    new_ca_page.add_action(custom_field.name, I18n.t("custom_actions.actions.assigned_to.executing_user_value"))
 
     new_ca_page.create
 
     assign = CustomAction.last
     expect(assign.actions.length).to eq(1)
     expect(assign.conditions.length).to eq(0)
-    expect(assign.actions.first.values).to eq(['current_user'])
+    expect(assign.actions.first.values).to eq(["current_user"])
 
     login_as user
     wp_page.visit!
 
-    wp_page.expect_custom_action('Set CF to me')
-    wp_page.click_custom_action('Set CF to me')
+    wp_page.expect_custom_action("Set CF to me")
+    wp_page.click_custom_action("Set CF to me")
     wp_page.expect_attributes "customField#{custom_field.id}": user.name
   end
 end

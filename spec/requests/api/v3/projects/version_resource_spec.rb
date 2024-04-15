@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-describe "API v3 project's versions resource" do
+RSpec.describe "API v3 project's versions resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
     user = create(:user,
-                  member_in_project: project,
-                  member_through_role: role)
+                  member_with_roles: { project => role })
 
     allow(User).to receive(:current).and_return user
 
     user
   end
-  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:project) { create(:project, public: false) }
   let(:other_project) { create(:project, public: false) }
   let(:versions) { create_list(:version, 4, project:) }
@@ -50,10 +49,10 @@ describe "API v3 project's versions resource" do
 
   subject(:response) { last_response }
 
-  describe '#get (index)' do
+  describe "#get (index)" do
     let(:get_path) { api_v3_paths.versions_by_project project.id }
 
-    context 'logged in user' do
+    context "logged in user" do
       before do
         current_user
 
@@ -63,11 +62,11 @@ describe "API v3 project's versions resource" do
         get get_path
       end
 
-      it_behaves_like 'API V3 collection response', 4, 4, 'Version'
+      it_behaves_like "API V3 collection response", 4, 4, "Version"
     end
 
-    context 'logged in user without permission' do
-      let(:role) { create(:role, permissions: []) }
+    context "logged in user without permission" do
+      let(:role) { create(:project_role, permissions: []) }
 
       before do
         current_user
@@ -75,7 +74,7 @@ describe "API v3 project's versions resource" do
         get get_path
       end
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 end

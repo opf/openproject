@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -48,6 +48,8 @@ import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/in
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { UIRouterGlobals } from '@uirouter/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { firstValueFrom } from 'rxjs';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -82,6 +84,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() opModalService:OpModalService;
 
   @InjectField() uiRouterGlobals:UIRouterGlobals;
+
+  @InjectField() configuration:ConfigurationService;
 
   text:{ [key:string]:string } = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -214,7 +218,10 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.currentQuery!.name = val;
     this.wpListService
       .save(this.currentQuery)
-      .finally(() => { this.toolbarDisabled = false; });
+      .finally(() => {
+        this.toolbarDisabled = false;
+        this.cdRef.detectChanges();
+      });
   }
 
   updateTitle(query?:QueryResource):void {
@@ -233,7 +240,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     }
   }
 
-  refresh(visibly = false, firstPage = false):Promise<QueryResource> {
+  refresh(visibly = false, firstPage = false):void {
     let promise = this.loadQuery(firstPage);
 
     if (visibly) {
@@ -245,20 +252,13 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
       this.loadingIndicator = promise;
     } else {
-      promise = promise.then((loadedQuery:QueryResource) => {
+      void promise.then((loadedQuery:QueryResource) => {
         this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-        return loadedQuery;
       });
     }
-
-    return promise;
   }
 
   protected inviteModal = InviteUserModalComponent;
-
-  openInviteUserModal():void {
-    this.opModalService.show(this.inviteModal, 'global');
-  }
 
   protected loadQuery(firstPage = false):Promise<QueryResource> {
     let promise:Promise<QueryResource>;
@@ -268,9 +268,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       promise = this.loadFirstPage();
     } else {
       const pagination = this.wpListService.getPaginationInfo();
-      promise = this.wpListService
-        .loadQueryFromExisting(query, pagination, this.projectIdentifier)
-        .toPromise();
+      promise = firstValueFrom(this.wpListService.loadQueryFromExisting(query, pagination, this.projectIdentifier));
     }
 
     return promise;
@@ -278,7 +276,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected loadFirstPage():Promise<QueryResource> {
     if (this.currentQuery) {
-      return this.wpListService.reloadQuery(this.currentQuery, this.projectIdentifier).toPromise();
+      return firstValueFrom(this.wpListService.reloadQuery(this.currentQuery, this.projectIdentifier));
     }
     return this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }

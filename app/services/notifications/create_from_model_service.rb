@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,36 +27,55 @@
 #++
 
 class Notifications::CreateFromModelService
-  MENTION_USER_ID_PATTERN =
-    '<mention[^>]*(?:data-type="user"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="user")[^>]*>)|(?:\buser#(\d+)\b'
+  MENTION_USER_TAG_ID_PATTERN =
+    '<mention[^>]*(?:data-type="user"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="user")[^>]*>'
+      .freeze
+  MENTION_USER_HASH_ID_PATTERN =
+    '\buser#(\d+)\b'
       .freeze
   MENTION_USER_LOGIN_PATTERN =
     '\buser:"(.+?)"'.freeze
-  MENTION_GROUP_ID_PATTERN =
-    '<mention[^>]*(?:data-type="group"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="group")[^>]*>)|(?:\bgroup#(\d+)\b'
+  MENTION_GROUP_TAG_ID_PATTERN =
+    '<mention[^>]*(?:data-type="group"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="group")[^>]*>'
+      .freeze
+  MENTION_GROUP_HASH_ID_PATTERN =
+    '\bgroup#(\d+)\b'
       .freeze
   COMBINED_MENTION_PATTERN =
-    "(?:#{MENTION_USER_ID_PATTERN})|(?:#{MENTION_USER_LOGIN_PATTERN})|(?:#{MENTION_GROUP_ID_PATTERN})".freeze
+    [MENTION_USER_TAG_ID_PATTERN,
+     MENTION_USER_HASH_ID_PATTERN,
+     MENTION_USER_LOGIN_PATTERN,
+     MENTION_GROUP_TAG_ID_PATTERN,
+     MENTION_GROUP_HASH_ID_PATTERN]
+      .map { |pattern| "(?:#{pattern})" }
+      .join('|').freeze
 
   # Skip looking for mentions in quoted lines completely.
   # We need to allow an optional single white space before the ">", because the `#text_for_mentions`
   # method appends a white space to the journal details. With the notes it's not the case.
-  NON_QUOTED_LINES = '^(?! ?> ).*'.freeze
-  MENTION_PATTERN = Regexp.new("#{NON_QUOTED_LINES}#{COMBINED_MENTION_PATTERN}")
+  QUOTED_LINES_PATTERN = /^ ?> .*$/
+  MENTION_PATTERN = Regexp.new(COMBINED_MENTION_PATTERN)
 
   def initialize(model)
     self.model = model
   end
 
   # Creates Notifications according to the various settings:
+  #
   # * configured by the individual users
   # * the send_notifications property provided
+  #
   # and also by the properties of the journal, e.g.:
+  #
   # * a work package mentioning a user
   # * a news begin watched
-  # This method might be called multiple times, mostly when a journal is aggregated.
-  # On the second run, the potentially existing Notifications need to be taken into account by
-  # * updating them if the user is still to be notified: resetting the read_ian to false if the strategy supports ian
+  #
+  # This method might be called multiple times, mostly when a journal is
+  # aggregated. On the second run, the potentially existing Notifications need
+  # to be taken into account by
+  #
+  # * updating them if the user is still to be notified: resetting the read_ian
+  #   to false if the strategy supports ian
   # * destroying them if the user is no longer to be notified
   def call(send_notifications)
     result = ServiceResult.new success: !abort_sending?
@@ -157,6 +176,12 @@ class Notifications::CreateFromModelService
                                 NotificationSetting::RESPONSIBLE)
   end
 
+  def settings_of_shared
+    project_applicable_settings(strategy.shared_users(model),
+                                project,
+                                NotificationSetting::SHARED)
+  end
+
   def settings_of_subscribed
     # Subscribed is a collection of events for non-work packages
     # which currently ignore project-specific overrides
@@ -223,6 +248,10 @@ class Notifications::CreateFromModelService
       .where(user: user_scope.where(id: User.allowed(strategy.permission, project)))
   end
 
+  # Returns the text of the model (currently suited to work package description and subject) eligible
+  # to be looked at for mentions of users and groups:
+  # * only lines added
+  # * excluding quoted lines
   def text_for_mentions
     potential_text = ""
     potential_text << journal.notes if journal.try(:notes)
@@ -234,7 +263,8 @@ class Notifications::CreateFromModelService
         potential_text << "\n#{Redmine::Helpers::Diff.new(*details.reverse).additions.join(' ')}"
       end
     end
-    potential_text
+
+    potential_text.gsub(QUOTED_LINES_PATTERN, '')
   end
 
   def mentioned_ids
@@ -315,7 +345,7 @@ class Notifications::CreateFromModelService
   end
 
   def strategy
-    @strategy ||= if self.class.const_defined?("#{resource.class}Strategy")
+    @strategy ||= if self.class.const_defined?(:"#{resource.class}Strategy")
                     "#{self.class}::#{resource.class}Strategy".constantize
                   end
   end

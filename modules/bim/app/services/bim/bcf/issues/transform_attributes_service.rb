@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ module Bim::Bcf
         if attributes[:title]
           attributes[:title]
         elsif attributes[:import_options]
-          '(Imported BCF issue contained no title)'
+          "(Imported BCF issue contained no title)"
         end
       end
 
@@ -121,9 +121,9 @@ module Bim::Bcf
       end
 
       def missing_status(status_name, import_options)
-        if import_options[:unknown_statuses_action] == 'use_default'
+        if import_options[:unknown_statuses_action] == "use_default"
           ::Status.default
-        elsif import_options[:unknown_statuses_action] == 'chose' &&
+        elsif import_options[:unknown_statuses_action] == "chose" &&
               import_options[:unknown_statuses_chose_ids].any?
           ::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)
         elsif status_name
@@ -132,9 +132,9 @@ module Bim::Bcf
       end
 
       def missing_priority(priority_name, import_options)
-        if import_options[:unknown_priorities_action] == 'use_default'
+        if import_options[:unknown_priorities_action] == "use_default"
           # NOP The 'use_default' case gets already covered by OP.
-        elsif import_options[:unknown_priorities_action] == 'chose' &&
+        elsif import_options[:unknown_priorities_action] == "chose" &&
               import_options[:unknown_priorities_chose_ids].any?
           ::IssuePriority.find_by(id: import_options[:unknown_priorities_chose_ids].first)
         elsif priority_name
@@ -145,9 +145,9 @@ module Bim::Bcf
       def missing_type(type_name, import_options)
         types = project.types
 
-        if import_options[:unknown_types_action] == 'use_default'
+        if import_options[:unknown_types_action] == "use_default"
           types.default&.first
-        elsif import_options[:unknown_types_action] == 'chose' &&
+        elsif import_options[:unknown_types_action] == "chose" &&
               import_options[:unknown_types_chose_ids].any?
           types.find_by(id: import_options[:unknown_types_chose_ids].first)
         elsif type_name
@@ -156,7 +156,7 @@ module Bim::Bcf
       end
 
       def missing_assignee(assignee_name, import_options)
-        if import_options[:invalid_people_action] != 'anonymize' && assignee_name
+        if import_options[:invalid_people_action] != "anonymize" && assignee_name
           Users::InexistentUser.new
         end
       end

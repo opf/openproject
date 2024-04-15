@@ -1,5 +1,5 @@
 <div class="spot-modal op-enterprise-modal">
-  <div class="spot-modal--header" [textContent]="headerText$ | async"></div>
+  <div id="spotModalTitle" class="spot-modal--header" [textContent]="headerText$ | async"></div>
 
   <div class="spot-divider"></div>
 
@@ -38,15 +38,15 @@
       <div *ngIf="!context.status || context.cancelled; else mailSubmitted"
            class="spot-action-bar--right">
         <button
-          class="button button_no-margin spot-action-bar--action"
-          data-qa-selector="confirmation-modal--cancel"
+          class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
+          data-test-selector="confirmation-modal--cancel"
           (click)="closeModal($event)"
           [textContent]="text.button_cancel"
           [attr.title]="text.button_cancel"
         ></button>
         <button
-          class="button button_no-margin -highlight spot-action-bar--action"
-          data-qa-selector="confirmation-modal--confirmed"
+          class="button button_no-margin -primary spot-action-bar--action"
+          data-test-selector="confirmation-modal--confirmed"
           (click)="onSubmit()"
           [disabled]="!trialForm || trialForm.invalid"
           [textContent]="text.button_submit"
@@ -57,8 +57,8 @@
       <ng-template #mailSubmitted>
         <div class="spot-action-bar--right">
           <button
-            class="button button_no-margin -highlight spot-action-bar--action"
-            data-qa-selector="confirmation-modal--confirmed"
+            class="button button_no-margin -primary spot-action-bar--action"
+            data-test-selector="confirmation-modal--confirmed"
             (click)="startEnterpriseTrial()"
             [textContent]="text.button_continue"
             [attr.title]="text.button_continue"
@@ -67,8 +67,8 @@
           ></button>
           <button
             *ngIf="context.status === 'startTrial'"
-            class="button button_no-margin -highlight spot-action-bar--action"
-            data-qa-selector="confirmation-modal--confirmed"
+            class="button button_no-margin -primary spot-action-bar--action"
+            data-test-selector="confirmation-modal--confirmed"
             (click)="closeModal($event)"
             [textContent]="text.button_continue"
             [attr.title]="text.button_continue"

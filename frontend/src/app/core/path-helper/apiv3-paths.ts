@@ -1,4 +1,6 @@
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ApiV3Paths {
   readonly apiV3Base:string;
@@ -35,12 +37,18 @@ export class ApiV3Paths {
    * https://github.com/opf/commonmark-ckeditor-build/
    *
    */
-  public principals(projectId:string|number, term:string|null) {
+  public principals(workPackage:WorkPackageResource, term:string|null) {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     // Only real and activated users:
     filters.add('status', '!', ['3']);
-    // that are members of that project:
-    filters.add('member', '=', [projectId.toString()]);
+
+    if (!workPackage.id || workPackage.id === 'new') {
+      // that are members of that project:
+      filters.add('member', '=', [(workPackage.project as HalResource).id as string]);
+    } else {
+      // that are mentionable on the work package
+      filters.add('mentionable_on_work_package', '=', [workPackage.id.toString()]);
+    }
     // That are users:
     filters.add('type', '=', ['User', 'Group']);
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../shared_examples'
+require_relative "../shared_examples"
 
-describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   let(:assignee) { build_stubbed(:user) }
@@ -56,7 +56,7 @@ describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   end
   let(:current_user) { build_stubbed(:user) }
   let(:issue) { build_stubbed(:bcf_issue, work_package:) }
-  let(:manage_bcf_allowed) { true }
+  let(:permissions) { [:manage_bcf] }
   let(:statuses) do
     [
       build_stubbed(:status),
@@ -69,12 +69,15 @@ describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   before do
     login_as(current_user)
 
-    allow(current_user)
-      .to receive(:allowed_to?)
-      .with(:manage_bcf, issue.project)
-      .and_return(manage_bcf_allowed)
+    # the has_one :through association on bcf issue needs to be manually mocked here,
+    # otherwise it would be nil
+    allow(issue).to receive(:project).and_return(work_package.project)
 
-    contract = double('contract',
+    mock_permissions_for(current_user) do |mock|
+      mock.allow_in_project *permissions, project: work_package.project
+    end
+
+    contract = double("contract",
                       model: issue,
                       user: current_user,
                       assignable_statuses: statuses)
@@ -87,148 +90,148 @@ describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
 
   subject { instance.to_json }
 
-  describe 'attributes' do
-    context 'guid' do
-      it_behaves_like 'attribute' do
+  describe "attributes" do
+    context "guid" do
+      it_behaves_like "attribute" do
         let(:value) { issue.uuid }
-        let(:path) { 'guid' }
+        let(:path) { "guid" }
       end
     end
 
-    context 'topic_type' do
-      it_behaves_like 'attribute' do
+    context "topic_type" do
+      it_behaves_like "attribute" do
         let(:value) { type.name }
-        let(:path) { 'topic_type' }
+        let(:path) { "topic_type" }
       end
     end
 
-    context 'topic_status' do
-      it_behaves_like 'attribute' do
+    context "topic_status" do
+      it_behaves_like "attribute" do
         let(:value) { status.name }
-        let(:path) { 'topic_status' }
+        let(:path) { "topic_status" }
       end
     end
 
-    context 'priority' do
-      it_behaves_like 'attribute' do
+    context "priority" do
+      it_behaves_like "attribute" do
         let(:value) { priority.name }
-        let(:path) { 'priority' }
+        let(:path) { "priority" }
       end
     end
 
-    context 'reference_links' do
-      it_behaves_like 'attribute' do
+    context "reference_links" do
+      it_behaves_like "attribute" do
         let(:value) { [api_v3_paths.work_package(work_package.id)] }
-        let(:path) { 'reference_links' }
+        let(:path) { "reference_links" }
       end
     end
 
-    context 'title' do
-      it_behaves_like 'attribute' do
+    context "title" do
+      it_behaves_like "attribute" do
         let(:value) { work_package.subject }
-        let(:path) { 'title' }
+        let(:path) { "title" }
       end
     end
 
-    context 'index' do
-      it_behaves_like 'attribute' do
+    context "index" do
+      it_behaves_like "attribute" do
         let(:value) { issue.index }
-        let(:path) { 'index' }
+        let(:path) { "index" }
       end
     end
 
-    context 'labels' do
-      it_behaves_like 'attribute' do
+    context "labels" do
+      it_behaves_like "attribute" do
         let(:value) { issue.labels }
-        let(:path) { 'labels' }
+        let(:path) { "labels" }
       end
     end
 
-    context 'creation_date' do
-      it_behaves_like 'attribute' do
-        let(:value) { work_package.created_at.iso8601 }
-        let(:path) { 'creation_date' }
+    context "creation_date" do
+      it_behaves_like "attribute" do
+        let(:value) { work_package.created_at.iso8601(3) }
+        let(:path) { "creation_date" }
       end
     end
 
-    context 'creation_author' do
-      it_behaves_like 'attribute' do
+    context "creation_author" do
+      it_behaves_like "attribute" do
         let(:value) { work_package.author.mail }
-        let(:path) { 'creation_author' }
+        let(:path) { "creation_author" }
       end
     end
 
-    context 'modified_date' do
-      it_behaves_like 'attribute' do
-        let(:value) { work_package.updated_at.iso8601 }
-        let(:path) { 'modified_date' }
+    context "modified_date" do
+      it_behaves_like "attribute" do
+        let(:value) { work_package.updated_at.iso8601(3) }
+        let(:path) { "modified_date" }
       end
     end
 
-    context 'modified_author' do
-      it_behaves_like 'attribute' do
+    context "modified_author" do
+      it_behaves_like "attribute" do
         let(:value) { modifier.mail }
-        let(:path) { 'modified_author' }
+        let(:path) { "modified_author" }
       end
     end
 
-    context 'description' do
-      it_behaves_like 'attribute' do
+    context "description" do
+      it_behaves_like "attribute" do
         let(:value) { work_package.description }
-        let(:path) { 'description' }
+        let(:path) { "description" }
       end
     end
 
-    context 'due_date' do
-      it_behaves_like 'attribute' do
+    context "due_date" do
+      it_behaves_like "attribute" do
         let(:value) { work_package.due_date.iso8601 }
-        let(:path) { 'due_date' }
+        let(:path) { "due_date" }
       end
     end
 
-    context 'assigned_to' do
-      it_behaves_like 'attribute' do
+    context "assigned_to" do
+      it_behaves_like "attribute" do
         let(:value) { work_package.assigned_to.mail }
-        let(:path) { 'assigned_to' }
+        let(:path) { "assigned_to" }
       end
     end
 
-    context 'stage' do
-      it_behaves_like 'attribute' do
+    context "stage" do
+      it_behaves_like "attribute" do
         let(:value) { issue.stage }
-        let(:path) { 'stage' }
+        let(:path) { "stage" }
       end
     end
   end
 
-  describe 'authorization' do
-    context 'if the user has manage_bcf permission' do
-      it 'lists the actions' do
+  describe "authorization" do
+    context "if the user has manage_bcf permission" do
+      it "lists the actions" do
         expect(subject)
           .to be_json_eql(%w[update updateRelatedTopics updateFiles createViewpoint].to_json)
-          .at_path('authorization/topic_actions')
+          .at_path("authorization/topic_actions")
       end
 
-      it 'lists the allowed statuses' do
+      it "lists the allowed statuses" do
         expect(subject)
           .to be_json_eql(statuses.map(&:name).to_json)
-          .at_path('authorization/topic_status')
+          .at_path("authorization/topic_status")
       end
     end
 
-    context 'if the user lacks manage_bcf permission' do
-      let(:manage_bcf_allowed) { false }
+    context "if the user lacks manage_bcf permission" do
+      let(:permissions) { [] }
 
-      it 'signals lack of available actions' do
+      it "signals lack of available actions" do
         expect(subject)
           .to be_json_eql([])
-          .at_path('authorization/topic_actions')
+          .at_path("authorization/topic_actions")
       end
 
-      it 'lists no allowed status' do
+      it "lists no allowed status" do
         expect(subject)
           .to be_json_eql([].to_json)
-          .at_path('authorization/topic_status')
+          .at_path("authorization/topic_status")
       end
     end
   end

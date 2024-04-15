@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe ::API::V3::CustomOptions::CustomOptionRepresenter do
-  include ::API::V3::Utilities::PathHelper
+RSpec.describe API::V3::CustomOptions::CustomOptionRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:custom_option) { build_stubbed(:custom_option, custom_field:) }
   let(:custom_field) { build_stubbed(:list_wp_custom_field) }
@@ -40,25 +40,25 @@ describe ::API::V3::CustomOptions::CustomOptionRepresenter do
 
   subject { representer.to_json }
 
-  describe 'generation' do
-    describe '_links' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
+  describe "generation" do
+    describe "_links" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.custom_option custom_option.id }
         let(:title) { custom_option.to_s }
       end
     end
 
     it 'has the type "CustomOption"' do
-      expect(subject).to be_json_eql('CustomOption'.to_json).at_path('_type')
+      expect(subject).to be_json_eql("CustomOption".to_json).at_path("_type")
     end
 
-    it 'has an id' do
-      expect(subject).to be_json_eql(custom_option.id.to_json).at_path('id')
+    it "has an id" do
+      expect(subject).to be_json_eql(custom_option.id.to_json).at_path("id")
     end
 
-    it 'has a value' do
-      expect(subject).to be_json_eql(custom_option.to_s.to_json).at_path('value')
+    it "has a value" do
+      expect(subject).to be_json_eql(custom_option.to_s.to_json).at_path("value")
     end
   end
 end

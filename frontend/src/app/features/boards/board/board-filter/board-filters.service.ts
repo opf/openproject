@@ -1,4 +1,4 @@
-import { input } from 'reactivestates';
+import { input } from '@openproject/reactivestates';
 import { Injectable } from '@angular/core';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 

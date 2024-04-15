@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/messages/base'
+require "support/pages/messages/base"
 
 module Pages::Messages
   class Index < ::Pages::Messages::Base
@@ -41,24 +41,24 @@ module Pages::Messages
     end
 
     def click_create_message
-      click_on 'Message'
+      click_on "Message"
 
       ::Pages::Messages::Create.new(project.forums.first)
     end
 
     def expect_listed(subject:, replies: nil, last_message: nil)
-      subject = find('table tr td.subject', text: subject)
+      subject = find("table tr td.subject", text: subject)
 
-      row = subject.find(:xpath, '..')
+      row = subject.find(:xpath, "..")
 
       within(row) do
-        expect(page).to have_selector('td.replies', text: replies) if replies
-        expect(page).to have_selector('td.last_message', text: last_message) if last_message
+        expect(page).to have_css("td.replies", text: replies) if replies
+        expect(page).to have_css("td.last_message", text: last_message) if last_message
       end
     end
 
     def expect_num_replies(amount)
-      expect(page).to have_selector('td.replies', text: amount)
+      expect(page).to have_css("td.replies", text: amount)
     end
   end
 end

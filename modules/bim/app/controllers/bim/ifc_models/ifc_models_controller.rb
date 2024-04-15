@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -110,7 +110,7 @@ module Bim
                                                              whitelist: false
 
           flash[:notice] = if new_model
-                             t('ifc_models.flash_messages.upload_successful')
+                             t("ifc_models.flash_messages.upload_successful")
                            else
                              t(:notice_successful_update)
                            end
@@ -137,10 +137,9 @@ module Bim
         @ifc_model = service_result.result
 
         if service_result.success?
-          flash[:notice] = t('ifc_models.flash_messages.upload_successful')
+          flash[:notice] = t("ifc_models.flash_messages.upload_successful")
           redirect_to action: :index
         else
-          @errors = service_result.errors
           render action: :new
         end
       end
@@ -160,7 +159,6 @@ module Bim
           flash[:notice] = t(:notice_successful_update)
           redirect_to action: :index
         else
-          @errors = service_result.errors
           render action: :edit
         end
       end
@@ -205,7 +203,7 @@ module Bim
       def permitted_model_params
         params
             .require(:bim_ifc_models_ifc_model)
-            .permit('title', 'ifc_attachment', 'is_default')
+            .permit("title", "ifc_attachment", "is_default")
       end
 
       def find_ifc_model_object

@@ -8,7 +8,7 @@ release_date: 2019-10-02
 
 # OpenProject 10.0.2
 
-We released [OpenProject 10.0.2](https://community.openproject.com/versions/1395).
+We released [OpenProject 10.0.2](https://community.openproject.org/versions/1395).
 The release contains a security related fix and we urge updating to the newest version.
 
 
@@ -35,14 +35,14 @@ This has been fixed in this release. We now use the environment variable *OPENPR
 
 #### OtherBug fixes and changes
 
-- Fixed: Inconsistent row heights when resizing widgets [[#31048](https://community.openproject.com/wp/31048)]
-- Fixed: In Budgets projected unit costs and labor cost is not shown [[#31247](https://community.openproject.com/wp/31247)]
-- Fixed: Restart puma workers to cope with potential memory leaks [[#31262](https://community.openproject.com/wp/31262)]
-- Fixed: "Enterprise edition" blue bar would be nicer horizontally [[#31265](https://community.openproject.com/wp/31265)]
+- Fixed: Inconsistent row heights when resizing widgets [[#31048](https://community.openproject.org/wp/31048)]
+- Fixed: In Budgets projected unit costs and labor cost is not shown [[#31247](https://community.openproject.org/wp/31247)]
+- Fixed: Restart puma workers to cope with potential memory leaks [[#31262](https://community.openproject.org/wp/31262)]
+- Fixed: "Enterprise edition" blue bar would be nicer horizontally [[#31265](https://community.openproject.org/wp/31265)]
 
 #### Contributions
 
-Thanks to David Haintz from [SEC Consult Vulnerability Lab](https://www.sec-consult.com/) for identifying and responsibly disclosing the identified issues.
+Thanks to David Haintz from [SEC Consult Vulnerability Lab](https://www.sec-consult.com) for identifying and responsibly disclosing the identified issues.
 
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 

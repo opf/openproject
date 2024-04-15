@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-describe Queries::Roles::Filters::GrantableFilter, type: :model do
-  it_behaves_like 'basic query filter' do
+RSpec.describe Queries::Roles::Filters::GrantableFilter do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :grantable }
     let(:type) { :list }
     let(:model) { Role }
   end
 
-  it_behaves_like 'boolean query filter', scope: false do
+  it_behaves_like "boolean query filter", scope: false do
     let(:model) { Role }
     let(:attribute) { :type }
 
-    describe '#scope' do
-      context 'for the true value' do
+    describe "#scope" do
+      context "for the true value" do
         let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
         context 'for "="' do
-          let(:operator) { '=' }
+          let(:operator) { "=" }
 
-          it 'is the same as handwriting the query' do
+          it "is the same as handwriting the query" do
             expected = expected_base_scope
                        .where(["#{expected_table_name}.builtin IN (?)", Role::NON_BUILTIN])
 
@@ -55,9 +55,9 @@ describe Queries::Roles::Filters::GrantableFilter, type: :model do
         end
 
         context 'for "!"' do
-          let(:operator) { '!' }
+          let(:operator) { "!" }
 
-          it 'is the same as handwriting the query' do
+          it "is the same as handwriting the query" do
             expected = expected_base_scope
                        .where(["#{expected_table_name}.builtin NOT IN (?)", Role::NON_BUILTIN])
 
@@ -66,13 +66,13 @@ describe Queries::Roles::Filters::GrantableFilter, type: :model do
         end
       end
 
-      context 'for the false value' do
+      context "for the false value" do
         let(:values) { [OpenProject::Database::DB_VALUE_FALSE] }
 
         context 'for "="' do
-          let(:operator) { '=' }
+          let(:operator) { "=" }
 
-          it 'is the same as handwriting the query' do
+          it "is the same as handwriting the query" do
             expected = expected_base_scope
                        .where(["#{expected_table_name}.builtin IN (?)", [Role::BUILTIN_ANONYMOUS, Role::BUILTIN_NON_MEMBER]])
 
@@ -81,9 +81,9 @@ describe Queries::Roles::Filters::GrantableFilter, type: :model do
         end
 
         context 'for "!"' do
-          let(:operator) { '!' }
+          let(:operator) { "!" }
 
-          it 'is the same as handwriting the query' do
+          it "is the same as handwriting the query" do
             expected = expected_base_scope
                        .where(["#{expected_table_name}.builtin NOT IN (?)", [Role::BUILTIN_ANONYMOUS, Role::BUILTIN_NON_MEMBER]])
 
