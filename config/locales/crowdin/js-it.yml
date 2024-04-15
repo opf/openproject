@@ -1252,7 +1252,8 @@ it:
       role:
         label: "Ruolo in %{project}"
         no_roles_found: "Nessun ruolo è stato trovato"
-        description: 'Questo è il ruolo che l''utente riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Scopri di più sui ruoli e sulle autorizzazioni. </a>'
+        description: >-
+          Questo è il ruolo che l'utente riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Scopri di più sui ruoli e sulle autorizzazioni. </a>
         required: "Sei pregato di selezionare un ruolo"
         next_button: "Prossimo"
       message:

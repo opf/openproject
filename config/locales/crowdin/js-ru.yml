@@ -1257,7 +1257,8 @@ ru:
       role:
         label: "Роль в %{project}"
         no_roles_found: "Роли не найдены"
-        description: 'Это роль, которую пользователь получит при присоединении к вашему проекту. Роль определяет, какие действия им разрешено принимать и какую информацию они могут видеть. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Узнайте больше о ролях и разрешениях. </a>'
+        description: >-
+          Это роль, которую пользователь получит при присоединении к вашему проекту. Роль определяет, какие действия им разрешено принимать и какую информацию они могут видеть. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Узнайте больше о ролях и разрешениях. </a>
         required: "Пожалуйста, выберите роль"
         next_button: "Следующие"
       message:

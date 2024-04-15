@@ -1251,7 +1251,8 @@ de:
       role:
         label: "Rolle in %{project}"
         no_roles_found: "Keine Rollen gefunden"
-        description: 'Dies ist die Rolle, die der Benutzer erhält, wenn er Ihrem Projekt beitritt. Die Rolle legt fest, welche Aktionen sie ergreifen dürfen und welche Informationen ihnen zugänglich sind. <a href="https://www.openproject.org/de/docs/system-admin-guide/users-permissions/roles-permissions/" target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>'
+        description: >-
+          Dies ist die Rolle, die der Benutzer erhält, wenn er Ihrem Projekt beitritt. Die Rolle legt fest, welche Aktionen sie ergreifen dürfen und welche Informationen ihnen zugänglich sind. <a href="https://www.openproject.org/de/docs/system-admin-guide/users-permissions/roles-permissions/" target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>
         required: "Bitte eine Rolle auswählen"
         next_button: "Weiter"
       message:
@@ -1327,5 +1328,5 @@ de:
         Close: "Schließen"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
+        network_off: "Es gibt ein Netzwerkproblem."
         network_on: "Network is back. We are trying."

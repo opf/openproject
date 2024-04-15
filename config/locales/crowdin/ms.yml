@@ -355,8 +355,8 @@ ms:
       cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
       cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
-      will_revoke_access_to_all: "This action will revoke their access to all of them."
+      will_revoke_directly_granted_access: "Tindakan ini akan membatalkan akses mereka kepada semuanya, kecuali pakej kerja yang dikongsi dengan kumpulan."
+      will_revoke_access_to_all: "Tindakan ini akan membatalkan akses mereka kepada semuanya."
   my:
     access_token:
       failed_to_reset_token: "Gagal set semula token akses: %{error}"
@@ -798,7 +798,7 @@ ms:
           attributes:
             content_type:
               blank: "Jenis kandungan fail tidak boleh kosong."
-              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              not_whitelisted: "Fail ditolak oleh penyaring automatik. '%{value}' tidak diluluskan untuk dimuat naik."
               format: "%{message}"
         capability:
           context:
@@ -820,9 +820,9 @@ ms:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: "cannot contain a fragment."
+              fragment_present: "tidak boleh mengandungi fragment."
               invalid_uri: "mestilah URI yang sah."
-              relative_uri: "must be an absolute URI."
+              relative_uri: "mestilah URI mutlak."
               secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: "adalah dilarang oleh server."
             scopes:
@@ -861,7 +861,7 @@ ms:
               invalid_values: "Satu nilai tidak sah."
               id_filter_required: "Saringan 'id' diperlukan."
         project:
-          archived_ancestor: "The project has an archived ancestor."
+          archived_ancestor: "Projek mempunyai leluhur yang diarkibkan."
           foreign_wps_reference_version: "Work packages in non descendant projects reference versions of the project or its descendants."
           attributes:
             base:
@@ -1089,10 +1089,10 @@ ms:
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "dipadamkan pada %{datetime}"
       deleted_by_on: "dihapuskan oleh %{user} pada %{datetime}"
-      added_on: "added on %{datetime}"
-      added_by_on: "added by %{user} on %{datetime}"
-      removed_on: "removed on %{datetime}"
-      removed_by_on: "removed by %{user} on %{datetime}"
+      added_on: "ditambah pada %{datetime}"
+      added_by_on: "ditambah oleh %{user} pada %{datetime} "
+      removed_on: "dikeluarkan pada %{datetime}"
+      removed_by_on: "dikeluarkan oleh %{user} pada %{datetime}"
       parent_without_of: "Subprojek"
       parent_no_longer: "Bukan lagi subprojek kepada"
       time_entry:
@@ -1104,16 +1104,16 @@ ms:
         logged_for: "Dilog untuk"
       meeting_agenda_item:
         duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
+          added: "ditetapkan kepada %{value}"
+          added_html: "ditetapkan kepada <i>%{value}</i>"
           removed: "dikeluarkan"
           updated: "ditukar dari %{old_value} kepada %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated_html: "diubah dari <i>%{old_value}</i> kepada <i>%{value}</i>"
         position:
           updated: "disusun semula"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated: "diubah dari %{old_value} kepada %{value}"
+          updated_html: "diubah dari <i>%{old_value}</i> kepada <i>%{value}</i>"
     filter:
       changeset: "Set ubahsuai"
       message: "Forum-forum"
@@ -1211,7 +1211,7 @@ ms:
       token_cooldown: Token sandaran ini akan sah dalam %{hours} jam.
       backup_pending: There is already a backup pending.
       limit_reached: Anda hanya boleh membuat %{limit} sandaran setiap hari.
-  button_actions: "Actions"
+  button_actions: "Tindakan"
   button_add: "Tambah"
   button_add_comment: "Tambah komen"
   button_add_member: Tambah ahli
@@ -1283,10 +1283,10 @@ ms:
   button_configure_menu_entry: "Konfigurasi item menu"
   button_delete_menu_entry: "Padam item menu"
   button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
+  button_manage_roles: "Uruskan peranan"
+  button_remove_member: "Keluarkan ahli"
   button_remove_member_and_shares: "Remove member and shares"
-  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_work_package_shares: "Batalkan perkongsian pakej kerja"
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
@@ -1529,7 +1529,7 @@ ms:
       project: "Projek: %{name}"
       subproject: "Subprojek: %{name}"
   export:
-    your_work_packages_export: "Your work packages export"
+    your_work_packages_export: "Eksport pakej kerja anda"
     succeeded: "Eksport telah selesai dengan jayanya."
     failed: "Eksport telah gagal: %{message}"
     format:
@@ -1599,7 +1599,7 @@ ms:
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: dengan perubahan pada induk %{link}
-      work_package_children_changed_times: by changes to child %{link}
+      work_package_children_changed_times: dengan perubahan pada anak %{link}
       work_package_related_changed_times: dengan perubahan pada yang berkaitan %{link}
       unaccessable_work_package_changed: dengan perubahan pada pakej kerja berkaitan
       working_days_changed:
@@ -1612,7 +1612,7 @@ ms:
           non_working: "%{date} kini bukan hari bekerja"
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+        % nilai lengkap untuk status '%{status_name}' diubah dari %{old_value}% kepada %{new_value}%
       system_update:
         file_links_journal: >
           Mulai sekarang, aktiviti berkaitan dengan pautan fail (fail-fail yang disimpan di penyimpanan luaran) akan muncul dalam tab aktiviti. Yang berikut mewakili aktiviti berkenaan pautan yang sudah sedia ada:
@@ -2093,7 +2093,7 @@ ms:
   label_project_hierarchy: "Hierarki projek"
   label_project_new: "Projek baharu"
   label_project_plural: "Projek"
-  label_project_list_plural: "Project lists"
+  label_project_list_plural: "Senarai projek"
   label_project_attributes_plural: "Atribut projek"
   label_project_custom_field_plural: "Atribut projek"
   label_project_settings: "Seting projek"
@@ -2612,8 +2612,8 @@ ms:
   permission_manage_forums: "Uruskan forum"
   permission_manage_categories: "Urus kategori pakej kerja"
   permission_manage_dashboards: "Manage dashboards"
-  permission_manage_work_package_relations: "Manage work package relations"
-  permission_manage_members: "Manage members"
+  permission_manage_work_package_relations: "Urus hubungan pakej kerja"
+  permission_manage_members: "Urus ahli-ahli"
   permission_manage_news: "Manage news"
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Manage public views"
@@ -2670,22 +2670,22 @@ ms:
       title: Change the project's identifier
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+        Projek anda sedang dicipta dari templat projek yang dipilih. Anda akan dimaklumkan melalui mel sebaik sahaja projek tersebut tersedia.
       use_template: "Guna templat"
       make_template: "Tetapkan sebagai templat"
-      remove_from_templates: "Remove from templates"
+      remove_from_templates: "Keluarkan dari templat"
     archive:
       are_you_sure: "Adakah anda pasti anda ingin mengarkib projek '%{name}'?"
       archived: "Telah diarkibkan"
     count:
       zero: "0 Projek"
-      one: "1 Project"
-      other: "%{count} Projects"
-  project_module_activity: "Activity"
-  project_module_forums: "Forums"
-  project_module_work_package_tracking: "Work packages"
-  project_module_news: "News"
-  project_module_repository: "Repository"
+      one: "1 Projek"
+      other: "%{count} Projek"
+  project_module_activity: "Aktiviti"
+  project_module_forums: "Forum-forum"
+  project_module_work_package_tracking: "Pakej kerja"
+  project_module_news: "Berita"
+  project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
   permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
@@ -2693,26 +2693,26 @@ ms:
   #possible query parameters (e.g. issue queries),
   #which are not attributes of an AR-Model.
   query_fields:
-    active_or_archived: "Active or archived"
-    assigned_to_role: "Assignee's role"
+    active_or_archived: "Aktif atau diarkibkan"
+    assigned_to_role: "Peranan wakil"
     assignee_or_group: "Assignee or belonging group"
     member_of_group: "Assignee's group"
-    name_or_identifier: "Name or identifier"
-    only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
-    shared_with_me: "Shared with me"
-    subproject_id: "Including subproject"
+    name_or_identifier: "Nama atau pengenal"
+    only_subproject_id: "Hanya subprojek"
+    shared_with_user: "Dikongsi dengan pengguna"
+    shared_with_me: "Dikongsi dengan saya"
+    subproject_id: "Termasuk suprojek"
   repositories:
-    at_identifier: "at %{identifier}"
+    at_identifier: "pada %{identifier}"
     atom_revision_feed: "Atom revision feed"
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
     checkout:
       access:
-        readwrite: "Read + Write"
-        read: "Read-only"
-        none: "No checkout access, you may only view the repository through this application."
-      access_permission: "Your permissions on this repository"
-      url: "Checkout URL"
+        readwrite: "Baca + Tulis"
+        read: "Baca sahaja"
+        none: "Tiada akses pengeluaran, anda hanya boleh melihat repositori tersebut melalui aplikasi ini."
+      access_permission: "Kebenaran anda pada repositori ini"
+      url: "URL pengeluaran"
       base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
       default_instructions:
         git: |-
@@ -2725,7 +2725,7 @@ ms:
       instructions: "Checkout instructions"
       show_instructions: "Display checkout instructions"
       text_instructions: "This text is displayed alongside the checkout URL for guidance on how to check out the repository."
-      not_available: "Checkout instructions are not defined for this repository. Ask your administrator to enable them for this repository in the system settings."
+      not_available: "Arahan pengeluaran tidak ditetapkan untuk repositori ini. Mohon pentadbir anda untuk membenarkan mereka untuk repositori ini dalam tetapan sistem."
     create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
     create_successful: "The repository has been registered."
     delete_sucessful: "Repositori telah dipadamkan."
@@ -2733,18 +2733,18 @@ ms:
       confirmation: "If you continue, this will permanently delete the managed repository."
       info: "Menghapuskan repositori tersebut adalah tindakan yang tidak dapat dipulihkan."
       info_not_managed: "Note: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
-      managed_path_note: "The following directory will be erased: %{path}"
-      repository_verification: "Enter the project's identifier %{identifier} to verify the deletion of its repository."
-      subtitle: "Do you really want to delete the %{repository_type} of the project %{project_name}?"
-      subtitle_not_managed: "Do you really want to remove the linked %{repository_type} %{url} from the project %{project_name}?"
-      title: "Delete the %{repository_type}"
+      managed_path_note: "Direktori berikut akan dipadamkan: %{path}"
+      repository_verification: "Masukkan pengenal projek %{identifier} untuk mengesahkan penghapusan repositorinya."
+      subtitle: "Anda benar mahu memadam %{repository_type} projek %{project_name}?"
+      subtitle_not_managed: "Anda benar mahu mengeluarkan %{repository_type} %{url} yang terpaut daripada projek %{project_name}?"
+      title: "Padam %{repository_type} tersebut"
       title_not_managed: "Keluarkan pautan %{repository_type}?"
     errors:
       build_failed: "Tidak boleh mencipta repositori dengan konfigurasi yang dipilih. %{reason}"
       managed_delete: "Tidak boleh menghapuskan repositori yang dikendali."
-      managed_delete_local: "Unable to delete the local repository on filesystem at '%{path}': %{error_message}"
-      empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."
-      exists_on_filesystem: "The repository directory already exists in the filesystem."
+      managed_delete_local: "TIdak dapat memadam repositori tempatan pada sistem fail di '%{path}': %{error_message}"
+      empty_repository: "Repositori tersebut wujud, tetapi kosong. Ia tidak mengandungi sebarang semakan lagi."
+      exists_on_filesystem: "Direktori repositori telah wujud dalam sistem fail."
       filesystem_access_failed: "An error occurred while accessing the repository in the filesystem: %{message}"
       not_manageable: "This repository vendor cannot be managed by OpenProject."
       path_permission_failed: "An error occurred trying to create the following path: %{path}. Please ensure that OpenProject may write to that folder."
@@ -2788,14 +2788,14 @@ ms:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
-      oauth_application_details_link_text: "Go to settings page"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      oauth_application_details_link_text: "Pergi ke tetapan halaman"
+      setup_documentation_details: "JIka anda memerlukan bantuan mengkonfigurasikan penyimpanan fail baharu lihat dokumentasi berikut:"
+      setup_documentation_details_link_text: "Setup penyimpanan fail"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existing Subversion repository"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
-      existing_url: "Existing URL"
+      existing_url: "URL sedia ada"
       instructions:
         managed_url: "This is the URL of the managed (local) Subversion repository."
         url: "Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.\nThe following URL schemes are supported:"
@@ -2805,50 +2805,50 @@ ms:
       password: "Repositori Kata laluan"
       username: "Repositori nama pengguna "
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
-    named_repository: "%{vendor_name} repository"
-    update_settings_successful: "The settings have been successfully saved."
-    url: "URL to repository"
+    named_repository: "repositori %{vendor_name}"
+    update_settings_successful: "Tetapan tersebut telah berjaya disimpan."
+    url: "URL ke repositori"
     warnings:
       cannot_annotate: "This file cannot be annotated."
   scheduling:
-    activated: "activated"
-    deactivated: "deactivated"
-  search_input_placeholder: "Search ..."
-  setting_apiv3_cors_enabled: "Enable CORS"
+    activated: "diaktifkan"
+    deactivated: "dinyahaktifkan"
+  search_input_placeholder: "Cari ..."
+  setting_apiv3_cors_enabled: "Aktifkan CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
   setting_apiv3_write_readonly_attributes_instructions_html: >
     If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Saiz halaman API maksimum"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
-  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs: "Dokumentasi"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
-  setting_email_delivery_method: "Email delivery method"
+  setting_email_delivery_method: "Kaedah penghantaran e-mel"
   setting_emails_salutation: "Address user in emails with"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
-  setting_smtp_ssl: "Use SSL connection"
-  setting_smtp_address: "SMTP server"
-  setting_smtp_port: "SMTP port"
-  setting_smtp_authentication: "SMTP authentication"
-  setting_smtp_user_name: "SMTP username"
-  setting_smtp_password: "SMTP password"
-  setting_smtp_domain: "SMTP HELO domain"
-  setting_activity_days_default: "Days displayed on project activity"
+  setting_smtp_ssl: "Guna sambungan SSL"
+  setting_smtp_address: "Pelayan SMTP"
+  setting_smtp_port: "Port SMTP"
+  setting_smtp_authentication: "Pengesahan SMTP"
+  setting_smtp_user_name: "Nama pengguna SMTP"
+  setting_smtp_password: "Kata laluan SMTP"
+  setting_smtp_domain: "Domain SMTP HELO"
+  setting_activity_days_default: "Hari yang dipaparkan pada aktiviti projek"
   setting_app_subtitle: "Application subtitle"
-  setting_app_title: "Application title"
-  setting_attachment_max_size: "Attachment max. size"
-  setting_antivirus_scan_mode: "Scan mode"
-  setting_antivirus_scan_action: "Infected file action"
+  setting_app_title: "Nama aplikasi"
+  setting_attachment_max_size: "Saiz maksimum lampiran"
+  setting_antivirus_scan_mode: "Mod pengimbas"
+  setting_antivirus_scan_action: "Tindakan fail yang dijangkiti"
   setting_autofetch_changesets: "Autofetch repository changes"
   setting_autologin: "Autologin"
-  setting_available_languages: "Available languages"
+  setting_available_languages: "Bahasa tersedia"
   setting_bcc_recipients: "Blind carbon copy recipients (bcc)"
   setting_brute_force_block_after_failed_logins: "Block user after this number of failed login attempts"
   setting_brute_force_block_minutes: "Time the user is blocked for"
@@ -2861,53 +2861,53 @@ ms:
   setting_commit_logtime_enabled: "Enable time logging"
   setting_commit_ref_keywords: "Referencing keywords"
   setting_consent_time: "Consent time"
-  setting_consent_info: "Consent information text"
-  setting_consent_required: "Consent required"
+  setting_consent_info: "Teks maklumat kebenaran"
+  setting_consent_required: "Persetujuan diperlukan"
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
-  setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
-  setting_default_language: "Default language"
+  setting_first_week_of_year: "Minggu pertama dalam tahun mengandungi "
+  setting_date_format: "Tarikh"
+  setting_default_language: "Bahasa tetapan asas"
   setting_default_projects_modules: "Default enabled modules for new projects"
-  setting_default_projects_public: "New projects are public by default"
-  setting_diff_max_lines_displayed: "Max number of diff lines displayed"
+  setting_default_projects_public: "Projek baharu adalah awam secara asas"
+  setting_diff_max_lines_displayed: "Jumlah maksimum baris perbezaan yang dipaparkan"
   setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
-  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
+  setting_enabled_projects_columns: "Lajur dalam senarai projek dipaparkan secara lalai"
   setting_feeds_enabled: "Enable Feeds"
-  setting_ical_enabled: "Enable iCalendar subscriptions"
-  setting_feeds_limit: "Feed content limit"
+  setting_ical_enabled: "Bolehkan langganan iCalendar"
+  setting_feeds_limit: "Had kandungan feed "
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
-  setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Progress calculation"
-  setting_work_package_done_ratio_field: "Work-based"
-  setting_work_package_done_ratio_status: "Status-based"
+  setting_invitation_expiration_days: "Pengaktifan e-mel tamat tempoh selepas"
+  setting_work_package_done_ratio: "Pengiraan kemajuan"
+  setting_work_package_done_ratio_field: "Berdasarkan kerja"
+  setting_work_package_done_ratio_status: "Berdasarkan status"
   setting_work_package_done_ratio_explanation_html: >
     In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
-  setting_work_package_properties: "Work package properties"
-  setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
+  setting_work_package_properties: "Ciri-ciri pakej kerja"
+  setting_work_package_startdate_is_adddate: "Guna tarikh semasa sebagai tarikh mula untuk pakej kerja baharu"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
-  setting_log_requesting_user: "Log user login, name, and mail address for all requests"
-  setting_login_required: "Authentication required"
-  setting_mail_from: "Emission email address"
-  setting_mail_handler_api_key: "API key"
+  setting_log_requesting_user: "Log masuk pengguna yang direkodkan, nama, dan alamat mel untuk semua permintaan"
+  setting_login_required: "Pengesahan diperlukan"
+  setting_mail_from: "Alamat e-mel pengeluaran"
+  setting_mail_handler_api_key: "Kekunci API"
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_body_delimiter_regex: "Truncate emails matching this regex"
-  setting_mail_handler_ignore_filenames: "Ignored mail attachments"
-  setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
-  setting_password_active_rules: "Active character classes"
+  setting_mail_handler_ignore_filenames: "Lampiran mel yang diabaikan"
+  setting_new_project_user_role_id: "Peranan yang diberikan kepada pengguna bukan pentadbir yang mencipta projek"
+  setting_password_active_rules: "Kelas-kelas karakter yang aktif"
   setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
   setting_password_days_valid: "Number of days, after which to enforce a password change"
-  setting_password_min_length: "Minimum length"
-  setting_password_min_adhered_rules: "Minimum number of required classes"
-  setting_per_page_options: "Objects per page options"
-  setting_plain_text_mail: "Plain text mail (no HTML)"
-  setting_protocol: "Protocol"
+  setting_password_min_length: "Panjang minimum"
+  setting_password_min_adhered_rules: "Bilangan minimum kelas yang diperlukan"
+  setting_per_page_options: "Pilihan objek setiap halaman"
+  setting_plain_text_mail: "Teks mel biasa (tiada HTML)"
+  setting_protocol: "Protokol"
   setting_project_gantt_query: "Project portfolio Gantt view"
   setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Display security badge"

@@ -924,7 +924,7 @@ zh-CN:
       message_work_package_status_blocked: "由于处于关闭状态并且分配了关闭版本，因此工作包状态不可写。"
       placeholder_filter_by_text: "主题, 描述, 评论,..。"
       progress:
-        title: "Work estimates and progress"
+        title: "工时估计和进展"
       baseline:
         addition_label: "在比较时间段内添加到视图"
         removal_label: "在比较时间段内从视图删除"
@@ -1248,7 +1248,8 @@ zh-CN:
       role:
         label: "%{project} 中的角色"
         no_roles_found: "没有找到角色"
-        description: '这是用户在加入您的项目时将获得的角色。角色定义了允许其执行哪些操作以及允许其查看哪些信息。<a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">详细了解角色和权限</a>。'
+        description: >-
+          这是用户在加入您的项目时将获得的角色。角色定义了允许其执行哪些操作以及允许其查看哪些信息。<a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">详细了解角色和权限</a>。
         required: "请选择一个角色"
         next_button: "下一个"
       message:

@@ -1252,7 +1252,8 @@ ca:
       role:
         label: "Rol en %{project}"
         no_roles_found: "No s'ha trobat cap rol"
-        description: 'Aquest és el rol que l''usuari rebrà quan s''uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>'
+        description: >-
+          Aquest és el rol que l'usuari rebrà quan s'uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>
         required: "Si us plau, selecciona un rol"
         next_button: "Següent"
       message:
