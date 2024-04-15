@@ -17,6 +17,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | ----------------------------------------------------------- | ------------------------------------------------------------ |
 | [Select project lists](#select-project-lists)               | Get an overview of all your projects in the project lists.   |
 | [Filter project lists](#project-lists-filters)              | Adjust filters in the project lists.                         |
+| [Save project lists](#project-lists-save)                   | Save modified project lists.                                 |
 | [Export project list](#export-project-lists)                | You can export the project list to XLS or CSV.               |
 | [Project overarching reports](#project-overarching-reports) | How to create project overarching reports across multiple projects. |
 
@@ -100,6 +101,18 @@ Your saved project lists filter will appear on the left side under **My private 
 You can always remove your private project lists by using the **Delete** option.
 
 ![Delete a private projects filter in OpenProject](private-project-filter-delete.png)
+
+### Save project lists
+
+After modifying a project lists by changing the sorting, the columns displayed or the filters, the new project list can be saved by clicking the button **Save as** in the page header actions or inside the actions bellow the more button.
+
+!missing screenshot of save as
+
+The list will be saved as your own private project list under the menu section **My private project lists**, note that this list is for now only available to the user who created it.
+
+You can always delete the list from the more button in the page header actions.
+
+!missing screenshot of delete
 
 ### Gantt chart view
 
