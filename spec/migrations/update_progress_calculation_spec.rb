@@ -635,6 +635,26 @@ RSpec.describe UpdateProgressCalculation, type: :model do
         )
       end
     end
+
+    context "when parent is open without any work or remaining work set, " \
+            "and children have a 100% complete status" do
+      it "sets parent total % complete to 100%" do
+        expect_migrates(
+          from: <<~TABLE,
+            hierarchy    | status      | work | remaining work | % complete
+            parent       | To do (0%)  |      |                |         0%
+              child1     | Done (100%) |  10h |             0h |       100%
+              child2     | Done (100%) |  10h |             0h |       100%
+          TABLE
+          to: <<~TABLE
+            hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent       | To do (0%)  |      |                |         0% |    20h |               0h |         100%
+              child1     | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
+              child2     | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
+          TABLE
+        )
+      end
+    end
   end
 
   describe "totals computation" do
@@ -685,6 +705,87 @@ RSpec.describe UpdateProgressCalculation, type: :model do
             subject      | work | remaining work | ∑ work | ∑ remaining work | ∑ % complete
             parent       |   0h |             0h |     0h |               0h |
               child      |   0h |             0h |     0h |               0h |
+          TABLE
+        )
+      end
+    end
+
+    context "when parent does not have any work or remaining work set, " \
+            "and children have a 100% complete status" do
+      it "sets parent total % complete to 100%" do
+        expect_migrates(
+          from: <<~TABLE,
+            hierarchy    | work | remaining work | % complete
+            parent       |      |                |
+              child1     |  10h |             0h |       100%
+              child2     |  10h |             0h |       100%
+          TABLE
+          to: <<~TABLE
+            hierarchy    | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            parent       |      |                |            |    20h |               0h |         100%
+              child1     |  10h |             0h |       100% |    10h |               0h |         100%
+              child2     |  10h |             0h |       100% |    10h |               0h |         100%
+          TABLE
+        )
+      end
+    end
+
+    context "when work and remaining work are unset" do
+      it "does not set total work, total remaining work, and total % complete" do
+        expect_migrates(
+          from: <<~TABLE,
+            subject      | work | remaining work | % complete
+            wp all unset |      |                |
+            wp 0%        |      |                |         0%
+            wp 30%       |      |                |        30%
+            wp 100%      |      |                |       100%
+          TABLE
+          to: <<~TABLE
+            subject      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            wp all unset |      |                |            |        |                  |
+            wp 0%        |      |                |         0% |        |                  |
+            wp 30%       |      |                |        30% |        |                  |
+            wp 100%      |      |                |       100% |        |                  |
+          TABLE
+        )
+      end
+    end
+
+    context "when work is set to 0h and remaining work is unset" do
+      it "sets remaining work, total work, and total remaining work to 0h, unsets % complete, and keeps total % complete unset" do
+        expect_migrates(
+          from: <<~TABLE,
+            subject      | work | remaining work | % complete
+            wp all unset |   0h |                |
+            wp 0%        |   0h |                |         0%
+            wp 30%       |   0h |                |        30%
+            wp 100%      |   0h |                |       100%
+          TABLE
+          to: <<~TABLE
+            subject      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            wp all unset |   0h |             0h |            |     0h |               0h |
+            wp 0%        |   0h |             0h |            |     0h |               0h |
+            wp 30%       |   0h |             0h |            |     0h |               0h |
+            wp 100%      |   0h |             0h |            |     0h |               0h |
+          TABLE
+        )
+      end
+    end
+
+    context "when work and remaining work are set and not 0h" do
+      it "sets total work, total remaining work, and total % complete accordingly same as work, remaining work and % complete" do
+        expect_migrates(
+          from: <<~TABLE,
+            subject      | work | remaining work |
+            wp w set     |  10h |                |
+            wp rw set    |      |             5h |
+            wp w rw set  |  10h |             5h |
+          TABLE
+          to: <<~TABLE
+            subject      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+            wp w set     |  10h |            10h |         0% |    10h |              10h |           0%
+            wp rw set    |   5h |             5h |         0% |     5h |               5h |           0%
+            wp w rw set  |  10h |             5h |        50% |    10h |               5h |          50%
           TABLE
         )
       end
