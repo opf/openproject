@@ -147,7 +147,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "screenfull": "^4.2.1",
-    "stimulus-use": "^0.52.0",
+    "stimulus-use": "^0.52.2",
     "tablesorter": "^2.31.3",
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
