@@ -71,6 +71,10 @@ Since the done_ratio is now a read only value, derived from work and remaining w
 
 For more information, see [#40749](https://community.openproject.org/work_packages/40749)
 
+### Removed `available_responsibles` from the API
+
+The `available_responsibles` endpoint has been removed from the API. This endpoint was used to retrieve a list of users that could be set as the **responsbile** for a work package. This information has been identical to the results by the  `available_assignees` endpoint. When you are using the `available_responsibles` endpoint in your application, you should switch to using the `available_assignees` endpoint instead.
+
 <!--more-->
 
 ## Bug fixes and changes
