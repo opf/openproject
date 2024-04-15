@@ -242,6 +242,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
       context "when reading the root folder fails" do
         before { storage.update(drive_id: "THIS-IS-NOT-A-DRIVE-ID") }
+
         it "returns a failure in case retrieving the root list fails", vcr: "one_drive/sync_service_root_read_failure" do
           expect(service.call).to be_failure
         end
@@ -257,10 +258,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
         end
 
         it "does not break in case of timeout", vcr: "one_drive/sync_service_root_read_failure" do
-          request_mock = HTTPX::Request.new("POST", "http://example.com/")
-          error_response_mock = HTTPX::ErrorResponse.new(request_mock, HTTPX::ConnectTimeoutError.new(60, "timed out while waiting on select"), {})
-          allow_any_instance_of(HTTPX::Session).to receive(:get).with(any_args).and_call_original
-          allow_any_instance_of(HTTPX::Session).to receive(:get).with(/\/root\/children$/).and_return(error_response_mock)
+          stub_request_with_timeout(:get, /\/root\/children$/)
 
           expect(service.call).to be_failure
 
