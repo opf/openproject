@@ -46,7 +46,7 @@ $nm-color-warning-border: #ef9e56
 $nm-color-warning-icon: #ef9e56
 $nm-color-warning-background: #ffe6c6
 
-$nm-color-info-icon: #333
+$nm-color-info-icon: #155282
 
 $nm-color-border: #8fc0db
 $nm-color-background: #e3f5ff
@@ -72,17 +72,12 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   @include icon-mixin-checkmark
   color: $nm-color-success-icon
 
-%nm-icon-notification
-  @include icon-mixin-bell
-  color: $nm-pb-background-color
-
 %nm-icon-warning
   @include icon-mixin-warning
   color: $nm-color-warning-icon
 
 %nm-icon-info
   @include icon-mixin-info1
-  color: $nm-color-info-icon
 
 %error-placeholder
   background-color: $nm-color-error-background
@@ -170,14 +165,16 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-info
     @extend %info-placeholder
 
+    &::before
+      color: $nm-color-info-icon
+
     &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-info
 
-  &.-notification-icon
+  &.toast-icon
     &::before
       @include messages-icon
-      @extend %nm-icon-notification
 
   &.-loading
     @extend %info-placeholder

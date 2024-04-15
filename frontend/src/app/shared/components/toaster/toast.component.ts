@@ -79,7 +79,7 @@ export class ToastComponent implements OnInit {
 
   ngOnInit():void {
     this.type = this.toast.type;
-    this.icon = this.toast.icon ? `toast-icon -${this.toast.icon}-icon` : '';
+    this.icon = this.toast.icon ? `toast-icon icon-${this.toast.icon}` : '';
 
     this.removable = !['upload', 'loading'].includes(this.type);
 
