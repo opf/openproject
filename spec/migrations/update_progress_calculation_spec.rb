@@ -74,10 +74,18 @@ RSpec.describe UpdateProgressCalculation, type: :model do
         run_migration
       end
 
-      it "does not create a journal entry" do
-        table_work_packages.each do |wp|
-          expect(wp.journals.count).to eq(1)
-        end
+      it "does create a journal entry only for the work package with a total % complete" do
+        expect(wp_all_unset.journals.count).to eq(1)
+        expect(wp_only_pc_set.journals.count).to eq(1)
+
+        # This one will receive a journal entry since we treat the total % complete field
+        # as if it was introduced by the migration (OP 14.0) even though the field existed before.
+        # But the calculation was off and we did not present the activity on the field anyway.
+        expect(wp_all_set_consistent.journals.count).to eq(2)
+
+        expect(wp_all_set_consistent.last_journal.get_changes)
+          .to include("derived_done_ratio" => [nil, 60],
+                      "cause" => [nil, { "feature" => "progress_calculation_changed", "type" => "system_update" }])
       end
     end
 
@@ -683,6 +691,67 @@ RSpec.describe UpdateProgressCalculation, type: :model do
               child      |   0h |             0h |     0h |               0h |
           TABLE
         )
+      end
+    end
+
+    context "when ∑ % complete has had some values (including wrong ones)" do
+      let_work_packages(<<~TABLE)
+        hierarchy        | work  | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete |
+        wp zero          |       |                |          0 |        |                  |            0 |
+        wp correct       |  100h |            50h |         50 |   100h |             50h  |           50 |
+        wp wrong         |       |                |         90 |   100h |             50h  |           90 |
+          wp wrong child |  100h |            50h |         20 |    10h |             10h  |           20 |
+      TABLE
+
+      before do
+        run_migration
+      end
+
+      it "fixes the total values and sets ∑ % complete to nil (not 0) but keeps % complete (unless wrong)" do
+        expect_work_packages(WorkPackage.all, <<~TABLE)
+          subject          | work  | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete |
+          wp zero          |       |                |          0 |        |                  |              |
+          wp correct       |  100h |            50h |         50 |   100h |             50h  |           50 |
+          wp wrong         |       |                |         90 |   100h |             50h  |           50 |
+            wp wrong child |  100h |            50h |         50 |   100h |             50h  |           50 |
+        TABLE
+      end
+
+      it "creates no journal for the work package transitioning from 0 to nil and reworks the pre migration journals" do
+        expect(wp_zero.journals.count).to eq(1)
+
+        expect(wp_zero.journals.first.get_changes.keys)
+          .not_to include("derived_done_ratio")
+      end
+
+      it "creates a journal for the correct work package as the old ∑ % complete value has been set to null during the job" do
+        expect(wp_correct.journals.count).to eq(2)
+
+        expect(wp_correct.journals.first.get_changes.keys)
+          .not_to include("derived_done_ratio")
+
+        expect(wp_correct.journals.last.get_changes["derived_done_ratio"])
+          .to eql [nil, 50]
+      end
+
+      it "creates a journal for the work package transitioning from 90 to 50 and reworks the pre migration journals" do
+        expect(wp_wrong.journals.count).to eq(2)
+
+        expect(wp_wrong.journals.first.get_changes.keys)
+          .not_to include("derived_done_ratio")
+
+        expect(wp_wrong.journals.last.get_changes["derived_done_ratio"])
+          .to eql [nil, 50]
+      end
+
+      it "creates a journal for the work package transitioning from 20 to 50 and reworks the pre migration journals" do
+        expect(wp_wrong_child.journals.count).to eq(2)
+
+        expect(wp_wrong_child.journals.first.get_changes.keys)
+          .not_to include("derived_done_ratio")
+
+        expect(wp_wrong_child.journals.last.get_changes["derived_done_ratio"])
+          .to eql [nil, 50]
       end
     end
   end
