@@ -1,3 +1,4 @@
+import "../typings/shims.d.ts"
 import * as Turbo from '@hotwired/turbo';
 import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
 

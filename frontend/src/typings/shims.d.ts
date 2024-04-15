@@ -18,15 +18,27 @@ import { Injector } from '@angular/core';
 
 import { OpenProject } from 'core-app/core/setup/globals/openproject';
 import * as TLodash from 'lodash';
-import { GlobalI18n } from 'core-app/core/i18n/i18n.service';
 import { Dragula } from 'dragula';
 import { Screenfull } from 'screenfull';
 import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
 import { I18n } from 'i18n-js';
+import '@hotwired/turbo';
 
 declare module 'observable-array';
 declare module 'dom-autoscroller';
 declare module 'core-vendor/enjoyhint';
+
+declare module '@hotwired/turbo' {
+  export const session:{
+    drive:boolean;
+  };
+
+  export const navigator:{
+    submitForm:(form:HTMLFormElement, submitter?:HTMLElement) => void;
+  }
+
+  export function start():void;
+}
 
 declare global {
   const _:typeof TLodash;
