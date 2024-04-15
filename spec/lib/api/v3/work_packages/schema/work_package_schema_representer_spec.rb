@@ -1004,6 +1004,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe "responsible and assignee" do
       let(:base_href) { "/api/v3/projects/#{work_package.project.id}" }
+      let(:wp_base_href) { "/api/v3/work_packages/#{work_package.id}" }
 
       describe "assignee" do
         it_behaves_like "has basic schema properties" do
@@ -1033,9 +1034,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           before do
             work_package.project = nil
 
-            allow(work_package)
-              .to receive(:persisted?)
-                    .and_return(false)
+            allow(work_package).to receive(:persisted?).and_return(false)
           end
 
           it_behaves_like "does not link to allowed values" do
@@ -1054,9 +1053,20 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:location) { "_links" }
         end
 
-        it_behaves_like "links to allowed values via collection link" do
-          let(:path) { "responsible" }
-          let(:href) { "#{base_href}/available_responsibles" }
+        context "when the work package is persisted" do
+          it_behaves_like "links to allowed values via collection link" do
+            let(:path) { "responsible" }
+            let(:href) { "#{wp_base_href}/available_assignees" }
+          end
+        end
+
+        context "when the work package is not persisted" do
+          let(:work_package) { build(:work_package, project:) }
+
+          it_behaves_like "links to allowed values via collection link" do
+            let(:path) { "responsible" }
+            let(:href) { "#{base_href}/available_assignees" }
+          end
         end
 
         context "when not embedded" do
@@ -1067,9 +1077,11 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           end
         end
 
-        context "when not having a project (yet)" do
+        context "when not having a project (yet) and not yet persisted" do
           before do
             work_package.project = nil
+
+            allow(work_package).to receive(:persisted?).and_return(false)
           end
 
           it_behaves_like "does not link to allowed values" do
