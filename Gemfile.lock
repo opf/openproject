@@ -1119,7 +1119,7 @@ GEM
       activemodel (>= 3.0.0)
       public_suffix
     vcr (6.2.0)
-    view_component (3.11.0)
+    view_component (3.12.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -1319,7 +1319,7 @@ DEPENDENCIES
   rspec (~> 3.13.0)
   rspec-rails (~> 6.1.0)
   rspec-retry (~> 0.6.1)
-  rubocop (~> 1.63.0)
+  rubocop
   rubocop-inflector
   rubocop-performance
   rubocop-rails
