@@ -79,6 +79,9 @@ See COPYRIGHT and LICENSE files for more details.
       <%= op_icon('button--dropdown-indicator') %>
     </a>
     <ul style="display:none;" class="menu-drop-down-container">
+      <%= li_unless_nil(link_to(t(:button_copy),
+    {action: 'new_child', id: @page, project_id: @project.identifier, custom_text: "copy"},
+    class: 'icon-context icon-copy')) %>
       <% if @editable %>
         <%= li_unless_nil(link_to_if_authorized(t(:button_lock), {action: 'protect', id: @page, protected: 1}, method: :post, class: 'icon-context icon-locked')) if !@page.protected? %>
         <%= li_unless_nil(link_to_if_authorized(t(:button_unlock), {action: 'protect', id: @page, protected: 0}, method: :post, class: 'icon-context icon-unlocked')) if @page.protected? %>

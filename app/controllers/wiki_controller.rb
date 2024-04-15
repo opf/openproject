@@ -103,15 +103,20 @@ class WikiController < ApplicationController
   def new; end
 
   def new_child
-    find_existing_page
-    return if performed?
+    if params[:custom_text].present?
+      @page = WikiPage.find_by(slug: params[:id])
+      render action: 'new'
+    else
+      find_existing_page
+      return if performed?
 
-    old_page = @page
+      old_page = @page
 
-    build_wiki_page
+      build_wiki_page
 
-    @page.parent = old_page
-    render action: 'new'
+      @page.parent = old_page
+      render action: 'new'
+    end
   end
 
   def menu
