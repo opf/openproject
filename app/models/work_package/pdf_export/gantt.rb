@@ -101,40 +101,60 @@ module WorkPackage::PDFExport::Gantt
       @pdf = pdf
       @title = title
       @column_width = column_width
+      @header_row_height = 30
+      @text_column_width = @pdf.bounds.width / 4
+      @nr_columns = (@pdf.bounds.width / @column_width).floor
     end
 
     def build(work_packages)
-      @header_row_height = 30
-      @text_column_width = @pdf.bounds.width / 4
-
-      @nr_columns = (@pdf.bounds.width / @column_width).floor
-      gantt_columns_space_next_page = @pdf.bounds.width - (@nr_columns * @column_width)
-      # distribute space to the default column widths
-      @column_width += gantt_columns_space_next_page / @nr_columns
-      gantt_columns_width_first_page = @pdf.bounds.width - @text_column_width
-      @nr_columns_first_page = (gantt_columns_width_first_page / @column_width).floor
-      @nr_columns = (@pdf.bounds.width / @column_width).floor
-      # distribute space to the first column
-      @text_column_width = @pdf.bounds.width - (@nr_columns_first_page * @column_width)
-      gant_rows_height = @pdf.bounds.height - @header_row_height
-      @rows_per_page = (gant_rows_height / GANTT_ROW_HEIGHT).floor
-      # distribute space bottom to the first row
-      @header_row_height = @pdf.bounds.height - (@rows_per_page * GANTT_ROW_HEIGHT)
-
+      adjust_to_pages
       pages = build_pages(work_packages)
+      # if there are not enough columns for even the first page of horizontal pages => distribute space to all columns
       if pages.find { |page| page[:text_column].nil? }.nil?
-        # if there are not enough columns for even the first page of horizontal pages => distribute space to all columns
-        nr_of_columns = pages.first[:columns].length
-        @text_column_width = @pdf.bounds.width / 4
-        @column_width = (@pdf.bounds.width - @text_column_width) / nr_of_columns
-        @nr_columns_first_page = nr_of_columns
-        @nr_columns = nr_of_columns
+        distribute_to_first_page
         pages = build_pages(work_packages)
       end
       pages
     end
 
     private
+
+    def adjust_to_pages
+      # distribute space right to the default column widths
+      distribute_to_next_page_column
+
+      # distribute space right on the first page to the first column
+      distribute_to_first_column
+
+      # distribute space bottom to the first row
+      distribute_to_header_row
+    end
+
+    def distribute_to_header_row
+      gant_rows_height = @pdf.bounds.height - @header_row_height
+      @rows_per_page = (gant_rows_height / GANTT_ROW_HEIGHT).floor
+      @header_row_height = @pdf.bounds.height - (@rows_per_page * GANTT_ROW_HEIGHT)
+    end
+
+    def distribute_to_next_page_column
+      gantt_columns_space_next_page = @pdf.bounds.width - (@nr_columns * @column_width)
+      @column_width += gantt_columns_space_next_page / @nr_columns
+      @nr_columns = (@pdf.bounds.width / @column_width).floor
+    end
+
+    def distribute_to_first_column
+      gantt_columns_width_first_page = @pdf.bounds.width - @text_column_width
+      @nr_columns_first_page = (gantt_columns_width_first_page / @column_width).floor
+      @text_column_width = @pdf.bounds.width - (@nr_columns_first_page * @column_width)
+    end
+
+    def distribute_to_first_page
+      nr_of_columns = pages.first[:columns].length
+      @text_column_width = @pdf.bounds.width / 4
+      @column_width = (@pdf.bounds.width - @text_column_width) / nr_of_columns
+      @nr_columns_first_page = nr_of_columns
+      @nr_columns = nr_of_columns
+    end
 
     def build_pages(work_packages)
       dates = build_column_dates(work_packages)
@@ -292,9 +312,9 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def milestone_layout(top, paint_columns, work_package)
-      diamond_size = [@column_width, GANTT_ROW_HEIGHT].min / 2
+      diamond_size = ([@column_width, GANTT_ROW_HEIGHT].min / 2).to_f
       x1 = if milestone_position_centered?
-             width = Math.sqrt((diamond_size.to_f **2) + (diamond_size.to_f **2))
+             width = Math.sqrt((diamond_size**2) + (diamond_size**2))
              (@column_width - width) / 2
            else
              calc_start_offset(work_package, paint_columns.first[:date])
