@@ -67,7 +67,7 @@ zh-CN:
         text: "您确定要删除当前使用的企业版令牌吗？"
         title: "删除令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购本地部署版的 Enterprise edition"
+      order: "订购本地部署的 Enterprise edition"
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -982,12 +982,12 @@ zh-CN:
               only_same_project_categories_allowed: "工作包的类别必须包含在相同的项目工作包中。"
               does_not_exist: "指定的类别不存在。"
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
+              cant_be_inferior_to_remaining_work: "不能低于 \"剩余工时\"。"
+              must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "不能超过 \"工时\"。"
+              must_be_set_when_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
           readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
           attributes:
@@ -1590,8 +1590,8 @@ zh-CN:
     caused_changes:
       dates_changed: "日期已更改"
       default_attribute_written: "已写入只读属性"
-      progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      progress_mode_changed_to_status_based: "更新进度计算"
+      status_p_complete_changed: "状态%已更改"
       system_update: "OpenProject 系统更新："
     cause_descriptions:
       work_package_predecessor_changed_times: 根据前置任务 %{link}的更改
@@ -1607,14 +1607,14 @@ zh-CN:
         dates:
           working: "%{date}现在是工作日"
           non_working: "%{date}现在是非工作日"
-      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      progress_mode_changed_to_status_based: 进度计算模式设置为基于状态
       status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+        状态 "%{status_name}"的 %完成值从 %{old_value}% 变为 %{new_value}%
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
         progress_calculation_changed: >
-          Progress calculation updated.
+          进度计算已更新。
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1954,7 +1954,7 @@ zh-CN:
   label_latest_revision: "最新修订版本"
   label_latest_revision_plural: "最新修订版本"
   label_ldap_authentication: "LDAP 身份验证"
-  label_learn_more: "Learn more"
+  label_learn_more: "了解更多信息"
   label_less_or_equal: "<="
   label_less_than_ago: "小于数日前"
   label_list: "列表"
@@ -2080,7 +2080,7 @@ zh-CN:
   label_privacy_policy: "数据隐私和安全政策"
   label_product_version: "产品版本"
   label_profile: "配置文件"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "% 完成"
   label_project_activity: "项目活动"
   label_project_attribute_plural: "项目属性"
   label_project_count: "项目总数"
@@ -2090,7 +2090,7 @@ zh-CN:
   label_project_hierarchy: "项目层次结构"
   label_project_new: "新的项目"
   label_project_plural: "项目"
-  label_project_list_plural: "Project lists"
+  label_project_list_plural: "项目列表"
   label_project_attributes_plural: "项目属性"
   label_project_custom_field_plural: "项目属性"
   label_project_settings: "项目设置"
@@ -2117,7 +2117,7 @@ zh-CN:
   label_relation_delete: "删除关系"
   label_relation_new: "新的关系"
   label_release_notes: "更新日志"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "剩余工时"
   label_remove_columns: "删除选定的列"
   label_renamed: "重命名"
   label_reply_plural: "答复"
@@ -2138,7 +2138,7 @@ zh-CN:
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
   label_roadmap: "路线图"
-  label_roadmap_edit: "编辑路线图%{name}"
+  label_roadmap_edit: "编辑路线图 %{name}"
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
@@ -2250,7 +2250,7 @@ zh-CN:
   label_wiki_show_new_page_link: "显示‘创建新的子页面’子菜单项"
   label_wiki_show_submenu_item: "显示为子菜单项"
   label_wiki_start: "起始页"
-  label_work: "Work"
+  label_work: "工时"
   label_work_package: "工作包"
   label_work_package_attachments: "工作包附件"
   label_work_package_category_new: "新的类别"
@@ -2294,7 +2294,7 @@ zh-CN:
     other: "%{count} 个文件"
     zero: "无文件"
   label_yesterday: "昨天"
-  label_zen_mode: "Zen mode"
+  label_zen_mode: "极简模式"
   label_role_type: "类型"
   label_member_role: "项目角色"
   label_global_role: "全局角色"
@@ -2777,7 +2777,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -2874,11 +2874,11 @@ zh-CN:
   setting_file_max_size_displayed: "内联显示的文本文件的最大大小"
   setting_host_name: "主机名"
   setting_invitation_expiration_days: "激活电子邮件将在此时间后过期"
-  setting_work_package_done_ratio: "Progress calculation"
-  setting_work_package_done_ratio_field: "Work-based"
-  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio: "进度计算"
+  setting_work_package_done_ratio_field: "基于工时"
+  setting_work_package_done_ratio_status: "基于状态"
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    在<b>基于工时</b>模式下，完成百分比是根据已完成的工时占总工时的比例计算出来的。在<b>基于状态</b>模式下，每个状态都有一个与之相关的完成百分比。更改状态将改变完成百分比。
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
@@ -2918,7 +2918,7 @@ zh-CN:
   setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
-  setting_sys_api_enabled: "启用存储库管理网页服务"
+  setting_sys_api_enabled: "启用版本库管理 web 服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
@@ -2944,7 +2944,7 @@ zh-CN:
       remaining_scan_complete_html: >
         剩余文件已扫描。%{file_count} 个文件位于隔离区。您将被重定向到隔离区页面。使用此页面可以删除或覆盖被隔离的文件。
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        病毒扫描已成功启用。之前上传的 %{file_count} 仍需扫描。此过程已在后台安排。扫描期间，文件仍可访问。
       upsale:
         description: "确保在其他用户可以访问 OpenProject 中上传的文件之前对其进行病毒扫描。"
       actions:
@@ -3223,7 +3223,7 @@ zh-CN:
   warning_user_limit_reached_admin: >
     添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此实例。
   warning_user_limit_reached_instructions: >
-    您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+    您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -3250,11 +3250,11 @@ zh-CN:
       info: "删除工作包是不可逆的操作。"
       title: "删除工作包"
     progress:
-      label_note: "Note:"
+      label_note: "注意："
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
-        status_based_help_text: "% Complete is set by work package status."
-        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+        work_based_help_text: "完成百分比由 \"工时\" 和 \"剩余工时\" 自动得出。"
+        status_based_help_text: "完成百分比由工作包状态设定。"
+        migration_warning_text: "在基于工时的进度计算模式下，完成百分比不能手动设置，而是与工时绑定。现有值已被保留，但无法编辑。请先输入工时。"
     sharing:
       count:
         zero: "0 个用户"

@@ -359,20 +359,20 @@ lt:
         one: "%{all_shared_work_packages_link} has been shared with this group."
         few: "%{all_shared_work_packages_link} have been shared with this group."
         many: "%{all_shared_work_packages_link} have been shared with this group."
-        other: "%{all_shared_work_packages_link} have been shared with this group."
+        other: "%{all_shared_work_packages_link} pabendrinti su šia grupe."
       shared_with_permission_html:
         one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
         few: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
         many: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
-      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
-      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
-      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
-      will_revoke_access_to_all: "This action will revoke their access to all of them."
+        other: "Tik %{shared_work_packages_link} pabendrinti su %{shared_role_name} teisėmis."
+      revoke_all_or_with_role: "Ar norite atšaukti prieigą prie visų bendrinamų darbo paketų, ar tik su %{shared_role_name} teisėmis?"
+      will_not_affect_inherited_shares: "(Tai neįtakos darbo paketų, bendrinamų su jų grupe)"
+      cannot_remove_inherited: "Darbo paketų bendrinimai, pabendrinti per grupes, negali būti išimti."
+      cannot_remove_inherited_with_role: "Darbo paketų bendrinimai su vaidmeniu %{shared_role_name} bendrinami per grupes ir negali būti išimti."
+      cannot_remove_inherited_note_admin_html: "Jūs galite arba atšaukti bendrinimą grupei arba išimti šį konkretų narį iš grupės %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "Jūs galite arba atšaukti bendrinimą su grupe arba susisiekti su administratoriumi, kad jis išimtų šį konkretų narį iš grupės."
+      will_revoke_directly_granted_access: "Šis veiksmas atšauks jų prieigą prie visų iš jų, išskyrus darbo paketus, bendrinamus su grupe."
+      will_revoke_access_to_all: "Šis veiksmas atšauks jų prieigą prie jų visų."
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -609,7 +609,7 @@ lt:
       oauth_client:
         client: "Kliento ID"
       relation:
-        lag: "Lag"
+        lag: "Vėlavimas"
         from: "Darbų paketas"
         to: "Susijusių darbų paketas"
       status:
@@ -1004,12 +1004,12 @@ lt:
               only_same_project_categories_allowed: "Darbų paketo kategorija turi būti tame pačiame projekte kaip ir darbų paketas."
               does_not_exist: "Nurodyta kategorija neegzistuoja."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
+              cant_be_inferior_to_remaining_work: "Negali būti mažiau už „Liko darbo“."
+              must_be_set_when_remaining_work_is_set: "Turi būti nurodyta, kai nurodyta „Liko darbo“."
               only_values_greater_or_equal_zeroes_allowed: "turi būti >= 0."
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Negali viršyti „Darbas“."
+              must_be_set_when_work_is_set: "Turi būti nurodyta, kai nurodyta „Darbas“."
           readonly_status: "Darbo paketas yra tik skaitymo būsenoje, taigi jo atributų keisti negalima."
         type:
           attributes:
@@ -1126,10 +1126,10 @@ lt:
       updated_on_time_entry: "registruotą laiką atnaujino %{datetime}"
       deleted_on: "ištrinta %{datetime}"
       deleted_by_on: "%{datetime} ištrynė %{user}"
-      added_on: "added on %{datetime}"
-      added_by_on: "added by %{user} on %{datetime}"
-      removed_on: "removed on %{datetime}"
-      removed_by_on: "removed by %{user} on %{datetime}"
+      added_on: "pridėta %{datetime}"
+      added_by_on: " %{user} pridėjo %{datetime}"
+      removed_on: "išimta %{datetime}"
+      removed_by_on: "%{user} išėmė %{datetime}"
       parent_without_of: "Sub-projektas"
       parent_no_longer: "Nebėra dalis"
       time_entry:
@@ -1147,16 +1147,16 @@ lt:
         logged_for: "Registruota"
       meeting_agenda_item:
         duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
+          added: "nustatyti %{value}"
+          added_html: "nustatyti <i>%{value}</i>"
           removed: "išimta"
           updated: "pakeitė iš %{old_value} į %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
         position:
           updated: "perrikiuota"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated: "pakeista iš %{old_value} į %{value}"
+          updated_html: "pakeista iš <i>%{old_value}</i> į <i>%{value}</i>"
     filter:
       changeset: "Pakeitimų paketai"
       message: "Forumai"

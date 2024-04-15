@@ -176,7 +176,7 @@ lt:
   label_initial_meeting_details: "Susitikimas"
   label_meeting_details: "Susitikimo detalės"
   label_meeting_details_edit: "Keisti susitikimo detales"
-  label_meeting_state: "Meeting status"
+  label_meeting_state: "Susitikimo būsena"
   label_meeting_state_open: "Atidarytas"
   label_meeting_state_open_html: "<i>Atviras</i>"
   label_meeting_state_closed: "Uždarytas"

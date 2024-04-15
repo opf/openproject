@@ -173,7 +173,7 @@ zh-CN:
   label_initial_meeting_details: "会议"
   label_meeting_details: "会议详情"
   label_meeting_details_edit: "编辑会议详情"
-  label_meeting_state: "Meeting status"
+  label_meeting_state: "会议状态"
   label_meeting_state_open: "开放"
   label_meeting_state_open_html: "<i>开放</i>"
   label_meeting_state_closed: "已关闭"

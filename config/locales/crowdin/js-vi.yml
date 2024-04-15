@@ -102,7 +102,7 @@ vi:
     button_save: "Lưu"
     button_settings: "Cài đặt"
     button_uncheck_all: "Bỏ chọn tất cả"
-    button_update: "Cập nhật"
+    button_update: "Cập Nhật"
     button_export-pdf: "Tải PDF"
     button_export-atom: "Tải về Atom"
     button_create: "Tạo mới"
@@ -1248,7 +1248,8 @@ vi:
       role:
         label: "Vai trò trong %{project}"
         no_roles_found: "Không tìm thấy vai trò nào"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Vui lòng chọn một vai trò"
         next_button: "Tiếp"
       message:

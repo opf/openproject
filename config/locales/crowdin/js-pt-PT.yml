@@ -1252,7 +1252,8 @@ pt-PT:
       role:
         label: "Função em %{project}"
         no_roles_found: "Nenhuma função encontrada"
-        description: 'Esta é uma função que o utilizador vai receber quando se juntar ao projeto. A função define as ações que pode fazer e as informações que pode visualizar. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aprenda mais sobre funções e permissões. </a>'
+        description: >-
+          Esta é uma função que o utilizador vai receber quando se juntar ao projeto. A função define as ações que pode fazer e as informações que pode visualizar. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aprenda mais sobre funções e permissões. </a>
         required: "Selecione um perfil"
         next_button: "Próxima"
       message:

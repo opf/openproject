@@ -231,8 +231,8 @@ de:
           status_label: "Status: "
           status_confirmed: "bestätigt"
           status_waiting: "E-Mail gesendet - Warten auf Bestätigung"
-          test_ee: "Testen Sie die Enterprise Edition 14 Tage kostenlos"
-          quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise Edition."
+          test_ee: "Testen Sie die Enterprise edition 14 Tage kostenlos"
+          quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise edition."
         upsale:
           become_hero: "Werde zum Held!"
           enterprise_info_html: "%{feature_title} ist ein Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Add-on."
@@ -258,7 +258,7 @@ de:
           text: >
             Die OpenProject Enterprise Edition baut auf der Community Edition auf. Sie umfasst Enterprise Add-ons und professionelle Unterstützung und richtet sich primär an Organisationen mit mehr als 10 Benutzern, die unternehmenskritische Projekte mit OpenProject verwalten.
           unlimited: "Unbegrenzt"
-          you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise Edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
+          you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
       working_days:
         calendar:
           empty_state_header: "Arbeitsfreie Tage"
@@ -1085,7 +1085,7 @@ de:
         upsale:
           attribute_highlighting: "Sollen bestimmte Arbeitspakete aus der Menge herausstechen?"
           relation_columns: "Möchten Sie Beziehungen als Spalten in der Arbeitspaketliste sehen können?"
-          check_out_link: "Schauen Sie sich die Enterprise Edition an."
+          check_out_link: "Schauen Sie sich die Enterprise edition an."
         relation_filters:
           filter_work_packages_by_relation_type: "Arbeitspakete nach Beziehungs-Typ filtern"
       tabs:
@@ -1232,7 +1232,7 @@ de:
           title: "Platzhalter-Benutzer"
           title_no_ee: "Platzhalter-Benutzer (Enterprise Edition Add-on)"
           description: "Hat keinen Zugriff auf das Projekt und es werden keine E-Mails verschickt."
-          description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise Edition an</a>'
+          description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise edition an</a>'
       principal:
         label:
           name_or_email: "Name oder E-Mail-Adresse"
@@ -1251,7 +1251,8 @@ de:
       role:
         label: "Rolle in %{project}"
         no_roles_found: "Keine Rollen gefunden"
-        description: 'Dies ist die Rolle, die der Benutzer erhält, wenn er Ihrem Projekt beitritt. Die Rolle legt fest, welche Aktionen sie ergreifen dürfen und welche Informationen ihnen zugänglich sind. <a href="https://www.openproject.org/de/docs/system-admin-guide/users-permissions/roles-permissions/" target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>'
+        description: >-
+          Dies ist die Rolle, die der Benutzer erhält, wenn er Ihrem Projekt beitritt. Die Rolle legt fest, welche Aktionen sie ergreifen dürfen und welche Informationen ihnen zugänglich sind. <a href="https://www.openproject.org/de/docs/system-admin-guide/users-permissions/roles-permissions/" target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>
         required: "Bitte eine Rolle auswählen"
         next_button: "Weiter"
       message:
@@ -1327,5 +1328,5 @@ de:
         Close: "Schließen"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
+        network_off: "Es gibt ein Netzwerkproblem."
         network_on: "Network is back. We are trying."

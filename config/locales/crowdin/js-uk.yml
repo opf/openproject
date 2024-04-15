@@ -1258,7 +1258,8 @@ uk:
       role:
         label: "Ролі у проєкті «%{project}»"
         no_roles_found: "Ролей не знайдено"
-        description: 'Це роль, яку користувач отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>'
+        description: >-
+          Це роль, яку користувач отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>
         required: "Виберіть роль"
         next_button: "Далі"
       message:
