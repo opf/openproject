@@ -8,7 +8,7 @@ class UpdateProgressCalculation < ActiveRecord::Migration[7.1]
       current_mode = "field"
     end
 
-    perform_method = Rails.env.production? ? :perform_later : :perform_now
+    perform_method = Rails.env.development? ? :perform_now : :perform_later
     WorkPackages::UpdateProgressJob.public_send(perform_method, current_mode:, previous_mode:)
   end
 
