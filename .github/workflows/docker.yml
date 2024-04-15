@@ -3,7 +3,7 @@ name: Docker
 on:
   # build dev daily
   schedule:
-    - cron: '20 2 * * *' # Daily at 02:20
+    - cron: "20 2 * * *" # Daily at 02:20
 
   push:
     tags:
@@ -57,22 +57,27 @@ jobs:
     needs:
       - extract_version
     if: github.repository == 'opf/openproject'
-    runs-on: runs-on,runner=8cpu-linux,family=m7i+m7a,run-id=${{ github.run_id }}
+    runs-on: runs-on,${{ matrix.runner }},run-id=${{ github.run_id }}
     strategy:
       matrix:
         include:
           - platform: linux/amd64
             target: slim
+            runner: runner=4cpu-linux-x64,family=m7i+m7a
           - platform: linux/arm64/v8
             target: slim
+            runner: runner=4cpu-linux-arm64,family=m7i+m7a
           - platform: linux/amd64
             target: all-in-one
+            runner: runner=4cpu-linux-x64,family=m7i+m7a
           - platform: linux/ppc64le
             bim_support: false
             target: all-in-one
+            runner: runner=4cpu-linux-x64,family=m7i+m7a
           - platform: linux/arm64/v8
             bim_support: false
             target: all-in-one
+            runner: runner=4cpu-linux-arm64,family=m7i+m7a
     steps:
       - name: Extract version
         id: extract_version
@@ -90,7 +95,7 @@ jobs:
             echo "Unsupported event"
             exit 1
           fi
-          
+
           if [ -z "$TAG_REF" ] || [ -z "$CHECKOUT_REF" ]; then
             echo "No TAG_REF or CHECKOUT_REF set. Aborting"
             exit 1
@@ -143,6 +148,8 @@ jobs:
           load: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
+          cache-to: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }},mode=max
       - name: Test
         # We only test the native container. If that fails the builds for the others
         # will be cancelled as well.
