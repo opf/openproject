@@ -441,4 +441,72 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
       include_examples "renders a banner with a warning message"
     end
   end
+
+  describe "Live-update edge cases" do
+    context "given work = 10h, remaining work = 4h, % complete = 60%" do
+      before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 4.0) }
+
+      specify "Case 1: When I unset work it unsets remaining work" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+        work_edit_field.activate!
+        page.driver.wait_for_network_idle # Wait for initial loading to be ready
+
+        work_edit_field.set_value("")
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+        pending "Currently sets remaining work to 4h instead of unsetting it"
+        remaining_work_edit_field.expect_modal_field_value("")
+      end
+
+      specify "Case 2: when work is set to 12h, " \
+              "remaining work is automatically set to 6h " \
+              "and subsequently work is set to 14h, " \
+              "remaining work updates to 8h" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+        work_edit_field.activate!
+        page.driver.wait_for_network_idle # Wait for initial loading to be ready
+
+        work_edit_field.set_value("12")
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+        remaining_work_edit_field.expect_modal_field_value("6")
+
+        work_edit_field.set_value("14")
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+        pending "Currently remaining work is not updated to 8h"
+        remaining_work_edit_field.expect_modal_field_value("8")
+      end
+
+      specify "Case 3: when work is set to 2h, " \
+              "remaining work is automatically set to 0h, " \
+              "and work is subsequently set to 12h, " \
+              "remaining work is updated to 6h" do
+        work_package_table.visit_query(progress_query)
+        work_package_table.expect_work_package_listed(work_package)
+
+        work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+        remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+        work_edit_field.activate!
+        page.driver.wait_for_network_idle # Wait for initial loading to be ready
+
+        work_edit_field.set_value("2")
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+        remaining_work_edit_field.expect_modal_field_value("0")
+
+        work_edit_field.set_value("12")
+        page.driver.wait_for_network_idle # Wait for live-update to finish
+        pending "Currently remains at 0h and is not updated to 6h"
+        remaining_work_edit_field.expect_modal_field_value("6")
+      end
+    end
+  end
 end
