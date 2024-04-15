@@ -152,7 +152,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
           .to have_received(:warn)
                 .with(command: described_class,
                       message: nil,
-                      data: { body: "/usr/local/bundle/gems/httpx-1.2.3/lib/httpx/response.rb:260:in `full_message': timed out while waiting on select (HTTPX::ConnectTimeoutError)\n",
+                      data: { body: match_regex(%r{/lib/httpx/response.rb:260:in `full_message': timed out while waiting on select \(HTTPX::ConnectTimeoutError\)\n$}),
                               status: nil }).once
       end
     end
