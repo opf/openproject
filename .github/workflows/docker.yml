@@ -63,21 +63,21 @@ jobs:
         include:
           - platform: linux/amd64
             target: slim
-            runner: runner=4cpu-linux-x64,family=m7i+m7a
+            runner: runner=4cpu-linux-x64
           - platform: linux/arm64/v8
             target: slim
-            runner: runner=4cpu-linux-arm64,family=m7i+m7a
+            runner: runner=4cpu-linux-arm64
           - platform: linux/amd64
             target: all-in-one
-            runner: runner=4cpu-linux-x64,family=m7i+m7a
+            runner: runner=4cpu-linux-x64
           - platform: linux/ppc64le
             bim_support: false
             target: all-in-one
-            runner: runner=4cpu-linux-x64,family=m7i+m7a
+            runner: runner=4cpu-linux-x64
           - platform: linux/arm64/v8
             bim_support: false
             target: all-in-one
-            runner: runner=4cpu-linux-arm64,family=m7i+m7a
+            runner: runner=4cpu-linux-arm64
     steps:
       - name: Extract version
         id: extract_version
