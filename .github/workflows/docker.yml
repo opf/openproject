@@ -62,26 +62,27 @@ jobs:
         - runs-on
         - run-id=${{ github.run_id }}
         - ${{ matrix.runner }}
+        - debug=true
     strategy:
       matrix:
         include:
-          - platform: linux/amd64
-            target: slim
-            runner: runner=4cpu-linux-x64
-          - platform: linux/arm64/v8
-            target: slim
-            runner: runner=4cpu-linux-arm64
-          - platform: linux/amd64
-            target: all-in-one
-            runner: runner=4cpu-linux-x64
+          # - platform: linux/amd64
+          #   target: slim
+          #   runner: runner=4cpu-linux-x64
+          # - platform: linux/arm64/v8
+          #   target: slim
+          #   runner: runner=4cpu-linux-arm64
+          # - platform: linux/amd64
+          #   target: all-in-one
+          #   runner: runner=4cpu-linux-x64
+          # - platform: linux/arm64/v8
+          #   bim_support: false
+          #   target: all-in-one
+          #   runner: runner=4cpu-linux-arm64
           - platform: linux/ppc64le
             bim_support: false
             target: all-in-one
             runner: family=c7i.metal-24xl+m7i.metal-24xl+m5zn.metal+c5.metal
-          - platform: linux/arm64/v8
-            bim_support: false
-            target: all-in-one
-            runner: runner=4cpu-linux-arm64
     steps:
       - name: Extract version
         id: extract_version
