@@ -32,9 +32,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { Observable } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { filter, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 
 @Component({
   selector: 'wp-create-button',
@@ -63,12 +63,15 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
     explanation: this.I18n.t('js.label_create_work_package'),
   };
 
-  constructor(readonly $state:StateService,
+  constructor(
+    readonly $state:StateService,
+    readonly currentUser:CurrentUserService,
     readonly currentProject:CurrentProjectService,
     readonly authorisationService:AuthorisationService,
     readonly transition:TransitionService,
     readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef) {
+    readonly cdRef:ChangeDetectorRef,
+  ) {
     super();
   }
 
@@ -76,20 +79,13 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
     this.projectIdentifier = this.currentProject.identifier;
 
     // Find the first permission that is allowed
-    this.authorisationService
-      .observeUntil(componentDestroyed(this))
+    this.currentUser
+      .hasCapabilities$('work_packages/create', this.currentProject.id)
       .pipe(
-        filter((links) => !!links.work_package),
         take(1),
       )
-      .subscribe(() => {
-        this.allowed = !!this
-          .allowedWhen
-          .find((combined) => {
-            const [module, permission] = combined.split('.');
-            return this.authorisationService.can(module, permission);
-          });
-
+      .subscribe((allowed) => {
+        this.allowed = allowed;
         this.updateDisabledState();
       });
 
