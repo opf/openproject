@@ -57,7 +57,11 @@ jobs:
     needs:
       - extract_version
     if: github.repository == 'opf/openproject'
-    runs-on: runs-on,${{ matrix.runner }},run-id=${{ github.run_id }}
+    runs-on:
+      labels:
+        - runs-on
+        - run-id=${{ github.run_id }}
+        - ${{ matrix.runner }}
     strategy:
       matrix:
         include:
