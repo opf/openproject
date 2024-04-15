@@ -80,7 +80,7 @@ jobs:
             else
               # Close all previous PRs with label
               for pr_number in $(gh pr list --label create-merge-release-into-dev-pr --json number --jq='.[].number'); do
-                gh pr close "$pr_number"
+                gh pr close "$pr_number" --delete-branch
               done
 
               TEMP_BRANCH="merge-$RELEASE_BRANCH-$(date "+%Y%m%d%H%M%S")"
