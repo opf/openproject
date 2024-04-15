@@ -206,10 +206,6 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Journalized
   prepend Journable::Timestamps
 
-  def self.done_ratio_disabled?
-    Setting.work_package_done_ratio == "disabled"
-  end
-
   def self.use_status_for_done_ratio?
     Setting.work_package_done_ratio == "status"
   end

@@ -116,8 +116,6 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def derive_done_ratio(ancestor, loader)
-    return if WorkPackage.done_ratio_disabled?
-
     ancestor.derived_done_ratio = compute_derived_done_ratio(ancestor, loader)
   end
 
