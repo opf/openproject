@@ -61,7 +61,6 @@ class MeetingSectionsController < ApplicationController
       .new(user: current_user)
       .call(
         {
-          name: "Untitled", # TODO: i18n
           meeting_id: @meeting.id
         }
       )
@@ -70,6 +69,8 @@ class MeetingSectionsController < ApplicationController
 
     if call.success?
       update_all_via_turbo_stream # TODO: more specific UI update
+      update_section_header_via_turbo_stream(state: :edit)
+      update_new_button_via_turbo_stream(disabled: true)
     else
       render_base_error_in_flash_message_via_turbo_stream(call.errors)
     end
@@ -89,7 +90,13 @@ class MeetingSectionsController < ApplicationController
   end
 
   def cancel_edit
-    update_section_header_via_turbo_stream(state: :show)
+    if @meeting_section.has_default_name? && @meeting_section.agenda_items.empty?
+      # if the section has the default name and no agenda items, we can safely delete it
+      destroy and return
+    else
+      update_section_header_via_turbo_stream(state: :show)
+      update_new_button_via_turbo_stream(disabled: false)
+    end
 
     respond_with_turbo_streams
   end
@@ -101,6 +108,7 @@ class MeetingSectionsController < ApplicationController
 
     if call.success?
       update_section_header_via_turbo_stream(state: :show)
+      update_new_button_via_turbo_stream(disabled: false)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
     else

@@ -32,9 +32,14 @@
         model: @meeting_section,
         method: :put,
         url: meeting_section_path(@meeting_section.meeting, @meeting_section),
+        data: {
+            "controller": "meeting-section-form",
+            "application-target": "dynamic",
+            "meeting-section-form-cancel-url-value": cancel_edit_meeting_section_path(@meeting_section.meeting, @meeting_section)
+        }
       ) do |f|
         flex_layout do |editable_title_form|
-          editable_title_form.with_column(flex: 1, mr: 2) do
+          editable_title_form.with_column(flex: 1, mr: 2, pl: 3) do
             render(MeetingSection::Name.new(f))
           end
 

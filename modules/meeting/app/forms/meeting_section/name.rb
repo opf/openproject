@@ -32,9 +32,23 @@ class MeetingSection::Name < ApplicationForm
       name: :name,
       placeholder: Meeting.human_attribute_name(:title),
       label: Meeting.human_attribute_name(:title),
+      value: init_value(meeting_section_form),
       visually_hide_label: true,
       required: true,
-      autofocus: true
+      autofocus: true,
+      data: {
+        action: "keydown.esc->meeting-section-form#cancel"
+      }
     )
+  end
+
+  private
+
+  def init_value(meeting_section_form)
+    if meeting_section_form.builder.object.has_default_name?
+      "" # will be set to "Untitled" in the model if left empty
+    else
+      meeting_section_form.builder.object.name
+    end
   end
 end

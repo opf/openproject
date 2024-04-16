@@ -34,12 +34,15 @@ module MeetingSections
 
     with_collection_parameter :meeting_section
 
-    def initialize(meeting_section:, state: :show, first_and_last: [])
+    def initialize(meeting_section:, first_and_last: [], form_hidden: true, form_type: :simple)
       super
 
+      @meeting = meeting_section.meeting
       @meeting_section = meeting_section
       @meeting_agenda_items = meeting_section.agenda_items
       @first_and_last = first_and_last
+      @form_hidden = form_hidden
+      @form_type = form_type
     end
 
     private
@@ -52,6 +55,14 @@ module MeetingSections
       @meeting_section.meeting.sections.count > 1
     end
 
+    def top_margin
+      if @meeting_section.id == @first_and_last.first.id
+        1
+      else
+        3
+      end
+    end
+
     def drag_and_drop_target_config
       {
         "is-drag-and-drop-target": true,
@@ -59,6 +70,14 @@ module MeetingSections
         "target-id": @meeting_section.id, # the id of the target
         "target-allowed-drag-type": "custom-field" # the type of dragged items which are allowed to be dropped in this target
       }
+    end
+
+    def insert_target_modified?
+      true
+    end
+
+    def insert_target_modifier_id
+      "meeting-agenda-items-new-item"
     end
   end
 end

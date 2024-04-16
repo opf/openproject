@@ -6,9 +6,10 @@
           render(MeetingAgendaItems::FormComponent.new(
             meeting: @meeting,
             meeting_agenda_item: @meeting_agenda_item,
+            meeting_section: @meeting_section,
             method: :post,
             submit_path: meeting_agenda_items_path(@meeting, format: :turbo_stream),
-            cancel_path: cancel_new_meeting_agenda_items_path(@meeting),
+            cancel_path: cancel_new_meeting_agenda_items_path(@meeting, meeting_section_id: @meeting_section&.id),
             type: @type
           ))
         end

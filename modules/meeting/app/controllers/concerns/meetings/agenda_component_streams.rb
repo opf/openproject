@@ -86,40 +86,71 @@ module Meetings
           component: Meetings::Sidebar::ParticipantsFormComponent.new(
             meeting:
           ),
-          status: :bad_request
+          status: :bad_request # TODO: why bad_request?
         )
       end
 
       def update_show_items_via_turbo_stream(meeting: @meeting)
-        agenda_items = meeting.agenda_items.with_includes_to_render
-        first_and_last = [agenda_items.first, agenda_items.last]
+        # TODO: scope to specific section in cases where only one section is affected for less computation
+        meeting.sections.each do |meeting_section|
+          agenda_items = meeting_section.agenda_items.with_includes_to_render
+          first_and_last = [agenda_items.first, agenda_items.last]
 
-        agenda_items.each do |meeting_agenda_item|
-          update_via_turbo_stream(
-            component: MeetingAgendaItems::ItemComponent::ShowComponent.new(meeting_agenda_item:, first_and_last:)
-          )
+          agenda_items.each do |meeting_agenda_item|
+            update_via_turbo_stream(
+              component: MeetingAgendaItems::ItemComponent::ShowComponent.new(meeting_agenda_item:, first_and_last:)
+            )
+          end
         end
       end
 
-      def update_new_component_via_turbo_stream(hidden: false, meeting_agenda_item: nil, meeting: @meeting, type: :simple)
+      def update_new_component_via_turbo_stream(hidden: false, meeting_section: @meeting_section, meeting_agenda_item: nil,
+                                                meeting: @meeting, type: :simple)
+        if meeting_section.nil? && meeting_agenda_item.nil?
+          meeting_section = meeting.sections.last
+        end
+
+        if meeting_agenda_item.present?
+          meeting_section = meeting_agenda_item.meeting_section
+        end
+
         update_via_turbo_stream(
           component: MeetingAgendaItems::NewComponent.new(
             hidden:,
             meeting:,
+            meeting_section:,
             meeting_agenda_item:,
             type:
           )
         )
       end
 
-      def update_new_button_via_turbo_stream(disabled: false, meeting_agenda_item: nil, meeting: @meeting)
+      def update_new_button_via_turbo_stream(disabled: false, meeting: @meeting, meeting_section: nil)
         update_via_turbo_stream(
           component: MeetingAgendaItems::NewButtonComponent.new(
             disabled:,
             meeting:,
-            meeting_agenda_item:
+            meeting_section:
           )
         )
+      end
+
+      def render_agenda_item_form_via_turbo_stream(meeting: @meeting, meeting_section: @meeting_section, type: :simple)
+        if meeting_section.nil?
+          meeting_section = meeting.sections.last
+        end
+
+        if meeting_section.agenda_items.empty?
+          update_section_via_turbo_stream(meeting_section:, form_hidden: false, form_type: type)
+        else
+          update_new_component_via_turbo_stream(
+            hidden: false,
+            meeting_section:,
+            type:
+          )
+        end
+
+        update_new_button_via_turbo_stream(disabled: true)
       end
 
       def update_list_via_turbo_stream(meeting: @meeting, form_hidden: true, form_type: :simple)
@@ -152,14 +183,20 @@ module Meetings
         if clear_slate
           update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
         else
-          add_before_via_turbo_stream(
-            component: MeetingAgendaItems::ItemComponent.new(
-              state: :show,
-              meeting_agenda_item:
-            ),
-            target_component: MeetingAgendaItems::ListComponent.new(meeting: @meeting)
+          # TODO: more specific UI update as before
+          update_section_via_turbo_stream(meeting_section: meeting_agenda_item.meeting_section)
+          # add_before_via_turbo_stream(
+          #   component: MeetingAgendaItems::ItemComponent.new(
+          #     state: :show,
+          #     meeting_agenda_item:
+          #   ),
+          #   target_component: MeetingAgendaItems::ListComponent.new(meeting: @meeting)
+          # )
+          update_new_component_via_turbo_stream(
+            hidden: false,
+            meeting_section: meeting_agenda_item.meeting_section,
+            type: @agenda_item_type
           )
-          update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
           update_show_items_via_turbo_stream
         end
       end
@@ -169,13 +206,18 @@ module Meetings
           update_list_via_turbo_stream
         else
           update_show_items_via_turbo_stream
-          remove_via_turbo_stream(
-            component: MeetingAgendaItems::ItemComponent.new(
-              state: :show,
-              meeting_agenda_item:,
-              display_notes_input: nil
+          if meeting_agenda_item.meeting_section.agenda_items.empty?
+            # Show the empty section state by updating the whole section if items are empty
+            update_section_via_turbo_stream(meeting_section: meeting_agenda_item.meeting_section)
+          else
+            remove_via_turbo_stream(
+              component: MeetingAgendaItems::ItemComponent.new(
+                state: :show,
+                meeting_agenda_item:,
+                display_notes_input: nil
+              )
             )
-          )
+          end
         end
       end
 
@@ -194,7 +236,10 @@ module Meetings
               meeting_agenda_item: @meeting_agenda_item.lower_item
             )
           else
-            MeetingAgendaItems::ListComponent.new(meeting: @meeting)
+            MeetingSections::ShowComponent.new(
+              meeting_section: @meeting_agenda_item.meeting_section
+            )
+            # MeetingAgendaItems::ListComponent.new(meeting: @meeting)
           end
         add_before_via_turbo_stream(component:, target_component:)
         update_show_items_via_turbo_stream
@@ -211,6 +256,16 @@ module Meetings
           component: MeetingSections::HeaderComponent.new(
             meeting_section:,
             state:
+          )
+        )
+      end
+
+      def update_section_via_turbo_stream(meeting_section: @meeting_section, form_hidden: true, form_type: :simple)
+        update_via_turbo_stream(
+          component: MeetingSections::ShowComponent.new(
+            meeting_section:,
+            form_type:,
+            form_hidden:
           )
         )
       end

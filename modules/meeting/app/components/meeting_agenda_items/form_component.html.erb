@@ -56,6 +56,9 @@
               end
             end
             flex.with_column do
+              render(MeetingAgendaItem::MeetingSectionForm.new(f, meeting_section: @meeting_section))
+            end
+            flex.with_column do
               render(MeetingAgendaItem::Submit.new(f, type: @type))
             end
           end

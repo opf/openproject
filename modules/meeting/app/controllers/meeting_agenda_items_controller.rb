@@ -40,8 +40,10 @@ class MeetingAgendaItemsController < ApplicationController
 
   def new
     if @meeting.open?
-      update_new_component_via_turbo_stream(hidden: false, type: @agenda_item_type)
-      update_new_button_via_turbo_stream(disabled: true)
+      if params[:meeting_section_id].present?
+        meeting_section = @meeting.sections.find(params[:meeting_section_id])
+      end
+      render_agenda_item_form_via_turbo_stream(meeting_section:, type: @agenda_item_type)
     else
       update_all_via_turbo_stream
       render_error_flash_message_via_turbo_stream(message: t("text_meeting_not_editable_anymore"))
@@ -51,7 +53,16 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def cancel_new
-    update_new_component_via_turbo_stream(hidden: true)
+    if params[:meeting_section_id].present?
+      meeting_section = @meeting.sections.find(params[:meeting_section_id])
+      if meeting_section.agenda_items.empty?
+        update_section_via_turbo_stream(form_hidden: true, meeting_section:)
+      else
+        update_new_button_via_turbo_stream(disabled: false, meeting_section:)
+      end
+    end
+
+    update_new_component_via_turbo_stream(hidden: true, meeting_section:)
     update_new_button_via_turbo_stream(disabled: false)
 
     respond_with_turbo_streams
@@ -197,7 +208,7 @@ class MeetingAgendaItemsController < ApplicationController
   def meeting_agenda_item_params
     params
       .require(:meeting_agenda_item)
-      .permit(:title, :duration_in_minutes, :presenter_id, :notes, :work_package_id, :lock_version)
+      .permit(:title, :duration_in_minutes, :presenter_id, :notes, :work_package_id, :lock_version, :meeting_section_id)
   end
 
   def generic_call_failure_response(call)

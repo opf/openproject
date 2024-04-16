@@ -36,9 +36,21 @@ class MeetingSection < ApplicationRecord
 
   validates :name, presence: true
 
+  before_validation :set_default_name
+
   acts_as_list scope: :meeting
 
   default_scope { order(:position) }
+
+  def set_default_name
+    if name.blank?
+      self.name = "Untitled" # TODO: I18n
+    end
+  end
+
+  def has_default_name?
+    name == "Untitled" # TODO: I18n
+  end
 
   def editable?
     !meeting&.closed?

@@ -50,12 +50,12 @@ module MeetingAgendaItems
       }
     end
 
-    def insert_target_modified?
-      true
-    end
+    # def insert_target_modified?
+    #   true
+    # end
 
-    def insert_target_modifier_id
-      "meeting-agenda-items-new-item"
-    end
+    # def insert_target_modifier_id
+    #   "meeting-agenda-items-new-item"
+    # end
   end
 end

@@ -13,7 +13,7 @@
         )
       end
       flex.with_row do
-        render(Primer::Beta::BorderBox.new(position: :relative)) do |border_box|
+        render(Primer::Beta::BorderBox.new(mt: 1, position: :relative)) do |border_box|
           if @meeting.agenda_items.empty? && @form_hidden
             border_box.with_body(
               scheme: :default
@@ -34,9 +34,9 @@
               end
             end
           end
-          border_box.with_row(p: 0, border_top: 0, id: insert_target_modifier_id) do
-            render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, hidden: @form_hidden, type: @form_type))
-          end
+          # border_box.with_row(p: 0, border_top: 0, id: insert_target_modifier_id) do
+          #   render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, hidden: @form_hidden, type: @form_type))
+          # end
         end
       end
     end

@@ -1,16 +1,19 @@
 <%=
   component_wrapper(class: "op-meeting-section-container", data: { test_selector: "meeting-section-container-#{@meeting_section.id}" }) do
-    render(Primer::Beta::BorderBox.new(mt: 3, data: drag_and_drop_target_config)) do |component|
+    render(Primer::Beta::BorderBox.new(mt: top_margin, data: drag_and_drop_target_config)) do |component|
       if render_section_wrapper?
-        component.with_header(font_weight: :bold) do
+        component.with_header(font_weight: :bold, pl: 0) do
           render(MeetingSections::HeaderComponent.new(meeting_section: @meeting_section))
         end
       end
-      if @meeting_agenda_items.empty?
+      if @meeting_agenda_items.empty? && @form_hidden
         component.with_row(data: { 'empty-list-item': true }) do
           flex_layout(align_items: :center, justify_content: :space_between) do |empty_list_container|
-            empty_list_container.with_column(ml: 4, mr: 2) do
-              render(Primer::Beta::Text.new(color: :subtle)) { t("settings.project_attributes.label_no_project_custom_fields") }
+            empty_list_container.with_column(mr: 2) do
+              render(Primer::Beta::Text.new(color: :subtle)) { "Drag items here or create a new one" } # TODO: i18n
+            end
+            empty_list_container.with_column do
+              render(MeetingAgendaItems::NewButtonComponent.new(meeting: @meeting, meeting_section: @meeting_section))
             end
           end
         end
@@ -25,6 +28,9 @@
             )
           )
         end
+      end
+      component.with_row(p: 0, border_top: 0, id: insert_target_modifier_id) do
+        render(MeetingAgendaItems::NewComponent.new(meeting: @meeting, meeting_section: @meeting_section, hidden: @form_hidden, type: @form_type))
       end
     end
   end
