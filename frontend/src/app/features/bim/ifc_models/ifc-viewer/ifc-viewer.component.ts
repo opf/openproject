@@ -125,7 +125,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
             busyModelBackdropElement: this.viewerContainer.nativeElement as HTMLElement,
             keyboardEventsElement: this.modelCanvas.nativeElement as HTMLElement,
             enableEditModels: manageIfcModelsAllowed,
-            enableMeasurements: true, // TODO: should be false
+            enableMeasurements: false,
           },
           this.ifcData.projects,
         );
