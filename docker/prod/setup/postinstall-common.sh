@@ -3,17 +3,6 @@
 set -ex
 set -o pipefail
 
-pushd "${APP_PATH}/frontend"
-
-export NG_CLI_ANALYTICS=ci # so angular cli doesn't block waiting for user input
-
-# Installing frontend dependencies
-npm install
-
-popd
-
-# Bundle assets
-
 su - postgres -c "$PGBIN/initdb -D /tmp/nulldb"
 su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -l /tmp/nulldb/log -w start"
 
@@ -31,6 +20,11 @@ sed -i '/^COMMENT ON EXTENSION/d' db/structure.sql
 if [ -f config/frontend_assets.manifest.json ]; then
   echo "Assets have already been precompiled. Reusing."
 else
+  pushd "${APP_PATH}/frontend"
+  export NG_CLI_ANALYTICS=ci # so angular cli doesn't block waiting for user input
+  # Installing frontend dependencies
+  npm install
+  popd
   # precompile assets
   DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bundle exec rake assets:precompile
 fi
