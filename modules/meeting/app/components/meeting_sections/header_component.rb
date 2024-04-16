@@ -56,6 +56,10 @@ module MeetingSections
       }
     end
 
+    def editable?
+      @meeting_section.editable? && User.current.allowed_in_project?(:manage_agendas, @meeting_section.project)
+    end
+
     def first?
       @first ||=
         if @first_and_last.first

@@ -3,8 +3,8 @@
     if @state == :show
       flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
         section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
-          content_container.with_column(mr: @meeting_section.editable? ? 2 : 4) do
-            if @meeting_section.editable?
+          content_container.with_column(mr: editable? ? 2 : 4) do
+            if editable?
               render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
             end
           end
@@ -14,7 +14,7 @@
             end
           end
         end
-        if @meeting_section.editable?
+        if editable?
           section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
             actions_container.with_column do
               render(Primer::Alpha::ActionMenu.new(data: { test_selector: "meeting-section-action-menu" })) do |menu|

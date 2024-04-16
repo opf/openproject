@@ -44,7 +44,7 @@ module MeetingAgendaItems
 
       service_call = perform_drop(service_call, params) if service_call.success?
 
-      after_perform(service_call) if service_call.success?
+      # after_perform(service_call) if service_call.success? # TODO properly integrate after_perform_hook
 
       service_call
     end
