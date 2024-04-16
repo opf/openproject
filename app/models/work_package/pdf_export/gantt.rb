@@ -65,37 +65,6 @@ module WorkPackage::PDFExport::Gantt
     painter.paint(pages)
   end
 
-  class GanttUtils
-    def self.day_in_quarter(date)
-      date.yday - start_of_quarter(date.year, date.month).yday + 1
-    end
-
-    def self.quarter_of_date(date)
-      (date.month / 3.0).ceil
-    end
-
-    def self.start_of_quarter(year, month)
-      Date.new(year, (quarter_of_date(Date.new(year, month, 1)) * 3) - 2, 1)
-    end
-
-    def self.end_of_quarter(year, month)
-      Date.new(year, (quarter_of_date(Date.new(year, month, 1)) * 3), -1)
-    end
-
-    def self.days_of_month(date)
-      Date.new(date.year, date.month, -1).day
-    end
-
-    def self.days_of_quarter(date)
-      quarter = quarter_of_date(date)
-      days = 0
-      (1..3).each do |q|
-        days += days_of_month(Date.new(date.year, (quarter * 3) - 2 + q, 1))
-      end
-      days
-    end
-  end
-
   class GanttBuilder
     def initialize(pdf, title, column_width)
       @pdf = pdf
@@ -235,9 +204,9 @@ module WorkPackage::PDFExport::Gantt
 
     def build_header_row_quarters(columns)
       build_header_row_part(columns,
-                            ->(date) { [date.year, GanttUtils::quarter_of_date(date)] },
+                            ->(date) { [date.year, date.quarter] },
                             ->(date, quarter_tuple) {
-                              date.year == quarter_tuple[0] && GanttUtils::quarter_of_date(date) == quarter_tuple[1]
+                              date.year == quarter_tuple[0] && date.quarter == quarter_tuple[1]
                             },
                             ->(quarter_tuple) { "Q#{quarter_tuple[1]}" })
     end
@@ -402,7 +371,7 @@ module WorkPackage::PDFExport::Gantt
       test_date = Date.new(date.year, date.month, 1)
       return 0 if work_package.start_date <= test_date
 
-      width_per_day = @column_width.to_f / GanttUtils::days_of_month(date)
+      width_per_day = @column_width.to_f / date.end_of_month.day
       day_in_month = work_package.start_date.day - 1
       day_in_month * width_per_day
     end
@@ -412,7 +381,7 @@ module WorkPackage::PDFExport::Gantt
       test_date = Date.new(date.year, date.month, -1)
       return 0 if wp_date >= test_date
 
-      width_per_day = @column_width.to_f / GanttUtils::days_of_month(test_date)
+      width_per_day = @column_width.to_f / test_date.day
       day_in_month = wp_date.day
       @column_width - (day_in_month * width_per_day)
     end
@@ -460,7 +429,7 @@ module WorkPackage::PDFExport::Gantt
   class GanttBuilderQuarters < GanttBuilder
     def build_column_dates_range(range)
       range
-        .map { |d| [d.year, GanttUtils::quarter_of_date(d)] }
+        .map { |d| [d.year, d.quarter] }
         .uniq
         .map { |year, quarter| Date.new(year, quarter * 3, -1) }
     end
@@ -474,30 +443,38 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def calc_start_offset(work_package, date)
-      test_date = GanttUtils::start_of_quarter(date.year, date.month)
-      return 0 if work_package.start_date <= test_date
+      return 0 if work_package.start_date <= date.beginning_of_quarter
 
-      width_per_day = @column_width.to_f / GanttUtils::days_of_quarter(date)
-      day_in_quarter = GanttUtils::day_in_quarter(work_package.start_date) - 1
+      width_per_day = @column_width.to_f / days_of_quarter(date)
+      day_in_quarter = day_in_quarter(work_package.start_date) - 1
       day_in_quarter * width_per_day
     end
 
     def calc_end_offset(work_package, date)
       wp_date = work_package.due_date.nil? ? Time.zone.today : work_package.due_date
-      test_date = GanttUtils::end_of_quarter(date.year, date.month)
-      return 0 if wp_date >= test_date
+      return 0 if wp_date >= date.end_of_quarter
 
       width_per_day = @column_width.to_f / GanttUtils::days_of_quarter(date)
       day_in_quarter = GanttUtils::day_in_quarter(wp_date)
       @column_width - (day_in_quarter * width_per_day)
     end
 
+    def day_in_quarter(date)
+      date.yday - date.beginning_of_quarter.yday + 1
+    end
+
+    def days_of_quarter(date)
+      quarter = date.quarter
+      days = 0
+      (1..3).each do |q|
+        days += Date.new(date.year, (quarter * 3) - 2 + q, -1).day
+      end
+      days
+    end
+
     def wp_on_quarter?(work_package, date)
       end_date = work_package.due_date || Time.zone.today
-      Range.new(
-        GanttUtils::start_of_quarter(work_package.start_date.year, work_package.start_date.month),
-        GanttUtils::end_of_quarter(end_date.year, end_date.month)
-      ).include?(date)
+      Range.new(work_package.beginning_of_quarter, end_date.end_of_quarter).include?(date)
     end
   end
 
