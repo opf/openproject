@@ -61,12 +61,16 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             frontend/package-lock.json
+      - run: npm ci
       - uses: runs-on/cache@v4
         with:
           path: frontend/.angular
           key: angular-${{ github.ref }}
           restore-keys: angular-
-      - run: RAILS_ENV=production bundle exec rake assets:precompile
+      - name: Precompile assets
+        run: |
+          DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
+          cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
       - uses: runs-on/cache/save@v4
         with:
           path: public
