@@ -51,6 +51,20 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "checkout_ref=$CHECKOUT_REF" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
+      - name: Cache NPM
+        uses: runs-on/cache@v4
+        with:
+          path: |
+            frontend/node_modules
+            node_modules
+          key: nodejs-x64-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: nodejs-x64-
+      - name: Cache angular
+        uses: runs-on/cache@v4
+        with:
+          path: frontend/.angular
+          key: angular-${{ github.ref }}
+          restore-keys: angular-
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
@@ -62,19 +76,15 @@ jobs:
             package-lock.json
             frontend/package-lock.json
       - run: npm install
-      - uses: runs-on/cache@v4
-        with:
-          path: frontend/.angular
-          key: angular-${{ github.ref }}
-          restore-keys: angular-
       - name: Precompile assets
         run: |
           DATABASE_URL=nulldb://db time bin/rails openproject:plugins:register_frontend assets:precompile
-          cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
+          cp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
       - uses: actions/upload-artifact@v4
         with:
-          path: public
+          path: public/
           name: public-assets-${{ github.sha }}
+          overwrite: true
     outputs:
       version: ${{ steps.extract_version.outputs.version }}
       checkout_ref: ${{ steps.extract_version.outputs.checkout_ref }}
@@ -120,6 +130,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: public-assets-${{ github.sha }}
+          path: public/
+      - name: Setup precompiled assets
+        run: |
+          ls -al public/
+          mv public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
