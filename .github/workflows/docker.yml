@@ -83,7 +83,7 @@ jobs:
             bim_support: false
             target: all-in-one
             # runner: family=c7i.metal-24xl+m7i.metal-24xl
-            runner: runner=4cpu-linux-arm64
+            runner: family=r7iz.xlarge
     steps:
       - name: Extract version
         id: extract_version
