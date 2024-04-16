@@ -306,6 +306,11 @@ class WorkPackage < ApplicationRecord
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
   end
 
+  def remaining_hours=(hours)
+    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
+    write_attribute :remaining_hours, !!converted_hours ? converted_hours : hours
+  end
+
   def duration_in_hours
     duration ? duration * 24 : nil
   end

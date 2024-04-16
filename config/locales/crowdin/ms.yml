@@ -322,37 +322,37 @@ ms:
       wp_shares: "Kongsian pakej kerja"
       groups: "Kumpulan"
     delete_member_dialog:
-      title: "Remove member"
-      will_remove_the_users_role: "This will remove the user’s role from this project."
-      will_remove_the_groups_role: "This will remove the group role from this project."
+      title: "Keluarkan ahli"
+      will_remove_the_users_role: "Ini akan membatalkan peranan pengguna dari projek ini."
+      will_remove_the_groups_role: "Ini akan membatalkan peranan kumpulan dari projek ini."
       however_work_packages_shared_with_user_html:
-        other: "However, %{shared_work_packages_link} have also been shared with this user."
+        other: "Walau bagaimanapun, %{shared_work_packages_link} juga telah dikongsi dengan pengguna ini."
       however_work_packages_shared_with_group_html:
-        other: "However, %{shared_work_packages_link} have also been shared with this group."
-      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+        other: "Walau bagaimanapun, %{shared_work_packages_link} juga telah dikongsi dengan kumpulan ini."
+      remove_work_packages_shared_with_user_too: "Seorang pengguna yang telah dikeluarkan sebagai ahli masih boleh mengakses pakej kerja yang dikongsi. Adakah anda ingin mengeluarkan perkongsian juga?"
+      remove_work_packages_shared_with_group_too: "Satu kumpulan yang telah dikeluarkan sebagai ahli masih boleh mengakses pakej kerja yang dikongsi. Adakah anda ingin mengeluarkan perkongsian juga?"
+      will_not_affect_inherited_shares: "(Ini tidak akan mempengaruhi pakej kerja yang dikongsikan dengan kumpulan mereka)."
       can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
       also_work_packages_shared_with_user_html:
-        other: "Also, %{shared_work_packages_link} have been shared with this user."
+        other: "Juga, %{shared_work_packages_link} telah dikongsi dengan pengguna ini."
       remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
       will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
       will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
-      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
-      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
-      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+      cannot_delete_inherited_membership: "Anda tidak boleh mengeluarkan ahli ini kerana mereka adalah anggota dalam satu kumpulan yang juga merupakan ahli dalam projek ini."
+      cannot_delete_inherited_membership_note_admin_html: "Anda boleh sama ada mengeluarkan kumpulan tersebut sebagai ahli projek atau ahli tertentu ini dari kumpulan tersebut dalam %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "Anda boleh sama ada mengeluarkan kumpulan tersebut sebagai ahli projek atau hubungi pentadbir anda untuk mengeluarkan ahli tertentu ini dari kumpulan tersebut."
     delete_work_package_shares_dialog:
-      title: "Revoke work package shares"
+      title: "Batalkan perkongsian pakej kerja"
       shared_with_this_user_html:
-        other: "%{all_shared_work_packages_link} have been shared with this user."
+        other: "%{all_shared_work_packages_link} telah dikongsi dengan pengguna ini."
       shared_with_this_group_html:
-        other: "%{all_shared_work_packages_link} have been shared with this group."
+        other: "%{all_shared_work_packages_link} telah dikongsi dengan kumpulan ini."
       shared_with_permission_html:
-        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
-      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+        other: "Hanya %{shared_work_packages_link} telah dikongsi dengan kebenaran %{shared_role_name}."
+      revoke_all_or_with_role: "Adakah anda ingin membatalkan akses ke semua pakej kerja yang dikongsikan, atau hanya mereka dengan kebenaran %{shared_role_name}?"
+      will_not_affect_inherited_shares: "(Ini tidak akan mempengaruhi pakej kerja yang dikongsikan dengan kumpulan mereka)."
+      cannot_remove_inherited: "Perkongsian pakej kerja yang dikongsikan melalui kumpulan tidak boleh dibuang."
+      cannot_remove_inherited_with_role: "Perkongsian pakej kerja dengan peranan %{shared_role_name} dikongsi melalui kumpulan dan tidak boleh dikeluarkan."
       cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
       will_revoke_directly_granted_access: "Tindakan ini akan membatalkan akses mereka kepada semuanya, kecuali pakej kerja yang dikongsi dengan kumpulan."
@@ -394,7 +394,7 @@ ms:
     text: "Teks"
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+      Anda tidak dibenarkan untuk membuang pengguna sementara. Anda tidak mempunyai hak untuk mengurus ahli untuk semua projek yang pengguna sementara merupakan ahli kepada.
     delete_tooltip: "Buang pengguna sementara"
     deletion_info:
       heading: "Buang pengguna sementara %{name}"
@@ -463,7 +463,7 @@ ms:
       no_results_title_text: Tiada aliran kerja buat sekarang ini.
   work_packages:
     x_descendants:
-      other: "%{count} work package descendants"
+      other: "Satu keturunan pakej kerja"
     bulk:
       copy_failed: "Pakej kerja ini tidak boleh disalin."
       move_failed: "Pakej kerja tidak boleh digerakkan."
@@ -911,7 +911,7 @@ ms:
               error_not_found: "pakej kerja dalam posisi `ke` tidak dapat dijumpai atau tidak kelihatan."
               error_readonly: "an existing relation's `to` link is immutable"
             from:
-              error_not_found: "work package in `from` position not found or not visible"
+              error_not_found: "pakej kerja dalam posisi `dari` tidak dapat dijumpai atau tidak kelihatan"
               error_readonly: "an existing relation's `from` link is immutable"
         repository:
           not_available: "Vendor SCM tidak tersedia"
@@ -1285,7 +1285,7 @@ ms:
   button_view_shared_work_packages: "View shared work packages"
   button_manage_roles: "Uruskan peranan"
   button_remove_member: "Keluarkan ahli"
-  button_remove_member_and_shares: "Remove member and shares"
+  button_remove_member_and_shares: "Keluarkan ahli dan perkongsian"
   button_revoke_work_package_shares: "Batalkan perkongsian pakej kerja"
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
@@ -1671,7 +1671,7 @@ ms:
         revoke_token: "Adakah anda ingin membuang token ini? Anda perlu untuk log masuk semula di %{storage}"
         removed: "Token Fail Penyimpanan berjaya dikeluarkan"
         failed: "Sebuah ralat telah berlaku dan token tidak dapat dipadam. Sila cuba lagi kemudian."
-        unknown_storage: "Unknown storage"
+        unknown_storage: "Penyimpanan tidak dikenal pasti"
   notifications:
     send_notifications: "Hantar notifikasi untuk tindakan ini"
     work_packages:
@@ -1785,9 +1785,9 @@ ms:
   label_changeset: "Set ubahsuai"
   label_changeset_id: "ID Set Ubahsuai"
   label_changeset_plural: "Set Ubahsuai"
-  label_checked: "checked"
-  label_check_uncheck_all_in_column: "Check/Uncheck all in column"
-  label_check_uncheck_all_in_row: "Check/Uncheck all in row"
+  label_checked: "ditanda"
+  label_check_uncheck_all_in_column: "Tanda/Nyahtanda semua dalam lajur"
+  label_check_uncheck_all_in_row: "Tanda/Nyahtanda semua dalam baris"
   label_child_element: "Child element"
   label_choices: "Pilihan"
   label_chronological_order: "Oldest first"
@@ -2236,9 +2236,9 @@ ms:
   label_watched_work_packages: "Watched work packages"
   label_what_is_this: "What is this?"
   label_week: "Week"
-  label_wiki_content_added: "Wiki page added"
-  label_wiki_content_updated: "Wiki page updated"
-  label_wiki_toc: "Table of Contents"
+  label_wiki_content_added: "Halaman wiki ditambah"
+  label_wiki_content_updated: "Halaman wiki dikemas kini"
+  label_wiki_toc: "Jadual Kandungan"
   label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
   label_wiki_edit: "Wiki edit"
@@ -2788,7 +2788,7 @@ ms:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
-      oauth_application_details_link_text: "Pergi ke tetapan halaman"
+      oauth_application_details_link_text: "Pergi ke halaman tetapan"
       setup_documentation_details: "JIka anda memerlukan bantuan mengkonfigurasikan penyimpanan fail baharu lihat dokumentasi berikut:"
       setup_documentation_details_link_text: "Setup penyimpanan fail"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
@@ -2871,11 +2871,11 @@ ms:
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "Projek baharu adalah awam secara asas"
   setting_diff_max_lines_displayed: "Jumlah maksimum baris perbezaan yang dipaparkan"
-  setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
+  setting_display_subprojects_work_packages: "Paparkan subprojek pakej kerja pada projek utama secara lalai"
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
-  setting_email_login: "Use email as login"
-  setting_enabled_scm: "Enabled SCM"
+  setting_email_login: "Guna e-mel sebagai log masuk"
+  setting_enabled_scm: "Aktifkan SCM"
   setting_enabled_projects_columns: "Lajur dalam senarai projek dipaparkan secara lalai"
   setting_feeds_enabled: "Enable Feeds"
   setting_ical_enabled: "Bolehkan langganan iCalendar"
@@ -2919,34 +2919,34 @@ ms:
   setting_repository_checkout_display: "Show checkout instructions"
   setting_repository_checkout_base_url: "Checkout base URL"
   setting_repository_checkout_text: "Checkout instruction text"
-  setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
+  setting_repository_log_display_limit: "Bilangan maksimum semakan yang dipaparkan pada log fail"
   setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
   setting_rest_api_enabled: "Enable REST web service"
-  setting_self_registration: "Self-registration"
-  setting_session_ttl: "Session expiry time after inactivity"
+  setting_self_registration: "Pendaftaran sendiri"
+  setting_session_ttl: "Masa tamat sesi selepas tidak aktif"
   setting_session_ttl_hint: "Value below 5 works like disabled"
-  setting_session_ttl_enabled: "Session expires"
-  setting_start_of_week: "Week starts on"
+  setting_session_ttl_enabled: "Sesi tamat"
+  setting_start_of_week: "Minggu bermula pada"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time"
+  setting_time_format: "Masa"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users name format"
-  setting_user_default_timezone: "Users default time zone"
-  setting_users_deletable_by_admins: "User accounts deletable by admins"
-  setting_users_deletable_by_self: "Users allowed to delete their accounts"
-  setting_welcome_text: "Welcome block text"
-  setting_welcome_title: "Welcome block title"
+  setting_user_format: "Format nama pengguna"
+  setting_user_default_timezone: "Zon masa asas pengguna"
+  setting_users_deletable_by_admins: "Akaun pengguna yang boleh dipadam oleh pentadbir"
+  setting_users_deletable_by_self: "Pengguna dibenarkan memadam akaun mereka"
+  setting_welcome_text: "Teks blok selamat datang"
+  setting_welcome_title: "Tajuk blok selamat datang"
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
-  setting_working_days: "Working days"
+  setting_working_days: "Hari bekerja"
   settings:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     antivirus:
-      title: "Virus scanning"
+      title: "Pengimbasan virus"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
       remaining_quarantined_files_html: >
         Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
@@ -2957,8 +2957,8 @@ ms:
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: "Delete the file"
-        quarantine: "Quarantine the file"
+        delete: "Padam fail tersebut"
+        quarantine: "Kuarantin fail tersebut"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2997,56 +2997,57 @@ ms:
       label_new_attribute: "Project attribute"
       label_new_section: "Section"
       label_edit_section: "Edit title"
-      label_section_actions: "Section actions"
+      label_section_actions: "Tindakan bahagian"
       heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
-      label_project_custom_field_actions: "Project attribute actions"
-      label_no_project_custom_fields: "No project attributes defined in this section"
+      label_project_custom_field_actions: "Tindakan atribut projek "
+      label_no_project_custom_fields: "Tiada atribut projek yang ditakrifkan dalam bahagian ini"
       edit:
         description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
       new:
-        heading: "New attribute"
+        heading: "Atribut baharu"
         description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project lists"
-    session: "Session"
+      section_new_projects: "Tetapan untuk projek baharu"
+      section_project_overview: "Tetapan untuk senarai projek"
+    session: "Sesi"
     user:
       default_preferences: "Default preferences"
       display_format: "Display format"
       deletion: "Deletion"
     working_days:
-      section_work_week: "Work week"
+      section_work_week: "Minggu bekerja"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: "Markdown"
     plain: "Plain text"
-  status_active: "active"
-  status_archived: "archived"
-  status_blocked: "blocked"
-  status_invited: invited
-  status_locked: locked
-  status_registered: registered
+  status_active: "aktif"
+  status_archived: "diarkibkan"
+  status_blocked: "disekat"
+  status_invited: dijemput
+  status_locked: terkunci
+  status_registered: berdaftar
   #Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
-      skip_last_comma: "false"
+      sentence_connector: "dan"
+      skip_last_comma: "palsu"
   text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "Further analyze: %{subject}"
-  text_are_you_sure: "Are you sure?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
-  text_are_you_sure_with_children: "Delete work package and all child work packages?"
-  text_assign_to_project: "Assign to the project"
+  text_are_you_sure: "Adakah anda pasti?"
+  text_are_you_sure_continue: "Adakah anda pasti anda ingin teruskan?"
+  text_are_you_sure_with_children: "Padam pakej kerja dan semua pakej kerja anak?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
+  text_assign_to_project: "Tugaskan ke projek"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
   text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."
-  text_comment_wiki_page: "Comment to wiki page: %{page}"
-  text_custom_field_possible_values_info: "One line for each value"
+  text_comment_wiki_page: "Komen pada halaman wiki: %{page}"
+  text_custom_field_possible_values_info: "Satu baris untuk setiap nilai"
   text_custom_field_hint_activate_per_project: >
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >

@@ -3143,6 +3143,7 @@ sk:
   text_are_you_sure: "Ste si istí?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Zmazať pracovný balíček a všetky podradené pracovné balíčky?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Priradiť k projektu"
   text_form_configuration: >
     Môžete prispôsobiť, ktoré polia sa zobrazia vo formulári v pracovnom balíku. Môžete si voľne zoskupovať polia tak aby napĺňali potreby vašej domény.

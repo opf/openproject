@@ -313,7 +313,7 @@ RSpec.describe OpenProject::TextFormatting,
               let(:expected) do
                 <<~EXPECTED
                   <p class="op-uc-p">
-                    Link to <a class="user-mention op-uc-link" href="http://openproject.org/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>
+                    Link to <a class="user-mention op-uc-link" target="_top" href="http://openproject.org/users/#{user.id}" title="User Foo Barrit">Foo Barrit</a>
                   </p>
                 EXPECTED
               end
