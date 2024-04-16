@@ -246,7 +246,7 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
     WorkPackage.where(id: updated_work_package_ids).find_each do |work_package|
       Journals::CreateService
         .new(work_package, system_user)
-        .call(cause: { type: "system_update", feature: "progress_calculation_changed" })
+        .call(cause: Journal::CausedBySystemUpdate.new(feature: "progress_calculation_changed"))
     end
   end
 
