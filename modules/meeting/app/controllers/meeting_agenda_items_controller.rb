@@ -122,6 +122,7 @@ class MeetingAgendaItemsController < ApplicationController
 
     if call.success?
       update_item_via_turbo_stream
+      update_section_header_via_turbo_stream(meeting_section: @meeting_agenda_item.meeting_section)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
     else
@@ -134,6 +135,8 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def destroy
+    section = @meeting_agenda_item.meeting_section
+
     call = ::MeetingAgendaItems::DeleteService
       .new(user: current_user, model: @meeting_agenda_item)
       .call
@@ -141,6 +144,7 @@ class MeetingAgendaItemsController < ApplicationController
     if call.success?
       remove_item_via_turbo_stream(clear_slate: @meeting.agenda_items.empty?)
       update_header_component_via_turbo_stream
+      update_section_header_via_turbo_stream(meeting_section: section) if section&.reload.present?
       update_sidebar_details_component_via_turbo_stream
     else
       generic_call_failure_response(call)

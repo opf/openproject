@@ -45,7 +45,7 @@
       end
 
       if @meeting_agenda_item.duration_in_minutes.present? && @meeting_agenda_item.duration_in_minutes > 0
-        grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 1) do
+        grid.with_area(:duration, Primer::Beta::Text, color: duration_color_scheme, mr: 1, font_size: :small) do
           I18n.t('datetime.distance_in_words.x_minutes_abbreviated', count: @meeting_agenda_item.duration_in_minutes)
         end
       end

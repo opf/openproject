@@ -51,6 +51,10 @@ module MeetingSections
       @meeting_section.id
     end
 
+    def editable?
+      @meeting_section.editable? && User.current.allowed_in_project?(:manage_agendas, @meeting_section.project)
+    end
+
     def hide_section?
       @meeting.sections.count == 1 && @meeting_agenda_items.empty?
     end
@@ -60,7 +64,7 @@ module MeetingSections
     end
 
     def render_new_button_in_section?
-      @meeting_agenda_items.empty? && @form_hidden
+      @meeting_agenda_items.empty? && @form_hidden && editable?
     end
 
     def top_margin

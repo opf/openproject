@@ -13,6 +13,13 @@
               @meeting_section.name
             end
           end
+          if @meeting_section.agenda_items_sum_duration_in_minutes > 0
+            content_container.with_column(ml: 2) do
+              render(Primer::Beta::Text.new(font_size: :small, font_weight: :normal, color: :subtle)) do
+                render(OpenProject::Common::DurationComponent.new(@meeting_section.agenda_items_sum_duration_in_minutes, :minutes, abbreviated: true))
+              end
+            end
+          end
         end
         if editable?
           section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
