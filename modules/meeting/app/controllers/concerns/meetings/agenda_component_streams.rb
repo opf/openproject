@@ -136,6 +136,24 @@ module Meetings
       end
 
       def render_agenda_item_form_via_turbo_stream(meeting: @meeting, meeting_section: @meeting_section, type: :simple)
+        if meeting.sections.empty?
+          render_agenda_item_form_for_empty_meeting_via_turbo_stream(meeting:, type:)
+        else
+          render_agenda_item_form_in_section_via_turbo_stream(meeting:, meeting_section:, type:)
+        end
+
+        update_new_button_via_turbo_stream(disabled: true)
+      end
+
+      def render_agenda_item_form_for_empty_meeting_via_turbo_stream(meeting: @meeting, type: :simple)
+        update_new_component_via_turbo_stream(
+          hidden: false,
+          meeting_section: nil,
+          type:
+        )
+      end
+
+      def render_agenda_item_form_in_section_via_turbo_stream(meeting: @meeting, meeting_section: @meeting_section, type: :simple)
         if meeting_section.nil?
           meeting_section = meeting.sections.last
         end
@@ -149,8 +167,6 @@ module Meetings
             type:
           )
         end
-
-        update_new_button_via_turbo_stream(disabled: true)
       end
 
       def update_list_via_turbo_stream(meeting: @meeting, form_hidden: true, form_type: :simple)
@@ -182,6 +198,14 @@ module Meetings
       def add_item_via_turbo_stream(meeting_agenda_item: @meeting_agenda_item, clear_slate: false)
         if clear_slate
           update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
+        elsif meeting_agenda_item.meeting.agenda_items.count == 1
+          update_list_via_turbo_stream(form_hidden: true)
+
+          update_new_component_via_turbo_stream(
+            hidden: false,
+            meeting_section: meeting_agenda_item.meeting_section,
+            type: @agenda_item_type
+          )
         else
           # TODO: more specific UI update as before
           update_section_via_turbo_stream(meeting_section: meeting_agenda_item.meeting_section)

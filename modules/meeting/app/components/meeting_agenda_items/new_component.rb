@@ -32,7 +32,7 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_section:, meeting_agenda_item: nil, hidden: true, type: :simple)
+    def initialize(meeting:, meeting_section: nil, meeting_agenda_item: nil, hidden: true, type: :simple)
       super
 
       @meeting = meeting
@@ -45,7 +45,7 @@ module MeetingAgendaItems
     private
 
     def wrapper_uniq_by
-      @meeting_section.id
+      @meeting_section&.id
     end
 
     def build_agenda_item

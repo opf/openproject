@@ -51,12 +51,20 @@ module MeetingSections
       @meeting_section.id
     end
 
+    def hide_section?
+      @meeting.sections.count == 1 && @meeting_agenda_items.empty?
+    end
+
     def render_section_wrapper?
       @meeting_section.meeting.sections.count > 1
     end
 
+    def render_new_button_in_section?
+      @meeting_agenda_items.empty? && @form_hidden
+    end
+
     def top_margin
-      if @meeting_section.id == @first_and_last.first.id
+      if @meeting_section.id == @first_and_last&.first&.id
         1
       else
         3

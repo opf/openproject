@@ -21,7 +21,7 @@
           data: { "turbo-stream": true }
         }
       )
-      unless @meeting_section
+      unless @meeting_section || @meeting.sections.empty?
         component.with_item(
           label: "Section",
           tag: :a,
