@@ -651,5 +651,36 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         end
       end
     end
+
+    describe "with hidden fields" do
+      let(:section) { section_for_input_fields }
+      let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+      let(:custom_field) { string_project_custom_field }
+      let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+
+      before do
+        all_fields.without(string_project_custom_field).each { |cf| cf.update(visible: false) }
+      end
+
+      it "does not clears them after a project admin updates" do
+        expected_custom_values =
+          project.custom_values.where.not(custom_field: string_project_custom_field)
+          .pluck(:customized_type, :customized_id, :custom_field_id, :value)
+
+        overview_page.visit_page
+
+        overview_page.open_edit_dialog_for_section(section)
+
+        field.fill_in(with: "new value")
+        dialog.submit
+        dialog.expect_closed
+
+        custom_values =
+          project.custom_values.where.not(custom_field: string_project_custom_field)
+          .pluck(:customized_type, :customized_id, :custom_field_id, :value)
+
+        expect(custom_values).to eq(expected_custom_values)
+      end
+    end
   end
 end
