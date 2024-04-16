@@ -29,10 +29,21 @@
 # ++
 module Meetings
   class MeetingFiltersComponent < FiltersComponent
+    options :project
+
     def allowed_filters
       super
         .select { |f| allowed_filter?(f) }
         .sort_by(&:human_name)
+    end
+
+    def filters_count
+      @filters_count ||= begin
+        count = super
+        count -= 1 if project.present?
+
+        count
+      end
     end
 
     protected
@@ -57,13 +68,15 @@ module Meetings
 
     def allowed_filter?(filter)
       allowlist = [
-        Queries::Meetings::Filters::ProjectFilter,
         Queries::Meetings::Filters::TimeFilter,
         Queries::Meetings::Filters::AttendedUserFilter,
         Queries::Meetings::Filters::InvitedUserFilter,
-        Queries::Meetings::Filters::AuthorFilter,
-        Queries::Meetings::Filters::DatesIntervalFilter
+        Queries::Meetings::Filters::AuthorFilter
       ]
+
+      if project.nil?
+        allowlist << Queries::Meetings::Filters::ProjectFilter
+      end
 
       allowlist.detect { |clazz| filter.is_a? clazz }
     end
