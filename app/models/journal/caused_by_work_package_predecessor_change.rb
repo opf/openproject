@@ -31,6 +31,6 @@ class Journal::CausedByWorkPackagePredecessorChange < CauseOfChange::Base
     additional = {
       "work_package_id" => work_package.id
     }
-    super('work_package_predecessor_changed_times', additional)
+    super("work_package_predecessor_changed_times", additional)
   end
 end

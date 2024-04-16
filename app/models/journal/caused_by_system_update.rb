@@ -31,6 +31,6 @@ class Journal::CausedBySystemUpdate < CauseOfChange::Base
     additional = {
       "feature" => feature
     }
-    super('system_update', additional)
+    super("system_update", additional)
   end
 end

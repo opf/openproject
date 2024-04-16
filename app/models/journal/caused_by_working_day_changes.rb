@@ -34,6 +34,6 @@ class Journal::CausedByWorkingDayChanges < CauseOfChange::Base
         "non_working_days" => non_working_days.transform_keys(&:iso8601)
       }
     }
-    super('working_days_changed', additional)
+    super("working_days_changed", additional)
   end
 end
