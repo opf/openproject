@@ -50,138 +50,133 @@ jobs:
           echo "Version: $VERSION"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "checkout_ref=$CHECKOUT_REF" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+      - uses: runs-on/cache@v4
+        with:
+          path: frontend/.angular
+          key: angular-${{ github.ref }}
+          restore-keys: angular-
+      - run: RAILS_ENV=production bundle exec rake assets:precompile
+      - uses: runs-on/cache/save@v4
+        with:
+          path: public
+          key: public-${{ github.sha }}
     outputs:
       version: ${{ steps.extract_version.outputs.version }}
       checkout_ref: ${{ steps.extract_version.outputs.checkout_ref }}
-  build:
-    needs:
-      - extract_version
-    if: github.repository == 'opf/openproject'
-    runs-on:
-      labels:
-        - runs-on
-        - run-id=${{ github.run_id }}
-        - ${{ matrix.runner }}
-        # - debug=true
-    strategy:
-      matrix:
-        include:
-          # - platform: linux/amd64
-          #   target: slim
-          #   runner: runner=4cpu-linux-x64
-          # - platform: linux/arm64/v8
-          #   target: slim
-          #   runner: runner=4cpu-linux-arm64
-          # - platform: linux/amd64
-          #   target: all-in-one
-          #   runner: runner=4cpu-linux-x64
-          # - platform: linux/arm64/v8
-          #   bim_support: false
-          #   target: all-in-one
-          #   runner: runner=4cpu-linux-arm64
-          - platform: linux/ppc64le
-            bim_support: false
-            target: all-in-one
-            # runner: family=c7i.metal-24xl+m7i.metal-24xl
-            runner: family=r7iz.xlarge
-    steps:
-      - name: Extract version
-        id: extract_version
-        run: |
-          if [[ ${{ github.event_name }} == 'push' ]]; then
-            TAG_REF=${GITHUB_REF#refs/tags/}
-            CHECKOUT_REF=$GITHUB_REF
-          elif [[ ${{ github.event_name }} == 'schedule' ]]; then
-            TAG_REF=dev
-            CHECKOUT_REF=refs/heads/dev
-          elif [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            TAG_REF=${{ inputs.tag }}
-            CHECKOUT_REF=${{ inputs.tag }}
-          else
-            echo "Unsupported event"
-            exit 1
-          fi
+  # build:
+  #   needs:
+  #     - extract_version
+  #   if: github.repository == 'opf/openproject'
+  #   runs-on:
+  #     labels:
+  #       - runs-on
+  #       - run-id=${{ github.run_id }}
+  #       - ${{ matrix.runner }}
+  #       # - debug=true
+  #   strategy:
+  #     matrix:
+  #       include:
+  #         # - platform: linux/amd64
+  #         #   target: slim
+  #         #   runner: runner=4cpu-linux-x64
+  #         # - platform: linux/arm64/v8
+  #         #   target: slim
+  #         #   runner: runner=4cpu-linux-arm64
+  #         # - platform: linux/amd64
+  #         #   target: all-in-one
+  #         #   runner: runner=4cpu-linux-x64
+  #         # - platform: linux/arm64/v8
+  #         #   bim_support: false
+  #         #   target: all-in-one
+  #         #   runner: runner=4cpu-linux-arm64
+  #         - platform: linux/ppc64le
+  #           bim_support: false
+  #           target: all-in-one
+  #           # runner: family=c7i.metal-24xl+m7i.metal-24xl
+  #           runner: family=r7iz.xlarge
+  #   steps:
+  #     - name: Checkout
+  #       with:
+  #         ref: ${{ needs.extract_version.outputs.checkout_ref }}
+  #       uses: actions/checkout@v4
+  #     - name: Prepare docker files
+  #       run: |
+  #         cp ./docker/prod/Dockerfile ./Dockerfile
+  #     # - name: Set up KVM
+  #     #   run: |
+  #     #     set -x
+  #     #     sudo apt-get update
+  #     #     sudo apt-get install -y qemu qemu-system-ppc qemu-system linux-kvm qemu-kvm qemu-user-static
+  #     #     echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+  #     #     sudo udevadm control --reload-rules
+  #     #     sudo udevadm trigger --name-match=kvm
+  #     #     sudo systemctl start qemu-kvm.service
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
+  #     - name: Set up Docker Buildx
+  #       id: buildx
+  #       uses: docker/setup-buildx-action@v2
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_PASSWORD }}
+  #     - name: Docker meta
+  #       id: meta
+  #       uses: docker/metadata-action@v4
+  #       with:
+  #         context: git
+  #         labels: |
+  #           io.artifacthub.package.readme-url=https://www.openproject.org/docs/installation-and-operations/installation/docker/
+  #           org.opencontainers.image.documentation=https://www.openproject.org/docs/
+  #           org.opencontainers.image.vendor=OpenProject GmbH
+  #         tags: |
+  #           type=semver,pattern={{version}},value=${{ needs.extract_version.outputs.version }}
+  #         images: |
+  #           ${{ env.REGISTRY_IMAGE }}
+  #     - name: Build image
+  #       id: build
+  #       uses: docker/build-push-action@v4
+  #       with:
+  #         context: .
+  #         platforms: ${{ matrix.platform }}
+  #         target: ${{ matrix.target }}
+  #         build-args: |
+  #           BIM_SUPPORT=${{ matrix.bim_support }}
+  #         pull: true
+  #         load: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         cache-from: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
+  #         cache-to: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }},mode=max
+  #     - name: Test
+  #       # We only test the native container. If that fails the builds for the others
+  #       # will be cancelled as well.
+  #       if: matrix.platform == 'linux/amd64' && matrix.target == 'all-in-one'
+  #       run: |
+  #         docker run \
+  #           --name openproject \
+  #           -d -p 8080:80 --platform ${{ matrix.platform }} \
+  #           -e SUPERVISORD_LOG_LEVEL=debug \
+  #           -e OPENPROJECT_LOGIN__REQUIRED=false \
+  #           -e OPENPROJECT_HTTPS=false \
+  #           ${{ steps.build.outputs.imageid }}
 
-          if [ -z "$TAG_REF" ] || [ -z "$CHECKOUT_REF" ]; then
-            echo "No TAG_REF or CHECKOUT_REF set. Aborting"
-            exit 1
-          fi
+  #         sleep 60
 
-          VERSION=${TAG_REF#v}
-          echo "Version: $VERSION"
-          echo "::set-output name=version::$VERSION"
-          echo "::set-output name=checkout_ref::$CHECKOUT_REF"
-      - name: Checkout
-        with:
-          ref: ${{ steps.extract_version.outputs.checkout_ref }}
-        uses: actions/checkout@v4
-      - name: Prepare docker files
-        run: |
-          cp ./docker/prod/Dockerfile ./Dockerfile
-      # - name: Set up KVM
-      #   run: |
-      #     set -x
-      #     sudo apt-get update
-      #     sudo apt-get install -y qemu qemu-system-ppc qemu-system linux-kvm qemu-kvm qemu-user-static
-      #     echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-      #     sudo udevadm control --reload-rules
-      #     sudo udevadm trigger --name-match=kvm
-      #     sudo systemctl start qemu-kvm.service
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          context: git
-          labels: |
-            io.artifacthub.package.readme-url=https://www.openproject.org/docs/installation-and-operations/installation/docker/
-            org.opencontainers.image.documentation=https://www.openproject.org/docs/
-            org.opencontainers.image.vendor=OpenProject GmbH
-          tags: |
-            type=semver,pattern={{version}},value=${{ needs.extract_version.outputs.version }}
-          images: |
-            ${{ env.REGISTRY_IMAGE }}
-      - name: Build image
-        id: build
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          platforms: ${{ matrix.platform }}
-          target: ${{ matrix.target }}
-          build-args: |
-            BIM_SUPPORT=${{ matrix.bim_support }}
-          pull: true
-          load: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
-          cache-to: type=s3,blobs_prefix=cache/${{ github.repository }}/,manifests_prefix=cache/${{ github.repository }}/,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }},mode=max
-      - name: Test
-        # We only test the native container. If that fails the builds for the others
-        # will be cancelled as well.
-        if: matrix.platform == 'linux/amd64' && matrix.target == 'all-in-one'
-        run: |
-          docker run \
-            --name openproject \
-            -d -p 8080:80 --platform ${{ matrix.platform }} \
-            -e SUPERVISORD_LOG_LEVEL=debug \
-            -e OPENPROJECT_LOGIN__REQUIRED=false \
-            -e OPENPROJECT_HTTPS=false \
-            ${{ steps.build.outputs.imageid }}
-
-          sleep 60
-
-          docker logs openproject --tail 100
-          wget -O- --retry-on-http-error=503,502 --retry-connrefused http://localhost:8080/api/v3
+  #         docker logs openproject --tail 100
+  #         wget -O- --retry-on-http-error=503,502 --retry-connrefused http://localhost:8080/api/v3
   #     - name: Push image
   #       id: push
   #       uses: docker/build-push-action@v4
