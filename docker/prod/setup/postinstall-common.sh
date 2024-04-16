@@ -28,8 +28,12 @@ DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bu
 # this line requires superuser rights, which is not always available and doesn't matter anyway
 sed -i '/^COMMENT ON EXTENSION/d' db/structure.sql
 
-# precompile assets
-DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bundle exec rake assets:precompile
+if [ -f public/assets/frontend_assets.manifest.json ]; then
+  echo "Assets have already been precompiled. Reusing."
+else
+  # precompile assets
+  DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bundle exec rake assets:precompile
+fi
 
 su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb stop"
 
