@@ -123,7 +123,6 @@ class WorkPackages::ProgressForm < ApplicationForm
       label:,
       readonly: true,
       disabled:,
-      classes: "input--readonly",
       placeholder: ("-" if placeholder)
     }
     text_field_options.reverse_merge!(default_field_options(name))
