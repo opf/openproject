@@ -17,7 +17,7 @@
             render(Primer::Alpha::ActionMenu.new(data: { test_selector: "meeting-section-action-menu" })) do |menu|
               menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_section_actions"), scheme: :invisible)
               edit_action_item(menu)
-              # move_actions(menu)
+              move_actions(menu)
               if @meeting_agenda_items.empty?
                 delete_action_item(menu)
               else

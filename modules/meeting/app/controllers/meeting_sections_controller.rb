@@ -139,10 +139,8 @@ class MeetingSectionsController < ApplicationController
       .new(user: current_user, model: @meeting_section)
       .call(position: params[:position].to_i)
 
-    p call.errors
-
     if call.success?
-      update_all_via_turbo_stream
+      update_all_via_turbo_stream # TODO: more specific UI update
     else
       generic_call_failure_response(call)
     end
@@ -156,8 +154,7 @@ class MeetingSectionsController < ApplicationController
       .call(move_to: params[:move_to]&.to_sym)
 
     if call.success?
-      move_item_via_turbo_stream
-      update_header_component_via_turbo_stream
+      update_all_via_turbo_stream # TODO: more specific UI update
     else
       generic_call_failure_response(call)
     end

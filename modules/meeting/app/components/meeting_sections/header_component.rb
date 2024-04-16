@@ -72,7 +72,7 @@ module MeetingSections
 
     def move_action_item(menu, move_to, label_text, icon)
       menu.with_item(label: label_text,
-                     href: move_admin_settings_section_path(@meeting_section, move_to:),
+                     href: move_meeting_section_path(@meeting_section.meeting, @meeting_section, move_to:),
                      form_arguments: {
                        method: :put, data: { "turbo-stream": true,
                                              test_selector: "meeting-section-move-#{move_to}" }
