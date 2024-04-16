@@ -31,6 +31,7 @@ export class CKEditorSetupService {
 
   public initialize() {
     this.prefetch = this.load();
+    this.watchTopLayer();
   }
 
   /**
@@ -45,7 +46,8 @@ export class CKEditorSetupService {
    * @returns {Promise<ICKEditorWatchdog>}
    */
   public async create(
-    wrapper:HTMLElement, context:ICKEditorContext,
+    wrapper:HTMLElement,
+    context:ICKEditorContext,
     initialData:string|null = null,
   ):Promise<ICKEditorWatchdog> {
     // Load the bundle and the matching locale, if found.
@@ -143,5 +145,32 @@ export class CKEditorSetupService {
       helpURL: this.PathHelper.textFormattingHelp(),
       pluginContext: window.OpenProject.pluginContext.value,
     };
+  }
+
+  private watchTopLayer() {
+    const targetClassNames = ['ck-body-wrapper', 'ck-inspector-wrapper', 'ck-inspector-portal'];
+
+    const observer = new MutationObserver((mutations) => {
+      const dialog = document.querySelector('dialog[open]');
+      if (!dialog) {
+        return;
+      }
+
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof HTMLElement)) {
+            return;
+          }
+
+          if (targetClassNames.some((className) => node.classList.contains(className))) {
+            dialog.append(node);
+          }
+        });
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+    });
   }
 }
