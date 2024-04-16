@@ -3069,6 +3069,7 @@ el:
   text_are_you_sure: "Είστε σίγουρος/η;"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Διαγραφή πακέτου εργασίας και όλων των πακέτων-παιδιά;"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Ανάθεση στο έργο"
   text_form_configuration: >
     Μπορείτε να διαμορφώσετε σε ποια πεδία θα εμφανίζονται στις φόρμες πακέτων εργασίας. Μπορείτε ελεύθερα να ομαδοποιήσετε τα πεδία ώστε να αντικατοπτρίζουν τις ανάγκες του τομέα σας.

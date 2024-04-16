@@ -3070,6 +3070,7 @@ nl:
   text_are_you_sure: "Weet u het zeker?"
   text_are_you_sure_continue: "Weet u zeker dat u wilt doorgaan?"
   text_are_you_sure_with_children: "Verwijder werk pakket en alle kinderen daarvan?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Wijs aan project toe"
   text_form_configuration: >
     U kunt aanpassen welke velden worden weergegeven in pakket werkformulieren. U kunt deze velden vrij groeperen om de weergave aan uw eigen behoeften aan te passen.

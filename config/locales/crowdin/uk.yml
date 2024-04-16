@@ -3136,6 +3136,7 @@ uk:
   text_are_you_sure: "Ви впевненені?"
   text_are_you_sure_continue: "Хочете продовжити?"
   text_are_you_sure_with_children: "Видалити робочий пакет і всі дочірні робочі пакети?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Призначити на проект"
   text_form_configuration: >
     Можна налаштувати, які поля будуть відображатися у формах робочих пакетів. Ви можете вільно групувати поля для відображення потреб вашого домену.
