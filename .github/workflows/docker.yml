@@ -135,6 +135,7 @@ jobs:
         run: |
           ls -al public/
           mv public/assets/frontend_assets.manifest.json config/frontend_assets.manifest.json
+          ls -al config/frontend_assets.manifest.json
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
