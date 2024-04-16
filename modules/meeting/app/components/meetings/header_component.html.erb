@@ -47,8 +47,8 @@
                                tag: :a,
                                href: history_meeting_path(@meeting),
                                content_arguments: {
+                                 "data-controller": "async-dialog",
                                  "data-show-dialog-id": "meetings-history-dialog",
-                                 "data-turbo-stream": true
                                },
                                value: ""
                                ) do |item|
