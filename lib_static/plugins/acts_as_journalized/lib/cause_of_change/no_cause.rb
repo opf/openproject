@@ -36,7 +36,7 @@ module CauseOfChange
       true
     end
 
-    def to_h
+    def to_hash
       {}
     end
   end

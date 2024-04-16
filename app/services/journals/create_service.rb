@@ -870,7 +870,7 @@ module Journals
 
     def cause_sql(cause)
       # Using the same encoder mechanism that ActiveRecord uses for json/jsonb columns
-      ActiveSupport::JSON.encode(cause&.to_h || {})
+      ActiveSupport::JSON.encode(cause || {})
     end
 
     # Because we added the journal via bare metal sql, rails does not yet
@@ -906,7 +906,7 @@ module Journals
     end
 
     def same_cause?(predecessor, cause)
-      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause.to_h
+      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause
     end
 
     def log_journal_creation(predecessor)

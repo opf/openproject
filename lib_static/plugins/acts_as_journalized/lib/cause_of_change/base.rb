@@ -35,7 +35,7 @@ module CauseOfChange
       @additional_attributes = additional_attributes
     end
 
-    def to_h
+    def to_hash
       { "type" => type }.merge(additional_attributes).deep_stringify_keys
     end
 
@@ -44,13 +44,7 @@ module CauseOfChange
     end
 
     def ==(other)
-      if other.is_a?(Hash)
-        to_h == other
-      else
-        other.class == self.class &&
-         type == other.type &&
-         additional_attributes == other.additional_attributes
-      end
+      to_hash == other.to_hash
     end
   end
 end
