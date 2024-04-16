@@ -40,7 +40,7 @@ module OpenProject::TextFormatting
       end
 
       def links
-        doc.css('a')
+        doc.css("a")
       end
     end
   end

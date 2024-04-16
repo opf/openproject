@@ -725,13 +725,6 @@ RSpec.describe WorkPackages::BaseContract do
             with_settings: { work_package_done_ratio: "status" } do
       it_behaves_like "invalid if changed", :done_ratio
     end
-
-    context "when % Complete disabled",
-            with_settings: { work_package_done_ratio: "disabled" } do
-      let(:changed_values) { [:done_ratio] }
-
-      it_behaves_like "invalid if changed", :done_ratio
-    end
   end
 
   describe "version" do
