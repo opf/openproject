@@ -29,11 +29,13 @@
 module WorkPackage::PDFExport::Gantt
   GANTT_ROW_HEIGHT = 20
   GANTT_GRID_COLOR = "9b9ea3".freeze
+  GANTT_LINE_COLOR = "0000ff".freeze
+
   GANTT_TEXT_CELL_PADDING = 2
   GANTT_BAR_CELL_PADDING = 5
 
   def write_work_packages_gantt!(work_packages, _)
-    wps = work_packages.reject { |work_package| work_package.start_date.nil? }
+    wps = work_packages.reject { |work_package| work_package.start_date.nil? && work_package.due_date.nil? }
     return if wps.empty?
 
     zoom_levels = [
@@ -71,10 +73,12 @@ module WorkPackage::PDFExport::Gantt
       @pdf = pdf
       @title = title
       @column_width = column_width
+      @draw_gantt_lines = false
       init_defaults
     end
 
     def build(work_packages)
+      @all_work_packages = work_packages
       adjust_to_pages
       pages = build_pages(work_packages)
       # if there are not enough columns for even the first page of horizontal pages => distribute space to all columns
@@ -82,6 +86,7 @@ module WorkPackage::PDFExport::Gantt
         distribute_to_first_page(pages)
         pages = build_pages(work_packages)
       end
+      build_dep_lines(pages) if @draw_gantt_lines
       pages
     end
 
@@ -147,7 +152,7 @@ module WorkPackage::PDFExport::Gantt
 
     def collect_work_packages_dates(work_packages)
       work_packages.map do |work_package|
-        [work_package.start_date, work_package.due_date || Time.zone.today]
+        [work_package.start_date || work_package.due_date, work_package.due_date || Time.zone.today]
       end.flatten.uniq.sort
     end
 
@@ -238,18 +243,89 @@ module WorkPackage::PDFExport::Gantt
       result
     end
 
+    def build_dep_lines(pages)
+      @all_work_packages.each do |work_package|
+        work_package.relations.each do |relation|
+          target_work_package = relation.other_work_package(work_package)
+          next unless @all_work_packages.include?(target_work_package)
+
+          if relation.to == work_package && relation.relation_type == Relation::TYPE_FOLLOWS
+            build_dep_line(work_package, target_work_package, pages)
+          end
+          if relation.from == work_package && relation.relation_type == Relation::TYPE_PRECEDES
+            build_dep_line(work_package, target_work_package, pages)
+          end
+        end
+      end
+    end
+
+    def get_rows_on_pages(work_package, pages)
+      pages.filter_map do |page|
+        row = page[:rows].find { |r| r[:work_package] == work_package }
+        row.nil? || row[:shape].nil? ? nil : { row:, page: }
+      end
+    end
+
+    def build_dep_line(work_package, target_work_package, pages)
+      row_page_source = get_rows_on_pages(work_package, pages).max_by { |page_row| page_row[:page][:index] }
+      row_page_target = get_rows_on_pages(target_work_package, pages).min_by { |page_row| page_row[:page][:index] }
+      lines = if row_page_source[:page] == row_page_target[:page]
+                build_same_page_dep_lines(row_page_source, row_page_target)
+              else
+                build_multi_page_dep_line(row_page_source, row_page_target)
+              end
+      row_page_source[:page][:lines].concat(lines)
+    end
+
+    def build_multi_page_dep_line(_row_page_source, _row_page_target)
+      # TODO
+      []
+    end
+
+    def build_same_page_dep_lines_straight(source_left, source_top, target_left, target_top)
+      [
+        { left: source_left, right: target_left - 5, top: source_top, bottom: source_top },
+        { left: target_left - 5, right: target_left - 5, top: source_top, bottom: target_top },
+        { left: target_left - 5, right: target_left, top: target_top, bottom: target_top }
+      ]
+    end
+
+    def build_same_page_dep_lines_step(row_page_source, row_page_target, source_left, source_top, target_left, target_top)
+      target_column_left = row_page_target.dig(:row, :shape, :columns).first[:left]
+      source_row_bottom = row_page_source.dig(:row, :bottom)
+      [
+        { left: source_left, right: source_left + 5, top: source_top, bottom: source_top },
+        { left: source_left + 5, right: source_left + 5, top: source_top, bottom: source_row_bottom },
+        { left: target_column_left - 5, right: source_left + 5, top: source_row_bottom, bottom: source_row_bottom },
+        { left: target_column_left - 5, right: target_column_left - 5, top: source_row_bottom, bottom: target_top },
+        { left: target_column_left - 5, right: target_left, top: target_top, bottom: target_top }
+      ]
+    end
+
+    def build_same_page_dep_lines(row_page_source, row_page_target)
+      source_left = row_page_source.dig(:row, :shape, :right)
+      target_left = row_page_target.dig(:row, :shape, :left)
+      source_top = row_page_source.dig(:row, :shape, :top) + (row_page_source.dig(:row, :shape, :height) / 2)
+      target_top = row_page_target.dig(:row, :shape, :top) + (row_page_target.dig(:row, :shape, :height) / 2)
+      if target_left - 10 <= source_left
+        build_same_page_dep_lines_step(row_page_source, row_page_target, source_left, source_top, target_left, target_top)
+      else
+        build_same_page_dep_lines_straight(source_left, source_top, target_left, target_top)
+      end
+    end
+
     def build_page(dates, index, work_packages)
       x = index == 0 ? @text_column_width : 0
       columns = dates.each_with_index.map { |date, col_index| build_column(x + (col_index * @column_width), date, work_packages) }
-      header = build_header_row(columns)
+      rows = work_packages.each_with_index.map { |work_package, row_index| build_row(work_package, row_index, columns) }
       {
+        index:,
         text_column: index == 0 ? { width: @text_column_width, title: @title } : nil,
         width: x + (dates.size * @column_width),
         height: @header_row_height + (@rows_per_page * GANTT_ROW_HEIGHT),
-        rows: work_packages.each_with_index.map { |work_package, row_index| build_row(work_package, row_index, columns) },
-        columns:,
-        header:,
-        work_packages:
+        header: build_header_row(columns),
+        lines: [],
+        rows:, columns:, work_packages:
       }
     end
 
@@ -286,14 +362,13 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def milestone_layout(top, paint_columns, work_package)
-      diamond_size = ([@column_width, GANTT_ROW_HEIGHT].min / 2).to_f
+      diamond_size = ([@column_width, GANTT_ROW_HEIGHT].min / 3).to_f * 2
       x1 = if milestone_position_centered?
-             width = Math.sqrt((diamond_size**2) + (diamond_size**2))
-             (@column_width - width) / 2
+             (@column_width - diamond_size) / 2
            else
              calc_start_offset(work_package, paint_columns.first[:date])
            end
-      y1 = top + (GANTT_ROW_HEIGHT / 2)
+      y1 = top + ((GANTT_ROW_HEIGHT - diamond_size) / 2)
       [x1, y1, diamond_size]
     end
 
@@ -374,25 +449,26 @@ module WorkPackage::PDFExport::Gantt
 
     def calc_start_offset(work_package, date)
       test_date = Date.new(date.year, date.month, 1)
-      return 0 if work_package.start_date <= test_date
+      start_date = work_package.start_date || work_package.due_date
+      return 0 if start_date <= test_date
 
       width_per_day = @column_width.to_f / date.end_of_month.day
-      day_in_month = work_package.start_date.day - 1
+      day_in_month = start_date.day - 1
       day_in_month * width_per_day
     end
 
     def calc_end_offset(work_package, date)
-      wp_date = work_package.due_date || Time.zone.today
+      end_date = work_package.due_date || Time.zone.today
       test_date = Date.new(date.year, date.month, -1)
-      return 0 if wp_date >= test_date
+      return 0 if end_date >= test_date
 
       width_per_day = @column_width.to_f / test_date.day
-      day_in_month = wp_date.day
+      day_in_month = end_date.day
       @column_width - (day_in_month * width_per_day)
     end
 
     def wp_on_month?(work_package, date)
-      start_date = work_package.start_date
+      start_date = work_package.start_date || work_package.due_date
       end_date = work_package.due_date || Time.zone.today
       Range.new(Date.new(start_date.year, start_date.month, 1), Date.new(end_date.year, end_date.month, -1))
            .include?(date)
@@ -425,7 +501,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def wp_on_day?(work_package, date)
-      start_date = work_package.start_date
+      start_date = work_package.start_date || work_package.due_date
       end_date = work_package.due_date || Time.zone.today
       Range.new(start_date, end_date).include?(date)
     end
@@ -448,19 +524,20 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def calc_start_offset(work_package, date)
-      return 0 if work_package.start_date <= date.beginning_of_quarter
+      start_date = work_package.start_date || work_package.due_date
+      return 0 if start_date <= date.beginning_of_quarter
 
       width_per_day = @column_width.to_f / days_of_quarter(date)
-      day_in_quarter = day_in_quarter(work_package.start_date) - 1
+      day_in_quarter = day_in_quarter(start_date) - 1
       day_in_quarter * width_per_day
     end
 
     def calc_end_offset(work_package, date)
-      wp_date = work_package.due_date || Time.zone.today
-      return 0 if wp_date >= date.end_of_quarter
+      end_date = work_package.due_date || Time.zone.today
+      return 0 if end_date >= date.end_of_quarter
 
       width_per_day = @column_width.to_f / days_of_quarter(date)
-      day_in_quarter = day_in_quarter(wp_date)
+      day_in_quarter = day_in_quarter(end_date)
       @column_width - (day_in_quarter * width_per_day)
     end
 
@@ -478,8 +555,9 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def wp_on_quarter?(work_package, date)
+      start_date = work_package.start_date || work_package.due_date
       end_date = work_package.due_date || Time.zone.today
-      Range.new(work_package.start_date.beginning_of_quarter, end_date.end_of_quarter).include?(date)
+      Range.new(start_date.beginning_of_quarter, end_date.end_of_quarter).include?(date)
     end
   end
 
@@ -505,22 +583,24 @@ module WorkPackage::PDFExport::Gantt
     def paint_page(page)
       paint_grid(page)
       paint_header_row(page)
-      page[:columns].each { |column| paint_line_v(column[:header_row_height], page[:height], column[:right]) }
+      page[:columns].each { |column| paint_grid_line_v(column[:header_row_height], page[:height], column[:right]) }
+      paint_grid_line_h(0, page[:width], page[:rows].last[:bottom])
+      page[:lines].each { |line| paint_gantt_line(line) }
       page[:rows].each { |row| paint_row(page, row) }
-      paint_line_h(0, page[:width], page[:rows].last[:bottom])
     end
 
     def paint_grid(page)
-      paint_line_v(0, page[:height], 0)
-      paint_line_v(0, page[:height], page[:width])
-      paint_line_v(0, page[:height], page[:text_column][:width]) unless page[:text_column].nil?
-      paint_line_h(0, page[:width], page[:height])
+      paint_grid_line_v(0, page[:height], 0)
+      paint_grid_line_v(0, page[:height], page[:width])
+      paint_grid_line_v(0, page[:height], page[:text_column][:width]) unless page[:text_column].nil?
+      paint_grid_line_h(0, page[:width], page[:height])
+      page[:rows].each { |row| paint_grid_line_h(0, page[:width], row[:top]) }
     end
 
     def paint_header_text_column(page)
       paint_text_box(page[:text_column][:title], 0, 0, page[:text_column][:width], page[:columns].first[:header_row_height],
                      GANTT_TEXT_CELL_PADDING * 2, 0, { size: 10, style: :bold })
-      paint_line_h(0, page[:text_column][:width], 0)
+      paint_grid_line_h(0, page[:text_column][:width], 0)
     end
 
     def paint_header_column_cell(cell)
@@ -528,8 +608,8 @@ module WorkPackage::PDFExport::Gantt
                      cell[:left], cell[:top], cell[:width], cell[:height],
                      0, 0,
                      { size: 10, style: :bold, align: :center })
-      paint_line_h(cell[:left], cell[:right], cell[:top])
-      paint_line_v(cell[:top], cell[:bottom], cell[:left])
+      paint_grid_line_h(cell[:left], cell[:right], cell[:top])
+      paint_grid_line_v(cell[:top], cell[:bottom], cell[:left])
     end
 
     def paint_work_package_title(page, row)
@@ -542,7 +622,6 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def paint_row(page, row)
-      paint_line_h(0, page[:width], row[:top])
       paint_work_package_title(page, row) unless page[:text_column].nil?
       paint_shape(row[:shape]) if row[:shape]
     end
@@ -556,42 +635,46 @@ module WorkPackage::PDFExport::Gantt
       left = columns.first[:left]
       right = columns.last[:right]
       paint_text_box(text, left, top, right - left, height, 0, 0, { size: 8, style: :bold, align: :center })
-      paint_line_h(left, right, top)
-      paint_line_v(top, top + height, left)
-    end
-
-    def paint_shape_bar(shape)
-      paint_rect(shape[:left], shape[:top], shape[:width], shape[:height], shape[:color])
-    end
-
-    def paint_shape_milestone(shape)
-      @pdf.rotate(45, origin: [@pdf.bounds.left + shape[:left], @pdf.bounds.top - shape[:top]]) do
-        paint_rect(shape[:left], shape[:top], shape[:width], shape[:height], shape[:color])
-      end
+      paint_grid_line_h(left, right, top)
+      paint_grid_line_v(top, top + height, left)
     end
 
     def paint_shape(shape)
       if shape[:type] == :milestone
-        paint_shape_milestone(shape)
+        paint_diamond(shape[:left], shape[:top], shape[:width], shape[:height], shape[:color])
       else
-        paint_shape_bar(shape)
+        paint_rect(shape[:left], shape[:top], shape[:width], shape[:height], shape[:color])
       end
     end
 
-    def paint_line(line_x1, line_y1, line_x2, line_y2)
+    def paint_line(line_x1, line_y1, line_x2, line_y2, color)
       @pdf.stroke do
         @pdf.line_width = 0.5
-        @pdf.stroke_color GANTT_GRID_COLOR
-        @pdf.line line_x1, line_y1, line_x2, line_y2
+        @pdf.stroke_color color
+        @pdf.line @pdf.bounds.left + line_x1, @pdf.bounds.top - line_y1,
+                  @pdf.bounds.left + line_x2, @pdf.bounds.top - line_y2
       end
     end
 
-    def paint_line_h(left, right, top)
-      paint_line(@pdf.bounds.left + left, @pdf.bounds.top - top, @pdf.bounds.left + right, @pdf.bounds.top - top)
+    def paint_gantt_line(line)
+      paint_line(line[:left], line[:top], line[:right], line[:bottom], GANTT_LINE_COLOR)
     end
 
-    def paint_line_v(top, bottom, left)
-      paint_line(@pdf.bounds.left + left, @pdf.bounds.top - top, @pdf.bounds.left + left, @pdf.bounds.top - bottom)
+    def paint_grid_line_h(left, right, top)
+      paint_line(left, top, right, top, GANTT_GRID_COLOR)
+    end
+
+    def paint_grid_line_v(top, bottom, left)
+      paint_line(left, top, left, bottom, GANTT_GRID_COLOR)
+    end
+
+    def paint_diamond(left, top, width, height, color)
+      half = width / 2
+      current_color = @pdf.fill_color
+      @pdf.fill_color color
+      @pdf.fill_polygon *[[0, half], [half, 0], [width, half], [half, height]]
+                           .map { |p| [@pdf.bounds.left + left + p[0], @pdf.bounds.top - top - p[1]] }
+      @pdf.fill_color = current_color
     end
 
     def paint_rect(left, top, width, height, color)
