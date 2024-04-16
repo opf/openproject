@@ -66,7 +66,7 @@ module Storages
       end
 
       namespace("authentication") do
-        register(:userless, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserLess)
+        register(:userless, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserLess, call: false)
         register(:userbound, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserBound)
       end
     end

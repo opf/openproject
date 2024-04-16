@@ -209,10 +209,9 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       it "responds with a failure and parses message from the xml response" do
         result = registry.resolve("nextcloud.commands.remove_user_from_group").call(storage:, user: origin_user_id)
         expect(result).to be_failure
-        expect(result.errors.log_message).to eq(
-          "Failed to remove user #{origin_user_id} from group OpenProject: " \
-          "Not viable to remove user from the last group you are SubAdmin of"
-        )
+        expect(result.errors.log_message)
+          .to eq("Failed to remove user #{origin_user_id} from group OpenProject: " \
+                 "Not viable to remove user from the last group you are SubAdmin of")
       end
     end
   end
@@ -568,8 +567,9 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
 
     shared_examples "a file_ids_query response" do
       it "responds with a list of paths and attributes for each of them" do
-        result = registry.resolve("nextcloud.queries.file_ids").call(storage:, path: "OpenProject")
-                   .result
+        result = registry.resolve("nextcloud.queries.file_ids")
+                         .call(storage:, path: "OpenProject")
+                         .result
         expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
                                "OpenProject/Project #2/" => { "fileid" => "381" },
                                "OpenProject/Project#1/" => { "fileid" => "773" },
@@ -610,6 +610,8 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
   end
 
   describe "#delete_folder_command" do
+    let(:auth_strategy) { ::Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy }
+
     before do
       stub_request(:delete, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/Folder%201")
         .with(headers: { "Authorization" => "Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==" })
@@ -618,7 +620,8 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
 
     describe "with Nextcloud storage type selected" do
       it "deletes the folder" do
-        result = registry.resolve("nextcloud.commands.delete_folder").call(storage:, location: "OpenProject/Folder 1")
+        result = registry.resolve("nextcloud.commands.delete_folder")
+                         .call(storage:, auth_strategy:, location: "OpenProject/Folder 1")
         expect(result).to be_success
       end
     end
