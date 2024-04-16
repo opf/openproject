@@ -135,13 +135,14 @@ class MeetingSectionsController < ApplicationController
   end
 
   def drop
-    call = ::MeetingAgendaItems::UpdateService
+    call = ::MeetingSections::UpdateService
       .new(user: current_user, model: @meeting_section)
       .call(position: params[:position].to_i)
 
+    p call.errors
+
     if call.success?
-      update_show_items_via_turbo_stream
-      update_header_component_via_turbo_stream
+      update_all_via_turbo_stream
     else
       generic_call_failure_response(call)
     end
@@ -150,7 +151,7 @@ class MeetingSectionsController < ApplicationController
   end
 
   def move
-    call = ::MeetingAgendaItems::UpdateService
+    call = ::MeetingSections::UpdateService
       .new(user: current_user, model: @meeting_section)
       .call(move_to: params[:move_to]&.to_sym)
 

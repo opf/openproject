@@ -150,13 +150,15 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def drop
-    call = ::MeetingAgendaItems::UpdateService
-      .new(user: current_user, model: @meeting_agenda_item)
-      .call(position: params[:position].to_i)
+    call = ::MeetingAgendaItems::DropService.new(
+      user: current_user, meeting_agenda_item: @meeting_agenda_item
+    ).call(
+      target_id: params[:target_id],
+      position: params[:position]
+    )
 
     if call.success?
-      update_show_items_via_turbo_stream
-      update_header_component_via_turbo_stream
+      update_all_via_turbo_stream # TODO: more specific UI update
     else
       generic_call_failure_response(call)
     end

@@ -1,5 +1,5 @@
 <%=
-  component_wrapper(class: "op-meeting-section-container", data: { test_selector: "meeting-section-container-#{@meeting_section.id}" }) do
+  component_wrapper(class: "op-meeting-section-container", data: { test_selector: "meeting-section-container-#{@meeting_section.id}" }.merge(draggable_item_config)) do
     unless hide_section?
       render(Primer::Beta::BorderBox.new(mt: top_margin, data: drag_and_drop_target_config)) do |component|
         if render_section_wrapper?
