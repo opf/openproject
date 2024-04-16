@@ -110,10 +110,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     if wants_gantt?
       write_work_packages_gantt! work_packages, @id_wp_meta_map
     else
-        write_title!
-        write_work_packages_toc! work_packages, @id_wp_meta_map if wants_report?
-        write_work_packages_overview! work_packages unless wants_report?
-        write_work_packages_sums! work_packages if with_sums_table? && wants_report?
+      write_title!
+      write_work_packages_toc! work_packages, @id_wp_meta_map if wants_report?
+      write_work_packages_overview! work_packages unless wants_report?
+      write_work_packages_sums! work_packages if with_sums_table? && wants_report?
     end
     if should_be_batched?(work_packages)
       render_batched(work_packages, filename)
