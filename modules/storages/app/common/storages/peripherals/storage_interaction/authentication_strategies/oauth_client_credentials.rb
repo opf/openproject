@@ -37,39 +37,55 @@ module Storages
             Strategy.new(:oauth_client_credentials)
           end
 
-          def call(storage:, http_options: {}, &)
+          def call(storage:, http_options: {})
             config = storage.oauth_configuration.to_httpx_oauth_config
 
             return build_failure(storage) unless config.valid?
 
-            create_http_and_yield(issuer: config.issuer,
-                                  client_id: config.client_id,
-                                  client_secret: config.client_secret,
-                                  scope: config.scope,
-                                  http_options:,
-                                  &)
+            access_token = Rails.cache.read("storage.#{storage.id}.access_token")
+
+            http_result = if access_token.present?
+                            http_with_current_token(access_token: access_token, http_options: http_options)
+                          else
+                            http_with_new_token(issuer: config.issuer,
+                                                client_id: config.client_id,
+                                                client_secret: config.client_secret,
+                                                scope: config.scope,
+                                                http_options:)
+                          end
+
+            return http_result if http_result.failure?
+            http = http_result.result
+
+            if access_token.nil?
+              token = http.instance_variable_get(:@options).oauth_session.access_token
+              Rails.cache.write("storage.#{storage.id}.access_token", token, expires_in: 50.minutes)
+            end
+
+            yield http
           end
 
           private
 
-          def create_http_and_yield(issuer:, client_id:, client_secret:, scope:, http_options:)
-            begin
-              http = OpenProject.httpx
-                                .oauth_auth(issuer:,
-                                            client_id:,
-                                            client_secret:,
-                                            scope:,
-                                            token_endpoint_auth_method: "client_secret_post")
-                                .with_access_token
-                                .with(http_options)
-            rescue HTTPX::HTTPError => e
-              data = ::Storages::StorageErrorData.new(source: self.class, payload: e.response.json)
-              return Failures::Builder.call(code: :unauthorized,
-                                            log_message: "Error while fetching OAuth access token.",
-                                            data:)
-            end
+          def http_with_current_token(access_token:, http_options:)
+            opts = http_options.deep_merge({ headers: { "Authorization" => "Bearer #{access_token}" } })
+            ServiceResult.success(result: OpenProject.httpx.with(opts))
+          end
 
-            yield http
+          def http_with_new_token(issuer:, client_id:, client_secret:, scope:, http_options:)
+            http = OpenProject.httpx
+                              .oauth_auth(issuer:,
+                                          client_id:,
+                                          client_secret:,
+                                          scope:,
+                                          token_endpoint_auth_method: "client_secret_post")
+                              .with_access_token
+                              .with(http_options)
+            ServiceResult.success(result: http)
+          rescue HTTPX::HTTPError => e
+            return Failures::Builder.call(code: :unauthorized,
+                                          log_message: "Error while fetching OAuth access token.",
+                                          data: Failures::ErrorData.call(response: e.response, source: self.class))
           end
 
           def build_failure(storage)

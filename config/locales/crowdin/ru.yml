@@ -3140,6 +3140,7 @@ ru:
   text_are_you_sure: "Вы уверены?"
   text_are_you_sure_continue: "Вы уверены, что хотите продолжить?"
   text_are_you_sure_with_children: "Удалить пакет работ и все дочерние пакеты работ?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Назначить на проект"
   text_form_configuration: >
     Вы можете настроить, какие поля будут показываться в формах пакетов работ. Вы можете свободно сгруппировать поля с учетом потребностей вашего домена.

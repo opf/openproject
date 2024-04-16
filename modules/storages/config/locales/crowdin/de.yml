@@ -104,7 +104,7 @@ de:
       subtitle: Automatisch verwaltete Projektordner
       title: Verbindungsstatus
     health_email_notifications:
-      description_subscribed: All administrators will receive health status email notifications for this storage.
+      description_subscribed: All administrators receive health status email notifications for this storage.
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: E-Mail-Benachrichtigungseinstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.
       subscribe: Abonnieren

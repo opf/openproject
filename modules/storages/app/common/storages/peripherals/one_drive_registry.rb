@@ -60,7 +60,7 @@ module Storages
       end
 
       namespace("authentication") do
-        register(:userless, StorageInteraction::AuthenticationStrategies::OneDriveStrategies::UserLess)
+        register(:userless, StorageInteraction::AuthenticationStrategies::OneDriveStrategies::UserLess, call: false)
         register(:userbound, StorageInteraction::AuthenticationStrategies::OneDriveStrategies::UserBound)
       end
     end

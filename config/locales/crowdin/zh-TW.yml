@@ -3037,6 +3037,7 @@ zh-TW:
   text_are_you_sure: "是否確定？"
   text_are_you_sure_continue: "你要繼續嗎?"
   text_are_you_sure_with_children: "刪除工作項目以及所有子工作項目?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "分配給專案"
   text_form_configuration: >
     您可以自訂哪些欄位將會顯示在工作項目表單中。您可以自由的群組化這些欄位來符合您的需求。

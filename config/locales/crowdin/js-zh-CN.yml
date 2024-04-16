@@ -347,11 +347,11 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>GitLab 集成（最初由社区贡献者开发）</li> <li>自定义项目列表的高级功能</li> <li>会议模块的高级功能</li> <li>使用 ClamAV（企业插件）的病毒扫描功能</li> <li>PDF 导出：支持表格单元格中的列表</li> <li>添加 WebAuthn/FIDO/U2F 作为双因子认证</li> <li>在默认可用语言集中添加了更多语言</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"

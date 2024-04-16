@@ -3071,6 +3071,7 @@ pt-BR:
   text_are_you_sure: "Você tem certeza?"
   text_are_you_sure_continue: "Tem certeza de que deseja continuar?"
   text_are_you_sure_with_children: "Excluir o pacote de trabalho e todos os pacotes de trabalho filhos?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Atribuir ao projeto"
   text_form_configuration: >
     Você pode personalizar quais campos serão exibidos em formulários de pacote de trabalho. Livremente, você pode agrupar os campos para refletir as necessidades para o seu domínio.

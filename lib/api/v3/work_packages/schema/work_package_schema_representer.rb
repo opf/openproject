@@ -240,24 +240,12 @@ module API
           schema_with_allowed_link :assignee,
                                    type: "User",
                                    required: false,
-                                   href_callback: ->(*) {
-                                     work_package = represented.work_package
-
-                                     if work_package&.persisted?
-                                       api_v3_paths.available_assignees_in_work_package(represented.id)
-                                     elsif work_package&.project
-                                       api_v3_paths.available_assignees_in_project(represented.project_id)
-                                     end
-                                   }
+                                   href_callback: ->(*) { assignee_user_autocompleter }
 
           schema_with_allowed_link :responsible,
                                    type: "User",
                                    required: false,
-                                   href_callback: ->(*) {
-                                     if represented.project
-                                       api_v3_paths.available_responsibles(represented.project_id)
-                                     end
-                                   }
+                                   href_callback: ->(*) { assignee_user_autocompleter }
 
           schema_with_allowed_collection :type,
                                          value_representer: Types::TypeRepresenter,
@@ -399,6 +387,16 @@ module API
               .flatten
               .uniq
               .sort
+          end
+
+          def assignee_user_autocompleter
+            work_package = represented.work_package
+
+            if work_package&.persisted?
+              api_v3_paths.available_assignees_in_work_package(represented.id)
+            elsif work_package&.project
+              api_v3_paths.available_assignees_in_project(represented.project_id)
+            end
           end
         end
       end

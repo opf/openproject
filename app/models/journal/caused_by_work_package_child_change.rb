@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,14 +25,12 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-require "spec_helper"
-
-RSpec.describe "API::V3::Projects::AvailableResponsiblesAPI" do
-  include API::V3::Utilities::PathHelper
-
-  it_behaves_like "available principals", :responsibles do
-    let(:base_permissions) { %i[view_work_packages] }
-    let(:href) { api_v3_paths.available_responsibles(project.id) }
+#
+class Journal::CausedByWorkPackageChildChange < CauseOfChange::Base
+  def initialize(work_package)
+    additional = {
+      "work_package_id" => work_package.id
+    }
+    super("work_package_children_changed_times", additional)
   end
 end
