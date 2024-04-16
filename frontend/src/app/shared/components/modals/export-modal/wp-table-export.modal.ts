@@ -87,6 +87,13 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
 
   triggerByLink(url:string, event:MouseEvent):void {
     event.preventDefault();
+    document.querySelectorAll('.debug-export-values').forEach((el:HTMLSelectElement) => {
+      const exportName = el.getAttribute('name');
+      const exportValue = el.value;
+      if (exportName && exportValue) {
+        url += `&${exportName}=${exportValue}`;
+      }
+    });
     this.requestExport(url);
   }
 
