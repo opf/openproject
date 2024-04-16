@@ -3,8 +3,10 @@
     if @state == :show
       flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
         section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
-          content_container.with_column(mr: 2) do
-            render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
+          content_container.with_column(mr: @meeting_section.editable? ? 2 : 4) do
+            if @meeting_section.editable?
+              render(Primer::OpenProject::DragHandle.new(classes: 'handle'))
+            end
           end
           content_container.with_column do
             render(Primer::Beta::Text.new(font_weight: :bold)) do
@@ -12,16 +14,25 @@
             end
           end
         end
-        section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
-          actions_container.with_column do
-            render(Primer::Alpha::ActionMenu.new(data: { test_selector: "meeting-section-action-menu" })) do |menu|
-              menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_section_actions"), scheme: :invisible)
-              edit_action_item(menu)
-              move_actions(menu)
-              if @meeting_agenda_items.empty?
-                delete_action_item(menu)
-              else
-                disabled_delete_action_item(menu)
+        if @meeting_section.editable?
+          section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
+            actions_container.with_column do
+              render(Primer::Alpha::ActionMenu.new(data: { test_selector: "meeting-section-action-menu" })) do |menu|
+                menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("settings.project_attributes.label_section_actions"), scheme: :invisible)
+                edit_action_item(menu)
+                unless first? && last?
+                  menu.with_divider 
+                  move_actions(menu)
+                end
+                menu.with_divider
+                add_agenda_item_action(menu)
+                add_work_package_action(menu)
+                menu.with_divider
+                if @meeting_agenda_items.empty?
+                  delete_action_item(menu)
+                else
+                  disabled_delete_action_item(menu)
+                end
               end
             end
           end

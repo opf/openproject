@@ -56,6 +56,24 @@ module MeetingSections
       }
     end
 
+    def first?
+      @first ||=
+        if @first_and_last.first
+          @first_and_last.first == @meeting_section
+        else
+          @meeting_section.first?
+        end
+    end
+
+    def last?
+      @last ||=
+        if @first_and_last.last
+          @first_and_last.last == @meeting_section
+        else
+          @meeting_section.last?
+        end
+    end
+
     def move_actions(menu)
       unless first?
         move_action_item(menu, :highest, t("label_agenda_item_move_to_top"),
@@ -95,6 +113,31 @@ module MeetingSections
                        data: { "turbo-stream": true, "test-selector": "meeting-section-edit" }
                      }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def add_agenda_item_action(menu)
+      menu.with_item(
+        label: t("activerecord.models.meeting_agenda_item", count: 1),
+        href: new_meeting_agenda_item_path(@meeting_section.meeting, type: "simple", meeting_section_id: @meeting_section&.id),
+        content_arguments: {
+          data: { "turbo-stream": true, "test-selector": "meeting-section-add-agenda-item-from-menu" }
+        }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :plus)
+      end
+    end
+
+    def add_work_package_action(menu)
+      menu.with_item(
+        label: t("activerecord.models.work_package", count: 1),
+        href: new_meeting_agenda_item_path(@meeting_section.meeting, type: "work_package",
+                                                                     meeting_section_id: @meeting_section&.id),
+        content_arguments: {
+          data: { "turbo-stream": true, "test-selector": "meeting-section-add-work-package-from-menu" }
+        }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :plus)
       end
     end
 
