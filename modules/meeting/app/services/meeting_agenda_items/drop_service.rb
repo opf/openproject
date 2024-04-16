@@ -28,21 +28,45 @@
 
 module MeetingAgendaItems
   class DropService < ::BaseServices::BaseCallable
+    include AfterPerformHook
+
     def initialize(user:, meeting_agenda_item:)
       super()
       @user = user
       @meeting_agenda_item = meeting_agenda_item
+      @meeting = meeting_agenda_item.meeting
     end
 
     def perform(params)
-      service_call = validate_permissions
+      service_call = validate_permission
+      service_call = validate_meeting_existence if service_call.success?
+      service_call = validate_meeting_agenda_item_editable if service_call.success?
+
       service_call = perform_drop(service_call, params) if service_call.success?
+
+      after_perform(service_call) if service_call.success?
 
       service_call
     end
 
-    def validate_permissions
-      if @user.admin?
+    def validate_permission
+      if @user.allowed_in_project?(:manage_agendas, @meeting.project)
+        ServiceResult.success
+      else
+        ServiceResult.failure(errors: { base: :error_unauthorized })
+      end
+    end
+
+    def validate_meeting_existence
+      if @meeting.present?
+        ServiceResult.success
+      else
+        ServiceResult.failure(errors: { base: :does_not_exist })
+      end
+    end
+
+    def validate_meeting_agenda_item_editable
+      if @meeting_agenda_item.editable?
         ServiceResult.success
       else
         ServiceResult.failure(errors: { base: :error_unauthorized })
