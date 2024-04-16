@@ -3072,6 +3072,7 @@ fil:
   text_are_you_sure: "Sigurado ka ba?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Burahi ang work packaage at lahag ng batang work pckage?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Nakatalaga sa proyekto"
   text_form_configuration: >
     Pwede mong i-customize kung saan ang mga patlang ay maipapakita sa mga porma ng pakete ng mga gawain. Pwede kang malayang magpapagrupo sa mga patlang para ito ay sumasalamin sa mga kailangan mo para sa iyong domain.

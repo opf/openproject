@@ -3074,6 +3074,7 @@ si:
   text_are_you_sure: "ඔබට විශ්වාසද?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "වැඩ පැකේජය සහ සියලුම ළමා වැඩ පැකේජ මකන්න?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "ව්යාපෘතියට පැවරීම"
   text_form_configuration: >
     වැඩ පැකේජ ආකෘතිවල කුමන ක්ෂේත්රයන් පෙන්විය හැකිද යන්න ඔබට රිසිකරණය කළ හැකිය. ඔබ නිදහසේ ඔබේ වසම සඳහා අවශ්යතා පිළිබිඹු කිරීමට ක්ෂේත්ර කණ්ඩායම් හැකි.

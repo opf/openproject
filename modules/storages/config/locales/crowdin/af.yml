@@ -104,7 +104,7 @@ af:
       subtitle: Automatically managed project folders
       title: Health status
     health_email_notifications:
-      description_subscribed: All administrators will receive health status email notifications for this storage.
+      description_subscribed: All administrators receive health status email notifications for this storage.
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
       subscribe: Subscribe
