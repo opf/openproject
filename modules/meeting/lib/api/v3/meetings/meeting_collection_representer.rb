@@ -29,28 +29,7 @@
 module API
   module V3
     module Meetings
-      class MeetingsAPI < ::API::OpenProjectAPI
-        resources :meetings do
-          helpers do
-            def meeting
-              MeetingContent.find params[:id]
-            end
-          end
-
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Meeting).mount
-
-          route_param :id, type: Integer, desc: "Activity ID" do
-            after_validation do
-              @meeting = Meeting.visible.find(declared_params[:id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show
-              .new(model: ::Meeting)
-              .mount
-
-            mount ::API::V3::Attachments::AttachmentsByMeetingAPI
-          end
-        end
+      class MeetingCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
       end
     end
   end
