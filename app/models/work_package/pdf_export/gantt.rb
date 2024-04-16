@@ -70,9 +70,7 @@ module WorkPackage::PDFExport::Gantt
       @pdf = pdf
       @title = title
       @column_width = column_width
-      @header_row_height = 30
-      @text_column_width = @pdf.bounds.width / 4
-      @nr_columns = (@pdf.bounds.width / @column_width).floor
+      init_defaults
     end
 
     def build(work_packages)
@@ -80,13 +78,19 @@ module WorkPackage::PDFExport::Gantt
       pages = build_pages(work_packages)
       # if there are not enough columns for even the first page of horizontal pages => distribute space to all columns
       if pages.find { |page| page[:text_column].nil? }.nil?
-        distribute_to_first_page
+        distribute_to_first_page(pages)
         pages = build_pages(work_packages)
       end
       pages
     end
 
     private
+
+    def init_defaults
+      @header_row_height = 30
+      @text_column_width = [@pdf.bounds.width / 4, 250].min
+      @nr_columns = (@pdf.bounds.width / @column_width).floor
+    end
 
     def adjust_to_pages
       # distribute space right to the default column widths
@@ -117,9 +121,9 @@ module WorkPackage::PDFExport::Gantt
       @text_column_width = @pdf.bounds.width - (@nr_columns_first_page * @column_width)
     end
 
-    def distribute_to_first_page
+    def distribute_to_first_page(pages)
       nr_of_columns = pages.first[:columns].length
-      @text_column_width = @pdf.bounds.width / 4
+      init_defaults
       @column_width = (@pdf.bounds.width - @text_column_width) / nr_of_columns
       @nr_columns_first_page = nr_of_columns
       @nr_columns = nr_of_columns
