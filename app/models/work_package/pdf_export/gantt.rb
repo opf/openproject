@@ -37,13 +37,14 @@ module WorkPackage::PDFExport::Gantt
     return if wps.empty?
 
     zoom_levels = [
-      [:day, 48],
+      [:day, 32],
       [:day, 24],
       [:day, 18],
       [:month, 128],
       [:month, 64],
       [:month, 32],
       [:month, 24],
+      [:quarter, 128],
       [:quarter, 64],
       [:quarter, 32],
       [:quarter, 24]
@@ -146,7 +147,7 @@ module WorkPackage::PDFExport::Gantt
 
     def collect_work_packages_dates(work_packages)
       work_packages.map do |work_package|
-        [work_package.start_date, work_package.due_date.nil? ? Time.zone.today : work_package.due_date]
+        [work_package.start_date, work_package.due_date || Time.zone.today]
       end.flatten.uniq.sort
     end
 
@@ -392,7 +393,7 @@ module WorkPackage::PDFExport::Gantt
 
     def wp_on_month?(work_package, date)
       start_date = work_package.start_date
-      end_date = work_package.due_date.nil? ? Time.zone.today : work_package.due_date
+      end_date = work_package.due_date || Time.zone.today
       Range.new(Date.new(start_date.year, start_date.month, 1), Date.new(end_date.year, end_date.month, -1))
            .include?(date)
     end
@@ -439,7 +440,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def header_row_parts
-      %i[years quarters months]
+      %i[years quarters]
     end
 
     def work_packages_on_date(date, work_packages)
@@ -455,11 +456,11 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def calc_end_offset(work_package, date)
-      wp_date = work_package.due_date.nil? ? Time.zone.today : work_package.due_date
+      wp_date = work_package.due_date || Time.zone.today
       return 0 if wp_date >= date.end_of_quarter
 
-      width_per_day = @column_width.to_f / GanttUtils::days_of_quarter(date)
-      day_in_quarter = GanttUtils::day_in_quarter(wp_date)
+      width_per_day = @column_width.to_f / days_of_quarter(date)
+      day_in_quarter = day_in_quarter(wp_date)
       @column_width - (day_in_quarter * width_per_day)
     end
 
@@ -478,7 +479,7 @@ module WorkPackage::PDFExport::Gantt
 
     def wp_on_quarter?(work_package, date)
       end_date = work_package.due_date || Time.zone.today
-      Range.new(work_package.beginning_of_quarter, end_date.end_of_quarter).include?(date)
+      Range.new(work_package.start_date.beginning_of_quarter, end_date.end_of_quarter).include?(date)
     end
   end
 
