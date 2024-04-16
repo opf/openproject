@@ -138,8 +138,6 @@ class MeetingsController < ApplicationController
 
   def history
     @events = get_events
-
-    render :history
   rescue ActiveRecord::RecordNotFound => e
     op_handle_warning "Failed to find all resources in activities: #{e.message}"
     render_404 I18n.t(:error_can_not_find_all_resources)
