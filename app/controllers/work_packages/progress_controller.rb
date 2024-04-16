@@ -36,13 +36,18 @@ class WorkPackages::ProgressController < ApplicationController
 
   layout false
   before_action :set_work_package
+  before_action :extract_persisted_progress_attributes, only: %i[edit create update]
 
   helper_method :modal_class
 
   def edit
     build_up_new_work_package
 
-    render modal_class.new(@work_package, focused_field: params[:field])
+    render modal_class.new(@work_package,
+                           focused_field: params[:field],
+                           touched_field_map: params.require(:work_package).permit("estimated_hours_touched",
+                                                                                   "remaining_hours_touched",
+                                                                                   "status_id_touched").to_h)
   end
 
   def create
@@ -105,10 +110,10 @@ class WorkPackages::ProgressController < ApplicationController
     @work_package = WorkPackage.new
   end
 
-  def create_work_package_params
-    params.require(:work_package)
-          .permit(allowed_params)
-          .compact_blank
+  def extract_persisted_progress_attributes
+    @persisted_progress_attributes = @work_package
+                                       .attributes
+                                       .slice("estimated_hours", "remaining_hours", "status_id")
   end
 
   def update_work_package_params
@@ -124,12 +129,34 @@ class WorkPackages::ProgressController < ApplicationController
     end
   end
 
+  def reject_params_that_dont_differ_from_persisted_values
+    update_work_package_params.reject do |key, value|
+      @persisted_progress_attributes[key.to_s].to_f.to_s == value.to_f.to_s
+    end
+  end
+
+  def final_params
+    {}.tap do |filtered_params|
+      if params.require(:work_package)[:estimated_hours_touched] == "true"
+        filtered_params[:estimated_hours] = update_work_package_params.fetch("estimated_hours")
+      end
+
+      if params.require(:work_package)[:remaining_hours_touched] == "true"
+        filtered_params[:remaining_hours] = update_work_package_params.fetch("remaining_hours")
+      end
+
+      if params.require(:work_package)[:status_id_touched] == "true"
+        filtered_params[:status_id] = update_work_package_params.fetch("status_id")
+      end
+    end
+  end
+
   def build_up_new_work_package
     WorkPackages::SetAttributesService
       .new(user: current_user,
            model: @work_package,
            contract_class: WorkPackages::CreateContract)
-      .call(create_work_package_params)
+      .call(final_params)
   end
 
   def formatted_duration(hours)

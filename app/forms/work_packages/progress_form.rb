@@ -29,12 +29,14 @@
 class WorkPackages::ProgressForm < ApplicationForm
   def initialize(work_package:,
                  mode: :work_based,
-                 focused_field: :remaining_hours)
+                 focused_field: :remaining_hours,
+                 touched_field_map: {})
     super()
 
     @work_package = work_package
     @mode = mode
     @focused_field = focused_field_by_selection(focused_field) || focused_field_by_error
+    @touched_field_map = touched_field_map
   end
 
   form do |query_form|
@@ -58,11 +60,29 @@ class WorkPackages::ProgressForm < ApplicationForm
 
         render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
         render_readonly_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
+
+        group.hidden(name: :status_id_touched,
+                     value: @touched_field_map["status_id_touched"] || false,
+                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                             "referrer-field": "work_package[status_id]" })
+        group.hidden(name: :estimated_hours_touched,
+                     value: @touched_field_map["estimated_hours_touched"] || false,
+                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                             "referrer-field": "work_package[estimated_hours]" })
       else
         render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
         render_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work),
                                  disabled: disabled_remaining_work_field?)
         render_readonly_text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
+
+        group.hidden(name: :estimated_hours_touched,
+                     value: @touched_field_map["estimated_hours_touched"] || false,
+                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                             "referrer-field": "work_package[estimated_hours]" })
+        group.hidden(name: :remaining_hours_touched,
+                     value: @touched_field_map["remaining_hours_touched"] || false,
+                     data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
+                             "referrer-field": "work_package[remaining_hours]" })
       end
     end
   end
@@ -147,7 +167,9 @@ class WorkPackages::ProgressForm < ApplicationForm
   end
 
   def default_field_options(name)
-    data = { "work-packages--progress--preview-progress-target": "progressInput" }
+    data = { "work-packages--progress--preview-progress-target": "progressInput",
+             "work-packages--progress--touched-field-marker-target": "progressInput",
+             action: "input->work-packages--progress--touched-field-marker#markFieldAsTouched" }
     if @focused_field == name
       data[:"work-packages--progress--focus-field-target"] = "fieldToFocus"
     end

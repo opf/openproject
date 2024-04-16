@@ -458,10 +458,10 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
         work_edit_field.activate!
         page.driver.wait_for_network_idle # Wait for initial loading to be ready
 
-        work_edit_field.set_value("")
+        clear_input_field_contents(work_edit_field.input_element)
         page.driver.wait_for_network_idle # Wait for live-update to finish
-        pending "Currently sets remaining work to 4h instead of unsetting it"
-        remaining_work_edit_field.expect_modal_field_value("")
+
+        remaining_work_edit_field.expect_modal_field_value("", disabled: true)
       end
 
       specify "Case 2: when work is set to 12h, " \
@@ -483,7 +483,6 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
         work_edit_field.set_value("14")
         page.driver.wait_for_network_idle # Wait for live-update to finish
-        pending "Currently remaining work is not updated to 8h"
         remaining_work_edit_field.expect_modal_field_value("8")
       end
 
@@ -506,7 +505,6 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
         work_edit_field.set_value("12")
         page.driver.wait_for_network_idle # Wait for live-update to finish
-        pending "Currently remains at 0h and is not updated to 6h"
         remaining_work_edit_field.expect_modal_field_value("6")
       end
     end

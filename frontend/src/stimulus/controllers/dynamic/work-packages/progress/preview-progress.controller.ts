@@ -60,7 +60,9 @@ export default class PreviewProgressController extends Controller {
       };
     };
 
-    this.progressInputTargets.forEach((target) => target.addEventListener('input', this.debouncedPreview));
+    this.progressInputTargets.forEach((target) => {
+      target.addEventListener('input', this.debouncedPreview);
+    });
 
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLFrameElement;
     turboFrame.addEventListener('turbo:before-frame-render', this.frameMorphRenderer);
@@ -80,7 +82,11 @@ export default class PreviewProgressController extends Controller {
     const wpParams = [
       ['work_package[remaining_hours]', formParams.get('work_package[remaining_hours]') || ''],
       ['work_package[estimated_hours]', formParams.get('work_package[estimated_hours]') || ''],
+      ['work_package[status_id]', formParams.get('work_package[status_id]') || ''],
       ['field', field.name ?? 'estimatedTime'],
+      ['work_package[remaining_hours_touched]', formParams.get('work_package[remaining_hours_touched]') || ''],
+      ['work_package[estimated_hours_touched]', formParams.get('work_package[estimated_hours_touched]') || ''],
+      ['work_package[status_id_touched]', formParams.get('work_package[status_id_touched]') || ''],
     ];
 
     const wpPath = this.ensureValidPathname(form.action);
