@@ -35,7 +35,7 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
 
   let(:other_user) { build_stubbed(:user) }
   let(:contract_class) do
-    contract = double("contract_class")
+    contract = double("contract_class") # rubocop:disable RSpec/VerifiedDoubles
 
     allow(contract)
       .to receive(:new)
@@ -44,13 +44,9 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
 
     contract
   end
-  let(:contract_instance) do
-    double("contract_instance", validate: contract_valid, errors: contract_errors)
-  end
+  let(:contract_instance) { double("contract_instance", validate: contract_valid, errors: contract_errors) } # rubocop:disable RSpec/VerifiedDoubles
   let(:contract_valid) { true }
-  let(:contract_errors) do
-    double("contract_errors")
-  end
+  let(:contract_errors) { double("contract_errors") } # rubocop:disable RSpec/VerifiedDoubles
   let(:model_valid) { true }
   let(:instance) do
     described_class.new(user:,
@@ -88,7 +84,7 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
     subject { instance.call(call_attributes) }
 
     it "is successful" do
-      expect(subject.success?).to be_truthy
+      expect(subject).to be_a_success
       expect(contract_instance).to have_received(:validate)
     end
 
@@ -100,10 +96,9 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
     end
 
     it "does not persist the model" do
-      expect(model)
-        .not_to receive(:save)
-
+      allow(model).to receive(:save)
       subject
+      expect(model).not_to have_received(:save)
     end
 
     context "for a new record" do
@@ -119,7 +114,7 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
         end
 
         it "is successful" do
-          expect(subject).to be_success
+          expect(subject).to be_a_success
         end
 
         it "sets the title to the attachment`s filename" do
@@ -153,7 +148,7 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
       end
 
       it "returns a service result failure with the file size error message" do
-        expect(subject).to be_failure
+        expect(subject).to be_a_failure
         expect(subject.errors[:attachments]).to eq(["is too large (maximum size is 1024 Bytes)."])
 
         aggregate_failures "skips the ifc model contract" do
@@ -171,7 +166,7 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
         end
 
         it "is successful" do
-          expect(subject.success?).to be_truthy
+          expect(subject).to be_a_success
         end
 
         it "does not alter the title" do
