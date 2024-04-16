@@ -61,7 +61,7 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             frontend/package-lock.json
-      - run: npm ci
+      - run: npm install
       - uses: runs-on/cache@v4
         with:
           path: frontend/.angular
