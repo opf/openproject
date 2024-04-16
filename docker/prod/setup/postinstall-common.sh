@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 set -o pipefail
 
 su - postgres -c "$PGBIN/initdb -D /tmp/nulldb"
