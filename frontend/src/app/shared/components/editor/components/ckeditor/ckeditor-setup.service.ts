@@ -64,6 +64,7 @@ export class CKEditorSetupService {
 
     const config = {
       openProject: this.createConfig(context),
+      removePlugins: context.removePlugins,
       initialData,
       language: {
         ui: uiLocale,
@@ -148,7 +149,7 @@ export class CKEditorSetupService {
   }
 
   private watchTopLayer() {
-    const targetClassNames = ['ck-body-wrapper', 'ck-inspector-wrapper', 'ck-inspector-portal'];
+    const targetClassNames = ['ck-body-wrapper', 'ck-inspector-'];
 
     const observer = new MutationObserver((mutations) => {
       const dialog = document.querySelector('dialog[open]');
