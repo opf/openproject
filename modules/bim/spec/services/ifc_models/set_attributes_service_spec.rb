@@ -80,7 +80,7 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
         .to receive(:valid?)
         .and_return(model_valid)
 
-      expect(contract_instance)
+      allow(contract_instance)
         .to receive(:validate)
         .and_return(contract_valid)
     end
@@ -89,6 +89,7 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
 
     it "is successful" do
       expect(subject.success?).to be_truthy
+      expect(contract_instance).to have_received(:validate)
     end
 
     it "sets the attributes" do
@@ -118,7 +119,7 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
         end
 
         it "is successful" do
-          expect(subject.success?).to be_truthy
+          expect(subject).to be_success
         end
 
         it "sets the title to the attachment`s filename" do
@@ -133,6 +134,30 @@ RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
 
           expect(model.uploader)
             .to eql user
+        end
+      end
+    end
+
+    context "when the attachment is too large", with_settings: { attachment_max_size: 1 } do
+      let(:model) { Bim::IfcModels::IfcModel.new(project:) }
+      let(:model_valid) { false }
+
+      let(:call_attributes) do
+        {
+          ifc_attachment: ifc_file
+        }
+      end
+
+      before do
+        allow(ifc_file).to receive(:size).and_return(2.kilobytes)
+      end
+
+      it "returns a service result failure with the file size error message" do
+        expect(subject).to be_failure
+        expect(subject.errors[:attachments]).to eq(["is too large (maximum size is 1024 Bytes)."])
+
+        aggregate_failures "skips the ifc model contract" do
+          expect(contract_instance).not_to have_received(:validate)
         end
       end
     end
