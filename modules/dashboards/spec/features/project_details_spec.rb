@@ -141,8 +141,6 @@ RSpec.describe "Project details widget on dashboard", :js do
     it 'has a "Project activity" entry in More menu linking to the project activity page' do
       details_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
-      details_widget.expect_menu_item("Project details activity")
-
       details_widget.click_menu_item("Project details activity")
       expect(page).to have_current_path(project_activity_index_path(project), ignore_query: true)
       expect(page).to have_checked_field(id: "event_types_project_attributes")

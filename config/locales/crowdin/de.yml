@@ -3405,9 +3405,7 @@ de:
         unsupported_context: "Die übergebene Ressource wird nicht als Kontext unterstützt."
         context_object_not_found: "Die als Kontext übergebene Ressource konnte nicht gefunden werden."
       validation:
-        done_ratio: "Der Fortschritt kann nicht gesetzt werden falls es sich um ein Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn er komplett deaktiviert wurde."
         due_date: "Der Endtermin kann für Eltern-Arbeitspakete nicht gesetzt werden."
-        estimated_hours: "Aufwand kann nicht für übergeordnete Arbeitspakete gesetzt werden." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
         start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
       eprops:

@@ -3481,9 +3481,7 @@ cs:
         unsupported_context: "Zadaný dokument není podporován jako kontext."
         context_object_not_found: "Zdroj nelze najít jako kontext."
       validation:
-        done_ratio: "% Průběh nelze nastavit na nadřazených pracovních balíčcích, je odvozen ze stavu podřazených nebo pokud je zakázán."
         due_date: "Datum ukončení nemůže být nastaveno na nadřazených pracovních balíčcích."
-        estimated_hours: "Práci nelze nastavit na nadřazených pracovních balíčcích." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Zvolený uživatel nesmí být '%{property}' pro tento pracovní balíček."
         start_date: "Počáteční datum nelze nastavit na nadřazených pracovních balíčcích."
       eprops:

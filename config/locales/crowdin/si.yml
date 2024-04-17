@@ -3411,9 +3411,7 @@ si:
         unsupported_context: "ලබා දී ඇති සම්පත සන්දර්භය ලෙස සහාය නොදක්වයි."
         context_object_not_found: "සන්දර්භය ලෙස ලබා දී ඇති සම්පත සොයාගත නොහැක."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "අවසන් දිනය මව් වැඩ පැකේජ මත සැකසිය නොහැක."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "තෝරාගත් පරිශීලකයාට මෙම වැඩ පැකේජය සඳහා '%{property}' වීමට අවසර නැත."
         start_date: "ආරම්භක දිනය මව් වැඩ පැකේජ මත සැකසිය නොහැක."
       eprops:

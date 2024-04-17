@@ -123,8 +123,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     },
     done_ratio: {
       sortable: "#{WorkPackage.table_name}.done_ratio",
-      groupable: true,
-      if: ->(*) { !WorkPackage.done_ratio_disabled? }
+      groupable: true
     },
     created_at: {
       sortable: "#{WorkPackage.table_name}.created_at",

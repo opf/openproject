@@ -3406,9 +3406,7 @@ pt-PT:
         unsupported_context: "Não há suporte para o recurso dado como contexto."
         context_object_not_found: "Não é possível encontrar o recurso dado como contexto."
       validation:
-        done_ratio: "A % de conclusão não pode ser definida em pacotes de trabalho parentes quando é inferida pelo estado ou quando está desativada."
         due_date: "Data de término não pode ser definida em pacotes de trabalho pai."
-        estimated_hours: "O trabalho não pode ser definido em tarefas principais." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "O utilizador escolhido não pode ser '%{property}' para esta tarefa."
         start_date: "Data de início não pode ser definida em tarefas do pai."
       eprops:

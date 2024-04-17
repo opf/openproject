@@ -3373,9 +3373,7 @@ zh-TW:
         unsupported_context: "所提供的資源不受相對應支援。"
         context_object_not_found: "Cannot find the resource given with the context.\n無法找到本文對應的資源。"
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "無法在主工作項目上設置結束日期。"
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "所指定的使用者不允許成為工作項目的 '%{property}' 。"
         start_date: "無法在主工作項目設置開始日期。"
       eprops:

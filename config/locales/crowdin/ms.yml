@@ -3374,9 +3374,7 @@ ms:
         unsupported_context: "Sumber yang diberi tidak disokong sebagai konteks."
         context_object_not_found: "Tidak dapat mencari sumber yang diberikan sebagai konteks."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Tarikh tamat tidak boleh ditetapkan pada pakej kerja induk."
-        estimated_hours: "Kerja tidak boleh ditetapkan pada pakej kerja induk." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pengguna yang dipilih tidak dibenarkan untuk menjadi '%{property}' untuk pakej kerja ini."
         start_date: "Tarikh mula tidak boleh ditetapkan pada pakej kerja induk."
       eprops:

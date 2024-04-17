@@ -3400,9 +3400,7 @@ ca:
         unsupported_context: "El recurs proporcionat no s'admet com a context."
         context_object_not_found: "No puc trobar el recurs proporionat com al context."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "La data de finalització no es pot establir als paquets de treball pare."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "L'usuari escollit no pot ser \"%{property}\" per a aquest paquet de treball."
         start_date: "La data d'inici no es pot definir per paquets de treball del pare."
       eprops:

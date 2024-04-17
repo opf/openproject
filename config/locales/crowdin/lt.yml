@@ -3475,9 +3475,7 @@ lt:
         unsupported_context: "Duotas resursas nėra palaikomas kaip kontekstas."
         context_object_not_found: "Nepavyko rasti resurso, duoto kaip kontekstas."
       validation:
-        done_ratio: "% baigta negali būti nurodytas tėviniams darbų paketams, kai paketas apibrėžtas pagal būseną arba kai jis deaktyvuotas."
         due_date: "Tėviniams darbo paketams negalima nurodyti pabaigos datos."
-        estimated_hours: "Darbo negalima nustatyti tėviniams darbo paketams." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pasirinktas vartotojas negali būti '%{property}' šiam darbų paketui."
         start_date: "Pradžios data negali būti nustatyta tėviniams darbų paketams."
       eprops:

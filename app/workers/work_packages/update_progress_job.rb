@@ -53,6 +53,8 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
 
       update_totals
 
+      unset_total_p_complete
+
       copy_progress_values_to_work_packages_and_update_journals
     end
   end
@@ -208,6 +210,33 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
         GROUP BY wp_tree.ancestor_id
       ) totals
       WHERE temp_wp_progress_values.id = totals.id
+    SQL
+  end
+
+  # The value for derived_done_ratio had been calculated wrong in the past. So prior to executing the job
+  # values in the work_packages and work_package_journals table sometimes contained wrong data.
+  # The whole job/migration is now treating the derived_done_ratio as a value newly introduced even if it, under
+  # the hood has existed before. But it was not shown in the activites before so the user would not have seen it.
+  #
+  # Because of this, all values, in the work_packages and work_package_journals table, for derived_done_ratio are
+  # reset to null.
+  #
+  # This results in two cases:
+  # * The value before has been something (most of the time 0) and is now null. This will hopefully be the
+  #   majority of the cases as it would save a lot of journal creation, the slowest part of the job.
+  #   For that case, the derived_done_ratio will be treated as not having changed by the job since with the rewrite
+  #   the value looks to have been null before and is now null again.
+  # * The value before has been something and is now something. It could have been the same value as before. But
+  #   since the job resets the value to null, it will in every case be treated as having changed (set for the first time)
+  def unset_total_p_complete
+    execute(<<~SQL)
+      UPDATE work_packages
+      SET derived_done_ratio = NULL
+    SQL
+
+    execute(<<~SQL)
+      UPDATE work_package_journals
+      SET derived_done_ratio = NULL
     SQL
   end
 
