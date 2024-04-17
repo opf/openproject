@@ -26,18 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageMeetingsTab
-  class AddWorkPackageToMeetingFormComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+module OpTurbo
+  module DialogStreamHelper
+    def respond_with_dialog(dialog_component, status: :ok, &format_block)
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: dialog_component.render_as_turbo_stream(view_context:, action: :dialog), status:
+        end
 
-    def initialize(work_package:, meeting_agenda_item: nil, base_errors: nil)
-      super
-
-      @work_package = work_package
-      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(work_package: @work_package)
-      @base_errors = base_errors
+        yield(format) if format_block
+      end
     end
   end
 end

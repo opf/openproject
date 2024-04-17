@@ -37,19 +37,29 @@ export default class AsyncDialogController extends ApplicationController {
   connect() {
     this.element.addEventListener('click', (e) => {
       e.preventDefault();
-      this.addLoading();
       this.triggerTurboStream();
     });
   }
 
-  async triggerTurboStream():Promise<void> {
+  triggerTurboStream():void {
+    let loaded = false;
+
+    setTimeout(() => {
+      if (!loaded) {
+        this.addLoading();
+      }
+    }, 100);
+
     fetch(this.href, {
       method: this.method,
       headers: {
         Accept: 'text/vnd.turbo-stream.html',
       },
     }).then((r) => r.text())
-      .then((html) => renderStreamMessage(html))
+      .then((html) => {
+        loaded = true;
+        renderStreamMessage(html);
+      })
       .finally(() => this.removeLoading());
   }
 

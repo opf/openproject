@@ -27,7 +27,7 @@
 #++
 
 module Meetings
-  class Sidebar::ParticipantsFormComponent < ApplicationComponent
+  class Sidebar::ParticipantsDialog < ApplicationComponent
     include ApplicationHelper
     include OpenProject::FormTagHelper
     include OpTurbo::Streamable

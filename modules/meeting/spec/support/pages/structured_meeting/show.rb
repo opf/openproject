@@ -158,11 +158,11 @@ module Pages::StructuredMeeting
 
     def open_participant_form
       page.find_test_selector("manage-participants-button").click
-      expect(page).to have_css("#meetings-sidebar-participants-form-component")
+      expect(page).to have_css("#edit-participants-dialog")
     end
 
     def in_participant_form(&)
-      page.within("#meetings-sidebar-participants-form-component form", &)
+      page.within("#edit-participants-dialog form", &)
     end
 
     def expect_participant(participant, invited: false, attended: false, editable: true)
