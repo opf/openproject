@@ -3411,9 +3411,7 @@ af:
         unsupported_context: "Die bron gegee word nie as konteks ondersteun nie."
         context_object_not_found: "Kan nie die hulpbron gegee as die konteks vind nie."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Die gekose gebruiker is nie toegelaat om '%{property}' vir hierdie werkspakket te wees nie."
         start_date: "Begindatum kan nie gestel word op ouerwerkspakkette nie."
       eprops:

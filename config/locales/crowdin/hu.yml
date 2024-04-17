@@ -3407,9 +3407,7 @@ hu:
         unsupported_context: "A megadott erőforrás nem támogatott kontextus."
         context_object_not_found: "Nem található a kontextusként megadott erőforrás."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Befejezési dátumot nem lehet beállítani a szülő feladatcsoportnak."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "A kiválasztott felhasználó '%{property}'-ként való beállítása nem engedélyezett ehhez a feladatcsoporthoz."
         start_date: "Kezdés dátuma nem állítható a szülő feladatcsoportokon."
       eprops:

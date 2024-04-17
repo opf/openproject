@@ -3479,9 +3479,7 @@ sl:
         unsupported_context: "Navedeni vir ni podprt kot kontekst."
         context_object_not_found: "Ni mogoče najti vira kot konteksta."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Končnega datuma ni mogoče določiti za nadrejene delovne pakete."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Izbrani uporabnik ne sme biti '%{property}' za ta delovni paket."
         start_date: "Na nadrejenih delovnih paketih začetnega datuma ni mogoče nastaviti."
       eprops:

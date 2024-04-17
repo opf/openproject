@@ -3364,9 +3364,7 @@ id:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Tanggal selesai tidak dapat diatur pada paket pekerjaan induk."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pilihan pengguna tidak diperbolehkan untuk menjadi '%{property}' untuk paket pekerjaan ini."
         start_date: "Start date cannot be set on parent work packages."
       eprops:

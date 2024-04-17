@@ -3446,9 +3446,7 @@ ro:
         unsupported_context: "Resursa furnizată nu este suportată ca și context."
         context_object_not_found: "Resursa furnizată ca și contet nu poate fi identificată."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Data de finalizare nu poate fi stabilită pentru pachetele de lucru părinte."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Utilizatorul selectat nu poate fi '%{property}' pentru acest pachet de lucru."
         start_date: "Nu se poate seta data start pe pachetele de lucru părinte."
       eprops:

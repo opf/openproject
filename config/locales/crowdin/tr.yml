@@ -3406,9 +3406,7 @@ tr:
         unsupported_context: "Verilen kaynak bağlam olarak desteklenmiyor."
         context_object_not_found: "Bağlam olarak verilen kaynağı bulamıyor."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Bitiş ​​tarihi, üst çalışma paketlerinde ayarlanamaz."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Seçilen kullanıcının bu çalışma paketi için ' %{property} ' olması için izin verilmiyor."
         start_date: "Başlangıç ​​tarihi, üst çalışma paketlerinde ayarlanamaz."
       eprops:

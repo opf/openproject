@@ -3406,9 +3406,7 @@ nl:
         unsupported_context: "De gegeven bron wordt niet ondersteund als context."
         context_object_not_found: "Kan de bron niet vind als gegeven context."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Einddatum kan niet worden ingesteld op bovenliggende werkpakketten."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "De gekozen gebruiker kan geen '%{property}' zijn voor dit werkpakket."
         start_date: "De startdatum kan niet worden ingesteld op bovenliggende werkpakketten."
       eprops:

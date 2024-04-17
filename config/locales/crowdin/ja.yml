@@ -3370,9 +3370,7 @@ ja:
         unsupported_context: "指定されたリソースは、コンテキストとしてはサポートされません。"
         context_object_not_found: "コンテキストで指定されたリソースが見つかりません。"
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "終了日は親作業項目には設定できません。"
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "選択されたユーザーは、この作業項目の'%{property}' にすることはできません。"
         start_date: "開始日は、親ワークパッケージに設定できません。"
       eprops:

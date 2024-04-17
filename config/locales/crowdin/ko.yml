@@ -3371,9 +3371,7 @@ ko:
         unsupported_context: "지정된 리소스는 컨텍스트로 지원되지 않습니다."
         context_object_not_found: "컨텍스트로 지정된 리소스를 찾을 수 없습니다."
       validation:
-        done_ratio: "완료 %는 상태에 의해 유추되는 경우 또는 비활성화된 경우 부모 작업 패키지에서 설정할 수 없습니다."
         due_date: "완료 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
-        estimated_hours: "작업은 부모 작업 패키지에서 설정할 수 없습니다." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "선택한 사용자는 이 작업 패키지에 대해 '%{property}' 허가되지 않았습니다."
         start_date: "시작 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
       eprops:
