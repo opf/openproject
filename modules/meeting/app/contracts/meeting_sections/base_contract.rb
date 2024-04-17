@@ -36,7 +36,7 @@ module MeetingSections
 
     attribute :meeting
 
-    attribute :name
+    attribute :title
     attribute :position
   end
 end

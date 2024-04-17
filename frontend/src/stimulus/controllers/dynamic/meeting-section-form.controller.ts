@@ -43,12 +43,12 @@ export default class extends Controller {
   }
 
   focusInput():void {
-    const nameInput = this.element.querySelector('input[name="meeting_section[name]"]');
+    const titleInput = this.element.querySelector('input[name="meeting_section[title]"]');
 
     setTimeout(() => {
       this.element.scrollIntoView({ block: 'center' });
-        (nameInput as HTMLInputElement).focus();
-        this.setCursorAtEnd(nameInput as HTMLInputElement);
+        (titleInput as HTMLInputElement).focus();
+        this.setCursorAtEnd(titleInput as HTMLInputElement);
     }, 100);
   }
 

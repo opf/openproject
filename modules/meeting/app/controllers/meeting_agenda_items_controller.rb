@@ -185,17 +185,6 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_streams
   end
 
-  # Primer's autocomplete displays the ID of a user when selected instead of the name
-  # this cannot be changed at the moment as the component uses a simple text field which
-  # can't differentiate between a display and submit value
-  # thus, we can't use it
-  # leaving the code here for future reference
-  # def author_autocomplete_index
-  #   @users = User.active.like(params[:q]).limit(10)
-
-  #   render(Authors::AutocompleteItemComponent.with_collection(@users), layout: false)
-  # end
-
   private
 
   def set_meeting

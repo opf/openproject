@@ -76,7 +76,7 @@ class MeetingAgendaItem < ApplicationRecord
       meeting_section = meeting.sections.order(position: :asc).last
 
       if meeting_section.nil?
-        meeting_section = meeting.sections.create!(name: "Untitled")
+        meeting_section = meeting.sections.create!(title: "Untitled")
       end
 
       self.meeting_section_id = meeting_section.id

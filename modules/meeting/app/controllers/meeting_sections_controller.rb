@@ -90,8 +90,8 @@ class MeetingSectionsController < ApplicationController
   end
 
   def cancel_edit
-    if @meeting_section.has_default_name? && @meeting_section.agenda_items.empty?
-      # if the section has the default name and no agenda items, we can safely delete it
+    if @meeting_section.has_default_title? && @meeting_section.agenda_items.empty?
+      # if the section has the default title and no agenda items, we can safely delete it
       destroy and return
     else
       update_section_header_via_turbo_stream(state: :show)
@@ -162,17 +162,6 @@ class MeetingSectionsController < ApplicationController
     respond_with_turbo_streams
   end
 
-  # Primer's autocomplete displays the ID of a user when selected instead of the name
-  # this cannot be changed at the moment as the component uses a simple text field which
-  # can't differentiate between a display and submit value
-  # thus, we can't use it
-  # leaving the code here for future reference
-  # def author_autocomplete_index
-  #   @users = User.active.like(params[:q]).limit(10)
-
-  #   render(Authors::AutocompleteItemComponent.with_collection(@users), layout: false)
-  # end
-
   private
 
   def set_meeting
@@ -191,7 +180,7 @@ class MeetingSectionsController < ApplicationController
   def meeting_section_params
     params
       .require(:meeting_section)
-      .permit(:name)
+      .permit(:title)
   end
 
   def generic_call_failure_response(call)

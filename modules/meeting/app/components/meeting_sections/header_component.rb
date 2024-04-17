@@ -156,23 +156,5 @@ module MeetingSections
         item.with_leading_visual_icon(icon: :trash)
       end
     end
-
-    def first?
-      @first ||=
-        if @first_and_last.first
-          @first_and_last.first == @meeting_section
-        else
-          @meeting_section.first?
-        end
-    end
-
-    def last?
-      @last ||=
-        if @first_and_last.last
-          @first_and_last.last == @meeting_section
-        else
-          @meeting_section.last?
-        end
-    end
   end
 end

@@ -34,22 +34,22 @@ class MeetingSection < ApplicationRecord
   has_many :agenda_items, dependent: :destroy, class_name: "MeetingAgendaItem"
   has_one :project, through: :meeting
 
-  validates :name, presence: true
+  validates :title, presence: true
 
-  before_validation :set_default_name
+  before_validation :set_default_title
 
   acts_as_list scope: :meeting
 
   default_scope { order(:position) }
 
-  def set_default_name
-    if name.blank?
-      self.name = "Untitled" # TODO: I18n
+  def set_default_title
+    if title.blank?
+      self.title = "Untitled" # TODO: I18n
     end
   end
 
-  def has_default_name?
-    name == "Untitled" # TODO: I18n
+  def has_default_title?
+    title == "Untitled" # TODO: I18n
   end
 
   def editable?

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingSection::Name < ApplicationForm
+class MeetingSection::Title < ApplicationForm
   form do |meeting_section_form|
     meeting_section_form.text_field(
-      name: :name,
+      name: :title,
       placeholder: Meeting.human_attribute_name(:title),
       label: Meeting.human_attribute_name(:title),
       value: init_value(meeting_section_form),
@@ -45,10 +45,10 @@ class MeetingSection::Name < ApplicationForm
   private
 
   def init_value(meeting_section_form)
-    if meeting_section_form.builder.object.has_default_name?
+    if meeting_section_form.builder.object.has_default_title?
       "" # will be set to "Untitled" in the model if left empty
     else
-      meeting_section_form.builder.object.name
+      meeting_section_form.builder.object.title
     end
   end
 end

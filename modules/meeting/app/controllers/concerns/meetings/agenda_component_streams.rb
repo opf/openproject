@@ -249,24 +249,27 @@ module Meetings
         # Note: The `remove_component` and the `component` are pointing to the same
         # component, but we still need to instantiate them separately, otherwise re-adding
         # of the item will render and empty component.
-        remove_component = MeetingAgendaItems::ItemComponent.new(state: :show, meeting_agenda_item:)
-        remove_via_turbo_stream(component: remove_component)
+        # remove_component = MeetingAgendaItems::ItemComponent.new(state: :show, meeting_agenda_item:)
+        # remove_via_turbo_stream(component: remove_component)
 
-        component = MeetingAgendaItems::ItemComponent.new(state: :show, meeting_agenda_item:)
-        target_component =
-          if @meeting_agenda_item.lower_item
-            MeetingAgendaItems::ItemComponent.new(
-              state: :show,
-              meeting_agenda_item: @meeting_agenda_item.lower_item
-            )
-          else
-            MeetingSections::ShowComponent.new(
-              meeting_section: @meeting_agenda_item.meeting_section
-            )
-            # MeetingAgendaItems::ListComponent.new(meeting: @meeting)
-          end
-        add_before_via_turbo_stream(component:, target_component:)
-        update_show_items_via_turbo_stream
+        # component = MeetingAgendaItems::ItemComponent.new(state: :show, meeting_agenda_item:)
+        # target_component =
+        #   if @meeting_agenda_item.lower_item
+        #     MeetingAgendaItems::ItemComponent.new(
+        #       state: :show,
+        #       meeting_agenda_item: @meeting_agenda_item.lower_item
+        #     )
+        #   else
+        #     MeetingSections::ShowComponent.new(
+        #       meeting_section: @meeting_agenda_item.meeting_section
+        #     )
+        #     # MeetingAgendaItems::ListComponent.new(meeting: @meeting)
+        #   end
+        # add_before_via_turbo_stream(component:, target_component:)
+        # update_show_items_via_turbo_stream
+
+        # TODO: review above implementation and adapt properly to section based approach
+        update_section_via_turbo_stream(meeting_section: meeting_agenda_item.meeting_section)
       end
 
       def render_base_error_in_flash_message_via_turbo_stream(errors)
