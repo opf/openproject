@@ -262,8 +262,21 @@ class User < Principal
     end
   end
 
+  # Columns required for formatting the user's name.
+  def self.columns_for_name(formatter = nil)
+    case formatter || Setting.user_format
+    when :firstname
+      [:firstname]
+    when :username
+      [:login]
+    else
+      %i[firstname lastname]
+    end
+  end
+
   # Formats the user's name.
   def name(formatter = nil)
+    # Don't forget to check columns_for_name
     case formatter || Setting.user_format
 
     when :firstname_lastname      then "#{firstname} #{lastname}"
