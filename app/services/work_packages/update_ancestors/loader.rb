@@ -46,17 +46,6 @@ class WorkPackages::UpdateAncestors::Loader
     @descendants[queried_work_package]
   end
 
-  def leaves_of(queried_work_package)
-    @leaves ||= Hash.new do |hash, wp|
-      hash[wp] = replaced_related_of(wp, :leaves) do |leaf|
-        # Mimic work package by implementing the closed? interface
-        leaf.send(:"closed?=", leaf.is_closed)
-      end
-    end
-
-    @leaves[queried_work_package]
-  end
-
   def children_of(queried_work_package)
     @children ||= Hash.new do |hash, wp|
       hash[wp] = descendants_of(wp).select { |d| d.parent_id == wp.id }

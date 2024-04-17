@@ -192,6 +192,8 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
     SQL
   end
 
+  # Computes total work, total remaining work and total % complete for all work
+  # packages having children.
   def update_totals
     execute(<<~SQL)
       UPDATE temp_wp_progress_values
@@ -203,6 +205,7 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
           END
       FROM (
         SELECT wp_tree.ancestor_id AS id,
+               MAX(generations) AS generations,
                SUM(estimated_hours) AS total_work,
                SUM(remaining_hours) AS total_remaining_work
         FROM work_package_hierarchies wp_tree
@@ -210,6 +213,7 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
         GROUP BY wp_tree.ancestor_id
       ) totals
       WHERE temp_wp_progress_values.id = totals.id
+      AND totals.generations > 0
     SQL
   end
 
