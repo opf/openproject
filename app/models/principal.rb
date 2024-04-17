@@ -122,6 +122,18 @@ class Principal < ApplicationRecord
 
   before_create :set_default_empty_values
 
+  # Columns required for formatting the principal's name.
+  def self.columns_for_name(formatter = nil)
+    raise NotImplementedError, "Redefine in subclass" unless self == Principal
+
+    [User, Group, PlaceholderUser].map { _1.columns_for_name(formatter) }.inject(:|)
+  end
+
+  # Select columns for formatting the user's name.
+  def self.select_for_name(formatter = nil)
+    select(*columns_for_name(formatter))
+  end
+
   def name(_formatter = nil)
     to_s
   end
