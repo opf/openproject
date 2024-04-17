@@ -40,19 +40,9 @@
           <% tab.with_text { "Sort By" }%>
           <% tab.with_panel do %>
             <%= render(Primer::OpenProject::FlexLayout.new) do |layout| %>
-              <% 3.times do %>
+              <% 3.times do |i| %>
                 <% layout.with_row do %>
-                  <%= render(Primer::OpenProject::GridLayout.new(css_class: "op-projects-configure-query-sort-form", tag: :div)) do |grid| %>
-                    <% grid.with_area("field") do %>
-                      <%= form.select 'sortBy',options_for_select(["ID", "Name", "Created At"]) %>
-                    <% end %>
-                    <% grid.with_area("direction") do %>
-                      <%= render(Primer::Alpha::SegmentedControl.new("aria-label": "Sort order", hide_labels: true)) do |sort_buttons| %>
-                        <% sort_buttons.with_item(icon: "sort-asc", label: "sort ascending", selected: true) %>
-                        <% sort_buttons.with_item(icon: "sort-desc", label: "sort descending") %>
-                      <% end %>
-                    <% end %>
-                  <% end %>
+                  <%= render(Queries::SortByComponent.new(order: query.orders[i], available_orders:)) %>
                 <% end %>
               <% end %>
             <% end %>

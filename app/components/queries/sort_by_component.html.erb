@@ -1,0 +1,11 @@
+<%= render(Primer::OpenProject::GridLayout.new(css_class: "op-configure-query-sort-form", tag: :div)) do |grid| %>
+  <% grid.with_area("field") do %>
+    <%= select_tag 'sortBy', select_options, include_blank: true %>
+  <% end %>
+  <% grid.with_area("direction") do %>
+    <%= render(Primer::Alpha::SegmentedControl.new("aria-label": "Sort order", hide_labels: true)) do |sort_buttons| %>
+      <% sort_buttons.with_item(icon: "sort-asc", label: "sort ascending", selected: order&.direction == :asc) %>
+      <% sort_buttons.with_item(icon: "sort-desc", label: "sort descending", selected: order&.direction == :desc) %>
+    <% end %>
+  <% end %>
+<% end %>
