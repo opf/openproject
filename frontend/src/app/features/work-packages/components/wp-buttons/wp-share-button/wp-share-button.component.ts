@@ -84,7 +84,7 @@ export class WorkPackageShareButtonComponent extends UntilDestroyedMixin impleme
   }
 
   openModal():void {
-    this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage: this.workPackage });
+    this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage: this.workPackage }, false, true);
   }
 
   private countShares():Observable<number> {
