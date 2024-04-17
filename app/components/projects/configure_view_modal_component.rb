@@ -30,7 +30,7 @@
 
 class Projects::ConfigureViewModalComponent < ApplicationComponent
   MODAL_ID = "op-project-list-configure-dialog"
-  COLUMN_FORM_ID = "op-project-list-configure-columns-form"
+  QUERY_FORM_ID = "op-project-list-configure-query-form"
   COLUMN_HTML_NAME = "columns"
 
   options :query
