@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Estimated hours display", :js do
+RSpec.describe "Work display", :js do
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:admin) }
   shared_let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
@@ -58,7 +58,7 @@ RSpec.describe "Estimated hours display", :js do
     login_as(user)
   end
 
-  shared_examples "estimated time display" do |expected_text:|
+  shared_examples "work display" do |expected_text:|
     it "work package index" do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
@@ -84,14 +84,14 @@ RSpec.describe "Estimated hours display", :js do
     end
   end
 
-  context "with both work and derived work" do
+  context "with both work and total work" do
     let_work_packages(<<~TABLE)
       hierarchy   | work |
       parent      |   1h |
         child     |   3h |
     TABLE
 
-    include_examples "estimated time display", expected_text: "1 h·Σ 4 h"
+    include_examples "work display", expected_text: "1 h·Σ 4 h"
   end
 
   context "with just work" do
@@ -101,47 +101,57 @@ RSpec.describe "Estimated hours display", :js do
         child     |   0h |
     TABLE
 
-    include_examples "estimated time display", expected_text: "1 h"
+    include_examples "work display", expected_text: "1 h"
   end
 
-  context "with just derived work with (parent work 0 h)" do
+  context "with just total work with (parent work 0 h)" do
     let_work_packages(<<~TABLE)
       hierarchy   | work |
       parent      |   0h |
         child     |   3h |
     TABLE
 
-    include_examples "estimated time display", expected_text: "0 h·Σ 3 h"
+    include_examples "work display", expected_text: "0 h·Σ 3 h"
   end
 
-  context "with just derived work (parent work unset)" do
+  context "with just total work (parent work unset)" do
     let_work_packages(<<~TABLE)
       hierarchy   | work |
       parent      |      |
         child     |   3h |
     TABLE
 
-    include_examples "estimated time display", expected_text: "-·Σ 3 h"
+    include_examples "work display", expected_text: "-·Σ 3 h"
   end
 
-  context "with neither work nor derived work (both 0 h)" do
+  context "with neither work nor total work (both 0 h)" do
     let_work_packages(<<~TABLE)
       hierarchy   | work |
       parent      |   0h |
         child     |   0h |
     TABLE
 
-    include_examples "estimated time display", expected_text: "0 h"
+    include_examples "work display", expected_text: "0 h"
   end
 
-  context "with neither work nor derived work (both unset)" do
+  context "with just total work being 0h" do
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |      |
+        child     |   0h |
+    TABLE
+
+    include_examples "work display", expected_text: "-·Σ 0 h"
+  end
+
+  context "with neither work nor total work (both unset)" do
     let_work_packages(<<~TABLE)
       hierarchy   | work |
       parent      |      |
         child     |      |
     TABLE
 
-    include_examples "estimated time display", expected_text: "-"
+    include_examples "work display", expected_text: "-"
   end
 
   describe "link to detailed view" do
@@ -155,7 +165,7 @@ RSpec.describe "Estimated hours display", :js do
       other one          |   2h |
     TABLE
 
-    # Run UpdateAncestorsService on the grand child to update the whole hierarchy derived values
+    # Run UpdateAncestorsService on the grand child to update the whole hierarchy total values
     let(:initiator_work_package) { grand_child21 }
 
     it "displays a link to a detailed view explaining work calculation" do
