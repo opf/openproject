@@ -6,9 +6,13 @@
                                      # This is necessary as long as ng-select does not support popovers.
                                      style: "min-height: 430px")) do |d| %>
   <% d.with_header(variant: :large, mb: 3) %>
-
-  <%= render(Primer::Alpha::Dialog::Body.new(id: "op-draggable-autocomplete-container")) do %>
-    <%= primer_form_with(
+  <%= render(Primer::Alpha::Dialog::Body.new) do %>
+    <%= render(Primer::Alpha::TabPanels.new(label: "label")) do |tab_panel| %>
+      <% tab_panel.with_tab(selected: true, id: "tab-selects") do |tab| %>
+        <% tab.with_text { "Fields"} %>
+        <% tab.with_panel do %>
+          <div id="op-draggable-autocomplete-container">
+            <%= primer_form_with(
           url: projects_path,
           id: COLUMN_FORM_ID,
           method: :get,
@@ -17,7 +21,7 @@
             'application-target': "dynamic",
             'params-from-query-allowed-value': '["filters", "query_id", "page", "per_page", "sortBy"]'
           }) do %>
-          <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
+              <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
                                             inputs: {
                                               options: helpers.projects_columns_options,
                                               selected: selected_columns,
@@ -29,9 +33,18 @@
                                               dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label'),
                                               appendToComponent: true
                                             }%>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+      <% tab_panel.with_tab(id: "tab-selects") do |tab| %>
+        <% tab.with_text { "Sort By" }%>
+        <% tab.with_panel do %>
+          <h4>Hello world</h4>
+        <% end%>
+      <% end %>
     <% end %>
   <% end %>
-
   <%= render(Primer::Alpha::Dialog::Footer.new) do %>
     <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
     <%= render(Primer::ButtonComponent.new(scheme: :primary, type: :submit, form: COLUMN_FORM_ID)) { I18n.t(:button_apply) } %>
