@@ -53,7 +53,7 @@ class GanttBuilder
       page_groups = build_pages(work_packages)
     end
     build_dep_lines(page_groups) if @draw_gantt_lines
-    page_groups.flat_map { |page_group| page_group.pages }
+    page_groups.flat_map(&:pages)
   end
 
   private
@@ -104,10 +104,14 @@ class GanttBuilder
     dates = build_column_dates(work_packages)
     vertical_pages_needed = (work_packages.size / @rows_per_page.to_f).ceil
     horizontal_pages_needed = [((dates.size - @nr_columns_first_page) / @nr_columns.to_f).ceil, 0].max + 1
-    (0..vertical_pages_needed - 1)
-      .map do |v_index|
+    build_vertical_pages(work_packages, dates, vertical_pages_needed, horizontal_pages_needed)
+  end
+
+  def build_vertical_pages(work_packages, dates, vertical_pages_needed, horizontal_pages_needed)
+    (0..vertical_pages_needed - 1).map do |v_index|
       group_work_packages = work_packages.slice(v_index * @rows_per_page, @rows_per_page)
-      GanttPageGroup.new(v_index, group_work_packages, build_horizontal_pages(group_work_packages, dates, horizontal_pages_needed))
+      GanttPageGroup.new(v_index, group_work_packages,
+                         build_horizontal_pages(group_work_packages, dates, horizontal_pages_needed))
     end
   end
 
@@ -211,17 +215,25 @@ class GanttBuilder
     end
   end
 
-  def collect_line_infos(work_package, page_groups)
-    rows = page_groups.map do |page_group|
-      page_group.pages.filter_map { |page| page.rows.find { |r| r.work_package == work_package } }
-    end.flatten
+  def rows_by_work_package(work_package, page_groups)
+    page_groups.map do |page_group|
+      page_group.pages.map do |page|
+        page.rows.find { |r| r.work_package == work_package }
+      end
+    end.flatten.compact
+  end
+
+  def start_and_finish_rows(rows)
     draw_rows = rows.reject { |row| row.shape.nil? }
     start = draw_rows.max_by { |row| row.page.index }
     finish = draw_rows.max_by { |row| row.page.index }
-    GanttLineInfo.new(rows[0].page.group, rows, draw_rows,
-                      start, start.shape.left, start.shape.top + (start.shape.height / 2),
-                      finish, finish.shape.right, finish.shape.top + (finish.shape.height / 2)
-    )
+    [start, finish]
+  end
+
+  def collect_line_infos(work_package, page_groups)
+    rows = rows_by_work_package(work_package, page_groups)
+    start, finish = start_and_finish_rows(rows)
+    GanttLineInfo.new(rows[0].page.group, rows, start, finish)
   end
 
   def build_dep_line(work_package, target_work_package, page_groups)
@@ -236,55 +248,92 @@ class GanttBuilder
     end
   end
 
-  def build_same_page_dep_lines(line_source, line_target)
-    lines = if line_target.start_x - 10 <= line_source.finish_x
-              dep_lines_step(line_source.finish_row.bottom, line_source.finish_x, line_source.finish_y, line_target.start_x, line_target.start_y)
-            else
-              dep_lines_straight(line_source.finish_x, line_source.finish_y, line_target.start_x, line_target.start_y)
-            end
-    line_source.start_row.page.add_lines(lines)
+  def build_same_page_dep_lines_step(line_source, line_target)
+    dep_lines_step(line_source.finish_row.bottom,
+                   line_source.finish_left, line_source.finish_top,
+                   line_target.start_left, line_target.start_top)
   end
 
-  def build_multi_page_dep_line(line_source, line_target)
-    page_group = line_source.page_group
-    i = line_source.page_group.pages.index(line_source.finish_row.page)
-    j = line_target.page_group.pages.index(line_target.start_row.page)
-    if i < j
-      page = line_source.finish_row.page
-      lines = [{ left: line_source.finish_x, right: page.columns.last.right, top: line_source.finish_y, bottom: line_source.finish_y }]
-      page.add_lines(lines)
+  def build_same_page_dep_lines_straight(line_source, line_target)
+    dep_lines_straight(line_source.finish_left, line_source.finish_top, line_target.start_left, line_target.start_top)
+  end
 
-      ((i + 1)..(j - 1)).each do |index|
-        page = page_group.pages[index]
-        lines = [{ left: page.columns.first.left, right: page.columns.last.right, top: line_source.finish_y, bottom: line_source.finish_y }]
-        page.add_lines(lines)
-      end
+  def build_same_page_dep_lines(line_source, line_target)
+    lines = if line_target.start_left - 10 <= line_source.finish_left
+              build_same_page_dep_lines_step(line_source, line_target)
+            else
+              build_same_page_dep_lines_straight(line_source, line_target)
+            end
+    line_source.start_row.page.add_lines lines
+  end
 
-      page = line_target.start_row.page
-      lines = dep_lines_straight(page.columns.first.left, line_source.finish_y, line_target.start_x, line_target.start_y)
-      page.add_lines(lines)
+  def build_multi_page_dep_line_middle(source, start_page_index, finish_page_index, top)
+    ((start_page_index + 1)..(finish_page_index - 1)).each do |index|
+      page = source.page_group.pages[index]
+      page.add_line(page.columns.first.left, page.columns.last.right, top, top)
+    end
+  end
+
+  def build_multi_page_dep_line_forward_start(source)
+    source.finish_row.page.add_line(source.finish_left, source.finish_row.page.columns.last.right,
+                                    source.finish_top, source.finish_top)
+  end
+
+  def build_multi_page_dep_line_forward_end(source, target)
+    source_left = target.start_row.page.columns.first.left - 10
+    source_top = source.finish_top
+    target_left = target.start_left
+    target_top = target.start_top
+    target.start_row.page.add_lines(
+      [
+        [source_left, target_left - 5, source_top, source_top],
+        [target_left - 5, target_left - 5, source_top, target_top],
+        [target_left - 5, target_left, target_top, target_top]
+      ]
+    )
+  end
+
+  def build_multi_page_dep_line_forward(source, target, start_page_index, finish_page_index)
+    build_multi_page_dep_line_forward_start(source)
+    build_multi_page_dep_line_middle(source, start_page_index, finish_page_index, source.finish_top)
+    build_multi_page_dep_line_forward_end(source, target)
+  end
+
+  def build_multi_page_dep_line_backward_end(target, top)
+    left = target.start_left - 5
+    target.start_row.page.add_lines(
+      [
+        [left, target.start_row.page.columns.last.right, top, top],
+        [left, left, top, target.start_top],
+        [left, target.start_left, target.start_top, target.start_top]
+      ]
+    )
+  end
+
+  def build_multi_page_dep_line_backward_start(source, top)
+    source.finish_row.page.add_lines(
+      [
+        [source.finish_left, source.finish_left + 5, source.finish_top, source.finish_top],
+        [source.finish_left + 5, source.finish_left + 5, source.finish_top, top],
+        [source.finish_row.left, source.finish_left + 5, top, top]
+      ]
+    )
+  end
+
+  def build_multi_page_dep_line_backward(source, target, start_page_index, finish_page_index)
+    y = source.finish_row.bottom
+    build_multi_page_dep_line_backward_start(source, y)
+    build_multi_page_dep_line_middle(source, finish_page_index, start_page_index, y)
+    build_multi_page_dep_line_backward_end(target, y)
+  end
+
+  def build_multi_page_dep_line(source, target)
+    i = source.page_group.pages.index(source.finish_row.page)
+    j = source.page_group.pages.index(target.start_row.page)
+    if i > j
+      build_multi_page_dep_line_backward(source, target, i, j)
     else
-      y = line_source.finish_row.bottom
-      page = line_source.finish_row.page
-      lines = [
-        { left: line_source.finish_x, right: line_source.finish_x + 5, top: line_source.finish_y, bottom: line_source.finish_y },
-        { left: line_source.finish_x + 5, right: line_source.finish_x + 5, top: line_source.finish_y, bottom: y },
-        { left: line_source.finish_row.left, right: line_source.finish_x + 5, top: y, bottom: y }
-      ]
-      page.add_lines(lines)
-
-      ((j + 1)..(i - 1)).each do |index|
-        page = page_group.pages[index]
-        lines = [{ left: page.columns.first.left, right: page.columns.last.right, top: y, bottom: y }]
-        page.add_lines(lines)
-      end
-      page = line_target.start_row.page
-      lines = [
-        { left: line_target.start_x - 5, right: page.columns.last.right, top: y, bottom: y },
-        { left: line_target.start_x - 5, right: line_target.start_x - 5, top: y, bottom: line_target.start_y },
-        { left: line_target.start_x - 5, right: line_target.start_x, top: line_target.start_y, bottom: line_target.start_y }
-      ]
-      page.add_lines(lines)
+      build_multi_page_dep_line_forward(source, target, i, j)
     end
   end
 
@@ -292,36 +341,48 @@ class GanttBuilder
 
   def dep_lines_straight(source_left, source_top, target_left, target_top)
     [
-      { left: source_left, right: target_left - 5, top: source_top, bottom: source_top },
-      { left: target_left - 5, right: target_left - 5, top: source_top, bottom: target_top },
-      { left: target_left - 5, right: target_left, top: target_top, bottom: target_top }
+      [source_left, target_left - 5, source_top, source_top],
+      [target_left - 5, target_left - 5, source_top, target_top],
+      [target_left - 5, target_left, target_top, target_top]
     ]
   end
 
   def dep_lines_step(source_row_bottom, source_left, source_top, target_left, target_top)
     [
-      { left: source_left, right: source_left + 5, top: source_top, bottom: source_top },
-      { left: source_left + 5, right: source_left + 5, top: source_top, bottom: source_row_bottom },
-      { left: target_left - 5, right: source_left + 5, top: source_row_bottom, bottom: source_row_bottom },
-      { left: target_left - 5, right: target_left - 5, top: source_row_bottom, bottom: target_top },
-      { left: target_left - 5, right: target_left, top: target_top, bottom: target_top }
+      [source_left, source_left + 5, source_top, source_top],
+      [source_left + 5, source_left + 5, source_top, source_row_bottom],
+      [target_left - 5, source_left + 5, source_row_bottom, source_row_bottom],
+      [target_left - 5, target_left - 5, source_row_bottom, target_top],
+      [target_left - 5, target_left, target_top, target_top]
     ]
   end
 
+  def build_text_column(index)
+    if index == 0
+      GanttTextColumn.new(@title, 0, @text_column_width, 0, GANTT_ROW_HEIGHT,
+                          GANTT_TEXT_CELL_PADDING * 2, GANTT_TEXT_CELL_PADDING)
+    end
+  end
+
+  def build_columns(left, dates, work_packages)
+    dates.each_with_index.map { |date, col_index| build_column(date, left + (col_index * @column_width), work_packages) }
+  end
+
+  def build_rows(columns, work_packages)
+    work_packages.each_with_index.map { |work_package, row_index| build_row(work_package, row_index, columns) }
+  end
+
   def build_page(dates, index, work_packages)
-    x = index == 0 ? @text_column_width : 0
-    columns = dates.each_with_index.map { |date, col_index| build_column(date, x + (col_index * @column_width), work_packages) }
-    rows = work_packages.each_with_index.map { |work_package, row_index| build_row(work_package, row_index, columns) }
+    left = (index == 0 ? @text_column_width : 0)
+    columns = build_columns(left, dates, work_packages)
     GanttPage.new(
       index,
       work_packages,
       build_header_cells(columns),
-      rows,
+      build_rows(columns, work_packages),
       columns,
-      index == 0 ? GanttTextColumn.new(@title,
-                                       0, @text_column_width, 0, GANTT_ROW_HEIGHT,
-                                       GANTT_TEXT_CELL_PADDING * 2, GANTT_TEXT_CELL_PADDING) : nil,
-      x + (dates.size * @column_width),
+      build_text_column(index),
+      left + (dates.size * @column_width),
       @header_row_height + (@rows_per_page * GANTT_ROW_HEIGHT),
       @header_row_height
     )
@@ -521,7 +582,7 @@ class GanttBuilderQuarters < GanttBuilder
   end
 
   def days_of_quarter(date)
-    (1..3).map { |q| Date.new(date.year, (date.quarter * 3) - 3 + q, -1).day }.sum
+    (1..3).sum { |q| Date.new(date.year, (date.quarter * 3) - 3 + q, -1).day }
   end
 
   def wp_on_quarter?(work_package, date)
@@ -530,4 +591,3 @@ class GanttBuilderQuarters < GanttBuilder
     Range.new(start_date.beginning_of_quarter, end_date.end_of_quarter).include?(date)
   end
 end
-

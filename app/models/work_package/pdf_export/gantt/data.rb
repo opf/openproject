@@ -58,8 +58,12 @@ class GanttPage
     columns.each { |column| column.page = self }
   end
 
+  def add_line(left, right, top, bottom)
+    @lines.push({ left:, right:, top:, bottom: })
+  end
+
   def add_lines(lines)
-    @lines.concat(lines)
+    lines.each { |line| add_line(line[0], line[1], line[2], line[3]) }
   end
 end
 
@@ -92,18 +96,21 @@ class GanttColumn
 end
 
 class GanttLineInfo
-  attr_accessor :page_group, :rows, :draw_rows, :start_row, :start_x, :start_y, :finish_row, :finish_x, :finish_y
+  attr_accessor :page_group, :rows, :start_row, :start_left, :start_top, :finish_row, :finish_left, :finish_top
 
-  def initialize(page_group, rows, draw_rows, start_row, start_x, start_y, finish_row, finish_x, finish_y)
+  def initialize(page_group, rows, start_row, finish_row)
     @page_group = page_group
     @rows = rows
-    @draw_rows = draw_rows
     @start_row = start_row
-    @start_x = start_x
-    @start_y = start_y
     @finish_row = finish_row
-    @finish_x = finish_x
-    @finish_y = finish_y
+    init_positions
+  end
+
+  def init_positions
+    @start_left = @start_row.shape.left
+    @start_top = @start_row.shape.top + (@start_row.shape.height / 2)
+    @finish_left = @finish_row.shape.right
+    @finish_top = @finish_row.shape.top + (@finish_row.shape.height / 2)
   end
 end
 
@@ -151,5 +158,16 @@ class GanttShape
     @work_package = work_package
     @columns = columns
     @color = color
+  end
+end
+
+class GanttLineFragment
+  attr_accessor :left, :right, :top, :bottom
+
+  def initialize(left, right, top, bottom)
+    @left = left
+    @right = right
+    @top = top
+    @bottom = bottom
   end
 end

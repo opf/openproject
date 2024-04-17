@@ -30,7 +30,7 @@
 
 class GanttPainter
   GANTT_GRID_COLOR = "9b9ea3".freeze
-  GANTT_LINE_COLOR = "0000ff".freeze
+  GANTT_LINE_COLOR = "2b8bd5".freeze
 
   def initialize(pdf)
     @pdf = pdf
@@ -53,58 +53,74 @@ class GanttPainter
   def paint_page(page)
     paint_grid(page)
     paint_header_row(page)
-    page.columns.each { |column| paint_grid_line_v(page.header_row_height, page.height, column.right) }
-    paint_grid_line_h(0, page.width, page.rows.last.bottom)
-    page.lines.each { |line| paint_gantt_line(line) }
+    paint_lines(page)
+    paint_rows(page)
+  end
+
+  def paint_rows(page)
     page.rows.each { |row| paint_row(row) }
   end
 
+  def paint_lines(page)
+    @pdf.stroke do
+      @pdf.line_width = 1
+      @pdf.stroke_color GANTT_LINE_COLOR
+      page.lines.each { |line| paint_line(line[:left], line[:top], line[:right], line[:bottom]) }
+    end
+  end
+
+  def grid_v(page)
+    page_height = page.height
+    [
+      [0, page_height, 0],
+      [0, page_height, page.width],
+      page.text_column.nil? ? nil : [0, page_height, page.text_column.width],
+      page.columns.map { |column| [page.header_row_height, page_height, column.right] },
+      page.header_cells.map { |cell| [cell.top, cell.bottom, cell.left] }
+    ]
+  end
+
+  def grid_h(page)
+    page_width = page.width
+    text_column = page.text_column
+    [
+      [0, page_width, page.height],
+      [0, page_width, page.rows.last.bottom],
+      text_column.nil? ? nil : [0, text_column.width, 0],
+      page.rows.map { |row| [0, page_width, row.top] },
+      page.header_cells.map { |cell| [cell.left, cell.right, cell.top] }
+    ]
+  end
+
+  def paint_grid_h(page)
+    grid_h(page).compact.flatten.each_slice(3) { |left, right, top| paint_line(left, top, right, top) }
+  end
+
+  def paint_grid_v(page)
+    grid_v(page).compact.flatten.each_slice(3) { |top, bottom, left| paint_line(left, top, left, bottom) }
+  end
+
   def paint_grid(page)
-    paint_grid_line_v(0, page.height, 0)
-    paint_grid_line_v(0, page.height, page.width)
-    paint_grid_line_v(0, page.height, page.text_column.width) unless page.text_column.nil?
-    paint_grid_line_h(0, page.width, page.height)
-    page.rows.each { |row| paint_grid_line_h(0, page.width, row.top) }
-  end
-
-  def paint_header_text_column(page)
-    paint_text_box(page.text_column.title, 0, 0, page.text_column.width, page.header_row_height,
-                   page.text_column.padding_h, 0, { size: 10, style: :bold })
-    paint_grid_line_h(0, page.text_column.width, 0)
-  end
-
-  def paint_header_column_cell(cell)
-    paint_text_box(cell.text, cell.left, cell.top, cell.width, cell.height,
-                   0, 0,
-                   { size: 10, style: :bold, align: :center })
-    paint_grid_line_h(cell.left, cell.right, cell.top)
-    paint_grid_line_v(cell.top, cell.bottom, cell.left)
-  end
-
-  def paint_work_package_title(row)
-    paint_text_box(
-      "#{row.work_package.type} ##{row.work_package.id} - #{row.work_package.subject}",
-      row.left, row.top, row.page.text_column.width, row.page.text_column.height,
-      row.page.text_column.padding_h, row.page.text_column.padding_v
-    )
+    @pdf.stroke do
+      @pdf.line_width = 0.5
+      @pdf.stroke_color GANTT_GRID_COLOR
+      paint_grid_v(page)
+      paint_grid_h(page)
+    end
   end
 
   def paint_row(row)
-    paint_work_package_title(row) unless row.page.text_column.nil?
-    paint_shape(row.shape) unless row.shape.nil?
+    unless row.page.text_column.nil?
+      paint_work_package_title(row, row.left, row.top, row.page.text_column.width, row.page.text_column.height)
+    end
+    unless row.shape.nil?
+      paint_shape(row.shape)
+    end
   end
 
   def paint_header_row(page)
     paint_header_text_column(page) unless page.text_column.nil?
     page.header_cells.each { |cell| paint_header_column_cell(cell) }
-  end
-
-  def paint_header_cell(text, columns, top, height)
-    left = columns.first.left
-    right = columns.last.right
-    paint_text_box(text, left, top, right - left, height, 0, 0, { size: 8, style: :bold, align: :center })
-    paint_grid_line_h(left, right, top)
-    paint_grid_line_v(top, top + height, left)
   end
 
   def paint_shape(shape)
@@ -115,25 +131,9 @@ class GanttPainter
     end
   end
 
-  def paint_line(line_x1, line_y1, line_x2, line_y2, color)
-    @pdf.stroke do
-      @pdf.line_width = 0.5
-      @pdf.stroke_color color
-      @pdf.line @pdf.bounds.left + line_x1, @pdf.bounds.top - line_y1,
-                @pdf.bounds.left + line_x2, @pdf.bounds.top - line_y2
-    end
-  end
-
-  def paint_gantt_line(line)
-    paint_line(line[:left], line[:top], line[:right], line[:bottom], GANTT_LINE_COLOR)
-  end
-
-  def paint_grid_line_h(left, right, top)
-    paint_line(left, top, right, top, GANTT_GRID_COLOR)
-  end
-
-  def paint_grid_line_v(top, bottom, left)
-    paint_line(left, top, left, bottom, GANTT_GRID_COLOR)
+  def paint_line(line_x1, line_y1, line_x2, line_y2)
+    @pdf.line @pdf.bounds.left + line_x1, @pdf.bounds.top - line_y1,
+              @pdf.bounds.left + line_x2, @pdf.bounds.top - line_y2
   end
 
   def paint_diamond(left, top, width, height, color)
@@ -150,6 +150,23 @@ class GanttPainter
     @pdf.fill_color color
     @pdf.fill_rectangle([@pdf.bounds.left + left, @pdf.bounds.top - top], width, height)
     @pdf.fill_color = current_color
+  end
+
+  def paint_header_text_column(page)
+    paint_text_box(page.text_column.title, 0, 0, page.text_column.width, page.header_row_height,
+                   page.text_column.padding_h, 0, { size: 10, style: :bold })
+  end
+
+  def paint_header_column_cell(cell)
+    paint_text_box(cell.text, cell.left, cell.top, cell.width, cell.height,
+                   0, 0,
+                   { size: 10, style: :bold, align: :center })
+  end
+
+  def paint_work_package_title(row, left, top, width, height)
+    paint_text_box("#{row.work_package.type} ##{row.work_package.id} - #{row.work_package.subject}",
+                   left, top, width, height,
+                   row.page.text_column.padding_h, row.page.text_column.padding_v)
   end
 
   def paint_text_box(text, left, top, width, height, padding_h, padding_v, additional_options = {})
