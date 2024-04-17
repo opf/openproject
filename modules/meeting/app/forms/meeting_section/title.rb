@@ -36,6 +36,7 @@ class MeetingSection::Title < ApplicationForm
       visually_hide_label: true,
       required: true,
       autofocus: true,
+      bg: :default,
       data: {
         action: "keydown.esc->meeting-section-form#cancel"
       }

@@ -1,5 +1,5 @@
 <%=
-  component_wrapper(class: "op-meeting-section-container", data: { test_selector: "meeting-section-container-#{@meeting_section.id}" }) do
+  component_wrapper(class: "op-meeting-section-container", data: wrapper_data_attributes) do
     if @state == :show
       grid_layout('op-meeting-section', tag: :div) do |grid|
         grid.with_area(:'drag-handle', tag: :div) do

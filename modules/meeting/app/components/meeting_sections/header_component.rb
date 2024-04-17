@@ -47,6 +47,12 @@ module MeetingSections
       @meeting_section.id
     end
 
+    def wrapper_data_attributes
+      {
+        test_selector: "meeting-section-container-#{@meeting_section.id}"
+      }
+    end
+
     def drag_and_drop_target_config
       {
         "is-drag-and-drop-target": true,
