@@ -6,9 +6,25 @@ description: File storages troubleshooting in OpenProject.
 keywords: file storages, Nextcloud error, Nextcloud troubleshooting, OneDrive error, Sharepoint error, OneDrive, Sharepoint, error, troubleshooting
 ---
 
-# File storage troubleshooting
+# File storage errors and troubleshooting
 
-Once you have set up your files storages, it is possible that a technical errors may occur. Please consult the following table for possible reasons behind the errors and suggested solutions.
+## Unhealthy file storages email notifications
+
+In some cases it is possible that a file storage has been set-up incorrectly. In this case the respective message will appear under *Administration* -> *File storages*. 
+
+> Please note that this only applies to file storages where **automatically managed project folders** have been selected.
+
+![Health check for automatically managed folders in file storage integrations in OpenProject](openproject_file_storages_health_message.png)
+
+If a problem has been detected for a file storage with automatically managed folders enabled, the OpenProject admin (PROJECT ADMIN? Instance admin?) will be notified via email of the detected error. Admin will be notified once a day of the faulty integration, including the specific error description and solution suggestions (see the section below). 
+
+Once the error has been resolved, the admin will also receive an email informing him/her/them of this.
+
+You can choose to subscribe or unsubscribe to these email notifications by clicking the respective button under the error message. 
+
+## File storage errors description 	
+
+Once you have set up your files storages, it is possible that a technical error may occur. Please consult the following table for possible reasons behind the errors and suggested solutions.
 
 
 
@@ -29,3 +45,7 @@ Once you have set up your files storages, it is possible that a technical errors
 
 
 If the suggested troubleshooting solutions did not resolve your issue, please reach out to the [OpenProject community](https://community.openproject.org/projects/openproject/forums) or [support team](https://www.openproject.org/contact/) for further assistance.
+
+## Unhealthy file storages e-mail notifications
+
+Once a file storage has been set-up 
