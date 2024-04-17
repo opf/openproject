@@ -1,6 +1,5 @@
 import "../typings/shims.d.ts"
 import * as Turbo from '@hotwired/turbo';
-import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
 import { registerDialogStreamAction } from './dialog-stream-action';
 
 // Disable default turbo-drive for now as we don't need it for now AND it breaks angular routing
@@ -22,8 +21,8 @@ document.addEventListener('turbo:submit-end', (event:CustomEvent) => {
   const { detail: { success }, target } = event as { detail:{ success:boolean }, target:EventTarget };
 
   if (success && target instanceof HTMLFormElement) {
-    const dialog = target.closest('modal-dialog') as ModalDialogElement;
-    dialog && dialog.close(true);
+    const dialog = target.closest('dialog') as HTMLDialogElement;
+    dialog && dialog.close();
   }
 });
 
