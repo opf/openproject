@@ -37,7 +37,7 @@ class Queries::Projects::Factory
 
   class << self
     def find(id, params:, user:)
-      query = find_and_update_static_query(id, params, user) || find_and_update_persisted_query(id, params, user)
+      query = find_static_query_and_set_attributes(id, params, user) || find_persisted_query_and_set_attributes(id, params, user)
       query&.valid_subset!
 
       query
@@ -115,7 +115,7 @@ class Queries::Projects::Factory
       end
     end
 
-    def find_and_update_static_query(id, params, user)
+    def find_static_query_and_set_attributes(id, params, user)
       query = static_query(id)
 
       return unless query
@@ -127,25 +127,25 @@ class Queries::Projects::Factory
       end
     end
 
-    def find_and_update_persisted_query(id, params, user)
+    def find_persisted_query_and_set_attributes(id, params, user)
       query = Queries::Projects::ProjectQuery.where(user:).find_by(id:)
 
       return unless query
 
       if params.any?
-        update_query(query, params, user)
+        set_query_attributes(query, params, user)
       else
         query
       end
     end
 
     def new_query(source_query, params, user)
-      update_query(Queries::Projects::ProjectQuery.new(source_query.attributes.slice("filters", "orders", "selects")),
+      set_query_attributes(Queries::Projects::ProjectQuery.new(source_query.attributes.slice("filters", "orders", "selects")),
                    params,
                    user)
     end
 
-    def update_query(query, params, user)
+    def set_query_attributes(query, params, user)
       Queries::Projects::ProjectQueries::SetAttributesService
         .new(user:,
              model: query,
