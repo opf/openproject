@@ -44,9 +44,9 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import {
   BehaviorSubject,
   combineLatest,
-  Subject,
+  Subject, Subscription,
 } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'op-ifc-viewer',
@@ -56,6 +56,8 @@ import { take } from 'rxjs/operators';
 })
 export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   private viewInitialized$ = new Subject<void>();
+
+  private toolbarIconSubscription:Subscription;
 
   modelCount:number = this.ifcData.models.length;
 
@@ -83,15 +85,15 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('inspectorPane') inspectorElement:ElementRef;
 
+  @ViewChild('xeokitToolbarIcons') xeokitToolbarIcons:ElementRef;
+
   constructor(
-    private I18n:I18nService,
-    private elementRef:ElementRef,
     public ifcData:IfcModelsDataService,
+    private I18n:I18nService,
     private ifcViewerService:IFCViewerService,
     private currentUserService:CurrentUserService,
     private currentProjectService:CurrentProjectService,
-  ) {
-  }
+  ) { }
 
   ngOnInit():void {
     if (this.modelCount === 0) {
@@ -130,6 +132,27 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
           this.ifcData.projects,
         );
       });
+
+    this.toolbarIconSubscription = this.replaceXeokitToolbarIcons();
+  }
+
+  private replaceXeokitToolbarIcons():Subscription {
+    return this.ifcViewerService.viewerVisible$
+      .pipe(filter((visible) => visible))
+      .subscribe(() => {
+        const toolbarIcons = this.xeokitToolbarIcons.nativeElement as HTMLElement;
+        const toolbar = this.toolbarElement.nativeElement as HTMLElement;
+
+        for (let i = 0; i < toolbarIcons.children.length; i++) {
+          const replacer = toolbarIcons.children[i];
+          const target = replacer.id.replace('xeokit-replace-', '');
+
+          const targetElement = toolbar.querySelector(`.xeokit-btn.xeokit-${target}`);
+          if (targetElement !== null) {
+            targetElement.insertAdjacentHTML('afterbegin', replacer.innerHTML);
+          }
+        }
+      });
   }
 
   ngAfterViewInit():void {
@@ -137,6 +160,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy():void {
+    this.toolbarIconSubscription.unsubscribe();
     this.ifcViewerService.destroy();
   }
 
