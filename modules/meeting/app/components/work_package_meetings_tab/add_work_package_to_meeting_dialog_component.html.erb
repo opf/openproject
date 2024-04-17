@@ -4,25 +4,10 @@
                                    id: 'add-work-package-to-meeting-dialog')) do |d|
     d.with_header(variant: :large)
     d.with_body do
-      primer_form_with(
-        model: @meeting_agenda_item,
-        method: :post,
-        url: work_package_meeting_agenda_items_path(@work_package),
-      ) do |f|
-        flex_layout(my: 3) do |flex|
-          flex.with_row do
-            if @base_errors&.any?
-              render(Primer::Alpha::Banner.new(mb: 3, icon: :stop, scheme: :danger)) { @base_errors.join("\n") }
-            end
-          end
-          flex.with_row do
-            render(MeetingAgendaItem::MeetingForm.new(f, wrapper_id: 'add-work-package-to-meeting-dialog'))
-          end
-          flex.with_row(mt: 3) do
-            render(MeetingAgendaItem::Notes.new(f))
-          end
-        end
-      end
+      render(WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(
+        work_package: @work_package,
+        meeting_agenda_item: @meeting_agenda_item
+      ))
     end
     d.with_footer do
       component_collection do |buttons|
@@ -33,7 +18,10 @@
         )) do
           t("button_cancel")
         end
-        buttons.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+        buttons.with_component(Primer::ButtonComponent.new(
+          scheme: :primary,
+          form: "add-work-package-to-meeting-form",
+          type: :submit)) do
           t("button_save")
         end
       end

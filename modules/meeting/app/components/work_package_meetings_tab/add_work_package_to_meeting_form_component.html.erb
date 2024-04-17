@@ -1,0 +1,24 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      id: "add-work-package-to-meeting-form",
+      model: @meeting_agenda_item,
+      method: :post,
+      url: work_package_meeting_agenda_items_path(@work_package),
+    ) do |f|
+      flex_layout(my: 3) do |flex|
+        flex.with_row do
+          if @base_errors&.any?
+            render(Primer::Alpha::Banner.new(mb: 3, icon: :stop, scheme: :danger)) { @base_errors.join("\n") }
+          end
+        end
+        flex.with_row do
+          render(MeetingAgendaItem::MeetingForm.new(f, wrapper_id: 'add-work-package-to-meeting-dialog'))
+        end
+        flex.with_row(mt: 3) do
+          render(MeetingAgendaItem::Notes.new(f))
+        end
+      end
+    end
+  end
+%>

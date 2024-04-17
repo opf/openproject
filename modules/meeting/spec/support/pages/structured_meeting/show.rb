@@ -162,7 +162,7 @@ module Pages::StructuredMeeting
     end
 
     def in_participant_form(&)
-      page.within("#edit-participants-dialog form", &)
+      page.within("#edit-participants-dialog", &)
     end
 
     def expect_participant(participant, invited: false, attended: false, editable: true)
