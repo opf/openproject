@@ -228,7 +228,7 @@ RSpec.describe "Admin Edit File storage",
       aggregate_failures "Health notifications" do
         expect(page).to have_test_selector("storage-health-notifications-button", text: "Unsubscribe")
         expect(page).to have_test_selector("storage-health-notifications-description",
-                                           text: "All administrators will receive health status email notifications for this storage.")
+                                           text: "All administrators receive health status email notifications for this storage.")
 
         click_on "Unsubscribe"
 
@@ -350,7 +350,7 @@ RSpec.describe "Admin Edit File storage",
       aggregate_failures "Health notifications" do
         expect(page).to have_test_selector("storage-health-notifications-button", text: "Unsubscribe")
         expect(page).to have_test_selector("storage-health-notifications-description",
-                                           text: "All administrators will receive health status email notifications for this storage.")
+                                           text: "All administrators receive health status email notifications for this storage.")
 
         click_on "Unsubscribe"
 
