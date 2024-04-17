@@ -42,6 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
       datetime: @event.event_datetime,
       is_creation: initial?,
       is_deletion: deletion?,
+      is_work_package: work_package?,
       journable_type: @event.journal.journable_type)
     )
   %>
@@ -66,6 +67,12 @@ See COPYRIGHT and LICENSE files for more details.
       <% if time_entry_url.present? -%>
         <li class="op-activity-list--item-detail"><%= link_to "Details", @event.event_url %></li>
       <% end -%>
+    </ul>
+  <% elsif noop? -%>
+    <ul class="op-activity-list--item-details">
+      <li class="op-activity-list--item-detail">
+        <em><%= I18n.t(:"journals.changes_retracted") %></em>
+      </li>
     </ul>
   <% end -%>
 </li>

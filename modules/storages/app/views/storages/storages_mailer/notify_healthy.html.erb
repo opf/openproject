@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
                    reason: "#{Storages::Storage.extract_part_from_piped_string(@reason, 0)} - #{Storages::Storage.extract_part_from_piped_string(@reason, 1)}"
                  }) %>
 
-      <%#= render(partial: 'mailer/notification_settings_table',
+      <%= render(partial: 'mailer/notification_settings_table',
                  locals: {
                    button_url: @url,
                    button_text: I18n.t(:'mail.storages.health.email_notification_settings')

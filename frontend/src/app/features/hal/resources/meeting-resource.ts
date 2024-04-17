@@ -27,14 +27,8 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 
-export interface MeetingResourceLinks {
-  addAttachment(attachment:HalResource):Promise<unknown>;
+export class MeetingResource extends HalResource {
+  public title:string;
+  public project:HalResource;
 }
-
-class MeetingBaseResource extends HalResource {
-  public $links:MeetingResourceLinks;
-}
-
-export const MeetingResource = Attachable(MeetingBaseResource);

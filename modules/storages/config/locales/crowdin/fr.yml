@@ -39,14 +39,14 @@ fr:
   api_v3:
     errors:
       too_many_elements_created_at_once: Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}.
-  permission_create_files: Créer des fichiers
-  permission_delete_files: Supprimer des fichiers
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
   permission_manage_file_links: Gérer les liens de fichiers
   permission_manage_storages_in_project: Gérer les stockages de fichiers dans le projet
-  permission_read_files: Lire les fichiers
-  permission_share_files: Partage des fichiers
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Voir les liens des fichiers
-  permission_write_files: Écrire des fichiers
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: Stockages de fichiers
   storages:
     buttons:
@@ -77,6 +77,15 @@ fr:
       storage_delete_result_3: Si ce stockage contient des dossiers de projet gérés automatiquement, ceux-ci et les fichiers qu'ils contiennent seront supprimés définitivement.
     error_invalid_provider_type: Veuillez sélectionner un fournisseur de stockage valide.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: Dossiers gérés automatiquement
       general_information: Informations générales
       nextcloud_oauth: OAuth Nextcloud
@@ -92,8 +101,15 @@ fr:
       label_healthy: Sain
       label_pending: En attente
       since: depuis %{datetime}
-      subtitle: Dossiers de projet gérés automatiquement
+      subtitle: Automatically managed project folders
       title: État de santé
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
     instructions:
@@ -143,6 +159,7 @@ fr:
     label_creator: Créateur
     label_delete_storage: Supprimer le stockage
     label_edit_storage: Modifier le stockage
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Editer les dossiers automatiquement gérés
     label_edit_storage_host: Modifier l'hôte de stockage
     label_existing_manual_folder: Répertoire existant avec permissions gérées manuellement
@@ -198,8 +215,6 @@ fr:
         delete: Supprimer l'espace de stockage de fichiers
         subtitle: Ajouter un stockage de fichiers externe pour télécharger, lier et gérer les fichiers dans les lots de travaux.
       managed_project_folders:
-        one_drive_information: |-
-          Pour activer les dossiers de projet gérés automatiquement dans OneDrive/SharePoint, une configuration supplémentaire est nécessaire sur le lecteur utilisé pour ce stockage de fichiers. Si OpenProject gère les permissions de ce lecteur, il ne sera probablement pas utilisable pour d'autres cas d'utilisation dans SharePoint. Pour plus d'informations, veuillez consulter le %{drive_id_link_text}.
         subtitle: |-
           Laisser OpenProject créer automatiquement des dossiers par projet. Cette option est recommandée, car elle garantit que chaque membre de l'équipe dispose toujours des autorisations d'accès correctes.
         subtitle_short: Laisser OpenProject créer automatiquement des dossiers par projet.
@@ -213,6 +228,7 @@ fr:
       project_storage_members:
         subtitle: Vérifiez l'état de la connexion pour l'espace de stockage %{storage_name_link} de tous les membres du projet.
         title: Statut de connexion des membres
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: Type de fournisseur
       nextcloud:

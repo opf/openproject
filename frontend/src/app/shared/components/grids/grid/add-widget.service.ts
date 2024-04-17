@@ -33,8 +33,8 @@ export class GridAddWidgetService {
       && this.isAllowed;
   }
 
-  public widget(area:GridArea) {
-    this
+  public widget(area:GridArea):Promise<GridWidgetResource|null> {
+    return this
       .select(area)
       .then((widgetResource) => {
         if (this.layout.isGap(area)) {
@@ -46,10 +46,9 @@ export class GridAddWidgetService {
         this.setMaxWidth(newArea);
 
         this.persist(newArea);
+        return widgetResource;
       })
-      .catch(() => {
-        // user didn't select a widget
-      });
+      .catch(() => null);
   }
 
   public get addText() {

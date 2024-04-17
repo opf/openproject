@@ -347,11 +347,11 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>GitLab 集成（最初由社区贡献者开发）</li> <li>自定义项目列表的高级功能</li> <li>会议模块的高级功能</li> <li>使用 ClamAV（企业插件）的病毒扫描功能</li> <li>PDF 导出：支持表格单元格中的列表</li> <li>添加 WebAuthn/FIDO/U2F 作为双因子认证</li> <li>在默认可用语言集中添加了更多语言</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -923,6 +923,8 @@ zh-CN:
       message_work_package_read_only: "工作包被锁定在此状态。除状态外，其他属性均不可更改。"
       message_work_package_status_blocked: "由于处于关闭状态并且分配了关闭版本，因此工作包状态不可写。"
       placeholder_filter_by_text: "主题, 描述, 评论,..。"
+      progress:
+        title: "工时估计和进展"
       baseline:
         addition_label: "在比较时间段内添加到视图"
         removal_label: "在比较时间段内从视图删除"
@@ -1246,7 +1248,8 @@ zh-CN:
       role:
         label: "%{project} 中的角色"
         no_roles_found: "没有找到角色"
-        description: '这是用户在加入您的项目时将获得的角色。角色定义了允许其执行哪些操作以及允许其查看哪些信息。<a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">详细了解角色和权限</a>。'
+        description: >-
+          这是用户在加入您的项目时将获得的角色。角色定义了允许其执行哪些操作以及允许其查看哪些信息。<a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">详细了解角色和权限</a>。
         required: "请选择一个角色"
         next_button: "下一个"
       message:
@@ -1320,3 +1323,7 @@ zh-CN:
       drop_modal:
         focus_grab: "该信息是模态框的焦点锚点。按 Shift+Tab 可以返回到模态框的触发元素。"
         Close: "关闭"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "网络有问题。"
+        network_on: "网络已恢复。我们正在努力。"

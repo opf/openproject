@@ -348,11 +348,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Cette version contient plusieurs nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Intégration GitLab (développée à l'origine par les contributeurs de la Communauté)</li> <li>Fonctionnalités avancées pour les listes de projets personnalisées</li> <li>Fonctionnalités avancées du module Réunions</li> <li>Fonctionnalité d'analyse des virus avec ClamAV (add-on Enterprise)</li> <li>Exportation PDF : les listes dans les cellules des tableaux sont prises en charge</li> <li>WebAuthn/FIDO/U2F est ajouté comme second facteur</li> <li>Plus de langues ajoutées à l'ensemble des langues disponibles par défaut</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -652,7 +652,7 @@ fr:
         mentioned: "Mentionné"
         watched: "Observateur"
         date_alert: "Alarmes"
-        shared: "Partagé"
+        shared: "Partagés"
       settings:
         change_notification_settings: 'Vous pouvez modifier vos <a target="_blank" href="%{url}">paramètres de notification</a> pour vous assurer de ne jamais manquer une mise à jour importante.'
         title: "Paramètres de notifications"
@@ -925,6 +925,8 @@ fr:
       message_work_package_read_only: "Paquet de travail est verrouillé. Aucun attribut autre que l’État ne peut être modifié."
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Ajouté à la vue dans la période de temps de comparaison"
         removal_label: "Retiré de la vue pendant la période de temps de comparaison"
@@ -1000,7 +1002,7 @@ fr:
         recently_created: "Créé récemment"
         all_open: "Tous les ouverts"
         summary: "Résumé"
-        shared_with_users: "Partagée avec des utilisateurs"
+        shared_with_users: "Partagés avec des utilisateurs"
         shared_with_me: "Partagés avec moi"
       jump_marks:
         pagination: "Passer à la pagination du tableau"
@@ -1041,7 +1043,7 @@ fr:
       sharing:
         share: "Partager"
         title: "Partager le lot de travaux"
-        show_all_users: "Afficher tous les utilisateurs partagés"
+        show_all_users: "Afficher tous les utilisateurs avec qui ce lot de travaux est partagé"
         selected_count: "%{count} sélectionné"
         selection:
           mixed: "Mixte"
@@ -1250,7 +1252,8 @@ fr:
       role:
         label: "Rôle dans %{project}"
         no_roles_found: "Aucun rôle trouvé."
-        description: 'C''est le rôle que l''utilisateur recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>'
+        description: >-
+          C'est le rôle que l'utilisateur recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>
         required: "Veuillez sélectionner un rôle"
         next_button: "Suivante"
       message:
@@ -1324,3 +1327,7 @@ fr:
       drop_modal:
         focus_grab: "Il s'agit d'une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l'élément de déclenchement modal."
         Close: "Fermer"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

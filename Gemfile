@@ -160,7 +160,7 @@ gem "prawn", "~> 2.4"
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
-gem "meta-tags", "~> 2.20.0"
+gem "meta-tags", "~> 2.21.0"
 
 gem "paper_trail", "~> 15.1.0"
 
@@ -233,7 +233,7 @@ group :test do
   # Test prof provides factories from code
   # and other niceties
   gem "test-prof", "~> 1.3.0"
-  gem "turbo_tests", github: "crohr/turbo_tests", ref: "fix/runtime-info"
+  gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.0"
@@ -264,7 +264,7 @@ group :test do
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.15.0"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.18.0"
+  gem "selenium-webdriver", "~> 4.19.0"
 
   gem "fuubar", "~> 2.5.0"
   gem "timecop", "~> 0.9.0"
@@ -292,7 +292,7 @@ end
 group :development do
   gem "listen", "~> 3.9.0" # Use for event-based reloaders
 
-  gem 'letter_opener_web'
+  gem "letter_opener_web"
 
   gem "spring"
   gem "spring-commands-rspec"
@@ -381,6 +381,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.8.0"
-gem "openproject-octicons_helper", "~>19.8.0"
-gem "openproject-primer_view_components", "~>0.23.0"
+gem "openproject-octicons", "~>19.9.0"
+gem "openproject-octicons_helper", "~>19.9.0"
+gem "openproject-primer_view_components", "~>0.28.1"

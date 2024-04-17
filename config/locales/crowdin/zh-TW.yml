@@ -310,7 +310,6 @@ zh-TW:
       no_results_content_text: 新增一個成員到這個專案
     invite_by_mail: "寄發邀請至：%{mail}"
     send_invite_to: "寄送邀請"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
       shared: "共享"
     filters:
@@ -322,6 +321,42 @@ zh-TW:
       project_roles: "專案角色"
       wp_shares: "共享之工作項目"
       groups: "群組"
+    delete_member_dialog:
+      title: "Remove member"
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      will_remove_the_groups_role: "This will remove the group role from this project."
+      however_work_packages_shared_with_user_html:
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_work_packages_shared_with_group_html:
+        other: "However, %{shared_work_packages_link} have also been shared with this group."
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+      also_work_packages_shared_with_user_html:
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
+      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
+      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
+      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+    delete_work_package_shares_dialog:
+      title: "Revoke work package shares"
+      shared_with_this_user_html:
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
       failed_to_reset_token: "無法重置訪問權杖(Token): %{error}"
@@ -337,7 +372,7 @@ zh-TW:
       no_results_content_text: 新增一個消息
   users:
     autologins:
-      prompt: "Stay logged in for %{num_days}"
+      prompt: "保持登入%{num_days}"
     sessions:
       remembered_devices: "已記錄的設備"
       remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
@@ -555,7 +590,7 @@ zh-TW:
       oauth_client:
         client: "客戶端 ID"
       relation:
-        delay: "延時"
+        lag: "Lag"
         from: "工作項目"
         to: "相關的工作項目"
       status:
@@ -950,7 +985,12 @@ zh-TW:
               only_same_project_categories_allowed: "工作項目的類別必須與工作項目在同一個專案中"
               does_not_exist: "指定的類別不存在"
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
+              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
               only_values_greater_or_equal_zeroes_allowed: "必須是 > = 0。"
+            remaining_hours:
+              cant_exceed_work: "can't exceed 'Work'."
+              must_be_set_when_work_is_set: "must be set when 'Work' is set."
           readonly_status: "工作項目處於唯讀狀態，因此無法變更其屬性。"
         type:
           attributes:
@@ -1049,6 +1089,10 @@ zh-TW:
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "子專案"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1060,11 +1104,16 @@ zh-TW:
         logged_for: "Logged for"
       meeting_agenda_item:
         duration:
-          added: "set to %{value} minutes"
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
           removed: "removed"
           updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
           updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "變更集"
       message: "討論區"
@@ -1162,6 +1211,7 @@ zh-TW:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: 已經有一個備份待處理。
       limit_reached: 您每天只能進行 %{limit} 次備份。
+  button_actions: "Actions"
   button_add: "增加"
   button_add_comment: "新增留言"
   button_add_member: 新增成員
@@ -1232,6 +1282,14 @@ zh-TW:
   button_add_menu_entry: "新增選單項目"
   button_configure_menu_entry: "設定選單項目"
   button_delete_menu_entry: "刪除選單項目"
+  button_view_shared_work_packages: "View shared work packages"
+  button_manage_roles: "Manage roles"
+  button_remove_member: "Remove member"
+  button_remove_member_and_shares: "Remove member and shares"
+  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_access: "Revoke access"
+  button_revoke_all: "Revoke all"
+  button_revoke_only: "Revoke only %{shared_role_name}"
   consent:
     checkbox_label: 我已注意到並同意上述情況。
     failure_message: 同意失敗, 無法繼續。
@@ -1429,7 +1487,6 @@ zh-TW:
   error_pdf_export_too_many_columns: "為 PDF 匯出選擇的列太多。請減少列數。"
   error_pdf_failed_to_export: "無法保存 pdf 匯出: %{error}"
   error_token_authenticity: "無法驗證跨網域請求權杖(Token)。你是不是試圖在多個瀏覽器或者分頁上傳送資料？請關閉所有的分頁後再試一次。"
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "工作項目找不到或是不屬於這個專案"
   error_must_be_project_member: "必須是專案的成員"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1534,8 +1591,10 @@ zh-TW:
   journals:
     changes_retracted: "更改已被撤銷"
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "日期變更"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "OpenProject 系統更新："
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1551,9 +1610,14 @@ zh-TW:
         dates:
           working: "%{date} 已是工作日"
           non_working: "%{date} 已非工作日"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_changed: >
+          Progress calculation updated.
   links:
     configuration_guide: "設定指南"
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -1568,6 +1632,8 @@ zh-TW:
       api_and_webhooks: "API 和 Webhook"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1891,6 +1957,7 @@ zh-TW:
   label_latest_revision: "最新版本"
   label_latest_revision_plural: "最新版本"
   label_ldap_authentication: "LDAP 認證"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "幾天內"
   label_list: "清單"
@@ -2016,6 +2083,7 @@ zh-TW:
   label_privacy_policy: "資料隱私與安全性政策"
   label_product_version: "產品版本"
   label_profile: "個人資料"
+  label_percent_complete: "% Complete"
   label_project_activity: "專案活動"
   label_project_attribute_plural: "專案屬性"
   label_project_count: "專案總數"
@@ -2025,6 +2093,7 @@ zh-TW:
   label_project_hierarchy: "專案結構"
   label_project_new: "新增專案"
   label_project_plural: "專案"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "專案設定"
@@ -2051,6 +2120,7 @@ zh-TW:
   label_relation_delete: "刪除關聯"
   label_relation_new: "新增關聯"
   label_release_notes: "發行備註"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "移除所選欄"
   label_renamed: "重新命名"
   label_reply_plural: "回覆"
@@ -2129,7 +2199,6 @@ zh-TW:
   label_type_new: "新類型"
   label_type_plural: "類型"
   label_ui: "使用者介面"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "%{value}前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "由%{author}於%{age}前更新"
@@ -2184,6 +2253,7 @@ zh-TW:
   label_wiki_show_new_page_link: "顯示子功能表 '新增子頁面'"
   label_wiki_show_submenu_item: "呈現於子功能表的 "
   label_wiki_start: "開始頁面"
+  label_work: "Work"
   label_work_package: "工作項目"
   label_work_package_attachments: "工作項目附件"
   label_work_package_category_new: "新增類別"
@@ -2227,6 +2297,7 @@ zh-TW:
     other: "%{count} 檔案"
     zero: "沒有檔案"
   label_yesterday: "昨天"
+  label_zen_mode: "Zen mode"
   label_role_type: "類型"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2432,7 +2503,6 @@ zh-TW:
   notice_file_not_found: "您試圖存取的頁面不存在或已被移除。"
   notice_forced_logout: "由於超過 %{ttl_time} 分鐘沒有操作，您已被自動登出。"
   notice_internal_server_error: "你試圖前往的頁面發生一個錯誤。如果你一直遇到問題，請聯絡你的 %{app_title} 管理員以得到協助！"
-  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "在此同時，資訊已經被至少一個使用者更新"
   notice_locking_conflict_additional_information: "更新來自於 %{users}"
   notice_locking_conflict_reload_page: "請重新載入頁面，檢查所做的更改並重新套用您的更新。"
@@ -2812,10 +2882,11 @@ zh-TW:
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
   setting_host_name: "主機名稱"
   setting_invitation_expiration_days: "啟動信件在......天後過期"
-  setting_work_package_done_ratio: "計算工作項目百分比"
-  setting_work_package_done_ratio_field: "工作項目欄位"
-  setting_work_package_done_ratio_status: "工作項目狀態"
-  setting_work_package_done_ratio_disabled: "停用（隱藏完成百分比欄位）"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_projects_export_limit: "工作項目/專案匯出數量限制"
@@ -2881,7 +2952,7 @@ zh-TW:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
@@ -2966,6 +3037,7 @@ zh-TW:
   text_are_you_sure: "是否確定？"
   text_are_you_sure_continue: "你要繼續嗎?"
   text_are_you_sure_with_children: "刪除工作項目以及所有子工作項目?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "分配給專案"
   text_form_configuration: >
     您可以自訂哪些欄位將會顯示在工作項目表單中。您可以自由的群組化這些欄位來符合您的需求。
@@ -3187,6 +3259,12 @@ zh-TW:
     destroy:
       info: "刪除工作項目是一個不可逆的動作"
       title: "刪除工作項目"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0個用戶"
@@ -3295,9 +3373,7 @@ zh-TW:
         unsupported_context: "所提供的資源不受相對應支援。"
         context_object_not_found: "Cannot find the resource given with the context.\n無法找到本文對應的資源。"
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "無法在主工作項目上設置結束日期。"
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "所指定的使用者不允許成為工作項目的 '%{property}' 。"
         start_date: "無法在主工作項目設置開始日期。"
       eprops:

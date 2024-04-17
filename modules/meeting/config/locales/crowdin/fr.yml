@@ -45,7 +45,7 @@ fr:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -97,7 +97,7 @@ fr:
   label_start_date: "Date de début"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Copier la réunion %{title}"
       attachments: "Copy attachments"
@@ -166,6 +166,7 @@ fr:
   label_agenda_item_move_up: "Monter"
   label_agenda_item_move_down: "Descendre"
   label_agenda_item_add_notes: "Ajouter des notes"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
@@ -173,8 +174,11 @@ fr:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Détails de la réunion"
   label_meeting_details_edit: "Modifier les détails de la réunion"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Ouvert"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Fermé"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Réouvrir la réunion"
   label_meeting_close_action: "Fermer la réunion"
   text_meeting_open_description: "Cette réunion est ouverte. Vous pouvez ajouter/supprimer des points de l'ordre du jour et les modifier comme vous le souhaitez. Une fois la réunion terminée, clôturez-la pour la verrouiller."

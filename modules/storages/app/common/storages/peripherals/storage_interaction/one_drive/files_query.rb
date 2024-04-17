@@ -48,7 +48,7 @@ module Storages
           end
 
           def call(auth_strategy:, folder:)
-            Auth[auth_strategy].call(storage: @storage) do |http|
+            Auth[auth_strategy].call(storage: @storage, http_options: { headers: { "OCS-APIRequest" => "true" } }) do |http|
               call = http.get(Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS))
               response = handle_response(call, :value)
 

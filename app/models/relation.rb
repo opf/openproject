@@ -100,10 +100,10 @@ class Relation < ApplicationRecord
   scope :of_work_package,
         ->(work_package) { where(from: work_package).or(where(to: work_package)) }
 
-  scope :follows_with_delay,
-        -> { follows.where("delay > 0") }
+  scope :follows_with_lag,
+        -> { follows.where("lag > 0") }
 
-  validates :delay, numericality: { allow_nil: true }
+  validates :lag, numericality: { allow_nil: true }
 
   validates :to, uniqueness: { scope: :from }
 
@@ -138,19 +138,12 @@ class Relation < ApplicationRecord
     if follows? && (to.start_date || to.due_date)
       days = WorkPackages::Shared::Days.for(from)
       relation_start_date = (to.due_date || to.start_date) + 1.day
-      days.soonest_working_day(relation_start_date, delay:)
+      days.soonest_working_day(relation_start_date, lag:)
     end
   end
 
   def <=>(other)
     TYPES[relation_type][:order] <=> TYPES[other.relation_type][:order]
-  end
-
-  # delay is an attribute of Relation but its getter is masked by delayed_job's #delay method
-  # here we overwrite dj's delay method with the one reading the attribute
-  # since we don't plan to use dj with Relation objects, this should be fine
-  def delay
-    self[:delay]
   end
 
   TYPES.each_key do |type|

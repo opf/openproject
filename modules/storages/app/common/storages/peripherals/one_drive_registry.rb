@@ -58,6 +58,11 @@ module Storages
       namespace("models") do
         register(:managed_folder_identifier, ManagedFolderIdentifier::OneDrive)
       end
+
+      namespace("authentication") do
+        register(:userless, StorageInteraction::AuthenticationStrategies::OneDriveStrategies::UserLess, call: false)
+        register(:userbound, StorageInteraction::AuthenticationStrategies::OneDriveStrategies::UserBound)
+      end
     end
   end
 end

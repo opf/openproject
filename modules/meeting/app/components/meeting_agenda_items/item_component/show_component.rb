@@ -98,6 +98,15 @@ module MeetingAgendaItems
       end
     end
 
+    def copy_action_item(menu)
+      url = url_for(anchor: "item-#{@meeting_agenda_item.id}", only_path: false)
+      menu.with_item(label: t("button_copy_link_to_clipboard"),
+                     tag: :"clipboard-copy",
+                     content_arguments: { value: url }) do |item|
+        item.with_leading_visual_icon(icon: :copy)
+      end
+    end
+
     def move_actions(menu)
       move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top") unless first?
       move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless first?

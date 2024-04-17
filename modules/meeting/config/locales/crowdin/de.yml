@@ -40,14 +40,14 @@ de:
         participants_invited: "Eingeladen"
         project: "Projekt"
         start_date: "Datum"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "Startzeit"
+        start_time_hour: "Startzeit"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
-        duration_in_minutes: "Duration (min)"
-        description: "Notes"
-        presenter: "Presenter"
+        title: "Titel"
+        author: "Autor"
+        duration_in_minutes: "Min."
+        description: "Anmerkungen"
+        presenter: "Referent"
     errors:
       messages:
         invalid_time_format: "ist keine gültige Zeit. Erforderliches Format: HH:MM"
@@ -97,7 +97,7 @@ de:
   label_start_date: "Beginn"
   meeting:
     attachments:
-      text: "Angehängte Dateien sind für alle Teilnehmer der Besprechung verfügbar. Sie können diese auch per Drag & Drop in die Notizen der Tagesordnungspunkte ziehen."
+      text: "Angehängte Dateien sind für alle Teilnehmer der Besprechung verfügbar. Sie können diese auch per Drag-and-drop in die Notizen der Tagesordnungspunkte ziehen."
     copy:
       title: "Besprechung %{title} kopieren"
       attachments: "Anhänge kopieren"
@@ -155,8 +155,8 @@ de:
   label_meeting_delete: "Besprechung löschen"
   label_meeting_created_by: "Erstellt von"
   label_meeting_last_updated: "Zuletzt aktualisiert"
-  label_agenda_items: "Agenda items"
-  label_agenda_items_reordered: "reordered"
+  label_agenda_items: "Tagesordnungspunkte"
+  label_agenda_items_reordered: "neu geordnet"
   label_agenda_item_remove: "Von der Tagesordnung entfernen"
   label_agenda_item_undisclosed_wp: "Arbeitspaket #%{id} ist nicht sichtbar"
   label_agenda_item_deleted_wp: "Referenz auf ein gelöschtes Arbeitspaket"
@@ -166,15 +166,19 @@ de:
   label_agenda_item_move_up: "Nach oben verschieben"
   label_agenda_item_move_down: "Nach unten verschieben"
   label_agenda_item_add_notes: "Notiz hinzufügen"
-  text_agenda_item_title: 'Agenda item "%{title}"'
+  label_agenda_item_work_package: "Tagesordnungspunkt Arbeitspaket"
+  text_agenda_item_title: 'Tagesordnungspunkt „%{title}“'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
-  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
-  text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  text_agenda_work_package_deleted: 'Tagesordnungspunkt für gelöschtes Arbeitspaket'
+  text_deleted_agenda_item: 'Gelöschter Tagesordnungspunkt'
+  label_initial_meeting_details: "Besprechung"
   label_meeting_details: "Besprechungsdetails"
   label_meeting_details_edit: "Besprechungsdetails bearbeiten"
+  label_meeting_state: "Besprechungsstatus"
   label_meeting_state_open: "Offen"
+  label_meeting_state_open_html: "<i>Offen</i>"
   label_meeting_state_closed: "Geschlossen"
+  label_meeting_state_closed_html: "<i>Geschlossen</i>"
   label_meeting_reopen_action: "Besprechung wiedereröffnen"
   label_meeting_close_action: "Besprechung schließen"
   text_meeting_open_description: "Diese Besprechung ist offen. Sie können Tagesordnungspunkte hinzufügen/entfernen und sie nach Belieben bearbeiten. Schließen Sie die Besprechung nach deren Ende, um sie zu sperren."

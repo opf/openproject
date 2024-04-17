@@ -1,7 +1,5 @@
 <%=
   component_wrapper(data: wrapper_data_attributes) do
-    # The borderBox needs to be `position: relative` because of bug #49853
-    # (The action menu items float somewhere on the page as soon as you have to scroll the Box in Firefox)
     flex_layout(mb: 3) do |flex|
       flex.with_row(classes: 'dragula-container', data: { 'allowed-drop-type': 'section' }.merge(drop_target_config) ) do
         first_and_last = [@meeting.sections.first, @meeting.sections.last]
@@ -14,8 +12,8 @@
       end
       if @meeting.agenda_items.empty? && @meeting.sections.empty?
         flex.with_row do
-          render(Primer::Beta::BorderBox.new(mt: 1, position: :relative)) do |border_box|
-            if  @form_hidden
+          render(border_box_container) do |border_box|
+            if @form_hidden
               border_box.with_body(
                 scheme: :default
               ) do

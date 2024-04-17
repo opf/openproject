@@ -22,65 +22,65 @@
 ms:
   js:
     ajax:
-      hide: "Hide"
+      hide: "Sembunyikan"
       loading: "Loading…"
-      updating: "Updating…"
+      updating: "Mengemas kini..."
     attachments:
-      delete: "Delete attachment"
+      delete: "Padam lampiran"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        Adakah anda pasti anda ingin memadam fail ini? Tindakan ini tidak boleh dikembalikan.
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Fail ini dikuarantinkan, kerana virus ditemui. Ia tidak tersedia untuk dimuat turun."
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "Tambah item"
+      clear_all: "Padam semua"
+      loading: "Memuatkan..."
+      not_found: "Tiada item ditemui"
+      type_to_search: "Taip untuk mencari"
     autocomplete_select:
       placeholder:
-        multi: 'Add "%{name}"'
-        single: 'Select "%{name}"'
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: 'Tambah "%{name}"'
+        single: 'Pilih "%{name}"'
+      remove: "Keluarkan %{name}"
+      active: "%{name} %{label} aktif "
     backup:
       attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
       info: >
         You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
       note: >
         A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
+      last_backup: Sandaran terakhir
       last_backup_from: Last backup from
       title: Backup OpenProject
-      options: Options
-      include_attachments: Include attachments
-      download_backup: Download backup
+      options: Pilihan
+      include_attachments: Sertakan lampiran
+      download_backup: Muat turun sandaran
       request_backup: Request backup
-    close_popup_title: "Close popup"
+    close_popup_title: "Tutup pop timbul"
     close_filter_title: "Close filter"
     close_form_title: "Close form"
-    button_add_watcher: "Add watcher"
-    button_add: "Add"
-    button_back: "Back"
-    button_back_to_list_view: "Back to list view"
-    button_cancel: "Cancel"
-    button_close: "Close"
-    button_change_project: "Change project"
-    button_check_all: "Check all"
+    button_add_watcher: "Tambah pemerhati"
+    button_add: "Tambah"
+    button_back: "Kembali"
+    button_back_to_list_view: "Kembali ke paparan senarai"
+    button_cancel: "Batal"
+    button_close: "Tutup"
+    button_change_project: "Tukar projek"
+    button_check_all: "Tanda semua"
     button_configure-form: "Configure form"
-    button_confirm: "Confirm"
+    button_confirm: "Sahkan"
     button_continue: "Continue"
-    button_copy: "Copy"
-    button_copy_to_clipboard: "Copy to clipboard"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Copy to other project"
-    button_custom-fields: "Custom fields"
-    button_delete: "Delete"
-    button_delete_watcher: "Delete watcher"
-    button_details_view: "Details view"
+    button_copy: "Salin"
+    button_copy_to_clipboard: "Salin ke clipboard"
+    button_copy_link_to_clipboard: "Salin pautan ke clipboard"
+    button_copy_to_other_project: "Salin ke projek lain"
+    button_custom-fields: "Medan tersuai"
+    button_delete: "Padam"
+    button_delete_watcher: "Buang pemerhati"
+    button_details_view: "Paparan butiran"
     button_duplicate: "Duplicate"
-    button_edit: "Edit"
+    button_edit: "Sunting"
     button_filter: "Filter"
     button_collapse_all: "Collapse all"
     button_expand_all: "Expand all"
@@ -124,26 +124,26 @@ ms:
         line: "Line"
         horizontal_bar: "Horizontal bar"
         bar: "Bar"
-        pie: "Pie"
-        doughnut: "Doughnut"
+        pie: "Pai"
+        doughnut: "Donat"
         radar: "Radar"
         polar_area: "Polar area"
       tabs:
-        graph_settings: "General"
-        dataset: "Dataset %{number}"
+        graph_settings: "Umum"
+        dataset: "Set data %{number}"
       errors:
-        could_not_load: "The data to display the graph could not be loaded. The necessary permissions may be lacking."
-    description_available_columns: "Available Columns"
-    description_current_position: "You are here: "
-    description_select_work_package: "Select work package #%{id}"
+        could_not_load: "Data untuk paparkan graf tidak dapat dimuatkan. Kebenaran yang diperlukan mungkin kurang."
+    description_available_columns: "Lajur Tersedia"
+    description_current_position: "Anda di sini:"
+    description_select_work_package: "Pilih pakej kerja #%{id}"
     description_subwork_package: "Child of work package #%{id}"
     editor:
       preview: "Toggle preview mode"
       source_code: "Toggle Markdown source mode"
-      error_saving_failed: "Saving the document failed with the following error: %{error}"
-      ckeditor_error: "An error occurred within CKEditor"
+      error_saving_failed: "Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}"
+      ckeditor_error: "Ralat berlaku dalam CKEditor"
       mode:
-        manual: "Switch to Markdown source"
+        manual: "Tukar ke sumber Markdown"
         wysiwyg: "Switch to WYSIWYG editor"
       macro:
         error: "Cannot expand macro: %{message}"
@@ -348,11 +348,11 @@ ms:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -924,6 +924,8 @@ ms:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -1247,7 +1249,8 @@ ms:
       role:
         label: "Role in %{project}"
         no_roles_found: "No roles were found"
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: >-
+          This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>
         required: "Please select a role"
         next_button: "Next"
       message:
@@ -1321,3 +1324,7 @@ ms:
       drop_modal:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
         Close: "Close"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

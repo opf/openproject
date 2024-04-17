@@ -51,12 +51,10 @@ module Admin
         redirect_to action: :index
       end
 
-      def default_breadcrumb
-        t("antivirus_scan.quarantined_attachments.title")
-      end
+      def default_breadcrumb; end
 
       def show_local_breadcrumb
-        true
+        false
       end
 
       private

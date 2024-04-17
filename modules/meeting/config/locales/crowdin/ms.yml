@@ -44,7 +44,7 @@ ms:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -96,7 +96,7 @@ ms:
   label_start_date: "Tarikh mula"
   meeting:
     attachments:
-      text: "Fail yang dilampirkan boleh diakses oleh semua peserta mesyuarat. Anda juga boleh menarik dan lepaskan fail tersebut ke dalam catatan item agenda."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Salin mesyuarat %{title}"
       attachments: "Salin lampiran"
@@ -165,6 +165,7 @@ ms:
   label_agenda_item_move_up: "Alihkan ke atas"
   label_agenda_item_move_down: "Gerak ke bawah"
   label_agenda_item_add_notes: "Tambah nota"
+  label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
   text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
@@ -172,8 +173,11 @@ ms:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Butiran mesyuarat"
   label_meeting_details_edit: "Edit butiran mesyuarat"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Buka"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Ditutup"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Buka semula mesyuarat"
   label_meeting_close_action: "Tutup mesyuarat"
   text_meeting_open_description: "Mesyuarat ini terbuka. Anda boleh tambah/keluarkan item agenda dan edit mereka sesuka hati. Setelah mesyuarat berakhir, tutup mesyuarat untuk kunci."

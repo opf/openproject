@@ -311,7 +311,6 @@ fr:
       no_results_content_text: Ajouter un membre au projet
     invite_by_mail: "Envoyer une invitation à %{mail}"
     send_invite_to: "Envoyer une invitation à"
-    no_modify_on_shared: "Actuellement, vous ne pouvez pas modifier ou supprimer les adhésions partagées depuis la page des membres. Utilisez plutôt la fenêtre modale de partage."
     columns:
       shared: "Partagé"
     filters:
@@ -321,8 +320,50 @@ fr:
       invited: "Invité"
       locked: "Verrouillé"
       project_roles: "Rôle du projet"
-      wp_shares: "Répartition des lots de travaux"
+      wp_shares: "Partages du lot des travaux"
       groups: "Groupes"
+    delete_member_dialog:
+      title: "Remove member"
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      will_remove_the_groups_role: "This will remove the group role from this project."
+      however_work_packages_shared_with_user_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this user."
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_work_packages_shared_with_group_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this group."
+        other: "However, %{shared_work_packages_link} have also been shared with this group."
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+      also_work_packages_shared_with_user_html:
+        one: "Also, %{shared_work_packages_link} has been shared with this user."
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
+      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
+      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
+      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+    delete_work_package_shares_dialog:
+      title: "Revoke work package shares"
+      shared_with_this_user_html:
+        one: "%{all_shared_work_packages_link} has been shared with this user."
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        one: "%{all_shared_work_packages_link} has been shared with this group."
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
@@ -557,7 +598,7 @@ fr:
       oauth_client:
         client: "ID client"
       relation:
-        delay: "Délai"
+        lag: "Lag"
         from: "Lot de travaux"
         to: "Lot de travaux associé"
       status:
@@ -952,7 +993,12 @@ fr:
               only_same_project_categories_allowed: "La catégorie du lot de travaux doit faire partie du même projet que le lot de travaux."
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
+              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
               only_values_greater_or_equal_zeroes_allowed: "doit être >= 0."
+            remaining_hours:
+              cant_exceed_work: "can't exceed 'Work'."
+              must_be_set_when_work_is_set: "must be set when 'Work' is set."
           readonly_status: "Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés."
         type:
           attributes:
@@ -1057,6 +1103,10 @@ fr:
       updated_on_time_entry: "temps enregistré mis à jour le %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Sous-projet"
       parent_no_longer: "Plus de sous-projet de"
       time_entry:
@@ -1070,11 +1120,16 @@ fr:
         logged_for: "Connecté(e) pendant"
       meeting_agenda_item:
         duration:
-          added: "set to %{value} minutes"
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
           removed: "removed"
           updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
           updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Révisions"
       message: "Forums"
@@ -1172,6 +1227,7 @@ fr:
       token_cooldown: Le jeton de sauvegarde sera valide dans %{hours} heures.
       backup_pending: Une sauvegarde en déjà en attente.
       limit_reached: Vous ne pouvez faire que %{limit} sauvegardes par jour.
+  button_actions: "Actions"
   button_add: "Ajouter"
   button_add_comment: "Ajouter un commentaire"
   button_add_member: Ajouter un membre
@@ -1242,6 +1298,14 @@ fr:
   button_add_menu_entry: "Ajouter un élément de menu"
   button_configure_menu_entry: "Gérer l'élément de menu"
   button_delete_menu_entry: "Supprimer l'élément de menu"
+  button_view_shared_work_packages: "View shared work packages"
+  button_manage_roles: "Manage roles"
+  button_remove_member: "Remove member"
+  button_remove_member_and_shares: "Remove member and shares"
+  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_access: "Revoke access"
+  button_revoke_all: "Revoke all"
+  button_revoke_only: "Revoke only %{shared_role_name}"
   consent:
     checkbox_label: J'ai pris note de ce qui précède et je l'accepte.
     failure_message: Échec de l'accord, impossible de continuer.
@@ -1457,7 +1521,6 @@ fr:
   error_pdf_export_too_many_columns: "Trop de colonnes sélectionnées pour l’exportation PDF. Veuillez réduire le nombre de colonnes."
   error_pdf_failed_to_export: "L'export PDF n'a pas pu être enregistré: %{error}"
   error_token_authenticity: "Impossible de vérifier le jeton de Cross-Site Request Forgery. Avez-vous essayé d'envoyer des données sur plusieurs navigateurs ou onglets ? Veuillez fermer tous les onglets et réessayer."
-  error_work_package_done_ratios_not_updated: "Les valeurs % réalisé du lot de travaux n'ont pas été mises à jour."
   error_work_package_not_found_in_project: "Le Lot de Travaux n'a pas été trouvé ou n'appartient pas à ce projet"
   error_must_be_project_member: "doit être membre du projet"
   error_migrations_are_pending: "Votre installation OpenProject a des migrations de base de données en attente. Vous n'avez probablement pas exécuté les migrations lors de votre dernière mise à jour. Veuillez consulter le guide de mise à jour afin de mettre votre installation correctement à jour."
@@ -1562,8 +1625,10 @@ fr:
   journals:
     changes_retracted: "Les modifications ont été retirées."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates modifiées"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "Mise à jour du système OpenProject :"
     cause_descriptions:
       work_package_predecessor_changed_times: par changement vers le prédécesseur %{link}
@@ -1579,9 +1644,14 @@ fr:
         dates:
           working: "%{date} est maintenant un jour ouvrable"
           non_working: "%{date} est maintenant un jour non ouvrable"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           À partir de maintenant, l'activité liée aux liens de fichiers (fichiers stockés sur des supports externes) apparaîtra ici dans l'onglet Activité. Les activités suivantes concernent des liens déjà existants :
+        progress_calculation_changed: >
+          Progress calculation updated.
   links:
     configuration_guide: "Guide de configuration"
     get_in_touch: "Vous avez des questions ? Contactez-nous."
@@ -1596,6 +1666,8 @@ fr:
       api_and_webhooks: "API et webhooks"
     quick_add:
       label: "Ouvrir le menu d'ajout rapide"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1919,6 +1991,7 @@ fr:
   label_latest_revision: "La toute dernière révision"
   label_latest_revision_plural: "Les toute dernières révisions"
   label_ldap_authentication: "Authentification LDAP"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "il y a moins de quelques jours"
   label_list: "Liste"
@@ -2044,6 +2117,7 @@ fr:
   label_privacy_policy: "Politique de confidentialité et de sécurité des données"
   label_product_version: "Version du produit"
   label_profile: "Profil"
+  label_percent_complete: "% Complete"
   label_project_activity: "Activité du projet"
   label_project_attribute_plural: "Attributs du projet"
   label_project_count: "Nombre total de projets"
@@ -2053,6 +2127,7 @@ fr:
   label_project_hierarchy: "Hiérarchie du projet"
   label_project_new: "Nouveau projet"
   label_project_plural: "Projets"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Paramètres du projet"
@@ -2079,6 +2154,7 @@ fr:
   label_relation_delete: "Supprimer la relation"
   label_relation_new: "Nouvelle relation"
   label_release_notes: "Notes de version"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Enlever les colonnes sélectionnées"
   label_renamed: "renommé"
   label_reply_plural: "Réponses"
@@ -2157,7 +2233,6 @@ fr:
   label_type_new: "Nouveau type"
   label_type_plural: "Types"
   label_ui: "Interface de l'utilisateur"
-  label_update_work_package_done_ratios: "Mettre à jour la valeur % complet du lot de travaux"
   label_updated_time: "Mis à jour il y a %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Mis à jour par %{author} il y a %{age}"
@@ -2212,6 +2287,7 @@ fr:
   label_wiki_show_new_page_link: "Montrer le sous-menu 'Créer une nouvelle page enfant'"
   label_wiki_show_submenu_item: "Montrer comme sous-menu de "
   label_wiki_start: "Page d'accueil"
+  label_work: "Work"
   label_work_package: "Lot de travaux"
   label_work_package_attachments: "Pièces jointes du lot de travaux"
   label_work_package_category_new: "Nouvelle catégorie"
@@ -2255,6 +2331,7 @@ fr:
     other: "%{count} fichiers"
     zero: "Aucun fichier"
   label_yesterday: "hier"
+  label_zen_mode: "Zen mode"
   label_role_type: "Type"
   label_member_role: "Rôle dans le projet"
   label_global_role: "Rôle global"
@@ -2323,7 +2400,7 @@ fr:
         allowed_actions: "Vous pouvez %{allowed_actions} ce lot de travaux. Cela peut changer en fonction de votre rôle dans le projet et de vos droits."
         create_account: "Pour accéder à ce paquet de travail, vous aurez besoin de créer et activer un compte sur %{instance}."
         open_work_package: "Ouvrir ce lot de travaux"
-        subject: "Paquet de travail #%{id} a été partagé avec vous"
+        subject: "Le lot des travaux #%{id} a été partagé avec vous"
         enterprise_text: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
         summary:
           user: "%{user} a partagé un lot de travaux avec vous avec les droits %{role_rights}"
@@ -2462,7 +2539,6 @@ fr:
   notice_file_not_found: "La page à laquelle vous essayez d'accéder n'existe pas ou a été supprimée."
   notice_forced_logout: "Vous avez été déconnecté après %{ttl_time} minutes d'inactivité."
   notice_internal_server_error: "Une erreur est survenue sur la page à laquelle vous essayez d'accéder. Si le problème persiste, veuillez contacter votre administrateur %{app_title} pour assistance."
-  notice_work_package_done_ratios_updated: "% réalisé mis à jour"
   notice_locking_conflict: "Cette information a été mise a jour par au moin un autre utilisateur pendant la même session"
   notice_locking_conflict_additional_information: "Le(s) mise(s) à jour(s) ont été faite par %{users}."
   notice_locking_conflict_reload_page: "Veuillez rafraîchir la page, vérifier les changements et rélancer la mise à jour."
@@ -2602,7 +2678,7 @@ fr:
   permission_view_news: "Voir les nouvelles"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
-  permission_view_shared_work_packages: "Voir la répartition des lots de travaux"
+  permission_view_shared_work_packages: "Voir les partages du lot des travaux"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
@@ -2659,7 +2735,7 @@ fr:
     member_of_group: "Groupe du Destinataire"
     name_or_identifier: "Nom ou identifiant"
     only_subproject_id: "Seulement le sous-projet"
-    shared_with_user: "Partagée avec l'utilisateur"
+    shared_with_user: "Partagés avec l'utilisateur"
     shared_with_me: "Partagés avec moi"
     subproject_id: "Inclure le sous-projet"
   repositories:
@@ -2843,10 +2919,11 @@ fr:
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
   setting_invitation_expiration_days: "L'émail d’activation expire après"
-  setting_work_package_done_ratio: "Calculer le % de réalisation du lot de travaux avec"
-  setting_work_package_done_ratio_field: "Le champ du lot de travaux"
-  setting_work_package_done_ratio_status: "Le statut du lot de travaux"
-  setting_work_package_done_ratio_disabled: "Désactiver (masquer le champ % réalisé)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
   setting_work_packages_projects_export_limit: "Limite d'exportation des lots de travaux/projets"
@@ -2912,7 +2989,7 @@ fr:
       remaining_scan_complete_html: >
         Les fichiers restants ont été analysés. Il y a %{file_count} en quarantaine. Vous allez être redirigé vers la page de quarantaine. Utilisez cette page pour supprimer ou remplacer les fichiers en quarantaine.
       remaining_rescanned_files: >
-        L'analyse antivirus a été activée avec succès. %{file_count} fichiers ont été téléchargés précédemment et doivent encore être analysés. Ce processus a été planifié en arrière-plan. Les fichiers resteront accessibles pendant l'analyse.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Assurez-vous que les fichiers téléversés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs."
       actions:
@@ -2997,6 +3074,7 @@ fr:
   text_are_you_sure: "Êtes-vous sûr ?"
   text_are_you_sure_continue: "Voulez-vous vraiment continuer ?"
   text_are_you_sure_with_children: "Supprimer le lot de travaux et tous les lots de travaux enfants ?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Assigner le projet"
   text_form_configuration: >
     Vous pouvez personnaliser comment les champs seront affichés sur le plan de travail. Vous pouvez librement regrouper les champs pour refléter les besoins pour votre domaine.
@@ -3218,6 +3296,12 @@ fr:
     destroy:
       info: "La suppression du lot de travaux est une action irréversible."
       title: "Supprimer le lot de travaux"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 utilisateur"
@@ -3245,7 +3329,7 @@ fr:
       share: "Partager"
       text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
       text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
-      text_empty_state_description: "Le lot de travaux n'a pas encore été partagé avec personne."
+      text_empty_state_description: "Le lot de travaux n'a encore été partagé avec personne."
       text_empty_state_header: "Non partagé"
       text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce lot de travaux."
       text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour pouvoir ajouter d''autres utilisateurs.'
@@ -3326,9 +3410,7 @@ fr:
         unsupported_context: "La ressource donnée n'est pas prise en charge comme contexte."
         context_object_not_found: "Impossible de trouver la ressource donnée comme contexte."
       validation:
-        done_ratio: "Le % réalisé ne peut pas être défini sur les lots de travaux parents, lorsqu'il est déduit par le statut ou lorsqu'il est désactivé."
         due_date: "La date de fin ne peut pas être définie dans les lots de travaux parents."
-        estimated_hours: "La valeur \"travail\" ne peut pas être définie pour les paquets de travail parents." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "L’utilisateur choisi n'est pas autorisé à être « %{property} » pour ce lot de travaux."
         start_date: "La date de début ne peut pas être définie dans les lots de travaux parents."
       eprops:
