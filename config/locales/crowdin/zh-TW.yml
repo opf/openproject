@@ -372,7 +372,7 @@ zh-TW:
       no_results_content_text: 新增一個消息
   users:
     autologins:
-      prompt: "Stay logged in for %{num_days}"
+      prompt: "保持登入%{num_days}"
     sessions:
       remembered_devices: "已記錄的設備"
       remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."

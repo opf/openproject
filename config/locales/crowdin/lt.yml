@@ -1254,7 +1254,7 @@ lt:
       token_cooldown: Atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
       backup_pending: Atsarginės kopijos darymas jau paleistas.
       limit_reached: Jūs galite daryti tik %{limit} atsarginės kopijas per dieną.
-  button_actions: "Actions"
+  button_actions: "Veiksmai"
   button_add: "Pridėti"
   button_add_comment: "Pridėti komentarą"
   button_add_member: Pridėti narį
@@ -1325,14 +1325,14 @@ lt:
   button_add_menu_entry: "Pridėti meniu punktą"
   button_configure_menu_entry: "Konfigūruoti meniu punktą"
   button_delete_menu_entry: "Panaikinti meniu punktą"
-  button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
-  button_remove_member_and_shares: "Remove member and shares"
-  button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
-  button_revoke_all: "Revoke all"
-  button_revoke_only: "Revoke only %{shared_role_name}"
+  button_view_shared_work_packages: "Žiūrėti bendrinamus darbų paketus"
+  button_manage_roles: "Tvarkyti vaidmenis"
+  button_remove_member: "Išimti narį"
+  button_remove_member_and_shares: "Išimti narį ir bendrinimus"
+  button_revoke_work_package_shares: "Atšaukti darbo paketų bendrinimus"
+  button_revoke_access: "Atšaukti prieigą"
+  button_revoke_all: "Atšaukti viską"
+  button_revoke_only: "Atšaukti tik %{shared_role_name}"
   consent:
     checkbox_label: Perskaičiau ir sutinku su tekstu aukščiau.
     failure_message: Sutikimas negautas. Tęsti negalima.
@@ -1690,8 +1690,8 @@ lt:
     caused_changes:
       dates_changed: "Datos pasikeitė"
       default_attribute_written: "Tik-skaitymo atributai įrašyti"
-      progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      progress_mode_changed_to_status_based: "Eigos skaičiavimas atnaujintas"
+      status_p_complete_changed: "Būsenos % baigta pakeista"
       system_update: "OpenProject sistemos atnaujinimas"
     cause_descriptions:
       work_package_predecessor_changed_times: dėl pirmtako pakeitimų %{link}
@@ -1707,14 +1707,14 @@ lt:
         dates:
           working: "%{date} dabar yra darbo"
           non_working: "%{date} dabar yra nedarbo"
-      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      progress_mode_changed_to_status_based: Nustatytas eigos skaičiavimo režimas priklausantis-nuo-būsenos
       status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+        % baigta reikšmė būsenai „%{status_name}“ pakeista iš %{old_value}% į %{new_value}%
       system_update:
         file_links_journal: >
           Nuo dabar, su failų nuorodomis (failais, saugomais išorinse saugyklose) susiję veiksmai bus rodomi Veiksmų kortelėje. Žemiau pateikiamas jau egzistavusių nuorodų veiksmų sąrašas:
         progress_calculation_changed: >
-          Progress calculation updated.
+          Eigos skaičiavimas atnaujintas
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -2054,7 +2054,7 @@ lt:
   label_latest_revision: "Paskutinė revizija"
   label_latest_revision_plural: "Paskutinės revizijos"
   label_ldap_authentication: "LDAP autentifikacija"
-  label_learn_more: "Learn more"
+  label_learn_more: "Sužinoti daugiau"
   label_less_or_equal: "<="
   label_less_than_ago: "mažiau nei prieš dieną"
   label_list: "Sąrašas"
@@ -2180,7 +2180,7 @@ lt:
   label_privacy_policy: "Duomenų privatumo ir saugumo politika"
   label_product_version: "Produkto versija"
   label_profile: "Profilis"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "% baigta"
   label_project_activity: "Projekto aktyvumas"
   label_project_attribute_plural: "Projekto atributai"
   label_project_count: "Bendras projektų skaičius"
@@ -2190,7 +2190,7 @@ lt:
   label_project_hierarchy: "Projekto hierarchija"
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
-  label_project_list_plural: "Project lists"
+  label_project_list_plural: "Projektų sąrašai"
   label_project_attributes_plural: "Projekto atributai"
   label_project_custom_field_plural: "Projekto atributai"
   label_project_settings: "Projekto nustatymai"
@@ -2217,7 +2217,7 @@ lt:
   label_relation_delete: "Pašalinti ryšį"
   label_relation_new: "Naujas ryšys"
   label_release_notes: "Išleidimo informacija"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "Liko darbo"
   label_remove_columns: "Pašalinti pažymėtus stulpelius"
   label_renamed: "pervadintas"
   label_reply_plural: "Atsakymai"
@@ -2350,7 +2350,7 @@ lt:
   label_wiki_show_new_page_link: "Rodyti submeniu punktą „Sukurti naują vaiko puslapį“"
   label_wiki_show_submenu_item: "Rodyti kaip submeniu punktą "
   label_wiki_start: "Pradžios puslapis"
-  label_work: "Work"
+  label_work: "Darbas"
   label_work_package: "Darbų paketas"
   label_work_package_attachments: "Darbų paketo prisegti failai"
   label_work_package_category_new: "Nauja kategorija"
@@ -2394,7 +2394,7 @@ lt:
     other: "%{count} failai"
     zero: "nėra failų"
   label_yesterday: "vakar"
-  label_zen_mode: "Zen mode"
+  label_zen_mode: "„Zen“ režimas"
   label_role_type: "Tipas"
   label_member_role: "Vaidmuo projekte"
   label_global_role: "Visuotinis vaidmuo"
@@ -2982,11 +2982,11 @@ lt:
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
   setting_host_name: "Serverio vardas"
   setting_invitation_expiration_days: "Aktyvavimo laiško galiojimas baigiasi po"
-  setting_work_package_done_ratio: "Progress calculation"
-  setting_work_package_done_ratio_field: "Work-based"
-  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio: "Eigos skaičiavimas"
+  setting_work_package_done_ratio_field: "Pagal-darbą"
+  setting_work_package_done_ratio_status: "Pagal-būseną"
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    Režime <b>pagal-darbą</b>, pabaigimo % skaičiuojami pagal tai, kiek darbo atlikta lyginant su visu darbo kiekiu. Režime <b>pagal-būseną</b>, kiekvienas būsenas turi savo susijusią baigtumo % reikšmę. Pakeitus būseną pasikeis ir % baigta.
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
   setting_work_packages_projects_export_limit: "Darbo paketų / Projektų eksporto limitas"
@@ -3052,7 +3052,7 @@ lt:
       remaining_scan_complete_html: >
         Likę failai buvo patikrinti. Karantine yra %{file_count} . Esate nukreipiami į karantino puslapį. Naudokitės šiuo puslapiu norėdami ištrinti arba pakeisti karantine esančius failus.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virusų skenavimas sėkmingai įjungtas. Yra %{file_count}, kurie buvo įkelti anksčiau ir turi būti patikrinti. Šis darbas suplanuotas fone. Failai liks prieinami tikrinimo metu.
       upsale:
         description: "Užtikrinkite, kad į OpenProject įkelti failai būtų patikrinti nuo virusų prieš padarant juos prieinamus kitiems naudotojams."
       actions:
