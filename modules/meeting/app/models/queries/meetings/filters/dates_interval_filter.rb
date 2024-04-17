@@ -26,13 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Meetings
-  ::Queries::Register.register(MeetingQuery) do
-    filter Filters::ProjectFilter
-    filter Filters::TimeFilter
-    filter Filters::AttendedUserFilter
-    filter Filters::InvitedUserFilter
-    filter Filters::AuthorFilter
-    filter Filters::DatesIntervalFilter
+class Queries::Meetings::Filters::DatesIntervalFilter < Queries::Meetings::Filters::MeetingFilter
+  include Queries::Operators::DateRangeClauses
+
+  def type
+    :date
+  end
+
+  def where
+    lower_boundary, upper_boundary = values.map { |v| v.blank? ? nil : Date.parse(v) }
+
+    <<-SQL
+      (meetings.start_time >= '#{quoted_date_from_utc(lower_boundary)}' AND
+       meetings.start_time <= '#{quoted_date_from_utc(upper_boundary)}')
+    SQL
+  end
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::DateInterval.new(self)
+  end
+
+  def connection
+    ActiveRecord::Base::connection
   end
 end
