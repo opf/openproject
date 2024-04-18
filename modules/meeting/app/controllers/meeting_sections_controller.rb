@@ -61,7 +61,8 @@ class MeetingSectionsController < ApplicationController
       .new(user: current_user)
       .call(
         {
-          meeting_id: @meeting.id
+          meeting_id: @meeting.id,
+          title: "New Section"
         }
       )
 

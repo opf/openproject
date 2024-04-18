@@ -46,7 +46,7 @@ class MeetingSection::Title < ApplicationForm
   private
 
   def init_value(meeting_section_form)
-    if meeting_section_form.builder.object.has_default_title?
+    if meeting_section_form.builder.object.has_default_title? || meeting_section_form.builder.object.untitled?
       "" # will be set to "Untitled" in the model if left empty
     else
       meeting_section_form.builder.object.title

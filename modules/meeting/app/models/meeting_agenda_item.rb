@@ -69,7 +69,7 @@ class MeetingAgendaItem < ApplicationRecord
     item.duration_in_minutes_previously_changed? || item.position_previously_changed?
   }
   after_destroy :trigger_meeting_agenda_item_time_slots_calculation
-  after_destroy :delete_meeting_section_if_empty
+  # after_destroy :delete_meeting_section_if_empty
 
   def add_to_latest_meeting_section
     if meeting_section_id.nil?
@@ -87,13 +87,13 @@ class MeetingAgendaItem < ApplicationRecord
     meeting.calculate_agenda_item_time_slots
   end
 
-  def delete_meeting_section_if_empty
-    # we need to delete the last existing section if the last meeting agenda item is deleted
-    # as we don't render the section (including the section menu) if only one section exists
-    # thus the section would silently exist in the database when the very last agenda item was deleted
-    # which makes UI rendering inconsistent
-    meeting_section.destroy if meeting_section.agenda_items.empty? && meeting.sections.count == 1
-  end
+  # def delete_meeting_section_if_empty
+  #   # we need to delete the last existing section if the last meeting agenda item is deleted
+  #   # as we don't render the section (including the section menu) if only one section exists
+  #   # thus the section would silently exist in the database when the very last agenda item was deleted
+  #   # which makes UI rendering inconsistent
+  #   meeting_section.destroy if meeting_section.agenda_items.empty? && meeting.sections.count == 1
+  # end
 
   def linked_work_package?
     item_type == "work_package" && work_package.present?

@@ -49,6 +49,10 @@ class MeetingSection < ApplicationRecord
   end
 
   def has_default_title?
+    title == "New Section" # TODO: I18n
+  end
+
+  def untitled?
     title == "Untitled" # TODO: I18n
   end
 
