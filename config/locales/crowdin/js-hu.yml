@@ -643,7 +643,7 @@ hu:
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "Új értesítések érkeztek."
-          link_text: "Kattintson ide a betöltésükhöz"
+          link_text: "Click here to load them."
       menu:
         accountable: "Felelős"
         by_project: "Olvasatlan projektenként"

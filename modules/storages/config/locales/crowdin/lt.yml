@@ -39,14 +39,14 @@ lt:
   api_v3:
     errors:
       too_many_elements_created_at_once: Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}.
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  permission_create_files: 'Išorinė saugykla: kurti failus'
+  permission_delete_files: 'Išorinė saugykla: trinti failus'
   permission_manage_file_links: Tvarkyti failo nuorodas
   permission_manage_storages_in_project: Tvarkyti failų saugyklas projekte
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: 'Išorinė saugykla: skaityti failus'
+  permission_share_files: 'Išorinė saugykla: bendrinti failus'
   permission_view_file_links: Žiūrėti failo nuorodas
-  permission_write_files: 'External Storage: Write files'
+  permission_write_files: 'Išorinė saugykla: rašyti failus'
   project_module_storages: Failų saugyklos
   storages:
     buttons:
@@ -104,7 +104,7 @@ lt:
       subtitle: Automatically managed project folders
       title: Sveikatos būsena
     health_email_notifications:
-      description_subscribed: All administrators will receive health status email notifications for this storage.
+      description_subscribed: All administrators receive health status email notifications for this storage.
       description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
       error_could_not_be_saved: Email notification settings could not be saved. Please try again.
       subscribe: Subscribe

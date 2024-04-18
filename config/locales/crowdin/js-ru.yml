@@ -644,7 +644,7 @@ ru:
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали."
         new_notifications:
           message: "Есть новые уведомления."
-          link_text: "Нажмите здесь для их загрузки"
+          link_text: "Click here to load them."
       menu:
         accountable: "Подотчетный"
         by_project: "Непрочитано по проекту"

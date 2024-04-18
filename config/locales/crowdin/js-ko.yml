@@ -642,7 +642,7 @@ ko:
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."
-          link_text: "로드하려면 여기를 클릭하세요"
+          link_text: "Click here to load them."
       menu:
         accountable: "담당"
         by_project: "프로젝트 기준 읽지 않음"
