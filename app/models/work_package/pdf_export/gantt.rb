@@ -363,7 +363,7 @@ module WorkPackage::PDFExport::Gantt
       elsif line_source.page_group == line_target.page_group
         build_multi_page_dep_line(line_source, line_target)
       else
-        build_multi_group_page_dep_line(line_source, line_target, page_groups)
+        build_multi_group_dep_line(line_source, line_target, page_groups)
       end
     end
 
@@ -416,12 +416,12 @@ module WorkPackage::PDFExport::Gantt
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
     def build_multi_page_dep_line(source, target)
-      i = source.page_group.pages.index(source.finish_row.page)
-      j = source.page_group.pages.index(target.start_row.page)
-      if i > j
-        build_multi_page_dep_line_backward(source, target, i, j)
+      start_page_index = source.page_group.pages.index(source.finish_row.page)
+      finish_page_index = source.page_group.pages.index(target.start_row.page)
+      if start_page_index > finish_page_index
+        build_multi_page_dep_line_backward(source, target, start_page_index, finish_page_index)
       else
-        build_multi_page_dep_line_forward(source, target, i, j)
+        build_multi_page_dep_line_forward(source, target, start_page_index, finish_page_index)
       end
     end
 
@@ -505,7 +505,7 @@ module WorkPackage::PDFExport::Gantt
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
     def build_multi_page_dep_line_forward_end(source, target)
-      source_left = target.start_row.page.columns.first.left - 10
+      source_left = target.start_row.page.columns.first.left - LINE_STEP
       source_top = source.finish_top
       target_left = target.start_left
       target_top = target.start_top
@@ -522,7 +522,58 @@ module WorkPackage::PDFExport::Gantt
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
     # @param [Array<GanttDataPageGroup>] page_groups
-    def build_multi_group_page_dep_line(source, target, page_groups) end
+    def build_multi_group_dep_line(source, target, page_groups)
+      start_page_index = source.page_group.pages.index(source.finish_row.page)
+      finish_page_index = target.page_group.pages.index(target.start_row.page)
+      if start_page_index > finish_page_index
+        build_multi_group_dep_line_backward(source, target, start_page_index, finish_page_index, page_groups)
+      else
+        build_multi_group_dep_line_forward(source, target, start_page_index, finish_page_index, page_groups)
+      end
+    end
+
+    def build_multi_group_dep_line_forward(source, target,
+                                           start_page_index, finish_page_index, page_groups)
+      build_multi_page_dep_line_forward_start(source)
+      build_multi_page_dep_line_middle(source, start_page_index, finish_page_index, source.finish_top)
+      build_multi_group_dep_line_forward_end(source, target, finish_page_index, page_groups)
+    end
+
+    def build_multi_group_dep_line_backward(source, target,
+                                            start_page_index, finish_page_index, page_groups)
+      build_multi_page_dep_line_backward_start(source, source.finish_row.bottom)
+      build_multi_page_dep_line_middle(source, start_page_index, finish_page_index, source.finish_top)
+      build_multi_group_dep_line_backward_end(source, target, page_groups)
+    end
+
+    def build_multi_group_dep_line_forward_end(source, target, finish_page_index, page_groups)
+      target_left = target.start_left
+      page = source.finish_row.page.group.pages[finish_page_index]
+      page.add_lines(
+        [
+          [0, target_left - LINE_STEP, source.finish_top, source.finish_top],
+          [target_left - LINE_STEP, target_left - LINE_STEP, source.finish_top, page.height],
+        ]
+      )
+      start_group_index = page_groups.index(source.finish_row.page.group)
+      finish_group_index = page_groups.index(target.start_row.page.group)
+      start = [start_group_index, finish_group_index].min
+      finish = [start_group_index, finish_group_index].max
+      ((start + 1)..(finish - 1)).each do |index|
+        group = page_groups[index]
+        group.pages.each do |page|
+          page.add_line(target_left - LINE_STEP, page.columns.last.right, source.finish_top, source.finish_top)
+        end
+      end
+      target.start_row.page.add_lines(
+        [
+          [target_left - LINE_STEP, target_left - LINE_STEP, target.finish_row.page.header_row_height, target.finish_top],
+          [target_left - LINE_STEP, target_left, target.finish_top, target.finish_top]
+        ]
+      )
+    end
+
+    def build_multi_group_dep_line_backward_end(source, target, page_groups) end
 
     # Builds the text column data object if the page is first page of horizontal page group
     # @param [Integer] page_index
@@ -716,7 +767,6 @@ module WorkPackage::PDFExport::Gantt
     def calc_end_offset(_work_package, _date)
       0 # to be overwritten
     end
-
   end
 
   class GanttBuilderMonths < GanttBuilder
