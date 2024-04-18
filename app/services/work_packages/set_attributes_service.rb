@@ -332,6 +332,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def update_remaining_hours_from_percent_complete
+    return if work_package.remaining_hours_came_from_user?
     return if work_package.estimated_hours&.negative?
 
     work_package.remaining_hours = remaining_hours_from_done_ratio_and_estimated_hours
@@ -386,8 +387,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       update_remaining_hours_from_percent_complete
     elsif WorkPackage.use_field_for_done_ratio? &&
       work_package.estimated_hours_changed?
-      # Here's the issue | Ask Christophe
-      return if work_package.remaining_hours_changed?
+      return if work_package.remaining_hours_came_from_user?
       return if work_package.estimated_hours&.negative?
       return if work_was_unset_and_remaining_work_is_set? # remaining work is kept and % complete will be set
 
@@ -399,7 +399,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       end
     end
   end
-
   # rubocop:enable Metrics/AbcSize,Metrics/PerceivedComplexity
 
   def estimated_hours_from_done_ratio_and_remaining_hours
