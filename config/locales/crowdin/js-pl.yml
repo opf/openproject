@@ -645,7 +645,7 @@ pl:
           no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
         new_notifications:
           message: "Masz nowe powiadomienia."
-          link_text: "Kliknij tutaj, aby je wczytać"
+          link_text: "Click here to load them."
       menu:
         accountable: "Osoba odpowiedzialna"
         by_project: "Nieprzeczytane wg projektu"

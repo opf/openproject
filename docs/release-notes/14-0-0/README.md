@@ -15,6 +15,16 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 ## Important updates and breaking changes
 
+### Docker registry renaming
+
+Starting with OpenProject 14.0., docker images will be published
+to [openproject/openproject](https://hub.docker.com/r/openproject/openproject) on Docker Hub.
+If your setup is still using the old image name (openproject/community), you will need to update your configuration to
+use the new image names.
+
+All previous images have been pushed there as well, so you can simply update your configuration to use the new image
+name ahead of your update.
+
 ### API V3: Renaming of Delay to Lag
 
 In the relations API, the attribute `delay` has been renamed to `lag`.

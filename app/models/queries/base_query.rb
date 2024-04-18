@@ -88,9 +88,15 @@ module Queries::BaseQuery
     filter.values = values
     filter.context = context
 
+    # Remove any previous instances of the same filter
+    remove_filter(filter.name)
     filters << filter
 
     self
+  end
+
+  def remove_filter(name)
+    filters.delete(find_active_filter(name))
   end
 
   def select(*select_values, add_not_existing: true)

@@ -88,8 +88,8 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import allLocales from '@fullcalendar/core/locales-all';
-import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
 
 @Component({
   templateUrl: './wp-calendar.template.html',

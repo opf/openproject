@@ -641,7 +641,7 @@ vi:
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: "There are new notifications."
-          link_text: "Click here to load them"
+          link_text: "Click here to load them."
       menu:
         accountable: "Trách nhiệm"
         by_project: "Unread by project"

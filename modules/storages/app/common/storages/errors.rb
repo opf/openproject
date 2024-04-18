@@ -48,6 +48,16 @@ module Storages
       end
     end
 
+    class IntegrationJobError < BaseError
+      attr_reader :errors, :storage
+
+      def initialize(storage:, errors:)
+        super(errors.log_message)
+        @storage = storage
+        @errors = errors
+      end
+    end
+
     def self.registry_error_for(key)
       case key.split('.')
       in [storage, 'contracts', model]

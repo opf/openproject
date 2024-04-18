@@ -58,7 +58,6 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import * as moment from 'moment/moment';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
@@ -137,7 +136,7 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     if (value === null) {
       return '';
     }
-    return moment.duration(value).asHours().toFixed(1);
+    return `${this.timezoneService.toHours(value)}`;
   }
 
   public statusFormatter(value:null|string):string {

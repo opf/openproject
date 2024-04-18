@@ -38,7 +38,7 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
 const OpVersionI18n = '14_0';
 
 /** Update the teaser image to the next version */
-const featureTeaserImage = '13_4_features.svg';
+const featureTeaserImage = '14_0_features.svg';
 
 @Component({
   template: `

@@ -119,16 +119,14 @@ class WorkPackages::UpdateAncestorsService
     ancestor.derived_done_ratio = compute_derived_done_ratio(ancestor, loader)
   end
 
-  def compute_derived_done_ratio(work_package, _loader)
+  def compute_derived_done_ratio(work_package, loader)
     return if work_package.derived_estimated_hours.nil? || work_package.derived_remaining_hours.nil?
+    return if work_package.derived_estimated_hours.zero?
+    return if no_children?(work_package, loader)
 
-    if work_package.derived_estimated_hours.zero?
-      nil
-    else
-      work_done = (work_package.derived_estimated_hours - work_package.derived_remaining_hours)
-      progress = (work_done.to_f / work_package.derived_estimated_hours) * 100
-      progress.round
-    end
+    work_done = (work_package.derived_estimated_hours - work_package.derived_remaining_hours)
+    progress = (work_done.to_f / work_package.derived_estimated_hours) * 100
+    progress.round
   end
 
   # Sets the ignore_non_working_days to true if any descendant has its value set to true.
@@ -149,22 +147,22 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def derive_total_estimated_and_remaining_hours(work_package, loader)
-    descendants = loader.descendants_of(work_package)
-
-    work_package.derived_estimated_hours = total(all_estimated_hours([work_package] + descendants))
-    work_package.derived_remaining_hours = total(all_remaining_hours([work_package] + descendants))
+    work_package.derived_estimated_hours = derive_total(work_package, :estimated_hours, loader)
+    work_package.derived_remaining_hours = derive_total(work_package, :remaining_hours, loader)
   end
 
-  def total(hours)
-    hours.empty? ? nil : hours.sum.to_f
+  def derive_total(work_package, attribute, loader)
+    return if no_children?(work_package, loader)
+
+    work_packages = [work_package] + loader.descendants_of(work_package)
+    values = work_packages.filter_map(&attribute)
+    return if values.empty?
+
+    values.sum.to_f
   end
 
-  def all_estimated_hours(work_packages)
-    work_packages.filter_map(&:estimated_hours)
-  end
-
-  def all_remaining_hours(work_packages)
-    work_packages.filter_map(&:remaining_hours)
+  def no_children?(work_package, loader)
+    loader.descendants_of(work_package).none?
   end
 
   def modified_attributes_justify_derivation?(attributes)

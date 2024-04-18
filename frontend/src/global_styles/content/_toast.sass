@@ -46,7 +46,8 @@ $nm-color-warning-border: #ef9e56
 $nm-color-warning-icon: #ef9e56
 $nm-color-warning-background: #ffe6c6
 
-$nm-color-info-icon: #333
+$nm-color-info-icon: #155282
+$nm-color-error-icon: var(--content-form-danger-zone-bg-color)
 
 $nm-color-border: #8fc0db
 $nm-color-background: #e3f5ff
@@ -66,19 +67,15 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 %nm-icon-error
   @include icon-mixin-error
-  color: var(--content-form-danger-zone-bg-color)
 
 %nm-icon-success
   @include icon-mixin-checkmark
-  color: $nm-color-success-icon
 
 %nm-icon-warning
   @include icon-mixin-warning
-  color: $nm-color-warning-icon
 
 %nm-icon-info
   @include icon-mixin-info1
-  color: $nm-color-info-icon
 
 %error-placeholder
   background-color: $nm-color-error-background
@@ -146,6 +143,9 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     @extend %error-placeholder
 
     &::before
+      color: $nm-color-error-icon
+
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-error
 
@@ -153,6 +153,9 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     @extend %success-placeholder
 
     &::before
+      color: $nm-color-success-icon
+
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-success
 
@@ -160,6 +163,9 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     @extend %warning-placeholder
 
     &::before
+      color: $nm-color-warning-icon
+
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-warning
 
@@ -167,8 +173,15 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     @extend %info-placeholder
 
     &::before
+      color: $nm-color-info-icon
+
+    &:not(.toast-icon)::before
       @include messages-icon
       @extend %nm-icon-info
+
+  &.toast-icon
+    &::before
+      @include messages-icon
 
   &.-loading
     @extend %info-placeholder
@@ -372,7 +385,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
     &::before
       @extend %nm-icon-error
-      color: var(--content-form-danger-zone-bg-color)
+      color: $nm-color-error-icon
 
   &.info
     @extend %info-placeholder

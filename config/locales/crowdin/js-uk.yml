@@ -645,7 +645,7 @@ uk:
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: "Немає нових сповіщень."
-          link_text: "Натисніть тут, щоб завантажити їх"
+          link_text: "Click here to load them."
       menu:
         accountable: "Відповідальний"
         by_project: "Непрочитані проєктом"
