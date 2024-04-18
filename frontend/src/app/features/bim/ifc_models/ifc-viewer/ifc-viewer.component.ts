@@ -57,8 +57,6 @@ import { filter, take } from 'rxjs/operators';
 export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   private viewInitialized$ = new Subject<void>();
 
-  private toolbarIconSubscription:Subscription;
-
   modelCount:number = this.ifcData.models.length;
 
   canManage = this.ifcData.allowed('manage_ifc_models');
@@ -133,12 +131,22 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
         );
       });
 
-    this.toolbarIconSubscription = this.replaceXeokitToolbarIcons();
+    this.insertXeokitToolbarIcons();
   }
 
-  private replaceXeokitToolbarIcons():Subscription {
+  /**
+   * Inserts xeokit toolbar icons into each element. We need to render buttons with the octicon svg, hide the button
+   * container and insert the rendered SVG into the toolbar elements.
+   * This is necessary, as we do not use the xeokit icon font, but want to have a consistent look and feel of
+   * interaction elements with icons.
+   * @private
+   */
+  private insertXeokitToolbarIcons():Subscription {
     return this.ifcViewerService.viewerVisible$
-      .pipe(filter((visible) => visible))
+      .pipe(
+        filter((visible) => visible),
+        take(1),
+      )
       .subscribe(() => {
         const toolbarIcons = this.xeokitToolbarIcons.nativeElement as HTMLElement;
         const toolbar = this.toolbarElement.nativeElement as HTMLElement;
@@ -160,7 +168,6 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy():void {
-    this.toolbarIconSubscription.unsubscribe();
     this.ifcViewerService.destroy();
   }
 
