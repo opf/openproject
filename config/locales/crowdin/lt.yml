@@ -3137,7 +3137,7 @@ lt:
   text_are_you_sure: "Ar esate įsitikinę?"
   text_are_you_sure_continue: "Ar tikrai norite tęsti?"
   text_are_you_sure_with_children: "Ištrinti darbų paketą ir visus jo vaikų paketus?"
-  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_custom_fields: "Ištrynus šį atributą taipogi bus ištrintos ir jo reikšmės visuose projektuose. Ar tikrai norite tai padaryti?"
   text_assign_to_project: "Priskirti projektui"
   text_form_configuration: >
     Jūs galite nustatyti, kurie laukeliai bus rodomi darbų paketų formoje. Jūs galite laisvai grupuoti laukelius pagal savo poreikius.
@@ -3362,11 +3362,11 @@ lt:
       info: "Darbų paketo ištrynimas yra negrįžtamas veiksmas."
       title: "Ištrinti darbų paketą"
     progress:
-      label_note: "Note:"
+      label_note: "Pastaba:"
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
-        status_based_help_text: "% Complete is set by work package status."
-        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+        work_based_help_text: "% baigta automatiškai skaičiuojama pagal Darbą ir Likusį darbą."
+        status_based_help_text: "% baigta nustatoma pagal paketo būseną."
+        migration_warning_text: "Darbu paremtame eigos skaičiavimo režime % baigta negali būti nustatomas rankomis ir yra susietas su darbu. Esamos reikšmės buvo išlaikytos, bet negali būti keičiamos. Prašome iš pradžių įveskite darbą."
     sharing:
       count:
         zero: "0 naudotojų"
