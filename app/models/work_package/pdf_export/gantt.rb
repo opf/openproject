@@ -757,8 +757,8 @@ module WorkPackage::PDFExport::Gantt
     def wp_on_month?(work_package, date)
       start_date = work_package.start_date || work_package.due_date
       end_date = work_package.due_date || Time.zone.today
-      Range.new(Date.new(start_date.year, start_date.month, 1), Date.new(end_date.year, end_date.month, -1))
-           .include?(date)
+      (Date.new(start_date.year, start_date.month, 1)..Date.new(end_date.year, end_date.month, -1))
+           .cover?(date)
     end
   end
 
