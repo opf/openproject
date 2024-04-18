@@ -1,6 +1,6 @@
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    if show_state?
+<% if show_state? %>
+  <%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title }
       header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
@@ -91,9 +91,15 @@
           end
         end
       end
+    end
+  %>
 
-
-    else
+  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
+  <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
+  <%= render(Projects::ExportListModalComponent.new(query:)) %>
+<% else %>
+  <%=
+    render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title(data: { 'test-selector': 'project-query-name'}) do
         primer_form_with(model: query,
                          url: projects_queries_path,
@@ -109,11 +115,5 @@
       end
       header.with_breadcrumbs(breadcrumb_items)
     end
-  end
-%>
-
-<% if show_state? %>
-  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
-  <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
-  <%= render(Projects::ExportListModalComponent.new(query:)) %>
+  %>
 <% end %>
