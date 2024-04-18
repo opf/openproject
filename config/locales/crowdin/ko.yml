@@ -3035,6 +3035,7 @@ ko:
   text_are_you_sure: "계속하시겠습니까?"
   text_are_you_sure_continue: "계속하시겠습니까?"
   text_are_you_sure_with_children: "작업 패키지 및 모든 자식 작업 패키지를 삭제하시겠습니까?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "프로젝트에 할당"
   text_form_configuration: >
     작업 패키지 양식으로 표시할 필드를 사용자 지정할 수 있습니다. 해당 도메인의 요구 사항을 반영하도록 필드를 자유롭게 그룹화할 수 있습니다.
@@ -3370,9 +3371,7 @@ ko:
         unsupported_context: "지정된 리소스는 컨텍스트로 지원되지 않습니다."
         context_object_not_found: "컨텍스트로 지정된 리소스를 찾을 수 없습니다."
       validation:
-        done_ratio: "완료 %는 상태에 의해 유추되는 경우 또는 비활성화된 경우 부모 작업 패키지에서 설정할 수 없습니다."
         due_date: "완료 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
-        estimated_hours: "작업은 부모 작업 패키지에서 설정할 수 없습니다." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "선택한 사용자는 이 작업 패키지에 대해 '%{property}' 허가되지 않았습니다."
         start_date: "시작 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
       eprops:

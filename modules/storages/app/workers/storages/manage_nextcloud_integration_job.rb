@@ -31,6 +31,16 @@ module Storages
     include GoodJob::ActiveJobExtensions::Concurrency
     using ::Storages::Peripherals::ServiceResultRefinements
 
+    retry_on ::Storages::Errors::IntegrationJobError, attempts: 5 do |job, errors|
+      if job.executions >= 5
+        OpenProject::Notifications.send(
+          OpenProject::Events::STORAGE_TURNED_UNHEALTHY,
+          storage: errors.storage,
+          reason: errors.errors.to_s
+        )
+      end
+    end
+
     good_job_control_concurrency_with(
       total_limit: 2,
       enqueue_limit: 1,
@@ -87,7 +97,7 @@ module Storages
         result.match(
           on_success: ->(_) { OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_HEALTHY, storage:) },
           on_failure: ->(errors) do
-            OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_UNHEALTHY, storage:, reason: errors.to_s)
+            raise ::Storages::Errors::IntegrationJobError.new(storage:, errors:)
           end
         )
       end

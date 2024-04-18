@@ -372,7 +372,7 @@ zh-TW:
       no_results_content_text: 新增一個消息
   users:
     autologins:
-      prompt: "Stay logged in for %{num_days}"
+      prompt: "保持登入%{num_days}"
     sessions:
       remembered_devices: "已記錄的設備"
       remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
@@ -3037,6 +3037,7 @@ zh-TW:
   text_are_you_sure: "是否確定？"
   text_are_you_sure_continue: "你要繼續嗎?"
   text_are_you_sure_with_children: "刪除工作項目以及所有子工作項目?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "分配給專案"
   text_form_configuration: >
     您可以自訂哪些欄位將會顯示在工作項目表單中。您可以自由的群組化這些欄位來符合您的需求。
@@ -3372,9 +3373,7 @@ zh-TW:
         unsupported_context: "所提供的資源不受相對應支援。"
         context_object_not_found: "Cannot find the resource given with the context.\n無法找到本文對應的資源。"
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "無法在主工作項目上設置結束日期。"
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "所指定的使用者不允許成為工作項目的 '%{property}' 。"
         start_date: "無法在主工作項目設置開始日期。"
       eprops:

@@ -3138,6 +3138,7 @@ pl:
   text_are_you_sure: "Jesteś pewien?"
   text_are_you_sure_continue: "Czy na pewno chcesz kontynuować?"
   text_are_you_sure_with_children: "Usunąć pakiet roboczy i wszystkie podrzędne pakiety?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Przypisz do projektu"
   text_form_configuration: >
     Możesz określić, które pola będą wyświetlane w formularzach Work Package. Możesz dowolnie grupować pola aby dostosować do swoich potrzeb.
@@ -3476,9 +3477,7 @@ pl:
         unsupported_context: "Podany zasób nie jest obsługiwany jako kontekst."
         context_object_not_found: "Nie można odnaleźć zasobu z podanym kontekstem."
       validation:
-        done_ratio: "% ukończenia nie może być ustawiony na nadrzędnych pakietach roboczych, jeśli został wyprowadzony ze statusu lub wyłączony."
         due_date: "Nie można ustawić daty zakończenia w nadrzędnych pakietach roboczych."
-        estimated_hours: "Pracy nie można ustawić na nadrzędnych pakietach roboczych." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Wybrany użytkownik nie może być „%{property}” dla tego pakietu roboczego."
         start_date: "Daty rozpoczęcia nie można ustawić na nadrzędnych pakietach roboczych."
       eprops:

@@ -3140,6 +3140,7 @@ sl:
   text_are_you_sure: "Ste prepričani?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Izbrišite delovni paket in vse njegove podrejene delovne pakete?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Dodeli projektu"
   text_form_configuration: >
     Lahko ponastavite katera polja se bodo prikazala v obliki delovnega paketa. Svobodno lahko grupirate polja, katera odsevajo potrebe za vašo domeno.
@@ -3194,7 +3195,7 @@ sl:
   text_journal_added: "%{label} %{value} dodan"
   text_journal_attachment_added: "%{label} %{value} added as attachment"
   text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
-  text_journal_changed_plain: "%{label} spremenjeno iz %{old}\nv %{new}"
+  text_journal_changed_plain: "%{label} spremenjeno iz %{old} %{linebreak}v %{new}"
   text_journal_changed_no_detail: "%{label} posodobljen"
   text_journal_changed_with_diff: "%{label} spremenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"
@@ -3478,9 +3479,7 @@ sl:
         unsupported_context: "Navedeni vir ni podprt kot kontekst."
         context_object_not_found: "Ni mogoče najti vira kot konteksta."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Končnega datuma ni mogoče določiti za nadrejene delovne pakete."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Izbrani uporabnik ne sme biti '%{property}' za ta delovni paket."
         start_date: "Na nadrejenih delovnih paketih začetnega datuma ni mogoče nastaviti."
       eprops:

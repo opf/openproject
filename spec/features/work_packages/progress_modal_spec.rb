@@ -315,10 +315,10 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
     describe "field value format" do
       context "with all values set" do
-        before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 2.5) }
+        before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 2.12345) }
 
         it "populates fields with correctly values formatted " \
-           "with the minimum fractional part if present" do
+           "with the minimum fractional part if present, and 2 decimals max" do
           work_package_table.visit_query(progress_query)
           work_package_table.expect_work_package_listed(work_package)
 
@@ -329,8 +329,40 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_edit_field.activate!
 
           work_edit_field.expect_modal_field_value("10")
-          remaining_work_edit_field.expect_modal_field_value("2.5")
-          percent_complete_edit_field.expect_modal_field_value("75", readonly: true)
+          remaining_work_edit_field.expect_modal_field_value("2.12")
+          percent_complete_edit_field.expect_modal_field_value("78", readonly: true)
+        end
+      end
+
+      context "with % complete set and setting long decimal values in modal" do
+        before do
+          work_package.attributes = {
+            estimated_hours: nil, remaining_hours: nil, done_ratio: 89
+          }
+          work_package.save(validate: false)
+        end
+
+        it "does not lose precision due to conversion from ISO duration to hours" do
+          work_package_table.visit_query(progress_query)
+          work_package_table.expect_work_package_listed(work_package)
+
+          work_edit_field = ProgressEditField.new(work_package_row, :estimatedTime)
+          remaining_work_edit_field = ProgressEditField.new(work_package_row, :remainingTime)
+
+          # set work to 2.5567
+          work_edit_field.activate!
+          work_edit_field.update("2.5567")
+          work_package_table.expect_and_dismiss_toaster(message: "Successful update.")
+
+          # work should have been set to 2.56 and remaining work to 0.28
+          work_package.reload
+          expect(work_package.estimated_hours).to eq(2.56)
+          expect(work_package.remaining_hours).to eq(0.28)
+
+          # work should be displayed as 2.56, and remaining work as 0.28
+          work_edit_field.activate!
+          work_edit_field.expect_modal_field_value("2.56")
+          remaining_work_edit_field.expect_modal_field_value("0.28")
         end
       end
 

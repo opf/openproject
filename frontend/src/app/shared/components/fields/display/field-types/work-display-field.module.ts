@@ -34,7 +34,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { HierarchyQueryLinkHelperService } from 'core-app/shared/components/fields/display/field-types/hierarchy-query-link-helper.service';
 
-export class EstimatedTimeDisplayField extends DisplayField {
+export class WorkDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;
 
   @InjectField() PathHelper:PathHelperService;
@@ -80,7 +80,7 @@ export class EstimatedTimeDisplayField extends DisplayField {
     this.renderActual(element, displayText);
 
     const derived = this.derivedValue;
-    if (derived && this.timezoneService.toHours(derived) !== 0 && this.hasChildren()) {
+    if (derived && this.hasChildren()) {
       this.renderSeparator(element);
       this.renderDerived(element, this.derivedValueString);
     }

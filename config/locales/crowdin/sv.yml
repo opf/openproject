@@ -2126,7 +2126,7 @@ sv:
   label_project_hierarchy: "Projekthierarki"
   label_project_new: "Nytt projekt"
   label_project_plural: "Projekt"
-  label_project_list_plural: "Project lists"
+  label_project_list_plural: "Projektlistor"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Projektinställningar"
@@ -3071,6 +3071,7 @@ sv:
   text_are_you_sure: "Är du säker?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Ta bort arbetspaket och alla underarbetspaket?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Tilldela till projektet"
   text_form_configuration: >
     Du kan anpassa vilka fält som ska visas i formulär för arbetspaket. Du kan fritt gruppera fälten för att återspegla behoven för din domän.
@@ -3406,9 +3407,7 @@ sv:
         unsupported_context: "Resursen som angavs stöds inte som kontext."
         context_object_not_found: "Kan inte hitta den angivna resursen som kontext."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Slutdatum kan inte anges på överordnade arbetspaket."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Den valda användaren tillåts inte att vara \"%{property}\" för detta arbetspaket."
         start_date: "Startdatum kan inte anges för överordnade arbetspaket."
       eprops:

@@ -348,11 +348,11 @@
           learn_about: "Lær mer om de nye funksjonene"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Utgivelsen inneholder forskjellige nye funksjoner og forbedringer: <br><ul class="%{list_styling_class}"><li>GitLab integrering (opprinnelig utviklet av Communiyt bidragsytere)</li><li>Avanserte funskjoner for egendefinerte prosjektlister</li><li>Avanserte funskjoner i møtemodulen</li><li>Virusskanning med ClamAV (Enterprise-utvidelse)</li><li>Eksport til PDF: Lister i tabell-celler er støttet</li><li>WebAuthn/FIDO/U2F er lagt til som en andre faktor</li><li>Flere språk er lagt til i listen over tilgjengelige standardspråk</li></ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "Abonner på kalender"
       inital_setup_error_message: "En feil oppstod under henting av data."
@@ -643,7 +643,7 @@
           no_selection: "Klikk på en melding for å se alle aktivitetsdetaljer."
         new_notifications:
           message: "Det finnes nye varsler."
-          link_text: "Klikk her for å laste dem"
+          link_text: "Click here to load them."
       menu:
         accountable: "Ansvarlig"
         by_project: "Ulest av prosjektet"

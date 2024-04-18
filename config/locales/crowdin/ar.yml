@@ -1456,7 +1456,7 @@ ar:
     distance_in_words:
       about_x_hours:
         zero: "حوالي %{count} ساعات"
-        one: "منذ %{count}  ساعه"
+        one: "حوالي 1 ساعات"
         two: "حوالي %{count} ساعات"
         few: "حوالي %{count} ساعات"
         many: "حوالي %{count} ساعات"
@@ -1499,14 +1499,14 @@ ar:
         other: "أقل من %{count} ثواني"
       over_x_years:
         zero: "على مدى %{count} سنوات"
-        one: "على مدى %{count} سنوات"
+        one: "أكثر من 1  سنة"
         two: "على مدى %{count} سنوات"
         few: "على مدى %{count} سنوات"
         many: "على مدى %{count} سنوات"
         other: "على مدى %{count} سنوات"
       x_days:
         zero: "%{count} يوم"
-        one: "%{count} يوم"
+        one: "1 يوم"
         two: "%{count} يوم"
         few: "%{count} يوم"
         many: "%{count} يوم"
@@ -1562,7 +1562,7 @@ ar:
         other: "%{count} years"
       x_seconds:
         zero: "%{count} ثانية"
-        one: "1 ثانية\n\n%{count} ثانية"
+        one: "1 ثانية"
         two: "%{count} ثانية"
         few: "%{count} ثانية"
         many: "%{count} ثانية"
@@ -3212,6 +3212,7 @@ ar:
   text_are_you_sure: "هل أنت متأكد؟"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "حذف مجموعة العمل وكافة حزم عمل الأطفال؟"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "المخصصة للمشروع"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
@@ -3552,9 +3553,7 @@ ar:
         unsupported_context: "غير معتمد المورد نظراً للسياق."
         context_object_not_found: "تعذر العثور على المورد نظراً للسياق."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "غير مسموح للمستخدم الذي تم اختياره أن يكون '%{property}' لمجموعة العمل هذه."
         start_date: "الوقت لإتمام المشروع لا يمكن تعيينه في حزم العمل الحالية."
       eprops:

@@ -348,11 +348,11 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>GitLab 통합(커뮤니티 기여자가 원래 개발함)</li> <li>사용자 지정 프로젝트 목록의 고급 기능</li> <li>미팅 모듈의 고급 기능</li> <li>ClamAV(Enterprise 추가 기능)를 통한 바이러스 검사 기능</li> <li>PDF 내보내기: 테이블 셀의 목록이 지원됩니다.</li> <li>2단계 인증으로 WebAuthn/FIDO/U2F가 추가되었습니다.</li> <li>사용 가능한 기본 언어 세트에 더 많은 언어가 추가되었습니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -642,7 +642,7 @@ ko:
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."
-          link_text: "로드하려면 여기를 클릭하세요"
+          link_text: "Click here to load them."
       menu:
         accountable: "담당"
         by_project: "프로젝트 기준 읽지 않음"

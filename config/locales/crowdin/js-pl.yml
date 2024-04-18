@@ -348,11 +348,11 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Integracja z GitLab (pierwotnie opracowana przez członków społeczności)</li> <li>Zaawansowane funkcje niestandardowych list projektów</li> <li>Zaawansowane funkcje modułu Spotkania</li> <li>Funkcja skanowania antywirusowego za pomocą programu ClamAV (dodatek wersji Enterprise)</li> <li>Eksport w formacie PDF: obsługiwane są listy w komórkach tabeli</li> <li>Dodano WebAuthn/FIDO/U2F jako drugi skłądnik uwierzytelniania.</li> <li>Do domyślnie dostępnego zestawu dodano więcej języków </li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -645,7 +645,7 @@ pl:
           no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
         new_notifications:
           message: "Masz nowe powiadomienia."
-          link_text: "Kliknij tutaj, aby je wczytać"
+          link_text: "Click here to load them."
       menu:
         accountable: "Osoba odpowiedzialna"
         by_project: "Nieprzeczytane wg projektu"

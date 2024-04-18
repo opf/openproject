@@ -3071,6 +3071,7 @@ it:
   text_are_you_sure: "Sei sicuro?"
   text_are_you_sure_continue: "Vuoi davvero continuare?"
   text_are_you_sure_with_children: "Eliminare la macro-attività e tutte le sue sotto-attività?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Assegna al progetto"
   text_form_configuration: >
     È possibile personalizzare quali campi verranno visualizzati nei moduli della macro-attività. È possibile raggruppare liberamente i campi per soddisfare le esigenze per il tuo dominio.
@@ -3407,9 +3408,7 @@ it:
         unsupported_context: "La risorsa non è supportata come contesto."
         context_object_not_found: "Impossibile trovare la risorsa indicata come contesto."
       validation:
-        done_ratio: "La % completamento non può essere impostata sulla macro-attività principale, quando viene dedotta dallo stato o quando è disabilitata."
         due_date: "La data di fine non può essere impostata sulla macro-attività principale."
-        estimated_hours: "Il lavoro non può essere impostato sulla macro-attività principale." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "All'utente scelto non è consentito di essere '%{property}' per questa macro-attività."
         start_date: "La data di inizio non può essere impostata sulla macro-attività principale."
       eprops:

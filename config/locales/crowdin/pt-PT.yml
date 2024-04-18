@@ -3069,6 +3069,7 @@ pt-PT:
   text_are_you_sure: "Tem a certeza?"
   text_are_you_sure_continue: "Tem a certeza que deseja continuar?"
   text_are_you_sure_with_children: "Apagar o pacote de trabalho e todos os pacotes de trabalho filhos?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Atribuir ao projeto"
   text_form_configuration: >
     Pode personalizar quais os campos que serão exibidos nos formulários de pacote de trabalho. Pode agrupar livremente os campos para refletir as necessidades para o seu domínio.
@@ -3405,9 +3406,7 @@ pt-PT:
         unsupported_context: "Não há suporte para o recurso dado como contexto."
         context_object_not_found: "Não é possível encontrar o recurso dado como contexto."
       validation:
-        done_ratio: "A % de conclusão não pode ser definida em pacotes de trabalho parentes quando é inferida pelo estado ou quando está desativada."
         due_date: "Data de término não pode ser definida em pacotes de trabalho pai."
-        estimated_hours: "O trabalho não pode ser definido em tarefas principais." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "O utilizador escolhido não pode ser '%{property}' para esta tarefa."
         start_date: "Data de início não pode ser definida em tarefas do pai."
       eprops:

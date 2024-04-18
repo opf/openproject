@@ -3070,6 +3070,7 @@ es:
   text_are_you_sure: "¿Estás seguro?"
   text_are_you_sure_continue: "¿Seguro que quiere continuar?"
   text_are_you_sure_with_children: "¿Eliminar el paquete de trabajo y todos sus paquetes dependientes?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Asignar al proyecto"
   text_form_configuration: >
     Puede personalizar los campos que se mostrarán en forma de paquete de trabajo. Puede agrupar libremente los campos para adaptarlos a las necesidades de su dominio.
@@ -3405,9 +3406,7 @@ es:
         unsupported_context: "El recurso dado no es soportado como contexto."
         context_object_not_found: "No se ha podido encontrar el recurso dado como el contexto."
       validation:
-        done_ratio: "% Completado no puede establecerse en paquetes de trabajo padres, cuando es influenciado por estado o cuando está desactivado."
         due_date: "La fecha de finalización no se puede establecer en los paquetes de trabajo principales."
-        estimated_hours: "El trabajo no puede establecerse en paquetes de trabajo padres." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "El usuario elegido no tiene permiso para ser '%{property}' para este paquete de trabajo."
         start_date: "La fecha de inicio no puede ser establecida en paquetes de trabajo padres."
       eprops:

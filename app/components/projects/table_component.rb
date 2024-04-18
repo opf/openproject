@@ -51,6 +51,10 @@ module Projects
       "project-table"
     end
 
+    def container_class
+      "generic-table--container_visible-overflow"
+    end
+
     ##
     # The project sort by is handled differently
     def build_sort_header(column, options)

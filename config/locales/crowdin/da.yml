@@ -3070,6 +3070,7 @@ da:
   text_are_you_sure: "Er du sikker?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Slet arbejdspakker og alle underordnede pakker?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Tilknyt til projektet"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
@@ -3406,9 +3407,7 @@ da:
         unsupported_context: "Den givne ressource understøttes ikke som korrekt sammenhæng."
         context_object_not_found: "Kan ikke finde ressourcen, der ar angivet som sammenhæng."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Den valgte bruger er ikke tilladt at være '%{property}' for denne arbejdspakke."
         start_date: "Startdato kan ikke angives for overordnede arbejdspakker."
       eprops:

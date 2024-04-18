@@ -3109,6 +3109,7 @@ hr:
   text_are_you_sure: "Da li ste sigurni?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Izbriši radni paket i sve podređene radne pakete?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Pridruži projektu"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
@@ -3446,9 +3447,7 @@ hr:
         unsupported_context: "Dani resurs nije podržan u obliku konteksta."
         context_object_not_found: "Ne mogu pronaći resurs zadan kao kontekst."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Izabranom korisniku nije dopušteno da bude '%{property}' za ovaj radni paket."
         start_date: "Datum početka ne može biti postavljen na nadređenim radnim paketima."
       eprops:

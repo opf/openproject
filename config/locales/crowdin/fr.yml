@@ -3074,6 +3074,7 @@ fr:
   text_are_you_sure: "Êtes-vous sûr ?"
   text_are_you_sure_continue: "Voulez-vous vraiment continuer ?"
   text_are_you_sure_with_children: "Supprimer le lot de travaux et tous les lots de travaux enfants ?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Assigner le projet"
   text_form_configuration: >
     Vous pouvez personnaliser comment les champs seront affichés sur le plan de travail. Vous pouvez librement regrouper les champs pour refléter les besoins pour votre domaine.
@@ -3409,9 +3410,7 @@ fr:
         unsupported_context: "La ressource donnée n'est pas prise en charge comme contexte."
         context_object_not_found: "Impossible de trouver la ressource donnée comme contexte."
       validation:
-        done_ratio: "Le % réalisé ne peut pas être défini sur les lots de travaux parents, lorsqu'il est déduit par le statut ou lorsqu'il est désactivé."
         due_date: "La date de fin ne peut pas être définie dans les lots de travaux parents."
-        estimated_hours: "La valeur \"travail\" ne peut pas être définie pour les paquets de travail parents." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "L’utilisateur choisi n'est pas autorisé à être « %{property} » pour ce lot de travaux."
         start_date: "La date de début ne peut pas être définie dans les lots de travaux parents."
       eprops:

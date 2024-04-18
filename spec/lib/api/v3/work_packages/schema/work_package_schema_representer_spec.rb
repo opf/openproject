@@ -674,16 +674,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { false }
         let(:writable) { false }
       end
-
-      context "as disabled" do
-        before do
-          allow(Setting).to receive(:work_package_done_ratio).and_return("disabled")
-        end
-
-        it "is hidden" do
-          expect(subject).not_to have_json_path("percentageDone")
-        end
-      end
     end
 
     describe "derivedPercentageDone" do
@@ -693,16 +683,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t("activerecord.attributes.work_package.derived_done_ratio") }
         let(:required) { false }
         let(:writable) { false }
-      end
-
-      context "as disabled" do
-        before do
-          allow(Setting).to receive(:work_package_done_ratio).and_return("disabled")
-        end
-
-        it "is hidden" do
-          expect(subject).not_to have_json_path("derivedPercentageDone")
-        end
       end
     end
 

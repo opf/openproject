@@ -168,7 +168,6 @@ uz:
   label_agenda_item_add_notes: "Add notes"
   label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
   label_initial_meeting_details: "Meeting"

@@ -3074,6 +3074,7 @@
   text_are_you_sure: "Er du sikker?"
   text_are_you_sure_continue: "Er du sikker på at du vil fortsette?"
   text_are_you_sure_with_children: "Slette arbeidspakken og alle underordnede arbeidspakker?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Tildel til prosjektet"
   text_form_configuration: >
     Du kan tilpasse hvilke felt som vises i skjemaer for arbeidspakker. Du kan fritt gruppere feltene for å reflektere behovene for ditt domene.
@@ -3410,9 +3411,7 @@
         unsupported_context: "Ressursen som er gitt støttes ikke som kontekst."
         context_object_not_found: "Kan ikke finne ressursen som er angitt som kontekst."
       validation:
-        done_ratio: "% ferdig kan ikke angis på overordnede arbeidspakker, de har feil status eller er avslått."
         due_date: "Sluttdato kan ikke settes på overordnede arbeidspakker."
-        estimated_hours: "Arbeidet kan ikke angis med overordnede arbeidspakker." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Valgt bruker har ikke de nødvendige rettighetene til å være '%{property}' for denne arbeidspakken."
         start_date: "Startdato kan ikke angis på overordnede arbeidspakker."
       eprops:

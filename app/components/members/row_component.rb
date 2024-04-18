@@ -226,6 +226,7 @@ module Members
     def view_work_package_shares_action_options
       {
         scheme: :default,
+        tag: :a,
         icon: "op-view-list",
         label: I18n.t(:button_view_shared_work_packages),
         href: shared_work_packages_url

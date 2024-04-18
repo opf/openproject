@@ -1511,7 +1511,7 @@ ca:
   error_enterprise_token_invalid_domain: "L'edició Enterprise no està activa. El domini del token Enterprise (%{actual}) no concorda amb el nom d'allotjament del sistema (%{expected})."
   error_failed_to_delete_entry: "Error a l'eliminar aquesta entrada."
   error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
-  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
+  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valor seleccionat invàlid."
   error_journal_attribute_not_present: "El diari no conté l'atribut %{attribute}."
   error_pdf_export_too_many_columns: "Masses columnes seleccionades per a l'exportació PDF. Si us plau, redueix el nombre de columnes."
@@ -3063,6 +3063,7 @@ ca:
   text_are_you_sure: "N'estàs segur?"
   text_are_you_sure_continue: "Estàs segur que vols continuar?"
   text_are_you_sure_with_children: "Vols suprimir el paquet de treball i tots els paquets de treball fills?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Assignar al projecte"
   text_form_configuration: >
     Pots configurar quins camps seran mostrats en el formulari del paquet de treball. Pots agrupar els camps lliurement per mostrar les necessitats del teu domini.
@@ -3140,7 +3141,7 @@ ca:
   text_no_notes: "No hi ha cap comentari disponible per a aquest paquet de treball."
   text_notice_too_many_values_are_inperformant: "Nota: Mostrar més de 100 articles per pàgina pot augmentar el temps de càrrega de la pàgina."
   text_notice_security_badge_displayed_html: >
-    Nota: si està activat, es mostra un indicador amb l'estat de la teva instal·lació <a href="%{information_panel_path}"> en el panell d'administració i a la pàgina inicial. Només es mostra als administradors. <br/> L'indicador comprova la teva versió d'OpenProject actual amb la versió oficial i t'avisa si hi ha actualitzacions o qualsevol vulnerabilitat. Per a més informació en quina informació es proveïx, quines dades són necessàries per actualitzacions i com desactivar aquesta funció, si us plau, visita <a href="%{more_info_url}">la documentació de configuració</a>.
+    Nota: si està activat, es mostra un indicador amb l'estat de la teva instal·lació <a href="%{information_panel_path}">%{information_panel_label}</a> en el panell d'administració i a la pàgina inicial. Només es mostra als administradors. <br/> L'indicador comprova la teva versió d'OpenProject actual amb la versió oficial i t'avisa si hi ha actualitzacions o qualsevol vulnerabilitat. Per a més informació en quina informació es proveïx, quines dades són necessàries per actualitzacions i com desactivar aquesta funció, si us plau, visita <a href="%{more_info_url}">la documentació de configuració</a>.
   text_own_membership_delete_confirmation: "Estàs a punt d'eliminar algun o tots els teus permisos i potser no podreu editar més aquest projecte.\nEstàs segur que vols continuar?"
   text_plugin_assets_writable: "Es pot escriure als complements actius"
   text_powered_by: "Desenvolupat per %{link}"
@@ -3353,8 +3354,8 @@ ca:
         working: "%{day} és ara laboral"
         non_working: "%{day} és ara no laboral"
       dates:
-        working: "%{day} és ara laboral"
-        non_working: "%{day} és ara no laboral"
+        working: "%{date} és ara laboral"
+        non_working: "%{date} és ara no laboral"
   nothing_to_preview: "Res per previsualitzar"
   api_v3:
     attributes:
@@ -3399,9 +3400,7 @@ ca:
         unsupported_context: "El recurs proporcionat no s'admet com a context."
         context_object_not_found: "No puc trobar el recurs proporionat com al context."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "La data de finalització no es pot establir als paquets de treball pare."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "L'usuari escollit no pot ser \"%{property}\" per a aquest paquet de treball."
         start_date: "La data d'inici no es pot definir per paquets de treball del pare."
       eprops:

@@ -3069,6 +3069,7 @@ de:
   text_are_you_sure: "Sind Sie sicher?"
   text_are_you_sure_continue: "Sind Sie sicher, dass Sie fortfahren möchten?"
   text_are_you_sure_with_children: "Lösche Aufgabe und alle Unteraufgaben?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Dem Projekt zuweisen"
   text_form_configuration: >
     Sie können anpassen, welche Felder in den Arbeitspaket-Formularen angezeigt werden. Sie können die Felder entsprechend Ihren Bedürfnissen frei gruppieren.
@@ -3404,9 +3405,7 @@ de:
         unsupported_context: "Die übergebene Ressource wird nicht als Kontext unterstützt."
         context_object_not_found: "Die als Kontext übergebene Ressource konnte nicht gefunden werden."
       validation:
-        done_ratio: "Der Fortschritt kann nicht gesetzt werden falls es sich um ein Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn er komplett deaktiviert wurde."
         due_date: "Der Endtermin kann für Eltern-Arbeitspakete nicht gesetzt werden."
-        estimated_hours: "Aufwand kann nicht für übergeordnete Arbeitspakete gesetzt werden." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
         start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
       eprops:

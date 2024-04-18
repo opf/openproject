@@ -348,11 +348,11 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Laidoje yra naujų funkcijų bei patobulinimų: <br> <ul class="%{list_styling_class}"> <li>GitLab integracija (originaliai sukurta Bendruomenės talkininkų)</li> <li>Sudėtingesnis projektų sąrašu funkcionalumas</li> <li>Sudėtingesnis susitikimų modulio funkcionalumas</li> <li>Virusų skenavimo su ClamAV funkcionalumas (Enterprise priedas)</li> <li>PDF eksportas: palaikomi sąrašai lentelėse</li> <li>WebAuthn/FIDO/U2F pridėtas kaip antras kriterijus</li> <li>Į pradinį rinkinį pridėta daugiau kalbų</li> </ul>
+                Šioje laidoje yra keletas naujų savybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Darbo eigos skaičiavimas darbo paketų hierarchijoje.</li> <li>Projekto atributų valdymas struktūriniu būdu projekto apžvalgos puslapyje.</li> <li>Geresnis savo laukų vaizdas projektų sąraše ir projekto apžvalgoje.</li> <li>Unifikuotos puslapių antraštės su gražiu Primer dizainu.</li> <li>Pagerinti susitikimai su naujomis savybėmis, tokiomis kaip priedų įkėlimas, atsakingais asmenimis ir susitikimų istorija.</li> <li>Automatiniai pranešimai apie nesveikas failų saugyklas, valdymas perjungiamomis parinktimis.</li> <li>Automatiškai valdomų projekto aplankų kopijavimas OneDrive/SharePoint, kai kopijuojami projektai.</li> <li>Administratorių prašymas išimti prieigą prie darbo paketų atšaukiant projekto narystę.</li> <li>Pagerintas planavimas su 4 ir 8 savaičių vaizdo režimais komandos planavime.</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -645,7 +645,7 @@ lt:
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: "Yra naujų pranešimų."
-          link_text: "Spauskite čia, kad juos įkeltumėte"
+          link_text: "Click here to load them."
       menu:
         accountable: "Atsakingas"
         by_project: "Neperskaityti pagal projektą"
@@ -928,7 +928,7 @@ lt:
       message_work_package_status_blocked: "Darbų paketo būsena negali būti keičiama, nes dabar yra uždaryta ir uždaryta versija yra priskirta."
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Darbo įvertinimas ir eiga"
       baseline:
         addition_label: "Pridėta į vaizdą lyginimo laiko periode"
         removal_label: "Išimta iš vaizdo lyginimo laiko periode"

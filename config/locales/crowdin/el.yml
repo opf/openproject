@@ -3069,6 +3069,7 @@ el:
   text_are_you_sure: "Είστε σίγουρος/η;"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Διαγραφή πακέτου εργασίας και όλων των πακέτων-παιδιά;"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Ανάθεση στο έργο"
   text_form_configuration: >
     Μπορείτε να διαμορφώσετε σε ποια πεδία θα εμφανίζονται στις φόρμες πακέτων εργασίας. Μπορείτε ελεύθερα να ομαδοποιήσετε τα πεδία ώστε να αντικατοπτρίζουν τις ανάγκες του τομέα σας.
@@ -3404,9 +3405,7 @@ el:
         unsupported_context: "Ο πόρος που δόθηκε δεν υποστηρίζεται ως πλαίσιο αναφοράς."
         context_object_not_found: "Δεν ήταν δυνατή η εύρεση του πόρου που δόθηκε ως πλαίσιο αναφοράς."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Η ημερομηνία λήξης δεν μπορεί να οριστεί σε πακέτα εργασίας-γονείς."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Ο επιλεγμένος χρήστης δεν επιτρέπεται να είναι '%{property}' για αυτό το πακέτο εργασίας."
         start_date: "Η ημερομηνία έναρξης δεν μπορεί να οριστεί σε πακέτα εργασίας-γονείς."
       eprops:
