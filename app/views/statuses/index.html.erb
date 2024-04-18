@@ -38,14 +38,6 @@ See COPYRIGHT and LICENSE files for more details.
       <span class="button--text"><%= t(:label_status) %></span>
     <% end %>
   </li>
-  <% if WorkPackage.use_status_for_done_ratio? %>
-    <li class="toolbar-item">
-      <%= link_to update_work_package_done_ratio_statuses_path, class: 'button', method: :post, data: { confirm: t(:text_are_you_sure) } do %>
-        <%= op_icon('button--icon icon-reload') %>
-        <span class="button--text"><%= t(:label_update_work_package_done_ratios) %></span>
-      <% end %>
-    </li>
-  <% end %>
 <% end %>
 
 <%= render ::Statuses::TableComponent.new(rows: @statuses) %>

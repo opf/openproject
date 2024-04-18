@@ -60,13 +60,11 @@ RSpec.describe OpenProject::TextFormatting,
             Inline reference to base_url variable: #{Rails.application.root_url}
           </p>
           <p class="op-uc-p">
-            <a href="#{Rails.application.root_url}/foo/bar" rel="noopener noreferrer"
-               target="_top"
+            <a href="#{Rails.application.root_url}/foo/bar" target="_top" rel="noopener noreferrer"
                class="op-uc-link">Link with setting</a>
           </p>
           <p class="op-uc-p">
-            <a href="#{Rails.application.root_url}/foo/bar" rel="noopener noreferrer"
-               target="_top"
+            <a href="#{Rails.application.root_url}/foo/bar" target="_top" rel="noopener noreferrer"
                class="op-uc-link">Saved and transformed link with setting</a>
           </p>
           <p class="op-uc-p">

@@ -42,7 +42,12 @@ class Settings::UpdateService < BaseServices::BaseContracted
   private
 
   def set_setting_value(name, value)
-    Setting[name] = derive_value(value)
+    old_value = Setting[name]
+    new_value = derive_value(value)
+    Setting[name] = new_value
+    if name == :work_package_done_ratio && old_value != "status" && new_value == "status"
+      WorkPackages::ApplyStatusesPCompleteJob.perform_later(cause_type: "progress_mode_changed_to_status_based")
+    end
   end
 
   def derive_value(value)

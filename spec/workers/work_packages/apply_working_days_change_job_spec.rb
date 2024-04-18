@@ -207,18 +207,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context "when a follower has a predecessor with delay covering a day that is now a non-working day" do
+      context "when a follower has a predecessor with lag covering a day that is now a non-working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | XX   ░░ |
-          follower    |    X ░░ | follows predecessor with delay 1
+          follower    |    X ░░ | follows predecessor with lag 1
         CHART
 
         before do
           set_non_working_week_days("wednesday")
         end
 
-        it "moves the follower start date forward to keep the delay to 1 day" do
+        it "moves the follower start date forward to keep the lag to 1 day" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -243,11 +243,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context "with work packages without dates following each other with delay" do
+      context "with work packages without dates following each other with lag" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |      ░░ |
-          follower    |      ░░ | follows predecessor with delay 5
+          follower    |      ░░ | follows predecessor with lag 5
         CHART
 
         before do
@@ -270,11 +270,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context "when a follower has a predecessor with delay covering multiple days with different working changes" do
+      context "when a follower has a predecessor with lag covering multiple days with different working changes" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | X ░  ░░ |
-          follower    |   ░ X░░ | follows predecessor with delay 2
+          follower    |   ░ X░░ | follows predecessor with lag 2
         CHART
         let(:work_week) { set_work_week("monday", "tuesday", "thursday", "friday") }
 
@@ -753,18 +753,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context "when a follower has a predecessor with delay covering a day that is now a non-working day" do
+      context "when a follower has a predecessor with lag covering a day that is now a non-working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | XX   ░░ |
-          follower    |    X ░░ | follows predecessor with delay 1
+          follower    |    X ░░ | follows predecessor with lag 1
         CHART
 
         before do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it "moves the follower start date forward to keep the delay to 1 day" do
+        it "moves the follower start date forward to keep the lag to 1 day" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -789,11 +789,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context "with work packages without dates following each other with delay" do
+      context "with work packages without dates following each other with lag" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |      ░░ |
-          follower    |      ░░ | follows predecessor with delay 5
+          follower    |      ░░ | follows predecessor with lag 5
         CHART
 
         before do
@@ -816,11 +816,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context "when a follower has a predecessor with delay covering multiple days with different working changes" do
+      context "when a follower has a predecessor with lag covering multiple days with different working changes" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | X ░  ░░ |
-          follower    |   ░ X░░ | follows predecessor with delay 2
+          follower    |   ░ X░░ | follows predecessor with lag 2
         CHART
 
         let(:non_working_day) { create(:non_working_day, date: next_monday.next_occurring(:wednesday)) }
@@ -1355,18 +1355,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context "when a follower has a predecessor with delay covering a day that is now a non-working day" do
+      context "when a follower has a predecessor with lag covering a day that is now a non-working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | XX   ░░ |
-          follower    |    X ░░ | follows predecessor with delay 1
+          follower    |    X ░░ | follows predecessor with lag 1
         CHART
 
         before do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it "moves the follower start date forward to keep the delay to 1 day" do
+        it "moves the follower start date forward to keep the lag to 1 day" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -1391,11 +1391,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context "with work packages without dates following each other with delay" do
+      context "with work packages without dates following each other with lag" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |      ░░ |
-          follower    |      ░░ | follows predecessor with delay 5
+          follower    |      ░░ | follows predecessor with lag 5
         CHART
 
         before do

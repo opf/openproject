@@ -42,9 +42,7 @@ RSpec.describe "Admin Edit File storage",
     storage = create(:nextcloud_storage, name: "Foo Nextcloud")
     visit edit_admin_settings_storage_path(storage)
 
-    within_test_selector("page-header-actions") do
-      click_on "Delete"
-    end
+    page.find_test_selector("storage-delete-button").click
 
     expect(page).to have_text("DELETE FILE STORAGE")
     expect(page).to have_current_path("#{confirm_destroy_admin_settings_storage_path(storage)}?utf8=%E2%9C%93")
@@ -220,10 +218,24 @@ RSpec.describe "Admin Edit File storage",
       end
     end
 
-    it "renders health status information" do
+    it "renders a sidebar component" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).to have_test_selector("storage-health-label-pending", text: "Pending")
+      aggregate_failures "Health status" do
+        expect(page).to have_test_selector("storage-health-status", text: "Pending")
+      end
+
+      aggregate_failures "Health notifications" do
+        expect(page).to have_test_selector("storage-health-notifications-button", text: "Unsubscribe")
+        expect(page).to have_test_selector("storage-health-notifications-description",
+                                           text: "All administrators receive health status email notifications for this storage.")
+
+        click_on "Unsubscribe"
+
+        expect(page).to have_test_selector("storage-health-notifications-button", text: "Subscribe")
+        expect(page).to have_test_selector("storage-health-notifications-description",
+                                           text: "Health status email notifications for this storage have been turned off for all administrators.")
+      end
     end
   end
 
@@ -233,7 +245,8 @@ RSpec.describe "Admin Edit File storage",
     it "does not render health status information" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).not_to have_test_selector("storage-health-label-pending", text: "Pending")
+      expect(page).not_to have_test_selector("storage-health-status")
+      expect(page).not_to have_test_selector("storage-health-notifications-button")
     end
   end
 
@@ -327,10 +340,24 @@ RSpec.describe "Admin Edit File storage",
       end
     end
 
-    it "renders health status information" do
+    it "renders a sidebar component" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).to have_test_selector("storage-health-label-pending", text: "Pending")
+      aggregate_failures "Health status" do
+        expect(page).to have_test_selector("storage-health-status", text: "Pending")
+      end
+
+      aggregate_failures "Health notifications" do
+        expect(page).to have_test_selector("storage-health-notifications-button", text: "Unsubscribe")
+        expect(page).to have_test_selector("storage-health-notifications-description",
+                                           text: "All administrators receive health status email notifications for this storage.")
+
+        click_on "Unsubscribe"
+
+        expect(page).to have_test_selector("storage-health-notifications-button", text: "Subscribe")
+        expect(page).to have_test_selector("storage-health-notifications-description",
+                                           text: "Health status email notifications for this storage have been turned off for all administrators.")
+      end
     end
   end
 
@@ -340,7 +367,8 @@ RSpec.describe "Admin Edit File storage",
     it "does not render health status information" do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).not_to have_test_selector("storage-health-label-pending", text: "Pending")
+      expect(page).not_to have_test_selector("storage-health-status")
+      expect(page).not_to have_test_selector("storage-health-notifications-button")
     end
   end
 end

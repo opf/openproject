@@ -39,6 +39,7 @@ RSpec.describe "API v3 Work package resource" do
     create(:work_package,
            project:,
            story_points: 8,
+           estimated_hours: 5,
            remaining_hours: 5)
   end
   let(:wp_path) { "/api/v3/work_packages/#{work_package.id}" }

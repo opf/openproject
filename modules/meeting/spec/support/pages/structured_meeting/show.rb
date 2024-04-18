@@ -156,6 +156,11 @@ module Pages::StructuredMeeting
       expect(page).to have_css(".ng-input  ", value: nil)
     end
 
+    def open_participant_form
+      page.find_test_selector("manage-participants-button").click
+      expect(page).to have_css("#meetings-sidebar-participants-form-component")
+    end
+
     def in_participant_form(&)
       page.within("#meetings-sidebar-participants-form-component form", &)
     end

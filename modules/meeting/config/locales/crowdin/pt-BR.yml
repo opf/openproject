@@ -45,7 +45,7 @@ pt-BR:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -97,7 +97,7 @@ pt-BR:
   label_start_date: "Data de início"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Copiar reunião %{title}"
       attachments: "Copy attachments"
@@ -174,8 +174,11 @@ pt-BR:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Detalhes da reunião"
   label_meeting_details_edit: "Editar detalhes da reunião"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Aberto"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Fechado"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Reabrir reunião"
   label_meeting_close_action: "Fechar reunião"
   text_meeting_open_description: "Esta reunião está aberta. Você pode adicionar/remover itens da agenda e editá-los como desejar. Depois que a reunião terminar, feche-a para bloqueá-la."

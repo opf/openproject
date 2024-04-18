@@ -160,7 +160,7 @@ gem "prawn", "~> 2.4"
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.2"
 
-gem "meta-tags", "~> 2.20.0"
+gem "meta-tags", "~> 2.21.0"
 
 gem "paper_trail", "~> 15.1.0"
 
@@ -264,7 +264,7 @@ group :test do
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.15.0"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.18.0"
+  gem "selenium-webdriver", "~> 4.19.0"
 
   gem "fuubar", "~> 2.5.0"
   gem "timecop", "~> 0.9.0"
@@ -381,6 +381,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.8.0"
-gem "openproject-octicons_helper", "~>19.8.0"
-gem "openproject-primer_view_components", "~>0.23.0"
+gem "openproject-octicons", "~>19.9.0"
+gem "openproject-octicons_helper", "~>19.9.0"
+gem "openproject-primer_view_components", "~>0.28.1"

@@ -39,14 +39,14 @@ it:
   api_v3:
     errors:
       too_many_elements_created_at_once: 'Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}.'
-  permission_create_files: Crea file
-  permission_delete_files: Elimina file
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
   permission_manage_file_links: Gestire link ai file
   permission_manage_storages_in_project: Gestisci archivi di file nel progetto
-  permission_read_files: Leggi file
-  permission_share_files: Condividi file
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Visualizza link ai file
-  permission_write_files: Scrivi file
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: Archivi file
   storages:
     buttons:
@@ -101,8 +101,15 @@ it:
       label_healthy: Tutto ok
       label_pending: In sospeso
       since: dal giorno %{datetime}
-      subtitle: Cartelle di progetto gestite automaticamente
+      subtitle: Automatically managed project folders
       title: Stato di salute
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: La cartella del progetto è la cartella predefinita per il caricamento dei file per questo progetto. Gli utenti possono, comunque, caricare i file in altre posizioni.
     instructions:
@@ -223,6 +230,7 @@ it:
       project_storage_members:
         subtitle: Controlla lo stato della connessione per lo spazio di archiviazione %{storage_name_link} di tutti i membri del progetto.
         title: Stato della connessione dei membri
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: Tipo di fonte
       nextcloud:

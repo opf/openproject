@@ -596,7 +596,7 @@ pt-PT:
       oauth_client:
         client: "ID de cliente"
       relation:
-        delay: "Atraso"
+        lag: "Lag"
         from: "Pacote de trabalho"
         to: "Tarefas Relacionadas"
       status:
@@ -991,7 +991,12 @@ pt-PT:
               only_same_project_categories_allowed: "A categoria de um pacote de trabalho deve estar dentro do mesmo projeto que o pacote de trabalho."
               does_not_exist: "A categoria especificada não existe."
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
+              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
               only_values_greater_or_equal_zeroes_allowed: "deve ser >= 0."
+            remaining_hours:
+              cant_exceed_work: "can't exceed 'Work'."
+              must_be_set_when_work_is_set: "must be set when 'Work' is set."
           readonly_status: "O pacote de trabalho está em estado de apenas leitura, por isso os seus atributos não podem ser alterados."
         type:
           attributes:
@@ -1096,6 +1101,10 @@ pt-PT:
       updated_on_time_entry: "hora registada atualizada em %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Subprojeto"
       parent_no_longer: "Já não é subprojeto de"
       time_entry:
@@ -1510,7 +1519,6 @@ pt-PT:
   error_pdf_export_too_many_columns: "Demasiadas colunas selecionadas para a exportação PDF. Reduza o número de colunas."
   error_pdf_failed_to_export: "Não foi possível guardar a exportação de PDF: %{error}"
   error_token_authenticity: "Não é possível verificar o token de Cross-Site Request Forgery. Tentou enviar dados em vários navegadores ou abas? Feche todas as abas e tente novamente."
-  error_work_package_done_ratios_not_updated: "Os valores da % de conclusão para o pacote de trabalho não foram atualizados."
   error_work_package_not_found_in_project: "A tarefa não foi encontrada ou não pertence a este projecto"
   error_must_be_project_member: "deve ser membro do projeto"
   error_migrations_are_pending: "A sua instalação do OpenProject tem migrações pendentes da base de dados pendentes. Provavelmente esqueceu-se de fazer as migrações após a última atualização. Por favor, verifique o guia de atualização, de forma a atualizar a sua instalação corretamente."
@@ -1615,8 +1623,10 @@ pt-PT:
   journals:
     changes_retracted: "As mudanças foram retraídas."
     caused_changes:
-      default_attribute_written: "Escrita de atributos só de leitura"
       dates_changed: "Datas alteradas"
+      default_attribute_written: "Escrita de atributos só de leitura"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "Atualização do sistema OpenProject:"
     cause_descriptions:
       work_package_predecessor_changed_times: por alterações no %{link} antecessor
@@ -1632,9 +1642,14 @@ pt-PT:
         dates:
           working: "%{date} está agora a funcionar"
           non_working: "%{date} não está agora a funcionar"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           A partir de agora, a atividade relacionada a links de arquivos (arquivos armazenados em armazenamentos externos) aparecerá aqui na guia Atividade. O seguinte representa a atividade relacionada aos links que já existiam:
+        progress_calculation_changed: >
+          Progress calculation updated.
   links:
     configuration_guide: "Guia de configuração"
     get_in_touch: "Tem questões? Entre em contato conosco."
@@ -1649,6 +1664,8 @@ pt-PT:
       api_and_webhooks: "API e webhooks"
     quick_add:
       label: "Abrir menu de adição rápida"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1972,6 +1989,7 @@ pt-PT:
   label_latest_revision: "Última revisão"
   label_latest_revision_plural: "Últimas revisões"
   label_ldap_authentication: "Autenticação LDAP"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "menos que dias atrás"
   label_list: "Lista"
@@ -2097,6 +2115,7 @@ pt-PT:
   label_privacy_policy: "Política de privacidade e segurança de dados"
   label_product_version: "Versão do produto"
   label_profile: "Perfil"
+  label_percent_complete: "% Complete"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
   label_project_count: "Número total de projetos"
@@ -2106,6 +2125,7 @@ pt-PT:
   label_project_hierarchy: "Hierarquia do projeto"
   label_project_new: "Novo Projecto"
   label_project_plural: "Projetos"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Configurações do projeto"
@@ -2132,6 +2152,7 @@ pt-PT:
   label_relation_delete: "Eliminar relação"
   label_relation_new: "Nova relação"
   label_release_notes: "Notas de lançamento"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Remover colunas selecionadas"
   label_renamed: "renomeado"
   label_reply_plural: "Respostas"
@@ -2210,7 +2231,6 @@ pt-PT:
   label_type_new: "Novo tipo"
   label_type_plural: "Tipos"
   label_ui: "Interface do utilizador"
-  label_update_work_package_done_ratios: "Atualizar o valor da % de conclusão do pacote de trabalho"
   label_updated_time: "Alterado há %{value} atrás"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Atualizado por %{author} há %{age}"
@@ -2265,6 +2285,7 @@ pt-PT:
   label_wiki_show_new_page_link: "Mostrar o item de sub-menu 'Criar nova página filha'"
   label_wiki_show_submenu_item: "Mostrar como item do sub-menu de "
   label_wiki_start: "Página inicial"
+  label_work: "Work"
   label_work_package: "Pacote de trabalho"
   label_work_package_attachments: "Anexos do pacote de trabalho"
   label_work_package_category_new: "Nova categoria"
@@ -2308,6 +2329,7 @@ pt-PT:
     other: "{count} ficheiros"
     zero: "sem ficheiros"
   label_yesterday: "ontem"
+  label_zen_mode: "Zen mode"
   label_role_type: "Tipo"
   label_member_role: "Função do projeto"
   label_global_role: "Função global"
@@ -2514,7 +2536,6 @@ pt-PT:
   notice_file_not_found: "A página que está a tentar aceder não existe ou foi removida."
   notice_forced_logout: "Foi automaticamente desligado depois de %{ttl_time} minutos de inatividade."
   notice_internal_server_error: "Ocorreu um erro na página que estava a tentar aceder. Se continuar a ter problemas, por favor contate o administrador de %{app_title} para assistência."
-  notice_work_package_done_ratios_updated: "% completo atualizado"
   notice_locking_conflict: "A informação foi atualizada entretanto por pelo menos por um outro utilizador."
   notice_locking_conflict_additional_information: "As atualizações vieram de %{users}."
   notice_locking_conflict_reload_page: "Recarregue a página, reveja as alterações e reenvie as suas atualizações."
@@ -2893,10 +2914,11 @@ pt-PT:
   setting_file_max_size_displayed: "Tamanho máximo de ficheiros de texto exibido inline"
   setting_host_name: "Nome do host"
   setting_invitation_expiration_days: "O email de ativação expira após"
-  setting_work_package_done_ratio: "Calcular % de conclusão do pacote de trabalho"
-  setting_work_package_done_ratio_field: "O campo de pacote de trabalho"
-  setting_work_package_done_ratio_status: "O estado do pacote de trabalho"
-  setting_work_package_done_ratio_disabled: "Desativar (ocultar o campo % de conclusão)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Propriedades das tarefas"
   setting_work_package_startdate_is_adddate: "Utilizar a data atual como data de início para novos pacotes de trabalho"
   setting_work_packages_projects_export_limit: "Pacotes de trabalho / limite de exportação de projetos"
@@ -2962,7 +2984,7 @@ pt-PT:
       remaining_scan_complete_html: >
         Os restantes ficheiros foram verificados. %{file_count} encontram-se em quarentena. Está a ser redirecionado para a página de quarentena. Utilize esta página para eliminar ou substituir ficheiros em quarentena.
       remaining_rescanned_files: >
-        A verificação de vírus foi ativada com êxito. Existem %{file_count} que foram carregados anteriormente e que ainda precisam de ser verificados. Este processo foi agendado em segundo plano. Os ficheiros permanecerão acessíveis durante a verificação.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Assegure-se que os ficheiros carregados no OpenProject são verificados quanto à presença de vírus antes de serem acessíveis a outros utilizadores."
       actions:
@@ -3047,6 +3069,7 @@ pt-PT:
   text_are_you_sure: "Tem a certeza?"
   text_are_you_sure_continue: "Tem a certeza que deseja continuar?"
   text_are_you_sure_with_children: "Apagar o pacote de trabalho e todos os pacotes de trabalho filhos?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Atribuir ao projeto"
   text_form_configuration: >
     Pode personalizar quais os campos que serão exibidos nos formulários de pacote de trabalho. Pode agrupar livremente os campos para refletir as necessidades para o seu domínio.
@@ -3269,6 +3292,12 @@ pt-PT:
     destroy:
       info: "Apagar o pacote de trabalho é uma ação irreversível."
       title: "Eliminar o pacote de trabalho"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 usuários"
@@ -3377,9 +3406,7 @@ pt-PT:
         unsupported_context: "Não há suporte para o recurso dado como contexto."
         context_object_not_found: "Não é possível encontrar o recurso dado como contexto."
       validation:
-        done_ratio: "A % de conclusão não pode ser definida em pacotes de trabalho parentes quando é inferida pelo estado ou quando está desativada."
         due_date: "Data de término não pode ser definida em pacotes de trabalho pai."
-        estimated_hours: "O trabalho não pode ser definido em tarefas principais." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "O utilizador escolhido não pode ser '%{property}' para esta tarefa."
         start_date: "Data de início não pode ser definida em tarefas do pai."
       eprops:

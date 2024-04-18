@@ -39,14 +39,14 @@ nl:
   api_v3:
     errors:
       too_many_elements_created_at_once: Te veel elementen gemaakt tegelijk. %{max} verwacht hoogstens %{actual}.
-  permission_create_files: Bestanden maken
-  permission_delete_files: Bestanden verwijderen
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
   permission_manage_file_links: Bestandslinks beheren
   permission_manage_storages_in_project: Beheer bestandsopslag in het project
-  permission_read_files: Lees bestanden
-  permission_share_files: Bestanden delen
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Bekijk bestandslinks
-  permission_write_files: Schrijf bestanden
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: Bestandsopslag
   storages:
     buttons:
@@ -101,8 +101,15 @@ nl:
       label_healthy: Healthy
       label_pending: Lopende
       since: since %{datetime}
-      subtitle: Automatic managed project folders
+      subtitle: Automatically managed project folders
       title: Health status
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     instructions:
@@ -223,6 +230,7 @@ nl:
       project_storage_members:
         subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
         title: Verbindingsstatus leden
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: Type provider
       nextcloud:

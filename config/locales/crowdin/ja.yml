@@ -587,7 +587,7 @@ ja:
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "遅延"
+        lag: "Lag"
         from: "ワーク パッケージ"
         to: "関係するワークパッケージ"
       status:
@@ -982,7 +982,12 @@ ja:
               only_same_project_categories_allowed: "ワークパッケージのカテゴリは、同じプロジェクト内にそのワークパッケージでなければなりません。"
               does_not_exist: "指定されたカテゴリは存在しません。"
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
+              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
               only_values_greater_or_equal_zeroes_allowed: ">= 0 にする必要があります。"
+            remaining_hours:
+              cant_exceed_work: "can't exceed 'Work'."
+              must_be_set_when_work_is_set: "must be set when 'Work' is set."
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -1081,6 +1086,10 @@ ja:
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "子プロジェクト"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1475,7 +1484,6 @@ ja:
   error_pdf_export_too_many_columns: "PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。"
   error_pdf_failed_to_export: "PDFエクスポートを保存できませんでした： %{error}"
   error_token_authenticity: "クロスサイトリクエスト偽造トークンを確認できません。 複数のブラウザやタブでデータを送信しようとしましたか？ すべてのタブを閉じてもう一度やり直してください。"
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "ワークパッケージが見つからないか、このプロジェクトに属していません。"
   error_must_be_project_member: "プロジェクトのメンバーである必要があります。"
   error_migrations_are_pending: "OpenProject のインストールはデータベースの移行が保留中です。前回のアップグレード時に移行の実行を行っていない可能性があります。アップグレードガイドを確認して、適切にインストールをアップグレードしてください。"
@@ -1580,8 +1588,10 @@ ja:
   journals:
     changes_retracted: "変更は取り下げられました。"
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1597,9 +1607,14 @@ ja:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_changed: >
+          Progress calculation updated.
   links:
     configuration_guide: "設定ガイド"
     get_in_touch: "ご質問がありますか？ご連絡ください。"
@@ -1614,6 +1629,8 @@ ja:
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "クイック追加メニューを開く"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1937,6 +1954,7 @@ ja:
   label_latest_revision: "最新のリビジョン"
   label_latest_revision_plural: "最新のリビジョン"
   label_ldap_authentication: "LDAP認証"
+  label_learn_more: "Learn more"
   label_less_or_equal: "以下"
   label_less_than_ago: "今日より○日前以降"
   label_list: "リスト"
@@ -2062,6 +2080,7 @@ ja:
   label_privacy_policy: "データのプライバシーとセキュリティポリシー"
   label_product_version: "製品バージョ​​ン"
   label_profile: "プロファイル"
+  label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "プロジェクトの合計数"
@@ -2071,6 +2090,7 @@ ja:
   label_project_hierarchy: "プロジェクトの階層構造"
   label_project_new: "新規プロジェクト"
   label_project_plural: "プロジェクト"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "プロジェクトの設定"
@@ -2097,6 +2117,7 @@ ja:
   label_relation_delete: "関係の削除"
   label_relation_new: "新しい関係"
   label_release_notes: "リリースノート"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "選択した列を削除"
   label_renamed: "名称変更"
   label_reply_plural: "返信"
@@ -2175,7 +2196,6 @@ ja:
   label_type_new: "新しいタイプ"
   label_type_plural: "ワークパッケージのタイプ"
   label_ui: "UI（ユーザインターフェイス）"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "%{value}前に更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}が%{age}前に更新"
@@ -2230,6 +2250,7 @@ ja:
   label_wiki_show_new_page_link: "下位のメニューで「子ページを新規作成」の項目を表示"
   label_wiki_show_submenu_item: "上位のメニュー項目"
   label_wiki_start: "開始ページ"
+  label_work: "Work"
   label_work_package: "ワーク パッケージ"
   label_work_package_attachments: "ワークパッケージの添付ファイル"
   label_work_package_category_new: "新規カテゴリ"
@@ -2273,6 +2294,7 @@ ja:
     other: "%{count} files"
     zero: "no files"
   label_yesterday: "昨日"
+  label_zen_mode: "Zen mode"
   label_role_type: "種別"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2479,7 +2501,6 @@ ja:
   notice_file_not_found: "アクセスしようとしたページが存在しないか削除されています。"
   notice_forced_logout: "%{ttl_time}分間の非活動のために、自動的にログアウトされました。"
   notice_internal_server_error: "アクセスしようとしたページでエラーが発生しました。継続して問題が発生している場合、%{app_title}の管理者にお問い合わせください。"
-  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "別のユーザーが同時にデータを更新しています。"
   notice_locking_conflict_additional_information: "ユーザ%{users}により更新されました。"
   notice_locking_conflict_reload_page: "ページをリロードして、変更を確認してから再適用してください。"
@@ -2859,10 +2880,11 @@ ja:
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
   setting_host_name: "ホスト名"
   setting_invitation_expiration_days: "アクティベーションのメールは次で有効期限切れ"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "項目名"
   setting_work_package_startdate_is_adddate: "今日の日付を新しいワークパッケージの開始日とする"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2928,7 +2950,7 @@ ja:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
@@ -3013,6 +3035,7 @@ ja:
   text_are_you_sure: "よろしいですか？"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "仕事項目と子項目を削除してもよろしいですか？"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "プロジェクト自体に割り当てする"
   text_form_configuration: >
     ワークパッケージのフォームに表示されるフィールドをカスタマイズできます。自由にフィールドをグループ化して、あなたのドメインのニーズを反映できます。
@@ -3233,6 +3256,12 @@ ja:
     destroy:
       info: "ワークパッケージの削除は復元できない操作です。"
       title: "ワークパッケージの削除"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 users"
@@ -3341,9 +3370,7 @@ ja:
         unsupported_context: "指定されたリソースは、コンテキストとしてはサポートされません。"
         context_object_not_found: "コンテキストで指定されたリソースが見つかりません。"
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "終了日は親作業項目には設定できません。"
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "選択されたユーザーは、この作業項目の'%{property}' にすることはできません。"
         start_date: "開始日は、親ワークパッケージに設定できません。"
       eprops:

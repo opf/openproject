@@ -7,7 +7,7 @@
                                      style: "min-height: 430px")) do |d| %>
   <% d.with_header(variant: :large, mb: 3) %>
 
-  <%= render(Primer::Alpha::Dialog::Body.new) do %>
+  <%= render(Primer::Alpha::Dialog::Body.new(id: "op-draggable-autocomplete-container")) do %>
     <%= primer_form_with(
           url: projects_path,
           id: COLUMN_FORM_ID,

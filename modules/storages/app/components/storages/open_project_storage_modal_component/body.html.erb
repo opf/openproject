@@ -10,7 +10,7 @@
       <%= render(Primer::Beta::Heading.new(tag: :h2, text_align: :center)) { waiting_title } %>
     <% end %>
     <% flex.with_row do %>
-      <%= render(Primer::Beta::Text.new(text_align: :center, color: :muted)) { waiting_subtitle } %>
+      <%= render(Primer::Beta::Text.new(text_align: :center, color: :muted, id: 'waiting_subtitle')) { waiting_subtitle } %>
     <% end %>
   <% when :success %>
     <% flex.with_row do %>

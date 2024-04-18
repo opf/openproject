@@ -47,7 +47,7 @@ uk:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -99,7 +99,7 @@ uk:
   label_start_date: "Дата початку"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Копіювати нараду «%{title}»"
       attachments: "Copy attachments"
@@ -176,8 +176,11 @@ uk:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Інформація про зустріч"
   label_meeting_details_edit: "Редагувати інформацію про зустріч"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Відкрити"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Закрито"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Відкрити зустріч знову"
   label_meeting_close_action: "Закрити зустріч"
   text_meeting_open_description: "Це відкрита нарада. Ви можете додавати або вилучати пункти порядку денного й редагувати їх. Коли нарада завершиться, закрийте її, щоб заблокувати."

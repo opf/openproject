@@ -39,14 +39,14 @@ de:
   api_v3:
     errors:
       too_many_elements_created_at_once: Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen.
-  permission_create_files: Dateien erstellen
-  permission_delete_files: Dateien löschen
+  permission_create_files: 'Externe Speicherung: Dateien erstellen'
+  permission_delete_files: 'Externe Speicherung: Dateien löschen'
   permission_manage_file_links: Datei-Links verwalten
   permission_manage_storages_in_project: Dateispeicher im Projekt verwalten
-  permission_read_files: Dateien lesen
-  permission_share_files: Dateien freigeben
+  permission_read_files: 'Externe Speicherung: Dateien lesen'
+  permission_share_files: 'Externe Speicherung: Dateien teilen'
   permission_view_file_links: Datei-Links anzeigen
-  permission_write_files: Dateien schreiben
+  permission_write_files: 'Externe Speicherung: Dateien schreiben'
   project_module_storages: Dateispeicher
   storages:
     buttons:
@@ -78,14 +78,14 @@ de:
     error_invalid_provider_type: Bitte wählen Sie einen gültigen Dateispeicheranbieter aus.
     file_storage_view:
       access_management:
-        automatic_management: Automatically managed access and folders
+        automatic_management: Automatisch verwaltete Zugriffe und Ordner
         automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
         description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
-        manual_management: Manually managed access and folders
+        manual_management: Manuell verwaltete Zugriffe und Ordner
         manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
         setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
-        title: Access and project folders
+        subtitle: Zugriffsverwaltung
+        title: Zugriff und Projektordner
       automatically_managed_folders: Automatisch verwaltete Projektordner
       general_information: Allgemeine Informationen
       nextcloud_oauth: Nextcloud OAuth
@@ -103,6 +103,13 @@ de:
       since: seit %{datetime}
       subtitle: Automatisch verwaltete Projektordner
       title: Verbindungsstatus
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: E-Mail-Benachrichtigungseinstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.
+      subscribe: Abonnieren
+      title: E-Mail-Benachrichtigungen
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
     instructions:
@@ -152,7 +159,7 @@ de:
     label_creator: Ersteller
     label_delete_storage: Dateispeicher löschen
     label_edit_storage: Dateispeicher bearbeiten
-    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_access_management: Speicherzugriffsverwaltung bearbeiten
     label_edit_storage_automatically_managed_folders: Automatisch verwaltete Projektordner des Dateispeichers bearbeiten
     label_edit_storage_host: Dateispeicher-Host bearbeiten
     label_existing_manual_folder: Vorhandener Ordner mit manuell verwalteten Berechtigungen
@@ -221,6 +228,7 @@ de:
       project_storage_members:
         subtitle: Überprüfen Sie den Verbindungsstatus für den Speicher- %{storage_name_link} aller Projektmitglieder.
         title: Verbindungsstatus der Mitglieder
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: Anbieter-Typ
       nextcloud:

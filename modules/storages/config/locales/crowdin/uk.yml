@@ -39,14 +39,14 @@ uk:
   api_v3:
     errors:
       too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.
-  permission_create_files: Створення файлів
-  permission_delete_files: Видалення файлів
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
   permission_manage_file_links: Керування посиланнями на файл
   permission_manage_storages_in_project: Керування файловими сховищами в проєкті
-  permission_read_files: Перегляд файлів
-  permission_share_files: Надсилання файлів
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: Перегляд посилань на файл
-  permission_write_files: Редагування файлів
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: Файлові сховища
   storages:
     buttons:
@@ -101,8 +101,15 @@ uk:
       label_healthy: Справність
       label_pending: Очікування
       since: з %{datetime}
-      subtitle: Папки проєкту з автоматичним керуванням
+      subtitle: Automatically managed project folders
       title: Стан справності
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
     instructions:
@@ -223,6 +230,7 @@ uk:
       project_storage_members:
         subtitle: Перевірте стан підключення до сховища %{storage_name_link} для всіх учасників проєкту.
         title: Стан підключення учасників
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: Тип постачальника
       nextcloud:

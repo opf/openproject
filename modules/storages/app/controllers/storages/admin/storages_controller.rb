@@ -31,7 +31,9 @@
 # Purpose: CRUD the global admin page of Storages (=Nextcloud servers)
 class Storages::Admin::StoragesController < ApplicationController
   using Storages::Peripherals::ServiceResultRefinements
+
   include FlashMessagesHelper
+  include OpTurbo::ComponentStream
 
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout "admin"
@@ -43,7 +45,8 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object,
-                only: %i[show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
+                only: %i[show_oauth_application destroy edit edit_host confirm_destroy update
+                         change_health_notifications_enabled replace_oauth_application]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
@@ -162,6 +165,20 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
+  def change_health_notifications_enabled
+    return head :bad_request unless %w[1 0].include?(permitted_storage_params[:health_notifications_enabled])
+
+    if @storage.update(health_notifications_enabled: permitted_storage_params[:health_notifications_enabled])
+      update_via_turbo_stream(component: Storages::Admin::Sidebar::HealthNotificationsComponent.new(storage: @storage))
+      respond_with_turbo_streams
+    else
+      flash.now[:primer_banner] = {
+        message: I18n.t("storages.health_email_notifications.error_could_not_be_saved"), scheme: :danger
+      }
+      render :edit
+    end
+  end
+
   def confirm_destroy
     @storage_to_destroy = @storage
   end
@@ -196,21 +213,10 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  # Used by: admin layout
-  # Breadcrumbs is something like OpenProject > Admin > Storages.
-  # This returns the name of the last part (Storages admin page)
-  def default_breadcrumb
-    if action_name == "index"
-      t(:project_module_storages)
-    else
-      ActionController::Base.helpers.link_to(t(:project_module_storages), admin_settings_storages_path)
-    end
-  end
+  def default_breadcrumb; end
 
-  # See: default_breadcrum above
-  # Defines whether to show breadcrumbs on the page or not.
   def show_local_breadcrumb
-    true
+    false
   end
 
   private
@@ -248,7 +254,8 @@ class Storages::Admin::StoragesController < ApplicationController
               "oauth_client_secret",
               "tenant_id",
               "drive_id",
-              "automatic_management_enabled")
+              "automatic_management_enabled",
+              "health_notifications_enabled")
   end
 
   def storage_provider_parameter_name

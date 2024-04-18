@@ -35,11 +35,12 @@ require_relative "shared_event_gun_examples"
 
 RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model do
   shared_examples_for "deleting project storages with project folders" do
-    let(:delete_folder_stub) do
-      stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
-    end
+    let(:command_double) { double(:delete_folder_command, call: ServiceResult.success) }
 
-    before { delete_folder_stub }
+    before do
+      Storages::Peripherals::Registry
+        .stub("#{storage.short_provider_type}.commands.delete_folder", command_double)
+    end
 
     context "if project folder mode is set to automatic" do
       let(:project_storage) do
@@ -48,17 +49,15 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
 
       it "tries to remove the project folder at the remote storage" do
         expect(described_class.new(model: project_storage, user:).call).to be_success
-        expect(delete_folder_stub).to have_been_requested
+        expect(command_double).to have_received(:call)
       end
 
       context "if project folder deletion request fails" do
-        let(:delete_folder_stub) do
-          stub_request(:delete, delete_folder_url).to_return(status: 404, body: nil, headers: {})
-        end
+        let(:command_double) { double(:delete_folder_command, call: ServiceResult.failure(result: 404)) }
 
         it "tries to remove the project folder at the remote storage and still succeed with deletion" do
           expect(described_class.new(model: project_storage, user:).call).to be_success
-          expect(delete_folder_stub).to have_been_requested
+          expect(command_double).to have_received(:call)
         end
       end
     end
@@ -70,7 +69,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
 
       it "must not try to delete manual project folders" do
         expect(described_class.new(model: project_storage, user:).call).to be_success
-        expect(delete_folder_stub).not_to have_been_requested
+        expect(command_double).not_to have_received(:call)
       end
     end
   end
@@ -138,7 +137,10 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
     end
 
     before do
-      stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
+      Storages::Peripherals::Registry.stub(
+        "#{model_instance.storage.short_provider_type}.commands.delete_folder",
+        ->(*) { ServiceResult.success }
+      )
     end
 
     it_behaves_like("an event gun", OpenProject::Events::PROJECT_STORAGE_DESTROYED)

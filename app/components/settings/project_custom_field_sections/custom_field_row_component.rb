@@ -79,8 +79,8 @@ module Settings
                        scheme: :danger,
                        href: admin_settings_project_custom_field_path(@project_custom_field),
                        form_arguments: {
-                         method: :delete, data: { confirm: t("text_are_you_sure"), "turbo-stream": true,
-                                                  test_selector: "project-custom-field-delete" }
+                         method: :delete, data: { confirm: t("text_are_you_sure_with_project_custom_fields"),
+                                                  "turbo-stream": true, test_selector: "project-custom-field-delete" }
                        }) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end

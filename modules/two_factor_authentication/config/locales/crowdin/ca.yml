@@ -107,7 +107,7 @@ ca:
       confirm_send_failed: "La confirmació del teu dispositiu 2FA ha fallat."
       button_complete_registration: "Completa el registre 2FA"
       text_confirm_to_complete_html: "Si us plau, completa el registre del teu dispositiu <strong>%{identifier}</strong> entrant una contrasenya d'un sol ús del teu dispositiu per defecte."
-      text_confirm_to_change_default_html: "Si us plau, completa el registre del teu dispositiu <strong>%{identifier}</strong> entrant una contrasenya d'un sol ús del teu dispositiu per defecte actual."
+      text_confirm_to_change_default_html: "Si us plau, completa el registre del teu dispositiu <strong>%{new_identifier}</strong> entrant una contrasenya d'un sol ús del teu dispositiu per defecte actual."
       text_identifier: "Pots donar un identificador personalitzat al dispositiu utilitzant aquest camp."
       failed_to_delete: "Error a l'eliminar dispositiu 2FA."
       is_default_cannot_delete: "Aquest dispositiu està marcat per defecte i no pot ser eliminat degut a una política de seguretat activa. Marca un altre dispositiu per defecte abans d'eliminar aquest."

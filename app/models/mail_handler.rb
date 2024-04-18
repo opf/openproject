@@ -47,7 +47,7 @@ class MailHandler < ActionMailer::Base
   # Code copied from base class and extended with optional options parameter
   # as well as force_encoding support.
   def self.receive(raw_mail, options = {})
-    raw_mail.force_encoding('ASCII-8BIT') if raw_mail.respond_to?(:force_encoding)
+    raw_mail.force_encoding("ASCII-8BIT") if raw_mail.respond_to?(:force_encoding)
 
     ActiveSupport::Notifications.instrument("receive.action_mailer") do |payload|
       mail = Mail.new(raw_mail)
@@ -66,8 +66,8 @@ class MailHandler < ActionMailer::Base
 
   cattr_accessor :ignored_emails_headers
   @@ignored_emails_headers = {
-    'X-Auto-Response-Suppress' => 'oof',
-    'Auto-Submitted' => /\Aauto-/
+    "X-Auto-Response-Suppress" => "oof",
+    "Auto-Submitted" => /\Aauto-/
   }
 
   # Processes incoming emails
@@ -102,9 +102,9 @@ class MailHandler < ActionMailer::Base
     if @user.nil?
       # Email was submitted by an unknown user
       case options[:unknown_user]
-      when 'accept'
+      when "accept"
         @user = User.anonymous
-      when 'create'
+      when "create"
         @user, password = MailHandler::UserCreator.create_user_from_email(email)
         if @user
           log "[#{@user.login}] account created"
@@ -140,7 +140,7 @@ class MailHandler < ActionMailer::Base
     options[:allow_override] << :type unless options[:issue].has_key?(:type)
     # Priority overridable by default
     options[:allow_override] << :priority unless options[:issue].has_key?(:priority)
-    options[:no_permission_check] = options[:no_permission_check].to_s == '1'
+    options[:no_permission_check] = options[:no_permission_check].to_s == "1"
   end
 
   private
@@ -255,7 +255,7 @@ class MailHandler < ActionMailer::Base
       if message.locked?
         log "ignoring reply from [#{sender_email}] to a locked topic"
       else
-        reply = Message.new(subject: email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
+        reply = Message.new(subject: email.subject.gsub(%r{^.*msg\d+\]}, "").strip,
                             content: cleaned_up_text_body)
         reply.author = user
         reply.forum = message.forum
@@ -303,7 +303,7 @@ class MailHandler < ActionMailer::Base
       unless addresses.empty?
         User
           .active
-          .where(['LOWER(mail) IN (?)', addresses])
+          .where(["LOWER(mail) IN (?)", addresses])
           .find_each do |user|
           Services::CreateWatcher
             .new(obj, user)
@@ -348,7 +348,7 @@ class MailHandler < ActionMailer::Base
     text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(?<value>#{format || '.+'})\s*$/i) do |_|
       value = Regexp.last_match[:value]&.strip
 
-      ''
+      ""
     end
 
     value
@@ -369,7 +369,7 @@ class MailHandler < ActionMailer::Base
     # * parse the email To field
     # * specific project (eg. Setting.mail_handler_target_project)
     target = Project.find_by(identifier: get_keyword(:project))
-    raise MissingInformation.new('Unable to determine target project') if target.nil?
+    raise MissingInformation.new("Unable to determine target project") if target.nil?
 
     target
   end
@@ -377,17 +377,17 @@ class MailHandler < ActionMailer::Base
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def wp_attributes_from_keywords(work_package)
     {
-      'type_id' => wp_type_from_keywords(work_package),
-      'status_id' => wp_status_from_keywords,
-      'parent_id' => wp_parent_from_keywords,
-      'priority_id' => wp_priority_from_keywords,
-      'category_id' => wp_category_from_keywords(work_package),
-      'assigned_to_id' => wp_assignee_from_keywords(work_package),
-      'version_id' => wp_version_from_keywords(work_package),
-      'start_date' => wp_start_date_from_keywords,
-      'due_date' => wp_due_date_from_keywords,
-      'estimated_hours' => wp_estimated_hours_from_keywords,
-      'done_ratio' => wp_done_ratio_from_keyword
+      "type_id" => wp_type_from_keywords(work_package),
+      "status_id" => wp_status_from_keywords,
+      "parent_id" => wp_parent_from_keywords,
+      "priority_id" => wp_priority_from_keywords,
+      "category_id" => wp_category_from_keywords(work_package),
+      "assigned_to_id" => wp_assignee_from_keywords(work_package),
+      "version_id" => wp_version_from_keywords(work_package),
+      "start_date" => wp_start_date_from_keywords,
+      "due_date" => wp_due_date_from_keywords,
+      "estimated_hours" => wp_estimated_hours_from_keywords,
+      "remaining_hours" => wp_remaining_hours_from_keywords
     }.compact_blank!
   end
 
@@ -401,7 +401,7 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  def lookup_case_insensitive_key(scope, attribute, column_name = Arel.sql('name'))
+  def lookup_case_insensitive_key(scope, attribute, column_name = Arel.sql("name"))
     if k = get_keyword(attribute)
       scope.find_by("lower(#{column_name}) = ?", k.downcase).try(:id)
     end
@@ -420,7 +420,7 @@ class MailHandler < ActionMailer::Base
     @plain_text_body = strip_tags(@plain_text_body.strip)
     @plain_text_body = CGI.unescapeHTML(@plain_text_body)
 
-    @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ''
+    @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ""
     @plain_text_body
   end
 
@@ -434,7 +434,7 @@ class MailHandler < ActionMailer::Base
 
   def allow_override_option(options)
     if options[:allow_override].is_a?(String)
-      options[:allow_override].split(',').map(&:strip)
+      options[:allow_override].split(",").map(&:strip)
     else
       options[:allow_override] || []
     end
@@ -445,13 +445,13 @@ class MailHandler < ActionMailer::Base
     delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).compact_blank.map { |s| Regexp.escape(s) }
     unless delimiters.empty?
       regex = Regexp.new("^[> ]*(#{delimiters.join('|')})\s*[\r\n].*", Regexp::MULTILINE)
-      body = body.gsub(regex, '')
+      body = body.gsub(regex, "")
     end
 
     regex_delimiter = Setting.mail_handler_body_delimiter_regex
     if regex_delimiter.present?
       regex = Regexp.new(regex_delimiter, Regexp::MULTILINE)
-      body = body.gsub(regex, '')
+      body = body.gsub(regex, "")
     end
 
     body.strip
@@ -491,9 +491,9 @@ class MailHandler < ActionMailer::Base
   def collect_wp_attributes_from_email_on_create(work_package)
     attributes = wp_attributes_from_keywords(work_package)
     attributes
-      .merge('custom_field_values' => custom_field_values_from_keywords(work_package),
-             'subject' => email.subject.to_s.chomp[0, 255] || '(no subject)',
-             'description' => cleaned_up_text_body)
+      .merge("custom_field_values" => custom_field_values_from_keywords(work_package),
+             "subject" => email.subject.to_s.chomp[0, 255] || "(no subject)",
+             "description" => cleaned_up_text_body)
   end
 
   def update_work_package(work_package)
@@ -516,8 +516,8 @@ class MailHandler < ActionMailer::Base
   def collect_wp_attributes_from_email_on_update(work_package)
     attributes = wp_attributes_from_keywords(work_package)
     attributes
-      .merge('custom_field_values' => custom_field_values_from_keywords(work_package),
-             'journal_notes' => cleaned_up_text_body)
+      .merge("custom_field_values" => custom_field_values_from_keywords(work_package),
+             "journal_notes" => cleaned_up_text_body)
   end
 
   def wp_type_from_keywords(work_package)
@@ -565,8 +565,8 @@ class MailHandler < ActionMailer::Base
     get_keyword(:estimated_hours, override: true)
   end
 
-  def wp_done_ratio_from_keyword
-    get_keyword(:done_ratio, override: true, format: '(\d|10)?0')
+  def wp_remaining_hours_from_keywords
+    get_keyword(:remaining_hours, override: true)
   end
 
   def log(message, level = :info, report: true)
@@ -586,7 +586,7 @@ class MailHandler < ActionMailer::Base
     {
       message_id: email.message_id,
       subject: email.subject,
-      from: email.from&.first || '(unknown from address)',
+      from: email.from&.first || "(unknown from address)",
       quote: incoming_email_quote(email),
       text: plain_text_body || incoming_email_text(email)
     }

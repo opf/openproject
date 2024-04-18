@@ -75,11 +75,14 @@ class Activities::MeetingEventMapper < Activities::EventMapper
     params = mapped_params(journal)
 
     agenda_changes.map do |agenda_item_id, changes|
+      work_package = named_change(changes, "work_package_id")
+
       params[:data] = {
         id: agenda_item_id,
         details: changes,
         initial: initial_change?(changes),
-        deleted: deleted_change?(changes)
+        deleted: deleted_change?(changes),
+        work_package:
       }
 
       params[:event_title] = agenda_item_title(journal, agenda_item_id, changes)
@@ -143,7 +146,7 @@ class Activities::MeetingEventMapper < Activities::EventMapper
       .select { |key, _| key.start_with?("agenda_items_") }
       .reject { |key, _| key.end_with?("_position") }
       .each_with_object(Hash.new { |h, k| h[k] = {} }) do |(key, values), changes|
-      id, _ = key.gsub("agenda_items_", "").split("_", 2)
+      id, = key.gsub("agenda_items_", "").split("_", 2)
       changes[id.to_i][key.to_sym] = values
     end
   end

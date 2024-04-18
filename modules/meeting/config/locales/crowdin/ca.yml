@@ -45,7 +45,7 @@ ca:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "min"
         description: "Notes"
         presenter: "Presenter"
     errors:
@@ -97,7 +97,7 @@ ca:
   label_start_date: "Data d'inici"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Copy meeting %{title}"
       attachments: "Copy attachments"
@@ -174,8 +174,11 @@ ca:
   label_initial_meeting_details: "Meeting"
   label_meeting_details: "Detalls de la reunió"
   label_meeting_details_edit: "Edita els detalls de la reunió"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Oberta"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Tancada"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Reobrir reunió"
   label_meeting_close_action: "Tancar reunió"
   text_meeting_open_description: "Aquesta reunió està oberta. Pots afegir o eliminar elements de l'agenda i editar-los lliurement. Al final de la reunió, tanca-la per bloquejar-la."

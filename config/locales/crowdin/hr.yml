@@ -605,7 +605,7 @@ hr:
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "Kašnjenje"
+        lag: "Lag"
         from: "Radni paket"
         to: "Pripadajući radni paket"
       status:
@@ -1000,7 +1000,12 @@ hr:
               only_same_project_categories_allowed: "Kategorija radnog paketa mora biti u sklopu istog projekta kao i sam radni paket."
               does_not_exist: "Navedena kategorija ne postoji."
             estimated_hours:
+              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
+              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
               only_values_greater_or_equal_zeroes_allowed: "mora biti >=0."
+            remaining_hours:
+              cant_exceed_work: "can't exceed 'Work'."
+              must_be_set_when_work_is_set: "must be set when 'Work' is set."
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
         type:
           attributes:
@@ -1111,6 +1116,10 @@ hr:
       updated_on_time_entry: "logged time updated on %{datetime}"
       deleted_on: "deleted on %{datetime}"
       deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Potprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
@@ -1545,7 +1554,6 @@ hr:
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Radni paket nije pronađen ili ne pripada ovom projektu"
   error_must_be_project_member: "mora biti član projekta"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1650,8 +1658,10 @@ hr:
   journals:
     changes_retracted: "The changes were retracted."
     caused_changes:
-      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
@@ -1667,9 +1677,14 @@ hr:
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_changed: >
+          Progress calculation updated.
   links:
     configuration_guide: "Vodič za konfiguraciju"
     get_in_touch: "You have questions? Get in touch with us."
@@ -1684,6 +1699,8 @@ hr:
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -2007,6 +2024,7 @@ hr:
   label_latest_revision: "Zadnja revizija"
   label_latest_revision_plural: "Zadnje revizije"
   label_ldap_authentication: "LDAP provjera autentičnosti"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "manje od dana"
   label_list: "Popis"
@@ -2132,6 +2150,7 @@ hr:
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Verzija proizvoda"
   label_profile: "Profil"
+  label_percent_complete: "% Complete"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Ukupan broj projekata"
@@ -2141,6 +2160,7 @@ hr:
   label_project_hierarchy: "Hijerarhija projekta"
   label_project_new: "Novi projekt"
   label_project_plural: "Projekti"
+  label_project_list_plural: "Project lists"
   label_project_attributes_plural: "Project attributes"
   label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Postavke projekta"
@@ -2167,6 +2187,7 @@ hr:
   label_relation_delete: "Izbriši relaciju"
   label_relation_new: "Nova relacija"
   label_release_notes: "Napomene uz izdavanje"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Izbriši odabrene stupce"
   label_renamed: "preimenovan"
   label_reply_plural: "Odgovori"
@@ -2245,7 +2266,6 @@ hr:
   label_type_new: "Novi tip"
   label_type_plural: "Tipovi"
   label_ui: "Korisničko sučelje"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Ažurirano prije %{value}"
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: "Ažurirao korisnik %{author} prije %{age}"
@@ -2300,6 +2320,7 @@ hr:
   label_wiki_show_new_page_link: "Prikaži stavku podizbornika 'Kreiraj novu podređenu stranicu'"
   label_wiki_show_submenu_item: "Prikaži kao stavku podizbornika iz "
   label_wiki_start: "Početna stranica"
+  label_work: "Work"
   label_work_package: "Radni paket"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Nova kategorija"
@@ -2343,6 +2364,7 @@ hr:
     other: "%{count} files"
     zero: "no files"
   label_yesterday: "jučer"
+  label_zen_mode: "Zen mode"
   label_role_type: "Tip"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2551,7 +2573,6 @@ hr:
   notice_file_not_found: "Stranica kojoj ste pokušali pristupiti ne postoji ili je izbrisana."
   notice_forced_logout: "Automatski ste odjavljeni iz sustava nakon %{ttl_time} minuta neaktivnosti."
   notice_internal_server_error: "Nastupila je pogrška na stranici kojoj pokuštavate pristupiti. Ako se problemi nastave molim vas da kontaktirate vašeg %{app_title} administratora za podršku."
-  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informacija je u međuvremenu ažurirana od najmanje jednog korisnika."
   notice_locking_conflict_additional_information: "Ažuiranje(a) je obavio %{users}."
   notice_locking_conflict_reload_page: "Molim vas ponovno učitajte stranicu, pregledajte promjene i ponovno učitajte vaša ažuriranja."
@@ -2933,10 +2954,11 @@ hr:
   setting_file_max_size_displayed: "Maksimalna veličina tesktualnih datoteka prikazanih u liniji"
   setting_host_name: "Hostname"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Postavke radnih paketa"
   setting_work_package_startdate_is_adddate: "Koristite današanji datum kao početni datum novih radnih paketa"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -3002,7 +3024,7 @@ hr:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
@@ -3087,6 +3109,7 @@ hr:
   text_are_you_sure: "Da li ste sigurni?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Izbriši radni paket i sve podređene radne pakete?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Pridruži projektu"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
@@ -3310,6 +3333,12 @@ hr:
     destroy:
       info: "Brisanje radnog paketa je nepovratan čin."
       title: "Izbriši radni paket"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 users"
@@ -3418,9 +3447,7 @@ hr:
         unsupported_context: "Dani resurs nije podržan u obliku konteksta."
         context_object_not_found: "Ne mogu pronaći resurs zadan kao kontekst."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Izabranom korisniku nije dopušteno da bude '%{property}' za ovaj radni paket."
         start_date: "Datum početka ne može biti postavljen na nadređenim radnim paketima."
       eprops:

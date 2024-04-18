@@ -58,6 +58,7 @@ require_relative "journal_formatter/decimal"
 require_relative "journal_formatter/fraction"
 require_relative "journal_formatter/id"
 require_relative "journal_formatter/named_association"
+require_relative "journal_formatter/percentage"
 require_relative "journal_formatter/plaintext"
 
 module JournalFormatter
@@ -81,6 +82,7 @@ module JournalFormatter
       fraction: JournalFormatter::Fraction,
       id: JournalFormatter::Id,
       named_association: JournalFormatter::NamedAssociation,
+      percentage: JournalFormatter::Percentage,
       plaintext: JournalFormatter::Plaintext
     }
   end

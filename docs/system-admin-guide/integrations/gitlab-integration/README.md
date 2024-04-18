@@ -82,6 +82,9 @@ https://myopenproject.com/webhooks/gitlab?key=4221687468163843
 > - Merge request events
 > - Pipeline events
 
+>**Note**: If you are in a local network you might need to allow requests to the local network in your GitLab instance.  
+>You can find this settings in the **Outbound requests** section when you navigate to **Admin area -> Settings -> Network**.
+
 We recommend that you enable the **SSL verification** before you **Add webhook**.
 
 Now the integration is set up on both sides and you can use it.
