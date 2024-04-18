@@ -27,6 +27,12 @@
         class="op-project-list-modal--title"
         [textContent]="text.project.plural"
       ></h1>
+
+      <spot-toggle
+        *ngIf="favoredFeatureActive"
+        [options]="displayModeOptions"
+        [(ngModel)]="displayMode"
+      ></spot-toggle>
     </div>
     <div
       class="op-project-list-modal--body spot-container"
@@ -55,6 +61,8 @@
           op-header-project-select-list
           [ngClass]="{ 'spot-list_active': textFieldFocused }"
           [projects]="projects"
+          [displayMode]="displayMode"
+          [favored]="favorites$ | async"
           [searchText]="searchableProjectListService.searchText"
           [root]="true"
           data-list-root="true"

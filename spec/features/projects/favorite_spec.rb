@@ -31,12 +31,14 @@ require "spec_helper"
 RSpec.describe "Project favorites",
                :js,
                with_flag: :favorite_projects do
-  shared_let(:project) { create(:project, name: 'My favorite!', enabled_module_names: []) }
+  shared_let(:project) { create(:project, name: "My favorite!", enabled_module_names: []) }
+  shared_let(:other_project) { create(:project, name: "Other project", enabled_module_names: []) }
   let(:permissions) { %i(edit_project select_project_modules view_work_packages) }
   let(:projects_page) { Pages::Projects::Index.new }
+  let(:top_menu) { Components::Projects::TopMenu.new }
 
   current_user do
-    create(:user, member_with_permissions: { project => permissions })
+    create(:user, member_with_permissions: { project => permissions, other_project => permissions })
   end
 
   it "allows favoriting and unfavoriting projects" do
@@ -66,5 +68,19 @@ RSpec.describe "Project favorites",
 
     expect(page).to have_text 'Favored projects'
     expect(page).to have_test_selector 'favorite-project', text: 'My favorite!'
+
+    retry_block do
+      top_menu.toggle unless top_menu.open?
+      top_menu.expect_open
+
+      # projects are displayed initially
+      top_menu.expect_result project.name
+      top_menu.expect_result other_project.name
+    end
+
+    top_menu.switch_mode "Favored"
+
+    top_menu.expect_result project.name
+    top_menu.expect_no_result other_project.name
   end
 end
