@@ -1000,136 +1000,67 @@ module WorkPackage::PDFExport::Gantt
   end
 
 
-  class GanttDataPageGroup
-    attr_accessor :index, :pages
-
-    def initialize(index, work_packages, pages)
-      @index = index
-      @pages = pages
-      @work_packages = work_packages
-      @pages.each { |page| page.group = self }
+  GanttDataPageGroup = Struct.new(:index, :work_packages, :pages) do
+    def initialize(*args)
+      super(*args)
+      pages.each { |page| page.group = self }
     end
   end
 
-  class GanttDataPage
-    attr_accessor :index, :rows, :columns, :lines, :text_column, :width, :height, :header_cells, :header_row_height, :group
+  GanttDataPage = Struct.new(:index, :work_packages, :header_cells, :rows, :columns,
+                             :text_column, :width, :height, :header_row_height, :group, :lines) do
 
-    def initialize(index, work_packages, header_cells, rows, columns, text_column, width, height, header_row_height)
-      @index = index
-      @rows = rows
-      @columns = columns
-      @work_packages = work_packages
-      @text_column = text_column
-      @width = width
-      @height = height
-      @header_cells = header_cells
-      @header_row_height = header_row_height
-      @lines = []
-      @group = nil
+    def initialize(*args)
+      super(*args)
       rows.each { |row| row.page = self }
       columns.each { |column| column.page = self }
+      self.lines = []
     end
+
+    def bottom = top + height
 
     def add_line(left, right, top, bottom)
-      @lines.push({ left:, right:, top:, bottom: })
+      self.lines.push({ left:, right:, top:, bottom: })
     end
 
-    def add_lines(lines)
-      lines.each { |line| add_line(line[0], line[1], line[2], line[3]) }
-    end
-  end
-
-  class GanttDataRow
-    attr_accessor :index, :page, :work_package, :shape, :top, :left, :height, :bottom
-
-    def initialize(index, work_package, shape, left, top, height)
-      @index = index
-      @work_package = work_package
-      @shape = shape
-      @top = top
-      @left = left
-      @height = height
-      @bottom = top + height
-      @page = nil
+    def add_lines(new_lines)
+      new_lines.each { |line| add_line(line[0], line[1], line[2], line[3]) }
     end
   end
 
-  class GanttDataColumn
-    attr_accessor :date, :left, :right, :width, :work_packages, :page
-
-    def initialize(date, left, width, work_packages)
-      @date = date
-      @left = left
-      @right = left + width
-      @width = width
-      @work_packages = work_packages
-      @page = nil
-    end
+  GanttDataRow = Struct.new(:index, :work_package, :shape, :left, :top, :height, :page) do
+    def bottom = top + height
   end
 
-  class GanttDataLineInfo
-    attr_accessor :page_group, :rows, :start_row, :start_left, :start_top, :finish_row, :finish_left, :finish_top
-
-    def initialize(page_group, rows, start_row, finish_row)
-      @page_group = page_group
-      @rows = rows
-      @start_row = start_row
-      @finish_row = finish_row
-      init_positions
-    end
-
-    def init_positions
-      @start_left = @start_row.shape.left
-      @start_top = @start_row.shape.top + (@start_row.shape.height / 2)
-      @finish_left = @finish_row.shape.right
-      @finish_top = @finish_row.shape.top + (@finish_row.shape.height / 2)
-    end
+  GanttDataColumn = Struct.new(:date, :left, :width, :work_packages, :page) do
+    def right = left + width
   end
 
-  class GanttDataHeaderCell
-    attr_accessor :text, :left, :right, :top, :bottom, :height, :width
+  GanttDataLineInfo = Data.define(:page_group, :rows, :start_row, :finish_row) do
+    def start_left = start_row.shape.left
 
-    def initialize(text, left, right, top, bottom)
-      @text = text
-      @left = left
-      @right = right
-      @top = top
-      @bottom = bottom
-      @height = bottom - top
-      @width = right - left
-    end
+    def start_top = start_row.shape.top + (start_row.shape.height / 2)
+
+    def finish_left = finish_row.shape.right
+
+    def finish_top = finish_row.shape.top + (finish_row.shape.height / 2)
   end
 
-  class GanttDataTextColumn
-    attr_accessor :title, :width, :left, :right, :top, :height, :bottom, :padding_h, :padding_v
+  GanttDataHeaderCell = Data.define(:text, :left, :right, :top, :bottom) do
+    def height = bottom - top
 
-    def initialize(title, left, width, top, height, padding_h, padding_v)
-      @title = title
-      @width = width
-      @left = left
-      @right = left + width
-      @padding_h = padding_h
-      @padding_v = padding_v
-      @top = top
-      @height = height
-      @bottom = top + height
-    end
+    def width = right - left
   end
 
-  class GanttDataShape
-    attr_accessor :type, :left, :right, :top, :bottom, :width, :height, :work_package, :columns, :color
+  GanttDataTextColumn = Data.define(:title, :left, :width, :top, :height, :padding_h, :padding_v) do
+    def right = left + width
 
-    def initialize(type, left, width, top, height, work_package, columns, color)
-      @type = type
-      @left = left
-      @right = left + width
-      @top = top
-      @bottom = top + height
-      @width = width
-      @height = height
-      @work_package = work_package
-      @columns = columns
-      @color = color
-    end
+    def bottom = top + height
+  end
+
+  GanttDataShape = Data.define(:type, :left, :width, :top, :height, :work_package, :columns, :color) do
+    def right = left + width
+
+    def bottom = top + height
   end
 end
