@@ -88,14 +88,7 @@ RSpec.describe CustomActions::Actions::DoneRatio do
     end
 
     describe ".all" do
-      context "with field disabled", with_settings: { work_package_done_ratio: "disabled" } do
-        it "is empty" do
-          expect(described_class.all)
-            .to be_empty
-        end
-      end
-
-      context "with field derived", with_settings: { work_package_done_ratio: "status" } do
+      context "in status-based progress calculation mode", with_settings: { work_package_done_ratio: "status" } do
         it "is empty" do
           expect(described_class.all)
             .to be_empty

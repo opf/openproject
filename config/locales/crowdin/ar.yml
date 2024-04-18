@@ -3553,9 +3553,7 @@ ar:
         unsupported_context: "غير معتمد المورد نظراً للسياق."
         context_object_not_found: "تعذر العثور على المورد نظراً للسياق."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "غير مسموح للمستخدم الذي تم اختياره أن يكون '%{property}' لمجموعة العمل هذه."
         start_date: "الوقت لإتمام المشروع لا يمكن تعيينه في حزم العمل الحالية."
       eprops:

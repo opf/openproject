@@ -444,13 +444,11 @@ module API
 
         property :done_ratio,
                  as: :percentageDone,
-                 render_nil: true,
-                 if: ->(*) { Setting.work_package_done_ratio != "disabled" }
+                 render_nil: true
 
         property :derived_done_ratio,
                  as: :derivedPercentageDone,
-                 render_nil: true,
-                 if: ->(*) { Setting.work_package_done_ratio != "disabled" }
+                 render_nil: true
 
         date_time_property :created_at
 

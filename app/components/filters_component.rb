@@ -30,6 +30,7 @@
 
 class FiltersComponent < ApplicationComponent
   options :query
+  options output_format: "params"
 
   renders_many :buttons, lambda { |**system_arguments|
     system_arguments[:ml] ||= 2
@@ -43,15 +44,11 @@ class FiltersComponent < ApplicationComponent
   # Returns filters, active and inactive.
   # In case a filter is active, the active one will be preferred over the inactive one.
   def each_filter
-    allowed_filters.map do |filter|
+    allowed_filters.each do |filter|
       active_filter = query.find_active_filter(filter.name)
-      filter_active = active_filter.present?
+      additional_attributes = additional_filter_attributes(filter)
 
-      if filter_active
-        yield active_filter, filter_active
-      else
-        yield filter, filter_active
-      end
+      yield active_filter.presence || filter, active_filter.present?, additional_attributes
     end
   end
 
@@ -61,6 +58,36 @@ class FiltersComponent < ApplicationComponent
   end
 
   def filters_count
-    query.filters.count
+    @filters_count ||= query
+                          .filters
+                          .map(&:class)
+                          .uniq
+                          .count
+  end
+
+  protected
+
+  # With this method we can pass additional options for each type of filter into the frontend. This is especially
+  # useful when we want to pass options for the autocompleter components.
+  #
+  # When the method is overwritten in a subclass, the subclass should call super(filter) to get the default attributes.
+  #
+  # @param filter [QueryFilter] the filter for which we want to pass additional attributes
+  # @return [Hash] the additional attributes for the filter, that will be yielded in the each_filter method
+  def additional_filter_attributes(filter)
+    case filter
+    when Queries::Filters::Shared::ProjectFilter
+      {
+        autocomplete_options: {
+          component: "opce-project-autocompleter",
+          resource: "projects",
+          filters: [
+            { name: "active", operator: "=", values: ["t"] }
+          ]
+        }
+      }
+    else
+      {}
+    end
   end
 end

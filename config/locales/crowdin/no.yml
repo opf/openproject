@@ -3411,9 +3411,7 @@
         unsupported_context: "Ressursen som er gitt støttes ikke som kontekst."
         context_object_not_found: "Kan ikke finne ressursen som er angitt som kontekst."
       validation:
-        done_ratio: "% ferdig kan ikke angis på overordnede arbeidspakker, de har feil status eller er avslått."
         due_date: "Sluttdato kan ikke settes på overordnede arbeidspakker."
-        estimated_hours: "Arbeidet kan ikke angis med overordnede arbeidspakker." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Valgt bruker har ikke de nødvendige rettighetene til å være '%{property}' for denne arbeidspakken."
         start_date: "Startdato kan ikke angis på overordnede arbeidspakker."
       eprops:

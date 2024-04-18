@@ -100,6 +100,10 @@ export class PathHelperService {
     return `${this.staticBase}/topics/${messageIdentifier}`;
   }
 
+  public meetingPath(id:string):string {
+    return `${this.staticBase}/meetings/${id}`;
+  }
+
   public myPagePath() {
     return `${this.staticBase}/my/page`;
   }

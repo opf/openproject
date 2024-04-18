@@ -104,7 +104,7 @@ zh-CN:
       subtitle: 自动托管项目文件夹
       title: 健康状态
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_subscribed: 所有管理员都会收到该存储的健康状态电子邮件通知。
       description_unsubscribed: 所有管理员都已关闭此存储的健康状态电子邮件通知。
       error_could_not_be_saved: 无法保存电子邮件通知设置。请重试。
       subscribe: 订阅

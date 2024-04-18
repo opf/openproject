@@ -3407,9 +3407,7 @@ da:
         unsupported_context: "Den givne ressource understøttes ikke som korrekt sammenhæng."
         context_object_not_found: "Kan ikke finde ressourcen, der ar angivet som sammenhæng."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Den valgte bruger er ikke tilladt at være '%{property}' for denne arbejdspakke."
         start_date: "Startdato kan ikke angives for overordnede arbejdspakker."
       eprops:

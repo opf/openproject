@@ -3029,7 +3029,7 @@ zh-CN:
   text_are_you_sure: "是否确定？"
   text_are_you_sure_continue: "确定要继续吗？"
   text_are_you_sure_with_children: "删除工作包和所有子工作包吗？"
-  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_custom_fields: "删除该属性也会删除其在所有项目中的值。您确定要这样做吗？"
   text_assign_to_project: "分配给项目"
   text_form_configuration: >
     您可以自定义哪些字段将显示在工作包窗体中。您可以自由地对字段进行分组, 以反映您的域的需求。
@@ -3364,9 +3364,7 @@ zh-CN:
         unsupported_context: "所提供的资源不被上下文环境所支持。"
         context_object_not_found: "找不到可作为上下文环境的资源。"
       validation:
-        done_ratio: "无法在父级工作包上设置 % 已完成，当其由状态推导或被禁用时。"
         due_date: "不能在父工作包中设置完成日期。"
-        estimated_hours: "不能在父工作包中设置工作。" #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "所选的用户不允许为此工作包的 '%{property}'。"
         start_date: "不能在父工作包中设置开始日期。"
       eprops:

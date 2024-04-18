@@ -3482,9 +3482,7 @@ sk:
         unsupported_context: "Zadaný prostriedok nie je podporovaný ako kontext."
         context_object_not_found: "Pre vložené vstupné podmienky neboli nájdené žiadne prostriedky."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Dátum ukončenia nie je možné nastaviť na rodičovské pracovné balíčky."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Zvolený používateľ nemôže byť \"%{property}\" v prípade tohto pracovného balíčka."
         start_date: "Dátum \"Od\" nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
       eprops:

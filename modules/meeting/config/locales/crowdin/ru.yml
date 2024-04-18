@@ -47,7 +47,7 @@ ru:
       meeting_agenda_item:
         title: "Title"
         author: "Author"
-        duration_in_minutes: "min"
+        duration_in_minutes: "мин"
         description: "Notes"
         presenter: "Presenter"
     errors:
