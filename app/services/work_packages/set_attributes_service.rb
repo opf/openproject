@@ -294,6 +294,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       update_remaining_hours
       update_done_ratio
     end
+    round_progress_values
   end
 
   def only_percent_complete_initially_set?
@@ -328,6 +329,11 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
                                   compute_done_ratio
                                 end
     end
+  end
+
+  def round_progress_values
+    work_package.estimated_hours = work_package.estimated_hours&.round(2)
+    work_package.remaining_hours = work_package.remaining_hours&.round(2)
   end
 
   def update_remaining_hours_from_percent_complete

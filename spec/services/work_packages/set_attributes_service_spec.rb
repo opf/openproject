@@ -236,10 +236,10 @@ RSpec.describe WorkPackages::SetAttributesService,
 
         context "when work is set with 2nd decimal rounding up" do
           let(:call_attributes) { { estimated_hours: 3.567 } }
-          let(:expected_attributes) { { remaining_hours: 3.567 } }
+          let(:expected_attributes) { { estimated_hours: 3.57, remaining_hours: 3.57 } }
 
           it_behaves_like "service call",
-                          description: "remaining work is set to the same value"
+                          description: "values are rounded up to 2 decimals and set to the same value"
         end
       end
     end
@@ -363,6 +363,14 @@ RSpec.describe WorkPackages::SetAttributesService,
           it_behaves_like "service call", description: "is an error state (to be detected by contract), and % Complete is kept"
         end
 
+        context "when work and remaining work are both changed to values with more than 2 decimals" do
+          let(:call_attributes) { { estimated_hours: 10.123456, remaining_hours: 5.6789 } }
+          let(:expected_attributes) { { estimated_hours: 10.12, remaining_hours: 5.68, done_ratio: 43 } }
+
+          it_behaves_like "service call", description: "rounds work and remaining work to 2 decimals " \
+                                                       "and updates % complete accordingly"
+        end
+
         context "when remaining work is changed to a value greater than work" do
           let(:call_attributes) { { remaining_hours: 200.0 } }
           let(:expected_kept_attributes) { %w[done_ratio] }
@@ -444,8 +452,8 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
 
         context "when % complete is 0% and remaining work is changed to a decimal rounded up" do
-          let(:call_attributes) { { remaining_hours: 5.678 } }
-          let(:expected_attributes) { call_attributes.merge(estimated_hours: 5.678) }
+          let(:call_attributes) { { remaining_hours: 5.679 } }
+          let(:expected_attributes) { { estimated_hours: 5.68, remaining_hours: 5.68 } }
           let(:expected_kept_attributes) { %w[done_ratio] }
 
           before do
@@ -453,7 +461,8 @@ RSpec.describe WorkPackages::SetAttributesService,
             work_package.send(:clear_changes_information)
           end
 
-          it_behaves_like "service call", description: "% complete is kept and work is updated accordingly"
+          it_behaves_like "service call",
+                          description: "% complete is kept, values are rounded, and work is updated accordingly"
         end
 
         context "when work is set" do
@@ -548,6 +557,16 @@ RSpec.describe WorkPackages::SetAttributesService,
           let(:expected_kept_attributes) { %w[done_ratio] }
 
           it_behaves_like "service call", description: "% complete is kept and remaining work is updated accordingly"
+        end
+
+        context "when work is set to a number with with 4 decimals" do
+          let(:call_attributes) { { estimated_hours: 2.5678 } }
+          let(:expected_attributes) { { estimated_hours: 2.57, remaining_hours: 1.03 } }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "% complete is kept, work is rounded to 2 decimals, " \
+                                       "and remaining work is updated and rounded to 2 decimals"
         end
 
         context "when work and remaining work are set" do
