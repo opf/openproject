@@ -561,9 +561,8 @@ module WorkPackage::PDFExport::Gantt
       finish = [start_group_index, finish_group_index].max
       ((start + 1)..(finish - 1)).each do |index|
         group = page_groups[index]
-        group.pages.each do |page|
-          page.add_line(target_left - LINE_STEP, page.columns.last.right, source.finish_top, source.finish_top)
-        end
+        page = group.pages[finish_page_index]
+        page.add_line(target_left - LINE_STEP, page.columns.last.right, source.finish_top, source.finish_top)
       end
       target.start_row.page.add_lines(
         [
