@@ -40,7 +40,7 @@
 
 module WorkPackage::PDFExport::Gantt
   def write_work_packages_gantt!(work_packages, _)
-    wps = work_packages.reject { |work_package| work_package.start_date.nil? && work_package.due_date.nil? }
+    wps = work_packages.select { |work_package| work_package.start_date || work_package.due_date }
     return if wps.empty?
 
     zoom_levels = [
