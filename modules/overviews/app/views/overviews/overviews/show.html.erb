@@ -2,7 +2,6 @@
   <meta name="sidebar_enabled" data-enabled="<%= @sidebar_enabled %>">
 <% end -%>
 
-
 <%=
   render(Primer::OpenProject::PageHeader.new(data: { turbo: true })) do |header|
     header.with_title(variant: :medium) { t("overviews.label") }

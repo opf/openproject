@@ -27,8 +27,6 @@
 #++
 
 require "spec_helper"
-require_relative "../../support/pages/my/page"
-
 
 RSpec.describe "Project favorites",
                :js,
@@ -43,11 +41,11 @@ RSpec.describe "Project favorites",
 
   it "allows favoriting and unfavoriting projects" do
     visit project_path(project)
-    expect(page).to have_selector :button, accessible_name: "Mark as favorite"
+    expect(page).to have_selector 'a', accessible_name: "Mark as favorite"
 
     click_link_or_button(accessible_name: "Mark as favorite")
 
-    expect(page).to have_selector :button, accessible_name: "Remove from favorite"
+    expect(page).to have_selector 'a', accessible_name: "Remove from favorite"
 
     project.reload
     expect(project).to be_favored_by(current_user)
@@ -63,5 +61,10 @@ RSpec.describe "Project favorites",
     projects_page.filter_by_favored "no"
 
     expect(page).to have_no_text 'My favorite!'
+
+    visit home_path
+
+    expect(page).to have_text 'Favored projects'
+    expect(page).to have_test_selector 'favorite-project', text: 'My favorite!'
   end
 end
