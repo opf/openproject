@@ -641,7 +641,7 @@ zh-CN:
           no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
           message: "有新的通知。"
-          link_text: "点击此处加载"
+          link_text: "Click here to load them."
       menu:
         accountable: "负责人"
         by_project: "按项目筛选未读通知"

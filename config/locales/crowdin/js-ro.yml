@@ -643,7 +643,7 @@ ro:
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: "Există notificări noi."
-          link_text: "Click aici pentru a le încărca"
+          link_text: "Click here to load them."
       menu:
         accountable: "Responsabil"
         by_project: "Necitit după proiect"

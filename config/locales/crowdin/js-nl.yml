@@ -643,7 +643,7 @@ nl:
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
         new_notifications:
           message: "Er zijn nieuwe meldingen."
-          link_text: "Klik hier om ze te laden"
+          link_text: "Click here to load them."
       menu:
         accountable: "Verantwoording afleggen"
         by_project: "Ongelezen per project"

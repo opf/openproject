@@ -642,7 +642,7 @@ de:
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: "Es gibt neue Benachrichtigungen."
-          link_text: "Hier klicken zum Aktualisieren"
+          link_text: "Click here to load them."
       menu:
         accountable: "Verantwortlich"
         by_project: "Ungelesen pro Projekt"

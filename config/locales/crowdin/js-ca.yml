@@ -643,7 +643,7 @@ ca:
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
           message: "No hi ha notificacions noves"
-          link_text: "Fes clic aquí per carregar-les"
+          link_text: "Click here to load them."
       menu:
         accountable: "Responsable"
         by_project: "No llegit per projecte"

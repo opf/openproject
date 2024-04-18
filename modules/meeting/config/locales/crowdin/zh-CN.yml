@@ -167,7 +167,6 @@ zh-CN:
   label_agenda_item_add_notes: "添加备注"
   label_agenda_item_work_package: "议程项目工作包"
   text_agenda_item_title: '议程项目 "%{title}"'
-  text_agenda_work_package_title: '%{work_package}的议程项目"'
   text_agenda_work_package_deleted: '删除工作包的议程项目'
   text_deleted_agenda_item: '删除的议程项目'
   label_initial_meeting_details: "会议"

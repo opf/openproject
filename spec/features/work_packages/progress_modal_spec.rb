@@ -315,10 +315,10 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
     describe "field value format" do
       context "with all values set" do
-        before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 2.5) }
+        before { update_work_package_with(work_package, estimated_hours: 10.0, remaining_hours: 2.543) }
 
         it "populates fields with correctly values formatted " \
-           "with the minimum fractional part if present" do
+           "with the minimum fractional part if present, and 2 decimals max" do
           work_package_table.visit_query(progress_query)
           work_package_table.expect_work_package_listed(work_package)
 
@@ -329,8 +329,8 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_edit_field.activate!
 
           work_edit_field.expect_modal_field_value("10")
-          remaining_work_edit_field.expect_modal_field_value("2.5")
-          percent_complete_edit_field.expect_modal_field_value("75", readonly: true)
+          remaining_work_edit_field.expect_modal_field_value("2.54")
+          percent_complete_edit_field.expect_modal_field_value("74", readonly: true)
         end
       end
 

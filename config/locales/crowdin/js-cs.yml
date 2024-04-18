@@ -644,7 +644,7 @@ cs:
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: "Máte nová oznámení."
-          link_text: "Klikněte zde pro jejich načtení"
+          link_text: "Click here to load them."
       menu:
         accountable: "Odpovědný"
         by_project: "Nepřečteno dle projektu"

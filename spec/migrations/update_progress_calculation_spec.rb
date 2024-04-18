@@ -68,10 +68,11 @@ RSpec.describe UpdateProgressCalculation, type: :model do
 
     context "when a work package progress values are not changed" do
       let_work_packages(<<~TABLE)
-        subject                   | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
+        hierarchy                 | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
         wp all unset              |      |                |            |        |                  |
         wp only pc set            |      |                |        60% |        |                  |
-        wp all set consistent     |  10h |             4h |        60% |    10h |               4h |          60%
+        wp parent consistent      |  10h |             4h |        60% |    20h |               8h |          60%
+          wp all set consistent   |  10h |             4h |        60% |        |                  |
       TABLE
 
       before do
@@ -81,13 +82,14 @@ RSpec.describe UpdateProgressCalculation, type: :model do
       it "does create a journal entry only for the work package with a total % complete" do
         expect(wp_all_unset.journals.count).to eq(1)
         expect(wp_only_pc_set.journals.count).to eq(1)
+        expect(wp_all_set_consistent.journals.count).to eq(1)
 
         # This one will receive a journal entry since we treat the total % complete field
         # as if it was introduced by the migration (OP 14.0) even though the field existed before.
         # But the calculation was off and we did not present the activity on the field anyway.
-        expect(wp_all_set_consistent.journals.count).to eq(2)
+        expect(wp_parent_consistent.journals.count).to eq(2)
 
-        expect(wp_all_set_consistent.last_journal.get_changes)
+        expect(wp_parent_consistent.last_journal.get_changes)
           .to include("derived_done_ratio" => [nil, 60],
                       "cause" => [nil, { "feature" => "progress_calculation_changed", "type" => "system_update" }])
       end
@@ -657,8 +659,8 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           to: <<~TABLE
             hierarchy    | status      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
             parent       | To do (0%)  |      |                |         0% |    20h |               0h |         100%
-              child1     | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
-              child2     | Done (100%) |  10h |             0h |       100% |    10h |               0h |         100%
+              child1     | Done (100%) |  10h |             0h |       100% |        |                  |
+              child2     | Done (100%) |  10h |             0h |       100% |        |                  |
           TABLE
         )
       end
@@ -687,14 +689,14 @@ RSpec.describe UpdateProgressCalculation, type: :model do
             subject      | work | remaining work | ∑ work | ∑ remaining work | ∑ % complete
             grandparent  |  10h |             1h |   100h |              55h |          45%
               parent 1   |  10h |             2h |    40h |              14h |          65%
-                child 11 |  10h |             3h |    10h |               3h |          70%
-                child 12 |  10h |             4h |    10h |               4h |          60%
-                child 13 |  10h |             5h |    10h |               5h |          50%
+                child 11 |  10h |             3h |        |                  |
+                child 12 |  10h |             4h |        |                  |
+                child 13 |  10h |             5h |        |                  |
               parent 2   |  10h |             6h |    50h |              40h |          20%
-                child 21 |  10h |             7h |    10h |               7h |          30%
-                child 22 |  10h |             8h |    10h |               8h |          20%
-                child 23 |  10h |             9h |    10h |               9h |          10%
-                child 24 |  10h |            10h |    10h |              10h |           0%
+                child 21 |  10h |             7h |        |                  |
+                child 22 |  10h |             8h |        |                  |
+                child 23 |  10h |             9h |        |                  |
+                child 24 |  10h |            10h |        |                  |
           TABLE
         )
       end
@@ -712,7 +714,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           to: <<~TABLE
             subject      | work | remaining work | ∑ work | ∑ remaining work | ∑ % complete
             parent       |   0h |             0h |     0h |               0h |
-              child      |   0h |             0h |     0h |               0h |
+              child      |   0h |             0h |        |                  |
           TABLE
         )
       end
@@ -731,8 +733,8 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           to: <<~TABLE
             hierarchy    | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
             parent       |      |                |            |    20h |               0h |         100%
-              child1     |  10h |             0h |       100% |    10h |               0h |         100%
-              child2     |  10h |             0h |       100% |    10h |               0h |         100%
+              child1     |  10h |             0h |       100% |        |                  |
+              child2     |  10h |             0h |       100% |        |                  |
           TABLE
         )
       end
@@ -759,53 +761,14 @@ RSpec.describe UpdateProgressCalculation, type: :model do
       end
     end
 
-    context "when work is set to 0h and remaining work is unset" do
-      it "sets remaining work, total work, and total remaining work to 0h, unsets % complete, and keeps total % complete unset" do
-        expect_migrates(
-          from: <<~TABLE,
-            subject      | work | remaining work | % complete
-            wp all unset |   0h |                |
-            wp 0%        |   0h |                |         0%
-            wp 30%       |   0h |                |        30%
-            wp 100%      |   0h |                |       100%
-          TABLE
-          to: <<~TABLE
-            subject      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
-            wp all unset |   0h |             0h |            |     0h |               0h |
-            wp 0%        |   0h |             0h |            |     0h |               0h |
-            wp 30%       |   0h |             0h |            |     0h |               0h |
-            wp 100%      |   0h |             0h |            |     0h |               0h |
-          TABLE
-        )
-      end
-    end
-
-    context "when work and remaining work are set and not 0h" do
-      it "sets total work, total remaining work, and total % complete accordingly same as work, remaining work and % complete" do
-        expect_migrates(
-          from: <<~TABLE,
-            subject      | work | remaining work |
-            wp w set     |  10h |                |
-            wp rw set    |      |             5h |
-            wp w rw set  |  10h |             5h |
-          TABLE
-          to: <<~TABLE
-            subject      | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
-            wp w set     |  10h |            10h |         0% |    10h |              10h |           0%
-            wp rw set    |   5h |             5h |         0% |     5h |               5h |           0%
-            wp w rw set  |  10h |             5h |        50% |    10h |               5h |          50%
-          TABLE
-        )
-      end
-    end
-
     context "when ∑ % complete has had some values (including wrong ones)" do
       let_work_packages(<<~TABLE)
-        hierarchy        | work  | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete |
-        wp zero          |       |                |          0 |        |                  |            0 |
-        wp correct       |  100h |            50h |         50 |   100h |             50h  |           50 |
-        wp wrong         |       |                |         90 |   100h |             50h  |           90 |
-          wp wrong child |  100h |            50h |         20 |    10h |             10h  |           20 |
+        hierarchy          | work  | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete |
+        wp zero            |       |                |          0 |        |                  |            0 |
+        wp correct         |  100h |            50h |         50 |   100h |             50h  |           50 |
+          wp correct child |       |                |            |        |                  |              |
+        wp wrong           |       |                |         90 |   100h |             50h  |           90 |
+          wp wrong child   |  100h |            50h |         20 |    10h |             10h  |           20 |
       TABLE
 
       before do
@@ -813,20 +776,28 @@ RSpec.describe UpdateProgressCalculation, type: :model do
       end
 
       it "fixes the total values and sets ∑ % complete to nil (not 0) but keeps % complete (unless wrong)" do
-        expect_work_packages(WorkPackage.all, <<~TABLE)
-          subject          | work  | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete |
-          wp zero          |       |                |          0 |        |                  |              |
-          wp correct       |  100h |            50h |         50 |   100h |             50h  |           50 |
-          wp wrong         |       |                |         90 |   100h |             50h  |           50 |
-            wp wrong child |  100h |            50h |         50 |   100h |             50h  |           50 |
+        expect_work_packages(table_work_packages.map(&:reload), <<~TABLE)
+          subject            | work  | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete |
+          wp zero            |       |                |          0 |        |                  |              |
+          wp correct         |  100h |            50h |         50 |   100h |              50h |           50 |
+            wp correct child |       |                |            |        |                  |              |
+          wp wrong           |       |                |         90 |   100h |              50h |           50 |
+            wp wrong child   |  100h |            50h |         50 |        |                  |              |
         TABLE
       end
 
-      it "creates no journal for the work package transitioning from 0 to nil and reworks the pre migration journals" do
-        expect(wp_zero.journals.count).to eq(1)
+      it "reworks the pre migration journals to unset ∑ % complete" do
+        pre_journals = table_work_packages
+          .map(&:reload)
+          .flat_map { |wp| wp.journals[...-1] } # remove the last journal
 
-        expect(wp_zero.journals.first.get_changes.keys)
-          .not_to include("derived_done_ratio")
+        pre_journals.each do |journal|
+          expect(journal.get_changes.keys).not_to include("derived_done_ratio")
+        end
+      end
+
+      it "creates no journals for work packages transitioning only ∑ % complete from 0 to nil" do
+        expect(wp_zero.journals.count).to eq(1)
       end
 
       it "creates a journal for the correct work package as the old ∑ % complete value has been set to null during the job" do
@@ -839,7 +810,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
           .to eql [nil, 50]
       end
 
-      it "creates a journal for the work package transitioning from 90 to 50 and reworks the pre migration journals" do
+      it "creates a journal for the work package transitioning ∑ % complete from 90 to 50" do
         expect(wp_wrong.journals.count).to eq(2)
 
         expect(wp_wrong.journals.first.get_changes.keys)
@@ -848,24 +819,14 @@ RSpec.describe UpdateProgressCalculation, type: :model do
         expect(wp_wrong.journals.last.get_changes["derived_done_ratio"])
           .to eql [nil, 50]
       end
-
-      it "creates a journal for the work package transitioning from 20 to 50 and reworks the pre migration journals" do
-        expect(wp_wrong_child.journals.count).to eq(2)
-
-        expect(wp_wrong_child.journals.first.get_changes.keys)
-          .not_to include("derived_done_ratio")
-
-        expect(wp_wrong_child.journals.last.get_changes["derived_done_ratio"])
-          .to eql [nil, 50]
-      end
     end
   end
 
   describe "error during job execution" do
     let_work_packages(<<~TABLE)
-      subject     | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
-      wp working  |      |             4h |        60% |    10h |               4h |          60%
-      wp breaking |      |             4h |        60% |    10h |               4h |          60%
+      subject     | work | remaining work | % complete
+      wp working  |      |             4h |        60%
+      wp breaking |      |             4h |        60%
     TABLE
 
     before do
@@ -897,9 +858,9 @@ RSpec.describe UpdateProgressCalculation, type: :model do
 
     it "does not update the work packages" do
       expect_work_packages(WorkPackage.all, <<~TABLE)
-        subject     | work | remaining work | % complete | ∑ work | ∑ remaining work | ∑ % complete
-        wp working  |      |             4h |        60% |    10h |               4h |          60%
-        wp breaking |      |             4h |        60% |    10h |               4h |          60%
+        subject     | work | remaining work | % complete
+        wp working  |      |             4h |        60%
+        wp breaking |      |             4h |        60%
       TABLE
     end
   end

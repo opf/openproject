@@ -643,7 +643,7 @@ pt-PT:
           no_selection: "Clique numa notificação para ver todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."
-          link_text: "Clique aqui para carregá-las"
+          link_text: "Click here to load them."
       menu:
         accountable: "Responsável"
         by_project: "Não lido por projeto"
