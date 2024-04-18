@@ -24,9 +24,10 @@
       <% end %>
 
       <% modal_body.with_row(mt: 3) do |_actions_row| %>
-        <%= flex_layout(mt: 3, justify_content: :flex_end) do |action_buttons| %>
+        <%= flex_layout(justify_content: :flex_end) do |action_buttons| %>
           <%= action_buttons.with_column do %>
-            <%= f.submit t(:button_save), class: "btn btn-primary" %>
+            <%= render(Primer::Beta::Button.new(scheme: :primary,
+                                                type: :submit)) { t(:button_save) } %>
           <% end %>
         <% end %>
       <% end %>
