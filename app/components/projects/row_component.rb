@@ -263,7 +263,6 @@ module Projects
           scheme: :default,
           icon: :lock,
           label: I18n.t(:button_archive),
-          rel: "nofollow",
           href: project_archive_path(project, status: params[:status]),
           data: {
             confirm: t("project.archive.are_you_sure", name: project.name),
@@ -279,7 +278,6 @@ module Projects
           scheme: :default,
           icon: :unlock,
           label: I18n.t(:button_unarchive),
-          rel: "nofollow",
           href: project_archive_path(project, status: params[:status]),
           data: { method: :delete }
         }
