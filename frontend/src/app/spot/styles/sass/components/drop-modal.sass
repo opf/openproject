@@ -26,7 +26,6 @@
 
     @media #{$spot-mq-drop-modal-full-screen}
       position: fixed
-      height: auto
       bottom: $spot-spacing-3_5
       // !important is needed here so `@floating-ui/dom` does not overwrite it.
       left: $spot-spacing-1 !important
@@ -34,6 +33,9 @@
       right: $spot-spacing-1
       width: calc(100vw - (2 * #{$spot-spacing-1}))
       height: calc(#{var(--app-height)} - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
+
+      &_not-full-screen
+        height: auto
 
     @media #{$spot-mq-drop-modal-in-context}
       position: absolute

@@ -39,6 +39,8 @@ export class SpotDropModalComponent implements OnDestroy {
    */
   @Input() public allowRepositioning = true;
 
+  @Input() public notFullscreen = false;
+
   /**
    * The default alignment of the drop modal. There are twelve alignments in total. You can check which ones they are
    * from the `SpotDropAlignmentOption` Enum that is available in 'core-app/spot/drop-alignment-options'.
@@ -46,7 +48,6 @@ export class SpotDropModalComponent implements OnDestroy {
   @Input() public alignment:Placement = 'bottom-start';
 
   public _opened = false;
-
   /**
    * Boolean indicating whether the modal should be opened
    */
