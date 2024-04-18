@@ -1132,15 +1132,4 @@ module WorkPackage::PDFExport::Gantt
       @color = color
     end
   end
-
-  class GantDataLineFragment
-    attr_accessor :left, :right, :top, :bottom
-
-    def initialize(left, right, top, bottom)
-      @left = left
-      @right = right
-      @top = top
-      @bottom = bottom
-    end
-  end
 end
