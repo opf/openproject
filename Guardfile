@@ -26,17 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-guard :rspec do # , :cli => "--drb" do
-  watch(%r{^spec/.+_spec\.rb$})
-  watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
-  watch('spec/spec_helper.rb')  { 'spec' }
+guard :rspec, cmd: 'spring rspec --format d' do
+  require 'guard/rspec/dsl'
 
-  # Rails example
-  watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
-  watch(%r{^app/(.*)(\.erb|\.haml)$})                 { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
-  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  do |m|
-    ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"]
+  dsl = Guard::RSpec::Dsl.new(self)
+  rspec = dsl.rspec
+  watch(rspec.spec_helper)  { rspec.spec_dir }
+  watch(rspec.spec_support) { rspec.spec_dir }
+  watch(rspec.spec_files)
+
+  watch(/^modules\/(.+)\/spec\/(.+)_helper\.rb$/)   { |m| "modules/#{m[1]}/spec" }
+  watch(/^modules\/(.+)\/spec\/support\/(.+)\.rb$/) { |m| "modules/#{m[1]}/spec" }
+  watch(/^modules\/(.*)\/app\/(.+)\.rb$/)           { |m| "modules/#{m[1]}/spec/#{m[2]}_spec.rb" }
+  watch(/^modules\/(.*)\/spec\/(.+)_spec\.rb$/)
+
+  ruby = dsl.ruby
+  dsl.watch_spec_files_for(ruby.lib_files)
+  rails = dsl.rails(view_extensions: %w[erb slim])
+  watch(rails.spec_helper)                 { rspec.spec_dir }
+  watch(rails.app_controller)              { "#{rspec.spec_dir}/controllers" }
+
+  dsl.watch_spec_files_for(rails.app_files)
+  dsl.watch_spec_files_for(rails.views)
+
+  watch(rails.controllers) do |m|
+    [
+      rspec.spec.call("mailers/#{m[1]}_mailer"),
+      rspec.spec.call("controllers/#{m[1]}_controller"),
+      rspec.spec.call("requests/#{m[1]}_controller")
+    ]
   end
+
+  watch(/^lib\/(.+)\.rb$/)                            { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch(%r{^spec/support/(.+)\.rb$})                  { 'spec' }
   watch('config/routes.rb')                           { 'spec/routing' }
   watch('app/controllers/application_controller.rb')  { 'spec/controllers' }
