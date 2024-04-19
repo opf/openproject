@@ -99,7 +99,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([["lft", :asc]])
+          .to eq([%i[lft asc]])
       end
 
       it "has the enabled_project_columns columns as selects" do
@@ -143,7 +143,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([["lft", :asc]])
+          .to eq([%i[lft asc]])
       end
 
       it "has the enabled_project_columns columns as selects" do
@@ -172,7 +172,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([["lft", :asc]])
+          .to eq([%i[lft asc]])
       end
 
       it "has the enabled_project_columns columns as selects" do
@@ -201,7 +201,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([["lft", :asc]])
+          .to eq([%i[lft asc]])
       end
 
       it "has the enabled_project_columns columns as selects" do
@@ -230,7 +230,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([["lft", :asc]])
+          .to eq([%i[lft asc]])
       end
 
       it "has the enabled_project_columns columns as selects" do
@@ -259,7 +259,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([["lft", :asc]])
+          .to eq([%i[lft asc]])
       end
 
       it "has the enabled_project_columns columns as selects" do
@@ -288,7 +288,7 @@ RSpec.describe Queries::Projects::Factory,
 
       it "is ordered by lft asc" do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
-          .to eq([["lft", :asc]])
+          .to eq([%i[lft asc]])
       end
 
       it "has the enabled_project_columns columns as selects" do
@@ -724,7 +724,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([["lft", :asc]])
+        .to eq([%i[lft asc]])
     end
 
     it "has the enabled_project_columns columns as selects" do
@@ -753,7 +753,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([["lft", :asc]])
+        .to eq([%i[lft asc]])
     end
 
     it "has the enabled_project_columns columns as selects" do
@@ -782,7 +782,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([["lft", :asc]])
+        .to eq([%i[lft asc]])
     end
 
     it "has the enabled_project_columns columns as selects" do
@@ -811,7 +811,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([["lft", :asc]])
+        .to eq([%i[lft asc]])
     end
 
     it "has the enabled_project_columns columns as selects" do
@@ -840,7 +840,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([["lft", :asc]])
+        .to eq([%i[lft asc]])
     end
 
     it "has the enabled_project_columns columns as selects" do
@@ -869,7 +869,7 @@ RSpec.describe Queries::Projects::Factory,
 
     it "is ordered by lft asc" do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
-        .to eq([["lft", :asc]])
+        .to eq([%i[lft asc]])
     end
 
     it "has the enabled_project_columns columns as selects" do

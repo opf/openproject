@@ -69,9 +69,9 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     query.name || t(:label_project_plural)
   end
 
-  def query_saveable?
-    current_user.logged? && query.name.blank?
-  end
+  def can_save_as? = current_user.logged? && query.changed?
+
+  def can_save? = can_save_as? && query.persisted?
 
   def show_state?
     state == :show

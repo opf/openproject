@@ -112,6 +112,9 @@ class Queries::Projects::Factory
         query.select(*Setting.enabled_projects_columns, add_not_existing: false)
 
         yield query
+
+        # This method is used to create static queries, so assume clean state after building
+        query.clear_changes_information
       end
     end
 
