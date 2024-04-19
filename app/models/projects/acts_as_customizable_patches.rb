@@ -128,7 +128,7 @@ module Projects::ActsAsCustomizablePatches
       # and assigns them to the custom_fields association. If the `custom_field_values` do not contain the
       # hidden fields, they will be cleared from the association. The `custom_field_values` will contain the
       # hidden fields, only if they are returned from this method. Hence we should not hide them,
-      # when accessed with the the _query_available_custom_fields_on_global_level flag on.
+      # when accessed with the _query_available_custom_fields_on_global_level flag on.
       unless _query_available_custom_fields_on_global_level
         custom_fields = custom_fields.visible
       end
