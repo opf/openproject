@@ -32,7 +32,7 @@ Following are permissions for **External Storage**:
 - **External Storage: Read files (Nextcloud, OneDrive/SharePoint)**
 - **External Storage: Write files (Nextcloud, OneDrive/SharePoint)**
 - **External Storage: Create files (Nextcloud)**
-- **External Storage: Delete files (Nextcloud)**
+- **External Storage: Share files (Nextcloud)**
 - **External Storage: Delete files (Nextcloud)**
 
 > Please note that not all file permissions are applicable to all storage providers.
