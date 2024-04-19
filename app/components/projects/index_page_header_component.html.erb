@@ -4,7 +4,25 @@
       header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title }
       header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
-      if query_saveable?
+      if can_save?
+        header.with_action_text { t('lists.can_be_saved') }
+
+        header.with_action_link(mobile_icon: nil, # Do not show on mobile as it is already part of the menu
+                                mobile_label: nil,
+                                href: projects_query_path(query),
+                                data: {
+                                  method: :patch,
+                                  controller: "params-from-query",
+                                  'application-target': "dynamic",
+                                  'params-from-query-allowed-value': '["filters", "columns"]'
+                                }) do
+          render(Primer::Beta::Octicon.new(icon: "op-save",
+                                           align_self: :center,
+                                           "aria-label": I18n.t("button_save"),
+                                           mr: 1)
+          ) + content_tag(:span, t("button_save"))
+        end
+      elsif can_save_as?
         header.with_action_text { t('lists.can_be_saved_as') }
 
         header.with_action_link(mobile_icon: nil, # Do not show on mobile as it is already part of the menu
@@ -51,7 +69,24 @@
           item.with_leading_visual_icon(icon: 'tasklist')
         end
 
-        if query_saveable?
+        if can_save?
+          menu.with_item(
+            label: t('button_save'),
+            href: projects_query_path(query),
+            content_arguments: {
+              data: {
+                method: :patch,
+                controller: "params-from-query",
+                'application-target': "dynamic",
+                'params-from-query-allowed-value': '["filters", "columns"]'
+              }
+            }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :'op-save')
+          end
+        end
+
+        if can_save_as?
           menu.with_item(
             label: t('button_save_as'),
             href: new_projects_query_path,

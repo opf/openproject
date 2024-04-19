@@ -339,7 +339,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         no_results_title_text: There is no additional recorded disk space consumed by this project.
 
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    can_be_saved: "List modified:"
+    can_be_saved_as: "There are modifications but this view cannot be edited:"
 
   members:
     index:
