@@ -7,7 +7,7 @@
         data: { 'application-target': "dynamic",
                 controller: "work-packages--progress--focus-field" }) do |f| %>
     <%= flex_layout do |modal_body| %>
-      <% modal_body.with_row do |_fields| %>
+      <% modal_body.with_row(classes: "horizontal-form-group") do |_fields| %>
         <%= render(WorkPackages::ProgressForm.new(f, work_package:, mode:, focused_field:)) %>
       <% end %>
 
