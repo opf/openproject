@@ -663,7 +663,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       end
 
       it "does not clears them after a project admin updates" do
-        # To make the expectations correct, we create an empty custom value for the other
+        # TODO: To make the expectations correct, we create an empty custom value for the other
         # project's custom field too. This would happen in the code anyway.
         # Due to the design of the acts_as_customizable plugin and the patch, it will create
         # empty custom values for all the existing custom fields, regardless if they are
@@ -672,7 +672,8 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         # custom fields without being activated in the project. This implies in defining
         # all the custom field accessors on every project, and that leads to having the
         # empty custom values created. This is a compromise to avoid further patching the
-        # aac plugin and increase complexity.
+        # aac plugin and increase complexity. We will also get rid of the patch and this
+        # behaviour in a latter ticket https://community.openproject.org/wp/53729 .
         # An extra expectation is added to make sure we don't activate other custom fields,
         # so there are no unwanted side effects.
 
