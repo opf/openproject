@@ -10,7 +10,7 @@ keywords: file storages, Nextcloud error, Nextcloud troubleshooting, OneDrive er
 
 ## Unhealthy file storages email notifications
 
-In some cases it is possible that a file storage has been set-up incorrectly. In this case the respective message will appear under *Administration* -> *File storages*. 
+In some cases it is possible that a file storage has been set-up incorrectly, the connection is faulty or the storage itself has problems. In this case the respective message will appear under *Administration* -> *File storages*. 
 
 > Please note that this only applies to file storages where **automatically managed project folders** have been selected.
 
