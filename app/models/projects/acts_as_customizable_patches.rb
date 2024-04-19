@@ -49,8 +49,8 @@ module Projects::ActsAsCustomizablePatches
     before_create :reject_section_scoped_validation_for_creation
     before_create :build_missing_project_custom_field_project_mappings
 
+    after_create :disable_custom_fields_with_empty_values
     after_save :reset_section_scoped_validation, :set_query_available_custom_fields_to_project_level
-    before_commit :disable_custom_fields_with_empty_values, on: :create
 
     def build_missing_project_custom_field_project_mappings
       # activate custom fields for this project (via mapping table) if values have been provided for custom_fields but no mapping exists
@@ -100,11 +100,7 @@ module Projects::ActsAsCustomizablePatches
       # in order to not patch `acts_as_customizable` further, we simply identify these custom values and deactivate the custom field
       custom_field_ids = project.custom_values.select { |cv| cv.value.blank? && !cv.required? }.pluck(:custom_field_id)
 
-      project_custom_field_project_mappings
-        .where(custom_field_id: custom_field_ids)
-        .or(project_custom_field_project_mappings
-          .where.not(custom_field_id: available_custom_fields.select(:id)))
-        .destroy_all
+      project_custom_field_project_mappings.where(custom_field_id: custom_field_ids).destroy_all
     end
 
     def with_all_available_custom_fields
