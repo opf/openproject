@@ -61,6 +61,9 @@ class WorkPackages::ProgressForm < ApplicationForm
         render_text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
         render_readonly_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
 
+        # Add a hidden field in create forms as the select field is disabled and is otherwise not included in the form payload
+        group.hidden(name: :status_id) if @work_package.new_record?
+
         group.hidden(name: :status_id_touched,
                      value: @touched_field_map["status_id_touched"] || false,
                      data: { "work-packages--progress--touched-field-marker-target": "touchedFieldInput",
