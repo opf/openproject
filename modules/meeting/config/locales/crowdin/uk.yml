@@ -42,13 +42,13 @@ uk:
         participants_invited: "Запрошені"
         project: "Проєкт"
         start_date: "Дата"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "Час початку"
+        start_time_hour: "Час початку"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
-        duration_in_minutes: "min"
-        description: "Notes"
+        title: "Назва "
+        author: "Автор"
+        duration_in_minutes: "хв"
+        description: "Примітки"
         presenter: "Presenter"
     errors:
       messages:

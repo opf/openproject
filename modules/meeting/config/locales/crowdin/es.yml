@@ -40,14 +40,14 @@ es:
         participants_invited: "Invitados"
         project: "Proyecto"
         start_date: "Fecha"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "Hora de inicio"
+        start_time_hour: "Hora de inicio"
       meeting_agenda_item:
-        title: "Title"
-        author: "Author"
+        title: "Título"
+        author: "Autor"
         duration_in_minutes: "min"
-        description: "Notes"
-        presenter: "Presenter"
+        description: "Notas"
+        presenter: "Responsable"
     errors:
       messages:
         invalid_time_format: "no es una hora válida. Formato requerido: HH:MM"
@@ -97,11 +97,11 @@ es:
   label_start_date: "Fecha de inicio"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
+      text: "Los archivos adjuntos están a disposición de todos los participantes en la reunión. También puede arrastrarlos y soltarlos en las notas de los puntos del orden del día."
     copy:
       title: "Copiar reunión %{title}"
-      attachments: "Copy attachments"
-      attachments_text: "Copy over all attached files to the new meeting"
+      attachments: "Copiar adjuntos"
+      attachments_text: "Copie todos los archivos adjuntos a la nueva reunión"
       agenda: "Copiar agenda"
       agenda_text: "Copiar la agenda de la reunión anterior"
     email:
@@ -155,9 +155,9 @@ es:
   label_meeting_delete: "Eliminar reunión"
   label_meeting_created_by: "Creado por"
   label_meeting_last_updated: "Última actualización"
-  label_agenda_items: "Agenda items"
-  label_agenda_items_reordered: "reordered"
-  label_agenda_item_remove: "Remove from agenda"
+  label_agenda_items: "Puntos del orden del día"
+  label_agenda_items_reordered: "reordenados"
+  label_agenda_item_remove: "Quitar del orden del día"
   label_agenda_item_undisclosed_wp: "Paquete de trabajo #%{id} no visible"
   label_agenda_item_deleted_wp: "Referencia de paquete de trabajo eliminada"
   label_agenda_item_actions: "Acciones de elementos de la agenda"
@@ -166,18 +166,18 @@ es:
   label_agenda_item_move_up: "Mover hacia arriba"
   label_agenda_item_move_down: "Mover hacia abajo"
   label_agenda_item_add_notes: "Añadir notas"
-  label_agenda_item_work_package: "Agenda item work package"
-  text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
-  text_deleted_agenda_item: 'Deleted agenda item'
-  label_initial_meeting_details: "Meeting"
+  label_agenda_item_work_package: "Paquete de trabajo del punto del orden del día"
+  text_agenda_item_title: 'Punto del orden del día «%{title}»'
+  text_agenda_work_package_deleted: 'Punto del orden del día relativo al paquete de trabajo eliminado'
+  text_deleted_agenda_item: 'Punto del orden del día eliminado'
+  label_initial_meeting_details: "Reunión"
   label_meeting_details: "Detalles de la reunión"
   label_meeting_details_edit: "Editar detalles de la reunión"
-  label_meeting_state: "Meeting status"
+  label_meeting_state: "Estado de la reunión"
   label_meeting_state_open: "Abrir"
-  label_meeting_state_open_html: "<i>Open</i>"
+  label_meeting_state_open_html: "<i>Abierta</i>"
   label_meeting_state_closed: "Cerrado"
-  label_meeting_state_closed_html: "<i>Closed</i>"
+  label_meeting_state_closed_html: "<i>Cerrada</i>"
   label_meeting_reopen_action: "Reabrir reunión"
   label_meeting_close_action: "Cerrar reunión"
   text_meeting_open_description: "Esta reunión está abierta. Puede añadir/eliminar elementos de la agenda y editarlos a su gusto. Una vez terminada la reunión, ciérrela para bloquearla."

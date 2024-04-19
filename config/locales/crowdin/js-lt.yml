@@ -645,7 +645,7 @@ lt:
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: "Yra naujų pranešimų."
-          link_text: "Click here to load them."
+          link_text: "Spauskite čia, kad juos įkeltumėte."
       menu:
         accountable: "Atsakingas"
         by_project: "Neperskaityti pagal projektą"
