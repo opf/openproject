@@ -45,7 +45,3 @@ Once you have set up your files storages, it is possible that a technical error 
 
 
 If the suggested troubleshooting solutions did not resolve your issue, please reach out to the [OpenProject community](https://community.openproject.org/projects/openproject/forums) or [support team](https://www.openproject.org/contact/) for further assistance.
-
-## Unhealthy file storages e-mail notifications
-
-Once a file storage has been set-up 
