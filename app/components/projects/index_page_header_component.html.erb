@@ -5,40 +5,20 @@
       header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
 
       if can_save?
-        header.with_action_text { t('lists.can_be_saved') }
-
-        header.with_action_link(mobile_icon: nil, # Do not show on mobile as it is already part of the menu
-                                mobile_label: nil,
-                                href: projects_query_path(query),
-                                data: {
-                                  method: :patch,
-                                  controller: "params-from-query",
-                                  'application-target': "dynamic",
-                                  'params-from-query-allowed-value': '["filters", "columns"]'
-                                }) do
-          render(Primer::Beta::Octicon.new(icon: "op-save",
-                                           align_self: :center,
-                                           "aria-label": I18n.t("button_save"),
-                                           mr: 1)
-          ) + content_tag(:span, t("button_save"))
-        end
+        header_save_action(
+          header:,
+          message: t("lists.can_be_saved"),
+          label: t("button_save"),
+          href: projects_query_path(query),
+          method: :patch
+        )
       elsif can_save_as?
-        header.with_action_text { t('lists.can_be_saved_as') }
-
-        header.with_action_link(mobile_icon: nil, # Do not show on mobile as it is already part of the menu
-                                mobile_label: nil,
-                                href: new_projects_query_path,
-                                data: {
-                                  controller: "params-from-query",
-                                  'application-target': "dynamic",
-                                  'params-from-query-allowed-value': '["filters", "columns"]'
-                                }) do
-          render(Primer::Beta::Octicon.new(icon: "op-save",
-                                           align_self: :center,
-                                           "aria-label": I18n.t("button_save_as"),
-                                           mr: 1)
-          ) + content_tag(:span, t("button_save_as"))
-        end
+        header_save_action(
+          header:,
+          message: t("lists.can_be_saved_as"),
+          label: t("button_save_as"),
+          href: new_projects_query_path
+        )
       end
 
       header.with_action_menu(menu_arguments: {
@@ -70,36 +50,11 @@
         end
 
         if can_save?
-          menu.with_item(
-            label: t('button_save'),
-            href: projects_query_path(query),
-            content_arguments: {
-              data: {
-                method: :patch,
-                controller: "params-from-query",
-                'application-target': "dynamic",
-                'params-from-query-allowed-value': '["filters", "columns"]'
-              }
-            }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :'op-save')
-          end
+          menu_save_item(menu:, label: t('button_save'), href: projects_query_path(query), method: :patch)
         end
 
         if can_save_as?
-          menu.with_item(
-            label: t('button_save_as'),
-            href: new_projects_query_path,
-            content_arguments: {
-              data: {
-                controller: "params-from-query",
-                'application-target': "dynamic",
-                'params-from-query-allowed-value': '["filters", "columns"]'
-              }
-            }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :'op-save')
-          end
+          menu_save_item(menu:, label: t('button_save_as'), href: new_projects_query_path)
         end
 
         menu.with_item(
