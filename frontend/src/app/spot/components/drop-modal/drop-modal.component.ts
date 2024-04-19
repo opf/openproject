@@ -48,6 +48,7 @@ export class SpotDropModalComponent implements OnDestroy {
   @Input() public alignment:Placement = 'bottom-start';
 
   public _opened = false;
+
   /**
    * Boolean indicating whether the modal should be opened
    */
