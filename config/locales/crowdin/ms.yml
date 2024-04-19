@@ -3051,7 +3051,7 @@ ms:
   text_custom_field_hint_activate_per_project: >
     Apabila menggunakan medan tersuai: Ingatlah bahawa medan tersuai perlu diaktifkan untuk setiap projek juga.
   text_custom_field_hint_activate_per_project_and_type: >
-    Custom fields need to be activated per work package type and per project.
+    Medan tersuai perlu diaktifkan untuk setiap jenis pakej kerja dan setiap projek.
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
