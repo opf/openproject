@@ -41,11 +41,11 @@ module Type::AttributeGroups
     # May be extended by plugins
     mattr_accessor :default_group_map do
       {
-        author: :people,
         assignee: :people,
         responsible: :people,
         estimated_time: :estimates_and_time,
         remaining_time: :estimates_and_time,
+        percentage_done: :estimates_and_time,
         spent_time: :estimates_and_time,
         priority: :details
       }
@@ -170,6 +170,7 @@ module Type::AttributeGroups
     work_package_attributes
       .keys
       .select { |key| default_attribute?(active_cfs, key) }
+      .sort_by { |key| default_group_map.keys.index(key.to_sym) || default_group_map.keys.size }
       .group_by { |key| default_group_key(key.to_sym) }
   end
 
