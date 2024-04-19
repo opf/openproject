@@ -24,7 +24,7 @@ File storages permissions include the following:
 Following are the permissions for file storages within OpenProject:
 
 - **View file links**: Allows a user to see file links to external storages Files tab of work packages
-- **Manage file links**: allows a user to create and edit file links in OpenProject
+- **Manage file links**: Allows a user to create and edit file links to work packages
 - **Manage file storages in project**: UPDATE
 
 Following are permissions for **External Storage**:
