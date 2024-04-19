@@ -373,7 +373,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       it do
         href = OpenProject::Static::Links.links[:blog_article_progress_changes][:href]
         expect(subject).to eq "<strong>OpenProject system update:</strong> Progress calculation automatically " \
-                              "<a href=\"#{href}\">set to work-based mode and adjusted with version update</a>."
+                              "<a href=\"#{href}\" target=\"_blank\">set to work-based mode and adjusted with version update</a>."
       end
     end
 
@@ -401,7 +401,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       it do
         href = OpenProject::Static::Links.links[:blog_article_progress_changes][:href]
         expect(subject).to eq "<strong>OpenProject system update:</strong> Progress calculation automatically " \
-                              "<a href=\"#{href}\">adjusted with version update</a>."
+                              "<a href=\"#{href}\" target=\"_blank\">adjusted with version update</a>."
       end
     end
 
