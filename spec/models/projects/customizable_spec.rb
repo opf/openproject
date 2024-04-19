@@ -463,8 +463,10 @@ RSpec.describe Project, "customizable" do
 
       it "does not activate hidden custom fields" do
         # project creation happens with an non-admin user as let(:project) called after setting the current user to an non-admin
+        # Due to backward compatibility for the API, we have to activate the hidden_custom_field too,
+        # but it won't receive any value, so its value is not changed.
         expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
-          .to contain_exactly(text_custom_field.id, bool_custom_field.id)
+          .to contain_exactly(text_custom_field.id, bool_custom_field.id, hidden_custom_field.id)
 
         expect(project.custom_value_for(hidden_custom_field)).to be_nil
       end
