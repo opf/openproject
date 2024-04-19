@@ -71,7 +71,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def can_save_as? = current_user.logged? && query.changed?
 
-  def can_save? = can_save_as? && query.persisted?
+  def can_save? = can_save_as? && query.persisted? && query.user == current_user
 
   def show_state?
     state == :show
