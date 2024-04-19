@@ -16,7 +16,7 @@ In some cases it is possible that a file storage has been set-up incorrectly, th
 
 ![Health check for automatically managed folders in file storage integrations in OpenProject](openproject_file_storages_health_message.png)
 
-If a problem has been detected for a file storage with automatically managed folders enabled, the OpenProject admin (PROJECT ADMIN? Instance admin?) will be notified via email of the detected error. Admin will be notified once a day of the faulty integration, including the specific error description and solution suggestions (see the section below). 
+If a problem has been detected for a file storage with automatically managed folders enabled, the OpenProject adminstrators will be notified via email of the detected error. Admin will be notified once a day of the faulty integration, including the specific error description and solution suggestions (see the section below). 
 
 Once the error has been resolved, the admin will also receive an email informing him/her/them of this.
 
