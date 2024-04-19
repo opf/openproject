@@ -27,7 +27,7 @@ Following are the permissions for file storages within OpenProject:
 - **Manage file links**: Allows a user to create and edit file links to work packages
 - **Manage file storages in project**: Allows a user to add or edit file storages for a project
 
-Following are permissions for **External Storage**:
+Following user permissions are set on files and folder in **External Storages**:
 
 - **External Storage: Read files (Nextcloud, OneDrive/SharePoint)**
 - **External Storage: Write files (Nextcloud, OneDrive/SharePoint)**
