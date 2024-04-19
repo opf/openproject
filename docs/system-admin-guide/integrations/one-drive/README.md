@@ -104,7 +104,7 @@ information the redirect URI will get generated again and thus needs to be copie
 by clicking on the **Copy-to-Clipboard** element next to the information text, or by entering the form by clicking the
 **View** icon.
 
-**Note**: if you have selected that automatically managed access and folders you will also see the *Health status* message on the right side. If the file storage set-up is incomplete or faulty, an error message will be displayed in that section. Read more about errors and troubleshooting [here](../../../file-storages/file-storage-troubleshooting). 
+**Note**: if you have selected that automatically managed access and folders you will also see the *Health status* message on the right side. If the file storage set-up is incomplete or faulty, an error message will be displayed in that section. Read more about errors and troubleshooting [here](../../file-storages/file-storage-troubleshooting). 
 
 ![Edit OneDrive/SharePoint in OpenProject](openproject_system_guide_edit_icon_onedrive_storage.png)
 
