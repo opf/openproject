@@ -21,6 +21,7 @@ Introduced in OpenProject 13.1, dynamic meetings offer easier meeting management
 | [Add a work package to the agenda](#add-a-work-package-to-the-agenda) | How to add a work package to a meeting agenda.             |
 | [Create or edit the meeting agenda](#create-or-edit-the-meeting-agenda) | How to create or edit the agenda.                          |
 | [Add meeting participants](#add-meeting-participants)        | How to invite people to a meeting.                         |
+| [Add meeting attachments](#meeting-attachments)              | How to add attachments to a meeting.                       |
 | [Send email to all participants](#send-email-to-all-participants) | How to send an email to all meeting participants.          |
 | [Download a meeting as an iCalendar event](#download-a-meeting-as-an-icalendar-event) | How to download a meeting as an iCalendar event.           |
 | [Close a meeting](#close-a-meeting)                          | How to close a meeting in OpenProject.                     |
