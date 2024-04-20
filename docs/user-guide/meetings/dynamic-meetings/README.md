@@ -80,7 +80,7 @@ In order to edit the title of the meeting select the dropdown menu behind the th
 
 After creating a meeting, you can set up a **meeting agenda**.
 
-You can add items to an agenda or directly link to existing work packages by selecting the desired option under the green **Add** button. You can add notes and [attachments](/#meeting-attachments) to every agenda item. 
+You can add items to an agenda or directly link to existing work packages by selecting the desired option under the green **Add** button. You can add notes and [attachments](#meeting-attachments) to every agenda item. 
 
 ![The add button with two choices: agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
 
