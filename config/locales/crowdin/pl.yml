@@ -1004,12 +1004,14 @@ pl:
               only_same_project_categories_allowed: "Kategoria pakietu roboczego musi znajdować się w tym samym projekcie co pakiet roboczy."
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "nie może być niższa niż „Pozostała praca”."
-              must_be_set_when_remaining_work_is_set: "należy ustawić, gdy ustawiona jest opcja „Pozostała praca”."
-              only_values_greater_or_equal_zeroes_allowed: "musi być ≥ 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "nie może przekroczyć wartości ustawienia „Praca”."
-              must_be_set_when_work_is_set: "należy ustawić, gdy ustawiona jest opcja „Praca”."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić."
         type:
           attributes:

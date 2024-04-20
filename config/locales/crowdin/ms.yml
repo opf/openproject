@@ -985,12 +985,14 @@ ms:
               only_same_project_categories_allowed: "Kategori pakej kerja mesti dalam projek yang sama dengan pakej kerja."
               does_not_exist: "Kategori yang ditentukan tidak wujud."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "mesti ditetapkan apabila 'Kerja yang berbaki' ditetapkan."
-              only_values_greater_or_equal_zeroes_allowed: "perlu >= 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "tidak boleh melebihi 'Kerja'."
-              must_be_set_when_work_is_set: "mesti ditetapkan apabila 'Kerja' ditetapkan."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "Pakej kerja berada dalam status baca sahaja maka atributnya tidak dapat diubah."
         type:
           attributes:
@@ -3057,16 +3059,16 @@ ms:
   text_project_custom_field_html: >
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
-    A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+    Logo putih pada latar belakang telus disyorkan. Untuk hasil yang terbaik pada kedua-dua, paparan konvensional dan paparan retina, pastikan dimensi imej adalah 460px x 60px.
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    Ini merupakan logo yang akan muncul dalam PDF eksport anda. Ia perlu menjadi fail imej PNG atau JPEG. Logo hitam atau bewarna pada latar belakang telus atau putih disyorkan.
   text_custom_export_cover_instructions: >
-    This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
+    Ini merupakan imej yang akan muncul pada latar belakang muka hadapan PDF eksport anda. Perlu menjadi fail imej PNG atau JPEG berukuran kira-kira 800px lebar dan 500px tinggi.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
-  text_database_allows_tsv: "Database allows TSVector (optional)"
+    Ini merupakan ikon yang akan muncul dalam telefon bimbit atau tablet anda apabila anda meletakkan penanda pada skrin utama anda. Perlu menjadi fail imej PNG berukuran 180 x 180 piksel bersaiz persegi. Sila pastikan latar belakang imej tidak telus jika tidak ia akan kelihatan buruk pada iOS.
+  text_database_allows_tsv: "Pangkalan data membenarkan TSVector (pilihan)"
   text_default_administrator_account_changed: "Akaun asas pentadbir diubah"
   text_default_encoding: "Asas: UTF-8"
   text_destroy: "Hapus"
@@ -3076,7 +3078,7 @@ ms:
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Tetapkan semula mereka ke nilai ini:"
   text_enumeration_destroy_question: "%{count} objek ditugaskan pada nilai ini."
-  text_file_repository_writable: "Attachments directory writable"
+  text_file_repository_writable: "Lampiran direktori boleh ditulis"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
   text_hint_date_format: "Masukkan tarikh dalam format TTTT-BB-HH. Format lain mungkin akan diubah ke tarikh yang tidak diingini."
   text_hint_disable_with_0: "Note: Disable with 0"
@@ -3176,14 +3178,14 @@ ms:
   queries:
     apply_filter: Apply preconfigured filter
     configure_view:
-      heading: Configure view
+      heading: Konfigurasi paparan
       columns:
         input_label: "Tambah lajur"
         input_placeholder: "Pilih satu lajur"
         drag_area_label: "Urus dan susun semula lajur"
   top_menu:
     additional_resources: "Sumber tambahan"
-    getting_started: "Getting started"
+    getting_started: "Sedang bermula"
     help_and_support: "Bantuan dan sokongan"
   total_progress: "Jumlah kemajuan"
   user:
@@ -3194,7 +3196,7 @@ ms:
     authentication_provider: "Authentication Provider"
     identity_url_text: "The internal unique identifier provided by the authentication provider."
     authentication_settings_disabled_due_to_external_authentication: >
-      This user authenticates via an external authentication provider, so there is no password in OpenProject to be changed.
+      Pengguna ini mengesahkan melalui pembekal pengesahan luaran, jadi tiada kata laluan dalam OpenProject untuk diubah.
     authorization_rejected: "Anda tidak dibenarkan untuk daftar masuk."
     assign_random_password: "Tetapkan kata laluan rawak (dihantar ke pengguna melalui e-mel)"
     blocked: "dikunci sementara"
@@ -3397,7 +3399,7 @@ ms:
           unknown: "Permintaan tersebut tidak mengandungi parameter yang diperlukan, termasuk nilai parameter yang tidak disokong, atau tidak betul secara lain."
           missing_param: "Parameter yang diperlukan hilang: %{value}."
           request_not_authorized: "Permintaan perlu dibenarkan. Parameter yang diperlukan untuk membenarkan permintaan tiada atau tidak sah."
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "URI redirect yang diminta tidak betul atau tidak sepadan dengan URI redirect pelanggan."
         unauthorized_client: "Pelanggan tersebut tidak dibenarkan untuk melaksanakan permintaan ini menggunakan kaedah ini."
         access_denied: "Pemilik sumber atau server kebenaran menafikan permintaan ini."
         invalid_scope: "Skop yang diminta adalah tidak sah, tidak diketahui, atau salah bentuk."
@@ -3466,7 +3468,7 @@ ms:
       other: "satu token aktif"
     flows:
       authorization_code: "Aliran kod kebenaran"
-      client_credentials: "Client credentials flow"
+      client_credentials: "Aliran kelayakan pelanggan"
     client_credentials: "Pengguna yang digunakan untuk kelayakan pelanggan"
     client_credentials_impersonation_set_to: "Pengguna kelayakan pelanggan ditetapkan kepada"
     client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
