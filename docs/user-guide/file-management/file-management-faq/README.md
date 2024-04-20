@@ -21,7 +21,7 @@ Yes, that is possible. If you work with automatically managed folders, the corre
 
 ## Can I copy a project, including the OneDrive/SharePoint file storage?
 
-Yes, you can, but only if the OneDrive/SharePoint file storage in your project had the automatically managed folders selected during the set-up. Read more about copying projects [here](../../user-guide/projects/#copy-a-project).
+Yes, you can, but only if the OneDrive/SharePoint file storage in your project had the automatically managed folders selected during the set-up. Read more about copying projects [here](../../projects/#copy-a-project).
 
 
 ## Is there a virus scanner for the files attachments in OpenProject?
