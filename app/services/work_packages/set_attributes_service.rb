@@ -332,8 +332,14 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def round_progress_values
-    work_package.estimated_hours = work_package.estimated_hours&.round(2)
-    work_package.remaining_hours = work_package.remaining_hours&.round(2)
+    rounded = work_package.estimated_hours&.round(2)
+    if rounded != work_package.estimated_hours
+      work_package.estimated_hours = rounded
+    end
+    rounded = work_package.remaining_hours&.round(2)
+    if rounded != work_package.remaining_hours
+      work_package.remaining_hours = rounded
+    end
   end
 
   def update_remaining_hours_from_percent_complete

@@ -225,8 +225,11 @@ RSpec.shared_context "with seeded projects, members and project custom fields" d
     ]
   end
 
+  let(:all_fields) { input_fields + select_fields + multi_select_fields }
+
   let!(:boolean_project_custom_field_activated_in_other_project) do
-    create(:boolean_project_custom_field, projects: [other_project], name: "Other Boolean field",
+    create(:boolean_project_custom_field, projects: [other_project],
+                                          name: "Other Boolean field",
                                           project_custom_field_section: section_for_input_fields)
   end
 end
