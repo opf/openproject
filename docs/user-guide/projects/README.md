@@ -132,7 +132,19 @@ For further configuration open the **Advanced settings**. Here you can specify (
 
 ![copy project advanced settings](project-settings-copy-project-advanced-settings.png)
 
-Then click the blue **Copy** button.
+Under the **Copy options** section you can select what additional project data and settings, such as versions, work package categories, attachments and project members should be copied as well.
+
+![Copy options when copying a project in OpenProject](project-settings-copy-project-copy-options.png)
+
+**Note**: the File storages options only apply if the template project had  [OneDrive/SharePoint](../../system-admin-guide/integrations/one-drive) with automatically managed folders activated.
+
+If you select the **File Storages: Project folders** option, both the storage and the storage folders are copied into the new project. 
+
+If you de-select the **File Storages: Project folders** option, the storage is copied, but no specific folder is set up. 
+
+If you de-select the **File Storages** option, no storages are copied to the new project.
+
+Once you are done, click the green **Save** button.
 
 ### Archive a project
 
