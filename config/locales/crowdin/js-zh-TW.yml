@@ -146,7 +146,7 @@ zh-TW:
         manual: "切換到標記源模式"
         wysiwyg: "切換到所見即所得編輯器"
       macro:
-        error: "無法展開macro:"
+        error: "無法展開巨集(macro)： %{message}"
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
           not_found: "Requested resource could not be found"
@@ -199,7 +199,7 @@ zh-TW:
         new_group: "新增群組"
         reset_to_defaults: "重設為預設值"
       enterprise:
-        text_reprieve_days_left: "天至緩衝期結束"
+        text_reprieve_days_left: "剩下 %{days} days 測試結束"
         text_expired: "已過期"
         trial:
           confirmation: "確認您的電子郵件地址"
@@ -568,7 +568,7 @@ zh-TW:
         wiki: "在 <b>wiki</b> 中, 您可以與您的團隊一起記錄和分享知識。"
         backlogs:
           overview: " 在<b>backlogs</b> 檢視中，管理您的工作。"
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          sprints: "在 <b>積壓工作</b> 視圖中管理您的工作。 <br> 在右邊, 你有產品積壓或錯誤積壓, 在左邊, 你將有各自的衝刺。在這裡, 您可以創建 <b>史詩、使用者故事和錯誤</b>, 通過拖動 ' n ' drop 進行優先排序, 並將它們添加到衝刺中。"
           task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
           task_board_select: "...and select the <b>task board</b> entry."
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
@@ -626,7 +626,7 @@ zh-TW:
       center:
         label_actor_and: "和"
         and_more_users:
-          other: "和 1 個其他"
+          other: "與其他 %{count} 個"
         no_results:
           at_all: "當有與您有關的活動時，新通知將在此顯示。"
           with_current_filter: "目前此檢視中沒有任何通知"
@@ -780,7 +780,7 @@ zh-TW:
       tracking: "時間追蹤"
       stop: "Stop"
     timer:
-      start_new_timer: "Start new timer"
+      start_new_timer: "開始新的計時"
       timer_already_running: "To start a new timer, you must first stop the current timer:"
       timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
       tracking_time: "Tracking time"
@@ -1142,7 +1142,7 @@ zh-TW:
     notice_successful_create: "建立成功"
     notice_successful_delete: "刪除成功"
     notice_successful_update: "更新成功"
-    notice_job_started: "job started."
+    notice_job_started: "工作已開始"
     notice_bad_request: "錯誤的請求"
     relations:
       empty: 無關聯存在

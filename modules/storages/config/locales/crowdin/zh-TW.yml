@@ -100,7 +100,7 @@ zh-TW:
       label_error: 錯誤
       label_healthy: 健康的
       label_pending: 待處理
-      since: 自從{{datetime}}開始
+      since: 自從%{datetime}開始
       subtitle: Automatically managed project folders
       title: 健康狀態
     health_email_notifications:

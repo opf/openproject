@@ -988,12 +988,14 @@ de:
               only_same_project_categories_allowed: "Ein Arbeitpaket und seine Kategorie müssen im selben Projekt sein."
               does_not_exist: "Die angegebene Kategorie existiert nicht."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "kann nicht kleiner als 'Verbleibender Aufwand' sein."
-              must_be_set_when_remaining_work_is_set: "muss gesetzt werden, wenn 'Verbleibender Aufwand' gesetzt ist."
-              only_values_greater_or_equal_zeroes_allowed: "muss >= 0 sein."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "kann 'Aufwand' nicht überschreiten."
-              must_be_set_when_work_is_set: "muss gesetzt werden, wenn 'Aufwand' gesetzt ist."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können."
         type:
           attributes:

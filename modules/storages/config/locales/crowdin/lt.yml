@@ -107,9 +107,9 @@ lt:
       description_subscribed: Visi administratoriai gauna šios saugyklos sveikatos būsenos pranešimus e-paštu.
       description_unsubscribed: Šios saugyklos sveikatos būsenos e-pašto pranešimai buvo išjungti visiems administratoriams.
       error_could_not_be_saved: Nepavyko įrašyti e-pašto pranešimų nustatymų. Prašome bandyti dar kartą.
-      subscribe: Subscribe
-      title: Email notifications
-      unsubscribe: Unsubscribe
+      subscribe: Prenumeruoti
+      title: El. pašto priminimai
+      unsubscribe: Atšaukti prenumeratą
     help_texts:
       project_folder: Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
     instructions:
@@ -159,7 +159,7 @@ lt:
     label_creator: Kūrėjas
     label_delete_storage: Trinti saugyklą
     label_edit_storage: Keisti saugyklą
-    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_access_management: Keisti saugyklos prieigos valdymą
     label_edit_storage_automatically_managed_folders: Keisti saugyklos automatiškai tvarkomus aplankus
     label_edit_storage_host: Keisti saugyklos adresą
     label_existing_manual_folder: Esamas aplankas su rankiniu būdu valdomomis teisėmis
@@ -228,7 +228,7 @@ lt:
       project_storage_members:
         subtitle: Patikrinkite saugyklos %{storage_name_link} jungties būseną visiems projekto nariams.
         title: Narių jungties būsena
-    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
+    permission_header_explanation: "Failų teisės išorinėse saugyklės taikomos tik aplankams ir failams automatiškai valdomuose projektų aplankuose.\nPastebėtina, kad kai kurių failų prieigos teisių kai kurie saugyklų teikėjai nepalaiko."
     provider_types:
       label: Tiekėjo tipas
       nextcloud:

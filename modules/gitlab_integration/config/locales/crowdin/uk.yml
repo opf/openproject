@@ -33,7 +33,7 @@ uk:
             labels:
               invalid_schema: "має бути масивом гешів із ключами: color, title"
   project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Show GitLab content"
+  permission_show_gitlab_content: "Показати контент Gitlab"
   gitlab_integration:
     merge_request_opened_comment: >
       **Відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).

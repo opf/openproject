@@ -40,7 +40,7 @@ es:
     errors:
       too_many_elements_created_at_once: Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}.
   permission_create_files: 'Almacenamiento externo: Crear archivos'
-  permission_delete_files: 'Almacenamiento externo: Borrar archivos'
+  permission_delete_files: 'Almacenamiento externo: Eliminar archivos'
   permission_manage_file_links: Administrar enlaces de archivos
   permission_manage_storages_in_project: Administrar almacenes de archivos en el proyecto
   permission_read_files: 'Almacenamiento externo: Leer archivos'
@@ -106,7 +106,7 @@ es:
     health_email_notifications:
       description_subscribed: Todos los administradores reciben notificaciones por correo electrónico sobre el estado de salud de este almacenamiento.
       description_unsubscribed: Las notificaciones por correo electrónico del estado de salud de este almacenamiento se han desactivado para todos los administradores.
-      error_could_not_be_saved: No se han podido guardar los ajustes de notificación por correo electrónico. Por favor, inténtelo de nuevo.
+      error_could_not_be_saved: No se han podido guardar los ajustes de notificación por correo electrónico. Inténtelo de nuevo.
       subscribe: Suscribirse
       title: Notificaciones de correo electrónico
       unsubscribe: Darse de baja
@@ -228,7 +228,7 @@ es:
       project_storage_members:
         subtitle: Compruebe el estado de conexión del almacenamiento %{storage_name_link} de todos los miembros del proyecto.
         title: Estado de conexión de los miembros
-    permission_header_explanation: "Los permisos de archivos en almacenamientos externos sólo se aplican a las carpetas y archivos dentro de las carpetas de proyecto gestionadas automáticamente. \nTenga en cuenta que no todos los proveedores de almacenamiento admiten todos los permisos de archivos."
+    permission_header_explanation: "Los permisos de archivos en almacenamientos externos solo se aplican a las carpetas y archivos dentro de las carpetas de proyecto gestionadas automáticamente. \nTenga en cuenta que no todos los proveedores de almacenamiento admiten todos los permisos de archivos."
     provider_types:
       label: Tipo de proveedor
       nextcloud:

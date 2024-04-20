@@ -352,7 +352,7 @@ pt-PT:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                A versão contém várias funcionalidades e melhorias novas: <br> <ul class="%{list_styling_class}"> <li>Implemente relatórios de progresso em hierarquias de pacotes de trabalho.</li> <li>Faça a gestão dos atributos do projeto de uma forma estruturada na página de visão geral do projeto.</li> <li>Veja de forma simplificada os campos personalizados na lista de projetos e na visão geral do projeto.</li> <li>Cabeçalhos de página unificados com o design elegante do Primer.</li> <li>Melhore as reuniões com novas funcionalidades, como carregamentos de anexos, responsáveis e histórico de reuniões.</li> <li>Receba alertas automáticos para armazenamentos de ficheiros não saudáveis e controle através de opções que pode ativar/desativar.</li> <li>Copie automaticamente a pasta do projeto gerida para o OneDrive/SharePoint ao copiar projetos.</li> <li>Peça aos administradores para removerem as partilhas dos pacotes de trabalho quando revogar a adesão a um projeto.</li> <li>Melhore o planeamento com modos de visualização de 4 e 8 semanas no planeador da equipa.</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."
@@ -643,7 +643,7 @@ pt-PT:
           no_selection: "Clique numa notificação para ver todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."
-          link_text: "Click here to load them."
+          link_text: "Clique aqui para carregá-las."
       menu:
         accountable: "Responsável"
         by_project: "Não lido por projeto"
@@ -926,7 +926,7 @@ pt-PT:
       message_work_package_status_blocked: "O estado do pacote de trabalho não pode ser gravado devido ao estado fechado e à versão fechada estarem a ser atribuídas."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Estimativas de trabalho e progresso"
       baseline:
         addition_label: "Adicionado à visualização dentro do período de comparação"
         removal_label: "Removido da visualização dentro do período de comparação"
@@ -1329,5 +1329,5 @@ pt-PT:
         Close: "Fechar"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Há um problema de rede."
+        network_on: "A rede está de volta. Estamos a tentar."

@@ -990,12 +990,14 @@ it:
               only_same_project_categories_allowed: "La categoria di una macro-attività deve essere contenuta nel medesimo progetto della macro-attività."
               does_not_exist: "La categoria specificata non esiste."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "non può essere inferiore a \"Lavoro residuo\"."
-              must_be_set_when_remaining_work_is_set: "deve essere impostato quando si imposta \"Lavoro residuo\"."
-              only_values_greater_or_equal_zeroes_allowed: "deve essere >=0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "non può superare \"Lavoro\"."
-              must_be_set_when_work_is_set: "deve essere impostato quando si imposta \"Lavoro\"."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati."
         type:
           attributes:
