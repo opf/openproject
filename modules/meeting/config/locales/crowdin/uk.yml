@@ -170,16 +170,16 @@ uk:
   label_agenda_item_add_notes: "Додати примітку "
   label_agenda_item_work_package: "Пакет робіт пункту порядку денного"
   text_agenda_item_title: 'Пункт порядку денного «%{title}»'
-  text_agenda_work_package_deleted: 'Пункт порядку денного для вилученого пакета робіт'
+  text_agenda_work_package_deleted: 'Пункт порядку денного для видаленого пакета робіт'
   text_deleted_agenda_item: 'Видалений пункт порядку денного'
-  label_initial_meeting_details: "Зустріч"
+  label_initial_meeting_details: "Нарада"
   label_meeting_details: "Інформація про зустріч"
   label_meeting_details_edit: "Редагувати інформацію про зустріч"
-  label_meeting_state: "Статус зустрічі"
+  label_meeting_state: "Статус наради"
   label_meeting_state_open: "Відкрити"
-  label_meeting_state_open_html: "<i>Відкрито</i>"
+  label_meeting_state_open_html: "<i>Відкрита</i>"
   label_meeting_state_closed: "Закрито"
-  label_meeting_state_closed_html: "<i>Закрито.</i>"
+  label_meeting_state_closed_html: "<i>Закрита</i>"
   label_meeting_reopen_action: "Відкрити зустріч знову"
   label_meeting_close_action: "Закрити зустріч"
   text_meeting_open_description: "Це відкрита нарада. Ви можете додавати або вилучати пункти порядку денного й редагувати їх. Коли нарада завершиться, закрийте її, щоб заблокувати."
