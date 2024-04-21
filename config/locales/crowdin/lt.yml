@@ -325,13 +325,13 @@ lt:
       will_remove_the_groups_role: "Tai išims grupės vaidmenį iš šio projekto."
       however_work_packages_shared_with_user_html:
         one: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinamas su šiuo naudotoju."
-        few: "However, %{shared_work_packages_link} have also been shared with this user."
-        many: "However, %{shared_work_packages_link} have also been shared with this user."
+        few: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šiuo naudotoju."
+        many: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šiuo naudotoju."
         other: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šiuo naudotoju."
       however_work_packages_shared_with_group_html:
-        one: "However, %{shared_work_packages_link} has also been shared with this group."
-        few: "However, %{shared_work_packages_link} have also been shared with this group."
-        many: "However, %{shared_work_packages_link} have also been shared with this group."
+        one: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinamas su šia grupe."
+        few: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šia grupe."
+        many: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šia grupe."
         other: "Kaip bebūtų, %{shared_work_packages_link} taipogi bendrinami su šia grupe."
       remove_work_packages_shared_with_user_too: "Naudotojas, kuris buvo išimtas kaip narys, vis dar gali prieiti prie bendrinamų darbo paketų. Ar norėtumėte taipogi išimti šiuos bendrinimus?"
       remove_work_packages_shared_with_group_too: "Grupė, kuri buvo pašlinta kaip narys, vis dar turi prieigą prie bendrinamų darbo paketų. Ar norėtumėte taipogi panaikinti ir bendrinimus?"
@@ -1004,13 +1004,13 @@ lt:
               only_same_project_categories_allowed: "Darbų paketo kategorija turi būti tame pačiame projekte kaip ir darbų paketas."
               does_not_exist: "Nurodyta kategorija neegzistuoja."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
-              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
-              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              cant_be_inferior_to_remaining_work: "Negali būti mažesnis už likusį darbą."
+              must_be_set_when_remaining_work_is_set: "Privaloma, kai nustatytas likęs darbas."
+              only_values_greater_or_equal_zeroes_allowed: "Turi būti >= 0."
               format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "Cannot be higher than Work."
-              must_be_set_when_work_is_set: "Required when Work is set."
+              cant_exceed_work: "Negali būdi daugiau nei Darbas."
+              must_be_set_when_work_is_set: "Privaloma, kai nustatytas Darbas."
               format: "%{message}"
           readonly_status: "Darbo paketas yra tik skaitymo būsenoje, taigi jo atributų keisti negalima."
         type:
