@@ -10,11 +10,11 @@ keywords: project attributes, create, project settings
 
 > **Please note:** Project attributes an an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
-Project attributes are custom fields that allow you to communicate key information relevant to the project in the [Project Overview](#) page.
+Project attributes are custom fields that allow you to communicate key information relevant to the project in the [Project Overview](../../../user-guide/project-overview) page.
 
 >*Note*: Prior to version 14.0, these were called "project custom fields" and hidden under the 'Custom fields' page. Starting with 14.0, there is now a new entry in the administration section called 'Project attributes' under 'Projects'. 
 
-This document describes the process of creating, ordering and grouping project attributes and is directed at instance administrators. If you would instead like to know how to enable and set the values for project custom fields at a project level, please read [Using project attributes](#) in our use guide.
+This document describes the process of creating, ordering and grouping project attributes and is directed at instance administrators. If you would instead like to know how to enable and set the values for project custom fields at a project level, please read our use guide on the [Project Overview](../../../user-guide/project-overview) page.
 
 ## Viewing project attributes
 
@@ -41,7 +41,7 @@ This will display the "New attribute" form with these options:
 
 **[IMG: New attribute form]**
 
-- **Name**: This is the name that will be visible in the [Project overview](#) page.
+- **Name**: This is the name that will be visible in the [Project Overview](../../../user-guide/project-overview) page.
 - **Section:** If there are sections, you can pick where this new project attribute should appear. [Learn about sections](#sections) for more information.
 - **Format**: You can pick from nine different types of fields: text, long text, integer, float, list, date, boolean, user and version. *Note that you cannot change this once the project attribute is created.*
 - **Format options:** Depending on the type you choose, you might have additional options, like minimum and maximum width, default value or regular expressions for validation.
