@@ -10,7 +10,7 @@ release_date: 2024-04-08
 
 Release date: 2024-04-08
 
-We released [OpenProject 14.0.0](https://community.openproject.org/versions/1356). The major release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will first list important technical updates, then give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+We released [OpenProject 14.0.0](https://community.openproject.org/versions/1356). The major release contains several bug fixes, and we recommend updating to the newest version. In these Release Notes, we will first list important technical updates, then give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 ## Important updates and breaking changes
 
@@ -30,7 +30,7 @@ For more information, see [#44054](https://community.openproject.org/work_packag
 ### Removed deprecated methods for permission checks
 
 In version 13.1 we have overhauled our system to handle internal permission checks by allowing permissions to not only be
-defined on project or global level, but also on resources like work packages. Therefore we have introduced new methods to
+defined on project or global level, but also on resources like work packages. Therefore, we have introduced new methods to
 check permissions. The old methods have been marked as deprecated and are now removed in 14.0.
 
 Affected methods are:
@@ -45,7 +45,7 @@ For more information, see [#51212](https://community.openproject.org/work_packag
 
 ### Reduced number of configurable design variables
 
-We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings). This simplifies the process of setting the desired colour scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colourblind mode in the future.
+We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings). This simplifies the process of setting the desired color scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colorblind mode in the future.
 
 The following variables have been changed:
 
@@ -108,7 +108,7 @@ Please note that regarding progress reporting, **updating to OpenProject 14.0 mi
 
 ### Project attributes management on the project overview page
 
-With OpenProject 14.0, you are now able to view and edit custom fields for projects in a structured way, organized in sections, on the project overview section. These fields are now referred to as 'Project attributes'. Admins can edit them directly on the project overview page:
+With OpenProject 14.0, you are now able to view and edit custom fields for projects in a structured way, organized in sections, on the project overview section. These fields are now referred to as **'Project attributes'**. Admins can edit them directly on the project overview page:
 
 ![Project attributes shown on project overview page, divided in sections](14-0-project-attributes-sections-highlighted.png)
 
@@ -120,7 +120,7 @@ Project attributes as well as the sections can be managed in administration/proj
 
 Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed. 
 
-As described above, project custom fields are now called 'Project attributes' and can be shown in a sidebar on the project overview page on a per-project configuration.
+As described above, *project* custom fields are now called 'Project attributes' and can be shown in a sidebar on the project overview page on a per-project configuration.
 
 ### Enhanced Meetings module with new features
 
@@ -140,18 +140,18 @@ Read more about file storage troubleshooting in our [documentation](https://www.
 
 ### OneDrive/SharePoint: Copying template projects including automatically managed project folder
 
-If you add an automatically managed project folder to a project, you will now have the following options:
+If you use the OneDrive/SharePoint integration and add an automatically managed project folder to a project, you will now have the following options when copying that project:
 
-* deactivate the copy option "File Storages: Project folders" – copying will copy the file storage, but not the specific project folder
-* deactivate the copy option "File Storages" – copying will not copy any file storage
+* Deactivate the copy option "File Storages: Project folders" – this will copy the file storage, but not the specific project folder.
+* Deactivate the copy option "File Storages" – this will not copy any file storage.
 
 ### Reminder for admins when revoking a project membership to remove shares on work packages 
 
-As of 14.0, admins are asked whether they also want to remove access to shared work packages when deleting a project member. 
+As of 14.0, admins are asked whether they also want to remove access to [shared work packages](https://www.openproject.com/docs/user-guide/work-packages/share-work-packages/) when deleting a project member. 
 
 ### 4 and 8-week display modes for the team planner
 
-The team planner allows for easy planning of users assigned to work packages. It is now possible to have the team planner span more than two weeks, with newly added options for 4-week and 8-week timeframes.
+The [team planner](https://www.openproject.com/docs/user-guide/team-planner/) allows for easy planning of users assigned to work packages. It is now possible to have the team planner span more than two weeks, with newly added options for 4-week and 8-week timeframes.
 
 ### Unified page headers with the sleek Primer design
 
@@ -159,7 +159,9 @@ As mentioned in the earlier blog post about the Primer Design System, work is on
 
 <!--more-->
 
-## Bug fixes and changes
+## Complete list of changes and bug fixes
+
+Apart from the features mentioned above, there have been a lot of other changes, smaller features and, of course, bug fixes for OpenProject 14.0:
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
 <!-- BEGIN AUTOMATED SECTION -->
