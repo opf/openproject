@@ -193,6 +193,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
               overview_page.open_edit_dialog_for_section(section)
 
               invalid_field.clear
+              valid_field.close_autocompleter
               valid_field.clear
               valid_field.select_option(first_version.name, third_version.name)
 
