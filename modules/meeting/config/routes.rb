@@ -28,7 +28,7 @@
 
 Rails.application.routes.draw do
   resources :projects, only: %i[] do
-    resources :meetings, only: %i[index new create]
+    resources :meetings, only: %i[index new create show]
   end
 
   resources :work_packages, only: %i[] do

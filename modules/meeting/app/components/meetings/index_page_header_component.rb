@@ -72,7 +72,7 @@ module Meetings
     end
 
     def parent_element
-      if @project
+      if @project.present?
         { href: project_overview_path(@project.id), text: @project.name }
       else
         { href: home_path, text: I18n.t(:label_home) }

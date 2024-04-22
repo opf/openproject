@@ -7,8 +7,8 @@
       render(FlashMessageComponent.new)
     end
 
-    show_page.with_row(mt: 2, mb: 3, pb: 2, border: :bottom) do
-      render(Meetings::HeaderComponent.new(meeting: @meeting))
+    show_page.with_row do
+      render(Meetings::HeaderComponent.new(meeting: @meeting, project: @project))
     end
 
     show_page.with_row do
