@@ -112,11 +112,15 @@ With OpenProject 14.0, you are now able to view and edit project attributes in a
 
 ![Project attributes shown on project overview page, divided in sections](14-0-project-attributes-sections-highlighted.png)
 
-Project attributes as well as Sections can be managed in administration/projects/project attributes.
+Project attributes as well as the sections can be managed in administration/projects/project attributes.
 
 ![Manage project attributes and sections in adminstrations](14-0-project-attributes-administration.png)
 
 ### Streamlined view of custom fields in project list and project overview
+
+Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed. 
+
+As described in the section about project attributes, (enabled) project custom fields are now displayed in a sidebar on the project overview page. 
 
 ### Enhanced Meetings module with new features
 
