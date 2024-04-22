@@ -104,11 +104,11 @@ Admins are able to exclude specific work packages (e.g., those marked as rejecte
 
 In addition to these changes, the section 'Estimates and Time' has been renamed to 'Estimates and Progress' and this is where you will now find % Complete. Also, the seeding of statuses has been fixed to include % Complete values and in the Progress modal, you will now be able to live preview changes amongst the fields.
 
-Please note that regarding progress reporting, **updating to OpenProject 14.0 might result in data loss or modification in certain cases**. See our blog to learn about the [details and motives on these significant changes to progress and work estimates](https://www.openproject.org/blog/changes-progress-work-estimates/) and how it might effect you.
+Please note that regarding progress reporting, **updating to OpenProject 14.0 might result in automated data modification in certain cases**. See our blog to learn about the [details and motives on these significant changes to progress and work estimates](https://www.openproject.org/blog/changes-progress-work-estimates/) and how it might effect you.
 
 ### Project attributes management on the project overview page
 
-With OpenProject 14.0, you are now able to view and edit project attributes in a structured way, organized in sections, on the project overview section. Admins can edit them directly on the project overview page:
+With OpenProject 14.0, you are now able to view and edit custom fields for projects in a structured way, organized in sections, on the project overview section. These fields are now referred to as 'Project attributes'. Admins can edit them directly on the project overview page:
 
 ![Project attributes shown on project overview page, divided in sections](14-0-project-attributes-sections-highlighted.png)
 
@@ -120,11 +120,11 @@ Project attributes as well as the sections can be managed in administration/proj
 
 Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed. 
 
-As described in the section about project attributes, (enabled) project custom fields are now displayed in a sidebar on the project overview page.
+As described above, project custom fields are now called 'Project attributes' and can be shown in a sidebar on the project overview page on a per-project configuration.
 
 ### Enhanced Meetings module with new features
 
-OpenProject's (dynamic) Meetings have been updated with the following new features:
+OpenProject's [(Dynamic) Meetings](https://www.openproject.org/docs/user-guide/meetings/dynamic-meetings/) have been updated with the following new features:
 
 * Attachments of agenda items are now shown in the sidebar. You can also add them directly to the meeting there.
 * When copying a meeting, you can now check a box to choose whether you want to include attachments.
@@ -134,13 +134,28 @@ OpenProject's (dynamic) Meetings have been updated with the following new featur
 
 ### Automatic alerts for unhealthy file storages, and toggle options
 
-### OneDrive/SharePoint: Copying projects with automatically managed project folder when copying projects
+With OpenProject 14.0, admins now get email notifications when a file storage (e.g Nextcloud) is unhealthy. To avoid sending unwanted messages, we also added the option to deactivate these health status notifications for a storage.
+
+Read more about file storage troubleshooting in our [documentation](https://www.openproject.com/docs/system-admin-guide/file-storages/file-storage-troubleshooting/).
+
+### OneDrive/SharePoint: Copying template projects including automatically managed project folder
+
+If you add an automatically managed project folder to a project, you will now have the following options:
+
+* deactivate the copy option "File Storages: Project folders" – copying will copy the file storage, but not the specific project folder
+* deactivate the copy option "File Storages" – copying will not copy any file storage
 
 ### Reminder for admins when revoking a project membership to remove shares on work packages 
 
+As of 14.0, admins are asked whether they also want to remove access to shared work packages when deleting a project member. 
+
 ### 4 and 8-week display modes for the team planner
 
+The team planner allows for easy planning of users assigned to work packages. It is now possible to have the team planner span more than two weeks, with newly added options for 4-week and 8-week timeframes.
+
 ### Unified page headers with the sleek Primer design
+
+As mentioned in the earlier blog post about the Primer Design System, work is ongoing to unify more and more components of the application to match this design. In 14.0, we have started to add new primer-based page headers.
 
 <!--more-->
 
