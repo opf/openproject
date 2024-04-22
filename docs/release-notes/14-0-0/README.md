@@ -269,9 +269,9 @@ The `available_responsibles` endpoint has been removed from the API. This endpoi
 
 #### Contributions
 
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+A big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
 
-Special thanks for reporting and finding bugs go to
+Special thanks for reporting and finding bugs go to:
 
-Silas Kropf, Philipp Schulz, Benjamin Rönnau, Mario Haustein, Matt User, Mario Zeppin, Romain Besson, Cécile Guiot,
+Silas Kropf, Philipp Schulz, Benjamin Rönnau, Mario Haustein, Matt User, Mario Zeppin, Romain Besson,
 Daniel Hilbrand, Christina Vechkanova, Sven Kunze, Richard Richter, Julian Wolff
