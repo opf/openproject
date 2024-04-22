@@ -91,7 +91,7 @@ Admins are able to exclude specific work packages (e.g., those marked as rejecte
 
 ![Progress work estimates excluded from parent](progress-work-estimates-excludedFromParent.jpg)
 
-In addition to these changes, the section 'Estimates and Time' has been renamed to 'Estimates and Progress' and this is where you will now find % Complete. Also, the seeding of statuses has been fixed to include % Complete values and in the Progress modal, you will now be able to live preview changes amongst the fields.
+In addition to these changes, the section 'Estimates and Time' has been renamed to 'Estimates and Progress' and this is where you will now find % Complete. Also, the seeding of statuses has been fixed to include % Complete values and in the Progress modal, you will now be able to preview changes amongst the fields live.
 
 Please note that regarding progress reporting, **updating to OpenProject 14.0 might result in automated data modification in certain cases**. See our blog to learn about the [details and motives on these significant changes to progress and work estimates](https://www.openproject.org/blog/changes-progress-work-estimates/) and how it might affect you.
 
