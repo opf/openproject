@@ -117,6 +117,7 @@ module Type::AttributeGroups
   # the default group map.
   def default_attribute_groups
     values = work_package_attributes_by_default_group_key
+    values.reject! { |k, _| k == :estimates_and_time } if is_milestone?
 
     default_groups.keys.each_with_object([]) do |groupkey, array|
       members = values[groupkey]
@@ -167,6 +168,7 @@ module Type::AttributeGroups
   # it will put them into the other group.
   def work_package_attributes_by_default_group_key
     active_cfs = active_custom_field_attributes
+
     work_package_attributes
       .keys
       .select { |key| default_attribute?(active_cfs, key) }
