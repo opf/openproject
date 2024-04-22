@@ -120,9 +120,17 @@ Project attributes as well as the sections can be managed in administration/proj
 
 Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed. 
 
-As described in the section about project attributes, (enabled) project custom fields are now displayed in a sidebar on the project overview page. 
+As described in the section about project attributes, (enabled) project custom fields are now displayed in a sidebar on the project overview page.
 
 ### Enhanced Meetings module with new features
+
+OpenProject's (dynamic) Meetings have been updated with the following new features:
+
+* Attachments of agenda items are now shown in the sidebar. You can also add them directly to the meeting there.
+* When copying a meeting, you can now check a box to choose whether you want to include attachments.
+* A meeting history has been added and can be found in the Meetings menu, showing previous changes.
+* The presenter of an agenda item can now be changed from the creator of the agenda item to any person in the project.
+* An option to copy an URL of a specific agenda item has been added.
 
 ### Automatic alerts for unhealthy file storages, and toggle options
 
