@@ -595,7 +595,7 @@ module WorkPackage::PDFExport::Gantt
       ((start + 1)..(finish - 1)).each do |index|
         group = page_groups[index]
         page = group.pages[finish_page_index]
-        page.add_line(target.start_left - LINE_STEP, page.columns.last.right, source.finish_top, source.finish_top)
+        page.add_line(target.start_left - LINE_STEP, target.start_left - LINE_STEP, page.header_row_height, page.height)
       end
     end
 
@@ -722,7 +722,7 @@ module WorkPackage::PDFExport::Gantt
     # @return [Array<Date>]
     def collect_work_packages_dates(work_packages)
       work_packages.map do |work_package|
-        [work_package.start_date || work_package.due_date, work_package.due_date || Time.zone.today]
+        [work_package.start_date || work_package.due_date, work_package.due_date || work_package.start_date]
       end.flatten.uniq.sort
     end
 
@@ -743,6 +743,13 @@ module WorkPackage::PDFExport::Gantt
     # @return [String] hexcode_in_prawn_format
     def wp_type_color(work_package)
       work_package.type.color.hexcode.sub("#", "")
+    end
+
+    # get the dates of the work package with safety checks
+    def wp_dates(work_package)
+      start_date = work_package.start_date || work_package.due_date
+      end_date = work_package.due_date || work_package.start_date || Time.zone.today
+      [[start_date, end_date].min, [start_date, end_date].max]
     end
 
     # translates the work package dates to column dates
@@ -819,7 +826,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def calc_end_offset(work_package, date)
-      end_date = work_package.due_date || Time.zone.today
+      end_date = work_package.due_date || work_package.start_date
       test_date = Date.new(date.year, date.month, -1)
       return 0 if end_date >= test_date
 
@@ -829,10 +836,9 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def wp_on_month?(work_package, date)
-      start_date = work_package.start_date || work_package.due_date
-      end_date = work_package.due_date || Time.zone.today
+      start_date, end_date = wp_dates(work_package)
       (Date.new(start_date.year, start_date.month, 1)..Date.new(end_date.year, end_date.month, -1))
-           .cover?(date)
+        .cover?(date)
     end
   end
 
@@ -862,9 +868,8 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def wp_on_day?(work_package, date)
-      start_date = work_package.start_date || work_package.due_date
-      end_date = work_package.due_date || Time.zone.today
-      Range.new(start_date, end_date).include?(date)
+      start_date, end_date = wp_dates(work_package)
+      (start_date..end_date).cover?(date)
     end
   end
 
@@ -894,7 +899,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def calc_end_offset(work_package, date)
-      end_date = work_package.due_date || Time.zone.today
+      end_date = work_package.due_date || work_package.start_date
       return 0 if end_date >= date.end_of_quarter
 
       width_per_day = @column_width.to_f / days_of_quarter(date)
@@ -911,9 +916,9 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def wp_on_quarter?(work_package, date)
-      start_date = work_package.start_date || work_package.due_date
-      end_date = work_package.due_date || Time.zone.today
-      Range.new(start_date.beginning_of_quarter, end_date.end_of_quarter).include?(date)
+      start_date, end_date = wp_dates(work_package)
+      (start_date.beginning_of_quarter..end_date.end_of_quarter)
+        .cover?(date)
     end
   end
 
@@ -1090,8 +1095,6 @@ module WorkPackage::PDFExport::Gantt
       columns.each { |column| column.page = self }
       self.lines = []
     end
-
-    def bottom = top + height
 
     def add_line(left, right, top, bottom)
       self.lines.push({ left:, right:, top:, bottom: })
