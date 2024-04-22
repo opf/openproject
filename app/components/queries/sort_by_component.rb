@@ -38,4 +38,12 @@ class Queries::SortByComponent < ApplicationComponent
       order&.attribute
     )
   end
+
+  def order_asc?
+    order&.direction == :asc
+  end
+
+  def order_desc?
+    order&.direction == :desc
+  end
 end
