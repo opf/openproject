@@ -124,8 +124,21 @@ module OpenProject::Storages
              author_url: "https://www.openproject.org",
              bundled: true,
              settings: {} do
+
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
+      # Independent of storages module (Disabling storages module does not revoke enabled permissions).
+      project_module nil, order: 100 do
+        permission :manage_storages_in_project,
+                   { "storages/admin/project_storages": %i[index members new
+                                                           edit update create oauth_access_grant
+                                                           destroy destroy_info set_permissions],
+                     "storages/project_settings/project_storage_members": %i[index] },
+                   permissible_on: :project,
+                   dependencies: %i[]
+      end
+
+      # Dependent on storages module (Disabling storages module does revoke enabled permissions).
       project_module :storages,
                      dependencies: :work_package_tracking do
         permission :view_file_links,

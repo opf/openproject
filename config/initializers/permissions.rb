@@ -177,14 +177,6 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :global,
                      require: :loggedin,
                      grant_to_admin: true
-
-      map.permission :manage_storages_in_project,
-                     { "storages/admin/project_storages": %i[index members new
-                                                           edit update create oauth_access_grant
-                                                           destroy destroy_info set_permissions],
-                       "storages/project_settings/project_storage_members": %i[index] },
-                     permissible_on: :project,
-                     dependencies: %i[]
     end
 
     map.project_module :work_package_tracking, order: 90 do |wpt|
