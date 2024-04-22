@@ -105,7 +105,7 @@ Project attributes as well as the sections can be managed in administration/proj
 
 ![Manage project attributes and sections in adminstrations](14-0-project-attributes-administration.png)
 
-### Streamlined view of custom fields in project list and project overview
+### Streamlined view of custom fields in project lists and project overview
 
 Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed. 
 
