@@ -13,7 +13,8 @@ The **Project overview** page is a dashboard with important information about yo
 | Topic                                                        | Content                                                  |
 | ------------------------------------------------------------ | -------------------------------------------------------- |
 | [What is the project overview?](#what-is-the-project-overview) | What can I do with the project overview page?            |
-| [Add a widget to the project overview](#add-a-widget-to-the-project-overview) | How can I add a new widget to the project overview?      |
+| [Project attributes](#project-attributes) | What are project attributes and how can I use them? |
+| [Widgets](#widgets) | What are widgets, and how can I add them to my project overview page?    |
 | [Project status](#project-status) | Set your project status     |
 | [Available project overview widgets](#available-project-overview-widgets) | What kind of widgets can I add to the project overview?  |
 | [Re-size and re-order widgets](#re-size-and-re-order-widgets) | How can I re-order or re-size the widgets?               |
@@ -23,17 +24,35 @@ The **Project overview** page is a dashboard with important information about yo
 
 The project overview is a single dashboard page where all important information of a selected project can be displayed. The idea is to provide a central repository of information for the whole project team.
 
-Project information is added to the dashboard as widgets. To customize the dashboard to your needs, you can change the order in which the widgets appear as well as change their size.
-
-Furthermore, you can add text widgets, custom texts, links and other information to your overview page.
+Project information is added to the dashboard as either [project attributes](#project-attributes) or [widgets](#widgets).
 
 Open the project overview by navigating to **Overview** in the project menu on the left.
 
 ![project_overview](project_overview.png)
 
+## Project attributes
 
+**[Project attributes]**(#project-attributes) are a set of project-level custom fields that you let you display certain types of information relevant to your project. 
 
-## Add a widget to the project overview
+You will see a list of all available project attributes on a pane to the right side of of your Project overview page. They may be grouped in sections.
+
+**[IMG: Project overview page showing project attributes on the right side]**
+
+To edit the value of any visible project attribute, click on the **Edit** (pencil) icon next to the name of the section containing that project attribute. A modal will be displayed with all the attributes in that section.
+
+**[IMG: Edit modal for one section]**
+
+Edit the values for each project attribute as you please and click on **Save** to confirm and save your changes.
+
+>**Note:** If you are an instance admin and would like to create, modify or add project attributes, please read our [admin guide to project attributes](#../../system-admin-guide/project-settings/project-attributes).
+
+Project attributes are 
+
+## Widget
+
+**Widgets** are small blocks of information that you can customize to display pertinent project information (such as project description, status, work package lists or graphs). You can add and remove multiple widgets, re-order them and resize them to your liking.
+
+To add a new widget:
 
 1. Choose the place where to add the new widget.
 
@@ -48,11 +67,9 @@ Choose the most appropriate type of widget from the list.
 ![add widget](image-20191112142303373.png)
 
 
-
 ## Project status
 
 On the project overview page, you can set your project status and give a detailed description. The project status is a widget that you add to your project overview. Find the description [below](#project-status-widget).
-
 
 
 ## Available project overview widgets

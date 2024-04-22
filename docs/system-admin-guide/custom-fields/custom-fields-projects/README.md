@@ -11,4 +11,4 @@ As a user of [OpenProject Enterprise on-premises](https://www.openproject.org/en
 
 >**Important**: Starting with version 14.0, project custom fields are called "project attributes". Please refer to our [user guide on project attributes](../../../project-overview) for more information. 
 >
->If you are an administrator and wish to configure project attributes, please refer to our [admin guide on project attributes](../../projects/project-attributes).
+>If you are an administrator and wish to configure project attributes, please refer to our [admin guide on project attributes](../../project-settings/project-attributes).
