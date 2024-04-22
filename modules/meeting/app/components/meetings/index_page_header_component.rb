@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,20 +27,27 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-#
 
 module Meetings
-  class AddButtonComponent < ::AddButtonComponent
-    def render?
-      if current_project
-        User.current.allowed_in_project?(:create_meetings, current_project)
+  class IndexPageHeaderComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include ApplicationHelper
+
+    def initialize(project: nil)
+      super
+      @project = project
+    end
+
+    def render_create_button?
+      if @project
+        User.current.allowed_in_project?(:create_meetings, @project)
       else
         User.current.allowed_in_any_project?(:create_meetings)
       end
     end
 
     def dynamic_path
-      polymorphic_path([:new, current_project, :meeting])
+      polymorphic_path([:new, @project, :meeting])
     end
 
     def id
@@ -53,6 +60,23 @@ module Meetings
 
     def label_text
       I18n.t(:label_meeting)
+    end
+
+    def page_title
+      I18n.t(:label_meeting_plural)
+    end
+
+    def breadcrumb_items
+      [parent_element,
+       page_title]
+    end
+
+    def parent_element
+      if @project
+        { href: project_overview_path(@project.id), text: @project.name }
+      else
+        { href: home_path, text: I18n.t(:label_home) }
+      end
     end
   end
 end
