@@ -10,9 +10,6 @@ keywords: new project, settings, default, modules
 
 To set defaults for new projects, navigate to **Administration settings** → **Projects** → **Project attributes**. 
 
-
-To set defaults for new projects, navigate to **Administration settings** → **Projects** → **Project attributes**. 
-
 You will find the following options on this page:
 
 -**New projects are public by default**: Check this option to make new projects public by default when they are created. If this is unchecked, all new projects will be private by default and will manually have to manually be marked as public.

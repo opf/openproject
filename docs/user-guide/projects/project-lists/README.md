@@ -37,7 +37,7 @@ You will then get a list of all your active projects in OpenProject.
 
 ### Project lists view explained
 
-You can use this projects overview to **create a multi project status dashboard** if you include your own [project attributes](../../../system-admin-guide/projects/project-attributes/), e.g. custom status options, project duration or any relevant project information.
+You can use the Project overview page to **create a multi-project status dashboard** if you include your own [project attributes](../../../system-admin-guide/projects/project-attributes/), e.g. custom status options, project duration or any relevant project information.
 
 > **Please note:** Project attributes an an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
