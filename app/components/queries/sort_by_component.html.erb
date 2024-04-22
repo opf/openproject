@@ -1,11 +1,10 @@
-<%= render(Primer::OpenProject::GridLayout.new(css_class: "op-configure-query-sort-form", tag: :div)) do |grid| %>
-  <% grid.with_area("field") do %>
-    <%= select_tag 'sort_field', select_options, include_blank: true %>
-  <% end %>
-  <% grid.with_area("direction") do %>
-    <%= render(Primer::Alpha::SegmentedControl.new("aria-label": "Sort order", hide_labels: true)) do |sort_buttons| %>
-      <% sort_buttons.with_item(icon: "sort-asc", label: "sort ascending", selected: order_asc?) %>
-      <% sort_buttons.with_item(icon: "sort-desc", label: "sort descending", selected: order_desc?) %>
+<div data-controller="sort-by-config" data-application-target="dynamic">
+  <%= hidden_field_tag :sortBy, current_orders, data: { "sort-by-config-target" => "sortByField"} %>
+  <%= render(Primer::OpenProject::FlexLayout.new) do |layout| %>
+    <% order_limit.times do |i| %>
+      <% layout.with_row do %>
+        <%= render(Queries::SortByFieldComponent.new(order: query.orders[i], available_orders:)) %>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+</div>

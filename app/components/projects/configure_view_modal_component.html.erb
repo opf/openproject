@@ -14,7 +14,7 @@
           data: {
             controller: "params-from-query",
             'application-target': "dynamic",
-            'params-from-query-allowed-value': '["filters", "query_id", "page", "per_page", "sortBy"]'
+            'params-from-query-allowed-value': '["filters", "query_id", "page", "per_page"]'
           }) do |form| %>
       <%= render(Primer::Alpha::TabPanels.new(label: "label")) do |tab_panel| %>
         <% tab_panel.with_tab(selected: true, id: "tab-selects") do |tab| %>
@@ -39,13 +39,7 @@
         <% tab_panel.with_tab(id: "tab-selects") do |tab| %>
           <% tab.with_text { "Sort By" }%>
           <% tab.with_panel do %>
-            <%= render(Primer::OpenProject::FlexLayout.new) do |layout| %>
-              <% 3.times do |i| %>
-                <% layout.with_row do %>
-                  <%= render(Queries::SortByComponent.new(order: query.orders[i], available_orders:)) %>
-                <% end %>
-              <% end %>
-            <% end %>
+            <%= render(Queries::SortByComponent.new(query: query)) %>
           <% end%>
         <% end %>
       <% end %>

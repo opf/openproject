@@ -28,16 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::ConfigureViewModalComponent < ApplicationComponent
-  MODAL_ID = "op-project-list-configure-dialog"
-  QUERY_FORM_ID = "op-project-list-configure-query-form"
-  COLUMN_HTML_NAME = "columns"
+class Queries::SortByFieldComponent < ApplicationComponent
+  options :order,
+          :available_orders
 
-  options :query
+  def select_options
+    options_for_select(
+      available_orders.map { |order| [order[:name], order[:id]] },
+      order&.attribute
+    )
+  end
 
-  def selected_columns
-    @selected_columns ||= query
-                            .selects
-                            .map { |c| { id: c.attribute, name: c.caption } }
+  def order_asc?
+    order&.direction == :asc
+  end
+
+  def order_desc?
+    order&.direction == :desc
   end
 end
