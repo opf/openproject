@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe PlaceholderUsers::DeleteService, type: :model do
   let(:placeholder_user) { build_stubbed(:placeholder_user) }
@@ -36,7 +36,7 @@ RSpec.describe PlaceholderUsers::DeleteService, type: :model do
 
   subject { instance.call }
 
-  shared_examples 'deletes the user' do
+  shared_examples "deletes the user" do
     it do
       expect(placeholder_user).to receive(:locked!)
       expect(Principals::DeleteJob).to receive(:perform_later).with(placeholder_user)
@@ -44,7 +44,7 @@ RSpec.describe PlaceholderUsers::DeleteService, type: :model do
     end
   end
 
-  shared_examples 'does not delete the user' do
+  shared_examples "does not delete the user" do
     it do
       expect(placeholder_user).not_to receive(:locked!)
       expect(Principals::DeleteJob).not_to receive(:perform_later)
@@ -52,13 +52,13 @@ RSpec.describe PlaceholderUsers::DeleteService, type: :model do
     end
   end
 
-  context 'with admin user' do
+  context "with admin user" do
     let(:actor) { build_stubbed(:admin) }
 
-    it_behaves_like 'deletes the user'
+    it_behaves_like "deletes the user"
   end
 
-  context 'with global user' do
+  context "with global user" do
     let(:actor) { build_stubbed(:user) }
 
     before do
@@ -67,23 +67,23 @@ RSpec.describe PlaceholderUsers::DeleteService, type: :model do
       end
     end
 
-    it_behaves_like 'deletes the user'
+    it_behaves_like "deletes the user"
   end
 
-  context 'with unprivileged system user' do
+  context "with unprivileged system user" do
     let(:actor) { User.system }
 
     before do
       allow(actor).to receive(:admin?).and_return false
     end
 
-    it_behaves_like 'does not delete the user'
+    it_behaves_like "does not delete the user"
   end
 
-  context 'with privileged system user' do
+  context "with privileged system user" do
     let(:actor) { User.system }
 
-    it_behaves_like 'deletes the user' do
+    it_behaves_like "deletes the user" do
       around do |example|
         actor.run_given { example.run }
       end

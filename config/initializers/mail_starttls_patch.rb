@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'mail/network/delivery_methods/smtp'
+require "mail/network/delivery_methods/smtp"
 
 # Monkey patch mail 2.8.1 to make it possible to disable STARTTLS.
 # without having to change existing settings.

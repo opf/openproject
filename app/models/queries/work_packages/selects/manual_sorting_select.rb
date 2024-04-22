@@ -31,7 +31,7 @@ class Queries::WorkPackages::Selects::ManualSortingSelect < Queries::WorkPackage
 
   def initialize
     super(:manual_sorting,
-          default_order: 'asc',
+          default_order: "asc",
           displayable: false,
           sortable: "#{OrderedWorkPackage.table_name}.position NULLS LAST, #{WorkPackage.table_name}.id")
   end

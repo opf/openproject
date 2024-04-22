@@ -46,7 +46,7 @@ module Queries::WorkPackages::Filter
     end
 
     def dependency_class
-      '::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter'
+      "::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter"
     end
 
     def ar_object_filter?
@@ -69,7 +69,7 @@ module Queries::WorkPackages::Filter
     def budgets
       Budget
         .where(project_id: project)
-        .order(Arel.sql('subject ASC'))
+        .order(Arel.sql("subject ASC"))
     end
   end
 end

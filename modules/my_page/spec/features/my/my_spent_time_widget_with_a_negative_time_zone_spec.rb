@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../../support/pages/my/page'
+require_relative "../../support/pages/my/page"
 
-RSpec.describe 'My spent time widget with a negative time zone', :js,
+RSpec.describe "My spent time widget with a negative time zone", :js,
                driver: :chrome_headless_new,
                with_settings: { start_of_week: 1 } do
   let(:beginning_of_week) { monday }
@@ -39,11 +39,11 @@ RSpec.describe 'My spent time widget with a negative time zone', :js,
   let(:tuesday) { beginning_of_week + 1.day }
   let(:thursday) { beginning_of_week + 3.days }
   let(:sunday) { beginning_of_week + 6.days }
-  let(:time_zone) { 'America/Phoenix' }
+  let(:time_zone) { "America/Phoenix" }
 
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
-  let!(:activity) { create(:time_entry_activity, name: 'Development') }
+  let!(:activity) { create(:time_entry_activity, name: "Development") }
   let!(:work_package) do
     create(:work_package,
            project:,
@@ -71,7 +71,7 @@ RSpec.describe 'My spent time widget with a negative time zone', :js,
   # Configure the time zone of the browser
   # @param [String] time_zone The time zone to set, for instance 'Europe/Paris'
   def set_browser_time_zone(time_zone)
-    page.driver.browser.execute_cdp('Emulation.setTimezoneOverride', timezoneId: time_zone)
+    page.driver.browser.execute_cdp("Emulation.setTimezoneOverride", timezoneId: time_zone)
   end
 
   before do
@@ -80,25 +80,25 @@ RSpec.describe 'My spent time widget with a negative time zone', :js,
     my_page.visit!
   end
 
-  it 'correctly displays non-working days and prefills day when logging time [fix #49779]' do
-    my_page.add_widget(1, 1, :within, 'My spent time')
+  it "correctly displays non-working days and prefills day when logging time [fix #49779]" do
+    my_page.add_widget(1, 1, :within, "My spent time")
 
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
     aggregate_failures("non-working days are displayed properly") do
-      expect(page).to have_button('Today', disabled: true)
-      expect(page).to have_no_css('.fc-day-mon.fc-non-working-day', wait: 0)
-      expect(page).to have_css('.fc-day-tue.fc-non-working-day', wait: 0)
-      expect(page).to have_no_css('.fc-day-wed.fc-non-working-day', wait: 0)
-      expect(page).to have_no_css('.fc-day-thu.fc-non-working-day', wait: 0)
-      expect(page).to have_no_css('.fc-day-fri.fc-non-working-day', wait: 0)
-      expect(page).to have_css('.fc-day-sat.fc-non-working-day', wait: 0)
-      expect(page).to have_css('.fc-day-sun.fc-non-working-day', wait: 0)
+      expect(page).to have_button("Today", disabled: true)
+      expect(page).to have_no_css(".fc-day-mon.fc-non-working-day", wait: 0)
+      expect(page).to have_css(".fc-day-tue.fc-non-working-day", wait: 0)
+      expect(page).to have_no_css(".fc-day-wed.fc-non-working-day", wait: 0)
+      expect(page).to have_no_css(".fc-day-thu.fc-non-working-day", wait: 0)
+      expect(page).to have_no_css(".fc-day-fri.fc-non-working-day", wait: 0)
+      expect(page).to have_css(".fc-day-sat.fc-non-working-day", wait: 0)
+      expect(page).to have_css(".fc-day-sun.fc-non-working-day", wait: 0)
     end
 
     aggregate_failures("when clicking a day, time entry day is set to the day clicked (Thursday)") do
       find(".fc-day-thu .te-calendar--add-entry", visible: false).click
-      time_logging_modal.has_field_with_value 'spentOn', thursday.iso8601
+      time_logging_modal.has_field_with_value "spentOn", thursday.iso8601
     end
   end
 end

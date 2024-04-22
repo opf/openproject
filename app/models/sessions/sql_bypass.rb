@@ -74,13 +74,13 @@ module Sessions
     private
 
     def user_id
-      id = data.with_indifferent_access['user_id'].to_i
+      id = data.with_indifferent_access["user_id"].to_i
       id > 0 ? id : nil
     end
 
     def insert!
       @new_record = false
-      connection.update <<~SQL, 'Create session'
+      connection.update <<~SQL, "Create session"
          INSERT INTO sessions (session_id, data, user_id, updated_at)
          VALUES (
            #{connection.quote(session_id)},
@@ -92,7 +92,7 @@ module Sessions
     end
 
     def update!
-      connection.update <<~SQL, 'Update session'
+      connection.update <<~SQL, "Update session"
         UPDATE sessions
         SET
           data=#{connection.quote(self.class.serialize(data))},

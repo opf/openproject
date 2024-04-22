@@ -27,29 +27,29 @@
 #++
 
 Rails.application.routes.draw do
-  scope 'projects/:project_id', as: 'projects' do
-    resources :cost_entries, controller: 'costlog', only: %i[new create]
+  scope "projects/:project_id", as: "projects" do
+    resources :cost_entries, controller: "costlog", only: %i[new create]
 
     resources :hourly_rates, only: %i[show edit update] do
       post :set_rate, on: :member
     end
   end
 
-  scope 'my' do
-    get '/timer' => 'my/timer#show', as: 'my_timers'
+  scope "my" do
+    get "/timer" => "my/timer#show", as: "my_timers"
   end
 
-  scope 'projects/:project_id', as: 'project', module: 'projects' do
-    namespace 'settings' do
+  scope "projects/:project_id", as: "project", module: "projects" do
+    namespace "settings" do
       resource :time_entry_activities, only: %i[show update]
     end
   end
 
-  scope 'work_packages/:work_package_id', as: 'work_packages' do
-    resources :cost_entries, controller: 'costlog', only: %i[new]
+  scope "work_packages/:work_package_id", as: "work_packages" do
+    resources :cost_entries, controller: "costlog", only: %i[new]
   end
 
-  resources :cost_entries, controller: 'costlog', only: %i[edit update destroy]
+  resources :cost_entries, controller: "costlog", only: %i[edit update destroy]
 
   resources :cost_types, only: %i[index new edit update create destroy] do
     member do

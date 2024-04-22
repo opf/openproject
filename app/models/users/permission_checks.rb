@@ -30,8 +30,6 @@ module Users::PermissionChecks
   extend ActiveSupport::Concern
 
   included do
-    delegate :preload_projects_allowed_to, to: :user_allowed_service
-
     # Some Ruby magic. Create methods for each entity we can have memberships on automatically
     # i.e. allowed_in_work_package? and allowed_in_any_work_package?
     Member::ALLOWED_ENTITIES.each do |entity_model_name|
@@ -150,27 +148,7 @@ module Users::PermissionChecks
     end
   end
 
-  # Old allowed_to? interface. Marked as deprecated, should be removed at some point ... Guessing 14.0?
-  def allowed_to?(action, context, global: false)
-    OpenProject::Deprecation.deprecate_method(User, :allowed_to?)
-    user_allowed_service.call(action, context, global:)
-  end
-
-  def allowed_to_in_project?(action, project)
-    OpenProject::Deprecation.replaced(:allowed_to_in_project?, :allowed_in_project?, caller)
-    allowed_to?(action, project)
-  end
-
-  def allowed_to_globally?(action)
-    OpenProject::Deprecation.replaced(:allowed_to_globally?, :allowed_globally?, caller)
-    allowed_to?(action, nil, global: true)
-  end
-
   private
-
-  def user_allowed_service
-    @user_allowed_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
-  end
 
   def user_permissible_service
     @user_permissible_service ||= ::Authorization::UserPermissibleService.new(self)

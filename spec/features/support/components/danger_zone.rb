@@ -37,24 +37,24 @@ class DangerZone
   end
 
   def container_selector
-    '.danger-zone--verification'
+    ".danger-zone--verification"
   end
 
   def confirmation_field
     page.within container_selector do
-      find('input[type=text]')
+      find("input[type=text]")
     end
   end
 
   def danger_button
     page.within container_selector do
-      find('button.-primary')
+      find("button.-primary")
     end
   end
 
   def cancel_button
     page.within container_selector do
-      find('a.icon-cancel')
+      find("a.icon-cancel")
     end
   end
 

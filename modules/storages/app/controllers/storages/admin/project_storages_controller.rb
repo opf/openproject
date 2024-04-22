@@ -55,25 +55,23 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
     @project_storages = Storages::ProjectStorage.where(project: @project).includes(:storage)
     # Render the list storages using ViewComponents in the /app/components folder which defines
     # the ways rows are rendered in a table layout.
-    render '/storages/project_settings/index'
+    render "/storages/project_settings/index"
   end
 
   # Show a HTML page with a form in order to create a new ProjectStorage
   # Called by: When a user clicks on the "+New" button in Project -> Settings -> File Storages
   def new
     @available_storages = available_storages
-    @project_storage = ::Storages::ProjectStorages::SetAttributesService
-                         .new(user: current_user,
-                              model: Storages::ProjectStorage.new,
-                              contract_class: EmptyContract)
-                         .call(project: @project,
-                               storage: @available_storages.find do |storage|
-                                 storage.id.to_s == params.dig(:storages_project_storage, :storage_id)
-                               end)
-                         .result
+    project_folder_mode = project_folder_mode_from_params
+    storage = @available_storages.find { |s| s.id.to_s == params.dig(:storages_project_storage, :storage_id) }
+    @project_storage =
+      ::Storages::ProjectStorages::SetAttributesService
+        .new(user: current_user, model: Storages::ProjectStorage.new, contract_class: EmptyContract)
+        .call(project: @project, storage:, project_folder_mode:)
+        .result
     @last_project_folders = {}
 
-    render template: '/storages/project_settings/new'
+    render template: "/storages/project_settings/new"
   end
 
   # Create a new ProjectStorage object.
@@ -89,18 +87,17 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
       redirect_to_project_storages_path_with_oauth_access_grant_confirmation
     else
       @available_storages = available_storages
-      render '/storages/project_settings/new'
+      render "/storages/project_settings/new"
     end
   end
 
   def oauth_access_grant # rubocop:disable Metrics/AbcSize
     @project_storage = @object
-    connection_manager = OAuthClients::ConnectionManager.new(
-      user: current_user,
-      configuration: @project_storage.storage.oauth_configuration
-    )
+    storage = @project_storage.storage
+    auth_state = ::Storages::Peripherals::StorageInteraction::Authentication
+                   .authorization_state(storage:, user: current_user)
 
-    if connection_manager.authorization_state_connected?
+    if auth_state == :connected
       redirect_to(project_settings_project_storages_path)
     else
       nonce = SecureRandom.uuid
@@ -110,7 +107,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
         expires: 1.hour
       }
       session[:oauth_callback_flash_modal] = oauth_access_grant_nudge_modal(authorized: true)
-      redirect_to(connection_manager.get_authorization_uri(state: nonce))
+      redirect_to(storage.oauth_configuration.authorization_uri(state: nonce))
     end
   end
 
@@ -122,13 +119,14 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
     # @object was calculated in before_action :find_model_object (see comments above).
     # @project_storage is used in the view in order to render the form for a new object
     @project_storage = @object
+    @project_storage.project_folder_mode = project_folder_mode_from_params if project_folder_mode_from_params.present?
 
     @last_project_folders = Storages::LastProjectFolder
                               .where(project_storage: @project_storage)
                               .pluck(:mode, :origin_folder_id)
                               .to_h
 
-    render '/storages/project_settings/edit'
+    render "/storages/project_settings/edit"
   end
 
   # Update is similar to create above
@@ -141,11 +139,12 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
                        .call(permitted_storage_settings_params)
 
     if service_result.success?
+      @project_storage = service_result.result
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_project_storages_path
+      redirect_to_project_storages_path_with_oauth_access_grant_confirmation
     else
       @project_storage = @object
-      render '/storages/project_settings/edit'
+      render "/storages/project_settings/edit"
     end
   end
 
@@ -167,7 +166,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   def destroy_info
     @project_storage_to_destroy = @object
 
-    render '/storages/project_settings/destroy_info'
+    render "/storages/project_settings/destroy_info"
   end
 
   private
@@ -178,9 +177,15 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
     # "params" is an instance of ActionController::Parameters
     params
       .require(:storages_project_storage)
-      .permit('storage_id', 'project_folder_mode', 'project_folder_id')
+      .permit("storage_id", "project_folder_mode", "project_folder_id")
       .to_h
       .reverse_merge(project_id: @project.id)
+  end
+
+  def project_folder_mode_from_params
+    Storages::ProjectStorage.project_folder_modes.values.find do |mode|
+      mode == params.dig(:storages_project_storage, :project_folder_mode)
+    end
   end
 
   def available_storages
@@ -212,7 +217,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
   def oauth_access_grant_nudge_modal(authorized: false)
     {
-      type: 'Storages::Admin::OAuthAccessGrantNudgeModalComponent',
+      type: "Storages::Admin::OAuthAccessGrantNudgeModalComponent",
       parameters: {
         project_storage: @project_storage.id,
         authorized:

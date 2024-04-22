@@ -40,35 +40,35 @@ module OpenProject::GitlabIntegration
         user = User.find_by(id: payload.open_project_user_id)
         text = payload.object_attributes.note
         work_packages = find_mentioned_work_packages(text, user, payload.object_kind)
-        if work_packages.empty? && payload.object_attributes.noteable_type == 'Issue'
+        if work_packages.empty? && payload.object_attributes.noteable_type == "Issue"
           text = "#{payload.issue.title} - #{payload.object_attributes.note}"
           work_packages = find_mentioned_work_packages(text, user, payload.object_kind)
           work_packages_excluded = find_excluded_work_packages(text, user)
           work_packages = work_packages - work_packages_excluded unless work_packages_excluded.empty?
           return if work_packages.empty?
 
-          notes = generate_notes(payload, 'comment')
-        elsif work_packages.empty? && payload.object_attributes.noteable_type == 'Snippet'
+          notes = generate_notes(payload, "comment")
+        elsif work_packages.empty? && payload.object_attributes.noteable_type == "Snippet"
           text = "#{payload.snippet.title} - #{payload.object_attributes.note}"
           work_packages = find_mentioned_work_packages(text, user, payload.object_kind)
           work_packages_excluded = find_excluded_work_packages(text, user)
           work_packages = work_packages - work_packages_excluded unless work_packages_excluded.empty?
           return if work_packages.empty?
 
-          notes = generate_notes(payload, 'reference')
-        elsif work_packages.empty? && payload.object_attributes.noteable_type == 'MergeRequest'
+          notes = generate_notes(payload, "reference")
+        elsif work_packages.empty? && payload.object_attributes.noteable_type == "MergeRequest"
           text = "#{payload.merge_request.title} - #{payload.object_attributes.note}"
           work_packages = find_mentioned_work_packages(text, user, payload.object_kind)
           work_packages_excluded = find_excluded_work_packages(text, user)
           work_packages = work_packages - work_packages_excluded unless work_packages_excluded.empty?
           return if work_packages.empty?
 
-          notes = generate_notes(payload, 'comment')
+          notes = generate_notes(payload, "comment")
         else
-          notes = generate_notes(payload, 'reference')
+          notes = generate_notes(payload, "reference")
         end
         comment_on_referenced_work_packages(work_packages, user, notes)
-        if payload.object_attributes.noteable_type == 'Issue'
+        if payload.object_attributes.noteable_type == "Issue"
           upsert_issue(work_packages)
         end
       end
@@ -80,7 +80,7 @@ module OpenProject::GitlabIntegration
       # TODO: add key list to simplify the code...
       def generate_notes(payload, note_type)
         case payload.object_attributes.noteable_type
-        when 'Commit'
+        when "Commit"
           commit_id = payload.commit.id
           I18n.t("gitlab_integration.note_commit_referenced_comment",
                  commit_id: commit_id[0, 8],
@@ -90,8 +90,8 @@ module OpenProject::GitlabIntegration
                  repository_url: payload.repository.homepage,
                  gitlab_user: payload.user.name,
                  gitlab_user_url: payload.user.avatar_url)
-        when 'MergeRequest'
-          if note_type == 'comment'
+        when "MergeRequest"
+          if note_type == "comment"
             I18n.t("gitlab_integration.note_mr_commented_comment",
                    mr_number: payload.merge_request.iid,
                    mr_title: payload.merge_request.title,
@@ -101,7 +101,7 @@ module OpenProject::GitlabIntegration
                    repository_url: payload.repository.homepage,
                    gitlab_user: payload.user.name,
                    gitlab_user_url: payload.user.avatar_url)
-          elsif note_type == 'reference'
+          elsif note_type == "reference"
             I18n.t("gitlab_integration.note_mr_referenced_comment",
                    mr_number: payload.merge_request.iid,
                    mr_title: payload.merge_request.title,
@@ -112,8 +112,8 @@ module OpenProject::GitlabIntegration
                    gitlab_user: payload.user.name,
                    gitlab_user_url: payload.user.avatar_url)
           end
-        when 'Issue'
-          if note_type == 'comment'
+        when "Issue"
+          if note_type == "comment"
             I18n.t("gitlab_integration.note_issue_commented_comment",
                    issue_number: payload.issue.iid,
                    issue_title: payload.issue.title,
@@ -123,7 +123,7 @@ module OpenProject::GitlabIntegration
                    repository_url: payload.repository.homepage,
                    gitlab_user: payload.user.name,
                    gitlab_user_url: payload.user.avatar_url)
-          elsif note_type == 'reference'
+          elsif note_type == "reference"
             I18n.t("gitlab_integration.note_issue_referenced_comment",
                    issue_number: payload.issue.iid,
                    issue_title: payload.issue.title,
@@ -134,7 +134,7 @@ module OpenProject::GitlabIntegration
                    gitlab_user: payload.user.name,
                    gitlab_user_url: payload.user.avatar_url)
           end
-        when 'Snippet'
+        when "Snippet"
           I18n.t("gitlab_integration.note_snippet_referenced_comment",
                  snippet_number: payload.snippet.id,
                  snippet_title: payload.snippet.title,

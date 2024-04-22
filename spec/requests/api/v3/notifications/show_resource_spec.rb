@@ -25,11 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require_relative 'show_resource_examples'
+require "spec_helper"
+require_relative "show_resource_examples"
 
 RSpec.describe API::V3::Notifications::NotificationsAPI,
-               'show',
+               "show",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -54,17 +54,17 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
     get api_v3_paths.notification(notification.id)
   end
 
-  describe 'recipient user' do
+  describe "recipient user" do
     current_user { recipient }
 
     before do
       send_request
     end
 
-    it_behaves_like 'represents the notification'
+    it_behaves_like "represents the notification"
   end
 
-  describe 'recipient user for a dateAlert notification' do
+  describe "recipient user for a dateAlert notification" do
     current_user { recipient }
 
     before do
@@ -78,39 +78,39 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
       send_request
     end
 
-    it_behaves_like 'represents the notification'
+    it_behaves_like "represents the notification"
 
-    it 'includes the value of the work package associated in the details', :aggregate_failures do
+    it "includes the value of the work package associated in the details", :aggregate_failures do
       expect(last_response.body)
-        .to be_json_eql('dueDate'.to_json)
-              .at_path('_embedded/details/0/property')
+        .to be_json_eql("dueDate".to_json)
+              .at_path("_embedded/details/0/property")
 
       expect(last_response.body)
         .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
-              .at_path('_embedded/details/0/value')
+              .at_path("_embedded/details/0/value")
     end
   end
 
-  describe 'admin user' do
+  describe "admin user" do
     current_user { build_stubbed(:admin) }
 
     before do
       send_request
     end
 
-    it 'returns a 404 response' do
+    it "returns a 404 response" do
       expect(last_response.status).to eq(404)
     end
   end
 
-  describe 'unauthorized user' do
+  describe "unauthorized user" do
     current_user { build_stubbed(:user) }
 
     before do
       send_request
     end
 
-    it 'returns a 404 response' do
+    it "returns a 404 response" do
       expect(last_response.status).to eq(404)
     end
   end

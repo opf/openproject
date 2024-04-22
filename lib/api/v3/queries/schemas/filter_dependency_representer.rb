@@ -67,7 +67,7 @@ module API
           # Avoid having a _links section on the json objects
           def to_hash(*)
             super.tap do |hash|
-              hash.delete('_links')
+              hash.delete("_links")
             end
           end
 
@@ -82,11 +82,11 @@ module API
           end
 
           def type
-            raise NotImplementedError, 'Subclass has to implement #type'
+            raise NotImplementedError, "Subclass has to implement #type"
           end
 
           def href_callback
-            raise NotImplementedError, 'Subclass has to implement #href_callback'
+            raise NotImplementedError, "Subclass has to implement #href_callback"
           end
 
           attr_accessor :operator

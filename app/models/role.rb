@@ -36,13 +36,13 @@ class Role < ApplicationRecord
   BUILTIN_WORK_PACKAGE_EDITOR = 5
 
   scope :builtin, ->(*args) {
-    compare = 'not' if args.first == true
+    compare = "not" if args.first == true
     where("#{compare} builtin = #{NON_BUILTIN}")
   }
 
   # Work Package Roles are intentionally visually hidden from users temporarily
-  scope :visible, -> { where.not(type: 'WorkPackageRole') }
-  scope :ordered_by_builtin_and_position, -> { order(Arel.sql('builtin, position')) }
+  scope :visible, -> { where.not(type: "WorkPackageRole") }
+  scope :ordered_by_builtin_and_position, -> { order(Arel.sql("builtin, position")) }
 
   before_destroy(prepend: true) do
     unless deletable?
@@ -87,7 +87,7 @@ class Role < ApplicationRecord
           Role::BUILTIN_WORK_PACKAGE_EDITOR
         ]
       )
-      .order(Arel.sql('position'))
+      .order(Arel.sql("position"))
   end
 
   def permissions

@@ -37,10 +37,10 @@ module Bim
       end
 
       def seed_data!
-        models = project_data.lookup('ifc_models')
+        models = project_data.lookup("ifc_models")
         return if models.blank?
 
-        print_status '    ↳ Import IFC Models'
+        print_status "    ↳ Import IFC Models"
 
         models.each do |model|
           seed_model model
@@ -50,7 +50,7 @@ module Bim
       private
 
       def seed_model(model)
-        xkt_data = get_xkt_file(model['file'])
+        xkt_data = get_xkt_file(model["file"])
 
         if xkt_data.nil?
           print_status "\n    ↳ Missing converted data for ifc model"
@@ -60,9 +60,9 @@ module Bim
       end
 
       def create_model(model, user, xkt_data)
-        model_container = create_model_container project, user, model['name'], model['default']
+        model_container = create_model_container project, user, model["name"], model["default"]
 
-        add_ifc_model_attachment model_container, user, xkt_data, 'xkt'
+        add_ifc_model_attachment model_container, user, xkt_data, "xkt"
       end
 
       def create_model_container(project, user, title, default)
@@ -87,7 +87,7 @@ module Bim
       end
 
       def get_xkt_file(name)
-        xkt_path = OpenProject::Bim::Engine.root.join('files/ifc_models', name, "#{name}.xkt")
+        xkt_path = OpenProject::Bim::Engine.root.join("files/ifc_models", name, "#{name}.xkt")
         return unless xkt_path.exist?
 
         File.new(xkt_path)

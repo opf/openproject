@@ -1,5 +1,5 @@
 #English strings go here
-pt:
+pt-BR:
   js:
     storages:
       link_files_in_storage: "Vincular arquivos em %{storageType}"

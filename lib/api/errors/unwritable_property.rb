@@ -29,7 +29,7 @@
 module API
   module Errors
     class UnwritableProperty < ErrorBase
-      identifier 'PropertyIsReadOnly'
+      identifier "PropertyIsReadOnly"
       code 422
 
       def initialize(property, message)

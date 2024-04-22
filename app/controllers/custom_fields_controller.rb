@@ -27,7 +27,8 @@
 #++
 
 class CustomFieldsController < ApplicationController
-  layout 'admin'
+  include CustomFields::SharedActions # share logic with ProjectCustomFieldsControlller
+  layout "admin"
 
   before_action :require_admin
   before_action :find_custom_field, only: %i(edit update destroy delete_option reorder_alphabetical)
@@ -36,121 +37,37 @@ class CustomFieldsController < ApplicationController
 
   def index
     # loading wp cfs exclicity to allow for eager loading
-    @custom_fields_by_type = CustomField.all.where.not(type: 'WorkPackageCustomField').group_by { |f| f.class.name }
-    @custom_fields_by_type['WorkPackageCustomField'] = WorkPackageCustomField.includes(:types).all
+    @custom_fields_by_type = CustomField.all
+      .where.not(type: ["WorkPackageCustomField", "ProjectCustomField"])
+      .group_by { |f| f.class.name }
 
-    @tab = params[:tab] || 'WorkPackageCustomField'
+    @custom_fields_by_type["WorkPackageCustomField"] = WorkPackageCustomField.includes(:types).all
+
+    @tab = params[:tab] || "WorkPackageCustomField"
   end
 
   def new
     @custom_field = new_custom_field
 
-    if @custom_field.nil?
-      flash[:error] = 'Invalid CF type'
-      redirect_to action: :index
-    end
+    check_custom_field
   end
 
-  def edit; end
+  def edit
+    check_custom_field
+  end
 
-  def create
-    call = ::CustomFields::CreateService
-      .new(user: current_user)
-      .call(get_custom_field_params.merge(type: permitted_params.custom_field_type))
+  protected
 
-    if call.success?
-      flash[:notice] = t(:notice_successful_create)
-      call_hook(:controller_custom_fields_new_after_save, custom_field: call.result)
-      redirect_to custom_fields_path(tab: call.result.class.name)
+  def default_breadcrumb
+    if action_name == "index"
+      t("label_custom_field_plural")
     else
-      @custom_field = call.result || new_custom_field
-      render action: 'new'
+      ActionController::Base.helpers.link_to(t("label_custom_field_plural"), custom_fields_path)
     end
   end
 
-  def update
-    perform_update(get_custom_field_params)
-  end
-
-  def reorder_alphabetical
-    reordered_options = @custom_field
-      .custom_options
-      .sort_by(&:value)
-      .each_with_index
-      .map do |custom_option, index|
-      { id: custom_option.id, position: index + 1 }
-    end
-
-    perform_update(custom_options_attributes: reordered_options)
-  end
-
-  def destroy
-    begin
-      @custom_field.destroy
-    rescue StandardError
-      flash[:error] = I18n.t(:error_can_not_delete_custom_field)
-    end
-    redirect_to custom_fields_path(tab: @custom_field.class.name)
-  end
-
-  def delete_option
-    if @custom_option.destroy
-      num_deleted = delete_custom_values! @custom_option
-
-      flash[:notice] = I18n.t(
-        :notice_custom_options_deleted, option_value: @custom_option.value, num_deleted:
-      )
-    else
-      flash[:error] = @custom_option.errors.full_messages
-    end
-
-    redirect_to edit_custom_field_path(id: @custom_field.id)
-  end
-
-  private
-
-  def perform_update(custom_field_params)
-    call = ::CustomFields::UpdateService
-      .new(user: current_user, model: @custom_field)
-      .call(custom_field_params)
-
-    if call.success?
-      flash[:notice] = t(:notice_successful_update)
-      call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
-      redirect_back_or_default edit_custom_field_path(id: @custom_field.id)
-    else
-      render action: 'edit'
-    end
-  end
-
-  def new_custom_field
-    ::CustomFields::CreateService.careful_new_custom_field(permitted_params.custom_field_type)
-  end
-
-  def get_custom_field_params
-    permitted_params.custom_field
-  end
-
-  def find_custom_option
-    @custom_option = CustomOption.find params[:option_id]
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def delete_custom_values!(custom_option)
-    CustomValue
-      .where(custom_field_id: custom_option.custom_field_id, value: custom_option.id)
-      .delete_all
-  end
-
-  def prepare_custom_option_position
-    return unless params[:custom_field][:custom_options_attributes]
-
-    index = 0
-
-    params[:custom_field][:custom_options_attributes].each do |_id, attributes|
-      attributes[:position] = (index = index + 1)
-    end
+  def show_local_breadcrumb
+    true
   end
 
   def find_custom_field
@@ -159,17 +76,11 @@ class CustomFieldsController < ApplicationController
     render_404
   end
 
-  protected
-
-  def default_breadcrumb
-    if action_name == 'index'
-      t('label_custom_field_plural')
-    else
-      ActionController::Base.helpers.link_to(t('label_custom_field_plural'), custom_fields_path)
+  def check_custom_field
+    # ProjecCustomFields now managed in a different UI
+    if @custom_field.nil? || @custom_field.type == "ProjectCustomField"
+      flash[:error] = "Invalid CF type"
+      redirect_to action: :index
     end
-  end
-
-  def show_local_breadcrumb
-    true
   end
 end

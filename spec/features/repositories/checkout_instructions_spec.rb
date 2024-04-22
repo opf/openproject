@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Create repository', :js do
+RSpec.describe "Create repository", :js do
   let(:current_user) { create (:admin) }
   let(:project) { create(:project) }
   let(:enabled_scms) { %w[git] }
@@ -39,18 +39,18 @@ RSpec.describe 'Create repository', :js do
     allow(Setting).to receive(:repository_checkout_data).and_return(checkout_data)
 
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
-    allow(OpenProject::Configuration).to receive(:[]).with('scm').and_return(config)
+    allow(OpenProject::Configuration).to receive(:[]).with("scm").and_return(config)
   end
 
-  context 'managed repositories' do
-    include_context 'with tmpdir'
+  context "managed repositories" do
+    include_context "with tmpdir"
     let(:config) do
       {
-        git: { manages: File.join(tmpdir, 'git') }
+        git: { manages: File.join(tmpdir, "git") }
       }
     end
     let(:checkout_data) do
-      { 'git' => { 'enabled' => '1', 'base_url' => 'http://localhost/git/' } }
+      { "git" => { "enabled" => "1", "base_url" => "http://localhost/git/" } }
     end
 
     let!(:repository) do
@@ -63,15 +63,15 @@ RSpec.describe 'Create repository', :js do
       repo
     end
 
-    it 'toggles checkout instructions' do
+    it "toggles checkout instructions" do
       visit project_repository_path(project)
 
-      expect(page).to have_css('#repository--checkout-instructions')
+      expect(page).to have_css("#repository--checkout-instructions")
 
-      button = find_by_id('repository--checkout-instructions-toggle')
+      button = find_by_id("repository--checkout-instructions-toggle")
       button.click
 
-      expect(page).to have_no_css('#repository--checkout-instructions')
+      expect(page).to have_no_css("#repository--checkout-instructions")
     end
   end
 end

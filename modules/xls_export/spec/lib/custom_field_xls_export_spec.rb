@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'spreadsheet'
+require "spec_helper"
+require "spreadsheet"
 
 RSpec.describe "WorkPackageXlsExport Custom Fields" do
   let(:type) { create(:type) }
@@ -19,7 +19,7 @@ RSpec.describe "WorkPackageXlsExport Custom Fields" do
   let(:work_package1) do
     wp = create(:work_package, project:, type:)
     wp.custom_field_values = {
-      custom_field.id => custom_values_for('ham', 'onions')
+      custom_field.id => custom_values_for("ham", "onions")
     }
     wp.save
     wp
@@ -28,7 +28,7 @@ RSpec.describe "WorkPackageXlsExport Custom Fields" do
   let(:work_package2) do
     wp = create(:work_package, project:, type:)
     wp.custom_field_values = {
-      custom_field.id => custom_values_for('pineapple')
+      custom_field.id => custom_values_for("pineapple")
     }
     wp.save
     wp
@@ -40,7 +40,7 @@ RSpec.describe "WorkPackageXlsExport Custom Fields" do
 
   let!(:query) do
     query              = build(:query, user: current_user, project:)
-    query.column_names = ['subject', custom_field.column_name]
+    query.column_names = ["subject", custom_field.column_name]
     query.sort_criteria = [%w[id asc]]
 
     query.save!
@@ -66,9 +66,9 @@ RSpec.describe "WorkPackageXlsExport Custom Fields" do
     end
   end
 
-  it 'produces the valid XLS result' do
+  it "produces the valid XLS result" do
     expect(query.columns.map(&:name)).to eq [:subject, custom_field.column_name.to_sym]
-    expect(sheet.rows.first.take(2)).to eq ['Subject', 'Ingredients']
+    expect(sheet.rows.first.take(2)).to eq ["Subject", "Ingredients"]
 
     # Subjects
     expect(sheet.row(1)[0]).to eq(work_package1.subject)
@@ -76,8 +76,8 @@ RSpec.describe "WorkPackageXlsExport Custom Fields" do
     expect(sheet.row(3)[0]).to eq(work_package3.subject)
 
     # CF values
-    expect(sheet.row(1)[1]).to eq('ham, onions')
-    expect(sheet.row(2)[1]).to eq('pineapple')
+    expect(sheet.row(1)[1]).to eq("ham, onions")
+    expect(sheet.row(2)[1]).to eq("pineapple")
     expect(sheet.row(3)[1]).to be_nil
   end
 end

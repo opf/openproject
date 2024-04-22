@@ -31,7 +31,7 @@
 # You can still use AR methods to delete records however.
 module Sessions
   class UserSession < ::ApplicationRecord
-    self.table_name = 'sessions'
+    self.table_name = "sessions"
 
     scope :for_user, ->(user) do
       user_id = user.is_a?(User) ? user.id : user.to_i

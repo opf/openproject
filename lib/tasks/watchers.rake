@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-desc 'Removes watchers from what they can no longer view.'
+desc "Removes watchers from what they can no longer view."
 
 namespace :redmine do
   namespace :watchers do

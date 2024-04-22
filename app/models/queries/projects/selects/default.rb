@@ -30,7 +30,7 @@ class Queries::Projects::Selects::Default < Queries::Selects::Base
   KEYS = %i[status_explanation hierarchy name public description].freeze
 
   def self.key
-    Regexp.new(KEYS.join('|'))
+    Regexp.new(KEYS.join("|"))
   end
 
   def self.all_available

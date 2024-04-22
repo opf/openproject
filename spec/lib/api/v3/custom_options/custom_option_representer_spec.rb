@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::CustomOptions::CustomOptionRepresenter do
   include API::V3::Utilities::PathHelper
@@ -40,25 +40,25 @@ RSpec.describe API::V3::CustomOptions::CustomOptionRepresenter do
 
   subject { representer.to_json }
 
-  describe 'generation' do
-    describe '_links' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
+  describe "generation" do
+    describe "_links" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.custom_option custom_option.id }
         let(:title) { custom_option.to_s }
       end
     end
 
     it 'has the type "CustomOption"' do
-      expect(subject).to be_json_eql('CustomOption'.to_json).at_path('_type')
+      expect(subject).to be_json_eql("CustomOption".to_json).at_path("_type")
     end
 
-    it 'has an id' do
-      expect(subject).to be_json_eql(custom_option.id.to_json).at_path('id')
+    it "has an id" do
+      expect(subject).to be_json_eql(custom_option.id.to_json).at_path("id")
     end
 
-    it 'has a value' do
-      expect(subject).to be_json_eql(custom_option.to_s.to_json).at_path('value')
+    it "has a value" do
+      expect(subject).to be_json_eql(custom_option.to_s.to_json).at_path("value")
     end
   end
 end

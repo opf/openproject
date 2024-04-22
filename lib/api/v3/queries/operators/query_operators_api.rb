@@ -36,7 +36,7 @@ module API
               authorize_in_any_work_package(:view_work_packages)
             end
 
-            route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Operator ID' do
+            route_param :id, type: String, regexp: /\A\w+\z/, desc: "Operator ID" do
               get do
                 operator = ::Queries::Operators::OPERATORS[params[:id]]
 

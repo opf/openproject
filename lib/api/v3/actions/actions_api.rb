@@ -36,9 +36,9 @@ module API
                  .mount
 
           params do
-            requires :id, type: String, desc: 'The action identifier'
+            requires :id, type: String, desc: "The action identifier"
           end
-          namespace '*id' do
+          namespace "*id" do
             get &API::V3::Utilities::Endpoints::SqlShow
                    .new(model: Action)
                    .mount

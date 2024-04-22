@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Root resource' do
+RSpec.describe "API v3 Root resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -39,51 +39,51 @@ RSpec.describe 'API v3 Root resource' do
   let(:role) { create(:project_role, permissions: []) }
   let(:project) { create(:project, public: false) }
 
-  describe '#get' do
+  describe "#get" do
     let(:response) { last_response }
     let(:get_path) { api_v3_paths.root }
 
     subject { response.body }
 
-    context 'anonymous user' do
+    context "anonymous user" do
       before do
         get get_path
       end
 
-      context 'when login_required', with_settings: { login_required: true } do
-        it_behaves_like 'error response',
+      context "when login_required", with_settings: { login_required: true } do
+        it_behaves_like "error response",
                         401,
-                        'Unauthenticated',
-                        I18n.t('api_v3.errors.code_401')
+                        "Unauthenticated",
+                        I18n.t("api_v3.errors.code_401")
       end
 
-      context 'when not login_required', with_settings: { login_required: false } do
-        it 'responds with 200', :aggregate_failures do
+      context "when not login_required", with_settings: { login_required: false } do
+        it "responds with 200", :aggregate_failures do
           expect(response.status).to eq(200)
-          expect(subject).to have_json_path('instanceName')
+          expect(subject).to have_json_path("instanceName")
         end
       end
     end
 
-    context 'logged in user' do
+    context "logged in user" do
       before do
         allow(User).to receive(:current).and_return current_user
 
         get get_path
       end
 
-      it 'responds with 200' do
+      it "responds with 200" do
         expect(response.status).to eq(200)
       end
 
-      it 'responds with a root representer' do
-        expect(subject).to have_json_path('instanceName')
+      it "responds with a root representer" do
+        expect(subject).to have_json_path("instanceName")
       end
 
-      context 'without the X-requested-with header', :skip_xhr_header do
-        it 'returns OK because GET requests are allowed' do
+      context "without the X-requested-with header", :skip_xhr_header do
+        it "returns OK because GET requests are allowed" do
           expect(response.status).to eq(200)
-          expect(subject).to have_json_path('instanceName')
+          expect(subject).to have_json_path("instanceName")
         end
       end
     end

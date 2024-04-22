@@ -34,11 +34,11 @@ module SkipIfCommandUnavailableMixin
   #
   # The test is not skipped if in continuous integration environment.
   def skip_if_commands_unavailable(*commands)
-    return if ENV['CI']
+    return if ENV["CI"]
 
     commands.flatten.compact.each do |cmd|
       # Avoid `which`, as it's not POSIX
-      Open3.capture2e(cmd, '--version')
+      Open3.capture2e(cmd, "--version")
     rescue Errno::ENOENT
       skip "Skipped because '#{cmd}' command not found in PATH"
     end

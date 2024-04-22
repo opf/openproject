@@ -26,55 +26,55 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Projects::Scopes::ActivatedTimeActivity do
   let!(:activity) { create(:time_entry_activity) }
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
 
-  describe '.activated_time_activity' do
+  describe ".activated_time_activity" do
     subject { Project.activated_time_activity(activity) }
 
-    context 'without project specific overrides' do
-      context 'and being active' do
-        it 'returns all projects' do
+    context "without project specific overrides" do
+      context "and being active" do
+        it "returns all projects" do
           expect(subject)
             .to contain_exactly(project, other_project)
         end
       end
 
-      context 'and not being active' do
+      context "and not being active" do
         before do
           activity.update_attribute(:active, false)
         end
 
-        it 'returns no projects' do
+        it "returns no projects" do
           expect(subject)
             .to be_empty
         end
       end
     end
 
-    context 'with project specific overrides' do
+    context "with project specific overrides" do
       before do
         TimeEntryActivitiesProject.insert({ activity_id: activity.id, project_id: project.id, active: true })
         TimeEntryActivitiesProject.insert({ activity_id: activity.id, project_id: other_project.id, active: false })
       end
 
-      context 'and being active' do
-        it 'returns the project the activity is activated in' do
+      context "and being active" do
+        it "returns the project the activity is activated in" do
           expect(subject)
             .to contain_exactly(project)
         end
       end
 
-      context 'and not being active' do
+      context "and not being active" do
         before do
           activity.update_attribute(:active, false)
         end
 
-        it 'returns only the projects the activity is activated in' do
+        it "returns only the projects the activity is activated in" do
           expect(subject)
             .to contain_exactly(project)
         end

@@ -44,15 +44,15 @@ module Boards
     end
 
     def id
-      'add-board-button'
+      "add-board-button"
     end
 
     def accessibility_label_text
-      I18n.t('boards.label_create_new_board')
+      I18n.t("boards.label_create_new_board")
     end
 
     def label_text
-      I18n.t('boards.label_board')
+      I18n.t("boards.label_board")
     end
   end
 end

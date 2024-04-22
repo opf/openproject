@@ -28,16 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-require 'services/base_services/behaves_like_create_service'
-require_relative 'shared_event_gun_examples'
+require "services/base_services/behaves_like_create_service"
+require_relative "shared_event_gun_examples"
 
 RSpec.describe Storages::ProjectStorages::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service' do
+  it_behaves_like "BaseServices create service" do
     let(:factory) { :project_storage }
 
-    it_behaves_like('an event gun', OpenProject::Events::PROJECT_STORAGE_CREATED)
+    it_behaves_like("an event gun", OpenProject::Events::PROJECT_STORAGE_CREATED)
   end
 end

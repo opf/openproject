@@ -31,7 +31,7 @@ module PaperTrailAudits
     # Clean any paper trails older than 60 days
     def perform
       ::PaperTrailAudit
-        .where('created_at < ?', 60.days.ago)
+        .where("created_at < ?", 60.days.ago)
         .delete_all
     end
   end

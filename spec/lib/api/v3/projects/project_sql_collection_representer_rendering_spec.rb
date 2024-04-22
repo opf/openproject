@@ -24,16 +24,16 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
+RSpec.describe API::V3::Projects::ProjectSqlCollectionRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   subject(:json) do
     API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
            current_user:,
-           self_path: 'some_path',
+           self_path: "some_path",
            url_query: { offset: 1, pageSize: 5, select: })
       .walk(described_class)
       .to_json
@@ -51,14 +51,14 @@ RSpec.describe API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' d
   let(:role) { create(:project_role) }
 
   let(:select) do
-    { '*' => {}, 'elements' => { '*' => {} } }
+    { "*" => {}, "elements" => { "*" => {} } }
   end
 
   current_user do
     create(:user, member_with_roles: { project => role })
   end
 
-  context 'when rendering everything' do
+  context "when rendering everything" do
     let(:expected) do
       {
         _type: "Collection",
@@ -101,15 +101,15 @@ RSpec.describe API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' d
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected)
     end
   end
 
-  context 'when rendering only collection attributes' do
+  context "when rendering only collection attributes" do
     let(:select) do
-      { '*' => {} }
+      { "*" => {} }
     end
 
     let(:expected) do
@@ -135,19 +135,19 @@ RSpec.describe API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' d
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected)
     end
   end
 
-  context 'when not having a project to render' do
+  context "when not having a project to render" do
     let(:scope) do
       Project.none
     end
 
     let(:select) do
-      { '*' => {} }
+      { "*" => {} }
     end
 
     let(:expected) do
@@ -173,7 +173,7 @@ RSpec.describe API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' d
       }.to_json
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected)
     end

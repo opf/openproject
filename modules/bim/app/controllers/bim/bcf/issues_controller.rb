@@ -53,21 +53,21 @@ module Bim
       def prepare_import
         render_next
       rescue StandardError => e
-        flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
+        flash[:error] = I18n.t("bcf.bcf_xml.import_failed", error: e.message)
         redirect_to action: :upload
       end
 
       def configure_import
         render_next
       rescue StandardError => e
-        flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
+        flash[:error] = I18n.t("bcf.bcf_xml.import_failed", error: e.message)
         redirect_to action: :upload
       end
 
       def perform_import
         import_file
       rescue StandardError => e
-        flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
+        flash[:error] = I18n.t("bcf.bcf_xml.import_failed", error: e.message)
         redirect_to action: :upload
       ensure
         @bcf_attachment&.destroy
@@ -98,8 +98,8 @@ module Bim
               unknown_statuses_action
               invalid_people_action
               unknown_mails_action
-              non_members_action].map { |key| params.dig(:import_options, key) }.include? 'cancel'
-          flash[:notice] = I18n.t('bcf.bcf_xml.import_canceled')
+              non_members_action].map { |key| params.dig(:import_options, key) }.include? "cancel"
+          flash[:notice] = I18n.t("bcf.bcf_xml.import_canceled")
           redirect_to_bcf_issues_list
         end
       end
@@ -110,8 +110,8 @@ module Bim
           unknown_statuses_action: params.dig(:import_options, :unknown_statuses_action).presence || "use_default",
           unknown_priorities_action: params.dig(:import_options, :unknown_priorities_action).presence || "use_default",
           invalid_people_action: params.dig(:import_options, :invalid_people_action).presence || "anonymize",
-          unknown_mails_action: params.dig(:import_options, :unknown_mails_action).presence || 'invite',
-          non_members_action: params.dig(:import_options, :non_members_action).presence || 'chose',
+          unknown_mails_action: params.dig(:import_options, :unknown_mails_action).presence || "invite",
+          non_members_action: params.dig(:import_options, :non_members_action).presence || "chose",
           unknown_types_chose_ids: params.dig(:import_options, :unknown_types_chose_ids) || [],
           unknown_statuses_chose_ids: params.dig(:import_options, :unknown_statuses_chose_ids) || [],
           unknown_priorities_chose_ids: params.dig(:import_options, :unknown_priorities_chose_ids) || [],
@@ -140,7 +140,7 @@ module Bim
       end
 
       def render_config_invalid_people
-        render 'bim/bcf/issues/configure_invalid_people'
+        render "bim/bcf/issues/configure_invalid_people"
       end
 
       def render_config_invalid_people?
@@ -148,7 +148,7 @@ module Bim
       end
 
       def render_config_unknown_types
-        render 'bim/bcf/issues/configure_unknown_types'
+        render "bim/bcf/issues/configure_unknown_types"
       end
 
       def render_config_unknown_types?
@@ -156,7 +156,7 @@ module Bim
       end
 
       def render_config_unknown_statuses
-        render 'bim/bcf/issues/configure_unknown_statuses'
+        render "bim/bcf/issues/configure_unknown_statuses"
       end
 
       def render_config_unknown_statuses?
@@ -168,12 +168,12 @@ module Bim
       end
 
       def render_config_unknown_priorities
-        render 'bim/bcf/issues/configure_unknown_priorities'
+        render "bim/bcf/issues/configure_unknown_priorities"
       end
 
       def render_config_unknown_mails
         @roles = ProjectRole.givable
-        render 'bim/bcf/issues/configure_unknown_mails'
+        render "bim/bcf/issues/configure_unknown_mails"
       end
 
       def render_config_unknown_mails?
@@ -182,7 +182,7 @@ module Bim
 
       def render_config_non_members
         @roles = ProjectRole.givable
-        render 'bim/bcf/issues/configure_non_members'
+        render "bim/bcf/issues/configure_non_members"
       end
 
       def render_config_non_members?
@@ -197,7 +197,7 @@ module Bim
         @bcf_attachment = Attachment.find_by!(id: session[:bcf_file_id], author: current_user)
         @bcf_xml_file = File.new @bcf_attachment.local_path
       rescue ActiveRecord::RecordNotFound
-        flash[:error] = I18n.t('bcf.bcf_xml.import.bcf_file_not_found')
+        flash[:error] = I18n.t("bcf.bcf_xml.import.bcf_file_not_found")
         redirect_to action: :upload
       end
 
@@ -226,7 +226,7 @@ module Bim
       def check_file_param
         path = params[:bcf_file]&.path
         unless path && File.readable?(path)
-          flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: 'File missing or not readable')
+          flash[:error] = I18n.t("bcf.bcf_xml.import_failed", error: "File missing or not readable")
           redirect_to action: :upload
         end
       end
@@ -234,7 +234,7 @@ module Bim
       def check_bcf_version
         unless @importer.bcf_version_valid?
           flash[:error] =
-            I18n.t('bcf.bcf_xml.import_failed_unsupported_bcf_version',
+            I18n.t("bcf.bcf_xml.import_failed_unsupported_bcf_version",
                    minimal_version: OpenProject::Bim::BcfXml::Importer::MINIMUM_BCF_VERSION)
           redirect_to action: :upload
         end

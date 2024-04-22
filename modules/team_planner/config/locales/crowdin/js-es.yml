@@ -12,6 +12,8 @@ es:
       remove_assignee: 'Eliminar asignado'
       two_weeks: '2 semanas'
       one_week: '1 semana'
+      four_weeks: '4 semanas'
+      eight_weeks: '8 semanas'
       work_week: 'Semana laboral'
       today: 'Hoy'
       drag_here_to_remove: 'Arrastre aquí para quitar el usuario asignado y las fechas de inicio y finalización.'

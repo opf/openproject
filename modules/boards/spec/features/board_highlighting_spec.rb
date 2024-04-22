@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'support/board_index_page'
-require_relative 'support/board_page'
+require "spec_helper"
+require_relative "support/board_index_page"
+require_relative "support/board_page"
 
-RSpec.describe 'Work Package boards spec', :js, with_ee: %i[board_view] do
+RSpec.describe "Work Package boards spec", :js, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
@@ -58,7 +58,7 @@ RSpec.describe 'Work Package boards spec', :js, with_ee: %i[board_view] do
   let!(:priority2) { create(:priority, color: color2) }
   let!(:type) { create(:type, color:) }
   let!(:type2) { create(:type, color: color2) }
-  let!(:open_status) { create(:default_status, name: 'Open') }
+  let!(:open_status) { create(:default_status, name: "Open") }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -70,32 +70,32 @@ RSpec.describe 'Work Package boards spec', :js, with_ee: %i[board_view] do
     login_as(user)
   end
 
-  it 'navigates from boards to the WP full view and back' do
+  it "navigates from boards to the WP full view and back" do
     board_index.visit!
 
-    board_page = board_index.create_board action: 'Status'
+    board_page = board_index.create_board action: "Status"
 
     # See the work packages
-    board_page.expect_query 'Open', editable: false
-    board_page.expect_card 'Open', wp.subject
-    board_page.expect_card 'Open', wp2.subject
+    board_page.expect_query "Open", editable: false
+    board_page.expect_card "Open", wp.subject
+    board_page.expect_card "Open", wp2.subject
 
     # Highlight type inline is always active
     expect(page).to have_css(".__hl_inline_type_#{type.id}")
     expect(page).to have_css(".__hl_inline_type_#{type2.id}")
 
     # Highlight whole card by priority
-    board_page.change_board_highlighting 'inline', 'Priority'
+    board_page.change_board_highlighting "inline", "Priority"
     expect(page).to have_css(".__hl_background_priority_#{priority.id}")
     expect(page).to have_css(".__hl_background_priority_#{priority2.id}")
 
     # Highlight whole card by type
-    board_page.change_board_highlighting 'inline', 'Type'
+    board_page.change_board_highlighting "inline", "Type"
     expect(page).to have_css(".__hl_background_type_#{type.id}")
     expect(page).to have_css(".__hl_background_type_#{type2.id}")
 
     # Disable highlighting
-    board_page.change_board_highlighting 'none'
+    board_page.change_board_highlighting "none"
     expect(page).to have_no_css(".__hl_background_type_#{type.id}")
     expect(page).to have_no_css(".__hl_background_type_#{type2.id}")
 

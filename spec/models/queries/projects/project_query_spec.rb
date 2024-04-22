@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Projects::ProjectQuery do
   let(:instance) { described_class.new }
@@ -34,40 +34,40 @@ RSpec.describe Queries::Projects::ProjectQuery do
   shared_let(:user) { create(:user) }
   shared_let(:admin) { create(:admin) }
 
-  context 'when persisting' do
+  context "when persisting" do
     let(:properties) do
       {
-        name: 'some name',
+        name: "some name",
         user:
       }
     end
 
-    it 'takes a name property' do
+    it "takes a name property" do
       instance = described_class.create(**properties)
 
       expect(described_class.find(instance.id).name)
         .to eql properties[:name]
     end
 
-    it 'takes a user property' do
+    it "takes a user property" do
       instance = described_class.create(**properties)
 
       expect(described_class.find(instance.id).user)
         .to eql properties[:user]
     end
 
-    it 'takes filters' do
+    it "takes filters" do
       instance = described_class.new(**properties)
 
-      instance.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
+      instance.where("active", "=", OpenProject::Database::DB_VALUE_TRUE)
 
       instance.save!
 
       expect(described_class.find(instance.id).filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
-        .to eql [{ field: :active, operator: '=', values: [OpenProject::Database::DB_VALUE_TRUE] }]
+        .to eql [{ field: :active, operator: "=", values: [OpenProject::Database::DB_VALUE_TRUE] }]
     end
 
-    it 'takes sort order' do
+    it "takes sort order" do
       instance = described_class.new(**properties)
 
       instance.order(id: :desc)
@@ -78,7 +78,7 @@ RSpec.describe Queries::Projects::ProjectQuery do
         .to eql [{ id: :desc }]
     end
 
-    it 'takes selects' do
+    it "takes selects" do
       instance = described_class.new(**properties)
 
       instance.select(:name, :public)
@@ -90,7 +90,7 @@ RSpec.describe Queries::Projects::ProjectQuery do
     end
   end
 
-  describe '.available_selects' do
+  describe ".available_selects" do
     current_user { user }
 
     before do
@@ -105,7 +105,7 @@ RSpec.describe Queries::Projects::ProjectQuery do
               .and_return([23, 42])
     end
 
-    it 'lists registered selects' do
+    it "lists registered selects" do
       expect(instance.available_selects.map(&:attribute))
         .to contain_exactly(:name,
                             :public,
@@ -115,10 +115,10 @@ RSpec.describe Queries::Projects::ProjectQuery do
                             :status_explanation)
     end
 
-    context 'with the user being admin' do
+    context "with the user being admin" do
       current_user { admin }
 
-      it 'includes admin columns' do
+      it "includes admin columns" do
         expect(instance.available_selects.map(&:attribute))
           .to contain_exactly(:name,
                               :public,
@@ -132,10 +132,10 @@ RSpec.describe Queries::Projects::ProjectQuery do
       end
     end
 
-    context 'with an enterprise token',
+    context "with an enterprise token",
             with_ee: %i[custom_fields_in_projects_list] do
       # rubocop:disable Naming/VariableNumber
-      it 'includes custom field columns' do
+      it "includes custom field columns" do
         expect(instance.available_selects.map(&:attribute))
           .to contain_exactly(:name,
                               :public,

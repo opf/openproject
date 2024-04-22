@@ -75,7 +75,7 @@ module API
         date_time_property :updated_at
 
         def _type
-          'Meeting'
+          "Meeting"
         end
       end
     end

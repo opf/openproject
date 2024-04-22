@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Members::Scopes::WithoutInheritedRoles do
   let(:project) { create(:project) }
@@ -53,10 +53,10 @@ RSpec.describe Members::Scopes::WithoutInheritedRoles do
     end
   end
 
-  describe '.without_inherited_roles' do
+  describe ".without_inherited_roles" do
     subject { Member.without_inherited_roles }
 
-    it 'returns all that are not inherited' do
+    it "returns all that are not inherited" do
       expect(subject).to contain_exactly(work_package_member)
     end
   end

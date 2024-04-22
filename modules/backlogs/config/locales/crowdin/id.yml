@@ -150,7 +150,7 @@ id:
   remaining_hours: "pekerjaan yang tersisa"
   required_burn_rate_hours: "tingkat pembakaran yang dibutuhkan (jam)"
   required_burn_rate_points: "tingkat pembakaran yang dibutuhkan (poin)"
-  todo_work_package_description: "%{total}: %{url}\n%{keterangan}"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Kolom di backlog"
   version_settings_display_option_left: "kiri"

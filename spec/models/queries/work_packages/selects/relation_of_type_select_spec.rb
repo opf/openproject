@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_query_select_specs'
+require "spec_helper"
+require_relative "shared_query_select_specs"
 
 RSpec.describe Queries::WorkPackages::Selects::RelationOfTypeSelect do
   let(:project) { build_stubbed(:project) }
@@ -35,11 +35,11 @@ RSpec.describe Queries::WorkPackages::Selects::RelationOfTypeSelect do
   let(:instance) { described_class.new(type) }
   let(:enterprise_token_allows) { true }
 
-  it_behaves_like 'query column'
+  it_behaves_like "query column"
 
-  describe 'instances' do
+  describe "instances" do
     before do
-      stub_const('Relation::TYPES',
+      stub_const("Relation::TYPES",
                  relation1: { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 },
                  relation2: { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: :relation2 })
 
@@ -49,8 +49,8 @@ RSpec.describe Queries::WorkPackages::Selects::RelationOfTypeSelect do
         .and_return(enterprise_token_allows)
     end
 
-    context 'with a valid enterprise token' do
-      it 'contains the type columns' do
+    context "with a valid enterprise token" do
+      it "contains the type columns" do
         expect(described_class.instances.length)
           .to eq 2
 
@@ -62,10 +62,10 @@ RSpec.describe Queries::WorkPackages::Selects::RelationOfTypeSelect do
       end
     end
 
-    context 'without a valid enterprise token' do
+    context "without a valid enterprise token" do
       let(:enterprise_token_allows) { false }
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.instances)
           .to be_empty
       end

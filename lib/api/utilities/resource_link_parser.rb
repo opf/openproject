@@ -80,9 +80,9 @@ module API
         end
 
         def unescape(string)
-          @unescaper ||= Addressable::Template.new('{+id}')
+          @unescaper ||= Addressable::Template.new("{+id}")
 
-          @unescaper.extract(string)['id']
+          @unescaper.extract(string)["id"]
         end
 
         # returns whether expectation and actual are identical
@@ -92,8 +92,8 @@ module API
         end
 
         def make_expected_link(version, namespaces)
-          version = "v#{version}" || ':apiVersion'
-          namespaces = Array(namespaces || ':resource')
+          version = "v#{version}" || ":apiVersion"
+          namespaces = Array(namespaces || ":resource")
 
           namespaces.map { |namespace| "/api/#{version}/#{namespace}/:id" }
         end

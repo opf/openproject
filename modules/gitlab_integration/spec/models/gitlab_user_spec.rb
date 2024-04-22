@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe GitlabUser do
-  describe 'Associations' do
+  describe "Associations" do
     it { is_expected.to have_many(:gitlab_merge_requests) }
   end
 
-  describe 'Validations' do
+  describe "Validations" do
     it { is_expected.to validate_presence_of :gitlab_id }
     it { is_expected.to validate_presence_of :gitlab_name }
     it { is_expected.to validate_presence_of :gitlab_username }

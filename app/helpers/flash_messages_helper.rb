@@ -50,7 +50,7 @@ module FlashMessagesHelper
     return if render_primer_banner_message?
 
     messages = flash
-      .reject { |k, _| k.start_with? '_' }
+      .reject { |k, _| k.start_with? "_" }
       .map do |k, v|
       if k.to_sym == :modal
         component = v[:type].constantize
@@ -65,31 +65,31 @@ module FlashMessagesHelper
 
   def join_flash_messages(messages)
     if messages.respond_to?(:join)
-      safe_join(messages, '<br />'.html_safe)
+      safe_join(messages, "<br />".html_safe)
     else
       messages
     end
   end
 
   def render_flash_message(type, message, html_options = {}) # rubocop:disable Metrics/AbcSize
-    if type.to_s == 'notice'
-      type = 'success'
+    if type.to_s == "notice"
+      type = "success"
     end
 
     toast_css_classes = ["op-toast -#{type}", html_options.delete(:class)]
 
     # Add autohide class to notice flashes if configured
-    if type.to_s == 'success' && User.current.pref.auto_hide_popups?
-      toast_css_classes << 'autohide-toaster'
+    if type.to_s == "success" && User.current.pref.auto_hide_popups?
+      toast_css_classes << "autohide-toaster"
     end
 
-    html_options = { class: toast_css_classes.join(' '), role: 'alert' }.merge(html_options)
-    close_button = content_tag :a, '', class: 'op-toast--close icon-context icon-close',
-                                       title: I18n.t('js.close_popup_title'),
-                                       tabindex: '0'
-    toast = content_tag(:div, join_flash_messages(message), class: 'op-toast--content')
-    content_tag :div, '', class: 'op-toast--wrapper' do
-      content_tag :div, '', class: 'op-toast--casing' do
+    html_options = { class: toast_css_classes.join(" "), role: "alert" }.merge(html_options)
+    close_button = content_tag :a, "", class: "op-toast--close icon-context icon-close",
+                                       title: I18n.t("js.close_popup_title"),
+                                       tabindex: "0"
+    toast = content_tag(:div, join_flash_messages(message), class: "op-toast--content")
+    content_tag :div, "", class: "op-toast--wrapper" do
+      content_tag :div, "", class: "op-toast--casing" do
         content_tag :div, html_options do
           concat(close_button)
           concat(toast)

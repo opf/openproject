@@ -24,22 +24,22 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require_relative 'shared/shared_call_examples'
-require_relative 'shared/shared_setup_context'
+require "spec_helper"
+require_relative "shared/shared_call_examples"
+require_relative "shared/shared_setup_context"
 
 RSpec.describe Settings::UpdateService do
-  include_context 'with update service setup'
+  include_context "with update service setup"
 
-  describe '#call' do
+  describe "#call" do
     subject { instance.call(params) }
 
-    include_examples 'successful call'
+    include_examples "successful call"
 
-    context 'when the contract is not successfully validated' do
+    context "when the contract is not successfully validated" do
       let(:contract_success) { false }
 
-      include_examples 'unsuccessful call'
+      include_examples "unsuccessful call"
     end
   end
 end

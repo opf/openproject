@@ -62,8 +62,8 @@ class Workflows::BulkUpdateService < BaseServices::Update
                                       role:,
                                       old_status: status_map[status_id.to_i],
                                       new_status: status_map[new_status_id.to_i],
-                                      author: options_include(options, 'author'),
-                                      assignee: options_include(options, 'assignee'))
+                                      author: options_include(options, "author"),
+                                      assignee: options_include(options, "assignee"))
       end
     end
 
@@ -88,6 +88,6 @@ class Workflows::BulkUpdateService < BaseServices::Update
   end
 
   def options_include(options, string)
-    options.is_a?(Array) && options.include?(string) && !options.include?('always')
+    options.is_a?(Array) && options.include?(string) && !options.include?("always")
   end
 end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
-require_relative 'patches/api/work_package_representer'
-require_relative 'patches/api/work_package_schema_representer'
+require "open_project/plugins"
+require_relative "patches/api/work_package_representer"
+require_relative "patches/api/work_package_schema_representer"
 
 module OpenProject::Backlogs
   class Engine < ::Rails::Engine
@@ -37,10 +37,10 @@ module OpenProject::Backlogs
     def self.settings
       {
         default: {
-          'story_types' => nil,
-          'task_type' => nil,
-          'points_burn_direction' => 'up',
-          'wiki_template' => ''
+          "story_types" => nil,
+          "task_type" => nil,
+          "points_burn_direction" => "up",
+          "wiki_template" => ""
         },
         menu_item: :backlogs_settings
       }
@@ -48,25 +48,25 @@ module OpenProject::Backlogs
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register('openproject-backlogs',
-             author_url: 'https://www.openproject.org',
+    register("openproject-backlogs",
+             author_url: "https://www.openproject.org",
              bundled: true,
              settings:) do
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
-          add.controller_actions << 'rb_stories/create'
-          add.controller_actions << 'rb_tasks/create'
-          add.controller_actions << 'rb_impediments/create'
+          add.controller_actions << "rb_stories/create"
+          add.controller_actions << "rb_tasks/create"
+          add.controller_actions << "rb_impediments/create"
         end
 
         OpenProject::AccessControl.permission(:edit_work_packages).tap do |edit|
-          edit.controller_actions << 'rb_stories/update'
-          edit.controller_actions << 'rb_tasks/update'
-          edit.controller_actions << 'rb_impediments/update'
+          edit.controller_actions << "rb_stories/update"
+          edit.controller_actions << "rb_tasks/update"
+          edit.controller_actions << "rb_impediments/update"
         end
 
         OpenProject::AccessControl.permission(:change_work_package_status).tap do |edit|
-          edit.controller_actions << 'rb_stories/update'
+          edit.controller_actions << "rb_stories/update"
         end
       end
 
@@ -93,7 +93,7 @@ module OpenProject::Backlogs
 
         permission :select_done_statuses,
                    {
-                     'projects/settings/backlogs': %i[show update rebuild_positions]
+                     "projects/settings/backlogs": %i[show update rebuild_positions]
                    },
                    permissible_on: :project,
                    require: :member
@@ -111,14 +111,14 @@ module OpenProject::Backlogs
 
       menu :project_menu,
            :backlogs,
-           { controller: '/rb_master_backlogs', action: :index },
+           { controller: "/rb_master_backlogs", action: :index },
            caption: :project_module_backlogs,
            after: :work_packages,
-           icon: 'backlogs'
+           icon: "backlogs"
 
       menu :project_menu,
            :settings_backlogs,
-           { controller: '/projects/settings/backlogs', action: :show },
+           { controller: "/projects/settings/backlogs", action: :show },
            caption: :label_backlogs,
            parent: :settings,
            before: :settings_storage
@@ -147,13 +147,13 @@ module OpenProject::Backlogs
 
       # Add available settings to the user preferences
       UserPreferences::Schema.merge!(
-        'definitions/UserPreferences/properties',
+        "definitions/UserPreferences/properties",
         {
-          'backlogs_task_color' => {
-            'type' => 'string'
+          "backlogs_task_color" => {
+            "type" => "string"
           },
-          'backlogs_versions_default_fold_state' => {
-            'type' => 'string',
+          "backlogs_versions_default_fold_state" => {
+            "type" => "string",
             "enum" => %w[open closed]
           }
         }

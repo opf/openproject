@@ -33,8 +33,8 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     prepend InstanceMethods
     extend ClassMethods
 
-    register_journal_formatted_fields(:decimal, 'story_points')
-    register_journal_formatted_fields(:decimal, 'position')
+    register_journal_formatted_fields(:decimal, "story_points")
+    register_journal_formatted_fields(:decimal, "position")
 
     validates_numericality_of :story_points, only_integer: true,
                                              allow_nil: true,
@@ -110,7 +110,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def backlogs_enabled?
-      !!project.try(:module_enabled?, 'backlogs')
+      !!project.try(:module_enabled?, "backlogs")
     end
 
     def in_backlogs_type?

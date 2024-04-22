@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "openproject-reporting"
-  s.version     = '1.0.0'
+  s.version     = "1.0.0"
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
   s.summary     = "OpenProject Reporting"
@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
   s.files       = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
 
   s.add_dependency "costs"
-  s.metadata['rubygems_mfa_required'] = 'true'
+  s.metadata["rubygems_mfa_required"] = "true"
 end

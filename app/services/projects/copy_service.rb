@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -41,10 +43,20 @@ module Projects
         ::Projects::Copy::QueriesDependentService,
         ::Projects::Copy::BoardsDependentService,
         ::Projects::Copy::OverviewDependentService,
-        ::Projects::Copy::StoragesDependentService,
-        ::Projects::Copy::StorageProjectFoldersDependentService,
-        ::Projects::Copy::FileLinksDependentService
+        ::Projects::Copy::StoragesDependentService
       ]
+    end
+
+    # Project Folders and File Links aren't dependent services anymore,
+    #  so we need to amend the services for the form Representer
+    def self.copyable_dependencies
+      super + [{ identifier: "storage_project_folders",
+                 name_source: -> { I18n.t(:label_project_storage_project_folder) },
+                 count_source: ->(source, _) { source.storages.count } },
+
+               { identifier: "file_links",
+                 name_source: -> { I18n.t("projects.copy.work_package_file_links") },
+                 count_source: ->(source, _) { source.work_packages.joins(:file_links).count("file_links.id") } }]
     end
 
     protected
@@ -80,6 +92,15 @@ module Projects
       end
     end
 
+    def after_perform(call)
+      copy_activated_custom_fields(call)
+
+      super
+    end
+
+    def copy_activated_custom_fields(call)
+       call.result.project_custom_field_ids = source.project_custom_field_ids
+    end
     def contract_options
       { copy_source: source, validate_model: true }
     end

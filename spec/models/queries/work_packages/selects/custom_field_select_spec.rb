@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_query_select_specs'
+require "spec_helper"
+require_relative "shared_query_select_specs"
 
 RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
   let(:project) { build_stubbed(:project) }
   let(:custom_field) { build_stubbed(:string_wp_custom_field) }
   let(:instance) { described_class.new(custom_field) }
 
-  it_behaves_like 'query column', sortable_by_default: true
+  it_behaves_like "query column", sortable_by_default: true
 
-  describe 'instances' do
+  describe "instances" do
     let(:text_custom_field) do
       create(:text_wp_custom_field)
     end
@@ -45,7 +45,7 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
       create(:list_wp_custom_field)
     end
 
-    context 'within project' do
+    context "within project" do
       before do
         allow(project)
           .to receive(:all_work_package_custom_fields)
@@ -53,7 +53,7 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
                        list_custom_field])
       end
 
-      it 'contains only non text cf columns' do
+      it "contains only non text cf columns" do
         expect(described_class.instances(project).length)
           .to eq 1
 
@@ -62,7 +62,7 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
       end
     end
 
-    context 'global' do
+    context "global" do
       before do
         allow(WorkPackageCustomField)
           .to receive(:all)
@@ -70,7 +70,7 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
                        list_custom_field])
       end
 
-      it 'contains only non text cf columns' do
+      it "contains only non text cf columns" do
         expect(described_class.instances.length)
           .to eq 1
 
@@ -80,10 +80,10 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
     end
   end
 
-  describe '#value' do
+  describe "#value" do
     let(:mock) { instance_double(WorkPackage) }
 
-    it 'delegates to formatted_custom_value_for' do
+    it "delegates to formatted_custom_value_for" do
       expect(mock).to receive(:formatted_custom_value_for).with(custom_field.id)
       instance.value(mock)
     end

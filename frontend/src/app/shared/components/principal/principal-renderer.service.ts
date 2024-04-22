@@ -151,6 +151,7 @@ export class PrincipalRendererService {
     }
 
     const image = new Image();
+    image.classList.add('op-principal--avatar');
     image.classList.add('op-avatar');
     image.classList.add(`op-avatar_${options.size}`);
     image.src = url;
@@ -216,8 +217,12 @@ export class PrincipalRendererService {
     const characters = [...name];
     const lastSpace = name.lastIndexOf(' ');
     const first = characters[0]?.toUpperCase();
-    const last = name[lastSpace + 1]?.toUpperCase();
 
-    return [first, last].join('');
+    if (lastSpace === -1) {
+      return first;
+    } else {
+      const last = name[lastSpace + 1]?.toUpperCase();
+      return [first, last].join('');
+    }
   }
 }

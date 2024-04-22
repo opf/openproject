@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Query Filter Schema resource' do
+RSpec.describe "API v3 Query Filter Schema resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -58,41 +58,41 @@ RSpec.describe 'API v3 Query Filter Schema resource' do
     last_response
   end
 
-  describe '#GET /api/v3/queries/filter_instance_schemas' do
+  describe "#GET /api/v3/queries/filter_instance_schemas" do
     %i[global
        project].each do |current_path|
       context current_path do
         let(:path) { send :"#{current_path}_path" }
 
-        it 'succeeds' do
+        it "succeeds" do
           expect(subject.status)
             .to eq(200)
         end
 
-        it 'returns a collection of schemas' do
+        it "returns a collection of schemas" do
           expect(subject.body)
-            .to be_json_eql('Collection'.to_json)
-            .at_path('_type')
+            .to be_json_eql("Collection".to_json)
+            .at_path("_type")
           expect(subject.body)
             .to be_json_eql(path.to_json)
-            .at_path('_links/self/href')
+            .at_path("_links/self/href")
 
           expected_type = "QueryFilterInstanceSchema"
 
           expect(subject.body)
             .to be_json_eql(expected_type.to_json)
-            .at_path('_embedded/elements/0/_type')
+            .at_path("_embedded/elements/0/_type")
         end
 
-        context 'when the user is not allowed' do
+        context "when the user is not allowed" do
           let(:permissions) { [] }
 
-          it_behaves_like 'unauthorized access'
+          it_behaves_like "unauthorized access"
         end
       end
     end
 
-    context 'when in a global context' do
+    context "when in a global context" do
       let(:path) { global_path }
 
       before do
@@ -100,21 +100,21 @@ RSpec.describe 'API v3 Query Filter Schema resource' do
         get path
       end
 
-      it 'includes only global specific filter' do
-        instance_paths = JSON.parse(subject.body).dig('_embedded', 'elements').map { |f| f.dig('_links', 'self', 'href') }
+      it "includes only global specific filter" do
+        instance_paths = JSON.parse(subject.body).dig("_embedded", "elements").map { |f| f.dig("_links", "self", "href") }
 
         expect(instance_paths)
-          .not_to include(api_v3_paths.query_filter_instance_schema('category'))
+          .not_to include(api_v3_paths.query_filter_instance_schema("category"))
 
         expect(instance_paths)
-          .to include(api_v3_paths.query_filter_instance_schema('project'))
+          .to include(api_v3_paths.query_filter_instance_schema("project"))
 
         expect(instance_paths)
-          .not_to include(api_v3_paths.query_filter_instance_schema('subprojectId'))
+          .not_to include(api_v3_paths.query_filter_instance_schema("subprojectId"))
       end
     end
 
-    context 'when in a project context' do
+    context "when in a project context" do
       let(:path) { project_path }
 
       before do
@@ -122,46 +122,46 @@ RSpec.describe 'API v3 Query Filter Schema resource' do
         get path
       end
 
-      it 'includes project specific filter' do
-        instance_paths = JSON.parse(subject.body).dig('_embedded', 'elements').map { |f| f.dig('_links', 'self', 'href') }
+      it "includes project specific filter" do
+        instance_paths = JSON.parse(subject.body).dig("_embedded", "elements").map { |f| f.dig("_links", "self", "href") }
 
         expect(instance_paths)
-          .to include(api_v3_paths.query_filter_instance_schema('category'))
+          .to include(api_v3_paths.query_filter_instance_schema("category"))
 
         expect(instance_paths)
-          .to include(api_v3_paths.query_filter_instance_schema('project'))
+          .to include(api_v3_paths.query_filter_instance_schema("project"))
 
         expect(instance_paths)
-          .to include(api_v3_paths.query_filter_instance_schema('subprojectId'))
+          .to include(api_v3_paths.query_filter_instance_schema("subprojectId"))
       end
     end
   end
 
-  describe '#GET /api/v3/queries/filter_instance_schemas/:id' do
-    let(:filter_name) { 'assignee' }
+  describe "#GET /api/v3/queries/filter_instance_schemas/:id" do
+    let(:filter_name) { "assignee" }
     let(:path) { api_v3_paths.query_filter_instance_schema(filter_name) }
 
-    it 'succeeds' do
+    it "succeeds" do
       expect(subject.status)
         .to eq(200)
     end
 
-    it 'returns the instance schema' do
+    it "returns the instance schema" do
       expect(subject.body)
         .to be_json_eql(path.to_json)
-        .at_path('_links/self/href')
+        .at_path("_links/self/href")
     end
 
-    context 'when the user is not allowed' do
+    context "when the user is not allowed" do
       let(:permissions) { [] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
 
-    context 'when the id is not found' do
-      let(:filter_name) { 'bogus' }
+    context "when the id is not found" do
+      let(:filter_name) { "bogus" }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 end

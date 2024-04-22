@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe Settings::WorkingDaysParamsContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
   shared_let(:current_user) { create(:admin) }
   let(:setting) { Setting }
   let(:params) { { working_days: [1] } }
@@ -38,15 +38,15 @@ RSpec.describe Settings::WorkingDaysParamsContract do
     described_class.new(setting, current_user, params:)
   end
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  context 'without working days' do
+  context "without working days" do
     let(:params) { { working_days: [] } }
 
-    include_examples 'contract is invalid', base: :working_days_are_missing
+    include_examples "contract is invalid", base: :working_days_are_missing
   end
 
-  context 'with an ApplyWorkingDaysChangeJob already existing',
+  context "with an ApplyWorkingDaysChangeJob already existing",
           with_good_job: WorkPackages::ApplyWorkingDaysChangeJob do
     let(:params) { { working_days: [1, 2, 3] } }
 
@@ -58,6 +58,6 @@ RSpec.describe Settings::WorkingDaysParamsContract do
                        previous_working_days: [1, 2, 3, 4])
     end
 
-    include_examples 'contract is invalid', base: :previous_working_day_changes_unprocessed
+    include_examples "contract is invalid", base: :previous_working_day_changes_unprocessed
   end
 end

@@ -12,7 +12,7 @@ zh-TW:
         identifier: 識別碼
         secret: 金鑰
         scope: 範圍
-        limit_self_registration: Limit self registration
+        limit_self_registration: 限制自行註冊
   openid_connect:
     menu_title: OpenID 提供者
     providers:
@@ -29,4 +29,4 @@ zh-TW:
       azure_tenant_html: >
         Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        如果啟用，使用者只能在允許自行註冊情況下，使用此提供者進行註冊。

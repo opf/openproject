@@ -27,9 +27,9 @@
 #++
 
 class ICalTokenQueryAssignment < ApplicationRecord
-  self.table_name = 'ical_token_query_assignments'
+  self.table_name = "ical_token_query_assignments"
 
-  belongs_to :ical_token, class_name: 'Token::ICal', optional: true
+  belongs_to :ical_token, class_name: "Token::ICal", optional: true
   belongs_to :query, optional: true
   validates :name, presence: true
   validate :unique_name_per_user_and_query

@@ -36,18 +36,18 @@ module JsonResponseHelper
   private
 
   def payload_path
-    Pathname.new(Rails.root).join('modules/storages/spec/support/payloads/')
+    Pathname.new(Rails.root).join("modules/storages/spec/support/payloads/")
   end
 
   def not_found_response
     {
       error: {
-        code: 'itemNotFound',
-        message: 'The resource could not be found.',
+        code: "itemNotFound",
+        message: "The resource could not be found.",
         innerError: {
-          date: '2023-09-08T08:20:55',
-          'request-id': '286b0215-7f33-46dc-b1fe-67720fe1616a',
-          'client-request-id': '286b0215-7f33-46dc-b1fe-67720fe1616a'
+          date: "2023-09-08T08:20:55",
+          "request-id": "286b0215-7f33-46dc-b1fe-67720fe1616a",
+          "client-request-id": "286b0215-7f33-46dc-b1fe-67720fe1616a"
         }
       }
     }.to_json
@@ -56,12 +56,12 @@ module JsonResponseHelper
   def forbidden_response
     {
       error: {
-        code: 'accessDenied',
-        message: 'Access denied',
+        code: "accessDenied",
+        message: "Access denied",
         innerError: {
-          date: '2023-09-08T08:20:55',
-          'request-id': '286b0215-7f33-46dc-b1fe-67720fe1616f',
-          'client-request-id': '286b0215-7f33-46dc-b1fe-67720fe1616b'
+          date: "2023-09-08T08:20:55",
+          "request-id": "286b0215-7f33-46dc-b1fe-67720fe1616f",
+          "client-request-id": "286b0215-7f33-46dc-b1fe-67720fe1616b"
         }
       }
     }.to_json

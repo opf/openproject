@@ -19,12 +19,12 @@ module Components
       end
 
       date = Date.parse(date) unless date.is_a?(Date)
-      datepicker.set_date(date.strftime('%Y-%m-%d'))
+      datepicker.set_date(date.strftime("%Y-%m-%d"))
       datepicker.expect_current_date(date)
       datepicker.save!
     end
 
-    def initialize(context = 'body')
+    def initialize(context = "body")
       @context_selector = context
     end
 
@@ -39,16 +39,16 @@ module Components
     ##
     # Clear all values
     def clear!
-      set_field(container.find_field('startDate'), '', wait_for_changes_to_be_applied: false)
-      set_field(container.find_field('endDate'), '', wait_for_changes_to_be_applied: false)
+      set_field(container.find_field("startDate"), "", wait_for_changes_to_be_applied: false)
+      set_field(container.find_field("endDate"), "", wait_for_changes_to_be_applied: false)
     end
 
     def expect_visible
-      expect(container).to have_css('.flatpickr-calendar .flatpickr-current-month', wait: 10)
+      expect(container).to have_css(".flatpickr-calendar .flatpickr-current-month", wait: 10)
     end
 
     def expect_not_visible
-      expect(container).to have_no_css('.flatpickr-calendar .flatpickr-current-month', wait: 10)
+      expect(container).to have_no_css(".flatpickr-calendar .flatpickr-current-month", wait: 10)
     end
 
     ##
@@ -56,7 +56,7 @@ module Components
     def select_year(value)
       retry_block do
         flatpickr_container
-          .first('.numInput.cur-year')
+          .first(".numInput.cur-year")
           .set value
       end
     end
@@ -67,7 +67,7 @@ module Components
       month_name = month.is_a?(Integer) ? I18n.t("date.month_names")[month] : month
 
       flatpickr_container
-        .first('.flatpickr-monthDropdown-months option', text: month_name, visible: :all)
+        .first(".flatpickr-monthDropdown-months option", text: month_name, visible: :all)
         .select_option
     end
 
@@ -82,7 +82,7 @@ module Components
 
       retry_block do
         flatpickr_container
-          .first('.flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)',
+          .first(".flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)",
                  text: value)
           .click
       end
@@ -117,20 +117,20 @@ module Components
       month = Date::MONTHNAMES.index(month) if month.is_a?(String)
 
       # Month is 0-index in select
-      field = flatpickr_container.find('.flatpickr-monthDropdown-months')
+      field = flatpickr_container.find(".flatpickr-monthDropdown-months")
       expect(field.value.to_i).to eq(month - 1)
     end
 
     ##
     # Expect the selected day
     def expect_day(value)
-      expect(flatpickr_container).to have_css('.flatpickr-day.selected', text: value)
+      expect(flatpickr_container).to have_css(".flatpickr-day.selected", text: value)
     end
 
     ##
     # Expect the selected year
     def expect_year(value)
-      expect(flatpickr_container).to have_css('.cur-year') { |field|
+      expect(flatpickr_container).to have_css(".cur-year") { |field|
         field.value.to_i == value.to_i
       }
     end
@@ -149,7 +149,7 @@ module Components
     ##
     # Expect the given date to be non working
     def expect_non_working(date)
-      label = date.strftime('%B %-d, %Y')
+      label = date.strftime("%B %-d, %Y")
       expect(page).to have_css(".flatpickr-day.flatpickr-non-working-day[aria-label='#{label}']",
                                wait: 20)
     end
@@ -157,7 +157,7 @@ module Components
     ##
     # Expect the given date to be non working
     def expect_working(date)
-      label = date.strftime('%B %-d, %Y')
+      label = date.strftime("%B %-d, %Y")
       expect(page).to have_css(".flatpickr-day:not(.flatpickr-non-working-day)[aria-label='#{label}']",
                                wait: 20)
     end
@@ -165,7 +165,7 @@ module Components
     ##
     # Expect the given date to be non working
     def expect_disabled(date)
-      label = date.strftime('%B %-d, %Y')
+      label = date.strftime("%B %-d, %Y")
       expect(page).to have_css(".flatpickr-day.flatpickr-disabled[aria-label='#{label}']",
                                wait: 20)
     end
@@ -173,7 +173,7 @@ module Components
     ##
     # Expect the given date to be non working
     def expect_not_disabled(date)
-      label = date.strftime('%B %-d, %Y')
+      label = date.strftime("%B %-d, %Y")
       expect(page).to have_css(".flatpickr-day:not(.flatpickr-disabled)[aria-label='#{label}']",
                                wait: 20)
     end

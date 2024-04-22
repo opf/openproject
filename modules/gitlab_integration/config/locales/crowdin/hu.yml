@@ -27,41 +27,41 @@ hu:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "egy hash tömbnek kell lennie a következő kulcsokkal: color, title"
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
-  project_module_gitlab: "Gitlab"
-  permission_show_gitlab_content: "Show Gitlab content"
+              invalid_schema: "egy hash tömbnek kell lennie a következő kulcsokkal: color, title"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "GitLab tartalom megjelenítése"
   gitlab_integration:
     merge_request_opened_comment: >
-      **MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR megnyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.
     merge_request_closed_comment: >
-      **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR lezárva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.
     merge_request_merged_comment: >
-      **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR egyesítve:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) egyesítve [%{gitlab_user}](%{gitlab_user_url}) által.
     merge_request_reopened_comment: >
-      **MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR újranyitva:** Egyesítési kérelem (merge request) %{mr_number} [%{mr_title}](%{mr_url}) a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.
     note_commit_referenced_comment: >
-      **Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}
+      **Hivatkozva a következő commitban:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) [%{commit_id}](%{commit_url}) commitban a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{commit_note}
     note_mr_referenced_comment: >
-      **Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      **Hivatkozva a következő egyesítési kérelemben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{mr_number}%{mr_title}%{mr_url} MR-ben a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{mr_note}
     note_mr_commented_comment: >
-      **Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      **Hozzászólva a következő egyesítési kérelemben:** [%{gitlab_user}](%{gitlab_user_url}) hozzászólt ehhez a WP-hez a(z) %{mr_number}[%{mr_title}]%{mr_url} MR-ben a(z) [%{repository}](%{repository_url}) repositoryban, az üzenet: %{mr_note}
     note_issue_referenced_comment: >
-      **Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      **Hivatkozva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{issue_number}[%{issue_title}]%{issue_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{issue_note}
     note_issue_commented_comment: >
-      **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      **Hozzászólva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hozzászólt ehhez a WP-hez a(z) %{issue_number}[%{issue_title}]%{issue_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{issue_note}
     note_snippet_referenced_comment: >
-      **Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}
+      **Hivatkozva a következőben:** [%{gitlab_user}](%{gitlab_user_url}) hivatkozott erre a WP-re a(z) %{snippet_number}[%{snippet_title}]%{snippet_url} a(z) [%{repository}](%{repository_url}) repositoryban: %{snippet_note}
     issue_opened_referenced_comment: >
-      **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      **Kérdés megnyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) megnyitva [%{gitlab_user}](%{gitlab_user_url}) által.
     issue_closed_referenced_comment: >
-      **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      **Kérdés lezárva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) lezárva [%{gitlab_user}](%{gitlab_user_url}) által.
     issue_reopened_referenced_comment: >
-      **Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      **Kérdés újranyitva:** %{issue_number}[%{issue_title}]%{issue_url} a következőhöz: [%{repository}](%{repository_url}) újranyitva [%{gitlab_user}](%{gitlab_user_url}) által.
     push_single_commit_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}
     push_multiple_commits_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Frissítés az MR-ben:** [%{gitlab_user}](%{gitlab_user_url}) frissítette a következőkkel: [%{commit_number}](%{commit_url}) a(z) [%{repository}](%{repository_url}) ekkor: %{commit_timestamp}, üzenet: %{commit_note}

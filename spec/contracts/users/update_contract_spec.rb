@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Users::UpdateContract do
   let!(:default_admin) { create(:admin) }
 
-  it_behaves_like 'user contract' do
+  it_behaves_like "user contract" do
     let(:current_user) { create(:admin) }
     let(:user) { build_stubbed(:user, attributes) }
     let(:contract) { described_class.new(user, current_user) }
@@ -47,54 +47,54 @@ RSpec.describe Users::UpdateContract do
       }
     end
 
-    context 'with a system user' do
+    context "with a system user" do
       let(:current_user) { create(:system) }
       let(:user) { create(:admin, attributes) }
 
-      context 'when admin flag is removed' do
+      context "when admin flag is removed" do
         before do
           user.admin = false
         end
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
 
-        context 'when no admins left' do
+        context "when no admins left" do
           let(:default_admin) { nil }
 
-          it_behaves_like 'contract is invalid', base: :one_must_be_active
+          it_behaves_like "contract is invalid", base: :one_must_be_active
         end
       end
 
-      context 'when status is locked on an admin user' do
+      context "when status is locked on an admin user" do
         before do
           user.status = :locked
         end
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
 
-        context 'when no admins left' do
+        context "when no admins left" do
           let(:default_admin) { nil }
 
-          it_behaves_like 'contract is invalid', base: :one_must_be_active
+          it_behaves_like "contract is invalid", base: :one_must_be_active
         end
       end
     end
 
-    context 'when global user' do
+    context "when global user" do
       let(:current_user) { create(:user, global_permissions: :manage_user) }
 
-      describe 'can lock the user' do
+      describe "can lock the user" do
         before do
           user.status = Principal.statuses[:locked]
         end
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
 
-      describe 'cannot update an administrator' do
+      describe "cannot update an administrator" do
         let(:user) { build_stubbed(:admin, attributes) }
 
-        it_behaves_like 'contract is invalid'
+        it_behaves_like "contract is invalid"
       end
     end
 
@@ -102,14 +102,14 @@ RSpec.describe Users::UpdateContract do
       # That scenario is the only that is not covered by the shared examples
       let(:current_user) { user }
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
 
-      context 'when setting status' do
+      context "when setting status" do
         before do
           user.status = Principal.statuses[:locked]
         end
 
-        it_behaves_like 'contract is invalid', status: :error_readonly
+        it_behaves_like "contract is invalid", status: :error_readonly
       end
     end
   end

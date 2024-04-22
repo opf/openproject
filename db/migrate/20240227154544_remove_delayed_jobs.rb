@@ -49,7 +49,7 @@ class RemoveDelayedJobs < ActiveRecord::Migration[7.1]
             FOR UPDATE; -- to prevent potentialy running delayed_job process working on these jobs(delayed_job uses SELECT FOR UPDATE to get workable jobs)
         SQL
         tuples.each do |tuple|
-          handler = tuple['handler'].gsub('ruby/object:ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper',
+          handler = tuple["handler"].gsub("ruby/object:ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper",
                                           "ruby/object:#{RemoveDelayedJobs::JobWrapperDeserializationMock.name}")
           job_data = YAML.load(handler, permitted_classes: [RemoveDelayedJobs::JobWrapperDeserializationMock])
                          .job_data
@@ -57,13 +57,13 @@ class RemoveDelayedJobs < ActiveRecord::Migration[7.1]
           good_job_record = GoodJob::BaseExecution.new
           good_job_record.id = new_uuid
           good_job_record.serialized_params = job_data
-          good_job_record.serialized_params['job_id'] = new_uuid
-          good_job_record.queue_name = job_data['queue_name']
-          good_job_record.priority = job_data['priority']
-          good_job_record.scheduled_at = job_data['scheduled_at']
+          good_job_record.serialized_params["job_id"] = new_uuid
+          good_job_record.queue_name = job_data["queue_name"]
+          good_job_record.priority = job_data["priority"]
+          good_job_record.scheduled_at = job_data["scheduled_at"]
           good_job_record.active_job_id = new_uuid
           good_job_record.concurrency_key = nil
-          good_job_record.job_class = job_data['job_class']
+          good_job_record.job_class = job_data["job_class"]
           good_job_record.save!
         end
       end
@@ -83,7 +83,7 @@ class RemoveDelayedJobs < ActiveRecord::Migration[7.1]
       t.string :queue
       t.string :cron
 
-      t.index %i[priority run_at], name: 'delayed_jobs_priority'
+      t.index %i[priority run_at], name: "delayed_jobs_priority"
     end
   end
 end

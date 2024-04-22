@@ -280,7 +280,7 @@ cs:
                     *   This overview informs all participants about the decisions made
                     *   ...
             item_3:
-              subject: Passing of preliminary planning
+              subject: Přijetí předběžného plánu
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
               subject: Plánování návrhů
@@ -363,7 +363,7 @@ cs:
                     *   Finish the roof
                     *   ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Instalace servisních systémů budovy
                   description: |-
                     ## Goal
 
@@ -391,7 +391,7 @@ cs:
                     *   Finishing the facade
                     *   ...
                 item_6:
-                  subject: House warming party
+                  subject: Párty na zahřátí domu
                   description: |-
                     ## Goal
 
@@ -410,8 +410,8 @@ cs:
             item_0:
               title: Vítejte ve vašem demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
               description: Aktuální novinky
           categories:
             item_0: Kategorie 1 (bude změněno v nastavení projektu)
@@ -472,7 +472,7 @@ cs:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Shromažďování údajů a informací specifických pro projekt pro model BIM
                   description: |-
                     ## Goal
 
@@ -542,7 +542,7 @@ cs:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Referencing external BIM models
+                  subject: Odkazování externích modelů BIM
                   description: |-
                     # Goal
 
@@ -566,7 +566,7 @@ cs:
                     *   The model will be created according to the BIM execution plan
                     *   ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: První cyklus, interní kontrola modelu a revize
                   description: |-
                     # Goal
 
@@ -578,13 +578,13 @@ cs:
                     *   ...
                 item_3:
                   subject: Odesílání modelu BIM
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
             item_5:
               subject: Koordinace, první cyklus
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
               children:
                 item_0:
-                  subject: Coordinate the different BIM models
+                  subject: Koordinace různých modelů BIM
                   description: |-
                     # Goal
 
@@ -597,7 +597,7 @@ cs:
                     *   The identified model specific issues will be communicated via BCF files
                     *   ...
                 item_1:
-                  subject: Issue management, first cycle
+                  subject: Řízení problémů, první cyklus
                 item_2:
                   subject: Dokončování koordinace, první cyklus
                   description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.

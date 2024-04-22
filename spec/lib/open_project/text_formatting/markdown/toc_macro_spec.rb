@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
 RSpec.describe OpenProject::TextFormatting,
-               'toc macro' do
-  include_context 'expected markdown modules'
+               "toc macro" do
+  include_context "expected markdown modules"
 
-  it_behaves_like 'format_text produces' do
+  it_behaves_like "format_text produces" do
     let(:raw) do
       <<~RAW
         <macro class="toc op-uc-placeholder"></macro>
@@ -150,8 +150,8 @@ RSpec.describe OpenProject::TextFormatting,
     end
   end
 
-  context 'headings with numbers' do
-    it_behaves_like 'format_text produces' do
+  context "headings with numbers" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           <macro class="toc op-uc-placeholder"></macro>

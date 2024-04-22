@@ -26,56 +26,56 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'OAuth client credentials flow' do
+RSpec.describe "OAuth client credentials flow" do
   include Rack::Test::Methods
 
-  let!(:application) { create(:oauth_application, client_credentials_user_id: user_id, name: 'Cool API app!') }
+  let!(:application) { create(:oauth_application, client_credentials_user_id: user_id, name: "Cool API app!") }
   let(:client_secret) { application.plaintext_secret }
 
   let(:access_token) do
-    response = post('/oauth/token',
-                    grant_type: 'client_credentials', scope: 'api_v3', client_id: application.uid, client_secret:)
+    response = post("/oauth/token",
+                    grant_type: "client_credentials", scope: "api_v3", client_id: application.uid, client_secret:)
 
     expect(response).to be_successful
     body = JSON.parse(response.body)
-    body['access_token']
+    body["access_token"]
   end
 
   let(:make_request) do
     # Perform request with it
-    headers = { 'HTTP_CONTENT_TYPE' => 'application/json', 'HTTP_AUTHORIZATION' => "Bearer #{access_token}" }
-    get '/api/v3', {}, headers
+    headers = { "HTTP_CONTENT_TYPE" => "application/json", "HTTP_AUTHORIZATION" => "Bearer #{access_token}" }
+    get "/api/v3", {}, headers
   end
 
   subject { JSON.parse(make_request.body) }
 
-  describe 'when application provides client credentials impersonator' do
+  describe "when application provides client credentials impersonator" do
     let(:user) { create(:user) }
     let(:user_id) { user.id }
 
-    it 'allows client credential flow as the user' do
+    it "allows client credential flow as the user" do
       expect(make_request).to be_successful
-      expect(subject.dig('_links', 'user', 'href')).to eq("/api/v3/users/#{user.id}")
+      expect(subject.dig("_links", "user", "href")).to eq("/api/v3/users/#{user.id}")
     end
   end
 
-  describe 'when application does not provide client credential impersonator' do
+  describe "when application does not provide client credential impersonator" do
     let(:user_id) { nil }
 
     before do
       make_request
     end
 
-    context 'when login_required', with_settings: { login_required: true } do
-      it_behaves_like 'unauthenticated access'
+    context "when login_required", with_settings: { login_required: true } do
+      it_behaves_like "unauthenticated access"
     end
 
-    context 'when not login_required', with_settings: { login_required: false } do
-      it 'allows client credential flow as the anonymous user' do
+    context "when not login_required", with_settings: { login_required: false } do
+      it "allows client credential flow as the anonymous user" do
         expect(make_request).to be_successful
-        expect(subject.dig('_links', 'user', 'href')).to be_nil
+        expect(subject.dig("_links", "user", "href")).to be_nil
       end
     end
   end

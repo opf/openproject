@@ -1,4 +1,4 @@
 ms:
   overviews:
-    label: 'Overview'
-  permission_manage_overview: 'Manage overview page'
+    label: 'Ringkasan'
+  permission_manage_overview: 'Urus halaman ringkasan'

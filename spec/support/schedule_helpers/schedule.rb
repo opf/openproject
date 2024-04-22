@@ -59,7 +59,7 @@ module ScheduleHelpers
       return symbolic_name if @work_packages.has_key?(symbolic_name)
 
       spell_checker = DidYouMean::SpellChecker.new(dictionary: @work_packages.keys.map(&:to_s))
-      suggestions = spell_checker.correct(name).map(&:inspect).join(' ')
+      suggestions = spell_checker.correct(name).map(&:inspect).join(" ")
       did_you_mean = " Did you mean #{suggestions} instead?" if suggestions.present?
       raise "No work package with name #{name.inspect} in schedule.#{did_you_mean}"
     end

@@ -31,7 +31,7 @@ es:
         ¿Estás seguro de que quieres eliminar este archivo? Esta acción es irreversible.
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "El archivo está en cuarentena, ya que se ha encontrado un virus. No está disponible para su descarga."
     autocomplete_ng_select:
       add_tag: "Añadir elemento"
       clear_all: "Limpiar todo"
@@ -348,11 +348,11 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                La versión contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Implemente informes de progreso en todas las jerarquías de paquetes de trabajo.</li> <li>Gestione los atributos del proyecto de forma estructurada en la página de descripción general del proyecto.</li> <li>Vista simplificada de los campos personalizados en la lista de proyectos y en la descripción general del proyecto.</li> <li>Encabezados de página unificados con el elegante diseño Primer.</li> <li>Mejore las reuniones con nuevas funciones como la carga de archivos adjuntos, responsables e historial de reuniones. </li> <li>Alertas automáticas para los almacenamientos de archivos poco saludables, y gane control con las opciones de alternancia.</li> <li>Copie la carpeta de proyecto gestionada automáticamente para OneDrive/SharePoint al copiar proyectos.</li> <li>Pida a los administradores que eliminen los recursos compartidos en los paquetes de trabajo al revocar la pertenencia a un proyecto.</li> <li>Mejore la planificación con los modos de visualización de 4 y 8 semanas en el planificador de equipos.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -444,7 +444,7 @@ es:
     label_less_than_ago: "menos que hace unos días"
     label_loading: "Cargando..."
     label_mail_notification: "Notificaciones de correo electrónico"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Gestionar y reordenar columnas"
     label_me: "yo"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Minutos"
@@ -483,7 +483,7 @@ es:
     label_report: "Reportar"
     label_repository_plural: "Repositorios"
     label_save_as: "Guardad como"
-    label_search_columns: "Search a column"
+    label_search_columns: "Buscar una columna"
     label_select_project: "Seleccione un proyecto"
     label_select_watcher: "Selecciona un observador..."
     label_selected_filter_list: "Filtros seleccionados"
@@ -643,7 +643,7 @@ es:
           no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
         new_notifications:
           message: "Hay nuevas notificaciones."
-          link_text: "Haga clic aquí para cargarlas"
+          link_text: "Haga clic aquí para cargarlas."
       menu:
         accountable: "Responsable"
         by_project: "Sin leer por proyecto"
@@ -925,6 +925,8 @@ es:
       message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
       message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque están asignados como estado y versión cerrada."
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
+      progress:
+        title: "Estimaciones de trabajo y progreso"
       baseline:
         addition_label: "Añadido a la vista dentro del periodo de comparación"
         removal_label: "Eliminado de la vista dentro del periodo de tiempo de comparación"
@@ -1001,7 +1003,7 @@ es:
         all_open: "Todo abierto"
         summary: "Resumen"
         shared_with_users: "Compartido con usuarios"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Compartido conmigo"
       jump_marks:
         pagination: "Saltar a la paginación de la tabla"
         label_pagination: "Haga clic aquí para omitir la tabla de paquetes de trabajo e ir a la paginación"
@@ -1250,7 +1252,8 @@ es:
       role:
         label: "Rol en %{project}"
         no_roles_found: "No se encontraron roles"
-        description: 'Este es el role que el usuario recibirá al unirse al proyecto. El role define las acciones que són permitidas y que información pueden ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Obtén más información sobre roles y permisos. </a>'
+        description: >-
+          Este es el role que el usuario recibirá al unirse al proyecto. El role define las acciones que són permitidas y que información pueden ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Obtén más información sobre roles y permisos. </a>
         required: "Por favor, seleccione un rol"
         next_button: "Siguiente"
       message:
@@ -1324,3 +1327,7 @@ es:
       drop_modal:
         focus_grab: "Este es una ancla de enfoque para modales. Presione shift+tab para volver al elemento que activa el modal."
         Close: "Cerrar"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "Hay un problema de red."
+        network_on: "La red ha vuelto. Lo estamos intentando."

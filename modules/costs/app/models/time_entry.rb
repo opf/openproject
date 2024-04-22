@@ -32,9 +32,9 @@ class TimeEntry < ApplicationRecord
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
-  belongs_to :activity, class_name: 'TimeEntryActivity'
-  belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: 'Rate'
-  belongs_to :logged_by, class_name: 'User'
+  belongs_to :activity, class_name: "TimeEntryActivity"
+  belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: "Rate"
+  belongs_to :logged_by, class_name: "User"
 
   acts_as_customizable
 
@@ -57,12 +57,12 @@ class TimeEntry < ApplicationRecord
   # TODO: move into service
   before_save :update_costs
 
-  register_journal_formatted_fields(:time_entry_hours, 'hours')
-  register_journal_formatted_fields(:time_entry_named_association, 'user_id')
-  register_journal_formatted_fields(:named_association, 'work_package_id')
-  register_journal_formatted_fields(:named_association, 'activity_id')
-  register_journal_formatted_fields(:plaintext, 'comments')
-  register_journal_formatted_fields(:plaintext, 'spent_on')
+  register_journal_formatted_fields(:time_entry_hours, "hours")
+  register_journal_formatted_fields(:time_entry_named_association, "user_id")
+  register_journal_formatted_fields(:named_association, "work_package_id")
+  register_journal_formatted_fields(:named_association, "activity_id")
+  register_journal_formatted_fields(:plaintext, "comments")
+  register_journal_formatted_fields(:plaintext, "spent_on")
 
   def self.update_all(updates, conditions = nil, options = {})
     # instead of a update_all, perform an individual update during work_package#move

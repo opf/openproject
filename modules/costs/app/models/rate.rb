@@ -189,13 +189,13 @@ class Rate < ApplicationRecord
       conditions = if date1.nil? || date2.nil?
                      # we have only one date, query >=
                      [
-                       'user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on >= ?',
+                       "user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on >= ?",
                        @rate.user_id, @rate.project.descendants.to_a, default_rates, date1 || date2
                      ]
                    else
                      # we have two dates, query between
                      [
-                       'user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?',
+                       "user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?",
                        @rate.user_id, @rate.project.descendants.to_a, default_rates, date1, date2
                      ]
                    end
@@ -214,13 +214,13 @@ class Rate < ApplicationRecord
       conditions = if date1.nil? || date2.nil?
                      # we have only one date, query >=
                      [
-                       'user_id = ? AND project_id IN (?) AND rate_id = ? AND spent_on >= ?',
+                       "user_id = ? AND project_id IN (?) AND rate_id = ? AND spent_on >= ?",
                        @rate.user_id, @rate.project.descendants.to_a, @rate.id, date1 || date2
                      ]
                    else
                      # we have two dates, query between
                      [
-                       'user_id = ? AND project_id IN (?) AND rate_id  = ? AND spent_on BETWEEN ? AND ?',
+                       "user_id = ? AND project_id IN (?) AND rate_id  = ? AND spent_on BETWEEN ? AND ?",
                        @rate.user_id, @rate.project.descendants.to_a, @rate.id, date1, date2
                      ]
                    end

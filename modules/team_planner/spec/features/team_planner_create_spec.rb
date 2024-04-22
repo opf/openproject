@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_planner_view] do
-  include_context 'with team planner full access'
+RSpec.describe "Team planner create new work package", :js, with_ee: %i[team_planner_view] do
+  include_context "with team planner full access"
 
   let(:type_task) { create(:type_task) }
   let!(:status) { create(:default_status) }
@@ -40,8 +40,8 @@ RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_pla
     project.types << type_task
   end
 
-  shared_examples 'can create a new work package' do
-    it 'creates a new work package for the given user' do
+  shared_examples "can create a new work package" do
+    it "creates a new work package for the given user" do
       start_of_week = Time.zone.today.beginning_of_week(:sunday)
       team_planner.expect_assignee(user)
       split_create = team_planner.add_item "/api/v3/users/#{user.id}",
@@ -49,19 +49,19 @@ RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_pla
                                            start_of_week.iso8601
 
       subject = split_create.edit_field(:subject)
-      subject.set_value 'Newly planned task'
+      subject.set_value "Newly planned task"
 
       split_create.save!
 
-      split_create.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+      split_create.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_create"))
 
       split_create.expect_attributes(
-        combinedDate: start_of_week.strftime('%m/%d/%Y'),
+        combinedDate: start_of_week.strftime("%m/%d/%Y"),
         assignee: user.name
       )
 
       wp = WorkPackage.last
-      expect(wp.subject).to eq 'Newly planned task'
+      expect(wp.subject).to eq "Newly planned task"
       expect(wp.start_date).to eq start_of_week
       expect(wp.due_date).to eq start_of_week
 
@@ -71,7 +71,7 @@ RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_pla
     end
   end
 
-  context 'with a single user' do
+  context "with a single user" do
     before do
       team_planner.visit!
 
@@ -80,14 +80,14 @@ RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_pla
       team_planner.add_assignee user.name
     end
 
-    it_behaves_like 'can create a new work package'
+    it_behaves_like "can create a new work package"
   end
 
-  context 'with multiple users added' do
+  context "with multiple users added" do
     let!(:other_user) do
       create(:user,
-             firstname: 'Other',
-             lastname: 'User',
+             firstname: "Other",
+             lastname: "User",
              member_with_permissions: { project => %w[
                view_work_packages edit_work_packages add_work_packages
                view_team_planner manage_team_planner
@@ -98,8 +98,8 @@ RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_pla
 
     let!(:third_user) do
       create(:user,
-             firstname: 'Other',
-             lastname: 'User',
+             firstname: "Other",
+             lastname: "User",
              member_with_permissions: { project => %w[
                view_work_packages edit_work_packages add_work_packages
                view_team_planner manage_team_planner
@@ -120,6 +120,6 @@ RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_pla
       team_planner.add_assignee user.name
     end
 
-    it_behaves_like 'can create a new work package'
+    it_behaves_like "can create a new work package"
   end
 end

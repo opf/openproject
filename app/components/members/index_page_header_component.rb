@@ -31,8 +31,7 @@
 class Members::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include ApplicationHelper
-
-  BUTTON_MARGIN_RIGHT = 2
+  include Menus::MembersHelper
 
   def initialize(project: nil)
     super
@@ -41,20 +40,71 @@ class Members::IndexPageHeaderComponent < ApplicationComponent
 
   def add_button_data_attributes
     attributes = {
-      'members-form-target': 'addMemberButton',
-      action: 'members-form#showAddMemberForm',
-      'test-selector': 'member-add-button'
+      "members-form-target": "addMemberButton",
+      action: "members-form#showAddMemberForm",
+      "test-selector": "member-add-button"
     }
 
-    attributes['trigger-initially'] = "true" if params[:show_add_members]
+    attributes["trigger-initially"] = "true" if params[:show_add_members]
 
     attributes
   end
 
   def filter_button_data_attributes
     {
-      'members-form-target': 'filterMemberButton',
-      action: 'members-form#toggleMemberFilter'
+      "members-form-target": "filterMemberButton",
+      action: "members-form#toggleMemberFilter"
     }
+  end
+
+  def breadcrumb_items
+    [{ href: project_overview_path(@project.id), text: @project.name },
+     { href: project_members_path(@project), text: t(:label_member_plural) },
+     current_breadcrumb_element]
+  end
+
+  def page_title
+    # Rework this, when the Members page actually works with queries
+    @query ||= current_query
+    query_name = @query[:query_name]
+
+    if @query && query_name
+      query_name
+    else
+      t(:label_member_plural)
+    end
+  end
+
+  def current_breadcrumb_element
+    # Rework this, when the Members page actually works with queries
+    @query ||= current_query
+    query_name = @query[:query_name]
+    menu_header = @query[:menu_header]
+
+    if @query && query_name
+      if menu_header.present?
+        I18n.t("menus.breadcrumb.nested_element", section_header: menu_header, title: query_name).html_safe
+      else
+        query_name
+      end
+    else
+      t(:label_member_plural)
+    end
+  end
+
+  def current_query
+    query_name = nil
+    menu_header = nil
+
+    first_level_menu_items.find do |section|
+      section.children.find do |menu_query|
+        if !!menu_query.selected
+          query_name = menu_query.title
+          menu_header = section.header
+        end
+      end
+    end
+
+    { query_name:, menu_header: }
   end
 end

@@ -9,7 +9,7 @@ keywords: bug report, bug, error, not working
 
 If you find a bug please create a bug report.
 
-1. Login to or register at the [OpenProject community platform](https://community.openproject.org/login). It's fast and free.
+1. Login to or register at the [OpenProject community platform](https://community.openproject.org/). It's fast and free. Please note: In order to create an account, please write an email with the subject 'Joining community' to [support@openproject.com](mailto:support@openproject.com).
 2. Look for an existing bug report using the search bar in the header navigation on top. If there's one, please leave a comment or add additional information. Otherwise:
 3. Open the [bug form](https://community.openproject.org/projects/openproject/work_packages/new?type=1).
 4. Add a precise subject.

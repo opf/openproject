@@ -30,36 +30,36 @@ module OpenProject::TextFormatting
   module Filters
     class BemCssFilter < HTML::Pipeline::Filter
       BEM_CLASSES = {
-        h1: 'op-uc-h1',
-        h2: 'op-uc-h2',
-        h3: 'op-uc-h3',
-        h4: 'op-uc-h4',
-        h5: 'op-uc-h5',
-        h6: 'op-uc-h6',
-        p: 'op-uc-p',
-        blockquote: 'op-uc-blockquote',
-        code: 'op-uc-code',
-        pre: 'op-uc-code-block',
-        li: 'op-uc-list--item',
-        ul: 'op-uc-list',
-        ol: 'op-uc-list',
-        a: 'op-uc-link',
-        figure: 'op-uc-figure',
-        img: 'op-uc-image',
-        figcaption: 'op-uc-figure--description',
-        table: 'op-uc-table',
-        thead: 'op-uc-table--head',
-        tr: 'op-uc-table--row',
-        td: 'op-uc-table--cell',
-        th: 'op-uc-table--cell op-uc-table--cell_head'
+        h1: "op-uc-h1",
+        h2: "op-uc-h2",
+        h3: "op-uc-h3",
+        h4: "op-uc-h4",
+        h5: "op-uc-h5",
+        h6: "op-uc-h6",
+        p: "op-uc-p",
+        blockquote: "op-uc-blockquote",
+        code: "op-uc-code",
+        pre: "op-uc-code-block",
+        li: "op-uc-list--item",
+        ul: "op-uc-list",
+        ol: "op-uc-list",
+        a: "op-uc-link",
+        figure: "op-uc-figure",
+        img: "op-uc-image",
+        figcaption: "op-uc-figure--description",
+        table: "op-uc-table",
+        thead: "op-uc-table--head",
+        tr: "op-uc-table--row",
+        td: "op-uc-table--cell",
+        th: "op-uc-table--cell op-uc-table--cell_head"
       }.with_indifferent_access.freeze
 
       # Contains all elements with their classes which should not be modified
       # as they already have the correct BEM class.
       UNMODIFIED = {
-        h1: 'op-uc-toc--title',
-        li: 'op-uc-toc--list-item',
-        ul: 'op-uc-toc--list'
+        h1: "op-uc-toc--title",
+        li: "op-uc-toc--list-item",
+        ul: "op-uc-toc--list"
       }.with_indifferent_access.freeze
 
       def call
@@ -73,18 +73,18 @@ module OpenProject::TextFormatting
       private
 
       def not_to_be_modified?(element)
-        element['class'].present? &&
+        element["class"].present? &&
           UNMODIFIED[element.name] &&
-          element['class'].include?(UNMODIFIED[element.name])
+          element["class"].include?(UNMODIFIED[element.name])
       end
 
       def add_css_class(element, css_class)
-        if element['class'].present?
+        if element["class"].present?
           # Avoid using element['class'].include?(css_class) as css_class can be a substring
           # of an existing class
-          element['class'] += " #{css_class}" unless element['class'].split.any? { |existing_class| existing_class == css_class }
+          element["class"] += " #{css_class}" unless element["class"].split.any? { |existing_class| existing_class == css_class }
         else
-          element['class'] = css_class
+          element["class"] = css_class
         end
       end
     end

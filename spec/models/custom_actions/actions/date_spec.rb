@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../shared_expectations'
+require "spec_helper"
+require_relative "../shared_expectations"
 
 RSpec.describe CustomActions::Actions::Date do
   let(:key) { :date }
   let(:type) { :date_property }
   let(:value) { Date.today }
 
-  it_behaves_like 'base custom action' do
-    describe '#apply' do
+  it_behaves_like "base custom action" do
+    describe "#apply" do
       let(:work_package) { build_stubbed(:work_package) }
 
-      it 'sets both start and finish date to the action\'s value' do
+      it "sets both start and finish date to the action's value" do
         instance.values = [Date.today + 5]
 
         instance.apply(work_package)
@@ -49,8 +49,8 @@ RSpec.describe CustomActions::Actions::Date do
           .to eql Date.today + 5
       end
 
-      it 'sets both start and finish date to the current date if so specified' do
-        instance.values = ['%CURRENT_DATE%']
+      it "sets both start and finish date to the current date if so specified" do
+        instance.values = ["%CURRENT_DATE%"]
 
         instance.apply(work_package)
 
@@ -61,8 +61,8 @@ RSpec.describe CustomActions::Actions::Date do
       end
     end
 
-    describe '#multi_value?' do
-      it 'is false' do
+    describe "#multi_value?" do
+      it "is false" do
         expect(instance)
           .not_to be_multi_value
       end

@@ -38,40 +38,40 @@ module Components
       end
 
       def expect_closed
-        expect(page).to have_no_css('op-baseline')
+        expect(page).to have_no_css("op-baseline")
       end
 
       def expect_open
-        expect(page).to have_css('op-baseline')
-        expect(page).to have_field('op-baseline-filter')
+        expect(page).to have_css("op-baseline")
+        expect(page).to have_field("op-baseline-filter")
       end
 
       def expect_selected(option)
-        expect(page).to have_select('op-baseline-filter', selected: option)
+        expect(page).to have_select("op-baseline-filter", selected: option)
       end
 
       def expect_selected_time(value)
-        expect(page).to have_field('op-baseline-time', with: value)
+        expect(page).to have_field("op-baseline-time", with: value)
       end
 
       def expect_no_time_field
-        expect(page).to have_no_field('op-baseline-time')
+        expect(page).to have_no_field("op-baseline-time")
       end
 
       def select_filter(option)
-        page.select(option, from: 'op-baseline-filter')
+        page.select(option, from: "op-baseline-filter")
         expect_selected(option)
       end
 
       def expect_offset(value, count: 1)
-        expect(page).to have_css('.op-baseline--time-help', text: value, count:)
+        expect(page).to have_css(".op-baseline--time-help", text: value, count:)
       end
 
       def expect_time_help_text(text)
-        expect(page).to have_css('.spot-form-field--description', text:)
+        expect(page).to have_css(".spot-form-field--description", text:)
       end
 
-      def set_time(value, selector = 'op-baseline-time')
+      def set_time(value, selector = "op-baseline-time")
         page.execute_script <<~JS
           const el = document.getElementsByName('#{selector}')[0];
           el.value = '#{value}';
@@ -80,29 +80,29 @@ module Components
       end
 
       def set_date(value)
-        fill_in 'op-baseline-date', with: value
+        fill_in "op-baseline-date", with: value
       end
 
       def set_between_dates(from:, from_time:, to:, to_time:)
-        fill_in 'op-baseline-from-date', with: from
+        fill_in "op-baseline-from-date", with: from
         sleep 0.5
-        fill_in 'op-baseline-to-date', with: to
+        fill_in "op-baseline-to-date", with: to
 
-        set_time from_time, 'op-baseline-from-time'
-        set_time to_time, 'op-baseline-to-time'
+        set_time from_time, "op-baseline-from-time"
+        set_time to_time, "op-baseline-to-time"
       end
 
       def expect_between_dates(from:, from_time:, to:, to_time:)
-        expect(page).to have_field('op-baseline-from-time', with: from_time)
-        expect(page).to have_field('op-baseline-to-time', with: to_time)
+        expect(page).to have_field("op-baseline-from-time", with: from_time)
+        expect(page).to have_field("op-baseline-to-time", with: to_time)
 
-        expect(page).to have_field('op-baseline-from-date', with: from)
-        expect(page).to have_field('op-baseline-to-date', with: to)
+        expect(page).to have_field("op-baseline-from-date", with: from)
+        expect(page).to have_field("op-baseline-to-date", with: to)
       end
 
       def apply
-        page.within('op-baseline') do
-          click_button 'Apply'
+        page.within("op-baseline") do
+          click_button "Apply"
         end
       end
     end

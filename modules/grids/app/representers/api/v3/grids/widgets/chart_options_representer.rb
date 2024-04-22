@@ -33,7 +33,7 @@ module API
         class ChartOptionsRepresenter < QueryOptionsRepresenter
           property :chartType,
                    getter: ->(represented:, **) {
-                     represented['chartType']
+                     represented["chartType"]
                    }
         end
       end

@@ -37,7 +37,7 @@ First you will need to create a user in OpenProject that has the permission to m
 
 ![GitLab role with required permissions in OpenProject](openproject-system-guide-gitlab-integration-role.png)
 
-This user will then  have to be **added to each project** with a role that allows them to see work packages and comment on them. 
+This user will then have to be **added to each project** with a role that allows them to see work packages and comment on them. 
 
 ![GitLab user added as member to project with respective role](openproject-system-guide-gitlab-integration-project-member.png)
 
@@ -48,15 +48,17 @@ Once the user is created you need to generate an OpenProject API token for this 
 3. Go to [*Access Tokens*](../../../getting-started/my-account/#access-tokens)
 4. Click on **+ API token**
 
-> Make sure you copy the generated key an securely save it, as you will not be able to retrieve it later. 
+> Make sure you copy the generated key and securely save it, as you will not be able to retrieve it later. 
 
 You can then configure the necessary webhook in [GitLab](#gitlab).
 
-Finally you will need to activate the GitLabmodule under [Project settings](../../../user-guide/projects/project-settings/modules/) so that all information pulling through from GitLab will be shown in the work packages.
+Finally you will need to activate the GitLab module under [Project settings](../../../user-guide/projects/project-settings/modules/) so that all information pulling through from GitLab will be shown in the work packages.
 
 ![Activate a GitLab module in OpenProject](openproject-system-guide-gitlab-integration-project-modules.png)
 
-Seeing the **GitLab** tab requires permission (WHAT PERMISSION? PLEASE UPDATE) so the permission needs to be granted to all roles in a project allowed to see the tab. 
+Seeing the **GitLab** tab requires **Show GitLab content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab. 
+
+![Grant permission to show GitLab content to user roles in OpenProject](openproject-system-guide-gitlab-integration-gitlab-content-role-permission.png)
 
 ### GitLab
 
@@ -79,6 +81,9 @@ https://myopenproject.com/webhooks/gitlab?key=4221687468163843
 > - Issues events
 > - Merge request events
 > - Pipeline events
+
+>**Note**: If you are in a local network you might need to allow requests to the local network in your GitLab instance.  
+>You can find this settings in the **Outbound requests** section when you navigate to **Admin area -> Settings -> Network**.
 
 We recommend that you enable the **SSL verification** before you **Add webhook**.
 
@@ -106,7 +111,7 @@ Once you are satisfied with the changes you can create a commit. Within the 'Git
 
 ![Copy a Git commit message in OpenProject](openproject-system-guide-gitlab-integration-git-snippets-commit-message.png)
 
-A URL pointing to a work package in the merge request description or a comment will link the two. The link needs to be in the MR and not in a commit, but GitLab will use the first commit message as the proposed branch description (as long as there is only one commit).
+A URL pointing to a work package in the merge request description or a comment will link the two. The link needs to be in the MR and not in a commit, but GitLab will use the first commit message as the proposed branch description (as long as there is only one commit). Alternatively you can also use 'OP#' as a work package reference in an issue or a MR title, in this case "OP#388", where 388 is the ID of the work package. 
 
 ![Commit message in a Git client](openproject-system-guide-gitlab-integration-commit-message-in-client.png)
 
@@ -116,7 +121,7 @@ Once the changes are made, you can create your merge request. Title and comment 
 
 The branch description can be amended before a MR is created giving the opportunity to further describe the changes. To help with that, it is also possible to copy parts of the work package description since the description can be displayed in the markdown format. Links to additional work packages can also be included in the MR description.
 
-Rather than inserting a link to the work package you can also reference it just by adding "OP#388" to the pull request's description where 388 is the ID of the work package
+If you use OP# as a reference in an Issue or MR title, all comments will be replicated in OpenProject. However, sometimes you may only want to keep information about the status of an Issue/MR in OpenProject without your comments being published. In this case, you can use "PP#" as a reference. For example "PR#388".  This way the comments will not be published in OpenProject. If you only want to publish one of the comments from a private Issue/MR, you can use "OP#" directly in that comment. This way only that specific comment will be published in OpenProject, but the rest of the comments will remain private. [Read more](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#difference-between-op-and-pp).
 
 ![Open a GitLab merge request](openproject-system-guide-gitlab-integration-create-mr-detail.png)
 

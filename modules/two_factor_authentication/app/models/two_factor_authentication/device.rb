@@ -1,6 +1,6 @@
 module TwoFactorAuthentication
   class Device < ApplicationRecord
-    default_scope { order('id ASC') }
+    default_scope { order("id ASC") }
 
     belongs_to :user
     validates_presence_of :user_id

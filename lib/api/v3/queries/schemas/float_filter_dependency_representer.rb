@@ -37,7 +37,7 @@ module API
           private
 
           def type
-            '[1]Float'
+            "[1]Float"
           end
         end
       end

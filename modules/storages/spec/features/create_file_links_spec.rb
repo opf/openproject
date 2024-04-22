@@ -28,21 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'Managing file links in work package', :js, :webmock do
+RSpec.describe "Managing file links in work package", :js, :webmock do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
-  let(:work_package) { create(:work_package, project:, description: 'Initial description') }
+  let(:work_package) { create(:work_package, project:, description: "Initial description") }
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, name: 'My Storage', oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, name: "My Storage", oauth_application:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
-  let(:project_storage) { create(:project_storage, project:, storage:, project_folder_id: nil, project_folder_mode: 'inactive') }
-  let(:file_link) { create(:file_link, container: work_package, storage:, origin_id: '22', origin_name: 'jingle.ogg') }
+  let(:project_storage) { create(:project_storage, project:, storage:, project_folder_id: nil, project_folder_mode: "inactive") }
+  let(:file_link) { create(:file_link, container: work_package, storage:, origin_id: "22", origin_name: "jingle.ogg") }
 
   let(:root_xml_response) { create(:webdav_data) }
   let(:folder1_xml_response) { create(:webdav_data_folder) }
@@ -61,15 +61,11 @@ RSpec.describe 'Managing file links in work package', :js, :webmock do
   before do
     allow(Storages::FileLinkSyncService).to receive(:new).and_return(sync_service)
 
-    stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user")
-      .with(
-        headers: {
-          'Authorization' => "Bearer #{oauth_client_token.access_token}",
-          'Ocs-Apirequest' => 'true',
-          'Accept' => "application/json"
-        }
-      )
-      .to_return(status: 200, body: "", headers: {})
+    Storages::Peripherals::Registry.stub(
+      "#{storage.short_provider_type}.queries.auth_check",
+      ->(_) { ServiceResult.success }
+    )
+
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/")
       .to_return(status: 207, body: root_xml_response, headers: {})
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
@@ -82,66 +78,66 @@ RSpec.describe 'Managing file links in work package', :js, :webmock do
     wp_page.visit_tab! :files
   end
 
-  context 'with select all in file picker enabled', with_flag: { storage_file_picking_select_all: true } do
-    it 'must enable the user to select files from file picker to create file links' do
-      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE', wait: 25) do
+  context "with select all in file picker enabled", with_flag: { storage_file_picking_select_all: true } do
+    it "must enable the user to select files from file picker to create file links" do
+      within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do
         expect(page).to have_list_item(count: 1)
-        expect(page).to have_list_item(text: 'jingle.ogg')
-        page.click_on('Link existing files')
+        expect(page).to have_list_item(text: "jingle.ogg")
+        page.click_on("Link existing files")
       end
 
       modal.expect_open
-      modal.expect_title('Select files')
+      modal.expect_title("Select files")
       modal.within_modal do
-        expect(page).to have_button('Select files to link', disabled: true)
+        expect(page).to have_button("Select files to link", disabled: true)
 
-        within(:list_item, text: 'Manual.pdf') { page.click }
+        within(:list_item, text: "Manual.pdf") { page.click }
 
-        expect(page).to have_button('Link 1 file', disabled: false)
+        expect(page).to have_button("Link 1 file", disabled: false)
 
-        within(:list_item, text: 'Folder1') { page.click }
+        within(:list_item, text: "Folder1") { page.click }
 
-        within(:list_item, text: 'jingle.ogg') do
-          expect(page).to have_field(type: 'checkbox', checked: true, disabled: true)
+        within(:list_item, text: "jingle.ogg") do
+          expect(page).to have_field(type: "checkbox", checked: true, disabled: true)
         end
 
-        page.click_on('Select all')
-        expect(page).to have_button('Link 3 files', disabled: false)
+        page.click_on("Select all")
+        expect(page).to have_button("Link 3 files", disabled: false)
 
-        within(:list_item, text: 'notes.txt') { page.click }
-        expect(page).to have_button('Link 2 files', disabled: false)
+        within(:list_item, text: "notes.txt") { page.click }
+        expect(page).to have_button("Link 2 files", disabled: false)
 
-        page.click_on('My Storage')
-        within(:list_item, text: 'Manual.pdf') do
-          expect(page).to have_field(type: 'checkbox', checked: true, disabled: false)
+        page.click_on("My Storage")
+        within(:list_item, text: "Manual.pdf") do
+          expect(page).to have_field(type: "checkbox", checked: true, disabled: false)
         end
 
-        page.click_on('Link 2 files')
+        page.click_on("Link 2 files")
       end
 
-      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE') do
+      within_test_selector("op-tab-content--tab-section", text: "MY STORAGE") do
         expect(page).to have_list_item(count: 3)
-        expect(page).to have_list_item(text: 'jingle.ogg')
-        expect(page).to have_list_item(text: 'Manual.pdf')
-        expect(page).to have_list_item(text: 'logo.png')
+        expect(page).to have_list_item(text: "jingle.ogg")
+        expect(page).to have_list_item(text: "Manual.pdf")
+        expect(page).to have_list_item(text: "logo.png")
       end
     end
   end
 
-  it 'must enable the user to remove a file link' do
-    within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE') do
-      within(:list_item, text: 'jingle.ogg') do
-        page.find('span', text: 'jingle.ogg').hover
-        page.click_on('Remove file link')
+  it "must enable the user to remove a file link" do
+    within_test_selector("op-tab-content--tab-section", text: "MY STORAGE") do
+      within(:list_item, text: "jingle.ogg") do
+        page.find("span", text: "jingle.ogg").hover
+        page.click_on("Remove file link")
       end
     end
 
     modal.expect_open
-    modal.expect_title('Remove file link')
+    modal.expect_title("Remove file link")
     modal.within_modal do
-      page.click_on('Remove link')
+      page.click_on("Remove link")
     end
 
-    expect(page).not_to have_list_item(text: 'jingle.ogg')
+    expect(page).not_to have_list_item(text: "jingle.ogg")
   end
 end

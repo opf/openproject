@@ -1,8 +1,8 @@
-require 'spec_helper'
-require 'features/page_objects/notification'
-require 'support/components/autocompleter/ng_select_autocomplete_helpers'
+require "spec_helper"
+require "features/page_objects/notification"
+require "support/components/autocompleter/ng_select_autocomplete_helpers"
 
-RSpec.describe 'Moving a work package through Rails view', :js do
+RSpec.describe "Moving a work package through Rails view", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:dev_role) do
@@ -15,22 +15,22 @@ RSpec.describe 'Moving a work package through Rails view', :js do
   end
   let(:dev) do
     create(:user,
-           firstname: 'Dev',
-           lastname: 'Guy',
+           firstname: "Dev",
+           lastname: "Guy",
            member_with_roles: { project => dev_role })
   end
   let(:mover) do
     create(:admin,
-           firstname: 'Manager',
-           lastname: 'Guy',
+           firstname: "Manager",
+           lastname: "Guy",
            member_with_roles: { project => mover_role })
   end
 
-  let(:type) { create(:type, name: 'Bug') }
-  let(:type2) { create(:type, name: 'Risk') }
+  let(:type) { create(:type, name: "Bug") }
+  let(:type2) { create(:type, name: "Risk") }
 
-  let!(:project) { create(:project, name: 'Source', types: [type, type2]) }
-  let!(:project2) { create(:project, name: 'Target', types: [type, type2]) }
+  let!(:project) { create(:project, name: "Source", types: [type, type2]) }
+  let!(:project2) { create(:project, name: "Target", types: [type, type2]) }
 
   let(:work_package) do
     create(:work_package,
@@ -62,7 +62,7 @@ RSpec.describe 'Moving a work package through Rails view', :js do
     expect_angular_frontend_initialized
   end
 
-  describe 'moving a work package and its children' do
+  describe "moving a work package and its children" do
     let(:work_packages) { [work_package, child_wp] }
     let(:child_wp) do
       create(:work_package,
@@ -73,19 +73,19 @@ RSpec.describe 'Moving a work package through Rails view', :js do
              status:)
     end
 
-    context 'with permission' do
+    context "with permission" do
       before do
         expect(child_wp.project_id).to eq(project.id)
 
         context_menu.open_for work_package
-        context_menu.choose 'Change project'
+        context_menu.choose "Change project"
 
         # On work packages move page
-        expect(page).to have_css('#new_project_id')
-        select_autocomplete page.find_test_selector('new_project_id'),
-                            query: 'Target',
-                            select_text: 'Target',
-                            results_selector: 'body'
+        expect(page).to have_css("#new_project_id")
+        select_autocomplete page.find_test_selector("new_project_id"),
+                            query: "Target",
+                            select_text: "Target",
+                            results_selector: "body"
         if using_cuprite?
           wait_for_network_idle
         else
@@ -93,14 +93,14 @@ RSpec.describe 'Moving a work package through Rails view', :js do
         end
       end
 
-      context 'when the limit to move in the frontend is 1',
+      context "when the limit to move in the frontend is 1",
               with_settings: { work_packages_bulk_request_limit: 1 } do
-        it 'copies them in the background and shows a status page', :with_cuprite do
-          click_on 'Move and follow'
+        it "copies them in the background and shows a status page", :with_cuprite do
+          click_on "Move and follow"
           wait_for_reload
-          page.find_test_selector('job-status--header')
+          page.find_test_selector("job-status--header")
 
-          expect(page).to have_text 'The job has been queued and will be processed shortly.'
+          expect(page).to have_text "The job has been queued and will be processed shortly."
 
           perform_enqueued_jobs
 
@@ -108,29 +108,29 @@ RSpec.describe 'Moving a work package through Rails view', :js do
           expect(work_package.project_id).to eq(project2.id)
 
           expect(page).to have_current_path "/projects/#{project2.identifier}/work_packages/#{work_package.id}/activity"
-          page.find_by_id('projects-menu', text: 'Target')
+          page.find_by_id("projects-menu", text: "Target")
         end
       end
 
-      it 'moves parent and child wp to a new project', :with_cuprite do
-        click_on 'Move and follow'
+      it "moves parent and child wp to a new project", :with_cuprite do
+        click_on "Move and follow"
         wait_for_reload
-        page.find('.inline-edit--container.subject', text: work_package.subject)
-        page.find_by_id('projects-menu', text: 'Target')
+        page.find(".inline-edit--container.subject", text: work_package.subject)
+        page.find_by_id("projects-menu", text: "Target")
 
         # Should move its children
         child_wp.reload
         expect(child_wp.project_id).to eq(project2.id)
       end
 
-      context 'when the target project does not have the type' do
-        let!(:project2) { create(:project, name: 'Target', types: [type2]) }
+      context "when the target project does not have the type" do
+        let!(:project2) { create(:project, name: "Target", types: [type2]) }
 
-        it 'does moves the work package and changes the type', :with_cuprite do
-          click_on 'Move and follow'
+        it "does moves the work package and changes the type", :with_cuprite do
+          click_on "Move and follow"
           wait_for_reload
-          page.find('.inline-edit--container.subject', text: work_package.subject)
-          page.find_by_id('projects-menu', text: 'Target')
+          page.find(".inline-edit--container.subject", text: work_package.subject)
+          page.find_by_id("projects-menu", text: "Target")
 
           # Should NOT have moved
           child_wp.reload
@@ -142,24 +142,24 @@ RSpec.describe 'Moving a work package through Rails view', :js do
         end
       end
 
-      context 'when the target project has a type with a required field' do
+      context "when the target project has a type with a required field" do
         let(:required_cf) { create(:integer_wp_custom_field, is_required: true) }
-        let(:type2) { create(:type, name: 'Risk', custom_fields: [required_cf]) }
-        let!(:project2) { create(:project, name: 'Target', types: [type2], work_package_custom_fields: [required_cf]) }
+        let(:type2) { create(:type, name: "Risk", custom_fields: [required_cf]) }
+        let!(:project2) { create(:project, name: "Target", types: [type2], work_package_custom_fields: [required_cf]) }
 
-        it 'does not moves the work package when the required field is missing' do
+        it "does not moves the work package when the required field is missing" do
           select "Risk", from: "Type"
           expect(page).to have_field(required_cf.name)
 
           # Clicking move and follow might be broken due to the location.href
           # in the refresh-on-form-changes component
           retry_block do
-            click_on 'Move and follow'
+            click_on "Move and follow"
           end
 
           expect(page)
-            .to have_css('.op-toast.-error',
-                         text: I18n.t(:'work_packages.bulk.none_could_be_saved',
+            .to have_css(".op-toast.-error",
+                         text: I18n.t(:"work_packages.bulk.none_could_be_saved",
                                       total: 1))
           child_wp.reload
           work_package.reload
@@ -169,17 +169,17 @@ RSpec.describe 'Moving a work package through Rails view', :js do
           expect(child_wp.type_id).to eq(type.id)
         end
 
-        it 'does moves the work package when the required field is set' do
+        it "does moves the work package when the required field is set" do
           select "Risk", from: "Type"
-          fill_in required_cf.name, with: '1'
+          fill_in required_cf.name, with: "1"
 
           # Clicking move and follow might be broken due to the location.href
           # in the refresh-on-form-changes component
           retry_block do
-            click_on 'Move and follow'
+            click_on "Move and follow"
           end
 
-          expect(page).to have_css('.op-toast.-success')
+          expect(page).to have_css(".op-toast.-success")
 
           child_wp.reload
           work_package.reload
@@ -191,51 +191,51 @@ RSpec.describe 'Moving a work package through Rails view', :js do
       end
     end
 
-    context 'without permission' do
+    context "without permission" do
       let(:current_user) { dev }
 
-      it 'does not allow to move' do
+      it "does not allow to move" do
         context_menu.open_for work_package
-        context_menu.expect_no_options 'Change project'
+        context_menu.expect_no_options "Change project"
       end
     end
   end
 
-  describe 'moving an unmovable (e.g. readonly status) and a movable work package', with_ee: %i[readonly_work_packages] do
+  describe "moving an unmovable (e.g. readonly status) and a movable work package", with_ee: %i[readonly_work_packages] do
     let(:work_packages) { [work_package, work_package2] }
     let(:work_package2_status) { create(:status, is_readonly: true) }
 
     before do
       loading_indicator_saveguard
       # Select all work packages
-      find('body').send_keys [:control, 'a']
+      find("body").send_keys [:control, "a"]
 
       context_menu.open_for work_package2
-      context_menu.choose 'Bulk change of project'
+      context_menu.choose "Bulk change of project"
 
       # On work packages move page
-      select_autocomplete page.find_test_selector('new_project_id'),
+      select_autocomplete page.find_test_selector("new_project_id"),
                           query: project2.name,
                           select_text: project2.name,
-                          results_selector: 'body'
-      click_on 'Move and follow'
+                          results_selector: "body"
+      click_on "Move and follow"
     end
 
-    it 'displays an error message explaining which work package could not be moved and why' do
+    it "displays an error message explaining which work package could not be moved and why" do
       expect(page)
-        .to have_css('.op-toast.-error',
-                     text: I18n.t('work_packages.bulk.could_not_be_saved'),
+        .to have_css(".op-toast.-error",
+                     text: I18n.t("work_packages.bulk.could_not_be_saved"),
                      wait: 10)
 
       expect(page)
         .to have_css(
-          '.op-toast.-error',
+          ".op-toast.-error",
           text: "#{work_package2.id}: Project #{I18n.t('activerecord.errors.messages.error_readonly')}"
         )
 
       expect(page)
-        .to have_css('.op-toast.-error',
-                     text: I18n.t('work_packages.bulk.x_out_of_y_could_be_saved',
+        .to have_css(".op-toast.-error",
+                     text: I18n.t("work_packages.bulk.x_out_of_y_could_be_saved",
                                   failing: 1,
                                   total: 2,
                                   success: 1))

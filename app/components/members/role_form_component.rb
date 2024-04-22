@@ -41,7 +41,7 @@ module Members
         id: "#{row.roles_css_id}-form",
         class: row.toggle_item_class_name,
         style: "display:none",
-        data: { 'members-form-target': 'membershipEditForm' }
+        data: { "members-form-target": "membershipEditForm" }
       }
     end
 

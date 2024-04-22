@@ -1,4 +1,4 @@
-require_relative 'logging/log_delegator'
+require_relative "logging/log_delegator"
 
 module OpenProject
   module Logging
@@ -13,7 +13,7 @@ module OpenProject
       # The lograge class to output the payload object
       def formatter
         @formatter ||= begin
-          formatter_setting = OpenProject::Configuration.lograge_formatter || 'key_value'
+          formatter_setting = OpenProject::Configuration.lograge_formatter || "key_value"
           "Lograge::Formatters::#{formatter_setting.classify}"
             .constantize
             .new

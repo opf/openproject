@@ -1,11 +1,11 @@
-require 'socket'
-require 'capybara/rspec'
-require 'capybara-screenshot'
-require 'capybara-screenshot/rspec'
-require 'rack_session_access/capybara'
-require 'action_dispatch'
+require "socket"
+require "capybara/rspec"
+require "capybara-screenshot"
+require "capybara-screenshot/rspec"
+require "rack_session_access/capybara"
+require "action_dispatch"
 
-RSpec.shared_context 'with default_url_options and host name set to Capybara test server' do
+RSpec.shared_context "with default_url_options and host name set to Capybara test server" do
   around do |example|
     original_host = default_url_options[:host]
     original_port = default_url_options[:port]
@@ -25,23 +25,23 @@ RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :chrome_en
 
-  port = ENV.fetch('CAPYBARA_SERVER_PORT', ParallelHelper.port_for_app).to_i
+  port = ENV.fetch("CAPYBARA_SERVER_PORT", ParallelHelper.port_for_app).to_i
   if port > 0
     Capybara.server_port = port
   end
   Capybara.always_include_port = true
 
-  if ENV['CAPYBARA_DYNAMIC_BIND_IP']
+  if ENV["CAPYBARA_DYNAMIC_BIND_IP"]
     ip_address = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
-    hostname = ENV.fetch('CAPYBARA_APP_HOSTNAME', ip_address)
+    hostname = ENV.fetch("CAPYBARA_APP_HOSTNAME", ip_address)
     Capybara.server_host = ip_address
     Capybara.app_host = "http://#{hostname}"
   else
-    Capybara.server_host = ENV.fetch('CAPYBARA_APP_HOSTNAME', 'localhost')
+    Capybara.server_host = ENV.fetch("CAPYBARA_APP_HOSTNAME", "localhost")
   end
 
   # Set the default options
-  config.include_context 'with default_url_options and host name set to Capybara test server', type: :feature
+  config.include_context "with default_url_options and host name set to Capybara test server", type: :feature
 
   # Make it possible to match on value attribute.
   #

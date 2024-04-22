@@ -12,6 +12,8 @@ en:
       remove_assignee: 'Remove assignee'
       two_weeks: '2-week'
       one_week: '1-week'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
       work_week: 'Work week'
       today: 'Today'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'

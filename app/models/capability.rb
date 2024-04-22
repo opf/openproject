@@ -34,7 +34,7 @@ class Capability < ApplicationRecord
 
   default_scope { default }
 
-  belongs_to :context, class_name: 'Project'
+  belongs_to :context, class_name: "Project"
   belongs_to :principal
 
   attribute :action, :text, default: nil

@@ -46,7 +46,7 @@ class Queries::Projects::Filters::LatestActivityAtFilter < Queries::Projects::Fi
   end
 
   def human_name
-    I18n.t('activerecord.attributes.project.latest_activity_at')
+    I18n.t("activerecord.attributes.project.latest_activity_at")
   end
 
   def where

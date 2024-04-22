@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-RSpec.shared_examples_for 'view contract' do |disabled_permission_checks|
-  include_context 'ModelContract shared context'
+RSpec.shared_examples_for "view contract" do |disabled_permission_checks|
+  include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:user) }
 
@@ -68,46 +68,46 @@ RSpec.shared_examples_for 'view contract' do |disabled_permission_checks|
             .and_return(query_visible)
   end
 
-  describe 'validation' do
-    it_behaves_like 'contract is valid'
+  describe "validation" do
+    it_behaves_like "contract is valid"
 
-    context 'with the query being nil' do
+    context "with the query being nil" do
       let(:view_query) { nil }
 
-      it_behaves_like 'contract is invalid', query: :blank
+      it_behaves_like "contract is invalid", query: :blank
     end
 
-    context 'with the query being invisible to the user' do
+    context "with the query being invisible to the user" do
       let(:query_visible) { false }
 
-      it_behaves_like 'contract is invalid', query: :does_not_exist
+      it_behaves_like "contract is invalid", query: :does_not_exist
     end
 
-    context 'with the query being private, the user being the query user and having the :save_queries permission' do
-      it_behaves_like 'contract is valid'
+    context "with the query being private, the user being the query user and having the :save_queries permission" do
+      it_behaves_like "contract is valid"
     end
 
     unless disabled_permission_checks
-      context 'with the query being private, the user being the query user and not having the :save_queries permission' do
+      context "with the query being private, the user being the query user and not having the :save_queries permission" do
         let(:permissions) { %i[view_work_packages] }
 
-        it_behaves_like 'contract is invalid', base: :error_unauthorized
+        it_behaves_like "contract is invalid", base: :error_unauthorized
       end
 
-      context 'with the query being public, the user being the query user but only having the :save_queries permission' do
+      context "with the query being public, the user being the query user but only having the :save_queries permission" do
         let(:query_public) { true }
 
-        it_behaves_like 'contract is invalid', base: :error_unauthorized
+        it_behaves_like "contract is invalid", base: :error_unauthorized
       end
 
-      context 'with the query being public, the user not being the query user but having the :manage_public_queries permission' do
+      context "with the query being public, the user not being the query user but having the :manage_public_queries permission" do
         let(:query_public) { true }
         let(:permissions) { %i[view_work_packages manage_public_queries] }
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
     end
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

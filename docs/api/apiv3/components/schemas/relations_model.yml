@@ -34,4 +34,4 @@ example:
       type: precedes
       reverseType: follows
       description: We can't bend the steel before it's been delivered!
-      delay: 0
+      lag: 0

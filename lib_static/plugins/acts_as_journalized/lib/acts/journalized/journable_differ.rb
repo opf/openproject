@@ -42,6 +42,23 @@ module Acts::Journalized
         get_association_changes(original, changed, *)
       end
 
+    def association_changes_multiple_attributes(original, changed, association, association_name, key, values)
+        list = {}
+        values.each do |value|
+          list.store(value, get_association_changes(original, changed, association, association_name, key, value))
+        end
+
+        transformed = {}
+        list.each do |key, value|
+          value.each do |agenda_item, data|
+            transformed["#{agenda_item}_#{key}"] ||= {}
+            transformed["#{agenda_item}_#{key}"] = data
+          end
+        end
+
+        transformed
+      end
+
       private
 
       def normalize_newlines(data)
@@ -64,18 +81,10 @@ module Acts::Journalized
       end
 
       def get_association_changes(original, changed, association, association_name, key, value)
-        if original.nil?
-          changed.send(association).each_with_object({}) do |associated_journal, h|
-            changed_attribute = "#{association_name}_#{associated_journal.send(key)}"
-            new_value = associated_journal.send(value)
-            h[changed_attribute] = [nil, new_value]
-          end
-        else
-          new_journals = changed.send(association).map(&:attributes)
-          old_journals = original.send(association).map(&:attributes)
+        new_journals = changed.send(association).map(&:attributes)
+        old_journals = original&.send(association)&.map(&:attributes) || []
 
-          changes_on_association(new_journals, old_journals, association_name, key, value)
-        end
+        changes_on_association(new_journals, old_journals, association_name, key, value)
       end
 
       def changes_on_association(current, original, association_name, key, value)
@@ -110,7 +119,7 @@ module Acts::Journalized
       end
 
       def merge_reference_journals_by_id(new_journals, old_journals, id_key, value)
-        all_associated_journal_ids = new_journals.pluck(id_key) | old_journals.pluck(id_key)
+        all_associated_journal_ids = (new_journals.pluck(id_key) | old_journals.pluck(id_key)).compact
 
         all_associated_journal_ids.index_with do |id|
           [select_and_combine_journals(old_journals, id, id_key, value),

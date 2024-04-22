@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
 RSpec.describe OpenProject::TextFormatting,
-               'lists' do
-  include_context 'expected markdown modules'
+               "lists" do
+  include_context "expected markdown modules"
 
-  context 'ordered lists' do
-    it_behaves_like 'format_text produces' do
+  context "ordered lists" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           1. First item
@@ -57,8 +57,8 @@ RSpec.describe OpenProject::TextFormatting,
     end
   end
 
-  context 'unordered lists' do
-    it_behaves_like 'format_text produces' do
+  context "unordered lists" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           * First item
@@ -84,8 +84,8 @@ RSpec.describe OpenProject::TextFormatting,
     end
   end
 
-  context 'todo list' do
-    it_behaves_like 'format_text produces' do
+  context "todo list" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           *   [ ] First ToDo
@@ -114,8 +114,8 @@ RSpec.describe OpenProject::TextFormatting,
       end
     end
 
-    context 'in a table' do
-      it_behaves_like 'format_text produces' do
+    context "in a table" do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             <table>
@@ -267,8 +267,8 @@ RSpec.describe OpenProject::TextFormatting,
       end
     end
 
-    context 'in a table and with a link on second place' do
-      it_behaves_like 'format_text produces' do
+    context "in a table and with a link on second place" do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             <table>
@@ -285,7 +285,7 @@ RSpec.describe OpenProject::TextFormatting,
                           <input type="checkbox" disabled="disabled">
                           <span class="op-uc-list__label__description">asdfasdfasdf </span>
                         </label>
-                        <a class="op-uc-link" href="https://example.com/">
+                        <a class="op-uc-link" target="_top" href="https://example.com/">
                           <label class="op-uc-list__label">
                             <span class="op-uc-list__label__description">foobar</span>
                           </label>
@@ -316,7 +316,7 @@ RSpec.describe OpenProject::TextFormatting,
                           <li class="op-uc-list--item">
                             <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
                             <span>asdfasdfasdf </span>
-                            <a class="op-uc-link" target="_top" href="https://example.com/" rel="noopener noreferrer">
+                            <a class="op-uc-link" href="https://example.com/" target="_top" rel="noopener noreferrer">
                               <span>foobar</span>
                             </a>
                           </li>

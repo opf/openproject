@@ -48,13 +48,13 @@ module Storages::ProjectStorages::Members
     end
 
     def empty_row_message
-      I18n.t 'storages.members_no_results'
+      I18n.t "storages.members_no_results"
     end
 
     def headers
       [
-        ['name', { caption: I18n.t('storages.label_name') }],
-        ['status', { caption: I18n.t('storages.label_status') }]
+        ["name", { caption: I18n.t("storages.label_name") }],
+        ["status", { caption: I18n.t("storages.label_status") }]
       ]
     end
   end

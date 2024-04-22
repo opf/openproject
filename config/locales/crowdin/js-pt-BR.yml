@@ -19,7 +19,7 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-pt:
+pt-BR:
   js:
     ajax:
       hide: "Ocultar"
@@ -31,7 +31,7 @@ pt:
         Tem certeza de que deseja excluir este arquivo? Esta ação é irreversível.
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou referenciar um anexo. Campos do editor fechados serão abertos enquanto você continuar arrastando.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "O arquivo foi colocado em quarentena devido à detecção de um vírus. Portanto, não está disponível para download."
     autocomplete_ng_select:
       add_tag: "Adicionar item"
       clear_all: "Remover tudo"
@@ -347,11 +347,11 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                A nova versão traz várias melhorias e recursos: <br> <ul class="%{list_styling_class}"> <li>Relatório de progresso agora disponível para hierarquias de pacotes de trabalho.</li> <li>Gerenciamento estruturado dos atributos do projeto na página de visão geral do projeto.</li> <li>Visualização simplificada de campos personalizados nas listas de projeto e visão geral do projeto.</li> <li>Cabeçalhos de página unificados com o moderno design Primer.</li> <li>Reuniões aprimoradas com novos recursos, incluindo upload de anexos, atribuição de responsáveis e histórico de reuniões.</li> <li>Alertas automáticos para armazenamentos de arquivos com problemas, com opções de controle.</li> <li>Auto-cópia da pasta de projeto gerenciada automaticamente para o OneDrive/SharePoint durante a cópia de projetos.</li> <li>Solicitação aos administradores para remover compartilhamentos nos pacotes de trabalho ao revogar a participação em um projeto.</li> <li>Melhorias de planejamento com novos modos de exibição de 4 e 8 semanas no planejador de equipe.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -443,7 +443,7 @@ pt:
     label_less_than_ago: "menos do que dias atrás"
     label_loading: "Carregando..."
     label_mail_notification: "Notificações por e-mail"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Gerenciar e reordenar colunas"
     label_me: "eu"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Atas"
@@ -482,7 +482,7 @@ pt:
     label_report: "Relatório"
     label_repository_plural: "Repositórios"
     label_save_as: "Salvar como"
-    label_search_columns: "Search a column"
+    label_search_columns: "Buscar uma coluna"
     label_select_project: "Selecionar um projeto"
     label_select_watcher: "Selecione um observador..."
     label_selected_filter_list: "Filtros selecionados"
@@ -642,7 +642,7 @@ pt:
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."
-          link_text: "Clique aqui para carregá-las"
+          link_text: "Clique aqui para carregá-las."
       menu:
         accountable: "Responsável"
         by_project: "Não lido por projeto"
@@ -924,6 +924,8 @@ pt:
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido a situação fechada e a versão fechada."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
+      progress:
+        title: "Estimativas e progresso de trabalho"
       baseline:
         addition_label: "Adicionado à exibição dentro do período de comparação"
         removal_label: "Removido da exibição dentro do período de comparação"
@@ -1000,7 +1002,7 @@ pt:
         all_open: "Todos abertos"
         summary: "Sumário"
         shared_with_users: "Compartilhado com usuários"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Compartilhados comigo"
       jump_marks:
         pagination: "Pular para a tabela de paginação"
         label_pagination: "Clique aqui para pular a tabela de pacotes de trabalho e ir para a paginação"
@@ -1249,7 +1251,8 @@ pt:
       role:
         label: "Papel em %{project}"
         no_roles_found: "Nenhum papel encontrado"
-        description: 'Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>'
+        description: >-
+          Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>
         required: "Selecione um papel"
         next_button: "Próxima"
       message:
@@ -1323,3 +1326,7 @@ pt:
       drop_modal:
         focus_grab: "Esta é uma âncora de foco para modais. Pressione Shift+tab para voltar ao elemento trigger modal."
         Close: "Fechar"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "Ocorreu um problema de rede"
+        network_on: "A rede voltou. Estamos tentando."

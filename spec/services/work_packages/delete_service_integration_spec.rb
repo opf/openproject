@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
+RSpec.describe WorkPackages::DeleteService, "integration", type: :model do
   shared_let(:project) { create(:project) }
   shared_let(:role) do
     create(:project_role,
@@ -38,13 +38,13 @@ RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
     create(:user, member_with_roles: { project => role })
   end
 
-  describe 'deleting a child with estimated_hours set' do
-    let(:parent) { create(:work_package, project:, subject: 'parent') }
+  describe "deleting a child with estimated_hours set" do
+    let(:parent) { create(:work_package, project:, subject: "parent") }
     let(:child) do
       create(:work_package,
              project:,
              parent:,
-             subject: 'child',
+             subject: "child",
              estimated_hours: 123)
     end
 
@@ -61,7 +61,7 @@ RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
       parent.reload
     end
 
-    it 'updates the parent estimated_hours' do
+    it "updates the parent estimated_hours" do
       expect(child.estimated_hours).to eq 123
       expect(parent.derived_estimated_hours).to eq 123
       expect(parent.estimated_hours).to be_nil
@@ -75,7 +75,7 @@ RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
     end
   end
 
-  describe 'with a stale work package reference' do
+  describe "with a stale work package reference" do
     let!(:work_package) { create(:work_package, project:) }
 
     let(:instance) do
@@ -85,7 +85,7 @@ RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
 
     subject { instance.call }
 
-    it 'still destroys it' do
+    it "still destroys it" do
       # Cause lock version changes
       WorkPackage.where(id: work_package.id).update_all(lock_version: work_package.lock_version + 1)
 
@@ -94,7 +94,7 @@ RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
     end
   end
 
-  describe 'with a notification' do
+  describe "with a notification" do
     let!(:work_package) { create(:work_package, project:) }
     let!(:notification) do
       create(:notification,
@@ -111,7 +111,7 @@ RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
 
     subject { instance.call }
 
-    it 'deletes the notification' do
+    it "deletes the notification" do
       expect(subject).to be_success
       expect { work_package.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect { notification.reload }.to raise_error(ActiveRecord::RecordNotFound)

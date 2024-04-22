@@ -45,9 +45,9 @@ class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatt
 
   def format_html_details(label, old_value, value)
     label = content_tag(:strong, label)
-    old_value = content_tag('i', h(old_value)) if old_value.present?
-    value = content_tag('i', h(value)) if value.present?
-    value ||= ''
+    old_value = content_tag("i", h(old_value)) if old_value.present?
+    value = content_tag("i", h(value)) if value.present?
+    value ||= ""
 
     [label, old_value, value]
   end

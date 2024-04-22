@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-RSpec.shared_examples_for 'work package member contract' do
-  include_context 'ModelContract shared context'
+RSpec.shared_examples_for "work package member contract" do
+  include_context "ModelContract shared context"
   let(:current_user) { build_stubbed(:user, admin: current_user_admin) }
 
   before do
@@ -57,44 +57,44 @@ RSpec.shared_examples_for 'work package member contract' do
   let(:permissions) { [:share_work_packages] }
   let(:current_user_admin) { false }
 
-  describe 'validation' do
-    it_behaves_like 'contract is valid'
+  describe "validation" do
+    it_behaves_like "contract is valid"
 
-    context 'if the roles are nil' do
+    context "if the roles are nil" do
       let(:member_roles) { [] }
 
-      it_behaves_like 'contract is invalid', roles: :role_blank
+      it_behaves_like "contract is invalid", roles: :role_blank
     end
 
-    context 'if any role is not assignable (e.g. builtin)' do
+    context "if any role is not assignable (e.g. builtin)" do
       let(:member_roles) do
         [build_stubbed(:project_role)]
       end
 
-      it_behaves_like 'contract is invalid', roles: :ungrantable
+      it_behaves_like "contract is invalid", roles: :ungrantable
     end
 
-    context 'if the principal is the current user' do
+    context "if the principal is the current user" do
       let(:member_principal) { current_user }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
 
-    context 'if more than one non-inherited role is assigned' do
+    context "if more than one non-inherited role is assigned" do
       let(:member_roles) do
         [build_stubbed(:view_work_package_role), build_stubbed(:comment_work_package_role)]
       end
 
-      it_behaves_like 'contract is invalid', roles: :more_than_one
+      it_behaves_like "contract is invalid", roles: :more_than_one
     end
 
-    context 'if the user lacks :share_work_packages permission in the project' do
+    context "if the user lacks :share_work_packages permission in the project" do
       # This permission would work for a project member.
       let(:permissions) { [:manage_members] }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

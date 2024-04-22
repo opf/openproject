@@ -42,13 +42,14 @@ uk:
         participants_invited: "Запрошені"
         project: "Проєкт"
         start_date: "Дата"
-        start_time: "Час"
-        start_time_hour: "Початковий час"
-      meeting_agenda_items:
+        start_time: "Час початку"
+        start_time_hour: "Час початку"
+      meeting_agenda_item:
         title: "Назва "
-        author: "Надійний"
-        duration_in_minutes: "Тривалість (хв)"
-        description: "Нотатки "
+        author: "Автор"
+        duration_in_minutes: "хв"
+        description: "Примітки"
+        presenter: "Доповідач"
     errors:
       messages:
         invalid_time_format: "не є допустимим часом. Необхідний формат: HH:MM"
@@ -97,10 +98,14 @@ uk:
   label_time_zone: "Часовий пояс"
   label_start_date: "Дата початку"
   meeting:
+    attachments:
+      text: "Прикріплені файли доступні всім учасникам наради. Ви також можете перетягнути їх у примітки до пунктів порядку денного."
     copy:
-      title: "Copy meeting %{title}"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      title: "Копіювати нараду «%{title}»"
+      attachments: "Копіювати вкладення"
+      attachments_text: "Скопіюйте всі прикріплені файли до нової наради"
+      agenda: "Копіювати порядок денний"
+      agenda_text: "Копіювати порядок денний старої наради"
     email:
       open_meeting_link: "Відкрити зустріч"
       invited:
@@ -113,11 +118,11 @@ uk:
         new_date_time: "Нова дата/час"
     label_mail_all_participants: "Надіслати лист усім учасникам"
     types:
-      classic: 'Класична'
-      classic_text: 'Організуйте нараду у вигляді порядку денного й протоколу в текстовому форматі з підтримкою редагування.'
-      structured: 'Динамічна'
-      structured_text: 'Організуйте нараду у вигляді переліку пунктів порядку денного, за бажанням пов’язавши їх із пакетом робіт.'
-      structured_text_copy: 'Зараз копіювання наради стосується лише докладних даних про неї, але не пов’язаних пунктів її порядку денного'
+      classic: "Класична"
+      classic_text: "Організуйте нараду у вигляді порядку денного й протоколу в текстовому форматі з підтримкою редагування."
+      structured: "Динамічна"
+      structured_text: "Організуйте нараду у вигляді переліку пунктів порядку денного, за бажанням пов’язавши їх із пакетом робіт."
+      structured_text_copy: "Зараз копіювання наради стосується лише докладних даних про неї, але не пов’язаних пунктів її порядку денного"
     copied: "Скопійовано з наради #%{id} "
   notice_successful_notification: "Повідомлення успішно надіслано"
   notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
@@ -145,13 +150,16 @@ uk:
   text_notificiation_invited: "У цьому листі міститься запис ics для зустрічі нижче:"
   text_meeting_empty_heading: "Ваша нарада пуста"
   text_meeting_empty_description_1: "Почніть із додавання пунктів розкладу нижче. Кожен елемент може бути таким простим, як назва, але ви також можете додати додаткові деталі, як-от тривалість і примітки."
-  text_meeting_empty_description_2: "Ви також можете додати посилання на наявні пакети робіт. У такому разі пов’язані примітки автоматично з’являться на вкладці «Наради» пакета робіт."
+  text_meeting_empty_description_2: 'Ви також можете додати посилання на наявні пакети робіт. У такому разі пов’язані примітки автоматично з’являться на вкладці «Наради» пакета робіт.'
   label_meeting_empty_action: "Додати пункт порядку денного"
   label_meeting_actions: "Дії з нарадою"
   label_meeting_edit_title: "Редагувати назву зустрічі"
   label_meeting_delete: "Видалити зустріч"
   label_meeting_created_by: "Створено "
   label_meeting_last_updated: "Востаннє оновлено"
+  label_agenda_items: "Пункти порядку денного"
+  label_agenda_items_reordered: "перевпорядковано"
+  label_agenda_item_remove: "Зняти з порядку денного"
   label_agenda_item_undisclosed_wp: "Пакет робіт #%{id} не видимий"
   label_agenda_item_deleted_wp: "Посилання на видалений пакет робіт"
   label_agenda_item_actions: "Дії з пунктами порядку денного"
@@ -160,10 +168,18 @@ uk:
   label_agenda_item_move_up: "Рухатися вгору"
   label_agenda_item_move_down: "Пересунути нижче"
   label_agenda_item_add_notes: "Додати примітку "
+  label_agenda_item_work_package: "Пакет робіт пункту порядку денного"
+  text_agenda_item_title: 'Пункт порядку денного «%{title}»'
+  text_agenda_work_package_deleted: 'Пункт порядку денного для видаленого пакета робіт'
+  text_deleted_agenda_item: 'Видалений пункт порядку денного'
+  label_initial_meeting_details: "Нарада"
   label_meeting_details: "Інформація про зустріч"
   label_meeting_details_edit: "Редагувати інформацію про зустріч"
+  label_meeting_state: "Статус наради"
   label_meeting_state_open: "Відкрити"
+  label_meeting_state_open_html: "<i>Відкрита</i>"
   label_meeting_state_closed: "Закрито"
+  label_meeting_state_closed_html: "<i>Закрита</i>"
   label_meeting_reopen_action: "Відкрити зустріч знову"
   label_meeting_close_action: "Закрити зустріч"
   text_meeting_open_description: "Це відкрита нарада. Ви можете додавати або вилучати пункти порядку денного й редагувати їх. Коли нарада завершиться, закрийте її, щоб заблокувати."
@@ -182,5 +198,5 @@ uk:
   text_agenda_item_no_notes: "Примітки не надано"
   text_agenda_item_not_editable_anymore: "Цей пункт порядку денного більше не можна редагувати."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Цей пакет робіт ще не заплановано в порядку денному майбутньої наради."
-  text_work_package_add_to_meeting_hint: "Натисніть кнопку «Додати до наради», щоб додати цей пакет робіт до майбутньої наради."
+  text_work_package_add_to_meeting_hint: 'Натисніть кнопку «Додати до наради», щоб додати цей пакет робіт до майбутньої наради.'
   text_work_package_has_no_past_meeting_agenda_items: "Цей пакет робіт не згадано в минулій нараді."

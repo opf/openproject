@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PipelineHook do
@@ -40,17 +40,17 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PipelineHook
 
   let(:payload) do
     {
-      'open_project_user_id' => gitlab_system_user.id,
-      'object_kind' => "pipeline",
-      'event_type' => "pipeline",
-      'user' => {
-        'id' => 1,
-        'name' => "Administrator",
-        'username' => "root",
-        'avatar_url' => "https://www.gravatar.com/avatar/258d8dc916db8cea2cafb6c3cd0cb0246efe061421dbd83ec3a350428cabda4f?s=80&d=identicon",
-        'email' => "[REDACTED]"
+      "open_project_user_id" => gitlab_system_user.id,
+      "object_kind" => "pipeline",
+      "event_type" => "pipeline",
+      "user" => {
+        "id" => 1,
+        "name" => "Administrator",
+        "username" => "root",
+        "avatar_url" => "https://www.gravatar.com/avatar/258d8dc916db8cea2cafb6c3cd0cb0246efe061421dbd83ec3a350428cabda4f?s=80&d=identicon",
+        "email" => "[REDACTED]"
       },
-      'object_attributes' => {
+      "object_attributes" => {
         "id" => 5,
         "iid" => 5,
         "name" => nil,
@@ -134,8 +134,8 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PipelineHook
     allow(upsert_service).to receive(:call).and_call_original
   end
 
-  context 'with a new pipeline' do
-    it 'calls the pipeline upsert service' do
+  context "with a new pipeline" do
+    it "calls the pipeline upsert service" do
       expect { process }.to change(GitlabPipeline, :count).by(1)
       expect(upsert_service).to have_received(:call)
         .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),

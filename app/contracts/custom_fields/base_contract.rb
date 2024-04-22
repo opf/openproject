@@ -47,6 +47,7 @@ module CustomFields
     attribute :possible_values
     attribute :multi_value
     attribute :content_right_to_left
+    attribute :custom_field_section_id
     attribute :allow_non_open_versions
   end
 end

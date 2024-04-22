@@ -43,12 +43,12 @@ module Storages
           end
 
           def call(user:, data:)
-            folder, filename = data.slice('parent', 'file_name').values
+            folder, filename = data.slice("parent", "file_name").values
 
             Util.using_user_token(@storage, user) do |token|
               response = OpenProject.httpx
-                           .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
-                                            'Content-Type' => 'application/json' })
+                           .with(headers: { "Authorization" => "Bearer #{token.access_token}",
+                                            "Content-Type" => "application/json" })
                            .post(
                              Util.join_uri_path(@uri, uri_path_for(folder, filename)),
                              json: payload(filename)

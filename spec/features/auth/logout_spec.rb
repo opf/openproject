@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Logout', :js do
-  let(:user_password) { 'b0B' * 4 }
+RSpec.describe "Logout", :js do
+  let(:user_password) { "b0B" * 4 }
   let(:user) do
     create(:user,
            password: user_password,
@@ -40,10 +40,10 @@ RSpec.describe 'Logout', :js do
     login_with(user.login, user_password)
   end
 
-  it 'prevents the user from making any more changes' do
+  it "prevents the user from making any more changes" do
     visit my_page_path
 
-    within '.op-app-header' do
+    within ".op-app-header" do
       page.find("a[title='#{user.name}']").click
 
       click_link I18n.t(:label_logout)
@@ -60,6 +60,6 @@ RSpec.describe 'Logout', :js do
       .to have_current_path /login/
 
     expect(page)
-      .to have_field('Username')
+      .to have_field("Username")
   end
 end

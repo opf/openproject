@@ -1,1 +1,1 @@
-require 'open_project/gantt'
+require "open_project/gantt"

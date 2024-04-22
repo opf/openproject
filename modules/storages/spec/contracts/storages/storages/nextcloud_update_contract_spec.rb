@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
-require_relative 'shared_contract_examples'
+require_relative "shared_contract_examples"
 
 RSpec.describe Storages::Storages::UpdateContract do
-  it_behaves_like 'nextcloud storage contract' do
+  it_behaves_like "nextcloud storage contract" do
     let(:storage) do
       build_stubbed(:nextcloud_storage,
                     creator: storage_creator,
@@ -41,10 +41,10 @@ RSpec.describe Storages::Storages::UpdateContract do
     end
     let(:contract) { described_class.new(storage, current_user) }
 
-    context 'when current user is not the initial storage creator' do
+    context "when current user is not the initial storage creator" do
       let(:storage_creator) { build_stubbed(:user) }
 
-      include_examples 'contract is valid'
+      include_examples "contract is valid"
     end
   end
 end

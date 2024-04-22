@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'shared/user_feedback'
+require_relative "shared/user_feedback"
 
-require 'tasks/shared/legacy_attachment'
-require 'tasks/shared/attachment_migration'
+require "tasks/shared/legacy_attachment"
+require "tasks/shared/attachment_migration"
 
 module Migrations
   ##
@@ -41,7 +41,7 @@ module Migrations
     class CurrentWikiPage < ::ActiveRecord::Base
       self.table_name = "wiki_pages"
 
-      has_one :content, class_name: 'CurrentWikiContent', foreign_key: 'page_id', dependent: :destroy
+      has_one :content, class_name: "CurrentWikiContent", foreign_key: "page_id", dependent: :destroy
     end
 
     class CurrentWikiContent < ::ActiveRecord::Base
@@ -56,12 +56,12 @@ namespace :migrations do
     include Tasks::Shared::UserFeedback
     include Tasks::Shared::AttachmentMigration
 
-    desc 'Removes all attachments from versions and projects'
+    desc "Removes all attachments from versions and projects"
     task delete_from_projects_and_versions: :environment do |_task|
       try_delete_attachments_from_projects_and_versions
     end
 
-    desc 'Creates special wiki pages for each project and version moving the attachments there.'
+    desc "Creates special wiki pages for each project and version moving the attachments there."
     task move_to_wiki: :environment do |_task|
       Project.transaction do
         if Journal.count > 0
@@ -75,7 +75,7 @@ namespace :migrations do
       end
     end
 
-    desc 'Moves old attachment files to their correct new path under carrierwave.'
+    desc "Moves old attachment files to their correct new path under carrierwave."
     task move_old_files: :environment do |_task|
       count = Attachment.count
 

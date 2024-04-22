@@ -33,10 +33,9 @@ module Admin::Settings
     before_action :require_ee
     before_action :check_clamav, only: %i[update], if: -> { scan_enabled? }
 
-    def default_breadcrumb
-      t('settings.antivirus.title')
+    def show_local_breadcrumb
+      false
     end
-
     def av_form
       selected = params.dig(:settings, :antivirus_scan_mode)&.to_sym || :disabled
 
@@ -52,7 +51,7 @@ module Admin::Settings
     private
 
     def require_ee
-      render('upsale') unless EnterpriseToken.allows_to?(:virus_scanning)
+      render("upsale") unless EnterpriseToken.allows_to?(:virus_scanning)
     end
 
     def mark_unscanned_attachments
@@ -60,7 +59,7 @@ module Admin::Settings
     end
 
     def check_clamav
-      return if params.dig(:settings, :antivirus_scan_mode) == 'disabled'
+      return if params.dig(:settings, :antivirus_scan_mode) == "disabled"
 
       service = ::Attachments::ClamAVService.new(params[:settings][:antivirus_scan_mode].to_sym,
                                                  params[:settings][:antivirus_scan_target])
@@ -68,12 +67,12 @@ module Admin::Settings
       service.ping
     rescue StandardError => e
       Rails.logger.error { "Failed to check availability of ClamAV: #{e.message}" }
-      flash[:error] = t(:'settings.antivirus.clamav_ping_failed')
+      flash[:error] = t(:"settings.antivirus.clamav_ping_failed")
       redirect_to action: :show
     end
 
     def scan_enabled?
-      Setting.antivirus_scan_mode != :disabled || params.dig(:settings, :antivirus_scan_mode) != 'disabled'
+      Setting.antivirus_scan_mode != :disabled || params.dig(:settings, :antivirus_scan_mode) != "disabled"
     end
 
     def success_callback(_call)
@@ -87,7 +86,7 @@ module Admin::Settings
     end
 
     def rescan_files
-      flash[:notice] = t('settings.antivirus.remaining_rescanned_files',
+      flash[:notice] = t("settings.antivirus.remaining_rescanned_files",
                        file_count: t(:label_x_files, count: Attachment.status_uploaded.count))
       Attachment.status_uploaded.update_all(status: :rescan)
 
@@ -96,8 +95,8 @@ module Admin::Settings
     end
 
     def remaining_quarantine_warning
-      flash[:info] = t('settings.antivirus.remaining_quarantined_files_html',
-                       link: helpers.link_to(t('antivirus_scan.quarantined_attachments.title'),
+      flash[:info] = t("settings.antivirus.remaining_quarantined_files_html",
+                       link: helpers.link_to(t("antivirus_scan.quarantined_attachments.title"),
                                              admin_quarantined_attachments_path),
                        file_count: t(:label_x_files, count: Attachment.status_quarantined.count))
       redirect_to action: :show

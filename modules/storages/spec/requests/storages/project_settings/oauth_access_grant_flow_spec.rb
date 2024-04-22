@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_access_grant", :webmock do
-  shared_let(:user) { create(:user, preferences: { time_zone: 'Etc/UTC' }) }
+  shared_let(:user) { create(:user, preferences: { time_zone: "Etc/UTC" }) }
 
   shared_let(:role) do
     create(:project_role, permissions: %i[manage_storages_in_project
@@ -49,8 +49,8 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
   end
   shared_let(:project_storage) { create(:project_storage, project:, storage:) }
 
-  context 'when user is not logged in' do
-    it 'requires login' do
+  context "when user is not logged in" do
+    it "requires login" do
       get oauth_access_grant_project_settings_project_storage_path(
         project_id: project_storage.project.id,
         id: project_storage
@@ -59,11 +59,11 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
     end
   end
 
-  context 'when user is logged in' do
+  context "when user is logged in" do
     before { login_as(user) }
 
-    context 'when user is not "connected"' do
-      let(:nonce) { '57a17c3f-b2ed-446e-9dd8-651ba3aec37d' }
+    context "when user is not 'connected'" do
+      let(:nonce) { "57a17c3f-b2ed-446e-9dd8-651ba3aec37d" }
       let(:redirect_uri) do
         CGI.escape("#{OpenProject::Application.root_url}/oauth_clients/#{storage.oauth_client.client_id}/callback")
       end
@@ -73,7 +73,7 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
         allow(SecureRandom).to receive(:uuid).and_return(nonce).ordered
       end
 
-      it 'redirects to storage authorization_uri with oauth_state_* cookie set' do
+      it "redirects to storage authorization_uri with oauth_state_* cookie set" do
         get oauth_access_grant_project_settings_project_storage_path(
           project_id: project_storage.project.id,
           id: project_storage
@@ -90,22 +90,14 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
       end
     end
 
-    context 'when user is "connected"' do
+    context "when user is 'connected'" do
       shared_let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
 
       before do
-        oauth_client_token
-        stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user")
-          .with(
-            headers: {
-              'Accept' => 'application/json',
-              'Authorization' => "Bearer #{oauth_client_token.access_token}",
-              'Ocs-Apirequest' => 'true'
-            }
-          ).to_return(status: 200, body: "", headers: {})
+        Storages::Peripherals::Registry.stub("nextcloud.queries.auth_check", ->(_) { ServiceResult.success })
       end
 
-      it 'redirects to destination_url' do
+      it "redirects to destination_url" do
         get oauth_access_grant_project_settings_project_storage_path(
           project_id: project_storage.project.id,
           id: project_storage

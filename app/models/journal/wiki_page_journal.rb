@@ -27,9 +27,9 @@
 #++
 
 class Journal::WikiPageJournal < Journal::BaseJournal
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
 
-  self.table_name = 'wiki_page_journals'
+  self.table_name = "wiki_page_journals"
 
   # The project does not change over the course of a wiki page lifetime
   delegate :project, to: :journal

@@ -26,68 +26,68 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples_for 'filter dependency' do
-  it_behaves_like 'has basic schema properties' do
-    let(:name) { 'Values' }
+RSpec.shared_examples_for "filter dependency" do
+  it_behaves_like "has basic schema properties" do
+    let(:name) { "Values" }
     let(:required) { true }
     let(:writable) { true }
     let(:has_default) { false }
-    let(:location) { '_links' }
+    let(:location) { "_links" }
   end
 
-  it_behaves_like 'does not link to allowed values'
+  it_behaves_like "does not link to allowed values"
 
-  context 'when embedding' do
+  context "when embedding" do
     let(:form_embedded) { true }
 
-    it_behaves_like 'does not link to allowed values'
+    it_behaves_like "does not link to allowed values"
   end
 end
 
-RSpec.shared_examples_for 'filter dependency with allowed link' do
-  it_behaves_like 'has basic schema properties' do
-    let(:name) { 'Values' }
+RSpec.shared_examples_for "filter dependency with allowed link" do
+  it_behaves_like "has basic schema properties" do
+    let(:name) { "Values" }
     let(:required) { true }
     let(:writable) { true }
     let(:has_default) { false }
-    let(:location) { '_links' }
+    let(:location) { "_links" }
   end
 
-  it_behaves_like 'does not link to allowed values'
+  it_behaves_like "does not link to allowed values"
 
-  context 'when embedding' do
+  context "when embedding" do
     let(:form_embedded) { true }
 
-    it_behaves_like 'links to allowed values via collection link'
+    it_behaves_like "links to allowed values via collection link"
   end
 end
 
-RSpec.shared_examples_for 'filter dependency with allowed value link collection' do
-  it_behaves_like 'has basic schema properties' do
-    let(:name) { 'Values' }
+RSpec.shared_examples_for "filter dependency with allowed value link collection" do
+  it_behaves_like "has basic schema properties" do
+    let(:name) { "Values" }
     let(:required) { true }
     let(:writable) { true }
     let(:has_default) { false }
-    let(:location) { '_links' }
+    let(:location) { "_links" }
   end
 
-  it_behaves_like 'does not link to allowed values'
+  it_behaves_like "does not link to allowed values"
 
-  context 'when embedding' do
+  context "when embedding" do
     let(:form_embedded) { true }
 
-    it_behaves_like 'links to allowed values directly'
+    it_behaves_like "links to allowed values directly"
   end
 end
 
-RSpec.shared_examples_for 'filter dependency empty' do
-  it 'is an empty object' do
+RSpec.shared_examples_for "filter dependency empty" do
+  it "is an empty object" do
     expect(subject)
       .to be_json_eql({}.to_json)
   end
 end
 
-RSpec.shared_examples_for 'relation filter dependency' do
+RSpec.shared_examples_for "relation filter dependency" do
   include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
@@ -102,49 +102,49 @@ RSpec.shared_examples_for 'relation filter dependency' do
 
   subject(:generated) { instance.to_json }
 
-  context 'generation' do
-    context 'properties' do
-      describe 'values' do
-        context 'within project' do
-          let(:path) { 'values' }
-          let(:type) { '[]WorkPackage' }
+  context "generation" do
+    context "properties" do
+      describe "values" do
+        context "within project" do
+          let(:path) { "values" }
+          let(:type) { "[]WorkPackage" }
           let(:href) { api_v3_paths.work_packages_by_project(project.id) }
 
           context "for operator 'Queries::Operators::Equals'" do
             let(:operator) { Queries::Operators::Equals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
 
           context "for operator 'Queries::Operators::NotEquals'" do
             let(:operator) { Queries::Operators::NotEquals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
         end
 
-        context 'outside of a project' do
+        context "outside of a project" do
           let(:project) { nil }
-          let(:path) { 'values' }
-          let(:type) { '[]WorkPackage' }
+          let(:path) { "values" }
+          let(:type) { "[]WorkPackage" }
           let(:href) { api_v3_paths.work_packages }
 
           context "for operator 'Queries::Operators::Equals'" do
             let(:operator) { Queries::Operators::Equals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
 
           context "for operator 'Queries::Operators::NotEquals'" do
             let(:operator) { Queries::Operators::NotEquals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
         end
       end
     end
 
-    describe 'caching' do
+    describe "caching" do
       let(:operator) { Queries::Operators::Equals }
       let(:other_project) { build_stubbed(:project) }
 
@@ -153,14 +153,14 @@ RSpec.shared_examples_for 'relation filter dependency' do
         instance.to_json
       end
 
-      it 'is cached' do
+      it "is cached" do
         expect(instance)
           .not_to receive(:to_hash)
 
         instance.to_json
       end
 
-      it 'busts the cache on a different operator' do
+      it "busts the cache on a different operator" do
         instance.send(:operator=, Queries::Operators::NotEquals)
 
         expect(instance)
@@ -169,7 +169,7 @@ RSpec.shared_examples_for 'relation filter dependency' do
         instance.to_json
       end
 
-      it 'busts the cache on a different project' do
+      it "busts the cache on a different project" do
         query.project = other_project
 
         expect(instance)
@@ -178,7 +178,7 @@ RSpec.shared_examples_for 'relation filter dependency' do
         instance.to_json
       end
 
-      it 'busts the cache on changes to the locale' do
+      it "busts the cache on changes to the locale" do
         expect(instance)
           .to receive(:to_hash)
 
@@ -187,7 +187,7 @@ RSpec.shared_examples_for 'relation filter dependency' do
         end
       end
 
-      it 'busts the cache on different form_embedded' do
+      it "busts the cache on different form_embedded" do
         embedded_instance = described_class.new(filter,
                                                 operator,
                                                 form_embedded: !form_embedded)

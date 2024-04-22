@@ -39,14 +39,14 @@ lt:
   api_v3:
     errors:
       too_many_elements_created_at_once: Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}.
-  permission_create_files: Kurti failus
-  permission_delete_files: Trinti failus
+  permission_create_files: 'Išorinė saugykla: kurti failus'
+  permission_delete_files: 'Išorinė saugykla: trinti failus'
   permission_manage_file_links: Tvarkyti failo nuorodas
   permission_manage_storages_in_project: Tvarkyti failų saugyklas projekte
-  permission_read_files: Skaityti failus
-  permission_share_files: Bendrinti failus
+  permission_read_files: 'Išorinė saugykla: skaityti failus'
+  permission_share_files: 'Išorinė saugykla: bendrinti failus'
   permission_view_file_links: Žiūrėti failo nuorodas
-  permission_write_files: Rašyti failus
+  permission_write_files: 'Išorinė saugykla: rašyti failus'
   project_module_storages: Failų saugyklos
   storages:
     buttons:
@@ -77,6 +77,15 @@ lt:
       storage_delete_result_3: Jei saugykla turi automatiškai valdomus projekto aplankus, jie ir juose esantys failai bus ištrinti visam laikui.
     error_invalid_provider_type: Prašome pažymėti tinkamą saugyklos tiekėją.
     file_storage_view:
+      access_management:
+        automatic_management: Atutomatiškai valdoma prieiga ir aplankai
+        automatic_management_description: Leisti OpenProject automatiškai kurti projektų aplankus ir tvarkyti naudotojų prieigą. Tai rekomenduojama, nes užtikrina, kad kiekvienas komandos narys visada turi reikiamas prieigos teises.
+        description: Parinkite naudotojų prieigos ir aplankų kūrimo valdymo tipą. Mes rekomenduojame naudoti automatiškai valdomą prieigą, kad turėtumėte labiau organizuotą struktūrą ir garantuotumėte prieigą visiems reikiamiems naudotojams.
+        manual_management: Rankiniu būdu valdoma prieiga ir aplankai
+        manual_management_description: Kurkite ir valdykite projektų aplankus patys rankiniu būdu. Jums reikės rankiniu būdu užtikrinti, kad reikiami naudotojai turi prieigą.
+        setup_incomplete: Parinkite naudotojų prieigos ir aplankų kūrimo valdymo tipą.
+        subtitle: Prieigos valdymas
+        title: Prieiga ir projekto aplankai
       automatically_managed_folders: Automatiškai valdomi aplankai
       general_information: Bendra informacija
       nextcloud_oauth: Nextcloud OAuth
@@ -92,8 +101,15 @@ lt:
       label_healthy: Sveikas
       label_pending: Laukiama
       since: nuo %{datetime}
-      subtitle: Automatinio tvarkymo projekto aplankai
+      subtitle: Automatiškai valdomi projekto aplankai
       title: Sveikatos būsena
+    health_email_notifications:
+      description_subscribed: Visi administratoriai gauna šios saugyklos sveikatos būsenos pranešimus e-paštu.
+      description_unsubscribed: Šios saugyklos sveikatos būsenos e-pašto pranešimai buvo išjungti visiems administratoriams.
+      error_could_not_be_saved: Nepavyko įrašyti e-pašto pranešimų nustatymų. Prašome bandyti dar kartą.
+      subscribe: Prenumeruoti
+      title: El. pašto priminimai
+      unsubscribe: Atšaukti prenumeratą
     help_texts:
       project_folder: Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
     instructions:
@@ -143,6 +159,7 @@ lt:
     label_creator: Kūrėjas
     label_delete_storage: Trinti saugyklą
     label_edit_storage: Keisti saugyklą
+    label_edit_storage_access_management: Keisti saugyklos prieigos valdymą
     label_edit_storage_automatically_managed_folders: Keisti saugyklos automatiškai tvarkomus aplankus
     label_edit_storage_host: Keisti saugyklos adresą
     label_existing_manual_folder: Esamas aplankas su rankiniu būdu valdomomis teisėmis
@@ -198,8 +215,6 @@ lt:
         delete: Trinti failų saugyklą
         subtitle: Pridėkite išorinę failų saugyklą, jei norite įkelti, susieti ir valdyti failus darbo paketuose.
       managed_project_folders:
-        one_drive_information: |-
-          Kad įjungtumėte automatiškai tvarkomus projekto OneDrive/SharePoint aplankus, reikia papildomos konfigūracijos diske, kuris naudojamas šiai failų saugyklai. Jei OpenProject tvarko šio disko teises, jis tikėtina bus naudojamas ir kitiems SharePoint tikslams. Daugiau informacijos ir instrukcijas rasite %{drive_id_link_text}.
         subtitle: |-
           Leisti OpenProject automatiškai kurti projektų aplankus. Tai rekomenduojama, nes užtikrina, kad kiekvienas komandos narys visada turi reikiamas prieigos teises.
         subtitle_short: Leisti OpenProject kurti aplankus projektams automatiškai
@@ -213,6 +228,7 @@ lt:
       project_storage_members:
         subtitle: Patikrinkite saugyklos %{storage_name_link} jungties būseną visiems projekto nariams.
         title: Narių jungties būsena
+    permission_header_explanation: "Failų teisės išorinėse saugyklės taikomos tik aplankams ir failams automatiškai valdomuose projektų aplankuose.\nPastebėtina, kad kai kurių failų prieigos teisių kai kurie saugyklų teikėjai nepalaiko."
     provider_types:
       label: Tiekėjo tipas
       nextcloud:

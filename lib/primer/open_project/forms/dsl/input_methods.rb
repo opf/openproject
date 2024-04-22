@@ -9,10 +9,6 @@ module Primer
             add_input AutocompleterInput.new(builder: @builder, form: @form, **, &)
           end
 
-          def user_autocompleter(**, &)
-            add_input UserAutocompleterInput.new(builder: @builder, form: @form, **, &)
-          end
-
           def rich_text_area(**)
             add_input RichTextAreaInput.new(builder: @builder, form: @form, **)
           end

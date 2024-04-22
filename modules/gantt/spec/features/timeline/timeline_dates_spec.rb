@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package timeline date formatting',
+RSpec.describe "Work package timeline date formatting",
                :js,
                :selenium,
-               with_settings: { date_format: '%Y-%m-%d' } do
+               with_settings: { date_format: "%Y-%m-%d" } do
   shared_let(:type) { create(:type_bug, color: create(:color_green)) }
   shared_let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking gantt]) }
-  shared_let(:start_date) { Date.parse('2020-12-31') }
-  shared_let(:due_date) { Date.parse('2021-01-01') }
+  shared_let(:start_date) { Date.parse("2020-12-31") }
+  shared_let(:due_date) { Date.parse("2021-01-01") }
   shared_let(:duration) { due_date - start_date + 1 }
 
   shared_let(:work_package) do
@@ -45,7 +45,7 @@ RSpec.describe 'Work package timeline date formatting',
            start_date:,
            due_date:,
            duration:,
-           subject: 'My subject')
+           subject: "My subject")
   end
 
   shared_let(:work_package_with_non_working_days) do
@@ -53,7 +53,7 @@ RSpec.describe 'Work package timeline date formatting',
            project:,
            type:,
            duration: 5,
-           subject: 'My Subject 2')
+           subject: "My Subject 2")
   end
 
   shared_let(:work_package_without_non_working_days) do
@@ -62,17 +62,17 @@ RSpec.describe 'Work package timeline date formatting',
            type:,
            duration: 5,
            ignore_non_working_days: true,
-           subject: 'Work Package ignoring non working days')
+           subject: "Work Package ignoring non working days")
   end
 
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let!(:query_tl) do
     query = build(:query_with_view_gantt, user: current_user, project:)
-    query.column_names = ['id', 'type', 'subject']
+    query.column_names = ["id", "type", "subject"]
     query.filters.clear
     query.timeline_visible = true
-    query.timeline_zoom_level = 'days'
-    query.name = 'Query with Timeline'
+    query.timeline_zoom_level = "days"
+    query.name = "Query with Timeline"
 
     query.save!
     query
@@ -92,69 +92,69 @@ RSpec.describe 'Work package timeline date formatting',
     wp_timeline.visit_query query_tl
   end
 
-  describe 'with default settings',
-           with_settings: { start_of_week: '', first_week_of_year: '' } do
+  describe "with default settings",
+           with_settings: { start_of_week: "", first_week_of_year: "" } do
     before do
       wp_timeline.expect_timeline!
     end
 
-    context 'with german locale user' do
-      let(:current_user) { create(:admin, language: 'de') }
+    context "with german locale user" do
+      let(:current_user) { create(:admin, language: "de") }
 
-      it 'shows german ISO dates' do
+      it "shows german ISO dates" do
         # expect moment to return week 53 for start date
-        expect_date_week work_package.start_date.iso8601, '53'
-        expect_date_week work_package.due_date.iso8601, '53'
+        expect_date_week work_package.start_date.iso8601, "53"
+        expect_date_week work_package.due_date.iso8601, "53"
         # Monday, 4th of january is the first week
-        expect_date_week '2021-01-04', '01'
+        expect_date_week "2021-01-04", "01"
       end
     end
 
-    context 'with english locale user' do
-      let(:current_user) { create(:admin, language: 'en') }
+    context "with english locale user" do
+      let(:current_user) { create(:admin, language: "en") }
 
-      it 'shows english ISO dates' do
+      it "shows english ISO dates" do
         # expect moment to return week 01 for start date
-        expect_date_week work_package.start_date.iso8601, '01'
-        expect_date_week work_package.due_date.iso8601, '01'
+        expect_date_week work_package.start_date.iso8601, "01"
+        expect_date_week work_package.due_date.iso8601, "01"
         # Monday, 4th of january is the second week
-        expect_date_week '2021-01-04', '02'
+        expect_date_week "2021-01-04", "02"
       end
     end
 
-    context 'with weekdays defined' do
-      let(:current_user) { create(:admin, language: 'en') }
+    context "with weekdays defined" do
+      let(:current_user) { create(:admin, language: "en") }
 
       shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
       shared_let(:non_working_day) do
         create(:non_working_day,
-               date: '28-12-2020')
+               date: "28-12-2020")
       end
 
-      it 'shows them as disabled' do
-        expect_date_week work_package.start_date.iso8601, '01'
+      it "shows them as disabled" do
+        expect_date_week work_package.start_date.iso8601, "01"
 
-        expect(page).to have_test_selector('wp-timeline--non-working-day_27-12-2020')
-        expect(page).to have_test_selector('wp-timeline--non-working-day_2-1-2021')
-        expect(page).to have_test_selector('wp-timeline--non-working-day_28-12-2020')
+        expect(page).to have_test_selector("wp-timeline--non-working-day_27-12-2020")
+        expect(page).to have_test_selector("wp-timeline--non-working-day_2-1-2021")
+        expect(page).to have_test_selector("wp-timeline--non-working-day_28-12-2020")
 
-        expect(page).not_to have_test_selector('wp-timeline--non-working-day_29-12-2020')
-        expect(page).not_to have_test_selector('wp-timeline--non-working-day_30-12-2020')
-        expect(page).not_to have_test_selector('wp-timeline--non-working-day_31-12-2020')
-        expect(page).not_to have_test_selector('wp-timeline--non-working-day_1-1-2021')
+        expect(page).not_to have_test_selector("wp-timeline--non-working-day_29-12-2020")
+        expect(page).not_to have_test_selector("wp-timeline--non-working-day_30-12-2020")
+        expect(page).not_to have_test_selector("wp-timeline--non-working-day_31-12-2020")
+        expect(page).not_to have_test_selector("wp-timeline--non-working-day_1-1-2021")
       end
     end
   end
 
-  describe 'with US/CA settings',
+  describe "with US/CA settings",
            # According to our documentation:
            # https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-format
-           with_settings: { start_of_week: '7', first_week_of_year: '6' } do
+           with_settings: { start_of_week: "7", first_week_of_year: "6" } do
     let(:current_user) { create(:admin) }
 
-    it 'shows english ISO dates' do
-      expect(page).to have_css('.wp-timeline--header-element', text: '01')
-      expect(page).to have_css('.wp-timeline--header-element', text: '02')
+    it "shows english ISO dates" do
+      expect(page).to have_css(".wp-timeline--header-element", text: "01")
+      expect(page).to have_css(".wp-timeline--header-element", text: "02")
 
       # The last weekday determines whether there are 52 or 53 weeks
       # Only if the last day in the year is exactly the day before the day configured to be
@@ -166,23 +166,23 @@ RSpec.describe 'Work package timeline date formatting',
                           53
                         end
 
-      expect(page).to have_css('.wp-timeline--header-element', text: number_of_weeks)
-      expect(page).to have_no_css('.wp-timeline--header-element', text: number_of_weeks + 1)
+      expect(page).to have_css(".wp-timeline--header-element", text: number_of_weeks)
+      expect(page).to have_no_css(".wp-timeline--header-element", text: number_of_weeks + 1)
 
       # expect moment to return week 01 for start date and due date
-      expect_date_week work_package.start_date.iso8601, '01'
-      expect_date_week work_package.due_date.iso8601, '01'
+      expect_date_week work_package.start_date.iso8601, "01"
+      expect_date_week work_package.due_date.iso8601, "01"
       # First sunday in january is in second week
-      expect_date_week '2021-01-03', '02'
+      expect_date_week "2021-01-03", "02"
     end
   end
 
-  describe 'setting dates' do
+  describe "setting dates" do
     shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
     let(:current_user) { create(:admin) }
     let(:row) { wp_timeline.timeline_row work_package_with_non_working_days.id }
 
-    it 'today_line is in view' do
+    it "today_line is in view" do
       row.wait_until_hoverable
       today_line_offsetLeft = page.evaluate_script <<~JS
         document.getElementById('wp-timeline-static-element-today-line').offsetLeft
@@ -198,11 +198,11 @@ RSpec.describe 'Work package timeline date formatting',
 
     shared_let(:non_working_day) do
       create(:non_working_day,
-             date: '06-01-2021')
+             date: "06-01-2021")
     end
 
     shared_examples "sets dates, duration and displays bar" do
-      it 'sets dates, duration and duration bar' do
+      it "sets dates, duration and duration bar" do
         subject
 
         row.expect_bar(duration: expected_bar_duration)
@@ -221,13 +221,13 @@ RSpec.describe 'Work package timeline date formatting',
       end
     end
 
-    context 'with an existing duration only' do
+    context "with an existing duration only" do
       before do
         # Reset dates on each run
         work_package_with_non_working_days.update({ start_date: nil, due_date: nil, duration: 5 })
       end
 
-      it 'displays the hover bar correctly' do
+      it "displays the hover bar correctly" do
         # Expect no hover bar when hovering over a non working day
         row.hover_bar(offset_days: -1)
         row.expect_no_hovered_bar
@@ -246,72 +246,72 @@ RSpec.describe 'Work package timeline date formatting',
         row.expect_hovered_bar(duration: work_package_with_non_working_days.duration + 2)
       end
 
-      describe 'set the start, due date while preserving duration' do
+      describe "set the start, due date while preserving duration" do
         subject { row.click_bar }
 
-        it_behaves_like 'sets dates, duration and displays bar' do
+        it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
           let(:expected_bar_duration) { work_package_with_non_working_days.duration }
-          let(:expected_start_date) { Date.parse('2021-01-04') }
-          let(:expected_due_date) { Date.parse('2021-01-08') }
+          let(:expected_start_date) { Date.parse("2021-01-04") }
+          let(:expected_due_date) { Date.parse("2021-01-08") }
           let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
 
-      describe 'set the start, due date while preserving duration over the weekend' do
+      describe "set the start, due date while preserving duration over the weekend" do
         subject { row.click_bar(offset_days: 1) }
 
-        it_behaves_like 'sets dates, duration and displays bar' do
+        it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
           let(:expected_bar_duration) { work_package_with_non_working_days.duration + 2 }
-          let(:expected_start_date) { Date.parse('2021-01-05') }
-          let(:expected_due_date) { Date.parse('2021-01-11') }
+          let(:expected_start_date) { Date.parse("2021-01-05") }
+          let(:expected_due_date) { Date.parse("2021-01-11") }
           let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
 
-      describe 'sets the start, due dates while preserving duration on a drag and drop create' do
+      describe "sets the start, due dates while preserving duration on a drag and drop create" do
         subject { row.drag_and_drop(days: 5) }
 
-        it_behaves_like 'sets dates, duration and displays bar' do
+        it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
           let(:expected_bar_duration) { work_package_with_non_working_days.duration }
-          let(:expected_start_date) { Date.parse('2021-01-04') }
-          let(:expected_due_date) { Date.parse('2021-01-08') }
+          let(:expected_start_date) { Date.parse("2021-01-04") }
+          let(:expected_due_date) { Date.parse("2021-01-08") }
           let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
 
-      describe 'sets the start, due dates while preserving duration on a drag and drop create over the weekend' do
+      describe "sets the start, due dates while preserving duration on a drag and drop create over the weekend" do
         subject { row.drag_and_drop(offset_days: 1, days: 7) }
 
-        it_behaves_like 'sets dates, duration and displays bar' do
+        it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
           let(:expected_bar_duration) { work_package_with_non_working_days.duration + 2 }
-          let(:expected_start_date) { Date.parse('2021-01-05') }
-          let(:expected_due_date) { Date.parse('2021-01-11') }
+          let(:expected_start_date) { Date.parse("2021-01-05") }
+          let(:expected_due_date) { Date.parse("2021-01-11") }
           let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
 
-      describe 'sets the start, due dates and duration on a drag and drop create over the weekend' do
+      describe "sets the start, due dates and duration on a drag and drop create over the weekend" do
         subject { row.drag_and_drop(offset_days: 1, days: 8) }
 
-        it_behaves_like 'sets dates, duration and displays bar' do
+        it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }
           let(:expected_bar_duration) { work_package_with_non_working_days.duration + 3 }
-          let(:expected_start_date) { Date.parse('2021-01-05') }
-          let(:expected_due_date) { Date.parse('2021-01-12') }
+          let(:expected_start_date) { Date.parse("2021-01-05") }
+          let(:expected_due_date) { Date.parse("2021-01-12") }
           let(:expected_duration) { 5 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
 
-      it 'cancels when the drag starts or finishes on a weekend' do
+      it "cancels when the drag starts or finishes on a weekend" do
         # Finish on the weekend
         row.drag_and_drop(offset_days: 1, days: 5)
 
@@ -325,17 +325,17 @@ RSpec.describe 'Work package timeline date formatting',
         expect { work_package_with_non_working_days.reload }.not_to change { work_package_with_non_working_days }
       end
 
-      context 'when ignore_non_working_days is true' do
+      context "when ignore_non_working_days is true" do
         let(:row) { wp_timeline.timeline_row work_package_without_non_working_days.id }
 
-        describe 'sets the start, due dates and duration on a drag and drop create over the weekend' do
+        describe "sets the start, due dates and duration on a drag and drop create over the weekend" do
           subject { row.drag_and_drop(offset_days: 1, days: 8) }
 
-          it_behaves_like 'sets dates, duration and displays bar' do
+          it_behaves_like "sets dates, duration and displays bar" do
             let(:target_wp) { work_package_without_non_working_days }
             let(:expected_bar_duration) { work_package_without_non_working_days.duration + 3 }
-            let(:expected_start_date) { Date.parse('2021-01-05') }
-            let(:expected_due_date) { Date.parse('2021-01-12') }
+            let(:expected_start_date) { Date.parse("2021-01-05") }
+            let(:expected_due_date) { Date.parse("2021-01-12") }
             let(:expected_duration) { 8 }
             let(:expected_label) { work_package_without_non_working_days.subject }
           end

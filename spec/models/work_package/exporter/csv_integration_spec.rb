@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe WorkPackage::Exports::CSV, 'integration' do
+RSpec.describe WorkPackage::Exports::CSV, "integration" do
   before do
     login_as current_user
   end
@@ -65,7 +65,7 @@ RSpec.describe WorkPackage::Exports::CSV, 'integration' do
     )
   end
 
-  it 'performs a successful export' do
+  it "performs a successful export" do
     work_package.reload
 
     data = CSV.parse instance.export!.content
@@ -75,6 +75,6 @@ RSpec.describe WorkPackage::Exports::CSV, 'integration' do
     expect(data.last).to include(work_package.description)
     expect(data.last).to include(current_user.name)
     expect(data.last).to include(work_package.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
-    expect(data.last).to include('(15.0 h)')
+    expect(data.last).to include("· Σ 15.0 h")
   end
 end

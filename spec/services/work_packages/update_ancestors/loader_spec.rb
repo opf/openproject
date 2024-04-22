@@ -24,41 +24,41 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
   shared_let(:grandgrandparent) do
     create(:work_package,
-           subject: 'grandgrandparent')
+           subject: "grandgrandparent")
   end
   shared_let(:grandparent_sibling) do
     create(:work_package,
-           subject: 'grandparent sibling',
+           subject: "grandparent sibling",
            parent: grandgrandparent)
   end
   shared_let(:grandparent) do
     create(:work_package,
-           subject: 'grandparent',
+           subject: "grandparent",
            parent: grandgrandparent)
   end
   shared_let(:parent) do
     create(:work_package,
-           subject: 'parent',
+           subject: "parent",
            parent: grandparent)
   end
   shared_let(:sibling) do
     create(:work_package,
-           subject: 'sibling',
+           subject: "sibling",
            parent:)
   end
   shared_let(:work_package, refind: true) do
     create(:work_package,
-           subject: 'work package',
+           subject: "work package",
            parent:)
   end
   shared_let(:child) do
     create(:work_package,
-           subject: 'child',
+           subject: "child",
            parent: work_package)
   end
 
@@ -69,7 +69,7 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
       .new(work_package, include_former_ancestors)
   end
 
-  describe '#select' do
+  describe "#select" do
     subject do
       work_package.parent = new_parent
       work_package.save!
@@ -77,153 +77,153 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
       instance
     end
 
-    context 'when switching the hierarchy' do
+    context "when switching the hierarchy" do
       let!(:new_grandgrandparent) do
         create(:work_package,
-               subject: 'new grandgrandparent')
+               subject: "new grandgrandparent")
       end
       let!(:new_grandparent) do
         create(:work_package,
                parent: new_grandgrandparent,
-               subject: 'new grandparent')
+               subject: "new grandparent")
       end
       let!(:new_parent) do
         create(:work_package,
-               subject: 'new parent',
+               subject: "new parent",
                parent: new_grandparent)
       end
       let!(:new_sibling) do
         create(:work_package,
-               subject: 'new sibling',
+               subject: "new sibling",
                parent: new_parent)
       end
 
-      it 'iterates over the initiator work package, and both its current and former ancestors' do
+      it "iterates over the initiator work package, and both its current and former ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package, new_parent, new_grandparent, new_grandgrandparent, parent, grandparent, grandgrandparent]
       end
     end
 
-    context 'when switching the hierarchy and not including the former ancestors' do
+    context "when switching the hierarchy and not including the former ancestors" do
       let!(:new_grandgrandparent) do
         create(:work_package,
-               subject: 'new grandgrandparent')
+               subject: "new grandgrandparent")
       end
       let!(:new_grandparent) do
         create(:work_package,
                parent: new_grandgrandparent,
-               subject: 'new grandparent')
+               subject: "new grandparent")
       end
       let!(:new_parent) do
         create(:work_package,
-               subject: 'new parent',
+               subject: "new parent",
                parent: new_grandparent)
       end
       let!(:new_sibling) do
         create(:work_package,
-               subject: 'new sibling',
+               subject: "new sibling",
                parent: new_parent)
       end
 
       let(:include_former_ancestors) { false }
 
-      it 'iterates over the initiator work package and the current ancestors' do
+      it "iterates over the initiator work package and the current ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package, new_parent, new_grandparent, new_grandgrandparent]
       end
     end
 
-    context 'when destroying the initiator' do
+    context "when destroying the initiator" do
       subject do
         work_package.destroy!
 
         instance
       end
 
-      it 'iterates over the former ancestors' do
+      it "iterates over the former ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [parent, grandparent, grandgrandparent]
       end
     end
 
-    context 'when removing the parent' do
+    context "when removing the parent" do
       let(:new_parent) { nil }
 
-      it 'iterates over the initiator work package and the former ancestors' do
+      it "iterates over the initiator work package and the former ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package, parent, grandparent, grandgrandparent]
       end
     end
 
-    context 'when removing the parent and not including the former ancestors' do
+    context "when removing the parent and not including the former ancestors" do
       let(:new_parent) { nil }
       let(:include_former_ancestors) { false }
 
-      it 'loads only the initiator' do
+      it "loads only the initiator" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package]
       end
     end
 
-    context 'when changing the parent within the same hierarchy upwards' do
+    context "when changing the parent within the same hierarchy upwards" do
       let(:new_parent) { grandgrandparent }
 
-      it 'iterates over the initiator and the former ancestors' do
+      it "iterates over the initiator and the former ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package, parent, grandparent, grandgrandparent]
       end
     end
 
-    context 'when changing the parent within the same hierarchy upwards and not loading former ancestors' do
+    context "when changing the parent within the same hierarchy upwards and not loading former ancestors" do
       let(:new_parent) { grandgrandparent }
       let(:include_former_ancestors) { false }
 
-      it 'iterates over the initiator and the current ancestors' do
+      it "iterates over the initiator and the current ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package, grandgrandparent]
       end
     end
 
-    context 'when changing the parent within the same hierarchy sideways' do
+    context "when changing the parent within the same hierarchy sideways" do
       let(:new_parent) { sibling }
 
-      it 'iterates over the initiator and the current ancestors' do
+      it "iterates over the initiator and the current ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package, sibling, parent, grandparent, grandgrandparent]
       end
     end
 
-    context 'when changing the parent within the same hierarchy sideways and not loading former ancestors' do
+    context "when changing the parent within the same hierarchy sideways and not loading former ancestors" do
       let(:new_parent) { sibling }
       let(:include_former_ancestors) { false }
 
-      it 'iterates over the initiator and the current ancestors' do
+      it "iterates over the initiator and the current ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package, sibling, parent, grandparent, grandgrandparent]
       end
     end
 
-    context 'when changing the parent within the same hierarchy sideways but to a different level' do
+    context "when changing the parent within the same hierarchy sideways but to a different level" do
       let(:new_parent) { grandparent_sibling }
 
-      it 'iterates over the initiator and its former and current ancestors' do
+      it "iterates over the initiator and its former and current ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package, grandparent_sibling, parent, grandparent, grandgrandparent]
       end
     end
 
-    context 'when changing the parent within the same hierarchy sideways but to a different level and not loading ancestors' do
+    context "when changing the parent within the same hierarchy sideways but to a different level and not loading ancestors" do
       let(:new_parent) { grandparent_sibling }
       let(:include_former_ancestors) { false }
 
-      it 'iterates over the initiator and its former and current ancestors' do
+      it "iterates over the initiator and its former and current ancestors" do
         expect(subject.select { |ancestor| ancestor })
           .to eq [work_package, grandparent_sibling, grandgrandparent]
       end
     end
   end
 
-  describe '#descendants_of' do
+  describe "#descendants_of" do
     def descendants_of_hash(hashed_work_package)
       { "estimated_hours" => nil,
         "id" => hashed_work_package.id,
@@ -233,29 +233,29 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
         "schedule_manually" => false }
     end
 
-    context 'for the work_package' do
-      it 'is its child (as a hash)' do
+    context "for the work_package" do
+      it "is its child (as a hash)" do
         expect(instance.descendants_of(work_package))
           .to contain_exactly(descendants_of_hash(child))
       end
     end
 
-    context 'for the parent' do
-      it 'is the work package, its child (as a hash) and its sibling (as a hash)' do
+    context "for the parent" do
+      it "is the work package, its child (as a hash) and its sibling (as a hash)" do
         expect(instance.descendants_of(parent))
           .to contain_exactly(descendants_of_hash(child), work_package, descendants_of_hash(sibling))
       end
     end
 
-    context 'for the grandparent' do
-      it 'is the parent, the work package, its child (as a hash) and its sibling (as a hash)' do
+    context "for the grandparent" do
+      it "is the parent, the work package, its child (as a hash) and its sibling (as a hash)" do
         expect(instance.descendants_of(grandparent))
           .to contain_exactly(parent, work_package, descendants_of_hash(child), descendants_of_hash(sibling))
       end
     end
 
-    context 'for the grandgrandparent (the root)' do
-      it 'is the complete tree, partly as a hash and partly as the preloaded work packages' do
+    context "for the grandgrandparent (the root)" do
+      it "is the complete tree, partly as a hash and partly as the preloaded work packages" do
         expect(instance.descendants_of(grandgrandparent))
           .to contain_exactly(descendants_of_hash(grandparent_sibling), grandparent, parent, work_package,
                               descendants_of_hash(child), descendants_of_hash(sibling))
@@ -263,7 +263,7 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
     end
   end
 
-  describe '#children_of' do
+  describe "#children_of" do
     def children_of_hash(hashed_work_package)
       { "estimated_hours" => nil,
         "id" => hashed_work_package.id,
@@ -273,29 +273,29 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
         "schedule_manually" => false }
     end
 
-    context 'for the work_package' do
-      it 'is its child (as a hash)' do
+    context "for the work_package" do
+      it "is its child (as a hash)" do
         expect(instance.children_of(work_package))
           .to contain_exactly(children_of_hash(child))
       end
     end
 
-    context 'for the parent' do
-      it 'is the work package and its sibling (as a hash)' do
+    context "for the parent" do
+      it "is the work package and its sibling (as a hash)" do
         expect(instance.children_of(parent))
           .to contain_exactly(work_package, children_of_hash(sibling))
       end
     end
 
-    context 'for the grandparent' do
-      it 'is the parent' do
+    context "for the grandparent" do
+      it "is the parent" do
         expect(instance.children_of(grandparent))
           .to contain_exactly(parent)
       end
     end
 
-    context 'for the grandgrandparent' do
-      it 'is the grandparent and its sibling (as a hash)' do
+    context "for the grandgrandparent" do
+      it "is the grandparent and its sibling (as a hash)" do
         expect(instance.children_of(grandgrandparent))
           .to contain_exactly(children_of_hash(grandparent_sibling), grandparent)
       end

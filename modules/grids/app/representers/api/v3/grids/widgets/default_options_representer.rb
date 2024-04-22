@@ -33,7 +33,7 @@ module API
         class DefaultOptionsRepresenter < ::API::Decorators::Single
           property :name,
                    getter: ->(represented:, **) {
-                     represented['name']
+                     represented["name"]
                    }
         end
       end

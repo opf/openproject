@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Bim::Bcf::IssuesController do
   let(:manage_bcf_role) do
@@ -42,7 +42,7 @@ RSpec.describe Bim::Bcf::IssuesController do
 
   let(:non_member) { create(:user) }
   let(:project) do
-    create(:project, enabled_module_names: %w[bim], identifier: 'bim_project')
+    create(:project, enabled_module_names: %w[bim], identifier: "bim_project")
   end
   let(:member) do
     create(:member,
@@ -63,11 +63,11 @@ RSpec.describe Bim::Bcf::IssuesController do
     login_as(bcf_manager)
   end
 
-  shared_examples_for 'check permissions' do
-    context 'without sufficient permissions' do
+  shared_examples_for "check permissions" do
+    context "without sufficient permissions" do
       before { action }
 
-      context 'not member of project' do
+      context "not member of project" do
         let(:bcf_manager_member) {}
 
         it 'returns "not authorized"' do
@@ -75,7 +75,7 @@ RSpec.describe Bim::Bcf::IssuesController do
         end
       end
 
-      context 'no manage_bcf permission' do
+      context "no manage_bcf permission" do
         let(:bcf_manager_member) do
           create(:member,
                  project:,
@@ -90,7 +90,7 @@ RSpec.describe Bim::Bcf::IssuesController do
     end
   end
 
-  describe '#prepare_import' do
+  describe "#prepare_import" do
     let(:params) do
       {
         project_id: project.identifier.to_s,
@@ -101,16 +101,16 @@ RSpec.describe Bim::Bcf::IssuesController do
       post :prepare_import, params:
     end
 
-    context 'with valid BCF file' do
-      let(:filename) { 'MaximumInformation.bcf' }
+    context "with valid BCF file" do
+      let(:filename) { "MaximumInformation.bcf" }
       let(:file) do
         Rack::Test::UploadedFile.new(
           Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
-          'application/zip'
+          "application/zip"
         )
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect { action }.to change { Attachment.count }.by(1)
         expect(response).to be_successful
       end
@@ -118,27 +118,27 @@ RSpec.describe Bim::Bcf::IssuesController do
       it_behaves_like "check permissions"
     end
 
-    context 'with invalid BCF file' do
+    context "with invalid BCF file" do
       let(:file) { FileHelpers.mock_uploaded_file }
 
-      it 'redirects back to where we started from' do
+      it "redirects back to where we started from" do
         expect { action }.not_to change { Attachment.count }
-        expect(response).to redirect_to '/projects/bim_project/issues/upload'
+        expect(response).to redirect_to "/projects/bim_project/issues/upload"
       end
     end
   end
 
-  describe '#configure_import' do
+  describe "#configure_import" do
     let(:action) do
       post :configure_import, params: { project_id: project.identifier.to_s }
     end
 
-    context 'with valid BCF file' do
-      let(:filename) { 'MaximumInformation.bcf' }
+    context "with valid BCF file" do
+      let(:filename) { "MaximumInformation.bcf" }
       let(:file) do
         Rack::Test::UploadedFile.new(
           Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
-          'application/octet-stream'
+          "application/octet-stream"
         )
       end
 
@@ -147,7 +147,7 @@ RSpec.describe Bim::Bcf::IssuesController do
         allow(Attachment).to receive(:find_by).and_return(Attachment.new)
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect { action }.not_to change { Attachment.count }
         expect(response).to be_successful
       end
@@ -156,17 +156,17 @@ RSpec.describe Bim::Bcf::IssuesController do
     end
   end
 
-  describe '#perform_import' do
+  describe "#perform_import" do
     let(:action) do
       post :perform_import, params: { project_id: project.identifier.to_s }
     end
 
-    context 'with valid BCF file' do
-      let(:filename) { 'MaximumInformation.bcf' }
+    context "with valid BCF file" do
+      let(:filename) { "MaximumInformation.bcf" }
       let(:file) do
         Rack::Test::UploadedFile.new(
           Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
-          'application/octet-stream'
+          "application/octet-stream"
         )
       end
 
@@ -175,7 +175,7 @@ RSpec.describe Bim::Bcf::IssuesController do
         allow(Attachment).to receive(:find_by).and_return(Attachment.new)
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect { action }.not_to change { Attachment.count }
         expect(response).to be_successful
       end

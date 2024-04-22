@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Storages::OneDriveContract, :storage_server_helpers, :webmock do
@@ -39,20 +39,20 @@ RSpec.describe Storages::Storages::OneDriveContract, :storage_server_helpers, :w
   # the BaseContract needs to be instantiated here.
   subject(:contract) { Storages::Storages::BaseContract.new(storage, current_user) }
 
-  describe 'when a host is set' do
+  describe "when a host is set" do
     before do
       storage.host = "https://exmaple.com/"
     end
 
-    it 'must be invalid' do
+    it "must be invalid" do
       expect(contract).not_to be_valid
     end
   end
 
-  context 'with blank Drive ID' do
-    let(:storage) { build(:one_drive_storage, drive_id: '') }
+  context "with blank Drive ID" do
+    let(:storage) { build(:one_drive_storage, drive_id: "") }
 
-    it 'is invalid' do
+    it "is invalid" do
       expect(contract).not_to be_valid
 
       expect(contract.errors[:drive_id]).to eq(["can't be blank."])

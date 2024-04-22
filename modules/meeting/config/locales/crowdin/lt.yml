@@ -42,13 +42,14 @@ lt:
         participants_invited: "Pakviestas dalyvauti"
         project: "Projektas"
         start_date: "Data"
-        start_time: "Laikas"
+        start_time: "Pradžios laikas"
         start_time_hour: "Pradžios laikas"
-      meeting_agenda_items:
+      meeting_agenda_item:
         title: "Pavadinimas"
-        author: "Atsakingas"
-        duration_in_minutes: "Trukmė (min)"
+        author: "Autorius"
+        duration_in_minutes: "min"
         description: "Pastabos"
+        presenter: "Pateikėjas"
     errors:
       messages:
         invalid_time_format: "netinkamas laikas. Reikalingas formatas: HH:MM (pvz.: 10:30)"
@@ -97,8 +98,12 @@ lt:
   label_time_zone: "Laiko juosta"
   label_start_date: "Pradžios data"
   meeting:
+    attachments:
+      text: "Prisegti failai prieinami visiems susitikimo dalyviams. Taipogi galite nutempti juos į plano elemento pastabas."
     copy:
       title: "Kopijuoti susitikimą %{title}"
+      attachments: "Kopijuoti priedus"
+      attachments_text: "Perkopijuoti visus prisegtus failus į naują susitikimą"
       agenda: "Kopijuoti dienotvarkę"
       agenda_text: "Kopijuoti seno susitikimo darbotvarkę"
     email:
@@ -113,11 +118,11 @@ lt:
         new_date_time: "Nauja data/laikas"
     label_mail_all_participants: "Siųsti e-laišką visiems dalyviams"
     types:
-      classic: 'Klasikinis'
-      classic_text: 'Organizuokite jūsų susitikimą su formatuojamo teksto darbotvarke ir protokolu.'
-      structured: 'Dinaminis'
-      structured_text: 'Organizuokite jūsų susitikimą su darbotvarkės elementų sąrašu, pasirinktinai susiejant juos su darbo paketu.'
-      structured_text_copy: 'Šiuo metu nukopijavus susitikimą, susiję susitikimo elmentai nebus kopijuojami, tik detalės.'
+      classic: "Klasikinis"
+      classic_text: "Organizuokite jūsų susitikimą su formatuojamo teksto darbotvarke ir protokolu."
+      structured: "Dinaminis"
+      structured_text: "Organizuokite jūsų susitikimą su darbotvarkės elementų sąrašu, pasirinktinai susiejant juos su darbo paketu."
+      structured_text_copy: "Šiuo metu nukopijavus susitikimą, susiję susitikimo elmentai nebus kopijuojami, tik detalės."
     copied: "Nukopijuota iš susitikimo #%{id}"
   notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
   notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.
@@ -145,13 +150,16 @@ lt:
   text_notificiation_invited: "Šis laiškas turi ics įrašą žemiau nurodytam susitikimui:"
   text_meeting_empty_heading: "Jūsų susitikimas yra tuščias"
   text_meeting_empty_description_1: "Pradėkite pridėdami darbotvarkės elementus žemiau. Kiekvienas elementas gali būti paprasčiausiai antraštė, bet jūs galite pridėti papildomas detales, tokias kaip trukmę ir pastabas."
-  text_meeting_empty_description_2: "Jūs taipogi galite pridėti nuorodas į esamus darbo paketus. Kai tai padarysite, susijusios pastabos bus automatiškai matomos darbo paketo kortelėje „Susitikimai“."
+  text_meeting_empty_description_2: 'Jūs taipogi galite pridėti nuorodas į esamus darbo paketus. Kai tai padarysite, susijusios pastabos bus automatiškai matomos darbo paketo kortelėje „Susitikimai“.'
   label_meeting_empty_action: "Pridėti darbotvarkės klausimą"
   label_meeting_actions: "Susitikimo veiksmai"
   label_meeting_edit_title: "Keisti susitikimo pavadinimą"
   label_meeting_delete: "Trinti susitikimą"
   label_meeting_created_by: "Sukūrė"
   label_meeting_last_updated: "Atnaujinta"
+  label_agenda_items: "Darbotvarkės klausimai"
+  label_agenda_items_reordered: "perrikiuota"
+  label_agenda_item_remove: "Išimti iš plano"
   label_agenda_item_undisclosed_wp: "Darbo paketo #%{id} nematomas"
   label_agenda_item_deleted_wp: "Ištrinta darbo paketo nuoroda"
   label_agenda_item_actions: "Darbotvarkės elemento veiksmai"
@@ -160,10 +168,18 @@ lt:
   label_agenda_item_move_up: "Aukštyn"
   label_agenda_item_move_down: "Žemyn"
   label_agenda_item_add_notes: "Pridėti pastabų"
+  label_agenda_item_work_package: "Darbotvarkės elemento darbo paketas"
+  text_agenda_item_title: 'Darbotvarkės punktas „%{title}“'
+  text_agenda_work_package_deleted: 'Ištrinto darbo paketo darbotvarkės punktas'
+  text_deleted_agenda_item: 'Ištrintas darbotvarkės punktas'
+  label_initial_meeting_details: "Susitikimas"
   label_meeting_details: "Susitikimo detalės"
   label_meeting_details_edit: "Keisti susitikimo detales"
+  label_meeting_state: "Susitikimo būsena"
   label_meeting_state_open: "Atidarytas"
+  label_meeting_state_open_html: "<i>Atviras</i>"
   label_meeting_state_closed: "Uždarytas"
+  label_meeting_state_closed_html: "<i>Uždarytas</i>"
   label_meeting_reopen_action: "Iš naujo atidaryti susitikimą"
   label_meeting_close_action: "Uždaryti susitikimą"
   text_meeting_open_description: "Šis susitikimas yra atviras. Jūs galite pridėti/išimti darbotvarkės elementus bei juos keisti pagal poreikius. Pasibaigus susitikimui, uždarykite jį, kad užrakintumėte."
@@ -182,5 +198,5 @@ lt:
   text_agenda_item_no_notes: "Pastabos nepateiktos"
   text_agenda_item_not_editable_anymore: "Šis plano elementas daugiau neberedaguojamas"
   text_work_package_has_no_upcoming_meeting_agenda_items: "Šis darbo paketas dar nesuplanuotas artėjančio susitikimo plane."
-  text_work_package_add_to_meeting_hint: "Naudokite mygtuką „Pridėti į susitikimą“, kad pridėtumėte šį darbo paketą į ateinantį susitikimą."
+  text_work_package_add_to_meeting_hint: 'Naudokite mygtuką „Pridėti į susitikimą“, kad pridėtumėte šį darbo paketą į ateinantį susitikimą.'
   text_work_package_has_no_past_meeting_agenda_items: "Šis darbo paketas nebuvo paminėtas ankstesniame susitikime."

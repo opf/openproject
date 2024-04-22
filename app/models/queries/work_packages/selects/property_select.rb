@@ -39,7 +39,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       groupable: false
     },
     project: {
-      association: 'project',
+      association: "project",
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.project_id"
     },
@@ -47,67 +47,67 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       sortable: "#{WorkPackage.table_name}.subject"
     },
     type: {
-      association: 'type',
+      association: "type",
       sortable: "position",
       groupable: "#{WorkPackage.table_name}.type_id"
     },
     parent: {
-      association: 'ancestors_relations',
-      default_order: 'asc',
+      association: "ancestors_relations",
+      default_order: "asc",
       sortable: false
     },
     status: {
-      association: 'status',
+      association: "status",
       sortable: "position",
       highlightable: true,
       groupable: "#{WorkPackage.table_name}.status_id"
     },
     priority: {
-      association: 'priority',
+      association: "priority",
       sortable: "position",
-      default_order: 'desc',
+      default_order: "desc",
       highlightable: true,
       groupable: "#{WorkPackage.table_name}.priority_id"
     },
     author: {
-      association: 'author',
+      association: "author",
       sortable: %w(lastname firstname id),
       groupable: "#{WorkPackage.table_name}.author_id"
     },
     assigned_to: {
-      association: 'assigned_to',
+      association: "assigned_to",
       sortable: %w(lastname firstname id),
       groupable: "#{WorkPackage.table_name}.assigned_to_id"
     },
     responsible: {
-      association: 'responsible',
+      association: "responsible",
       sortable: %w(lastname firstname id),
       groupable: "#{WorkPackage.table_name}.responsible_id"
     },
     updated_at: {
       sortable: "#{WorkPackage.table_name}.updated_at",
-      default_order: 'desc'
+      default_order: "desc"
     },
     category: {
-      association: 'category',
+      association: "category",
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.category_id"
     },
     version: {
-      association: 'version',
-      sortable: [->(table_name = Version.table_name) { Version.semver_sql(table_name) }, 'name'],
-      default_order: 'ASC',
-      null_handling: 'NULLS LAST',
+      association: "version",
+      sortable: [->(table_name = Version.table_name) { Version.semver_sql(table_name) }, "name"],
+      default_order: "ASC",
+      null_handling: "NULLS LAST",
       groupable: "#{WorkPackage.table_name}.version_id"
     },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date",
-      null_handling: 'NULLS LAST'
+      null_handling: "NULLS LAST"
     },
     due_date: {
       highlightable: true,
       sortable: "#{WorkPackage.table_name}.due_date",
-      null_handling: 'NULLS LAST'
+      null_handling: "NULLS LAST"
     },
     estimated_hours: {
       sortable: "#{WorkPackage.table_name}.estimated_hours",
@@ -123,12 +123,11 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     },
     done_ratio: {
       sortable: "#{WorkPackage.table_name}.done_ratio",
-      groupable: true,
-      if: ->(*) { !WorkPackage.done_ratio_disabled? }
+      groupable: true
     },
     created_at: {
       sortable: "#{WorkPackage.table_name}.created_at",
-      default_order: 'desc'
+      default_order: "desc"
     },
     duration: {
       sortable: "#{WorkPackage.table_name}.duration"

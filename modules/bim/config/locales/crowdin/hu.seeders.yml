@@ -47,7 +47,7 @@ hu:
           name: Konfliktus
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'Beágyazott táblázat: Gyermek objektum'
       type_configuration:
         item_0:
           form_configuration:
@@ -55,90 +55,90 @@ hu:
               group_name: Gyermekek
       groups:
         item_0:
-          name: Architects
+          name: Tervezői
         item_1:
-          name: BIM Coordinators
+          name: BIM koordinátorok
         item_2:
-          name: BIM Managers
+          name: BIM menedzserek
         item_3:
-          name: BIM Modellers
+          name: BIM modellezők
         item_4:
-          name: Lead BIM Coordinators
+          name: Vezető BIM koordinátorok
         item_5:
-          name: MEP Engineers
+          name: MEP mérnökök
         item_6:
-          name: Planners
+          name: Tervezők
         item_7:
-          name: Structural Engineers
+          name: Szerkezeti Mérnökök
       welcome:
-        title: Welcome to OpenProject BIM edition!
+        title: Üdvözöljük az OpenProject BIM kiadásában!
         text: |
-          Checkout the demo projects to get started with some examples.
+          Nézze meg a demo projekteket, hogy néhány példával kezdhessen.
 
-          * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
-              * [(Demo) Planning & constructing]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Classical planning and construction management.
-              * [(Demo) Bim project]({{opSetting:base_url}}/projects/demo-bim-project): BIM process and coordination.
-                  * [(Demo) BCF management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF management.
+          * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Tervezés, BIM-folyamat, BCF-menedzsment és építés, mindez egy pillantás alatt.
+              * [(Demo) Tervezés és kivitelezés]({{opSetting:base_url}}/projects/demo-tervező-építő-projekt): Klasszikus tervezés és építésirányítás.
+              * [(Demo) Bim-projekt]({{opSetting:base_url}}/projects/demo-bim-projekt): BIM folyamat és koordináció.
+                  * [(Demo) BCF menedzsment]({{opSetting:base_url}}/projects/demo-bcf-management-projekt): BCF menedzsment.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          Emellett létrehozhat egy üres [új projektet]({{opSetting:base_url}}/projects/new).
 
-          Never stop collaborating. With open source and open mind.
+          Soha ne hagyja abba az együttműködést. Nyílt forrással és nyitott elmével.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Ezt az üdvözlő szöveget [itt] megváltoztathatja({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Demo) Építési projekt"
+          status_explanation: Minden feladat és alprojekt az ütemterv szerint halad. Az érintettek ismerik a feladataikat. A rendszer teljesen ki van építve.
+          description: Ez egy rövid összefoglaló a demóépítés projekt céljairól.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Üdvözöljük a demó projektben
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Örülünk, hogy csatlakoztál.
+                Ebben a modulban a projekt híreit közölheti a csapattagokkal.
+              description: Aktuális hírek
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 1. kategória (a Projekt beállításai között módosítható)
           queries:
             item_0:
-              name: Project plan
+              name: Projektterv
             item_1:
-              name: Milestones
+              name: Mérföldkövek
             item_2:
-              name: Tasks
+              name: Feladatok
             item_3:
               name: Csoport tervező
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Egyszerű drag'n drop munkafolyamat
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Üdvözlünk
               item_1:
                 options:
                   name: Kezdés
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Örülünk, hogy csatlakoztál! Javasoljuk, hogy próbáljon ki néhány dolgot az OpenProject használatának megkezdéséhez.
 
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+                    Mielőtt azonban belevágna, tudnia kell, hogy ez a példaértékű projekt két különböző projektre oszlik:
 
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+                    1.  [Építési projekt]({{opSetting:base_url}}/projects/demo-tervező-építő-projekt): Itt megtalálja a klasszikus szerepköröket, néhány munkafolyamatot és munkacsomagot építési projektjéhez.
+                    2.  [BIM modell létrehozása]({{opSetting:base_url}}/projects/demo-bim-projekt/demo-bim-projekt): Ez a projekt szerepeket, munkafolyamatokat és munkacsomagokat is kínál, de különösen a BIM kontextusban.
 
-                    _Try the following steps:_
+                    _Próbálja ki a következő lépéseket:_
 
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    1.  _Hívjon meg új tagokat a projektjébe_: → Ugrás a [Tagok]({{opSetting:base_url}}/projects/demo-építési-projekt/tagok) menüpontra a projektnavigációban.
+                    2.  _Tekintse meg a projektekben lévő munkákat_: → Lépjen ide [Munkacsomagok]({{opSetting:base_url}}/projects/demo-építési projekt/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) a projektnavigációban.
+                    3.  _Hozzon létre egy új munkacsomagot_: → Ugrás ide [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  Gantt-diagram létrehozása és frissítése_: → Lépjen ide [Gantt-diagram] ({{opSetting:base_url}}/projects/demo-építési-építési-projekt/munka_csomagok?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) a projekt navigációban.
+                    5.  _További modulok aktiválása_: → Ugrás a [Projekt beállítások → Modulok] ({{opSetting:base_url}}/projects/demo-építési-projekt/beállítások/modulok) menüpontba.
+                    6.  _Tekintse meg a csempe nézetet, hogy áttekintést kapjon a BCF-problémákról:_ → Menjen a [Munkacsomagok]({{opSetting:base_url}}/projects/demo-építési projekt/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    7.  _Agilis munkavégzés? Tekintse meg vadonatúj tábláinkat:_ → Ugrás ide [Táblák]({{opSetting:base_url}}/projects/demo-építési-projekt/táblák)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Itt találja [Felhasználói útmutatónkat](https://www.openproject.org/docs/user-guide/).
+                    Kérjük, tudassa velünk, ha bármilyen kérdése van, vagy támogatásra van szüksége. Lépjen kapcsolatba velünk: [support\[at\\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Tagok
@@ -147,53 +147,53 @@ hu:
                   name: Munkacsomagok
               item_6:
                 options:
-                  name: Milestones
+                  name: Mérföldkövek
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "(Demo) Tervezés és építés"
+          status_explanation: Minden feladat és alprojekt az ütemterv szerint halad. Az érintettek ismerik a feladataikat. A rendszer teljesen ki van építve.
+          description: Ez egy rövid összefoglaló a demó tervezési és építési projekt céljairól.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Üdvözöljük a demó projektben
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Örülünk, hogy csatlakoztál.
+                Ebben a modulban projekthíreket közölhet csapattagjaival.
+              description: Aktuális hírek
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: 1. kategória (a Projekt beállításai között módosítható)
           queries:
             item_0:
-              name: Project plan
+              name: Projektterv
             item_1:
-              name: Milestones
+              name: Mérföldkövek
             item_2:
-              name: Tasks
+              name: Feladatok
             item_3:
               name: Csoport tervező
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Üdvözlünk
               item_1:
                 options:
                   name: Kezdés
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Örülünk, hogy csatlakoztál! Javasoljuk, hogy próbáljon ki néhány dolgot az OpenProject használatának megkezdéséhez.
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    Itt megtalálja a klasszikus szerepköröket, néhány munkafolyamatot és munkacsomagot az építési projektjéhez.
 
-                    _Try the following steps:_
+                    _Próbálja ki a következő lépéseket:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Hívjon meg új tagokat a projektjébe_: → Ugrás a [Tagok]({{opSetting:base_url}}/projects/demo-építési-projekt/tagok) menüpontra a projektnavigációban.
+                    2.  _Tekintse meg a projektekben lévő munkákat_: → Lépjen ide [Munkacsomagok]({{opSetting:base_url}}/projects/demo-építési projekt/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) a projektnavigációban.
+                    3.  _Hozzon létre egy új munkacsomagot_: → Ugrás ide [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  Gantt-diagram létrehozása és frissítése_: → Lépjen ide [Gantt-diagram] ({{opSetting:base_url}}/projects/demo-építési-építési-projekt/munka_csomagok?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) a projekt navigációban.
+                    5.  _További modulok aktiválása_: → Ugrás a [Projekt beállítások → Modulok] ({{opSetting:base_url}}/projects/demo-építési-projekt/beállítások/modulok) menüpontba.
+                    6.  _Agilis munkavégzés? Hozzon létre egy új táblát:_ → Menjen a [Táblák]({{opSetting:base_url}}/projects/demo-tervező-építő-projekt/táblák)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Itt találja [Felhasználói útmutatónkat](https://www.openproject.org/docs/user-guide/).
+                    Kérjük, tudassa velünk, ha bármilyen kérdése van, vagy támogatásra van szüksége. Lépjen kapcsolatba velünk: [support\[at\\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Tagok
@@ -202,16 +202,14 @@ hu:
                   name: Munkacsomagok
               item_6:
                 options:
-                  name: Milestones
+                  name: Mérföldkövek
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Építési projekt indítása
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
-
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                A projekt indítása meghatározza a projekt kezdetét az Ön cégében. Mindenkit, aki részt vesz ebben a projektben, meg kell hívni az első eligazításra.
             item_1:
-              subject: Basic evaluation
+              subject: Alapvető értékelés
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -246,7 +244,7 @@ hu:
                   subject: End of basic evaluation
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
-              subject: Preliminary planning
+              subject: Előzetes tervezés
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:

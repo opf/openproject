@@ -34,7 +34,7 @@ module OpenProject::CustomStyles
     # Returns the name of the color scheme.
     # To be overridden by a plugin
     def name
-      'OpenProject Theme'
+      "OpenProject Theme"
     end
 
     def identifier
@@ -49,9 +49,9 @@ module OpenProject::CustomStyles
     # Path to favicon
     def favicon_asset_path
       if OpenProject::Configuration.development_highlight_enabled?
-        'development/favicon.ico'.freeze
+        "development/favicon.ico".freeze
       else
-        'favicon.ico'.freeze
+        "favicon.ico".freeze
       end
     end
 
@@ -59,9 +59,9 @@ module OpenProject::CustomStyles
     # Path to apple touch icon
     def apple_touch_icon_asset_path
       if OpenProject::Configuration.development_highlight_enabled?
-        'development/apple-touch-icon-120x120.png'.freeze
+        "development/apple-touch-icon-120x120.png".freeze
       else
-        'apple-touch-icon-120x120.png'.freeze
+        "apple-touch-icon-120x120.png".freeze
       end
     end
 

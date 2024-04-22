@@ -26,45 +26,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ScheduleHelpers::LetSchedule do
   create_shared_association_defaults_for_work_package_factory
 
-  describe 'let_schedule' do
+  describe "let_schedule" do
     let_schedule(<<~CHART)
       days      | MTWTFSS |
       main      | XX      |
-      follower  |   XXX   | follows main with delay 2
+      follower  |   XXX   | follows main with lag 2
       child     |         | child of main
     CHART
 
-    it 'creates let calls for each work package' do
+    it "creates let calls for each work package" do
       expect([main, follower, child]).to all(be_an_instance_of(WorkPackage))
       expect([main, follower, child]).to all(be_persisted)
       expect(main).to have_attributes(
-        subject: 'main',
+        subject: "main",
         start_date: schedule.monday,
         due_date: schedule.tuesday
       )
       expect(follower).to have_attributes(
-        subject: 'follower',
+        subject: "follower",
         start_date: schedule.wednesday,
         due_date: schedule.friday
       )
       expect(child).to have_attributes(
-        subject: 'child',
+        subject: "child",
         start_date: nil,
         due_date: nil
       )
     end
 
-    it 'creates follows relations between work packages' do
+    it "creates follows relations between work packages" do
       expect(follower.follows_relations.count).to eq(1)
       expect(follower.follows_relations.first.to).to eq(main)
     end
 
-    it 'creates parent / child relations' do
+    it "creates parent / child relations" do
       expect(child.parent).to eq(main)
     end
   end

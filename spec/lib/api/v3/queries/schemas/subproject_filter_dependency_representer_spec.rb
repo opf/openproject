@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter do
   include API::V3::Utilities::PathHelper
@@ -44,13 +44,13 @@ RSpec.describe API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter 
 
   subject(:generated) { instance.to_json }
 
-  context 'generation' do
-    context 'properties' do
-      describe 'values' do
-        let(:path) { 'values' }
-        let(:type) { '[]Project' }
+  context "generation" do
+    context "properties" do
+      describe "values" do
+        let(:path) { "values" }
+        let(:type) { "[]Project" }
         let(:filters_params) do
-          [ancestor: { operator: '=', values: [project.id.to_s] }]
+          [ancestor: { operator: "=", values: [project.id.to_s] }]
         end
         let(:href) do
           "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filters_params))}&pageSize=-1"
@@ -59,24 +59,24 @@ RSpec.describe API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter 
         context "for operator 'Queries::Operators::Equals'" do
           let(:operator) { Queries::Operators::Equals }
 
-          it_behaves_like 'filter dependency with allowed link'
+          it_behaves_like "filter dependency with allowed link"
         end
 
         context "for operator 'Queries::Operators::All'" do
           let(:operator) { Queries::Operators::All }
 
-          it_behaves_like 'filter dependency empty'
+          it_behaves_like "filter dependency empty"
         end
 
         context "for operator 'Queries::Operators::None'" do
           let(:operator) { Queries::Operators::None }
 
-          it_behaves_like 'filter dependency empty'
+          it_behaves_like "filter dependency empty"
         end
       end
     end
 
-    describe 'caching' do
+    describe "caching" do
       let(:operator) { Queries::Operators::Equals }
       let(:other_project) { build_stubbed(:project) }
 
@@ -85,14 +85,14 @@ RSpec.describe API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter 
         instance.to_json
       end
 
-      it 'is cached' do
+      it "is cached" do
         expect(instance)
           .not_to receive(:to_hash)
 
         instance.to_json
       end
 
-      it 'busts the cache on a different operator' do
+      it "busts the cache on a different operator" do
         instance.send(:operator=, Queries::Operators::NotEquals)
 
         expect(instance)
@@ -101,7 +101,7 @@ RSpec.describe API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter 
         instance.to_json
       end
 
-      it 'busts the cache on a different project' do
+      it "busts the cache on a different project" do
         query.project = other_project
 
         expect(instance)
@@ -110,7 +110,7 @@ RSpec.describe API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter 
         instance.to_json
       end
 
-      it 'busts the cache on changes to the locale' do
+      it "busts the cache on changes to the locale" do
         expect(instance)
           .to receive(:to_hash)
 
@@ -119,7 +119,7 @@ RSpec.describe API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter 
         end
       end
 
-      it 'does not use the project for caching if no project is provided and as such busts the cache' do
+      it "does not use the project for caching if no project is provided and as such busts the cache" do
         query.project = nil
 
         expect(instance)
@@ -128,7 +128,7 @@ RSpec.describe API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter 
         instance.to_json
       end
 
-      it 'busts the cache on different form_embedded' do
+      it "busts the cache on different form_embedded" do
         embedded_instance = described_class.new(filter,
                                                 operator,
                                                 form_embedded: !form_embedded)

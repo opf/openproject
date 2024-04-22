@@ -48,7 +48,7 @@ module Journals
       self.journable = journable
     end
 
-    def call(notes: '', cause: {})
+    def call(notes: "", cause: {})
       # JSON columns read from the database always have string keys. As we do not know what is passed in here,
       # and we want to compare it to values read from the DB, we need to stringify the keys here as well
       normalized_cause = cause.deep_stringify_keys

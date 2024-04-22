@@ -26,75 +26,75 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ForumsController do
   it {
-    expect(subject).to route(:get, '/projects/world_domination/forums').to(controller: 'forums',
-                                                                           action: 'index',
-                                                                           project_id: 'world_domination')
+    expect(subject).to route(:get, "/projects/world_domination/forums").to(controller: "forums",
+                                                                           action: "index",
+                                                                           project_id: "world_domination")
   }
 
   it {
-    expect(subject).to route(:get, '/projects/world_domination/forums/new').to(controller: 'forums',
-                                                                               action: 'new',
-                                                                               project_id: 'world_domination')
+    expect(subject).to route(:get, "/projects/world_domination/forums/new").to(controller: "forums",
+                                                                               action: "new",
+                                                                               project_id: "world_domination")
   }
 
   it {
-    expect(subject).to route(:post, '/projects/world_domination/forums').to(controller: 'forums',
-                                                                            action: 'create',
-                                                                            project_id: 'world_domination')
+    expect(subject).to route(:post, "/projects/world_domination/forums").to(controller: "forums",
+                                                                            action: "create",
+                                                                            project_id: "world_domination")
   }
 
   it {
-    expect(subject).to route(:get, '/projects/world_domination/forums/44').to(controller: 'forums',
-                                                                              action: 'show',
-                                                                              project_id: 'world_domination',
-                                                                              id: '44')
+    expect(subject).to route(:get, "/projects/world_domination/forums/44").to(controller: "forums",
+                                                                              action: "show",
+                                                                              project_id: "world_domination",
+                                                                              id: "44")
   }
 
   it {
-    expect(get('/projects/abc/forums/1.atom'))
-      .to route_to(controller: 'forums',
-                   action: 'show',
-                   project_id: 'abc',
-                   id: '1',
-                   format: 'atom')
+    expect(get("/projects/abc/forums/1.atom"))
+      .to route_to(controller: "forums",
+                   action: "show",
+                   project_id: "abc",
+                   id: "1",
+                   format: "atom")
   }
 
   it {
-    expect(subject).to route(:get, '/projects/world_domination/forums/44/edit').to(controller: 'forums',
-                                                                                   action: 'edit',
-                                                                                   project_id: 'world_domination',
-                                                                                   id: '44')
+    expect(subject).to route(:get, "/projects/world_domination/forums/44/edit").to(controller: "forums",
+                                                                                   action: "edit",
+                                                                                   project_id: "world_domination",
+                                                                                   id: "44")
   }
 
   it {
-    expect(subject).to route(:put, '/projects/world_domination/forums/44').to(controller: 'forums',
-                                                                              action: 'update',
-                                                                              project_id: 'world_domination',
-                                                                              id: '44')
+    expect(subject).to route(:put, "/projects/world_domination/forums/44").to(controller: "forums",
+                                                                              action: "update",
+                                                                              project_id: "world_domination",
+                                                                              id: "44")
   }
 
   it {
-    expect(subject).to route(:delete, '/projects/world_domination/forums/44').to(controller: 'forums',
-                                                                                 action: 'destroy',
-                                                                                 project_id: 'world_domination',
-                                                                                 id: '44')
+    expect(subject).to route(:delete, "/projects/world_domination/forums/44").to(controller: "forums",
+                                                                                 action: "destroy",
+                                                                                 project_id: "world_domination",
+                                                                                 id: "44")
   }
 
-  it 'connects GET /projects/:project/forums/:forum/move to forums#move' do
-    expect(get('/projects/1/forums/1/move')).to route_to(controller: 'forums',
-                                                         action: 'move',
-                                                         project_id: '1',
-                                                         id: '1')
+  it "connects GET /projects/:project/forums/:forum/move to forums#move" do
+    expect(get("/projects/1/forums/1/move")).to route_to(controller: "forums",
+                                                         action: "move",
+                                                         project_id: "1",
+                                                         id: "1")
   end
 
-  it 'connects POST /projects/:project/forums/:forum/move to forums#move' do
-    expect(post('/projects/1/forums/1/move')).to route_to(controller: 'forums',
-                                                          action: 'move',
-                                                          project_id: '1',
-                                                          id: '1')
+  it "connects POST /projects/:project/forums/:forum/move to forums#move" do
+    expect(post("/projects/1/forums/1/move")).to route_to(controller: "forums",
+                                                          action: "move",
+                                                          project_id: "1",
+                                                          id: "1")
   end
 end

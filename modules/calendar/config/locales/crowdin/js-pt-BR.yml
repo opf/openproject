@@ -1,5 +1,5 @@
 #English strings go here
-pt:
+pt-BR:
   js:
     calendar:
       create_new: 'Criar novo calendário'

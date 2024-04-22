@@ -27,7 +27,7 @@ module TwoFactorAuthentication
 
     def options_for_get(relying_party)
       @options_for_get ||= relying_party.options_for_authentication(
-        allow: webauthn_external_id # TODO: Maybe also allow all other tokens? Let's see
+        allow: [webauthn_external_id] # TODO: Maybe also allow all other tokens? Let's see
       )
     end
 

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
+require "open_project/plugins"
 
 module OpenProject::Bim
   class Engine < ::Rails::Engine
@@ -34,8 +34,9 @@ module OpenProject::Bim
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-bim',
-             author_url: 'https://www.openproject.org',
+    register "openproject-bim",
+             author_url: "https://www.openproject.org",
+             bundled: true,
              settings: {
                default: {}
              } do
@@ -44,23 +45,23 @@ module OpenProject::Bim
                      if: ->(*) { OpenProject::Configuration.bim? }) do
         permission :view_ifc_models,
                    {
-                     'bim/ifc_models/ifc_models': %i[index show defaults],
-                     'bim/ifc_models/ifc_viewer': %i[show]
+                     "bim/ifc_models/ifc_models": %i[index show defaults],
+                     "bim/ifc_models/ifc_viewer": %i[show]
                    },
                    permissible_on: :project,
                    contract_actions: { ifc_models: %i[read] }
         permission :manage_ifc_models,
-                   { 'bim/ifc_models/ifc_models': %i[index show destroy edit update create new] },
+                   { "bim/ifc_models/ifc_models": %i[index show destroy edit update create new] },
                    permissible_on: :project,
                    dependencies: %i[view_ifc_models],
                    contract_actions: { ifc_models: %i[create update destroy] }
         permission :view_linked_issues,
-                   { 'bim/bcf/issues': %i[index] },
+                   { "bim/bcf/issues": %i[index] },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages],
                    contract_actions: { bcf: %i[read] }
         permission :manage_bcf,
-                   { 'bim/bcf/issues': %i[index upload prepare_import configure_import perform_import] },
+                   { "bim/bcf/issues": %i[index upload prepare_import configure_import perform_import] },
                    permissible_on: :project,
                    dependencies: %i[view_linked_issues
                                     view_work_packages
@@ -90,27 +91,27 @@ module OpenProject::Bim
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl
           .permission(:view_work_packages)
-          .controller_actions << 'bim/bcf/issues/redirect_to_bcf_issues_list'
+          .controller_actions << "bim/bcf/issues/redirect_to_bcf_issues_list"
       end
 
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:ifc_models,
-                  { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
-                  caption: :'bcf.label_bcf',
+                  { controller: "/bim/ifc_models/ifc_models", action: "defaults" },
+                  caption: :"bcf.label_bcf",
                   after: :work_packages,
-                  icon: 'bcf',
+                  icon: "bcf",
                   badge: :label_new)
 
         menu.push :ifc_viewer_panels,
-                  { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
+                  { controller: "/bim/ifc_models/ifc_models", action: "defaults" },
                   parent: :ifc_models,
-                  partial: '/bim/ifc_models/ifc_models/panels'
+                  partial: "/bim/ifc_models/ifc_models/panels"
       end
     end
 
-    class_inflection_override('v2_1' => 'V2_1')
+    class_inflection_override("v2_1" => "V2_1")
 
-    assets %w(bim/logo_openproject_bim_big.png)
+    assets %w(bim/logo_openproject_bim_big.png bim/logo_openproject_bim_big_coloured.png)
 
     patches %i[Attachment WorkPackage Type Journal RootSeeder Project FogFileUploader]
 
@@ -141,7 +142,7 @@ module OpenProject::Bim
 
         {
           href: bcf_v2_1_paths.topics(represented.project.identifier),
-          title: 'Convert to BCF',
+          title: "Convert to BCF",
           payload: { reference_links: [api_v3_paths.work_package(represented.id)] },
           method: :post
         }
@@ -160,14 +161,14 @@ module OpenProject::Bim
     end
 
     extend_api_response(:v3, :work_packages, :work_package_collection) do
-      require_relative 'patches/api/v3/export_formats'
+      require_relative "patches/api/v3/export_formats"
 
       prepend Patches::API::V3::ExportFormats
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
       schema :bcf_thumbnail,
-             type: 'BCF Thumbnail',
+             type: "BCF Thumbnail",
              required: false,
              writable: false,
              show_if: ->(*) { represented&.project&.module_enabled?(:bim) }
@@ -201,7 +202,7 @@ module OpenProject::Bim
       OpenProject::Bim::Hooks::Hook
     end
 
-    initializer 'bim.bcf.register_mimetypes' do
+    initializer "bim.bcf.register_mimetypes" do
       Mime::Type.register "application/octet-stream", :bcf unless Mime::Type.lookup_by_extension(:bcf)
       Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
     end
@@ -231,15 +232,15 @@ module OpenProject::Bim
       end
 
       ::API::Root.class_eval do
-        content_type :binary, 'application/octet-stream'
+        content_type :binary, "application/octet-stream"
         default_format :binary
-        version 'v1', using: :path do
+        version "v1", using: :path do
           mount ::API::Bim::BcfXml::V1::BcfXmlAPI
         end
       end
     end
 
     add_view :Bim,
-             contract_strategy: 'Bim::Views::ContractStrategy'
+             contract_strategy: "Bim::Views::ContractStrategy"
   end
 end

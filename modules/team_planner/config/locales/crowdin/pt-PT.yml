@@ -1,5 +1,5 @@
 #English strings go here
-pt:
+pt-PT:
   plugin_openproject_team_planner:
     name: "Planeador de equipas OpenProject"
     description: "Fornece visualizações do planeador de equipas."

@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackagesController do
   before do
     login_as current_user
   end
 
-  let(:stub_project) { build_stubbed(:project, identifier: 'test_project', public: false) }
+  let(:stub_project) { build_stubbed(:project, identifier: "test_project", public: false) }
   let(:current_user) { build_stubbed(:user) }
   let(:work_packages) { [build_stubbed(:work_package)] }
 
-  describe 'index' do
+  describe "index" do
     let(:query) do
       build_stubbed(:query)
     end
@@ -47,12 +47,12 @@ RSpec.describe WorkPackagesController do
       allow(controller).to receive(:retrieve_query).and_return(query)
     end
 
-    describe 'bcf' do
-      let(:mime_type) { 'bcf' }
+    describe "bcf" do
+      let(:mime_type) { "bcf" }
       let(:export_storage) { build_stubbed(:work_packages_export) }
 
       before do
-        service_instance = double('service_instance')
+        service_instance = double("service_instance")
 
         allow(WorkPackages::Exports::ScheduleService)
           .to receive(:new)
@@ -62,19 +62,19 @@ RSpec.describe WorkPackagesController do
         allow(service_instance)
           .to receive(:call)
           .with(query:, mime_type: mime_type.to_sym, params: anything)
-          .and_return(ServiceResult.failure(result: 'uuid of the export job'))
+          .and_return(ServiceResult.failure(result: "uuid of the export job"))
       end
 
-      it 'redirects to the export' do
-        get 'index', params: { format: 'bcf' }
-        expect(response).to redirect_to job_status_path('uuid of the export job')
+      it "redirects to the export" do
+        get "index", params: { format: "bcf" }
+        expect(response).to redirect_to job_status_path("uuid of the export job")
       end
 
-      context 'with json accept' do
-        it 'fulfills the defined should_receives' do
-          request.headers['Accept'] = 'application/json'
-          get 'index', params: { format: 'bcf' }
-          expect(response.body).to eq({ job_id: 'uuid of the export job' }.to_json)
+      context "with json accept" do
+        it "fulfills the defined should_receives" do
+          request.headers["Accept"] = "application/json"
+          get "index", params: { format: "bcf" }
+          expect(response.body).to eq({ job_id: "uuid of the export job" }.to_json)
         end
       end
     end

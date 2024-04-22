@@ -7,13 +7,13 @@ RSpec.describe "multi version custom field", :js do
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:cf_edit_field) do
     field = wp_page.edit_field custom_field.attribute_name(:camel_case)
-    field.field_type = 'create-autocompleter'
+    field.field_type = "create-autocompleter"
     field
   end
   let(:work_package) { create(:work_package, project:, type:) }
-  let!(:version_old) { create(:version, project:, name: 'Version Old') }
-  let!(:version_current) { create(:version, project:, name: 'Version Current') }
-  let!(:version_future) { create(:version, project:, name: 'Version Future') }
+  let!(:version_old) { create(:version, project:, name: "Version Old") }
+  let!(:version_current) { create(:version, project:, name: "Version Current") }
+  let!(:version_future) { create(:version, project:, name: "Version Future") }
 
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }

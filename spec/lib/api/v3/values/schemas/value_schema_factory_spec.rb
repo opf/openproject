@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Values::Schemas::ValueSchemaFactory do
   include API::V3::Utilities::PathHelper
 
-  describe '.for' do
+  describe ".for" do
     let!(:representer_instance) do
       instance_double(API::V3::Values::Schemas::PropertySchemaRepresenter)
     end
@@ -41,67 +41,67 @@ RSpec.describe API::V3::Values::Schemas::ValueSchemaFactory do
               .and_return(representer_instance)
     end
 
-    context 'for the start_date property' do
-      let(:property) { 'start_date' }
+    context "for the start_date property" do
+      let(:property) { "start_date" }
 
-      it 'returns a schema representer' do
+      it "returns a schema representer" do
         expect(described_class.for(property))
           .to eq representer_instance
       end
 
-      it 'instantiates the representer with the proper params' do
+      it "instantiates the representer with the proper params" do
         described_class.for(property)
 
         expect(API::V3::Values::Schemas::PropertySchemaRepresenter)
           .to have_received(:new)
-                .with(API::V3::Values::Schemas::Model.new(I18n.t('attributes.start_date'), 'Date'),
+                .with(API::V3::Values::Schemas::Model.new(I18n.t("attributes.start_date"), "Date"),
                       current_user: nil,
                       self_link: api_v3_paths.value_schema(property.camelcase(:lower)))
       end
     end
 
-    context 'for the due_date property' do
-      let(:property) { 'due_date' }
+    context "for the due_date property" do
+      let(:property) { "due_date" }
 
-      it 'returns a schema representer' do
+      it "returns a schema representer" do
         expect(described_class.for(property))
           .to eq representer_instance
       end
 
-      it 'instantiates the representer with the proper params' do
+      it "instantiates the representer with the proper params" do
         described_class.for(property)
 
         expect(API::V3::Values::Schemas::PropertySchemaRepresenter)
           .to have_received(:new)
-                .with(API::V3::Values::Schemas::Model.new(I18n.t('attributes.due_date'), 'Date'),
+                .with(API::V3::Values::Schemas::Model.new(I18n.t("attributes.due_date"), "Date"),
                       current_user: nil,
                       self_link: api_v3_paths.value_schema(property.camelcase(:lower)))
       end
     end
 
-    context 'for the date property (for milestones)' do
-      let(:property) { 'date' }
+    context "for the date property (for milestones)" do
+      let(:property) { "date" }
 
-      it 'returns a schema representer' do
+      it "returns a schema representer" do
         expect(described_class.for(property))
           .to eq representer_instance
       end
 
-      it 'instantiates the representer with the proper params' do
+      it "instantiates the representer with the proper params" do
         described_class.for(property)
 
         expect(API::V3::Values::Schemas::PropertySchemaRepresenter)
           .to have_received(:new)
-                .with(API::V3::Values::Schemas::Model.new(I18n.t('attributes.date'), 'Date'),
+                .with(API::V3::Values::Schemas::Model.new(I18n.t("attributes.date"), "Date"),
                       current_user: nil,
                       self_link: api_v3_paths.value_schema(property.camelcase(:lower)))
       end
     end
 
-    context 'for another property' do
-      let(:property) { 'bogus' }
+    context "for another property" do
+      let(:property) { "bogus" }
 
-      it 'returns nil' do
+      it "returns nil" do
         expect(described_class.for(property))
           .to be_nil
       end

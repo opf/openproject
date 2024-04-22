@@ -87,7 +87,7 @@ class ::Query::Results
   end
 
   def order_option
-    order_option = [group_by_sort].compact_blank.join(', ')
+    order_option = [group_by_sort].compact_blank.join(", ")
 
     if order_option.blank?
       nil

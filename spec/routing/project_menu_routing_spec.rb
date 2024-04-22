@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Project menu routes' do
-  it '/projects/menu GET routes to projects/menus#show' do
-    expect(get('/projects/menu')).to route_to('projects/menus#show')
+RSpec.describe "Project menu routes" do
+  it "/projects/menu GET routes to projects/menus#show" do
+    expect(get("/projects/menu")).to route_to("projects/menus#show")
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Views::Filters::TypeFilter do
   let(:current_user) { create(:user) }
@@ -35,12 +35,12 @@ RSpec.describe Queries::Views::Filters::TypeFilter do
     login_as(current_user)
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :type }
     let(:type) { :list_optional }
 
-    describe '#allowed_values' do
-      it 'includes the Bim views' do
+    describe "#allowed_values" do
+      it "includes the Bim views" do
         expected_bim_view = %w[Views::Bim Views::Bim]
 
         expect(([expected_bim_view] - instance.allowed_values).size).to be 0

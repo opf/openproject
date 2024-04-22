@@ -31,7 +31,7 @@ it:
         Vuoi davvero eliminare questo file? Quest’azione è irreversibile.
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Il file è in quarantena, poiché è stato trovato un virus. Non è disponibile per il download."
     autocomplete_ng_select:
       add_tag: "Aggiungi elemento"
       clear_all: "Cancella tutto"
@@ -232,7 +232,7 @@ it:
           status_label: "Stato:"
           status_confirmed: "confermato"
           status_waiting: "email inviata, in attesa di conferma"
-          test_ee: "Prova l'Enterprise edition gratuitamente per 14 giorni"
+          test_ee: "Prova l'Enterprise Edition gratuitamente per 14 giorni"
           quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra nell'edizione OpenProject Enterprise."
         upsale:
           become_hero: "Diventa un eroe!"
@@ -348,11 +348,11 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Implementazione della segnalazione dell'avanzamento dei lavori attraverso le gerarchie dei pacchetti di lavoro.</li> <li>Gestione degli attributi del progetto in modo strutturato nella pagina di panoramica del progetto.</li> <li>Visualizzazione semplificata dei campi personalizzati nell'elenco dei progetti e nella panoramica dei progetti.</li> <li>Intestazioni di pagina unificate con l'elegante design di Primer.</li> <li>Miglioramento delle riunioni con nuove funzioni come il caricamento di allegati, la responsabilità e la cronologia delle riunioni.</li> <li>Avvisi automatici per archivi di file non integri e ottenimento del controllo con le opzioni di attivazione/disattivazione. </li> <li>Copia automatica della cartella di progetto per OneDrive/SharePoint quando si copiano i progetti.</li> <li>Richiesta agli amministratori di rimuovere le condivisioni sulle macro-attività quando si revoca la partecipazione a un progetto.</li> <li>Migliora la pianificazione con modalità di visualizzazione a 4 e 8 settimane nel pianificatore del team.</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -444,7 +444,7 @@ it:
     label_less_than_ago: "meno di qualche giorno fa"
     label_loading: "Caricamento..."
     label_mail_notification: "Notifiche email"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Gestisci e riordina colonne"
     label_me: "io"
     label_meeting_agenda: "Ordine del giorno"
     label_meeting_minutes: "Verbali"
@@ -483,7 +483,7 @@ it:
     label_report: "Segnalano"
     label_repository_plural: "Archivi"
     label_save_as: "Salva come"
-    label_search_columns: "Search a column"
+    label_search_columns: "Cerca una colonna"
     label_select_project: "Seleziona un progetto"
     label_select_watcher: "Seleziona un osservatore..."
     label_selected_filter_list: "Filtri selezionati"
@@ -643,7 +643,7 @@ it:
           no_selection: "Clicca su una notifica per visualizzare tutti i dettagli dell'attività."
         new_notifications:
           message: "Ci sono nuove notifiche."
-          link_text: "Clicca qui per caricarli"
+          link_text: "Clicca qui per caricarli."
       menu:
         accountable: "Responsabile"
         by_project: "Non letto dal progetto"
@@ -925,6 +925,8 @@ it:
       message_work_package_read_only: "Il pacchetto di lavoro è bloccato in questo stato. Nessun attributo eccetto lo stato può essere alterato."
       message_work_package_status_blocked: "Lo stato della macro-attività non è scrivibile a causa dello stato chiuso e della versione chiusa assegnata."
       placeholder_filter_by_text: "Oggetto, descrizione, commenti, ..."
+      progress:
+        title: "Stime e progressi del lavoro"
       baseline:
         addition_label: "Aggiunto per la visualizzazione entro il periodo di confronto"
         removal_label: "Rimosso dalla vista entro il periodo di confronto"
@@ -1001,7 +1003,7 @@ it:
         all_open: "Apri tutto"
         summary: "Sommario"
         shared_with_users: "Condiviso con gli utenti"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Condivisi con me"
       jump_marks:
         pagination: "Salta alla impaginazione tabella"
         label_pagination: "Clicca qui per saltare la tabella macro-attività e passare alla impaginazione"
@@ -1250,7 +1252,8 @@ it:
       role:
         label: "Ruolo in %{project}"
         no_roles_found: "Nessun ruolo è stato trovato"
-        description: 'Questo è il ruolo che l''utente riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Scopri di più sui ruoli e sulle autorizzazioni. </a>'
+        description: >-
+          Questo è il ruolo che l'utente riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Scopri di più sui ruoli e sulle autorizzazioni. </a>
         required: "Sei pregato di selezionare un ruolo"
         next_button: "Prossimo"
       message:
@@ -1324,3 +1327,7 @@ it:
       drop_modal:
         focus_grab: "Questo è un punto focale per i modali. Premere MAIUSC+TAB per tornare all'elemento scatenante modale."
         Close: "Chiuso"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "C'è un problema di rete."
+        network_on: "La rete è tornata. Stiamo provando."

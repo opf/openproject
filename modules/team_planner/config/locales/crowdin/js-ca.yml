@@ -12,6 +12,8 @@ ca:
       remove_assignee: 'Elimina assignats'
       two_weeks: '2 setmanes'
       one_week: '1 setmana'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
       work_week: 'Setmana laboral'
       today: 'Avui'
       drag_here_to_remove: 'Arrossega aquí per eliminar l''usuari assignat i les dates d''inici i final.'

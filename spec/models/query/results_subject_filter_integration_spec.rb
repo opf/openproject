@@ -26,38 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Query::Results, 'Subject filter integration' do
+RSpec.describe Query::Results, "Subject filter integration" do
   let(:query_results) do
     described_class.new query
   end
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-           firstname: 'user',
-           lastname: '1',
+           firstname: "user",
+           lastname: "1",
            member_with_permissions: { project => [:view_work_packages] })
   end
 
   let!(:contains_wp) do
     create(:work_package,
-           subject: 'The quick brown fox jumped',
+           subject: "The quick brown fox jumped",
            project:)
   end
   let!(:contains_reversed_wp) do
     create(:work_package,
-           subject: 'The quick brown fox jumped',
+           subject: "The quick brown fox jumped",
            project:)
   end
   let!(:partially_contains_wp) do
     create(:work_package,
-           subject: 'The quick brown goose jumped',
+           subject: "The quick brown goose jumped",
            project:)
   end
   let!(:not_contains_wp) do
     create(:work_package,
-           subject: 'Something completely different',
+           subject: "Something completely different",
            project:)
   end
 
@@ -71,26 +71,26 @@ RSpec.describe Query::Results, 'Subject filter integration' do
   end
 
   before do
-    query.add_filter('subject', operator, values)
+    query.add_filter("subject", operator, values)
 
     login_as(user)
   end
 
-  describe 'searching for contains' do
-    let(:operator) { '~' }
-    let(:values) { ['quick fox'] }
+  describe "searching for contains" do
+    let(:operator) { "~" }
+    let(:values) { ["quick fox"] }
 
-    it 'returns the work packages containing the string regardless of order' do
+    it "returns the work packages containing the string regardless of order" do
       expect(query_results.work_packages)
         .to contain_exactly(contains_wp, contains_reversed_wp)
     end
   end
 
-  describe 'searching for not contains' do
-    let(:operator) { '!~' }
-    let(:values) { ['quick fox'] }
+  describe "searching for not contains" do
+    let(:operator) { "!~" }
+    let(:values) { ["quick fox"] }
 
-    it 'returns the work packages not containing the string regardless of order' do
+    it "returns the work packages not containing the string regardless of order" do
       expect(query_results.work_packages)
         .to contain_exactly(not_contains_wp, partially_contains_wp)
     end

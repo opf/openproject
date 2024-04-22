@@ -26,25 +26,25 @@ ru:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Задачи"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Объединение запросов"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Создать MR
+          description: Создайте запрос на слияние
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git-сниппеты
+          description: Копировать сниппеты git в буфер обмена
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Название ветки
+          commit_message: Сообщение коммита
+          cmd: Создать ветку с пустым коммитом
+          title: Быстрые сниппеты для Git
+          copy_success: '✅ Скопировано!'
+          copy_error: '❌ Копирование не удалось!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Пока нет ни одного связанного вопроса. Свяжите существующий вопрос, используя код <code>OP#%{wp_id}</code> (или <code>PP#%{wp_id}</code> для частных ссылок) в названии/описании вопроса, или создайте новый вопрос.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
-      gitlab_pipelines: Pipelines
-      updated_on: Updated on
+        empty: 'Запросы на слияние пока не связаны. Свяжите существующий MR, используя код <code>OP#%{wp_id}</code> (или <code>PP#%{wp_id}</code> для частных ссылок) в названии/описании MR, или создайте новый MR.'
+      gitlab_pipelines: Пайплайны
+      updated_on: Обновлено на

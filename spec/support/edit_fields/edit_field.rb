@@ -4,9 +4,9 @@ class EditField
   include RSpec::Matchers
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
-  attr_reader :selector,
+  attr_reader :context,
               :property_name,
-              :context
+              :selector
 
   attr_accessor :field_type
 
@@ -44,7 +44,7 @@ class EditField
   end
 
   def display_selector
-    '.inline-edit--display-field'
+    ".inline-edit--display-field"
   end
 
   def display_element
@@ -61,7 +61,7 @@ class EditField
 
   def clear(with_backspace: false)
     if with_backspace
-      input_element.set(' ', fill_options: { clear: :backspace })
+      input_element.set(" ", fill_options: { clear: :backspace })
     else
       input_element.native.clear
     end
@@ -88,6 +88,7 @@ class EditField
 
   ##
   # Activate the field and check it opened correctly
+  # @return [EditField] self
   def activate!(expect_open: true)
     retry_block(args: { tries: 2 }) do
       unless active?
@@ -99,6 +100,8 @@ class EditField
       if expect_open && !active?
         raise "Expected field for attribute '#{property_name}' to be active."
       end
+
+      self
     end
   end
 
@@ -161,7 +164,7 @@ class EditField
   end
 
   def submit_by_dashboard
-    field_container.find('.inplace-edit--control--save').click
+    field_container.find(".inplace-edit--control--save").click
     wait_for_reload if using_cuprite?
   end
 
@@ -184,17 +187,17 @@ class EditField
   end
 
   def autocomplete(query, select: true, select_text: query)
-    raise ArgumentError.new('Is not an autocompleter field') unless autocompleter_field?
+    raise ArgumentError.new("Is not an autocompleter field") unless autocompleter_field?
 
     if select
-      select_autocomplete field_container, query:, select_text:, results_selector: 'body'
+      select_autocomplete field_container, query:, select_text:, results_selector: "body"
     else
-      search_autocomplete field_container, query:, results_selector: 'body'
+      search_autocomplete field_container, query:, results_selector: "body"
     end
   end
 
   def autocompleter_field?
-    field_type.end_with?('-autocompleter')
+    field_type.end_with?("-autocompleter")
   end
 
   ##
@@ -206,12 +209,12 @@ class EditField
 
     if autocompleter_field?
       if multi
-        page.find('.ng-value-label', visible: :all, text: content).sibling('.ng-value-icon').click
+        page.find(".ng-value-label", visible: :all, text: content).sibling(".ng-value-icon").click
       else
         ng_select_clear(field_container)
       end
     else
-      input_element.set('')
+      input_element.set("")
     end
   end
 
@@ -219,9 +222,9 @@ class EditField
   # Use option of ng-select field to create new element from within the autocompleter
   def set_new_value(content)
     scroll_to_element(input_element)
-    input_element.find('input').set content
+    input_element.find("input").set content
 
-    page.find('.ng-option', text: "Create: #{content}").click
+    page.find(".ng-option", text: "Create: #{content}").click
   end
 
   def type(text)
@@ -270,31 +273,31 @@ class EditField
   end
 
   def input_selector
-    if property_name == 'description'
-      '.op-ckeditor--wrapper'
+    if property_name == "description"
+      ".op-ckeditor--wrapper"
     else
-      '.inline-edit--field'
+      ".inline-edit--field"
     end
   end
 
   def autocomplete_selector
-    field_container.find('.ng-input input')
+    field_container.find(".ng-input input")
   end
 
   def derive_field_type
     case property_name.to_sym
     when :version
-      'version-autocompleter'
+      "version-autocompleter"
     when :assignee, :responsible, :user
-      'op-user-autocompleter'
+      "op-user-autocompleter"
     when :priority, :status, :type, :category, :workPackage, :parent
-      'create-autocompleter'
+      "create-autocompleter"
     when :project
-      'op-project-autocompleter'
+      "op-project-autocompleter"
     when :activity
-      'activity-autocompleter'
+      "activity-autocompleter"
     else
-      'input'
+      "input"
     end
   end
 end

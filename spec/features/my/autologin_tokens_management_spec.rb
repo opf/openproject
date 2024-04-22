@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'My account autologin tokens management', :js, :with_cuprite do
+RSpec.describe "My account autologin tokens management", :js, :with_cuprite do
   include Redmine::I18n
   shared_let(:user) { create(:user) }
   shared_let(:old_token) { create(:autologin_token, user:, created_at: 1.year.ago) }
   shared_let(:new_token) do
     create(:autologin_token,
            user:,
-           data: { browser: 'Mozilla Firefox', browser_version: '12.3', platform: 'Linux' })
+           data: { browser: "Mozilla Firefox", browser_version: "12.3", platform: "Linux" })
   end
 
   before do
@@ -43,38 +43,38 @@ RSpec.describe 'My account autologin tokens management', :js, :with_cuprite do
     visit my_sessions_path
   end
 
-  context 'with autologin disabled', with_settings: { autologin: 0 } do
-    it 'does not show tokens' do
+  context "with autologin disabled", with_settings: { autologin: 0 } do
+    it "does not show tokens" do
       expect(page).to have_no_text "Remembered devices"
-      expect(page).not_to have_test_selector('Users::AutoLoginTokens::TableComponent')
+      expect(page).not_to have_test_selector("Users::AutoLoginTokens::TableComponent")
     end
   end
 
-  context 'with autologin enabled', with_settings: { autologin: 1 } do
-    it 'can list and terminate sessions' do
-      page.within_test_selector('Users::AutoLoginTokens::TableComponent') do
-        expect(page).to have_css('.generic-table tbody tr', count: 2)
-        trs = page.all('.generic-table tbody tr')
-        expect(trs[0]).to have_text('unknown browser')
-        expect(trs[0]).to have_text('unknown operating system')
-        expect(trs[0]).to have_css('.buttons a')
-        expect(trs[0]).to have_no_css('.icon-yes')
+  context "with autologin enabled", with_settings: { autologin: 1 } do
+    it "can list and terminate sessions" do
+      page.within_test_selector("Users::AutoLoginTokens::TableComponent") do
+        expect(page).to have_css(".generic-table tbody tr", count: 2)
+        trs = page.all(".generic-table tbody tr")
+        expect(trs[0]).to have_text("unknown browser")
+        expect(trs[0]).to have_text("unknown operating system")
+        expect(trs[0]).to have_css(".buttons a")
+        expect(trs[0]).to have_no_css(".icon-yes")
         expect(trs[0]).to have_text format_date(1.year.ago + 1.day)
 
-        expect(trs[1]).to have_text('Mozilla Firefox (Version 12.3)')
-        expect(trs[1]).to have_text('Linux')
-        expect(trs[1]).to have_no_css('.icon-yes')
-        expect(trs[1]).to have_css('.buttons a')
+        expect(trs[1]).to have_text("Mozilla Firefox (Version 12.3)")
+        expect(trs[1]).to have_text("Linux")
+        expect(trs[1]).to have_no_css(".icon-yes")
+        expect(trs[1]).to have_css(".buttons a")
         expect(trs[1]).to have_text format_date(1.day.from_now)
 
         accept_confirm do
-          trs[1].find('.buttons a').click
+          trs[1].find(".buttons a").click
         end
       end
 
-      expect(page).to have_text 'Successful deletion'
-      page.within_test_selector('Users::AutoLoginTokens::TableComponent') do
-        expect(page).to have_css('.generic-table tbody tr', count: 1)
+      expect(page).to have_text "Successful deletion"
+      page.within_test_selector("Users::AutoLoginTokens::TableComponent") do
+        expect(page).to have_css(".generic-table tbody tr", count: 1)
       end
 
       expect { new_token.reload }.to raise_error(ActiveRecord::RecordNotFound)

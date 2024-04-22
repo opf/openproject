@@ -106,14 +106,14 @@ module API
                                 .new(represented,
                                      path: :time_entries_activity,
                                      property_name: :time_entries_activity,
-                                     namespace: 'time_entries/activities',
+                                     namespace: "time_entries/activities",
                                      getter: :activity_id,
-                                     setter: :'activity_id=')
+                                     setter: :"activity_id=")
                                 .from_hash(fragment)
                             }
 
         def _type
-          'TimeEntry'
+          "TimeEntry"
         end
 
         def update_allowed?
@@ -125,7 +125,7 @@ module API
 
         def hours=(value)
           represented.hours = datetime_formatter.parse_duration_to_hours(value,
-                                                                         'hours',
+                                                                         "hours",
                                                                          allow_nil: true)
         end
 

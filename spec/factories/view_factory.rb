@@ -28,21 +28,21 @@
 
 FactoryBot.define do
   factory :view do
-    type { 'work_packages_table' }
+    type { "work_packages_table" }
     query
   end
 
   factory :view_work_packages_table, parent: :view
 
   factory :view_work_packages_calendar, parent: :view do
-    type { 'work_packages_calendar' }
+    type { "work_packages_calendar" }
   end
 
   factory :view_gantt, parent: :view do
-    type { 'gantt' }
+    type { "gantt" }
   end
 
   factory :view_bim, parent: :view do
-    type { 'bim' }
+    type { "bim" }
   end
 end

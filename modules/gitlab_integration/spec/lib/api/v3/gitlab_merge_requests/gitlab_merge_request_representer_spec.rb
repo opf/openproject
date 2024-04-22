@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe API::V3::GitlabMergeRequests::GitlabMergeRequestRepresenter do
@@ -36,7 +36,7 @@ RSpec.describe API::V3::GitlabMergeRequests::GitlabMergeRequestRepresenter do
 
   let(:gitlab_merge_request) do
     build_stubbed(:gitlab_merge_request,
-                  state: 'opened',
+                  state: "opened",
                   labels:,
                   gitlab_user:,
                   merged_by:).tap do |pr|
@@ -48,8 +48,8 @@ RSpec.describe API::V3::GitlabMergeRequests::GitlabMergeRequestRepresenter do
   let(:labels) do
     [
       {
-        'name' => 'grey',
-        'color' => '#666'
+        "name" => "grey",
+        "color" => "#666"
       }
     ]
   end
@@ -61,98 +61,98 @@ RSpec.describe API::V3::GitlabMergeRequests::GitlabMergeRequestRepresenter do
 
   let(:user) { build_stubbed(:admin) }
 
-  it { is_expected.to include_json('GitlabMergeRequest'.to_json).at_path('_type') }
+  it { is_expected.to include_json("GitlabMergeRequest".to_json).at_path("_type") }
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'GitlabMergeRequest' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "GitlabMergeRequest" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { gitlab_merge_request.id }
     end
 
-    it_behaves_like 'property', :number do
+    it_behaves_like "property", :number do
       let(:value) { gitlab_merge_request.number }
     end
 
-    it_behaves_like 'property', :htmlUrl do
+    it_behaves_like "property", :htmlUrl do
       let(:value) { gitlab_merge_request.gitlab_html_url }
     end
 
-    it_behaves_like 'property', :state do
+    it_behaves_like "property", :state do
       let(:value) { gitlab_merge_request.state }
     end
 
-    it_behaves_like 'property', :repository do
+    it_behaves_like "property", :repository do
       let(:value) { gitlab_merge_request.repository }
     end
 
-    it_behaves_like 'property', :title do
+    it_behaves_like "property", :title do
       let(:value) { gitlab_merge_request.title }
     end
 
-    it_behaves_like 'formattable property', :body do
+    it_behaves_like "formattable property", :body do
       let(:value) { gitlab_merge_request.body }
     end
 
-    it_behaves_like 'property', :draft do
+    it_behaves_like "property", :draft do
       let(:value) { gitlab_merge_request.draft }
     end
 
-    it_behaves_like 'property', :merged do
+    it_behaves_like "property", :merged do
       let(:value) { gitlab_merge_request.merged }
     end
 
-    it_behaves_like 'property', :labels do
+    it_behaves_like "property", :labels do
       let(:value) { gitlab_merge_request.labels }
     end
 
-    it_behaves_like 'has UTC ISO 8601 date and time' do
+    it_behaves_like "has UTC ISO 8601 date and time" do
       let(:date) { gitlab_merge_request.gitlab_updated_at }
-      let(:json_path) { 'gitlabUpdatedAt' }
+      let(:json_path) { "gitlabUpdatedAt" }
     end
 
-    it_behaves_like 'has UTC ISO 8601 date and time' do
+    it_behaves_like "has UTC ISO 8601 date and time" do
       let(:date) { gitlab_merge_request.created_at }
-      let(:json_path) { 'createdAt' }
+      let(:json_path) { "createdAt" }
     end
 
-    it_behaves_like 'has UTC ISO 8601 date and time' do
+    it_behaves_like "has UTC ISO 8601 date and time" do
       let(:date) { gitlab_merge_request.updated_at }
-      let(:json_path) { 'updatedAt' }
+      let(:json_path) { "updatedAt" }
     end
   end
 
-  describe '_links' do
-    it { is_expected.to have_json_type(Object).at_path('_links') }
+  describe "_links" do
+    it { is_expected.to have_json_type(Object).at_path("_links") }
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'gitlabUser' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "gitlabUser" }
       let(:href) { api_v3_paths.gitlab_user(gitlab_user.id) }
       let(:title) { gitlab_user.gitlab_name }
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'mergedBy' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "mergedBy" }
       let(:href) { api_v3_paths.gitlab_user(merged_by.id) }
       let(:title) { merged_by.gitlab_name }
     end
 
-    it_behaves_like 'has a link collection' do
-      let(:link) { 'pipelines' }
+    it_behaves_like "has a link collection" do
+      let(:link) { "pipelines" }
       let(:hrefs) do
         [
           {
-            'href' => api_v3_paths.gitlab_pipeline(pipeline.id),
-            'title' => pipeline.name
+            "href" => api_v3_paths.gitlab_pipeline(pipeline.id),
+            "title" => pipeline.name
           }
         ]
       end
     end
   end
 
-  describe 'caching' do
+  describe "caching" do
     before do
       allow(OpenProject::Cache).to receive(:fetch).and_call_original
     end
@@ -165,36 +165,36 @@ RSpec.describe API::V3::GitlabMergeRequests::GitlabMergeRequestRepresenter do
         .with(representer.json_cache_key)
     end
 
-    describe '#json_cache_key' do
+    describe "#json_cache_key" do
       let!(:former_cache_key) { representer.json_cache_key }
 
-      it 'includes the name of the representer class' do
+      it "includes the name of the representer class" do
         expect(representer.json_cache_key)
-          .to include('API', 'V3', 'GitlabMergeRequests', 'GitlabMergeRequestRepresenter')
+          .to include("API", "V3", "GitlabMergeRequests", "GitlabMergeRequestRepresenter")
       end
 
-      it 'changes when the locale changes' do
+      it "changes when the locale changes" do
         I18n.with_locale(:fr) do
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
         end
       end
 
-      it 'changes when the gitlab_merge_request is updated' do
+      it "changes when the gitlab_merge_request is updated" do
         gitlab_merge_request.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key
       end
 
-      it 'changes when the gitlab_user is updated' do
+      it "changes when the gitlab_user is updated" do
         gitlab_merge_request.gitlab_user.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key
       end
 
-      it 'changes when the merged_by user is updated' do
+      it "changes when the merged_by user is updated" do
         gitlab_merge_request.merged_by.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)

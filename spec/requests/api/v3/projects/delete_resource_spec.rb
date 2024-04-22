@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Project resource delete', content_type: :json do
+RSpec.describe "API v3 Project resource delete", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -57,25 +57,25 @@ RSpec.describe 'API v3 Project resource delete', content_type: :json do
 
   subject { last_response }
 
-  context 'with required permissions (admin)' do
-    it 'responds with HTTP No Content' do
+  context "with required permissions (admin)" do
+    it "responds with HTTP No Content" do
       expect(subject.status).to eq 204
     end
 
-    it 'deletes the project' do
+    it "deletes the project" do
       expect(Project).not_to exist(project.id)
     end
 
-    context 'for a project with work packages' do
+    context "for a project with work packages" do
       let(:work_package) { create(:work_package, project:) }
       let(:setup) { work_package }
 
-      it 'deletes the work packages' do
+      it "deletes the work packages" do
         expect(WorkPackage).not_to exist(work_package.id)
       end
     end
 
-    context 'for a project with members' do
+    context "for a project with members" do
       let(:member) do
         create(:member,
                project:,
@@ -88,16 +88,16 @@ RSpec.describe 'API v3 Project resource delete', content_type: :json do
         member_role
       end
 
-      it 'deletes the member' do
+      it "deletes the member" do
         expect(Member).not_to exist(member.id)
       end
 
-      it 'deletes the MemberRole' do
+      it "deletes the MemberRole" do
         expect(MemberRole).not_to exist(member_role.id)
       end
     end
 
-    context 'for a project with a forum' do
+    context "for a project with a forum" do
       let(:forum) do
         create(:forum,
                project:)
@@ -106,39 +106,39 @@ RSpec.describe 'API v3 Project resource delete', content_type: :json do
         forum
       end
 
-      it 'deletes the forum' do
+      it "deletes the forum" do
         expect(Forum).not_to exist(forum.id)
       end
     end
 
-    context 'for a non-existent project' do
+    context "for a non-existent project" do
       let(:path) { api_v3_paths.project 0 }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'for a project which has a version foreign work packages refer to' do
+    context "for a project which has a version foreign work packages refer to" do
       let(:version) { create(:version, project:) }
       let(:work_package) { create(:work_package, version:) }
 
       let(:setup) { work_package }
 
-      it 'responds with 422' do
+      it "responds with 422" do
         expect(subject.status).to eq 422
       end
 
-      it 'explains the error' do
+      it "explains the error" do
         expect(subject.body)
-          .to be_json_eql(I18n.t(:'activerecord.errors.models.project.foreign_wps_reference_version').to_json)
-                .at_path('message')
+          .to be_json_eql(I18n.t(:"activerecord.errors.models.project.foreign_wps_reference_version").to_json)
+                .at_path("message")
       end
     end
   end
 
-  context 'without required permissions' do
+  context "without required permissions" do
     current_user { member_user }
 
-    it 'responds with 403' do
+    it "responds with 403" do
       expect(subject.status).to eq 403
     end
   end

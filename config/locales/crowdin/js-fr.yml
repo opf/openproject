@@ -348,11 +348,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                Cette version contient plusieurs nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Implémentation des rapports de progression dans toutes les hiérarchies de lots de travaux.</li> <li>Gestion des attributs de projet de manière structurée sur la page d'aperçu du projet.</li> <li>Affichage simplifié des champs personnalisés dans la liste et l'aperçu du projet.</li> <li>En-têtes de page unifiés avec le design épuré de Primer.</li> <li>Amélioration des réunions avec de nouvelles fonctionnalités telles que les téléchargements de pièces jointes, les responsables et l'historique de réunion. </li> <li>Alertes automatiques pour les espaces de stockage de fichiers en mauvaise santé, et plus de contrôle avec des options d'activation/de désactivation de paramètres.</li> <li>Copie du dossier de projet géré automatiquement pour OneDrive/SharePoint lors de la copie de projets.</li> <li>Demande aux administrateurs de supprimer les partages des lots de travaux lors de la révocation de la participation à un projet.</li> <li>Amélioration de la planification avec des modes d'affichage sur 4 et 8 semaines dans le planificateur de l'équipe.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -365,7 +365,7 @@ fr:
       ical_generation_error_text: "Une erreur s'est produite lors de la génération de l'URL du calendrier."
       success_message: 'L''adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l''abonnement.'
     label_activate: "Activer"
-    label_assignee: "Responsable"
+    label_assignee: "Assigné"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
@@ -444,7 +444,7 @@ fr:
     label_less_than_ago: "il y a moins de quelques jours"
     label_loading: "Chargement…"
     label_mail_notification: "Notifications par courriel"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Gérer et réorganiser les colonnes"
     label_me: "moi"
     label_meeting_agenda: "Ordre du jour"
     label_meeting_minutes: "Compte-rendu"
@@ -483,7 +483,7 @@ fr:
     label_report: "Rapport"
     label_repository_plural: "Dépôts"
     label_save_as: "Enregistrer sous"
-    label_search_columns: "Search a column"
+    label_search_columns: "Rechercher une colonne"
     label_select_project: "Sélectionner un projet"
     label_select_watcher: "Sélectionner un observateur…"
     label_selected_filter_list: "Filtres sélectionnés"
@@ -643,7 +643,7 @@ fr:
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: "Il y a de nouvelles notifications."
-          link_text: "Cliquez ici pour les charger"
+          link_text: "Cliquez ici pour les télécharger."
       menu:
         accountable: "Responsable"
         by_project: "Non lu par projet"
@@ -652,7 +652,7 @@ fr:
         mentioned: "Mentionné"
         watched: "Observateur"
         date_alert: "Alarmes"
-        shared: "Partagé"
+        shared: "Partagés"
       settings:
         change_notification_settings: 'Vous pouvez modifier vos <a target="_blank" href="%{url}">paramètres de notification</a> pour vous assurer de ne jamais manquer une mise à jour importante.'
         title: "Paramètres de notifications"
@@ -925,6 +925,8 @@ fr:
       message_work_package_read_only: "Paquet de travail est verrouillé. Aucun attribut autre que l’État ne peut être modifié."
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
+      progress:
+        title: "Estimation des travaux et de la progression"
       baseline:
         addition_label: "Ajouté à la vue dans la période de temps de comparaison"
         removal_label: "Retiré de la vue pendant la période de temps de comparaison"
@@ -1000,8 +1002,8 @@ fr:
         recently_created: "Créé récemment"
         all_open: "Tous les ouverts"
         summary: "Résumé"
-        shared_with_users: "Partagée avec des utilisateurs"
-        shared_with_me: "Shared with me"
+        shared_with_users: "Partagés avec des utilisateurs"
+        shared_with_me: "Partagés avec moi"
       jump_marks:
         pagination: "Passer à la pagination du tableau"
         label_pagination: "Cliquez ici pour sauter le tableau des lots de travaux et accéder à la pagination"
@@ -1041,7 +1043,7 @@ fr:
       sharing:
         share: "Partager"
         title: "Partager le lot de travaux"
-        show_all_users: "Afficher tous les utilisateurs partagés"
+        show_all_users: "Afficher tous les utilisateurs avec qui ce lot de travaux est partagé"
         selected_count: "%{count} sélectionné"
         selection:
           mixed: "Mixte"
@@ -1250,7 +1252,8 @@ fr:
       role:
         label: "Rôle dans %{project}"
         no_roles_found: "Aucun rôle trouvé."
-        description: 'C''est le rôle que l''utilisateur recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>'
+        description: >-
+          C'est le rôle que l'utilisateur recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>
         required: "Veuillez sélectionner un rôle"
         next_button: "Suivante"
       message:
@@ -1275,7 +1278,7 @@ fr:
         all: "Tous les projets"
         selected: "Uniquement la sélection"
       search_placeholder: "Rechercher un projet..."
-      include_subprojects: "inclure tous les sous-projets"
+      include_subprojects: "Inclure tous les sous-projets"
       tooltip:
         include_all_selected: "Projet déjà inclus puisque Include tous les sous-projets sont activés."
         current_project: "Ceci est le projet dans lequel vous vous trouvez actuellement."
@@ -1324,3 +1327,7 @@ fr:
       drop_modal:
         focus_grab: "Il s'agit d'une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l'élément de déclenchement modal."
         Close: "Fermer"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "Un problème de réseau est survenu."
+        network_on: "Le réseau est à nouveau disponible. Nous essayons."

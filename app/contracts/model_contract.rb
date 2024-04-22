@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base_contract'
+require_relative "base_contract"
 
 ##
 # Model contract for AR records that

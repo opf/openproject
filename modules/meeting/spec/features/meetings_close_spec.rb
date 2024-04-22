@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Meetings close' do
+RSpec.describe "Meetings close" do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) do
     create(:user,
@@ -39,55 +39,55 @@ RSpec.describe 'Meetings close' do
            member_with_permissions: { project => permissions })
   end
 
-  let!(:meeting) { create(:meeting, project:, title: 'Own awesome meeting!', author: user) }
+  let!(:meeting) { create(:meeting, project:, title: "Own awesome meeting!", author: user) }
   let!(:meeting_agenda) { create(:meeting_agenda, meeting:, text: "asdf") }
 
   before do
     login_as(user)
   end
 
-  context 'with permission to close meetings', :js do
+  context "with permission to close meetings", :js do
     let(:permissions) { %i[view_meetings close_meeting_agendas] }
 
-    it 'can delete own and other`s meetings' do
+    it "can delete own and other`s meetings" do
       visit meetings_path(project)
 
-      click_link meeting.title
+      click_on meeting.title
 
       # Go to minutes, expect uneditable
-      find('.op-tab-row--link', text: 'MINUTES').click
+      find(".op-tab-row--link", text: "MINUTES").click
 
-      expect(page).to have_css('.button', text: 'Close the agenda to begin the Minutes')
+      expect(page).to have_css(".button", text: "Close the agenda to begin the Minutes")
 
       # Close the meeting
-      find('.op-tab-row--link', text: 'AGENDA').click
+      find(".op-tab-row--link", text: "AGENDA").click
       accept_confirm do
-        find('.button', text: 'Close').click
+        find(".button", text: "Close").click
       end
 
       # Expect to be on minutes
-      expect(page).to have_css('.op-tab-row--link_selected', text: 'MINUTES')
+      expect(page).to have_css(".op-tab-row--link_selected", text: "MINUTES")
 
       # Copies the text
-      expect(page).to have_css('#tab-content-minutes', text: 'asdf')
+      expect(page).to have_css("#tab-content-minutes", text: "asdf")
 
       # Go back to agenda, expect we can open it again
-      find('.op-tab-row--link', text: 'AGENDA').click
+      find(".op-tab-row--link", text: "AGENDA").click
       accept_confirm do
-        find('.button', text: 'Open').click
+        find(".button", text: "Open").click
       end
-      expect(page).to have_css('.button', text: 'Close')
+      expect(page).to have_css(".button", text: "Close")
     end
   end
 
-  context 'without permission to close meetings' do
+  context "without permission to close meetings" do
     let(:permissions) { %i[view_meetings] }
 
-    it 'cannot delete own and other`s meetings' do
+    it "cannot delete own and other`s meetings" do
       visit meetings_path(project)
 
       expect(page)
-        .to have_no_link 'Close'
+        .to have_no_link "Close"
     end
   end
 end

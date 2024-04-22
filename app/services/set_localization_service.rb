@@ -94,6 +94,6 @@ class SetLocalizationService
     return nil unless language
 
     language = language.to_s.downcase
-    find_language(language) || find_language(language.split('-').first)
+    find_language(language) || find_language(language.split("-").first)
   end
 end

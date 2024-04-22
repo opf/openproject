@@ -25,11 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + "/../spec_helper"
 
 RSpec.describe DocumentsMailer do
   let(:user) do
-    create(:user, firstname: 'Test', lastname: "User", mail: 'test@test.com')
+    create(:user, firstname: "Test", lastname: "User", mail: "test@test.com")
   end
   let(:project) { create(:project, name: "TestProject") }
   let(:document) do
@@ -37,9 +37,9 @@ RSpec.describe DocumentsMailer do
   end
   let(:mail) { DocumentsMailer.document_added(user, document) }
 
-  describe "document added-mail", with_settings: { host_name: 'my.openproject.com' } do
+  describe "document added-mail", with_settings: { host_name: "my.openproject.com" } do
     it "renders the subject" do
-      expect(mail.subject).to eql '[TestProject] New document: Test Title'
+      expect(mail.subject).to eql "[TestProject] New document: Test Title"
     end
 
     it "renders the receivers mail" do

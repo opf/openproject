@@ -35,9 +35,9 @@ See COPYRIGHT and LICENSE files for more details.
   </li>
   <% if current_user.allowed_globally?(:create_user) %>
     <li class="toolbar-item hidden-for-tablet">
-      <%= form_for(@user, html: { class: 'toolbar-item' },
-                 url: { action: :resend_invitation },
-                 method: :post) do |_form| %>
+      <%= form_for(@user,
+                   url: { action: :resend_invitation },
+                   method: :post) do |_form| %>
         <button class="button" title="<%= t(:tooltip_resend_invitation) %>">
           <%= op_icon('button--icon icon-mail1') %>
           <span class="button--text"><%= t(:label_send_invitation) %></span>
@@ -47,12 +47,13 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   <% if current_user.admin? %>
     <% unless current_user.id == @user.id %>
-      <%= form_for @user, html: { class: 'toolbar-item hidden-for-tablet' }, :url => { :action => :change_status },
-                   :method => :post do %>
-        <li>
-          <%= change_user_status_buttons(@user) %>
-        </li>
-      <% end %>
+      <li class="toolbar-item">
+        <%= form_for @user,
+                     :url => { :action => :change_status },
+                     :method => :post do %>
+            <%= change_user_status_buttons(@user) %>
+        <% end %>
+      </li>
     <% end %>
     <% if Setting.users_deletable_by_admins? %>
       <li class="toolbar-item">

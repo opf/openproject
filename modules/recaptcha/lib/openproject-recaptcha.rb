@@ -1,1 +1,1 @@
-require 'open_project/recaptcha'
+require "open_project/recaptcha"

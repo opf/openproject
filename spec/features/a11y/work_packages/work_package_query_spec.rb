@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'Work package index accessibility', :selenium do
+RSpec.describe "Work package index accessibility", :selenium do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
-  let(:sort_ascending_selector) { '.icon-sort-ascending' }
-  let(:sort_descending_selector) { '.icon-sort-descending' }
+  let(:sort_ascending_selector) { ".icon-sort-ascending" }
+  let(:sort_descending_selector) { ".icon-sort-descending" }
 
   def visit_index_page
     work_packages_page.visit_index
@@ -51,7 +51,7 @@ RSpec.describe 'Work package index accessibility', :selenium do
     work_packages_page.ensure_loaded
   end
 
-  describe 'Sort link', :js do
+  describe "Sort link", :js do
     before { visit_index_page }
 
     def click_sort_ascending_link
@@ -66,94 +66,94 @@ RSpec.describe 'Work package index accessibility', :selenium do
       element.click
     end
 
-    shared_examples_for 'sort column' do
+    shared_examples_for "sort column" do
       it do
         expect(page).to have_selector(column_header_selector)
       end
     end
 
-    shared_examples_for 'unsorted column' do
-      it_behaves_like 'sort column'
+    shared_examples_for "unsorted column" do
+      it_behaves_like "sort column"
     end
 
-    shared_examples_for 'ascending sorted column' do
-      it_behaves_like 'sort column'
+    shared_examples_for "ascending sorted column" do
+      it_behaves_like "sort column"
     end
 
-    shared_examples_for 'descending sorted column' do
-      it_behaves_like 'sort column'
+    shared_examples_for "descending sorted column" do
+      it_behaves_like "sort column"
     end
 
-    shared_examples_for 'sortable column' do
+    shared_examples_for "sortable column" do
       before { expect(page).to have_selector(column_header_selector) }
 
-      describe 'Initial sort' do
-        it_behaves_like 'unsorted column'
+      describe "Initial sort" do
+        it_behaves_like "unsorted column"
       end
 
-      describe 'descending' do
+      describe "descending" do
         before do
           find(column_header_link_selector).click
           click_sort_descending_link
           loading_indicator_saveguard
         end
 
-        it_behaves_like 'descending sorted column'
+        it_behaves_like "descending sorted column"
       end
 
-      describe 'ascending' do
+      describe "ascending" do
         before do
           find(column_header_link_selector).click
           click_sort_ascending_link
           loading_indicator_saveguard
         end
 
-        it_behaves_like 'ascending sorted column'
+        it_behaves_like "ascending sorted column"
       end
     end
 
-    describe 'id column' do
-      let(:link_caption) { 'ID' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(2)' }
-      let(:column_header_link_selector) { column_header_selector + ' a' }
+    describe "id column" do
+      let(:link_caption) { "ID" }
+      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(2)" }
+      let(:column_header_link_selector) { column_header_selector + " a" }
 
-      it_behaves_like 'sortable column'
+      it_behaves_like "sortable column"
     end
 
-    describe 'subject column' do
-      let(:link_caption) { 'Subject' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(3)' }
-      let(:column_header_link_selector) { column_header_selector + ' #subject' }
+    describe "subject column" do
+      let(:link_caption) { "Subject" }
+      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(3)" }
+      let(:column_header_link_selector) { column_header_selector + " #subject" }
 
-      it_behaves_like 'sortable column'
+      it_behaves_like "sortable column"
     end
 
-    describe 'type column' do
-      let(:link_caption) { 'Type' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(4)' }
-      let(:column_header_link_selector) { column_header_selector + ' a' }
+    describe "type column" do
+      let(:link_caption) { "Type" }
+      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(4)" }
+      let(:column_header_link_selector) { column_header_selector + " a" }
 
-      it_behaves_like 'sortable column'
+      it_behaves_like "sortable column"
     end
 
-    describe 'status column' do
-      let(:link_caption) { 'Status' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(5)' }
-      let(:column_header_link_selector) { column_header_selector + ' a' }
+    describe "status column" do
+      let(:link_caption) { "Status" }
+      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(5)" }
+      let(:column_header_link_selector) { column_header_selector + " a" }
 
-      it_behaves_like 'sortable column'
+      it_behaves_like "sortable column"
     end
 
-    describe 'assigned to column' do
-      let(:link_caption) { 'Assignee' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(6)' }
-      let(:column_header_link_selector) { column_header_selector + ' a' }
+    describe "assigned to column" do
+      let(:link_caption) { "Assignee" }
+      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(6)" }
+      let(:column_header_link_selector) { column_header_selector + " a" }
 
-      it_behaves_like 'sortable column'
+      it_behaves_like "sortable column"
     end
   end
 
-  describe 'hotkeys', :js do
+  describe "hotkeys", :js do
     let!(:another_work_package) do
       create(:work_package,
              project:)
@@ -163,7 +163,7 @@ RSpec.describe 'Work package index accessibility', :selenium do
       visit_index_page
     end
 
-    context 'focus' do
+    context "focus" do
       let(:first_row_selector) do
         ".wp-row-#{work_package.id}"
       end
@@ -171,29 +171,29 @@ RSpec.describe 'Work package index accessibility', :selenium do
         ".wp-row-#{another_work_package.id}"
       end
 
-      it 'navigates with J and K' do
+      it "navigates with J and K" do
         expect(page).to have_css(".wp-row-#{work_package.id}")
         expect(page).to have_css(".wp-row-#{another_work_package.id}")
 
-        find('body').native.send_keys('j')
+        find("body").native.send_keys("j")
         expect(page).to have_focus_on(first_row_selector)
 
         # Avoid sending keys on body since that resets focus
-        page.driver.browser.switch_to.active_element.send_keys('j')
+        page.driver.browser.switch_to.active_element.send_keys("j")
         expect(page).to have_focus_on(second_row_selector)
 
-        page.driver.browser.switch_to.active_element.send_keys('k')
+        page.driver.browser.switch_to.active_element.send_keys("k")
         expect(page).to have_focus_on(first_row_selector)
       end
     end
 
-    context 'help' do
-      it 'opens help popup with \'?\'' do
+    context "help" do
+      it "opens help popup with '?'" do
         expect_angular_frontend_initialized
 
-        new_window = window_opened_by { find('body').native.send_keys('?') }
+        new_window = window_opened_by { find("body").native.send_keys("?") }
         within_window new_window do
-          expect(page.current_url).to start_with 'https://www.openproject.org/docs'
+          expect(page.current_url).to start_with "https://www.openproject.org/docs"
         end
 
         new_window.close
@@ -201,13 +201,13 @@ RSpec.describe 'Work package index accessibility', :selenium do
     end
   end
 
-  describe 'context menus' do
+  describe "context menus" do
     before do
       visit_index_page
     end
 
-    shared_examples_for 'context menu' do
-      it 'resets the context menu focus properly' do
+    shared_examples_for "context menu" do
+      it "resets the context menu focus properly" do
         expect(page).to have_selector(source_link)
         element = find(source_link)
         element.hover
@@ -225,17 +225,17 @@ RSpec.describe 'Work package index accessibility', :selenium do
       end
     end
 
-    describe 'work package context menu', :js do
-      it_behaves_like 'context menu' do
-        let(:target_link) { '#work-package-context-menu a.detailsViewMenuItem' }
-        let(:source_link) { '.work-package-table--container tr.issue td.id a' }
+    describe "work package context menu", :js do
+      it_behaves_like "context menu" do
+        let(:target_link) { "#work-package-context-menu a.detailsViewMenuItem" }
+        let(:source_link) { ".work-package-table--container tr.issue td.id a" }
         let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { true }
       end
 
-      it_behaves_like 'context menu' do
-        let(:target_link) { '#work-package-context-menu a.openFullScreenView' }
-        let(:source_link) { '.work-package-table--container tr.issue td.id a' }
+      it_behaves_like "context menu" do
+        let(:target_link) { "#work-package-context-menu a.openFullScreenView" }
+        let(:source_link) { ".work-package-table--container tr.issue td.id a" }
         let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { false }
       end

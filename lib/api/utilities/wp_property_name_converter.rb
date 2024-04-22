@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/utilities/property_name_converter'
-require 'api/utilities/property_name_converter_work_package_dummy'
+require "api/utilities/property_name_converter"
+require "api/utilities/property_name_converter_work_package_dummy"
 
 module API
   module Utilities

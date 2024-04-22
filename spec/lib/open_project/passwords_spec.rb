@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'open_project/passwords'
+require "spec_helper"
+require "open_project/passwords"
 
 RSpec.describe OpenProject::Passwords::Generator do
-  describe '#random_password',
+  describe "#random_password",
            with_settings: {
              password_active_rules: %w(lowercase uppercase numeric special),
              password_min_adhered_rules: 3,
              password_min_length: 4
            } do
-    it 'creates a valid password' do
+    it "creates a valid password" do
       pwd = OpenProject::Passwords::Generator.random_password
       expect(OpenProject::Passwords::Evaluator.conforming?(pwd)).to be(true)
     end
@@ -49,13 +49,13 @@ RSpec.describe OpenProject::Passwords::Evaluator,
                  password_min_adhered_rules: 3,
                  password_min_length: 4
                } do
-  it 'evaluates passwords correctly' do
-    expect(OpenProject::Passwords::Evaluator.conforming?('abCD')).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?('ab12')).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?('12CD')).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?('12CD*')).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?('aB1')).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?('abCD12')).to be(true)
-    expect(OpenProject::Passwords::Evaluator.conforming?('aB123')).to be(true)
+  it "evaluates passwords correctly" do
+    expect(OpenProject::Passwords::Evaluator.conforming?("abCD")).to be(false)
+    expect(OpenProject::Passwords::Evaluator.conforming?("ab12")).to be(false)
+    expect(OpenProject::Passwords::Evaluator.conforming?("12CD")).to be(false)
+    expect(OpenProject::Passwords::Evaluator.conforming?("12CD*")).to be(false)
+    expect(OpenProject::Passwords::Evaluator.conforming?("aB1")).to be(false)
+    expect(OpenProject::Passwords::Evaluator.conforming?("abCD12")).to be(true)
+    expect(OpenProject::Passwords::Evaluator.conforming?("aB123")).to be(true)
   end
 end

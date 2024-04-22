@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package timeline hierarchies',
+RSpec.describe "Work package timeline hierarchies",
                :js,
                :selenium do
   let(:user) { create(:admin) }
@@ -45,7 +45,7 @@ RSpec.describe 'Work package timeline hierarchies',
   end
   let!(:query) do
     query              = build(:query_with_view_gantt, user:, project:)
-    query.column_names = ['subject']
+    query.column_names = ["subject"]
     query.filters.clear
     query.show_hierarchies = true
     query.timeline_visible = true
@@ -64,7 +64,7 @@ RSpec.describe 'Work package timeline hierarchies',
     login_as(user)
   end
 
-  it 'hides the row in both hierarchy and timeline' do
+  it "hides the row in both hierarchy and timeline" do
     wp_timeline.visit_query query
 
     # Expect root and leaf visible in table and timeline
@@ -84,10 +84,10 @@ RSpec.describe 'Work package timeline hierarchies',
     wp_timeline.expect_hidden_row(wp_leaf)
 
     # Should now have exactly two rows (one in each split view)
-    expect(page).to have_css('.wp--row', count: 2)
+    expect(page).to have_css(".wp--row", count: 2)
   end
 
-  context 'with a relation being rendered to a hidden row' do
+  context "with a relation being rendered to a hidden row" do
     let!(:wp_other) do
       create(:work_package,
              project:,
@@ -101,7 +101,7 @@ RSpec.describe 'Work package timeline hierarchies',
              relation_type: Relation::TYPE_FOLLOWS)
     end
 
-    it 'does not render the relation when hierarchy is collapsed' do
+    it "does not render the relation when hierarchy is collapsed" do
       wp_timeline.visit_query query
 
       # Expect root and leaf visible in table and timeline

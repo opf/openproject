@@ -45,7 +45,7 @@ module Admin
       delegate :filename, to: :attachment
 
       def attached_to
-        description = attachment.description.present? ? "(#{attachment.description})" : ''
+        description = attachment.description.present? ? "(#{attachment.description})" : ""
         text = "#{container_name} #{attachment.container_id} #{description}"
         case container
         when Message
@@ -83,9 +83,9 @@ module Admin
 
       def delete_link
         helpers.link_to(
-          helpers.op_icon('icon icon-delete'),
-          { controller: '/admin/attachments/quarantined_attachments', action: :destroy, id: model },
-          title: I18n.t('antivirus_scan.quarantined_attachments.delete'),
+          helpers.op_icon("icon icon-delete"),
+          { controller: "/admin/attachments/quarantined_attachments", action: :destroy, id: model },
+          title: I18n.t("antivirus_scan.quarantined_attachments.delete"),
           method: :delete,
           data: { confirm: I18n.t(:text_are_you_sure), disable_with: I18n.t(:label_loading) }
         )

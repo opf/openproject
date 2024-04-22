@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectorRef, Directive, ElementRef, EventEmitter, Inject, OnDestroy, OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, EventEmitter, Inject, OnDestroy, OnInit } from '@angular/core';
 
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -46,6 +44,9 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   public closingEvent = new EventEmitter<this>();
 
   public openingEvent = new EventEmitter<this>();
+
+  /** Whether we want to hide the show close button. Used to hide when rendering primer */
+  showCloseButton = true;
 
   /* Data to be return from this modal instance */
   public data:unknown;

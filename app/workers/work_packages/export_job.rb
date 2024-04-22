@@ -1,11 +1,11 @@
-require 'active_storage/filename'
+require "active_storage/filename"
 
 module WorkPackages
   class ExportJob < ::Exports::ExportJob
     self.model = WorkPackage
 
     def title
-      I18n.t('export.your_work_packages_export')
+      I18n.t("export.your_work_packages_export")
     end
 
     private
@@ -15,7 +15,7 @@ module WorkPackages
     end
 
     def set_query_props(query, query_attributes)
-      filters = query_attributes.delete('filters')
+      filters = query_attributes.delete("filters")
       filters = Queries::WorkPackages::FilterSerializer.load(filters)
 
       query.tap do |q|

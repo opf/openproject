@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Settings' do
+RSpec.describe "Settings" do
   let(:admin) { create(:admin) }
 
-  describe 'subsection' do
+  describe "subsection" do
     before do
       login_as(admin)
 
-      visit '/admin/settings/api'
+      visit "/admin/settings/api"
     end
 
     shared_examples "it can be visited" do

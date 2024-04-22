@@ -6,6 +6,6 @@ module API::Utilities::JsonGemParser
     ::Grape::Json.load(object, adapter: :json_gem)
   rescue ::Grape::Json::ParseError
     # handle JSON parsing errors via the rescue handlers or provide error message
-    raise Grape::Exceptions::InvalidMessageBody, 'application/json'
+    raise Grape::Exceptions::InvalidMessageBody, "application/json"
   end
 end

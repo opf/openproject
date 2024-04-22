@@ -27,5 +27,5 @@
 #++
 
 FactoryBot.define do
-  factory :journal_project_journal, class: 'Journal::ProjectJournal'
+  factory :journal_project_journal, class: "Journal::ProjectJournal"
 end

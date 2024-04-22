@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require_relative '../page'
+require_relative "../page"
 
 module Pages
   module Projects

@@ -42,7 +42,7 @@ module OpenProject::TextFormatting
         autolink_context = default_autolink_options.merge context.fetch(:autolink, {})
         return doc if autolink_context[:enabled] == false
 
-        ::Rinku.auto_link(html, :all, "class=\"#{autolink_context[:classes]}\"")
+        ::Rinku.auto_link(html, :all, "class=\"#{autolink_context[:classes]}\" rel=\"noopener noreferrer\"", nil, Rinku::AUTOLINK_SHORT_DOMAINS)
       end
 
       def default_autolink_options
@@ -50,7 +50,7 @@ module OpenProject::TextFormatting
           enabled: true,
           # Having to specify the link class again here is unfortunate. But as rinku seems to run latest,
           # it cannot receive the link class like all the rest of the links.
-          classes: 'op-uc-link'
+          classes: "op-uc-link"
         }
       end
     end

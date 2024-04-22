@@ -19,7 +19,7 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-pt:
+pt-PT:
   plugin_openproject_reporting:
     name: "Relatórios do OpenProject"
     description: "Este plugin permite criar relatórios de custos personalizados com filtragem e agrupamento criados pelo plugin OpenProject Time e custos."
@@ -47,7 +47,7 @@ pt:
   label_is_project_with_subprojects: "é (inclui subprojetos)"
   label_work_package_attributes: "Atributos do pacote de trabalho"
   label_less: "<"
-  label_logged_by_reporting: "Registado como"
+  label_logged_by_reporting: "Registado por"
   label_money: "Valor em dinheiro"
   label_month_reporting: "Mês (gasto)"
   label_new_report: "Novo relatório de custos"

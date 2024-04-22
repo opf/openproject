@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::Acts::Watchable::Routes do
   let(:request) do
@@ -37,38 +37,38 @@ RSpec.describe OpenProject::Acts::Watchable::Routes do
     end.new(type, id)
   end
 
-  describe 'matches?' do
-    shared_examples_for 'watched model' do
-      describe 'for a valid id string' do
-        let(:id) { '1' }
+  describe "matches?" do
+    shared_examples_for "watched model" do
+      describe "for a valid id string" do
+        let(:id) { "1" }
 
-        it 'is true' do
+        it "is true" do
           expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_truthy
         end
       end
 
-      describe 'for an invalid id string' do
-        let(:id) { 'schmu' }
+      describe "for an invalid id string" do
+        let(:id) { "schmu" }
 
-        it 'is false' do
+        it "is false" do
           expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
         end
       end
     end
 
-    ['work_packages', 'news', 'forums', 'messages', 'wikis', 'wiki_pages'].each do |type|
+    ["work_packages", "news", "forums", "messages", "wikis", "wiki_pages"].each do |type|
       describe "routing #{type} watches" do
         let(:type) { type }
 
-        it_behaves_like 'watched model'
+        it_behaves_like "watched model"
       end
     end
 
-    describe 'for a non watched model' do
-      let(:type) { 'schmu' }
-      let(:id) { '4' }
+    describe "for a non watched model" do
+      let(:type) { "schmu" }
+      let(:id) { "4" }
 
-      it 'is false' do
+      it "is false" do
         expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_falsey
       end
     end

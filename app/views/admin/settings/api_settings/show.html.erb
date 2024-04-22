@@ -39,6 +39,14 @@ See COPYRIGHT and LICENSE files for more details.
         <p><%= t(:setting_apiv3_max_page_instructions_html) %></p>
       </div>
     </div>
+    <div class="form--field">
+      <%= setting_check_box :apiv3_write_readonly_attributes, container_class: '-slim' %>
+      <div class="form--field-instructions">
+        <p><%= t(:setting_apiv3_write_readonly_attributes_instructions_html,
+                 api_documentation_link: static_link_to(:api_docs)
+               ) %></p>
+      </div>
+    </div>
   </section>
   <section class="form--section">
     <fieldset class="form--fieldset">

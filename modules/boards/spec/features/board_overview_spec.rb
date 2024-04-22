@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'support/board_overview_page'
+require "spec_helper"
+require_relative "support/board_overview_page"
 
-RSpec.describe 'Work Package Boards Overview',
+RSpec.describe "Work Package Boards Overview",
                :with_cuprite,
                with_ee: %i[board_view] do
   # The identifier is important to test https://community.openproject.com/wp/29754
   shared_let(:project) do
     create(:project,
-           name: 'Project 2',
-           identifier: 'boards',
+           name: "Project 2",
+           identifier: "boards",
            enabled_module_names: %i[work_package_tracking board_view])
   end
   shared_let(:other_project) do
     create(:project,
-           name: 'Project 1',
+           name: "Project 1",
            enabled_module_names: %i[work_package_tracking board_view])
   end
 
@@ -91,77 +91,77 @@ RSpec.describe 'Work Package Boards Overview',
     board_overview.visit!
   end
 
-  it 'renders the global menu with its item selected' do
+  it "renders the global menu with its item selected" do
     board_overview.expect_global_menu_item_selected
   end
 
-  describe 'create button' do
-    context 'as a user with board management permissions' do
+  describe "create button" do
+    context "as a user with board management permissions" do
       let(:current_user) { user_with_full_permissions }
 
-      it 'is shown' do
+      it "is shown" do
         board_overview.expect_create_button
       end
     end
 
-    context 'as a user with view only permissions' do
+    context "as a user with view only permissions" do
       let(:current_user) { user_with_limited_permissions }
 
-      it 'is shown' do
+      it "is shown" do
         board_overview.expect_no_create_button
       end
     end
   end
 
-  context 'when no boards exist' do
-    it 'displays the empty message' do
+  context "when no boards exist" do
+    it "displays the empty message" do
       board_overview.expect_no_boards_listed
     end
   end
 
-  context 'when boards exist' do
+  context "when boards exist" do
     shared_let(:board_view) do
       create(:board_grid_with_query,
-             name: 'My board',
+             name: "My board",
              project:)
     end
     shared_let(:other_board_view) do
       create(:board_grid_with_query,
-             name: 'My other board',
+             name: "My other board",
              project:)
     end
     shared_let(:other_project_board_view) do
       create(:board_grid_with_query,
-             name: 'Other Project Board',
+             name: "Other Project Board",
              project: other_project)
     end
 
-    context 'as an admin' do
+    context "as an admin" do
       let(:current_user) { admin }
 
-      it 'lists all boards' do
+      it "lists all boards" do
         board_overview.expect_boards_listed(board_view,
                                             other_board_view,
                                             other_project_board_view)
       end
     end
 
-    context 'as a project member' do
+    context "as a project member" do
       let(:current_user) { user_with_full_permissions }
 
-      it 'lists the boards' do
+      it "lists the boards" do
         board_overview.expect_boards_listed(board_view, other_board_view)
         board_overview.expect_boards_not_listed(other_project_board_view)
       end
     end
 
-    it 'does not render delete links' do
+    it "does not render delete links" do
       board_overview.expect_no_delete_buttons(board_view,
                                               other_board_view,
                                               other_project_board_view)
     end
 
-    describe 'sorting' do
+    describe "sorting" do
       it 'allows sorting by "Name", "Project" and "Created on"' do
         # Initial sort is Name ASC
         # We can assert this behavior by expected the order to be
@@ -169,19 +169,19 @@ RSpec.describe 'Work Package Boards Overview',
         # 2. other_board_view
         # 3. other_project_board_view
         # upon page load
-        aggregate_failures 'Sorting by Name' do
+        aggregate_failures "Sorting by Name" do
           board_overview.expect_boards_listed_in_order(board_view,
                                                        other_board_view,
                                                        other_project_board_view)
 
-          board_overview.click_to_sort_by('Name')
+          board_overview.click_to_sort_by("Name")
           board_overview.expect_boards_listed_in_order(other_project_board_view,
                                                        other_board_view,
                                                        board_view)
         end
 
-        aggregate_failures 'Sorting by Project' do
-          board_overview.click_to_sort_by('Project')
+        aggregate_failures "Sorting by Project" do
+          board_overview.click_to_sort_by("Project")
           # Sorting is performed on multiple columns at a time, taking into account
           # previous sorting criteria and using the latest clicked column as
           # the first column in the +ORDER BY+ clause and previously sorted by columns after.
@@ -195,19 +195,19 @@ RSpec.describe 'Work Package Boards Overview',
           board_overview.expect_boards_listed_in_order(other_project_board_view,
                                                        other_board_view,
                                                        board_view)
-          board_overview.click_to_sort_by('Project')
+          board_overview.click_to_sort_by("Project")
           board_overview.expect_boards_listed_in_order(other_board_view,
                                                        board_view,
                                                        other_project_board_view)
         end
 
-        aggregate_failures 'Sorting by Created on' do
-          board_overview.click_to_sort_by('Created on')
+        aggregate_failures "Sorting by Created on" do
+          board_overview.click_to_sort_by("Created on")
           board_overview.expect_boards_listed_in_order(board_view,
                                                        other_board_view,
                                                        other_project_board_view)
 
-          board_overview.click_to_sort_by('Created on')
+          board_overview.click_to_sort_by("Created on")
           board_overview.expect_boards_listed_in_order(other_project_board_view,
                                                        other_board_view,
                                                        board_view)
@@ -215,7 +215,7 @@ RSpec.describe 'Work Package Boards Overview',
       end
     end
 
-    it 'paginates results', with_settings: { per_page_options: '1' } do
+    it "paginates results", with_settings: { per_page_options: "1" } do
       # First page displays the historically last meeting
       board_overview.expect_boards_listed(board_view)
       board_overview.expect_boards_not_listed(other_board_view,

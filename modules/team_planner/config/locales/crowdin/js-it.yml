@@ -12,6 +12,8 @@ it:
       remove_assignee: 'Rimuovi assegnatario'
       two_weeks: '2 settimane'
       one_week: '1 settimana'
+      four_weeks: '4 settimane'
+      eight_weeks: '8 settimane'
       work_week: 'Settimana lavorativa'
       today: 'Oggi'
       drag_here_to_remove: 'Trascina qui per rimuovere l''assegnatario e le date di inizio e fine.'

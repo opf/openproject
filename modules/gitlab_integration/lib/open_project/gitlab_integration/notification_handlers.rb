@@ -27,12 +27,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'notification_handler/helper'
-require_relative 'notification_handler/issue_hook'
-require_relative 'notification_handler/merge_request_hook'
-require_relative 'notification_handler/note_hook'
-require_relative 'notification_handler/push_hook'
-require_relative 'notification_handler/system_hook'
+require_relative "notification_handler/helper"
+require_relative "notification_handler/issue_hook"
+require_relative "notification_handler/merge_request_hook"
+require_relative "notification_handler/note_hook"
+require_relative "notification_handler/push_hook"
+require_relative "notification_handler/system_hook"
 
 module OpenProject::GitlabIntegration
   ##
@@ -40,37 +40,37 @@ module OpenProject::GitlabIntegration
   module NotificationHandlers
     class << self
       def merge_request_hook(payload)
-        with_logging('merge_request_hook') do
+        with_logging("merge_request_hook") do
           OpenProject::GitlabIntegration::NotificationHandler::MergeRequestHook.new.process(payload)
         end
       end
 
       def note_hook(payload)
-        with_logging('note_hook') do
+        with_logging("note_hook") do
           OpenProject::GitlabIntegration::NotificationHandler::NoteHook.new.process(payload)
         end
       end
 
       def push_hook(payload)
-        with_logging('push_hook') do
+        with_logging("push_hook") do
           OpenProject::GitlabIntegration::NotificationHandler::PushHook.new.process(payload)
         end
       end
 
       def issue_hook(payload)
-        with_logging('issue_hook') do
+        with_logging("issue_hook") do
           OpenProject::GitlabIntegration::NotificationHandler::IssueHook.new.process(payload)
         end
       end
 
       def pipeline_hook(payload)
-        with_logging('pipeline_hook') do
+        with_logging("pipeline_hook") do
           OpenProject::GitlabIntegration::NotificationHandler::PipelineHook.new.process(payload)
         end
       end
 
       def system_hook(payload)
-        with_logging('system_hook') do
+        with_logging("system_hook") do
           OpenProject::GitlabIntegration::NotificationHandler::SystemHook.new.process(payload)
         end
       end

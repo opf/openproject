@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class WorkPackageCards < Page
@@ -37,7 +37,7 @@ module Pages
     end
 
     def expect_work_package_count(count)
-      expect(page).to have_css('wp-single-card', count:, wait: 20)
+      expect(page).to have_css("wp-single-card", count:, wait: 20)
     end
 
     def expect_work_package_listed(*work_packages)
@@ -54,9 +54,9 @@ module Pages
 
     def expect_work_package_order(*ids)
       retry_block do
-        rows = page.all 'wp-single-card'
+        rows = page.all "wp-single-card"
         expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
-        found = rows.map { |el| el['data-work-package-id'] }
+        found = rows.map { |el| el["data-work-package-id"] }
 
         raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
       end
@@ -68,7 +68,7 @@ module Pages
         page.driver.browser.action.double_click(card(work_package).native).perform
 
         # Ensure we show the subject field
-        page.find('.work-packages--subject-type-row')
+        page.find(".work-packages--subject-type-row")
       end
 
       Pages::FullWorkPackage.new(work_package, project)
@@ -85,7 +85,7 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
-      drag_and_drop_list(from:, to:, elements: 'wp-single-card', handler: '.op-wp-single-card--content')
+      drag_and_drop_list(from:, to:, elements: "wp-single-card", handler: ".op-wp-single-card--content")
     end
 
     def select_work_package(work_package)
@@ -100,7 +100,7 @@ module Pages
 
     def click_id_link(work_package)
       card_element = card(work_package)
-      card_element.find('.__ui-state-link').click
+      card_element.find(".__ui-state-link").click
     end
 
     def deselect_work_package(work_package)
@@ -122,13 +122,13 @@ module Pages
     end
 
     def select_all_work_packages
-      find('body').send_keys [:control, 'a']
-      expect(page).to have_no_css '#work-package-context-menu'
+      find("body").send_keys [:control, "a"]
+      expect(page).to have_no_css "#work-package-context-menu"
     end
 
     def deselect_all_work_packages
-      find('body').send_keys [:control, 'd']
-      expect(page).to have_no_css '#work-package-context-menu'
+      find("body").send_keys [:control, "d"]
+      expect(page).to have_no_css "#work-package-context-menu"
     end
 
     def card(work_package)

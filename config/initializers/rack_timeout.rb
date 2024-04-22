@@ -31,7 +31,7 @@ if OpenProject::Configuration.web_workers >= 2
     # report the generic internal server error too as it doesn't
     # add any more information. Even worse, it's not immediately
     # clear that the two reports are related.
-    require 'rack/timeout/suppress_internal_error_report_on_timeout'
+    require "rack/timeout/suppress_internal_error_report_on_timeout"
 
     OpenProjectErrorHelper.prepend Rack::Timeout::SuppressInternalErrorReportOnTimeout
   end

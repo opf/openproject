@@ -38,13 +38,13 @@ class Widget::Filters::Option < Widget::Filters::Base
       level = options[:level] # nesting_level is optional for values
       name = I18n.t(name) if name.is_a? Symbol
       name = I18n.t(:label_none) if name.empty?
-      name_prefix = (level && level > 0 ? ((' ' * 2 * level) + '> ') : '')
+      name_prefix = (level && level > 0 ? ((" " * 2 * level) + "> ") : "")
       if options[:optgroup]
         tag :optgroup, label: I18n.t(:label_sector)
       else
         opts = { value: id }
         if (Array(filter.values).map(&:to_s).include? id.to_s) || (first && Array(filter.values).empty?)
-          opts[:selected] = 'selected'
+          opts[:selected] = "selected"
         end
         first = false
         content_tag(:option, opts) { name_prefix + name }

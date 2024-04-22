@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Delete work package', :js do
+RSpec.describe "Delete work package", :js do
   let(:user) { create(:admin) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
@@ -37,8 +37,8 @@ RSpec.describe 'Delete work package', :js do
     login_as(user)
   end
 
-  shared_examples 'close split view' do
-    describe 'when deleting a work package that is opened in the split view' do
+  shared_examples "close split view" do
+    describe "when deleting a work package that is opened in the split view" do
       before do
         work_package
 
@@ -46,7 +46,7 @@ RSpec.describe 'Delete work package', :js do
         split_view.ensure_page_loaded
 
         context_menu.open_for(work_package)
-        context_menu.choose('Delete')
+        context_menu.choose("Delete")
 
         destroy_modal.expect_listed(work_package)
         destroy_modal.confirm_deletion
@@ -54,35 +54,35 @@ RSpec.describe 'Delete work package', :js do
         loading_indicator_saveguard
       end
 
-      it 'closes the split view' do
+      it "closes the split view" do
         split_view.expect_closed
         wp_table.expect_current_path
       end
     end
   end
 
-  describe 'deleting multiple work packages in the table' do
+  describe "deleting multiple work packages in the table" do
     let!(:wp1) { create(:work_package) }
     let!(:wp2) { create(:work_package) }
     let!(:wp_child) { create(:work_package, parent: wp1) }
 
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
-    it 'shows deletion for all selected work packages' do
+    it "shows deletion for all selected work packages" do
       wp_table.visit!
 
       wp_table.expect_work_package_listed wp1, wp2, wp_child
-      find('body').send_keys [:control, 'a']
+      find("body").send_keys [:control, "a"]
 
       context_menu.open_for(wp1)
-      context_menu.choose('Bulk delete')
+      context_menu.choose("Bulk delete")
 
       destroy_modal.expect_listed(wp1, wp2, wp_child)
       destroy_modal.cancel_deletion
       wp_table.expect_work_package_listed wp1, wp2, wp_child
 
       context_menu.open_for(wp1)
-      context_menu.choose('Bulk delete')
+      context_menu.choose("Bulk delete")
       destroy_modal.confirm_children_deletion
       destroy_modal.confirm_deletion
 
@@ -91,20 +91,20 @@ RSpec.describe 'Delete work package', :js do
     end
   end
 
-  describe 'when deleting it outside a project context' do
+  describe "when deleting it outside a project context" do
     let(:work_package) { create(:work_package) }
     let(:split_view) { Pages::SplitWorkPackage.new(work_package) }
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
-    it_behaves_like 'close split view'
+    it_behaves_like "close split view"
   end
 
-  describe 'when deleting it within a project context' do
+  describe "when deleting it within a project context" do
     let(:project) { create(:project) }
     let(:work_package) { create(:work_package, project:) }
     let(:split_view) { Pages::SplitWorkPackage.new(work_package, project.identifier) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project.identifier) }
 
-    it_behaves_like 'close split view'
+    it_behaves_like "close split view"
   end
 end

@@ -28,11 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_delete_service'
+require "spec_helper"
+require "services/base_services/behaves_like_delete_service"
 
 RSpec.describe WorkPackageMembers::DeleteService, type: :model do
-  it_behaves_like 'BaseServices delete service' do
+  it_behaves_like "BaseServices delete service" do
     let(:model_class) { Member }
     let(:model_instance) { build_stubbed(:work_package_member, principal:) }
     let(:principal) { user }
@@ -46,9 +46,9 @@ RSpec.describe WorkPackageMembers::DeleteService, type: :model do
       end
     end
 
-    describe '#call' do
-      context 'when contract validates and the model is destroyed successfully' do
-        it 'calls the cleanup service' do
+    describe "#call" do
+      context "when contract validates and the model is destroyed successfully" do
+        it "calls the cleanup service" do
           service_call
 
           expect(cleanup_service_instance)
@@ -74,6 +74,37 @@ RSpec.describe WorkPackageMembers::DeleteService, type: :model do
             expect(cleanup_inherited_roles_service_instance)
               .to have_received(:call)
           end
+        end
+      end
+
+      context "when member has inherited member roles" do
+        let(:direct_member_role_a) { build(:member_role) }
+        let(:direct_member_role_b) { build(:member_role) }
+        let(:inherited_member_role) { build(:member_role, inherited_from: 123) }
+        let(:member_roles) { [direct_member_role_a, direct_member_role_b, inherited_member_role] }
+        let!(:model_instance) { create(factory, principal:, member_roles:) }
+
+        it "does not destroy the member" do
+          service_call
+
+          expect(model_instance).not_to have_received(:destroy)
+        end
+
+        it "does not destroy inherited member role" do
+          service_call
+
+          expect { inherited_member_role.reload }.not_to raise_error
+        end
+
+        it "destroys direct member roles" do
+          service_call
+
+          expect { direct_member_role_a.reload }.to raise_error(ActiveRecord::RecordNotFound)
+          expect { direct_member_role_b.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+
+        it "is successful" do
+          expect(subject).to be_success
         end
       end
     end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work packages remaining time', :js, :with_cuprite do
+RSpec.describe "Work packages remaining time", :js, :with_cuprite do
   shared_current_user { create(:admin) }
   shared_let(:project) do
     create(:project,
@@ -40,34 +40,38 @@ RSpec.describe 'Work packages remaining time', :js, :with_cuprite do
            author: current_user)
   end
 
-  it 'can set and edit the remaining time in hours (Regression #43549)' do
+  it "can set and edit the remaining time in hours (Regression #43549)" do
     wp_page = Pages::FullWorkPackage.new(work_package)
 
     wp_page.visit!
     wp_page.expect_subject
-    wp_page.expect_attributes remainingTime: '-'
+    wp_page.expect_attributes remainingTime: "-"
 
-    wp_page.update_attributes remainingTime: '125' # rubocop:disable Rails/ActiveRecordAliases
-    wp_page.expect_attributes remainingTime: '125 h'
+    # need to update work first to enable the remaining work field
+    wp_page.update_attributes estimatedTime: "200" # rubocop:disable Rails/ActiveRecordAliases
+    wp_page.update_attributes remainingTime: "125" # rubocop:disable Rails/ActiveRecordAliases
+    wp_page.expect_attributes remainingTime: "125 h"
 
     work_package.reload
     expect(work_package.remaining_hours).to eq 125.0
   end
 
-  it 'displays the remaining time sum properly in hours (Regression #43833)' do
+  it "displays the remaining time sum properly in hours (Regression #43833)" do
     wp_table_page = Pages::WorkPackagesTable.new(project)
 
     query_props = JSON.dump({
-                              c: %w(id subject remainingTime),
+                              c: %w[id subject estimatedTime remainingTime],
                               s: true
                             })
 
     wp_table_page.visit_with_params("query_props=#{query_props}")
-    wp_table_page.expect_work_package_with_attributes work_package, remainingTime: '-'
+    wp_table_page.expect_work_package_with_attributes work_package, remainingTime: "-"
 
-    wp_table_page.update_work_package_attributes work_package, remainingTime: '125'
-    wp_table_page.expect_work_package_with_attributes work_package, remainingTime: '125 h'
-    wp_table_page.expect_sums_row_with_attributes remainingTime: '125 h'
+    # need to update work first to enable the remaining work field
+    wp_table_page.update_work_package_attributes work_package, estimatedTime: "200"
+    wp_table_page.update_work_package_attributes work_package, remainingTime: "125"
+    wp_table_page.expect_work_package_with_attributes work_package, remainingTime: "125 h"
+    wp_table_page.expect_sums_row_with_attributes remainingTime: "125 h"
 
     work_package.reload
     expect(work_package.remaining_hours).to eq 125.0

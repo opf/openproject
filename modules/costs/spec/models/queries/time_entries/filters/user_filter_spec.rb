@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::TimeEntries::Filters::UserFilter do
   let(:user1) { build_stubbed(:user) }
@@ -39,13 +39,13 @@ RSpec.describe Queries::TimeEntries::Filters::UserFilter do
       .and_return([user1.id, user2.id])
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :user_id }
     let(:type) { :list_optional }
     let(:name) { TimeEntry.human_attribute_name(:user) }
 
-    describe '#allowed_values' do
-      it 'is a list of the possible values' do
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
         expected = [[user1.id, user1.id.to_s], [user2.id, user2.id.to_s]]
 
         expect(instance.allowed_values).to match_array(expected)
@@ -53,7 +53,7 @@ RSpec.describe Queries::TimeEntries::Filters::UserFilter do
     end
   end
 
-  it_behaves_like 'list_optional query filter' do
+  it_behaves_like "list_optional query filter" do
     let(:attribute) { :user_id }
     let(:model) { TimeEntry }
     let(:instance_key) { :user_id }

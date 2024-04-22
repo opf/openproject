@@ -28,9 +28,9 @@
 
 class RemoveCustomFieldTypes < ActiveRecord::Migration[6.1]
   def up
-    delete_custom_field('TimeEntryActivityCustomField')
-    delete_custom_field('DocumentCategoryCustomField')
-    delete_custom_field('IssuePriorityCustomField')
+    delete_custom_field("TimeEntryActivityCustomField")
+    delete_custom_field("DocumentCategoryCustomField")
+    delete_custom_field("IssuePriorityCustomField")
 
     delete_custom_values
   end

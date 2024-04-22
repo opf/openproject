@@ -74,7 +74,7 @@ module API
             bulk_update_status(read_ian: false)
           end
 
-          route_param :id, type: Integer, desc: 'Notification ID' do
+          route_param :id, type: Integer, desc: "Notification ID" do
             after_validation do
               @notification = notification_scope.find(params[:id])
             end
@@ -97,7 +97,7 @@ module API
             end
 
             namespace :details do
-              route_param :detail_id, type: Integer, desc: 'Notification Detail ID' do
+              route_param :detail_id, type: Integer, desc: "Notification Detail ID" do
                 get do
                   PropertyFactory.details_for(@notification).at(params[:detail_id]).tap do |detail|
                     raise API::Errors::NotFound unless detail

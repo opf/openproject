@@ -35,7 +35,7 @@ module ProjectsHelper
   def projects_sort_header_tag(*)
     former_criteria = @sort_criteria.criteria.dup
 
-    @sort_criteria.criteria.reject! { |a, _| a == 'lft' }
+    @sort_criteria.criteria.reject! { |a, _| a == "lft" }
 
     sort_header_tag(*)
   ensure
@@ -44,7 +44,7 @@ module ProjectsHelper
 
   def short_project_description(project, length = 255)
     if project.description.blank?
-      return ''
+      return ""
     end
 
     project.description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
@@ -63,6 +63,7 @@ module ProjectsHelper
     Setting
       .enabled_projects_columns
       .map { |c| projects_columns_options.find { |o| o[:id].to_s == c } }
+      .compact
   end
 
   def protected_projects_columns_options

@@ -24,4 +24,4 @@ ms:
     name: "OpenProject GitHub Integration"
     description: "Integrates OpenProject and GitHub for a better workflow"
   project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
+  permission_show_github_content: "Tunjuk kandungan GitHub"

@@ -28,7 +28,7 @@
 
 module OpenProject::TextFormatting::Filters::Macros
   module ChildPages
-    HTML_CLASS = 'child_pages'.freeze
+    HTML_CLASS = "child_pages".freeze
 
     module_function
 
@@ -48,7 +48,7 @@ module OpenProject::TextFormatting::Filters::Macros
     end
 
     def is?(macro)
-      macro['class'].include?(HTML_CLASS)
+      macro["class"].include?(HTML_CLASS)
     end
 
     def render_tree(include_parent, page)

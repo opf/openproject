@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :bcf_viewpoint, class: '::Bim::Bcf::Viewpoint' do
+  factory :bcf_viewpoint, class: "::Bim::Bcf::Viewpoint" do
     new_uuid = SecureRandom.uuid
     uuid { new_uuid }
     viewpoint_name { "full_viewpoint.bcfv" }

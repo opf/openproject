@@ -55,7 +55,7 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
       t.integer "last_used_at", null: true
 
       # OTP secret for totp
-      t.text 'otp_secret', null: true
+      t.text "otp_secret", null: true
     end
     add_reference :two_factor_authentication_devices, :user, foreign_key: true, type: :integer
 
@@ -67,7 +67,7 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
 
         sms = ::TwoFactorAuthentication::Device::Sms.create!(
           user_id: user.id,
-          identifier: 'Mobile',
+          identifier: "Mobile",
           channel: user.default_otp_channel,
           phone_number: phone,
           active: true
@@ -76,7 +76,7 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
       end
     end
 
-    change_table 'users' do |t|
+    change_table "users" do |t|
       t.remove :verified_phone
       t.remove :unverified_phone
       t.remove :default_otp_channel
@@ -84,10 +84,10 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
   end
 
   def self.down
-    change_table 'users' do |t|
+    change_table "users" do |t|
       t.string :verified_phone
       t.string :unverified_phone
-      t.string :default_otp_channel, default: 'sms'
+      t.string :default_otp_channel, default: "sms"
     end
 
     # Write back information from sms devices to table

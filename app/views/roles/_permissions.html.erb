@@ -43,6 +43,13 @@ See COPYRIGHT and LICENSE files for more details.
         (<%= check_all_links module_id %>)
       </span>
     </div>
+    <% unless I18n.t("#{mod}.permission_header_explanation", default: '').empty? %>
+    <div class="-italic">
+      <p>
+        <%= I18n.t("#{mod}.permission_header_explanation").html_safe %>
+      </p>
+    </div>
+    <% end %>
     <div class="-columns-2">
       <% Array(mod_permissions).each do |permission| %>
         <% next if permission.global? && !show_global_role %>

@@ -39,22 +39,22 @@ es:
   api_v3:
     errors:
       too_many_elements_created_at_once: Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}.
-  permission_create_files: Crear archivos
-  permission_delete_files: Eliminar archivos
+  permission_create_files: 'Almacenamiento externo: Crear archivos'
+  permission_delete_files: 'Almacenamiento externo: Eliminar archivos'
   permission_manage_file_links: Administrar enlaces de archivos
   permission_manage_storages_in_project: Administrar almacenes de archivos en el proyecto
-  permission_read_files: Leer archivos
-  permission_share_files: Compartir archivos
+  permission_read_files: 'Almacenamiento externo: Leer archivos'
+  permission_share_files: 'Almacenamiento externo: Compartir archivos'
   permission_view_file_links: Ver enlaces de archivos
-  permission_write_files: Escribir archivos
+  permission_write_files: 'Almacenamiento externo: Escribir archivos'
   project_module_storages: Almacenes de archivos
   storages:
     buttons:
       complete_without_setup: Completar sin usar
       done_complete_setup: Hecho, configuración completada
       done_continue: Hecho, continuar
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: Reemplazar OpenProject OAuth
+      replace_oauth_client: Reemplazar %{provider_type} OAuth
       save_and_continue: Guardar y continuar
       select_folder: Seleccionar carpeta
     configuration_checks:
@@ -63,8 +63,8 @@ es:
         one_drive: Permitir a OpenProject acceder a datos Azure usando OAuth para conectar OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Completa la configuración con la redirección URI correcta.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: Esta acción restablecerá las credenciales OAuth actuales. Después de confirmar tendrá que volver a introducir las credenciales en el proveedor de almacenamiento y todos los usuarios remotos tendrán que autorizarse contra OpenProject de nuevo. ¿Seguro que desea continuar?
+    confirm_replace_oauth_client: Esta acción restablecerá las credenciales OAuth actuales. Después de confirmar tendrá que introducir nuevas credenciales del proveedor de almacenamiento y todos los usuarios tendrán que autorizarse contra %{provider_type} de nuevo. ¿Seguro que desea continuar?
     delete_warning:
       input_delete_confirmation: Introduzca el nombre de almacenamiento de archivos %{file_storage} para confirmar la eliminación.
       irreversible_notice: Eliminar un archivo almacenado es una acción irreversible.
@@ -77,6 +77,15 @@ es:
       storage_delete_result_3: En caso de que este almacenamiento tenga gestión automática de carpetas de proyecto, aquellas y sus archivos contenidos serán eliminados para siempre.
     error_invalid_provider_type: Por favor, seleccione un proveedor de almacenamiento válido.
     file_storage_view:
+      access_management:
+        automatic_management: Acceso y carpetas gestionados automáticamente
+        automatic_management_description: Deje que OpenProject cree carpetas por proyecto automáticamente y gestione su acceso de usuario. Esto es recomendable, ya que garantiza que cada miembro del equipo tenga siempre los permisos de acceso correctos.
+        description: Seleccione el tipo de gestión del acceso de los usuarios y de la creación de carpetas. Recomendamos utilizar el acceso gestionado automáticamente para tener una estructura más organizada y garantizar el acceso a todos los usuarios relevantes.
+        manual_management: Acceso y carpetas gestionados manualmente
+        manual_management_description: Cree y gestione manualmente carpetas por proyecto por su cuenta. Deberá asegurarse manualmente de que los usuarios pertinentes tienen acceso.
+        setup_incomplete: Seleccione el tipo de gestión del acceso de los usuarios y la creación de carpetas.
+        subtitle: Gestión del acceso
+        title: Carpetas de acceso y de proyecto
       automatically_managed_folders: Carpetas gestionadas automáticamente
       general_information: Información general
       nextcloud_oauth: Nextcloud OAuth
@@ -94,6 +103,13 @@ es:
       since: desde %{datetime}
       subtitle: Carpetas de proyecto gestionadas automáticamente
       title: Estado de salud
+    health_email_notifications:
+      description_subscribed: Todos los administradores reciben notificaciones por correo electrónico sobre el estado de salud de este almacenamiento.
+      description_unsubscribed: Las notificaciones por correo electrónico del estado de salud de este almacenamiento se han desactivado para todos los administradores.
+      error_could_not_be_saved: No se han podido guardar los ajustes de notificación por correo electrónico. Inténtelo de nuevo.
+      subscribe: Suscribirse
+      title: Notificaciones de correo electrónico
+      unsubscribe: Darse de baja
     help_texts:
       project_folder: La carpeta del proyecto es la carpeta predeterminada para la carga de archivos de este proyecto. No obstante, los usuarios pueden subir archivos a otras ubicaciones.
     instructions:
@@ -143,6 +159,7 @@ es:
     label_creator: Autor
     label_delete_storage: Eliminar almacenamiento
     label_edit_storage: Editar almacenamiento
+    label_edit_storage_access_management: Editar la gestión de acceso al almacenamiento
     label_edit_storage_automatically_managed_folders: Editar carpetas gestionadas automáticamente
     label_edit_storage_host: Editar host del almacenamiento
     label_existing_manual_folder: Carpeta existente con permisos gestionados manualmente
@@ -178,12 +195,12 @@ es:
       ¡Almacenamiento conectado con éxito! Recuerda activar el módulo y el almacenamiento específico en la configuración del proyecto de cada proyecto deseado para usarlo.
     oauth_grant_nudge_modal:
       access_granted: Acceso permitido
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
+      access_granted_screen_reader: Acceso concedido. Ya puede utilizar %{storage}.
       body: Para obtener acceso a la carpeta del proyecto necesitas iniciar sesión en %{storage}.
       cancel_button_label: Lo haré más tarde
-      confirm_button_aria_label: Login to %{storage}
+      confirm_button_aria_label: Iniciar sesión en %{storage}
       confirm_button_label: Iniciar sesión
-      requesting_access_to: Requesting access to %{storage}
+      requesting_access_to: Solicitando acceso a %{storage}
       storage_ready: Ahora estás listo para usar %{storage}
       title: Queda un paso más...
     open_project_storage_modal:
@@ -198,11 +215,6 @@ es:
         delete: Eliminar el almacenamiento de archivos
         subtitle: Añadir un archivo de almacenamiento externo para subir, enlazar y gestionar los archivos en los paquetes de trabajo.
       managed_project_folders:
-        one_drive_information: |-
-          Para habilitar las carpetas de proyecto gestionadas automáticamente en OneDrive/SharePoint, se necesita una configuración adicional en
-          la unidad que se utiliza para este almacenamiento de archivos. Si OpenProject gestiona los permisos de esta unidad, lo más probable es que no se pueda utilizar para otros casos de uso en SharePoint.
-          Para obtener más información y orientación, consulta
-          el %{drive_id_link_text}.
         subtitle: |-
           Deja que OpenProject cree carpetas por proyecto automáticamente. Esto es recomendable, ya que garantiza que cada miembro del equipo tenga siempre los permisos de acceso correctos.
         subtitle_short: Permitir que OpenProject cree carpetas por proyecto automáticamente.
@@ -216,6 +228,7 @@ es:
       project_storage_members:
         subtitle: Compruebe el estado de conexión del almacenamiento %{storage_name_link} de todos los miembros del proyecto.
         title: Estado de conexión de los miembros
+    permission_header_explanation: "Los permisos de archivos en almacenamientos externos solo se aplican a las carpetas y archivos dentro de las carpetas de proyecto gestionadas automáticamente. \nTenga en cuenta que no todos los proveedores de almacenamiento admiten todos los permisos de archivos."
     provider_types:
       label: Tipo de proveedor
       nextcloud:

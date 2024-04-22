@@ -53,13 +53,15 @@ module API
                                end
                              },
                              getter: ->(*) {
+                               next unless embed_links
+
                                active_projects.map do |project|
                                  Projects::ProjectRepresenter.create(project, current_user:)
                                end
                              }
 
         def _type
-          'TimeEntriesActivity'
+          "TimeEntriesActivity"
         end
 
         def active_projects

@@ -34,7 +34,7 @@ module OpenProject::Bim::Hooks
 
     def admin_information_checklist(*)
       [
-        [:'extraction.available.ifc_convert', ::Bim::IfcModels::ViewConverterService.available?]
+        [:"extraction.available.ifc_convert", ::Bim::IfcModels::ViewConverterService.available?]
       ]
     end
   end

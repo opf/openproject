@@ -26,12 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
@@ -45,6 +40,8 @@ export class OpAttachmentListComponent extends UntilDestroyedMixin implements On
   @Input() public attachments:IAttachment[] = [];
 
   @Input() public collectionKey:string;
+
+  @Input() public showTimestamp = true;
 
   constructor(
     private readonly attachmentsResourceService:AttachmentsResourceService,

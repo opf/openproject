@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
   let(:role) { build_stubbed(:project_role) }
@@ -40,13 +40,13 @@ RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
     return_value
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list_optional }
     let(:class_key) { :assigned_to_role }
-    let(:name) { I18n.t('query_fields.assigned_to_role') }
+    let(:name) { I18n.t("query_fields.assigned_to_role") }
 
-    describe '#available?' do
-      context 'when any givable role exists' do
+    describe "#available?" do
+      context "when any givable role exists" do
         before do
           givable_roles_relation = instance_double(ActiveRecord::Relation)
           allow(givable_roles_relation)
@@ -59,7 +59,7 @@ RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
         it { expect(instance).to be_available }
       end
 
-      context 'when no givable role exists' do
+      context "when no givable role exists" do
         before do
           givable_roles_relation = instance_double(ActiveRecord::Relation)
           allow(givable_roles_relation)
@@ -73,25 +73,25 @@ RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
       end
     end
 
-    describe '#allowed_values' do
+    describe "#allowed_values" do
       before do
         mock_roles_query_chain([role])
       end
 
-      it 'is an array of role values' do
+      it "is an array of role values" do
         expect(instance.allowed_values)
           .to contain_exactly [role.name, role.id.to_s]
       end
     end
 
-    describe '#ar_object_filter?' do
-      it 'is true' do
+    describe "#ar_object_filter?" do
+      it "is true" do
         expect(instance)
           .to be_ar_object_filter
       end
     end
 
-    describe '#value_objects' do
+    describe "#value_objects" do
       let(:other_role) { build_stubbed(:project_role) }
 
       before do
@@ -99,7 +99,7 @@ RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
         instance.values = [role.id.to_s, other_role.id.to_s]
       end
 
-      it 'returns an array of projects' do
+      it "returns an array of projects" do
         expect(instance.value_objects)
           .to contain_exactly(role, other_role)
       end

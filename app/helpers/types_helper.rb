@@ -30,22 +30,22 @@ module ::TypesHelper
   def types_tabs
     [
       {
-        name: 'settings',
-        partial: 'types/form/settings',
+        name: "settings",
+        partial: "types/form/settings",
         path: edit_type_tab_path(id: @type.id, tab: :settings),
-        label: 'types.edit.settings'
+        label: "types.edit.settings"
       },
       {
-        name: 'form_configuration',
-        partial: 'types/form/form_configuration',
+        name: "form_configuration",
+        partial: "types/form/form_configuration",
         path: edit_type_tab_path(id: @type.id, tab: :form_configuration),
-        label: 'types.edit.form_configuration'
+        label: "types.edit.form_configuration"
       },
       {
-        name: 'projects',
-        partial: 'types/form/projects',
+        name: "projects",
+        partial: "types/form/projects",
         path: edit_type_tab_path(id: @type.id, tab: :projects),
-        label: 'types.edit.projects'
+        label: "types.edit.projects"
       }
     ]
   end
@@ -54,18 +54,18 @@ module ::TypesHelper
     return unless type
 
     css_class = if type.is_milestone?
-                  'color--milestone-icon'
+                  "color--milestone-icon"
                 else
-                  'color--phase-icon'
+                  "color--phase-icon"
                 end
 
     color = if type.color.present?
               type.color.hexcode
             else
-              '#CCC'
+              "#CCC"
             end
 
-    content_tag(:span, ' ',
+    content_tag(:span, " ",
                 class: css_class,
                 style: "background-color: #{color}")
   end

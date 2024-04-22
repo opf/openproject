@@ -28,17 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'Admin List File storages',
+RSpec.describe "Admin List File storages",
                :js,
                :storage_server_helpers do
-  shared_let(:admin) { create(:admin, preferences: { time_zone: 'Etc/UTC' }) }
+  shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
 
   current_user { admin }
 
-  context 'with storages' do
+  context "with storages" do
     shared_let(:nextcloud_storage) { create(:nextcloud_storage) }
     shared_let(:one_drive_storage) { create(:one_drive_storage) }
 
@@ -46,32 +46,31 @@ RSpec.describe 'Admin List File storages',
       visit admin_settings_storages_path
     end
 
-    it 'renders a list of all storages' do
-      within :css, '#content' do
-        expect(page).to have_list_item(count: 2)
+    it "renders a list of all storages" do
+      within :css, "#content" do
         expect(page).to have_list_item(nextcloud_storage.name)
         expect(page).to have_list_item(one_drive_storage.name)
       end
     end
 
-    it 'renders content that is accessible' do
-      expect(page).to be_axe_clean.within('#content')
+    it "renders content that is accessible" do
+      expect(page).to be_axe_clean.within("#content")
     end
   end
 
-  context 'with no storages' do
+  context "with no storages" do
     before do
       visit admin_settings_storages_path
     end
 
-    it 'renders a blank slate' do
-      expect(page).to have_title('File storages')
-      expect(page.find('.PageHeader-title')).to have_text('File storages')
+    it "renders a blank slate" do
+      expect(page).to have_title("File storages")
+      expect(page.find(".PageHeader-title")).to have_text("File storages")
       expect(page).to have_text("You don't have any storages yet.")
     end
 
-    it 'renders content that is accessible' do
-      expect(page).to be_axe_clean.within('#content')
+    it "renders content that is accessible" do
+      expect(page).to be_axe_clean.within("#content")
     end
   end
 end

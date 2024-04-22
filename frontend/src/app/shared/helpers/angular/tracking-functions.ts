@@ -4,10 +4,12 @@ export function halHref<T extends HalResource>(_index:number, item:T):string|nul
   return item.href;
 }
 
-export function compareByAttribute(attribute:string) {
+export function compareByAttribute(...attributes:string[]) {
   return (a:any, b:any) => {
     const bothNil = !a && !b;
-    return bothNil || (!!a && !!b && a[attribute] === b[attribute]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const same = !!a && !!b && attributes.every((attribute) => a[attribute] === b[attribute]);
+    return bothNil || (!!a && !!b && same);
   };
 }
 

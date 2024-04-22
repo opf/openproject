@@ -26,42 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Boards routing' do
+RSpec.describe "Boards routing" do
   it do
     expect(subject)
-      .to route(:get, '/boards')
-            .to(controller: 'boards/boards', action: 'index')
+      .to route(:get, "/boards")
+            .to(controller: "boards/boards", action: "index")
   end
 
   it do
     expect(subject)
-      .to route(:get, '/projects/foobar/boards/1')
-            .to(controller: 'boards/boards', action: 'show', project_id: 'foobar', id: 1)
+      .to route(:get, "/projects/foobar/boards/1")
+            .to(controller: "boards/boards", action: "show", project_id: "foobar", id: 1)
   end
 
   it do
     expect(subject)
-      .to route(:get, '/boards/new')
-            .to(controller: 'boards/boards', action: 'new')
+      .to route(:get, "/boards/new")
+            .to(controller: "boards/boards", action: "new")
   end
 
   it do
     expect(subject)
-      .to route(:get, '/projects/foobar/boards/new')
-            .to(controller: 'boards/boards', action: 'new', project_id: 'foobar')
+      .to route(:get, "/projects/foobar/boards/new")
+            .to(controller: "boards/boards", action: "new", project_id: "foobar")
   end
 
   it do
     expect(subject)
-      .to route(:post, '/projects/foobar/boards')
-            .to(controller: 'boards/boards', action: 'create', project_id: 'foobar')
+      .to route(:post, "/projects/foobar/boards")
+            .to(controller: "boards/boards", action: "create", project_id: "foobar")
   end
 
   it do
     expect(subject)
-      .to route(:post, '/boards')
-            .to(controller: 'boards/boards', action: 'create')
+      .to route(:post, "/boards")
+            .to(controller: "boards/boards", action: "create")
   end
 end

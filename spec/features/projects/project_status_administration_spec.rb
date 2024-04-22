@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Projects status administration', :js, :with_cuprite do
-  include_context 'ng-select-autocomplete helpers'
+RSpec.describe "Projects status administration", :js, :with_cuprite do
+  include_context "ng-select-autocomplete helpers"
 
   let(:current_user) do
     create(:user) do |u|
@@ -56,34 +56,34 @@ RSpec.describe 'Projects status administration', :js, :with_cuprite do
     login_as current_user
   end
 
-  it 'allows setting the status on project creation' do
+  it "allows setting the status on project creation" do
     visit new_project_path
 
     # Create the project with status
-    click_button 'Advanced settings'
+    click_button "Advanced settings"
 
-    name_field.set_value 'New project'
-    status_field.select_option 'On track'
+    name_field.set_value "New project"
+    status_field.select_option "On track"
 
-    status_description.set_markdown 'Everything is fine at the start'
-    status_description.expect_supports_no_macros
+    status_description.set_markdown "Everything is fine at the start"
+    status_description.expect_supports_macros
 
-    click_button 'Save'
+    click_button "Save"
 
     expect(page).to have_current_path /projects\/new-project\/?/
 
     # Check that the status has been set correctly
-    visit project_settings_general_path(project_id: 'new-project')
+    visit project_settings_general_path(project_id: "new-project")
 
-    status_field.expect_selected 'ON TRACK'
-    status_description.expect_value 'Everything is fine at the start'
+    status_field.expect_selected "ON TRACK"
+    status_description.expect_value "Everything is fine at the start"
 
-    status_field.select_option 'Off track'
-    status_description.set_markdown 'Oh no'
+    status_field.select_option "Off track"
+    status_description.set_markdown "Oh no"
 
-    click_button 'Save'
+    click_button "Save"
 
-    status_field.expect_selected 'OFF TRACK'
-    status_description.expect_value 'Oh no'
+    status_field.expect_selected "OFF TRACK"
+    status_description.expect_value "Oh no"
   end
 end

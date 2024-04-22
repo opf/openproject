@@ -29,16 +29,16 @@
 # ++
 #
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Admin::Settings::DateFormatSettingsController do
   shared_let(:user) { create(:admin) }
   current_user { user }
 
-  require_admin_and_render_template('date_format_settings')
+  require_admin_and_render_template("date_format_settings")
 
-  describe 'PATCH #update' do
-    subject { patch 'update', params: }
+  describe "PATCH #update" do
+    subject { patch "update", params: }
 
     let(:start_of_week) { 1 }
     let(:first_week_of_year) { 1 }
@@ -49,25 +49,25 @@ RSpec.describe Admin::Settings::DateFormatSettingsController do
     end
     let(:params) { { settings: } }
 
-    shared_examples 'invalid combination of start_of_week and first_week_of_year' do |missing_param:|
+    shared_examples "invalid combination of start_of_week and first_week_of_year" do |missing_param:|
       provided_param = (%i[start_of_week first_week_of_year] - [missing_param]).first
 
       context "when setting only #{provided_param} but not #{missing_param}" do
         let(:settings) { base_settings.except(missing_param) }
 
-        it 'redirects and sets the flash error' do
+        it "redirects and sets the flash error" do
           subject
 
           expect(response).to redirect_to action: :show
           expect(flash[:error])
-            .to eq(I18n.t('settings.date_format.first_date_of_week_and_year_set',
+            .to eq(I18n.t("settings.date_format.first_date_of_week_and_year_set",
                           first_week_setting_name: I18n.t(:setting_first_week_of_year),
                           day_of_week_setting_name: I18n.t(:setting_start_of_week)))
         end
       end
     end
 
-    include_examples 'invalid combination of start_of_week and first_week_of_year', missing_param: :first_week_of_year
-    include_examples 'invalid combination of start_of_week and first_week_of_year', missing_param: :start_of_week
+    include_examples "invalid combination of start_of_week and first_week_of_year", missing_param: :first_week_of_year
+    include_examples "invalid combination of start_of_week and first_week_of_year", missing_param: :start_of_week
   end
 end

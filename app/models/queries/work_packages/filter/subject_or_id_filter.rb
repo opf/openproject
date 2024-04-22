@@ -30,8 +30,8 @@ class Queries::WorkPackages::Filter::SubjectOrIdFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   include Queries::WorkPackages::Filter::OrFilterForWpMixin
 
-  CONTAINS_OPERATOR = '~'.freeze
-  EQUALS_OPERATOR = '='.freeze
+  CONTAINS_OPERATOR = "~".freeze
+  EQUALS_OPERATOR = "=".freeze
 
   FILTERS = [
     Queries::WorkPackages::Filter::FilterConfiguration.new(
@@ -59,7 +59,7 @@ class Queries::WorkPackages::Filter::SubjectOrIdFilter <
   end
 
   def human_name
-    I18n.t('label_subject_or_id')
+    I18n.t("label_subject_or_id")
   end
 
   def filter_configurations

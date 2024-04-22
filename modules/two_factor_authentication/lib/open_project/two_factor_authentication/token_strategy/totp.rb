@@ -1,4 +1,4 @@
-require 'rotp'
+require "rotp"
 
 module OpenProject::TwoFactorAuthentication
   module TokenStrategy

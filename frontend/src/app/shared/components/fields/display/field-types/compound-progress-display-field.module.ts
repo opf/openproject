@@ -30,8 +30,12 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
-import { HierarchyQueryLinkHelperService } from 'core-app/shared/components/fields/display/field-types/hierarchy-query-link-helper.service';
+import {
+  uiStateLinkClass,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import {
+  HierarchyQueryLinkHelperService,
+} from 'core-app/shared/components/fields/display/field-types/hierarchy-query-link-helper.service';
 
 export class CompoundProgressDisplayField extends DisplayField {
   @InjectField() PathHelper:PathHelperService;
@@ -48,7 +52,7 @@ export class CompoundProgressDisplayField extends DisplayField {
 
     this.renderActual(element, displayText);
 
-    if (this.hasChildren()) {
+    if (this.derivedValue !== null && this.hasChildren()) {
       this.renderSeparator(element);
       this.renderDerived(element, this.derivedValueString);
     }
@@ -86,8 +90,15 @@ export class CompoundProgressDisplayField extends DisplayField {
     element.appendChild(span);
   }
 
-  public get value():number {
-    return this.resource[this.name] as number || 0;
+  public isEmpty():boolean {
+    const { value } = this;
+    const derived = this.derivedValue;
+
+    return (value === null) && (derived === null);
+  }
+
+  public get value():number|null {
+    return this.resource[this.name] as number|null;
   }
 
   public get valueString() {
@@ -98,15 +109,18 @@ export class CompoundProgressDisplayField extends DisplayField {
     return `derived${_.upperFirst(this.name)}`;
   }
 
-  private get derivedValue() {
-    return this.resource[this.derivedPropertyName] as number;
+  private get derivedValue():number|null {
+    return this.resource[this.derivedPropertyName] as number|null;
   }
 
   private get derivedValueString():string {
     return this.formatAsPercentage(this.derivedValue);
   }
 
-  private formatAsPercentage(value:number) {
+  private formatAsPercentage(value:number|null) {
+    if (value === null || value === undefined) {
+      return this.placeholder;
+    }
     return `${value}%`;
   }
 

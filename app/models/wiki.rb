@@ -29,18 +29,18 @@
 class Wiki < ApplicationRecord
   belongs_to :project
   has_many :pages, -> {
-    order('title')
-  }, class_name: 'WikiPage', dependent: :destroy
+    order("title")
+  }, class_name: "WikiPage", dependent: :destroy
   has_many :wiki_menu_items, -> {
-    order('name')
-  }, class_name: 'MenuItems::WikiMenuItem', dependent: :delete_all, foreign_key: 'navigatable_id'
-  has_many :redirects, class_name: 'WikiRedirect', dependent: :delete_all
+    order("name")
+  }, class_name: "MenuItems::WikiMenuItem", dependent: :delete_all, foreign_key: "navigatable_id"
+  has_many :redirects, class_name: "WikiRedirect", dependent: :delete_all
 
   acts_as_watchable permission: :view_wiki_pages
 
   accepts_nested_attributes_for :wiki_menu_items,
                                 allow_destroy: true,
-                                reject_if: proc { |attr| attr['name'].blank? && attr['title'].blank? }
+                                reject_if: proc { |attr| attr["name"].blank? && attr["title"].blank? }
 
   validates :start_page, presence: true
 
@@ -105,7 +105,7 @@ class Wiki < ApplicationRecord
 
   def create_menu_item_for_start_page
     wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) do |item|
-      item.name = 'wiki'
+      item.name = "wiki"
     end
     wiki_menu_item.new_wiki_page = true
     wiki_menu_item.index_page = true

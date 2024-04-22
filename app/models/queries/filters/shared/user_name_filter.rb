@@ -43,13 +43,13 @@ module Queries::Filters::Shared::UserNameFilter
 
     def where
       case operator
-      when '='
+      when "="
         ["#{sql_concat_name} IN (:s) OR unaccent(#{sql_concat_name}) IN (:s)", { s: sql_value }]
-      when '!'
+      when "!"
         ["#{sql_concat_name} NOT IN (:s) AND unaccent(#{sql_concat_name}) NOT IN (:s)", { s: sql_value }]
-      when '~', '**'
+      when "~", "**"
         ["unaccent(#{sql_concat_name}) LIKE unaccent(:s)", { s: "%#{sql_value}%" }]
-      when '!~'
+      when "!~"
         ["unaccent(#{sql_concat_name}) NOT LIKE unaccent(:s)", { s: "%#{sql_value}%" }]
       end
     end
@@ -58,9 +58,9 @@ module Queries::Filters::Shared::UserNameFilter
 
     def sql_value
       case operator
-      when '=', '!'
-        values.map { |val| self.class.connection.quote_string(val.downcase) }.join(',')
-      when '**', '~', '!~'
+      when "=", "!"
+        values.map { |val| self.class.connection.quote_string(val.downcase) }.join(",")
+      when "**", "~", "!~"
         values.first.downcase
       end
     end
@@ -70,7 +70,7 @@ module Queries::Filters::Shared::UserNameFilter
       when :firstname_lastname
         "LOWER(CONCAT(users.firstname, ' ', users.lastname))"
       when :firstname
-        'LOWER(users.firstname)'
+        "LOWER(users.firstname)"
       when :lastname_firstname, :lastname_coma_firstname
         "LOWER(CONCAT(users.lastname, CONCAT(' ', users.firstname)))"
       when :lastname_n_firstname

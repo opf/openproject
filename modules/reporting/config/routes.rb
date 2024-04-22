@@ -27,7 +27,7 @@
 #++
 
 Rails.application.routes.draw do
-  scope 'projects/:project_id' do
+  scope "projects/:project_id" do
     resources :cost_reports, except: :create do
       collection do
         match :index, via: %i[get post]

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'API v3 Relation resource', content_type: :json do
+RSpec.describe "API v3 Relation resource", content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:user) { create(:admin) }
@@ -39,7 +39,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
 
   let(:type) { "follows" }
   let(:description) { "This first" }
-  let(:delay) { 3 }
+  let(:lag) { 3 }
 
   let(:params) do
     {
@@ -53,7 +53,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
       },
       type:,
       description:,
-      delay:
+      lag:
     }
   end
   let(:relation) do
@@ -62,7 +62,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
            to:,
            relation_type: type,
            description:,
-           delay:)
+           lag:)
   end
 
   before do
@@ -70,15 +70,15 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
   end
 
   describe "creating a relation" do
-    shared_examples_for 'creates the relation' do
-      it 'creates the relation correctly' do
+    shared_examples_for "creates the relation" do
+      it "creates the relation correctly" do
         rel = API::V3::Relations::RelationPayloadRepresenter.new(Relation.new, current_user: user).from_json last_response.body
 
         expect(rel.from).to eq from
         expect(rel.to).to eq to
         expect(rel.relation_type).to eq type
         expect(rel.description).to eq description
-        expect(rel.delay).to eq delay
+        expect(rel.lag).to eq lag
       end
     end
 
@@ -92,17 +92,17 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
       post api_v3_paths.work_package_relations(from.id), params.to_json
     end
 
-    it 'returns 201 (created)' do
+    it "returns 201 (created)" do
       expect(last_response.status).to eq(201)
     end
 
-    it 'has created a new relation' do
+    it "has created a new relation" do
       expect(Relation.count).to eq 1
     end
 
-    it_behaves_like 'creates the relation'
+    it_behaves_like "creates the relation"
 
-    context 'when the relation would create a circular scheduling dependency' do
+    context "when the relation would create a circular scheduling dependency" do
       let(:from_child) do
         create(:work_package, parent: from)
       end
@@ -120,14 +120,14 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
         children_follows_relation
       end
 
-      it 'responds with error' do
+      it "responds with error" do
         expect(last_response.status).to be 422
       end
 
-      it 'states the reason for the error' do
+      it "states the reason for the error" do
         expect(last_response.body)
-          .to be_json_eql(I18n.t(:'activerecord.errors.messages.circular_dependency').to_json)
-          .at_path('message')
+          .to be_json_eql(I18n.t(:"activerecord.errors.messages.circular_dependency").to_json)
+          .at_path("message")
       end
     end
 
@@ -158,7 +158,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
         relation_b_c
       end
 
-      it 'returns 201 (created) and creates the relation' do
+      it "returns 201 (created) and creates the relation" do
         expect(last_response.status)
           .to eq(201)
 
@@ -174,7 +174,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
       end
     end
 
-    context 'follows relation within siblings' do
+    context "follows relation within siblings" do
       let(:sibling) do
         create(:work_package)
       end
@@ -187,8 +187,8 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
         wp.children = [sibling, from, to, other_sibling]
       end
       let(:existing_follows) do
-        create(:relation, relation_type: 'follows', from: to, to: sibling)
-        create(:relation, relation_type: 'follows', from: other_sibling, to: from)
+        create(:relation, relation_type: "follows", from: to, to: sibling)
+        create(:relation, relation_type: "follows", from: other_sibling, to: from)
       end
 
       let(:setup) do
@@ -196,10 +196,10 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
         existing_follows
       end
 
-      it_behaves_like 'creates the relation'
+      it_behaves_like "creates the relation"
     end
 
-    context 'follows relation to sibling\'s child' do
+    context "follows relation to sibling's child" do
       let(:sibling) do
         create(:work_package)
       end
@@ -212,7 +212,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
         wp.children = [sibling, from, to]
       end
       let(:existing_follows) do
-        create(:relation, relation_type: 'follows', from: to, to: sibling_child)
+        create(:relation, relation_type: "follows", from: to, to: sibling_child)
       end
 
       let(:setup) do
@@ -220,18 +220,18 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
         existing_follows
       end
 
-      it_behaves_like 'creates the relation'
+      it_behaves_like "creates the relation"
     end
   end
 
   describe "updating a relation" do
     let(:new_description) { "This is another description" }
-    let(:new_delay) { 42 }
+    let(:new_lag) { 42 }
 
     let(:update) do
       {
         description: new_description,
-        delay: new_delay
+        lag: new_lag
       }
     end
 
@@ -249,8 +249,8 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
       expect(relation.reload.description).to eq new_description
     end
 
-    it "updates the relation's delay" do
-      expect(relation.reload.delay).to eq new_delay
+    it "updates the relation's lag" do
+      expect(relation.reload.lag).to eq new_lag
     end
 
     it "returns the updated relation" do
@@ -396,20 +396,20 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
       expect(Relation.exists?(relation.id)).to be_falsey
     end
 
-    context 'lacking the permission' do
+    context "lacking the permission" do
       let(:permissions) { %i[view_work_packages] }
 
-      it 'returns 403' do
+      it "returns 403" do
         expect(last_response.status).to eq 403
       end
 
-      it 'leaves the relation' do
+      it "leaves the relation" do
         expect(Relation.exists?(relation.id)).to be_truthy
       end
     end
   end
 
-  describe 'GET /api/v3/relations?[filter]' do
+  describe "GET /api/v3/relations?[filter]" do
     let(:user) { create(:user) }
     let(:role) { create(:project_role, permissions: [:view_work_packages]) }
     let(:member_project_to) do
@@ -445,7 +445,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
 
     let(:members) { [member_project_to, member_project_from] }
     let(:filter) do
-      [{ involved: { operator: '=', values: [from.id.to_s] } }]
+      [{ involved: { operator: "=", values: [from.id.to_s] } }]
     end
 
     before do
@@ -457,26 +457,26 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
       get "#{api_v3_paths.relations}?filters=#{CGI::escape(JSON::dump(filter))}"
     end
 
-    it 'returns 200' do
+    it "returns 200" do
       expect(last_response.status).to be 200
     end
 
-    it 'returns the visible relation (and only the visible one) satisfying the filter' do
+    it "returns the visible relation (and only the visible one) satisfying the filter" do
       expect(last_response.body)
-        .to be_json_eql('1')
-        .at_path('total')
+        .to be_json_eql("1")
+        .at_path("total")
 
       expect(last_response.body)
-        .to be_json_eql('1')
-        .at_path('count')
+        .to be_json_eql("1")
+        .at_path("count")
 
       expect(last_response.body)
         .to be_json_eql(relation.id.to_json)
-        .at_path('_embedded/elements/0/id')
+        .at_path("_embedded/elements/0/id")
     end
   end
 
-  describe 'GET /api/v3/relations/:id' do
+  describe "GET /api/v3/relations/:id" do
     let(:path) do
       api_v3_paths.relation(relation.id)
     end
@@ -500,12 +500,12 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
       get path
     end
 
-    context 'for a relation with visible work packages' do
-      it 'returns 200' do
+    context "for a relation with visible work packages" do
+      it "returns 200" do
         expect(last_response.status).to be 200
       end
 
-      it 'returns the relation' do
+      it "returns the relation" do
         # Creation leads to journal creation which leads to touching the work package which is not
         # reflected in the value returned from the wp factory.
         from.reload
@@ -520,7 +520,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
       end
     end
 
-    context 'for a relation with an invisible work package' do
+    context "for a relation with an invisible work package" do
       let(:invisible_relation) do
         invisible_wp = create(:work_package)
 
@@ -533,7 +533,7 @@ RSpec.describe 'API v3 Relation resource', content_type: :json do
         api_v3_paths.relation(invisible_relation.id)
       end
 
-      it 'returns 404 NOT FOUND' do
+      it "returns 404 NOT FOUND" do
         expect(last_response.status).to be 404
       end
     end

@@ -37,7 +37,7 @@ module Components
 
       def initialize(work_package)
         @work_package = work_package
-        @container = '.work-package-details-activities-list'
+        @container = ".work-package-details-activities-list"
       end
 
       def expect_wp_has_been_created_activity(work_package)

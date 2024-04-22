@@ -53,17 +53,20 @@ module WorkPackages
     attribute :project_id
 
     attribute :done_ratio,
-              writable: ->(*) do
-                Setting.work_package_done_ratio == 'field'
-              end
+              writable: false
     attribute :derived_done_ratio,
               writable: false
 
-    attribute :estimated_hours
+    attribute :estimated_hours do
+      validate_work_is_set_when_remaining_work_is_set
+    end
     attribute :derived_estimated_hours,
               writable: false
 
-    attribute :remaining_hours
+    attribute :remaining_hours do
+      validate_remaining_work_is_lower_than_work
+      validate_remaining_work_is_set_when_work_is_set
+    end
     attribute :derived_remaining_hours,
               writable: false
 
@@ -74,7 +77,7 @@ module WorkPackages
       next unless model.project
 
       validate_people_visible :assigned_to,
-                              'assigned_to_id',
+                              "assigned_to_id",
                               assignable_assignees
     end
 
@@ -82,7 +85,7 @@ module WorkPackages
       next unless model.project
 
       validate_people_visible :responsible,
-                              'responsible_id',
+                              "responsible_id",
                               assignable_responsibles
     end
 
@@ -223,7 +226,7 @@ module WorkPackages
 
     def validate_after_soonest_start(date_attribute)
       if !model.schedule_manually? && before_soonest_start?(date_attribute)
-        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
+        message = I18n.t("activerecord.errors.models.work_package.attributes.start_date.violates_relationships",
                          soonest_start: model.soonest_start)
 
         errors.add date_attribute, message, error_symbol: :violates_relationships
@@ -320,6 +323,42 @@ module WorkPackages
       end
     end
 
+    def validate_remaining_work_is_lower_than_work
+      if work_set? && remaining_work_set? && remaining_work_exceeds_work?
+        if model.changed.include?("estimated_hours")
+          errors.add(:estimated_hours, :cant_be_inferior_to_remaining_work)
+        end
+
+        if model.changed.include?("remaining_hours")
+          errors.add(:remaining_hours, :cant_exceed_work)
+        end
+      end
+    end
+
+    def validate_remaining_work_is_set_when_work_is_set
+      if work_set? && !remaining_work_set?
+        errors.add(:remaining_hours, :must_be_set_when_work_is_set)
+      end
+    end
+
+    def validate_work_is_set_when_remaining_work_is_set
+      if remaining_work_set? && !work_set?
+        errors.add(:estimated_hours, :must_be_set_when_remaining_work_is_set)
+      end
+    end
+
+    def work_set?
+      model.estimated_hours.present?
+    end
+
+    def remaining_work_set?
+      model.remaining_hours.present?
+    end
+
+    def remaining_work_exceeds_work?
+      model.remaining_hours > model.estimated_hours
+    end
+
     def validate_no_reopen_on_closed_version
       if model.version_id && model.reopened? && model.version.closed?
         errors.add :base, I18n.t(:error_can_not_reopen_work_package_on_closed_version)
@@ -333,7 +372,7 @@ module WorkPackages
 
       unless principal_visible?(id, list)
         errors.add attribute,
-                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
+                   I18n.t("api_v3.errors.validation.invalid_user_assigned_to_work_package",
                           property: I18n.t("attributes.#{attribute}"))
       end
     end

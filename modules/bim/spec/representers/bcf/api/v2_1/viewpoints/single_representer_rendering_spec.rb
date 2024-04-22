@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../shared_examples'
+require_relative "../shared_examples"
 
-RSpec.describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, "rendering" do
   let(:viewpoint) { build_stubbed(:bcf_viewpoint) }
   let(:instance) { described_class.new(viewpoint) }
 
   subject { instance.to_json }
 
-  it 'renders only the json_viewpoint attribute (as root)' do
+  it "renders only the json_viewpoint attribute (as root)" do
     expect(subject)
-      .to be_json_eql(viewpoint.read_attribute_before_type_cast('json_viewpoint'))
+      .to be_json_eql(viewpoint.read_attribute_before_type_cast("json_viewpoint"))
   end
 end

@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package attribute help texts', :js do
+RSpec.describe "Work package attribute help texts", :js do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
 
   let(:instance) do
     create(:work_package_help_text,
            attribute_name: :status,
-           help_text: 'Some **help text** for status.')
+           help_text: "Some **help text** for status.")
   end
 
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
@@ -50,30 +50,30 @@ RSpec.describe 'Work package attribute help texts', :js do
     wp_page.ensure_page_loaded
   end
 
-  shared_examples 'allows to view help texts' do
-    it 'shows an indicator for whatever help text exists' do
+  shared_examples "allows to view help texts" do
+    it "shows an indicator for whatever help text exists" do
       expect(page).to have_css('.work-package--single-view [data-qa-help-text-for="status"]')
 
       # Open help text modal
       modal.open!
-      expect(modal.modal_container).to have_css('strong', text: 'help text')
+      expect(modal.modal_container).to have_css("strong", text: "help text")
       modal.expect_edit(editable: user.allowed_globally?(:edit_attribute_help_texts))
 
       modal.close!
     end
   end
 
-  describe 'as admin' do
+  describe "as admin" do
     let(:user) { create(:admin) }
 
-    it_behaves_like 'allows to view help texts'
+    it_behaves_like "allows to view help texts"
   end
 
-  describe 'as regular user' do
+  describe "as regular user" do
     let(:user) do
       create(:user, member_with_permissions: { project => [:view_work_packages] })
     end
 
-    it_behaves_like 'allows to view help texts'
+    it_behaves_like "allows to view help texts"
   end
 end

@@ -42,7 +42,7 @@ module OpenProject::Backlogs::Patches::VersionPatch
 
       WorkPackage.transaction do
         # Remove position from all non-stories
-        WorkPackage.where(['project_id = ? AND type_id NOT IN (?) AND position IS NOT NULL', project, Story.types])
+        WorkPackage.where(["project_id = ? AND type_id NOT IN (?) AND position IS NOT NULL", project, Story.types])
           .update_all(position: nil)
 
         rebuild_positions(work_packages.where(project_id: project), Story.types)
@@ -80,12 +80,12 @@ module OpenProject::Backlogs::Patches::VersionPatch
       wo_position = scope
                       .where(type_id: type_ids,
                              position: nil)
-                      .order(Arel.sql('id'))
+                      .order(Arel.sql("id"))
 
       w_position = scope
                      .where(type_id: type_ids)
                      .where.not(position: nil)
-                     .order(Arel.sql('COALESCE(position, 0), id'))
+                     .order(Arel.sql("COALESCE(position, 0), id"))
 
       (w_position + wo_position).each_with_index do |work_package, index|
         work_package.update_column(:position, index + 1)

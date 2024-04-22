@@ -39,22 +39,22 @@ ko:
   api_v3:
     errors:
       too_many_elements_created_at_once: 한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다.
-  permission_create_files: 파일 만들기
-  permission_delete_files: 파일 삭제
+  permission_create_files: '외부 저장소: 파일 만들기'
+  permission_delete_files: '외부 저장소: 파일 삭제'
   permission_manage_file_links: 파일 링크 관리
   permission_manage_storages_in_project: 프로젝트의 파일 저장소 관리
-  permission_read_files: 파일 읽기
-  permission_share_files: 파일 공유
+  permission_read_files: '외부 저장소: 파일 읽기'
+  permission_share_files: '외부 저장소: 파일 공유'
   permission_view_file_links: 파일 링크 보기
-  permission_write_files: 파일 쓰기
+  permission_write_files: '외부 저장소: 파일 쓰기'
   project_module_storages: 파일 저장소
   storages:
     buttons:
       complete_without_setup: 이것 없이 완료
       done_complete_setup: 완료, 설정 완료
       done_continue: 완료, 계속
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: OpenProject OAuth 바꾸기
+      replace_oauth_client: '%{provider_type} OAuth 바꾸기'
       save_and_continue: 저장 및 계속
       select_folder: 폴더 선택
     configuration_checks:
@@ -63,8 +63,8 @@ ko:
         one_drive: OpenProject가 OAuth를 사용하여 Azure 데이터에 액세스하고 OneDrive/Sharepoint에 연결하도록 허용합니다.
       redirect_uri_incomplete:
         one_drive: 올바른 URI 리디렉션으로 설정을 완료합니다.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: 이 작업은 현재 OAuth 자격 증명을 재설정합니다. 확인 후 저장소 공급자에서 자격 증명을 다시 입력해야 하며 모든 원격 사용자는 OpenProject에 대해 다시 인증해야 합니다. 계속하시겠습니까?
+    confirm_replace_oauth_client: 이 작업은 현재 OAuth 자격 증명을 재설정합니다. 확인 후 저장소 공급자의 새로운 자격 증명을 입력해야 하며 모든 사용자는 %{provider_type}에 대해 다시 인증해야 합니다. 계속하시겠습니까?
     delete_warning:
       input_delete_confirmation: 파일 저장소 이름 %{file_storage}을(를) 입력하여 삭제를 확인합니다.
       irreversible_notice: 파일 저장소를 삭제하면 되돌릴 수 없습니다.
@@ -77,6 +77,15 @@ ko:
       storage_delete_result_3: 이 저장소에 자동으로 관리되는 프로젝트 폴더가 있는 경우 이 폴더와 포함된 해당 파일이 영구적으로 삭제됩니다.
     error_invalid_provider_type: 유효한 저장소 공급자를 선택하세요.
     file_storage_view:
+      access_management:
+        automatic_management: 자동으로 관리되는 액세스 및 폴더
+        automatic_management_description: OpenProject가 프로젝트별 폴더를 자동으로 생성하고 해당 사용자 액세스를 관리하도록 하세요. 각 팀원이 항상 올바른 액세스 권한을 갖도록 보장하므로 권장됩니다.
+        description: 사용자 액세스 및 폴더 생성의 관리 유형을 선택하세요. 보다 체계적인 구조를 갖추고 모든 관련 사용자에게 액세스를 보장하려면 자동으로 관리되는 액세스를 사용하는 것이 좋습니다.
+        manual_management: 수동으로 관리되는 액세스 및 폴더
+        manual_management_description: 프로젝트별 폴더를 직접 수동으로 만들고 관리하세요. 관련 사용자에게 액세스 권한이 있는지 수동으로 확인해야 합니다.
+        setup_incomplete: 사용자 액세스 및 폴더 생성의 관리 유형을 선택합니다.
+        subtitle: 액세스 관리
+        title: 액세스 및 프로젝트 폴더
       automatically_managed_folders: 자동으로 관리되는 폴더
       general_information: 일반 정보
       nextcloud_oauth: Nextcloud OAuth
@@ -94,6 +103,13 @@ ko:
       since: '%{datetime} 이후'
       subtitle: 자동으로 관리되는 프로젝트 폴더
       title: 상태
+    health_email_notifications:
+      description_subscribed: 모든 관리자는 이 저장소의 상태 이메일 알림을 받습니다.
+      description_unsubscribed: 이 저장소에 대한 상태 이메일 알림이 모든 관리자에 대해 꺼져 있습니다.
+      error_could_not_be_saved: 이메일 알림 설정을 저장하지 못했습니다. 다시 시도해 주세요.
+      subscribe: 구독
+      title: 이메일 알림
+      unsubscribe: 구독 취소
     help_texts:
       project_folder: 프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
     instructions:
@@ -143,6 +159,7 @@ ko:
     label_creator: 생성자
     label_delete_storage: 저장소 삭제
     label_edit_storage: 저장소 편집
+    label_edit_storage_access_management: 저장소 액세스 관리 편집
     label_edit_storage_automatically_managed_folders: 저장소 자동 관리 폴더 편집
     label_edit_storage_host: 저장소 호스트 편집
     label_existing_manual_folder: 수동으로 관리되는 권한이 있는 기존 폴더
@@ -178,12 +195,12 @@ ko:
       저장소가 연결되었습니다! 이 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다.
     oauth_grant_nudge_modal:
       access_granted: 액세스 승인됨
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
+      access_granted_screen_reader: 액세스 권한이 부여되었습니다. 이제 %{storage} 사용 준비가 완료되었습니다.
       body: 프로젝트 폴더에 액세스하려면 %{storage}에 로그인해야 합니다.
       cancel_button_label: 나중에 하겠습니다
-      confirm_button_aria_label: Login to %{storage}
+      confirm_button_aria_label: '%{storage}에 로그인'
       confirm_button_label: 로그인
-      requesting_access_to: Requesting access to %{storage}
+      requesting_access_to: '%{storage}에 대한 액세스 요청'
       storage_ready: 이제 %{storage}을(를) 사용할 준비가 되었습니다
       title: 한 단계 더...
     open_project_storage_modal:
@@ -198,11 +215,6 @@ ko:
         delete: 파일 저장소 삭제
         subtitle: 작업 패키지의 파일을 업로드하고, 링크하고, 관리하려면 외부 파일 저장소를 추가하세요.
       managed_project_folders:
-        one_drive_information: |-
-          OneDrive/SharePoint에서 자동으로 관리되는 프로젝트 폴더를 활성화하려면, 이 파일 저장소에 사용되는
-          드라이브에서 추가 구성이 필요합니다. OpenProject가 이 드라이브의 권한을 관리하는 경우,
-          SharePoint의 다른 사용 사례에는 사용하지 못할 가능성이 높습니다. 자세한 정보와 지침은
-          %{drive_id_link_text} 내용을 참조하세요.
         subtitle: |-
           OpenProject가 프로젝트별 폴더를 자동으로 생성하도록 합니다. 각 팀원이 항상 올바른 액세스 권한을 갖도록 보장하므로 권장됩니다.
         subtitle_short: OpenProject가 프로젝트별 폴더를 자동으로 생성하도록 하세요.
@@ -216,6 +228,7 @@ ko:
       project_storage_members:
         subtitle: 모든 프로젝트 멤버의 저장소 %{storage_name_link}에 대한 연결 상태를 확인하세요.
         title: 멤버 연결 상태
+    permission_header_explanation: "외부 저장소에 대한 파일 권한은 자동으로 관리되는 프로젝트 폴더 내의 폴더와 파일에만 적용됩니다. \n모든 저장소 공급자가 모든 파일 권한을 지원하는 것은 아닙니다."
     provider_types:
       label: 공급자 유형
       nextcloud:

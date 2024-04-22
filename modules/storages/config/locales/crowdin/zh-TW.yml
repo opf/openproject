@@ -25,7 +25,7 @@ zh-TW:
         storages/storage:
           attributes:
             host:
-              authorization_header_missing: 未完全設置。Nextcloud 實例不會收到「Authorization」標頭，這是基於 Bearer 令牌的 API 請求授權所必需的。請仔細檢查您的 HTTP 服務器配置。
+              authorization_header_missing: 未完全設置。Nextcloud 實例不會收到「Authorization」標頭，這是基於 Bearer 權杖(Token)API 請求授權所必需的。請仔細檢查您的 HTTP 服務器配置。
               cannot_be_connected_to: 無法連接。
               minimal_nextcloud_version_unmet: 未滿足最低版本要求（必須為 Nextcloud 23 或更高版本）
               not_nextcloud_server: 不是一個 Nextcloud 的服務器
@@ -39,14 +39,14 @@ zh-TW:
   api_v3:
     errors:
       too_many_elements_created_at_once: 一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。
-  permission_create_files: 建立文件
-  permission_delete_files: 刪除檔案
+  permission_create_files: 'External Storage: Create files'
+  permission_delete_files: 'External Storage: Delete files'
   permission_manage_file_links: 管理文件鏈接
   permission_manage_storages_in_project: 管理專案中的文件儲存
-  permission_read_files: 讀取文件
-  permission_share_files: 分享檔案
+  permission_read_files: 'External Storage: Read files'
+  permission_share_files: 'External Storage: Share files'
   permission_view_file_links: 查看文件鏈接
-  permission_write_files: 寫文件
+  permission_write_files: 'External Storage: Write files'
   project_module_storages: 文件儲存空間
   storages:
     buttons:
@@ -55,7 +55,7 @@ zh-TW:
       done_continue: 完成，繼續
       replace_oauth_application: Replace OpenProject OAuth
       replace_oauth_client: Replace %{provider_type} OAuth
-      save_and_continue: Save and continue
+      save_and_continue: 儲存並繼續
       select_folder: 選擇資料夾
     configuration_checks:
       oauth_client_incomplete:
@@ -77,6 +77,15 @@ zh-TW:
       storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
     error_invalid_provider_type: Please select a valid storage provider.
     file_storage_view:
+      access_management:
+        automatic_management: Automatically managed access and folders
+        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
+        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
+        manual_management: Manually managed access and folders
+        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
+        setup_incomplete: Select the type of management of user access and folder creation.
+        subtitle: Access management
+        title: Access and project folders
       automatically_managed_folders: 自動管理文件夾
       general_information: 基本資訊
       nextcloud_oauth: NextCloud 開放授權 (OAuth)
@@ -85,15 +94,22 @@ zh-TW:
       openproject_oauth: OpenProject 開放授權 (OAuth)
       project_folders: 專案資料夾
       redirect_uri: 轉址 uri
-      storage_provider: Storage provider
+      storage_provider: 儲存空間提供者
     health:
-      checked: Last checked %{datetime}
+      checked: 上次檢查時間：%{datetime}
       label_error: 錯誤
       label_healthy: 健康的
       label_pending: 待處理
-      since: 自從{{datetime}}開始
-      subtitle: Automatic managed project folders
+      since: 自從%{datetime}開始
+      subtitle: Automatically managed project folders
       title: 健康狀態
+    health_email_notifications:
+      description_subscribed: All administrators receive health status email notifications for this storage.
+      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
+      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
+      subscribe: Subscribe
+      title: Email notifications
+      unsubscribe: Unsubscribe
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     instructions:
@@ -112,14 +128,14 @@ zh-TW:
         oauth_configuration: Copy these values from %{application_link_text}.
         provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
       no_specific_folder: 預設情況下，每個使用者上傳檔案時都會從自己的主資料夾開始。
-      no_storage_set_up: There are no file storages set up yet.
+      no_storage_set_up: 尚未設定檔案儲存區
       not_logged_into_storage: To select a project folder, please first login
       oauth_application_details: The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}.
-      oauth_application_details_link_text: Nextcloud OpenProject Integration settings
+      oauth_application_details_link_text: Nextcloud OpenProject整合設定
       one_drive:
         application_link_text: Azure portal
         copy_redirect_uri: Copy redirect URI
-        documentation_link_text: OneDrive/SharePoint file storages documentation
+        documentation_link_text: OneDrive/SharePoint 文件
         drive_id: Please copy the ID from the desired drive by following the steps in the %{drive_id_link_text}.
         integration: OneDrive/SharePoint
         missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
@@ -143,6 +159,7 @@ zh-TW:
     label_creator: 建立者
     label_delete_storage: 刪除儲存區
     label_edit_storage: Edit storage
+    label_edit_storage_access_management: Edit storage access management
     label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
     label_edit_storage_host: 編輯儲存主機
     label_existing_manual_folder: Existing folder with manually managed permissions
@@ -152,17 +169,17 @@ zh-TW:
     label_incomplete: Incomplete
     label_managed_project_folders:
       application_password: Application password
-      automatically_managed_folders: Automatically managed folders
+      automatically_managed_folders: 自動管理文件夾
     label_name: 名稱
     label_new_file_storage: New %{provider} storage
-    label_new_storage: New storage
+    label_new_storage: 新儲存區
     label_no_selected_folder: 沒有設定資料夾
-    label_no_specific_folder: No specific folder
-    label_oauth_client_id: OAuth Client ID
+    label_no_specific_folder: 未指定文件夾
+    label_oauth_client_id: OAuth 客戶端 ID
     label_openproject_oauth_application_id: OpenProject OAuth Client ID
     label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
     label_project_folder: 專案資料夾
-    label_provider: Provider
+    label_provider: 供應商
     label_redirect_uri: 轉址 uri
     label_show_storage_redirect_uri: Show redirect URI
     label_status: 狀態
@@ -178,11 +195,11 @@ zh-TW:
       Storage connected successfully! Remember to activate the module and the specific storage in the project settings
       of each desired project to use it.
     oauth_grant_nudge_modal:
-      access_granted: Access granted
+      access_granted: 已授權存取
       access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: To get access to the project folder you need to login to %{storage}.
-      cancel_button_label: I will do it later
-      confirm_button_aria_label: Login to %{storage}
+      cancel_button_label: 稍後再做
+      confirm_button_aria_label: 登入到 %{storage}
       confirm_button_label: 登入
       requesting_access_to: Requesting access to %{storage}
       storage_ready: You are now ready to use %{storage}
@@ -197,13 +214,8 @@ zh-TW:
     page_titles:
       file_storages:
         delete: 刪除儲存區
-        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+        subtitle: 新增外部檔案存儲空間，以便上傳、連結和管理工作項目中的文件。
       managed_project_folders:
-        one_drive_information: |-
-          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
-          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
-          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
-          to the %{drive_id_link_text}.
         subtitle: |-
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
           member always has the correct access permissions.
@@ -218,21 +230,22 @@ zh-TW:
       project_storage_members:
         subtitle: 檢查所有專案成員存儲區 %{storage_name_link} 的連線狀態。
         title: 成員連線狀態
+    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
     provider_types:
       label: 提供者類型
       nextcloud:
-        label_oauth_client_id: Nextcloud OAuth Client ID
-        label_oauth_client_secret: Nextcloud OAuth Client Secret
+        label_oauth_client_id: Nextcloud OAuth 客户端 ID
+        label_oauth_client_secret: Nextcloud OAuth 客户端金鑰
         name: Nextcloud
         name_placeholder: 例如 Nextcloud
       one_drive:
-        label_oauth_client_id: Azure OAuth Application (client) ID
-        label_oauth_client_secret: Azure OAuth Client Secret Value
+        label_oauth_client_id: Azure OAuth 應用程式(客戶端) ID
+        label_oauth_client_secret: Azure OAuth 客戶端密鑰值
         name: OneDrive/SharePoint
         name_placeholder: 例如 OneDrive
     storage_list_blank_slate:
-      description: Add a storage to see them here.
-      heading: You don't have any storages yet.
+      description: 新增的儲存空間將在此顯示
+      heading: 目前沒有任何儲存空間
     upsale:
       description: |-
         Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to

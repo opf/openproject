@@ -26,42 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Quarantined attachments', :js, :with_cuprite do
+RSpec.describe "Quarantined attachments", :js, :with_cuprite do
   shared_let(:other_author) { create(:user) }
   shared_let(:admin) { create(:admin) }
 
   shared_let(:container) { create(:work_package) }
 
   shared_let(:quarantined_attachment) do
-    create(:attachment, container:, status: :quarantined, author: other_author, filename: 'other-1.txt')
+    create(:attachment, container:, status: :quarantined, author: other_author, filename: "other-1.txt")
   end
   shared_let(:other_quarantined_attachment) do
-    create(:attachment, container:, status: :quarantined, author: other_author, filename: 'other-2.txt')
+    create(:attachment, container:, status: :quarantined, author: other_author, filename: "other-2.txt")
   end
 
   before do
     login_as admin
   end
 
-  it 'allows management other attachments' do
+  it "allows management other attachments" do
     visit admin_quarantined_attachments_path
 
-    expect(page).to have_text 'other-1.txt'
-    expect(page).to have_text 'other-2.txt'
+    expect(page).to have_text "other-1.txt"
+    expect(page).to have_text "other-2.txt"
 
     page.within("#quarantined_attachment_#{quarantined_attachment.id}") do
-      expect(page).to have_link I18n.t('antivirus_scan.quarantined_attachments.delete')
+      expect(page).to have_link I18n.t("antivirus_scan.quarantined_attachments.delete")
 
       accept_confirm do
-        click_link I18n.t('antivirus_scan.quarantined_attachments.delete')
+        click_link I18n.t("antivirus_scan.quarantined_attachments.delete")
       end
 
       expect { quarantined_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    expect(page).to have_no_text 'other-1.txt'
-    expect(page).to have_text 'other-2.txt'
+    expect(page).to have_no_text "other-1.txt"
+    expect(page).to have_text "other-2.txt"
   end
 end

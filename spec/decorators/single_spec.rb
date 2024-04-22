@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::Decorators::Single do
   let(:user) { create(:user, member_with_roles: { project => role }) }
@@ -36,7 +36,7 @@ RSpec.describe API::Decorators::Single do
 
   let(:single) { API::Decorators::Single.new(model, current_user: user) }
 
-  describe '.checked_permissions' do
+  describe ".checked_permissions" do
     let(:permissions) { [:add_work_packages] }
     let!(:initial_value) { described_class.checked_permissions }
 
@@ -44,7 +44,7 @@ RSpec.describe API::Decorators::Single do
       described_class.checked_permissions = initial_value
     end
 
-    it 'stores the value' do
+    it "stores the value" do
       expect(described_class.checked_permissions).to be_nil
 
       described_class.checked_permissions = permissions

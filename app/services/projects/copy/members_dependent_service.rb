@@ -29,7 +29,7 @@
 module Projects::Copy
   class MembersDependentService < Dependency
     def self.human_name
-      I18n.t(:'projects.copy.members')
+      I18n.t(:"projects.copy.members")
     end
 
     def source_count
@@ -54,7 +54,7 @@ module Projects::Copy
       return if role_ids.empty?
 
       attributes = member
-                     .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
+                     .attributes.dup.except("id", "project_id", "created_at", "updated_at")
                      .merge(role_ids:,
                             project: target,
                             # This is magic for now. The settings has been set before in the Projects::CopyService

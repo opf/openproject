@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Relations::RelationCollectionRepresenter do
   let(:work_package) do
@@ -50,15 +50,15 @@ RSpec.describe API::V3::Relations::RelationCollectionRepresenter do
   end
 
   def self_link
-    'a link that is provided'
+    "a link that is provided"
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'unpaginated APIv3 collection',
+    it_behaves_like "unpaginated APIv3 collection",
                     3,
-                    'a link that is provided',
-                    'Relation'
+                    "a link that is provided",
+                    "Relation"
   end
 end

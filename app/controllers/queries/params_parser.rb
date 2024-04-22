@@ -41,7 +41,11 @@ module Queries
       private
 
       def parse_filters_from_params(params)
-        FilterParser.new(params[:filters]).parse
+        if params[:filters].present? && params[:filters].start_with?("[")
+          ::Queries::ParamsParser::APIV3FiltersParser.parse(params[:filters])
+        else
+          FiltersParser.new(params[:filters]).parse
+        end
       end
 
       def parse_orders_from_params(params)
@@ -49,98 +53,11 @@ module Queries
             .to_h
             .map { |k, v| { attribute: k, direction: v } }
       rescue JSON::ParserError
-        [{ attribute: 'invalid', direction: 'asc' }]
+        [{ attribute: "invalid", direction: "asc" }]
       end
 
       def parse_columns_from_params(params)
         params[:columns].split
-      end
-    end
-
-    class FilterParser
-      def initialize(string)
-        @buffer = StringScanner.new(string)
-      end
-
-      def parse
-        filters = []
-
-        while !@buffer.eos?
-          filters << parse_filter
-        end
-
-        filters
-      end
-
-      private
-
-      def parse_filter
-        consume_ampersand
-
-        {
-          attribute: parse_name,
-          operator: parse_operator,
-          values: parse_values
-        }
-      end
-
-      def consume_ampersand
-        case @buffer.peek(1)
-        when '&', /\s/
-          @buffer.getch
-          consume_ampersand
-        end
-      end
-
-      def parse_name
-        @buffer.scan_until(/\s|\z/).strip
-      end
-
-      def parse_operator
-        @buffer.scan_until(/\s|\z/).strip
-      end
-
-      def parse_values
-        case @buffer.peek(1)
-        when '"'
-          parse_doublequoted_value
-        when "'"
-          parse_singlequoted_value
-        when '['
-          parse_array_value
-        when '&'
-          []
-        else
-          parse_unguarded_value
-        end
-      end
-
-      def parse_doublequoted_value
-        @buffer.getch
-        [@buffer.scan_until(/(?<!\\)"|\z/).delete_suffix('"').delete("\\")]
-      end
-
-      def parse_singlequoted_value
-        @buffer.getch
-        [@buffer.scan_until(/(?<!\\)'|\z/).delete_suffix("'").delete("\\")]
-      end
-
-      def parse_unguarded_value
-        value = @buffer
-                  .scan_until(/&|\z/)
-                  .delete_suffix('&')
-
-        [value]
-      end
-
-      def parse_array_value
-        @buffer
-          .scan_until(/]|\z/)
-          .delete_suffix(']')
-          .delete_prefix('[')
-          .scan(/(?:'([^']*)')|(?:"([^"]*)")/)
-          .flatten
-          .compact
       end
     end
   end

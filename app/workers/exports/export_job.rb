@@ -1,4 +1,4 @@
-require 'active_storage/filename'
+require "active_storage/filename"
 
 module Exports
   class ExportJob < ::ApplicationJob
@@ -90,7 +90,7 @@ module Exports
     end
 
     def with_tempfile(title, content)
-      name_parts = [title[0..title.rindex('.') - 1], title[title.rindex('.')..]]
+      name_parts = [title[0..title.rindex(".") - 1], title[title.rindex(".")..]]
 
       Tempfile.create(name_parts, encoding: content.encoding) do |file|
         file.write content
@@ -104,19 +104,19 @@ module Exports
 
       call = Attachments::CreateService
                .bypass_whitelist(user: User.current)
-               .call(container:, file:, filename:, description: '')
+               .call(container:, file:, filename:, description: "")
 
       call.on_success do
         download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
 
         upsert_status status: :success,
-                      message: I18n.t('export.succeeded'),
+                      message: I18n.t("export.succeeded"),
                       payload: download_payload(download_url)
       end
 
       call.on_failure do
         upsert_status status: :failure,
-                      message: I18n.t('export.failed', message: call.message)
+                      message: I18n.t("export.failed", message: call.message)
       end
     end
   end

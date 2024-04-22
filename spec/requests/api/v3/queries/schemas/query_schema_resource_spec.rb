@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Query Schema resource' do
+RSpec.describe "API v3 Query Schema resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -46,7 +46,7 @@ RSpec.describe 'API v3 Query Schema resource' do
       .and_return(user)
   end
 
-  describe '#get queries/schema' do
+  describe "#get queries/schema" do
     subject { last_response }
 
     let(:path) { api_v3_paths.query_schema }
@@ -55,21 +55,21 @@ RSpec.describe 'API v3 Query Schema resource' do
       get path
     end
 
-    it 'succeeds' do
+    it "succeeds" do
       expect(subject.status)
         .to be(200)
     end
 
-    it 'returns the schema' do
+    it "returns the schema" do
       expect(subject.body)
         .to be_json_eql(path.to_json)
-        .at_path('_links/self/href')
+        .at_path("_links/self/href")
     end
 
-    context 'user not allowed' do
+    context "user not allowed" do
       let(:permissions) { [] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 end

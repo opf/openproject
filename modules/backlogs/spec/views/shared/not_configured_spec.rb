@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'shared/not_configured' do
-  it 'renders without errors' do
+RSpec.describe "shared/not_configured" do
+  it "renders without errors" do
     render
   end
 end

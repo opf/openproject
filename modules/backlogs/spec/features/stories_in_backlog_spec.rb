@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/backlogs'
+require "spec_helper"
+require_relative "../support/pages/backlogs"
 
-RSpec.describe 'Stories in backlog', :js,
+RSpec.describe "Stories in backlog", :js,
                with_cuprite: false do
   let!(:project) do
     create(:project,
@@ -135,11 +135,11 @@ RSpec.describe 'Stories in backlog', :js,
     login_as current_user
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-            .and_return('story_types' => [story.id.to_s, other_story.id.to_s],
-                        'task_type' => task.id.to_s)
+            .and_return("story_types" => [story.id.to_s, other_story.id.to_s],
+                        "task_type" => task.id.to_s)
   end
 
-  it 'displays stories which are editable' do
+  it "displays stories which are editable" do
     backlogs_page.visit!
 
     # All stories are visible in their sprint/backlog
@@ -172,16 +172,16 @@ RSpec.describe 'Stories in backlog', :js,
     SeleniumHubWaiter.wait
     # Creating a story
     backlogs_page
-      .click_in_backlog_menu(sprint, 'New Story')
+      .click_in_backlog_menu(sprint, "New Story")
 
     SeleniumHubWaiter.wait
     backlogs_page
-      .edit_new_story(subject: 'New story',
+      .edit_new_story(subject: "New story",
                       story_points: 10)
 
     new_story = nil
     retry_block do
-      new_story = WorkPackage.find_by(subject: 'New story')
+      new_story = WorkPackage.find_by(subject: "New story")
       raise "Expected story" unless new_story
     end
 
@@ -204,16 +204,16 @@ RSpec.describe 'Stories in backlog', :js,
     SeleniumHubWaiter.wait
     backlogs_page
       .edit_story(sprint_story1,
-                  subject: 'Altered story1',
+                  subject: "Altered story1",
                   story_points: 15)
 
     retry_block do
       sprint_story1.reload
-      raise "Expected story to be renamed" unless sprint_story1.subject == 'Altered story1'
+      raise "Expected story to be renamed" unless sprint_story1.subject == "Altered story1"
     end
 
     backlogs_page
-      .expect_for_story(sprint_story1, subject: 'Altered story1')
+      .expect_for_story(sprint_story1, subject: "Altered story1")
 
     # Updating the story_points of a story will update the velocity of the sprint
     backlogs_page
@@ -266,14 +266,14 @@ RSpec.describe 'Stories in backlog', :js,
     SeleniumHubWaiter.wait
     backlogs_page
       .alter_attributes_in_edit_story_mode(backlog_story1,
-                                           subject: 'Altered backlog story1',
+                                           subject: "Altered backlog story1",
                                            status: other_status.name)
     backlogs_page
       .save_story_from_edit_mode(backlog_story1)
 
     retry_block do
       backlog_story1.reload
-      raise "Expected story to be renamed" unless backlog_story1.subject == 'Altered backlog story1'
+      raise "Expected story to be renamed" unless backlog_story1.subject == "Altered backlog story1"
     end
 
     expect(backlog_story1.status)
@@ -281,7 +281,7 @@ RSpec.describe 'Stories in backlog', :js,
 
     backlogs_page
       .expect_for_story(backlog_story1,
-                        subject: 'Altered backlog story1',
+                        subject: "Altered backlog story1",
                         status: other_status.name)
 
     SeleniumHubWaiter.wait
@@ -303,14 +303,14 @@ RSpec.describe 'Stories in backlog', :js,
 
     backlogs_page
       .expect_for_story(backlog_story1,
-                        subject: 'Altered backlog story1',
+                        subject: "Altered backlog story1",
                         status: default_status.name,
                         type: other_story.name)
 
     # Clicking would lead to having the burndown chart opened in another tab
     # which seems hard to test with selenium.
     backlogs_page
-      .expect_in_backlog_menu(sprint, 'Burndown Chart')
+      .expect_in_backlog_menu(sprint, "Burndown Chart")
 
     # One can switch to the work package page by clicking on the id
     # Clicking on it will open the wp in another tab which seems to trip up selenium.
@@ -319,7 +319,7 @@ RSpec.describe 'Stories in backlog', :js,
 
     # Go to the index page of work packages within that sprint via the menu
     backlogs_page
-      .click_in_backlog_menu(sprint, 'Stories/Tasks')
+      .click_in_backlog_menu(sprint, "Stories/Tasks")
 
     wp_table = Pages::WorkPackagesTable.new(project)
 

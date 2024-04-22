@@ -80,8 +80,18 @@ module Storages
       )
     end
 
+    def clean_location
+      return if location.nil?
+
+      if location.starts_with? "/"
+        CGI.unescape(location)
+      else
+        CGI.unescape("/#{location}")
+      end
+    end
+
     def self.from_id(file_id)
-      new(id: file_id, status: 'OK', status_code: 200)
+      new(id: file_id, status: "OK", status_code: 200)
     end
   end
 end

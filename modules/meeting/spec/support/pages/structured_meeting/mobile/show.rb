@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../show'
+require_relative "../show"
 
 module Pages::StructuredMeeting::Mobile
   class Show < ::Pages::StructuredMeeting::Show
@@ -39,9 +39,9 @@ module Pages::StructuredMeeting::Mobile
 
     def open_participant_form
       within(meeting_details_container) do
-        click_button "Show all"
+        click_on "Show all"
       end
-      expect(page).to have_css('#meetings-sidebar-participants-form-component')
+      expect(page).to have_css("#meetings-sidebar-participants-form-component")
     end
   end
 end

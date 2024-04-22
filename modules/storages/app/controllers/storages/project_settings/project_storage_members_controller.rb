@@ -44,11 +44,11 @@ class Storages::ProjectSettings::ProjectStorageMembersController < Projects::Set
       .includes(:principal, :oauth_client_tokens, roles: :role_permissions)
       .paginate(page: page_param, per_page: per_page_param)
 
-    render '/storages/project_settings/project_storage_members/index'
+    render "/storages/project_settings/project_storage_members/index"
   end
 
   def default_breadcrumb
-    t(:'storages.page_titles.project_settings.members_connection_status')
+    t(:"storages.page_titles.project_settings.members_connection_status")
   end
 
   def show_local_breadcrumb

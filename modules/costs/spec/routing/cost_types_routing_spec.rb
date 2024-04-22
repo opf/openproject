@@ -26,53 +26,53 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CostTypesController do
-  describe 'routing' do
+  describe "routing" do
     it {
-      expect(get('/cost_types')).to route_to(controller: 'cost_types',
-                                             action: 'index')
+      expect(get("/cost_types")).to route_to(controller: "cost_types",
+                                             action: "index")
     }
 
     it {
-      expect(post('/cost_types')).to route_to(controller: 'cost_types',
-                                              action: 'create')
+      expect(post("/cost_types")).to route_to(controller: "cost_types",
+                                              action: "create")
     }
 
     it {
-      expect(get('/cost_types/new')).to route_to(controller: 'cost_types',
-                                                 action: 'new')
+      expect(get("/cost_types/new")).to route_to(controller: "cost_types",
+                                                 action: "new")
     }
 
     it {
-      expect(get('/cost_types/5/edit')).to route_to(controller: 'cost_types',
-                                                    action: 'edit',
-                                                    id: '5')
+      expect(get("/cost_types/5/edit")).to route_to(controller: "cost_types",
+                                                    action: "edit",
+                                                    id: "5")
     }
 
     it {
-      expect(put('/cost_types/5')).to route_to(controller: 'cost_types',
-                                               action: 'update',
-                                               id: '5')
+      expect(put("/cost_types/5")).to route_to(controller: "cost_types",
+                                               action: "update",
+                                               id: "5")
     }
 
     it {
-      expect(put('/cost_types/5/set_rate')).to route_to(controller: 'cost_types',
-                                                        action: 'set_rate',
-                                                        id: '5')
+      expect(put("/cost_types/5/set_rate")).to route_to(controller: "cost_types",
+                                                        action: "set_rate",
+                                                        id: "5")
     }
 
     it {
-      expect(delete('/cost_types/5')).to route_to(controller: 'cost_types',
-                                                  action: 'destroy',
-                                                  id: '5')
+      expect(delete("/cost_types/5")).to route_to(controller: "cost_types",
+                                                  action: "destroy",
+                                                  id: "5")
     }
 
     it {
-      expect(patch('/cost_types/5/restore')).to route_to(controller: 'cost_types',
-                                                         action: 'restore',
-                                                         id: '5')
+      expect(patch("/cost_types/5/restore")).to route_to(controller: "cost_types",
+                                                         action: "restore",
+                                                         id: "5")
     }
   end
 end

@@ -44,7 +44,7 @@ module OpenProject::Bim::Patches::QueryBuilderPatch
       if value = config[:bcf_issue_associated].presence
         filters[:bcf_issue_associated] = {
           operator: "=",
-          values: [value ? 't' : 'f']
+          values: [value ? "t" : "f"]
         }
       end
     end

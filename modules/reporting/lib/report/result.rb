@@ -162,11 +162,11 @@ class Report::Result
     end
 
     def count
-      self['count'].to_i
+      self["count"].to_i
     end
 
     def units
-      self['units'].to_d
+      self["units"].to_d
     end
 
     ##

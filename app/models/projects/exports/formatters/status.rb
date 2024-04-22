@@ -36,7 +36,7 @@ module Projects::Exports
       # Takes a project and returns the localized status code
       def format(project, **)
         code = project.status_code
-        return '' unless code
+        return "" unless code
 
         translate_code code
       end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
+RSpec.describe Grids::CreateContract, "for Grids::Overview" do
   let(:project) do
     build_stubbed(:project).tap do |p|
       allow(Project)
@@ -51,23 +51,23 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
     end
   end
 
-  include_context 'model contract'
+  include_context "model contract"
 
-  describe 'user_id' do
-    it_behaves_like 'is not writable' do
+  describe "user_id" do
+    it_behaves_like "is not writable" do
       let(:attribute) { :user_id }
       let(:value) { 5 }
     end
   end
 
-  describe 'project_id' do
-    it_behaves_like 'is writable' do
+  describe "project_id" do
+    it_behaves_like "is writable" do
       let(:attribute) { :project_id }
       let(:value) { 5 }
     end
   end
 
-  context 'if an overview grid already exists for the project' do
+  context "if an overview grid already exists for the project" do
     before do
       allow(Grids::Overview)
         .to receive(:exists?)
@@ -75,7 +75,7 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
         .and_return(true)
     end
 
-    it 'reports an error on scope' do
+    it "reports an error on scope" do
       instance.validate
 
       expect(instance.errors.symbols_for(:scope))
@@ -83,7 +83,7 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
     end
   end
 
-  context 'if the user lacks :manage_overview permission' do
+  context "if the user lacks :manage_overview permission" do
     # View project is a public permission so every member will have it but as we stub...
     let(:permissions) { [:view_project] }
 
@@ -93,20 +93,20 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
       grid.widgets = grid.widgets.reject { |w| %w(members work_packages_overview).include?(w.identifier) }
     end
 
-    context 'if the grid does not have any changes compared to the default' do
-      it 'is valid' do
+    context "if the grid does not have any changes compared to the default" do
+      it "is valid" do
         expect(instance.validate)
           .to be_truthy
       end
     end
 
-    context 'if the grid has changes compared to the default' do
-      context '(row_count)' do
+    context "if the grid has changes compared to the default" do
+      context "(row_count)" do
         before do
           grid.row_count += 1
         end
 
-        it 'reports an error on row_count' do
+        it "reports an error on row_count" do
           instance.validate
 
           expect(instance.errors.symbols_for(:row_count))
@@ -114,12 +114,12 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
         end
       end
 
-      context '(column_count)' do
+      context "(column_count)" do
         before do
           grid.column_count += 1
         end
 
-        it 'reports an error on row_count' do
+        it "reports an error on row_count" do
           instance.validate
 
           expect(instance.errors.symbols_for(:column_count))
@@ -127,20 +127,20 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
         end
       end
 
-      context '(widget added)' do
+      context "(widget added)" do
         before do
           grid.row_count = 4
-          grid.widgets.build(identifier: 'project_details',
+          grid.widgets.build(identifier: "project_details",
                              start_row: 3,
                              end_row: 4,
                              start_column: 1,
                              end_column: 3,
                              options: {
-                               name: I18n.t('js.grid.widgets.work_packages_overview.title')
+                               name: I18n.t("js.grid.widgets.work_packages_overview.title")
                              })
         end
 
-        it 'reports an error on widgets' do
+        it "reports an error on widgets" do
           instance.validate
 
           expect(instance.errors.symbols_for(:widgets))
@@ -148,13 +148,13 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
         end
       end
 
-      context '(widget altered)' do
+      context "(widget altered)" do
         before do
           grid.row_count = 4
           grid.widgets.last.end_row += 1
         end
 
-        it 'reports an error on widgets' do
+        it "reports an error on widgets" do
           instance.validate
 
           expect(instance.errors.symbols_for(:widgets))
@@ -162,12 +162,12 @@ RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
         end
       end
 
-      context '(widget options altered)' do
+      context "(widget options altered)" do
         before do
-          grid.widgets[0].options = { name: 'My own name' }
+          grid.widgets[0].options = { name: "My own name" }
         end
 
-        it 'reports an error on widgets' do
+        it "reports an error on widgets" do
           instance.validate
 
           expect(instance.errors.symbols_for(:widgets))

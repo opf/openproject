@@ -76,7 +76,7 @@ zh-CN:
       button_register_mobile_phone_for_user: "注册手机"
       text_2fa_enabled: "每次登录时，系统将要求此用户从默认的 2FA 设备输入 OTP 令牌。"
       text_2fa_disabled: "用户未通过“我的帐户页面”设置过 2FA 设备"
-      only_sms_allowed: "SMS短信仅能其他用户设置。"
+      only_sms_allowed: "只能为其他用户设置短信发送。"
     upsale:
       title: "双因子认证"
       description: "通过向所有项目成员提供（或强制执行）双因子认证来增强 OpenProject 实例的安全性。"
@@ -118,8 +118,8 @@ zh-CN:
       2fa_from_webauthn: 请提供 WebAuthn 设备 <strong>%{device_name}</strong>.如果是 USB 设备，请确保插入并使用它。然后点击登录按钮。
       webauthn:
         title: "WebAuthn 认证"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: 使用 Web 身份验证注册 FIDO2 设备（如 YubiKey）或使用移动设备的安全隔区作为第二要素。
+        further_steps: 选择名称后，可以点击“继续”按钮。浏览器将提示您出示 WebAuthn 设备。完成后，设备注册即告完成。
       totp:
         title: "使用您的基于应用程序的身份验证器"
         provisioning_uri: "配置 URI"

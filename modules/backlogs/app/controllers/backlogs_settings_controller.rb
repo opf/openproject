@@ -27,7 +27,7 @@
 #++
 
 class BacklogsSettingsController < ApplicationController
-  layout 'admin'
+  layout "admin"
   menu_item :backlogs_settings
 
   before_action :require_admin

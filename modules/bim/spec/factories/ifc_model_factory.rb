@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :ifc_model, class: '::Bim::IfcModels::IfcModel' do
+  factory :ifc_model, class: "::Bim::IfcModels::IfcModel" do
     sequence(:title) { |n| "Unconverted IFC model #{n}" }
     project factory: :project
     uploader factory: :user
@@ -36,7 +36,7 @@ FactoryBot.define do
       ifc_attachment do
         Rack::Test::UploadedFile.new(
           Rails.root.join("modules/bim/spec/fixtures/files/minimal.ifc").to_s,
-          'application/binary'
+          "application/binary"
         )
       end
 
@@ -56,7 +56,7 @@ FactoryBot.define do
         xkt_attachment do
           Rack::Test::UploadedFile.new(
             Rails.root.join("modules/bim/spec/fixtures/files/minimal.xkt").to_s,
-            'application/binary'
+            "application/binary"
           )
         end
       end
@@ -69,7 +69,7 @@ FactoryBot.define do
     end
   end
 
-  factory :ifc_model_without_ifc_attachment, class: '::Bim::IfcModels::IfcModel' do
+  factory :ifc_model_without_ifc_attachment, class: "::Bim::IfcModels::IfcModel" do
     sequence(:title) { |n| "Model without ifc_attachment #{n}" }
     project factory: :project
     uploader factory: :user

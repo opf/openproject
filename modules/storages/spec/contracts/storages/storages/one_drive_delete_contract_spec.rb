@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe Storages::Storages::DeleteContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   let(:storage) { create(:one_drive_storage) }
   let(:contract) { described_class.new(storage, current_user) }
 
   # Generic checks that the contract is valid for valid admin, but invalid otherwise
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  include_examples 'contract reuses the model errors' do
+  include_examples "contract reuses the model errors" do
     let(:current_user) { build_stubbed(:user) }
   end
 end

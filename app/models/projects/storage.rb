@@ -42,11 +42,11 @@ module Projects::Storage
       storage = self.class.with_required_storage.find(id)
 
       {
-        'total' => storage.required_disk_space,
-        'modules' => {
-          'label_work_package_plural' => storage.work_package_required_space,
-          'project_module_wiki' => storage.wiki_required_space,
-          'label_repository' => storage.repositories_required_space
+        "total" => storage.required_disk_space,
+        "modules" => {
+          "label_work_package_plural" => storage.work_package_required_space,
+          "project_module_wiki" => storage.wiki_required_space,
+          "label_repository" => storage.repositories_required_space
         }.select { |_, v| v.present? && v.positive? }
       }
     end
@@ -67,10 +67,10 @@ module Projects::Storage
         .joins("LEFT JOIN (#{wiki_storage_sql}) wiki ON projects.id = wiki.project_id")
         .joins("LEFT JOIN (#{work_package_sql}) wp ON projects.id = wp.project_id")
         .joins("LEFT JOIN #{Repository.table_name} repos ON repos.project_id = projects.id")
-        .select('projects.*')
-        .select('wiki.filesize AS wiki_required_space')
-        .select('wp.filesize AS work_package_required_space')
-        .select('repos.required_storage_bytes AS repositories_required_space')
+        .select("projects.*")
+        .select("wiki.filesize AS wiki_required_space")
+        .select("wp.filesize AS work_package_required_space")
+        .select("repos.required_storage_bytes AS repositories_required_space")
         .select("#{required_disk_space_sum} AS required_disk_space")
     end
 
@@ -83,7 +83,7 @@ module Projects::Storage
     end
 
     def required_disk_space_sum
-      '(COALESCE(wiki.filesize, 0) + COALESCE(wp.filesize, 0) + COALESCE(repos.required_storage_bytes, 0))'
+      "(COALESCE(wiki.filesize, 0) + COALESCE(wp.filesize, 0) + COALESCE(repos.required_storage_bytes, 0))"
     end
 
     private

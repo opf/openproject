@@ -31,7 +31,7 @@ uk:
         Справді видалити цей файл? Цю дію не можна скасувати.
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Цей файл перенесено в карантин, оскільки в ньому знайдено вірус. Його не можна завантажити."
     autocomplete_ng_select:
       add_tag: "Додати елемент"
       clear_all: "Очистити все"
@@ -348,11 +348,11 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Звітування про прогрес в ієрархії пакетів робіт.</li> <li>Керування атрибутами проєкту в структурований спосіб на сторінці огляду проєкту.</li> <li>Оптимізований перегляд користувацьких полів у списку проєкту і в огляді проєкту.</li> <li>Вишуканий дизайн Primer для узгодженого вигляду заголовків сторінок.</li> <li>Зручніше проведення нарад завдяки новим функціям, таким як «Вивантаження вкладень», «Відповідальна особа» й «Історія нарад».</li> <li>Автоматичні сповіщення про несправні файлові сховища й керування ними за допомогою перемикачів.</li> <li>Автоматичне копіювання керованої папку проєкту для OneDrive / SharePoint під час копіювання проєктів.</li> <li>Можливість надсилання адміністраторам запиту на видалення доступу до пакетів робіт у разі відкликання участі в проєкті.</li> <li>Покращене планування за допомогою режимів перегляду на 4 й 8 тижнів у командному планувальнику.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -444,7 +444,7 @@ uk:
     label_less_than_ago: "менше, ніж день тому"
     label_loading: "Завантаження..."
     label_mail_notification: "Email сповіщення"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Керування стовпцями і їх перевпорядкування"
     label_me: "мені"
     label_meeting_agenda: "Порядок денний"
     label_meeting_minutes: "Хвилини"
@@ -483,7 +483,7 @@ uk:
     label_report: "Звіт"
     label_repository_plural: "Репозиторії"
     label_save_as: "Зберегти як"
-    label_search_columns: "Search a column"
+    label_search_columns: "Пошук стовпця"
     label_select_project: "Виберіть проєкт"
     label_select_watcher: "Виберіть спостерігача..."
     label_selected_filter_list: "Вибрані фільтри"
@@ -645,7 +645,7 @@ uk:
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: "Немає нових сповіщень."
-          link_text: "Натисніть тут, щоб завантажити їх"
+          link_text: "Натисніть тут, щоб завантажити."
       menu:
         accountable: "Відповідальний"
         by_project: "Непрочитані проєктом"
@@ -927,6 +927,8 @@ uk:
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
+      progress:
+        title: "Оцінки й прогрес виконання роботи"
       baseline:
         addition_label: "Додано до подання з періодом для порівняння"
         removal_label: "Вилучено з подання з періодом для порівняння"
@@ -1003,7 +1005,7 @@ uk:
         all_open: "Всі відкрити"
         summary: "Резюме"
         shared_with_users: "Надано доступ користувачам"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Доступ надано мені"
       jump_marks:
         pagination: "Перейти до розбиття таблиці на сторінки"
         label_pagination: "Клацніть тут, щоб пропустити пакунки робіт і перейти до розбивки на сторінки"
@@ -1256,7 +1258,8 @@ uk:
       role:
         label: "Ролі у проєкті «%{project}»"
         no_roles_found: "Ролей не знайдено"
-        description: 'Це роль, яку користувач отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>'
+        description: >-
+          Це роль, яку користувач отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>
         required: "Виберіть роль"
         next_button: "Далі"
       message:
@@ -1330,3 +1333,7 @@ uk:
       drop_modal:
         focus_grab: "Це якір фокуса для модальних вікон. Натисніть клавіші Shift + Tab, щоб повернутися до тригера модального вікна."
         Close: "Закрити"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "Існує проблема з мережею."
+        network_on: "З’єднання відновлено. Ми намагаємося."

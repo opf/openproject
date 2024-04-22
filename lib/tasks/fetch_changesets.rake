@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-desc 'Fetch changesets from the repositories'
+desc "Fetch changesets from the repositories"
 
 namespace :redmine do
   task fetch_changesets: :environment do

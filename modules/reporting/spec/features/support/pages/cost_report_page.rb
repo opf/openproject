@@ -10,29 +10,29 @@ module Pages
       # We often clear the page as the first action of the example,
       # which is why the frontend might not be fully initialized
       retry_block do
-        scroll_to_and_click(find_by_id('query-link-clear', text: 'Clear'))
+        scroll_to_and_click(find_by_id("query-link-clear", text: "Clear"))
 
         # Safeguard to force waiting for the form to be cleared
         expect(page)
-          .to have_no_css('.group-by--selected-element')
+          .to have_no_css(".group-by--selected-element")
       end
     end
 
     def save(as:, public: false)
       # Scroll to report bottom and click
-      scroll_to_and_click(find_by_id('query-icon-save-as', text: 'Save'))
+      scroll_to_and_click(find_by_id("query-icon-save-as", text: "Save"))
 
       # Ensure the form is visible
-      scroll_to_element find_by_id('save_as_form')
+      scroll_to_element find_by_id("save_as_form")
 
-      page.within('#save_as_form') do
-        fill_in 'Name', with: as
+      page.within("#save_as_form") do
+        fill_in "Name", with: as
 
         if public
-          check 'Public'
+          check "Public"
         end
 
-        click_on 'Save'
+        click_on "Save"
       end
     end
 
@@ -52,38 +52,38 @@ module Pages
     end
 
     def apply
-      scroll_to_and_click(find_by_id('query-icon-apply-button'))
+      scroll_to_and_click(find_by_id("query-icon-apply-button"))
     end
 
     def add_to_rows(name)
-      select name, from: 'group-by--add-rows'
+      select name, from: "group-by--add-rows"
     end
 
     def add_to_columns(name)
-      select name, from: 'group-by--add-columns'
+      select name, from: "group-by--add-columns"
     end
 
     def expect_row_element(text, present: true)
       if present
-        expect(page).to have_css('#group-by--selected-rows .group-by--selected-element', text:)
+        expect(page).to have_css("#group-by--selected-rows .group-by--selected-element", text:)
       else
-        expect(page).to have_no_css('#group-by--selected-rows .group-by--selected-element', text:)
+        expect(page).to have_no_css("#group-by--selected-rows .group-by--selected-element", text:)
       end
     end
 
     def expect_column_element(text, present: true)
       if present
-        expect(page).to have_css('#group-by--selected-columns .group-by--selected-element', text:)
+        expect(page).to have_css("#group-by--selected-columns .group-by--selected-element", text:)
       else
-        expect(page).to have_no_css('#group-by--selected-columns .group-by--selected-element', text:)
+        expect(page).to have_no_css("#group-by--selected-columns .group-by--selected-element", text:)
       end
     end
 
     def show_loading_indicator(present: true)
       if present
-        expect(page).to have_css('#ajax-indicator')
+        expect(page).to have_css("#ajax-indicator")
       else
-        expect(page).to have_no_css('#ajax-indicator')
+        expect(page).to have_no_css("#ajax-indicator")
       end
     end
 

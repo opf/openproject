@@ -42,7 +42,7 @@ module Meetings
       self.contract_class = contract_class
     end
 
-    def call(send_notifications: nil, save: true, copy_agenda: true, copy_attachments: true, attributes: {})
+    def call(send_notifications: nil, save: true, copy_agenda: true, copy_attachments: false, attributes: {})
       if save
         create(meeting, attributes, send_notifications:, copy_agenda:, copy_attachments:)
       else
@@ -74,9 +74,9 @@ module Meetings
       meeting
         .attributes
         .slice(*writable_meeting_attributes(meeting))
-        .merge('start_time' => meeting.start_time + 1.week)
-        .merge('author' => user)
-        .merge('participants_attributes' => meeting.allowed_participants.collect(&:copy_attributes))
+        .merge("start_time" => meeting.start_time + 1.week)
+        .merge("author" => user)
+        .merge("participants_attributes" => meeting.allowed_participants.collect(&:copy_attributes))
         .merge(overwritten_attributes)
     end
 
@@ -86,7 +86,7 @@ module Meetings
 
     def copy_meeting_attachment(copy)
       copy_attachments(
-        'Meeting',
+        "Meeting",
         from: meeting,
         to: copy
       )
@@ -110,7 +110,7 @@ module Meetings
           meeting: copy,
           author: user,
           text: meeting.agenda&.text,
-          journal_notes: I18n.t('meeting.copied', id: meeting.id)
+          journal_notes: I18n.t("meeting.copied", id: meeting.id)
         )
       end
     end

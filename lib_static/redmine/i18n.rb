@@ -31,16 +31,16 @@ module Redmine
     include ActionView::Helpers::NumberHelper
 
     IN_CONTEXT_TRANSLATION_CODE = :lol
-    IN_CONTEXT_TRANSLATION_NAME = 'In-Context Crowdin Translation'.freeze
+    IN_CONTEXT_TRANSLATION_NAME = "In-Context Crowdin Translation".freeze
 
     def self.included(base)
       base.extend Redmine::I18n
     end
 
     def self.all_languages
-      @@all_languages ||= Rails.root.glob('config/locales/**/*.yml')
-          .map { |f| f.basename.to_s.split('.').first }
-          .reject! { |l| l.start_with?('js-') }
+      @@all_languages ||= Rails.root.glob("config/locales/**/*.yml")
+          .map { |f| f.basename.to_s.split(".").first }
+          .reject! { |l| l.start_with?("js-") }
           .uniq
           .sort
     end
@@ -63,7 +63,7 @@ module Redmine
       number_with_precision(number, locale:, precision:)
     rescue StandardError => e
       Rails.logger.error("Failed to localize float number #{number}: #{e}")
-      ('%.2f' % hours.to_f)
+      ("%.2f" % hours.to_f)
     end
 
     def format_date(date)
@@ -143,16 +143,16 @@ module Redmine
               else
                 (time.utc? ? time.to_time.localtime : time)
               end
-      (include_date ? "#{format_date(local)} " : '') +
+      (include_date ? "#{format_date(local)} " : "") +
         (Setting.time_format.blank? ? ::I18n.l(local, format: :time) : local.strftime(Setting.time_format))
     end
 
     def day_name(day)
-      ::I18n.t('date.day_names')[day % 7]
+      ::I18n.t("date.day_names")[day % 7]
     end
 
     def month_name(month)
-      ::I18n.t('date.month_names')[month]
+      ::I18n.t("date.month_names")[month]
     end
 
     def valid_languages
@@ -189,8 +189,8 @@ module Redmine
     def all_attribute_translations(locale)
       @cached_attribute_translations ||= {}
       @cached_attribute_translations[locale] ||= begin
-        general_attributes = ::I18n.t('attributes', locale:)
-        ::I18n.t('activerecord.attributes',
+        general_attributes = ::I18n.t("attributes", locale:)
+        ::I18n.t("activerecord.attributes",
                  locale:).inject(general_attributes) do |attr_t, model_t|
           attr_t.merge(model_t.last || {})
         end

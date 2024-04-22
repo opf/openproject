@@ -36,12 +36,12 @@ class OpenProject::JournalFormatter::Attachment < JournalFormatter::Base
   end
 
   def render(key, values, options = { html: true })
-    label, old_value, value = format_details(key.to_s.sub('attachments_', ''), values)
+    label, old_value, value = format_details(key.to_s.sub("attachments_", ""), values)
 
     if options[:html]
       label, old_value, value = *format_html_details(label, old_value, value)
 
-      value = format_html_attachment_detail(key.to_s.sub('attachments_', ''), value)
+      value = format_html_attachment_detail(key.to_s.sub("attachments_", ""), value)
     end
 
     render_attachment_detail_text(label, value, old_value)

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Admin::StorageRowComponent, type: :component do
@@ -38,92 +38,92 @@ RSpec.describe Storages::Admin::StorageRowComponent, type: :component do
     render_inline(storage_row_component)
   end
 
-  describe 'Nextcloud storage' do
-    shared_examples 'a Nextcloud storage row' do
-      it 'render the storage name' do
+  describe "Nextcloud storage" do
+    shared_examples "a Nextcloud storage row" do
+      it "render the storage name" do
         expect(page).to have_link(storage.name, href: edit_admin_settings_storage_path(storage))
       end
 
-      it 'renders the storage creator' do
-        pending 'Invisible on small screens: Find a way to render inline'
-        expect(page).to have_test_selector('storage-creator', text: storage.creator.name)
+      it "renders the storage creator" do
+        pending "Invisible on small screens: Find a way to render inline"
+        expect(page).to have_test_selector("storage-creator", text: storage.creator.name)
       end
 
-      it 'renders the storage provider' do
-        expect(page).to have_test_selector('storage-provider', text: 'Nextcloud')
+      it "renders the storage provider" do
+        expect(page).to have_test_selector("storage-provider", text: "Nextcloud")
       end
 
-      it 'renders the storage host' do
-        expect(page).to have_test_selector('storage-host', text: storage.host)
+      it "renders the storage host" do
+        expect(page).to have_test_selector("storage-host", text: storage.host)
       end
     end
 
-    context 'with complete storage' do
+    context "with complete storage" do
       shared_let(:storage) { create(:nextcloud_storage_with_local_connection) }
 
-      it_behaves_like 'a Nextcloud storage row'
+      it_behaves_like "a Nextcloud storage row"
 
-      it 'does not show an incomplete label' do
-        expect(page).not_to have_test_selector('label-incomplete')
+      it "does not show an incomplete label" do
+        expect(page).not_to have_test_selector("label-incomplete")
       end
     end
 
-    context 'with incomplete storage' do
+    context "with incomplete storage" do
       shared_let(:storage) { create(:nextcloud_storage) }
 
-      it_behaves_like 'a Nextcloud storage row'
+      it_behaves_like "a Nextcloud storage row"
 
       it 'renders an "Incomplete" label' do
-        expect(page).to have_test_selector('label-incomplete', text: 'Incomplete')
+        expect(page).to have_test_selector("label-incomplete", text: "Incomplete")
       end
     end
 
-    context 'with unhealthy storage' do
+    context "with unhealthy storage" do
       shared_let(:storage) do
         create(:nextcloud_storage_with_complete_configuration, :as_unhealthy)
       end
 
-      it_behaves_like 'a Nextcloud storage row'
+      it_behaves_like "a Nextcloud storage row"
 
       it 'renders an "Error" label' do
-        expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
+        expect(page).to have_test_selector("storage-health-label-error", text: "Error")
       end
     end
   end
 
-  describe 'OneDrive/SharePoint storage' do
-    shared_examples 'a OneDrive/SharePoint storage row' do
-      it 'render the storage name' do
+  describe "OneDrive/SharePoint storage" do
+    shared_examples "a OneDrive/SharePoint storage row" do
+      it "render the storage name" do
         expect(page).to have_link(storage.name, href: edit_admin_settings_storage_path(storage))
       end
 
-      it 'renders the storage creator' do
-        pending 'Invisible on small screens: Find a way to render inline'
-        expect(page).to have_test_selector('storage-creator', text: storage.creator.name)
+      it "renders the storage creator" do
+        pending "Invisible on small screens: Find a way to render inline"
+        expect(page).to have_test_selector("storage-creator", text: storage.creator.name)
       end
 
-      it 'renders the storage provider' do
-        expect(page).to have_test_selector('storage-provider', text: 'OneDrive/SharePoint')
+      it "renders the storage provider" do
+        expect(page).to have_test_selector("storage-provider", text: "OneDrive/SharePoint")
       end
     end
 
-    context 'with complete storage' do
+    context "with complete storage" do
       shared_let(:storage) { create(:sharepoint_dev_drive_storage) }
 
-      it_behaves_like 'a OneDrive/SharePoint storage row'
+      it_behaves_like "a OneDrive/SharePoint storage row"
 
-      it 'does not show an incomplete label' do
-        expect(page).not_to have_test_selector('label-incomplete')
+      it "does not show an incomplete label" do
+        expect(page).not_to have_test_selector("label-incomplete")
       end
     end
 
-    context 'with incomplete storage' do
+    context "with incomplete storage" do
       shared_let(:storage) { create(:one_drive_storage) }
 
-      it_behaves_like 'a OneDrive/SharePoint storage row'
+      it_behaves_like "a OneDrive/SharePoint storage row"
 
       it 'renders an "Incomplete" label' do
-        expect(page).to have_test_selector('label-incomplete', text: 'Incomplete')
+        expect(page).to have_test_selector("label-incomplete", text: "Incomplete")
       end
     end
   end

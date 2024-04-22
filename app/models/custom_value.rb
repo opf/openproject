@@ -35,6 +35,8 @@ class CustomValue < ApplicationRecord
   validate :validate_type_of_value
   validate :validate_length_of_value
 
+  after_create :activate_custom_field_in_customized_project, if: -> { customized.is_a?(Project) }
+
   delegate :typed_value,
            :formatted_value,
            to: :strategy
@@ -56,7 +58,7 @@ class CustomValue < ApplicationRecord
 
   def strategy
     @strategy ||= begin
-      format = custom_field&.field_format || 'empty'
+      format = custom_field&.field_format || "empty"
       OpenProject::CustomFieldFormat.find_by_name(format).formatter.new(self) # rubocop:disable Rails/DynamicFindBy
     end
   end
@@ -64,6 +66,16 @@ class CustomValue < ApplicationRecord
   def default?
     value_is_included_in_multi_value_default? \
       || value_is_same_as_default?
+  end
+
+  def activate_custom_field_in_customized_project
+    return if default? || value.blank?
+
+    # if a custom value is created for a project via CustomValue.create(...),
+    # the custom field needs to be activated in the project
+    unless customized&.project_custom_fields&.include?(custom_field)
+      customized.project_custom_fields << custom_field
+    end
   end
 
   protected

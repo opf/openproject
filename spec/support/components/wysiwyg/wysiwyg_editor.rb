@@ -6,7 +6,7 @@ module Components
 
     attr_reader :context_selector, :attachments, :attachments_list
 
-    def initialize(context = '#content', attachment_list_selector = 'ckeditor-augmented-textarea')
+    def initialize(context = "#content", attachment_list_selector = "ckeditor-augmented-textarea")
       @context_selector = context
       @attachments = ::Components::Attachments.new
       @attachments_list = ::Components::AttachmentsList.new("#{context} #{attachment_list_selector}")
@@ -25,13 +25,13 @@ module Components
     end
 
     def input_selector
-      'div.ck-content'
+      "div.ck-content"
     end
 
     def set_markdown(text)
       wait_until_loaded
 
-      textarea = container.find('.op-ckeditor-source-element', visible: :all)
+      textarea = container.find(".op-ckeditor-source-element", visible: :all)
       page.execute_script(
         'jQuery(arguments[0]).trigger("op:ckeditor:setData", arguments[1])',
         textarea.native,
@@ -40,7 +40,7 @@ module Components
     end
 
     def clear
-      textarea = container.find('.op-ckeditor-source-element', visible: :all)
+      textarea = container.find(".op-ckeditor-source-element", visible: :all)
       page.execute_script(
         'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
         textarea.native
@@ -48,47 +48,47 @@ module Components
     end
 
     def expect_button(label)
-      expect(container).to have_css('.ck-button', visible: :all, text: label)
+      expect(container).to have_css(".ck-button", visible: :all, text: label)
     end
 
     def expect_no_button(label)
-      expect(container).to have_no_css('.ck-button', visible: :all, text: label)
+      expect(container).to have_no_css(".ck-button", visible: :all, text: label)
     end
 
     def expect_value(value)
       expect(editor_element.text).to eq(value)
     end
 
-    def expect_supports_no_macros
+    def expect_supports_macros
       expect(container)
-          .to have_no_css('.ck-button', visible: :all, text: 'Macros')
+          .to have_css(".ck-button", visible: :all, text: "Macros")
     end
 
     def within_enabled_preview
-      click_toolbar_button 'Toggle preview mode'
+      click_toolbar_button "Toggle preview mode"
       begin
-        yield container.find('.ck-editor__preview')
+        yield container.find(".ck-editor__preview")
       ensure
-        click_toolbar_button 'Toggle preview mode'
+        click_toolbar_button "Toggle preview mode"
       end
     end
 
     ##
     # Create an image fixture with the optional caption from inside the ckeditor
-    def drag_attachment(image_fixture, caption = 'Some caption')
+    def drag_attachment(image_fixture, caption = "Some caption")
       in_editor do |_container, editable|
         # Click the latest figure, if any
         # Do not wait more than 1 second to check if there is an image
-        images = editable.all('figure.image', wait: 1)
+        images = editable.all("figure.image", wait: 1)
         if images.count > 0
           images.last.click
 
           # Click the "move below figure" button
-          selected = page.all('.ck-widget_selected .ck-widget__type-around__button_after')
+          selected = page.all(".ck-widget_selected .ck-widget__type-around__button_after")
           selected.first&.click
         end
 
-        editable.base.send_keys(:enter, 'some text', :enter, :enter)
+        editable.base.send_keys(:enter, "some text", :enter, :enter)
 
         attachments.drag_and_drop_file(editable, image_fixture, :bottom)
 
@@ -104,27 +104,27 @@ module Components
         image = find("img[src^=\"/api/v3/attachments/#{last_id}\"]")
         # Besides testing caption functionality this also slows down clicking on the submit button
         # so that the image is properly embedded
-        figure = image.find(:xpath, '../..')
+        figure = image.find(:xpath, "../..")
 
         retry_block do
           # Toggle caption with button since newer version of ckeditor
-          click_hover_toolbar_button 'Toggle caption on'
+          click_hover_toolbar_button "Toggle caption on"
 
           # Locate figcaption to create comment
-          @figure_find = figure.find('figcaption')
+          @figure_find = figure.find("figcaption")
           figcaption = @figure_find
           figcaption.click
           sleep(0.2)
           figcaption.send_keys(caption)
 
           # Expect caption set
-          figure.find('figcaption', text: caption)
+          figure.find("figcaption", text: caption)
         end
       end
     end
 
     def wait_until_upload_progress_toaster_cleared
-      page.has_no_selector?('op-toasters-upload-progress')
+      page.has_no_selector?("op-toasters-upload-progress")
     end
 
     def wait_until_loaded
@@ -132,20 +132,20 @@ module Components
     end
 
     def refocus
-      editor_element.first('*').click
+      editor_element.first("*").click
     rescue StandardError => e
       warn "Failed to refocus on first editor element #{e}"
     end
 
     def insert_link(link)
       click_toolbar_button "Link"
-      page.find('.ck-input-text').set link
-      page.find('.ck-button-save').click
+      page.find(".ck-input-text").set link
+      page.find(".ck-button-save").click
     end
 
     def click_toolbar_button(label)
       # strangely, we need visible: :all here
-      container.find('.ck-button', visible: :all, text: label).click
+      container.find(".ck-button", visible: :all, text: label).click
     end
 
     def type_slowly(*)
@@ -162,31 +162,31 @@ module Components
     end
 
     def click_hover_toolbar_button(label)
-      page.find('.ck-toolbar .ck-button', text: label, visible: :all).click
+      page.find(".ck-toolbar .ck-button", text: label, visible: :all).click
     end
 
     def insert_macro(label)
-      container.find('.ck-button', visible: :all, text: 'Macros').click
-      container.find('.ck-button', visible: :all, text: label).click
+      container.find(".ck-button", visible: :all, text: "Macros").click
+      container.find(".ck-button", visible: :all, text: label).click
     end
 
     def click_autocomplete(text)
-      page.find('.mention-list-item', text:).click
+      page.find(".mention-list-item", text:).click
     end
 
     def align_table_by_label(editor, table, label)
       # Style first td in table
       table
-          .find('.op-uc-table--row:first-of-type .op-uc-table--cell:first-of-type')
+          .find(".op-uc-table--row:first-of-type .op-uc-table--cell:first-of-type")
           .click
 
       # Click table toolbar
-      editor.click_hover_toolbar_button 'Table properties'
+      editor.click_hover_toolbar_button "Table properties"
 
       # Set alignment left
       editor.click_hover_toolbar_button label
 
-      find('.ck-button-save').click
+      find(".ck-button-save").click
     end
   end
 end

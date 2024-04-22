@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'account/register' do
+RSpec.describe "account/register" do
   let(:user) { build(:user, ldap_auth_source: nil) }
 
-  context 'with the email_login setting disabled (default value)' do
+  context "with the email_login setting disabled (default value)" do
     before do
       allow(Setting).to receive(:email_login?).and_return(false)
 
@@ -39,23 +39,23 @@ RSpec.describe 'account/register' do
       render
     end
 
-    context 'with auth source' do
+    context "with auth source" do
       let(:ldap_auth_source) { create(:ldap_auth_source) }
       let(:user)        { build(:user, ldap_auth_source:) }
 
-      it 'does not show a login field' do
-        expect(rendered).not_to include('user[login]')
+      it "does not show a login field" do
+        expect(rendered).not_to include("user[login]")
       end
     end
 
-    context 'without auth source' do
-      it 'shows a login field' do
-        expect(rendered).to include('user[login]')
+    context "without auth source" do
+      it "shows a login field" do
+        expect(rendered).to include("user[login]")
       end
     end
   end
 
-  context 'with the email_login setting enabled' do
+  context "with the email_login setting enabled" do
     before do
       allow(Setting).to receive(:email_login?).and_return(true)
 
@@ -63,31 +63,31 @@ RSpec.describe 'account/register' do
       render
     end
 
-    context 'with auth source' do
+    context "with auth source" do
       let(:ldap_auth_source) { create(:ldap_auth_source) }
       let(:user)        { build(:user, ldap_auth_source:) }
 
-      it 'does not show a login field' do
-        expect(rendered).not_to include('user[login]')
+      it "does not show a login field" do
+        expect(rendered).not_to include("user[login]")
       end
 
-      it 'shows an email field' do
-        expect(rendered).to include('user[mail]')
+      it "shows an email field" do
+        expect(rendered).to include("user[mail]")
       end
     end
 
-    context 'without auth source' do
-      it 'does not show a login field' do
-        expect(rendered).not_to include('user[login]')
+    context "without auth source" do
+      it "does not show a login field" do
+        expect(rendered).not_to include("user[login]")
       end
 
-      it 'shows an email field' do
-        expect(rendered).to include('user[mail]')
+      it "shows an email field" do
+        expect(rendered).to include("user[mail]")
       end
     end
   end
 
-  context 'with the registration_footer setting enabled' do
+  context "with the registration_footer setting enabled" do
     let(:footer) { "Some email footer" }
 
     before do
@@ -96,7 +96,7 @@ RSpec.describe 'account/register' do
       assign(:user, user)
     end
 
-    it 'renders the registration footer from the settings' do
+    it "renders the registration footer from the settings" do
       render
 
       expect(rendered).to include(footer)
@@ -106,8 +106,8 @@ RSpec.describe 'account/register' do
   context "with consent required", with_settings: {
     consent_required: true,
     consent_info: {
-      'en' => "You must consent!",
-      'de' => "Du musst zustimmen!"
+      "en" => "You must consent!",
+      "de" => "Du musst zustimmen!"
     }
   } do
     let(:locale) { raise "you have to define the locale" }

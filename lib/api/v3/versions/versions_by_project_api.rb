@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/versions/version_collection_representer'
+require "api/v3/versions/version_collection_representer"
 
 module API
   module V3
@@ -42,7 +42,7 @@ module API
           get do
             ::API::V3::Utilities::ParamsToQuery.collection_response(@versions,
                                                                     current_user,
-                                                                    params.except('id'),
+                                                                    params.except("id"),
                                                                     self_link: api_v3_paths.versions_by_project(@project.id))
           end
         end

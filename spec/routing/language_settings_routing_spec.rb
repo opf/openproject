@@ -29,18 +29,18 @@
 # ++
 #
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Language Settings routes' do
+RSpec.describe "Language Settings routes" do
   it do
-    expect(get('/admin/settings/languages'))
-      .to route_to(controller: 'admin/settings/languages_settings',
-                   action: 'show')
+    expect(get("/admin/settings/languages"))
+      .to route_to(controller: "admin/settings/languages_settings",
+                   action: "show")
   end
 
   it do
-    expect(patch('/admin/settings/languages'))
-      .to route_to(controller: 'admin/settings/languages_settings',
-                   action: 'update')
+    expect(patch("/admin/settings/languages"))
+      .to route_to(controller: "admin/settings/languages_settings",
+                   action: "update")
   end
 end

@@ -77,6 +77,7 @@ import {
   addBackgroundEvents,
   removeBackgroundEvents,
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
+import allLocales from '@fullcalendar/core/locales-all';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -104,6 +105,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
   text = {
     cannot_drag_to_non_working_day: this.I18n.t('js.team_planner.cannot_drag_to_non_working_day'),
+    today: this.I18n.t('js.team_planner.today'),
   };
 
   constructor(
@@ -181,6 +183,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
   private initializeCalendar() {
     const additionalOptions:{ [key:string]:unknown } = {
+      locales: allLocales,
+      locale: this.I18n.locale,
       height: '100%',
       headerToolbar: this.buildHeader(),
       eventSources: [

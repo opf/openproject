@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Projects::UpdateContract do
-  it_behaves_like 'project contract' do
+  it_behaves_like "project contract" do
     let(:project) do
       build_stubbed(:project,
                     active: project_active,
@@ -47,10 +47,10 @@ RSpec.describe Projects::UpdateContract do
 
     subject(:contract) { described_class.new(project, current_user) }
 
-    context 'if the identifier is nil' do
+    context "if the identifier is nil" do
       let(:project_identifier) { nil }
 
-      it 'is replaced for new project' do
+      it "is replaced for new project" do
         expect_valid(false, identifier: %i(blank))
       end
     end

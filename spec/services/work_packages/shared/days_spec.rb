@@ -26,24 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe WorkPackages::Shared::Days do
   subject { described_class.new }
 
-  describe '.for' do
-    context 'for a work_package ignoring non working days' do
+  describe ".for" do
+    context "for a work_package ignoring non working days" do
       let(:work_package) { build_stubbed(:work_package, ignore_non_working_days: true) }
 
-      it 'returns an AllDays instance' do
+      it "returns an AllDays instance" do
         expect(described_class.for(work_package)).to be_an_instance_of(WorkPackages::Shared::AllDays)
       end
     end
 
-    context 'for a work_package respecting non working days' do
+    context "for a work_package respecting non working days" do
       let(:work_package) { build_stubbed(:work_package) }
 
-      it 'returns a WorkingDays instance' do
+      it "returns a WorkingDays instance" do
         expect(described_class.for(work_package)).to be_an_instance_of(WorkPackages::Shared::WorkingDays)
       end
     end

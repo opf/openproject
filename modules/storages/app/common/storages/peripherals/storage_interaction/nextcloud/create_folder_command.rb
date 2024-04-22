@@ -60,21 +60,21 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       case response
       in { status: 200..299 }
-        ServiceResult.success(message: 'Folder was successfully created.')
+        ServiceResult.success(message: "Folder was successfully created.")
       in { status: 405 }
-        if Util.error_text_from_response(response) == 'The resource you tried to create already exists'
-          ServiceResult.success(message: 'Folder already exists.')
+        if Util.error_text_from_response(response) == "The resource you tried to create already exists"
+          ServiceResult.success(message: "Folder already exists.")
         else
-          Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
+          Util.error(:not_allowed, "Outbound request method not allowed", error_data)
         end
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
+        Util.error(:unauthorized, "Outbound request not authorized", error_data)
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
+        Util.error(:not_found, "Outbound request destination not found", error_data)
       in { status: 409 }
         Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
-        Util.error(:error, 'Outbound request failed', error_data)
+        Util.error(:error, "Outbound request failed", error_data)
       end
     end
 

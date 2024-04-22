@@ -1,0 +1,42 @@
+<%=
+  content_tag("turbo-frame", id: "edit-project-custom-fields-dialog-#{@project_custom_field_section.id}-frame") do
+    component_wrapper(data: { test_selector: 'async-dialog-content' }) do
+      primer_form_with(
+        model: @project,
+        method: :put,
+        url: update_project_custom_values_path(project_id: @project.id, section_id: @project_custom_field_section.id),
+      ) do |f|
+        component_collection do |collection|
+          collection.with_component(Primer::Alpha::Dialog::Body.new(my: 3, classes: "Overlay-body_autocomplete_height")) do
+            render(Projects::CustomFields::Form.new(
+              f,
+              project: @project,
+              custom_field_section: @project_custom_field_section,
+              wrapper_id: "#edit-project-custom-fields-dialog-#{@project_custom_field_section.id}"
+            ))
+          end
+          collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+            component_collection do |footer_collection|
+              footer_collection.with_component(Primer::ButtonComponent.new(
+                data: {
+                  'close-dialog-id': "edit-project-custom-fields-dialog-#{@project_custom_field_section.id}"
+                }
+              )) do
+                t("button_cancel")
+              end
+              footer_collection.with_component(Primer::ButtonComponent.new(
+                scheme: :primary,
+                type: :submit,
+                data: {
+                  test_selector: 'save-project-attributes-button'
+                }
+              )) do
+                t("button_save")
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

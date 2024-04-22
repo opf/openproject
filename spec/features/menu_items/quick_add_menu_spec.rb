@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Quick-add menu', :js, :with_cuprite do
+RSpec.describe "Quick-add menu", :js, :with_cuprite do
   let(:quick_add) { Components::QuickAddMenu.new }
 
-  context 'as a logged in user with add_project permission' do
+  context "as a logged in user with add_project permission" do
     current_user { create(:user, global_permissions: %i[add_project]) }
 
-    it 'shows the add project option' do
+    it "shows the add project option" do
       visit home_path
 
       quick_add.expect_visible
@@ -43,11 +43,11 @@ RSpec.describe 'Quick-add menu', :js, :with_cuprite do
       quick_add.expect_user_invite present: false
       quick_add.expect_no_work_package_types
 
-      quick_add.click_link 'Project'
+      quick_add.click_link "Project"
       expect(page).to have_current_path new_project_path
     end
 
-    context 'with an existing project' do
+    context "with an existing project" do
       let(:project) { create(:project) }
       let(:field) { FormFields::SelectFormField.new :parent }
 
@@ -56,14 +56,14 @@ RSpec.describe 'Quick-add menu', :js, :with_cuprite do
                member_with_permissions: { project => %i[add_subprojects] })
       end
 
-      it 'moves to a form with parent_id set' do
+      it "moves to a form with parent_id set" do
         visit project_path(project)
 
         quick_add.expect_visible
         quick_add.toggle
         quick_add.expect_add_project
 
-        quick_add.click_link 'Project'
+        quick_add.click_link "Project"
         expect(page).to have_current_path new_project_path(parent_id: project.id)
 
         field.expect_selected project.name
@@ -71,7 +71,7 @@ RSpec.describe 'Quick-add menu', :js, :with_cuprite do
     end
   end
 
-  context 'with current user as member with permission :manage_members in one project' do
+  context "with current user as member with permission :manage_members in one project" do
     let!(:project) { create(:project) }
     let(:invite_modal) { Components::Users::InviteUserModal.new project:, role: nil, principal: nil }
 
@@ -80,7 +80,7 @@ RSpec.describe 'Quick-add menu', :js, :with_cuprite do
              member_with_permissions: { project => %i[manage_members] })
     end
 
-    it 'shows the user invite screen' do
+    it "shows the user invite screen" do
       visit home_path
 
       quick_add.expect_visible
@@ -89,12 +89,12 @@ RSpec.describe 'Quick-add menu', :js, :with_cuprite do
       quick_add.expect_no_work_package_types
       quick_add.expect_user_invite
 
-      quick_add.click_link 'Invite user'
+      quick_add.click_link "Invite user"
       invite_modal.expect_open
     end
   end
 
-  context 'with a project with one of three work package types' do
+  context "with a project with one of three work package types" do
     let!(:type_bug) { create(:type_bug) }
     let!(:other_type) { create(:type_task) }
     let!(:other_project_type) { create(:type) }
@@ -118,7 +118,7 @@ RSpec.describe 'Quick-add menu', :js, :with_cuprite do
 
     current_user { create(:user) }
 
-    it 'shows only the project types within a project and only those types in projects the user can add work packages in' do
+    it "shows only the project types within a project and only those types in projects the user can add work packages in" do
       visit project_path(project_with_permission)
 
       quick_add.expect_visible
@@ -150,22 +150,22 @@ RSpec.describe 'Quick-add menu', :js, :with_cuprite do
     end
   end
 
-  context 'as a logged in user with no permissions' do
+  context "as a logged in user with no permissions" do
     current_user { create(:user) }
 
-    it 'does not show the quick add menu on the home screen' do
+    it "does not show the quick add menu on the home screen" do
       visit home_path
       quick_add.expect_invisible
     end
   end
 
-  context 'as an anonymous user', with_settings: { login_required: true } do
+  context "as an anonymous user", with_settings: { login_required: true } do
     current_user do
       create(:anonymous_role, permissions: %i[add_work_packages])
       create(:anonymous)
     end
 
-    it 'does not show the quick add menu on the home screen' do
+    it "does not show the quick add menu on the home screen" do
       visit signin_path
       quick_add.expect_invisible
     end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
+RSpec.describe API::V3::Shares::ShareRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project_with_types) }
@@ -73,54 +73,54 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
     end
   end
 
-  describe '_links' do
-    describe 'self' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
+  describe "_links" do
+    describe "self" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
         let(:href) { api_v3_paths.share member.id }
         let(:title) { user.name }
       end
     end
 
-    describe 'entity' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'entity' }
+    describe "entity" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "entity" }
         let(:href) { api_v3_paths.work_package(work_package.id) }
         let(:title) { work_package.subject }
       end
     end
 
-    describe 'project' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'project' }
+    describe "project" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "project" }
         let(:href) { api_v3_paths.project(project.id) }
         let(:title) { project.name }
       end
     end
 
-    describe 'principal' do
-      context 'for a user principal' do
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'principal' }
+    describe "principal" do
+      context "for a user principal" do
+        it_behaves_like "has a titled link" do
+          let(:link) { "principal" }
           let(:href) { api_v3_paths.user(user.id) }
           let(:title) { user.name }
         end
       end
 
-      context 'for a group principal' do
+      context "for a group principal" do
         let(:principal) { group }
 
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'principal' }
+        it_behaves_like "has a titled link" do
+          let(:link) { "principal" }
           let(:href) { api_v3_paths.group(group.id) }
           let(:title) { group.name }
         end
       end
     end
 
-    describe 'roles' do
-      it_behaves_like 'has a link collection' do
-        let(:link) { 'roles' }
+    describe "roles" do
+      it_behaves_like "has a link collection" do
+        let(:link) { "roles" }
         # excludes member_roles marked for destruction
         # and duplicates
         let(:hrefs) do
@@ -139,38 +139,38 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
     end
   end
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'Share' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "Share" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { member.id }
     end
 
-    describe 'createdAt' do
-      it_behaves_like 'has UTC ISO 8601 date and time' do
+    describe "createdAt" do
+      it_behaves_like "has UTC ISO 8601 date and time" do
         let(:date) { member.created_at }
-        let(:json_path) { 'createdAt' }
+        let(:json_path) { "createdAt" }
       end
     end
 
-    describe 'updatedAt' do
-      it_behaves_like 'has UTC ISO 8601 date and time' do
+    describe "updatedAt" do
+      it_behaves_like "has UTC ISO 8601 date and time" do
         let(:date) { member.updated_at }
-        let(:json_path) { 'updatedAt' }
+        let(:json_path) { "updatedAt" }
       end
     end
   end
 
-  describe '_embedded' do
-    describe 'entity' do
-      let(:embedded_path) { '_embedded/entity' }
+  describe "_embedded" do
+    describe "entity" do
+      let(:embedded_path) { "_embedded/entity" }
 
-      context 'for a work package' do
-        it 'has the work package embedded' do
+      context "for a work package" do
+        it "has the work package embedded" do
           expect(subject)
-            .to be_json_eql('WorkPackage'.to_json)
+            .to be_json_eql("WorkPackage".to_json)
             .at_path("#{embedded_path}/_type")
 
           expect(subject)
@@ -184,12 +184,12 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
       end
     end
 
-    describe 'project' do
-      let(:embedded_path) { '_embedded/project' }
+    describe "project" do
+      let(:embedded_path) { "_embedded/project" }
 
-      it 'has the project embedded' do
+      it "has the project embedded" do
         expect(subject)
-          .to be_json_eql('Project'.to_json)
+          .to be_json_eql("Project".to_json)
           .at_path("#{embedded_path}/_type")
 
         expect(subject)
@@ -198,13 +198,13 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
       end
     end
 
-    describe 'principal' do
-      let(:embedded_path) { '_embedded/principal' }
+    describe "principal" do
+      let(:embedded_path) { "_embedded/principal" }
 
-      context 'for a user principal' do
-        it 'has the user embedded' do
+      context "for a user principal" do
+        it "has the user embedded" do
           expect(subject)
-            .to be_json_eql('User'.to_json)
+            .to be_json_eql("User".to_json)
             .at_path("#{embedded_path}/_type")
 
           expect(subject)
@@ -213,12 +213,12 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
         end
       end
 
-      context 'for a group principal' do
+      context "for a group principal" do
         let(:principal) { group }
 
-        it 'has the group embedded' do
+        it "has the group embedded" do
           expect(subject)
-            .to be_json_eql('Group'.to_json)
+            .to be_json_eql("Group".to_json)
             .at_path("#{embedded_path}/_type")
 
           expect(subject)
@@ -228,12 +228,12 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
       end
     end
 
-    describe 'roles' do
-      let(:embedded_path) { '_embedded/roles' }
+    describe "roles" do
+      let(:embedded_path) { "_embedded/roles" }
 
-      it 'has an array of roles embedded that excludes member_roles marked for destruction' do
+      it "has an array of roles embedded that excludes member_roles marked for destruction" do
         expect(subject)
-          .to be_json_eql('Role'.to_json)
+          .to be_json_eql("Role".to_json)
           .at_path("#{embedded_path}/0/_type")
 
         expect(subject)
@@ -241,7 +241,7 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
           .at_path("#{embedded_path}/0/name")
 
         expect(subject)
-          .to be_json_eql('Role'.to_json)
+          .to be_json_eql("Role".to_json)
           .at_path("#{embedded_path}/1/_type")
 
         expect(subject)

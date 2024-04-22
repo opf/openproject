@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context 'with clean feature decisions' do
+RSpec.shared_context "with clean feature decisions" do
   let!(:decisions_before) { OpenProject::FeatureDecisions.all.dup }
 
   before do

@@ -1,7 +1,7 @@
 module OpenProject
   module Recaptcha
     module Configuration
-      CONFIG_KEY = 'recaptcha_via_hcaptcha'.freeze
+      CONFIG_KEY = "recaptcha_via_hcaptcha".freeze
 
       extend self
 
@@ -14,11 +14,11 @@ module OpenProject
       end
 
       def type
-        ::Setting.plugin_openproject_recaptcha['recaptcha_type']
+        ::Setting.plugin_openproject_recaptcha["recaptcha_type"]
       end
 
       def hcaptcha_response_limit
-        (::Setting.plugin_openproject_recaptcha['response_limit'] || '5000').to_i
+        (::Setting.plugin_openproject_recaptcha["response_limit"] || "5000").to_i
       end
 
       def hcaptcha_verify_url

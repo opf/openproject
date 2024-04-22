@@ -1,4 +1,4 @@
-pt:
+pt-PT:
   activerecord:
     attributes:
       storages/file_link:
@@ -39,22 +39,22 @@ pt:
   api_v3:
     errors:
       too_many_elements_created_at_once: Demasiados elementos criados de uma só vez. Esperados %{max} no máximo, obtidos %{actual}.
-  permission_create_files: Criar ficheiros
-  permission_delete_files: Eliminar ficheiros
+  permission_create_files: 'Armazenamento externo: criar ficheiros'
+  permission_delete_files: 'Armazenamento externo: eliminar ficheiros'
   permission_manage_file_links: Gerir hiperligações de ficheiro
   permission_manage_storages_in_project: Gerir armazenamentos de ficheiros no projeto
-  permission_read_files: Ler ficheiros
-  permission_share_files: Partilhar ficheiros
+  permission_read_files: 'Armazenamento externo: ler ficheiros'
+  permission_share_files: 'Armazenamento externo: partilhar ficheiros'
   permission_view_file_links: Mostrar hiperligações de ficheiros
-  permission_write_files: Escrever ficheiros
+  permission_write_files: 'Armazenamento externo: escrever ficheiros'
   project_module_storages: Armazenamentos de ficheiros
   storages:
     buttons:
       complete_without_setup: Concluir sem isso
       done_complete_setup: Concluído, terminar configuração
       done_continue: Concluído, continuar
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: Substituir OpenProject OAuth
+      replace_oauth_client: Substituir OAuth %{provider_type}
       save_and_continue: Guardar e continuar
       select_folder: Selecionar pasta
     configuration_checks:
@@ -63,8 +63,8 @@ pt:
         one_drive: Permitir que o OpenProject aceda aos dados do Azure utilizando o OAuth para ligar o OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Conclua a configuração com o redirecionamento correto da URI.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: Esta ação irá repor as credenciais OAuth atuais. Após a confirmação, terá de voltar a introduzir as credenciais no fornecedor de armazenamento e todos os utilizadores remotos terão de autorizar novamente o OpenProject. Tem a certeza de que pretende continuar?
+    confirm_replace_oauth_client: Esta ação irá repor as credenciais OAuth atuais. Depois de confirmar, terá de introduzir novas credenciais do fornecedor de armazenamento e todos os utilizadores terão de autorizar novamente em %{provider_type}. Tem a certeza de que pretende continuar?
     delete_warning:
       input_delete_confirmation: Introduza o nome do ficheiro de armazenamento %{file_storage} para confirmar a eliminação.
       irreversible_notice: A eliminação de um ficheiro de armazenamento é uma ação irreversível.
@@ -77,6 +77,15 @@ pt:
       storage_delete_result_3: No caso de este armazenamento ter pastas de projeto geridas automaticamente, estas e os seus ficheiros serão eliminados para sempre.
     error_invalid_provider_type: Selecione um fornecedor de armazenamento válido.
     file_storage_view:
+      access_management:
+        automatic_management: Acesso e pastas geridas automaticamente
+        automatic_management_description: Deixe o OpenProject criar pastas por projeto automaticamente e gerir o acesso dos utilizadores. Isto é recomendado porque garante que cada membro da equipa tem sempre as permissões de acesso corretas.
+        description: Selecione o tipo de gestão do acesso dos utilizadores e da criação de pastas. Recomendamos que utilize o acesso gerido automaticamente para ter uma estrutura mais organizada e garantir o acesso a todos os utilizadores relevantes.
+        manual_management: Acesso e pastas geridas manualmente
+        manual_management_description: Crie e gira manualmente as pastas por projeto por conta própria. Terá de garantir manualmente que os utilizadores relevantes têm acesso.
+        setup_incomplete: Selecione o tipo de gestão do acesso dos utilizadores e da criação de pastas.
+        subtitle: Gestão de acesso
+        title: Pastas de acesso e de projeto
       automatically_managed_folders: Pastas geridas automaticamente
       general_information: Informação geral
       nextcloud_oauth: Nextcloud OAuth
@@ -94,6 +103,13 @@ pt:
       since: desde %{datetime}
       subtitle: Pastas do projeto geridas automaticamente
       title: Estado de funcionamento atual
+    health_email_notifications:
+      description_subscribed: Todos os administradores recebem notificações por e-mail sobre o estado de funcionamento deste armazenamento.
+      description_unsubscribed: As notificações por e-mail sobre o estado de funcionamento deste armazenamento foram desativadas para todos os administradores.
+      error_could_not_be_saved: Não foi possível guardar as definições de notificação por e-mail. Tente novamente.
+      subscribe: Subscrever
+      title: Notificações por e-mail
+      unsubscribe: Anular subscrição
     help_texts:
       project_folder: A pasta do projeto é a pasta predefinida para o carregamento de ficheiros para este projeto. Os utilizadores podem, no entanto, carregar ficheiros para outras localizações.
     instructions:
@@ -143,6 +159,7 @@ pt:
     label_creator: Criador
     label_delete_storage: Eliminar armazenamento
     label_edit_storage: Editar armazenamento
+    label_edit_storage_access_management: Editar a gestão do acesso ao armazenamento
     label_edit_storage_automatically_managed_folders: Editar o armazenamento pastas geridas automaticamente
     label_edit_storage_host: Editar anfitrião de armazenamento
     label_existing_manual_folder: Pasta existente com permissões geridas manualmente
@@ -198,11 +215,6 @@ pt:
         delete: Eliminar armazenamento de ficheiros
         subtitle: Adicione um armazenamento de ficheiros externo para carregar, ligar e gerir ficheiros em pacotes de trabalho.
       managed_project_folders:
-        one_drive_information: |-
-          Para ativar as pastas de projeto geridas automaticamente no OneDrive/SharePoint, é necessária uma configuração adicional na
-          unidade que é utilizada para o armazenamento de ficheiros. Se o OpenProject gerir as permissões desta unidade, esta
-          provavelmente será inutilizável para outros casos de utilização no SharePoint. Para mais informações e orientações, consulte
-          %{drive_id_link_text}.
         subtitle: |-
           Deixe o OpenProject criar pastas por projeto automaticamente. Isto é recomendado porque garante que cada membro da equipa tem sempre as permissões de acesso corretas.
         subtitle_short: Deixe o OpenProject criar pastas por projeto automaticamente.
@@ -216,6 +228,7 @@ pt:
       project_storage_members:
         subtitle: Verifique o estado da ligação para o armazenamento %{storage_name_link} de todos os membros do projeto.
         title: Estado da ligação dos membros
+    permission_header_explanation: "As permissões de ficheiros em armazenamentos externos são aplicadas apenas a pastas e ficheiros dentro de pastas de projetos geridos automaticamente. \nTenha em atenção que nem todas as permissões de ficheiros são suportadas por todos os fornecedores de armazenamento."
     provider_types:
       label: Tipo de fornecedor
       nextcloud:

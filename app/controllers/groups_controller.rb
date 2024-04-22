@@ -28,19 +28,19 @@
 
 class GroupsController < ApplicationController
   include GroupsHelper
-  layout 'admin'
+  layout "admin"
 
   before_action :require_admin, except: %i[show]
   before_action :find_group, only: %i[destroy update show create_memberships destroy_membership
                                       edit_membership add_users]
 
   def index
-    @groups = Group.order(Arel.sql('lastname ASC'))
+    @groups = Group.order(Arel.sql("lastname ASC"))
   end
 
   def show
     @group_users = group_members
-    render layout: 'no_menu'
+    render layout: "no_menu"
   end
 
   def new
@@ -75,7 +75,7 @@ class GroupsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to(groups_path)
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
@@ -135,7 +135,7 @@ class GroupsController < ApplicationController
       .call
 
     flash[:notice] = I18n.t :notice_successful_delete
-    redirect_to controller: '/groups', action: 'edit', id: @group, tab: redirected_to_tab(member)
+    redirect_to controller: "/groups", action: "edit", id: @group, tab: redirected_to_tab(member)
   end
 
   protected
@@ -158,10 +158,10 @@ class GroupsController < ApplicationController
   end
 
   def default_breadcrumb
-    if action_name == 'index' || !current_user.admin?
-      t('label_group_plural')
+    if action_name == "index" || !current_user.admin?
+      t("label_group_plural")
     else
-      ActionController::Base.helpers.link_to(t('label_group_plural'), groups_path)
+      ActionController::Base.helpers.link_to(t("label_group_plural"), groups_path)
     end
   end
 
@@ -176,14 +176,14 @@ class GroupsController < ApplicationController
       flash[:error] = service_call.errors.full_messages.join("\n")
     end
 
-    redirect_to controller: '/groups', action: 'edit', id: @group, tab: redirected_to_tab(service_call.result)
+    redirect_to controller: "/groups", action: "edit", id: @group, tab: redirected_to_tab(service_call.result)
   end
 
   def redirected_to_tab(membership)
     if membership.project
-      'memberships'
+      "memberships"
     else
-      'global_roles'
+      "global_roles"
     end
   end
 
@@ -194,6 +194,6 @@ class GroupsController < ApplicationController
       service_call.apply_flash_message!(flash)
     end
 
-    redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'
+    redirect_to controller: "/groups", action: "edit", id: @group, tab: "users"
   end
 end

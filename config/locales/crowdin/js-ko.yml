@@ -31,7 +31,7 @@ ko:
         이 파일을 삭제하시겠습니까? 삭제하면 되돌릴 수 없습니다.
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "바이러스가 발견되어 파일이 격리되었습니다. 다운로드할 수 없습니다."
     autocomplete_ng_select:
       add_tag: "항목 추가"
       clear_all: "모두 지우기"
@@ -348,11 +348,11 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>작업 패키지 계층 구조 전반에서 진행률 보고를 구현합니다.</li> <li>프로젝트 개요 페이지에서 프로젝트 특성을 체계적으로 관리합니다.</li> <li>프로젝트 목록과 프로젝트 개요에서 사용자 지정 필드의 보기가 간소화되었습니다.</li> <li>세련된 Primer 디자인을 갖춘 통합된 페이지 헤더가 있습니다.</li> <li>첨부 파일 업로드, 책임자, 미팅 기록과 같은 새로운 기능으로 미팅을 개선합니다.</li> <li>비정상적인 파일 저장소에 대한 자동 알림을 받고 토글 옵션으로 제어합니다.</li> <li>프로젝트를 복사할 때 OneDrive/SharePoint의 자동으로 관리되는 프로젝트 폴더를 복사합니다.</li> <li>프로젝트 멤버십을 취소할 때 작업 패키지의 공유를 제거하려면 관리자에게 요청합니다.</li> <li>팀 플래너에서 4주 및 8주 표시 모드로 계획을 개선합니다.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -444,7 +444,7 @@ ko:
     label_less_than_ago: "일 미만 전"
     label_loading: "로드 중..."
     label_mail_notification: "이메일 알림"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "열 관리 및 재정렬"
     label_me: "나"
     label_meeting_agenda: "의제"
     label_meeting_minutes: "의사록"
@@ -483,7 +483,7 @@ ko:
     label_report: "보고서"
     label_repository_plural: "리포지토리"
     label_save_as: "다른 이름으로 저장"
-    label_search_columns: "Search a column"
+    label_search_columns: "열 검색"
     label_select_project: "프로젝트 선택"
     label_select_watcher: "주시하는 사람을 선택"
     label_selected_filter_list: "선택된 필터"
@@ -642,7 +642,7 @@ ko:
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."
-          link_text: "로드하려면 여기를 클릭하세요"
+          link_text: "로드하려면 여기를 클릭하세요."
       menu:
         accountable: "담당"
         by_project: "프로젝트 기준 읽지 않음"
@@ -924,6 +924,8 @@ ko:
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
       message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
+      progress:
+        title: "작업 견적 및 진행률"
       baseline:
         addition_label: "비교 기간 내에서 보기에 추가됨"
         removal_label: "비교 기간 내에서 보기에서 제거됨"
@@ -1000,7 +1002,7 @@ ko:
         all_open: "모두 열림"
         summary: "요약"
         shared_with_users: "사용자와 공유됨"
-        shared_with_me: "Shared with me"
+        shared_with_me: "나와 공유됨"
       jump_marks:
         pagination: "테이블 페이지 매김으로 이동"
         label_pagination: "여기를 클릭하여 작업 패키지 테이블로 건너뛰고 페이지 매김으로 이동"
@@ -1247,7 +1249,8 @@ ko:
       role:
         label: "%{project} 내 역할"
         no_roles_found: "역할이 없습니다"
-        description: '사용자가 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>'
+        description: >-
+          사용자가 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>
         required: "역할을 선택하십시오"
         next_button: "다음"
       message:
@@ -1321,3 +1324,7 @@ ko:
       drop_modal:
         focus_grab: "모달용 포커스 앵커입니다. 모달 트리거 요소로 돌아가려면 shift+tab을 누르세요."
         Close: "닫기"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "네트워크 문제가 있습니다."
+        network_on: "네트워크가 복원되었습니다. 작업 중입니다."

@@ -34,11 +34,11 @@ class MeetingParticipant < ApplicationRecord
   scope :attended, -> { where(attended: true) }
 
   def name
-    user.present? ? user.name : I18n.t('user.deleted')
+    user.present? ? user.name : I18n.t("user.deleted")
   end
 
   def mail
-    user.present? ? user.mail : I18n.t('user.deleted')
+    user.present? ? user.mail : I18n.t("user.deleted")
   end
 
   def <=>(other)
@@ -49,6 +49,6 @@ class MeetingParticipant < ApplicationRecord
 
   def copy_attributes
     # create a clean attribute set allowing to attach participants to different meetings
-    attributes.reject { |k, _v| ['id', 'meeting_id', 'attended', 'created_at', 'updated_at'].include?(k) }
+    attributes.reject { |k, _v| ["id", "meeting_id", "attended", "created_at", "updated_at"].include?(k) }
   end
 end

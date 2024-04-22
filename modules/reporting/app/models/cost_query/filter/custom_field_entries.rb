@@ -33,12 +33,12 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
     applies_for :label_work_package_attributes
     # redmine internals just suck
     case custom_field.field_format
-    when 'string', 'text' then use :string_operators
-    when 'list'           then use :null_operators
-    when 'date'           then use :time_operators
-    when 'int', 'float'   then use :integer_operators
-    when 'bool'
-      @possible_values = [['true', 't'], ['false', 'f']]
+    when "string", "text" then use :string_operators
+    when "list"           then use :null_operators
+    when "date"           then use :time_operators
+    when "int", "float"   then use :integer_operators
+    when "bool"
+      @possible_values = [["true", "t"], ["false", "f"]]
       use :null_operators
     else
       fail "cannot handle #{custom_field.field_format.inspect}"
@@ -53,7 +53,7 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
     # Mapping to the human readable value is done for all custom values (e.g. users, versions)
     # following the same pattern of code, so simply making the exception here to use the value
     # would complicated the code later on.
-    if custom_field.field_format == 'list'
+    if custom_field.field_format == "list"
       "#{db_field}.value"
     else
       super
@@ -65,7 +65,7 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
   end
 
   def self.get_possible_values
-    if custom_field.field_format == 'list'
+    if custom_field.field_format == "list"
       # Treat list CFs values as string options again, since
       # aggregation of groups are made by the values as well
       # and otherwise, it won't work as a filter.

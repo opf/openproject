@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
@@ -58,7 +58,7 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
                         contract_class:)
   end
 
-  describe 'call' do
+  describe "call" do
     let(:call_attributes) do
       {
         user_id: 3,
@@ -78,64 +78,64 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
 
     subject { instance.call(call_attributes) }
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject).to be_success
     end
 
-    it 'does not persist the member' do
+    it "does not persist the member" do
       subject
 
       expect(member)
         .not_to have_received(:save)
     end
 
-    context 'for a new record' do
-      it 'sets the attributes and also takes the project_id from the work package' do
+    context "for a new record" do
+      it "sets the attributes and also takes the project_id from the work package" do
         subject
 
         expect(member.attributes.slice(*member.changed).symbolize_keys)
-          .to eql(user_id: 3, entity_id: work_package.id, entity_type: 'WorkPackage', project_id: work_package.project_id)
+          .to eql(user_id: 3, entity_id: work_package.id, entity_type: "WorkPackage", project_id: work_package.project_id)
       end
 
-      it 'marks the project_id to be changed by the system' do
+      it "marks the project_id to be changed by the system" do
         subject
 
         expect(member.changed_by_system)
-          .to eql('project_id' => [nil, member.project_id])
+          .to eql("project_id" => [nil, member.project_id])
       end
     end
 
     # Changing the entity should not really happen in reality but if it does, this is what happens.
-    context 'for a persisted record' do
+    context "for a persisted record" do
       let(:member) { existing_member }
 
-      it 'sets the attributes and also takes the project_id from the work package' do
+      it "sets the attributes and also takes the project_id from the work package" do
         subject
 
         expect(member.attributes.slice(*member.changed).symbolize_keys)
           .to eql(user_id: 3, entity_id: work_package.id, project_id: work_package.project_id)
       end
 
-      it 'marks the project_id to be changed by the system' do
+      it "marks the project_id to be changed by the system" do
         subject
 
         expect(member.changed_by_system)
-          .to eql('project_id' => [member.project_id_was, member.project_id])
+          .to eql("project_id" => [member.project_id_was, member.project_id])
       end
     end
 
-    context 'if the contract is invalid' do
+    context "if the contract is invalid" do
       let(:contract_valid) { false }
 
-      it 'is unsuccessful' do
+      it "is unsuccessful" do
         expect(subject).not_to be_success
       end
 
-      it 'returns the errors of the contract' do
+      it "returns the errors of the contract" do
         expect(subject.errors).to eql contract_errors
       end
 
-      it 'does not persist the member' do
+      it "does not persist the member" do
         subject
 
         expect(member)
@@ -143,7 +143,7 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
       end
     end
 
-    context 'with changes to the roles' do
+    context "with changes to the roles" do
       let(:first_role) { build_stubbed(:project_role) }
       let(:second_role) { build_stubbed(:project_role) }
       let(:third_role) { build_stubbed(:project_role) }
@@ -154,17 +154,17 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
         }
       end
 
-      context 'with a persisted record' do
+      context "with a persisted record" do
         let(:member) do
           build_stubbed(:work_package_member, roles: [first_role, second_role])
         end
 
-        it 'adds the new role and marks the other for destruction' do
+        it "adds the new role and marks the other for destruction" do
           expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(first_role.id, second_role.id, third_role.id)
           expect(subject.result.member_roles.detect { _1.role_id == first_role.id }).to be_marked_for_destruction
         end
 
-        context 'when a role being assigned is already inherited via a group' do
+        context "when a role being assigned is already inherited via a group" do
           let(:member) do
             build_stubbed(:work_package_member, roles: [first_role, second_role, third_role])
           end
@@ -175,7 +175,7 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
                     .and_return(true)
           end
 
-          it 'still adds the role and marks the ones not added for destruction' do
+          it "still adds the role and marks the ones not added for destruction" do
             membership = subject.result
 
             expect(membership.member_roles.map(&:role_id))
@@ -190,51 +190,51 @@ RSpec.describe WorkPackageMembers::SetAttributesService, type: :model do
         end
       end
 
-      context 'with a new record' do
+      context "with a new record" do
         let(:member) do
           Member.new
         end
 
-        it 'adds the new role' do
+        it "adds the new role" do
           expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(second_role.id, third_role.id)
         end
 
-        context 'with role_ids not all being present' do
+        context "with role_ids not all being present" do
           let(:call_attributes) do
             {
-              role_ids: [nil, '', second_role.id, third_role.id]
+              role_ids: [nil, "", second_role.id, third_role.id]
             }
           end
 
-          it 'ignores the empty values' do
+          it "ignores the empty values" do
             expect(subject.result.member_roles.map(&:role_id)).to contain_exactly(second_role.id, third_role.id)
           end
         end
       end
 
-      context 'with attempting to sent `roles`' do
+      context "with attempting to sent `roles`" do
         let(:call_attributes) do
           {
             roles: [second_role, third_role]
           }
         end
 
-        context 'with a new record' do
+        context "with a new record" do
           let(:member) do
             Member.new
           end
 
-          it 'sets the new role' do
+          it "sets the new role" do
             expect(subject.result.roles).to contain_exactly(second_role, third_role)
           end
         end
 
-        context 'with a persisted record' do
+        context "with a persisted record" do
           let(:member) do
             build_stubbed(:work_package_member, roles: [second_role])
           end
 
-          it 'raises an error' do
+          it "raises an error" do
             expect { subject }
               .to raise_error(ArgumentError)
           end

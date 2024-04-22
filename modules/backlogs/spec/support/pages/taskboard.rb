@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class Taskboard < Page
@@ -70,8 +70,8 @@ module Pages
 
       change_attributes_in_modal(attributes)
 
-      expect(page).to have_no_css('.ui-dialog')
-      expect(page).to have_no_css('#work_package_')
+      expect(page).to have_no_css(".ui-dialog")
+      expect(page).to have_no_css("#work_package_")
     end
 
     def update_task(task, attributes)
@@ -79,7 +79,7 @@ module Pages
 
       change_attributes_in_modal(attributes)
 
-      expect(page).to have_no_css('.ui-dialog')
+      expect(page).to have_no_css(".ui-dialog")
 
       sleep(0.5)
     end
@@ -112,19 +112,19 @@ module Pages
     end
 
     def change_attributes_in_modal(attributes)
-      within '.ui-dialog' do
+      within ".ui-dialog" do
         attributes.each do |key, value|
           case key
           when :subject
-            fill_in 'Subject', with: value
+            fill_in "Subject", with: value
           when :assignee
-            select value, from: 'Assignee'
+            select value, from: "Assignee"
           when :remaining_hours
-            fill_in 'Remaining work', with: value
+            fill_in "Remaining work", with: value
           end
         end
 
-        click_button 'OK'
+        click_button "OK"
       end
     end
   end

@@ -36,7 +36,7 @@ module Components
       expect_open
 
       expect(submit_button).to be_disabled
-      fill_in 'request_for_confirmation_password', with: password
+      fill_in "request_for_confirmation_password", with: password
 
       expect(submit_button).not_to be_disabled
       submit(should_fail:, with_keyboard:)
@@ -57,21 +57,21 @@ module Components
     private
 
     def selector
-      '.password-confirm-dialog--modal'
+      ".password-confirm-dialog--modal"
     end
 
     def submit(should_fail:, with_keyboard:)
       if with_keyboard
-        find_field('request_for_confirmation_password').send_keys :enter
+        find_field("request_for_confirmation_password").send_keys :enter
       else
         submit_button.click
       end
 
       if should_fail
-        expect(page).to have_css('.op-toast.-error',
+        expect(page).to have_css(".op-toast.-error",
                                  text: I18n.t(:notice_password_confirmation_failed))
       else
-        expect(page).to have_no_css('.op-toast.-error')
+        expect(page).to have_no_css(".op-toast.-error")
       end
     end
   end

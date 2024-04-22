@@ -26,6 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.join('config/constants/views')
+require Rails.root.join("config/constants/views")
 
 Constants::Views.add :WorkPackagesTable

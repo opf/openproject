@@ -34,9 +34,10 @@ module Storages
       module OneDrive
         class FileInfoQuery
           FIELDS = %w[id name fileSystemInfo file folder size createdBy lastModifiedBy parentReference].freeze
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
 
-          def self.call(storage:, user:, file_id:)
-            new(storage).call(user:, file_id:)
+          def self.call(storage:, auth_strategy:, file_id:)
+            new(storage).call(auth_strategy:, file_id:)
           end
 
           def initialize(storage)
@@ -44,18 +45,18 @@ module Storages
             @delegate = Internal::DriveItemQuery.new(storage)
           end
 
-          def call(user:, file_id:)
+          def call(auth_strategy:, file_id:)
             if file_id.nil?
               return ServiceResult.failure(
                 result: :error,
                 errors: ::Storages::StorageError.new(code: :error,
                                                      data: StorageErrorData.new(source: self.class),
-                                                     log_message: 'File ID can not be nil')
+                                                     log_message: "File ID can not be nil")
               )
             end
 
-            Util.using_user_token(@storage, user) do |token|
-              @delegate.call(token:, drive_item_id: file_id, fields: FIELDS).map(&storage_file_infos)
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              @delegate.call(http:, drive_item_id: file_id, fields: FIELDS).map(&storage_file_infos)
             end
           end
 
@@ -65,7 +66,7 @@ module Storages
           def storage_file_infos
             ->(json) do
               StorageFileInfo.new(
-                status: 'ok',
+                status: "ok",
                 status_code: 200,
                 id: json[:id],
                 name: json[:name],

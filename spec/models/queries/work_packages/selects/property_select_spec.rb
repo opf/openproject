@@ -26,37 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_query_select_specs'
+require "spec_helper"
+require_relative "shared_query_select_specs"
 
 RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
   let(:instance) { described_class.new(:query_column) }
 
-  it_behaves_like 'query column'
+  it_behaves_like "query column"
 
-  describe 'instances' do
-    context 'when done_ratio disabled' do
-      it 'the done ratio column does not exist' do
-        allow(WorkPackage)
-          .to receive(:done_ratio_disabled?)
-          .and_return(true)
-
-        expect(described_class.instances.map(&:name)).not_to include :done_ratio
-      end
+  describe "instances" do
+    it "the done_ratio column exists" do
+      expect(described_class.instances.map(&:name)).to include :done_ratio
     end
 
-    context 'when done_ratio enabled' do
-      it 'the done ratio column exists' do
-        allow(WorkPackage)
-          .to receive(:done_ratio_disabled?)
-          .and_return(false)
-
-        expect(described_class.instances.map(&:name)).to include :done_ratio
-      end
-    end
-
-    context 'when duration feature flag enabled' do
-      it 'column exists' do
+    context "when duration feature flag enabled" do
+      it "column exists" do
         expect(described_class.instances.map(&:name)).to include :duration
       end
     end

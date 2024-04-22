@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::ScheduleManually do
   let(:klass) { described_class }
@@ -35,24 +35,24 @@ RSpec.describe OpenProject::JournalFormatter::ScheduleManually do
     OpenStruct.new(id:, journable: WorkPackage.new)
   end
   let(:instance) { klass.new(journal) }
-  let(:key) { 'schedule_manually' }
+  let(:key) { "schedule_manually" }
 
-  describe '#render' do
-    describe 'with the first value being true, and the second false' do
+  describe "#render" do
+    describe "with the first value being true, and the second false" do
       let(:expected) do
         I18n.t(:text_journal_label_value,
                label: "<strong>Manual scheduling</strong>",
-               value: 'deactivated')
+               value: "deactivated")
       end
 
       it { expect(instance.render(key, [true, false])).to eq(expected) }
     end
 
-    describe 'with the first value being false, and the second true' do
+    describe "with the first value being false, and the second true" do
       let(:expected) do
         I18n.t(:text_journal_label_value,
                label: "<strong>Manual scheduling</strong>",
-               value: 'activated')
+               value: "activated")
       end
 
       it { expect(instance.render(key, [false, true])).to eq(expected) }

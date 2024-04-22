@@ -29,7 +29,7 @@
 module Admin
   module Attachments
     class QuarantinedAttachmentsController < ApplicationController
-      layout 'admin'
+      layout "admin"
       before_action :require_admin
       before_action :find_quarantined_attachments
 
@@ -45,18 +45,16 @@ module Admin
 
         create_journal(container,
                        User.system,
-                       I18n.t('antivirus_scan.deleted_by_admin', filename: @attachment.filename))
+                       I18n.t("antivirus_scan.deleted_by_admin", filename: @attachment.filename))
 
         flash[:notice] = t(:notice_successful_delete)
         redirect_to action: :index
       end
 
-      def default_breadcrumb
-        t('antivirus_scan.quarantined_attachments.title')
-      end
+      def default_breadcrumb; end
 
       def show_local_breadcrumb
-        true
+        false
       end
 
       private

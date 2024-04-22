@@ -27,7 +27,7 @@
 #++
 
 class EnumerationsController < ApplicationController
-  layout 'admin'
+  layout "admin"
 
   before_action :require_admin
   before_action :find_enumeration, only: %i[edit update move destroy]
@@ -56,9 +56,9 @@ class EnumerationsController < ApplicationController
 
     if @enumeration.save
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to action: 'index', type: @enumeration.type
+      redirect_to action: "index", type: @enumeration.type
     else
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -70,7 +70,7 @@ class EnumerationsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to enumerations_path(type: @enumeration.type)
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
@@ -78,12 +78,12 @@ class EnumerationsController < ApplicationController
     if !@enumeration.in_use?
       # No associated objects
       @enumeration.destroy
-      redirect_to action: 'index'
+      redirect_to action: "index"
       return
     elsif params[:reassign_to_id]
       if reassign_to = @enumeration.class.find_by(id: params[:reassign_to_id])
         @enumeration.destroy(reassign_to)
-        redirect_to action: 'index'
+        redirect_to action: "index"
         return
       end
     end
@@ -96,14 +96,14 @@ class EnumerationsController < ApplicationController
       redirect_to enumerations_path
     else
       flash.now[:error] = I18n.t(:error_type_could_not_be_saved)
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
   protected
 
   def default_breadcrumb
-    if action_name == 'index'
+    if action_name == "index"
       t(:label_enumerations)
     else
       ActionController::Base.helpers.link_to(t(:label_enumerations), enumerations_path)

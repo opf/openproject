@@ -62,7 +62,7 @@ volumes:
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
 x-op-image: &image
-  image: openproject/community:${TAG:-12}
+  image: openproject/openproject:${TAG:-14}
 x-op-app: &app
   <<: [*image, *restart_policy]
   environment:
@@ -109,7 +109,7 @@ volumes:
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
 x-op-image: &image
-  image: openproject/community:${TAG:-12}
+  image: openproject/openproject:${TAG:-14}
 x-op-app: &app
   <<: [*image, *restart_policy]
   environment:
@@ -424,7 +424,7 @@ OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR="16"
 
 ## Database configuration and SSL
 
-Please see [this separate guide](./database/) on how to set a custom database connection string and optionally, require SSL/TTLS verification. 
+Please see [this separate guide](./database/) on how to set a custom database connection string and optionally, require SSL/TTLS verification.
 
 ## disable password login
 
@@ -589,7 +589,7 @@ You can optionally enable additional rules on API rate limiting as follows:
 
 `OPENPROJECT_RATE_LIMITING_API__V3=true`
 
-Additional application-level rate limiting rules will be added in the future. Additionally to these application level rules, use your load balancer / proxying web server to apply individual rate limiting rules using modules such as `ngx_http_limit_req_module` or `mod_security`. 
+Additional application-level rate limiting rules will be added in the future. Additionally to these application level rules, use your load balancer / proxying web server to apply individual rate limiting rules using modules such as `ngx_http_limit_req_module` or `mod_security`.
 
 ### Blacklisted routes
 
@@ -758,7 +758,7 @@ OPENPROJECT_2FA_ENFORCED="true"
 
 **Setting available strategies**
 
-By default, the TOTP strategy for phone authenticator apps is active.
+By default, the TOTP and WebAuthn strategie are active.
 
 If you have a [MessageBird account](https://www.messagebird.com/), you can setup a SMS 2FA by activating that strategy like so:
 

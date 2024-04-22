@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Attachments::VirusRescanJob,
                with_ee: %i[virus_scanning],
@@ -15,8 +15,8 @@ RSpec.describe Attachments::VirusRescanJob,
     allow(ClamAV::Client).to receive(:new).and_return(client_double)
   end
 
-  describe '#perform' do
-    let(:response) { ClamAV::SuccessResponse.new('wat') }
+  describe "#perform" do
+    let(:response) { ClamAV::SuccessResponse.new("wat") }
 
     before do
       allow(client_double)
@@ -24,7 +24,7 @@ RSpec.describe Attachments::VirusRescanJob,
                              .and_return(response)
     end
 
-    it 'updates the attachments' do
+    it "updates the attachments" do
       subject
 
       expect(attachment1.reload).to be_status_uploaded

@@ -1,0 +1,27 @@
+<%=
+  component_wrapper do
+    primer_form_with(**form_config) do |f|
+      component_collection do |collection|
+        collection.with_component(Primer::BaseComponent.new(tag: :div)) do
+          flex_layout(my: 3) do |modal_body|
+            modal_body.with_row do
+              render(ProjectCustomFieldSections::NameForm.new(f))
+            end
+          end
+        end
+
+        collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+          component_collection do |modal_footer|
+            modal_footer.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "project-custom-field-section-dialog#{@project_custom_field_section.id}" })) do
+              t("button_cancel")
+            end
+
+            modal_footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+              t("button_save")
+            end
+          end
+        end
+      end
+    end
+  end
+%>

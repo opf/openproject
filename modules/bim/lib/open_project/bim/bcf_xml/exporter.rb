@@ -1,9 +1,9 @@
-require 'fileutils'
+require "fileutils"
 
 module OpenProject::Bim::BcfXml
   class Exporter < ::WorkPackage::Exports::QueryExporter
     def initialize(object, options = {})
-      object.add_filter('bcf_issue_associated', '=', ['t'])
+      object.add_filter("bcf_issue_associated", "=", ["t"])
       super(object, options)
     end
 
@@ -31,13 +31,13 @@ module OpenProject::Bim::BcfXml
         .new format: :xls,
              content: zip,
              title: bcf_filename,
-             mime_type: 'application/octet-stream'
+             mime_type: "application/octet-stream"
     end
 
     def bcf_filename
       # We often have an internal query name that is not meant
       # for public use or was given by a user.
-      if query.name.present? && query.name != '_'
+      if query.name.present? && query.name != "_"
         return sane_filename("#{query.name}.bcf")
       end
 
@@ -104,7 +104,7 @@ module OpenProject::Bim::BcfXml
     ##
     # Write each work package BCF
     def topic_markup_file(issue_dir, issue)
-      File.join(issue_dir, 'markup.bcf').tap do |file|
+      File.join(issue_dir, "markup.bcf").tap do |file|
         dump_file file, issue.markup
       end
     end

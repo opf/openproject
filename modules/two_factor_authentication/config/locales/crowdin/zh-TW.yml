@@ -1,7 +1,7 @@
 #English strings go here for Rails i18n
 zh-TW:
   plugin_openproject_two_factor_authentication:
-    name: "OpenProject Two-factor authentication"
+    name: "OpenProject 兩階段認證(Two-factor authentication)"
     description: >-
       This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
   activerecord:
@@ -85,20 +85,19 @@ zh-TW:
       plural: 備份代碼
       your_codes: 為您的 %{app_name} 帳戶 %{login}
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        如果您無法存取您的2FA設備，您可以使用備份碼來重新存取您的帳戶。 點選按鈕產生一組新的備份碼。
       generate:
         title: 產生備用驗證碼
         keep_safe_as_password: "請把這些值視為密碼一樣重要!"
         keep_safe_warning: "Either save them in your password manager, or print this page and put in a safe place."
         regenerate_warning: "Warning: If you have created backup codes before, they will be invalidated and will no longer work."
     devices:
-      add_new: "Add new 2FA device"
+      add_new: "新增2FA設備"
       register: "註冊裝置"
       confirm_default: "Confirm changing default device"
       confirm_device: "確認設備"
       confirm_now: "Not confirmed, click here to activate"
-      cannot_delete_default: "Cannot delete default device"
+      cannot_delete_default: "無法刪除預設設備"
       make_default_are_you_sure: "Are you sure you want to make this 2FA device your default?"
       make_default_failed: "Failed to update the default 2FA device."
       deletion_are_you_sure: "Are you sure you want to delete this 2FA device?"
@@ -106,13 +105,13 @@ zh-TW:
       registration_failed_token_invalid: "2FA device registration failed, the token was invalid."
       registration_failed_update: "2FA device registration failed, the token was valid but the device could not be updated."
       confirm_send_failed: "Confirmation of your 2FA device failed."
-      button_complete_registration: "Complete 2FA registration"
+      button_complete_registration: "完成兩階段驗證(2FA)註冊"
       text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
-      text_identifier: "You can give the device a custom identifier using this field."
+      text_identifier: "您可以為裝置設定ID。"
       failed_to_delete: "Failed to delete 2FA device."
       is_default_cannot_delete: "The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting."
-      not_existing: "No 2FA device has been registered for your account."
+      not_existing: "您沒有註冊 2FA 設備。"
       2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
       2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
       webauthn:
@@ -120,23 +119,22 @@ zh-TW:
         description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
         further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
       totp:
-        title: "Use your app-based authenticator"
-        provisioning_uri: "Provisioning URI"
+        title: "使用您的APP驗證器"
+        provisioning_uri: "分配的URI"
         secret_key: "密鑰"
         time_based: "基於時間"
-        account: "Account name / Issuer"
+        account: "帳號名稱/發行者"
         setup: |
           For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
           After opening the app, you can scan the following QR code to register the device.
         question_cannot_scan: |
-          Unable to scan the code using your application?
+          不能掃描QR Code?
         text_cannot_scan: |
           If you can't scan the code, you can enter the entry manually using the following details:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          註冊一個APP驗證器。 常見 Google 驗證器或 Authy。
       sms:
-        title: "Use your mobile phone"
+        title: "使用您的手機"
         redacted_identifier: "Mobile device (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}"
         description: |
@@ -162,7 +160,7 @@ zh-TW:
       label: "記住"
       clear_cookie: "Click here to remove all remembered 2FA sessions."
       cookie_removed: "All remembered 2FA sessions have been removed."
-      dont_ask_again: "創建 cookie，使 %{days} 天內記住此用戶端上的2FA 身份驗證。"
+      dont_ask_again: "產生 cookie， %{days} 天內將記住此用戶端2FA 身份驗證。"
   field_phone: "手機"
   field_otp: "一次性密碼"
   notice_account_otp_invalid: "一次性密碼無效。"

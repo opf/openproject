@@ -32,39 +32,38 @@ module Storages
   module Peripherals
     module OAuthConfigurations
       class OneDriveConfiguration < ConfigurationInterface
-        DEFAULT_SCOPES = %w[offline_access files.readwrite.all user.read sites.readwrite.all].freeze
+        Util = StorageInteraction::OneDrive::Util
 
         attr_reader :oauth_client
 
+        # rubocop:disable Lint/MissingSuper
         def initialize(storage)
           @storage = storage
           @uri = storage.uri
           @oauth_client = storage.oauth_client
-          @oauth_uri = URI('https://login.microsoftonline.com/').normalize
+          @oauth_uri = URI("https://login.microsoftonline.com/#{@storage.tenant_id}/oauth2/v2.0").normalize
         end
 
-        def authorization_state_check(access_token)
-          util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
-
-          authorization_check_wrapper do
-            OpenProject.httpx.get(
-              util.join_uri_path(@uri, '/v1.0/me'),
-              headers: { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' }
-            )
-          end
-        end
+        # rubocop:enable Lint/MissingSuper
 
         def extract_origin_user_id(rack_access_token)
-          util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
-
           OpenProject.httpx.get(
-            util.join_uri_path(@uri, '/v1.0/me'),
-            headers: { 'Authorization' => "Bearer #{rack_access_token.access_token}", 'Accept' => 'application/json' }
-          ).raise_for_status.json['id']
+            Util.join_uri_path(@uri, "/v1.0/me"),
+            headers: { "Authorization" => "Bearer #{rack_access_token.access_token}", "Accept" => "application/json" }
+          ).raise_for_status.json["id"]
+        end
+
+        def to_httpx_oauth_config
+          StorageInteraction::AuthenticationStrategies::OAuthConfiguration.new(
+            client_id: @oauth_client.client_id,
+            client_secret: @oauth_client.client_secret,
+            issuer: @oauth_uri,
+            scope:
+          )
         end
 
         def scope
-          DEFAULT_SCOPES
+          %w[https://graph.microsoft.com/.default offline_access]
         end
 
         def basic_rack_oauth_client
@@ -75,8 +74,8 @@ module Storages
             scheme: @oauth_uri.scheme,
             host: @oauth_uri.host,
             port: @oauth_uri.port,
-            authorization_endpoint: "/#{@storage.tenant_id}/oauth2/v2.0/authorize",
-            token_endpoint: "/#{@storage.tenant_id}/oauth2/v2.0/token"
+            authorization_endpoint: "#{@oauth_uri.path}/authorize",
+            token_endpoint: "#{@oauth_uri.path}/token"
           )
         end
       end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Show the date of a Work Package', :js do
+RSpec.describe "Show the date of a Work Package", :js do
   let(:project) { create(:project) }
   let(:admin) { create(:admin) }
   let(:work_package) do
@@ -52,22 +52,22 @@ RSpec.describe 'Show the date of a Work Package', :js do
            new_status: closed_status)
   end
 
-  context 'with an overdue date' do
+  context "with an overdue date" do
     before do
       login_as(admin)
       wp_page.visit!
     end
 
-    it 'is highlighted only if the WP status is open (#33457)' do
+    it "is highlighted only if the WP status is open (#33457)" do
       # Highlighted with an open status
-      expect(page).to have_css('.inline-edit--display-field.combinedDate .__hl_date_overdue')
+      expect(page).to have_css(".inline-edit--display-field.combinedDate .__hl_date_overdue")
 
       # Change status to closed
       status_field = WorkPackageStatusField.new(page)
       status_field.update(closed_status.name)
 
       # Not highlighted with a closed status
-      expect(page).to have_no_css('.inline-edit--display-field.combinedDate .__hl_date_overdue')
+      expect(page).to have_no_css(".inline-edit--display-field.combinedDate .__hl_date_overdue")
     end
   end
 end

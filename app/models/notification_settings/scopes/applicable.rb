@@ -37,7 +37,7 @@ module NotificationSettings::Scopes
       # rubocop:disable Metrics/AbcSize
       def applicable(project)
         global_notifications = NotificationSetting.arel_table
-        project_notifications = NotificationSetting.arel_table.alias('project_settings')
+        project_notifications = NotificationSetting.arel_table.alias("project_settings")
 
         subselect = global_notifications
                     .where(global_notifications[:project_id].eq(nil))

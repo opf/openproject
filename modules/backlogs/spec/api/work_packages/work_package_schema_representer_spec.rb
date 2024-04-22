@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { build(:custom_field) }
@@ -50,34 +50,34 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     allow(work_package).to receive(:leaf?).and_return(true)
   end
 
-  describe 'storyPoints' do
+  describe "storyPoints" do
     subject { representer.to_json }
 
-    it_behaves_like 'has basic schema properties' do
-      let(:path) { 'storyPoints' }
-      let(:type) { 'Integer' }
-      let(:name) { I18n.t('activerecord.attributes.work_package.story_points') }
+    it_behaves_like "has basic schema properties" do
+      let(:path) { "storyPoints" }
+      let(:type) { "Integer" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.story_points") }
       let(:required) { false }
       let(:writable) { true }
     end
 
-    context 'when backlogs module is disabled' do
+    context "when backlogs module is disabled" do
       before do
         allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
       end
 
-      it 'does not show story points' do
-        expect(subject).not_to have_json_path('storyPoints')
+      it "does not show story points" do
+        expect(subject).not_to have_json_path("storyPoints")
       end
     end
 
-    context 'not a story' do
+    context "not a story" do
       before do
         allow(schema.type).to receive(:story?).and_return(false)
       end
 
-      it 'does not show story points' do
-        expect(subject).not_to have_json_path('storyPoints')
+      it "does not show story points" do
+        expect(subject).not_to have_json_path("storyPoints")
       end
     end
   end

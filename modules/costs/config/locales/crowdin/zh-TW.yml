@@ -32,7 +32,7 @@ zh-TW:
         spent_on: "日期"
       cost_type:
         unit: "單位名稱"
-        unit_plural: "複數單位名稱"
+        unit_plural: "單位名稱(複數)"
       work_package:
         costs_by_type: "支出單位"
         labor_costs: "工資"
@@ -54,7 +54,7 @@ zh-TW:
           is_not_a_valid_target_for_cost_entries: "工作項目 #%{id} 不是重新分配支出的有效目標"
           nullify_is_not_valid_for_cost_entries: "支出項目無法分配至專案"
   attributes:
-    comment: "評論"
+    comment: "留言"
     cost_type: "費用類別"
     costs: "費用"
     current_rate: "目前費率"
@@ -97,12 +97,12 @@ zh-TW:
   label_generic_user: "一般使用者"
   label_greater_or_equal: ">="
   label_group_by: "分組依據"
-  label_group_by_add: "新增依「群組」"
+  label_group_by_add: "增加群組欄位"
   label_hourly_rate: "小時費率"
   label_include_deleted: "包含已刪除的"
   label_work_package_filter_add: "新增工作項目篩選條件"
   label_kind: "類型"
-  label_less_or_equal: "<="
+  label_less_or_equal: "之後"
   label_log_costs: "紀錄支出單位"
   label_no: "否"
   label_option_plural: "選項"

@@ -28,6 +28,6 @@
 
 module Queries::Filters::Strategies
   class ListOptional < List
-    self.supported_operators = ['=', '!', '*', '!*']
+    self.supported_operators = ["=", "!", "*", "!*"]
   end
 end

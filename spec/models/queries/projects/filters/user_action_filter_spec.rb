@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Projects::Filters::UserActionFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :user_action }
     let(:type) { :list_all }
     let(:model) { Project }
     let(:attribute) { :user_action }
-    let(:values) { ['projects/view'] }
+    let(:values) { ["projects/view"] }
   end
 end

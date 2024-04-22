@@ -26,25 +26,25 @@ ms:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Isu"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Penggabungan permintaan"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Cipta MR
+          description: Cipta satu Merge Request
         copy_menu:
           label: Git snippets
           description: Copy git snippets to clipboard
         git_actions:
-          branch_name: Branch name
+          branch_name: Nama cawangan
           commit_message: Commit message
           cmd: Create branch with empty commit
           title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Disalin!'
+          copy_error: '❌ Salinan gagal!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Tiada isu yang dipautkan lagi. Pautkan isu-isu yang sedia ada dengan menggunakan code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) dalam tajuk isu/penerangan atau cipta issue yang baru.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
-      gitlab_pipelines: Pipelines
-      updated_on: Updated on
+        empty: 'Tiada permintaan gabungan yang dipautkan lagi. Pautkan MR sedia ada dengan menggunakan code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) dalam tajuk MR/penerangan atau cipta MR yang baru.'
+      gitlab_pipelines: Saluran
+      updated_on: Dikemas kini pada

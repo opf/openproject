@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -160,7 +160,7 @@ module API
             else
               {
                 href: API::V3::URN_UNDISCLOSED,
-                title: I18n.t(:'api_v3.undisclosed.ancestor')
+                title: I18n.t(:"api_v3.undisclosed.ancestor")
               }
             end
           end
@@ -224,7 +224,7 @@ module API
                            link = ::API::Decorators::LinkObject.new(represented,
                                                                     path: :project_status,
                                                                     property_name: :status_code,
-                                                                    setter: :'status_code=')
+                                                                    setter: :"status_code=")
                            link.from_hash(fragment)
                          }
 
@@ -232,7 +232,7 @@ module API
                              cache_if: current_user_view_allowed_lambda
 
         def _type
-          'Project'
+          "Project"
         end
 
         self.to_eager_load = [:enabled_modules]

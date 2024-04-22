@@ -39,17 +39,20 @@ import {
   Output,
 } from '@angular/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import {
+  WorkPackageViewFocusService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { filter } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import {
-  combineLatest,
-  Subscription,
-} from 'rxjs';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+  WorkPackageInlineCreateService,
+} from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { combineLatest, Subscription } from 'rxjs';
+import {
+  WorkPackageViewColumnsService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -62,6 +65,9 @@ import {
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
 import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -110,6 +116,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     protected readonly wpInlineCreate:WorkPackageInlineCreateService,
     protected readonly wpTableColumns:WorkPackageViewColumnsService,
     protected readonly wpTableFocus:WorkPackageViewFocusService,
+    protected readonly halEditing:HalResourceEditingService,
     protected readonly authorisationService:AuthorisationService) {
     super();
   }
@@ -132,6 +139,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
         this.cdRef.detectChanges();
         this.showing.emit(this.canAdd || this.canReference);
       });
+
 
     // Register callback on newly created work packages
     this.registerCreationCallback();
@@ -229,9 +237,9 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
       .then((change:WorkPackageChangeset) => {
         const wp = this.currentWorkPackage = change.projectedResource;
 
-        this.editingSubscription = this
-          .wpCreate
-          .changesetUpdates$()
+        change
+          .state
+          ?.values$()
           .pipe(
             filter(() => !!this.currentWorkPackage),
           ).subscribe((form) => {

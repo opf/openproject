@@ -48,7 +48,7 @@ module Queries
         private
 
         def visibility_checked_sql(operator_string, values, visible_sql)
-          concatenation = if operator == '='
+          concatenation = if operator == "="
                             "OR"
                           else
                             "AND"

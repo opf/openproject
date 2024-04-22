@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rack/test'
+require "rack/test"
 
-RSpec.shared_examples_for 'available principals' do |principals, work_package_scope: false|
+RSpec.shared_examples_for "available principals" do |principals, work_package_scope: false|
   include API::V3::Utilities::PathHelper
 
   current_user do
@@ -60,23 +60,23 @@ RSpec.shared_examples_for 'available principals' do |principals, work_package_sc
     before { get href }
   end
 
-  describe 'response' do
+  describe "response" do
     shared_examples_for "returns available #{principals}" do |total, count, klass|
       include_context "request available #{principals}"
 
-      it_behaves_like 'API V3 collection response', total, count, klass
+      it_behaves_like "API V3 collection response", total, count, klass
     end
 
-    describe 'users' do
+    describe "users" do
       let(:permissions) { base_permissions + assignable_permissions }
 
-      context 'for a single user' do
+      context "for a single user" do
         # The current user
 
-        it_behaves_like "returns available #{principals}", 1, 1, 'User'
+        it_behaves_like "returns available #{principals}", 1, 1, "User"
       end
 
-      context 'for multiple users' do
+      context "for multiple users" do
         before do
           other_user
           shared_with_user
@@ -84,43 +84,43 @@ RSpec.shared_examples_for 'available principals' do |principals, work_package_sc
         end
 
         if work_package_scope
-          it_behaves_like "returns available #{principals}", 3, 3, 'User'
+          it_behaves_like "returns available #{principals}", 3, 3, "User"
         else
-          it_behaves_like "returns available #{principals}", 2, 2, 'User'
+          it_behaves_like "returns available #{principals}", 2, 2, "User"
         end
       end
 
-      context 'if the user lacks the assignable permission' do
+      context "if the user lacks the assignable permission" do
         let(:permissions) { base_permissions }
 
-        it_behaves_like "returns available #{principals}", 0, 0, 'User'
+        it_behaves_like "returns available #{principals}", 0, 0, "User"
       end
     end
 
-    describe 'groups' do
+    describe "groups" do
       let!(:users) { [group] }
 
-      it_behaves_like "returns available #{principals}", 1, 1, 'Group'
+      it_behaves_like "returns available #{principals}", 1, 1, "Group"
     end
 
-    describe 'placeholder users' do
+    describe "placeholder users" do
       let!(:users) { [placeholder_user] }
 
-      it_behaves_like "returns available #{principals}", 1, 1, 'PlaceholderUser'
+      it_behaves_like "returns available #{principals}", 1, 1, "PlaceholderUser"
     end
   end
 
-  describe 'if not allowed' do
+  describe "if not allowed" do
     include Rack::Test::Methods
     let(:permissions) { [] }
 
     before { get href }
 
     if work_package_scope
-      it_behaves_like 'not found',
-                      I18n.t('api_v3.errors.not_found.work_package')
+      it_behaves_like "not found",
+                      I18n.t("api_v3.errors.not_found.work_package")
     else
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
   end
 end

@@ -29,7 +29,7 @@
 module API
   module Errors
     class InvalidQuery < ErrorBase
-      identifier 'InvalidQuery'
+      identifier "InvalidQuery"
       code 400
     end
   end

@@ -129,7 +129,7 @@ class User < Principal
   validates :login, uniqueness: { if: Proc.new { |user| user.login.present? }, case_sensitive: false }
   validates :mail, uniqueness: { allow_blank: true, case_sensitive: false }
   # Login must contain letters, numbers, underscores only
-  validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
+  validates :login, format: { with: /\A[\p{L}0-9_\-@.+ ]*\z/i }
   validates :login, length: { maximum: 256 }
 
   validates :firstname, :lastname, length: { maximum: 256 }

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples_for 'creates an audit trail on destroy' do
+RSpec.shared_examples_for "creates an audit trail on destroy" do
   with_versioning do
     let(:whodunnit) { build_stubbed(:user) }
 
-    it 'adds an audit trail on destroy' do
+    it "adds an audit trail on destroy" do
       User.execute_as(whodunnit) do
         subject.destroy!
       end
@@ -38,9 +38,9 @@ RSpec.shared_examples_for 'creates an audit trail on destroy' do
       expect { subject.reload }.to raise_error(ActiveRecord::RecordNotFound)
 
       expect(subject.paper_trail_audits.count).to eq 1
-      expect(subject.paper_trail_audits.first.event).to eq 'destroy'
+      expect(subject.paper_trail_audits.first.event).to eq "destroy"
       expect(subject.paper_trail_audits.first.whodunnit).to eq whodunnit.id.to_s
-      expect(subject.paper_trail_audits.first.stack).to include 'app/models'
+      expect(subject.paper_trail_audits.first.stack).to include "app/models"
     end
   end
 end

@@ -76,14 +76,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
     # rubocop:disable Metrics/AbcSize
     def call(depth:, path:, props:)
       body = Nokogiri::XML::Builder.new do |xml|
-        xml['d'].propfind(
-          'xmlns:d' => 'DAV:',
-          'xmlns:oc' => 'http://owncloud.org/ns',
-          'xmlns:nc' => 'http://nextcloud.org/ns'
+        xml["d"].propfind(
+          "xmlns:d" => "DAV:",
+          "xmlns:oc" => "http://owncloud.org/ns",
+          "xmlns:nc" => "http://nextcloud.org/ns"
         ) do
-          xml['d'].prop do
+          xml["d"].prop do
             props.each do |prop|
-              namespace, property = prop.split(':')
+              namespace, property = prop.split(":")
               xml[namespace].send(property)
             end
           end
@@ -98,7 +98,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
                      "PROPFIND",
                      UTIL.join_uri_path(
                        @uri,
-                       'remote.php/dav/files',
+                       "remote.php/dav/files",
                        CGI.escapeURIComponent(@username),
                        UTIL.escape_path(path)
                      ),
@@ -111,7 +111,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
       in { status: 200..299 }
         doc = Nokogiri::XML(response.body.to_s)
         result = {}
-        doc.xpath('/d:multistatus/d:response').each do |resource_section|
+        doc.xpath("/d:multistatus/d:response").each do |resource_section|
           resource = CGI.unescape(resource_section.xpath("d:href").text.strip)
                         .gsub!(UTIL.join_uri_path(@uri.path, "/remote.php/dav/files/#{@username}/"), "")
 
@@ -126,13 +126,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
 
         ServiceResult.success(result:)
       in { status: 405 }
-        UTIL.error(:not_allowed, 'Outbound request method not allowed', error_data)
+        UTIL.error(:not_allowed, "Outbound request method not allowed", error_data)
       in { status: 401 }
-        UTIL.error(:unauthorized, 'Outbound request not authorized', error_data)
+        UTIL.error(:unauthorized, "Outbound request not authorized", error_data)
       in { status: 404 }
-        UTIL.error(:not_found, 'Outbound request destination not found', error_data)
+        UTIL.error(:not_found, "Outbound request destination not found", error_data)
       else
-        UTIL.error(:error, 'Outbound request failed', error_data)
+        UTIL.error(:error, "Outbound request failed", error_data)
       end
     end
 

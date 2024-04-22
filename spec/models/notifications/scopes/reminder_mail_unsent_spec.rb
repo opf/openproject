@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notifications::Scopes::MailReminderUnsent do
-  describe '.unread_digest_mail' do
+  describe ".unread_digest_mail" do
     subject(:scope) { Notification.mail_reminder_unsent }
 
     let(:no_mail_notification) { create(:notification, mail_reminder_sent: nil) }
@@ -42,7 +42,7 @@ RSpec.describe Notifications::Scopes::MailReminderUnsent do
       read_mail_notification
     end
 
-    it 'contains the notifications with read_mail: false' do
+    it "contains the notifications with read_mail: false" do
       expect(scope)
         .to contain_exactly(unread_mail_notification)
     end

@@ -26,30 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Menu item traversal' do
+RSpec.describe "Menu item traversal" do
   shared_let(:admin) { create(:admin) }
 
-  describe 'EnterpriseToken management' do
+  describe "EnterpriseToken management" do
     before do
       login_as(admin)
       visit admin_index_path
     end
 
-    it 'correctly maps the menu items for controllers in their namespace (Regression #30859)' do
-      expect(page).to have_css('.admin-overview-menu-item.selected', text: 'Overview')
+    it "correctly maps the menu items for controllers in their namespace (Regression #30859)" do
+      expect(page).to have_css(".admin-overview-menu-item.selected", text: "Overview")
 
-      find('.plugin-webhooks-menu-item').click
+      find(".plugin-webhooks-menu-item").click
 
       # using `controller_name` in `menu_controller.rb` has broken this example,
       # due to the plugin controller also being named 'admin' thus falling back to 'admin#index' => overview selected
-      expect(page).to have_css('.plugin-webhooks-menu-item.selected', text: 'Webhooks', wait: 5)
-      expect(page).to have_no_css('.admin-overview-menu-item.selected')
+      expect(page).to have_css(".plugin-webhooks-menu-item.selected", text: "Webhooks", wait: 5)
+      expect(page).to have_no_css(".admin-overview-menu-item.selected")
     end
   end
 
-  describe 'route authorization', with_settings: { login_required?: false } do
+  describe "route authorization", with_settings: { login_required?: false } do
     let(:user) { create(:user) }
     let(:anon) { User.anonymous }
 
@@ -58,7 +58,7 @@ RSpec.describe 'Menu item traversal' do
         visit link
 
         if current_url.include? "/login?back_url="
-          expect(page).to have_text('Sign in'), "#{link} should redirect to sign in"
+          expect(page).to have_text("Sign in"), "#{link} should redirect to sign in"
         else
           expect(page).to have_text(I18n.t(:notice_not_authorized)), "#{link} should result in 403 response"
         end
@@ -72,18 +72,18 @@ RSpec.describe 'Menu item traversal' do
         expect(current_url).to include link
         expect(page).to have_http_status(:ok)
         expect(page).to have_no_text(I18n.t(:notice_not_authorized))
-        expect(page).to have_css '#menu-sidebar .selected'
+        expect(page).to have_css "#menu-sidebar .selected"
       }
     end
 
-    it 'checks for authorized status for all links' do
+    it "checks for authorized status for all links" do
       login_as admin
       visit admin_index_path
 
       # Get all admin links from there
-      links = all('#menu-sidebar a[href]', visible: :all)
-        .map { |node| node['href'] }
-        .reject { |link| link.end_with? '/#' }
+      links = all("#menu-sidebar a[href]", visible: :all)
+        .map { |node| node["href"] }
+        .reject { |link| link.end_with? "/#" }
         .compact
         .uniq
 

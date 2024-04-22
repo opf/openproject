@@ -31,7 +31,7 @@ module Cron
     include ::RakeJob
 
     def perform
-      super('attachments:clear')
+      super("attachments:clear")
     end
   end
 end

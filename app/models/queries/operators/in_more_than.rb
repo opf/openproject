@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class InMoreThan < Base
-    label 'in_more_than'
-    set_symbol '>t+'
+    label "in_more_than"
+    set_symbol ">t+"
 
     extend DateRangeClauses
 

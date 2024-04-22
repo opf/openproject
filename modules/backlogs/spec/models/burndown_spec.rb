@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Burndown do
   def set_attribute_journalized(story, attribute, value, day)
@@ -54,19 +54,19 @@ RSpec.describe Burndown do
     project
   end
 
-  let(:issue_open) { create(:status, name: 'status 1', is_default: true) }
-  let(:issue_closed) { create(:status, name: 'status 2', is_closed: true) }
-  let(:issue_resolved) { create(:status, name: 'status 3', is_closed: false) }
+  let(:issue_open) { create(:status, name: "status 1", is_default: true) }
+  let(:issue_closed) { create(:status, name: "status 2", is_closed: true) }
+  let(:issue_resolved) { create(:status, name: "status 3", is_closed: false) }
 
   before do
     Rails.cache.clear
 
     login_as(user)
 
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template' => '',
-                                                                         'story_types' => [type_feature.id.to_s],
-                                                                         'task_type' => type_task.id.to_s })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "points_burn_direction" => "down",
+                                                                         "wiki_template" => "",
+                                                                         "story_types" => [type_feature.id.to_s],
+                                                                         "task_type" => type_task.id.to_s })
 
     project.save!
 
@@ -79,35 +79,35 @@ RSpec.describe Burndown do
     end
   end
 
-  describe 'Sprint Burndown' do
-    describe 'WITH the today date fixed to April 4th, 2011 and having a 10 (working days) sprint' do
+  describe "Sprint Burndown" do
+    describe "WITH the today date fixed to April 4th, 2011 and having a 10 (working days) sprint" do
       before do
-        allow(Time).to receive(:now).and_return(Time.utc(2011, 'apr', 4, 20, 15, 1))
+        allow(Time).to receive(:now).and_return(Time.utc(2011, "apr", 4, 20, 15, 1))
         allow(Date).to receive(:today).and_return(Date.civil(2011, 4, 4))
       end
 
-      describe 'WITH having a version in the future' do
+      describe "WITH having a version in the future" do
         before do
           version.start_date = Time.zone.today + 1.day
           version.effective_date = Time.zone.today + 6.days
           version.save!
         end
 
-        it 'generates a burndown' do
+        it "generates a burndown" do
           expect(sprint.burndown(project).series[:story_points]).to be_empty
         end
       end
 
-      describe 'WITH having a 10 (working days) sprint and being 5 (working) days into it' do
+      describe "WITH having a 10 (working days) sprint and being 5 (working) days into it" do
         before do
           version.start_date = Time.zone.today - 7.days
           version.effective_date = Time.zone.today + 6.days
           version.save!
         end
 
-        describe 'WITH 1 story assigned to the sprint' do
+        describe "WITH 1 story assigned to the sprint" do
           let(:story) do
-            build(:story, subject: 'Story 1',
+            build(:story, subject: "Story 1",
                           project:,
                           version:,
                           type: type_feature,
@@ -117,7 +117,7 @@ RSpec.describe Burndown do
                           updated_at: Time.zone.today - 20.days)
           end
 
-          describe 'WITH the story having story_point defined on creation' do
+          describe "WITH the story having story_point defined on creation" do
             before do
               story.story_points = 9
               story.save!
@@ -126,7 +126,7 @@ RSpec.describe Burndown do
 
             subject(:burndown) { described_class.new(sprint, project) }
 
-            describe 'WITH the story being closed and opened again within the sprint duration' do
+            describe "WITH the story being closed and opened again within the sprint duration" do
               before do
                 set_attribute_journalized story, :status_id=, issue_closed.id, 6.days.ago
                 set_attribute_journalized story, :status_id=, issue_open.id, 3.days.ago
@@ -153,7 +153,7 @@ RSpec.describe Burndown do
           end
         end
 
-        describe 'WITH 10 stories assigned to the sprint' do
+        describe "WITH 10 stories assigned to the sprint" do
           let!(:stories) do
             stories = []
 
@@ -174,21 +174,21 @@ RSpec.describe Burndown do
             stories
           end
 
-          describe 'WITH each story having story points defined at start' do
+          describe "WITH each story having story points defined at start" do
             before do
               stories.each_with_index do |s, _i|
                 set_attribute_journalized s, :story_points=, 10, version.start_date - 3.days
               end
             end
 
-            describe 'WITH 5 stories having been reduced to 0 story points, one story per day' do
+            describe "WITH 5 stories having been reduced to 0 story points, one story per day" do
               before do
                 5.times do |i|
                   set_attribute_journalized stories[i], :story_points=, nil, version.start_date + i.days + 1.hour
                 end
               end
 
-              describe 'THEN' do
+              describe "THEN" do
                 subject(:burndown) { described_class.new(sprint, project) }
 
                 it { expect(burndown.story_points).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 50.0] }

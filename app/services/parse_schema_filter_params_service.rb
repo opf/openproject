@@ -55,20 +55,20 @@ class ParseSchemaFilterParamsService
   private
 
   def check_error_in_filter(filter)
-    if !filter.first['id']
+    if !filter.first["id"]
       :id_filter_required
-    elsif filter.first['id']['operator'] != '='
+    elsif filter.first["id"]["operator"] != "="
       :unsupported_operator
-    elsif filter.first['id']['values'].any? { |id_string| !id_string.match(/\d+-\d+/) }
+    elsif filter.first["id"]["values"].any? { |id_string| !id_string.match(/\d+-\d+/) }
       :invalid_values
     end
   end
 
   def parse_ids(filter)
-    ids_string = filter.first['id']['values']
+    ids_string = filter.first["id"]["values"]
 
     ids_string.map do |id_string|
-      id_string.split('-')
+      id_string.split("-")
     end
   end
 

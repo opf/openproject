@@ -26,25 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Project attribute help texts', :js, :with_cuprite do
+RSpec.describe "Project attribute help texts", :js, :with_cuprite do
   let(:project) { create(:project) }
 
   let(:instance) do
     create(:project_help_text,
            attribute_name: :status,
-           help_text: 'Some **help text** for status.')
+           help_text: "Some **help text** for status.")
     create(:project_help_text,
            attribute_name: :description,
-           help_text: 'Some **help text** for description.')
+           help_text: "Some **help text** for description.")
   end
 
   let(:grid) do
     grid = create(:grid)
     grid.widgets << create(:grid_widget,
-                           identifier: 'project_status',
-                           options: { 'name' => 'Project status' },
+                           identifier: "project_status",
+                           options: { "name" => "Project status" },
                            start_row: 1,
                            end_row: 2,
                            start_column: 1,
@@ -60,11 +60,11 @@ RSpec.describe 'Project attribute help texts', :js, :with_cuprite do
     instance
   end
 
-  shared_examples 'allows to view help texts' do
-    it 'shows an indicator for whatever help text exists' do
+  shared_examples "allows to view help texts" do
+    it "shows an indicator for whatever help text exists" do
       visit project_path(project)
 
-      within '#menu-sidebar' do
+      within "#menu-sidebar" do
         click_link "Overview"
       end
 
@@ -72,39 +72,39 @@ RSpec.describe 'Project attribute help texts', :js, :with_cuprite do
 
       # Open help text modal
       modal.open!
-      expect(modal.modal_container).to have_css('strong', text: 'help text')
+      expect(modal.modal_container).to have_css("strong", text: "help text")
       modal.expect_edit(editable: user.allowed_globally?(:edit_attribute_help_texts))
 
       modal.close!
     end
   end
 
-  describe 'as admin' do
+  describe "as admin" do
     let(:user) { create(:admin) }
 
-    it_behaves_like 'allows to view help texts'
+    it_behaves_like "allows to view help texts"
 
-    it 'shows the help text on the project create form' do
+    it "shows the help text on the project create form" do
       visit new_project_path
 
-      page.find('.op-fieldset--legend', text: 'ADVANCED SETTINGS').click
+      page.find(".op-fieldset--legend", text: "ADVANCED SETTINGS").click
 
-      expect(page).to have_css('.spot-form-field--label attribute-help-text', wait: 10)
+      expect(page).to have_css(".spot-form-field--label attribute-help-text", wait: 10)
 
       # Open help text modal
       modal.open!
-      expect(modal.modal_container).to have_css('strong', text: 'help text')
+      expect(modal.modal_container).to have_css("strong", text: "help text")
       modal.expect_edit(editable: user.allowed_globally?(:edit_attribute_help_texts))
 
       modal.close!
     end
   end
 
-  describe 'as regular user' do
+  describe "as regular user" do
     let(:user) do
       create(:user, member_with_permissions: { project => [:view_project] })
     end
 
-    it_behaves_like 'allows to view help texts'
+    it_behaves_like "allows to view help texts"
   end
 end

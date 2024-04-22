@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_query_select_specs'
+require "spec_helper"
+require_relative "shared_query_select_specs"
 
 RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
   let(:project) { build_stubbed(:project) }
@@ -35,9 +35,9 @@ RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
   let(:instance) { described_class.new(type) }
   let(:enterprise_token_allows) { true }
 
-  it_behaves_like 'query column'
+  it_behaves_like "query column"
 
-  describe 'instances' do
+  describe "instances" do
     before do
       allow(EnterpriseToken)
         .to receive(:allows_to?)
@@ -45,15 +45,15 @@ RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
         .and_return(enterprise_token_allows)
     end
 
-    context 'within project' do
+    context "within project" do
       before do
         allow(project)
           .to receive(:types)
           .and_return([type])
       end
 
-      context 'with a valid enterprise token' do
-        it 'contains the type columns' do
+      context "with a valid enterprise token" do
+        it "contains the type columns" do
           expect(described_class.instances(project).length)
             .to eq 1
 
@@ -62,25 +62,25 @@ RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
         end
       end
 
-      context 'without a valid enterprise token' do
+      context "without a valid enterprise token" do
         let(:enterprise_token_allows) { false }
 
-        it 'is empty' do
+        it "is empty" do
           expect(described_class.instances)
             .to be_empty
         end
       end
     end
 
-    context 'global' do
+    context "global" do
       before do
         allow(Type)
           .to receive(:all)
           .and_return([type])
       end
 
-      context 'with a valid enterprise token' do
-        it 'contains the type columns' do
+      context "with a valid enterprise token" do
+        it "contains the type columns" do
           expect(described_class.instances.length)
             .to eq 1
 
@@ -89,10 +89,10 @@ RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
         end
       end
 
-      context 'without a valid enterprise token' do
+      context "without a valid enterprise token" do
         let(:enterprise_token_allows) { false }
 
-        it 'is empty' do
+        it "is empty" do
           expect(described_class.instances)
             .to be_empty
         end

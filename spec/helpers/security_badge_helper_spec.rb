@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe SecurityBadgeHelper do
-  describe '#security_badge_url' do
+  describe "#security_badge_url" do
     before do
       # can't use with_settings since Setting.installation_uuid has a custom implementation
-      allow(Setting).to receive(:installation_uuid).and_return 'abcd1234'
+      allow(Setting).to receive(:installation_uuid).and_return "abcd1234"
     end
 
     it "generates a URL with the release API path and the details of the installation" do

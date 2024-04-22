@@ -26,30 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'delete placeholder user', :js do
-  shared_let(:placeholder_user) { create(:placeholder_user, name: 'UX Developer') }
+RSpec.describe "delete placeholder user", :js do
+  shared_let(:placeholder_user) { create(:placeholder_user, name: "UX Developer") }
 
-  shared_examples 'placeholders delete flow' do
-    it 'can delete name' do
+  shared_examples "placeholders delete flow" do
+    it "can delete name" do
       visit placeholder_user_path(placeholder_user)
 
-      expect(page).to have_css '.button', text: 'Delete'
+      expect(page).to have_css ".button", text: "Delete"
 
       visit edit_placeholder_user_path(placeholder_user)
 
-      expect(page).to have_css '.button', text: 'Delete'
-      click_on 'Delete'
+      expect(page).to have_css ".button", text: "Delete"
+      click_on "Delete"
 
       # Expect to be on delete confirmation
-      expect(page).to have_css('.danger-zone--verification button[disabled]')
-      fill_in 'name_verification', with: placeholder_user.name
+      expect(page).to have_css(".danger-zone--verification button[disabled]")
+      fill_in "name_verification", with: placeholder_user.name
 
-      expect(page).to have_css('.danger-zone--verification button:not([disabled])')
-      click_on 'Delete'
+      expect(page).to have_css(".danger-zone--verification button:not([disabled])")
+      click_on "Delete"
 
-      expect(page).to have_css('.op-toast.-info', text: I18n.t(:notice_deletion_scheduled))
+      expect(page).to have_css(".op-toast.-info", text: I18n.t(:notice_deletion_scheduled))
 
       # The user is still there
       placeholder_user.reload
@@ -60,19 +60,19 @@ RSpec.describe 'delete placeholder user', :js do
     end
   end
 
-  context 'as admin' do
+  context "as admin" do
     current_user { create(:admin) }
 
-    it_behaves_like 'placeholders delete flow'
+    it_behaves_like "placeholders delete flow"
   end
 
-  context 'as user with global permission' do
+  context "as user with global permission" do
     current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    it_behaves_like 'placeholders delete flow'
+    it_behaves_like "placeholders delete flow"
   end
 
-  context 'as user with global permission, but placeholder in an invisible project' do
+  context "as user with global permission, but placeholder in an invisible project" do
     current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
     let!(:project) { create(:project) }
@@ -83,26 +83,26 @@ RSpec.describe 'delete placeholder user', :js do
              roles: [create(:project_role)])
     end
 
-    it 'returns an error when trying to delete and disables the button' do
+    it "returns an error when trying to delete and disables the button" do
       visit deletion_info_placeholder_user_path(placeholder_user)
-      expect(page).to have_content I18n.t('placeholder_users.right_to_manage_members_missing').strip
+      expect(page).to have_content I18n.t("placeholder_users.right_to_manage_members_missing").strip
 
       visit placeholder_user_path(placeholder_user)
 
-      expect(page).to have_css '.button.-disabled', text: 'Delete'
+      expect(page).to have_css ".button.-disabled", text: "Delete"
 
       visit edit_placeholder_user_path(placeholder_user)
 
-      expect(page).to have_css '.button.-disabled', text: 'Delete'
+      expect(page).to have_css ".button.-disabled", text: "Delete"
     end
   end
 
-  context 'as user without global permission' do
+  context "as user without global permission" do
     current_user { create(:user) }
 
-    it 'returns an error' do
+    it "returns an error" do
       visit deletion_info_placeholder_user_path(placeholder_user)
-      expect(page).to have_text 'You are not authorized to access this page.'
+      expect(page).to have_text "You are not authorized to access this page."
     end
   end
 end

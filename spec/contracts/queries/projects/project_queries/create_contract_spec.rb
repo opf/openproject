@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Queries::Projects::ProjectQueries::CreateContract do
-  it_behaves_like 'project queries contract' do
+  it_behaves_like "project queries contract" do
     let(:query) do
       Queries::Projects::ProjectQuery.new(name: query_name).tap do |query|
         query.extend(OpenProject::ChangedBySystem)

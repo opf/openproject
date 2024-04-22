@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../../support/pages/backlogs'
+require "spec_helper"
+require_relative "../../support/pages/backlogs"
 
-RSpec.describe 'Backlogs context menu', :js, :with_cuprite do
+RSpec.describe "Backlogs context menu", :js, :with_cuprite do
   shared_let(:story_type) { create(:type_feature) }
   shared_let(:task_type) { create(:type_task) }
   shared_let(:project) { create(:project, types: [story_type, task_type]) }
@@ -50,10 +50,10 @@ RSpec.describe 'Backlogs context menu', :js, :with_cuprite do
   shared_let(:sprint) do
     create(:version,
            project:,
-           name: 'Sprint')
+           name: "Sprint")
   end
-  shared_let(:new_status) { create(:default_status, name: 'New') }
-  shared_let(:in_progress_status) { create(:status, name: 'In progress') }
+  shared_let(:new_status) { create(:default_status, name: "New") }
+  shared_let(:in_progress_status) { create(:status, name: "In progress") }
   shared_let(:default_priority) { create(:default_priority) }
   shared_let(:story) do
     create(:work_package,
@@ -77,8 +77,8 @@ RSpec.describe 'Backlogs context menu', :js, :with_cuprite do
   before do
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-            .and_return('story_types' => [story_type.id.to_s],
-                        'task_type' => task_type.id.to_s)
+            .and_return("story_types" => [story_type.id.to_s],
+                        "task_type" => task_type.id.to_s)
     login_as(user)
   end
 
@@ -99,26 +99,26 @@ RSpec.describe 'Backlogs context menu', :js, :with_cuprite do
   # this test acts as a control for the other tests in this file as it's easy to
   # expect a field to not be present, and have the test still pass when the
   # field is renamed.
-  context 'when the user has edit_work_packages permission' do
-    it 'is possible to edit any story field' do
+  context "when the user has edit_work_packages permission" do
+    it "is possible to edit any story field" do
       backlogs_page.visit!
       backlogs_page.enter_edit_story_mode(story)
 
       expect_fields(enabled: %i[type subject status story_points])
 
-      backlogs_page.alter_attributes_in_edit_story_mode(story, subject: 'Hello subject')
+      backlogs_page.alter_attributes_in_edit_story_mode(story, subject: "Hello subject")
       backlogs_page.save_story_from_edit_mode(story)
 
-      expect(story.reload.subject).to eq('Hello subject')
+      expect(story.reload.subject).to eq("Hello subject")
     end
   end
 
-  context 'when the user has only change_work_package_status permission' do
+  context "when the user has only change_work_package_status permission" do
     before do
-      RolePermission.where(permission: 'edit_work_packages').delete_all
+      RolePermission.where(permission: "edit_work_packages").delete_all
     end
 
-    it 'is only possible to edit status field of stories' do
+    it "is only possible to edit status field of stories" do
       backlogs_page.visit!
       backlogs_page.enter_edit_story_mode(story, text: story.status.name)
 
@@ -131,12 +131,12 @@ RSpec.describe 'Backlogs context menu', :js, :with_cuprite do
     end
   end
 
-  context 'when the user has neither change_work_package_status nor edit_work_packages permission' do
+  context "when the user has neither change_work_package_status nor edit_work_packages permission" do
     before do
-      RolePermission.where(permission: ['change_work_package_status', 'edit_work_packages']).delete_all
+      RolePermission.where(permission: ["change_work_package_status", "edit_work_packages"]).delete_all
     end
 
-    it 'is not possible to edit any story field' do
+    it "is not possible to edit any story field" do
       backlogs_page.visit!
       backlogs_page.enter_edit_story_mode(story)
 

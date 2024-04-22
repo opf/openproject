@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe RbSprintsController do
-  describe 'routing' do
+  describe "routing" do
     it {
-      expect(put('/projects/project_42/sprints/21')).to route_to(controller: 'rb_sprints',
-                                                                 action: 'update',
-                                                                 project_id: 'project_42',
-                                                                 id: '21')
+      expect(put("/projects/project_42/sprints/21")).to route_to(controller: "rb_sprints",
+                                                                 action: "update",
+                                                                 project_id: "project_42",
+                                                                 id: "21")
     }
   end
 end

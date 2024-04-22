@@ -25,23 +25,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'nokogiri'
+require "nokogiri"
 
 module OpenProject
   module Common
     class AttributeComponent < Primer::Component
       attr_reader :id,
                   :name,
-                  :description
+                  :description,
+                  :lines,
+                  :background_reference_id,
+                  :formatted
 
-      PARAGRAPH_CSS_CLASS = 'op-uc-p'.freeze
+      PARAGRAPH_CSS_CLASS = "op-uc-p".freeze
 
-      def initialize(id, name, description, **args)
+      def initialize(id, name, description, lines: 1, background_reference_id: "content", formatted: false, **args)
         super
         @id = id
         @name = name
         @description = description
         @system_arguments = args
+        @lines = lines
+        @background_reference_id = background_reference_id
+        @formatted = formatted
       end
 
       def short_text
@@ -53,34 +59,64 @@ module OpenProject
       end
 
       def full_text
-        @full_text ||= helpers.format_text(description)
+        @full_text ||= formatted ? description : helpers.format_text(description)
       end
 
       def display_expand_button_value
-        multi_type? || text_ast.xpath('html/body').children.length > 1 ? :block : :none
+        multi_type? || body_children.length > 1 ? :block : :none
       end
 
       def text_color
         :muted if multi_type?
       end
 
+      def max_height
+        "#{lines * 1.6}em"
+      end
+
       private
 
+      def first_paragraph_content
+        return unless first_paragraph_ast
+
+        first_paragraph_ast
+          .inner_html
+          .html_safe # rubocop:disable Rails/OutputSafety
+      end
+
       def first_paragraph
-        @first_paragraph ||= text_ast
-                             .xpath('html/body')
-                             .children
-                             .first
-                             .inner_html
-                             .html_safe # rubocop:disable Rails/OutputSafety
+        @first_paragraph ||= if body_children.any?
+                               body_children
+                                 .first
+                                 .inner_html
+                                 .html_safe # rubocop:disable Rails/OutputSafety
+                             else
+                               ""
+                             end
+      end
+
+      def first_paragraph_ast
+        @first_paragraph_ast ||= text_ast
+                                 .xpath("html/body")
+                                 .children
+                                 .first
       end
 
       def text_ast
         @text_ast ||= Nokogiri::HTML(full_text)
       end
 
+      def body_children
+        text_ast
+          .xpath("html/body")
+          .children
+      end
+
       def multi_type?
-        first_paragraph.include?('figure') || first_paragraph.include?('macro')
+        @multi_type ||= (description.present? && first_paragraph_ast.nil?) ||
+          %w[opce-macro-embedded-table figure macro].include?(first_paragraph_ast.name) ||
+          first_paragraph_ast.css("figure, macro, .op-uc-toc--list, .opce-macro-embedded-table")&.any? ||
+          (body_children.any? && first_paragraph.blank?)
       end
     end
   end

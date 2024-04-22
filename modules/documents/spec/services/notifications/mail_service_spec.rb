@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notifications::MailService, type: :model do
   subject(:call) { instance.call }
@@ -39,7 +39,7 @@ RSpec.describe Notifications::MailService, type: :model do
   end
   let(:instance) { described_class.new(notification) }
 
-  context 'with a document journal notification' do
+  context "with a document journal notification" do
     let(:journal) do
       build_stubbed(:journal,
                     journable: build_stubbed(:document)).tap do |j|
@@ -76,7 +76,7 @@ RSpec.describe Notifications::MailService, type: :model do
       mail
     end
 
-    it 'sends a mail' do
+    it "sends a mail" do
       call
 
       expect(DocumentsMailer)
@@ -88,10 +88,10 @@ RSpec.describe Notifications::MailService, type: :model do
         .to have_received(:deliver_later)
     end
 
-    context 'with the notification read in app already' do
+    context "with the notification read in app already" do
       let(:read_ian) { true }
 
-      it 'sends no mail' do
+      it "sends no mail" do
         call
 
         expect(DocumentsMailer)
@@ -99,10 +99,10 @@ RSpec.describe Notifications::MailService, type: :model do
       end
     end
 
-    context 'with the journal not being the initial one' do
+    context "with the journal not being the initial one" do
       let(:initial_journal) { false }
 
-      it 'sends no mail' do
+      it "sends no mail" do
         call
 
         expect(DocumentsMailer)

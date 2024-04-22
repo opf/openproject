@@ -51,7 +51,7 @@ module API
                             end
 
         def _type
-          'WikiPage'
+          "WikiPage"
         end
       end
     end

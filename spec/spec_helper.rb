@@ -46,7 +46,7 @@
 
 # We currently require spec_helper here, since we loaded
 # the environment at all times before and have no specs that may run outside
-require_relative 'rails_helper'
+require_relative "rails_helper"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -91,10 +91,10 @@ RSpec.configure do |config|
     # Use the documentation formatter for detailed output,
     # unless a formatter has already been configured
     # (e.g. via a command-line flag).
-    config.default_formatter = 'doc'
+    config.default_formatter = "doc"
   else
     # Otherwise, use the Fuubar formatter if we're not on the CI
-    unless ENV['TEST_ENV_NUMBER'] || ENV['CI']
+    unless ENV["TEST_ENV_NUMBER"] || ENV["CI"]
       config.default_formatter = Fuubar
     end
   end
@@ -103,7 +103,7 @@ RSpec.configure do |config|
   # end of the spec run, to help surface which specs are running
   # particularly slow.
   # Disabled on CI to have a cleaner log output.
-  config.profile_examples = 10 unless ENV['CI']
+  config.profile_examples = 10 unless ENV["CI"]
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
@@ -113,6 +113,10 @@ RSpec.configure do |config|
 
   # Use colored output
   config.color = true
+
+  # Display the full backtrace of causing exceptions (limited to first line in
+  # default configuration).
+  config.full_cause_backtrace = true
 
   # Have the FactoryBot methods like #create and #build_stubbed without
   # having to call it on FactoryBot.

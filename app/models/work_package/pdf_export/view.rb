@@ -49,18 +49,18 @@ class WorkPackage::PDFExport::View
     @document ||= Prawn::Document.new(options.merge(info:)).tap do |document|
       register_fonts! document
 
-      document.set_font document.font('NotoSans')
+      document.set_font document.font("NotoSans")
       document.fallback_fonts = fallback_fonts
     end
   end
 
   def fallback_fonts
-    [noto_font_base_path.join('NotoSansSymbols2-Regular.ttf')]
+    [noto_font_base_path.join("NotoSansSymbols2-Regular.ttf")]
   end
 
   def register_fonts!(document)
-    register_font!('NotoSans', noto_font_base_path, document)
-    register_font!('SpaceMono', spacemono_font_base_path, document)
+    register_font!("NotoSans", noto_font_base_path, document)
+    register_font!("SpaceMono", spacemono_font_base_path, document)
   end
 
   def register_font!(family, font_path, document)
@@ -93,7 +93,7 @@ class WorkPackage::PDFExport::View
   end
 
   def apply_font(name: nil, font_style: nil, size: nil)
-    name ||= document.font.basename.split('-').first # e.g. NotoSans-Bold => NotoSans
+    name ||= document.font.basename.split("-").first # e.g. NotoSans-Bold => NotoSans
     font_opts = {}
     font_opts[:style] = font_style if font_style
 
@@ -106,10 +106,10 @@ class WorkPackage::PDFExport::View
   private
 
   def noto_font_base_path
-    Rails.public_path.join('fonts/noto')
+    Rails.public_path.join("fonts/noto")
   end
 
   def spacemono_font_base_path
-    Rails.public_path.join('fonts/spacemono')
+    Rails.public_path.join("fonts/spacemono")
   end
 end

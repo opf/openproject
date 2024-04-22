@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Queries::QueryParamsRepresenter do
   let(:query) { build_stubbed(:query, **params) }
   let(:instance) { described_class.new(query) }
 
-  describe '#to_h' do
+  describe "#to_h" do
     subject { instance.to_h }
 
-    context 'with include_subprojects true' do
+    context "with include_subprojects true" do
       let(:params) { { include_subprojects: true } }
 
-      it 'transports that to the params (Regression #44248)' do
+      it "transports that to the params (Regression #44248)" do
         expect(subject[:includeSubprojects]).to be true
       end
     end
 
-    context 'with include_subprojects false' do
+    context "with include_subprojects false" do
       let(:params) { { include_subprojects: false } }
 
-      it 'transports that to the params' do
+      it "transports that to the params" do
         expect(subject.keys).to include :includeSubprojects
         expect(subject[:includeSubprojects]).to be false
       end

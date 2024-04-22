@@ -36,7 +36,7 @@ module Queries::Operators
       if to
         s << ("#{table}.#{field} <= '%s'" % [connection.quoted_date(to)])
       end
-      s.join(' AND ')
+      s.join(" AND ")
     end
   end
 end

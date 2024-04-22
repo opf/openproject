@@ -34,8 +34,8 @@ class OpenProject::JournalFormatter::WikiDiff < OpenProject::JournalFormatter::D
     version = @journal.version
 
     default_attributes(options)
-    .merge(controller: '/wiki',
-           action: 'diff',
+    .merge(controller: "/wiki",
+           action: "diff",
            project_id: journable.project.identifier,
            id: journable.slug,
            version: version - 1,

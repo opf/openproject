@@ -75,7 +75,7 @@ module Storages
         end
       end
 
-      ServiceResult.success(result: 'folders processed')
+      ServiceResult.success(result: "folders processed")
     end
 
     def hide_inactive_folders(folder_map)
@@ -84,7 +84,7 @@ module Storages
         Peripherals::Registry.resolve("one_drive.commands.set_permissions")
                              .call(storage: @storage, path: item_id, permissions: { write: [], read: [] })
                              .on_failure do |service_result|
-          format_and_log_error(service_result.errors, folder: path, context: 'hide_folder')
+          format_and_log_error(service_result.errors, folder: path, context: "hide_folder")
         end
       end
     end
@@ -109,14 +109,14 @@ module Storages
 
     def rename_folder(source, target)
       Peripherals::Registry
-        .resolve('one_drive.commands.rename_file')
+        .resolve("one_drive.commands.rename_file")
         .call(storage: @storage, source:, target:)
         .result_or { |error| format_and_log_error(error, source:, target:) }
     end
 
     def create_folder(project_storage)
       Peripherals::Registry
-        .resolve('one_drive.commands.create_folder')
+        .resolve("one_drive.commands.create_folder")
         .call(storage: @storage, folder_path: project_storage.managed_project_folder_path)
         .match(on_failure: ->(error) { format_and_log_error(error, folder_path: project_storage.managed_project_folder_path) },
                on_success: ->(folder_info) do
@@ -136,13 +136,17 @@ module Storages
       using_admin_token do |http|
         response = http.get("/v1.0/drives/#{@storage.drive_id}/root/children")
 
-        if response.status == 200
+        case response
+        in { status: 200 }
           ServiceResult.success(result: filter_folders_from(response.json(symbolize_keys: true)))
         else
-          errors = ::Storages::StorageError.new(code: response.status,
-                                                data: ::Storages::StorageErrorData.new(
-                                                  source: self.class, payload: response
-                                                ))
+          errors = ::Storages::StorageError.new(
+            code: response.try(:status),
+            data: ::Storages::StorageErrorData.new(
+              source: self.class,
+              payload: response
+            )
+          )
           format_and_log_error(errors)
           ServiceResult.failure(result: :error, errors:)
         end

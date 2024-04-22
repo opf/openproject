@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
   include Rack::Test::Methods
@@ -42,32 +42,32 @@ RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
   end
   let(:permissions) { %i[view_work_packages edit_work_package_notes] }
   let(:activity) { work_package.journals.first }
-  let(:comment) { 'This is a new test comment!' }
+  let(:comment) { "This is a new test comment!" }
 
-  shared_examples_for 'valid activity request' do |type|
+  shared_examples_for "valid activity request" do |type|
     subject { last_response }
 
-    it 'returns an activity of the correct type' do
-      expect(subject.body).to be_json_eql(type.to_json).at_path('_type')
-      expect(subject.body).to be_json_eql(activity.id.to_json).at_path('id')
+    it "returns an activity of the correct type" do
+      expect(subject.body).to be_json_eql(type.to_json).at_path("_type")
+      expect(subject.body).to be_json_eql(activity.id.to_json).at_path("id")
     end
 
-    it 'responds 200 OK' do
+    it "responds 200 OK" do
       expect(subject.status).to eq(200)
     end
   end
 
-  shared_examples_for 'valid activity patch request' do
-    it 'updates the activity comment' do
-      expect(last_response.body).to be_json_eql(comment.to_json).at_path('comment/raw')
+  shared_examples_for "valid activity patch request" do
+    it "updates the activity comment" do
+      expect(last_response.body).to be_json_eql(comment.to_json).at_path("comment/raw")
     end
 
-    it 'changes the comment' do
+    it "changes the comment" do
       expect(activity.reload.notes).to eql comment
     end
   end
 
-  describe 'PATCH /api/v3/activities/:activityId' do
+  describe "PATCH /api/v3/activities/:activityId" do
     let(:params) { { comment: } }
 
     before do
@@ -75,12 +75,12 @@ RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
       patch api_v3_paths.activity(activity.id), params.to_json
     end
 
-    it_behaves_like 'valid activity request', 'Activity::Comment'
+    it_behaves_like "valid activity request", "Activity::Comment"
 
-    it_behaves_like 'valid activity patch request'
+    it_behaves_like "valid activity patch request"
 
-    it_behaves_like 'invalid activity request',
-                    'Cause type is not set to one of the allowed values.' do
+    it_behaves_like "invalid activity request",
+                    "Cause type is not set to one of the allowed values." do
       let(:activity) do
         # Invalidating the journal
         work_package.journals.first.tap do |journal|
@@ -89,12 +89,12 @@ RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
         end
       end
 
-      it_behaves_like 'constraint violation' do
-        let(:message) { 'Cause type is not set to one of the allowed values.' }
+      it_behaves_like "constraint violation" do
+        let(:message) { "Cause type is not set to one of the allowed values." }
       end
     end
 
-    context 'for an activity created by a different user' do
+    context "for an activity created by a different user" do
       let(:activity) do
         work_package.journals.first.tap do |journal|
           # it does not matter that the user does not exist
@@ -102,81 +102,81 @@ RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
         end
       end
 
-      context 'when having the necessary permission' do
-        it_behaves_like 'valid activity request', 'Activity::Comment'
+      context "when having the necessary permission" do
+        it_behaves_like "valid activity request", "Activity::Comment"
 
-        it_behaves_like 'valid activity patch request'
+        it_behaves_like "valid activity patch request"
       end
 
-      context 'when having only the edit own permission' do
+      context "when having only the edit own permission" do
         let(:permissions) { %i[view_work_packages edit_own_work_package_notes] }
 
-        it_behaves_like 'unauthorized access'
+        it_behaves_like "unauthorized access"
       end
     end
 
-    context 'when having only the edit own permission' do
+    context "when having only the edit own permission" do
       let(:permissions) { %i[view_work_packages edit_own_work_package_notes] }
 
-      it_behaves_like 'valid activity request', 'Activity::Comment'
+      it_behaves_like "valid activity request", "Activity::Comment"
 
-      it_behaves_like 'valid activity patch request'
+      it_behaves_like "valid activity patch request"
     end
 
-    context 'without sufficient permissions to edit' do
+    context "without sufficient permissions to edit" do
       let(:permissions) { [:view_work_packages] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
     end
 
-    context 'without sufficient permissions to see' do
+    context "without sufficient permissions to see" do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 
-  describe '#get api' do
+  describe "#get api" do
     let(:get_path) { api_v3_paths.activity activity.id }
 
     before do
       login_as(current_user)
     end
 
-    context 'logged in user' do
+    context "logged in user" do
       before do
         get get_path
       end
 
-      context 'for a journal without a comment' do
-        it_behaves_like 'valid activity request', 'Activity'
+      context "for a journal without a comment" do
+        it_behaves_like "valid activity request", "Activity"
       end
 
-      context 'for a journal with a comment' do
+      context "for a journal with a comment" do
         let(:activity) do
           work_package.journals.first.tap do |journal|
             journal.update_column(:notes, comment)
           end
         end
 
-        it_behaves_like 'valid activity request', 'Activity::Comment'
+        it_behaves_like "valid activity request", "Activity::Comment"
       end
 
-      context 'requesting nonexistent activity' do
+      context "requesting nonexistent activity" do
         let(:get_path) { api_v3_paths.activity 9999 }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
 
-      context 'without sufficient permissions' do
+      context "without sufficient permissions" do
         let(:permissions) { [] }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
     end
 
-    context 'anonymous user' do
-      it_behaves_like 'handling anonymous user' do
+    context "anonymous user" do
+      it_behaves_like "handling anonymous user" do
         let(:project) { create(:project, public: true) }
         let(:path) { get_path }
       end

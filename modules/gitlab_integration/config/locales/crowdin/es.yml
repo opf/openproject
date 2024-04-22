@@ -27,41 +27,41 @@ es:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "debe ser una matriz de hashes con las claves: color, título"
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
-  project_module_gitlab: "Gitlab"
-  permission_show_gitlab_content: "Show Gitlab content"
+              invalid_schema: "debe ser una matriz de hashes con las claves: color, título"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "Mostrar contenido de GitLab"
   gitlab_integration:
     merge_request_opened_comment: >
-      **MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR abierta:** La solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) ha sido abierta por [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_closed_comment: >
-      **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR cerrada:** la solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) ha sido cerrada por [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_merged_comment: >
-      **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR fusionada:** La solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) ha sido fusionada por [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_reopened_comment: >
-      **MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      **MR reabierta:** La solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) ha sido reabierta por [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}
+      **Referenciado en Commit:** [%{gitlab_user}](%{gitlab_user_url}) hizo referencia a este WP en una Commit Note [%{commit_id}](%{commit_url}) en [%{repository}](%{repository_url}): %{commit_note}
     note_mr_referenced_comment: >
-      **Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      **Referenciado en MR:** [%{gitlab_user}](%{gitlab_user_url}) hizo referencia a este WP en la solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) en [%{repository}](%{repository_url}): %{mr_note}
     note_mr_commented_comment: >
-      **Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}
+      **Comentado en MR:** [%{gitlab_user}](%{gitlab_user_url}) comentó este WP en la solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) sobre [%{repository}](%{repository_url}): %{mr_note}
     note_issue_referenced_comment: >
-      **Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      **Referenciado en incidencia:** [%{gitlab_user}](%{gitlab_user_url}) hizo referencia a este WP en la Incidencia %{issue_number} [%{issue_title}](%{issue_url}) en [%{repository}](%{repository_url}): %{issue_note}
     note_issue_commented_comment: >
-      **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}
+      **Comentado en incidencia:** [%{gitlab_user}](%{gitlab_user_url}) comentó este WP en la Incidencia %{issue_number} [%{issue_title}](%{issue_url}) en [%{repository}](%{repository_url}): %{issue_note}
     note_snippet_referenced_comment: >
-      **Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}
+      **Referenciado en fragmento de código:** [%{gitlab_user}](%{gitlab_user_url}) hizo referencia a este WP en el fragmento de código %{snippet_number} [%{snippet_title}](%{snippet_url}) en [%{repository}](%{repository_url}): %{snippet_note}
     issue_opened_referenced_comment: >
-      **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+      **Incidencia abierta:** La incidencia %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) ha sido abierta por [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
-      **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+      **Incidencia cerrada:** La incidencia %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) ha sido cerrada por [%{gitlab_user}](%{gitlab_user_url}).
     issue_reopened_referenced_comment: >
-      **Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
+      **Incidencia reabierta:** La incidencia %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) ha sido reabierta por [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Enviado en MR:** [%{gitlab_user}](%{gitlab_user_url}) envió [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) a las %{commit_timestamp}: %{commit_note}
     push_multiple_commits_comment: >
-      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Enviado en MR:** [%{gitlab_user}](%{gitlab_user_url}) envió múltiples commits [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) a las %{commit_timestamp}: %{commit_note}

@@ -101,10 +101,10 @@ class UserPassword < ApplicationRecord
 
   # Require the implementation to provide a secure comparison
   def hash_matches?(_plain)
-    raise NotImplementedError, 'Must be overridden by subclass'
+    raise NotImplementedError, "Must be overridden by subclass"
   end
 
   def derive_password!(_input)
-    raise NotImplementedError, 'Must be overridden by subclass'
+    raise NotImplementedError, "Must be overridden by subclass"
   end
 end

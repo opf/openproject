@@ -41,5 +41,6 @@ module MeetingAgendaItems
     attribute :title
     attribute :duration_in_minutes
     attribute :notes
+    attribute :presenter
   end
 end

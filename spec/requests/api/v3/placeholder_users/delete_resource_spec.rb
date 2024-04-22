@@ -25,14 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require_relative 'delete_resource_examples'
+require "spec_helper"
+require_relative "delete_resource_examples"
 
 RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-               'delete' do
+               "delete" do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { create(:placeholder_user, name: 'foo') }
+  shared_let(:placeholder) { create(:placeholder_user, name: "foo") }
 
   let(:send_request) do
     header "Content-Type", "application/json"
@@ -48,42 +48,42 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     delete path
   end
 
-  context 'when admin' do
+  context "when admin" do
     let(:user) { build_stubbed(:admin) }
 
-    it_behaves_like 'deletion allowed'
+    it_behaves_like "deletion allowed"
   end
 
-  context 'when locked admin' do
+  context "when locked admin" do
     let(:user) { build_stubbed(:admin, status: Principal.statuses[:locked]) }
 
-    it_behaves_like 'deletion is not allowed'
+    it_behaves_like "deletion is not allowed"
   end
 
-  context 'when non-admin' do
+  context "when non-admin" do
     let(:user) { build_stubbed(:user, admin: false) }
 
-    it_behaves_like 'deletion is not allowed'
+    it_behaves_like "deletion is not allowed"
   end
 
-  context 'when user with manage_placeholder_user permission' do
+  context "when user with manage_placeholder_user permission" do
     let(:user) { create(:user, global_permissions: %[manage_placeholder_user]) }
 
-    it_behaves_like 'deletion allowed'
+    it_behaves_like "deletion allowed"
   end
 
-  context 'when anonymous user' do
+  context "when anonymous user" do
     let(:user) { create(:anonymous) }
 
-    context 'when login_required', with_settings: { login_required: true } do
-      it_behaves_like 'error response',
+    context "when login_required", with_settings: { login_required: true } do
+      it_behaves_like "error response",
                       401,
-                      'Unauthenticated',
-                      I18n.t('api_v3.errors.code_401')
+                      "Unauthenticated",
+                      I18n.t("api_v3.errors.code_401")
     end
 
-    context 'when not login_required', with_settings: { login_required: false } do
-      it_behaves_like 'deletion is not allowed'
+    context "when not login_required", with_settings: { login_required: false } do
+      it_behaves_like "deletion is not allowed"
     end
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
   include API::V3::Utilities::PathHelper
@@ -44,15 +44,15 @@ RSpec.describe API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
 
   subject(:generated) { instance.to_json }
 
-  context 'generation' do
-    context 'properties' do
-      describe 'values' do
-        let(:path) { 'values' }
-        let(:type) { '[]User' }
+  context "generation" do
+    context "properties" do
+      describe "values" do
+        let(:path) { "values" }
+        let(:type) { "[]User" }
         let(:filter_query) do
-          [{ type: { operator: '=', values: %w[User Group PlaceholderUser] } },
-           { status: { operator: '!', values: ['3'] } },
-           { member: { operator: '=', values: [project.id.to_s] } }]
+          [{ type: { operator: "=", values: %w[User Group PlaceholderUser] } },
+           { status: { operator: "!", values: ["3"] } },
+           { member: { operator: "=", values: [project.id.to_s] } }]
         end
         let(:href) do
           "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}&pageSize=-1"
@@ -61,38 +61,38 @@ RSpec.describe API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
         context "for operator 'Queries::Operators::Equals'" do
           let(:operator) { Queries::Operators::Equals }
 
-          it_behaves_like 'filter dependency with allowed link'
+          it_behaves_like "filter dependency with allowed link"
         end
 
         context "for operator 'Queries::Operators::NotEquals'" do
           let(:operator) { Queries::Operators::NotEquals }
 
-          it_behaves_like 'filter dependency with allowed link'
+          it_behaves_like "filter dependency with allowed link"
         end
 
-        context 'global' do
+        context "global" do
           let(:project) { nil }
           let(:filter_query) do
-            [{ type: { operator: '=', values: %w[User Group PlaceholderUser] } },
-             { status: { operator: '!', values: ['3'] } }]
+            [{ type: { operator: "=", values: %w[User Group PlaceholderUser] } },
+             { status: { operator: "!", values: ["3"] } }]
           end
 
           context "for operator 'Queries::Operators::Equals'" do
             let(:operator) { Queries::Operators::Equals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
 
           context "for operator 'Queries::Operators::NotEquals'" do
             let(:operator) { Queries::Operators::NotEquals }
 
-            it_behaves_like 'filter dependency with allowed link'
+            it_behaves_like "filter dependency with allowed link"
           end
         end
       end
     end
 
-    describe 'caching' do
+    describe "caching" do
       let(:operator) { Queries::Operators::Equals }
       let(:other_project) { build_stubbed(:project) }
 
@@ -101,14 +101,14 @@ RSpec.describe API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'is cached' do
+      it "is cached" do
         expect(instance)
           .not_to receive(:to_hash)
 
         instance.to_json
       end
 
-      it 'busts the cache on a different operator' do
+      it "busts the cache on a different operator" do
         instance.send(:operator=, Queries::Operators::NotEquals)
 
         expect(instance)
@@ -117,7 +117,7 @@ RSpec.describe API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'busts the cache on a different project' do
+      it "busts the cache on a different project" do
         query.project = other_project
 
         expect(instance)
@@ -126,7 +126,7 @@ RSpec.describe API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
         instance.to_json
       end
 
-      it 'busts the cache on changes to the locale' do
+      it "busts the cache on changes to the locale" do
         expect(instance)
           .to receive(:to_hash)
 
@@ -135,7 +135,7 @@ RSpec.describe API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
         end
       end
 
-      it 'busts the cache on different form_embedded' do
+      it "busts the cache on different form_embedded" do
         embedded_instance = described_class.new(filter,
                                                 operator,
                                                 form_embedded: !form_embedded)

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Notifications::CreateService, 'integration', type: :model do
+RSpec.describe Notifications::CreateService, "integration", type: :model do
   let(:work_package) { create(:work_package) }
   let(:project) { work_package.project }
   let(:journal) { work_package.journals.first }
@@ -43,7 +43,7 @@ RSpec.describe Notifications::CreateService, 'integration', type: :model do
 
   current_user { create(:user) }
 
-  describe '#call' do
+  describe "#call" do
     let(:attributes) do
       {
         recipient:,
@@ -58,7 +58,7 @@ RSpec.describe Notifications::CreateService, 'integration', type: :model do
       }
     end
 
-    it 'creates a notification' do
+    it "creates a notification" do
       # successful
       expect { service_result }
         .to change(Notification, :count)
@@ -68,12 +68,12 @@ RSpec.describe Notifications::CreateService, 'integration', type: :model do
         .to be_success
     end
 
-    context 'with the journal being deleted in the meantime (e.g. via a different process)' do
+    context "with the journal being deleted in the meantime (e.g. via a different process)" do
       before do
         Journal.where(id: journal.id).delete_all
       end
 
-      it 'creates no notification' do
+      it "creates no notification" do
         # successful
         expect { service_result }
           .not_to change(Notification, :count)

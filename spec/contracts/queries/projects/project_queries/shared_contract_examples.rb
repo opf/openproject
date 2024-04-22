@@ -26,54 +26,54 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-RSpec.shared_examples_for 'project queries contract' do
-  include_context 'ModelContract shared context'
+RSpec.shared_examples_for "project queries contract" do
+  include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:user) }
   let(:query_name) { "Query name" }
   let(:query_user) { current_user }
   let(:query_selects) { %i[name project_status] }
 
-  describe 'validation' do
-    it_behaves_like 'contract is valid'
+  describe "validation" do
+    it_behaves_like "contract is valid"
 
-    context 'if the name is nil' do
+    context "if the name is nil" do
       let(:query_name) { nil }
 
-      it_behaves_like 'contract is invalid', name: :blank
+      it_behaves_like "contract is invalid", name: :blank
     end
 
-    context 'if the name is too long' do
-      let(:query_name) { 'A' * 256 }
+    context "if the name is too long" do
+      let(:query_name) { "A" * 256 }
 
-      it_behaves_like 'contract is invalid', name: :too_long
+      it_behaves_like "contract is invalid", name: :too_long
     end
 
-    context 'if the user is not the current user' do
+    context "if the user is not the current user" do
       let(:query_user) { build_stubbed(:user) }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
 
-    context 'if the user and the current user is anonymous' do
+    context "if the user and the current user is anonymous" do
       let(:current_user) { build_stubbed(:anonymous) }
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
 
-    context 'if the selects do not include the name column' do
+    context "if the selects do not include the name column" do
       let(:query_selects) { %i[project_status] }
 
-      it_behaves_like 'contract is invalid', selects: :name_not_included
+      it_behaves_like "contract is invalid", selects: :name_not_included
     end
 
-    context 'if the selects include a non existing one' do
+    context "if the selects include a non existing one" do
       let(:query_selects) { %i[project_status name foo_bar] }
 
-      it_behaves_like 'contract is invalid', selects: :nonexistent
+      it_behaves_like "contract is invalid", selects: :nonexistent
     end
   end
 end
