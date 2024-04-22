@@ -101,7 +101,7 @@
     "@openproject/primer-view-components": "^0.28.1",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.1.1",
-    "@types/hotwired__turbo": "^8.0.0",
+    "@types/hotwired__turbo": "^8.0.1",
     "@uirouter/angular": "^13.0.0",
     "@uirouter/core": "^6.1.0",
     "@uirouter/rx": "^1.0.0",
