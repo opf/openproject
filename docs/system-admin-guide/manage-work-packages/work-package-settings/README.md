@@ -7,7 +7,7 @@ keywords: work package settings, work package configuration
 ---
 # Work package settings
 
-To change basic settings for work package tracking in OpenProject, navigate to **Administration -> Work packages -> Settings**.
+To change basic settings for work package tracking in OpenProject, navigate to **Administration → Work packages → Settings**.
 
 You can adjust the following:
 

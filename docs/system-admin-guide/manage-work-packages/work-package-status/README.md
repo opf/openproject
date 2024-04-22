@@ -19,8 +19,6 @@ To learn about the options for configuring the transition from one status to ano
 
 To create a new work package status click the green ***+ New Status*** icon. 
 
-![UPDATE IMG](#)
-
 A new window will open, where you will be able to specify the following:
 
 1. Name the new work package status.
