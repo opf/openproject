@@ -13,7 +13,7 @@
                                 data: {
                                   controller: "params-from-query",
                                   'application-target': "dynamic",
-                                  'params-from-query-allowed-value': '["filters", "columns"]'
+                                  'params-from-query-allowed-value': '["filters", "columns", "sortBy"]'
                                 }) do
           render(Primer::Beta::Octicon.new(icon: "op-save",
                                            align_self: :center,
@@ -111,7 +111,6 @@
     end
   end
 %>
-
 <% if show_state? %>
   <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
   <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
