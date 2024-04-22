@@ -2,7 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpIconComponent } from './icon.component';
 import {
+  HomeIconComponent,
+  InfoIconComponent,
+  OpCursorRectangleSelectIconComponent,
+  OpCursorSelectIconComponent,
   OpEnterpriseAddonsIconComponent,
+  OpEraseIconComponent,
+  OpGridMenuIconComponent,
+  OpScissorsIconComponent,
+  OpViewModalIconComponent,
+  PackageIconComponent,
+  PersonIconComponent,
+  ScreenFullIconComponent,
   ShareAndroidIconComponent,
   XIconComponent,
 } from '@openproject/octicons-angular';
@@ -11,21 +22,42 @@ import {
   imports: [
     CommonModule,
 
+    HomeIconComponent,
+    InfoIconComponent,
+    OpCursorRectangleSelectIconComponent,
+    OpCursorSelectIconComponent,
+    OpEnterpriseAddonsIconComponent,
+    OpEraseIconComponent,
+    OpGridMenuIconComponent,
+    OpScissorsIconComponent,
+    OpViewModalIconComponent,
+    PackageIconComponent,
+    PersonIconComponent,
+    ScreenFullIconComponent,
     ShareAndroidIconComponent,
     XIconComponent,
-    OpEnterpriseAddonsIconComponent,
   ],
   declarations: [
     OpIconComponent,
   ],
-  providers: [
-  ],
+  providers: [],
   exports: [
     OpIconComponent,
 
+    HomeIconComponent,
+    InfoIconComponent,
+    OpCursorRectangleSelectIconComponent,
+    OpCursorSelectIconComponent,
+    OpEnterpriseAddonsIconComponent,
+    OpEraseIconComponent,
+    OpGridMenuIconComponent,
+    OpScissorsIconComponent,
+    OpViewModalIconComponent,
+    PackageIconComponent,
+    PersonIconComponent,
+    ScreenFullIconComponent,
     ShareAndroidIconComponent,
     XIconComponent,
-    OpEnterpriseAddonsIconComponent,
   ],
 })
 export class IconModule {}

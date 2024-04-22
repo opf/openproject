@@ -99,7 +99,7 @@ module MeetingAgendaItems
     end
 
     def copy_action_item(menu)
-      url = url_for(anchor: "item-#{@meeting_agenda_item.id}", only_path: false)
+      url = meeting_url(@meeting, anchor: "item-#{@meeting_agenda_item.id}")
       menu.with_item(label: t("button_copy_link_to_clipboard"),
                      tag: :"clipboard-copy",
                      content_arguments: { value: url }) do |item|

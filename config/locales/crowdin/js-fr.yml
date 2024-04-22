@@ -352,7 +352,7 @@ fr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                Cette version contient plusieurs nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Implémentation des rapports de progression dans toutes les hiérarchies de lots de travaux.</li> <li>Gestion des attributs de projet de manière structurée sur la page d'aperçu du projet.</li> <li>Affichage simplifié des champs personnalisés dans la liste et l'aperçu du projet.</li> <li>En-têtes de page unifiés avec le design épuré de Primer.</li> <li>Amélioration des réunions avec de nouvelles fonctionnalités telles que les téléchargements de pièces jointes, les responsables et l'historique de réunion. </li> <li>Alertes automatiques pour les espaces de stockage de fichiers en mauvaise santé, et plus de contrôle avec des options d'activation/de désactivation de paramètres.</li> <li>Copie du dossier de projet géré automatiquement pour OneDrive/SharePoint lors de la copie de projets.</li> <li>Demande aux administrateurs de supprimer les partages des lots de travaux lors de la révocation de la participation à un projet.</li> <li>Amélioration de la planification avec des modes d'affichage sur 4 et 8 semaines dans le planificateur de l'équipe.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -643,7 +643,7 @@ fr:
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: "Il y a de nouvelles notifications."
-          link_text: "Cliquez ici pour les charger"
+          link_text: "Cliquez ici pour les télécharger."
       menu:
         accountable: "Responsable"
         by_project: "Non lu par projet"
@@ -926,7 +926,7 @@ fr:
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Estimation des travaux et de la progression"
       baseline:
         addition_label: "Ajouté à la vue dans la période de temps de comparaison"
         removal_label: "Retiré de la vue pendant la période de temps de comparaison"
@@ -1329,5 +1329,5 @@ fr:
         Close: "Fermer"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Un problème de réseau est survenu."
+        network_on: "Le réseau est à nouveau disponible. Nous essayons."

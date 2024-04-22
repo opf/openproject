@@ -44,6 +44,7 @@ class MeetingAgendaItem::Presenter < ApplicationForm
         focusDirectly: false,
         multiple: false,
         appendTo: "body",
+        placeholder: I18n.t("activerecord.attributes.meeting_agenda_item.presenter"),
         disabled: @disabled
       }
     )

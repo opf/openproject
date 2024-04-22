@@ -39,14 +39,14 @@ uk:
   api_v3:
     errors:
       too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.
-  permission_create_files: 'External Storage: Create files'
-  permission_delete_files: 'External Storage: Delete files'
+  permission_create_files: 'Зовнішнє сховище: створення файлів'
+  permission_delete_files: 'Зовнішнє сховище: видалення файлів'
   permission_manage_file_links: Керування посиланнями на файл
   permission_manage_storages_in_project: Керування файловими сховищами в проєкті
-  permission_read_files: 'External Storage: Read files'
-  permission_share_files: 'External Storage: Share files'
+  permission_read_files: 'Зовнішнє сховище: читання файлів'
+  permission_share_files: 'Зовнішнє сховище: надання доступу до файлів'
   permission_view_file_links: Перегляд посилань на файл
-  permission_write_files: 'External Storage: Write files'
+  permission_write_files: 'Зовнішнє сховище: записування файлів'
   project_module_storages: Файлові сховища
   storages:
     buttons:
@@ -78,14 +78,14 @@ uk:
     error_invalid_provider_type: Виберіть дійсного постачальника сховища.
     file_storage_view:
       access_management:
-        automatic_management: Automatically managed access and folders
-        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
-        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
-        manual_management: Manually managed access and folders
-        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
-        title: Access and project folders
+        automatic_management: Доступ і папки з автоматичним керуванням
+        automatic_management_description: Дозвольте OpenProject автоматично створювати папки для проєкту й керувати доступом користувачів до них. Радимо зробити це, адже в такому разі кожен учасник команди завжди матиме належні дозволи на доступ.
+        description: Виберіть тип керування доступом користувачів і створенням папок. Рекомендуємо використовувати «Автоматичне керування доступом». Це забезпечує більш організовану структуру й гарантує доступ усім відповідним користувачам.
+        manual_management: Доступ і папки з ручним керуванням
+        manual_management_description: Створюйте папки для кожного проєкту й керуйте ними самостійно. Вам знадобиться вручну надавати доступ відповідним користувачам.
+        setup_incomplete: Виберіть тип керування доступом користувачів і створенням папок.
+        subtitle: Керування доступом
+        title: Доступ і папки проєкту
       automatically_managed_folders: Папки з автоматичним керуванням
       general_information: Загальна інформація
       nextcloud_oauth: Nextcloud OAuth
@@ -101,15 +101,15 @@ uk:
       label_healthy: Справність
       label_pending: Очікування
       since: з %{datetime}
-      subtitle: Automatically managed project folders
+      subtitle: Папки проєкту з автоматичним керуванням
       title: Стан справності
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
-      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      subscribe: Subscribe
-      title: Email notifications
-      unsubscribe: Unsubscribe
+      description_subscribed: Усі адміністратори отримують сповіщення електронною поштою про стан справності цього сховища.
+      description_unsubscribed: Сповіщення про стан справності цього сховища вимкнено для всіх адміністраторів.
+      error_could_not_be_saved: Не вдалося зберегти налаштування сповіщень електронною поштою. Повторіть спробу.
+      subscribe: Підписатися
+      title: Сповіщення електронною поштою
+      unsubscribe: Відписатися
     help_texts:
       project_folder: Папка проєкту – це папка за замовчуванням для файлів, які передаються в цей проєкт. Однак користувачі можуть передавати файли в інші розташування.
     instructions:
@@ -159,7 +159,7 @@ uk:
     label_creator: Автор
     label_delete_storage: Видалити сховище
     label_edit_storage: Редагувати сховище
-    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_access_management: Змінити керування доступом до сховища
     label_edit_storage_automatically_managed_folders: Редагувати папки сховища з автоматичним керуванням
     label_edit_storage_host: Редагувати хост сховища
     label_existing_manual_folder: Наявна папка з ручним керуванням дозволами
@@ -230,7 +230,7 @@ uk:
       project_storage_members:
         subtitle: Перевірте стан підключення до сховища %{storage_name_link} для всіх учасників проєкту.
         title: Стан підключення учасників
-    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
+    permission_header_explanation: "Дозволи на доступ до файлів у зовнішніх сховищах застосовуються лише до папок і файлів у папках проєкту з автоматичним керуванням. \nЗверніть увагу: деякі постачальники сховищ підтримують не всі дозволи на доступ до файлів."
     provider_types:
       label: Тип постачальника
       nextcloud:

@@ -78,14 +78,14 @@ lt:
     error_invalid_provider_type: Prašome pažymėti tinkamą saugyklos tiekėją.
     file_storage_view:
       access_management:
-        automatic_management: Automatically managed access and folders
-        automatic_management_description: Let OpenProject create folders per project automatically and manage its user access. This is recommended as it ensures that every team member has always the correct access permissions.
-        description: Select the type of management of user access and folder creation. We recommend to use the Automatically managed access to have a more organised structure and guarantee access to all relevant users.
-        manual_management: Manually managed access and folders
-        manual_management_description: Create and manage folders per project manually on your own. You will need to manually ensure relevant users have access.
-        setup_incomplete: Select the type of management of user access and folder creation.
-        subtitle: Access management
-        title: Access and project folders
+        automatic_management: Atutomatiškai valdoma prieiga ir aplankai
+        automatic_management_description: Leisti OpenProject automatiškai kurti projektų aplankus ir tvarkyti naudotojų prieigą. Tai rekomenduojama, nes užtikrina, kad kiekvienas komandos narys visada turi reikiamas prieigos teises.
+        description: Parinkite naudotojų prieigos ir aplankų kūrimo valdymo tipą. Mes rekomenduojame naudoti automatiškai valdomą prieigą, kad turėtumėte labiau organizuotą struktūrą ir garantuotumėte prieigą visiems reikiamiems naudotojams.
+        manual_management: Rankiniu būdu valdoma prieiga ir aplankai
+        manual_management_description: Kurkite ir valdykite projektų aplankus patys rankiniu būdu. Jums reikės rankiniu būdu užtikrinti, kad reikiami naudotojai turi prieigą.
+        setup_incomplete: Parinkite naudotojų prieigos ir aplankų kūrimo valdymo tipą.
+        subtitle: Prieigos valdymas
+        title: Prieiga ir projekto aplankai
       automatically_managed_folders: Automatiškai valdomi aplankai
       general_information: Bendra informacija
       nextcloud_oauth: Nextcloud OAuth
@@ -101,15 +101,15 @@ lt:
       label_healthy: Sveikas
       label_pending: Laukiama
       since: nuo %{datetime}
-      subtitle: Automatically managed project folders
+      subtitle: Automatiškai valdomi projekto aplankai
       title: Sveikatos būsena
     health_email_notifications:
-      description_subscribed: All administrators receive health status email notifications for this storage.
-      description_unsubscribed: Health status email notifications for this storage have been turned off for all administrators.
-      error_could_not_be_saved: Email notification settings could not be saved. Please try again.
-      subscribe: Subscribe
-      title: Email notifications
-      unsubscribe: Unsubscribe
+      description_subscribed: Visi administratoriai gauna šios saugyklos sveikatos būsenos pranešimus e-paštu.
+      description_unsubscribed: Šios saugyklos sveikatos būsenos e-pašto pranešimai buvo išjungti visiems administratoriams.
+      error_could_not_be_saved: Nepavyko įrašyti e-pašto pranešimų nustatymų. Prašome bandyti dar kartą.
+      subscribe: Prenumeruoti
+      title: El. pašto priminimai
+      unsubscribe: Atšaukti prenumeratą
     help_texts:
       project_folder: Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
     instructions:
@@ -159,7 +159,7 @@ lt:
     label_creator: Kūrėjas
     label_delete_storage: Trinti saugyklą
     label_edit_storage: Keisti saugyklą
-    label_edit_storage_access_management: Edit storage access management
+    label_edit_storage_access_management: Keisti saugyklos prieigos valdymą
     label_edit_storage_automatically_managed_folders: Keisti saugyklos automatiškai tvarkomus aplankus
     label_edit_storage_host: Keisti saugyklos adresą
     label_existing_manual_folder: Esamas aplankas su rankiniu būdu valdomomis teisėmis
@@ -228,7 +228,7 @@ lt:
       project_storage_members:
         subtitle: Patikrinkite saugyklos %{storage_name_link} jungties būseną visiems projekto nariams.
         title: Narių jungties būsena
-    permission_header_explanation: "File permissions on external storages are applied only to folders and files within automatically managed project folders. \nNote that not all file permissions are supported by all storage providers."
+    permission_header_explanation: "Failų teisės išorinėse saugyklės taikomos tik aplankams ir failams automatiškai valdomuose projektų aplankuose.\nPastebėtina, kad kai kurių failų prieigos teisių kai kurie saugyklų teikėjai nepalaiko."
     provider_types:
       label: Tiekėjo tipas
       nextcloud:

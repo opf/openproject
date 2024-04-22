@@ -63,7 +63,7 @@ RSpec.describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Autolink to <a href="http://www.google.com" class="op-uc-link">http://www.google.com</a>
+              Autolink to <a href="http://www.google.com" rel="noopener noreferrer" target="_top" class="op-uc-link">http://www.google.com</a>
             </p>
           EXPECTED
         end
@@ -81,7 +81,7 @@ RSpec.describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Mailto link to <a href="mailto:foo@bar.com" class="op-uc-link">foo@bar.com</a>
+              Mailto link to <a href="mailto:foo@bar.com" rel="noopener noreferrer" target="_top" class="op-uc-link">foo@bar.com</a>
             </p>
           EXPECTED
         end

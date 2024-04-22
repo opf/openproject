@@ -285,15 +285,15 @@ ko:
         no_results_title_text: 사용 가능한 사용자 필드가 없습니다.
       project_custom_fields:
         header:
-          title: "Project attributes"
-          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+          title: "프로젝트 특성"
+          description: "이러한 프로젝트 특성은 해당 섹션 아래의 <a href=%{overview_url} target=\"_blank\">프로젝트 개요 페이지</a>에 표시됩니다. 개별 특성을 활성화하거나 비활성화할 수 있습니다. 프로젝트 특성 및 섹션은 인스턴스 관리자가 <a href=%{admin_settings_url} target=\"_blank\">관리 설정</a>에서 정의합니다. "
         filter:
-          label: "Search project attribute"
+          label: "프로젝트 특성 검색"
         actions:
-          label_enable_single: "Active in this project, click to disable"
-          label_disable_single: "Inactive in this project, click to enable"
-          label_enable_all: "Enable all"
-          label_disable_all: "Disable all"
+          label_enable_single: "이 프로젝트에서 활성화되어 있습니다. 비활성화하려면 클릭하세요."
+          label_disable_single: "이 프로젝트에서 비활성화되어 있습니다. 활성화하려면 클릭하세요."
+          label_enable_all: "모두 활성화"
+          label_disable_all: "모두 비활성화"
       types:
         no_results_title_text: 사용 가능한 타입이 없습니다.
         form:
@@ -323,41 +323,41 @@ ko:
       wp_shares: "작업 패키지 공유"
       groups: "그룹"
     delete_member_dialog:
-      title: "Remove member"
-      will_remove_the_users_role: "This will remove the user’s role from this project."
-      will_remove_the_groups_role: "This will remove the group role from this project."
+      title: "멤버 제거"
+      will_remove_the_users_role: "이렇게 하면 이 프로젝트에서 사용자의 역할이 제거됩니다."
+      will_remove_the_groups_role: "이렇게 하면 이 프로젝트에서 그룹 역할이 제거됩니다."
       however_work_packages_shared_with_user_html:
-        other: "However, %{shared_work_packages_link} have also been shared with this user."
+        other: "하지만 %{shared_work_packages_link}도 이 사용자와 공유되었습니다."
       however_work_packages_shared_with_group_html:
-        other: "However, %{shared_work_packages_link} have also been shared with this group."
-      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+        other: "하지만 %{shared_work_packages_link}도 이 그룹과 공유되었습니다."
+      remove_work_packages_shared_with_user_too: "멤버로 제거된 사용자가 공유 작업 패키지에 계속 액세스할 수 있습니다. 공유도 제거하시겠습니까?"
+      remove_work_packages_shared_with_group_too: "멤버로 제거된 그룹이 공유 작업 패키지에 계속 액세스할 수 있습니다. 공유도 제거하시겠습니까?"
+      will_not_affect_inherited_shares: "(해당 그룹과 공유된 작업 패키지에는 영향을 미치지 않습니다.)"
+      can_remove_direct_but_not_shared_roles: "이 사용자를 직접 프로젝트 멤버로 제거할 수 있지만 해당 사용자가 속한 그룹도 이 프로젝트의 멤버이므로 그룹을 통해 계속 멤버로 남게 됩니다."
       also_work_packages_shared_with_user_html:
-        other: "Also, %{shared_work_packages_link} have been shared with this user."
-      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
-      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
-      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
-      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
-      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
-      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+        other: "또한 %{shared_work_packages_link}이(가) 이 사용자와 공유되었습니다."
+      remove_project_membership_or_work_package_shares_too: "직접 멤버인 사용자만 제거하고 공유는 유지하시겠습니까, 아니면 작업 패키지 공유도 제거하시겠습니까?"
+      will_remove_all_user_access_priveleges: "이 멤버를 삭제하면 프로젝트에 대한 사용자의 모든 액세스 권한이 제거됩니다. 이 사용자는 여전히 인스턴스의 일부로 존재하게 됩니다."
+      will_remove_all_group_access_priveleges: "이 멤버를 삭제하면 프로젝트에 대한 그룹의 모든 액세스 권한이 제거됩니다. 이 그룹은 여전히 인스턴스의 일부로 존재하게 됩니다."
+      cannot_delete_inherited_membership: "이 멤버는 해당 프로젝트의 멤버인 그룹에 속해 있으므로 삭제할 수 없습니다."
+      cannot_delete_inherited_membership_note_admin_html: "프로젝트의 멤버로서 그룹을 제거하거나 %{administration_settings_link}의 그룹에서 이 특정 멤버를 제거할 수 있습니다."
+      cannot_delete_inherited_membership_note_non_admin: "프로젝트의 멤버로서 그룹을 제거하거나 관리자에게 연락하여 이 특정 멤버를 그룹에서 제거할 수 있습니다."
     delete_work_package_shares_dialog:
-      title: "Revoke work package shares"
+      title: "작업 패키지 공유 취소"
       shared_with_this_user_html:
-        other: "%{all_shared_work_packages_link} have been shared with this user."
+        other: "%{all_shared_work_packages_link}이(가) 이 사용자와 공유되었습니다."
       shared_with_this_group_html:
-        other: "%{all_shared_work_packages_link} have been shared with this group."
+        other: "%{all_shared_work_packages_link}이(가) 이 그룹과 공유되었습니다."
       shared_with_permission_html:
-        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
-      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
-      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
-      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
-      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
-      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
-      will_revoke_access_to_all: "This action will revoke their access to all of them."
+        other: "%{shared_role_name} 권한으로 %{shared_work_packages_link}만 공유되었습니다."
+      revoke_all_or_with_role: "모든 공유 작업 패키지에 대한 액세스 권한을 취소하시겠습니까, 아니면 %{shared_role_name} 권한이 있는 것만 취소하시겠습니까?"
+      will_not_affect_inherited_shares: "(해당 그룹과 공유된 작업 패키지에는 영향을 미치지 않습니다.)"
+      cannot_remove_inherited: "그룹을 통해 공유된 작업 패키지 공유는 제거할 수 없습니다."
+      cannot_remove_inherited_with_role: "%{shared_role_name} 역할이 있는 작업 패키지 공유는 그룹을 통해 공유되며 제거할 수 없습니다."
+      cannot_remove_inherited_note_admin_html: "그룹에 대한 공유를 취소하거나 %{administration_settings_link}의 그룹에서 이 특정 멤버를 제거할 수 있습니다."
+      cannot_remove_inherited_note_non_admin: "그룹에 대한 공유를 취소하거나 관리자에게 연락하여 이 특정 멤버를 그룹에서 제거할 수 있습니다."
+      will_revoke_directly_granted_access: "이 작업을 수행하면 그룹과 공유된 작업 패키지를 제외한 모든 작업 패키지에 대한 액세스 권한이 취소됩니다."
+      will_revoke_access_to_all: "이 작업을 수행하면 모두에 대한 액세스 권한이 취소됩니다."
   my:
     access_token:
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
@@ -590,7 +590,7 @@ ko:
       oauth_client:
         client: "클라이언트 ID"
       relation:
-        lag: "Lag"
+        lag: "지연"
         from: "작업 패키지"
         to: "관련 패키지"
       status:
@@ -684,7 +684,7 @@ ko:
       planning_element_type_color:
         hexcode: 16진수 코드
       project_custom_field:
-        custom_field_section: Section
+        custom_field_section: 섹션
       work_package:
         begin_insertion: "삽입 시작"
         begin_deletion: "삭제 시작"
@@ -985,12 +985,14 @@ ko:
               only_same_project_categories_allowed: "작업 패키지의 카테고리는 작업 패키지와 동일한 프로젝트에 있어야 합니다."
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 함"
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다."
         type:
           attributes:
@@ -1087,12 +1089,12 @@ ko:
       updated_by_on_time_entry: "%{datetime}, %{user} 님이 기록한 시간을 업데이트함"
       updated_on: "%{datetime} 업데이트함"
       updated_on_time_entry: "%{datetime}, 기록한 시간을 업데이트함"
-      deleted_on: "deleted on %{datetime}"
-      deleted_by_on: "deleted by %{user} on %{datetime}"
-      added_on: "added on %{datetime}"
-      added_by_on: "added by %{user} on %{datetime}"
-      removed_on: "removed on %{datetime}"
-      removed_by_on: "removed by %{user} on %{datetime}"
+      deleted_on: "삭제: %{datetime}"
+      deleted_by_on: "삭제: %{user}, %{datetime}"
+      added_on: "추가: %{datetime}"
+      added_by_on: "추가: %{user}, %{datetime}"
+      removed_on: "제거: %{datetime}"
+      removed_by_on: "제거: %{user}, %{datetime}"
       parent_without_of: "하위 프로젝트"
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
       time_entry:
@@ -1104,16 +1106,16 @@ ko:
         logged_for: "기록함 -"
       meeting_agenda_item:
         duration:
-          added: "set to %{value}"
-          added_html: "set to <i>%{value}</i>"
-          removed: "removed"
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          added: "%{value}(으)로 설정됨"
+          added_html: "<i>%{value}</i>(으)로 설정됨"
+          removed: "제거됨"
+          updated: "%{old_value}에서 %{value}(으)로 변경됨"
+          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
         position:
-          updated: "reordered"
+          updated: "재정렬됨"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated: "%{old_value}에서 %{value}(으)로 변경됨"
+          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
     filter:
       changeset: "변경 집합"
       message: "포럼"
@@ -1211,7 +1213,7 @@ ko:
       token_cooldown: '%{hours}시간 후부터 백업 토큰이 유효합니다.'
       backup_pending: 이미 대기 중인 백업이 있습니다.
       limit_reached: 하루에 백업 %{limit}회만 진행할 수 있습니다.
-  button_actions: "Actions"
+  button_actions: "작업"
   button_add: "추가"
   button_add_comment: "댓글 달기"
   button_add_member: 멤버 추가
@@ -1282,14 +1284,14 @@ ko:
   button_add_menu_entry: "메뉴 항목 추가"
   button_configure_menu_entry: "메뉴 항목 구성"
   button_delete_menu_entry: "메뉴 항목 삭제"
-  button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
-  button_remove_member_and_shares: "Remove member and shares"
-  button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
-  button_revoke_all: "Revoke all"
-  button_revoke_only: "Revoke only %{shared_role_name}"
+  button_view_shared_work_packages: "공유된 작업 패키지 보기"
+  button_manage_roles: "역할 관리"
+  button_remove_member: "멤버 제거"
+  button_remove_member_and_shares: "멤버 및 공유 제거"
+  button_revoke_work_package_shares: "작업 패키지 공유 취소"
+  button_revoke_access: "액세스 취소"
+  button_revoke_all: "모두 취소"
+  button_revoke_only: "%{shared_role_name}만 취소"
   consent:
     checkbox_label: 위 내용을 확인했으며 이에 동의합니다.
     failure_message: 동의에 실패했습니다. 계속할 수 없습니다.
@@ -1592,9 +1594,9 @@ ko:
     changes_retracted: "변경 사항이 취소되었습니다."
     caused_changes:
       dates_changed: "변경된 날짜"
-      default_attribute_written: "Read-only attributes written"
-      progress_mode_changed_to_status_based: "Progress calculation updated"
-      status_p_complete_changed: "Status % Complete changed"
+      default_attribute_written: "읽기 전용 특성 작성됨"
+      progress_mode_changed_to_status_based: "진행률 계산 업데이트됨"
+      status_p_complete_changed: "상태 완료 % 변경됨"
       system_update: "OpenProject 시스템 업데이트:"
     cause_descriptions:
       work_package_predecessor_changed_times: 이전 %{link}에 대한 변경 사항 기준
@@ -1610,14 +1612,14 @@ ko:
         dates:
           working: "%{date}은(는) 이제 근무일입니다."
           non_working: "%{date}은(는) 이제 휴무일입니다."
-      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
       status_p_complete_changed: >-
-        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
+        상태 '%{status_name}'의 완료 % 값이 %{old_value}%에서 %{new_value}%(으)로 변경되었습니다
       system_update:
         file_links_journal: >
           지금부터 파일 링크(외부 저장소에 저장된 파일)와 관련된 활동이 활동 탭에 표시됩니다. 다음은 이미 존재하는 링크와 관련된 활동을 나타냅니다.
         progress_calculation_changed: >
-          Progress calculation updated.
+          진행률 계산이 업데이트되었습니다.
   links:
     configuration_guide: "구성 가이드"
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1735,13 +1737,13 @@ ko:
   label_ascending: "오름차순"
   label_assigned_to_me_work_packages: "내게 할당된 작업 패키지"
   label_associated_revisions: "연결된 수정"
-  label_attachment_plural: "Attachments"
+  label_attachment_plural: "첨부 파일"
   label_attribute: "특성"
   label_attribute_plural: "특성"
   label_ldap_auth_source_new: "새로운 LDAP 연결"
   label_ldap_auth_source: "LDAP 연결"
   label_ldap_auth_source_plural: "LDAP 연결"
-  label_attribute_expand_text: "The complete text for '%{attribute}'"
+  label_attribute_expand_text: "'%{attribute}'의 전체 텍스트"
   label_authentication: "인증"
   label_available_global_roles: "사용 가능한 글로벌 역할"
   label_available_project_forums: "사용 가능한 포럼"
@@ -1883,7 +1885,7 @@ ko:
   label_ifc_model_plural: "Ifc 모델"
   label_import: "가져오기"
   label_export_to: "다음에서도 사용 가능:"
-  label_expand: "Expand"
+  label_expand: "확장"
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
@@ -1957,7 +1959,7 @@ ko:
   label_latest_revision: "최근 수정"
   label_latest_revision_plural: "최근 수정"
   label_ldap_authentication: "LDAP 인증"
-  label_learn_more: "Learn more"
+  label_learn_more: "자세히 알아보기"
   label_less_or_equal: "<="
   label_less_than_ago: "일 미만 전"
   label_list: "목록"
@@ -2075,7 +2077,7 @@ ko:
   label_precedes: "선행"
   label_preferences: "기본 설정"
   label_preview: "미리 보기"
-  label_preview_not_available: "Preview not available"
+  label_preview_not_available: "미리 보기를 사용할 수 없음"
   label_previous: "이전"
   label_previous_week: "이전 주"
   label_principal_invite_via_email: " 또는 이메일을 통해 새 사용자 초대하기"
@@ -2083,7 +2085,7 @@ ko:
   label_privacy_policy: "데이터 프라이버시 및 보안 정책"
   label_product_version: "제품 버전"
   label_profile: "프로필"
-  label_percent_complete: "% Complete"
+  label_percent_complete: "완료 %"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
   label_project_count: "전체 프로젝트 수"
@@ -2093,11 +2095,11 @@ ko:
   label_project_hierarchy: "프로젝트 계층 구조"
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
-  label_project_list_plural: "Project lists"
-  label_project_attributes_plural: "Project attributes"
-  label_project_custom_field_plural: "Project attributes"
+  label_project_list_plural: "프로젝트 목록"
+  label_project_attributes_plural: "프로젝트 특성"
+  label_project_custom_field_plural: "프로젝트 특성"
   label_project_settings: "프로젝트 설정"
-  label_project_attributes_settings: "Project attributes settings"
+  label_project_attributes_settings: "프로젝트 특성 설정"
   label_project_storage_plural: "파일 저장소"
   label_project_storage_project_folder: "파일 저장소: 프로젝트 폴더"
   label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
@@ -2120,7 +2122,7 @@ ko:
   label_relation_delete: "관계 삭제"
   label_relation_new: "새 관계"
   label_release_notes: "릴리스 노트"
-  label_remaining_work: "Remaining work"
+  label_remaining_work: "남은 작업"
   label_remove_columns: "선택된 열 제거"
   label_renamed: "이름 변경됨"
   label_reply_plural: "회신"
@@ -2253,7 +2255,7 @@ ko:
   label_wiki_show_new_page_link: "하위 메뉴 항목 '새 자식 페이지 만들기' 표시"
   label_wiki_show_submenu_item: "다음의 하위 메뉴 항목으로 표시: "
   label_wiki_start: "시작 페이지"
-  label_work: "Work"
+  label_work: "작업"
   label_work_package: "작업 패키지"
   label_work_package_attachments: "작업 패키지 첨부 파일"
   label_work_package_category_new: "새 카테고리"
@@ -2297,7 +2299,7 @@ ko:
     other: "파일 %{count}개"
     zero: "파일 없음"
   label_yesterday: "어제"
-  label_zen_mode: "Zen mode"
+  label_zen_mode: "젠 모드"
   label_role_type: "유형"
   label_member_role: "프로젝트 역할"
   label_global_role: "글로벌 역할"
@@ -2373,32 +2375,32 @@ ko:
     storages:
       health:
         plaintext:
-          storage: "Storage"
+          storage: "저장소"
           healthy:
-            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
-            error-solved-on: "Solved On"
-            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
-            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+            summary: "반가운 소식입니다! 저장소 %{storage_name}의 상태가 현재 \"정상\"으로 표시되고 있습니다."
+            error-solved-on: "해결:"
+            recommendation: "당사는 시스템이 양호한 상태를 유지하도록 지속적으로 시스템을 모니터링할 것입니다. 문제가 발견되면 알려드리겠습니다."
+            details: "자세한 내용을 확인하거나 필요한 사항을 수정하려면 저장소 구성을 방문하세요"
           unhealthy:
-            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
-            error-details: "Error Details"
-            error-message: "Error Message"
-            error-occurred-on: "Occurred On"
-            recommendation: "We recommend heading over to the storage configuration page to address this issue"
-            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
-        email_notification_settings: "Storage email notification settings"
-        see_storage_settings: "See storage settings"
+            summary: "현재, 저장소 %{storage_name}의 상태가 \"오류\"로 표시되고 있습니다. 주의가 필요할 수 있는 이슈가 감지되었습니다."
+            error-details: "오류 세부 정보"
+            error-message: "오류 메시지"
+            error-occurred-on: "발생:"
+            recommendation: "이 문제를 해결하려면 저장소 구성 페이지로 이동하는 것이 좋습니다"
+            unsubscribe: "이러한 알림을 더 이상 받고 싶지 않다면 언제든지 구독 취소할 수 있습니다. 구독 취소하려면 이 페이지의 지침을 따르세요."
+        email_notification_settings: "저장소 이메일 알림 설정"
+        see_storage_settings: "저장소 설정 보기"
         healthy:
-          subject: "Storage \"%{name}\" is now healthy!"
-          solved_at: "solved at"
-          summary: "The problem with your %{storage_name} storage integration is now solved"
+          subject: "\"%{name}\" 저장소가 이제 정상입니다!"
+          solved_at: "해결:"
+          summary: "%{storage_name} 저장소 통합 문제가 이제 해결되었습니다"
         unhealthy:
-          subject: "Storage \"%{name}\" is unhealthy!"
-          since: "since"
-          summary: "There is a problem with your %{storage_name} storage integration"
+          subject: "\"%{name}\" 저장소에 문제가 있습니다!"
+          since: "이후"
+          summary: "%{storage_name} 저장소 통합에 문제가 있습니다"
           troubleshooting:
-            text: "For more information, check file storages"
-            link_text: "troubleshooting documentation"
+            text: "자세한 내용은 파일 저장소를 확인하세요"
+            link_text: "문제 해결 문서"
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
@@ -2627,7 +2629,7 @@ ko:
   permission_save_queries: "보기 저장"
   permission_search_project: "프로젝트 검색"
   permission_select_custom_fields: "사용자 지정 필드 선택"
-  permission_select_project_custom_fields: "Select project attributes"
+  permission_select_project_custom_fields: "프로젝트 특성 선택"
   permission_select_project_modules: "프로젝트 모듈 선택"
   permission_share_work_packages: "작업 패키지 공유"
   permission_manage_types: "유형 선택"
@@ -2677,9 +2679,9 @@ ko:
       are_you_sure: "프로젝트 '%{name}'을(를) 보관하시겠습니까?"
       archived: "보관됨"
     count:
-      zero: "0 Projects"
-      one: "1 Project"
-      other: "%{count} Projects"
+      zero: "0개 프로젝트"
+      one: "1개 프로젝트"
+      other: "%{count}개 프로젝트"
   project_module_activity: "활동"
   project_module_forums: "포럼"
   project_module_work_package_tracking: "작업 패키지"
@@ -2815,9 +2817,9 @@ ko:
   setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
-  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes: "읽기 전용 특성에 대한 쓰기 액세스"
   setting_apiv3_write_readonly_attributes_instructions_html: >
-    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
+    활성화하면, API를 통해 관리자가 생성 중에 createdAt 및 author 등의 정적 읽기 전용 특성을 작성할 수 있습니다. <br/> <strong>경고:</strong> 이 설정은 데이터 가져오기 등의 사용 사례가 있지만 관리자가 다른 사용자로 가장하여 항목을 만들 수 있습니다. 그러나 모든 생성 요청은 실제 작성자와 함께 기록되고 있습니다. </br> 특성 및 지원되는 리소스에 대한 자세한 내용은 %{api_documentation_link}에서 참조하세요.
   setting_apiv3_max_page_size: "최대 API 페이지 크기"
   setting_apiv3_max_page_instructions_html: >
     API가 응답할 최대 페이지 크기를 설정하세요. 단일 페이지에서 더 많은 값을 반환하는 API 요청을 수행할 수 없습니다. <br/> <strong>경고:</strong> 이 값이 필요한 이유가 확실한 경우에만 이 값을 변경하세요. 높은 값으로 설정하면 성능에 상당한 영향을 미치고, 페이지당 옵션보다 낮은 값은 페이지가 매겨진 보기에서 오류를 일으킵니다.
@@ -2880,11 +2882,11 @@ ko:
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"
   setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
-  setting_work_package_done_ratio: "Progress calculation"
-  setting_work_package_done_ratio_field: "Work-based"
-  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio: "진행률 계산"
+  setting_work_package_done_ratio_field: "작업 기반"
+  setting_work_package_done_ratio_status: "상태 기반"
   setting_work_package_done_ratio_explanation_html: >
-    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
+    <b>작업 기반</b> 모드에서 완료 %는 총 작업 대비 완료된 작업을 기준으로 계산됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_projects_export_limit: "작업 패키지/프로젝트 내보내기 제한"
@@ -2950,7 +2952,7 @@ ko:
       remaining_scan_complete_html: >
         나머지 파일을 검사했습니다. %{file_count}개가 격리되었습니다. 격리 페이지로 리디렉션되는 중입니다. 이 페이지에서 격리된 파일을 삭제하거나 무시하세요.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        바이러스 검사가 활성화되었습니다. 이전에 업로드되었지만 아직 검사해야 하는 %{file_count}개가 있습니다. 이 프로세스는 백그라운드에서 예약되었습니다. 검사하는 동안 파일에 계속 액세스할 수 있습니다.
       upsale:
         description: "OpenProject에서 업로드된 파일은 바이러스 검사를 수행한 후에 다른 사용자가 액세스해야 합니다."
       actions:
@@ -2990,19 +2992,19 @@ ko:
     other: "기타"
     passwords: "암호"
     project_attributes:
-      heading: "Project attributes"
-      label_new_attribute: "Project attribute"
-      label_new_section: "Section"
-      label_edit_section: "Edit title"
-      label_section_actions: "Section actions"
-      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
-      label_project_custom_field_actions: "Project attribute actions"
-      label_no_project_custom_fields: "No project attributes defined in this section"
+      heading: "프로젝트 특성"
+      label_new_attribute: "프로젝트 특성"
+      label_new_section: "섹션"
+      label_edit_section: "제목 편집"
+      label_section_actions: "섹션 작업"
+      heading_description: "이러한 프로젝트 특성은 각 프로젝트의 개요 페이지에 표시됩니다. 새 특성을 추가하고, 섹션으로 그룹화하고, 원하는 대로 재정렬할 수 있습니다. 이러한 특성은 활성화 또는 비활성화할 수 있지만 프로젝트 레벨에서 재정렬할 수는 없습니다."
+      label_project_custom_field_actions: "프로젝트 특성 작업"
+      label_no_project_custom_fields: "이 섹션에 정의된 프로젝트 특성이 없습니다"
       edit:
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        description: "이 프로젝트 특성에 대한 변경 사항은 이 특성이 활성화된 모든 프로젝트에 반영됩니다. 필수 특성은 프로젝트별로 비활성화할 수 없습니다."
       new:
-        heading: "New attribute"
-        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+        heading: "새로운 특성"
+        description: "이 프로젝트 특성에 대한 변경 사항은 이 특성이 활성화된 모든 프로젝트에 반영됩니다. 필수 특성은 프로젝트별로 비활성화할 수 없습니다."
     projects:
       missing_dependencies: "%{dependencies}에 의존하는 프로젝트 모듈 %{module}이(가) 확인되었습니다. 이러한 종속성도 확인해야 합니다."
       section_new_projects: "새 프로젝트의 설정"
@@ -3035,7 +3037,7 @@ ko:
   text_are_you_sure: "계속하시겠습니까?"
   text_are_you_sure_continue: "계속하시겠습니까?"
   text_are_you_sure_with_children: "작업 패키지 및 모든 자식 작업 패키지를 삭제하시겠습니까?"
-  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_custom_fields: "이 특성을 삭제하면 모든 프로젝트에서 해당 값도 삭제됩니다. 계속하시겠습니까?"
   text_assign_to_project: "프로젝트에 할당"
   text_form_configuration: >
     작업 패키지 양식으로 표시할 필드를 사용자 지정할 수 있습니다. 해당 도메인의 요구 사항을 반영하도록 필드를 자유롭게 그룹화할 수 있습니다.
@@ -3211,7 +3213,7 @@ ko:
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: "상태 변경"
     text_change_disabled_for_provider_login: "이 이름은 로그인 공급자가 설정하므로 변경 가능하지 않습니다."
-    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
+    text_change_disabled_for_ldap_login: "이름과 이메일은 LDAP에 의해 설정되므로 변경할 수 없습니다."
     unlock: "잠금 해제"
     unlock_and_reset_failed_logins: "실패한 로그인 잠금 해제 및 재설정"
   version_status_closed: "닫음"
@@ -3258,11 +3260,11 @@ ko:
       info: "작업 패키지 삭제는 취소할 수 없는 작업입니다."
       title: "작업 패키지 삭제"
     progress:
-      label_note: "Note:"
+      label_note: "참고:"
       modal:
-        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
-        status_based_help_text: "% Complete is set by work package status."
-        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
+        work_based_help_text: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
+        status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
+        migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
     sharing:
       count:
         zero: "사용자 0명"
@@ -3483,7 +3485,7 @@ ko:
       label_request_token: "토큰 요청"
       label_refresh_token: "토큰 새로고침"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
+      oauth_authorization_code_grant_had_errors: "OAuth2 권한 부여에 실패했습니다"
       oauth_reported: "OAuth2 공급자가 다음을 보고했습니다:"
       oauth_returned_error: "OAuth2가 오류를 반환했습니다."
       oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."

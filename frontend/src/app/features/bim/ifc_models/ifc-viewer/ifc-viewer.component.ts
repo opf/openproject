@@ -44,9 +44,9 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import {
   BehaviorSubject,
   combineLatest,
-  Subject,
+  Subject, Subscription,
 } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'op-ifc-viewer',
@@ -83,15 +83,15 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('inspectorPane') inspectorElement:ElementRef;
 
+  @ViewChild('xeokitToolbarIcons') xeokitToolbarIcons:ElementRef;
+
   constructor(
-    private I18n:I18nService,
-    private elementRef:ElementRef,
     public ifcData:IfcModelsDataService,
+    private I18n:I18nService,
     private ifcViewerService:IFCViewerService,
     private currentUserService:CurrentUserService,
     private currentProjectService:CurrentProjectService,
-  ) {
-  }
+  ) { }
 
   ngOnInit():void {
     if (this.modelCount === 0) {
@@ -125,9 +125,41 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
             busyModelBackdropElement: this.viewerContainer.nativeElement as HTMLElement,
             keyboardEventsElement: this.modelCanvas.nativeElement as HTMLElement,
             enableEditModels: manageIfcModelsAllowed,
+            enableMeasurements: false,
           },
           this.ifcData.projects,
         );
+      });
+
+    this.insertXeokitToolbarIcons();
+  }
+
+  /**
+   * Inserts xeokit toolbar icons into each element. We need to render buttons with the octicon svg, hide the button
+   * container and insert the rendered SVG into the toolbar elements.
+   * This is necessary, as we do not use the xeokit icon font, but want to have a consistent look and feel of
+   * interaction elements with icons.
+   * @private
+   */
+  private insertXeokitToolbarIcons():Subscription {
+    return this.ifcViewerService.viewerVisible$
+      .pipe(
+        filter((visible) => visible),
+        take(1),
+      )
+      .subscribe(() => {
+        const toolbarIcons = this.xeokitToolbarIcons.nativeElement as HTMLElement;
+        const toolbar = this.toolbarElement.nativeElement as HTMLElement;
+
+        for (let i = 0; i < toolbarIcons.children.length; i++) {
+          const replacer = toolbarIcons.children[i];
+          const target = replacer.id.replace('xeokit-replace-', '');
+
+          const targetElement = toolbar.querySelector(`.xeokit-btn.xeokit-${target}`);
+          if (targetElement !== null) {
+            targetElement.insertAdjacentHTML('afterbegin', replacer.innerHTML);
+          }
+        }
       });
   }
 

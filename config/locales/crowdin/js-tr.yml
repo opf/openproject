@@ -642,7 +642,7 @@ tr:
           no_selection: "Tüm etkinlik ayrıntılarını görüntülemek için bir bildirime tıklayın."
         new_notifications:
           message: "Yeni bildirimler var"
-          link_text: "Yüklemek için buraya tıklayın"
+          link_text: "Click here to load them."
       menu:
         accountable: "Sorumlu"
         by_project: "Proje tarafından okunmadı"

@@ -887,7 +887,7 @@ zh-TW:
               invalid: "無法按照 %{value} 排序"
               format: "%{message}"
             timestamps:
-              invalid: "時間值錯誤"
+              invalid: "時間值錯誤: %{values}"
               forbidden: "時間值錯誤: %{values}"
               format: "%{message}"
             selects:
@@ -957,7 +957,7 @@ zh-TW:
           is_not_a_valid_target_for_time_entries: "工作項目 #%{id} 不是重新分配時間項目有效的目標"
           attributes:
             assigned_to:
-              format: " %訊息"
+              format: "%{message}"
             due_date:
               not_start_date: "儘管日期是里程碑所必需的，但不是開始日期。"
               cannot_be_null: "can not be set to null as start date and duration are known."
@@ -985,18 +985,20 @@ zh-TW:
               only_same_project_categories_allowed: "工作項目的類別必須與工作項目在同一個專案中"
               does_not_exist: "指定的類別不存在"
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "必須是 > = 0。"
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "工作項目處於唯讀狀態，因此無法變更其屬性。"
         type:
           attributes:
             attribute_groups:
               attribute_unknown: "使用了無效的工作項目屬性。"
-              attribute_unknown_name: "使用了無效的工作項目屬性。"
+              attribute_unknown_name: "使用了無效的工作項目屬性: %{attribute}。"
               duplicate_group: "群組名稱 %{group} 已被使用，群組名稱不可重複。"
               query_invalid: "這個遷入的查詢 '%{group}' 是無效的: %{details}"
               group_without_name: "不允許未命名的群組。"
@@ -1110,10 +1112,10 @@ zh-TW:
           updated: "changed from %{old_value} to %{value}"
           updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
         position:
-          updated: "reordered"
+          updated: "重新排列"
         work_package:
-          updated: "changed from %{old_value} to %{value}"
-          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+          updated: "從 %{old_value} 更改至 %{value}"
+          updated_html: "從 <i>%{old_value}</i> 更改至 <i>%{value}</i>"
     filter:
       changeset: "變更集"
       message: "討論區"
@@ -1211,7 +1213,7 @@ zh-TW:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: 已經有一個備份待處理。
       limit_reached: 您每天只能進行 %{limit} 次備份。
-  button_actions: "Actions"
+  button_actions: "動作"
   button_add: "增加"
   button_add_comment: "新增留言"
   button_add_member: 新增成員
@@ -1282,14 +1284,14 @@ zh-TW:
   button_add_menu_entry: "新增選單項目"
   button_configure_menu_entry: "設定選單項目"
   button_delete_menu_entry: "刪除選單項目"
-  button_view_shared_work_packages: "View shared work packages"
-  button_manage_roles: "Manage roles"
-  button_remove_member: "Remove member"
-  button_remove_member_and_shares: "Remove member and shares"
-  button_revoke_work_package_shares: "Revoke work package shares"
-  button_revoke_access: "Revoke access"
-  button_revoke_all: "Revoke all"
-  button_revoke_only: "Revoke only %{shared_role_name}"
+  button_view_shared_work_packages: "檢視共享的工作項目"
+  button_manage_roles: "管理角色"
+  button_remove_member: "移除成員"
+  button_remove_member_and_shares: "移除成員及共享"
+  button_revoke_work_package_shares: "撤銷已共享的工作項目"
+  button_revoke_access: "撤銷存取權限"
+  button_revoke_all: "全部撤銷"
+  button_revoke_only: "僅撤銷 %{shared_role_name}"
   consent:
     checkbox_label: 我已注意到並同意上述情況。
     failure_message: 同意失敗, 無法繼續。
@@ -1311,9 +1313,9 @@ zh-TW:
     errors: "錯誤"
     project_custom_fields: "專案上的客製欄位"
     x_objects_of_this_type:
-      zero: "No objects of this type"
-      one: "One object of this type"
-      other: "%{count} objects of this type"
+      zero: "無此類型物件"
+      one: "一個此類型物件"
+      other: "有%{count} 此類型物件"
     text:
       failed: '無法從 “%{source_project_name}” 複製專案到 "%{target_project_name}"'
       succeeded: '複製 "%{source_project_name}" 到 "%{target_project_name}"。'
@@ -1605,8 +1607,8 @@ zh-TW:
       working_days_changed:
         changed: "因工作天數 (%{changes})變更而異動"
         days:
-          working: "%{date} 已是工作日"
-          non_working: "%{date} 已非工作日"
+          working: "%{day} 已是工作日"
+          non_working: "%{day} 已非工作日"
         dates:
           working: "%{date} 已是工作日"
           non_working: "%{date} 已非工作日"
@@ -1652,7 +1654,7 @@ zh-TW:
         disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       ical:
         title: "iCalendar "
-        text_hint: 'iCalendar 權杖(Token)允許使用者訂閱專案管理系統日曆，並查看來自外部客戶端的最新工作資訊。'
+        text_hint: 'iCalendar 權杖(Token)允許使用者<a href="%{path}" target="_blank">訂閱專案管理系統日曆</a>，並查看來自外部客戶端的最新工作資訊。'
         disabled_text: "管理員未啟用 iCalendar 訂閱。 請聯絡您的管理員以使用此功能。"
         empty_text_hint: "新增 iCalendar 權杖(Token)，可訂閱各專案裡面的日曆( 需擁有相關權限)。"
       oauth:
@@ -3100,10 +3102,10 @@ zh-TW:
   text_journal_deleted_with_diff: "%{label}已刪除 (%{link})"
   text_journal_file_link_added: "新增%{label} ，連結：  %{value} (%{storage}) "
   text_journal_file_link_deleted: "移除%{label} ，連結：  %{old} (%{storage}) "
-  text_journal_of: ""
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_set_with_diff: "%{label} 設定 (%{link})"
-  text_journal_label_value: ""
+  text_journal_label_value: "%{label} %{value}"
   text_latest_note: "最新的留言是: %{note}"
   text_length_between: "長度須介於 %{min} 至 %{max} 個字元"
   text_line_separated: "可多行(每行一個值)。"

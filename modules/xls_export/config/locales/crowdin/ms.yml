@@ -3,7 +3,7 @@ ms:
     name: "Eksport XLS OpenProject"
     description: "Eksport senarai isu sebagai hamparan Excel (.xls)."
   export_to_excel: "Eksport ke XLS"
-  print_with_description: "Cetak pratonton dengan penerangan"
+  print_with_description: "Cetak previu dengan penerangan"
   sentence_separator_or: "atau"
   different_formats: Format berbeza
   export:

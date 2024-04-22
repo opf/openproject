@@ -39,8 +39,8 @@ zh-TW:
         participants_invited: "受邀人員"
         project: "專案"
         start_date: "日期"
-        start_time: "Start time"
-        start_time_hour: "Start time"
+        start_time: "開始時間"
+        start_time_hour: "開始時間"
       meeting_agenda_item:
         title: "Title"
         author: "Author"
@@ -167,7 +167,6 @@ zh-TW:
   label_agenda_item_add_notes: "新增註記"
   label_agenda_item_work_package: "Agenda item work package"
   text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_title: 'Agenda item for %{work_package}"'
   text_agenda_work_package_deleted: 'Agenda item for deleted work package'
   text_deleted_agenda_item: 'Deleted agenda item'
   label_initial_meeting_details: "Meeting"

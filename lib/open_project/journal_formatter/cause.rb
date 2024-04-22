@@ -61,7 +61,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   def cause_description(cause, html)
     case cause["type"]
     when "system_update"
-      system_update_message(cause)
+      system_update_message(cause, html)
     when "working_days_changed"
       working_days_changed_message(cause["changed_days"])
     when "status_p_complete_changed"
@@ -73,8 +73,20 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     end
   end
 
-  def system_update_message(cause)
-    I18n.t("journals.cause_descriptions.system_update.#{cause['feature']}")
+  def system_update_message(cause, html)
+    feature = cause["feature"]
+    feature = "progress_calculation_adjusted" if feature == "progress_calculation_changed"
+
+    options =
+      case feature
+      when "progress_calculation_adjusted_from_disabled_mode",
+           "progress_calculation_adjusted"
+        { href: OpenProject::Static::Links.links[:blog_article_progress_changes][:href] }
+      else
+        {}
+      end
+    message = I18n.t("journals.cause_descriptions.system_update.#{feature}", **options)
+    html ? message : Sanitize.fragment(message)
   end
 
   def working_days_changed_message(changed_dates)

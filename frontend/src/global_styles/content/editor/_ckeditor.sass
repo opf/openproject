@@ -92,6 +92,13 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
     top: 0px
     z-index: 2
 
+    // Reset these styles explicitly when the editor is opened inside a Dialog, as position: sticky opens a separate stacking context.
+    // In case the dialog has multiple editors below each other, these different context interfere and the paragraph dropdown of an editor will be behind the editor below it.
+    // See: WP#53724
+    dialog &
+      position: initial
+      z-index: auto
+
   .ck.ck-toolbar.ck-rounded-corners
     border-bottom-left-radius: 0
     border-bottom-right-radius: 0
@@ -112,5 +119,5 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
     margin-left: 0
     margin-right: 40px
 
-.ck tr .ck-editor__nested-editable 
+.ck tr .ck-editor__nested-editable
   border: 1px solid var(--ck-color-base-border)

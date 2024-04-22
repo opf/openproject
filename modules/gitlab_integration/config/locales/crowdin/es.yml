@@ -33,7 +33,7 @@ es:
             labels:
               invalid_schema: "debe ser una matriz de hashes con las claves: color, título"
   project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Show GitLab content"
+  permission_show_gitlab_content: "Mostrar contenido de GitLab"
   gitlab_integration:
     merge_request_opened_comment: >
       **MR abierta:** La solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) ha sido abierta por [%{gitlab_user}](%{gitlab_user_url}).

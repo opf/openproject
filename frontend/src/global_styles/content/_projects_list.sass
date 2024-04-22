@@ -31,6 +31,8 @@ $project-table--child-indentation: 1.1em
 $project-table--icon-distance: 5px
 $project-table--description-indention: 9px
 
+$content-padding: 10px
+
 @mixin calc-indentation-name($indentation)
   // This does not work for big font-sizes
   padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
@@ -69,17 +71,10 @@ $project-table--description-indention: 9px
       .expand
         display: inline
 
-      .project-actions
-        display: inline-block
-        margin: 0
-        .menu-drop-down-container
-          text-align: left
     .archived
       color: var(--color-fg-muted)
       span.archived-label
         text-transform: uppercase
-
-
 
   td.name
     @include text-shortener
@@ -109,3 +104,19 @@ $project-table--description-indention: 9px
     padding-left: 1em
   li
     list-style-type: none
+
+// Firefox does not support the popover attribute yet. Thus, the Primer action menus create an ugly scroll inside the table
+// Follow https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/popover#browser_compatibility to see when this can be removed
+body:not(.-browser-firefox)
+  .project-list-page
+    display: flex
+    flex-direction: column
+    max-height: calc(100vh - #{var(--header-height)} - #{$content-padding} - #{$content-padding})
+
+    &--table
+      display: flex
+      flex-grow: 1
+      overflow: auto
+
+    .generic-table--results-container
+      overflow-x: hidden

@@ -52,6 +52,6 @@ export class ShareCellbuilder {
   }
 
   private showShareModal(workPackage:WorkPackageResource) {
-    this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage });
+    this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage }, false, true);
   }
 }

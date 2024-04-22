@@ -202,7 +202,7 @@ Once the docker has stopped, you are ready to run the upgrade command. In this c
 docker run --rm -it \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/pgdata-next:/var/openproject/pgdata-next \
-  openproject/community:13 root ./docker/prod/postgres-db-upgrade
+  openproject/openproject:14 root ./docker/prod/postgres-db-upgrade
 ```
 
 If everything goes well, the process should end with a message as follows:
@@ -231,7 +231,7 @@ docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   [...]
-  openproject/community:13
+  openproject/openproject:14
 
 If your new installation looks fine, you can then choose to remove `/var/lib/openproject/pgdata-prev`:
 
@@ -275,8 +275,3 @@ Check `/var/lib/pgsql/13/data/pg_hba.conf` for any appearance of `scram-sha-256`
 Check `/var/lib/pgsql/13/data/postgresql.conf` for any appearance of `scram-sha-256` and replace with `md5` (search for `encryption`)
 
 Reload Configuration of PostgreSQL server with `systemctl reload postgresql-13`
-
-
-
-
-

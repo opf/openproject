@@ -645,7 +645,7 @@ lt:
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: "Yra naujų pranešimų."
-          link_text: "Spauskite čia, kad juos įkeltumėte"
+          link_text: "Spauskite čia, kad juos įkeltumėte."
       menu:
         accountable: "Atsakingas"
         by_project: "Neperskaityti pagal projektą"
@@ -1335,5 +1335,5 @@ lt:
         Close: "Uždaryti"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "Yra tinklo problema."
+        network_on: "Tinklas grįžo. Mes bandome."
