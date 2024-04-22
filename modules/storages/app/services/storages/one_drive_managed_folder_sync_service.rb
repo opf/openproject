@@ -115,9 +115,12 @@ module Storages
     end
 
     def create_folder(project_storage)
+      folder_name = project_storage.managed_project_folder_path
+      parent_location = Peripherals::ParentFolder.new('/')
+
       Peripherals::Registry
         .resolve("one_drive.commands.create_folder")
-        .call(storage: @storage, folder_path: project_storage.managed_project_folder_path)
+        .call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
         .match(on_failure: ->(error) { format_and_log_error(error, folder_path: project_storage.managed_project_folder_path) },
                on_success: ->(folder_info) do
                  last_project_folder = ::Storages::LastProjectFolder
@@ -181,6 +184,10 @@ module Storages
 
     def client_tokens_scope
       OAuthClientToken.where(oauth_client: @storage.oauth_client)
+    end
+
+    def auth_strategy
+      Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
     end
 
     def admin_client_tokens_scope

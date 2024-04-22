@@ -209,12 +209,14 @@ module Storages
     end
 
     def create_folder(project_storage)
-      folder_path = project_storage.managed_project_folder_path
+      folder_name = project_storage.managed_project_folder_path
+      parent_location = Storages::Peripherals::ParentFolder.new("/")
+
       Peripherals::Registry
         .resolve("nextcloud.commands.create_folder")
-        .call(storage: @storage, folder_path:)
+        .call(storage: @storage, auth_strategy:, folder_name:, parent_location:)
         .result_or do |error|
-        format_and_log_error(error, folder: folder_path)
+        format_and_log_error(error, folder: folder_name)
 
         return ServiceResult.failure(errors: error)
       end
@@ -293,6 +295,10 @@ module Storages
 
     def client_tokens_scope
       OAuthClientToken.where(oauth_client: @storage.oauth_client)
+    end
+
+    def auth_strategy
+      Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy
     end
 
     def admin_client_tokens_scope

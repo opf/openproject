@@ -47,6 +47,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolde
   end
 
   describe "#call" do
+    let(:folder_name) { "New Folder" }
+
     it "responds with correct parameters" do
       expect(described_class).to respond_to(:call)
 
@@ -58,7 +60,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolde
     end
 
     it "creates a folder in root", vcr: "nextcloud/create_folder_root" do
-      folder_name = "New Folder"
       parent_location = Storages::Peripherals::ParentFolder.new("/")
 
       result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
@@ -69,7 +70,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolde
     end
 
     it "creates a folder in another folder", vcr: "nextcloud/create_folder_parent" do
-      folder_name = "New Folder"
       parent_location = Storages::Peripherals::ParentFolder.new("/Folder")
 
       result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
@@ -81,7 +81,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolde
 
     context "if parent location does not exist" do
       it "returns a failure", vcr: "nextcloud/create_folder_parent_not_found" do
-        folder_name = "New Folder"
         parent_location = Storages::Peripherals::ParentFolder.new("/DeathStar3")
 
         result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
@@ -99,8 +98,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolde
     end
 
     context "if folder already exists" do
-      fit "returns a success", vcr: "nextcloud/create_folder_already_exists" do
-        folder_name = "Folder"
+      let(:folder_name) { "Folder" }
+
+      it "returns a success", vcr: "nextcloud/create_folder_already_exists" do
         parent_location = Storages::Peripherals::ParentFolder.new("/")
 
         result = described_class.call(storage:, auth_strategy:, folder_name:, parent_location:)
