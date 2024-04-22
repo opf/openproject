@@ -127,7 +127,7 @@ With OpenProject 14.0, admins now get email notifications when a file storage (e
 
 Read more about file storage troubleshooting in our [documentation](https://www.openproject.com/docs/system-admin-guide/file-storages/file-storage-troubleshooting/).
 
-### OneDrive/SharePoint: Copying template projects including automatically managed project folder
+### OneDrive/SharePoint: Copying template projects including automatically managed project folders
 
 If you use the OneDrive/SharePoint integration and add an automatically managed project folder to a project, you will now have the following options when copying that project:
 
