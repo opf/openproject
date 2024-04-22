@@ -88,13 +88,13 @@ There are some major changes in terms of progress reporting for work package hie
 
 In Work-based progress reporting, % Complete will be automatically calculated and can therefore no longer be edited manually. This means that for a work package to have a value for % Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
 
-![Work-based progress reporting](progress-work-estimates/progress-work-estimates-workMode.jpg)
+![Work-based progress reporting](progress-work-estimates-workMode.jpg)
 
 #### In status-based progress reporting, Remaining work will be automatically calculated.
 
 In Status-based progress reporting mode, Work is not a required value. However, if Work is set, Remaining work is automatically calculated. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
 
-![Status-based progress reporting](progress-work-estimates/progress-work-estimates-statusMode.jpg)
+![Status-based progress reporting](progress-work-estimates-statusMode.jpg)
 
 #### Administrators will be able to exclude certain work packages from hierarchy totals of Work, Remaining work and % Complete.
 
@@ -107,6 +107,8 @@ In addition to these changes, the section 'Estimates and Time' has been renamed 
 Please note that regarding progress reporting, **updating to OpenProject 14.0 might result in data loss or modification in certain cases**. See our blog to learn about the [details and motives on these significant changes to progress and work estimates](https://www.openproject.org/blog/changes-progress-work-estimates/) and how it might effect you.
 
 ### Project attributes management on the project overview page
+
+With OpenProject 14.0, you are now able to view and edit project attributes in a structured way, organized in sections, on the project overview section.
 
 ### Streamlined view of custom fields in project list and project overview
 
