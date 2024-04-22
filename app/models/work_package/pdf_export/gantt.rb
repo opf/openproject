@@ -481,7 +481,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     # Builds the dependency line between two work packages on different horizontal pages
-    # where the source work package page is before the target work package page
+    # and the source work package page is before the target work package page
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
     # @param [Integer] start_page_index
@@ -532,21 +532,40 @@ module WorkPackage::PDFExport::Gantt
       end
     end
 
+    # Builds the dependency line between two work packages on different horizontal and vertical pages
+    # and the source work package page is before the target work package page
+    # @param [GanttDataLineInfo] source
+    # @param [GanttDataLineInfo] target
+    # @param [Integer] start_page_index
+    # @param [Integer] finish_page_index
+    # @param [Array<GanttDataPageGroup>] page_groups
     def build_multi_group_dep_line_forward(source, target,
                                            start_page_index, finish_page_index, page_groups)
       build_multi_page_dep_line_forward_start(source)
       build_multi_page_dep_line_middle(source, start_page_index, finish_page_index, source.finish_top)
-      build_multi_group_dep_line_forward_end(source, target, finish_page_index, page_groups)
+      build_multi_group_dep_line_end(source, target, finish_page_index, page_groups)
     end
 
+    # Builds the dependency line between two work packages on different horizontal and vertical pages
+    # and the source work package page is after the target work package page
+    # @param [GanttDataLineInfo] source
+    # @param [GanttDataLineInfo] target
+    # @param [Integer] start_page_index
+    # @param [Integer] finish_page_index
+    # @param [Array<GanttDataPageGroup>] page_groups
     def build_multi_group_dep_line_backward(source, target,
                                             start_page_index, finish_page_index, page_groups)
       build_multi_page_dep_line_backward_start(source, source.finish_row.bottom)
       build_multi_page_dep_line_middle(source, start_page_index, finish_page_index, source.finish_top)
-      build_multi_group_dep_line_backward_end(source, target, page_groups)
+      build_multi_group_dep_line_end(source, target, finish_page_index, page_groups)
     end
 
-    def build_multi_group_dep_line_forward_end(source, target, finish_page_index, page_groups)
+
+    # Builds the dependency line between two work packages on different vertical pages
+    # draw line on the target work package page
+    # @param [GanttDataLineInfo] source
+    # @param [GanttDataLineInfo] target
+    def build_multi_group_dep_line_end(source, target, finish_page_index, page_groups)
       target_left = target.start_left
       page = source.finish_row.page.group.pages[finish_page_index]
       page.add_lines(
@@ -555,15 +574,7 @@ module WorkPackage::PDFExport::Gantt
           [target_left - LINE_STEP, target_left - LINE_STEP, source.finish_top, page.height],
         ]
       )
-      start_group_index = page_groups.index(source.finish_row.page.group)
-      finish_group_index = page_groups.index(target.start_row.page.group)
-      start = [start_group_index, finish_group_index].min
-      finish = [start_group_index, finish_group_index].max
-      ((start + 1)..(finish - 1)).each do |index|
-        group = page_groups[index]
-        page = group.pages[finish_page_index]
-        page.add_line(target_left - LINE_STEP, page.columns.last.right, source.finish_top, source.finish_top)
-      end
+      build_multi_group_dep_line_middle(source, target, finish_page_index, page_groups)
       target.start_row.page.add_lines(
         [
           [target_left - LINE_STEP, target_left - LINE_STEP, target.finish_row.page.header_row_height, target.finish_top],
@@ -572,7 +583,21 @@ module WorkPackage::PDFExport::Gantt
       )
     end
 
-    def build_multi_group_dep_line_backward_end(source, target, page_groups) end
+    # Builds the dependency line between two work packages on different vertical pages
+    # draw line between the source and target work package pages
+    # @param [GanttDataLineInfo] source
+    # @param [GanttDataLineInfo] target
+    def build_multi_group_dep_line_middle(source, target, finish_page_index, page_groups)
+      start_group_index = page_groups.index(source.finish_row.page.group)
+      finish_group_index = page_groups.index(target.start_row.page.group)
+      start = [start_group_index, finish_group_index].min
+      finish = [start_group_index, finish_group_index].max
+      ((start + 1)..(finish - 1)).each do |index|
+        group = page_groups[index]
+        page = group.pages[finish_page_index]
+        page.add_line(target.start_left - LINE_STEP, page.columns.last.right, source.finish_top, source.finish_top)
+      end
+    end
 
     # Builds the text column data object if the page is first page of horizontal page group
     # @param [Integer] page_index
