@@ -10,7 +10,7 @@ release_date: 2024-04-08
 
 Release date: 2024-04-08
 
-We released [OpenProject 14.0.0](https://community.openproject.org/versions/1356). The release contains several bug fixes and we recommend updating to the newest version.
+We released [OpenProject 14.0.0](https://community.openproject.org/versions/1356). The major release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will first list important technical updates, then give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 ## Important updates and breaking changes
 
@@ -77,6 +77,50 @@ For more information, see [#40749](https://community.openproject.org/work_packag
 ### Removed `available_responsibles` from the API
 
 The `available_responsibles` endpoint has been removed from the API. This endpoint was used to retrieve a list of users that could be set as the **responsible** for a work package. This information has been identical to the results by the  `available_assignees` endpoint. When you are using the `available_responsibles` endpoint in your application, you should switch to using the `available_assignees` endpoint instead.
+
+## Important feature changes
+
+### Progress reporting across work package hierarchies
+
+There are some major changes in terms of progress reporting for work package hierarchies. The calculation of progress (% Complete) in work package hierarchies is now consistent. This leads to the following important changes:
+
+#### % Complete will be an automatically calculated (non-editable) attribute based on Work.
+
+In Work-based progress reporting, % Complete will be automatically calculated and can therefore no longer be edited manually. This means that for a work package to have a value for % Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
+
+![Work-based progress reporting](progress-work-estimates/progress-work-estimates-workMode.jpg)
+
+#### In status-based progress reporting, Remaining work will be automatically calculated.
+
+In Status-based progress reporting mode, Work is not a required value. However, if Work is set, Remaining work is automatically calculated. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
+
+![Status-based progress reporting](progress-work-estimates/progress-work-estimates-statusMode.jpg)
+
+#### Administrators will be able to exclude certain work packages from hierarchy totals of Work, Remaining work and % Complete.
+
+Admins are able to exclude specific work packages (e.g., those marked as rejected) from the total sum calculations of their parent. In this case, a small info icon will appear next to excluded values:
+
+![Progress work estimates excluded from parent](progress-work-estimates-excludedFromParent.jpg)
+
+In addition to these changes, the section 'Estimates and Time' has been renamed to 'Estimates and Progress' and this is where you will now find % Complete. Also, the seeding of statuses has been fixed to include % Complete values and in the Progress modal, you will now be able to live preview changes amongst the fields.
+
+Please note that regarding progress reporting, **updating to OpenProject 14.0 might result in data loss or modification in certain cases**. See our blog to learn about the [details and motives on these significant changes to progress and work estimates](https://www.openproject.org/blog/changes-progress-work-estimates/) and how it might effect you.
+
+### Project attributes management on the project overview page
+
+### Streamlined view of custom fields in project list and project overview
+
+### Enhanced Meetings module with new features
+
+### Automatic alerts for unhealthy file storages, and toggle options
+
+### OneDrive/SharePoint: Copying projects with automatically managed project folder when copying projects
+
+### Reminder for admins when revoking a project membership to remove shares on work packages 
+
+### 4 and 8-week display modes for the team planner
+
+### Unified page headers with the sleek Primer design
 
 <!--more-->
 
