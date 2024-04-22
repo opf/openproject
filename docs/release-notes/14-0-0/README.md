@@ -23,15 +23,12 @@ name ahead of your update.
 
 ### API V3: Renaming of Delay to Lag
 
-In the relations API, the attribute `delay` has been renamed to `lag`. This change is to align the API with the terminology used in project management and the UI.
-
-For more information, see [#44054](https://community.openproject.org/work_packages/44054).
+In the relations API, the attribute `delay` has been renamed to `lag`. This change is to align the API with the terminology used in project management and the UI. For more information, see [#44054](https://community.openproject.org/work_packages/44054).
 
 ### Removed deprecated methods for permission checks
 
 In version 13.1 we have overhauled our system to handle internal permission checks by allowing permissions to not only be
-defined on project or global level, but also on resources like work packages. Therefore, we have introduced new methods to
-check permissions. The old methods have been marked as deprecated and are now removed in 14.0.
+defined on project or global level, but also on resources like work packages. Therefore, we have introduced new methods to check permissions. The old methods have been marked as deprecated and are now removed in 14.0.
 
 Affected methods are:
 - `User#allowed_to?`
@@ -39,9 +36,7 @@ Affected methods are:
 - `User#allowed_to_in_project?`
 
 If you have developed a plugin or have custom code that uses these methods, you need to update your code to use the new
-methods.
-
-For more information, see [#51212](https://community.openproject.org/work_packages/51212).
+methods. For more information, see [#51212](https://community.openproject.org/work_packages/51212).
 
 ### Reduced number of configurable design variables
 
@@ -58,21 +53,15 @@ The following variables have been changed:
 
 
 If you have developed a plugin or have custom code that uses these variables, you need to update your code to use the new
-names. The rest of the variables is unchanged.
-
-For more information, see [#53309](https://community.openproject.org/work_packages/53309).
+names. The rest of the variables is unchanged. For more information, see [#53309](https://community.openproject.org/work_packages/53309).
 
 ### Removal of the model_changeset_scan_commit_for_issue_ids_pre_issue_update hook
 
-The `model_changeset_scan_commit_for_issue_ids_pre_issue_update` hook has been removed completely. This was made necessary as the code around it was not making use of the proper update mechanisms (Service objects) which lead to inconsistencies in the data, i.e. ancestor work packages.
-
-For more information, see [#40749](https://community.openproject.org/work_packages/40749).
+The `model_changeset_scan_commit_for_issue_ids_pre_issue_update` hook has been removed completely. This was made necessary as the code around it was not making use of the proper update mechanisms (Service objects) which lead to inconsistencies in the data, i.e. ancestor work packages. For more information, see [#40749](https://community.openproject.org/work_packages/40749).
 
 ### Removal of the commit_fix_done_ratio setting
 
-Since the done_ratio is now a read only value, derived from work and remaining work, the `commit_fix_done_ratio` setting has been removed.
-
-For more information, see [#40749](https://community.openproject.org/work_packages/40749).
+Since the done_ratio is now a read only value, derived from work and remaining work, the `commit_fix_done_ratio` setting has been removed. For more information, see [#40749](https://community.openproject.org/work_packages/40749).
 
 ### Removed `available_responsibles` from the API
 
