@@ -29,12 +29,18 @@
 #++
 #
 module Storages::Admin::Forms
-  class GeneralInfoFormComponent < ApplicationComponent
+  class GeneralInfoFormComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
     alias_method :storage, :model
 
     options form_method: :post,
             submit_button_disabled: false
+
+    def self.wrapper_key
+      :storage_general_info_section
+    end
 
     def form_url
       options[:form_url] || default_form_url

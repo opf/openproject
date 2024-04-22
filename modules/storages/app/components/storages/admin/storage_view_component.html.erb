@@ -5,12 +5,10 @@
     end
 
     component.with_row(scheme: :default) do
-      render(OpTurbo::FrameComponent.new(id: :storage_general_info_section)) do
-        if storage.new_record?
-          render(Storages::Admin::Forms::GeneralInfoFormComponent.new(storage))
-        else
-          render(Storages::Admin::GeneralInfoComponent.new(storage))
-        end
+      if storage.new_record?
+        render(Storages::Admin::Forms::GeneralInfoFormComponent.new(storage))
+      else
+        render(Storages::Admin::GeneralInfoComponent.new(storage))
       end
     end
 

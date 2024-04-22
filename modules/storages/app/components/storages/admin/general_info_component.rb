@@ -31,8 +31,13 @@
 module Storages::Admin
   class GeneralInfoComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
     include StorageViewInformation
 
     alias_method :storage, :model
+
+    def self.wrapper_key
+      :storage_general_info_section
+    end
   end
 end

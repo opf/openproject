@@ -139,9 +139,15 @@ class Storages::Admin::StoragesController < ApplicationController
   def edit; end
 
   def edit_host
-    respond_to do |format|
-      format.turbo_stream
-    end
+    update_via_turbo_stream(
+      component: Storages::Admin::Forms::GeneralInfoFormComponent.new(
+        @storage,
+        form_method: :patch,
+        cancel_button_path: edit_admin_settings_storage_path(@storage)
+      )
+    )
+
+    respond_with_turbo_streams
   end
 
   # Update is similar to create above
