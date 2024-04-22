@@ -2036,7 +2036,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Environment"
-  label_estimates_and_time: "Estimates and time"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "is"
   label_everywhere: "everywhere"
   label_example: "Example"

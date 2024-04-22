@@ -85,7 +85,7 @@ RSpec.describe "form configuration", :js do
 
       it "can remove all groups to be left with an invisible one (Regression #33592)" do
         form.remove_group "Details"
-        form.remove_group "Estimates and Time"
+        form.remove_group "Estimates and progress"
         form.remove_group "People"
         form.remove_group "Costs"
 
@@ -129,7 +129,7 @@ RSpec.describe "form configuration", :js do
                           { key: :responsible, translation: "Accountable" }
 
         form.expect_group "estimates_and_time",
-                          "Estimates and time",
+                          "Estimates and progress",
                           { key: :estimated_time, translation: "Work" },
                           { key: :remaining_time, translation: "Remaining work" },
                           { key: :percentage_done, translation: "% Complete" },
@@ -181,7 +181,7 @@ RSpec.describe "form configuration", :js do
                           { key: :responsible, translation: "Accountable" }
 
         form.expect_group "estimates_and_time",
-                          "Estimates and time",
+                          "Estimates and progress",
                           { key: :estimated_time, translation: "Work" },
                           { key: :remaining_time, translation: "Remaining work" },
                           { key: :percentage_done, translation: "% Complete" },
@@ -225,7 +225,7 @@ RSpec.describe "form configuration", :js do
         wp_page.expect_hidden_field(:assignee)
         wp_page.expect_hidden_field(:spent_time)
 
-        wp_page.expect_group("Estimates and time") do
+        wp_page.expect_group("Estimates and progress") do
           wp_page.expect_attributes estimated_time: "-"
           wp_page.expect_attributes spent_time: "0 h"
         end
@@ -235,7 +235,7 @@ RSpec.describe "form configuration", :js do
         wp_page.expect_hidden_field(:spent_time)
         wp_page.click_create_wp_button(type)
 
-        wp_page.expect_group("Estimates and time") do
+        wp_page.expect_group("Estimates and progress") do
           expect(page).to have_css(".inline-edit--container.estimatedTime")
         end
 
