@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,26 +24,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 module Queries
-  module Orders
-    class NotExistingOrder < Base
-      validate :always_false
+  module ValidSubset
+    extend ActiveSupport::Concern
 
-      def self.key
-        :inexistent
+    def valid_subset!
+      valid_filters_subset!
+      valid_selects_subset!
+      valid_orders_subset!
+    end
+
+    private
+
+    def valid_filters_subset!
+      filters.each(&:valid_values!).select! do |filter|
+        filter.available? && filter.valid?
       end
+    end
 
-      def available?
-        false
-      end
+    def valid_selects_subset!
+      selects.select!(&:available?)
+    end
 
-      private
-
-      def always_false
-        errors.add :base, I18n.t(:"activerecord.errors.messages.does_not_exist")
-      end
+    def valid_orders_subset!
+      orders.select!(&:available?)
     end
   end
 end
