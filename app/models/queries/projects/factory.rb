@@ -36,7 +36,10 @@ class Queries::Projects::Factory
 
   class << self
     def find(id, params:, user:)
-      find_and_update_static_query(id, params, user) || find_and_update_persisted_query(id, params, user)
+      query = find_and_update_static_query(id, params, user) || find_and_update_persisted_query(id, params, user)
+      query&.valid_subset!
+
+      query
     end
 
     def static_query(id)
