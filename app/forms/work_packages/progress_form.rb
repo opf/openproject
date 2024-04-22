@@ -27,6 +27,8 @@
 # ++
 
 class WorkPackages::ProgressForm < ApplicationForm
+  attr_reader :work_package
+
   def initialize(work_package:,
                  mode: :work_based,
                  focused_field: :remaining_hours,
@@ -35,8 +37,9 @@ class WorkPackages::ProgressForm < ApplicationForm
 
     @work_package = work_package
     @mode = mode
-    @focused_field = focused_field_by_selection(focused_field) || focused_field_by_error
+    @focused_field = focused_field_by_selection(focused_field)
     @touched_field_map = touched_field_map
+    ensure_only_one_error_for_remaining_work_exceeding_work
   end
 
   form do |query_form|
@@ -92,30 +95,25 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   private
 
+  def ensure_only_one_error_for_remaining_work_exceeding_work
+    if work_package.errors.added?(:remaining_hours, :cant_exceed_work) &&
+       work_package.errors.added?(:estimated_hours, :cant_be_inferior_to_remaining_work)
+      error_to_delete =
+        if @focused_field == :estimated_hours
+          :remaining_hours
+        else
+          :estimated_hours
+        end
+      work_package.errors.delete(error_to_delete)
+    end
+  end
+
   def focused_field_by_selection(field)
     if field == :remaining_hours && @work_package.estimated_hours.nil?
       :estimated_hours
     else
       field
     end
-  end
-
-  # First field with an error is focused. If it's readonly or disabled, then the
-  # field before it will be focused
-  def focused_field_by_error
-    fields = if @mode == :work_based
-               %i[estimated_hours remaining_hours done_ratio]
-             else
-               %i[status_id estimated_hours remaining_hours]
-             end
-
-    fields.each do |field_name|
-      break if @focused_field
-
-      @focused_field = field_name if @work_package.errors.map(&:attribute).include?(field_name)
-    end
-
-    @focused_field
   end
 
   def render_text_field(group,
