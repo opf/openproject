@@ -44,7 +44,7 @@ To edit the value of any visible project attribute, click on the **Edit** (penci
 
 Edit the values for each project attribute as you please and click on **Save** to confirm and save your changes.
 
->**Note:** If you are an instance admin and would like to create, modify or add project attributes, please read our [admin guide to project attributes](#../../system-admin-guide/project-settings/project-attributes).
+>**Note:** If you are an instance admin and would like to create, modify or add project attributes, please read our [admin guide to project attributes](../../system-admin-guide/project-settings/project-attributes).
 
 Project attributes are 
 

@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Project attributes
+  title: New project
   priority: 200
 description: Choose which modules are enabled by default for new projects and the role given to non-admin users who create a project
 keywords: new project, settings, default, modules

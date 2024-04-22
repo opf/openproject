@@ -6,7 +6,7 @@ description: Define which project attributes should be visible as columns in the
 keywords: project attributes, project lists, columns, gantt
 ---
 
-# Settings for project lists
+# Project lists
 
 OpenProject lets users access Project lists, which allow them to get an overview of all projects to which they have access. This page describes how to modify the columns displayed in each project list. For more information on using project lists, read our [user guide on Project lists](../../user-guide/projects/project-lists). 
 
