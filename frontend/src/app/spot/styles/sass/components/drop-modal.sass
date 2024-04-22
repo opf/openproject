@@ -96,6 +96,13 @@
     transform: translateX(-50%)
     background-color: $spot-color-basic-white
 
+    @media (max-width: $breakpoint-sm)
+      display: flex
+      position: absolute
+      top: 100%
+      margin-top: 0.5rem
+      bottom: unset
+
     @media #{$spot-mq-landscape}
       left: unset
       right: $spot-spacing-0_75
