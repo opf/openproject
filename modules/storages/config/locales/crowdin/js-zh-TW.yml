@@ -60,7 +60,7 @@ zh-TW:
           zero: "Select files to link"
           other: "連結 %{count} 個檔案"
         success_create:
-          other: "成功新增1個檔案連結"
+          other: "成功新增%{count}個檔案連結"
         upload_error:
           default: >
             您的檔案 (%{fileName}) 無法被上傳。

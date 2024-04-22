@@ -358,14 +358,17 @@ RSpec.describe UpdateProgressCalculation, type: :model do
       it "derives Remaining work from Work and % Complete" do
         expect_migrates(
           from: <<~TABLE,
-            subject                   | work | remaining work | % complete
-            wp both w and pc set      |  10h |                |        60%
-            wp both w and pc set 0h   |   0h |                |         0%
+            subject                   |   work | remaining work | % complete
+            wp w and pc set           |    10h |                |        60%
+            wp w and pc set 0h        |     0h |                |         0%
+            wp w and pc set 5.678h    | 5.678h |                |         0%
           TABLE
           to: <<~TABLE
-            subject                   | work | remaining work | % complete
-            wp both w and pc set      |  10h |             4h |        60%
-            wp both w and pc set 0h   |   0h |             0h |
+            subject                   |   work | remaining work | % complete
+            wp w and pc set           |    10h |             4h |        60%
+            wp w and pc set 0h        |     0h |             0h |
+            # no rounding if rounding remaining work would exceed work
+            wp w and pc set 5.678h    | 5.678h |         5.678h |         0%
           TABLE
         )
       end
@@ -376,17 +379,20 @@ RSpec.describe UpdateProgressCalculation, type: :model do
         expect_migrates(
           from: <<~TABLE,
             subject                   | work | remaining work | % complete
-            wp both rw and pc set     |      |             4h |        60%
-            wp both rw and pc set 0%  |      |             4h |         0%
-            wp both rw and pc set dec |      |             4h |        67%
-            wp both rw and pc set 0h  |      |             0h |         0%
+            wp rw and pc set          |      |             4h |        60%
+            wp rw and pc set 0%       |      |             4h |         0%
+            wp rw and pc set dec      |      |             4h |        67%
+            wp rw and pc set 0h       |      |             0h |         0%
+            wp rw and pc set 5.678h   |      |         5.678h |         0%
           TABLE
           to: <<~TABLE
             subject                   |   work | remaining work | % complete
-            wp both rw and pc set     |    10h |             4h |        60%
-            wp both rw and pc set 0%  |     4h |             4h |         0%
-            wp both rw and pc set dec | 12.12h |             4h |        67%
-            wp both rw and pc set 0h  |     0h |             0h |
+            wp rw and pc set          |    10h |             4h |        60%
+            wp rw and pc set 0%       |     4h |             4h |         0%
+            wp rw and pc set dec      | 12.12h |             4h |        67%
+            wp rw and pc set 0h       |     0h |             0h |
+            # no rounding when % complete is 0%
+            wp rw and pc set 5.678h   | 5.678h |         5.678h |         0%
           TABLE
         )
       end
@@ -575,20 +581,22 @@ RSpec.describe UpdateProgressCalculation, type: :model do
       it "sets % Complete value to the status value, and derives Remaining work" do
         expect_migrates(
           from: <<~TABLE,
-            subject     | status      | work | remaining work | % complete
-            wp w 0%     | To do (0%)  |  10h |                |
-            wp w 30%    | Doing (30%) |  10h |                |
-            wp w 100%   | Done (100%) |  10h |                |
-            wp w 0% 0h  | To do (0%)  |   0h |                |
-            wp w 100% 0h| Done (100%) |   0h |                |
+            subject     | status      | work    | remaining work | % complete
+            wp w 0%     | To do (0%)  |  10h    |                |
+            wp w 0% dec | To do (0%)  |  5.678h |                |
+            wp w 30%    | Doing (30%) |  10h    |                |
+            wp w 100%   | Done (100%) |  10h    |                |
+            wp w 0% 0h  | To do (0%)  |   0h    |                |
+            wp w 100% 0h| Done (100%) |   0h    |                |
           TABLE
           to: <<~TABLE
-            subject     | status      | work | remaining work | % complete
-            wp w 0%     | To do (0%)  |  10h |            10h |         0%
-            wp w 30%    | Doing (30%) |  10h |             7h |        30%
-            wp w 100%   | Done (100%) |  10h |             0h |       100%
-            wp w 0% 0h  | To do (0%)  |   0h |             0h |         0%
-            wp w 100% 0h| Done (100%) |   0h |             0h |       100%
+            subject     | status      | work    | remaining work | % complete
+            wp w 0%     | To do (0%)  |  10h    |            10h |         0%
+            wp w 0% dec | To do (0%)  |  5.678h |         5.678h |         0%
+            wp w 30%    | Doing (30%) |  10h    |             7h |        30%
+            wp w 100%   | Done (100%) |  10h    |             0h |       100%
+            wp w 0% 0h  | To do (0%)  |   0h    |             0h |         0%
+            wp w 100% 0h| Done (100%) |   0h    |             0h |       100%
           TABLE
         )
       end

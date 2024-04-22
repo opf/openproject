@@ -982,12 +982,14 @@ zh-CN:
               only_same_project_categories_allowed: "工作包的类别必须包含在相同的项目工作包中。"
               does_not_exist: "指定的类别不存在。"
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "不能低于 \"剩余工时\"。"
+              cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
               must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "不能超过 \"工时\"。"
-              must_be_set_when_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
+              cant_exceed_work: "不能高于工时。"
+              must_be_set_when_work_is_set: "当设置工时需要。"
+              format: "%{message}"
           readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
           attributes:

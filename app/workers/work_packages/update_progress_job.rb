@@ -145,7 +145,12 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   def derive_unset_remaining_work_from_work_and_p_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET remaining_hours = ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+      SET remaining_hours =
+        GREATEST(0,
+          LEAST(estimated_hours,
+            ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+          )
+        )
       WHERE estimated_hours IS NOT NULL
         AND remaining_hours IS NULL
         AND done_ratio IS NOT NULL
@@ -155,7 +160,12 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   def derive_remaining_work_from_work_and_p_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET remaining_hours = ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+      SET remaining_hours =
+        GREATEST(0,
+          LEAST(estimated_hours,
+            ROUND((estimated_hours - (estimated_hours * done_ratio / 100.0))::numeric, 2)
+          )
+        )
       WHERE estimated_hours IS NOT NULL
         AND done_ratio IS NOT NULL
     SQL
@@ -164,7 +174,11 @@ class WorkPackages::UpdateProgressJob < ApplicationJob
   def derive_unset_work_from_remaining_work_and_p_complete
     execute(<<~SQL.squish)
       UPDATE temp_wp_progress_values
-      SET estimated_hours = ROUND((remaining_hours * 100 / (100 - done_ratio))::numeric, 2)
+      SET estimated_hours =
+        CASE done_ratio
+          WHEN 0 THEN remaining_hours
+          ELSE ROUND((remaining_hours * 100 / (100 - done_ratio))::numeric, 2)
+        END
       WHERE estimated_hours IS NULL
         AND remaining_hours IS NOT NULL
         AND done_ratio IS NOT NULL

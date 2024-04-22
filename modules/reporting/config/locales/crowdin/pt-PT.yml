@@ -47,7 +47,7 @@ pt-PT:
   label_is_project_with_subprojects: "é (inclui subprojetos)"
   label_work_package_attributes: "Atributos do pacote de trabalho"
   label_less: "<"
-  label_logged_by_reporting: "Registado como"
+  label_logged_by_reporting: "Registado por"
   label_money: "Valor em dinheiro"
   label_month_reporting: "Mês (gasto)"
   label_new_report: "Novo relatório de custos"
