@@ -73,6 +73,7 @@ class ProgressEditField < EditField
 
   def set_value(value)
     page.fill_in field_name, with: value
+    sleep 1
   end
 
   def input_element
