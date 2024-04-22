@@ -50,8 +50,12 @@ class Projects::QueriesController < ApplicationController
              .call(permitted_query_params)
 
     if call.success?
+      flash[:notice] = I18n.t("lists.create.success")
+
       redirect_to projects_path(query_id: call.result.id)
     else
+      flash[:error] = I18n.t("lists.create.failure", errors: call.errors.full_messages.join("\n"))
+
       render template: "/projects/index",
              layout: "global",
              locals: { query: call.result, state: :edit }
@@ -64,8 +68,12 @@ class Projects::QueriesController < ApplicationController
              .call(permitted_query_params)
 
     if call.success?
+      flash[:notice] = I18n.t("lists.update.success")
+
       redirect_to projects_path(query_id: call.result.id)
     else
+      flash[:error] = I18n.t("lists.update.failure", errors: call.errors.full_messages.join("\n"))
+
       render template: "/projects/index",
              layout: "global",
              locals: { query: call.result, state: :edit }
