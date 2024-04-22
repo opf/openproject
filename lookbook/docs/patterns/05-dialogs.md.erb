@@ -92,6 +92,42 @@ a [custom turbo stream action](https://turbo.hotwired.dev/handbook/streams#custo
 The frontend turbo stream `dialog` action will take this dialog, append it to the body, and open it immediately.
 Once the dialog is closed, the content is removed from the DOM again.
 
+### Dialogs with separate forms
+
+We have seen that we want to render the body part of the dialog in a separate component.
+This will result in the submit buttons being outside of that component that renders a form.
+
+In the following example, the body renders a separate component with a form. You can tell the
+submit button to reference the form attribute using `form: "id-of-the-form"`. With turbo,
+you have to make sure that the data-turbo attribute is also set.
+
+```erb
+<%%= turbo_stream.dialog do
+  render(Primer::Alpha::Dialog.new(title: t(:label_history),
+                                   id: 'my-dialog')) do |d|
+    d.with_header(variant: :large)
+    d.with_body do
+      render(ComponentThatRendersAForm.new(form_id: "my-dialog-form")
+    end
+
+    d.with_footer do
+      render(Primer::Beta::Button.new(
+        tag: :button,
+        type: :submit,
+        form: "my-dialog-form"
+        data: { turbo: true }
+        variant: :primary,
+      ) do |button|
+        button.text = t(:button_save)
+      end)
+    end
+
+  end
+end
+%>
+```
+
+
 ## Special kinds of dialogs
 
 We have multiple kind of dialogs that re-appear throughout the whole application. In order to make sure, they all look and feel alike, we further specify them here.

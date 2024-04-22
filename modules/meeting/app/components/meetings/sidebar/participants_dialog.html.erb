@@ -123,6 +123,7 @@
           footer.with_component(Primer::ButtonComponent.new(
             scheme: :primary,
             form: "edit_participants_form",
+            data: { turbo: true },
             type: :submit)) do
             t("button_save")
           end
