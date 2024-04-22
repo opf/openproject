@@ -164,7 +164,7 @@ gem "meta-tags", "~> 2.21.0"
 
 gem "paper_trail", "~> 15.1.0"
 
-gem "clamav-client", github: "honestica/clamav-client", ref: "29e78ae94307cb34e79ddd29c5da79752239d8b7"
+gem "op-clamav-client", "~> 3.4", require: "clamav"
 
 group :production do
   # we use dalli as standard memcache client

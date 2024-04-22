@@ -263,9 +263,13 @@ module Pages
 
       def open_filters
         retry_block do
-          page.find('[data-test-selector="filter-component-toggle"]').click
+          toggle_filters_section
           page.find_field("Add filter", visible: true)
         end
+      end
+
+      def toggle_filters_section
+        page.find('[data-test-selector="filter-component-toggle"]').click
       end
 
       def set_columns(*columns)
