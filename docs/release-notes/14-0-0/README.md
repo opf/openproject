@@ -108,7 +108,13 @@ Please note that regarding progress reporting, **updating to OpenProject 14.0 mi
 
 ### Project attributes management on the project overview page
 
-With OpenProject 14.0, you are now able to view and edit project attributes in a structured way, organized in sections, on the project overview section.
+With OpenProject 14.0, you are now able to view and edit project attributes in a structured way, organized in sections, on the project overview section. Admins can edit them directly on the project overview page:
+
+![Project attributes shown on project overview page, divided in sections](14-0-project-attributes-sections-highlighted.png)
+
+Project attributes as well as Sections can be managed in administration/projects/project attributes.
+
+![Manage project attributes and sections in adminstrations](14-0-project-attributes-administration.png)
 
 ### Streamlined view of custom fields in project list and project overview
 
