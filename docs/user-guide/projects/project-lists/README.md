@@ -37,13 +37,11 @@ You will then get a list of all your active projects in OpenProject.
 
 ### Project lists view explained
 
-You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
+You can use this projects overview to **create a multi project status dashboard** if you include your own [project attributes](../../../system-admin-guide/projects/project-attributes/), e.g. custom status options, project duration or any relevant project information.
 
-> **Please note:** Project custom fields are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
+> **Please note:** Project attributes an an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
-Each project is displayed in a single line. For the the fields where the text is too long to be displayed completely please use the **Expand** link. 
-
-
+Each project is displayed in a single line. For the the fields where the text is too long to be displayed completely, please use the **Expand** link. 
 
 ![Open a project description in the project lists view in OpenProject](expand-link-project-description.png)
 
