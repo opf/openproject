@@ -97,7 +97,7 @@ Please note that regarding progress reporting, **updating to OpenProject 14.0 mi
 
 ### Project attributes management on the project overview page
 
-With OpenProject 14.0, you are now able to view and edit custom fields for projects in a structured way, organized in sections, on the project overview section. These fields are now referred to as **'Project attributes'**. Admins can edit them directly on the project overview page:
+With OpenProject 14.0, you are now able to view and edit custom fields for projects in a structured way, organized in sections, on the project overview page. These fields are now referred to as **'Project attributes'**. Admins can edit them directly on the project overview page:
 
 ![Project attributes shown on project overview page, divided in sections](14-0-project-attributes-sections-highlighted.png)
 
@@ -115,7 +115,7 @@ As described above, *project* custom fields are now called 'Project attributes' 
 
 OpenProject's [(Dynamic) Meetings](https://www.openproject.org/docs/user-guide/meetings/dynamic-meetings/) have been updated with the following new features:
 
-* [Attachments of agenda items](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-attachments) are now shown in the sidebar. You can also add them directly to the meeting there.
+* [Meetings attachments]((https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-attachments)) are now shown in the bottom section of the right-hand sidebar. You can add them directly to the meeting there and drag and drop them from this section to the Notes section of the agenda items.
 * When [copying a meeting](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#copy-a-meeting), you can now check a box to choose whether you want to include attachments.
 * A [meeting history](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-history) has been added and can be found in the Meetings menu, showing previous changes.
 * The presenter of an agenda item can now be changed from the creator of the agenda item to any person in the project.
@@ -129,14 +129,14 @@ Read more about file storage troubleshooting in our [documentation](https://www.
 
 ### OneDrive/SharePoint: Copying template projects including automatically managed project folders
 
-If you use the OneDrive/SharePoint integration and add an automatically managed project folder to a project, you will now have the following options when copying that project:
+If you copy a project where a file storage has automatically managed project folders selected, you will now have the following options:
 
 * Deactivate the copy option "File Storages: Project folders" – this will copy the file storage, but not the specific project folder.
 * Deactivate the copy option "File Storages" – this will not copy any file storage.
 
 ### Reminder for admins when revoking a project membership to remove shares on work packages 
 
-As of 14.0, admins are asked whether they also want to remove access to [shared work packages](https://www.openproject.com/docs/user-guide/work-packages/share-work-packages/) when deleting a project member. 
+As of 14.0, admins are asked whether they also want to remove access to [shared work packages](https://www.openproject.com/docs/user-guide/work-packages/share-work-packages/) when removing a project member or group from a project.
 
 ### 4 and 8-week display modes for the team planner
 
