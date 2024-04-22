@@ -10,27 +10,22 @@ release_date: 2024-04-08
 
 Release date: 2024-04-08
 
-We released [OpenProject 14.0.0](https://community.openproject.org/versions/1356).
-The release contains several bug fixes and we recommend updating to the newest version.
+We released [OpenProject 14.0.0](https://community.openproject.org/versions/1356). The release contains several bug fixes and we recommend updating to the newest version.
 
 ## Important updates and breaking changes
 
 ### Docker registry renaming
 
-Starting with OpenProject 14.0., docker images will be published
-to [openproject/openproject](https://hub.docker.com/r/openproject/openproject) on Docker Hub.
-If your setup is still using the old image name (openproject/community), you will need to update your configuration to
-use the new image names.
+Starting with OpenProject 14.0, docker images will be published to [openproject/openproject](https://hub.docker.com/r/openproject/openproject) on Docker Hub. If your setup is still using the old image name (openproject/community), you will need to update your configuration to use the new image names.
 
 All previous images have been pushed there as well, so you can simply update your configuration to use the new image
 name ahead of your update.
 
 ### API V3: Renaming of Delay to Lag
 
-In the relations API, the attribute `delay` has been renamed to `lag`.
-This change is to align the API with the terminology used in project management and the UI.
+In the relations API, the attribute `delay` has been renamed to `lag`. This change is to align the API with the terminology used in project management and the UI.
 
-For more information, see [#44054](https://community.openproject.org/work_packages/44054)
+For more information, see [#44054](https://community.openproject.org/work_packages/44054).
 
 ### Removed deprecated methods for permission checks
 
@@ -50,9 +45,7 @@ For more information, see [#51212](https://community.openproject.org/work_packag
 
 ### Reduced number of configurable design variables
 
-We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings).
-This simplifies the process of setting the desired colour scheme for users.
-It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colourblind mode in the future.
+We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings). This simplifies the process of setting the desired colour scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colourblind mode in the future.
 
 The following variables have been changed:
 
@@ -73,13 +66,13 @@ For more information, see [#53309](https://community.openproject.org/work_packag
 
 The `model_changeset_scan_commit_for_issue_ids_pre_issue_update` hook has been removed completely. This was made necessary as the code around it was not making use of the proper update mechanisms (Service objects) which lead to inconsistencies in the data, i.e. ancestor work packages.
 
-For more information, see [#40749](https://community.openproject.org/work_packages/40749)
+For more information, see [#40749](https://community.openproject.org/work_packages/40749).
 
 ### Removal of the commit_fix_done_ratio setting
 
 Since the done_ratio is now a read only value, derived from work and remaining work, the `commit_fix_done_ratio` setting has been removed.
 
-For more information, see [#40749](https://community.openproject.org/work_packages/40749)
+For more information, see [#40749](https://community.openproject.org/work_packages/40749).
 
 ### Removed `available_responsibles` from the API
 
