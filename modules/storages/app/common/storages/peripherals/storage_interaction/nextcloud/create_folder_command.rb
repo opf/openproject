@@ -32,32 +32,37 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class CreateFolderCommand
     using Storages::Peripherals::ServiceResultRefinements
 
+    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+    def self.call(storage:, auth_strategy:, folder_name:, parent_location:)
+      new(storage).call(auth_strategy:, folder_name:, parent_location:)
+    end
+
     def initialize(storage)
-      @uri = storage.uri
-      @username = storage.username
-      @password = storage.password
+      @storage = storage
     end
 
-    def self.call(storage:, folder_path:)
-      new(storage).call(folder_path:)
+    def call(auth_strategy:, folder_name:, parent_location:)
+      origin_user_id = Util.origin_user_id(caller: self.class, storage: @storage, auth_strategy:)
+      if origin_user_id.failure?
+        return origin_user_id
+      end
+
+      folder_path = Util.join_uri_path(parent_location, folder_name)
+
+      Auth[auth_strategy].call(storage: @storage) do |http|
+        request_url = Util.join_uri_path(@storage.uri,
+                                         "remote.php/dav/files",
+                                         CGI.escapeURIComponent(origin_user_id.result),
+                                         Util.escape_path(folder_path))
+
+        handle_response http.mkcol(request_url)
+      end
     end
 
-    # rubocop:disable Metrics/AbcSize
-    def call(folder_path:)
-      response = OpenProject
-                   .httpx
-                   .basic_auth(@username, @password)
-                   .mkcol(
-                     Util.join_uri_path(
-                       @uri,
-                       "remote.php/dav/files",
-                       CGI.escapeURIComponent(@username),
-                       Util.escape_path(folder_path)
-                     )
-                   )
+    private
 
-      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
-
+    def handle_response(response)
       case response
       in { status: 200..299 }
         ServiceResult.success(message: "Folder was successfully created.")
@@ -65,19 +70,27 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         if Util.error_text_from_response(response) == "The resource you tried to create already exists"
           ServiceResult.success(message: "Folder already exists.")
         else
-          Util.error(:not_allowed, "Outbound request method not allowed", error_data)
+          Util.failure(code: :not_allowed,
+                       data: Util.error_data_from_response(caller: self.class, response:),
+                       log_message: "Outbound request method not allowed!")
         end
       in { status: 401 }
-        Util.error(:unauthorized, "Outbound request not authorized", error_data)
+        Util.failure(code: :unauthorized,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: "Outbound request not authorized!")
       in { status: 404 }
-        Util.error(:not_found, "Outbound request destination not found", error_data)
+        Util.failure(code: :not_found,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: "Outbound request destination not found!")
       in { status: 409 }
-        Util.error(:conflict, Util.error_text_from_response(response), error_data)
+        Util.failure(code: :conflict,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: Util.error_text_from_response(response))
       else
-        Util.error(:error, "Outbound request failed", error_data)
+        Util.failure(code: :error,
+                     data: Util.error_data_from_response(caller: self.class, response:),
+                     log_message: "Outbound request failed with unknown error!")
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

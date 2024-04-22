@@ -73,6 +73,10 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
       File.join(uri.to_s, *)
     end
 
+    def json_content_type
+      { headers: { "Content-Type" => "application/json" } }
+    end
+
     def using_admin_token(storage)
       oauth_client = storage.oauth_configuration.basic_rack_oauth_client
 
