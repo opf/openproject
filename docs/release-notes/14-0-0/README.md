@@ -104,7 +104,7 @@ Admins are able to exclude specific work packages (e.g., those marked as rejecte
 
 In addition to these changes, the section 'Estimates and Time' has been renamed to 'Estimates and Progress' and this is where you will now find % Complete. Also, the seeding of statuses has been fixed to include % Complete values and in the Progress modal, you will now be able to live preview changes amongst the fields.
 
-Please note that regarding progress reporting, **updating to OpenProject 14.0 might result in automated data modification in certain cases**. See our blog to learn about the [details and motives on these significant changes to progress and work estimates](https://www.openproject.org/blog/changes-progress-work-estimates/) and how it might effect you.
+Please note that regarding progress reporting, **updating to OpenProject 14.0 might result in automated data modification in certain cases**. See our blog to learn about the [details and motives on these significant changes to progress and work estimates](https://www.openproject.org/blog/changes-progress-work-estimates/) and how it might affect you.
 
 ### Project attributes management on the project overview page
 
@@ -126,15 +126,15 @@ As described above, project custom fields are now called 'Project attributes' an
 
 OpenProject's [(Dynamic) Meetings](https://www.openproject.org/docs/user-guide/meetings/dynamic-meetings/) have been updated with the following new features:
 
-* Attachments of agenda items are now shown in the sidebar. You can also add them directly to the meeting there.
-* When copying a meeting, you can now check a box to choose whether you want to include attachments.
-* A meeting history has been added and can be found in the Meetings menu, showing previous changes.
+* [Attachments of agenda items](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-attachments) are now shown in the sidebar. You can also add them directly to the meeting there.
+* When [copying a meeting](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#copy-a-meeting), you can now check a box to choose whether you want to include attachments.
+* A [meeting history](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-history) has been added and can be found in the Meetings menu, showing previous changes.
 * The presenter of an agenda item can now be changed from the creator of the agenda item to any person in the project.
-* An option to copy an URL of a specific agenda item has been added.
+* An option to copy a URL of a specific agenda item has been added.
 
 ### Automatic alerts for unhealthy file storages, and toggle options
 
-With OpenProject 14.0, admins now get email notifications when a file storage (e.g Nextcloud) is unhealthy. To avoid sending unwanted messages, we also added the option to deactivate these health status notifications for a storage.
+With OpenProject 14.0, admins now get email notifications when a file storage (e.g. Nextcloud) is unhealthy. To avoid sending unwanted messages, we also added the option to deactivate these health status notifications for a storage.
 
 Read more about file storage troubleshooting in our [documentation](https://www.openproject.com/docs/system-admin-guide/file-storages/file-storage-troubleshooting/).
 
@@ -341,9 +341,13 @@ As mentioned in the earlier blog post about the Primer Design System, work is on
 
 #### Contributions
 
-A big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
+A very special thank you goes to our sponsors for features and improvements of this release:
 
-Special thanks for reporting and finding bugs go to:
+* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
+* City of Cologne for sponsoring features for project portfolio management
+* Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
+
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to:
 
 Silas Kropf, Philipp Schulz, Benjamin Rönnau, Mario Haustein, Matt User, Mario Zeppin, Romain Besson,
 Daniel Hilbrand, Christina Vechkanova, Sven Kunze, Richard Richter, Julian Wolff
