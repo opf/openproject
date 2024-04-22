@@ -118,6 +118,8 @@ export class SpotDropModalComponent implements OnDestroy {
     this.updateAppHeight();
     this.cdRef.detectChanges();
 
+    (document.getElementsByClassName('spot-drop-modal-portal')[0] as HTMLElement).classList.add('spot-drop-modal-portal_active');
+
     /*
      * If we don't activate the body after one tick, angular will complain because
      * it already rendered a `null` template, but then gets an update to that
@@ -187,7 +189,7 @@ export class SpotDropModalComponent implements OnDestroy {
   close():void {
     this._opened = false;
     this.closed.emit();
-
+    (document.getElementsByClassName('spot-drop-modal-portal')[0] as HTMLElement).classList.remove('spot-drop-modal-portal_active');
     /*
      * The same as with opening; if we don't deactivate the body after
      * one tick, angular will complain because it already rendered the
