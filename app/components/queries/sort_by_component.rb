@@ -34,7 +34,7 @@ class Queries::SortByComponent < ApplicationComponent
 
   def select_options
     options_for_select(
-      available_orders.map { |order| [order.key, order.key] },
+      available_orders.map { |order| [order[:name], order[:id]] },
       order&.attribute
     )
   end

@@ -43,9 +43,12 @@ class Projects::ConfigureViewModalComponent < ApplicationComponent
 
   def available_orders
     @available_orders ||= begin
-      selects = ::Queries::Register.orders[query.class].map(&:key)
-      ::Queries::Register.orders[query.class].select do |order|
-        selects.include?(order.key)
+      all_selectable_columns = helpers.projects_columns_options
+      all_order_keys = ::Queries::Register.orders[query.class]&.map(&:key)
+
+      # Keys from the order can be symbols, strings or regexes
+      all_selectable_columns.select do |column_option|
+        all_order_keys.any? { |order_key| order_key === column_option[:id] }
       end
     end
   end
