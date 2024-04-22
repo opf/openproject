@@ -93,7 +93,9 @@ When an administrator changes modes from Status-based or Work-based or vice-vers
 
 ## Status- to work-based
 
-In Status-based mode, it is possible for work packages to have a %&nbsp;Complete value (defined by the status) without having values for Work or Remaining work. In other words, the latter to fields can be empty. However, when switching to work-based mode, work packages with a %&nbsp;Completevalue also need to have values for Work and Remaining work (since the %&nbsp;Complete is not directly editable but is rather derived from the other two values). 
+In Status-based mode, it is possible for work packages to have a %&nbsp;Complete value (defined by the status) without having values for Work or Remaining work. In other words, the Work and Remaining work can be empty. 
+
+However, when switching to work-based mode, work packages with a %&nbsp;Complete value also need to have values for Work and Remaining work (since the %&nbsp;Complete is not directly editable but is rather derived from the other two values). 
 
 In this case, OpenProject will retain the original value for %&nbsp;Complete that was there mode change, but will not allow you to edit it. Instead, you will be able to input Work and Remaining work, thereby overwriting the previous value with a new computed value:
 
@@ -101,16 +103,10 @@ In this case, OpenProject will retain the original value for %&nbsp;Complete tha
 
 ## Work- to status-based
 
-When switching from Work-based to Status-based mode, there are two cases to consider:
+When switching from Work-based to Status-based mode, the previous value for %&nbsp;Complete will be replaced by the the %&nbsp;Complete value associated with the current status of that work package. Then there are two cases to consider:
 
-- If all three values (Work, Remaining work and %&nbsp;Complete) existed pre-switch:
-	- The previous value for %&nbsp;Complete will be replaced by the %&nbsp;Complete value associated with the current status of that work package.
-	- Work will be retained
-	- Remaining work will be re-calculated based on the other two values
-- If none of the three values existed pre-switch:
-	- %&nbsp;Complete field will be replaced with the value associated with the current status of that work package
-	- Work will remain empty
-	- Remaining work will remain empty
+- If Work was previously set, it will be retained and Remaining work will be re-calculated based on the other two values
+- If Work was previously empty, then Work and Remaining work will remain empty
 
 
 
