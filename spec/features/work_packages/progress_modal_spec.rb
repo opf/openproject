@@ -36,6 +36,7 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
 
   shared_let(:type_task) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type_task]) }
+  shared_let(:priority) { create(:default_priority, name: "Normal") }
   shared_let(:open_status_with_0p_done_ratio) do
     create(:status, name: "open", default_done_ratio: 0)
   end
@@ -271,6 +272,15 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
                  old_status: open_status_with_0p_done_ratio,
                  new_status: complete_status_with_100p_done_ratio,
                  role:)
+        end
+
+        it "can create work package after setting work" do
+          work_package_create_page.visit!
+
+          work_package_create_page.set_attributes({ subject: "hello" })
+          work_package_create_page.set_progress_attributes({ estimatedTime: "10h" })
+          work_package_create_page.save!
+          work_package_table.expect_and_dismiss_toaster(message: "Successful creation.", wait: 5)
         end
 
         it "renders the status selection field inside the modal as disabled " \

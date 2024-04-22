@@ -132,8 +132,8 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
     return this.text.placeholder;
   }
 
-  public formatter(value:null|string):string {
-    if (value === null) {
+  public formatter(value:undefined|null|string):string {
+    if (value === undefined || value === null) {
       return '';
     }
     return `${this.timezoneService.toHours(value)}`;
