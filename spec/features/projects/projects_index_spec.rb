@@ -1176,4 +1176,30 @@ RSpec.describe "Projects index page",
       end
     end
   end
+
+  describe "calling the page with the API v3 style parameters",
+           with_settings: { enabled_projects_columns: %w[name created_at project_status] } do
+    let(:filters) do
+      JSON.dump([{ active: { operator: "=", values: ["t"] } },
+                 { name_and_identifier: { operator: "~", values: ["Plain"] } }])
+    end
+
+    current_user { admin }
+
+    it "applies the filters and displays the matching projects" do
+      visit "#{projects_page.path}?filters=#{filters}"
+
+      # Filters have the effect of filtering out projects
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project)
+
+      # Applies the filters to the filters section
+      projects_page.toggle_filters_section
+      projects_page.expect_filter_set "active"
+      projects_page.expect_filter_set "name_and_identifier"
+
+      # Columns are taken from the default set as defined by the setting
+      projects_page.expect_columns("Name", "Created on", "Status")
+    end
+  end
 end

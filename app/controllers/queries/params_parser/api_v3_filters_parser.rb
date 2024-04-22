@@ -27,37 +27,20 @@
 # ++
 module Queries
   class ParamsParser
-    class << self
-      def parse(params)
-        query_params = {}
+    class APIV3FiltersParser
+      class << self
+        def parse(filters_string)
+          filters = JSON.parse(filters_string)
 
-        query_params[:filters] = parse_filters_from_params(params) if params[:filters].present?
-        query_params[:orders] = parse_orders_from_params(params) if params[:sortBy].present?
-        query_params[:selects] = parse_columns_from_params(params) if params[:columns].present?
-
-        query_params
-      end
-
-      private
-
-      def parse_filters_from_params(params)
-        if params[:filters].present? && params[:filters].start_with?("[")
-          ::Queries::ParamsParser::APIV3FiltersParser.parse(params[:filters])
-        else
-          FiltersParser.new(params[:filters]).parse
+          filters.map do |filter|
+            attribute = filter.keys.first # there should only be one attribute per filter
+            {
+              attribute:,
+              operator: filter[attribute]["operator"],
+              values: filter[attribute]["values"]
+            }
+          end
         end
-      end
-
-      def parse_orders_from_params(params)
-        JSON.parse(params[:sortBy])
-            .to_h
-            .map { |k, v| { attribute: k, direction: v } }
-      rescue JSON::ParserError
-        [{ attribute: "invalid", direction: "asc" }]
-      end
-
-      def parse_columns_from_params(params)
-        params[:columns].split
       end
     end
   end
