@@ -663,6 +663,16 @@ RSpec.describe WorkPackages::SetAttributesService,
                           description: "is an error state (to be detected by contract), " \
                                        "and % complete and work are kept"
         end
+
+        context "when remaining work is set and work is unset" do
+          let(:call_attributes) { { estimated_hours: nil, remaining_hours: 6.7 } }
+          let(:expected_attributes) { call_attributes.dup }
+          let(:expected_kept_attributes) { %w[done_ratio] }
+
+          it_behaves_like "service call",
+                          description: "% complete is kept and work is kept unset and not recomputed" \
+                                       "(error state to be detected by contract)"
+        end
       end
     end
   end

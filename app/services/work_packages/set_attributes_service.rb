@@ -372,7 +372,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def update_estimated_hours
     return unless WorkPackage.use_field_for_done_ratio?
-    return if work_package.estimated_hours_changed?
+    return if work_package.estimated_hours_came_from_user?
     return unless work_package.remaining_hours_changed?
 
     work = work_package.estimated_hours
