@@ -120,6 +120,11 @@ module Pages
                                  visible: :hidden)
       end
 
+      def expect_filter_count(count)
+        expect(page)
+          .to have_css('[data-test-selector="filters-button-counter"]', text: count)
+      end
+
       def expect_no_project_create_button
         expect(page).to have_no_css('[data-test-selector="project-new-button"]')
       end

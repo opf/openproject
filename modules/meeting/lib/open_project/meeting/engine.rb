@@ -171,6 +171,10 @@ module OpenProject::Meeting
       PermittedParams.permit(:search, :meetings)
     end
 
+    add_api_path :meetings do
+      "#{root}/meetings"
+    end
+
     add_api_path :meeting do |id|
       "#{root}/meetings/#{id}"
     end

@@ -338,7 +338,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
               direction: "desc"
             }
           ],
-          selects: %w[created_at name]
+          selects: %w[description name]
         }
       end
 
@@ -364,7 +364,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
 
       it "has the selects" do
         expect(find.selects.map(&:attribute))
-          .to eq(%i[created_at name])
+          .to eq(%i[description name])
       end
     end
 
@@ -460,7 +460,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
       let(:id) { nil }
       let(:params) do
         {
-          selects: %w[created_at project_status]
+          selects: %w[description project_status]
         }
       end
 
@@ -486,7 +486,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
 
       it "has the selects overwritten" do
         expect(find.selects.map(&:attribute))
-          .to eq(%i[created_at project_status])
+          .to eq(%i[description project_status])
       end
     end
 
@@ -582,7 +582,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
       let(:id) { 42 }
       let(:params) do
         {
-          selects: %w[created_at project_status]
+          selects: %w[description project_status]
         }
       end
 
@@ -608,7 +608,7 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
 
       it "has the selects specified by the params" do
         expect(find.selects.map(&:attribute))
-          .to eq(%i[created_at project_status])
+          .to eq(%i[description project_status])
       end
     end
 
@@ -658,6 +658,44 @@ RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_col
       it "has only the available fields (non admin only and only existing cf)" do
         expect(find.selects.map(&:attribute))
           .to eq(%i[name cf_1]) # rubocop:disable Naming/VariableNumber
+      end
+    end
+
+    context "with an integer id with non existing selects, filters and orders" do
+      let(:id) { persisted_query.id }
+
+      let(:persisted_query) do
+        build_stubbed(:project_query) do |query|
+          query.order(id: :asc, blubs: :desc)
+          query.where(:project_status, "=", [Project.status_codes[:on_track].to_s])
+          query.where(:blubs, "=", [123])
+          query.select(:project_status, :name, :blubs)
+        end
+      end
+
+      it "returns a project query" do
+        expect(find)
+          .to be_a(Queries::Projects::ProjectQuery)
+      end
+
+      it "keeps the name" do
+        expect(find.name)
+          .to eql(persisted_query.name)
+      end
+
+      it "has the filters of the persisted query reduced to the valid ones" do
+        expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq(persisted_query.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+      end
+
+      it "has the orders reduced to the valid ones" do
+        expect(find.orders.map { |order| [order.attribute, order.direction] })
+          .to eq [%i[id asc]]
+      end
+
+      it "has the selects reduced to the valid ones" do
+        expect(find.selects.map(&:attribute))
+          .to eq(%i[project_status name])
       end
     end
   end

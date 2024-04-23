@@ -64,6 +64,11 @@ module Storages
       namespace("models") do
         register(:managed_folder_identifier, ManagedFolderIdentifier::Nextcloud)
       end
+
+      namespace("authentication") do
+        register(:userless, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserLess, call: false)
+        register(:userbound, StorageInteraction::AuthenticationStrategies::NextcloudStrategies::UserBound)
+      end
     end
   end
 end

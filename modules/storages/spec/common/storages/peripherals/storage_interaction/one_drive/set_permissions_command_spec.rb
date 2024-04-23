@@ -63,7 +63,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
     after do
       Storages::Peripherals::Registry
         .resolve("one_drive.commands.delete_folder")
-        .call(storage:, location: path)
+        .call(storage:, auth_strategy: ,location: path)
     end
 
     context "when trying to access a non-existing driveItem" do
@@ -152,7 +152,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
           .to have_received(:warn)
                 .with(command: described_class,
                       message: nil,
-                      data: { body: "/usr/local/bundle/gems/httpx-1.2.3/lib/httpx/response.rb:260:in `full_message': timed out while waiting on select (HTTPX::ConnectTimeoutError)\n",
+                      data: { body: match_regex(%r{/lib/httpx/response.rb:260:in `full_message': timed out while waiting on select \(HTTPX::ConnectTimeoutError\)\n$}),
                               status: nil }).once
       end
     end
@@ -173,5 +173,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
           .json(symbolize_keys: true)
           .fetch(:value)
     end
+  end
+
+  def auth_strategy
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
   end
 end
