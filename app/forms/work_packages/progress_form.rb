@@ -97,7 +97,7 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   def ensure_only_one_error_for_remaining_work_exceeding_work
     if work_package.errors.added?(:remaining_hours, :cant_exceed_work) &&
-       work_package.errors.added?(:estimated_hours, :cant_be_inferior_to_remaining_work)
+      work_package.errors.added?(:estimated_hours, :cant_be_inferior_to_remaining_work)
       error_to_delete =
         if @focused_field == :estimated_hours
           :remaining_hours
@@ -156,8 +156,10 @@ class WorkPackages::ProgressForm < ApplicationForm
     errors = @work_package.errors.where(name)
     if user_value = errors.map { |error| error.options[:value] }.find { !_1.nil? }
       user_value
-    else
+    elsif name == :done_ratio
       format_to_smallest_fractional_part(@work_package.public_send(name))
+    else
+      format_to_duration(@work_package.public_send(name))
     end
   end
 
@@ -165,6 +167,13 @@ class WorkPackages::ProgressForm < ApplicationForm
     return number if number.nil?
 
     number % 1 == 0 ? number.to_i : number
+  end
+
+  def format_to_duration(number)
+    return number if number.nil?
+
+    # Multiply by 3600 to convert hours to seconds
+    ChronicDuration.output(number * 3600, keep_zero: true)
   end
 
   def default_field_options(name)
