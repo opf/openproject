@@ -64,8 +64,6 @@ To add a widget to the project overview, click on the **+ button** on the top ri
 
 2. Choose which kind of widget you want to add.
 
-Choose the most appropriate type of widget from the list.
-
 ![add widget](image-20191112142303373.png)
 
 

@@ -12,7 +12,7 @@ keywords: project attributes, project settings, enable, disable, project admin
 
 This guide is aimed at project administrators who want to enable or disable certain project attributes for their project. 
 
->**Note:**  If you are an instance admin and would like to create, modify or add project attributes, please read our [admin guide to project attributes](../../../system-admin-guide/projects/project-attributes).
+>**Note:**  If you are an instance admin and would like to create, modify or add project attributes, please read our [admin guide to project attributes](../../../../system-admin-guide/projects/project-attributes).
 
 Navigate to **Project settings** → **Project attributes**. 
 
