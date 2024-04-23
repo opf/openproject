@@ -605,8 +605,8 @@ ja:
         created: "作成する"
         scheduled: "スケジュール済"
         commented: "コメント"
-        processed: "processed"
-        prioritized: "prioritized"
+        processed: "処理済み"
+        prioritized: "優先"
         dateAlert: "Date alert"
         shared: "shared"
       date_alerts:

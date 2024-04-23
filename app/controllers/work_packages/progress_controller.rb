@@ -184,6 +184,6 @@ class WorkPackages::ProgressController < ApplicationController
   end
 
   def formatted_duration(hours)
-    API::V3::Utilities::DateTimeFormatter.format_duration_from_hours(hours)
+    API::V3::Utilities::DateTimeFormatter.format_duration_from_hours(hours, allow_nil: true)
   end
 end

@@ -597,6 +597,19 @@ RSpec.describe WorkPackages::SetAttributesService,
                                        "and remaining work is updated and rounded to 2 decimals"
         end
 
+        context "when work is set to a string" do
+          let(:call_attributes) { { estimated_hours: "I am a string" } }
+          let(:expected_attributes) { { estimated_hours: 0.0, remaining_hours: 0.0 } }
+
+          it "keeps the original string value in the _before_type_cast method " \
+             "so that validation can detect it is invalid" do
+            allow(work_package).to receive(:save)
+            instance.call(call_attributes)
+
+            expect(work_package.estimated_hours_before_type_cast).to eq("I am a string")
+          end
+        end
+
         context "when work and remaining work are set" do
           let(:call_attributes) { { estimated_hours: 10.0, remaining_hours: 0 } }
           let(:expected_attributes) { call_attributes.merge(done_ratio: 100) }

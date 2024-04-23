@@ -91,7 +91,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
 
         expect(wp_parent_consistent.last_journal.get_changes)
           .to include("derived_done_ratio" => [nil, 60],
-                      "cause" => [nil, { "feature" => "progress_calculation_changed", "type" => "system_update" }])
+                      "cause" => [nil, { "feature" => "progress_calculation_adjusted", "type" => "system_update" }])
       end
     end
 
@@ -163,7 +163,7 @@ RSpec.describe UpdateProgressCalculation, type: :model do
       wp_only_pc_set = work_packages.first
       expect(wp_only_pc_set.last_journal.details).to include("done_ratio" => [60, nil])
       expect(wp_only_pc_set.last_journal.cause).to eq("type" => "system_update",
-                                                      "feature" => "progress_calculation_changed")
+                                                      "feature" => "progress_calculation_adjusted_from_disabled_mode")
     end
 
     context "when all unset" do
@@ -288,6 +288,26 @@ RSpec.describe UpdateProgressCalculation, type: :model do
   context "when in work-based mode" do
     before do
       Setting.work_package_done_ratio = "field"
+    end
+
+    it "creates a journal entry for modified work packages to indicate that progress calculation was updated" do
+      work_package_adjusted, work_package_not_adjusted = expect_migrates(
+        from: <<~TABLE,
+          subject                   | work | remaining work | % complete
+          work package adjusted     |  10h |                |
+          work package not adjusted |  10h |            10h |         0%
+        TABLE
+        to: <<~TABLE
+          subject                   | work | remaining work | % complete
+          work package adjusted     |  10h |            10h |         0%
+          work package not adjusted |  10h |            10h |         0%
+        TABLE
+      )
+      expect(work_package_adjusted.journals.count).to eq(2)
+      expect(work_package_adjusted.last_journal.cause)
+        .to eq("type" => "system_update",
+               "feature" => "progress_calculation_adjusted")
+      expect(work_package_not_adjusted.journals.count).to eq(1)
     end
 
     context "when all unset" do
@@ -526,6 +546,26 @@ RSpec.describe UpdateProgressCalculation, type: :model do
 
     before do
       Setting.work_package_done_ratio = "status"
+    end
+
+    it "creates a journal entry for modified work packages to indicate that progress calculation was updated" do
+      wp_adjusted, wp_not_adjusted = expect_migrates(
+        from: <<~TABLE,
+          subject         | status      | work | remaining work | % complete
+          wp adjusted     | Done (100%) |  10h |                |
+          wp not adjusted | Done (100%) |  10h |             0h |       100%
+        TABLE
+        to: <<~TABLE
+          subject         | status      | work | remaining work | % complete
+          wp adjusted     | Done (100%) |  10h |             0h |       100%
+          wp not adjusted | Done (100%) |  10h |             0h |       100%
+        TABLE
+      )
+      expect(wp_adjusted.journals.count).to eq(2)
+      expect(wp_adjusted.last_journal.cause)
+        .to eq("type" => "system_update",
+               "feature" => "progress_calculation_adjusted")
+      expect(wp_not_adjusted.journals.count).to eq(1)
     end
 
     context "when only % Complete is set, and is the same as its status" do

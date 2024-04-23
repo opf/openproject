@@ -982,12 +982,14 @@ zh-CN:
               only_same_project_categories_allowed: "工作包的类别必须包含在相同的项目工作包中。"
               does_not_exist: "指定的类别不存在。"
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "不能低于 \"剩余工时\"。"
+              cant_be_inferior_to_remaining_work: "不能低于剩余工时。"
               must_be_set_when_remaining_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
               only_values_greater_or_equal_zeroes_allowed: "必须 > = 0。"
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "不能超过 \"工时\"。"
-              must_be_set_when_work_is_set: "必须在设置 \"剩余工时 \"时设置。"
+              cant_exceed_work: "不能高于工时。"
+              must_be_set_when_work_is_set: "当设置工时需要。"
+              format: "%{message}"
           readonly_status: "工作包处于只读状态，因此无法更改其属性。"
         type:
           attributes:
@@ -1613,8 +1615,10 @@ zh-CN:
       system_update:
         file_links_journal: >
           从现在开始，与文件链接（存储在外部存储器中的文件）相关的活动将出现在“活动”选项卡中。以下是与已经存在的链接相关的活动的表示：
-        progress_calculation_changed: >
-          进度计算已更新。
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "配置指南"
     get_in_touch: "遇到问题了？与我们联系。"
@@ -1870,7 +1874,7 @@ zh-CN:
   label_enterprise_support: "企业支持"
   label_enterprise_addon: "企业版附加组件"
   label_environment: "环境"
-  label_estimates_and_time: "估算与工时"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "是"
   label_everywhere: "任何位置"
   label_example: "示例"

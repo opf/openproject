@@ -305,6 +305,19 @@ RSpec.describe "Progress modal", :js, :with_cuprite do
           work_field.activate!
           modal_status_field.expect_modal_field_value("in progress (50%)", disabled: true)
         end
+
+        it "can open the modal, then save without modifying anything" do
+          work_package_create_page.visit!
+          work_package_create_page.set_attributes({ subject: "hello" })
+
+          work_field = work_package_create_page.edit_field(:estimatedTime)
+          work_field.activate!
+          work_field.submit_by_clicking_save
+          work_package_create_page.expect_no_toaster(type: "error")
+
+          work_package_create_page.save!
+          work_package_table.expect_and_dismiss_toaster(message: "Successful creation.")
+        end
       end
     end
   end

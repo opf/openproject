@@ -352,7 +352,7 @@ ko:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>작업 패키지 계층 구조 전반에서 진행률 보고를 구현합니다.</li> <li>프로젝트 개요 페이지에서 프로젝트 특성을 체계적으로 관리합니다.</li> <li>프로젝트 목록과 프로젝트 개요에서 사용자 지정 필드의 보기가 간소화되었습니다.</li> <li>세련된 Primer 디자인을 갖춘 통합된 페이지 헤더가 있습니다.</li> <li>첨부 파일 업로드, 책임자, 미팅 기록과 같은 새로운 기능으로 미팅을 개선합니다.</li> <li>비정상적인 파일 저장소에 대한 자동 알림을 받고 토글 옵션으로 제어합니다.</li> <li>프로젝트를 복사할 때 OneDrive/SharePoint의 자동으로 관리되는 프로젝트 폴더를 복사합니다.</li> <li>프로젝트 멤버십을 취소할 때 작업 패키지의 공유를 제거하려면 관리자에게 요청합니다.</li> <li>팀 플래너에서 4주 및 8주 표시 모드로 계획을 개선합니다.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -642,7 +642,7 @@ ko:
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: "새 알림이 있습니다."
-          link_text: "Click here to load them."
+          link_text: "로드하려면 여기를 클릭하세요."
       menu:
         accountable: "담당"
         by_project: "프로젝트 기준 읽지 않음"
@@ -925,7 +925,7 @@ ko:
       message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "작업 견적 및 진행률"
       baseline:
         addition_label: "비교 기간 내에서 보기에 추가됨"
         removal_label: "비교 기간 내에서 보기에서 제거됨"
@@ -1326,5 +1326,5 @@ ko:
         Close: "닫기"
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        network_off: "네트워크 문제가 있습니다."
+        network_on: "네트워크가 복원되었습니다. 작업 중입니다."

@@ -33,7 +33,7 @@ it:
             labels:
               invalid_schema: "deve essere un array di hash con le chiavi: colore, titolo"
   project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Show GitLab content"
+  permission_show_gitlab_content: "Mostra il contenuto di GitLab"
   gitlab_integration:
     merge_request_opened_comment: >
       **MR aperta:** La richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) per [%{repository}](%{repository_url}) è stata aperta da [%{gitlab_user}](%{gitlab_user_url}).

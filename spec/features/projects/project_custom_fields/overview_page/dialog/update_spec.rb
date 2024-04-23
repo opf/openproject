@@ -651,5 +651,57 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         end
       end
     end
+
+    describe "with hidden fields" do
+      let(:section) { section_for_input_fields }
+      let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+      let(:custom_field) { string_project_custom_field }
+      let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+
+      before do
+        all_fields.without(string_project_custom_field).each { |cf| cf.update(visible: false) }
+      end
+
+      it "does not clears them after a project admin updates" do
+        # TODO: To make the expectations correct, we create an empty custom value for the other
+        # project's custom field too. This would happen in the code anyway.
+        # Due to the design of the acts_as_customizable plugin and the patch, it will create
+        # empty custom values for all the existing custom fields, regardless if they are
+        # enabled in the project or not. This happens, because we want to maintain backward
+        # compatibility with the existing api, and allow the API to automatically enable
+        # custom fields without being activated in the project. This implies in defining
+        # all the custom field accessors on every project, and that leads to having the
+        # empty custom values created. This is a compromise to avoid further patching the
+        # aac plugin and increase complexity. We will also get rid of the patch and this
+        # behaviour in a latter ticket https://community.openproject.org/wp/53729 .
+        # An extra expectation is added to make sure we don't activate other custom fields,
+        # so there are no unwanted side effects.
+
+        create(:custom_value,
+               custom_field: boolean_project_custom_field_activated_in_other_project,
+               customized: project)
+
+        expected_custom_values =
+          project.custom_values.where.not(custom_field: string_project_custom_field)
+          .pluck(:customized_type, :customized_id, :custom_field_id, :value)
+
+        expected_custom_fields = project.project_custom_fields
+
+        overview_page.visit_page
+
+        overview_page.open_edit_dialog_for_section(section)
+
+        field.fill_in(with: "new value")
+        dialog.submit
+        dialog.expect_closed
+
+        custom_values =
+          project.custom_values.where.not(custom_field: string_project_custom_field)
+          .pluck(:customized_type, :customized_id, :custom_field_id, :value)
+
+        expect(custom_values).to eq(expected_custom_values)
+        expect(project.project_custom_fields.reload).to eq(expected_custom_fields)
+      end
+    end
   end
 end

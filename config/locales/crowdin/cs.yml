@@ -1007,12 +1007,14 @@ cs:
               only_same_project_categories_allowed: "Kategorie pracovního balíčku musí být v rámci stejného projektu jako pracovního balíčku."
               does_not_exist: "Zadaná kategorie neexistuje."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "musí být větší nebo rovno 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "Pracovní balíček je ve stavu jen pro čtení, takže jeho atributy nelze změnit."
         type:
           attributes:
@@ -1716,8 +1718,10 @@ cs:
       system_update:
         file_links_journal: >
           Od této chvíle se zde v záložce Aktivita zobrazí činnost související s odkazy na soubory (soubory uložené v externím úložišti). Níže uvedené představují činnost týkající se již existujících:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Konfigurační manuál"
     get_in_touch: "Máte otázky? Spojte se s námi."
@@ -1973,7 +1977,7 @@ cs:
   label_enterprise_support: "Podpora pro Enterprise edici"
   label_enterprise_addon: "Doplňky Enterprise Edice"
   label_environment: "Prostředí"
-  label_estimates_and_time: "Odhady a čas"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "je"
   label_everywhere: "všude"
   label_example: "Příklad"
@@ -3339,7 +3343,7 @@ cs:
   warning_user_limit_reached: >
     Přidání dalších uživatelů překročí aktuální limit. Obraťte se na správce pro zvýšení limitu uživatelů, abyste zajistili, že externí uživatelé mají přístup k této instanci.
   warning_user_limit_reached_admin: >
-    Přidání dalších uživatelů překročí aktuální limit. Obraťte se na správce pro zvýšení limitu uživatelů, abyste zajistili, že externí uživatelé mají přístup k této instanci.
+    Přidáním dalších uživatelů překročíte aktuální limit. <a href="%{upgrade_url}">upgradujte svůj plán</a>, abyste mohli zajistit, že externí uživatelé budou mít přístup k této instanci.
   warning_user_limit_reached_instructions: >
     Limit počtu uživatelů (%{current}/%{max} aktivních uživatelů) dosažen. Prosím kontaktujte sales@openproject.com a upgradujte vaši Enterprise Edition a přidejte další uživatele.
   warning_protocol_mismatch_html: >

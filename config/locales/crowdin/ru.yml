@@ -1006,12 +1006,14 @@ ru:
               only_same_project_categories_allowed: "Категория пакета работ должна быть в рамках того же проекта, что и пакет работ."
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
-              cant_be_inferior_to_remaining_work: "can't be inferior to 'Remaining work'."
-              must_be_set_when_remaining_work_is_set: "must be set when 'Remaining work' is set."
-              only_values_greater_or_equal_zeroes_allowed: "должно быть > = 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
             remaining_hours:
-              cant_exceed_work: "can't exceed 'Work'."
-              must_be_set_when_work_is_set: "must be set when 'Work' is set."
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "Пакет работ находится в статусе доступном только для чтения, поэтому его атрибуты не могут быть изменены."
         type:
           attributes:
@@ -1715,8 +1717,10 @@ ru:
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Руководство по конфигурации"
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1972,7 +1976,7 @@ ru:
   label_enterprise_support: "Поддержка корпоративной версии"
   label_enterprise_addon: "Корпоративное дополнение"
   label_environment: "Переменные среды"
-  label_estimates_and_time: "Оценки и время"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"
