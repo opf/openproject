@@ -80,7 +80,7 @@ x-op-app: &app
     - "${OPDATA:-opdata}:/var/openproject/assets"
 
 # configuration cut off at this point.
-# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/13/compose/docker-compose.yml
+# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/14/compose/docker-compose.yml
 ```
 
 
@@ -117,7 +117,7 @@ x-op-app: &app
     # ... more environment variables
 
 # configuration cut off at this point.
-# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/13/compose/docker-compose.yml
+# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/14/compose/docker-compose.yml
 ```
 
 
