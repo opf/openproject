@@ -26,8 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Include hook code here
-require File.dirname(__FILE__) + "/lib/acts_as_watchable"
-require File.dirname(__FILE__) + "/lib/acts_as_watchable/routes.rb"
+class FavoritesController < ApplicationController
+  before_action :find_favored_by_object
+  before_action :require_login
+  before_action :check_flag
 
-ActiveRecord::Base.include Redmine::Acts::Watchable
+  def favorite
+    if @favored.visible?(User.current)
+      set_favored(User.current, true)
+    else
+      render_403
+    end
+  end
+
+  def unfavorite
+    set_favored(User.current, false)
+  end
+
+  private
+
+  def check_flag
+    render_403 unless OpenProject::FeatureDecisions.favorite_projects_active?
+  end
+
+  def find_favored_by_object
+    model_name = params[:object_type]
+    klass = ::OpenProject::Acts::Favorable::Registry.instance(model_name)
+    @favored = klass&.find(params[:object_id])
+    render_404 unless @favored
+  end
+
+  def set_favored(user, favored)
+    @favored.set_favored(user, favored:)
+
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: home_url, status: 303) }
+      format.json { head :no_content }
+    end
+  end
+end

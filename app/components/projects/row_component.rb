@@ -29,6 +29,8 @@
 #++
 module Projects
   class RowComponent < ::RowComponent
+    delegate :favored_project_ids, to: :table
+
     def project
       model.first
     end
@@ -40,6 +42,12 @@ module Projects
     # Hierarchy cell is just a placeholder
     def hierarchy
       ""
+    end
+
+    def favored
+      if favored_project_ids.include?(project.id)
+        render(Primer::Beta::Octicon.new(icon: "star-fill", classes: "op-primer--star-icon", "aria-label": I18n.t(:label_favoured)))
+      end
     end
 
     def column_value(column)

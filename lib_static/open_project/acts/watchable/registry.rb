@@ -26,42 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  ::Queries::Register.register(ProjectQuery) do
-    filter Filters::AncestorFilter
-    filter Filters::TypeFilter
-    filter Filters::ActiveFilter
-    filter Filters::TemplatedFilter
-    filter Filters::PublicFilter
-    filter Filters::NameFilter
-    filter Filters::NameAndIdentifierFilter
-    filter Filters::MemberOfFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::CustomFieldFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::LatestActivityAtFilter
-    filter Filters::PrincipalFilter
-    filter Filters::ParentFilter
-    filter Filters::IdFilter
-    filter Filters::ProjectStatusFilter
-    filter Filters::UserActionFilter
-    filter Filters::VisibleFilter
-    filter Filters::FavoredFilter
+module OpenProject
+  module Acts
+    module Watchable
+      module Registry
+        def self.models
+          @models ||= Set.new
+        end
 
-    order Orders::DefaultOrder
-    order Orders::LatestActivityAtOrder
-    order Orders::RequiredDiskSpaceOrder
-    order Orders::CustomFieldOrder
-    order Orders::ProjectStatusOrder
-    order Orders::NameOrder
-    order Orders::TypeaheadOrder
+        def self.exists?(model)
+          models.include?(model)
+        end
 
-    select Selects::CreatedAt
-    select Selects::CustomField
-    select Selects::Default
-    select Selects::LatestActivityAt
-    select Selects::RequiredDiskSpace
-    select Selects::Status
-    select Selects::Favored
+        def self.instance(model_name)
+          models.detect { |cls| cls.name == model_name.singularize.camelize }
+        end
+
+        def self.add(*models)
+          models.each do |model|
+            unless model.ancestors.include?(::OpenProject::Acts::Watchable)
+              raise ArgumentError.new("Model #{model} does not include acts_as_watchable")
+            end
+
+            self.models << model
+          end
+        end
+      end
+    end
   end
 end

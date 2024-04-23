@@ -25,43 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module OpenProject
+  module Acts
+    module Watchable
+      module Routes
+        mattr_accessor :models
 
-module Queries::Projects
-  ::Queries::Register.register(ProjectQuery) do
-    filter Filters::AncestorFilter
-    filter Filters::TypeFilter
-    filter Filters::ActiveFilter
-    filter Filters::TemplatedFilter
-    filter Filters::PublicFilter
-    filter Filters::NameFilter
-    filter Filters::NameAndIdentifierFilter
-    filter Filters::MemberOfFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::CustomFieldFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::LatestActivityAtFilter
-    filter Filters::PrincipalFilter
-    filter Filters::ParentFilter
-    filter Filters::IdFilter
-    filter Filters::ProjectStatusFilter
-    filter Filters::UserActionFilter
-    filter Filters::VisibleFilter
-    filter Filters::FavoredFilter
+        def self.matches?(request)
+          params = request.path_parameters
 
-    order Orders::DefaultOrder
-    order Orders::LatestActivityAtOrder
-    order Orders::RequiredDiskSpaceOrder
-    order Orders::CustomFieldOrder
-    order Orders::ProjectStatusOrder
-    order Orders::NameOrder
-    order Orders::TypeaheadOrder
-
-    select Selects::CreatedAt
-    select Selects::CustomField
-    select Selects::Default
-    select Selects::LatestActivityAt
-    select Selects::RequiredDiskSpace
-    select Selects::Status
-    select Selects::Favored
+          Registry.instance(params[:object_type]) &&
+            /\d+/.match(params[:object_id])
+        end
+      end
+    end
   end
 end

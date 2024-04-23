@@ -26,42 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  ::Queries::Register.register(ProjectQuery) do
-    filter Filters::AncestorFilter
-    filter Filters::TypeFilter
-    filter Filters::ActiveFilter
-    filter Filters::TemplatedFilter
-    filter Filters::PublicFilter
-    filter Filters::NameFilter
-    filter Filters::NameAndIdentifierFilter
-    filter Filters::MemberOfFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::CustomFieldFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::LatestActivityAtFilter
-    filter Filters::PrincipalFilter
-    filter Filters::ParentFilter
-    filter Filters::IdFilter
-    filter Filters::ProjectStatusFilter
-    filter Filters::UserActionFilter
-    filter Filters::VisibleFilter
-    filter Filters::FavoredFilter
-
-    order Orders::DefaultOrder
-    order Orders::LatestActivityAtOrder
-    order Orders::RequiredDiskSpaceOrder
-    order Orders::CustomFieldOrder
-    order Orders::ProjectStatusOrder
-    order Orders::NameOrder
-    order Orders::TypeaheadOrder
-
-    select Selects::CreatedAt
-    select Selects::CustomField
-    select Selects::Default
-    select Selects::LatestActivityAt
-    select Selects::RequiredDiskSpace
-    select Selects::Status
-    select Selects::Favored
+module FavoriteHelper
+  # Call the path helper to create a favorite/unfavorite path
+  def build_favorite_path(object, **params)
+    favorite_path(object_type: object.model_name.route_key, object_id: object.id, **params)
   end
 end

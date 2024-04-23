@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,30 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::ProjectsFiltersComponent < FiltersComponent
-  def allowed_filters
-    super
-      .select { |f| allowed_filter?(f) }
-      .sort_by(&:human_name)
+class Queries::Projects::Selects::Favored < Queries::Selects::Base
+  def self.key
+    :favored
   end
 
-  private
+  def self.available?
+    true
+  end
 
-  def allowed_filter?(filter)
-    allowlist = [
-      Queries::Projects::Filters::ActiveFilter,
-      Queries::Projects::Filters::TemplatedFilter,
-      Queries::Projects::Filters::PublicFilter,
-      Queries::Projects::Filters::ProjectStatusFilter,
-      Queries::Projects::Filters::MemberOfFilter,
-      Queries::Projects::Filters::CreatedAtFilter,
-      Queries::Projects::Filters::LatestActivityAtFilter,
-      Queries::Projects::Filters::NameAndIdentifierFilter,
-      Queries::Projects::Filters::TypeFilter,
-      Queries::Projects::Filters::FavoredFilter
-    ]
-    allowlist << Queries::Filters::Shared::CustomFields::Base if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-
-    allowlist.detect { |clazz| filter.is_a? clazz }
+  def caption
+    I18n.t(:label_favoured)
   end
 end

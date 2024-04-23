@@ -28,26 +28,28 @@
 
 module OpenProject
   module Acts
-    module Watchable
-      module Routes
-        mattr_accessor :models
-
-        def self.matches?(request)
-          params = request.path_parameters
-
-          watched?(params[:object_type]) &&
-            /\d+/.match(params[:object_id])
+    module Favorable
+      module Registry
+        def self.models
+          @models ||= Set.new
         end
 
-        def self.watched?(object)
-          watchable_object? object
+        def self.exists?(model)
+          models.include?(model)
         end
 
-        def self.watchable_object?(object)
-          klass = object.to_s.classify.constantize
-          klass.included_modules.include? Redmine::Acts::Watchable
-        rescue StandardError
-          false
+        def self.instance(model_name)
+          models.detect { |cls| cls.name == model_name.singularize.camelize }
+        end
+
+        def self.add(*models)
+          models.each do |model|
+            unless model.ancestors.include?(::OpenProject::Acts::Watchable)
+              raise ArgumentError.new("Model #{model} does not include acts_as_watchable")
+            end
+
+            self.models << model
+          end
         end
       end
     end

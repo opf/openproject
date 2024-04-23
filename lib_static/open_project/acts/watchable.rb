@@ -25,9 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require_relative "watchable/registry"
+require_relative "watchable/routes"
 
-# ActsAsWatchable
-module Redmine
+module OpenProject
   module Acts
     module Watchable
       def self.included(base)
@@ -53,7 +54,7 @@ module Redmine
         #                 is allowed to watch
 
         def acts_as_watchable(options = {})
-          return if included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
+          return if included_modules.include?(::OpenProject::Acts::Watchable::InstanceMethods)
 
           acts_as_watchable_enforce_project_association
 
@@ -69,9 +70,10 @@ module Redmine
             class_attribute :acts_as_watchable_options
 
             self.acts_as_watchable_options = options
+            ::OpenProject::Acts::Watchable::Registry.add(self)
           end
 
-          send :prepend, Redmine::Acts::Watchable::InstanceMethods
+          send :prepend, ::OpenProject::Acts::Watchable::InstanceMethods
         end
 
         def acts_as_watchable_enforce_project_association
@@ -112,10 +114,10 @@ module Redmine
           active_scope = Principal.not_locked.user
 
           allowed_scope = if project.public?
-                            User.allowed(self.class.acts_as_watchable_permission, project)
-                          else
-                            User.allowed_members_on_work_package(self.class.acts_as_watchable_permission, self)
-                          end
+            User.allowed(self.class.acts_as_watchable_permission, project)
+          else
+            User.allowed_members_on_work_package(self.class.acts_as_watchable_permission, self)
+          end
 
           active_scope.where(id: allowed_scope)
         end
@@ -158,7 +160,7 @@ module Redmine
         def watched_by?(user)
           user.present? &&
             ((watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id }) ||
-             watcher_user_ids.any? { |uid| uid == user.id })
+              watcher_user_ids.any? { |uid| uid == user.id })
         end
 
         module ClassMethods
