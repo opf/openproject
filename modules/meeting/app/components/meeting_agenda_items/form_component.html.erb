@@ -29,20 +29,6 @@
           render(MeetingAgendaItem::Notes.new(f))
         end
 
-        grid.with_area(:add_note,
-                       display: display_notes_add_button_value,
-                       data: { 'meeting-agenda-item-form-target': "notesAddButton" }) do
-          render(Primer::Beta::Button.new(
-            scheme: :secondary,
-            data: {
-              action: 'click->meeting-agenda-item-form#addNotes keydown.enter->meeting-agenda-item-form#addNotes'
-            }
-          )) do |component|
-            component.with_leading_visual_icon(icon: :plus)
-            MeetingAgendaItem.human_attribute_name(:notes)
-          end
-        end
-
         grid.with_area(:actions) do
           flex_layout do |flex|
             flex.with_column(mr: 2) do
