@@ -41,7 +41,7 @@ OpenProject offers two modes for reporting progress:
 
 This means that for a work package to have a value for %&nbsp;Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
 
-**[IMG: Work-based progress reporting]**
+![Work estimates and progress pop-over with work-based progress reporting](progress-popover-work-based.png)
 
 This allows you to edit Work or Remaining work and get a preview of the updated %&nbsp;Complete value before saving changes. Changing any one field will automatically update the other two.
 
@@ -59,11 +59,11 @@ In this mode, each status is associated with a fixed %&nbsp;Complete value in th
 
 Unlike in work-based progress reporting mode, in status-based mode, Remaining work is an automatically calculated value that cannot be manually edited.
 
->**Remaining work** is **Work** times **(100% - %&nbsp;Complete)**, expressed in hours. For example, if the %&nbsp;Complete for a selected status is 25% and Work is 20h, Remaining work is automatically set to 15h.
+>**Remaining work** is **Work** times **(100% - %&nbsp;Complete)**, expressed in hours. For example, if the %&nbsp;Complete for a selected status is 50% and Work is 10h, Remaining work is automatically set to 5h.
+
+![Work estimates and progress pop-over with status-based progress reporting](progress-popover-status-based.png)
 
 In Status-based progress reporting mode, Work is not a required value. However, if Work is set, Remaining work is automatically calculated. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
-
-**[IMG: Status-based progress reporting]**
 
 This allows you to edit %&nbsp;Complete (by changing status) or Work and get a preview of the updated Remaining work before saving changes.
 
@@ -74,7 +74,7 @@ This allows you to edit %&nbsp;Complete (by changing status) or Work and get a p
 
 OpenProject will automatically show totals for Work, Remaining work and % Complete in a work package hierarchy (any parent with children). These appears in a work package table as a number with a Σ sign next to it, indicating that it is a sum of the values of the parent _and_ children.
 
-**[IMG: Hierarchy example]**
+![Hierarchy totals for Work, Remaining work and % Complete](hierarchy-totals.png)
 
 > **Note**: The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will advance the sum of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done. 
 
@@ -85,7 +85,7 @@ In some cases, you might want to exclude certain work packages (like those with 
 
 A small info icon will appear next to excluded values to remind you of this fact:
 
-**[IMG: Excluded work packages warning]**
+![Warning that a work package type is excluded from hierarchy totals](progress-work-estimates-excludedFromParent.png)
 
 ## Changing modes 
 
@@ -99,7 +99,7 @@ However, when switching to work-based mode, work packages with a %&nbsp;Complete
 
 In this case, OpenProject will retain the original value for %&nbsp;Complete that was there mode change, but will not allow you to edit it. Instead, you will be able to input Work and Remaining work, thereby overwriting the previous value with a new computed value:
 
-[IMG: Popover with % Complete displayed as a non-editable value, with empty Work and Remaining work fields]
+![Work estimates and progress pop-over with only the previous % Complete value](progress-popover-percentage-complete-only.png)
 
 ## Work- to status-based
 
