@@ -17,7 +17,7 @@ To learn about the options for configuring the transition from one status to ano
 
 ## Create a new work package status
 
-To create a new work package status click the green ***+ New Status*** icon. 
+To create a new work package status click the green ***+ Status*** icon. 
 
 A new window will open, where you will be able to specify the following:
 
@@ -27,8 +27,9 @@ A new window will open, where you will be able to specify the following:
 4. Define if this status is set as default value when creating new work packages. BEWARE: If you decide to set the new status as default it will impact all work packages, existing and future ones. See more below.
 5. Check if this status sets a **work package in read-only mode**. This means no work package attributes can be changed except the status.
 6. Set a **color** for the work package status. The color appears in the status button of the work packages or in the work package table.
+<!--
 7. Check **Exclude from calculation of totals in hierarchy** if you do not want work packages with this status to *not* be included in the calculation of sums in a hierarchy. This is useful for statuses like *closed* or *rejected*.
-
+-->
 Save the new status by clicking **Create**.
 
 ![Sys-admin-work-package-new-status](Sys-admin-work-package-new-status.png)
