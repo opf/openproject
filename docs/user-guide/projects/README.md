@@ -138,7 +138,7 @@ Under the **Copy options** section you can select what additional project data a
 
 **Note**: the File storages options only apply if the template project had  [OneDrive/SharePoint](../../system-admin-guide/integrations/one-drive) with automatically managed folders activated.
 
-If you select the **File Storages: Project folders** option, both the storage and the storage folders are copied into the new project. 
+If you select the **File Storages: Project folders** option, both the storage and the storage folders are copied into the new project if automatically managed project folders were selected for the original file storage. For storages with manually managed project folders setup the copied storage will be referencing the same folder as the original project.
 
 If you de-select the **File Storages: Project folders** option, the storage is copied, but no specific folder is set up. 
 
