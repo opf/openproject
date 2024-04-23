@@ -153,7 +153,7 @@ module Projects
       end
     end
 
-    def favored_projects
+    def favored_project_ids
       @favored_projects ||= Favorite.where(user: current_user, favored_type: 'Project').pluck(:favored_id)
     end
 

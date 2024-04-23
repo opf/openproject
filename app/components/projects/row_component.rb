@@ -29,7 +29,7 @@
 #++
 module Projects
   class RowComponent < ::RowComponent
-    delegate :favored_projects, to: :table
+    delegate :favored_project_ids, to: :table
 
     def project
       model.first
@@ -45,7 +45,7 @@ module Projects
     end
 
     def favored
-      if favored_projects.include?(project.id)
+      if favored_project_ids.include?(project.id)
         render(Primer::Beta::Octicon.new(icon: "star-fill", classes: "op-primer--star-icon", "aria-label": I18n.t(:label_favoured)))
       end
     end
