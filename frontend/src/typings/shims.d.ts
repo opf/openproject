@@ -37,6 +37,10 @@ declare module '@hotwired/turbo' {
     submitForm:(form:HTMLFormElement, submitter?:HTMLElement) => void;
   }
 
+  export interface StreamElement {
+    templateElement:HTMLTemplateElement;
+  }
+
   export function start():void;
 }
 

@@ -93,6 +93,12 @@ class ProgressEditField < EditField
     input_element.native.send_keys :return
   end
 
+  def submit_by_clicking_save
+    within modal_element do
+      click_on("Save")
+    end
+  end
+
   def close!
     page.find("[data-test-selector='op-progress-modal--close-icon']").click
   end

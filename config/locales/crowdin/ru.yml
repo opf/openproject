@@ -1717,8 +1717,10 @@ ru:
       system_update:
         file_links_journal: >
           Теперь на вкладке Активность появится активность, связанная со ссылками файлов (файлы, хранящиеся во внешних хранилищах). Ниже описывается деятельность по уже существующим ссылкам:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Руководство по конфигурации"
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1974,7 +1976,7 @@ ru:
   label_enterprise_support: "Поддержка корпоративной версии"
   label_enterprise_addon: "Корпоративное дополнение"
   label_environment: "Переменные среды"
-  label_estimates_and_time: "Оценки и время"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"

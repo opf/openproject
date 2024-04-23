@@ -347,11 +347,11 @@ pt-BR:
     delete_work_package_shares_dialog:
       title: "Revogar compartilhamentos de pacotes de trabalho."
       shared_with_this_user_html:
-        one: "%{All_shared_work_packages_link} foi compartilhado com este usuário."
-        other: "%{All_shared_work_packages_link} foram compartilhados com este usuário."
+        one: "%{all_shared_work_packages_link} foi compartilhado com este usuário."
+        other: "%{all_shared_work_packages_link} foram compartilhados com este usuário."
       shared_with_this_group_html:
-        one: "%{All_shared_work_packages_link} foi compartilhado com este grupo."
-        other: "%{All_shared_work_packages_link} foram compartilhados com este grupo."
+        one: "%{all_shared_work_packages_link} foi compartilhado com este grupo."
+        other: "%{all_shared_work_packages_link} foram compartilhados com este grupo."
       shared_with_permission_html:
         one: "Apenas %{shared_work_packages_link} foi compartilhado com permissões de %{shared_role_name}."
         other: "Apenas %{shared_work_packages_link} foram compartilhados com permissões de %{shared_role_name}."
@@ -1651,8 +1651,10 @@ pt-BR:
       system_update:
         file_links_journal: >
           A partir de agora, a atividade relacionada a links de arquivos (arquivos armazenados em armazenamentos externos) aparecerá aqui na guia Atividade. O seguinte representa a atividade relacionada aos links que já existiam:
-        progress_calculation_changed: >
-          Cálculo de progresso atualizado.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Guia de configuração"
     get_in_touch: "Com dúvidas? Entre em contato conosco."
@@ -1776,7 +1778,7 @@ pt-BR:
   label_ldap_auth_source_new: "Nova conexão LDAP"
   label_ldap_auth_source: "Conexão LDAP"
   label_ldap_auth_source_plural: "Conexões LDAP"
-  label_attribute_expand_text: "O texto concluído para '%{atributo}'"
+  label_attribute_expand_text: "O texto concluído para '%{attribute}'"
   label_authentication: "Autenticação"
   label_available_global_roles: "Funções globais disponíveis"
   label_available_project_forums: "Fóruns disponíveis"
@@ -1908,7 +1910,7 @@ pt-BR:
   label_enterprise_support: "Suporte corporativo"
   label_enterprise_addon: "Complemento empresarial"
   label_environment: "Ambiente"
-  label_estimates_and_time: "Estimativas e tempo"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "é"
   label_everywhere: "em todos os lugares"
   label_example: "Exemplo"
