@@ -48,6 +48,10 @@ module OpenProject
         def acts_as_favorable
           return if included_modules.include?(::OpenProject::Acts::Favorable::InstanceMethods)
 
+          unless ::OpenProject::Acts::Favorable::Registry.exists?(self)
+            raise ArgumentError.new("You need to register #{name} to the acts_as_favorable initializer")
+          end
+
           class_eval do
             has_many :favorites, as: :favored, dependent: :delete_all, validate: false
             has_many :favoring_users, through: :favorites, source: :user, validate: false
