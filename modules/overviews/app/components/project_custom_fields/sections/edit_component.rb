@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "../show"
+module ProjectCustomFields
+  module Sections
+    class EditComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-module Pages::StructuredMeeting::Mobile
-  class Show < ::Pages::StructuredMeeting::Show
-    def expect_participants(count: 1)
-      within(meeting_details_container) do
-        expect(page).to have_text(Meeting.human_attribute_name(:participant, count:))
-        expect(page).to have_link("Show all")
-      end
-    end
+      def initialize(project:,
+                     project_custom_field_section:)
+        super
 
-    def open_participant_form
-      within(meeting_details_container) do
-        click_link_or_button "Show all"
+        @project = project
+        @project_custom_field_section = project_custom_field_section
       end
-      expect(page).to have_css("#edit-participants-dialog")
+
+      def wrapper_uniq_by
+        @project_custom_field_section.id
+      end
     end
   end
 end

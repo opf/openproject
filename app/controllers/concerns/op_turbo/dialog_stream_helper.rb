@@ -26,22 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "../show"
+module OpTurbo
+  module DialogStreamHelper
+    def respond_with_dialog(dialog_component, status: :ok, &format_block)
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: dialog_component.render_as_turbo_stream(view_context:, action: :dialog), status:
+        end
 
-module Pages::StructuredMeeting::Mobile
-  class Show < ::Pages::StructuredMeeting::Show
-    def expect_participants(count: 1)
-      within(meeting_details_container) do
-        expect(page).to have_text(Meeting.human_attribute_name(:participant, count:))
-        expect(page).to have_link("Show all")
+        yield(format) if format_block
       end
-    end
-
-    def open_participant_form
-      within(meeting_details_container) do
-        click_link_or_button "Show all"
-      end
-      expect(page).to have_css("#edit-participants-dialog")
     end
   end
 end

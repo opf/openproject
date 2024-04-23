@@ -26,22 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "../show"
+module WorkPackageMeetingsTab
+  class AddWorkPackageToMeetingDialogComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-module Pages::StructuredMeeting::Mobile
-  class Show < ::Pages::StructuredMeeting::Show
-    def expect_participants(count: 1)
-      within(meeting_details_container) do
-        expect(page).to have_text(Meeting.human_attribute_name(:participant, count:))
-        expect(page).to have_link("Show all")
-      end
-    end
+    def initialize(work_package:, meeting_agenda_item: nil)
+      super
 
-    def open_participant_form
-      within(meeting_details_container) do
-        click_link_or_button "Show all"
-      end
-      expect(page).to have_css("#edit-participants-dialog")
+      @work_package = work_package
+      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(work_package: @work_package)
     end
   end
 end
