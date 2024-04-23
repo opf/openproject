@@ -147,8 +147,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     pp pdf[:calls]
   end
 
-  def wp_title_column(wp)
-    "#{wp.type} ##{wp.id} - #{wp.subject}"
+  def wp_title_column(level, wp)
+    "#{level} #{wp.type} ##{wp.id} #{wp.subject}"
   end
 
   subject(:pdf) do
@@ -171,8 +171,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   describe "with a request for a PDF gantt" do
     it "contains correct data" do
       expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
-                                   wp_title_column(work_package_task),
-                                   wp_title_column(work_package_milestone),
+                                   wp_title_column('1.', work_package_task),
+                                   wp_title_column('2.', work_package_milestone),
                                    "1/1", export_time_formatted, query.name].join(" ")
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line
@@ -203,8 +203,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     it "contains correct data" do
       expect(pdf[:strings]).to eq [query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-                                   wp_title_column(work_package_task),
-                                   wp_title_column(work_package_milestone),
+                                   wp_title_column("1.", work_package_task),
+                                   wp_title_column("2.", work_package_milestone),
                                    "1/2", export_time_formatted, query.name,
                                    "2024 May 6 7 8", # header columns
                                    "2/2", export_time_formatted, query.name].join(" ")
@@ -241,23 +241,23 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     it "contains correct data" do
       test = [
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-        wp_title_column(work_package_task),
-        filler_work_packages.slice(0, 17).map { |wp| wp_title_column(wp) },
+        wp_title_column("1.", work_package_task),
+        filler_work_packages.slice(0, 17).map.with_index { |wp, index| wp_title_column("#{index + 2}.", wp) },
         "1/6", export_time_formatted, query.name,
 
         "2024 May 6 7 8", # header columns
         "2/6", export_time_formatted, query.name,
 
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-        filler_work_packages.slice(17, 18).map { |wp| wp_title_column(wp) },
+        filler_work_packages.slice(17, 18).map.with_index { |wp, index| wp_title_column("#{index + 19}.", wp) },
         "3/6", export_time_formatted, query.name,
 
         "2024 May 6 7 8", # header columns
         "4/6", export_time_formatted, query.name,
 
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-        filler_work_packages.slice(35, 15).map { |wp| wp_title_column(wp) },
-        wp_title_column(work_package_milestone),
+        filler_work_packages.slice(35, 15).map.with_index { |wp, index| wp_title_column("#{index + 37}.", wp) },
+        wp_title_column("52.", work_package_milestone),
         "5/6", export_time_formatted, query.name,
 
         "2024 May 6 7 8", # header columns

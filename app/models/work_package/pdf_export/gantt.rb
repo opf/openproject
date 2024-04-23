@@ -39,10 +39,17 @@
 # 2. Paint the Gantt chart into the PDF
 
 module WorkPackage::PDFExport::Gantt
-  def write_work_packages_gantt!(work_packages, _)
+  def write_work_packages_gantt!(work_packages, id_wp_meta_map)
     wps = work_packages.select { |work_package| work_package.start_date || work_package.due_date }
     return if wps.empty?
 
+    column_width, mode = gantt_settings(options[:zoom] || 1)
+    write_gantt(mode, column_width, id_wp_meta_map, wps)
+  end
+
+  private
+
+  def gantt_settings(zoom)
     zoom_levels = [
       [:day, 32],
       [:day, 24],
@@ -56,27 +63,34 @@ module WorkPackage::PDFExport::Gantt
       [:quarter, 32],
       [:quarter, 24]
     ]
-    zoom = options[:zoom] || 1
     mode, column_width = zoom_levels[zoom.to_i - 1].nil? ? zoom_levels[1] : zoom_levels[zoom.to_i - 1]
-    builder = case mode
-              when :month
-                GanttBuilderMonths.new(pdf, heading, column_width)
-              when :quarter
-                GanttBuilderQuarters.new(pdf, heading, column_width)
-              else
-                # when :day
-                GanttBuilderDays.new(pdf, heading, column_width)
-              end
-    pages = builder.build(wps)
+    [column_width, mode]
+  end
+
+  def gantt_builder(mode, column_width)
+    case mode
+    when :month
+      GanttBuilderMonths.new(pdf, heading, column_width)
+    when :quarter
+      GanttBuilderQuarters.new(pdf, heading, column_width)
+    else
+      # when :day
+      GanttBuilderDays.new(pdf, heading, column_width)
+    end
+  end
+
+  def write_gantt(mode, column_width, id_wp_meta_map, work_packages)
+    builder = gantt_builder(mode, column_width)
+    pages = builder.build(work_packages, id_wp_meta_map)
     pages = pages.filter { |page| page.columns.pluck(:work_packages).flatten.any? } if options[:filter_empty]
     painter = GanttPainter.new(pdf)
     painter.paint(pages)
   end
 
-
   class GanttBuilder
     BAR_CELL_PADDING = 5
-    TEXT_CELL_PADDING = 2
+    TEXT_CELL_PADDING_H = 3
+    TEXT_CELL_PADDING_V = 1
     GANTT_ROW_HEIGHT = 20
     DEFAULT_HEADER_ROW_HEIGHT = 30
     DEFAULT_TEXT_COLUMN_DIVIDER = 4
@@ -91,8 +105,9 @@ module WorkPackage::PDFExport::Gantt
       init_defaults
     end
 
-    def build(work_packages)
+    def build(work_packages, id_wp_meta_map)
       @all_work_packages = work_packages
+      @id_wp_meta_map = id_wp_meta_map
       adjust_to_pages
       page_groups = build_pages(work_packages)
       if page_groups[0].pages.length == 1
@@ -206,7 +221,7 @@ module WorkPackage::PDFExport::Gantt
         page_index,
         work_packages,
         build_header_cells(columns),
-        build_rows(columns, work_packages),
+        build_rows(columns, work_packages, page_index == 0),
         columns,
         build_text_column(page_index),
         left + (dates.size * @column_width),
@@ -604,15 +619,17 @@ module WorkPackage::PDFExport::Gantt
     def build_text_column(page_index)
       if page_index == 0
         GanttDataTextColumn.new(@title, 0, @text_column_width, 0, GANTT_ROW_HEIGHT,
-                                TEXT_CELL_PADDING * 2, TEXT_CELL_PADDING)
+                                TEXT_CELL_PADDING_H, TEXT_CELL_PADDING_V)
       end
     end
 
     # Builds the gantt rows for the given columns and work packages
     # @param [Array<GanttDataColumn>] columns
     # @param [Array<WorkPackage>] work_packages
-    def build_rows(columns, work_packages)
-      work_packages.each_with_index.map { |work_package, row_index| build_row(work_package, row_index, columns) }
+    def build_rows(columns, work_packages, with_text_column)
+      work_packages.each_with_index.map do |work_package, row_index|
+        build_row(work_package, row_index, columns, with_text_column)
+      end
     end
 
     # Builds the gantt row for the given work package and columns
@@ -620,11 +637,33 @@ module WorkPackage::PDFExport::Gantt
     # @param [Integer] row_index
     # @param [Array<GanttDataColumn>] columns
     # @return [GanttDataRow]
-    def build_row(work_package, row_index, columns)
+    def build_row(work_package, row_index, columns, with_text_column)
       paint_columns = columns.filter { |column| column.work_packages.include?(work_package) }
       top = @header_row_height + (row_index * GANTT_ROW_HEIGHT)
       shape = build_shape(top, paint_columns, work_package) unless paint_columns.empty?
-      GanttDataRow.new(row_index, work_package, shape, 0, top, GANTT_ROW_HEIGHT)
+      text_lines = with_text_column ? build_row_text_lines(work_package, top) : []
+      GanttDataRow.new(row_index, work_package, shape, text_lines, 0, top, GANTT_ROW_HEIGHT)
+    end
+
+    def build_row_text_lines(work_package, top)
+      left = TEXT_CELL_PADDING_H
+      right = left + @text_column_width - (TEXT_CELL_PADDING_H * 2)
+
+      text_top = top + TEXT_CELL_PADDING_V
+      text_bottom = text_top + 8
+      info = GanttDataText.new(work_package_info_line(work_package), left, right, text_top, text_bottom, 8)
+
+      text_top = top + TEXT_CELL_PADDING_V + 4
+      text_bottom = text_top + 16
+      title = GanttDataText.new(work_package.subject, left, right, text_top, text_bottom, 8)
+
+      [info, title]
+    end
+
+    def work_package_info_line(work_package)
+      level_path = @id_wp_meta_map[work_package.id][:level_path]
+      level_string = "#{level_path.join('.')}."
+      "#{level_string} #{work_package.type} ##{work_package.id}"
     end
 
     # Builds the shape for the given work package
@@ -1005,9 +1044,7 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def paint_row(row)
-      unless row.page.text_column.nil?
-        paint_work_package_title(row, row.left, row.top, row.page.text_column.width, row.page.text_column.height)
-      end
+      row.text_lines.each { |line| paint_row_text_line(line) }
       unless row.shape.nil?
         paint_shape(row.shape)
       end
@@ -1048,29 +1085,37 @@ module WorkPackage::PDFExport::Gantt
     end
 
     def paint_header_text_column(page)
-      paint_text_box(page.text_column.title, 0, 0, page.text_column.width, page.header_row_height,
-                     page.text_column.padding_h, 0, { size: 10, style: :bold })
+      paint_text_box(page.text_column.title, page.text_column.padding_h, 0,
+                     page.text_column.width - page.text_column.padding_h, page.header_row_height,
+                     { size: 10, style: :bold })
     end
 
     def paint_header_column_cell(cell)
-      paint_text_box(cell.text, cell.left, cell.top, cell.width, cell.height,
-                     0, 0,
-                     { size: 10, style: :bold, align: :center })
+      paint_text_box(cell.text, cell.left, cell.top, cell.width, cell.height, { size: 10, style: :bold, align: :center })
     end
 
-    def paint_work_package_title(row, left, top, width, height)
-      paint_text_box("#{row.work_package.type} ##{row.work_package.id} - #{row.work_package.subject}",
-                     left, top, width, height,
-                     row.page.text_column.padding_h, row.page.text_column.padding_v)
+    def paint_row_text_line(line)
+      paint_text_box(truncate_ellipsis(line.text, line.width, line.font_size),
+                     line.left, line.top, line.width, line.height, { size: line.font_size })
     end
 
-    def paint_text_box(text, left, top, width, height, padding_h, padding_v, additional_options = {})
+    def truncate_ellipsis(text, available_width, font_size)
+      return text if @pdf.width_of(text, { size: font_size }) <= available_width
+
+      line = text.dup
+      while line.present? && (@pdf.width_of("#{line}...", { size: font_size }) > available_width)
+        line = line.chop
+      end
+      "#{line}..."
+    end
+
+    def paint_text_box(text, left, top, width, height, additional_options = {})
       @pdf.text_box(text,
-                    at: [@pdf.bounds.left + left + padding_h, @pdf.bounds.top - padding_v - top],
-                    width: width - (padding_h * 2),
-                    height: height - 2 - (padding_v * 2),
+                    at: [@pdf.bounds.left + left, @pdf.bounds.top - top],
+                    width:,
+                    height: height - 1,
                     overflow: :shrink_to_fit,
-                    min_font_size: 5,
+                    min_font_size: 3,
                     valign: :center,
                     size: 8,
                     leading: 0,
@@ -1105,7 +1150,13 @@ module WorkPackage::PDFExport::Gantt
     end
   end
 
-  GanttDataRow = Struct.new(:index, :work_package, :shape, :left, :top, :height, :page) do
+  GanttDataText = Data.define(:text, :left, :right, :top, :bottom, :font_size) do
+    def height = bottom - top
+
+    def width = right - left
+  end
+
+  GanttDataRow = Struct.new(:index, :work_package, :shape, :text_lines, :left, :top, :height, :page) do
     def bottom = top + height
   end
 
