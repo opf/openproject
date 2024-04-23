@@ -26,6 +26,33 @@
         test_selector: 'project-favorite-button'
       )
     end
+
+    header.with_action_menu(menu_arguments: { anchor_align: :end },
+                            button_arguments: { icon: "op-kebab-vertical", "aria-label": t(:label_menu) }) do |menu|
+
+      if User.current.allowed_in_project?(:select_project_custom_fields, @project)
+        menu.with_item(
+          label: t(:label_project_attribute_manage_link),
+          href: project_settings_project_custom_fields_path(@project),
+          data: { turbo: false }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+      end
+
+      if User.current.allowed_in_project?(:archive_project, @project)
+        menu.with_item(
+          label: t(:label_archive_project),
+          href: project_archive_path(@project, status: '', name: @project.name),
+          content_arguments: {
+            data: { method: :post, turbo: false, confirm: t('project.archive.are_you_sure', name: @project.name) },
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :lock)
+        end
+      end
+
+    end
   end
 %>
 
