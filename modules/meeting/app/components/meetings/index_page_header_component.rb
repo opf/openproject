@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,10 +26,57 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Meeting::Submit < ApplicationForm
-  form do |meeting_form|
-    meeting_form.submit(name: :submit, label: I18n.t("button_save"), scheme: :primary)
+module Meetings
+  class IndexPageHeaderComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include ApplicationHelper
+
+    def initialize(project: nil)
+      super
+      @project = project
+    end
+
+    def render_create_button?
+      if @project
+        User.current.allowed_in_project?(:create_meetings, @project)
+      else
+        User.current.allowed_in_any_project?(:create_meetings)
+      end
+    end
+
+    def dynamic_path
+      polymorphic_path([:new, @project, :meeting])
+    end
+
+    def id
+      "add-meeting-button"
+    end
+
+    def accessibility_label_text
+      I18n.t(:label_meeting_new)
+    end
+
+    def label_text
+      I18n.t(:label_meeting)
+    end
+
+    def page_title
+      I18n.t(:label_meeting_plural)
+    end
+
+    def breadcrumb_items
+      [parent_element,
+       page_title]
+    end
+
+    def parent_element
+      if @project.present?
+        { href: project_overview_path(@project.id), text: @project.name }
+      else
+        { href: home_path, text: I18n.t(:label_home) }
+      end
+    end
   end
 end
