@@ -74,7 +74,7 @@ Find out [here](../../getting-started/invite-members/#add-existing-users) how to
 
 To change the role of a member within a project, select the corresponding project and open the Members module.
 
-To edit an existing member of a project, click the **Icon with three dots** in the list next to the member on the right and select **Manage roles**. Choose the new role and press the green **Change ** button so save your changes.
+To edit an existing member of a project, click the **More** icon in the list next to the member on the right and select **Manage roles**. Add and remove roles, then press the green **Change ** button so save your changes.
 
 ![Edit project members in OpenProject](edit-project-member.png)
 
@@ -82,7 +82,7 @@ To edit an existing member of a project, click the **Icon with three dots** in t
 
 ## Remove members
 
-To remove members from a project, [select the project](../../getting-started/projects/#open-an-existing-project) for which you want to remove the members. In the project menu on the left, select the **Members** module. In the members list, click the three dot icon at the right end of the row with the corresponding member name and select **Remove member**.
+To remove members from a project, [select the project](../../getting-started/projects/#open-an-existing-project) for which you want to remove the members. In the project menu on the left, select the **Members** module. In the members list, click the **More** icon at the right end of the row with the corresponding member name and select Remove member.
 
 ![Remove project members in OpenProject](delete-project-member.png)
 
@@ -94,15 +94,15 @@ If the project member you are removing has shared work packages, you will also b
 
 ![Confirm removing a user with shared work packages from a project in OpenProject](openproject_user_guide_confirm_user_removal_with_shares.png)
 
+> Note: please keep in mind that removing  project members can only be done if you have correct permissions.
+
 ## Revoke sharing privileges
 
-If a work package has been [shared](../work-packages/share-work-packages), you may need to revoke sharing privileges at a later stage in the project. To do that select the **three dot icon** at the right end of the row with the corresponding member name and select **Revoke work package shares**. You can also choose the **View shared work packages** option to see the list of all shared work packages.
+If a work package has been [shared](../work-packages/share-work-packages), you may need to revoke sharing privileges at a later stage in the project. To do that select the **More** icon at the right end of the row with the corresponding member name and select **Revoke work package shares**. You can also choose the **View shared work packages** option to see the list of all  work packages shared with the user.
 
 ![Remove sharing privileges in OpenProject](openproject_user_guide_members_remove_work_package_shares.png)
 
-> Note: it is not possible to revoke sharing rights of project members, if they are a part of a project only as members of a group. In this case you can either remove a single member from the group (and then remove the rights), or revoke the shared privileges from the entire group.
-
-> If project members are part of the project both individually and as members of a group, it is possible to revoke work package shares for work packages that were shared with them individually.
+> Note: a project member can be a part of the project either individually, as a member of a group, or both.  The revoking action will only affect the individual work packages shares. All work package shares with the user as part of a group will not be revoked. To revoke those group shares you can either remove the member from the group or revoke the privileges from the entire group.
 
 ## Roles and permissions
 

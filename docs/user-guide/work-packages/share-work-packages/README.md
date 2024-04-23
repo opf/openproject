@@ -70,7 +70,7 @@ Once a work package has been shared, you will see the number of shared users in 
 
 ## Remove sharing privileges
 
-You can also remove the user from the list by clicking on **Remove** next to the user name. Please note that this will not remove a user entirely, but only revoke the viewing and/or editing rights for the work package. User account will remain intact. 
+You can also remove the user from the list by clicking on **Remove** next to the user name. Please note that this will not remove a user entirely, but only revoke the rights for this work package. User account will remain intact. 
 
 If you need to revoke all sharing rights from a specific user, please do that under [project members](../../members) or contact your project administrator.
 
