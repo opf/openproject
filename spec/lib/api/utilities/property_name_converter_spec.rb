@@ -26,160 +26,160 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::Utilities::PropertyNameConverter do
-  describe '#from_ar_name' do
+  describe "#from_ar_name" do
     let(:attribute_name) { :an_attribute }
 
     subject { described_class.from_ar_name(attribute_name) }
 
-    it 'stringifies attribute names' do
+    it "stringifies attribute names" do
       expect(subject).to be_a(String)
     end
 
-    it 'camelizes attribute names' do
-      expect(subject).to eql('anAttribute')
+    it "camelizes attribute names" do
+      expect(subject).to eql("anAttribute")
     end
 
-    context 'foreign keys' do
+    context "foreign keys" do
       let(:attribute_name) { :thing_id }
 
-      it 'eliminates the id suffix' do
-        expect(subject).to eql('thing')
+      it "eliminates the id suffix" do
+        expect(subject).to eql("thing")
       end
     end
 
-    context 'custom fields' do
+    context "custom fields" do
       let(:attribute_name) { :cf_1337 }
 
-      it 'converts short custom fields to their long form' do
-        expect(subject).to eql('customField1337')
+      it "converts short custom fields to their long form" do
+        expect(subject).to eql("customField1337")
       end
     end
 
     # N.B. not re-iterating all existing known replacements here. Just using a single example
     # to verify that it is done at all
-    context 'special replacements' do
+    context "special replacements" do
       let(:attribute_name) { :assigned_to }
 
-      it 'performs special replacements' do
-        expect(subject).to eql('assignee')
+      it "performs special replacements" do
+        expect(subject).to eql("assignee")
       end
 
-      context 'foreign keys' do
+      context "foreign keys" do
         let(:attribute_name) { :assigned_to_id }
 
-        it 'sanitizes id-suffix before replacement lookup' do
-          expect(subject).to eql('assignee')
+        it "sanitizes id-suffix before replacement lookup" do
+          expect(subject).to eql("assignee")
         end
       end
     end
   end
 
-  describe '#to_ar_name' do
-    let(:attribute_name) { 'anAttribute' }
+  describe "#to_ar_name" do
+    let(:attribute_name) { "anAttribute" }
     let(:context) { build_stubbed(:work_package) }
 
     subject { described_class.to_ar_name(attribute_name, context:) }
 
-    it 'snake_cases attribute names' do
-      expect(subject).to eql('an_attribute')
+    it "snake_cases attribute names" do
+      expect(subject).to eql("an_attribute")
     end
 
-    context 'foreign keys' do
-      let(:attribute_name) { 'status' }
+    context "foreign keys" do
+      let(:attribute_name) { "status" }
 
-      it 'does not add an id suffix by default' do
-        expect(subject).to eql('status')
+      it "does not add an id suffix by default" do
+        expect(subject).to eql("status")
       end
 
-      context 'requesting ids via refer_to_ids' do
+      context "requesting ids via refer_to_ids" do
         subject { described_class.to_ar_name(attribute_name, context:, refer_to_ids: true) }
 
-        context 'for keys referring to a belongs_to association' do
-          let(:attribute_name) { 'status' }
+        context "for keys referring to a belongs_to association" do
+          let(:attribute_name) { "status" }
 
-          it 'adds an id suffix' do
-            expect(subject).to eql('status_id')
+          it "adds an id suffix" do
+            expect(subject).to eql("status_id")
           end
         end
 
-        context 'for keys referring to a has_many association' do
-          let(:attribute_name) { 'watcher' }
+        context "for keys referring to a has_many association" do
+          let(:attribute_name) { "watcher" }
 
-          it 'adds an id suffix' do
-            expect(subject).to eql('watcher_ids')
+          it "adds an id suffix" do
+            expect(subject).to eql("watcher_ids")
           end
         end
 
-        context 'for non-foreign keys' do
-          let(:attribute_name) { 'subject' }
+        context "for non-foreign keys" do
+          let(:attribute_name) { "subject" }
 
-          it 'does not add an id suffix' do
-            expect(subject).to eql('subject')
+          it "does not add an id suffix" do
+            expect(subject).to eql("subject")
           end
         end
 
-        context 'does not append an id to pluarlized attributes' do
-          let(:attribute_name) { 'estimatedTime' }
+        context "does not append an id to pluarlized attributes" do
+          let(:attribute_name) { "estimatedTime" }
 
-          it 'does not add an id suffix' do
-            expect(subject).to eql('estimated_hours')
+          it "does not add an id suffix" do
+            expect(subject).to eql("estimated_hours")
           end
         end
       end
     end
 
-    context 'custom fields' do
-      let(:attribute_name) { 'customField1337' }
+    context "custom fields" do
+      let(:attribute_name) { "customField1337" }
 
-      it 'converts long custom fields to their short form' do
-        expect(subject).to eql('cf_1337')
+      it "converts long custom fields to their short form" do
+        expect(subject).to eql("cf_1337")
       end
     end
 
-    context 'special replacements' do
-      let(:attribute_name) { 'assignee' }
+    context "special replacements" do
+      let(:attribute_name) { "assignee" }
 
-      it 'performs special replacements' do
-        expect(subject).to eql('assigned_to')
+      it "performs special replacements" do
+        expect(subject).to eql("assigned_to")
       end
 
-      context 'foreign keys' do
-        let(:attribute_name) { 'assignee' }
+      context "foreign keys" do
+        let(:attribute_name) { "assignee" }
 
         subject { described_class.to_ar_name(attribute_name, context:, refer_to_ids: true) }
 
-        it 'correctly appends the id suffix' do
-          expect(subject).to eql('assigned_to_id')
+        it "correctly appends the id suffix" do
+          expect(subject).to eql("assigned_to_id")
         end
       end
 
-      context 'inapropriate back-replacement' do
+      context "inapropriate back-replacement" do
         # should not be translated back to updated_at, which is transformed for ar->api
-        let(:attribute_name) { 'updatedAt' }
+        let(:attribute_name) { "updatedAt" }
 
-        it 'is not performed' do
-          expect(subject).to eql('updated_at')
+        it "is not performed" do
+          expect(subject).to eql("updated_at")
         end
 
-        context 'in an appropriate context' do
+        context "in an appropriate context" do
           let(:context) { build_stubbed(:version) }
 
-          it 'is performed' do
-            expect(subject).to eql('updated_at')
+          it "is performed" do
+            expect(subject).to eql("updated_at")
           end
         end
       end
 
-      context 'inappropriate replacement as context does not respond to it with foreign key' do
-        let(:attribute_name) { 'type' }
+      context "inappropriate replacement as context does not respond to it with foreign key" do
+        let(:attribute_name) { "type" }
 
         subject { described_class.to_ar_name(attribute_name, context:, refer_to_ids: true) }
 
-        it 'does not take the special replacement but appends the id suffix' do
-          expect(subject).to eql('type_id')
+        it "does not take the special replacement but appends the id suffix" do
+          expect(subject).to eql("type_id")
         end
       end
     end

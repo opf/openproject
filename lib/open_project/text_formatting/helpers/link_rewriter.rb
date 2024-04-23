@@ -41,7 +41,7 @@ module OpenProject::TextFormatting
       ##
       # Test whether the given URL is relative and we need to replace it
       def applicable?(url)
-        context[:only_path] == false && url.start_with?('/')
+        context[:only_path] == false && url.start_with?("/")
       end
 
       ##

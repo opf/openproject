@@ -28,4 +28,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'axe-rspec'
+require "axe-rspec"

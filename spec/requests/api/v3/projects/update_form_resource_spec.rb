@@ -25,8 +25,8 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
@@ -72,55 +72,55 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
 
   subject(:response) { last_response }
 
-  describe '#POST /api/v3/projects/:id/form' do
-    it 'returns 200 OK' do
+  describe "#POST /api/v3/projects/:id/form" do
+    it "returns 200 OK" do
       expect(response.status).to eq(200)
     end
 
-    it 'returns a form' do
+    it "returns a form" do
       expect(response.body)
-        .to be_json_eql('Form'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Form".to_json)
+        .at_path("_type")
     end
 
-    context 'with empty parameters' do
-      it 'has no validation errors' do
-        expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')
+    context "with empty parameters" do
+      it "has no validation errors" do
+        expect(subject.body).to have_json_size(0).at_path("_embedded/validationErrors")
       end
 
-      it 'returns the current project value`s in the payload' do
+      it "returns the current project value`s in the payload" do
         expect(subject.body)
           .to be_json_eql(project.name.to_json)
-          .at_path('_embedded/payload/name')
+          .at_path("_embedded/payload/name")
       end
 
-      it 'has a commit link' do
+      it "has a commit link" do
         expect(subject.body)
-          .to have_json_path('_links/commit')
+          .to have_json_path("_links/commit")
       end
     end
 
-    context 'with faulty parameters' do
+    context "with faulty parameters" do
       let(:params) do
         {
           name: nil
         }
       end
 
-      it 'has one validation errors' do
-        expect(subject.body).to have_json_size(1).at_path('_embedded/validationErrors')
+      it "has one validation errors" do
+        expect(subject.body).to have_json_size(1).at_path("_embedded/validationErrors")
       end
 
-      it 'has a validation error on name' do
-        expect(subject.body).to have_json_path('_embedded/validationErrors/name')
+      it "has a validation error on name" do
+        expect(subject.body).to have_json_path("_embedded/validationErrors/name")
       end
 
-      it 'has no commit link' do
+      it "has no commit link" do
         expect(subject.body)
-          .not_to have_json_path('_links/commit')
+          .not_to have_json_path("_links/commit")
       end
 
-      it 'does not alter the project' do
+      it "does not alter the project" do
         name_before = project.name
 
         expect(project.reload.name)
@@ -128,8 +128,8 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
       end
     end
 
-    context 'with a viable parent project' do
-      context 'with a correct parameter' do
+    context "with a viable parent project" do
+      context "with a correct parameter" do
         let(:params) do
           {
             _links: {
@@ -140,57 +140,57 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
           }
         end
 
-        it 'sets the project in the payload' do
+        it "sets the project in the payload" do
           expect(subject.body)
             .to be_json_eql(api_v3_paths.project(viable_parent_project.id).to_json)
-            .at_path('_embedded/payload/_links/parent/href')
+            .at_path("_embedded/payload/_links/parent/href")
         end
 
-        it 'links to the allowed parents in the schema' do
+        it "links to the allowed parents in the schema" do
           expect(subject.body)
             .to be_json_eql((api_v3_paths.projects_available_parents + "?of=#{project.id}").to_json)
-            .at_path('_embedded/schema/parent/_links/allowedValues/href')
+            .at_path("_embedded/schema/parent/_links/allowedValues/href")
         end
       end
     end
 
-    context 'with valid parameters' do
+    context "with valid parameters" do
       let(:params) do
         {
-          identifier: 'new_project_identifier',
-          name: 'Project name',
+          identifier: "new_project_identifier",
+          name: "Project name",
           text_custom_field.attribute_name(:camel_case) => {
             raw: "new CF text"
           },
-          statusExplanation: { raw: 'Something goes awry.' },
+          statusExplanation: { raw: "Something goes awry." },
           _links: {
             list_custom_field.attribute_name(:camel_case) => {
               href: api_v3_paths.custom_option(list_custom_field.custom_options.last.id)
             },
             status: {
-              href: api_v3_paths.project_status('off_track')
+              href: api_v3_paths.project_status("off_track")
             }
           }
         }
       end
 
-      it 'has 0 validation errors' do
-        expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')
+      it "has 0 validation errors" do
+        expect(subject.body).to have_json_size(0).at_path("_embedded/validationErrors")
       end
 
-      it 'has the values prefilled in the payload' do
+      it "has the values prefilled in the payload" do
         body = subject.body
 
         expect(body)
-          .to be_json_eql('new_project_identifier'.to_json)
-          .at_path('_embedded/payload/identifier')
+          .to be_json_eql("new_project_identifier".to_json)
+          .at_path("_embedded/payload/identifier")
 
         expect(body)
-          .to be_json_eql('Project name'.to_json)
-          .at_path('_embedded/payload/name')
+          .to be_json_eql("Project name".to_json)
+          .at_path("_embedded/payload/name")
 
         expect(body)
-          .to be_json_eql('new CF text'.to_json)
+          .to be_json_eql("new CF text".to_json)
           .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
 
         expect(body)
@@ -198,78 +198,78 @@ RSpec.describe API::V3::Projects::UpdateFormAPI, content_type: :json do
           .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/href")
 
         expect(body)
-          .to be_json_eql(api_v3_paths.project_status('off_track').to_json)
+          .to be_json_eql(api_v3_paths.project_status("off_track").to_json)
           .at_path("_embedded/payload/_links/status/href")
 
         expect(body)
-          .to be_json_eql('Something goes awry.'.to_json)
+          .to be_json_eql("Something goes awry.".to_json)
           .at_path("_embedded/payload/statusExplanation/raw")
       end
 
-      it 'has a commit link' do
+      it "has a commit link" do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.project(project.id).to_json)
-          .at_path('_links/commit/href')
+          .at_path("_links/commit/href")
       end
 
-      it 'does not alter the project' do
+      it "does not alter the project" do
         attributes_before = project.attributes
 
         expect(project.reload.name)
-          .to eql attributes_before['name']
+          .to eql attributes_before["name"]
 
         expect(project.identifier)
-          .to eql attributes_before['identifier']
+          .to eql attributes_before["identifier"]
 
         expect(project.send(text_custom_field.attribute_getter))
-          .to eql 'CF text'
+          .to eql "CF text"
 
         expect(project.send(list_custom_field.attribute_getter))
           .to eql list_custom_field.custom_options.first.value
       end
     end
 
-    context 'with faulty status parameters' do
+    context "with faulty status parameters" do
       let(:params) do
         {
           status: {
-            href: api_v3_paths.project_status('bogus')
+            href: api_v3_paths.project_status("bogus")
           }
         }
       end
 
-      it 'displays the faulty status in the payload' do
+      it "displays the faulty status in the payload" do
         expect(subject.body)
-          .to be_json_eql({ href: api_v3_paths.project_status('bogus') }.to_json)
-          .at_path('_embedded/payload/_links/status')
+          .to be_json_eql({ href: api_v3_paths.project_status("bogus") }.to_json)
+          .at_path("_embedded/payload/_links/status")
       end
 
-      it 'has 1 validation errors' do
-        expect(subject.body).to have_json_size(1).at_path('_embedded/validationErrors')
+      it "has 1 validation errors" do
+        expect(subject.body).to have_json_size(1).at_path("_embedded/validationErrors")
       end
 
-      it 'has a validation error on status' do
-        expect(subject.body).to have_json_path('_embedded/validationErrors/status')
+      it "has a validation error on status" do
+        expect(subject.body).to have_json_path("_embedded/validationErrors/status")
       end
 
-      it 'has no commit link' do
+      it "has no commit link" do
         expect(subject.body)
-          .not_to have_json_path('_links/commit')
+          .not_to have_json_path("_links/commit")
       end
     end
 
-    context 'without the necessary permission' do
+    context "without the necessary permission" do
       let(:permissions) { [] }
 
-      it 'returns 403 Not Authorized' do
+      it "returns 403 Not Authorized" do
         expect(response.status).to eq(403)
       end
     end
 
-    context 'with a non existing id' do
+    context "with a non existing id" do
       let(:path) { api_v3_paths.project_form(1) }
 
-      it 'returns 404 Not found' do
+      it "returns 404 Not found" do
         expect(response.status).to eq(404)
       end
     end

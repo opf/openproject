@@ -59,7 +59,7 @@ module Projects
     end
 
     def notify_on_identifier_renamed
-      return unless memoized_changes['identifier']
+      return unless memoized_changes["identifier"]
 
       OpenProject::Notifications.send(OpenProject::Events::PROJECT_RENAMED, project: model)
     end
@@ -73,7 +73,7 @@ module Projects
     end
 
     def update_wp_versions_on_parent_change
-      return unless memoized_changes['parent_id']
+      return unless memoized_changes["parent_id"]
 
       WorkPackage.update_versions_from_hierarchy_change(model)
     end

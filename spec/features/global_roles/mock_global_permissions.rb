@@ -6,7 +6,7 @@
 # It also takes care of mocking a translation for each provided
 # permission only if it wasn't already an existing key, preventing
 # a mock of an already present translation.
-RSpec.shared_context 'with mocked global permissions' do |permissions|
+RSpec.shared_context "with mocked global permissions" do |permissions|
   before do
     mock_global_permissions(permissions)
   end
@@ -28,7 +28,7 @@ def mock_global_permissions(permissions)
   end
 
   mapped_modules = permissions.map do |_, options|
-    options[:project_module] || 'Foo'
+    options[:project_module] || "Foo"
   end.uniq
 
   allow(OpenProject::AccessControl).to receive(:modules).and_wrap_original do |m, *args|
@@ -47,7 +47,7 @@ def mock_permissions(name, options = {})
     name,
     { does_not: :matter },
     permissible_on: :project,
-    project_module: 'Foo',
+    project_module: "Foo",
     public: false,
     **options
   )

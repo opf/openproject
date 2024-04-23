@@ -38,7 +38,7 @@ module API::V3::Days
         self_path: -> { api_v3_paths.days_non_working }
       ).mount
 
-      route_param :date, type: Date, desc: 'NonWorkingDay DATE' do
+      route_param :date, type: Date, desc: "NonWorkingDay DATE" do
         after_validation do
           @non_working_day = NonWorkingDay.find_by!(date: declared_params[:date])
         end

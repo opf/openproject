@@ -26,17 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Projects
     class Index < ::Pages::Page
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
       def path
         "/projects"
       end
 
       def expect_listed(*users)
-        rows = page.all 'td.username'
+        rows = page.all "td.username"
         expect(rows.map(&:text)).to eq(users.map(&:login))
       end
 
@@ -75,47 +77,52 @@ module Pages
       end
 
       def expect_sidebar_filter(filter_name, selected: false)
-        within '#main-menu' do
+        within "#main-menu" do
           expect(page).to have_css(".op-sidemenu--item-action#{selected ? '.selected' : ''}", text: filter_name)
         end
       end
 
       def expect_no_sidebar_filter(filter_name)
-        within '#main-menu' do
+        within "#main-menu" do
           expect(page).to have_no_css(".op-sidemenu--item-action", text: filter_name)
         end
       end
 
       def expect_current_page_number(number)
         expect(page)
-          .to have_css('.op-pagination--item_current', text: number)
+          .to have_css(".op-pagination--item_current", text: number)
       end
 
       def expect_total_pages(number)
         expect(page)
-          .to have_css('.op-pagination--item', text: number)
+          .to have_css(".op-pagination--item", text: number)
 
         expect(page)
-          .to have_no_css('.op-pagination--item', text: number + 1)
+          .to have_no_css(".op-pagination--item", text: number + 1)
       end
 
       def set_sidebar_filter(filter_name)
-        within '#main-menu' do
+        within "#main-menu" do
           click_link text: filter_name
         end
       end
 
       def expect_filters_container_toggled
-        expect(page).to have_css('.op-filters-form')
+        expect(page).to have_css(".op-filters-form")
       end
 
       def expect_filters_container_hidden
-        expect(page).to have_css('.op-filters-form', visible: :hidden)
+        expect(page).to have_css(".op-filters-form", visible: :hidden)
       end
 
       def expect_filter_set(filter_name)
         expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)",
                                  visible: :hidden)
+      end
+
+      def expect_filter_count(count)
+        expect(page)
+          .to have_css('[data-test-selector="filters-button-counter"]', text: count)
       end
 
       def expect_no_project_create_button
@@ -124,57 +131,79 @@ module Pages
 
       def expect_gantt_menu_entry(visible: false)
         if visible
-          expect(page).to have_link('Open as Gantt view')
+          expect(page).to have_link("Open as Gantt view")
         else
-          expect(page).to have_no_link('Open as Gantt view')
+          expect(page).to have_no_link("Open as Gantt view")
         end
       end
 
+      def expect_columns(*column_names)
+        column_names.each do |column_name|
+          expect(page).to have_css("th", text: column_name.upcase)
+        end
+      end
+
+      def expect_no_columns(*column_names)
+        column_names.each do |column_name|
+          expect(page).to have_no_css("th", text: column_name.upcase)
+        end
+      end
+
+      def expect_no_save_as_notification
+        expect(page)
+          .to have_no_link("Save as")
+      end
+
+      def expect_save_as_notification
+        expect(page)
+          .to have_link("Save as")
+      end
+
       def filter_by_active(value)
-        set_filter('active',
-                   'Active',
-                   'is',
+        set_filter("active",
+                   "Active",
+                   "is",
                    [value])
 
-        click_button 'Apply'
+        click_button "Apply"
       end
 
       def filter_by_public(value)
-        set_filter('public',
-                   'Public',
-                   'is',
+        set_filter("public",
+                   "Public",
+                   "is",
                    [value])
 
-        click_button 'Apply'
+        click_button "Apply"
       end
 
       def filter_by_membership(value)
-        set_filter('member_of',
-                   'I am member',
-                   'is',
+        set_filter("member_of",
+                   "I am member",
+                   "is",
                    [value])
 
-        click_button 'Apply'
+        click_button "Apply"
       end
 
       def set_filter(name, human_name, human_operator = nil, values = [])
-        select human_name, from: 'add_filter_select'
+        select human_name, from: "add_filter_select"
         selected_filter = page.find("li[filter-name='#{name}']")
 
-        select(human_operator, from: 'operator') unless boolean_filter?(name)
+        select(human_operator, from: "operator") unless boolean_filter?(name)
 
         within(selected_filter) do
           return unless values.any?
 
-          if name == 'name_and_identifier'
+          if name == "name_and_identifier"
             set_name_and_identifier_filter(values)
           elsif boolean_filter?(name)
             set_toggle_filter(values)
-          elsif name == 'created_at'
-            select(human_operator, from: 'operator')
+          elsif name == "created_at"
+            select(human_operator, from: "operator")
             set_created_at_filter(human_operator, values)
           elsif /cf_\d+/.match?(name)
-            select(human_operator, from: 'operator')
+            select(human_operator, from: "operator")
             set_custom_field_filter(selected_filter, human_operator, values)
           end
         end
@@ -185,13 +214,13 @@ module Pages
       end
 
       def apply_filters
-        within('.advanced-filters--filters') do
-          click_on 'Apply'
+        within(".advanced-filters--filters") do
+          click_on "Apply"
         end
       end
 
       def set_toggle_filter(values)
-        should_active = values.first == 'yes'
+        should_active = values.first == "yes"
         is_active = page.has_selector? '[data-test-selector="spot-switch-handle"][data-qa-active]'
 
         if should_active != is_active
@@ -206,43 +235,76 @@ module Pages
       end
 
       def set_name_and_identifier_filter(values)
-        fill_in 'value', with: values.first
+        fill_in "value", with: values.first
       end
 
       def set_created_at_filter(human_operator, values)
         case human_operator
-        when 'on', 'less than days ago', 'more than days ago', 'days ago'
-          fill_in 'value', with: values.first
-        when 'between'
-          fill_in 'from_value', with: values.first
-          fill_in 'to_value', with: values.second
+        when "on", "less than days ago", "more than days ago", "days ago"
+          fill_in "value", with: values.first
+        when "between"
+          fill_in "from_value", with: values.first
+          fill_in "to_value", with: values.second
         end
       end
 
       def set_custom_field_filter(selected_filter, human_operator, values)
-        if selected_filter[:'filter-type'] == 'list_optional'
+        if selected_filter[:"filter-type"] == "list_optional"
           if values.size == 1
             value_select = find('.single-select select[name="value"]')
             value_select.select values.first
           end
-        elsif selected_filter[:'filter-type'] == 'date'
-          if human_operator == 'on'
-            fill_in 'value', with: values.first
+        elsif selected_filter[:"filter-type"] == "date"
+          if human_operator == "on"
+            fill_in "value", with: values.first
           end
         end
       end
 
       def open_filters
         retry_block do
-          page.find('[data-test-selector="filter-component-toggle"]').click
-          page.find_field('Add filter', visible: true)
+          toggle_filters_section
+          page.find_field("Add filter", visible: true)
+        end
+      end
+
+      def toggle_filters_section
+        page.find('[data-test-selector="filter-component-toggle"]').click
+      end
+
+      def set_columns(*columns)
+        click_more_menu_item(I18n.t(:"queries.configure_view.heading"))
+
+        # Assumption: there is always one item selected, the 'Name' column
+        # That column can currently not be removed.
+        # Serves as a safeguard
+        page.find(".op-draggable-autocomplete--item", text: "Name")
+
+        not_protected_columns = Regexp.new("^(?!#{(columns + ['Name']).join('$|')}$).*$")
+
+        while (item = page.all(".op-draggable-autocomplete--item", text: not_protected_columns)[0])
+          item.find(".op-draggable-autocomplete--remove-item").click
+        end
+
+        remaining_columns = page.all(".op-draggable-autocomplete--item").map { |i| i.text.downcase }
+
+        columns.each do |column|
+          next if remaining_columns.include?(column.downcase)
+
+          select_autocomplete find(".op-draggable-autocomplete--input"),
+                              results_selector: ".ng-dropdown-panel-items",
+                              query: column
+        end
+
+        within "dialog" do
+          click_on "Apply"
         end
       end
 
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
 
-        page.find('.ActionListItem', text: item, exact_text: true).click
+        page.find(".ActionListItem", text: item, exact_text: true).click
       end
 
       def click_menu_item_of(title, project)
@@ -254,10 +316,11 @@ module Pages
       def activate_menu_of(project)
         within_row(project) do |row|
           row.hover
-          menu = find('ul.project-actions')
-          menu.click
+          menu = find("[data-test-selector='project-list-row--action-menu']")
+          menu_button = find("[data-test-selector='project-list-row--action-menu'] button")
+          menu_button.click
           wait_for_network_idle if using_cuprite?
-          expect(page).to have_css('.menu-drop-down-container')
+          expect(page).to have_css("[data-test-selector='project-list-row--action-menu-item']")
           yield menu
         end
       end
@@ -267,51 +330,53 @@ module Pages
       end
 
       def save_query(name)
-        click_more_menu_item('Save')
+        click_more_menu_item("Save as")
 
         within '[data-test-selector="project-query-name"]' do
-          fill_in 'Name', with: name
+          fill_in "Name", with: name
         end
 
-        click_on 'Save'
+        click_on "Save"
       end
 
       def delete_query
-        accept_confirm do
-          click_more_menu_item('Delete')
+        click_more_menu_item("Delete")
+
+        within '[data-test-selector="op-project-list-delete-dialog"]' do
+          click_on "Delete"
         end
       end
 
       def sort_by(column_name)
-        find('.generic-table--sort-header a', text: column_name.upcase).click
+        find(".generic-table--sort-header a", text: column_name.upcase).click
       end
 
       def set_page_size(size)
-        find('.op-pagination--options .op-pagination--item', text: size).click
+        find(".op-pagination--options .op-pagination--item", text: size).click
       end
 
-      def got_to_page(page_number)
-        within '.op-pagination--pages' do
-          find('.op-pagination--item-link', text: page_number).click
+      def go_to_page(page_number)
+        within ".op-pagination--pages" do
+          find(".op-pagination--item-link", text: page_number).click
         end
       end
 
       def within_table(&)
-        within '#project-table', &
+        within "#project-table", &
+      end
+
+      def within_row(project)
+        row = page.find("#project-table tr", text: project.name)
+
+        within row do
+          yield row
+        end
       end
 
       private
 
       def boolean_filter?(filter)
         %w[active member_of public templated].include?(filter.to_s)
-      end
-
-      def within_row(project)
-        row = page.find('#project-table tr', text: project.name)
-
-        within row do
-          yield row
-        end
       end
     end
   end

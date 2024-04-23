@@ -49,9 +49,18 @@ ul.tabnav-tabs
   margin-left: 0
 
 /* Remove margin-left: 2rem from Breadcrumbs */
-#breadcrumb
+#breadcrumb,
+page-header
   ol
     margin-left: 0
   .breadcrumb-item.breadcrumb-item-selected
     a
       pointer-events: none
+
+.op-primer-adjustments__toggle-switch--hidden-loading-indicator
+  .ToggleSwitch-statusIcon
+    display: none
+
+.Overlay
+  &-body_autocomplete_height
+    min-height: 300px

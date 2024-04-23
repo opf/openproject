@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/statuses/status_collection_representer'
-require 'api/v3/statuses/status_representer'
+require "api/v3/statuses/status_collection_representer"
+require "api/v3/statuses/status_representer"
 
 module API
   module V3
@@ -44,7 +44,7 @@ module API
                                             current_user:)
           end
 
-          route_param :id, type: Integer, desc: 'Status ID' do
+          route_param :id, type: Integer, desc: "Status ID" do
             helpers do
               # Note that naming the method #status or having
               # a variable named @status colides with grape.

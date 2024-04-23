@@ -26,37 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'version create', js: false do
+RSpec.describe "version create", js: false do
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i[manage_versions view_work_packages] })
   end
   let(:project) { create(:project) }
-  let(:new_version_name) { 'A new version name' }
+  let(:new_version_name) { "A new version name" }
 
   before do
     login_as(user)
   end
 
-  context 'create a version' do
-    it 'and redirect to default' do
+  context "create a version" do
+    it "and redirect to default" do
       visit new_project_version_path(project)
 
-      fill_in 'Name', with: new_version_name
-      click_on 'Create'
+      fill_in "Name", with: new_version_name
+      click_on "Create"
 
       expect(page).to have_current_path(project_settings_versions_path(project))
       expect(page).to have_content new_version_name
     end
 
-    it 'and redirect back to where you started' do
+    it "and redirect back to where you started" do
       visit project_roadmap_path(project)
-      click_on 'New version'
+      click_on "New version"
 
-      fill_in 'Name', with: new_version_name
-      click_on 'Create'
+      fill_in "Name", with: new_version_name
+      click_on "Create"
 
       expect(page).to have_text("Successful creation")
       expect(page).to have_current_path(project_roadmap_path(project))

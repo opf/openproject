@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::SubjectOrIdFilter do
-  let(:value) { 'bogus' }
-  let(:operator) { '**' }
-  let(:subject) { 'Some subject' }
+  let(:value) { "bogus" }
+  let(:operator) { "**" }
+  let(:subject) { "Some subject" }
   let(:work_package) { create(:work_package, subject:) }
   let(:current_user) do
     create(:user, member_with_permissions: { work_package.project => %i[view_work_packages edit_work_packages] })
@@ -45,13 +45,13 @@ RSpec.describe Queries::WorkPackages::Filter::SubjectOrIdFilter do
     login_as current_user
   end
 
-  it 'finds in subject' do
-    instance.values = ['Some subject']
+  it "finds in subject" do
+    instance.values = ["Some subject"]
     expect(WorkPackage.eager_load(instance.includes).where(instance.where))
       .to contain_exactly(work_package)
   end
 
-  it 'finds in ID' do
+  it "finds in ID" do
     instance.values = [work_package.id.to_s]
     expect(WorkPackage.eager_load(instance.includes).where(instance.where))
       .to contain_exactly(work_package)

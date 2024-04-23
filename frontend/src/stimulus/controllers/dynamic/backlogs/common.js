@@ -97,7 +97,7 @@ if (window.RB === null || window.RB === undefined) {
         buttons: [
         {
           text: 'OK',
-          class: 'button -highlight',
+          class: 'button -primary',
           click: function () {
             $(this).dialog("close");
           }

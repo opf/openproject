@@ -28,17 +28,17 @@
 module EnvData
   class LdapSeeder < Seeder
     def seed_data!
-      print_status '    ↳ Creating LDAP connection' do
+      print_status "    ↳ Creating LDAP connection" do
         Setting.seed_ldap.each do |name, options|
           ldap = LdapAuthSource.find_or_initialize_by(name:)
 
           print_ldap_status(ldap)
           upsert_settings(ldap, options)
-          update_filters(ldap, options['groupfilter'])
+          update_filters(ldap, options["groupfilter"])
         end
       end
 
-      print_status '    ↳ Synchronizing LDAP connections' do
+      print_status "    ↳ Synchronizing LDAP connections" do
         LdapGroups::SynchronizationJob.perform_now
       end
     end
@@ -51,24 +51,24 @@ module EnvData
 
     # rubocop:disable Metrics/AbcSize
     def upsert_settings(ldap, options)
-      ldap.host = options['host']
-      ldap.port = options['port']
+      ldap.host = options["host"]
+      ldap.port = options["port"]
 
-      ldap.tls_mode = options['security']
-      ldap.verify_peer = ActiveRecord::Type::Boolean.new.deserialize options.fetch('tls_verify', true)
-      ldap.onthefly_register = ActiveRecord::Type::Boolean.new.deserialize options.fetch('sync_users', false)
-      ldap.tls_certificate_string = options['tls_certificate'].presence
+      ldap.tls_mode = options["security"]
+      ldap.verify_peer = ActiveRecord::Type::Boolean.new.deserialize options.fetch("tls_verify", true)
+      ldap.onthefly_register = ActiveRecord::Type::Boolean.new.deserialize options.fetch("sync_users", false)
+      ldap.tls_certificate_string = options["tls_certificate"].presence
 
-      ldap.filter_string = options['filter'].presence
-      ldap.base_dn = options['basedn']
-      ldap.account = options['binduser']
-      ldap.account_password = options['bindpassword']
+      ldap.filter_string = options["filter"].presence
+      ldap.base_dn = options["basedn"]
+      ldap.account = options["binduser"]
+      ldap.account_password = options["bindpassword"]
 
-      ldap.attr_login = options['login_mapping'].presence
-      ldap.attr_firstname = options['firstname_mapping'].presence
-      ldap.attr_lastname = options['lastname_mapping'].presence
-      ldap.attr_mail = options['mail_mapping'].presence
-      ldap.attr_admin = options['admin_mapping'].presence
+      ldap.attr_login = options["login_mapping"].presence
+      ldap.attr_firstname = options["firstname_mapping"].presence
+      ldap.attr_lastname = options["lastname_mapping"].presence
+      ldap.attr_mail = options["mail_mapping"].presence
+      ldap.attr_admin = options["admin_mapping"].presence
 
       ldap.save!
     end
@@ -86,10 +86,10 @@ module EnvData
         filter = ::LdapGroups::SynchronizedFilter.find_or_initialize_by(ldap_auth_source: ldap, name:)
         print_ldap_status(filter)
 
-        filter.group_name_attribute = options.fetch('group_attribute', 'dn')
-        filter.sync_users = ActiveRecord::Type::Boolean.new.deserialize options.fetch('sync_users', false)
-        filter.filter_string = options['filter']
-        filter.base_dn = options['base']
+        filter.group_name_attribute = options.fetch("group_attribute", "dn")
+        filter.sync_users = ActiveRecord::Type::Boolean.new.deserialize options.fetch("sync_users", false)
+        filter.filter_string = options["filter"]
+        filter.base_dn = options["base"]
 
         filter.save!
       end
@@ -102,7 +102,7 @@ module EnvData
 
       return unless not_found.exists?
 
-      not_found_names = not_found.pluck(:name).join(', ')
+      not_found_names = not_found.pluck(:name).join(", ")
       print_status "   - Removing LDAP filter #{not_found_names} no longer present in ENV"
 
       not_found.destroy_all

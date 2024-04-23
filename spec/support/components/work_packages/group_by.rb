@@ -37,22 +37,22 @@ module Components
         open_table_column_context_menu(name)
 
         within_column_context_menu do
-          click_button('Group by')
+          click_button("Group by")
         end
       end
 
       def enable
-        set_display_mode('grouped')
+        set_display_mode("grouped")
       end
 
       def enable_via_menu(name)
-        set_display_mode('grouped') do
-          select name, from: 'selected_grouping'
+        set_display_mode("grouped") do
+          select name, from: "selected_grouping"
         end
       end
 
       def disable_via_menu
-        set_display_mode('default')
+        set_display_mode("default")
       end
 
       def expect_number_of_groups(count)
@@ -71,7 +71,7 @@ module Components
         open_table_column_context_menu(name)
 
         within_column_context_menu do
-          expect(page).to have_content('Group by')
+          expect(page).to have_content("Group by")
         end
       end
 
@@ -90,7 +90,7 @@ module Components
       end
 
       def within_column_context_menu(&)
-        page.within('#column-context-menu', &)
+        page.within("#column-context-menu", &)
       end
     end
   end

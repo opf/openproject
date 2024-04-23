@@ -134,7 +134,7 @@ module WorkPackage::PDFExport::Page
     if @total_page_nr
       "/#{@total_page_nr - (with_cover? ? 1 : 0)}"
     else
-      ''
+      ""
     end
   end
 end

@@ -129,7 +129,7 @@ class User < Principal
   validates :login, uniqueness: { if: Proc.new { |user| user.login.present? }, case_sensitive: false }
   validates :mail, uniqueness: { allow_blank: true, case_sensitive: false }
   # Login must contain letters, numbers, underscores only
-  validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
+  validates :login, format: { with: /\A[\p{L}0-9_\-@.+ ]*\z/i }
   validates :login, length: { maximum: 256 }
 
   validates :firstname, :lastname, length: { maximum: 256 }
@@ -244,20 +244,10 @@ class User < Principal
   def self.try_authentication_and_create_user(login, password)
     return nil if OpenProject::Configuration.disable_password_login?
 
-    attrs = LdapAuthSource.authenticate(login, password)
-    return unless attrs
+    user = LdapAuthSource.authenticate(login, password)
 
-    call = Users::CreateService
-      .new(user: User.system)
-      .call(attrs)
-
-    user = call.result
-
-    call.on_failure do |result|
-      Rails.logger.error "Failed to auto-create user from auth-source: #{result.message}"
-
-      # TODO We have no way to pass back the contract errors in this place
-      user.errors.merge! call.errors
+    if user&.new_record?
+      Rails.logger.error "Failed to auto-create user from auth-source, as data is missing."
     end
 
     user

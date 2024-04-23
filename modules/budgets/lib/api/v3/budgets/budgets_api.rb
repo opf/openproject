@@ -31,7 +31,7 @@ module API
     module Budgets
       class BudgetsAPI < ::API::OpenProjectAPI
         resources :budgets do
-          route_param :id, type: Integer, desc: 'Budget ID' do
+          route_param :id, type: Integer, desc: "Budget ID" do
             after_validation do
               @budget = Budget.find(params[:id])
 

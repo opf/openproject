@@ -34,7 +34,7 @@ module Attachments
       return unless Setting::VirusScanning.enabled?
 
       User.execute_as(User.system) do
-        OpenProject::Mutex.with_advisory_lock(Attachment, 'virus_rescan') do
+        OpenProject::Mutex.with_advisory_lock(Attachment, "virus_rescan") do
           Attachment.status_rescan.find_each do |attachment|
             scan_attachment(attachment)
           rescue StandardError => e
@@ -48,7 +48,7 @@ module Attachments
     def redirect_status
       path = ApplicationController.helpers.admin_quarantined_attachments_path
       payload = redirect_payload(path)
-      html = I18n.t('settings.antivirus.remaining_scan_complete_html',
+      html = I18n.t("settings.antivirus.remaining_scan_complete_html",
                     file_count: I18n.t(:label_x_files, count: Attachment.status_quarantined.count))
 
       upsert_status(

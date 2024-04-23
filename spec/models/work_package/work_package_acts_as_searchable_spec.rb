@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe WorkPackage, 'acts_as_searchable' do
+RSpec.describe WorkPackage, "acts_as_searchable" do
   include BecomeMember
 
-  let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }
+  let(:wp_subject) { "the quick brown fox jumps over the lazy dog" }
   let(:project) do
     create(:project,
            public: false)
@@ -43,7 +43,7 @@ RSpec.describe WorkPackage, 'acts_as_searchable' do
   end
   let(:user) { create(:user) }
 
-  describe '#search' do
+  describe "#search" do
     describe "w/ the user being logged in
               w/ searching for a matching string
               w/ being member with the appropriate permission" do
@@ -54,7 +54,7 @@ RSpec.describe WorkPackage, 'acts_as_searchable' do
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(WorkPackage.search(wp_subject.split).first).to include(work_package)
       end
     end
@@ -65,7 +65,7 @@ RSpec.describe WorkPackage, 'acts_as_searchable' do
               w/ searching with an offset" do
       # this offset recreates the way the time is transformed in the controller
       # This will have to be cleaned up
-      let(:offset) { (work_package.created_at - 1.minute).strftime('%Y%m%d%H%M%S').to_time }
+      let(:offset) { (work_package.created_at - 1.minute).strftime("%Y%m%d%H%M%S").to_time }
 
       before do
         work_package
@@ -74,7 +74,7 @@ RSpec.describe WorkPackage, 'acts_as_searchable' do
         become_member_with_permissions(project, user, :view_work_packages)
       end
 
-      it 'returns the work package if the offset is before the work packages created at value' do
+      it "returns the work package if the offset is before the work packages created at value" do
         expect(WorkPackage.search(wp_subject.split, nil, offset:).first).to include(work_package)
       end
     end

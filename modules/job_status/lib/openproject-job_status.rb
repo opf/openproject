@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/job_status'
+require "open_project/job_status"

@@ -135,7 +135,7 @@ info:
     are supported. The client signals the desired compression by setting the [`Accept-Encoding` header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3).
     If no `Accept-Encoding` header is send, `Accept-Encoding: identity` is assumed which will result in the API responding uncompressed.
   title: OpenProject API V3 (Stable)
-  version: '3'
+  version: "3"
 
 servers:
   - url: https://qa.openproject-edge.com
@@ -220,6 +220,10 @@ paths:
     "$ref": "./paths/help_texts.yml"
   "/api/v3/help_texts/{id}":
     "$ref": "./paths/help_text.yml"
+  "/api/v3/meetings/{id}":
+    "$ref": "./paths/meeting.yml"
+  "/api/v3/meetings/{id}/attachments":
+    "$ref": "./paths/meeting_attachments.yml"
   "/api/v3/memberships":
     "$ref": "./paths/memberships.yml"
   "/api/v3/memberships/available_projects":
@@ -308,8 +312,6 @@ paths:
     "$ref": "./paths/project_work_packages_form.yml"
   "/api/v3/projects/{id}/available_assignees":
     "$ref": "./paths/project_available_assignees.yml"
-  "/api/v3/projects/{id}/available_responsibles":
-    "$ref": "./paths/project_available_responsibles.yml"
   "/api/v3/projects/{id}/categories":
     "$ref": "./paths/project_categories.yml"
   "/api/v3/projects/{id}/types":
@@ -472,73 +474,73 @@ paths:
 components:
   examples:
     DateAlertNotification:
-      $ref: './components/examples/date_alert_notification.yml'
+      $ref: "./components/examples/date_alert_notification.yml"
     GridSimpleCollectionResponse:
-      $ref: './components/examples/grid-simple-collection-response.yml'
+      $ref: "./components/examples/grid-simple-collection-response.yml"
     GridSimplePatchModel:
-      $ref: './components/examples/grid-simple-patch-model.yml'
+      $ref: "./components/examples/grid-simple-patch-model.yml"
     GridSimpleResponse:
-      $ref: './components/examples/grid-simple-response.yml'
+      $ref: "./components/examples/grid-simple-response.yml"
     GroupResponse:
-      $ref: './components/examples/group-response.yml'
+      $ref: "./components/examples/group-response.yml"
     MembershipCreateRequestCustomMessage:
-      $ref: './components/examples/membership-create-request-custom-message.yml'
+      $ref: "./components/examples/membership-create-request-custom-message.yml"
     MembershipCreateRequestGlobalRole:
-      $ref: './components/examples/membership-create-request-global-role.yml'
+      $ref: "./components/examples/membership-create-request-global-role.yml"
     MembershipCreateRequestNoNotification:
-      $ref: './components/examples/membership-create-request-no-notification.yml'
+      $ref: "./components/examples/membership-create-request-no-notification.yml"
     MembershipFormResponse:
-      $ref: './components/examples/membership-form-response.yml'
+      $ref: "./components/examples/membership-form-response.yml"
     MembershipSchemaResponse:
-      $ref: './components/examples/membership-schema-response.yml'
+      $ref: "./components/examples/membership-schema-response.yml"
     MembershipSimpleCollectionResponse:
-      $ref: './components/examples/membership-simple-collection-response.yml'
+      $ref: "./components/examples/membership-simple-collection-response.yml"
     MembershipSimpleResponse:
-      $ref: './components/examples/membership-simple-response.yml'
+      $ref: "./components/examples/membership-simple-response.yml"
     MembershipUpdateAdditionalRoles:
-      $ref: './components/examples/membership-update-additional-roles.yml'
+      $ref: "./components/examples/membership-update-additional-roles.yml"
     MentionedNotification:
-      $ref: './components/examples/mentioned_notification.yml'
+      $ref: "./components/examples/mentioned_notification.yml"
     NotificationCollection:
-      $ref: './components/examples/notification_collection.yml'
+      $ref: "./components/examples/notification_collection.yml"
     PlaceholderUserResponse:
-      $ref: './components/examples/placeholder-user-response.yml'
+      $ref: "./components/examples/placeholder-user-response.yml"
     Project:
-      $ref: './components/examples/project.yml'
+      $ref: "./components/examples/project.yml"
     ProjectBody:
-      $ref: './components/examples/project_body.yml'
+      $ref: "./components/examples/project_body.yml"
     ProjectCollection:
-      $ref: './components/examples/project_collection.yml'
+      $ref: "./components/examples/project_collection.yml"
     QueriesModel:
-      $ref: './components/examples/queries.yml'
+      $ref: "./components/examples/queries.yml"
     QueryModel:
-      $ref: './components/examples/query.yml'
+      $ref: "./components/examples/query.yml"
     QuerySchemaModel:
-      $ref: './components/examples/query_schema.yml'
+      $ref: "./components/examples/query_schema.yml"
     StatusCollection:
-      $ref: './components/examples/status_collection.yml'
+      $ref: "./components/examples/status_collection.yml"
     StoragesSimpleCollectionModel:
-      $ref: './components/examples/storages-simple-collection-response.yml'
+      $ref: "./components/examples/storages-simple-collection-response.yml"
     UserResponse:
-      $ref: './components/examples/user-response.yml'
+      $ref: "./components/examples/user-response.yml"
     ValuesPropertyStartDateSchema:
-      $ref: './components/examples/values_property_start_date_schema.yml'
+      $ref: "./components/examples/values_property_start_date_schema.yml"
     ValuesPropertyDueDateSchema:
-      $ref: './components/examples/values_property_due_date_schema.yml'
+      $ref: "./components/examples/values_property_due_date_schema.yml"
     ValuesPropertyDateSchema:
-      $ref: './components/examples/values_property_date_schema.yml'
+      $ref: "./components/examples/values_property_date_schema.yml"
     ValuesPropertyStartDate:
-      $ref: './components/examples/values_property_start_date.yml'
+      $ref: "./components/examples/values_property_start_date.yml"
     ValuesPropertyDueDate:
-      $ref: './components/examples/values_property_due_date.yml'
+      $ref: "./components/examples/values_property_due_date.yml"
     ValuesPropertyDate:
-      $ref: './components/examples/values_property_date.yml'
+      $ref: "./components/examples/values_property_date.yml"
     Views:
-      $ref: './components/examples/views.yml'
+      $ref: "./components/examples/views.yml"
     ViewWorkPackagesTable:
-      $ref: './components/examples/view_work_packages_table.yml'
+      $ref: "./components/examples/view_work_packages_table.yml"
     ViewTeamPlanner:
-      $ref: './components/examples/view_team_planner.yml'
+      $ref: "./components/examples/view_team_planner.yml"
 
   responses:
     InvalidQuery:
@@ -559,8 +561,6 @@ components:
       "$ref": "./components/schemas/attachments_model.yml"
     Available_AssigneesModel:
       "$ref": "./components/schemas/available_assignees_model.yml"
-    Available_ResponsiblesModel:
-      "$ref": "./components/schemas/available_responsibles_model.yml"
     Available_WatchersModel:
       "$ref": "./components/schemas/available_watchers_model.yml"
     Available_projects_for_queryModel:
@@ -608,15 +608,15 @@ components:
     Example_SchemaModel:
       "$ref": "./components/schemas/example_schema_model.yml"
     FileLinkCollectionReadModel:
-      $ref: './components/schemas/file_link_collection_read_model.yml'
+      $ref: "./components/schemas/file_link_collection_read_model.yml"
     FileLinkCollectionWriteModel:
-      $ref: './components/schemas/file_link_collection_write_model.yml'
+      $ref: "./components/schemas/file_link_collection_write_model.yml"
     FileLinkOriginDataModel:
       "$ref": "./components/schemas/file_link_origin_data_model.yml"
     FileLinkReadModel:
-      $ref: './components/schemas/file_link_read_model.yml'
+      $ref: "./components/schemas/file_link_read_model.yml"
     FileLinkWriteModel:
-      $ref: './components/schemas/file_link_write_model.yml'
+      $ref: "./components/schemas/file_link_write_model.yml"
     Formattable:
       "$ref": "./components/schemas/formattable.yml"
     GridCollectionModel:
@@ -649,6 +649,8 @@ components:
       "$ref": "./components/schemas/list_of_news_model.yml"
     List_projects_by_versionModel:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
+    MeetingModel:
+      "$ref": "./components/schemas/meeting_model.yml"
     MarkdownModel:
       "$ref": "./components/schemas/markdown_model.yml"
     MembershipCollectionModel:
@@ -900,4 +902,4 @@ tags:
   - "$ref": "./tags/work_packages.yml"
   - "$ref": "./tags/work_schedule.yml"
 security:
-  - BasicAuth: [ ]
+  - BasicAuth: []

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Relations::CreateService do
   let(:work_package1_start_date) { nil }
@@ -35,7 +35,7 @@ RSpec.describe Relations::CreateService do
   let(:work_package2_due_date) { nil }
 
   let(:follows_relation) { false }
-  let(:delay) { 3 }
+  let(:lag) { 3 }
 
   let(:work_package1) do
     build_stubbed(:work_package,
@@ -63,14 +63,14 @@ RSpec.describe Relations::CreateService do
     {
       to: work_package1,
       from: work_package2,
-      delay:
+      lag:
     }
   end
 
   let(:user) { build_stubbed(:user) }
   let(:model_valid) { true }
   let(:contract_valid) { true }
-  let(:contract) { double('contract') }
+  let(:contract) { double("contract") }
   let(:symbols_for_base) { [] }
 
   subject do
@@ -95,8 +95,8 @@ RSpec.describe Relations::CreateService do
       .and_return(contract_valid)
   end
 
-  context 'if all valid and it is a follows relation' do
-    let(:set_schedule_service) { double('set schedule service') }
+  context "if all valid and it is a follows relation" do
+    let(:set_schedule_service) { double("set schedule service") }
     let(:set_schedule_work_package2_result) do
       ServiceResult.success result: work_package2, errors: work_package2.errors
     end
@@ -130,37 +130,37 @@ RSpec.describe Relations::CreateService do
         .to receive(:success=)
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(subject)
         .to be_success
     end
 
-    it 'returns the relation' do
+    it "returns the relation" do
       expect(subject.result)
         .to eql relation
     end
 
-    it 'has a dependent result for the from-work package' do
+    it "has a dependent result for the from-work package" do
       expect(subject.dependent_results)
         .to contain_exactly(set_schedule_work_package2_result)
     end
   end
 
-  context 'if all is valid and it is not a follows relation' do
-    it 'is successful' do
+  context "if all is valid and it is not a follows relation" do
+    it "is successful" do
       expect(subject)
         .to be_success
     end
 
-    it 'returns the relation' do
+    it "returns the relation" do
       expect(subject.result)
         .to eql relation
     end
   end
 
-  context 'if the contract is invalid' do
+  context "if the contract is invalid" do
     let(:contract_valid) { false }
-    let(:contract_errors) { double('contract_errors') }
+    let(:contract_errors) { double("contract_errors") }
 
     before do
       allow(contract)
@@ -172,7 +172,7 @@ RSpec.describe Relations::CreateService do
         .and_return(symbols_for_base)
     end
 
-    it 'is unsuccessful' do
+    it "is unsuccessful" do
       expect(subject)
         .to be_failure
     end
@@ -183,9 +183,9 @@ RSpec.describe Relations::CreateService do
     end
   end
 
-  context 'if the model is invalid' do
+  context "if the model is invalid" do
     let(:model_valid) { false }
-    let(:model_errors) { double('model_errors') }
+    let(:model_errors) { double("model_errors") }
 
     before do
       allow(relation)
@@ -197,7 +197,7 @@ RSpec.describe Relations::CreateService do
         .and_return(symbols_for_base)
     end
 
-    it 'is unsuccessful' do
+    it "is unsuccessful" do
       expect(subject)
         .to be_failure
     end

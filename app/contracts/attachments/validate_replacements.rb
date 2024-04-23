@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'model_contract'
+require "model_contract"
 
 module Attachments
   module ValidateReplacements

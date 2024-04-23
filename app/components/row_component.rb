@@ -70,7 +70,7 @@ class RowComponent < ApplicationComponent
 
   def checkmark(condition)
     if condition
-      helpers.op_icon 'icon icon-checkmark'
+      helpers.op_icon "icon icon-checkmark"
     end
   end
 end

@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe RbMasterBacklogsController do
-  describe 'routing' do
+  describe "routing" do
     it {
-      expect(get('/projects/project_42/backlogs')).to route_to(controller: 'rb_master_backlogs',
-                                                               action: 'index',
-                                                               project_id: 'project_42')
+      expect(get("/projects/project_42/backlogs")).to route_to(controller: "rb_master_backlogs",
+                                                               action: "index",
+                                                               project_id: "project_42")
     }
   end
 end

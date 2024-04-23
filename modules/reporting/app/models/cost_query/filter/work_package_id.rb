@@ -40,7 +40,7 @@ class CostQuery::Filter::WorkPackageId < Report::Filter::Base
   end
 
   def self.available_operators
-    ['='].map(&:to_operator)
+    ["="].map(&:to_operator)
   end
 
   ##
@@ -55,7 +55,7 @@ class CostQuery::Filter::WorkPackageId < Report::Filter::Base
 
   def self.text_for_tuple(id, subject)
     str = "##{id} "
-    str << (subject.length > 30 ? subject.first(26) + '...' : subject)
+    str << (subject.length > 30 ? subject.first(26) + "..." : subject)
   end
 
   def self.text_for_work_package(i)

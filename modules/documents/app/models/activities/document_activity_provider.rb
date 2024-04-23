@@ -27,13 +27,13 @@
 #++
 
 class Activities::DocumentActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'documents',
+  activity_provider_for type: "documents",
                         permission: :view_documents
 
   def event_query_projection
     [
-      activity_journal_projection_statement(:title, 'document_title'),
-      activity_journal_projection_statement(:project_id, 'project_id')
+      activity_journal_projection_statement(:title, "document_title"),
+      activity_journal_projection_statement(:project_id, "project_id")
     ]
   end
 
@@ -42,7 +42,7 @@ class Activities::DocumentActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_type(_event)
-    'document'
+    "document"
   end
 
   def event_path(event)
@@ -56,6 +56,6 @@ class Activities::DocumentActivityProvider < Activities::BaseActivityProvider
   private
 
   def url_helper_parameter(event)
-    event['journable_id']
+    event["journable_id"]
   end
 end

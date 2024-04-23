@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../../support/pages/my/page'
+require_relative "../../support/pages/my/page"
 
-RSpec.describe 'My page time entries current user widget spec', :js do
+RSpec.describe "My page time entries current user widget spec", :js do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:activity) { create(:time_entry_activity) }
@@ -40,14 +40,14 @@ RSpec.describe 'My page time entries current user widget spec', :js do
            project:,
            type:,
            author: user,
-           subject: 'First work package')
+           subject: "First work package")
   end
   let!(:other_work_package) do
     create(:work_package,
            project:,
            type:,
            author: user,
-           subject: 'Another task')
+           subject: "Another task")
   end
   let!(:visible_time_entry) do
     create(:time_entry,
@@ -57,7 +57,7 @@ RSpec.describe 'My page time entries current user widget spec', :js do
            user:,
            spent_on: Date.current.beginning_of_week(:sunday) + 1.day,
            hours: 3,
-           comments: 'My comment')
+           comments: "My comment")
   end
   let!(:visible_time_entry_on_project) do
     create(:time_entry,
@@ -67,7 +67,7 @@ RSpec.describe 'My page time entries current user widget spec', :js do
            user:,
            spent_on: Date.current.beginning_of_week(:sunday) + 1.day,
            hours: 1,
-           comments: 'My comment')
+           comments: "My comment")
   end
   let!(:other_visible_time_entry) do
     create(:time_entry,
@@ -77,7 +77,7 @@ RSpec.describe 'My page time entries current user widget spec', :js do
            user:,
            spent_on: Date.current.beginning_of_week(:sunday) + 4.days,
            hours: 2,
-           comments: 'My other comment')
+           comments: "My other comment")
   end
   let!(:last_week_visible_time_entry) do
     create(:time_entry,
@@ -87,7 +87,7 @@ RSpec.describe 'My page time entries current user widget spec', :js do
            user:,
            spent_on: Date.current - (Date.current.wday + 3).days,
            hours: 8,
-           comments: 'My last week comment')
+           comments: "My last week comment")
   end
   let!(:invisible_time_entry) do
     create(:time_entry,
@@ -120,53 +120,53 @@ RSpec.describe 'My page time entries current user widget spec', :js do
     my_page.visit!
   end
 
-  it 'adds the widget which then displays time entries and allows manipulating them' do
+  it "adds the widget which then displays time entries and allows manipulating them" do
     # within top-right area, add an additional widget
-    my_page.add_widget(1, 1, :within, 'My spent time')
+    my_page.add_widget(1, 1, :within, "My spent time")
 
-    entries_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    entries_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
     entries_area.expect_to_span(1, 1, 2, 2)
 
-    expect(page).to have_no_css('.fc-day-mon.fc-non-working-day')
-    expect(page).to have_no_css('.fc-day-tue.fc-non-working-day')
-    expect(page).to have_no_css('.fc-day-wed.fc-non-working-day')
-    expect(page).to have_no_css('.fc-day-thu.fc-non-working-day')
-    expect(page).to have_no_css('.fc-day-fri.fc-non-working-day')
-    expect(page).to have_css('.fc-day-sat.fc-non-working-day')
-    expect(page).to have_css('.fc-day-sun.fc-non-working-day')
+    expect(page).to have_no_css(".fc-day-mon.fc-non-working-day")
+    expect(page).to have_no_css(".fc-day-tue.fc-non-working-day")
+    expect(page).to have_no_css(".fc-day-wed.fc-non-working-day")
+    expect(page).to have_no_css(".fc-day-thu.fc-non-working-day")
+    expect(page).to have_no_css(".fc-day-fri.fc-non-working-day")
+    expect(page).to have_css(".fc-day-sat.fc-non-working-day")
+    expect(page).to have_css(".fc-day-sun.fc-non-working-day")
 
     expect(page)
       .to have_content "Total: 6 h"
 
     expect(page)
-      .to have_content visible_time_entry.spent_on.strftime('%-m/%-d')
+      .to have_content visible_time_entry.spent_on.strftime("%-m/%-d")
     expect(page)
-      .to have_css('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_css(".fc-event .fc-event-title", text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     expect(page)
-      .to have_content(other_visible_time_entry.spent_on.strftime('%-m/%-d'))
+      .to have_content(other_visible_time_entry.spent_on.strftime("%-m/%-d"))
     expect(page)
-      .to have_css('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_css(".fc-event .fc-event-title", text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     # go to last week
     within entries_area.area do
-      find('.fc-toolbar .fc-prev-button').click
+      find(".fc-toolbar .fc-prev-button").click
     end
 
     expect(page)
       .to have_content "Total: 8 h"
 
     expect(page)
-      .to have_content(last_week_visible_time_entry.spent_on.strftime('%-m/%-d'))
+      .to have_content(last_week_visible_time_entry.spent_on.strftime("%-m/%-d"))
     expect(page)
-      .to have_css('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_css(".fc-event .fc-event-title", text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     # go to today again
     within entries_area.area do
-      find('.fc-toolbar .fc-today-button').click
+      find(".fc-toolbar .fc-today-button").click
     end
 
     expect(page)
@@ -177,7 +177,7 @@ RSpec.describe 'My page time entries current user widget spec', :js do
     end
 
     expect(page)
-      .to have_css('.ui-tooltip', text: "Project: #{project.name}")
+      .to have_css(".ui-tooltip", text: "Project: #{project.name}")
 
     # Adding a time entry
 
@@ -190,32 +190,32 @@ RSpec.describe 'My page time entries current user widget spec', :js do
 
     time_logging_modal.work_package_is_missing true
 
-    time_logging_modal.has_field_with_value 'spentOn', (Date.current.beginning_of_week(:sunday) + 3.days).strftime
+    time_logging_modal.has_field_with_value "spentOn", (Date.current.beginning_of_week(:sunday) + 3.days).strftime
 
-    time_logging_modal.shows_field 'user', false
+    time_logging_modal.shows_field "user", false
 
     expect(page)
-      .to have_no_css('.ng-spinner-loader')
+      .to have_no_css(".ng-spinner-loader")
 
     # Expect filtering works
     time_logging_modal.work_package_field.autocomplete work_package.subject, select: false
 
-    expect(page).to have_test_selector('op-autocompleter-item-subject', text: work_package.subject)
-    expect(page).not_to have_test_selector('op-autocompleter-item-subject', text: other_work_package.subject)
+    expect(page).to have_test_selector("op-autocompleter-item-subject", text: work_package.subject)
+    expect(page).not_to have_test_selector("op-autocompleter-item-subject", text: other_work_package.subject)
 
     time_logging_modal.update_work_package_field other_work_package.subject
 
     time_logging_modal.work_package_is_missing false
 
-    time_logging_modal.update_field 'comment', 'Comment for new entry'
+    time_logging_modal.update_field "comment", "Comment for new entry"
 
-    time_logging_modal.update_field 'activity', activity.name
+    time_logging_modal.update_field "activity", activity.name
 
-    time_logging_modal.update_field 'hours', 4
+    time_logging_modal.update_field "hours", 4
 
     sleep(0.1)
 
-    time_logging_modal.perform_action 'Save'
+    time_logging_modal.perform_action "Save"
     time_logging_modal.is_visible false
 
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_create)
@@ -240,19 +240,19 @@ RSpec.describe 'My page time entries current user widget spec', :js do
 
     time_logging_modal.is_visible true
 
-    time_logging_modal.update_field 'activity', other_activity.name
+    time_logging_modal.update_field "activity", other_activity.name
 
     # As the other_work_package now has time logged, it is now considered to be a
     # recent work package.
     time_logging_modal.update_work_package_field other_work_package.subject, true
 
-    time_logging_modal.update_field 'hours', 6
+    time_logging_modal.update_field "hours", 6
 
-    time_logging_modal.update_field 'comment', 'Some comment'
+    time_logging_modal.update_field "comment", "Some comment"
 
-    cf_field.set_value('Cf text value')
+    cf_field.set_value("Cf text value")
 
-    time_logging_modal.perform_action 'Save'
+    time_logging_modal.perform_action "Save"
     time_logging_modal.is_visible false
 
     sleep(0.1)
@@ -263,32 +263,32 @@ RSpec.describe 'My page time entries current user widget spec', :js do
     end
 
     expect(page)
-      .to have_css('.ui-tooltip', text: "Work package: ##{other_work_package.id}: #{other_work_package.subject}")
+      .to have_css(".ui-tooltip", text: "Work package: ##{other_work_package.id}: #{other_work_package.subject}")
 
     expect(page)
-      .to have_css('.ui-tooltip', text: "Hours: 6 h")
+      .to have_css(".ui-tooltip", text: "Hours: 6 h")
 
     expect(page)
-      .to have_css('.ui-tooltip', text: "Activity: #{other_activity.name}")
+      .to have_css(".ui-tooltip", text: "Activity: #{other_activity.name}")
 
     expect(page)
-      .to have_css('.ui-tooltip', text: "Comment: Some comment")
+      .to have_css(".ui-tooltip", text: "Comment: Some comment")
 
     expect(page)
       .to have_content "Total: 13 h"
 
     ## Hiding weekdays
-    entries_area.click_menu_item I18n.t('js.grid.configure')
+    entries_area.click_menu_item I18n.t("js.grid.configure")
 
-    uncheck 'Monday' # the day visible_time_entry is logged for
+    uncheck "Monday" # the day visible_time_entry is logged for
 
-    click_button 'Apply'
+    click_button "Apply"
 
     within entries_area.area do
       expect(page)
-        .to have_no_css('.fc-day-header', text: 'Mon')
+        .to have_no_css(".fc-day-header", text: "Mon")
       expect(page)
-        .to have_no_css('.fc-duration', text: "6 h")
+        .to have_no_css(".fc-duration", text: "6 h")
     end
 
     ## Removing the time entry
@@ -300,7 +300,7 @@ RSpec.describe 'My page time entries current user widget spec', :js do
     end
 
     time_logging_modal.is_visible true
-    time_logging_modal.perform_action 'Delete'
+    time_logging_modal.perform_action "Delete"
 
     page.driver.browser.switch_to.alert.accept
     time_logging_modal.is_visible false
@@ -325,7 +325,7 @@ RSpec.describe 'My page time entries current user widget spec', :js do
         .to have_css(".te-calendar--time-entry", count: 1)
 
       expect(page)
-        .to have_no_css('.fc-col-header-cell', text: 'Mon')
+        .to have_no_css(".fc-col-header-cell", text: "Mon")
     end
 
     # Removing the widget

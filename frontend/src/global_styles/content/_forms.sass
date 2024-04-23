@@ -53,7 +53,6 @@ $content-form-input-border: 1px solid var(--color-border-default)
 
 %required-star
   @include default-transition
-  color: var(--primary-color-dark)
   content: '*'
   padding: 0 0.325rem
 
@@ -143,7 +142,7 @@ form
       .button
         @extend %input--sizing
 
-        &.-highlight
+        &.-primary
           background: var(--content-form-danger-zone-bg-color)
           color: var(--content-form-danger-zone-font-color)
           border-color: var(--content-form-danger-zone-bg-color)
@@ -538,6 +537,10 @@ fieldset.form--fieldset
   &.-with-bottom-spacing
     margin-bottom: 1rem
 
+  .form--field.-vertical &
+    @include grid-size(12)
+    @include grid-offset(0)
+
 .form--field-error
   @extend %form--field-after-container
   font-style: italic
@@ -819,9 +822,6 @@ input[readonly].-clickable
       &::after
         @extend %required-star
 
-      &:hover::after
-        color: var(--primary-color)
-
     > a
       display: block
       min-width: 1.5rem
@@ -951,30 +951,10 @@ input[readonly].-clickable
 textarea
   text-rendering: optimizeLegibility
 
-// Overwriting Foundation color variables.
-// Unfortunatel I do not know how to get it DRY.
-input[type=range]::-moz-range-thumb
-  background: var(--primary-color)
-
-input[type=range]::-webkit-slider-thumb
-  background: var(--primary-color)
-
-input[type=range]::-ms-thumb
-  background: var(--primary-color)
-
-input[type=range]::-moz-range-thumb:hover
-  background: var(--primary-color-dark)
-
-input[type=range]::-webkit-slider-thumb:hover
-  background: var(--primary-color-dark)
-
 // Date and time inputs should be left-aligned on iOS
 input[type=date], input[type=time]
   &::-webkit-date-and-time-value
     text-align: left !important
-
-input[type=range]::-ms-thumb:hover
-  background: var(--primary-color-dark)
 
 // Special handling for the permissions_form of Admin/Roles --> permission report
 // Since FF ESR is not able to handle the overflow of fieldsets correctly, a workaround is needed.

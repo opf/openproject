@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Days::Filters::WorkingFilter do
-  it_behaves_like 'boolean query filter' do
+  it_behaves_like "boolean query filter" do
     let(:model) { Day }
     let(:attribute) { :working }
   end

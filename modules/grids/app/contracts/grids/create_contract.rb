@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'grids/base_contract'
+require "grids/base_contract"
 
 module Grids
   class CreateContract < BaseContract

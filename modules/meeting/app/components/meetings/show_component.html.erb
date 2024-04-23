@@ -12,7 +12,7 @@
     end
 
     show_page.with_row do
-      render(Primer::Alpha::Layout.new(stacking_breakpoint: :sm)) do |content|
+      render(Primer::Alpha::Layout.new(stacking_breakpoint: :md)) do |content|
         content.with_main do
           flex_layout do |agenda|
             agenda.with_row do
@@ -21,6 +21,13 @@
 
             agenda.with_row do
               render(MeetingAgendaItems::NewButtonComponent.new(meeting: @meeting))
+            end
+
+            agenda.with_row(mt: 3, display: [:block, nil, :none]) do
+              resource = ::API::V3::Meetings::MeetingRepresenter.new(@meeting, current_user: User.current, embed_links: false)
+              concat render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t(:label_attachment_plural) }
+              concat helpers.list_attachments(resource,
+                                              inputs: { allowUploading: true })
             end
           end
         end

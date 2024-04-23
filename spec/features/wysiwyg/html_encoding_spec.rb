@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wysiwyg escaping HTML entities (Regression #28906)', :js do
+RSpec.describe "Wysiwyg escaping HTML entities (Regression #28906)", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }
@@ -38,31 +38,31 @@ RSpec.describe 'Wysiwyg escaping HTML entities (Regression #28906)', :js do
     visit project_wiki_path(project, :wiki)
   end
 
-  it 'shows the list correctly' do
+  it "shows the list correctly" do
     editor.in_editor do |_, editable|
       editor.click_and_type_slowly '<node foo="bar" />',
                                    :enter,
                                    '\<u>foo\</u>'
 
-      expect(editable).to have_no_css('node')
-      expect(editable).to have_no_css('u')
+      expect(editable).to have_no_css("node")
+      expect(editable).to have_no_css("u")
     end
 
     # Save wiki page
-    click_on 'Save'
+    click_on "Save"
 
-    expect(page).to have_css('.op-toast.-success')
+    expect(page).to have_css(".op-toast.-success")
 
-    within('#content') do
-      expect(page).to have_css('p', text: '<node foo="bar" />')
-      expect(page).to have_no_css('u')
-      expect(page).to have_no_css('node')
+    within("#content") do
+      expect(page).to have_css("p", text: '<node foo="bar" />')
+      expect(page).to have_no_css("u")
+      expect(page).to have_no_css("node")
     end
 
     text = WikiPage.last.text
     expect(text).to include "&lt;node foo=&quot;bar&quot; /&gt;"
     expect(text).to include "\\\\&lt;u&gt;foo\\\\&lt;/u&gt;"
-    expect(text).not_to include '<node>'
-    expect(text).not_to include '<u>'
+    expect(text).not_to include "<node>"
+    expect(text).not_to include "<u>"
   end
 end

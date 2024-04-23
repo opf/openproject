@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Configuration resource' do
+RSpec.describe "API v3 Configuration resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -44,38 +44,38 @@ RSpec.describe 'API v3 Configuration resource' do
     last_response
   end
 
-  describe '#GET' do
-    it 'returns 200 OK' do
+  describe "#GET" do
+    it "returns 200 OK" do
       expect(subject.status).to eq(200)
     end
 
-    it 'returns the configuration', with_settings: { per_page_options: '3, 5, 8, 13' } do
+    it "returns the configuration", with_settings: { per_page_options: "3, 5, 8, 13" } do
       expect(subject.body)
-        .to be_json_eql('Configuration'.to_json)
+        .to be_json_eql("Configuration".to_json)
               .at_path("_type")
 
       expect(subject.body)
         .to be_json_eql([3, 5, 8, 13].to_json)
-              .at_path('perPageOptions')
+              .at_path("perPageOptions")
     end
 
-    it 'embedds the current user preferences' do
+    it "embedds the current user preferences" do
       expect(subject.body)
-        .to be_json_eql('UserPreferences'.to_json)
-              .at_path('_embedded/userPreferences/_type')
+        .to be_json_eql("UserPreferences".to_json)
+              .at_path("_embedded/userPreferences/_type")
     end
 
-    it 'does not embed the preferences' do
+    it "does not embed the preferences" do
       expect(subject.body)
-        .not_to have_json_path('_embedded/user_preferences')
+        .not_to have_json_path("_embedded/user_preferences")
     end
 
-    context 'with feature flags',
+    context "with feature flags",
             :settings_reset,
             with_env: {
-              'OPENPROJECT_FEATURE_AN_EXAMPLE_ACTIVE' => 'true',
-              'OPENPROJECT_FEATURE_ANOTHER_EXAMPLE_ACTIVE' => 'true',
-              'OPENPROJECT_FEATURE_INACTIVE_EXAMPLE_ACTIVE' => 'false'
+              "OPENPROJECT_FEATURE_AN_EXAMPLE_ACTIVE" => "true",
+              "OPENPROJECT_FEATURE_ANOTHER_EXAMPLE_ACTIVE" => "true",
+              "OPENPROJECT_FEATURE_INACTIVE_EXAMPLE_ACTIVE" => "false"
             } do
       before do
         OpenProject::FeatureDecisions.add :an_example
@@ -84,26 +84,26 @@ RSpec.describe 'API v3 Configuration resource' do
         OpenProject::FeatureDecisions.add :default_example
       end
 
-      it 'lists the active feature flags' do
+      it "lists the active feature flags" do
         expect(subject.body)
           .to be_json_eql(%w[anExample anotherExample].to_json)
-                .at_path('activeFeatureFlags')
+                .at_path("activeFeatureFlags")
       end
     end
 
-    context 'for a non logged in user' do
+    context "for a non logged in user" do
       current_user { User.anonymous }
 
-      it 'returns 200 OK' do
+      it "returns 200 OK" do
         expect(subject.status).to eq(200)
       end
     end
 
-    context 'for a non logged in user with login_required',
+    context "for a non logged in user with login_required",
             with_settings: { login_required?: true } do
       current_user { User.anonymous }
 
-      it 'returns 200 OK' do
+      it "returns 200 OK" do
         expect(subject.status).to eq(200)
       end
     end

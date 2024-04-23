@@ -3,16 +3,16 @@ zh-TW:
   js:
     storages:
       link_files_in_storage: "Link files in %{storageType}"
-      link_existing_files: "Link existing files"
-      upload_files: "Upload files"
-      drop_files: "Drop files here to upload them to %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      link_existing_files: "連結到已在雲端檔案系統之檔案"
+      upload_files: "上傳檔案"
+      drop_files: "將檔案拖至此處或上傳至%{name}。"
+      drop_or_click_files: "將檔案拖至此處或點選上傳至%{name}。"
       login: "%{storageType} login"
       login_to: "Login to %{storageType}"
       no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      open_storage: "開啟 %{storageType}"
+      select_location: "選擇位置"
+      choose_location: "選擇位置"
       types:
         nextcloud: "Nextcloud"
         one_drive: "OneDrive/SharePoint"
@@ -27,13 +27,13 @@ zh-TW:
         not_logged_in: >
           To add a link, see or upload files related to this work package, please login to %{storageType}.
       files:
-        already_existing_header: "This file already exists"
+        already_existing_header: "此檔案已存在"
         already_existing_body: >
           A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
         dragging_folder: "The upload to %{storageType} does not support folders."
-        empty_folder: "This folder is empty."
+        empty_folder: "這個資料夾是空的。"
         empty_folder_location_hint: "Click the button below to upload the file to this location."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
         project_folder_no_access: >
@@ -42,28 +42,28 @@ zh-TW:
           The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
         managed_project_folder_no_access: >
           You have no access yet to the managed project folder. Please wait a bit and try again.
-        upload_keep_both: "Keep both"
+        upload_keep_both: "兩者都保留"
         upload_replace: "取代"
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
-        download: "Download %{fileName}"
-        open: "Open file on storage"
-        open_location: "Open file in location"
-        remove: "Remove file link"
+        download: "下載 %{fileName}"
+        open: "開啟儲存區檔案"
+        open_location: "打開文件"
+        remove: "移除檔案連結"
         remove_confirmation: >
           Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
-        remove_short: "Remove link"
-        select: "Select files"
+        remove_short: "移除連結"
+        select: "選擇檔案"
         select_all: "全選"
         selection:
           zero: "Select files to link"
-          other: "Link %{count} files"
+          other: "連結 %{count} 個檔案"
         success_create:
-          other: "Successfully created %{count} file links."
+          other: "成功新增%{count}個檔案連結"
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded.
+            您的檔案 (%{fileName}) 無法被上傳。
           403: >
             Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
           413: >
@@ -77,7 +77,7 @@ zh-TW:
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         tooltip:
           not_logged_in: "Please log in to the storage to access this file."
-          view_not_allowed: "You have no permission to see this file."
-          not_found: "This file cannot be found."
+          view_not_allowed: "您無權查看此文件。"
+          not_found: "找不到檔案。"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

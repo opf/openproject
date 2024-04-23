@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'Team planner split view navigation', :js, with_ee: %i[team_planner_view] do
-  include_context 'with team planner full access'
+RSpec.describe "Team planner split view navigation", :js, with_ee: %i[team_planner_view] do
+  include_context "with team planner full access"
 
   let!(:view) { create(:view_team_planner, query:) }
   let!(:query) { create(:query, user:, project:, public: true) }
@@ -40,7 +40,7 @@ RSpec.describe 'Team planner split view navigation', :js, with_ee: %i[team_plann
   let!(:work_package1) do
     create(:work_package,
            project:,
-           subject: 'First task',
+           subject: "First task",
            assigned_to: user,
            start_date: start_of_week.next_occurring(:tuesday),
            due_date: start_of_week.next_occurring(:thursday))
@@ -49,13 +49,13 @@ RSpec.describe 'Team planner split view navigation', :js, with_ee: %i[team_plann
   let!(:work_package2) do
     create(:work_package,
            project:,
-           subject: 'Another task',
+           subject: "Another task",
            assigned_to: user,
            start_date: start_of_week.next_occurring(:tuesday),
            due_date: start_of_week.next_occurring(:thursday))
   end
 
-  it 'allows to navigate to the split view' do
+  it "allows to navigate to the split view" do
     team_planner.visit!
 
     team_planner.add_assignee user
@@ -65,7 +65,7 @@ RSpec.describe 'Team planner split view navigation', :js, with_ee: %i[team_plann
     end
 
     # Expect clicking on a work package does not open the details
-    page.find_test_selector('op-wp-single-card--content-subject', text: work_package1.subject).click
+    page.find_test_selector("op-wp-single-card--content-subject", text: work_package1.subject).click
     expect(page).to have_no_current_path /team_planners\/new\/details\/#{work_package1.id}/
 
     # Open split view through info icon
@@ -76,7 +76,7 @@ RSpec.describe 'Team planner split view navigation', :js, with_ee: %i[team_plann
     card1.expect_selected
 
     # now clicking on another card switches
-    page.find_test_selector('op-wp-single-card--content-subject', text: work_package2.subject).click
+    page.find_test_selector("op-wp-single-card--content-subject", text: work_package2.subject).click
     expect(page).to have_current_path /team_planners\/new\/details\/#{work_package2.id}/
 
     card2 = Pages::WorkPackageCard.new work_package2

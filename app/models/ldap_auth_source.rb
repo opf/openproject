@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'net/ldap'
+require "net/ldap"
 
 class LdapAuthSource < ApplicationRecord
   class Error < ::StandardError; end
@@ -180,11 +180,11 @@ class LdapAuthSource < ApplicationRecord
   def test_connection
     unless authenticate_dn(account, account_password)
       raise LdapAuthSource::Error,
-            I18n.t('ldap_auth_sources.ldap_error', error_message: I18n.t('ldap_auth_sources.ldap_auth_failed'))
+            I18n.t("ldap_auth_sources.ldap_error", error_message: I18n.t("ldap_auth_sources.ldap_auth_failed"))
     end
   rescue Net::LDAP::Error => e
     raise LdapAuthSource::Error,
-          I18n.t('ldap_auth_sources.ldap_error', error_message: e.to_s)
+          I18n.t("ldap_auth_sources.ldap_error", error_message: e.to_s)
   end
 
   def get_user_attributes_from_ldap_entry(entry)
@@ -210,13 +210,13 @@ class LdapAuthSource < ApplicationRecord
   # Return the attributes needed for the LDAP search.
   #
   def search_attributes
-    ['dn', attr_login, attr_firstname, attr_lastname, attr_mail, attr_admin].compact
+    ["dn", attr_login, attr_firstname, attr_lastname, attr_mail, attr_admin].compact
   end
 
   ##
   # Returns the filter object used for searching
   def default_filter
-    object_filter = Net::LDAP::Filter.eq('objectClass', '*')
+    object_filter = Net::LDAP::Filter.eq("objectClass", "*")
     parsed_filter_string || object_filter
   end
 

@@ -70,6 +70,7 @@ export class StaticQueriesService {
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
     shared_with_users: this.I18n.t('js.work_packages.default_queries.shared_with_users'),
+    shared_with_me: this.I18n.t('js.work_packages.default_queries.shared_with_me'),
     summary: this.I18n.t('js.work_packages.default_queries.summary'),
     overdue: this.I18n.t('js.notifications.date_alerts.overdue'),
   };
@@ -231,6 +232,12 @@ export class StaticQueriesService {
         ...this.eeGuardedShareRoute,
       },
       {
+        title: this.text.shared_with_me,
+        view: 'WorkPackagesTable',
+        isEnterprise: true,
+        ...this.eeGuardedShareWithMeRoute,
+      },
+      {
         title: this.text.created_by_me,
         uiSref: 'bim.partitioned.list',
         uiParams: {
@@ -249,6 +256,20 @@ export class StaticQueriesService {
         view: 'Bim',
       },
     ];
+  }
+
+  private get eeGuardedShareWithMeRoute() {
+    if (this.bannersService.eeShowBanners) {
+      return { uiSref: 'work-packages.share_upsale', uiParams: null, uiOptions: { inherit: false } };
+    }
+
+    return {
+      uiSref: 'work-packages',
+      uiParams: {
+        query_id: undefined,
+        query_props: '{"c":["id","subject","type","project"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"sharedWithMe","o":"=","v":"t"}]}',
+      },
+    };
   }
 
   private get eeGuardedShareRoute() {

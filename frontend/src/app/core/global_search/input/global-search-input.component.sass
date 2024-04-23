@@ -59,6 +59,9 @@ $search-input-height: 30px
       background: transparent
       border-color: var(--header-item-font-color) !important
 
+      &:focus-within
+        @include spot-focus
+
     .ng-arrow-wrapper
       display: none
 
@@ -126,19 +129,15 @@ $search-input-height: 30px
       background-color: unset
       &:last-child
         border-bottom: none
-      &.ng-option-marked
-        color: var(--header-drop-down-item-font-hover-color)
       &.ng-option-disabled
         display: none
-      &.ng-option-selected
-        color: var(--header-drop-down-item-font-hover-color)
 
     &.-markable
       .ng-option
         &.ng-option-marked
           background-color: var(--drop-down-hover-bg-color)
         &.ng-option-selected
-          background-color: var(--drop-down-selected-bg-color)
+          background-color: unset
 
   &--input
     // Fix position of the spinner

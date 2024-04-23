@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if User.current.allowed_in_project?(:manage_ifc_models, @project) %>
     <li class="toolbar-item">
       <%= link_to new_bcf_project_ifc_model_path,
-                  { class: 'button -alt-highlight',
+                  { class: 'button -primary',
                     aria: { label: t(:'ifc_models.label_new_ifc_model') },
                     title: t(:'ifc_models.label_new_ifc_model') } do %>
         <%= op_icon('button--icon icon-add') %>

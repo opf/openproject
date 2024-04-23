@@ -1,18 +1,18 @@
 module Grids::Configuration
   class InProjectBaseRegistration < ::Grids::Configuration::Registration
-    widgets 'work_packages_table',
-            'work_packages_graph',
-            'project_description',
-            'project_status',
-            'project_details',
-            'subprojects',
-            'work_packages_calendar',
-            'work_packages_overview',
-            'time_entries_list',
-            'members',
-            'news',
-            'documents',
-            'custom_text'
+    widgets "work_packages_table",
+            "work_packages_graph",
+            "project_description",
+            "project_status",
+            "project_details",
+            "subprojects",
+            "work_packages_calendar",
+            "work_packages_overview",
+            "time_entries_list",
+            "members",
+            "news",
+            "documents",
+            "custom_text"
 
     remove_query_lambda = -> {
       ::Query.find_by(id: options[:queryId])&.destroy
@@ -32,43 +32,43 @@ module Grids::Configuration
       user.allowed_in_any_work_package?(:view_work_packages, in_project: project)
     }
 
-    widget_strategy 'work_packages_table' do
+    widget_strategy "work_packages_table" do
       after_destroy remove_query_lambda
 
       allowed save_or_manage_queries_lambda
 
-      options_representer '::API::V3::Grids::Widgets::QueryOptionsRepresenter'
+      options_representer "::API::V3::Grids::Widgets::QueryOptionsRepresenter"
     end
 
-    widget_strategy 'work_packages_graph' do
+    widget_strategy "work_packages_graph" do
       after_destroy remove_query_lambda
 
       allowed queries_permission_and_ee_lambda
 
-      options_representer '::API::V3::Grids::Widgets::ChartOptionsRepresenter'
+      options_representer "::API::V3::Grids::Widgets::ChartOptionsRepresenter"
     end
 
-    widget_strategy 'custom_text' do
-      options_representer '::API::V3::Grids::Widgets::CustomTextOptionsRepresenter'
+    widget_strategy "custom_text" do
+      options_representer "::API::V3::Grids::Widgets::CustomTextOptionsRepresenter"
     end
 
-    widget_strategy 'work_packages_overview' do
+    widget_strategy "work_packages_overview" do
       allowed view_work_packages_lambda
     end
 
-    widget_strategy 'work_packages_calendar' do
+    widget_strategy "work_packages_calendar" do
       allowed view_work_packages_lambda
     end
 
-    widget_strategy 'members' do
+    widget_strategy "members" do
       allowed ->(user, project) { user.allowed_in_project?(:view_members, project) }
     end
 
-    widget_strategy 'news' do
+    widget_strategy "news" do
       allowed ->(user, project) { user.allowed_in_project?(:view_news, project) }
     end
 
-    widget_strategy 'documents' do
+    widget_strategy "documents" do
       allowed ->(user, project) { user.allowed_in_project?(:view_documents, project) }
     end
 
@@ -92,10 +92,10 @@ module Grids::Configuration
       def from_scope(scope)
         # recognize_routes does not work with engine paths
         path = [OpenProject::Configuration.rails_relative_url_root,
-                'projects',
-                '([^/]+)',
+                "projects",
+                "([^/]+)",
                 in_project_scope_path,
-                '?'].flatten.compact.join('/')
+                "?"].flatten.compact.join("/")
 
         match = Regexp.new(path).match(scope)
         return if match.nil?

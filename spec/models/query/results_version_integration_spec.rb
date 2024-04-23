@@ -26,39 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Query::Results, 'Grouping and sorting for version' do
+RSpec.describe Query::Results, "Grouping and sorting for version" do
   let(:query_results) do
     Query::Results.new query
   end
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-           firstname: 'user',
-           lastname: '1',
+           firstname: "user",
+           lastname: "1",
            member_with_permissions: { project => [:view_work_packages] })
   end
 
   let(:old_version) do
     create(:version,
-           name: '1. Old version',
+           name: "1. Old version",
            project:,
-           start_date: '2019-02-02',
-           effective_date: '2019-02-03')
+           start_date: "2019-02-02",
+           effective_date: "2019-02-03")
   end
 
   let(:new_version) do
     create(:version,
-           name: '1.2 New version',
+           name: "1.2 New version",
            project:,
-           start_date: '2020-02-02',
-           effective_date: '2020-02-03')
+           start_date: "2020-02-02",
+           effective_date: "2020-02-03")
   end
 
   let(:no_date_version) do
     create(:version,
-           name: '1.1 No date version',
+           name: "1.1 No date version",
            project:,
            start_date: nil,
            effective_date: nil)
@@ -66,30 +66,30 @@ RSpec.describe Query::Results, 'Grouping and sorting for version' do
 
   let!(:no_version_wp) do
     create(:work_package,
-           subject: 'No version wp',
+           subject: "No version wp",
            project:)
   end
   let!(:newest_version_wp) do
     create(:work_package,
-           subject: 'Newest version wp',
+           subject: "Newest version wp",
            version: new_version,
            project:)
   end
   let!(:oldest_version_wp) do
     create(:work_package,
-           subject: 'Oldest version wp',
+           subject: "Oldest version wp",
            version: old_version,
            project:)
   end
   let!(:no_date_version_wp) do
     create(:work_package,
-           subject: 'No date version wp',
+           subject: "No date version wp",
            version: no_date_version,
            project:)
   end
 
   let(:group_by) { nil }
-  let(:sort_criteria) { [['version', 'asc']] }
+  let(:sort_criteria) { [["version", "asc"]] }
 
   let(:query) do
     build(:query,
@@ -107,10 +107,10 @@ RSpec.describe Query::Results, 'Grouping and sorting for version' do
     login_as(user)
   end
 
-  describe 'grouping by version' do
-    let(:group_by) { 'version' }
+  describe "grouping by version" do
+    let(:group_by) { "version" }
 
-    it 'returns the correctly sorted grouped result' do
+    it "returns the correctly sorted grouped result" do
       # Keys are also sorted by the version
       expect(query_results.work_package_count_by_group.keys)
         .to eql work_packages_asc.map(&:version)
@@ -123,19 +123,19 @@ RSpec.describe Query::Results, 'Grouping and sorting for version' do
     end
   end
 
-  describe 'sorting ASC by version' do
-    let(:sort_criteria) { [['version', 'asc']] }
+  describe "sorting ASC by version" do
+    let(:sort_criteria) { [["version", "asc"]] }
 
-    it 'returns the correctly sorted result' do
+    it "returns the correctly sorted result" do
       expect(query_results.work_packages.pluck(:id))
         .to match work_packages_asc.map(&:id)
     end
   end
 
-  describe 'sorting DESC by version' do
-    let(:sort_criteria) { [['version', 'desc']] }
+  describe "sorting DESC by version" do
+    let(:sort_criteria) { [["version", "desc"]] }
 
-    it 'returns the correctly sorted result' do
+    it "returns the correctly sorted result" do
       # null values are still sorted last
       work_packages_order = [newest_version_wp, no_date_version_wp, oldest_version_wp, no_version_wp]
 

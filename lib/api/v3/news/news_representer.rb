@@ -64,7 +64,7 @@ module API
                             representer: ::API::V3::Users::UserRepresenter
 
         def _type
-          'News'
+          "News"
         end
       end
     end

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 ##
-RSpec.describe AccountController, 'Auth header logout' do
+RSpec.describe AccountController, "Auth header logout" do
   render_views
 
   let!(:auth_source) { create(:ldap_auth_source, name: "Dummy LDAP") }
@@ -44,34 +44,34 @@ RSpec.describe AccountController, 'Auth header logout' do
     end
   end
 
-  describe 'logout' do
-    context 'when a logout URL is present' do
+  describe "logout" do
+    context "when a logout URL is present" do
       let(:sso_config) do
         {
-          logout_url: 'https://example.org/foo?logout=true'
+          logout_url: "https://example.org/foo?logout=true"
         }
       end
 
-      context 'and the user came from auth source' do
+      context "and the user came from auth source" do
         before do
           login_as user
           session[:user_from_auth_header] = true
           get :logout
         end
 
-        it 'is redirected to the logout URL' do
-          expect(response).to redirect_to 'https://example.org/foo?logout=true'
+        it "is redirected to the logout URL" do
+          expect(response).to redirect_to "https://example.org/foo?logout=true"
         end
       end
 
-      context 'and the user did not come from auth source' do
+      context "and the user did not come from auth source" do
         before do
           login_as user
           session[:user_from_auth_header] = nil
           get :logout
         end
 
-        it 'is redirected to the home URL' do
+        it "is redirected to the home URL" do
           expect(response).to redirect_to home_url
         end
       end

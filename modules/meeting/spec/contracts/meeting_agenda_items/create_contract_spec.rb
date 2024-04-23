@@ -28,56 +28,56 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe MeetingAgendaItems::CreateContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   shared_let(:project) { create(:project) }
   let(:meeting) { create(:structured_meeting, project:) }
   let(:item) { build(:meeting_agenda_item, meeting:) }
   let(:contract) { described_class.new(item, user) }
 
-  context 'with permission' do
+  context "with permission" do
     let(:user) do
       create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas] })
     end
 
-    it_behaves_like 'contract is valid'
+    it_behaves_like "contract is valid"
 
-    context 'when :meeting is not editable' do
+    context "when :meeting is not editable" do
       before do
         meeting.update_column(:state, :closed)
       end
 
-      it_behaves_like 'contract is invalid', base: I18n.t(:text_agenda_item_not_editable_anymore)
+      it_behaves_like "contract is invalid", base: I18n.t(:text_agenda_item_not_editable_anymore)
     end
 
-    context 'when :meeting is not present anymore' do
+    context "when :meeting is not present anymore" do
       before do
         meeting.destroy
       end
 
-      it_behaves_like 'contract is invalid', base: :error_unauthorized
+      it_behaves_like "contract is invalid", base: :error_unauthorized
     end
 
-    context 'when an item_type is provided' do
+    context "when an item_type is provided" do
       before do
-        allow(item).to receive(:changed).and_return(['item_type'])
+        allow(item).to receive(:changed).and_return(["item_type"])
       end
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
   end
 
-  context 'without permission' do
+  context "without permission" do
     let(:user) { build_stubbed(:user) }
 
-    it_behaves_like 'contract is invalid', base: :does_not_exist
+    it_behaves_like "contract is invalid", base: :does_not_exist
   end
 
-  include_examples 'contract reuses the model errors' do
+  include_examples "contract reuses the model errors" do
     let(:user) { build_stubbed(:user) }
   end
 end

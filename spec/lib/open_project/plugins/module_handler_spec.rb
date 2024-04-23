@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 RSpec.describe OpenProject::Plugins::ModuleHandler do
   around do |example|
     old_mapped_permissions = OpenProject::AccessControl.instance_variable_get(:@mapped_permissions).deep_dup
-    described_class.disable_modules!('repository')
+    described_class.disable_modules!("repository")
 
     example.run
   ensure
@@ -38,8 +38,8 @@ RSpec.describe OpenProject::Plugins::ModuleHandler do
     OpenProject::AccessControl.clear_caches
   end
 
-  describe '#disable' do
-    it 'disables repository module' do
+  describe "#disable" do
+    it "disables repository module" do
       expect(OpenProject::AccessControl.available_project_modules).not_to include(:repository)
     end
   end

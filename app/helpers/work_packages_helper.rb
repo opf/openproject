@@ -213,6 +213,24 @@ module WorkPackagesHelper
     note_journals.last.notes
   end
 
+  def work_packages_columns_options
+    @work_packages_columns_options ||= Query
+                                         .new
+                                         .displayable_columns
+                                         .sort_by(&:caption)
+                                         .map { |column| { name: column.caption, id: column.name.to_s } }
+  end
+
+  def selected_work_packages_columns_options
+    Setting[:work_package_list_default_columns]
+      .map { |column| work_packages_columns_options.find { |c| c[:id] == column } }
+  end
+
+  def protected_work_packages_columns_options
+    work_packages_columns_options
+      .select { |column| column[:id] == 'id' || column[:id] == 'subject' }
+  end
+
   private
 
   def truncated_work_package_description(work_package, lines = 3)

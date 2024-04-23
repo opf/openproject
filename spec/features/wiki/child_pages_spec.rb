@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'wiki child pages', :js do
+RSpec.describe "wiki child pages", :js do
   let(:project) do
     create(:project)
   end
@@ -49,24 +49,24 @@ RSpec.describe 'wiki child pages', :js do
     login_as user
   end
 
-  it 'adding a childpage' do
+  it "adding a childpage" do
     visit project_wiki_path(project, parent_page.title)
 
-    click_on 'Wiki page'
+    click_on "Wiki page"
 
     SeleniumHubWaiter.wait
-    fill_in 'page_title', with: child_page_name
+    fill_in "page_title", with: child_page_name
 
-    find('.ck-content').set('The child page\'s content')
+    find(".ck-content").set("The child page's content")
 
-    click_button 'Save'
+    click_button "Save"
 
     # hierarchy displayed in the breadcrumb
     expect(page).to have_css("#breadcrumb #{test_selector('op-breadcrumb')}",
                              text: parent_page.title.to_s)
 
     # hierarchy displayed in the sidebar
-    expect(page).to have_css('.pages-hierarchy',
+    expect(page).to have_css(".pages-hierarchy",
                              text: "#{parent_page.title}\n#{child_page_name}")
 
     # on toc page

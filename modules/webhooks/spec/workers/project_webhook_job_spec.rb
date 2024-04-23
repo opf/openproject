@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ProjectWebhookJob, :webmock, type: :job do
   shared_let(:user) { create(:admin) }
   shared_let(:request_url) { "http://example.net/test/42" }
-  shared_let(:project) { create(:project, name: 'Foo Bar') }
+  shared_let(:project) { create(:project, name: "Foo Bar") }
   shared_let(:webhook) { create(:webhook, all_projects: true, url: request_url, secret: nil) }
 
   shared_examples "a project webhook call" do
@@ -57,7 +57,7 @@ RSpec.describe ProjectWebhookJob, :webmock, type: :job do
             "action" => event,
             "project" => hash_including(
               "_type" => "Project",
-              "name" => 'Foo Bar'
+              "name" => "Foo Bar"
             )
           ),
           headers: request_headers
@@ -82,7 +82,7 @@ RSpec.describe ProjectWebhookJob, :webmock, type: :job do
       stub
     end
 
-    it 'requests with all projects' do
+    it "requests with all projects" do
       allow(webhook)
         .to receive(:enabled_for_project?).with(project.id)
         .and_call_original
@@ -91,20 +91,20 @@ RSpec.describe ProjectWebhookJob, :webmock, type: :job do
       expect(stub).to have_been_requested
     end
 
-    it 'does not request when project does not match unless create case' do
+    it "does not request when project does not match unless create case" do
       allow(webhook)
         .to receive(:enabled_for_project?).with(project.id)
         .and_return(false)
 
       subject
-      if event == 'project:created'
+      if event == "project:created"
         expect(stub).to have_been_requested
       else
         expect(stub).not_to have_been_requested
       end
     end
 
-    describe 'successful flow' do
+    describe "successful flow" do
       before do
         subject
       end

@@ -1,5 +1,6 @@
 <div data-controller="filters"
      data-application-target="dynamic"
+     data-filters-output-format-value="<%= output_format %>"
      data-filters-display-filters-value="<%= show_filters_section? %>">
 
   <div class="op-filters-header">
@@ -9,7 +10,11 @@
             'action': 'filters#toggleDisplayFilters',
             'test-selector': 'filter-component-toggle' })) do %>
       <%= t(:label_filter) %>
-      <%= render(Primer::Beta::Counter.new(count: filters_count, round: true, hide_if_zero: false, scheme: :default)) %>
+      <%= render(Primer::Beta::Counter.new(count: filters_count,
+                                           round: true,
+                                           hide_if_zero: false,
+                                           scheme: :default,
+                                           test_selector: "filters-button-counter" )) %>
     <% end %>
     <div class="op-filters-header-actions">
       <% buttons.each do |button| %>
@@ -31,8 +36,9 @@
         data-action="filters#toggleDisplayFilters"></a>
       <legend><%= t(:label_filter_plural) %></legend>
       <ul class="advanced-filters--filters">
-        <% each_filter do |filter, filter_active| %>
+        <% each_filter do |filter, filter_active, additional_options| %>
           <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
+          <% autocomplete_filter = additional_options.key?(:autocomplete_options) %>
 
           <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
               filter-name="<%= filter.name %>"
@@ -58,7 +64,12 @@
                             } %>
             <% end %>
             <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>
-            <% if filter_boolean %>
+            <% if autocomplete_filter %>
+              <%= render partial: 'filters/autocomplete',
+                        locals: { value_visibility: value_visibility,
+                                  filter: filter,
+                                  autocomplete_options: additional_options[:autocomplete_options] } %>
+            <% elsif filter_boolean %>
               <%= render partial: 'filters/boolean',
                         locals: { value_visibility: value_visibility,
                                   filter: filter } %>
@@ -123,7 +134,7 @@
           </div>
         </li>
         <li class="advanced-filters--controls">
-          <%= submit_tag t('button_apply'), class: 'button -small -highlight', name: nil %>
+          <%= submit_tag t('button_apply'), class: 'button -small -primary', name: nil %>
         </li>
       </ul>
       <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)%>

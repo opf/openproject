@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Days::DaysAPI,
                content_type: :json do
@@ -41,30 +41,30 @@ RSpec.describe API::V3::Days::DaysAPI,
     get api_v3_paths.path_for :days, filters:
   end
 
-  context 'for an admin user' do
+  context "for an admin user" do
     let(:user) { build(:admin) }
 
     nb_days = Time.zone.today.end_of_month.day + Time.zone.today.next_month.end_of_month.day
-    it_behaves_like 'API V3 collection response', nb_days, nb_days, 'Day'
+    it_behaves_like "API V3 collection response", nb_days, nb_days, "Day"
 
-    context 'when filtering by date' do
+    context "when filtering by date" do
       let(:filters) do
-        [{ date: { operator: '<>d',
+        [{ date: { operator: "<>d",
                    values: [Time.zone.today.iso8601, 5.days.from_now.to_date.iso8601] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 6, 6, 'Day'
+      it_behaves_like "API V3 collection response", 6, 6, "Day"
     end
 
-    context 'when filtering by working' do
+    context "when filtering by working" do
       let(:filters) do
-        [{ working: { operator: '=',
-                      values: ['t'] } }]
+        [{ working: { operator: "=",
+                      values: ["t"] } }]
       end
 
       nb_days = (Time.zone.today.at_beginning_of_month..Time.zone.today.next_month.at_end_of_month)
                 .count { |d| !(d.saturday? || d.sunday?) }
-      it_behaves_like 'API V3 collection response', nb_days, nb_days, 'Day'
+      it_behaves_like "API V3 collection response", nb_days, nb_days, "Day"
     end
   end
 end

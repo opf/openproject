@@ -20,7 +20,7 @@ module OpenProject
         # e.g., openproject-costs => OpenprojectCosts
         def importable_name(name)
           name
-            .tr('-', '_')
+            .tr("-", "_")
             .camelize(:upper)
         end
       end

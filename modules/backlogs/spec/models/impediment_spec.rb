@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Impediment do
   let(:user) { @user ||= create(:user) }
@@ -74,38 +74,38 @@ RSpec.describe Impediment do
   before do
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-      .and_return({ 'points_burn_direction' => 'down',
-                    'wiki_template' => '',
-                    'story_types' => [type_feature.id.to_s],
-                    'task_type' => type_task.id.to_s })
+      .and_return({ "points_burn_direction" => "down",
+                    "wiki_template" => "",
+                    "story_types" => [type_feature.id.to_s],
+                    "task_type" => type_task.id.to_s })
 
     login_as user
   end
 
-  describe 'instance methods' do
-    describe 'blocks_ids=/blocks_ids' do
-      describe 'WITH an integer' do
+  describe "instance methods" do
+    describe "blocks_ids=/blocks_ids" do
+      describe "WITH an integer" do
         it do
           impediment.blocks_ids = 2
           expect(impediment.blocks_ids).to eql [2]
         end
       end
 
-      describe 'WITH a string' do
+      describe "WITH a string" do
         it do
-          impediment.blocks_ids = '1, 2, 3'
+          impediment.blocks_ids = "1, 2, 3"
           expect(impediment.blocks_ids).to eql [1, 2, 3]
         end
       end
 
-      describe 'WITH an array' do
+      describe "WITH an array" do
         it do
           impediment.blocks_ids = [1, 2, 3]
           expect(impediment.blocks_ids).to eql [1, 2, 3]
         end
       end
 
-      describe 'WITH loading from the backend' do
+      describe "WITH loading from the backend" do
         before do
           feature.version = version
           feature.save

@@ -31,14 +31,12 @@
 class Projects::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Primer::FetchOrFallbackHelper
+  include Menus::ProjectsHelper
 
   attr_accessor :current_user,
                 :query,
                 :state,
                 :params
-
-  BUTTON_MARGIN_RIGHT = 2
-  EXPORT_MODAL_ID = 'op-project-list-export-dialog'
 
   STATE_DEFAULT = :show
   STATE_EDIT = :edit
@@ -72,10 +70,31 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   end
 
   def query_saveable?
-    query.name.blank?
+    current_user.logged? && query.name.blank?
   end
 
   def show_state?
     state == :show
+  end
+
+  def breadcrumb_items
+    [
+      { href: projects_path, text: t(:label_project_plural) },
+      current_breadcrumb_element
+    ]
+  end
+
+  def current_breadcrumb_element
+    return page_title if query.name.blank?
+
+    current_object = first_level_menu_items.find do |section|
+      section.children.any?(&:selected)
+    end
+
+    if current_object && current_object.header.present?
+      I18n.t("menus.breadcrumb.nested_element", section_header: current_object.header, title: query.name).html_safe
+    else
+      page_title
+    end
   end
 end

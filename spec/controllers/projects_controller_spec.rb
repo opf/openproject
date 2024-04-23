@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ProjectsController do
   shared_let(:admin) { create(:admin) }
@@ -38,14 +38,14 @@ RSpec.describe ProjectsController do
     login_as admin
   end
 
-  describe '#new' do
+  describe "#new" do
     it "renders 'new'" do
-      get 'new'
+      get "new"
       expect(response).to be_successful
-      expect(response).to render_template 'new'
+      expect(response).to render_template "new"
     end
 
-    context 'by non-admin user with add_project permission' do
+    context "by non-admin user with add_project permission" do
       let(:non_member_user) { create(:user) }
 
       before do
@@ -53,40 +53,40 @@ RSpec.describe ProjectsController do
         login_as non_member_user
       end
 
-      it 'accepts get' do
+      it "accepts get" do
         get :new
         expect(response).to be_successful
-        expect(response).to render_template 'new'
+        expect(response).to render_template "new"
       end
     end
   end
 
-  describe 'index.html' do
-    shared_let(:project_a) { create(:project, name: 'Project A', public: false, active: true) }
-    shared_let(:project_b) { create(:project, name: 'Project B', public: false, active: true) }
-    shared_let(:project_c) { create(:project, name: 'Project C', public: true, active: true) }
-    shared_let(:project_d) { create(:project, name: 'Project D', public: true, active: false) }
+  describe "index.html" do
+    shared_let(:project_a) { create(:project, name: "Project A", public: false, active: true) }
+    shared_let(:project_b) { create(:project, name: "Project B", public: false, active: true) }
+    shared_let(:project_c) { create(:project, name: "Project C", public: true, active: true) }
+    shared_let(:project_d) { create(:project, name: "Project D", public: true, active: false) }
 
     before do
       ProjectRole.anonymous
       ProjectRole.non_member
 
       login_as(user)
-      get 'index'
+      get "index"
     end
 
-    shared_examples_for 'successful index' do
-      it 'is success' do
+    shared_examples_for "successful index" do
+      it "is success" do
         expect(response).to be_successful
       end
 
-      it 'renders the index template' do
-        expect(response).to render_template 'index'
+      it "renders the index template" do
+        expect(response).to render_template "index"
       end
     end
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     render_views
 
     let(:project) { build_stubbed(:project) }
@@ -105,20 +105,20 @@ RSpec.describe ProjectsController do
               .and_return(deletion_service)
     end
 
-    context 'when service call succeeds' do
+    context "when service call succeeds" do
       let(:success) { true }
 
-      it 'prints success' do
+      it "prints success" do
         request
         expect(response).to be_redirect
         expect(flash[:notice]).to be_present
       end
     end
 
-    context 'when service call fails' do
+    context "when service call fails" do
       let(:success) { false }
 
-      it 'prints fail' do
+      it "prints fail" do
         request
         expect(response).to be_redirect
         expect(flash[:error]).to be_present
@@ -126,28 +126,28 @@ RSpec.describe ProjectsController do
     end
   end
 
-  describe 'with an existing project' do
-    let(:project) { create(:project, identifier: 'blog') }
+  describe "with an existing project" do
+    let(:project) { create(:project, identifier: "blog") }
 
-    it 'gets destroy info' do
+    it "gets destroy info" do
       get :destroy_info, params: { id: project.id }
       expect(response).to be_successful
-      expect(response).to render_template 'destroy_info'
+      expect(response).to render_template "destroy_info"
 
       expect { project.reload }.not_to raise_error
     end
   end
 
-  describe '#copy' do
-    let(:project) { create(:project, identifier: 'blog') }
+  describe "#copy" do
+    let(:project) { create(:project, identifier: "blog") }
 
     it "renders 'copy'" do
-      get 'copy', params: { id: project.id }
+      get "copy", params: { id: project.id }
       expect(response).to be_successful
-      expect(response).to render_template 'copy'
+      expect(response).to render_template "copy"
     end
 
-    context 'as non authorized user' do
+    context "as non authorized user" do
       let(:user) { build_stubbed(:user) }
 
       before do
@@ -155,7 +155,7 @@ RSpec.describe ProjectsController do
       end
 
       it "shows an error" do
-        get 'copy', params: { id: project.id }
+        get "copy", params: { id: project.id }
         expect(response.status).to eq 403
       end
     end

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require_relative 'budget_form'
+require "support/pages/page"
+require_relative "budget_form"
 
 module Pages
   class NewBudget < Page

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Journable::HistoricActiveRecordRelation do
   # See: https://github.com/opf/openproject/pull/11243
@@ -223,31 +223,31 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
       describe "when searching for custom fields" do
         let(:custom_field) do
           create(:text_wp_custom_field,
-                 name: 'Text CF',
+                 name: "Text CF",
                  types: project.types,
                  projects: [project])
         end
         let!(:monday_cf_journal) do
-          create(:journal_customizable_journal, journal: monday_journal, custom_field:, value: 'Monday_CV')
+          create(:journal_customizable_journal, journal: monday_journal, custom_field:, value: "Monday_CV")
         end
         let!(:wednesday_cf_journal) do
-          create(:journal_customizable_journal, journal: wednesday_journal, custom_field:, value: 'Wednesday_CV')
+          create(:journal_customizable_journal, journal: wednesday_journal, custom_field:, value: "Wednesday_CV")
         end
         let!(:friday_cf_journal) do
-          create(:journal_customizable_journal, journal: friday_journal, custom_field:, value: 'Friday_CV')
+          create(:journal_customizable_journal, journal: friday_journal, custom_field:, value: "Friday_CV")
         end
-        let(:work_package_attributes) { { custom_values: { custom_field.id => 'Friday_CV' } } }
+        let(:work_package_attributes) { { custom_values: { custom_field.id => "Friday_CV" } } }
         let(:filter) do
           Queries::WorkPackages::Filter::CustomFieldFilter.create!(
             name: custom_field.column_name,
             context: build_stubbed(:query, project:),
-            operator: '~',
+            operator: "~",
             values:
           )
         end
         let(:relation) { WorkPackage.where(filter.where) }
 
-        context 'with the current value at the current time' do
+        context "with the current value at the current time" do
           let(:values) { %w(Friday_CV) }
           let(:historic_relation) { relation.at_timestamp(Timestamp.new("PT0S")) }
 
@@ -256,7 +256,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
           end
         end
 
-        context 'with the matching historic value' do
+        context "with the matching historic value" do
           let(:values) { %w(Wednesday_CV) }
 
           it "transforms the expression to join the customizable_journals" do
@@ -276,7 +276,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
           end
         end
 
-        context 'with a different historic value' do
+        context "with a different historic value" do
           let(:values) { %w(Monday_CV) }
 
           it "does not return the requested work package" do
@@ -490,7 +490,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
       end
 
       it "joins the projects table" do
-        sql = subject.to_sql.tr('"', '')
+        sql = subject.to_sql.tr('"', "")
         expect(sql).to include \
           "LEFT OUTER JOIN projects ON projects.id = work_package_journals.project_id"
         expect(sql).to include \

@@ -24,9 +24,9 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserSqlRepresenter, 'rendering' do
+RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserSqlRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   subject(:json) do
@@ -45,13 +45,13 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserSqlRepresenter, 'render
 
   let(:placeholder_user) { create(:placeholder_user) }
 
-  let(:select) { { '*' => {} } }
+  let(:select) { { "*" => {} } }
 
   current_user do
     create(:user)
   end
 
-  context 'when rendering all supported properties' do
+  context "when rendering all supported properties" do
     let(:expected) do
       {
         _type: "PlaceholderUser",
@@ -66,7 +66,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserSqlRepresenter, 'render
       }
     end
 
-    it 'renders as expected' do
+    it "renders as expected" do
       expect(json)
         .to be_json_eql(expected.to_json)
     end

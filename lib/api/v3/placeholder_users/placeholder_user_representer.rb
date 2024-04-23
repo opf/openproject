@@ -51,7 +51,7 @@ module API
         link :showUser do
           {
             href: api_v3_paths.placeholder_user_path(represented.id),
-            type: 'text/html'
+            type: "text/html"
           }
         end
 
@@ -63,7 +63,7 @@ module API
                  cache_if: -> { current_user_can_manage? }
 
         def _type
-          'PlaceholderUser'
+          "PlaceholderUser"
         end
 
         def current_user_can_see_date_properties?

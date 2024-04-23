@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Navigate to dashboard', :js do
+RSpec.describe "Navigate to dashboard", :js do
   let(:project) { create(:project) }
   let(:permissions) { [:view_dashboards] }
   let(:user) do
@@ -40,16 +40,16 @@ RSpec.describe 'Navigate to dashboard', :js do
     login_as user
   end
 
-  it 'can visit the dashboard' do
+  it "can visit the dashboard" do
     visit project_path(project)
 
-    within '#menu-sidebar' do
+    within "#menu-sidebar" do
       click_link "Dashboard"
     end
 
-    within '#content' do
+    within "#content" do
       expect(page)
-        .to have_content('Dashboard')
+        .to have_content("Dashboard")
     end
   end
 end

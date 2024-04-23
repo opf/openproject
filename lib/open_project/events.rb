@@ -42,15 +42,15 @@ module OpenProject
     AGGREGATED_NEWS_JOURNAL_READY = "aggregated_news_journal_ready".freeze
     AGGREGATED_MESSAGE_JOURNAL_READY = "aggregated_message_journal_ready".freeze
 
-    ATTACHMENT_CREATED = 'attachment_created'.freeze
+    ATTACHMENT_CREATED = "attachment_created".freeze
 
-    JOURNAL_CREATED = 'journal_created'.freeze
+    JOURNAL_CREATED = "journal_created".freeze
 
-    MEMBER_CREATED = 'member_created'.freeze
-    MEMBER_UPDATED = 'member_updated'.freeze
-    MEMBER_DESTROYED = 'member_destroyed'.freeze
+    MEMBER_CREATED = "member_created".freeze
+    MEMBER_UPDATED = "member_updated".freeze
+    MEMBER_DESTROYED = "member_destroyed".freeze
 
-    OAUTH_CLIENT_TOKEN_CREATED = 'oauth_client_token_created'.freeze
+    OAUTH_CLIENT_TOKEN_CREATED = "oauth_client_token_created".freeze
 
     TIME_ENTRY_CREATED = "time_entry_created".freeze
 
@@ -66,12 +66,15 @@ module OpenProject
     PROJECT_STORAGE_UPDATED = "project_storage_updated".freeze
     PROJECT_STORAGE_DESTROYED = "project_storage_destroyed".freeze
 
+    STORAGE_TURNED_UNHEALTHY = "storage_turned_unhealthy".freeze
+    STORAGE_TURNED_HEALTHY = "storage_turned_healthy".freeze
+
     ROLE_UPDATED = "role_updated".freeze
     ROLE_DESTROYED = "role_destroyed".freeze
 
-    WATCHER_ADDED = 'watcher_added'.freeze
-    WATCHER_DESTROYED = 'watcher_destroyed'.freeze
+    WATCHER_ADDED = "watcher_added".freeze
+    WATCHER_DESTROYED = "watcher_destroyed".freeze
 
-    WORK_PACKAGE_SHARED = 'work_package_shared'.freeze
+    WORK_PACKAGE_SHARED = "work_package_shared".freeze
   end
 end

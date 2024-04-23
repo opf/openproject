@@ -57,8 +57,8 @@ module ScheduleHelpers
   # * +_+: ignored but useful as a placeholder to highlight particular days, for
   #   instance to highlight the previous dates of a work package.
   class Chart
-    FIRST_CELL_TEXT = 'days'.freeze
-    WEEK_DAYS_TEXT = 'MTWTFSS'.freeze
+    FIRST_CELL_TEXT = "days".freeze
+    WEEK_DAYS_TEXT = "MTWTFSS".freeze
 
     attr_reader :id_column_size, :first_day, :last_day, :monday
 
@@ -87,7 +87,7 @@ module ScheduleHelpers
       chart.first_day = first_day
       chart.last_day = last_day
       chart.predecessors_by_followers = predecessors_by_followers
-      chart.delays_between = delays_between
+      chart.lags_between = lags_between
       chart.parent_by_child = parent_by_child
       chart
     end
@@ -129,8 +129,8 @@ module ScheduleHelpers
       predecessors_by_followers[follower]
     end
 
-    def delay_between(predecessor:, follower:)
-      delays_between.fetch([predecessor, follower])
+    def lag_between(predecessor:, follower:)
+      lags_between.fetch([predecessor, follower])
     end
 
     def add_work_package(attributes)
@@ -160,9 +160,9 @@ module ScheduleHelpers
       attributes[:ignore_non_working_days] = ignore_non_working_days
     end
 
-    def add_follows_relation(predecessor:, follower:, delay:)
+    def add_follows_relation(predecessor:, follower:, lag:)
       predecessors_by_follower(follower) << predecessor
-      delays_between[[predecessor, follower]] = delay
+      lags_between[[predecessor, follower]] = lag
     end
 
     def add_parent_relation(parent:, child:)
@@ -200,7 +200,7 @@ module ScheduleHelpers
                 :first_day,
                 :last_day,
                 :predecessors_by_followers,
-                :delays_between,
+                :lags_between,
                 :parent_by_child
 
     private
@@ -226,15 +226,15 @@ module ScheduleHelpers
     def span(attributes)
       case attributes
       in { start_date: nil, due_date: nil }
-        ''
+        ""
       in { start_date:, due_date: nil }
-        spaced_at(start_date, '[')
+        spaced_at(start_date, "[")
       in { start_date: nil, due_date: }
-        spaced_at(due_date, ']')
+        spaced_at(due_date, "]")
       in { start_date:, due_date: }
         days = days_for(attributes)
         span = (start_date..due_date).map do |date|
-          days.working?(date) ? 'X' : '.'
+          days.working?(date) ? "X" : "."
         end.join
         spaced_at(start_date, span)
       end
@@ -252,8 +252,8 @@ module ScheduleHelpers
       @predecessors_by_followers ||= Hash.new { |h, k| h[k] = [] }
     end
 
-    def delays_between
-      @delays_between ||= Hash.new(0)
+    def lags_between
+      @lags_between ||= Hash.new(0)
     end
 
     def parent_by_child

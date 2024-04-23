@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/shared/become_member'
+require "spec_helper"
+require_relative "../support/shared/become_member"
 
 RSpec.describe Group do
   include BecomeMember
@@ -67,8 +67,8 @@ RSpec.describe Group do
   let(:users) { create_list(:user, 100) }
   let(:group) { build(:group, members: users) }
 
-  describe '#destroy' do
-    describe 'work packages assigned to the group' do
+  describe "#destroy" do
+    describe "work packages assigned to the group" do
       let(:deleted_user) { DeletedUser.first }
 
       before do
@@ -88,7 +88,7 @@ RSpec.describe Group do
         expect(@seconds < 10).to be true
       end
 
-      it 'reassigns the work package to nobody and cleans up the journals' do
+      it "reassigns the work package to nobody and cleans up the journals" do
         expect(OpenProject::Notifications)
           .to have_received(:send)
           .with(OpenProject::Events::MEMBER_DESTROYED, any_args)

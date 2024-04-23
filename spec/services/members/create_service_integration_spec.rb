@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
-RSpec.describe Members::CreateService, 'integration', type: :model do
+RSpec.describe Members::CreateService, "integration", type: :model do
   let(:user1) { create(:admin) }
   let(:user2) { create(:user) }
   let(:group) { create(:group, members: [user1, user2]) }
@@ -37,7 +37,7 @@ RSpec.describe Members::CreateService, 'integration', type: :model do
 
   subject { instance.call(params) }
 
-  describe 'with a global membership' do
+  describe "with a global membership" do
     let(:global_role) { create(:global_role) }
     let(:params) do
       {
@@ -47,7 +47,7 @@ RSpec.describe Members::CreateService, 'integration', type: :model do
       }
     end
 
-    it 'inherits the membership to all users', :aggregate_failures do
+    it "inherits the membership to all users", :aggregate_failures do
       expect { subject }.to change(MemberRole, :count).by(3)
       expect(subject).to be_success
 

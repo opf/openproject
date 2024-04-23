@@ -801,11 +801,10 @@ To easily change the RSpec examples being run without relaunching `watchexec` ev
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
 * Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from [Microsoft](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
 
+## Accessing a local OpenProject instance from a VM or mobile phone
 
-
-## Accessing a local OpenProject instance from a VM
-
-If you want to access the development server of OpenProject from a VM, you need to work around the CSP `localhost` restrictions.
+If you want to access the development server of OpenProject from a VM or your mobile phone, you need to work around the
+CSP `localhost` restrictions.
 
 ### Old way, fixed compilation
 
@@ -823,19 +822,22 @@ Now assuming networking is set up in your VM, you can access your app server on 
 
 ### New way, with ng serve
 
-**The better way** when you want to develop against Edge is to set up your server to allow the CSP to the remote host.
+**The better way** when you want to develop against your local setup is to set up your server to allow the CSP to the
+remote host.
 Assuming your openproject is served at `<your local ip>:3000` and your ng serve middleware is running at `<your local ip>:4200`,
 you can access both from inside a VM with nat/bridged networking as follows:
 
 ```shell
 # Start ng serve middleware binding to all interfaces
-npm run serve:public
+PROXY_HOSTNAME=<your local IP address> npm run serve
 
 # Start your openproject server with the CLI proxy configuration set
 OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 3000
 
 # Now access your server from http://<your local ip>:3000 with code reloading
 ```
+
+You might have to also update your host name setting `bundle exec rake setting:set[host_name=yourip]`.
 
 ## Legacy LDAP tests
 

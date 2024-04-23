@@ -33,29 +33,26 @@ module Storages
     module StorageInteraction
       module OneDrive
         class OpenStorageQuery
-          def self.call(storage:, user:)
-            new(storage).call(user:)
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+          def self.call(storage:, auth_strategy:)
+            new(storage).call(auth_strategy:)
           end
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
-          def call(user:)
-            Util.using_user_token(@storage, user) do |token|
-              request_drive(token).map(&web_url)
+          def call(auth_strategy:)
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              request_drive(http).map(&web_url)
             end
           end
 
           private
 
-          def request_drive(token)
-            response = OpenProject.httpx.get(
-              Util.join_uri_path(@uri, drive_uri_path),
-              headers: { 'Authorization' => "Bearer #{token.access_token}" }
-            )
-            handle_responses(response)
+          def request_drive(http)
+            handle_responses http.get(Util.join_uri_path(@storage.uri, drive_uri_path))
           end
 
           def handle_responses(response)
@@ -64,13 +61,13 @@ module Storages
               ServiceResult.success(result: response.json(symbolize_keys: true))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: Util.storage_error(response:, code: :not_found, source: self))
+                                    errors: Util.storage_error(response:, code: :not_found, source: self.class))
             in { status: 403 }
               ServiceResult.failure(result: :forbidden,
-                                    errors: Util.storage_error(response:, code: :forbidden, source: self))
+                                    errors: Util.storage_error(response:, code: :forbidden, source: self.class))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: Util.storage_error(response:, code: :unauthorized, source: self))
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self.class))
             else
               data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
               ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))

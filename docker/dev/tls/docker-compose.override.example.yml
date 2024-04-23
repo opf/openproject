@@ -8,3 +8,5 @@ services:
           # by connecting to them, and we'd like it to go through traefik, instead
           # of calling the service containers directly.
           - openproject.local
+          - nextcloud.local
+          - gitlab.local

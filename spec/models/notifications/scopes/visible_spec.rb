@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notifications::Scopes::Visible do
-  describe '.visible' do
+  describe ".visible" do
     subject(:scope) { Notification.visible(user) }
 
     let(:user) do
@@ -50,30 +50,30 @@ RSpec.describe Notifications::Scopes::Visible do
 
     let!(:notifications) { notification }
 
-    shared_examples_for 'is empty' do
-      it 'is empty' do
+    shared_examples_for "is empty" do
+      it "is empty" do
         expect(scope)
           .to be_empty
       end
     end
 
-    context 'with the user being recipient and being allowed to see the work package' do
-      it 'returns the notification' do
+    context "with the user being recipient and being allowed to see the work package" do
+      it "returns the notification" do
         expect(scope)
           .to contain_exactly(notification)
       end
     end
 
-    context 'with the user being recipient and not being allowed to see the work package' do
+    context "with the user being recipient and not being allowed to see the work package" do
       let(:permissions) { [] }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
-    context 'with the user not being recipient but being allowed to see the work package' do
+    context "with the user not being recipient but being allowed to see the work package" do
       let(:notification_recipient) { create(:user) }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
   end
 end

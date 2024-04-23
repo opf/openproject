@@ -57,7 +57,7 @@
         type="button"
         class="button spot-action-bar--action"
         data-test-selector="confirmation-modal--confirmed"
-        [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
+        [ngClass]="dangerHighlighting ? '-danger': '-primary'"
         (click)="confirmAndClose($event)"
       >
         <span *ngIf="icon.continue as clazz" class="spot-icon spot-icon_{{clazz}}"></span>

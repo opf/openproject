@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe PlaceholderUsers::Scopes::Visible do
-  describe '.visible' do
+  describe ".visible" do
     shared_let(:project) { create(:project) }
     shared_let(:other_project) { create(:project) }
     shared_let(:role) { create(:project_role, permissions: %i[manage_members]) }
@@ -41,26 +41,26 @@ RSpec.describe PlaceholderUsers::Scopes::Visible do
 
     subject { PlaceholderUser.visible.to_a }
 
-    context 'when user has manage_members permission' do
+    context "when user has manage_members permission" do
       current_user { create(:user, member_with_roles: { project => role }) }
 
-      it 'sees all users' do
+      it "sees all users" do
         expect(subject).to contain_exactly(other_project_placeholder, global_placeholder)
       end
     end
 
-    context 'when user has no manage_members permission, but it is in other project' do
+    context "when user has no manage_members permission, but it is in other project" do
       current_user { create(:user, member_with_permissions: { other_project => %i[view_work_packages] }) }
 
-      it 'sees the other user in the same project' do
+      it "sees the other user in the same project" do
         expect(subject).to contain_exactly(other_project_placeholder)
       end
     end
 
-    context 'when user has no permission' do
+    context "when user has no permission" do
       current_user { create(:user) }
 
-      it 'sees nothing' do
+      it "sees nothing" do
         expect(subject).to be_empty
       end
     end

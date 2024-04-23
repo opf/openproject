@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-require 'services/base_services/behaves_like_delete_service'
+require "services/base_services/behaves_like_delete_service"
 
 RSpec.describe Storages::Storages::DeleteService, type: :model do
-  it_behaves_like 'BaseServices delete service' do
+  it_behaves_like "BaseServices delete service" do
     let(:factory) { :storage }
   end
 end

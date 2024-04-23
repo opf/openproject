@@ -35,9 +35,9 @@
 # In order to use the proxied server, you need to use `driver: firefox_billy` in your examples
 #
 # See https://github.com/oesmith/puffing-billy for more information
-require 'billy/capybara/rspec'
+require "billy/capybara/rspec"
 
-require 'table_print' # Add this dependency to your gemfile
+require "table_print" # Add this dependency to your gemfile
 
 ##
 # Patch `puffing-billy`'s proxy so that it doesn't try to stop

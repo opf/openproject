@@ -28,9 +28,13 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new create]
-  before_action :build_meeting, only: %i[new create]
+  before_action :find_optional_project, only: %i[index new create history]
+  before_action :verify_activities_module_activated, only: %i[history]
+  before_action :determine_date_range, only: %i[history]
+  before_action :determine_author, only: %i[history]
+  before_action :build_meeting, only: %i[new]
   before_action :find_meeting, except: %i[index new create]
+  before_action :set_activity, only: %i[history]
   before_action :find_copy_from_meeting, only: %i[create]
   before_action :convert_params, only: %i[create update update_participants]
   before_action :authorize, except: %i[index new create update_title update_details update_participants change_state]
@@ -71,21 +75,28 @@ class MeetingsController < ApplicationController
   end
 
   def create
-    @meeting.participants.clear # Start with a clean set of participants
-    @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
-    @meeting.attributes = @converted_params
-    copy_meeting_agenda
+    call =
+      if @copy_from
+        ::Meetings::CopyService
+          .new(user: current_user, model: @copy_from)
+          .call(attributes: @converted_params, **copy_attributes)
+      else
+        ::Meetings::CreateService
+          .new(user: current_user)
+          .call(@converted_params)
+      end
 
-    if @meeting.save
+    if call.success?
       text = I18n.t(:notice_successful_create)
       if User.current.time_zone.nil?
         link = I18n.t(:notice_timezone_missing, zone: Time.zone)
-        text += " #{view_context.link_to(link, { controller: '/my', action: :account }, class: 'link_to_profile')}"
+        text += " #{view_context.link_to(link, { controller: '/my', action: :settings, anchor: 'pref_time_zone' }, class: 'link_to_profile')}"
       end
-      flash[:notice] = text.html_safe
+      flash[:notice] = text.html_safe # rubocop:disable Rails/OutputSafety
 
-      redirect_to action: 'show', id: @meeting
+      redirect_to action: 'show', id: call.result
     else
+      @meeting = call.result
       render template: 'meetings/new', project_id: @project, locals: { copy_from: @copy_from }
     end
   end
@@ -98,7 +109,11 @@ class MeetingsController < ApplicationController
 
   def copy
     copy_from = @meeting
-    @meeting = @meeting.copy(author: User.current)
+    call = ::Meetings::CopyService
+      .new(user: current_user, model: copy_from)
+      .call(save: false)
+
+    @meeting = call.result
     render action: 'new', project_id: @project, locals: { copy_from: }
   end
 
@@ -121,6 +136,13 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def history
+    @events = get_events
+  rescue ActiveRecord::RecordNotFound => e
+    op_handle_warning "Failed to find all resources in activities: #{e.message}"
+    render_404 I18n.t(:error_can_not_find_all_resources)
+  end
+
   def cancel_edit
     update_header_component_via_turbo_stream(state: :show)
 
@@ -138,20 +160,14 @@ class MeetingsController < ApplicationController
     end
   end
 
-  def participants_dialog
-    render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting), layout: false)
-  end
+  def participants_dialog; end
 
   def update_participants
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
     @meeting.save
 
-    if @meeting.errors.any?
-      update_sidebar_participants_form_component_via_turbo_stream
-    else
-      update_sidebar_details_component_via_turbo_stream
-      update_sidebar_participants_component_via_turbo_stream
-    end
+    update_sidebar_details_component_via_turbo_stream
+    update_sidebar_participants_component_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -269,8 +285,7 @@ class MeetingsController < ApplicationController
   end
 
   def build_meeting
-    cls = meeting_type(params.dig(:meeting, :type)).constantize
-    @meeting = cls.new
+    @meeting = Meeting.new
     @meeting.project = @project
     @meeting.author = User.current
   end
@@ -295,6 +310,7 @@ class MeetingsController < ApplicationController
     # instance variable.
     @converted_params = meeting_params.to_h
 
+    @converted_params[:project] = @project
     @converted_params[:duration] = @converted_params[:duration].to_hours if @converted_params[:duration].present?
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
@@ -304,7 +320,7 @@ class MeetingsController < ApplicationController
   def meeting_params
     if params[:meeting].present?
       params.require(:meeting).permit(:title, :location, :start_time,
-                                      :duration, :start_date, :start_time_hour,
+                                      :duration, :start_date, :start_time_hour, :type,
                                       participants_attributes: %i[email name invited attended user user_id meeting id])
     end
   end
@@ -326,6 +342,47 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def verify_activities_module_activated
+    render_403 if @project && !@project.module_enabled?('activity')
+  end
+
+  def set_activity
+    @activity = Activities::Fetcher.new(User.current,
+                                        project: @project,
+                                        with_subprojects: @with_subprojects,
+                                        author: @author,
+                                        scope: activity_scope,
+                                        meeting: @meeting)
+  end
+
+  def get_events
+    Activities::MeetingEventMapper
+      .new(@meeting)
+      .map_to_events
+  end
+
+  def activity_scope
+    ["meetings", "meeting_agenda_items"]
+  end
+
+  def determine_date_range
+    @days = 31 # Setting.activity_days_default.to_i
+
+    if params[:from]
+      begin
+        ; @date_to = params[:from].to_date + 1.day;
+      rescue StandardError;
+      end
+    end
+
+    @date_to ||= User.current.today + 1.day
+    @date_from = @date_to - @days
+  end
+
+  def determine_author
+    @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
+  end
+
   def find_copy_from_meeting
     return unless params[:copied_from_meeting_id]
 
@@ -334,18 +391,10 @@ class MeetingsController < ApplicationController
     render_404
   end
 
-  def copy_meeting_agenda
-    return unless params[:copy_agenda] == '1' && @copy_from
-
-    if @meeting.is_a?(StructuredMeeting)
-      @meeting.agenda_items_attributes = @copy_from.agenda_items.map(&:copy_attributes)
-    else
-      @meeting.agenda = MeetingAgenda.new(
-        author: current_user,
-        text: @copy_from.agenda&.text,
-        journal_notes: I18n.t('meeting.copied', id: params[:copied_from_meeting_id])
-      )
-      @meeting.agenda.author = current_user
-    end
+  def copy_attributes
+    {
+      copy_agenda: params[:copy_agenda] == '1',
+      copy_attachments: params[:copy_attachments] == '1',
+    }
   end
 end

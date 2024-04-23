@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe TimeEntries::CreateContract do
-  it_behaves_like 'time entry contract' do
+  it_behaves_like "time entry contract" do
     subject(:contract) do
       described_class.new(time_entry, current_user)
     end
@@ -59,41 +59,41 @@ RSpec.describe TimeEntries::CreateContract do
       end
     end
 
-    context 'if user is not allowed to log time' do
+    context "if user is not allowed to log time" do
       let(:permissions) { [] }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, base: %i(error_unauthorized))
       end
     end
 
-    context 'when ongoing and different user' do
+    context "when ongoing and different user" do
       let(:time_entry_user) { other_user }
       let(:time_entry_ongoing) { true }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, ongoing: %i(not_current_user))
       end
     end
 
-    context 'if user has only permission to log own time' do
+    context "if user has only permission to log own time" do
       let(:permissions) { %i[log_own_time] }
 
-      it 'is valid' do
+      it "is valid" do
         expect_valid(true)
       end
 
-      context 'when trying to log for other user' do
+      context "when trying to log for other user" do
         let(:time_entry_user) { build_stubbed(:user) }
         let(:changed_by_system) { {} }
 
-        it 'is invalid' do
+        it "is invalid" do
           expect_valid(false, base: %i(error_unauthorized))
         end
       end
     end
 
-    context 'if time_entry user is not contract user' do
+    context "if time_entry user is not contract user" do
       let(:other_user) { build_stubbed(:user) }
       let(:permissions) { [] }
       let(:time_entry_user) { other_user }
@@ -104,12 +104,12 @@ RSpec.describe TimeEntries::CreateContract do
         end
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, base: %i(error_unauthorized))
       end
     end
 
-    context 'if time_entry user was not set by system' do
+    context "if time_entry user was not set by system" do
       let(:other_user) { build_stubbed(:user) }
       let(:time_entry_user) { other_user }
       let(:permissions) { [] }
@@ -121,15 +121,15 @@ RSpec.describe TimeEntries::CreateContract do
         end
       end
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, base: %i(error_unauthorized))
       end
     end
 
-    context 'if the user is nil' do
+    context "if the user is nil" do
       let(:time_entry_user) { nil }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, user_id: %i(blank))
       end
     end

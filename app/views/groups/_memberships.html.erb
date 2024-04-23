@@ -95,7 +95,7 @@ See COPYRIGHT and LICENSE files for more details.
                             </label>
                         <% end %>
                         <p class="generic-table--cell-controls">
-                          <%= submit_tag t(:button_change), class: 'button -highlight -small' %>
+                          <%= submit_tag t(:button_change), class: 'button -primary -small' %>
                           <%= link_to_function t(:button_cancel), "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
                                                                   class: 'button -small' %>
                         </p>
@@ -146,7 +146,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
             </div>
           </div>
-          <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
+          <div><%= styled_button_tag t(:button_add), class: '-primary -with-icon icon-checkmark' %></div>
         </fieldset>
       <% end %>
     <% end %>

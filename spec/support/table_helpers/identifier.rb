@@ -33,10 +33,12 @@ module TableHelpers
     extend self
 
     def to_identifier(name)
+      return if name.nil?
+
       name = name.downcase
       name.strip!
-      name.tr!(' \-', '_')
-      name.gsub!(/_+(?=\d)/, '')
+      name.tr!(' \-', "_")
+      name.gsub!(/_+(?=\d)/, "")
       name.to_sym
     end
   end

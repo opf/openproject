@@ -38,7 +38,7 @@ module API::V3::StorageFiles
     helpers do
       def validate_upload_request(body)
         if Storages::Storage::one_drive_without_ee_token?(@storage.provider_type)
-          log_message = 'The request can not be handled due to invalid or missing Enterprise token.'
+          log_message = "The request can not be handled due to invalid or missing Enterprise token."
           return ServiceResult.failure(errors: Storages::StorageError.new(code: :missing_ee_token_for_one_drive, log_message:))
         end
 
@@ -48,38 +48,41 @@ module API::V3::StorageFiles
           ServiceResult.success(result: { file_name:, parent: }.transform_keys(&:to_s))
         else
           ServiceResult.failure(errors: Storages::StorageError.new(code: :bad_request,
-                                                                   log_message: 'Request body malformed!'))
+                                                                   log_message: "Request body malformed!"))
         end
       end
 
       def fetch_upload_link
         ->(data) do
           Storages::Peripherals::Registry
-            .resolve("queries.#{@storage.short_provider_type}.upload_link")
+            .resolve("#{@storage.short_provider_type}.queries.upload_link")
             .call(storage: @storage, user: current_user, data:)
         end
+      end
+
+      def auth_strategy
+        Storages::Peripherals::Registry
+          .resolve("#{@storage.short_provider_type}.authentication.userbound")
+          .call(user: current_user)
       end
     end
 
     resources :files do
       get do
         Storages::Peripherals::Registry
-          .resolve("queries.#{@storage.short_provider_type}.files")
-          .call(
-            storage: @storage,
-            user: current_user, folder: extract_parent_folder(params)
-          )
+          .resolve("#{@storage.short_provider_type}.queries.files")
+          .call(storage: @storage, auth_strategy:, folder: extract_parent_folder(params))
           .match(
             on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, @storage, current_user:) },
             on_failure: ->(error) { raise_error(error) }
           )
       end
 
-      route_param :file_id, type: String, desc: 'Storage file id' do
+      route_param :file_id, type: String, desc: "Storage file id" do
         get do
           Storages::Peripherals::Registry
-            .resolve("queries.#{@storage.short_provider_type}.file_info")
-            .call(storage: @storage, user: current_user, file_id: params[:file_id])
+            .resolve("#{@storage.short_provider_type}.queries.file_info")
+            .call(storage: @storage, auth_strategy:, file_id: params[:file_id])
             .map { |file_info| to_storage_file(file_info) }
             .match(
               on_success: ->(storage_file) {

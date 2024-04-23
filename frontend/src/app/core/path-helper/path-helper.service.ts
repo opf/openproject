@@ -100,6 +100,10 @@ export class PathHelperService {
     return `${this.staticBase}/topics/${messageIdentifier}`;
   }
 
+  public meetingPath(id:string):string {
+    return `${this.staticBase}/meetings/${id}`;
+  }
+
   public myPagePath() {
     return `${this.staticBase}/my/page`;
   }
@@ -262,6 +266,10 @@ export class PathHelperService {
 
   public workPackageSharePath(workPackageId:string|number) {
     return `${this.workPackagePath(workPackageId)}/shares`;
+  }
+
+  public workPackageProgressModalPath(workPackageId:string|number) {
+    return `${this.workPackagePath(workPackageId)}/progress/edit`;
   }
 
   // Work Package Bulk paths

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 module Pages::Meetings
   class Show < Base
@@ -66,7 +66,7 @@ module Pages::Meetings
 
     def expect_date_time(expected)
       expect(page)
-        .to have_content("Time: #{expected}")
+        .to have_content("Start time: #{expected}")
     end
 
     def expect_link_to_location(location)
@@ -83,12 +83,12 @@ module Pages::Meetings
     end
 
     def meeting_details_container
-      find('.meeting.details')
+      find(".meeting.details")
     end
 
     def click_edit
-      within '.meeting--main-toolbar .toolbar-items' do
-        click_link 'Edit'
+      within ".meeting--main-toolbar .toolbar-items" do
+        click_on "Edit"
       end
     end
 

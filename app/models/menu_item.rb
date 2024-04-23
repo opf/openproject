@@ -27,10 +27,10 @@
 #++
 
 class MenuItem < ApplicationRecord
-  belongs_to :parent, class_name: 'MenuItem', optional: true
+  belongs_to :parent, class_name: "MenuItem", optional: true
   has_many :children, -> {
-    order('id ASC')
-  }, class_name: 'MenuItem', dependent: :destroy, foreign_key: :parent_id
+    order("id ASC")
+  }, class_name: "MenuItem", dependent: :destroy, foreign_key: :parent_id
 
   serialize :options, type: Hash
 

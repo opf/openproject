@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :custom_style
 
-  factory :custom_style_with_logo, class: 'CustomStyle' do
+  factory :custom_style_with_logo, class: "CustomStyle" do
     logo do
       Rack::Test::UploadedFile.new(
         Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
@@ -37,23 +37,23 @@ FactoryBot.define do
     end
   end
 
-  factory :custom_style_with_export_logo, class: 'CustomStyle' do
+  factory :custom_style_with_export_logo, class: "CustomStyle" do
     export_logo do
       Rack::Test::UploadedFile.new(
-        Rails.root.join('spec/support/custom_styles/export_logos/export_logo_image.png')
+        Rails.root.join("spec/support/custom_styles/export_logos/export_logo_image.png")
       )
     end
   end
 
-  factory :custom_style_with_export_cover, class: 'CustomStyle' do
+  factory :custom_style_with_export_cover, class: "CustomStyle" do
     export_cover do
       Rack::Test::UploadedFile.new(
-        Rails.root.join('spec/support/custom_styles/export_logos/export_logo_image.png')
+        Rails.root.join("spec/support/custom_styles/export_logos/export_logo_image.png")
       )
     end
   end
 
-  factory :custom_style_with_favicon, class: 'CustomStyle' do
+  factory :custom_style_with_favicon, class: "CustomStyle" do
     favicon do
       Rack::Test::UploadedFile.new(
         Rails.root.join("spec/support/custom_styles/favicons/favicon_image.png")
@@ -61,7 +61,7 @@ FactoryBot.define do
     end
   end
 
-  factory :custom_style_with_touch_icon, class: 'CustomStyle' do
+  factory :custom_style_with_touch_icon, class: "CustomStyle" do
     touch_icon do
       Rack::Test::UploadedFile.new(
         Rails.root.join("spec/support/custom_styles/touch_icons/touch_icon_image.png")

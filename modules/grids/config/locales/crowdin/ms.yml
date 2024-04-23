@@ -1,16 +1,16 @@
 ms:
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "Widget yang terdapat dalam Grid %{grid_name}"
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Halaman"
+        row_count: "Bilangan baris"
+        column_count: "Bilangan lajur"
+        widgets: "Widget"
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'bertindih.'
+          outside: 'luar daripada grid.'
+          end_before_start: 'nilai akhir perlu lebih besar daripada nilai mula.'

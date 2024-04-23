@@ -1,12 +1,12 @@
 zh-TW:
   plugin_openproject_webhooks:
-    name: "OpenProject Webhooks"
+    name: "OpenProject Meeting"
     description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
   activerecord:
     attributes:
       webhooks/webhook:
         url: 'Payload URL'
-        secret: 'Signature secret'
+        secret: '簽章金鑰'
         events: '事件'
         projects: '已啟用的專案'
       webhooks/log:
@@ -15,7 +15,7 @@ zh-TW:
         response_code: '回應代碼'
         response_body: '回應'
     models:
-      webhooks/outgoing_webhook: "Outgoing webhook"
+      webhooks/outgoing_webhook: "外部webhook"
   webhooks:
     singular: Webhook
     plural: Webhooks
@@ -23,7 +23,7 @@ zh-TW:
       time_entry:
         name: "Time entry"
     outgoing:
-      no_results_table: No webhooks have been defined yet.
+      no_results_table: 尚未定義任何webhooks 。
       label_add_new: 新增 Webhook
       label_edit: 編輯 Webhook
       label_event_resources: Event resources
@@ -32,7 +32,7 @@ zh-TW:
         updated: "已更新"
       explanation:
         text: >
-          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
+          當建立或更新工作項目的"事件"發生時，OpenProject 將會傳送 POST 請求。 通常，事件是在 %{link} 過之後發送.。
         link: configured aggregation period
       status:
         enabled: 'Webhook 已啟用'
@@ -41,7 +41,7 @@ zh-TW:
         disabled_text: '點擊編輯按鈕以啟用 Webhook。'
       deliveries:
         no_results_table: No deliveries have been made for this webhook in the past days.
-        title: 'Recent deliveries'
+        title: '最近推送記錄'
         time: 'Delivery time'
       form:
         introduction: >

@@ -29,7 +29,7 @@
 module API
   module Errors
     class InvalidRequestBody < ErrorBase
-      identifier 'InvalidRequestBody'
+      identifier "InvalidRequestBody"
       code 400
     end
   end

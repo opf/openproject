@@ -43,7 +43,7 @@ class RepresentedWebhookJob < WebhookJob
     response = nil
 
     if signature = request_signature(body)
-      headers['X-OP-Signature'] = signature
+      headers["X-OP-Signature"] = signature
     end
 
     begin

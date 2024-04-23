@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
+RSpec.describe API::V3::Projects::ProjectPayloadRepresenter, "parsing" do
   include API::V3::Utilities::PathHelper
 
   let(:object) do
@@ -39,84 +39,84 @@ RSpec.describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
     described_class.create(object, current_user: user)
   end
 
-  describe 'properties' do
-    context 'for status' do
+  describe "properties" do
+    context "for status" do
       let(:hash) do
         {
-          'statusExplanation' => { 'raw' => 'status code explanation' },
-          '_links' => {
-            'status' => {
-              'href' => api_v3_paths.project_status('on_track')
+          "statusExplanation" => { "raw" => "status code explanation" },
+          "_links" => {
+            "status" => {
+              "href" => api_v3_paths.project_status("on_track")
             }
           }
         }
       end
 
-      it 'updates code' do
+      it "updates code" do
         project = representer.from_hash(hash)
         expect(project.status_code)
-          .to eql('on_track')
+          .to eql("on_track")
 
         expect(project.status_explanation)
-          .to eql('status code explanation')
+          .to eql("status code explanation")
       end
 
-      context 'with code not provided' do
+      context "with code not provided" do
         let(:hash) do
           {
-            'statusExplanation' => { 'raw' => 'status code explanation' }
+            "statusExplanation" => { "raw" => "status code explanation" }
           }
         end
 
-        it 'does not set code' do
+        it "does not set code" do
           project = representer.from_hash(hash)
           expect(project.status_code)
             .to be_nil
         end
 
-        it 'updates explanation' do
+        it "updates explanation" do
           project = representer.from_hash(hash)
           expect(project.status_explanation)
-            .to eql('status code explanation')
+            .to eql("status code explanation")
         end
       end
 
-      context 'with explanation not provided' do
+      context "with explanation not provided" do
         let(:hash) do
           {
-            '_links' => {
-              'status' => {
-                'href' => api_v3_paths.project_status('off_track')
+            "_links" => {
+              "status" => {
+                "href" => api_v3_paths.project_status("off_track")
               }
             }
           }
         end
 
-        it 'does set code' do
+        it "does set code" do
           project = representer.from_hash(hash)
           expect(project.status_code)
-            .to eql 'off_track'
+            .to eql "off_track"
         end
 
-        it 'does not set explanation' do
+        it "does not set explanation" do
           project = representer.from_hash(hash)
           expect(project.status_explanation)
             .to be_nil
         end
       end
 
-      context 'with null for a status' do
+      context "with null for a status" do
         let(:hash) do
           {
-            '_links' => {
-              'status' => {
-                'href' => nil
+            "_links" => {
+              "status" => {
+                "href" => nil
               }
             }
           }
         end
 
-        it 'does set status to nil' do
+        it "does set status to nil" do
           project = representer.from_hash(hash)
 
           expect(project)
@@ -131,20 +131,20 @@ RSpec.describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
     end
   end
 
-  describe '_links' do
-    context 'with a parent link' do
-      context 'with the href being an url' do
+  describe "_links" do
+    context "with a parent link" do
+      context "with the href being an url" do
         let(:hash) do
           {
-            '_links' => {
-              'parent' => {
-                'href' => api_v3_paths.project(5)
+            "_links" => {
+              "parent" => {
+                "href" => api_v3_paths.project(5)
               }
             }
           }
         end
 
-        it 'sets the parent_id to the value' do
+        it "sets the parent_id to the value" do
           project = representer.from_hash(hash)
 
           expect(project[:parent_id])
@@ -152,18 +152,18 @@ RSpec.describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
       end
 
-      context 'with the href being nil' do
+      context "with the href being nil" do
         let(:hash) do
           {
-            '_links' => {
-              'parent' => {
-                'href' => nil
+            "_links" => {
+              "parent" => {
+                "href" => nil
               }
             }
           }
         end
 
-        it 'sets the parent_id to nil' do
+        it "sets the parent_id to nil" do
           project = representer.from_hash(hash)
 
           expect(project)
@@ -174,18 +174,18 @@ RSpec.describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
       end
 
-      context 'with the href being the hidden uri' do
+      context "with the href being the hidden uri" do
         let(:hash) do
           {
-            '_links' => {
-              'parent' => {
-                'href' => API::V3::URN_UNDISCLOSED
+            "_links" => {
+              "parent" => {
+                "href" => API::V3::URN_UNDISCLOSED
               }
             }
           }
         end
 
-        it 'omits the parent information' do
+        it "omits the parent information" do
           project = representer.from_hash(hash)
 
           expect(project)

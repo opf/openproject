@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/notifications/settings'
+require "support/pages/notifications/settings"
 
 module Pages
   module My

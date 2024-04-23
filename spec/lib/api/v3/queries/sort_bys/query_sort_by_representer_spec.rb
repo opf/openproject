@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Queries::SortBys::QuerySortByRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:column_name) { 'status' }
-  let(:direction) { 'desc' }
-  let(:column) { Queries::WorkPackages::Columns::PropertyColumn.new(column_name) }
+  let(:column_name) { "status" }
+  let(:direction) { "desc" }
+  let(:column) { Queries::WorkPackages::Selects::PropertySelect.new(column_name) }
   let(:decorator) { API::V3::Queries::SortBys::SortByDecorator.new(column, direction) }
   let(:representer) do
     described_class
@@ -42,111 +42,111 @@ RSpec.describe API::V3::Queries::SortBys::QuerySortByRepresenter do
 
   subject { representer.to_json }
 
-  describe 'generation' do
-    describe '_links' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'self' }
-        let(:href) { api_v3_paths.query_sort_by 'status', 'desc' }
-        let(:title) { 'Status (Descending)' }
+  describe "generation" do
+    describe "_links" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "self" }
+        let(:href) { api_v3_paths.query_sort_by "status", "desc" }
+        let(:title) { "Status (Descending)" }
       end
     end
 
-    it 'has _type QuerySortBy' do
+    it "has _type QuerySortBy" do
       expect(subject)
-        .to be_json_eql('QuerySortBy'.to_json)
-        .at_path('_type')
+        .to be_json_eql("QuerySortBy".to_json)
+        .at_path("_type")
     end
 
-    it 'has id attribute' do
+    it "has id attribute" do
       expect(subject)
-        .to be_json_eql('status-desc'.to_json)
-        .at_path('id')
+        .to be_json_eql("status-desc".to_json)
+        .at_path("id")
     end
 
-    it 'has name attribute' do
+    it "has name attribute" do
       expect(subject)
-        .to be_json_eql('Status (Descending)'.to_json)
-        .at_path('name')
+        .to be_json_eql("Status (Descending)".to_json)
+        .at_path("name")
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'column' }
-      let(:href) { api_v3_paths.query_column 'status' }
-      let(:title) { 'Status' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "column" }
+      let(:href) { api_v3_paths.query_column "status" }
+      let(:title) { "Status" }
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'direction' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "direction" }
       let(:href) { "urn:openproject-org:api:v3:queries:directions:#{direction}" }
-      let(:title) { 'Descending' }
+      let(:title) { "Descending" }
     end
 
-    context 'when providing an unsupported sort direction' do
-      let(:direction) { 'bogus' }
+    context "when providing an unsupported sort direction" do
+      let(:direction) { "bogus" }
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject }.to raise_error(ArgumentError)
       end
     end
 
-    context 'when sorting differently' do
-      let(:direction) { 'asc' }
+    context "when sorting differently" do
+      let(:direction) { "asc" }
 
-      it 'has id attribute' do
+      it "has id attribute" do
         expect(subject)
-          .to be_json_eql('status-asc'.to_json)
-          .at_path('id')
+          .to be_json_eql("status-asc".to_json)
+          .at_path("id")
       end
 
-      it 'has name attribute' do
+      it "has name attribute" do
         expect(subject)
-          .to be_json_eql('Status (Ascending)'.to_json)
-          .at_path('name')
+          .to be_json_eql("Status (Ascending)".to_json)
+          .at_path("name")
       end
     end
 
-    context 'for a translated column' do
-      let(:column_name) { 'assigned_to' }
+    context "for a translated column" do
+      let(:column_name) { "assigned_to" }
 
-      describe '_links' do
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'self' }
-          let(:href) { api_v3_paths.query_sort_by 'assignee', 'desc' }
-          let(:title) { 'Assignee (Descending)' }
+      describe "_links" do
+        it_behaves_like "has a titled link" do
+          let(:link) { "self" }
+          let(:href) { api_v3_paths.query_sort_by "assignee", "desc" }
+          let(:title) { "Assignee (Descending)" }
         end
       end
 
-      it 'has id attribute' do
+      it "has id attribute" do
         expect(subject)
-          .to be_json_eql('assignee-desc'.to_json)
-          .at_path('id')
+          .to be_json_eql("assignee-desc".to_json)
+          .at_path("id")
       end
 
-      it 'has name attribute' do
+      it "has name attribute" do
         expect(subject)
-          .to be_json_eql('Assignee (Descending)'.to_json)
-          .at_path('name')
+          .to be_json_eql("Assignee (Descending)".to_json)
+          .at_path("name")
       end
     end
   end
 
-  describe 'caching' do
+  describe "caching" do
     before do
       # fill the cache
       representer.to_json
     end
 
-    it 'is cached' do
+    it "is cached" do
       expect(representer)
         .not_to receive(:to_hash)
 
       representer.to_json
     end
 
-    it 'busts the cache on changes to the column_caption (cf rename)' do
+    it "busts the cache on changes to the column_caption (cf rename)" do
       allow(decorator)
         .to receive(:column_caption)
-        .and_return('blubs')
+        .and_return("blubs")
 
       expect(representer)
         .to receive(:to_hash)
@@ -154,10 +154,10 @@ RSpec.describe API::V3::Queries::SortBys::QuerySortByRepresenter do
       representer.to_json
     end
 
-    it 'busts the cache on a different direction' do
+    it "busts the cache on a different direction" do
       allow(decorator)
         .to receive(:direction_name)
-        .and_return('asc')
+        .and_return("asc")
 
       expect(representer)
         .to receive(:to_hash)
@@ -165,7 +165,7 @@ RSpec.describe API::V3::Queries::SortBys::QuerySortByRepresenter do
       representer.to_json
     end
 
-    it 'busts the cache on changes to the locale' do
+    it "busts the cache on changes to the locale" do
       expect(representer)
         .to receive(:to_hash)
 

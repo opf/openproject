@@ -20,10 +20,8 @@ class SharingMailer < ApplicationMailer
     set_open_project_headers(@work_package)
     message_id(membership, sharer)
 
-    with_locale_for(@shared_with_user) do
-      mail to: @shared_with_user.mail,
-           subject: I18n.t('mail.sharing.work_packages.subject',
-                           id: @work_package.id)
+    send_localized_mail(@shared_with_user) do
+      I18n.t("mail.sharing.work_packages.subject", id: @work_package.id)
     end
   end
 
@@ -32,7 +30,7 @@ class SharingMailer < ApplicationMailer
   def optionally_activated_url(back_url, invitation_token)
     return back_url unless invitation_token
 
-    url_for(controller: '/account',
+    url_for(controller: "/account",
             action: :activate,
             token: invitation_token.value,
             back_url:)
@@ -41,11 +39,11 @@ class SharingMailer < ApplicationMailer
   def derive_role_rights(role)
     case role.builtin
     when Role::BUILTIN_WORK_PACKAGE_EDITOR
-      I18n.t('work_package.sharing.permissions.edit')
+      I18n.t("work_package.sharing.permissions.edit")
     when Role::BUILTIN_WORK_PACKAGE_COMMENTER
-      I18n.t('work_package.sharing.permissions.comment')
+      I18n.t("work_package.sharing.permissions.comment")
     when Role::BUILTIN_WORK_PACKAGE_VIEWER
-      I18n.t('work_package.sharing.permissions.view')
+      I18n.t("work_package.sharing.permissions.view")
     end
   end
 
@@ -53,22 +51,22 @@ class SharingMailer < ApplicationMailer
     allowed_actions =
       case role.builtin
       when Role::BUILTIN_WORK_PACKAGE_EDITOR
-        [I18n.t('work_package.sharing.permissions.view'),
-         I18n.t('work_package.sharing.permissions.comment'),
-         I18n.t('work_package.sharing.permissions.edit')]
+        [I18n.t("work_package.sharing.permissions.view"),
+         I18n.t("work_package.sharing.permissions.comment"),
+         I18n.t("work_package.sharing.permissions.edit")]
       when Role::BUILTIN_WORK_PACKAGE_COMMENTER
-        [I18n.t('work_package.sharing.permissions.view'),
-         I18n.t('work_package.sharing.permissions.comment')]
+        [I18n.t("work_package.sharing.permissions.view"),
+         I18n.t("work_package.sharing.permissions.comment")]
       when Role::BUILTIN_WORK_PACKAGE_VIEWER
-        [I18n.t('work_package.sharing.permissions.view')]
+        [I18n.t("work_package.sharing.permissions.view")]
       end
 
     allowed_actions.map(&:downcase)
   end
 
   def set_open_project_headers(work_package)
-    open_project_headers 'Project' => work_package.project.identifier,
-                         'WorkPackage-Id' => work_package.id,
-                         'Type' => 'WorkPackage'
+    open_project_headers "Project" => work_package.project.identifier,
+                         "WorkPackage-Id" => work_package.id,
+                         "Type" => "WorkPackage"
   end
 end

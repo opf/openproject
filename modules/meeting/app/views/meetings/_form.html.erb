@@ -37,9 +37,9 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% copy_from = local_assigns[:copy_from] %>
   <% if copy_from.present? %>
-    <%= f.hidden_field :type, value: copy_from.is_a?(StructuredMeeting) ? 'dynamic' : 'classic' %>
+    <%= f.hidden_field :type, value: copy_from.type %>
     <%= hidden_field_tag "copied_from_meeting_id", copy_from.id %>
-    <div class="form--field -required">
+    <div class="form--field">
       <%= styled_label_tag 'copy_agenda', t('meeting.copy.agenda') %>
       <div class="form--field-container">
         <%= styled_check_box_tag 'copy_agenda',
@@ -52,6 +52,19 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t('meeting.copy.agenda_text') %>
       </div>
     </div>
+    <div class="form--field">
+      <%= styled_label_tag 'copy_attachments', t('meeting.copy.attachments') %>
+      <div class="form--field-container">
+        <%= styled_check_box_tag 'copy_attachments',
+                                 1,
+                                 false,
+                                 no_label: true,
+                                 class: 'radio-button' %>
+      </div>
+      <div class="form--field-instructions">
+        <%= t('meeting.copy.attachments_text') %>
+      </div>
+    </div>
   <% elsif @meeting.new_record? %>
     <div class="form--field -required -align-start">
       <label class="form--label" for="meeting_type"><%= Meeting.human_attribute_name(:type) %></label>
@@ -62,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
                  data-test-selector="op-tile-block">
             <div class="op-tile-block--content">
               <%= styled_radio_button_tag 'meeting[type]',
-                                          'dynamic',
+                                          'StructuredMeeting',
                                           true,
                                           no_label: true,
                                           class: 'radio-button' %>
@@ -85,7 +98,7 @@ See COPYRIGHT and LICENSE files for more details.
                  data-test-selector="op-tile-block">
             <div class="op-tile-block--content">
               <%= styled_radio_button_tag 'meeting[type]',
-                                          'classic',
+                                          'Meeting',
                                           false,
                                           no_label: true,
                                           class: 'radio-button' %>

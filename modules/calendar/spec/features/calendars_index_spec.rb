@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/calendar'
+require "spec_helper"
+require_relative "../support/pages/calendar"
 
-RSpec.describe 'Calendars', 'index', :with_cuprite do
+RSpec.describe "Calendars", "index", :with_cuprite do
   # The order the Projects are created in is important. By naming `project` alphanumerically
   # after `other_project`, we can ensure that subsequent specs that assert sorting is
   # correct for the right reasons (sorting by Project name and not id)
   shared_let(:project) do
-    create(:project, name: 'Project 2', enabled_module_names: %w[work_package_tracking calendar_view])
+    create(:project, name: "Project 2", enabled_module_names: %w[work_package_tracking calendar_view])
   end
 
   shared_let(:other_project) do
-    create(:project, name: 'Project 1', enabled_module_names: %w[work_package_tracking calendar_view])
+    create(:project, name: "Project 1", enabled_module_names: %w[work_package_tracking calendar_view])
   end
 
   shared_let(:permissions) do
@@ -69,12 +69,12 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
     create(:user, member_with_permissions: { project => permissions, other_project => permissions })
   end
 
-  context 'when navigating to the global index page', :js do
-    shared_examples 'global index page is reachable' do
-      it 'is reachable' do
+  context "when navigating to the global index page", :js do
+    shared_examples "global index page is reachable" do
+      it "is reachable" do
         expect(page).to have_current_path(calendars_path)
-        expect(page).to have_text 'There is currently nothing to display.'
-        expect(page).to have_css '#main-menu'
+        expect(page).to have_text "There is currently nothing to display."
+        expect(page).to have_css "#main-menu"
       end
     end
 
@@ -84,30 +84,30 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
       wait_for_reload
     end
 
-    context 'with the modules menu' do
+    context "with the modules menu" do
       before do
         find("a[title='Modules']").click
 
-        within '#more-menu' do
-          click_on 'Calendars'
+        within "#more-menu" do
+          click_on "Calendars"
         end
       end
 
-      it_behaves_like 'global index page is reachable'
+      it_behaves_like "global index page is reachable"
     end
 
-    context 'with the global menu' do
+    context "with the global menu" do
       before do
-        within '#main-menu' do
-          click_on 'Calendars'
+        within "#main-menu" do
+          click_on "Calendars"
         end
       end
 
-      it_behaves_like 'global index page is reachable'
+      it_behaves_like "global index page is reachable"
     end
   end
 
-  context 'when visiting from a global context' do
+  context "when visiting from a global context" do
     let(:calendars_page) { Pages::Calendar.new(nil) }
     let(:queries) { [query, other_query] }
 
@@ -117,29 +117,29 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
       visit calendars_path
     end
 
-    context 'with permissions to globally manage calendars' do
-      it 'shows the create new button' do
+    context "with permissions to globally manage calendars" do
+      it "shows the create new button" do
         calendars_page.expect_create_button
       end
     end
 
-    context 'with no views' do
+    context "with no views" do
       let(:queries) { [] }
 
-      it 'shows an empty index page' do
+      it "shows an empty index page" do
         calendars_page.expect_no_views_visible
       end
     end
 
-    context 'with existing views' do
-      it 'shows those views', :aggregate_failures do
+    context "with existing views" do
+      it "shows those views", :aggregate_failures do
         queries.each do |q|
           calendars_page.expect_view_visible(q)
           calendars_page.expect_no_delete_button(q)
         end
       end
 
-      describe 'sorting' do
+      describe "sorting" do
         before do
           # Name ASC is the default sort order for Calendars
           # We can assert the initial sort by expecting the order is
@@ -150,26 +150,26 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
         end
 
         it 'allows sorting by "Name", "Project" and "Created On"' do
-          aggregate_failures 'Sorting by Name' do
-            calendars_page.click_to_sort_by('Name')
+          aggregate_failures "Sorting by Name" do
+            calendars_page.click_to_sort_by("Name")
             calendars_page.expect_views_listed_in_order(other_query,
                                                         query)
           end
 
-          aggregate_failures 'Sorting by Project' do
-            calendars_page.click_to_sort_by('Project')
+          aggregate_failures "Sorting by Project" do
+            calendars_page.click_to_sort_by("Project")
             calendars_page.expect_views_listed_in_order(other_query,
                                                         query)
-            calendars_page.click_to_sort_by('Project')
+            calendars_page.click_to_sort_by("Project")
             calendars_page.expect_views_listed_in_order(query,
                                                         other_query)
           end
 
-          aggregate_failures 'Sorting by Created On' do
-            calendars_page.click_to_sort_by('Created on')
+          aggregate_failures "Sorting by Created On" do
+            calendars_page.click_to_sort_by("Created on")
             calendars_page.expect_views_listed_in_order(query,
                                                         other_query)
-            calendars_page.click_to_sort_by('Created on')
+            calendars_page.click_to_sort_by("Created on")
             calendars_page.expect_views_listed_in_order(other_query,
                                                         query)
           end
@@ -177,17 +177,17 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
       end
     end
 
-    context 'with another user with limited access' do
+    context "with another user with limited access" do
       let(:current_user) do
         create(:user,
-               firstname: 'Bernd',
+               firstname: "Bernd",
                member_with_permissions: { project => %w[view_work_packages view_calendar] })
       end
 
-      context 'and the view is non-public' do
+      context "and the view is non-public" do
         let(:query) { create(:query, user:, project:, public: false) }
 
-        it 'does not show a non-public view' do
+        it "does not show a non-public view" do
           calendars_page.expect_no_views_visible
           calendars_page.expect_view_not_visible query
 
@@ -197,7 +197,7 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
     end
   end
 
-  context 'when visiting from a project-specific context' do
+  context "when visiting from a project-specific context" do
     let(:calendars_page) { Pages::Calendar.new(project) }
 
     before do
@@ -206,39 +206,39 @@ RSpec.describe 'Calendars', 'index', :with_cuprite do
       visit project_calendars_path(project)
     end
 
-    context 'with no views' do
+    context "with no views" do
       let(:query) { nil }
 
-      it 'shows an empty index page' do
+      it "shows an empty index page" do
         calendars_page.expect_no_views_visible
         calendars_page.expect_create_button
       end
     end
 
-    context 'with an existing view' do
-      it 'shows that view' do
+    context "with an existing view" do
+      it "shows that view" do
         calendars_page.expect_view_visible query
         calendars_page.expect_delete_button query
       end
 
-      context 'with another user with limited access' do
+      context "with another user with limited access" do
         let(:current_user) do
           create(:user,
-                 firstname: 'Bernd',
+                 firstname: "Bernd",
                  member_with_permissions: { project => %w[view_work_packages view_calendar] })
         end
 
-        it 'does not show the management buttons' do
+        it "does not show the management buttons" do
           calendars_page.expect_view_visible query
 
           calendars_page.expect_no_delete_button query
           calendars_page.expect_no_create_button
         end
 
-        context 'when the view is non-public' do
+        context "when the view is non-public" do
           let(:query) { create(:query, user:, project:, public: false) }
 
-          it 'does not show a non-public view' do
+          it "does not show a non-public view" do
             calendars_page.expect_no_views_visible
             calendars_page.expect_view_not_visible query
 

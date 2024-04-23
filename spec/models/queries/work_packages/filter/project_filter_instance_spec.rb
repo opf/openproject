@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
   let(:query) { build(:query) }
   let(:instance) do
-    described_class.create!(name: 'project', context: query, operator: '=', values: [])
+    described_class.create!(name: "project", context: query, operator: "=", values: [])
   end
 
-  describe '#allowed_values' do
+  describe "#allowed_values" do
     let!(:project) { create(:project) }
     let!(:archived_project) { create(:project, active: false) }
 
@@ -45,7 +45,7 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
       login_as user
     end
 
-    it 'does not include the archived project (Regression #36026)' do
+    it "does not include the archived project (Regression #36026)" do
       expect(instance.allowed_values)
         .to contain_exactly([project.name, project.id.to_s])
     end

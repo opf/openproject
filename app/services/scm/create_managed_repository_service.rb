@@ -55,11 +55,11 @@ class SCM::CreateManagedRepositoryService < SCM::BaseRepositoryService
 
     false
   rescue Errno::EACCES
-    @rejected = I18n.t('repositories.errors.path_permission_failed',
+    @rejected = I18n.t("repositories.errors.path_permission_failed",
                        path: repository.root_url)
     false
   rescue SystemCallError => e
-    @rejected = I18n.t('repositories.errors.filesystem_access_failed',
+    @rejected = I18n.t("repositories.errors.filesystem_access_failed",
                        message: e.message)
     false
   rescue OpenProject::SCM::Exceptions::SCMError => e
@@ -70,6 +70,6 @@ class SCM::CreateManagedRepositoryService < SCM::BaseRepositoryService
   ##
   # Returns the error symbol
   def localized_rejected_reason
-    @rejected ||= I18n.t('repositories.errors.not_manageable')
+    @rejected ||= I18n.t("repositories.errors.not_manageable")
   end
 end

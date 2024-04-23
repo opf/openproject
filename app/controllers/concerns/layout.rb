@@ -36,7 +36,7 @@ module Layout
       elsif @project
         true
       else
-        'no_menu'
+        "no_menu"
       end
     end
 

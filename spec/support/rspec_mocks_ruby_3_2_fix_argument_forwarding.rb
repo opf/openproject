@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rspec/mocks'
+require "rspec/mocks"
 
 module RSpec
   module Mocks

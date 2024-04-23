@@ -270,7 +270,7 @@ $scrollbar-size: 10px
       margin-right: 15px
 
 @mixin modifying--placeholder
-  border: 1px dashed var(--primary-color)
+  border: 1px dashed var(--accent-color)
   pointer-events: none
   *
     visibility: hidden
@@ -280,8 +280,7 @@ $scrollbar-size: 10px
 
 @mixin macro--text-style
   @media screen
-    // Ensure width of contents is wrapped
-    display: inline-block
+    display: inline
     background: rgba(218,223,225,0.19)
     border: 1px solid transparent
     padding: 2px

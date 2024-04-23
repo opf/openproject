@@ -56,7 +56,7 @@ module PasswordHelper
 
   def password_confirmation_data_attribute(with_data = {})
     if password_confirmation_required?
-      with_data.merge('request-for-confirmation': true)
+      with_data.merge("request-for-confirmation": true)
     else
       with_data
     end
@@ -84,7 +84,7 @@ module PasswordHelper
   # Returns a text describing the active password complexity rules,
   # the minimum number of rules to adhere to and the total number of rules.
   def password_rules_description
-    return '' if OpenProject::Passwords::Evaluator.min_adhered_rules == 0
+    return "" if OpenProject::Passwords::Evaluator.min_adhered_rules == 0
 
     OpenProject::Passwords::Evaluator.rules_description_locale(password_active_rules)
   end

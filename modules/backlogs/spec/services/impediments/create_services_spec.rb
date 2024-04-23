@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Impediments::CreateService do
   let(:instance) { described_class.new(user:) }
-  let(:impediment_subject) { 'Impediment A' }
+  let(:impediment_subject) { "Impediment A" }
 
   let(:user) { create(:user) }
   let(:role) { create(:project_role, permissions: %i(add_work_packages assign_versions work_package_assigned)) }
@@ -57,18 +57,18 @@ RSpec.describe Impediments::CreateService do
     project
   end
 
-  let(:status1) { create(:status, name: 'status 1', is_default: true) }
+  let(:status1) { create(:status, name: "status 1", is_default: true) }
 
   before do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
-                                                                       'wiki_template' => '',
-                                                                       'story_types' => [type_feature.id.to_s],
-                                                                       'task_type' => type_task.id.to_s)
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return("points_burn_direction" => "down",
+                                                                       "wiki_template" => "",
+                                                                       "story_types" => [type_feature.id.to_s],
+                                                                       "task_type" => type_task.id.to_s)
 
     login_as user
   end
 
-  shared_examples_for 'impediment creation' do
+  shared_examples_for "impediment creation" do
     it { expect(subject.subject).to eql impediment_subject }
     it { expect(subject.author).to eql User.current }
     it { expect(subject.project).to eql project }
@@ -79,21 +79,21 @@ RSpec.describe Impediments::CreateService do
     it { expect(subject.assigned_to).to eql user }
   end
 
-  shared_examples_for 'impediment creation with 1 blocking relationship' do
-    it_behaves_like 'impediment creation'
+  shared_examples_for "impediment creation with 1 blocking relationship" do
+    it_behaves_like "impediment creation"
 
     it { expect(subject.blocks_relations.size).to eq(1) }
     it { expect(subject.blocks_relations[0].to).to eql feature }
   end
 
-  shared_examples_for 'impediment creation with no blocking relationship' do
-    it_behaves_like 'impediment creation'
+  shared_examples_for "impediment creation with no blocking relationship" do
+    it_behaves_like "impediment creation"
 
     it { expect(subject.blocks_relations.size).to eq(0) }
   end
 
-  describe 'WITH a blocking relationship to a story' do
-    describe 'WITH the story having the same version' do
+  describe "WITH a blocking relationship to a story" do
+    describe "WITH the story having the same version" do
       subject do
         call = instance.call(attributes: { subject: impediment_subject,
                                            assigned_to_id: user.id,
@@ -110,12 +110,12 @@ RSpec.describe Impediments::CreateService do
         feature.save
       end
 
-      it_behaves_like 'impediment creation with 1 blocking relationship'
+      it_behaves_like "impediment creation with 1 blocking relationship"
       it { expect(subject).not_to be_new_record }
       it { expect(subject.blocks_relations[0]).not_to be_new_record }
     end
 
-    describe 'WITH the story having another version' do
+    describe "WITH the story having another version" do
       subject do
         call = instance.call(attributes: { subject: impediment_subject,
                                            assigned_to_id: user.id,
@@ -128,11 +128,11 @@ RSpec.describe Impediments::CreateService do
       end
 
       before do
-        feature.version = create(:version, project:, name: 'another version')
+        feature.version = create(:version, project:, name: "another version")
         feature.save
       end
 
-      it_behaves_like 'impediment creation with no blocking relationship'
+      it_behaves_like "impediment creation with no blocking relationship"
       it { expect(subject).to be_new_record }
 
       it {
@@ -141,19 +141,19 @@ RSpec.describe Impediments::CreateService do
       }
     end
 
-    describe 'WITH the story being non existent' do
+    describe "WITH the story being non existent" do
       subject do
         call = instance.call(attributes: { subject: impediment_subject,
                                            assigned_to_id: user.id,
                                            priority_id: priority.id,
-                                           blocks_ids: '0',
+                                           blocks_ids: "0",
                                            status_id: status1.id,
                                            version_id: version.id,
                                            project_id: project.id })
         call.result
       end
 
-      it_behaves_like 'impediment creation with no blocking relationship'
+      it_behaves_like "impediment creation with no blocking relationship"
       it { expect(subject).to be_new_record }
 
       it {
@@ -163,11 +163,11 @@ RSpec.describe Impediments::CreateService do
     end
   end
 
-  describe 'WITHOUT a blocking relationship defined' do
+  describe "WITHOUT a blocking relationship defined" do
     subject do
       call = instance.call(attributes: { subject: impediment_subject,
                                          assigned_to_id: user.id,
-                                         blocks_ids: '',
+                                         blocks_ids: "",
                                          priority_id: priority.id,
                                          status_id: status1.id,
                                          version_id: version.id,
@@ -175,7 +175,7 @@ RSpec.describe Impediments::CreateService do
       call.result
     end
 
-    it_behaves_like 'impediment creation with no blocking relationship'
+    it_behaves_like "impediment creation with no blocking relationship"
     it { expect(subject).to be_new_record }
 
     it {

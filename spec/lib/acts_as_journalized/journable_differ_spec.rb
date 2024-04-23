@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Acts::Journalized::JournableDiffer do
-  describe '.changes' do
-    context 'when the objects are work packages' do
+  describe ".changes" do
+    context "when the objects are work packages" do
       let(:original) do
         build_stubbed(:work_package,
-                      subject: 'The original work package title',
+                      subject: "The original work package title",
                       description: "The description\n",
                       assigned_to_id: nil,
                       schedule_manually: false,
@@ -42,7 +42,7 @@ RSpec.describe Acts::Journalized::JournableDiffer do
       end
       let(:changed) do
         build_stubbed(:work_package,
-                      subject: 'The changed work package title',
+                      subject: "The changed work package title",
                       description: "The description\r\n",
                       priority: original.priority,
                       type: original.type,
@@ -52,7 +52,7 @@ RSpec.describe Acts::Journalized::JournableDiffer do
                       estimated_hours: nil)
       end
 
-      it 'returns the changes' do
+      it "returns the changes" do
         expect(described_class.changes(original, changed))
           .to eql("subject" => [original.subject, changed.subject],
                   "author_id" => [original.author_id, changed.author_id],
@@ -63,10 +63,10 @@ RSpec.describe Acts::Journalized::JournableDiffer do
       end
     end
 
-    context 'when the objects are WorkPackageJournal' do
+    context "when the objects are WorkPackageJournal" do
       let(:original) do
         build_stubbed(:journal_work_package_journal,
-                      subject: 'The original work package title',
+                      subject: "The original work package title",
                       description: nil,
                       priority_id: 5,
                       type_id: 89,
@@ -78,8 +78,8 @@ RSpec.describe Acts::Journalized::JournableDiffer do
       end
       let(:changed) do
         build_stubbed(:journal_work_package_journal,
-                      subject: 'The changed work package title',
-                      description: '',
+                      subject: "The changed work package title",
+                      description: "",
                       priority_id: original.priority_id,
                       type_id: original.type_id,
                       project_id: original.project_id,
@@ -89,7 +89,7 @@ RSpec.describe Acts::Journalized::JournableDiffer do
                       estimated_hours: 1)
       end
 
-      it 'returns the changes' do
+      it "returns the changes" do
         # The description field changes from nil to '', but we want filter those transitions out,
         # hence the expected hash does not contain the description related change.
         expect(described_class.changes(original, changed))
@@ -102,8 +102,8 @@ RSpec.describe Acts::Journalized::JournableDiffer do
     end
   end
 
-  describe '.association_changes' do
-    context 'when the objects are work packages' do
+  describe ".association_changes" do
+    context "when the objects are work packages" do
       let(:original) do
         build(:work_package,
               custom_values: [
@@ -122,13 +122,39 @@ RSpec.describe Acts::Journalized::JournableDiffer do
               ])
       end
 
-      it 'returns the changes' do
-        params = [original, changed, 'custom_values', 'custom_field', :custom_field_id, :value]
+      it "returns the changes" do
+        params = [original, changed, "custom_values", "custom_field", :custom_field_id, :value]
         expect(described_class.association_changes(*params))
           .to eql(
             "custom_field_1" => ["1", ""],
             "custom_field_3" => ["", "2"]
           )
+      end
+    end
+
+    context "with a default custom value" do
+      let(:original) do
+        build(:work_package,
+              custom_values: [
+                build_stubbed(:work_package_custom_value, custom_field_id: nil, value: nil),
+                build_stubbed(:work_package_custom_value, custom_field_id: nil, value: ""),
+                build_stubbed(:work_package_custom_value, custom_field_id: 2, value: 1)
+              ])
+      end
+
+      let(:changed) do
+        build(:work_package,
+              custom_values: [
+                build_stubbed(:work_package_custom_value, custom_field_id: 1, value: "t"),
+                build_stubbed(:work_package_custom_value, custom_field_id: 2, value: 2)
+              ])
+      end
+
+      it "returns the changes" do
+        params = [original, changed, "custom_values", "custom_field", :custom_field_id, :value]
+        expect(described_class.association_changes(*params))
+          .to eql("custom_field_1" => [nil, "t"],
+                  "custom_field_2" => ["1", "2"])
       end
     end
   end

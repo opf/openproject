@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
   create_shared_association_defaults_for_work_package_factory
@@ -42,17 +42,17 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
   let!(:previous_working_days) { work_week }
   let!(:previous_non_working_days) { [] }
 
-  shared_examples_for 'journal updates with cause' do
+  shared_examples_for "journal updates with cause" do
     let(:changed_work_packages) { [] }
     let(:unchanged_work_packages) { [] }
-    let(:changed_days) { raise 'need to specify note' }
+    let(:changed_days) { raise "need to specify note" }
 
-    it 'adds journal entries to changed work packages' do
+    it "adds journal entries to changed work packages" do
       subject
 
       changed_work_packages.each do |work_package|
         expect(work_package.journals.count).to eq 2
-        expect(work_package.journals.last.cause_type).to eq('working_days_changed')
+        expect(work_package.journals.last.cause_type).to eq("working_days_changed")
         expect(work_package.journals.last.cause_changed_days).to eq(changed_days)
       end
 
@@ -62,11 +62,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
     end
   end
 
-  describe '#perform' do
+  describe "#perform" do
     subject { job.perform_now(user_id: user.id, previous_working_days:, previous_non_working_days:) }
 
-    context 'with non-working weekday settings' do
-      context 'when a work package includes a date that is now a non-working day' do
+    context "with non-working weekday settings" do
+      context "when a work package includes a date that is now a non-working day" do
         let_schedule(<<~CHART)
           days                  | MTWTFSS |
           work_package          | XXXX ░░ |
@@ -77,10 +77,10 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         CHART
 
         before do
-          set_non_working_week_days('wednesday')
+          set_non_working_week_days("wednesday")
         end
 
-        it 'moves the finish date to the corresponding number of now-excluded days to maintain duration [#31992]' do
+        it "moves the finish date to the corresponding number of now-excluded days to maintain duration [#31992]" do
           subject
 
           expect(WorkPackage.all).to match_schedule(<<~CHART)
@@ -93,7 +93,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package,
              work_package_on_start,
@@ -110,18 +110,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a work package was scheduled to start on a date that is now a non-working day' do
+      context "when a work package was scheduled to start on a date that is now a non-working day" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  |   XX ░░ |
         CHART
 
         before do
-          set_non_working_week_days('wednesday')
+          set_non_working_week_days("wednesday")
         end
 
-        it 'moves the start date to the earliest working day in the future, ' \
-           'and the finish date changes by consequence [#31992]' do
+        it "moves the start date to the earliest working day in the future, " \
+           "and the finish date changes by consequence [#31992]" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days         | MTWTFSS |
@@ -129,7 +129,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package]
           end
@@ -142,17 +142,17 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a work package includes a date that is no more a non-working day' do
+      context "when a work package includes a date that is no more a non-working day" do
         let_schedule(<<~CHART)
           days          | fssMTWTFSS |
           work_package  | X▓▓XX   ░░ |
         CHART
 
         before do
-          set_working_week_days('saturday')
+          set_working_week_days("saturday")
         end
 
-        it 'moves the finish date backwards to the corresponding number of now-included days to maintain duration [#31992]' do
+        it "moves the finish date backwards to the corresponding number of now-included days to maintain duration [#31992]" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days          | fssMTWTFSS |
@@ -160,7 +160,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package]
           end
@@ -173,7 +173,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a follower has a predecessor with dates covering a day that is now a non-working day' do
+      context "when a follower has a predecessor with dates covering a day that is now a non-working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |  XX  ░░ | working days work week
@@ -181,10 +181,10 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         CHART
 
         before do
-          set_non_working_week_days('wednesday')
+          set_non_working_week_days("wednesday")
         end
 
-        it 'moves the follower start date by consequence of the predecessor dates shift [#31992]' do
+        it "moves the follower start date by consequence of the predecessor dates shift [#31992]" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -193,7 +193,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [predecessor, follower]
           end
@@ -207,18 +207,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a follower has a predecessor with delay covering a day that is now a non-working day' do
+      context "when a follower has a predecessor with lag covering a day that is now a non-working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | XX   ░░ |
-          follower    |    X ░░ | follows predecessor with delay 1
+          follower    |    X ░░ | follows predecessor with lag 1
         CHART
 
         before do
-          set_non_working_week_days('wednesday')
+          set_non_working_week_days("wednesday")
         end
 
-        it 'moves the follower start date forward to keep the delay to 1 day' do
+        it "moves the follower start date forward to keep the lag to 1 day" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -227,7 +227,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [follower]
           end
@@ -243,18 +243,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'with work packages without dates following each other with delay' do
+      context "with work packages without dates following each other with lag" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |      ░░ |
-          follower    |      ░░ | follows predecessor with delay 5
+          follower    |      ░░ | follows predecessor with lag 5
         CHART
 
         before do
-          set_non_working_week_days('wednesday')
+          set_non_working_week_days("wednesday")
         end
 
-        it 'does not move anything (obviously) and does not crash either' do
+        it "does not move anything (obviously) and does not crash either" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -263,27 +263,27 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
         end
       end
 
-      context 'when a follower has a predecessor with delay covering multiple days with different working changes' do
+      context "when a follower has a predecessor with lag covering multiple days with different working changes" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | X ░  ░░ |
-          follower    |   ░ X░░ | follows predecessor with delay 2
+          follower    |   ░ X░░ | follows predecessor with lag 2
         CHART
-        let(:work_week) { set_work_week('monday', 'tuesday', 'thursday', 'friday') }
+        let(:work_week) { set_work_week("monday", "tuesday", "thursday", "friday") }
 
         before do
-          set_non_working_week_days('tuesday')
-          set_working_week_days('wednesday')
+          set_non_working_week_days("tuesday")
+          set_working_week_days("wednesday")
         end
 
-        it 'correctly handles the changes' do
+        it "correctly handles the changes" do
           subject
           expect_schedule(WorkPackage.all, <<~CHART)
             days        | MTWTFSS |
@@ -292,26 +292,26 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
         end
       end
 
-      context 'when a follower has a predecessor with dates covering a day that is now a working day' do
+      context "when a follower has a predecessor with dates covering a day that is now a working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |  X▓X ░░ | working days work week
           follower    |   ░ XXX | working days include weekends, follows predecessor
         CHART
-        let(:work_week) { set_work_week('monday', 'tuesday', 'thursday', 'friday') }
+        let(:work_week) { set_work_week("monday", "tuesday", "thursday", "friday") }
 
         before do
-          set_working_week_days('wednesday')
+          set_working_week_days("wednesday")
         end
 
-        it 'does not move the follower backwards' do
+        it "does not move the follower backwards" do
           subject
 
           expect_schedule(WorkPackage.all, <<~CHART)
@@ -321,7 +321,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [predecessor]
           end
@@ -337,19 +337,19 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a follower has a predecessor with a non-working day between them that is now a working day' do
+      context "when a follower has a predecessor with a non-working day between them that is now a working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS  |
           predecessor | XX░  ░░  |
           follower    |   ░XX░░  | follows predecessor
         CHART
-        let(:work_week) { set_work_week('monday', 'tuesday', 'thursday', 'friday') }
+        let(:work_week) { set_work_week("monday", "tuesday", "thursday", "friday") }
 
         before do
-          set_working_week_days('wednesday')
+          set_working_week_days("wednesday")
         end
 
-        it 'does not move the follower' do
+        it "does not move the follower" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -358,24 +358,24 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
         end
       end
 
-      context 'when a work package has working days include weekends, and includes a date that is now a non-working day' do
+      context "when a work package has working days include weekends, and includes a date that is now a non-working day" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | XXXX ░░ | working days include weekends
         CHART
 
         before do
-          set_non_working_week_days('wednesday')
+          set_non_working_week_days("wednesday")
         end
 
-        it 'does not move any dates' do
+        it "does not move any dates" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days         | MTWTFSS |
@@ -383,36 +383,36 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [work_package]
           end
         end
       end
 
-      context 'when a work package only has a duration' do
+      context "when a work package only has a duration" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  |      ░░ | duration 3 days
         CHART
 
         before do
-          set_non_working_week_days('wednesday')
+          set_non_working_week_days("wednesday")
         end
 
-        it 'does not change anything' do
+        it "does not change anything" do
           subject
           expect(work_package.duration).to eq(3)
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [work_package]
           end
         end
       end
 
-      context 'when having multiple work packages following each other, and having days becoming non working days' do
+      context "when having multiple work packages following each other, and having days becoming non working days" do
         let_schedule(<<~CHART)
           days | MTWTFSS   |
           wp1  |     X▓▓XX | follows wp2
@@ -421,10 +421,10 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         CHART
 
         before do
-          set_non_working_week_days('tuesday', 'wednesday', 'friday')
+          set_non_working_week_days("tuesday", "wednesday", "friday")
         end
 
-        it 'updates them only once most of the time' do
+        it "updates them only once most of the time" do
           expect { subject }
             .to change { WorkPackage.pluck(:lock_version) }
             .from([0, 0, 0])
@@ -437,7 +437,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
@@ -455,7 +455,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'with multiple predecessors for same follower' do
+      context "with multiple predecessors for same follower" do
         # Given below schedule, as work packages are processed by order of start_date
         # ascending, the processing order will be wp1, wp2, wp3.
         #
@@ -472,10 +472,10 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         CHART
 
         before do
-          set_non_working_week_days('tuesday', 'wednesday', 'friday')
+          set_non_working_week_days("tuesday", "wednesday", "friday")
         end
 
-        it 'can update some followers twice sometimes' do
+        it "can update some followers twice sometimes" do
           expect { subject }
             .to change { WorkPackage.order(:subject).pluck(:lock_version) }
             .from([0, 0, 0])
@@ -488,7 +488,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
@@ -501,7 +501,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when having multiple work packages following each other, and having days becoming working days' do
+      context "when having multiple work packages following each other, and having days becoming working days" do
         let_schedule(<<~CHART)
           days | MTWTFSSmtwtfssmtwtfss  |
           wp1  |  ░░ ░░░ ░░ ░░░X▓▓X▓▓▓X | follows wp2
@@ -509,13 +509,13 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           wp3  | X▓▓X▓▓▓X░░ ░░░ ░░ ░░░  |
         CHART
 
-        let(:work_week) { set_work_week('monday', 'thursday') }
+        let(:work_week) { set_work_week("monday", "thursday") }
 
         before do
-          set_working_week_days('tuesday', 'wednesday', 'friday')
+          set_working_week_days("tuesday", "wednesday", "friday")
         end
 
-        it 'keeps the same start dates and updates them only once' do
+        it "keeps the same start dates and updates them only once" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days | MTWTFSSmtwtfssmtwtfss  |
@@ -526,7 +526,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           expect(WorkPackage.pluck(:lock_version)).to all(be <= 1)
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp3]
           end
@@ -542,7 +542,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when having multiple work packages following each other and first one only has a due date' do
+      context "when having multiple work packages following each other and first one only has a due date" do
         let_schedule(<<~CHART)
           days | MTWTFSS   |
           wp1  |     X▓▓XX | follows wp2
@@ -551,10 +551,10 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         CHART
 
         before do
-          set_non_working_week_days('tuesday', 'wednesday', 'friday')
+          set_non_working_week_days("tuesday", "wednesday", "friday")
         end
 
-        it 'updates all of them correctly' do
+        it "updates all of them correctly" do
           expect { subject }
             .to change { WorkPackage.pluck(:lock_version) }
             .from([0, 0, 0])
@@ -567,7 +567,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
@@ -580,18 +580,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when turning Sunday into a working day' do
+      context "when turning Sunday into a working day" do
         let_schedule(<<~CHART)
           days          | MTWTFSSm |
           work_package  |     X▓▓X |
         CHART
 
         before do
-          set_working_week_days('Sunday')
+          set_working_week_days("Sunday")
         end
 
         # Not interested in the scheduling changes in this spec
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package]
           end
@@ -605,11 +605,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       end
     end
 
-    context 'with non-working days' do
+    context "with non-working days" do
       let(:work_week) { week_with_all_days_working }
       let!(:previous_non_working_days) { week_with_saturday_and_sunday_as_non_working_day }
 
-      context 'when a work package includes a date that is now a non-working day' do
+      context "when a work package includes a date that is now a non-working day" do
         let_schedule(<<~CHART)
           days                  | MTWTFSS |
           work_package          | XXXX ░░ |
@@ -623,7 +623,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'moves the finish date to the corresponding number of now-excluded days to maintain duration [#31992]' do
+        it "moves the finish date to the corresponding number of now-excluded days to maintain duration [#31992]" do
           subject
 
           expect(WorkPackage.all).to match_schedule(<<~CHART)
@@ -636,7 +636,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package,
              work_package_on_start,
@@ -654,7 +654,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a work package was scheduled to start on a date that is now a non-working day' do
+      context "when a work package was scheduled to start on a date that is now a non-working day" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  |   XX ░░ |
@@ -664,8 +664,8 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'moves the start date to the earliest working day in the future, ' \
-           'and the finish date changes by consequence [#31992]' do
+        it "moves the start date to the earliest working day in the future, " \
+           "and the finish date changes by consequence [#31992]" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days         | MTWTFSS |
@@ -673,7 +673,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package]
           end
@@ -687,7 +687,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a work package includes a date that is no more a non-working day' do
+      context "when a work package includes a date that is no more a non-working day" do
         let_schedule(<<~CHART)
           days          | fssMTWTFSS |
           work_package  | X▓▓XX   ░░ |
@@ -697,7 +697,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_working_days(monday.next_occurring(:saturday))
         end
 
-        it 'moves the finish date backwards to the corresponding number of now-included days to maintain duration [#31992]' do
+        it "moves the finish date backwards to the corresponding number of now-included days to maintain duration [#31992]" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days          | fssMTWTFSS |
@@ -705,7 +705,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package]
           end
@@ -719,7 +719,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a follower has a predecessor with dates covering a day that is now a non-working day' do
+      context "when a follower has a predecessor with dates covering a day that is now a non-working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |  XX  ░░ | working days work week
@@ -730,7 +730,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'moves the follower start date by consequence of the predecessor dates shift [#31992]' do
+        it "moves the follower start date by consequence of the predecessor dates shift [#31992]" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -739,7 +739,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [predecessor, follower]
           end
@@ -753,18 +753,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a follower has a predecessor with delay covering a day that is now a non-working day' do
+      context "when a follower has a predecessor with lag covering a day that is now a non-working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | XX   ░░ |
-          follower    |    X ░░ | follows predecessor with delay 1
+          follower    |    X ░░ | follows predecessor with lag 1
         CHART
 
         before do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'moves the follower start date forward to keep the delay to 1 day' do
+        it "moves the follower start date forward to keep the lag to 1 day" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -773,7 +773,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [follower]
           end
@@ -789,18 +789,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'with work packages without dates following each other with delay' do
+      context "with work packages without dates following each other with lag" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |      ░░ |
-          follower    |      ░░ | follows predecessor with delay 5
+          follower    |      ░░ | follows predecessor with lag 5
         CHART
 
         before do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'does not move anything (obviously) and does not crash either' do
+        it "does not move anything (obviously) and does not crash either" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -809,18 +809,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
         end
       end
 
-      context 'when a follower has a predecessor with delay covering multiple days with different working changes' do
+      context "when a follower has a predecessor with lag covering multiple days with different working changes" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | X ░  ░░ |
-          follower    |   ░ X░░ | follows predecessor with delay 2
+          follower    |   ░ X░░ | follows predecessor with lag 2
         CHART
 
         let(:non_working_day) { create(:non_working_day, date: next_monday.next_occurring(:wednesday)) }
@@ -834,7 +834,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_working_days(non_working_day.date)
         end
 
-        it 'correctly handles the changes' do
+        it "correctly handles the changes" do
           subject
           expect_schedule(WorkPackage.all, <<~CHART)
             days        | MTWTFSS |
@@ -843,14 +843,14 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
         end
       end
 
-      context 'when a follower has a predecessor with dates covering a day that is now a working day' do
+      context "when a follower has a predecessor with dates covering a day that is now a working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |  X▓X ░░ | working days work week
@@ -866,7 +866,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_working_days(non_working_day.date)
         end
 
-        it 'does not move the follower backwards' do
+        it "does not move the follower backwards" do
           subject
 
           expect_schedule(WorkPackage.all, <<~CHART)
@@ -876,7 +876,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [predecessor]
           end
@@ -892,7 +892,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a follower has a predecessor with a non-working day between them that is now a working day' do
+      context "when a follower has a predecessor with a non-working day between them that is now a working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS  |
           predecessor | XX░  ░░  |
@@ -908,7 +908,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_working_days(non_working_day.date)
         end
 
-        it 'does not move the follower' do
+        it "does not move the follower" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -917,14 +917,14 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
         end
       end
 
-      context 'when a work package has working days include weekends, and includes a date that is now a non-working day' do
+      context "when a work package has working days include weekends, and includes a date that is now a non-working day" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | XXXX ░░ | working days include weekends
@@ -934,7 +934,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'does not move any dates' do
+        it "does not move any dates" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days         | MTWTFSS |
@@ -942,14 +942,14 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [work_package]
           end
         end
       end
 
-      context 'when a work package only has a duration' do
+      context "when a work package only has a duration" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  |      ░░ | duration 3 days
@@ -959,19 +959,19 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'does not change anything' do
+        it "does not change anything" do
           subject
           expect(work_package.duration).to eq(3)
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [work_package]
           end
         end
       end
 
-      context 'when having multiple work packages following each other, and having days becoming non working days' do
+      context "when having multiple work packages following each other, and having days becoming non working days" do
         let_schedule(<<~CHART)
           days | MTWTFSS   |
           wp1  |     X▓▓XX | follows wp2
@@ -993,7 +993,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(*non_working_days)
         end
 
-        it 'updates them only once most of the time' do
+        it "updates them only once most of the time" do
           expect { subject }
             .to change { WorkPackage.pluck(:lock_version) }
             .from([0, 0, 0])
@@ -1006,7 +1006,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
@@ -1020,7 +1020,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'with multiple predecessors for same follower' do
+      context "with multiple predecessors for same follower" do
         # Given below schedule, as work packages are processed by order of start_date
         # ascending, the processing order will be wp1, wp2, wp3.
         #
@@ -1048,7 +1048,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(*non_working_days)
         end
 
-        it 'can update some followers twice sometimes' do
+        it "can update some followers twice sometimes" do
           expect { subject }
             .to change { WorkPackage.order(:subject).pluck(:lock_version) }
             .from([0, 0, 0])
@@ -1061,7 +1061,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
@@ -1074,7 +1074,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when having multiple work packages following each other, and having days becoming working days' do
+      context "when having multiple work packages following each other, and having days becoming working days" do
         let_schedule(<<~CHART)
           days | MTWTFSSmtwtfssmtwtfss  |
           wp1  |  ░░ ░░░ ░░ ░░░X▓▓X▓▓▓X | follows wp2
@@ -1100,7 +1100,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_working_days(*non_working_days)
         end
 
-        it 'keeps the same start dates and updates them only once' do
+        it "keeps the same start dates and updates them only once" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days | MTWTFSSmtwtfssmtwtfss  |
@@ -1111,7 +1111,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           expect(WorkPackage.pluck(:lock_version)).to all(be <= 1)
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp3]
           end
@@ -1127,7 +1127,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when having multiple work packages following each other and first one only has a due date' do
+      context "when having multiple work packages following each other and first one only has a due date" do
         let_schedule(<<~CHART)
           days | MTWTFSS   |
           wp1  |     X▓▓XX | follows wp2
@@ -1149,7 +1149,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(*non_working_days)
         end
 
-        it 'updates all of them correctly' do
+        it "updates all of them correctly" do
           expect { subject }
             .to change { WorkPackage.pluck(:lock_version) }
             .from([0, 0, 0])
@@ -1162,7 +1162,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
@@ -1176,7 +1176,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when turning Sunday into a working day' do
+      context "when turning Sunday into a working day" do
         let_schedule(<<~CHART)
           days          | MTWTFSSm |
           work_package  |     X▓▓X |
@@ -1192,7 +1192,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
 
         # Not interested in the scheduling changes in this spec
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package]
           end
@@ -1206,11 +1206,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       end
     end
 
-    context 'with non-working days and non-working weekday settings' do
+    context "with non-working days and non-working weekday settings" do
       # The non working weekday settings are set in the beginning of the file
       # Leaving them as is, we get a mix of non-working days and weekday settings.
 
-      context 'when a work package includes a date that is now a non-working day' do
+      context "when a work package includes a date that is now a non-working day" do
         let_schedule(<<~CHART)
           days                  | MTWTFSS |
           work_package          | XXXX ░░ |
@@ -1224,7 +1224,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'moves the finish date to the corresponding number of now-excluded days to maintain duration [#31992]' do
+        it "moves the finish date to the corresponding number of now-excluded days to maintain duration [#31992]" do
           subject
 
           expect(WorkPackage.all).to match_schedule(<<~CHART)
@@ -1237,7 +1237,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package,
              work_package_on_start,
@@ -1254,7 +1254,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a work package was scheduled to start on a date that is now a non-working day' do
+      context "when a work package was scheduled to start on a date that is now a non-working day" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  |   XX ░░ |
@@ -1264,8 +1264,8 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'moves the start date to the earliest working day in the future, ' \
-           'and the finish date changes by consequence [#31992]' do
+        it "moves the start date to the earliest working day in the future, " \
+           "and the finish date changes by consequence [#31992]" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days         | MTWTFSS |
@@ -1273,7 +1273,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package]
           end
@@ -1286,7 +1286,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a work package includes a date that is no more a non-working day' do
+      context "when a work package includes a date that is no more a non-working day" do
         let_schedule(<<~CHART)
           days          | fssMTWTFSS |
           work_package  | X▓▓XX   ░░ |
@@ -1296,10 +1296,10 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
 
         before do
           set_working_days(monday.next_occurring(:saturday))
-          set_working_week_days('saturday')
+          set_working_week_days("saturday")
         end
 
-        it 'moves the finish date backwards to the corresponding number of now-included days to maintain duration [#31992]' do
+        it "moves the finish date backwards to the corresponding number of now-included days to maintain duration [#31992]" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days          | fssMTWTFSS |
@@ -1307,7 +1307,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package]
           end
@@ -1321,7 +1321,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a follower has a predecessor with dates covering a day that is now a non-working day' do
+      context "when a follower has a predecessor with dates covering a day that is now a non-working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |  XX  ░░ | working days work week
@@ -1332,7 +1332,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'moves the follower start date by consequence of the predecessor dates shift [#31992]' do
+        it "moves the follower start date by consequence of the predecessor dates shift [#31992]" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -1341,7 +1341,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [predecessor, follower]
           end
@@ -1355,18 +1355,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a follower has a predecessor with delay covering a day that is now a non-working day' do
+      context "when a follower has a predecessor with lag covering a day that is now a non-working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | XX   ░░ |
-          follower    |    X ░░ | follows predecessor with delay 1
+          follower    |    X ░░ | follows predecessor with lag 1
         CHART
 
         before do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'moves the follower start date forward to keep the delay to 1 day' do
+        it "moves the follower start date forward to keep the lag to 1 day" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -1375,7 +1375,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [follower]
           end
@@ -1391,18 +1391,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'with work packages without dates following each other with delay' do
+      context "with work packages without dates following each other with lag" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |      ░░ |
-          follower    |      ░░ | follows predecessor with delay 5
+          follower    |      ░░ | follows predecessor with lag 5
         CHART
 
         before do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'does not move anything (obviously) and does not crash either' do
+        it "does not move anything (obviously) and does not crash either" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -1411,14 +1411,14 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
         end
       end
 
-      context 'when a follower has a predecessor with delay covering multiple days with different working changes' do
+      context "when a follower has a predecessor with delay covering multiple days with different working changes" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor | X ░  ░░ |
@@ -1436,7 +1436,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_working_days(non_working_day.date)
         end
 
-        it 'correctly handles the changes' do
+        it "correctly handles the changes" do
           subject
           expect_schedule(WorkPackage.all, <<~CHART)
             days        | MTWTFSS |
@@ -1445,14 +1445,14 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
         end
       end
 
-      context 'when a follower has a predecessor with dates covering a day that is now a working day' do
+      context "when a follower has a predecessor with dates covering a day that is now a working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS |
           predecessor |  X▓X ░░ | working days work week
@@ -1468,7 +1468,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_working_days(non_working_day.date)
         end
 
-        it 'does not move the follower backwards' do
+        it "does not move the follower backwards" do
           subject
 
           expect_schedule(WorkPackage.all, <<~CHART)
@@ -1478,7 +1478,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [predecessor]
           end
@@ -1494,7 +1494,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when a follower has a predecessor with a non-working day between them that is now a working day' do
+      context "when a follower has a predecessor with a non-working day between them that is now a working day" do
         let_schedule(<<~CHART)
           days        | MTWTFSS  |
           predecessor | XX░  ░░  |
@@ -1510,7 +1510,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_working_days(non_working_day.date)
         end
 
-        it 'does not move the follower' do
+        it "does not move the follower" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days        | MTWTFSS |
@@ -1519,14 +1519,14 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
         end
       end
 
-      context 'when a work package has working days include weekends, and includes a date that is now a non-working day' do
+      context "when a work package has working days include weekends, and includes a date that is now a non-working day" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | XXXX ░░ | working days include weekends
@@ -1536,7 +1536,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'does not move any dates' do
+        it "does not move any dates" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days         | MTWTFSS |
@@ -1544,14 +1544,14 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [work_package]
           end
         end
       end
 
-      context 'when a work package only has a duration' do
+      context "when a work package only has a duration" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  |      ░░ | duration 3 days
@@ -1561,19 +1561,19 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(next_monday.next_occurring(:wednesday))
         end
 
-        it 'does not change anything' do
+        it "does not change anything" do
           subject
           expect(work_package.duration).to eq(3)
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:unchanged_work_packages) do
             [work_package]
           end
         end
       end
 
-      context 'when having multiple work packages following each other, and having days becoming non working days' do
+      context "when having multiple work packages following each other, and having days becoming non working days" do
         let_schedule(<<~CHART)
           days | MTWTFSS   |
           wp1  |     X▓▓XX | follows wp2
@@ -1595,7 +1595,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(*non_working_days)
         end
 
-        it 'updates them only once most of the time' do
+        it "updates them only once most of the time" do
           expect { subject }
             .to change { WorkPackage.pluck(:lock_version) }
             .from([0, 0, 0])
@@ -1608,7 +1608,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
@@ -1622,7 +1622,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'with multiple predecessors for same follower' do
+      context "with multiple predecessors for same follower" do
         # Given below schedule, as work packages are processed by order of start_date
         # ascending, the processing order will be wp1, wp2, wp3.
         #
@@ -1650,7 +1650,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(*non_working_days)
         end
 
-        it 'can update some followers twice sometimes' do
+        it "can update some followers twice sometimes" do
           expect { subject }
             .to change { WorkPackage.order(:subject).pluck(:lock_version) }
             .from([0, 0, 0])
@@ -1663,7 +1663,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
@@ -1676,7 +1676,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when having multiple work packages following each other, and having days becoming working days' do
+      context "when having multiple work packages following each other, and having days becoming working days" do
         let_schedule(<<~CHART)
           days | MTWTFSSmtwtfssmtwtfss  |
           wp1  |  ░░ ░░░ ░░ ░░░X▓▓X▓▓▓X | follows wp2
@@ -1702,7 +1702,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_working_days(*non_working_days)
         end
 
-        it 'keeps the same start dates and updates them only once' do
+        it "keeps the same start dates and updates them only once" do
           subject
           expect(WorkPackage.all).to match_schedule(<<~CHART)
             days | MTWTFSSmtwtfssmtwtfss  |
@@ -1713,7 +1713,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           expect(WorkPackage.pluck(:lock_version)).to all(be <= 1)
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp3]
           end
@@ -1729,7 +1729,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when having multiple work packages following each other and first one only has a due date' do
+      context "when having multiple work packages following each other and first one only has a due date" do
         let_schedule(<<~CHART)
           days | MTWTFSS   |
           wp1  |     X▓▓XX | follows wp2
@@ -1751,7 +1751,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           set_non_working_days(*non_working_days)
         end
 
-        it 'updates all of them correctly' do
+        it "updates all of them correctly" do
           expect { subject }
             .to change { WorkPackage.pluck(:lock_version) }
             .from([0, 0, 0])
@@ -1764,7 +1764,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
@@ -1777,7 +1777,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
       end
 
-      context 'when turning Sunday into a working day' do
+      context "when turning Sunday into a working day" do
         let_schedule(<<~CHART)
           days          | MTWTFSSm |
           work_package  |     X▓▓X |
@@ -1792,11 +1792,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         before do
           # Make 'sunday' a working weekday and a remove it as a non-working day
           set_working_days(*non_working_days)
-          set_working_week_days('sunday')
+          set_working_week_days("sunday")
         end
 
         # Not interested in the scheduling changes in this spec
-        it_behaves_like 'journal updates with cause' do
+        it_behaves_like "journal updates with cause" do
           let(:changed_work_packages) do
             [work_package]
           end
@@ -1808,28 +1808,6 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
             }
           end
         end
-      end
-    end
-  end
-
-  describe '.scheduled?' do
-    context 'with a job already scheduled in the DB' do
-      before do
-        ActiveJob::QueueAdapters::DelayedJobAdapter
-          .new
-          .enqueue(described_class.new(user_id: 5, previous_non_working_days: [1, 2]))
-      end
-
-      it 'is true' do
-        expect(described_class)
-          .to be_scheduled
-      end
-    end
-
-    context 'without a job already scheduled in the DB' do
-      it 'is false' do
-        expect(described_class)
-          .not_to be_scheduled
       end
     end
   end

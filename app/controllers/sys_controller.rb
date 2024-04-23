@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/repository_authentication'
+require "open_project/repository_authentication"
 
 class SysController < ActionController::Base
   before_action :check_enabled
@@ -38,7 +38,7 @@ class SysController < ActionController::Base
     p = Project.active.has_module(:repository)
         .includes(:repository)
         .references(:repositories)
-        .order(Arel.sql('identifier'))
+        .order(Arel.sql("identifier"))
     respond_to do |format|
       format.json do
         render json: p.to_json(include: :repository)
@@ -50,7 +50,7 @@ class SysController < ActionController::Base
   end
 
   def update_required_storage
-    result = update_storage_information(@repository, params[:force] == '1')
+    result = update_storage_information(@repository, params[:force] == "1")
     render plain: "Updated: #{result}", status: :ok
   end
 
@@ -75,9 +75,9 @@ class SysController < ActionController::Base
   def repo_auth
     project = Project.find_by(identifier: params[:repository])
     if project && authorized?(project, @authenticated_user)
-      render plain: 'Access granted'
+      render plain: "Access granted"
     else
-      render plain: 'Not allowed', status: :forbidden # default to deny
+      render plain: "Not allowed", status: :forbidden # default to deny
     end
   end
 
@@ -96,7 +96,7 @@ class SysController < ActionController::Base
   def check_enabled
     User.current = nil
     unless Setting.sys_api_enabled? && params[:key].to_s == Setting.sys_api_key
-      render plain: 'Access denied. Repository management WS is disabled or key is invalid.',
+      render plain: "Access denied. Repository management WS is disabled or key is invalid.",
              status: :forbidden
       false
     end
@@ -125,7 +125,7 @@ class SysController < ActionController::Base
     else
       return true if @repository.scm.storage_available?
 
-      render plain: 'repositories.storage.not_available', status: :bad_request
+      render plain: "repositories.storage.not_available", status: :bad_request
     end
 
     false
@@ -137,8 +137,8 @@ class SysController < ActionController::Base
       return true if @authenticated_user
     end
 
-    response.headers['WWW-Authenticate'] = 'Basic realm="Repository Authentication"'
-    render plain: 'Authorization required', status: :unauthorized
+    response.headers["WWW-Authenticate"] = 'Basic realm="Repository Authentication"'
+    render plain: "Authorization required", status: :unauthorized
     false
   end
 
@@ -155,10 +155,10 @@ class SysController < ActionController::Base
     user_id = Rails.cache.fetch(OpenProject::RepositoryAuthentication::CACHE_PREFIX + Digest::SHA1.hexdigest("#{username}#{password}"),
                                 expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) do
       user = user_login(username, password)
-      user ? user.id.to_s : '-1'
+      user ? user.id.to_s : "-1"
     end
 
-    return nil if user_id.blank? or user_id == '-1'
+    return nil if user_id.blank? or user_id == "-1"
 
     user || User.find_by(id: user_id.to_i)
   end

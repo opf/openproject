@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 # Purpose: common functionalities shared by CreateContract and UpdateContract
 # UpdateService by default checks if UpdateContract exists
@@ -53,7 +53,7 @@ module Storages::Storages
     private
 
     def provider_type_strategy
-      contract = ::Storages::Peripherals::Registry.resolve("contracts.#{model.short_provider_type}")
+      contract = ::Storages::Peripherals::Registry.resolve("#{model.short_provider_type}.contracts.storage")
                                                   .new(model, @user, options: @options)
 
       # Append the attributes defined in the internal contract
@@ -70,7 +70,7 @@ module Storages::Storages
 
     def require_ee_token_for_one_drive
       if ::Storages::Storage.one_drive_without_ee_token?(provider_type)
-        errors.add(:base, I18n.t('api_v3.errors.code_500_missing_enterprise_token'))
+        errors.add(:base, I18n.t("api_v3.errors.code_500_missing_enterprise_token"))
       end
     end
   end

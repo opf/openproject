@@ -26,11 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Attachments::CleanupUncontaineredJob < Cron::CronJob
+class Attachments::CleanupUncontaineredJob < ApplicationJob
   queue_with_priority :low
-
-  # runs at 10:03 pm
-  self.cron_expression = '03 22 * * *'
 
   def perform
     Attachment
@@ -50,7 +47,7 @@ class Attachments::CleanupUncontaineredJob < Cron::CronJob
     attachment_table = Attachment.arel_table
 
     attachment_table[:created_at]
-      .lteq(Time.now - OpenProject::Configuration.attachments_grace_period.minutes)
+      .lteq(Time.zone.now - OpenProject::Configuration.attachments_grace_period.minutes)
       .to_sql
   end
 end

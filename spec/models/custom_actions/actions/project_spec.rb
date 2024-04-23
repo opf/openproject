@@ -25,8 +25,8 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require_relative '../shared_expectations'
+require "spec_helper"
+require_relative "../shared_expectations"
 
 RSpec.describe CustomActions::Actions::Project do
   let(:key) { :project }
@@ -44,10 +44,10 @@ RSpec.describe CustomActions::Actions::Project do
      { value: projects.last.id, label: projects.last.name }]
   end
 
-  it_behaves_like 'base custom action'
-  it_behaves_like 'associated custom action' do
-    describe '#allowed_values' do
-      it 'is the list of all project' do
+  it_behaves_like "base custom action"
+  it_behaves_like "associated custom action" do
+    describe "#allowed_values" do
+      it "is the list of all project" do
         allowed_values
 
         expect(instance.allowed_values)

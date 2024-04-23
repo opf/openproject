@@ -29,7 +29,7 @@
 namespace :migrations do
   namespace :strong_passwords do
     def migrations_to_reregister
-      @migrations_to_reregister ||= ['20130628092725']
+      @migrations_to_reregister ||= ["20130628092725"]
     end
 
     desc "Prepares database schema changed by the plug-in 'Strong Passwords' for follow-up migrations"
@@ -44,7 +44,7 @@ namespace :migrations do
     end
 
     def strong_passwords_changed_schema
-      User.column_names.include? 'failed_login_on'
+      User.column_names.include? "failed_login_on"
     end
 
     def rename_strong_password_columns
@@ -63,7 +63,7 @@ namespace :migrations do
     end
 
     def schema_name
-      ActiveRecord::Base.connection.quote_table_name 'schema_migrations'
+      ActiveRecord::Base.connection.quote_table_name "schema_migrations"
     end
 
     def quote_value(name)

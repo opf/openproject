@@ -26,148 +26,75 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ProjectsHelper do
   include ApplicationHelper
-  include ProjectsHelper
+  include described_class
 
-  describe '#projects_with_level' do
-    let(:root) do
-      stub_descendant_of
-    end
-    let(:child1) { stub_descendant_of(root) }
-    let(:grandchild1) { stub_descendant_of(root, child1) }
-    let(:grandchild2) { stub_descendant_of(root, child1) }
-    let(:grandgrandchild1) { stub_descendant_of(root, child1, grandchild2) }
-    let(:child2) { stub_descendant_of(root) }
+  let(:project_selects) do
+    selects = [
+      Queries::Projects::Selects::Default.new(:name),
+      Queries::Projects::Selects::Default.new(:hierarchy),
+      Queries::Projects::Selects::Default.new(:description),
+      Queries::Projects::Selects::Status.new(:project_status)
+    ]
 
-    def stub_descendant_of(*ancestors)
-      wp = build_stubbed(:project)
+    query_instance = instance_double(Queries::Projects::ProjectQuery, available_selects: selects)
 
-      allow(wp)
-        .to receive(:is_descendant_of?)
-        .and_return(false)
-
-      ancestors.each do |ancestor|
-        allow(wp)
-          .to receive(:is_descendant_of?)
-          .with(ancestor)
-          .and_return(true)
-      end
-
-      wp
-    end
-
-    context 'when ordered by hierarchy' do
-      let(:projects) do
-        [root,
-         child1,
-         grandchild1,
-         grandchild2,
-         grandgrandchild1,
-         child2]
-      end
-
-      it 'returns the projects in the provided order with the appropriate levels' do
-        expect { |b| helper.projects_with_level(projects, &b) }
-          .to yield_successive_args [root, 0],
-                                    [child1, 1],
-                                    [grandchild1, 2],
-                                    [grandchild2, 2],
-                                    [grandgrandchild1, 3],
-                                    [child2, 1]
-      end
-    end
-
-    context 'when ordered by arbitrarily' do
-      let(:projects) do
-        [grandchild1,
-         child1,
-         grandchild2,
-         grandgrandchild1,
-         child2,
-         root]
-      end
-
-      it 'returns the projects in the provided order with the appropriate levels' do
-        expect { |b| helper.projects_with_level(projects, &b) }
-          .to yield_successive_args [grandchild1, 0],
-                                    [child1, 0],
-                                    [grandchild2, 1],
-                                    [grandgrandchild1, 2],
-                                    [child2, 0],
-                                    [root, 0]
-      end
-    end
+    allow(Queries::Projects::ProjectQuery)
+      .to receive(:new)
+            .and_return(query_instance)
   end
 
-  describe '#short_project_description' do
-    let(:project) { build_stubbed(:project, description: (('Abcd ' * 5) + "\n") * 11) }
+  describe "#short_project_description" do
+    let(:project) { build_stubbed(:project, description: "#{'Abcd ' * 5}\n" * 11) }
 
-    it 'returns shortened description' do
+    it "returns shortened description" do
       expect(helper.short_project_description(project))
-        .to eql(((('Abcd ' * 5) + "\n") * 10)[0..-2] + '...')
+        .to eql("#{("#{'Abcd ' * 5}\n" * 10)[0..-2]}...")
     end
   end
 
-  describe '#project_more_menu_items' do
-    # need to use refind: true because @allowed_permissions is cached in the instance
-    shared_let(:project, refind: true) { create(:project) }
-    shared_let(:current_user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
-
-    subject(:menu) do
-      items = project_more_menu_items(project)
-      # each item is a [label, href, **link_to_options]
-      items.pluck(0)
-    end
-
+  describe "#projects_columns_options" do
     before do
-      allow(User).to receive(:current).and_return(current_user)
+      project_selects
     end
 
-    # "Archive project" menu entry
+    it "returns the columns options" do
+      expect(helper.projects_columns_options)
+        .to eql([
+                  { name: "Description", id: :description },
+                  { name: "Name", id: :name },
+                  { name: "Status", id: :project_status }
+                ])
+    end
+  end
 
-    context 'when current user is admin' do
-      before do
-        current_user.update(admin: true)
-      end
-
-      it { is_expected.to include(t(:button_archive)) }
+  describe "#selected_project_columns_options", with_settings: { enabled_projects_columns: %w[name description] } do
+    before do
+      project_selects
     end
 
-    context 'when current user has archive_project permission' do
-      before do
-        current_user.roles(project).first.add_permission!(:archive_project)
-      end
+    it "returns the columns options currently persisted in the setting (in that order)" do
+      expect(helper.selected_projects_columns_options)
+        .to eql([
+                  { name: "Name", id: :name },
+                  { name: "Description", id: :description }
+                ])
+    end
+  end
 
-      it { is_expected.to include(t(:button_archive)) }
+  describe "#protected_project_columns_options" do
+    before do
+      project_selects
     end
 
-    context 'when current user does not have archive_project permission' do
-      it { is_expected.not_to include(t(:button_archive)) }
-    end
-
-    context 'when project is archived' do
-      before do
-        project.update(active: false)
-      end
-
-      it { is_expected.not_to include(t(:button_archive)) }
-    end
-
-    # "Project activity" menu entry
-
-    context 'when project does not have activity module enabled' do
-      before do
-        project.enabled_module_names -= ['activity']
-      end
-
-      it { is_expected.not_to include(t(:label_project_activity)) }
-    end
-
-    context 'when project has activity module enabled' do
-      it { is_expected.to include(t(:label_project_activity)) }
+    it "returns the columns options currently persisted in the setting (in that order)" do
+      expect(helper.protected_projects_columns_options)
+        .to eql([
+                  { name: "Name", id: :name }
+                ])
     end
   end
 end

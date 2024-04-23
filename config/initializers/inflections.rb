@@ -41,8 +41,8 @@
 # These inflection rules are supported but not enabled by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "API"
-  inflect.acronym 'OAuth'
-  inflect.acronym 'OpenID'
-  inflect.acronym 'ICal'
-  inflect.acronym 'ClamAV'
+  inflect.acronym "OAuth"
+  inflect.acronym "OpenID"
+  inflect.acronym "ICal"
+  inflect.acronym "ClamAV"
 end

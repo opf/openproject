@@ -1,11 +1,36 @@
-<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% if show_state? %>
-    <% header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title } %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    if show_state?
+      header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title }
+      header.with_breadcrumbs(breadcrumb_items)
 
-    <% header.with_actions do %>
-      <%= render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
+      if query_saveable?
+        header.with_action_text { t('lists.can_be_saved_as') }
 
+        header.with_action_link(mobile_icon: nil, # Do not show on mobile as it is already part of the menu
+                                mobile_label: nil,
+                                href: new_projects_query_path,
+                                data: {
+                                  controller: "params-from-query",
+                                  'application-target': "dynamic",
+                                  'params-from-query-allowed-value': '["filters", "columns"]'
+                                }) do
+          render(Primer::Beta::Octicon.new(icon: "op-save",
+                                           align_self: :center,
+                                           "aria-label": I18n.t("button_save_as"),
+                                           mr: 1)
+          ) + content_tag(:span, t("button_save_as"))
+        end
+      end
+
+      header.with_action_menu(menu_arguments: {
+        anchor_align: :end
+      },
+                              button_arguments: {
+                                icon: "op-kebab-vertical",
+                                "aria-label": t(:label_more),
+                                data: { "test-selector": "project-more-dropdown-menu" }
+                              })  do |menu|
         if gantt_portfolio_project_ids.any?
           menu.with_item(
             tag: :a,
@@ -22,21 +47,21 @@
           tag: :a,
           label: t(:label_overall_activity),
           href: activities_path
-        )do |item|
-        item.with_leading_visual_icon(icon: 'tasklist')
-      end
+        ) do |item|
+          item.with_leading_visual_icon(icon: 'tasklist')
+        end
 
-        if current_user.logged? && query_saveable?
+        if query_saveable?
           menu.with_item(
-            label: t('button_save'),
+            label: t('button_save_as'),
             href: new_projects_query_path,
             content_arguments: {
-            data: {
-              controller: "params-from-query",
-              'application-target': "dynamic",
-              'params-from-query-allowed-value': '["filters"]'
+              data: {
+                controller: "params-from-query",
+                'application-target': "dynamic",
+                'params-from-query-allowed-value': '["filters", "columns"]'
+              }
             }
-          }
           ) do |item|
             item.with_leading_visual_icon(icon: :'op-save')
           end
@@ -44,54 +69,51 @@
 
         menu.with_item(
           label: t('js.label_export'),
-          content_arguments: { 'data-show-dialog-id': EXPORT_MODAL_ID }
+          content_arguments: { 'data-show-dialog-id': Projects::ExportListModalComponent::MODAL_ID }
         ) do |item|
           item.with_leading_visual_icon(icon: 'sign-out')
+        end
+
+        menu.with_item(
+          label: t(:'queries.configure_view.heading'),
+          content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :gear)
         end
 
         if query.persisted?
           menu.with_item(
             label: t(:button_delete),
-            href: projects_query_path(query),
             scheme: :danger,
-            form_arguments: {
-              method: :delete,
-              data: {
-                confirm: t("text_are_you_sure"),
-                turbo: 'false'
-              }
-            }
+            content_arguments: { 'data-show-dialog-id': Projects::DeleteListModalComponent::MODAL_ID }
           ) do |item|
             item.with_leading_visual_icon(icon: 'trash')
           end
         end
       end
-      %>
-    <% end %>
 
-  <% else %>
-      <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
+
+    else
+      header.with_title(data: { 'test-selector': 'project-query-name'}) do
         primer_form_with(model: query,
                          url: projects_queries_path,
                          scope: 'query',
                          data: {
                            controller: "params-from-query",
                            'application-target': "dynamic",
-                           'params-from-query-allowed-value': '["filters"]'
+                           'params-from-query-allowed-value': '["filters", "columns"]'
                          },
                          id: 'project-save-form') do |f|
           render(Queries::Projects::Create.new(f))
         end
-      end %>
-  <% end %>
-<% end %>
+      end
+      header.with_breadcrumbs(breadcrumb_items)
+    end
+  end
+%>
 
 <% if show_state? %>
-  <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
-                                       id: EXPORT_MODAL_ID)) do |d|
-    d.with_header(variant: :large)
-    d.with_body do
-      render partial: '/projects/project_export_modal'
-    end
-  end %>
+  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
+  <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
+  <%= render(Projects::ExportListModalComponent.new(query:)) %>
 <% end %>

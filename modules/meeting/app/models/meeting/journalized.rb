@@ -37,14 +37,23 @@ module Meeting::Journalized
           #{format_date o.start_time} \
           #{format_time o.start_time, false}-#{format_time o.end_time, false})"
                          },
-                  url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
+                  url: Proc.new { |o| { controller: "/meetings", action: "show", id: o } },
                   author: Proc.new(&:user),
-                  description: ''
+                  description: ""
 
-    register_journal_formatted_fields(:plaintext, 'title')
-    register_journal_formatted_fields(:fraction, 'duration')
-    register_journal_formatted_fields(:datetime, 'start_time')
-    register_journal_formatted_fields(:plaintext, 'location')
+    register_journal_formatted_fields(:plaintext, "title")
+    register_journal_formatted_fields(:fraction, "duration")
+    register_journal_formatted_fields(:datetime, "start_date")
+    register_journal_formatted_fields(:meeting_start_time, "start_time")
+    register_journal_formatted_fields(:plaintext, "location")
+    register_journal_formatted_fields(:meeting_state, "state")
+
+    register_journal_formatted_fields(:agenda_item_duration, "duration")
+    register_journal_formatted_fields(:agenda_item_diff, /agenda_items_\d+_notes/)
+    register_journal_formatted_fields(:agenda_item_title, /agenda_items_\d+_title/)
+    register_journal_formatted_fields(:agenda_item_duration, /agenda_items_\d+_duration_in_minutes/)
+    register_journal_formatted_fields(:agenda_item_position, "position")
+    register_journal_formatted_fields(:meeting_work_package_id, /agenda_items_\d+_work_package_id/)
 
     def touch_and_save_journals
       update_column(:updated_at, Time.current)

@@ -40,7 +40,7 @@ class JournalsController < ApplicationController
 
   def index
     @query = retrieve_query(@project)
-    sort_init 'id', 'desc'
+    sort_init "id", "desc"
     sort_update(@query.sortable_key_by_column_name)
 
     if @query.valid?
@@ -51,7 +51,7 @@ class JournalsController < ApplicationController
     respond_to do |format|
       format.atom do
         render layout: false,
-               content_type: 'application/atom+xml',
+               content_type: "application/atom+xml",
                locals: { title: journals_index_title,
                          journals: @journals }
       end
@@ -67,13 +67,13 @@ class JournalsController < ApplicationController
       return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field_param)
     end
 
-    @activity_page = params['activity_page']
+    @activity_page = params["activity_page"]
     @diff = Redmine::Helpers::Diff.new(to, from)
 
     respond_to do |format|
       format.html
       format.js do
-        render partial: 'diff', locals: { diff: @diff }
+        render partial: "diff", locals: { diff: @diff }
       end
     end
   end
@@ -90,8 +90,9 @@ class JournalsController < ApplicationController
 
   def ensure_permitted
     permission = case @journal.journable_type
-                 when 'WorkPackage' then :view_work_packages
-                 when 'Project' then :view_project
+                 when "WorkPackage" then :view_work_packages
+                 when "Project" then :view_project
+                 when "Meeting" then :view_meetings
                  end
 
     do_authorize(permission)
@@ -104,7 +105,11 @@ class JournalsController < ApplicationController
   end
 
   def valid_field_for_diffing?
-    %w[description status_explanation].include?(field_param)
+    %w[description status_explanation].include?(field_param) || agenda_item_notes?
+  end
+
+  def agenda_item_notes?
+    field_param.match?(/\Aagenda_items_\d+_notes\z/)
   end
 
   def journals_index_title

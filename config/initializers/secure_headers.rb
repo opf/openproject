@@ -34,13 +34,13 @@ Rails.application.config.after_initialize do
     media_src = default_src
 
     if OpenProject::Configuration.appsignal_frontend_key
-      connect_src += ['https://appsignal-endpoint.net']
+      connect_src += ["https://appsignal-endpoint.net"]
     end
 
     # Add proxy configuration for Angular CLI to csp
     if FrontendAssetHelper.assets_proxied?
       proxied = ["ws://#{Setting.host_name}", "http://#{Setting.host_name}",
-                 FrontendAssetHelper.cli_proxy.sub('http', 'ws'), FrontendAssetHelper.cli_proxy]
+                 FrontendAssetHelper.cli_proxy.sub("http", "ws"), FrontendAssetHelper.cli_proxy]
       connect_src += proxied
       assets_src += proxied
       media_src += proxied
@@ -50,15 +50,15 @@ Rails.application.config.after_initialize do
     script_src = assets_src
 
     # Allow unsafe-eval for rack-mini-profiler
-    if Rails.env.development? && ENV.fetch('OPENPROJECT_RACK_PROFILER_ENABLED', false)
+    if Rails.env.development? && ENV.fetch("OPENPROJECT_RACK_PROFILER_ENABLED", false)
       script_src += %w('unsafe-eval')
     end
 
     # Allow ANDI bookmarklet to run in development mode
     # https://www.ssa.gov/accessibility/andi/help/install.html
     if Rails.env.development?
-      script_src += ['https://www.ssa.gov']
-      assets_src += ['https://www.ssa.gov']
+      script_src += ["https://www.ssa.gov"]
+      assets_src += ["https://www.ssa.gov"]
     end
 
     config.csp = {

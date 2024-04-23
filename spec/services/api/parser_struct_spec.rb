@@ -24,63 +24,63 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::ParserStruct do
   let(:instance) { described_class.new }
 
-  describe 'assigning a value and method creation' do
+  describe "assigning a value and method creation" do
     # Dynamically creating a method can be misused when allowing
     # those method are generated based on client input.
     # See "Symbol denial of service" at
     # https://ruby-doc.org/stdlib-3.0.0/libdoc/ostruct/rdoc/OpenStruct.html#class-OpenStruct-label-Caveats.
-    it 'does not dynamically create a method' do
-      instance.some_method = 'string'
+    it "does not dynamically create a method" do
+      instance.some_method = "string"
 
       expect(instance.methods.grep(/some_method/))
         .to be_empty
     end
   end
 
-  describe 'assigning an value and getting a hash' do
-    it 'works for [value]=' do
-      instance.some_value = 'string'
+  describe "assigning an value and getting a hash" do
+    it "works for [value]=" do
+      instance.some_value = "string"
 
       expect(instance.to_h)
-        .to eql('some_value' => 'string')
+        .to eql("some_value" => "string")
     end
 
-    it 'works for [value]_id=' do
+    it "works for [value]_id=" do
       instance.some_value_id = 5
 
       expect(instance.to_h)
-        .to eql('some_value_id' => 5)
+        .to eql("some_value_id" => 5)
     end
 
-    it 'works for group_by=' do
+    it "works for group_by=" do
       instance.group_by = 8
 
       expect(instance.to_h)
-        .to eql('group_by' => 8)
+        .to eql("group_by" => 8)
     end
   end
 
-  describe 'assigning an value and getting by hash key' do
-    it 'works for [value]=' do
-      instance.some_value = 'string'
+  describe "assigning an value and getting by hash key" do
+    it "works for [value]=" do
+      instance.some_value = "string"
 
       expect(instance[:some_value])
-        .to eq('string')
+        .to eq("string")
     end
 
-    it 'works for [value]_id=' do
+    it "works for [value]_id=" do
       instance.some_value_id = 5
 
       expect(instance[:some_value_id])
         .to eq(5)
     end
 
-    it 'works for group_by=' do
+    it "works for group_by=" do
       instance.group_by = 8
 
       expect(instance[:group_by])
@@ -88,15 +88,15 @@ RSpec.describe API::ParserStruct do
     end
   end
 
-  describe 'instantiating with a hash and fetching the value' do
+  describe "instantiating with a hash and fetching the value" do
     let(:instance) do
       described_class
-        .new({ 'some_value' => 'string', 'some_value_id' => 5, 'group_by' => 8 })
+        .new({ "some_value" => "string", "some_value_id" => 5, "group_by" => 8 })
     end
 
-    it 'allows fetching the value' do
+    it "allows fetching the value" do
       expect(instance.to_h)
-        .to eql({ 'some_value' => 'string', 'some_value_id' => 5, 'group_by' => 8 })
+        .to eql({ "some_value" => "string", "some_value_id" => 5, "group_by" => 8 })
     end
   end
 end

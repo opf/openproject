@@ -45,9 +45,9 @@ zh-TW:
         item_0:
           name: 工作項目編輯者
         item_1:
-          name: Work package commenter
+          name: 工作項目評論者
         item_2:
-          name: Work package viewer
+          name: 工作項目檢視者
       project_roles:
         item_0:
           name: 非成員
@@ -124,13 +124,13 @@ zh-TW:
         item_3:
           name: 功能
         item_4:
-          name: 篇章
+          name: 史詩等級
         item_5:
           name: 使用者需求
         item_6:
           name: Bug
       welcome:
-        title: Welcome to OpenProject!
+        title: 歡迎使用OpenProject
         text: |
           OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
@@ -149,7 +149,7 @@ zh-TW:
           For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
+          name: 示範專案
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo project.
           news:
@@ -172,16 +172,16 @@ zh-TW:
               name: 團隊規劃
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban看板
             basic:
-              name: Basic board
+              name: 基本看板
               lists:
                 item_0:
-                  name: Wish list
+                  name: 願望清單
                 item_1:
-                  name: Short list
+                  name: 簡易清單
                 item_2:
-                  name: Priority list for today
+                  name: 今天工作優先順序
                 item_3:
                   name: 永不
             parent_child:
@@ -218,7 +218,7 @@ zh-TW:
                   name: 里程碑
           work_packages:
             item_0:
-              subject: Start of project
+              subject: 專案開始
             item_1:
               subject: Organize open source conference
               children:
@@ -236,7 +236,7 @@ zh-TW:
                 item_2:
                   subject: Setup conference website
             item_2:
-              subject: Conference
+              subject: 會議
             item_3:
               subject: Follow-up tasks
               children:
@@ -252,7 +252,7 @@ zh-TW:
             item_4:
               subject: End of project
         scrum-project:
-          name: Scrum project
+          name: Scrum 專案
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
@@ -263,13 +263,13 @@ zh-TW:
                 In this module you can communicate project news to your team members.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Bug的待辦事項
             item_1:
-              name: Product Backlog
+              name: 產品待辦事項
             item_2:
-              name: Sprint 1
+              name: 衝刺1
               wiki:
-                title: Sprint 1
+                title: 衝刺1
                 content: |
                   ### Sprint planning meeting
 
@@ -317,7 +317,7 @@ zh-TW:
                   * After Sprint Review, will be moderated by Scrum Master.
                   * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
             item_3:
-              name: Sprint 2
+              name: 衝刺2
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
@@ -326,21 +326,21 @@ zh-TW:
             item_1:
               name: 產品待辦事項
             item_2:
-              name: Sprint 1
+              name: 衝刺1
             item_3:
               name: 任務
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban看板
             basic:
               name: 任務看板
               lists:
                 item_0:
-                  name: Wish list
+                  name: 願望清單
                 item_1:
-                  name: Short list
+                  name: 短清單
                 item_2:
-                  name: Priority list for today
+                  name: 今天工作優先順序
                 item_3:
                   name: 永不
           project-overview:
@@ -374,11 +374,11 @@ zh-TW:
                   name: 計畫方案
           work_packages:
             item_0:
-              subject: New login screen
+              subject: 新的登入介面
             item_1:
-              subject: Password reset does not send email
+              subject: 密碼重置不發郵件
             item_2:
-              subject: New website
+              subject: 新增網站
               children:
                 item_0:
                   subject: Newsletter registration form
@@ -390,7 +390,7 @@ zh-TW:
                     item_0:
                       subject: Create wireframes for new landing page
             item_3:
-              subject: Contact form
+              subject: 聯絡表格
             item_4:
               subject: Feature carousel
               children:
@@ -399,7 +399,7 @@ zh-TW:
             item_5:
               subject: Wrong hover color
             item_6:
-              subject: SSL certificate
+              subject: SSL 憑證
             item_7:
               subject: Set-up Staging environment
             item_8:

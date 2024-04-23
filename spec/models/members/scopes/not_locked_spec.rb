@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Members::Scopes::NotLocked do
   let(:project) { create(:project) }
@@ -63,10 +63,10 @@ RSpec.describe Members::Scopes::NotLocked do
            principal: create(:group))
   end
 
-  describe '.fetch' do
+  describe ".fetch" do
     subject { Member.not_locked }
 
-    it 'returns only actual users and groups' do
+    it "returns only actual users and groups" do
       expect(subject)
         .to contain_exactly(active_user_member, invited_user_member, registered_user_member, group_member)
     end

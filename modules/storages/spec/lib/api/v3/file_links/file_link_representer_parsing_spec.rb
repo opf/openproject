@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
+RSpec.describe API::V3::FileLinks::FileLinkRepresenter, "parsing" do
   include API::V3::Utilities::PathHelper
 
   let(:file_link) { build_stubbed(:file_link) }
@@ -45,7 +45,7 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
                                     .and_return storage
   end
 
-  describe 'parsing' do
+  describe "parsing" do
     subject(:parsed) { representer.from_hash parsed_hash }
 
     let(:representer) do
@@ -71,8 +71,8 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
       }
     end
 
-    describe 'storage' do
-      context 'if storage url is given with trailing slashes' do
+    describe "storage" do
+      context "if storage url is given with trailing slashes" do
         let(:parsed_hash) do
           {
             "_links" => {
@@ -83,12 +83,12 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
           }
         end
 
-        it 'is parsed correctly' do
+        it "is parsed correctly" do
           expect(parsed).to have_attributes(storage_id: storage.id)
         end
       end
 
-      context 'if storage is given as resource' do
+      context "if storage is given as resource" do
         let(:parsed_hash) do
           {
             "_links" => {
@@ -99,22 +99,22 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
           }
         end
 
-        it 'is parsed correctly' do
+        it "is parsed correctly" do
           expect(parsed).to have_attributes(storage_id: storage.id)
         end
       end
     end
 
-    describe 'originData' do
-      it 'is parsed correctly' do
+    describe "originData" do
+      it "is parsed correctly" do
         expect(parsed).to have_attributes(storage_id: storage.id,
                                           origin_id: "5503",
                                           origin_name: "logo.png",
                                           origin_mime_type: "image/png",
                                           origin_created_by_name: "Luke Skywalker",
                                           origin_last_modified_by_name: "Anakin Skywalker",
-                                          origin_created_at: DateTime.new(2021, 12, 19, 9, 42, 10.17, '+00:00').in_time_zone,
-                                          origin_updated_at: DateTime.new(2021, 12, 20, 14, 0, 13.987, '+00:00').in_time_zone)
+                                          origin_created_at: DateTime.new(2021, 12, 19, 9, 42, 10.17, "+00:00").in_time_zone,
+                                          origin_updated_at: DateTime.new(2021, 12, 20, 14, 0, 13.987, "+00:00").in_time_zone)
       end
     end
   end

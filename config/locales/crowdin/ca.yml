@@ -26,15 +26,14 @@ ca:
       no_results_title_text: No hi hagut activitat al projecte en aquesta finestra de temps.
   admin:
     plugins:
-      no_results_title_text: Actualment no hi ha plugins disponibles.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Tema de color"
       color_theme_custom: "(Personalitzat)"
       colors:
-        alternative-color: "Alternatiu"
-        content-link-color: "Enllaça font"
-        primary-color: "Primari"
-        primary-color-dark: "Primari (fosc)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Fons de capçalera"
         header-item-bg-hover-color: "Fons de capçalera en passar el ratolí"
         header-item-font-color: "Font de capçalera"
@@ -53,10 +52,8 @@ ca:
       enterprise_more_info: "Nota: el logotip utilitzat serà accessible públicament."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
-        alternative-color: "Color d'accent fort, típicament utilitzat per al botó més important de la pantalla."
-        content-link-color: "Color de lletra de la majoria dels enllaços."
-        primary-color: "Color principal."
-        primary-color-dark: "Habitualment una versió més fosca del color principal feta servir per efectes quan el ratolí passa per sobre."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Color de fons dels elements clicables de la capçalera quan el ratolí hi passa per damunt."
         header-item-font-color: "Color de lletra dels elements clicables de la capçalera."
         header-item-font-hover-color: "Color de lletra dels elements clicables de la capçalera quan el ratolí hi passa per damunt."
@@ -262,12 +259,15 @@ ca:
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Canvia l'identificador
       activities:
@@ -280,6 +280,17 @@ ca:
         no_results_content_text: Crear una nova categoria de paquet de treball
       custom_fields:
         no_results_title_text: Actualment no hi ha cap camp personalitzat disponible.
+      project_custom_fields:
+        header:
+          title: "Project attributes"
+          description: "These project attributes will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview page</a> under their respective sections. You can enable or disable individual attributes. Project attributes and sections are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a> by the administrator of the instance. "
+        filter:
+          label: "Search project attribute"
+        actions:
+          label_enable_single: "Active in this project, click to disable"
+          label_disable_single: "Inactive in this project, click to enable"
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       types:
         no_results_title_text: Actualment no hi ha cap classe disponible.
         form:
@@ -289,13 +300,14 @@ ca:
         no_results_content_text: Crear una nova versió
       storage:
         no_results_title_text: No hi ha espai addicional de disc gravat consumit per aquest projecte.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest projecte.
       no_results_content_text: Afegeix un membre al projecte
     invite_by_mail: "Envia invitació a %{mail}"
     send_invite_to: "Send invite to"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
       shared: "Shared"
     filters:
@@ -307,6 +319,48 @@ ca:
       project_roles: "Project roles"
       wp_shares: "Work package shares"
       groups: "Groups"
+    delete_member_dialog:
+      title: "Remove member"
+      will_remove_the_users_role: "This will remove the user’s role from this project."
+      will_remove_the_groups_role: "This will remove the group role from this project."
+      however_work_packages_shared_with_user_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this user."
+        other: "However, %{shared_work_packages_link} have also been shared with this user."
+      however_work_packages_shared_with_group_html:
+        one: "However, %{shared_work_packages_link} has also been shared with this group."
+        other: "However, %{shared_work_packages_link} have also been shared with this group."
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      can_remove_direct_but_not_shared_roles: "You can remove this user as a direct project member but a group they are in is also a member of this project, so they will continue being a member via the group."
+      also_work_packages_shared_with_user_html:
+        one: "Also, %{shared_work_packages_link} has been shared with this user."
+        other: "Also, %{shared_work_packages_link} have been shared with this user."
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
+      will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
+      will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
+      cannot_delete_inherited_membership: "You cannot delete this member because they belong to a group that is itself a member of this project."
+      cannot_delete_inherited_membership_note_admin_html: "You can either remove the group as a member of the project or this specific member from the group in the %{administration_settings_link}."
+      cannot_delete_inherited_membership_note_non_admin: "You can either remove the group as a member of the project or contact your administrator to remove this specific member from the group."
+    delete_work_package_shares_dialog:
+      title: "Revoke work package shares"
+      shared_with_this_user_html:
+        one: "%{all_shared_work_packages_link} has been shared with this user."
+        other: "%{all_shared_work_packages_link} have been shared with this user."
+      shared_with_this_group_html:
+        one: "%{all_shared_work_packages_link} has been shared with this group."
+        other: "%{all_shared_work_packages_link} have been shared with this group."
+      shared_with_permission_html:
+        one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
+        other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
+      cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_access_to_all: "This action will revoke their access to all of them."
   my:
     access_token:
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
@@ -341,7 +395,7 @@ ca:
     memberships:
       no_results_title_text: Aquest usuari no és actualment membre de cap projecte.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       No pots eliminar un usuari de marcador de posició. No tens permís per administrar membres per tots els projectes dels quals l'usuari de marcador de posició és membre.
@@ -540,7 +594,7 @@ ca:
       oauth_client:
         client: "Client ID"
       relation:
-        delay: "Retard"
+        lag: "Lag"
         from: "Paquet de treball"
         to: "Paquet de treball relacionat"
       status:
@@ -563,6 +617,7 @@ ca:
           false: "privat"
         queries: "Consultes"
         status_code: "Estat del projecte"
+        description: "Description"
         status_explanation: "Descripció de l'estat del projecte"
         status_codes:
           not_started: "No començat"
@@ -632,6 +687,8 @@ ca:
         redirect_existing_links: "Redirigeix els enllaços existents"
       planning_element_type_color:
         hexcode: Codi hexadecimal
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Inici de la inserció"
         begin_deletion: "Inici de la supressió"
@@ -837,6 +894,10 @@ ca:
               invalid: "La marca horària conté valors invàlids: %{values}"
               forbidden: "La marca horària conté valors prohibits: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           filters:
             custom_fields:
@@ -928,7 +989,14 @@ ca:
               only_same_project_categories_allowed: "La categoria d'un paquet de treball ha d'estar al mateix projecte que el paquet de treball."
               does_not_exist: "La categoria especificada no existeix."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "ha de ser > = 0."
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
+            remaining_hours:
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "El paquet de treball està en un estat de només lectura, per això els seus atributs no poden ser modificats."
         type:
           attributes:
@@ -1031,6 +1099,12 @@ ca:
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
       updated_on: "actualitzat el %{datetime}"
       updated_on_time_entry: "logged time updated on %{datetime}"
+      deleted_on: "deleted on %{datetime}"
+      deleted_by_on: "deleted by %{user} on %{datetime}"
+      added_on: "added on %{datetime}"
+      added_by_on: "added by %{user} on %{datetime}"
+      removed_on: "removed on %{datetime}"
+      removed_by_on: "removed by %{user} on %{datetime}"
       parent_without_of: "Subprojecte"
       parent_no_longer: "Ja no és subprojecte de"
       time_entry:
@@ -1042,6 +1116,18 @@ ca:
           other: "%{count} hores</i>"
         updated: "canviat de %{old_value} a %{value}"
         logged_for: "Registrat per"
+      meeting_agenda_item:
+        duration:
+          added: "set to %{value}"
+          added_html: "set to <i>%{value}</i>"
+          removed: "removed"
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
+        position:
+          updated: "reordered"
+        work_package:
+          updated: "changed from %{old_value} to %{value}"
+          updated_html: "changed from <i>%{old_value}</i> to <i>%{value}</i>"
     filter:
       changeset: "Conjunt de canvis"
       message: "Fòrums"
@@ -1139,6 +1225,7 @@ ca:
       token_cooldown: El token de còpia de seguretat serà vàlid en %{hours} hores.
       backup_pending: Ja hi ha una còpia de seguretat pendent.
       limit_reached: Només pots fer %{limit} còpies de seguretat per dia.
+  button_actions: "Actions"
   button_add: "Afegir"
   button_add_comment: "Afegeix un comentari"
   button_add_member: Afegir un membre
@@ -1189,6 +1276,7 @@ ca:
   button_reset: "Restablir"
   button_rollback: "Tornar a aquesta versió"
   button_save: "Desa"
+  button_save_as: "Save as"
   button_apply_changes: "Aplicar canvis"
   button_save_back: "Desar i tornar"
   button_show: "Mostra"
@@ -1208,6 +1296,14 @@ ca:
   button_add_menu_entry: "Afegir l'element de menú"
   button_configure_menu_entry: "Configurar l'element de menú"
   button_delete_menu_entry: "Suprimeix element de menú"
+  button_view_shared_work_packages: "View shared work packages"
+  button_manage_roles: "Manage roles"
+  button_remove_member: "Remove member"
+  button_remove_member_and_shares: "Remove member and shares"
+  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_access: "Revoke access"
+  button_revoke_all: "Revoke all"
+  button_revoke_only: "Revoke only %{shared_role_name}"
   consent:
     checkbox_label: Ho entenc i consenteixo els termes explicats a sobre.
     failure_message: Error de concentiment, no es pot procedir.
@@ -1417,13 +1513,12 @@ ca:
   error_enterprise_token_invalid_domain: "L'edició Enterprise no està activa. El domini del token Enterprise (%{actual}) no concorda amb el nom d'allotjament del sistema (%{expected})."
   error_failed_to_delete_entry: "Error a l'eliminar aquesta entrada."
   error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
-  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}"
+  error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valor seleccionat invàlid."
   error_journal_attribute_not_present: "El diari no conté l'atribut %{attribute}."
   error_pdf_export_too_many_columns: "Masses columnes seleccionades per a l'exportació PDF. Si us plau, redueix el nombre de columnes."
   error_pdf_failed_to_export: "No s'ha pogut guardar l'exportació PDF: %{error}"
   error_token_authenticity: "No s'ha pogut verificar el token de \"Cross-Site Request Forgery\". Has provat de sotmetre les dades en múltiples navegadors o pestanyes? Si us plau, tanca totes les pestanyes i prova-ho de nou."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "El paquet de treball no s'ha trobat o no pertany a aquest projecte"
   error_must_be_project_member: "ha de ser membre del projecte"
   error_migrations_are_pending: "La teva instal·lació d'OpenProject té migracions de base de dades pendents. Probablement no vas fer les migracions en la teva última actualització. Si us plau, comprova la guia d'actualització per actualitzar la teva instal·lació correctament."
@@ -1517,6 +1612,7 @@ ca:
       postgres_migration: "Migrant la teva instal·lació a PostgreSQL"
       user_guides: "Guies d'usuari"
       faq: "Preguntes Més Freqüents"
+      impressum: "Legal notice"
       glossary: "Glossari"
       shortcuts: "Dreceres"
       blog: "Blog OpenProject"
@@ -1528,6 +1624,9 @@ ca:
     changes_retracted: "S'han retractat els canvis."
     caused_changes:
       dates_changed: "Les dates han canviat"
+      default_attribute_written: "Read-only attributes written"
+      progress_mode_changed_to_status_based: "Progress calculation updated"
+      status_p_complete_changed: "Status % Complete changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
       work_package_predecessor_changed_times: per canvis en el predecessor %{link}
@@ -1543,9 +1642,16 @@ ca:
         dates:
           working: "%{date} és ara laboral"
           non_working: "%{date} és ara no laboral"
+      progress_mode_changed_to_status_based: Progress calculation mode set to status-based
+      status_p_complete_changed: >-
+        % complete value for status '%{status_name}' changed from %{old_value}% to %{new_value}%
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Guia de configuració"
     get_in_touch: "Tens preguntes? Posa't en contacte amb nosaltres."
@@ -1560,6 +1666,8 @@ ca:
       api_and_webhooks: "API i webhooks"
     quick_add:
       label: "Obre el menú d'afegir ràpidament"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1661,14 +1769,13 @@ ca:
   label_ascending: "Ascendent"
   label_assigned_to_me_work_packages: "Paquets de treball assignats a mi"
   label_associated_revisions: "Revisions associades"
-  label_attachment_delete: "Suprimir fitxer"
-  label_attachment_new: "Nou fitxer"
-  label_attachment_plural: "Arxius"
+  label_attachment_plural: "Attachments"
   label_attribute: "Atribut"
   label_attribute_plural: "Atributs"
   label_ldap_auth_source_new: "New LDAP connection"
   label_ldap_auth_source: "Connexió LDAP"
   label_ldap_auth_source_plural: "LDAP connections"
+  label_attribute_expand_text: "The complete text for '%{attribute}'"
   label_authentication: "Autenticació"
   label_available_global_roles: "Available global roles"
   label_available_project_forums: "Fòrums disponibles"
@@ -1773,6 +1880,7 @@ ca:
   label_diff_side_by_side: "costat per costat"
   label_digital_accessibility: "Accessibilitat digital (DE)"
   label_disabled: "desactivada"
+  label_disabled_uppercase: "Disabled"
   label_display: "Mostrar"
   label_display_per_page: "Per pàgina: %{value}"
   label_display_used_statuses_only: "Mostra només els estats que utilitza aquest tipus"
@@ -1799,7 +1907,7 @@ ca:
   label_enterprise_support: "Suport Enterprise"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Entorn"
-  label_estimates_and_time: "Estimacions i temps"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "és"
   label_everywhere: "a tot arreu"
   label_example: "Exemple"
@@ -1809,6 +1917,7 @@ ca:
   label_ifc_model_plural: "Ifc Models"
   label_import: "Importació"
   label_export_to: "També disponible en:"
+  label_expand: "Expand"
   label_expanded_click_to_collapse: "Desplegat. Fes clic per col·lapsar"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} hores"
@@ -1847,7 +1956,6 @@ ca:
   label_subject_or_id: "Subjecte o ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Avís legal"
   label_in: "en"
   label_in_less_than: "en menys de"
   label_in_more_than: "en més de"
@@ -1883,6 +1991,7 @@ ca:
   label_latest_revision: "Última revisió"
   label_latest_revision_plural: "Últimes revisions"
   label_ldap_authentication: "Autenticació LDAP"
+  label_learn_more: "Learn more"
   label_less_or_equal: "<="
   label_less_than_ago: "fa menys de"
   label_list: "Llista"
@@ -2000,6 +2109,7 @@ ca:
   label_precedes: "precedeix"
   label_preferences: "Preferències"
   label_preview: "Previsualitzar"
+  label_preview_not_available: "Preview not available"
   label_previous: "Anterior"
   label_previous_week: "Setmana anterior"
   label_principal_invite_via_email: " o convidar a nous usuaris per correu electrònic"
@@ -2007,6 +2117,7 @@ ca:
   label_privacy_policy: "Privacitat de dades i política de seguretat"
   label_product_version: "Versió del producte"
   label_profile: "Perfil"
+  label_percent_complete: "% Complete"
   label_project_activity: "Activitat del projecte"
   label_project_attribute_plural: "Atributs de projecte"
   label_project_count: "Nombre total de projectes"
@@ -2016,7 +2127,11 @@ ca:
   label_project_hierarchy: "Jerarquia de projectes"
   label_project_new: "Nou projecte"
   label_project_plural: "Projectes"
+  label_project_list_plural: "Project lists"
+  label_project_attributes_plural: "Project attributes"
+  label_project_custom_field_plural: "Project attributes"
   label_project_settings: "Configuració del projecte"
+  label_project_attributes_settings: "Project attributes settings"
   label_project_storage_plural: "File Storages"
   label_project_storage_project_folder: "File Storages: Project folders"
   label_projects_storage_information: "%{count} projectes utilitzen %{storage} d'emmagatzematge a disc"
@@ -2039,6 +2154,7 @@ ca:
   label_relation_delete: "Suprimir relació"
   label_relation_new: "Nova Relació"
   label_release_notes: "Notes de llançament"
+  label_remaining_work: "Remaining work"
   label_remove_columns: "Treure les columnes seleccionades"
   label_renamed: "reanomenat"
   label_reply_plural: "Respostes"
@@ -2117,7 +2233,6 @@ ca:
   label_type_new: "Nou tipus"
   label_type_plural: "Classes"
   label_ui: "Interifície d'usuari"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Actualitzat fa %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Actualitzat per %{author} fa %{age}"
@@ -2172,6 +2287,7 @@ ca:
   label_wiki_show_new_page_link: "Mostra l'element submenú 'Crea nova pàgina fill'"
   label_wiki_show_submenu_item: "Mostrar com element de submenú de "
   label_wiki_start: "Pàgina d'inici"
+  label_work: "Work"
   label_work_package: "Paquet de treball"
   label_work_package_attachments: "Fitxers adjunts del paquet de treball"
   label_work_package_category_new: "Nova categoria"
@@ -2215,6 +2331,7 @@ ca:
     other: "%{count} files"
     zero: "no files"
   label_yesterday: "ahir"
+  label_zen_mode: "Zen mode"
   label_role_type: "Classe"
   label_member_role: "Project role"
   label_global_role: "Global role"
@@ -2288,6 +2405,35 @@ ca:
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
           group: "%{user} shared a work package with the group %{group} you are a member of"
+    storages:
+      health:
+        plaintext:
+          storage: "Storage"
+          healthy:
+            summary: "Good news! The status of your storage, %{storage_name}, is currently displaying as \"Healthy\"."
+            error-solved-on: "Solved On"
+            recommendation: "We will continue monitoring the system to ensure it remains in good health. In case of any discrepancies, we will notify you."
+            details: "For more details or to make any necessary amendments, you can visit your storage configuration"
+          unhealthy:
+            summary: "The status of your storage, %{storage_name}, is currently displaying as \"Error\". We've detected an issue that might require your attention."
+            error-details: "Error Details"
+            error-message: "Error Message"
+            error-occurred-on: "Occurred On"
+            recommendation: "We recommend heading over to the storage configuration page to address this issue"
+            unsubscribe: "If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page"
+        email_notification_settings: "Storage email notification settings"
+        see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
+        unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
+          summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El teu compte està pendent d'aprovació:"
   mail_body_account_information: "Informació del teu compte"
   mail_body_account_information_external: "Pots utilitzar el compte «%{value}» per entrar."
@@ -2390,7 +2536,6 @@ ca:
   notice_file_not_found: "La pàgina a la que intentes accedir no existeix o s'ha suprimit."
   notice_forced_logout: "S'et ha desconnectant automàticament després %{ttl_time} minuts d'inactivitat."
   notice_internal_server_error: "S'ha produït un error a la pàgina a la qual intentes accedir. Si continues tenint problemes contacte amb el vostre administrador %{app_title} per obtenir ajuda."
-  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "La informació s'ha actualitzat per almenys un altre usuari mentrestant."
   notice_locking_conflict_additional_information: "Les actualitzacions provenen de %{users}."
   notice_locking_conflict_reload_page: "Si us plau, regarrega la pàgina, revisa els canvis i torna a aplicar les actualitzacions."
@@ -2514,6 +2659,7 @@ ca:
   permission_save_queries: "Desar les vistes"
   permission_search_project: "Search project"
   permission_select_custom_fields: "Selecciona camps personalitzats"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Selecciona els mòduls del projecte"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Seleccioneu tipus"
@@ -2562,6 +2708,10 @@ ca:
     archive:
       are_you_sure: "Estàs segur que vols arxivar el projecte \"%{name}\"?"
       archived: "Arxivat"
+    count:
+      zero: "0 Projects"
+      one: "1 Project"
+      other: "%{count} Projects"
   project_module_activity: "Activitat"
   project_module_forums: "Fòrums"
   project_module_work_package_tracking: "Paquets de treball"
@@ -2581,6 +2731,7 @@ ca:
     name_or_identifier: "Nom o identificador"
     only_subproject_id: "Només subprojecte"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Incloent subprojectes"
   repositories:
     at_identifier: "a %{identifier}"
@@ -2696,6 +2847,9 @@ ca:
   setting_apiv3_cors_origins: "\"API V3 Cross-Origin Resource Sharing (CORS)\" orígens permesos"
   setting_apiv3_cors_origins_text_html: >
     Si s'activa el CORS, aquests són els orígens que tenen permís per accedir a l'API d'OpenProject. <br/>Si us plau, valida la <a href="%{origin_link}" target="_blank">Documentació en l'encapçalament d'Origin</a> en com s'ha d'especificar els valors esperats.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and author. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Màxima mida de pàgina API"
   setting_apiv3_max_page_instructions_html: >
     Configura el mida màxima de pàgina amb la qual l'API respondrà. No es permetrà fer peticions d'API que retornin més valors en una única pàgina. Alerta: Si us plau, canvia només aquest valor si estàs segur que ho necessitaràs. Configurant un valor alt resultarà en problemes d'execució mentre que un valor baix pot produir errors en les vistes paginades.
@@ -2729,7 +2883,7 @@ ca:
   setting_brute_force_block_minutes: "Temps de bloqueig de l'usuari"
   setting_cache_formatted_text: "Text amb format de la caché"
   setting_use_wysiwyg_description: "Selecciona per activar l'editor CKEditor5 WYSIWYG per a tots els usuaris per defecte. CKEditor té funcionalitats limitades per a GFM Markdown."
-  setting_column_options: "Personalitzar l'aparença de les llistes de paquets de treball"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Paraules claus per a la correcció"
   setting_commit_logs_encoding: "Codificació dels missatges dels commits"
   setting_commit_logtime_activity_id: "Activitat dels temps registrats"
@@ -2751,18 +2905,18 @@ ca:
   setting_emails_header: "Encapçalament dels correus"
   setting_email_login: "Utilitza correu electrònic per l'inici de sessió"
   setting_enabled_scm: "Activar SCM"
-  setting_enabled_projects_columns: "Visible en la llista de projectes"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Habilita els canals"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
   setting_invitation_expiration_days: "L'activació de correu electrònic caduca després de"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Mostrar per defecte"
+  setting_work_package_done_ratio: "Progress calculation"
+  setting_work_package_done_ratio_field: "Work-based"
+  setting_work_package_done_ratio_status: "Status-based"
+  setting_work_package_done_ratio_explanation_html: >
+    In <b>work-based</b> mode, % Complete is calculated from how much work is done in relation to total work. In <b>status-based</b> mode, each status has a % Complete value associated with it. Changing status will change % Complete.
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
   setting_work_packages_projects_export_limit: "Límit d'exportació de paquets de treball/projectes"
@@ -2828,12 +2982,12 @@ ca:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2867,10 +3021,24 @@ ca:
       delay_minutes_explanation: "L'enviada de correus electrònics pot ser endarrerida per permetre als usuaris amb notificacions dins l'aplicació confirmar la notificació dins de l'aplicació abans que s'enviï. Els usuaris que han llegit la notificació a l'aplicació no rebran el correu electrònic, ja que ja han llegit la notificació."
     other: "Altres"
     passwords: "Contrasenyes"
+    project_attributes:
+      heading: "Project attributes"
+      label_new_attribute: "Project attribute"
+      label_new_section: "Section"
+      label_edit_section: "Edit title"
+      label_section_actions: "Section actions"
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
+      label_project_custom_field_actions: "Project attribute actions"
+      label_no_project_custom_fields: "No project attributes defined in this section"
+      edit:
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
+      new:
+        heading: "New attribute"
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Configuració per a projectes nous"
-      section_project_overview: "Configuracions per a la llista de visió general del projecte"
+      section_project_overview: "Settings for project lists"
     session: "Sessió"
     user:
       default_preferences: "Preferències per defecte"
@@ -2899,6 +3067,7 @@ ca:
   text_are_you_sure: "N'estàs segur?"
   text_are_you_sure_continue: "Estàs segur que vols continuar?"
   text_are_you_sure_with_children: "Vols suprimir el paquet de treball i tots els paquets de treball fills?"
+  text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Assignar al projecte"
   text_form_configuration: >
     Pots configurar quins camps seran mostrats en el formulari del paquet de treball. Pots agrupar els camps lliurement per mostrar les necessitats del teu domini.
@@ -2976,7 +3145,7 @@ ca:
   text_no_notes: "No hi ha cap comentari disponible per a aquest paquet de treball."
   text_notice_too_many_values_are_inperformant: "Nota: Mostrar més de 100 articles per pàgina pot augmentar el temps de càrrega de la pàgina."
   text_notice_security_badge_displayed_html: >
-    Nota: si està activat, es mostra un indicador amb l'estat de la teva instal·lació <a href="%{information_panel_path}"> en el panell d'administració i a la pàgina inicial. Només es mostra als administradors. <br/> L'indicador comprova la teva versió d'OpenProject actual amb la versió oficial i t'avisa si hi ha actualitzacions o qualsevol vulnerabilitat. Per a més informació en quina informació es proveïx, quines dades són necessàries per actualitzacions i com desactivar aquesta funció, si us plau, visita <a href="%{more_info_url}">la documentació de configuració</a>.
+    Nota: si està activat, es mostra un indicador amb l'estat de la teva instal·lació <a href="%{information_panel_path}">%{information_panel_label}</a> en el panell d'administració i a la pàgina inicial. Només es mostra als administradors. <br/> L'indicador comprova la teva versió d'OpenProject actual amb la versió oficial i t'avisa si hi ha actualitzacions o qualsevol vulnerabilitat. Per a més informació en quina informació es proveïx, quines dades són necessàries per actualitzacions i com desactivar aquesta funció, si us plau, visita <a href="%{more_info_url}">la documentació de configuració</a>.
   text_own_membership_delete_confirmation: "Estàs a punt d'eliminar algun o tots els teus permisos i potser no podreu editar més aquest projecte.\nEstàs segur que vols continuar?"
   text_plugin_assets_writable: "Es pot escriure als complements actius"
   text_powered_by: "Desenvolupat per %{link}"
@@ -3035,6 +3204,12 @@ ca:
       Si s'activa els usuaris serà incapaços de triar inici de sessió durant el registre. En comptes, el seu correu electrònic servirà per a l'inici de sessió. Els administradors encara podran canviar l'inici de sessió per separat.
   queries:
     apply_filter: Aplicar filtre preconfigurat
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Recursos addicionals"
     getting_started: "Primers passos"
@@ -3069,6 +3244,7 @@ ca:
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Canvi d'estat"
     text_change_disabled_for_provider_login: "El nom està fixat pel teu proveïdor d'inici de sessió i per tant no es pot canviar."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Desbloquejar"
     unlock_and_reset_failed_logins: "Desbloquejar i reiniciar inicis de sessió fallits"
   version_status_closed: "tancat"
@@ -3114,6 +3290,12 @@ ca:
     destroy:
       info: "Suprimir el paquet de treball és una acció irreversible."
       title: "Suprimir el paquet de treball"
+    progress:
+      label_note: "Note:"
+      modal:
+        work_based_help_text: "% Complete is automatically derived from Work and Remaining work."
+        status_based_help_text: "% Complete is set by work package status."
+        migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
     sharing:
       count:
         zero: "0 users"
@@ -3176,8 +3358,8 @@ ca:
         working: "%{day} és ara laboral"
         non_working: "%{day} és ara no laboral"
       dates:
-        working: "%{day} és ara laboral"
-        non_working: "%{day} és ara no laboral"
+        working: "%{date} és ara laboral"
+        non_working: "%{date} és ara no laboral"
   nothing_to_preview: "Res per previsualitzar"
   api_v3:
     attributes:
@@ -3222,9 +3404,7 @@ ca:
         unsupported_context: "El recurs proporcionat no s'admet com a context."
         context_object_not_found: "No puc trobar el recurs proporionat com al context."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "La data de finalització no es pot establir als paquets de treball pare."
-        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "L'usuari escollit no pot ser \"%{property}\" per a aquest paquet de treball."
         start_date: "La data d'inici no es pot definir per paquets de treball del pare."
       eprops:
@@ -3337,7 +3517,7 @@ ca:
       label_request_token: "Demana el token"
       label_refresh_token: "Actualitza el token"
     errors:
-      oauth_authorization_code_grant_had_errors: "L'OAuth2 retorna un error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Authorization grant unsuccessful"
       oauth_reported: "El proveïdor OAuth2 ha reportat"
       oauth_returned_error: "L'OAuth2 retorna un error"
       oauth_returned_json_error: "L'OAuth2 retorna un error JSON"

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::CreateService do
   let(:user) { build_stubbed(:admin) }
@@ -35,11 +35,11 @@ RSpec.describe Queries::CreateService do
 
   subject { instance.call(params).result }
 
-  describe 'ordered work packages' do
+  describe "ordered work packages" do
     let!(:work_package) { create(:work_package) }
     let(:params) do
       {
-        name: 'My query',
+        name: "My query",
         ordered_work_packages: {
           work_package.id => 0,
           9999 => 1
@@ -47,7 +47,7 @@ RSpec.describe Queries::CreateService do
       }
     end
 
-    it 'removes items for which work packages do not exist' do
+    it "removes items for which work packages do not exist" do
       expect(subject).to be_valid
       expect(subject.ordered_work_packages.length).to eq 1
       expect(subject.ordered_work_packages.first.work_package_id).to eq work_package.id

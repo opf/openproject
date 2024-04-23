@@ -15,7 +15,7 @@
                               html: { class: 'form', autocomplete: 'off' } do |f| %>
   <%= render partial: "form", locals: { f: f, webhook: @webhook } %>
   <p>
-    <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_create), class: '-primary -with-icon icon-checkmark' %>
     <%= link_to t(:button_cancel), { action: :index }, class: 'button -with-icon icon-cancel' %>
   </p>
 <% end %>

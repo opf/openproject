@@ -24,12 +24,12 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Redmine::MenuManager do
-  describe '.items' do
-    context 'for the top_menu' do
-      it 'includes the expected items' do
+  describe ".items" do
+    context "for the top_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:top_menu).map(&:name))
           .to include(:projects,
                       :activity,
@@ -45,15 +45,15 @@ RSpec.describe Redmine::MenuManager do
       end
     end
 
-    context 'for the account_menu' do
-      it 'includes the expected items' do
+    context "for the account_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:account_menu).map(&:name))
           .to include(:administration, :my_account, :my_page, :logout)
       end
     end
 
-    context 'for the project_menu' do
-      it 'includes the expected items' do
+    context "for the project_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:project_menu).map(&:name))
           .to include(:overview,
                       :activity,
@@ -78,8 +78,8 @@ RSpec.describe Redmine::MenuManager do
       end
     end
 
-    context 'for the global_menu' do
-      it 'includes the expected items' do
+    context "for the global_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:global_menu).map(&:name))
           .to include(:home,
                       :projects,
@@ -95,22 +95,22 @@ RSpec.describe Redmine::MenuManager do
       end
     end
 
-    context 'for the notifications_menu' do
-      it 'includes the expected items' do
+    context "for the notifications_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:notifications_menu).map(&:name))
           .to include(:notification_grouping_select)
       end
     end
 
-    context 'for the my_menu' do
-      it 'includes the expected items' do
+    context "for the my_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:my_menu).map(&:name))
           .to include(:account, :settings, :password, :access_token, :notifications, :reminders, :delete_account)
       end
     end
 
-    context 'for the admin_menu' do
-      it 'includes the expected items' do
+    context "for the admin_menu" do
+      it "includes the expected items" do
         expect(described_class.items(:admin_menu).map(&:name))
           .to include(:admin_overview,
                       :users,
@@ -121,7 +121,7 @@ RSpec.describe Redmine::MenuManager do
                       :announcements)
       end
 
-      it 'has children defined for the authentication item' do
+      it "has children defined for the authentication item" do
         expect(described_class.items(:admin_menu).find { |item| item.name == :authentication }.map(&:name))
           .to include(:authentication_settings,
                       :ldap_authentication,

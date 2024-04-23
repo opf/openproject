@@ -1,0 +1,85 @@
+OpenProject uses autocompleters when we need fo select values in possibly vast lists of data,
+often through API requests to filter for data.
+
+For current autocompletation needs, we use the `ng-select` angular
+library ([https://github.com/ng-select/ng-select](https://github.com/ng-select/ng-select)),
+wrapping into a web component. This field can be manually rendered using the `<opce-autocompleter>` custom element,
+or by wrapping it in a primer form using the `form.autocompleter` helper.
+
+## Options
+
+Here are the most common options you'd pass to the autocompleter:
+
+- **resource**: A string representing the resource to autocomplete on. Common values
+  are `work_packages, users, projects`.
+  It will affect the display of the autocompleter.
+- **url**: An optional filterable API collection endpoint to be used for fetching options. Either resource or URL has to
+  be set.
+- **inputName**: The name of the hidden input field to sync the selected value to. This is the name that will be
+  submitted
+  with the form.
+- **inputValue**: A selected value or an array of selected values. This is the preselection of the autocompleter when
+  opening.
+- **inputBindValue**: What property of the options provided fetched in the API are to be used as the input value.
+- **filters**: An array of filters to apply to the autocompleter. See the following section for more details.
+- **searchKey**: The filter key to use as search input when using an API. It will add a filter
+  like `[name: searchKey, operator: '**', values: [searchText]]`.
+- **appendTo**: A globally unique css selector to append the ng-select dropdown element to. Relevant for overlaying
+  dropdowns over other elements.
+
+In case you are using the `form.autocompleter` helper, you can pass the same options as you would to the `ng-select`
+component
+through the `autocomplete_options` property. They end up as inputs on the `opce-autocompleter` component, which in turn
+forwards most of these options to ng-select. ng-select options are documented
+here: [https://github.com/ng-select/ng-select?tab=readme-ov-file#api](https://github.com/ng-select/ng-select?tab=readme-ov-file#api)
+
+## Filtering
+
+In case you're calling an API to filter for data, you will most likely want to add filters to the autocompleter.
+You can do that using the `filters` property, which is an array of objects with the following properties:
+
+```ruby
+{
+# other options ...
+  filters: [
+    # Use the "active" filter, using the = operator and a boolean truthy value
+    { name: 'active', operator: '=', values: ['t'] },
+    # Filter for a certain user status
+    { name: 'status', operator: '=', values: ['active', 'invited'] },
+  ]
+}
+```
+
+
+## Examples
+
+### Decorated selects
+
+If you have a fixed selection of options that do not originate from an API call, you can pass these options manually:
+
+<%= embed OpenProject::Common::AutocompletePreview, :decorated, panels: %i[source] %>
+
+You can also use this outside the primer form using the `views/augmented/_autocomplete_select_decoration.html.erb`
+partial.
+
+### Work package autocompletion
+
+For work package autocompletion, you can use the same field, but with a different configuration.
+Keep in mind that this component uses the live work packages API, so results will depend on whether you are logged in.
+
+<%= embed OpenProject::Common::AutocompletePreview, :work_package, panels: %i[source] %>
+
+### Outside primer
+
+If you're not in a primer form, you can render the autocomplete directly like so:
+
+```ruby
+angular_component_tag 'opce-project-autocompleter',
+                          inputs: {
+                            filters: [{ name: 'active', operator: '=', values: ['t'] }],
+                            inputName: 'object[user_id]',
+                            # ... further inputs
+                          },
+                          data: { 'test-selector: 'foobar' },
+                          class: 'form--field'
+```

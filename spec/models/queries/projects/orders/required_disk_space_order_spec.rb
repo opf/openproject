@@ -26,28 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Projects::Orders::RequiredDiskSpaceOrder do
   let(:instance) do
-    described_class.new('').tap do |i|
+    described_class.new("").tap do |i|
       i.direction = direction
     end
   end
   let(:direction) { :asc }
 
-  describe '#scope' do
-    context 'with a valid direction' do
-      it 'orders by the disk space' do
+  describe "#scope" do
+    context "with a valid direction" do
+      it "orders by the disk space" do
         expect(instance.scope.to_sql)
           .to eql(Project.order(Arel.sql(Project.required_disk_space_sum).asc).to_sql)
       end
     end
 
-    context 'with an invalid direction' do
-      let(:direction) { 'bogus' }
+    context "with an invalid direction" do
+      let(:direction) { "bogus" }
 
-      it 'raises an error' do
+      it "raises an error" do
         expect { instance.scope }
           .to raise_error(ArgumentError)
       end

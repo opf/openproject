@@ -54,5 +54,12 @@ module Queries::Projects
     order Orders::ProjectStatusOrder
     order Orders::NameOrder
     order Orders::TypeaheadOrder
+
+    select Selects::CreatedAt
+    select Selects::CustomField
+    select Selects::Default
+    select Selects::LatestActivityAt
+    select Selects::RequiredDiskSpace
+    select Selects::Status
   end
 end

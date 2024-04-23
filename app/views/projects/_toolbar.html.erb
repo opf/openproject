@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if User.current.allowed_in_project?(:add_subprojects, @project) %>
     <li class="toolbar-item">
       <%= link_to new_project_path(parent_id: @project.id),
-                  { class: 'button -alt-highlight',
+                  { class: 'button -primary',
                     aria: {label: t(:label_subproject_new)},
                     title: t(:label_subproject_new)} do %>
         <%= op_icon('button--icon icon-add') %>

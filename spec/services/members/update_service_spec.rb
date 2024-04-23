@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
+require "spec_helper"
+require "services/base_services/behaves_like_update_service"
 
 RSpec.describe Members::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service' do
+  it_behaves_like "BaseServices update service" do
     let(:call_attributes) do
       {
         role_ids: ["2"],
@@ -44,8 +44,8 @@ RSpec.describe Members::UpdateService, type: :model do
         .to receive(:send)
     end
 
-    describe 'if successful' do
-      it 'sends a notification' do
+    describe "if successful" do
+      it "sends a notification" do
         subject
 
         expect(OpenProject::Notifications)
@@ -57,10 +57,10 @@ RSpec.describe Members::UpdateService, type: :model do
       end
     end
 
-    context 'if the SetAttributeService is unsuccessful' do
+    context "if the SetAttributeService is unsuccessful" do
       let(:set_attributes_success) { false }
 
-      it 'sends no notifications' do
+      it "sends no notifications" do
         subject
 
         expect(OpenProject::Notifications)
@@ -68,10 +68,10 @@ RSpec.describe Members::UpdateService, type: :model do
       end
     end
 
-    context 'when the member is invalid' do
+    context "when the member is invalid" do
       let(:model_save_result) { false }
 
-      it 'sends no notifications' do
+      it "sends no notifications" do
         subject
 
         expect(OpenProject::Notifications)

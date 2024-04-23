@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/ifc_models/show'
-require_relative '../support/pages/ifc_models/show_default'
+require_relative "../support/pages/ifc_models/show"
+require_relative "../support/pages/ifc_models/show_default"
 
-RSpec.describe 'BIM filter spec', :js, with_config: { edition: 'bim' } do
+RSpec.describe "BIM filter spec", :js, with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %w(bim work_package_tracking)) }
   let(:open_status) { create(:status, is_closed: false) }
   let(:closed_status) { create(:status, is_closed: true) }
@@ -60,28 +60,28 @@ RSpec.describe 'BIM filter spec', :js, with_config: { edition: 'bim' } do
     model_page.finished_loading
   end
 
-  context 'on default page' do
+  context "on default page" do
     before do
       # Per default all open work packages are shown
       filters.expect_loaded
       filters.expect_filter_count 1
       filters.open
-      filters.expect_filter_by('Status', 'open', nil)
+      filters.expect_filter_by("Status", "open", nil)
 
       card_view.expect_work_package_listed wp1
       card_view.expect_work_package_not_listed wp2
     end
 
-    it 'shows a filter button when there is a list shown' do
+    it "shows a filter button when there is a list shown" do
       model_page.page_shows_a_filter_button true
 
-      model_page.switch_view 'Viewer'
+      model_page.switch_view "Viewer"
       model_page.page_shows_a_filter_button false
     end
 
-    it 'the filter is applied even after browser back' do
+    it "the filter is applied even after browser back" do
       # Change filter
-      filters.set_operator('Status', 'closed', nil)
+      filters.set_operator("Status", "closed", nil)
       filters.expect_filter_count 1
 
       card_view.expect_work_package_listed wp2
@@ -93,15 +93,15 @@ RSpec.describe 'BIM filter spec', :js, with_config: { edition: 'bim' } do
 
       filters.expect_loaded
       filters.expect_filter_count 1
-      filters.expect_filter_by('Status', 'open', nil)
+      filters.expect_filter_by("Status", "open", nil)
 
       card_view.expect_work_package_listed wp1
       card_view.expect_work_package_not_listed wp2
     end
 
-    it 'the filter is applied even after reload' do
+    it "the filter is applied even after reload" do
       # Change filter
-      filters.set_operator('Status', 'closed', nil)
+      filters.set_operator("Status", "closed", nil)
       filters.expect_filter_count 1
 
       card_view.expect_work_package_listed wp2
@@ -113,7 +113,7 @@ RSpec.describe 'BIM filter spec', :js, with_config: { edition: 'bim' } do
       filters.expect_loaded
       filters.expect_filter_count 1
       filters.open
-      filters.expect_filter_by('Status', 'closed', nil)
+      filters.expect_filter_by("Status", "closed", nil)
 
       card_view.expect_work_package_listed wp2
       card_view.expect_work_package_not_listed wp1

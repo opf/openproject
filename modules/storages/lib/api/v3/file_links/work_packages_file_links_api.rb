@@ -39,13 +39,13 @@ class API::V3::FileLinks::WorkPackagesFileLinksAPI < API::OpenProjectAPI
                 .call(params)
 
       unless query.valid?
-        message = I18n.t('api_v3.errors.missing_or_malformed_parameter', parameter: 'filters')
+        message = I18n.t("api_v3.errors.missing_or_malformed_parameter", parameter: "filters")
         raise ::API::Errors::InvalidQuery.new(message)
       end
 
       result = if current_user.allowed_in_project?(:view_file_links, @work_package.project)
                  file_links = query.results.where(container_id: @work_package.id,
-                                                  container_type: 'WorkPackage',
+                                                  container_type: "WorkPackage",
                                                   storage: @work_package.project.storages)
                  ::Storages::FileLinkSyncService
                    .new(user: current_user)

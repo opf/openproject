@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/team_planner'
+require "spec_helper"
+require_relative "../support/pages/team_planner"
 
-RSpec.shared_context 'with team planner full access' do
+RSpec.shared_context "with team planner full access" do
   shared_let(:project) do
     create(:project)
   end

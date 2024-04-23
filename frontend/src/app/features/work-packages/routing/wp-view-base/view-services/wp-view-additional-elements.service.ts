@@ -154,6 +154,7 @@ export class WorkPackageViewAdditionalElementsService {
 
   private requireWorkPackageShares(wpIds:string[]):Promise<string[]> {
     if (!this.wpTableColumns.hasShareColumn()) { return Promise.resolve([]); }
+    if (wpIds.length === 0) { return Promise.resolve([]); }
 
     const filters = new ApiV3FilterBuilder()
       .add('entityType', '=', ['WorkPackage'])

@@ -30,11 +30,11 @@ class CostEntry < ApplicationRecord
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
-  belongs_to :logged_by, class_name: 'User'
+  belongs_to :logged_by, class_name: "User"
   include ::Costs::DeletedUserFallback
   belongs_to :cost_type
   belongs_to :budget
-  belongs_to :rate, class_name: 'CostRate'
+  belongs_to :rate, class_name: "CostRate"
 
   include ActiveModel::ForbiddenAttributesProtection
 

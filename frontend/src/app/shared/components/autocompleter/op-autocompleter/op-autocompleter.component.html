@@ -1,10 +1,18 @@
 <div class="inline-label">
   <input
     #syncedInput
-    *ngIf="inputName"
+    *ngIf="inputName && !(multiple && multipleAsSeparateInputs)"
     type="hidden"
     [attr.name]="inputName"
     [attr.data-action]="hiddenFieldAction">
+  <ng-container *ngIf="multiple && multipleAsSeparateInputs">
+    <input
+      *ngFor="let value of mappedInputValue"
+      type="hidden"
+      [attr.name]="inputName+'[]'"
+      [attr.data-action]="hiddenFieldAction"
+      [value]="value">
+  </ng-container>
   <ng-select
     #ngSelectInstance
     [(ngModel)]="model"

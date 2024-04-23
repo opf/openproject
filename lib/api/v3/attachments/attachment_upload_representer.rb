@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -54,7 +54,7 @@ module API
 
         def self.associated_container_link
           ->(*) do
-            return nil unless v3_container_name == 'nil_class' || api_v3_paths.respond_to?(v3_container_name)
+            return nil unless v3_container_name == "nil_class" || api_v3_paths.respond_to?(v3_container_name)
 
             ::API::Decorators::LinkObject
               .new(represented,
@@ -129,7 +129,7 @@ module API
         date_time_property :created_at
 
         def _type
-          'AttachmentUpload'
+          "AttachmentUpload"
         end
 
         def container_representer

@@ -63,6 +63,8 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
 
   @Input() public index:number;
 
+  @Input() public showTimestamp = true;
+
   @Output() public removeAttachment = new EventEmitter<void>();
 
   @ViewChild('avatar') avatar:ElementRef;

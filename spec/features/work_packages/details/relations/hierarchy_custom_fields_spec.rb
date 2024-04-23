@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'creating a child directly after the wp itself was created', :js do
+RSpec.describe "creating a child directly after the wp itself was created", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, types: [type]) }
   let(:wp_page) { Pages::FullWorkPackageCreate.new }
@@ -38,10 +38,10 @@ RSpec.describe 'creating a child directly after the wp itself was created', :js 
   let(:type) { create(:type, custom_fields: [custom_field]) }
   let(:custom_field) do
     create(:work_package_custom_field,
-           field_format: 'int',
+           field_format: "int",
            is_for_all: true)
   end
-  let(:relations_tab) { find('.op-tab-row--link', text: 'RELATIONS') }
+  let(:relations_tab) { find(".op-tab-row--link", text: "RELATIONS") }
 
   before do
     login_as user
@@ -50,28 +50,28 @@ RSpec.describe 'creating a child directly after the wp itself was created', :js 
     loading_indicator_saveguard
   end
 
-  it 'keeps its custom field values (regression #29511, #29446)' do
+  it "keeps its custom field values (regression #29511, #29446)" do
     # Set subject
     subject = wp_page.edit_field :subject
-    subject.set_value 'My subject'
+    subject.set_value "My subject"
 
     # Set CF
     cf = wp_page.edit_field custom_field.attribute_name(:camel_case)
-    cf.set_value '42'
+    cf.set_value "42"
 
     # Save WP
     wp_page.save!
-    wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
+    wp_page.expect_and_dismiss_toaster(message: "Successful creation.")
 
     # Add child
     scroll_to_and_click relations_tab
-    find_test_selector('op-wp-inline-create').click
-    fill_in 'wp-new-inline-edit--field-subject', with: 'A child WP'
-    find_by_id('wp-new-inline-edit--field-subject').native.send_keys(:return)
+    find_test_selector("op-wp-inline-create").click
+    fill_in "wp-new-inline-edit--field-subject", with: "A child WP"
+    find_by_id("wp-new-inline-edit--field-subject").native.send_keys(:return)
 
     # Expect CF value to be still visible
-    wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
-    expect(wp_page).to have_test_selector('tab-count', text: "(1)")
-    wp_page.expect_attributes "customField#{custom_field.id}": '42'
+    wp_page.expect_and_dismiss_toaster(message: "Successful creation.")
+    expect(wp_page).to have_test_selector("tab-count", text: "(1)")
+    wp_page.expect_attributes "customField#{custom_field.id}": "42"
   end
 end

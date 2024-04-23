@@ -57,7 +57,7 @@ module WorkPackage::PDFExport::Common
       .new format: :pdf,
            title:,
            content:,
-           mime_type: 'application/pdf'
+           mime_type: "application/pdf"
   end
 
   def error(message)
@@ -97,7 +97,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def get_formatted_value(value, column_name)
-    return '' if value.nil?
+    return "" if value.nil?
 
     formatter = formatter_for(column_name, :pdf)
     formatter.format_value(value, {})
@@ -105,7 +105,7 @@ module WorkPackage::PDFExport::Common
 
   def escape_tags(value)
     # only disable html tags, but do not replace html entities
-    value.to_s.gsub('<', '&lt;').gsub('>', '&gt;')
+    value.to_s.gsub("<", "&lt;").gsub(">", "&gt;")
   end
 
   def get_id_column_cell(work_package, value)
@@ -244,7 +244,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def text_column?(column)
-    column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) &&
+    column.is_a?(Queries::WorkPackages::Selects::CustomFieldSelect) &&
       %w(string text).include?(column.custom_field.field_format)
   end
 
@@ -260,7 +260,7 @@ module WorkPackage::PDFExport::Common
     if group.blank?
       I18n.t(:label_none_parentheses)
     elsif group.is_a? Array
-      group.join(', ')
+      group.join(", ")
     else
       group.to_s
     end
@@ -299,11 +299,11 @@ module WorkPackage::PDFExport::Common
 
   def build_pdf_filename(base)
     suffix = "_#{title_datetime}.pdf"
-    "#{truncate(sane_filename(base), length: 255 - suffix.length, escape: false)}#{suffix}".tr(' ', '-')
+    "#{truncate(sane_filename(base), length: 255 - suffix.length, escape: false)}#{suffix}".tr(" ", "-")
   end
 
   def title_datetime
-    DateTime.now.strftime('%Y-%m-%d_%H-%M')
+    DateTime.now.strftime("%Y-%m-%d_%H-%M")
   end
 
   def current_page_nr

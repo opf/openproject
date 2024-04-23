@@ -27,7 +27,7 @@
       <%= hidden_field_tag('user_id', params[:user_id]) if params[:user_id].present? %>
       <%= hidden_field_tag('from', params[:from]) if params[:from].present? %>
       <p><%= submit_tag t(:button_apply),
-                        class: 'button -small -highlight',
+                        class: 'button -small -primary',
                         name: nil %></p>
     </fieldset>
   <% end %>

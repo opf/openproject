@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Project, 'allowed to' do
+RSpec.describe Project, "allowed to" do
   let(:user) { build(:user) }
   let(:anonymous) { build(:anonymous) }
   let(:admin) { build(:admin) }
@@ -71,19 +71,19 @@ RSpec.describe Project, 'allowed to' do
           project:)
   end
 
-  shared_examples_for 'includes the project' do
-    it 'includes the project' do
+  shared_examples_for "includes the project" do
+    it "includes the project" do
       expect(described_class.allowed_to(user, action)).to contain_exactly(project)
     end
   end
 
-  shared_examples_for 'is empty' do
-    it 'is empty' do
+  shared_examples_for "is empty" do
+    it "is empty" do
       expect(described_class.allowed_to(user, action)).to be_empty
     end
   end
 
-  shared_examples_for 'member based allowed to check' do
+  shared_examples_for "member based allowed to check" do
     before do
       project.save!
       user.save!
@@ -96,7 +96,7 @@ RSpec.describe Project, 'allowed to' do
         member.save!
       end
 
-      it_behaves_like 'includes the project'
+      it_behaves_like "includes the project"
     end
 
     context 'with the user being member
@@ -108,7 +108,7 @@ RSpec.describe Project, 'allowed to' do
         member.save!
       end
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
     context 'with the user being member
@@ -119,12 +119,12 @@ RSpec.describe Project, 'allowed to' do
         member.save!
       end
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
     context 'without the user being member
              with the role having the permission' do
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
     context 'with the user being member
@@ -135,7 +135,7 @@ RSpec.describe Project, 'allowed to' do
         project.enabled_modules = []
       end
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
     context 'with the user being member
@@ -144,7 +144,7 @@ RSpec.describe Project, 'allowed to' do
         member.save!
       end
 
-      it 'includes the project' do
+      it "includes the project" do
         expect(described_class.allowed_to(user, public_action)).to contain_exactly(project)
       end
     end
@@ -157,7 +157,7 @@ RSpec.describe Project, 'allowed to' do
         project.enabled_modules = []
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.allowed_to(user, public_action)).to be_empty
       end
     end
@@ -170,7 +170,7 @@ RSpec.describe Project, 'allowed to' do
         project.enabled_modules = []
       end
 
-      it 'includes the project' do
+      it "includes the project" do
         expect(described_class.allowed_to(user, public_non_module_action)).to contain_exactly(project)
       end
     end
@@ -185,7 +185,7 @@ RSpec.describe Project, 'allowed to' do
         member.save!
       end
 
-      it 'includes the project' do
+      it "includes the project" do
         expect(described_class.allowed_to(user, non_module_action)).to contain_exactly(project)
       end
     end
@@ -200,13 +200,13 @@ RSpec.describe Project, 'allowed to' do
         member.save!
       end
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.allowed_to(user, non_module_action)).to be_empty
       end
     end
   end
 
-  shared_examples_for 'with an admin user' do
+  shared_examples_for "with an admin user" do
     let(:user) { admin }
 
     before do
@@ -214,95 +214,95 @@ RSpec.describe Project, 'allowed to' do
       user.save!
     end
 
-    context 'without the user being a member' do
-      it_behaves_like 'includes the project'
+    context "without the user being a member" do
+      it_behaves_like "includes the project"
     end
 
-    context 'without the project being active' do
+    context "without the project being active" do
       let(:project_status) { false }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
     context 'without the project being active
              with the permission being public' do
       let(:project_status) { false }
 
-      it 'is empty' do
+      it "is empty" do
         expect(described_class.allowed_to(user, public_action)).to be_empty
       end
     end
 
-    context 'with the project being active with the permission being public' do
-      it 'includes the project' do
+    context "with the project being active with the permission being public" do
+      it "includes the project" do
         expect(described_class.allowed_to(user, public_action)).to contain_exactly(project)
       end
     end
 
-    context 'without the project module being active' do
+    context "without the project module being active" do
       before do
         project.enabled_modules = []
       end
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
-    context 'with the user being locked' do
+    context "with the user being locked" do
       before do
         user.update!(status: Principal.statuses[:locked])
       end
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
   end
 
-  context 'with the project being private' do
+  context "with the project being private" do
     let(:project) { private_project }
 
-    it_behaves_like 'member based allowed to check'
-    it_behaves_like 'with an admin user'
+    it_behaves_like "member based allowed to check"
+    it_behaves_like "with an admin user"
 
-    context 'with the user not being logged in' do
+    context "with the user not being logged in" do
       before do
         project.save!
         anonymous.save!
         anonymous_role.save!
       end
 
-      context 'with the anonymous role having the permission' do
-        it 'is empty' do
+      context "with the anonymous role having the permission" do
+        it "is empty" do
           expect(described_class.allowed_to(anonymous, action)).to be_empty
         end
       end
 
-      context 'with the permission being public' do
-        it 'is empty' do
+      context "with the permission being public" do
+        it "is empty" do
           expect(described_class.allowed_to(anonymous, public_action)).to be_empty
         end
       end
     end
   end
 
-  context 'with the project being public' do
+  context "with the project being public" do
     let(:project) { public_project }
 
-    it_behaves_like 'member based allowed to check'
-    it_behaves_like 'with an admin user'
+    it_behaves_like "member based allowed to check"
+    it_behaves_like "with an admin user"
 
-    context 'with the user not being logged in' do
+    context "with the user not being logged in" do
       before do
         project.save!
         anonymous.save!
         anonymous_role.save!
       end
 
-      context 'with the anonymous role having the permission' do
-        it 'includes the project' do
+      context "with the anonymous role having the permission" do
+        it "includes the project" do
           expect(described_class.allowed_to(anonymous, action)).to contain_exactly(project)
         end
       end
 
-      context 'with the permission being disabled' do
+      context "with the permission being disabled" do
         let(:permission) { OpenProject::AccessControl.permission(action) }
 
         around do |example|
@@ -314,7 +314,7 @@ RSpec.describe Project, 'allowed to' do
           OpenProject::AccessControl.clear_caches
         end
 
-        it 'is empty' do
+        it "is empty" do
           expect(described_class.allowed_to(anonymous, action)).to be_empty
         end
       end
@@ -323,21 +323,21 @@ RSpec.describe Project, 'allowed to' do
                without the project being active' do
         let(:project_status) { false }
 
-        it 'is empty' do
+        it "is empty" do
           expect(described_class.allowed_to(anonymous, action)).to be_empty
         end
       end
 
-      context 'without the anonymous role having the permission' do
+      context "without the anonymous role having the permission" do
         let(:anonymous_permissions) { [] }
 
-        it 'is empty' do
+        it "is empty" do
           expect(described_class.allowed_to(anonymous, action)).to be_empty
         end
       end
 
-      context 'with the permission being public' do
-        it 'includes the project' do
+      context "with the permission being public" do
+        it "includes the project" do
           expect(described_class.allowed_to(anonymous, public_action)).to contain_exactly(project)
         end
       end
@@ -348,7 +348,7 @@ RSpec.describe Project, 'allowed to' do
           project.enabled_modules = []
         end
 
-        it 'is empty' do
+        it "is empty" do
           expect(described_class.allowed_to(anonymous, public_action)).to be_empty
         end
       end
@@ -359,13 +359,13 @@ RSpec.describe Project, 'allowed to' do
           project.enabled_modules = []
         end
 
-        it 'includes the project' do
+        it "includes the project" do
           expect(described_class.allowed_to(anonymous, public_non_module_action)).to contain_exactly(project)
         end
       end
     end
 
-    context 'with the user being member' do
+    context "with the user being member" do
       before do
         project.save!
         user.save!
@@ -378,45 +378,45 @@ RSpec.describe Project, 'allowed to' do
         let(:permissions) { [] }
         let(:non_member_permissions) { [action] }
 
-        it_behaves_like 'is empty'
+        it_behaves_like "is empty"
       end
     end
 
-    context 'without the user being member' do
+    context "without the user being member" do
       before do
         project.save!
         user.save!
         non_member_role.save!
       end
 
-      context 'with the non member role having the permission' do
-        it_behaves_like 'includes the project'
+      context "with the non member role having the permission" do
+        it_behaves_like "includes the project"
       end
 
       context 'with the non member role having the permission
                without the project being active' do
         let(:project_status) { false }
 
-        it_behaves_like 'is empty'
+        it_behaves_like "is empty"
       end
 
       context 'with the permission being public and not module bound
                without the project being active' do
         let(:project_status) { false }
 
-        it 'is empty' do
+        it "is empty" do
           expect(described_class.allowed_to(user, public_non_module_action)).to be_empty
         end
       end
 
-      context 'without the non member role having the permission' do
+      context "without the non member role having the permission" do
         let(:non_member_permissions) { [] }
 
-        it_behaves_like 'is empty'
+        it_behaves_like "is empty"
       end
 
-      context 'with the permission being public' do
-        it 'includes the project' do
+      context "with the permission being public" do
+        it "includes the project" do
           expect(described_class.allowed_to(user, public_action)).to contain_exactly(project)
         end
       end
@@ -427,7 +427,7 @@ RSpec.describe Project, 'allowed to' do
           project.enabled_modules = []
         end
 
-        it 'is empty' do
+        it "is empty" do
           expect(described_class.allowed_to(user, public_action)).to be_empty
         end
       end
@@ -438,7 +438,7 @@ RSpec.describe Project, 'allowed to' do
           project.enabled_modules = []
         end
 
-        it 'includes the project' do
+        it "includes the project" do
           expect(described_class.allowed_to(user, public_non_module_action)).to contain_exactly(project)
         end
       end

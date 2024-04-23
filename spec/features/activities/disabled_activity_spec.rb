@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Disabled activity', :js, :with_cuprite do
+RSpec.describe "Disabled activity", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
 
   let(:project1) do
@@ -59,7 +59,7 @@ RSpec.describe 'Disabled activity', :js, :with_cuprite do
 
   current_user { admin }
 
-  it 'does not display activities on projects disabling it' do
+  it "does not display activities on projects disabling it" do
     visit activity_index_path
 
     check "Wiki"

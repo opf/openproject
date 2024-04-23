@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 User avatar resource', content_type: :json do
+RSpec.describe "API v3 User avatar resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -43,7 +43,7 @@ RSpec.describe 'API v3 User avatar resource', content_type: :json do
     login_as current_user
   end
 
-  describe '/avatar', with_settings: { protocol: 'http' } do
+  describe "/avatar", with_settings: { protocol: "http" } do
     before do
       allow(Setting)
         .to receive(:plugin_openproject_avatars)
@@ -54,17 +54,17 @@ RSpec.describe 'API v3 User avatar resource', content_type: :json do
       get api_v3_paths.user(other_user.id) + "/avatar"
     end
 
-    context 'with neither enabled' do
+    context "with neither enabled" do
       let(:gravatars) { false }
       let(:local_avatars) { false }
 
-      it 'renders a 404' do
+      it "renders a 404" do
         expect(response.status).to eq 404
       end
     end
 
-    shared_examples_for 'cache headers set to 24 hours' do
-      it 'has the cache headers set to 24 hours' do
+    shared_examples_for "cache headers set to 24 hours" do
+      it "has the cache headers set to 24 hours" do
         expect(response.headers["Cache-Control"]).to eq "public, max-age=86400"
         expect(response.headers["Expires"]).to be_present
 
@@ -75,19 +75,19 @@ RSpec.describe 'API v3 User avatar resource', content_type: :json do
       end
     end
 
-    context 'when gravatar enabled' do
+    context "when gravatar enabled" do
       let(:gravatars) { true }
       let(:local_avatars) { false }
 
-      it 'redirects to gravatar' do
+      it "redirects to gravatar" do
         expect(response.status).to eq 302
         expect(response.location).to match /gravatar\.com/
       end
 
-      it_behaves_like 'cache headers set to 24 hours'
+      it_behaves_like "cache headers set to 24 hours"
     end
 
-    context 'with local avatar' do
+    context "with local avatar" do
       let(:gravatars) { true }
       let(:local_avatars) { true }
 
@@ -97,13 +97,13 @@ RSpec.describe 'API v3 User avatar resource', content_type: :json do
         u
       end
 
-      it 'serves the attachment file' do
+      it "serves the attachment file" do
         expect(response.status).to eq 200
       end
 
-      it_behaves_like 'cache headers set to 24 hours'
+      it_behaves_like "cache headers set to 24 hours"
 
-      context 'with external file storage (S3)' do
+      context "with external file storage (S3)" do
         let(:setup) do
           allow_any_instance_of(Attachment).to receive(:external_storage?).and_return true
 
@@ -116,7 +116,7 @@ RSpec.describe 'API v3 User avatar resource', content_type: :json do
         # we test that Attachment#external_url works in `attachments_spec.rb`
         # so here we just make sue it's called accordingly when the external
         # storage is configured
-        it 'redirects to temporary external URL' do
+        it "redirects to temporary external URL" do
           expect(response.status).to eq 302
           expect(response.location).to eq "external URL"
         end

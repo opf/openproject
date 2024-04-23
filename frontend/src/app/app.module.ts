@@ -145,6 +145,9 @@ import {
 import {
   CkeditorAugmentedTextareaComponent,
 } from 'core-app/shared/components/editor/components/ckeditor-augmented-textarea/ckeditor-augmented-textarea.component';
+import {
+  DraggableAutocompleteComponent,
+} from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -326,5 +329,6 @@ export class OpenProjectModule {
     registerCustomElement('opce-macro-attribute-label', AttributeLabelMacroComponent, { injector });
     registerCustomElement('opce-macro-wp-quickinfo', WorkPackageQuickinfoMacroComponent, { injector });
     registerCustomElement('opce-ckeditor-augmented-textarea', CkeditorAugmentedTextareaComponent, { injector });
+    registerCustomElement('opce-draggable-autocompleter', DraggableAutocompleteComponent, { injector });
   }
 }

@@ -105,7 +105,7 @@ module API::V3::WorkPackages::EagerLoading
     end
 
     def override_attributes(work_package, source)
-      work_package.attributes = source.attributes.except('timestamp', 'journal_id')
+      work_package.attributes = source.attributes.except("timestamp", "journal_id")
       work_package.clear_changes_information
       work_package.readonly!
     end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.shared_examples 'BaseServices update service' do
+RSpec.shared_examples "BaseServices update service" do
   let(:service_class) { described_class }
   let(:namespace) { service_class.to_s.deconstantize }
   let(:model_class) { namespace.singularize.constantize }
@@ -39,19 +39,19 @@ RSpec.shared_examples 'BaseServices update service' do
 
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
-    double('contract_class', '<=': true)
+    double("contract_class", "<=": true)
   end
   let(:instance) do
     described_class.new(user:,
                         model: model_instance,
                         contract_class:)
   end
-  let(:call_attributes) { { some: 'hash' } }
+  let(:call_attributes) { { some: "hash" } }
   let(:set_attributes_success) do
     true
   end
   let(:set_attributes_errors) do
-    double('set_attributes_errors')
+    double("set_attributes_errors")
   end
   let(:set_attributes_result) do
     ServiceResult.new result: model_instance,
@@ -60,7 +60,7 @@ RSpec.shared_examples 'BaseServices update service' do
   end
   let!(:model_instance) { build_stubbed(factory) }
   let!(:set_attributes_service) do
-    service = double('set_attributes_service_instance')
+    service = double("set_attributes_service_instance")
 
     allow(set_attributes_class)
       .to receive(:new)
@@ -83,31 +83,31 @@ RSpec.shared_examples 'BaseServices update service' do
 
   subject(:instance_call) { instance.call(call_attributes) }
 
-  describe '#user' do
-    it 'exposes a user which is available as a getter' do
+  describe "#user" do
+    it "exposes a user which is available as a getter" do
       expect(instance.user).to eql user
     end
   end
 
-  describe '#contract' do
-    it 'uses the UpdateContract contract' do
+  describe "#contract" do
+    it "uses the UpdateContract contract" do
       expect(instance.contract_class).to eql contract_class
     end
   end
 
   describe "#call" do
-    context 'when the model instance is valid' do
-      it 'is a successful call', :aggregate_failures do
+    context "when the model instance is valid" do
+      it "is a successful call", :aggregate_failures do
         expect(subject).to be_success
         expect(subject).to eql set_attributes_result
         expect(subject.result).to eql model_instance
       end
     end
 
-    context 'if the SetAttributeService is unsuccessful' do
+    context "if the SetAttributeService is unsuccessful" do
       let(:set_attributes_success) { false }
 
-      it 'is unsuccessful', :aggregate_failures do
+      it "is unsuccessful", :aggregate_failures do
         expect(model_instance).not_to receive(:save)
 
         expect(subject).to be_failure
@@ -119,10 +119,10 @@ RSpec.shared_examples 'BaseServices update service' do
       end
     end
 
-    context 'when the model instance is invalid' do
+    context "when the model instance is invalid" do
       let(:model_save_result) { false }
 
-      it 'is unsuccessful and returns the errors', :aggregate_failures do
+      it "is unsuccessful and returns the errors", :aggregate_failures do
         expect(subject).to be_failure
         expect(subject.errors).to eql model_instance.errors
       end

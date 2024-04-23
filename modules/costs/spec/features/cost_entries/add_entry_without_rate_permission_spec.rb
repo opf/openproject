@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../../spec_helper'
+require_relative "../../spec_helper"
 
-RSpec.describe 'Create cost entry without rate permissions', :js do
+RSpec.describe "Create cost entry without rate permissions", :js do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
@@ -48,7 +48,7 @@ RSpec.describe 'Create cost entry without rate permissions', :js do
   end
 
   shared_let(:cost_type) do
-    type = create(:cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural')
+    type = create(:cost_type, name: "A", unit: "A single", unit_plural: "A plural")
     create(:cost_rate, cost_type: type, rate: 1.00)
     type
   end
@@ -60,24 +60,24 @@ RSpec.describe 'Create cost entry without rate permissions', :js do
     login_as user
   end
 
-  it 'can create the item without seeing the costs' do
+  it "can create the item without seeing the costs" do
     full_view.visit!
     # Go to add cost entry page
     SeleniumHubWaiter.wait
-    find('#action-show-more-dropdown-menu .button').click
-    find('.menu-item', text: 'Log unit costs').click
+    find("#action-show-more-dropdown-menu .button").click
+    find(".menu-item", text: "Log unit costs").click
 
     SeleniumHubWaiter.wait
     # Set single value, should update suffix
-    select 'A', from: 'cost_entry_cost_type_id'
-    fill_in 'cost_entry_units', with: '1'
-    expect(page).to have_css('#cost_entry_unit_name', text: 'A single')
-    expect(page).to have_no_css('#cost_entry_costs')
+    select "A", from: "cost_entry_cost_type_id"
+    fill_in "cost_entry_units", with: "1"
+    expect(page).to have_css("#cost_entry_unit_name", text: "A single")
+    expect(page).to have_no_css("#cost_entry_costs")
 
-    click_on 'Save'
+    click_on "Save"
 
     # Expect correct costs
-    expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
+    expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_cost_logged_successfully))
     entry = CostEntry.last
     expect(entry.cost_type_id).to eq(cost_type.id)
     expect(entry.units).to eq(1.0)

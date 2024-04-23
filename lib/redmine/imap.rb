@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'net/imap'
+require "net/imap"
 
 module Redmine
   module IMAP
     class << self
       def check(imap_options = {}, options = {})
-        folder = imap_options[:folder] || 'INBOX'
+        folder = imap_options[:folder].presence || "INBOX"
         imap = connect_imap(imap_options)
 
         imap.select(folder)
-        imap.search(['NOT', 'SEEN']).each do |message_id|
+        imap.search(["NOT", "SEEN"]).each do |message_id|
           receive(message_id, imap, imap_options, options)
         end
 
@@ -46,8 +46,8 @@ module Redmine
       private
 
       def connect_imap(imap_options)
-        host = imap_options[:host] || '127.0.0.1'
-        port = imap_options[:port] || '143'
+        host = imap_options[:host] || "127.0.0.1"
+        port = imap_options[:port] || "143"
         verify_mode = imap_options[:ssl_verification] ? OpenSSL::SSL::VERIFY_PEER : OpenSSL::SSL::VERIFY_NONE
         ssl_params =
           if imap_options[:ssl]
@@ -64,7 +64,7 @@ module Redmine
       end
 
       def receive(message_id, imap, imap_options, options)
-        msg = imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
+        msg = imap.fetch(message_id, "RFC822")[0].attr["RFC822"]
         raise "Message was not successfully handled." unless MailHandler.receive(msg, options)
 
         message_received(message_id, imap, imap_options)
@@ -80,17 +80,17 @@ module Redmine
           imap.copy(message_id, imap_options[:move_on_success])
         end
 
-        imap.store(message_id, '+FLAGS', %i[Seen Deleted])
+        imap.store(message_id, "+FLAGS", %i[Seen Deleted])
       end
 
       def message_error(message_id, imap, imap_options)
         log_debug { "Message #{message_id} can not be processed" }
 
-        imap.store(message_id, '+FLAGS', [:Seen])
+        imap.store(message_id, "+FLAGS", [:Seen])
 
         if imap_options[:move_on_failure]
           imap.copy(message_id, imap_options[:move_on_failure])
-          imap.store(message_id, '+FLAGS', [:Deleted])
+          imap.store(message_id, "+FLAGS", [:Deleted])
         end
       end
 

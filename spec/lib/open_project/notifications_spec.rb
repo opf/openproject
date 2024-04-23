@@ -26,23 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::Notifications do
-  describe '.send' do
+  describe ".send" do
     let(:probe) { lambda { |*_args| } }
-    let(:payload) { { 'test' => 'payload' } }
+    let(:payload) { { "test" => "payload" } }
 
     before do
       # We can't clean this up, so we need to use a unique name
-      described_class.subscribe('notifications_spec_send') do |*args, **kwargs|
+      described_class.subscribe("notifications_spec_send") do |*args, **kwargs|
         probe.call(*args, **kwargs)
       end
 
       allow(probe).to receive(:call)
     end
 
-    it 'delivers a notification' do
+    it "delivers a notification" do
       described_class.send(:notifications_spec_send, payload)
 
       expect(probe).to have_received(:call) do |call_payload|
@@ -53,15 +53,15 @@ RSpec.describe OpenProject::Notifications do
     end
   end
 
-  describe '.subscribe' do
-    it 'throws an error when no callback is given' do
+  describe ".subscribe" do
+    it "throws an error when no callback is given" do
       expect do
-        described_class.subscribe('notifications_spec_send')
+        described_class.subscribe("notifications_spec_send")
       end.to raise_error ArgumentError, /provide a block as a callback/
     end
 
-    describe 'clear_subscriptions:' do
-      let(:key) { 'test_clear_subs' }
+    describe "clear_subscriptions:" do
+      let(:key) { "test_clear_subs" }
       let(:as) { [] }
       let(:bs) { [] }
 
@@ -77,23 +77,23 @@ RSpec.describe OpenProject::Notifications do
         described_class.send(key, 2)
       end
 
-      context 'when true' do
+      context "when true" do
         before do
           example_with clear_subscriptions: true
         end
 
-        it 'clears previous subscriptions' do
+        it "clears previous subscriptions" do
           expect(as).to eq [1]
           expect(bs).to eq [2]
         end
       end
 
-      context 'when false' do
+      context "when false" do
         before do
           example_with clear_subscriptions: false
         end
 
-        it 'notifies both subscriptions' do
+        it "notifies both subscriptions" do
           expect(as).to eq [1, 2]
           expect(bs).to eq [2]
         end

@@ -12,18 +12,52 @@ on:
     inputs:
       tag:
         description: "The tag to release. Note that this happens by default on the tag push. Only run this action when something went wrong!"
-        required: true
+        required: false
 
 permissions:
   contents: read # to fetch code (actions/checkout)
 
 env:
-  REGISTRY_IMAGE: openproject/community
+  REGISTRY_IMAGE: openproject/openproject
 
 jobs:
+  extract_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract version
+        id: extract_version
+        run: |
+          if [[ ${{ github.event_name }} == 'push' ]]; then
+            TAG_REF=${GITHUB_REF#refs/tags/}
+            CHECKOUT_REF=$GITHUB_REF
+          elif [[ ${{ github.event_name }} == 'schedule' ]]; then
+            TAG_REF=dev
+            CHECKOUT_REF=refs/heads/dev
+          elif [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            TAG_REF=${{ inputs.tag }}
+            CHECKOUT_REF=${{ inputs.tag }}
+          else
+            echo "Unsupported event"
+            exit 1
+          fi
+
+          if [ -z "$TAG_REF" ] || [ -z "$CHECKOUT_REF" ]; then
+            echo "No TAG_REF or CHECKOUT_REF set. Aborting"
+            exit 1
+          fi
+
+          VERSION=${TAG_REF#v}
+          echo "Version: $VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "checkout_ref=$CHECKOUT_REF" >> "$GITHUB_OUTPUT"
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+      checkout_ref: ${{ steps.extract_version.outputs.checkout_ref }}
   build:
+    needs:
+      - extract_version
     if: github.repository == 'opf/openproject'
-    runs-on: [ self-hosted, aws, ubuntu22, x64, 2XL ]
+    runs-on: runs-on,runner=8cpu-linux,family=m7i+m7a,run-id=${{ github.run_id }}
     strategy:
       matrix:
         include:
@@ -45,24 +79,39 @@ jobs:
         run: |
           if [[ ${{ github.event_name }} == 'push' ]]; then
             TAG_REF=${GITHUB_REF#refs/tags/}
+            CHECKOUT_REF=$GITHUB_REF
+          elif [[ ${{ github.event_name }} == 'schedule' ]]; then
+            TAG_REF=dev
+            CHECKOUT_REF=refs/heads/dev
           elif [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             TAG_REF=${{ inputs.tag }}
+            CHECKOUT_REF=${{ inputs.tag }}
+          else
+            echo "Unsupported event"
+            exit 1
           fi
           
+          if [ -z "$TAG_REF" ] || [ -z "$CHECKOUT_REF" ]; then
+            echo "No TAG_REF or CHECKOUT_REF set. Aborting"
+            exit 1
+          fi
+
           VERSION=${TAG_REF#v}
           echo "Version: $VERSION"
           echo "::set-output name=version::$VERSION"
-      - name: Checkout current release
-        if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@v3
-      - name: Checkout specific version
-        if: ${{ github.event_name != 'push' }}
+          echo "::set-output name=checkout_ref::$CHECKOUT_REF"
+      - name: Checkout
         with:
-          ref: ${{ inputs.tag }}
-        uses: actions/checkout@v3
+          ref: ${{ steps.extract_version.outputs.checkout_ref }}
+        uses: actions/checkout@v4
       - name: Prepare docker files
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile
+
+          # Add build information
+          echo "${{ steps.extract_version.outputs.checkout_ref }}" > PRODUCT_VERSION
+          echo "https://github.com/opf/openproject/commits/${{ steps.extract_version.outputs.checkout_ref }}" > PRODUCT_URL
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > RELEASE_DATE
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -77,11 +126,17 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          context: git
+          labels: |
+            io.artifacthub.package.readme-url=https://www.openproject.org/docs/installation-and-operations/installation/docker/
+            org.opencontainers.image.documentation=https://www.openproject.org/docs/
+            org.opencontainers.image.vendor=OpenProject GmbH
           tags: |
-            type=semver,pattern={{version}},value=${{ steps.extract_version.outputs.version }}
+            type=semver,pattern={{version}},value=${{ needs.extract_version.outputs.version }}
           images: |
             ${{ env.REGISTRY_IMAGE }}
       - name: Build image
+        id: build
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -104,7 +159,7 @@ jobs:
             -e SUPERVISORD_LOG_LEVEL=debug \
             -e OPENPROJECT_LOGIN__REQUIRED=false \
             -e OPENPROJECT_HTTPS=false \
-            ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+            ${{ steps.build.outputs.imageid }}
 
           sleep 60
 
@@ -139,6 +194,7 @@ jobs:
       matrix:
         target: [slim, all-in-one]
     needs:
+      - extract_version
       - build
     steps:
       - name: Download digests
@@ -160,16 +216,16 @@ jobs:
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           labels: |
-            io.artifacthub.package.readme-url="https://www.openproject.org/docs/installation-and-operations/installation/docker/"
-            org.opencontainers.image.documentation="https://www.openproject.org/docs/"
-            org.opencontainers.image.vendor="OpenProject GmbH"
+            io.artifacthub.package.readme-url=https://www.openproject.org/docs/installation-and-operations/installation/docker/
+            org.opencontainers.image.documentation=https://www.openproject.org/docs/
+            org.opencontainers.image.vendor=OpenProject GmbH
           flavor: |
             latest=false
             suffix=${{ steps.set_suffix.outputs.suffix }}
           tags: |
-            type=semver,pattern={{version}},value=${{ steps.extract_version.outputs.version }}
-            type=semver,pattern={{major}}.{{minor}},value=${{ steps.extract_version.outputs.version }}
-            type=semver,pattern={{major}},value=${{ steps.extract_version.outputs.version }}
+            type=semver,pattern={{version}},value=${{ needs.extract_version.outputs.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.extract_version.outputs.version }}
+            type=semver,pattern={{major}},value=${{ needs.extract_version.outputs.version }}
             type=raw,value=dev,priority=200,enable={{is_default_branch}}
       - name: Login to Docker Hub
         uses: docker/login-action@v2

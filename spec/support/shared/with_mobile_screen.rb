@@ -24,7 +24,7 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-RSpec.shared_context 'with mobile screen size' do |width, height|
+RSpec.shared_context "with mobile screen size" do |width, height|
   let!(:height_before) do
     if using_cuprite?
       page.current_window.size.second

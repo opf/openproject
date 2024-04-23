@@ -41,7 +41,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   private
 
   def validate_capabilities(contract, attribute, value)
-    uri = URI.parse(File.join(value, '/ocs/v2.php/cloud/capabilities'))
+    uri = URI.parse(File.join(value, "/ocs/v2.php/cloud/capabilities"))
 
     response = OpenProject.httpx
                           .with(HTTPX_TIMEOUT_SETTINGS)
@@ -69,7 +69,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   # Apache strips that part of the request header by default.
   # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/oauth2.html
   def validate_setup_completeness(contract, attribute, value)
-    uri = URI.parse(File.join(value, 'index.php/apps/integration_openproject/check-config'))
+    uri = URI.parse(File.join(value, "index.php/apps/integration_openproject/check-config"))
     response = OpenProject.httpx
                           .with(HTTPX_TIMEOUT_SETTINGS)
                           .get(uri, headers: { "Authorization" => AUTHORIZATION_HEADER })
@@ -117,13 +117,13 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   end
 
   def read_version(response)
-    response.json.dig('ocs', 'data', 'version', 'major')
+    response.json.dig("ocs", "data", "version", "major")
   rescue HTTPX::Error, MultiJson::ParseError
     false
   end
 
   def read_authorization_header(response)
-    response.json['authorization_header']
+    response.json["authorization_header"]
   rescue HTTPX::Error, MultiJson::ParseError
     nil
   end

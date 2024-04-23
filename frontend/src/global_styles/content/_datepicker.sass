@@ -58,7 +58,7 @@ $datepicker--selected-border-radius: 5px
 
 .flatpickr-prev-month, .flatpickr-next-month
   svg:hover
-    fill: var(--primary-color) !important
+    fill: var(--control-checked-color) !important
 
 .flatpickr-prev-month, .flatpickr-next-month
   svg
@@ -164,13 +164,13 @@ $datepicker--selected-border-radius: 5px
         &.selected,
         &.startRange,
         &.endRange
-          background: var(--primary-color)
-          border-color: var(--primary-color)
+          background: var(--control-checked-color)
+          border-color: var(--control-checked-color)
           color: $spot-color-basic-white
 
           &:hover
-            background: var(--primary-color-dark)
-            border-color: var(--primary-color-dark)
+            background: var(--control-checked-color--major2)
+            border-color: var(--control-checked-color--major2)
 
         &.startRange
           border-radius: $datepicker--selected-border-radius 0 0 $datepicker--selected-border-radius
@@ -182,14 +182,14 @@ $datepicker--selected-border-radius: 5px
           border-radius: $datepicker--selected-border-radius
 
         &.inRange
-          background: var(--primary-color--minor3)
-          color: var(--primary-color)
-          border-color: var(--primary-color--minor3)
+          background: var(--control-checked-color--minor1)
+          color: var(--control-checked-color)
+          border-color: var(--control-checked-color--minor1)
           border-radius: 0
 
           &:hover
-            color: var(--primary-color-dark)
-            border-color: var(--primary-color-dark)
+            color: var(--control-checked-color--major2)
+            border-color: var(--control-checked-color--major2)
 
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6

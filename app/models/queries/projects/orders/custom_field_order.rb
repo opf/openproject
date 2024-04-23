@@ -29,7 +29,7 @@
 class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
   self.model = Project.all
 
-  validates :custom_field, presence: { message: I18n.t(:'activerecord.errors.messages.does_not_exist') }
+  validates :custom_field, presence: { message: I18n.t(:"activerecord.errors.messages.does_not_exist") }
 
   def self.key
     /cf_(\d+)/
@@ -45,6 +45,10 @@ class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
 
   def scope
     super.select(custom_field.order_statements)
+  end
+
+  def available?
+    custom_field.present?
   end
 
   private

@@ -55,6 +55,8 @@ export const opModalOverlaySelector = 'op-modal-overlay';
 export class OpModalOverlayComponent {
   public notFullscreen = false;
 
+  mobileTopPosition = false;
+
   public portalOutlet:CdkPortalOutlet;
 
   @ViewChild(CdkPortalOutlet) set portalOutletContainer(v:CdkPortalOutlet) {
@@ -124,8 +126,9 @@ export class OpModalOverlayComponent {
   }
 
   private createAndAttachPortalInstance(data:ModalData):void {
-    const { modal, injector, notFullscreen } = data;
+    const { modal, injector, notFullscreen, mobileTopPosition } = data;
     this.notFullscreen = notFullscreen;
+    this.mobileTopPosition = mobileTopPosition;
     const portal = new ComponentPortal(modal, null, injector);
     const ref = this.portalOutlet.attach(portal);
     const instance = ref.instance;

@@ -30,7 +30,7 @@ module Grids
   module Filters
     class PageFilter < Filters::GridFilter
       def allowed_values
-        raise NotImplementedError, 'There would be too many candidates'
+        raise NotImplementedError, "There would be too many candidates"
       end
 
       def allowed_values_subset
@@ -62,7 +62,7 @@ module Grids
                           project_id_condition(actual_value[:project_id])]
 
             "(#{conditions.compact.join(' AND ')})"
-          end.join(' OR ')
+          end.join(" OR ")
       end
 
       private
@@ -72,7 +72,7 @@ module Grids
 
         operator_strategy.sql_for_field([klass.name],
                                         self.class.model.table_name,
-                                        'type')
+                                        "type")
       end
 
       def project_id_condition(project_id)
@@ -84,7 +84,7 @@ module Grids
 
         operator_strategy.sql_for_field([project_id],
                                         self.class.model.table_name,
-                                        'project_id')
+                                        "project_id")
       end
 
       def available_operators

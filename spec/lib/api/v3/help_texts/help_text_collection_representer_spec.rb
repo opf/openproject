@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::HelpTexts::HelpTextCollectionRepresenter do
   let!(:help_texts) do
     [
-      build_stubbed(:work_package_help_text, attribute_name: 'id'),
-      build_stubbed(:work_package_help_text, attribute_name: 'status')
+      build_stubbed(:work_package_help_text, attribute_name: "id"),
+      build_stubbed(:work_package_help_text, attribute_name: "status")
     ]
   end
   let(:representer) do
@@ -44,15 +44,15 @@ RSpec.describe API::V3::HelpTexts::HelpTextCollectionRepresenter do
   let(:user) { build_stubbed(:user) }
 
   def self_link
-    'a link that is provided'
+    "a link that is provided"
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'unpaginated APIv3 collection',
+    it_behaves_like "unpaginated APIv3 collection",
                     2,
-                    'a link that is provided',
-                    'HelpText'
+                    "a link that is provided",
+                    "HelpText"
   end
 end

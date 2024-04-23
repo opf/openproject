@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Query resource' do
+RSpec.describe "API v3 Query resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { create(:project, identifier: 'test_project', public: false) }
+  let(:project) { create(:project, identifier: "test_project", public: false) }
   let(:current_user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -44,14 +44,14 @@ RSpec.describe 'API v3 Query resource' do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe '#get projects/:project_id/queries/default' do
+  describe "#get projects/:project_id/queries/default" do
     let(:base_path) { api_v3_paths.query_project_default(project.id) }
 
-    it_behaves_like 'GET individual query' do
-      context 'lacking permissions' do
+    it_behaves_like "GET individual query" do
+      context "lacking permissions" do
         let(:permissions) { [] }
 
-        it_behaves_like 'unauthorized access'
+        it_behaves_like "unauthorized access"
       end
     end
   end

@@ -36,7 +36,7 @@ module MailNotificationHelper
   end
 
   def notifications_path(id)
-    notifications_center_url(['details', id, 'activity'])
+    notifications_center_url(["details", id, "activity"])
   end
 
   def type_color(type, default_fallback)
@@ -51,6 +51,6 @@ module MailNotificationHelper
 
   def status_colors(status)
     color_id = selected_color(status)
-    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ') if color_id
+    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(" ") if color_id
   end
 end

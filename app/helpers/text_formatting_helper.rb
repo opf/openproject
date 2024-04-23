@@ -90,7 +90,7 @@ module TextFormattingHelper
 
     if replace_newlines
       stripped_text
-        .gsub(/[\r\n]+/, '<br />')
+        .gsub(/[\r\n]+/, "<br />")
     else
       stripped_text
     end

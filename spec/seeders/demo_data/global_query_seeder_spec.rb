@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe DemoData::GlobalQuerySeeder do
   subject(:seeder) { described_class.new(seed_data) }
@@ -39,7 +39,7 @@ RSpec.describe DemoData::GlobalQuerySeeder do
     AdminUserSeeder.new(seed_data).seed!
   end
 
-  context 'with a global_queries defined' do
+  context "with a global_queries defined" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         global_queries:
@@ -61,11 +61,11 @@ RSpec.describe DemoData::GlobalQuerySeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'creates a global query' do
+    it "creates a global query" do
       expect { seeder.seed! }.to change { Query.global.count }.by(1)
     end
 
-    it 'references the query in the seed data' do
+    it "references the query in the seed data" do
       seeder.seed!
       created_query = Query.global.first
       expect(seed_data.find_reference(:global_query__children)).to eq(created_query)

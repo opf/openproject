@@ -31,40 +31,40 @@
 require "rails_helper"
 
 RSpec.describe AttributeGroups::AttributeKeyValueComponent, type: :component do
-  it 'renders the attribute key and value' do
-    render_inline(described_class.new(key: 'Attribute Key', value: 'Attribute Value'))
+  it "renders the attribute key and value" do
+    render_inline(described_class.new(key: "Attribute Key", value: "Attribute Value"))
 
-    expect(page).to have_css('.attributes-key-value--key', text: 'Attribute Key') &
-      have_css('.attributes-key-value--value.-text', text: 'Attribute Value')
+    expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key") &
+      have_css(".attributes-key-value--value.-text", text: "Attribute Value")
   end
 
   it "preserve html in the value if it's a safe string" do
-    render_inline(described_class.new(key: 'Attribute Key', value: '<div>Some value</div>'.html_safe))
+    render_inline(described_class.new(key: "Attribute Key", value: "<div>Some value</div>".html_safe))
 
-    expect(page).to have_no_css('.attributes-key-value--value.-text', text: "<div>Some value</div>")
-    expect(page).to have_css('.attributes-key-value--value.-text', text: "Some value")
+    expect(page).to have_no_css(".attributes-key-value--value.-text", text: "<div>Some value</div>")
+    expect(page).to have_css(".attributes-key-value--value.-text", text: "Some value")
   end
 
-  context 'with value and content' do
-    it 'renders the content' do
-      render_inline(described_class.new(key: 'Attribute Key', value: 'Attribute Value')) do
+  context "with value and content" do
+    it "renders the content" do
+      render_inline(described_class.new(key: "Attribute Key", value: "Attribute Value")) do
         "<p class='test--content'>Content Value</p>"
       end
 
-      expect(page).to have_css('.attributes-key-value--key', text: 'Attribute Key') &
-        have_css('.attributes-key-value--value.-text', text: 'Attribute Value') &
-        have_css('.attributes-key-value--value.-text', text: "<p class='test--content'>Content Value</p>")
+      expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key") &
+        have_css(".attributes-key-value--value.-text", text: "Attribute Value") &
+        have_css(".attributes-key-value--value.-text", text: "<p class='test--content'>Content Value</p>")
     end
   end
 
-  context 'with content, no value' do
-    it 'renders the content' do
-      render_inline(described_class.new(key: 'Attribute Key')) do
+  context "with content, no value" do
+    it "renders the content" do
+      render_inline(described_class.new(key: "Attribute Key")) do
         "<p class='test--content'>Content Value</p>"
       end
 
-      expect(page).to have_css('.attributes-key-value--key', text: 'Attribute Key') &
-        have_css('.attributes-key-value--value.-text', text: "<p class='test--content'>Content Value</p>")
+      expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key") &
+        have_css(".attributes-key-value--value.-text", text: "<p class='test--content'>Content Value</p>")
     end
   end
 end

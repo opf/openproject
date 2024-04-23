@@ -128,9 +128,9 @@ module XlsExport::WorkPackage::Exporter
 
     def relation_row(work_package, wp_columns, other, relation)
       type = relation_type work_package, other, relation
-      delay = relation ? relation.delay : ""
+      lag = relation ? relation.lag : ""
       description = relation ? relation.description : ""
-      relation_columns = ["", type, delay, description] + column_values(other)
+      relation_columns = ["", type, lag, description] + column_values(other)
 
       [""] + wp_columns + relation_columns
     end
@@ -140,16 +140,16 @@ module XlsExport::WorkPackage::Exporter
         normalized = relation.relation_type_for(work_package)
         I18n.t("js.relation_labels.#{normalized}", default: normalized)
       elsif work_package.parent_id == other.id
-        I18n.t 'xls_export.child_of'
+        I18n.t "xls_export.child_of"
       elsif work_package.children.where(id: other.id).exists?
-        I18n.t 'xls_export.parent_of'
+        I18n.t "xls_export.parent_of"
       end
     end
 
     def with_relations_headers
       [
         Relation.human_attribute_name(:relation_type),
-        Relation.human_attribute_name(:delay),
+        Relation.human_attribute_name(:lag),
         Relation.human_attribute_name(:description)
       ]
     end

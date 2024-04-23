@@ -39,7 +39,7 @@ module API
           end
 
           def _type
-            'QueryColumn::RelationToType'
+            "QueryColumn::RelationToType"
           end
 
           def json_cache_key

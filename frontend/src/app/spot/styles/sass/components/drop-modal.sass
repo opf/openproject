@@ -6,7 +6,6 @@
 
     position: absolute
     @include spot-z-index("drop-modal", 1)
-    pointer-events: none
 
     pointer-events: all
     opacity: 1
@@ -66,6 +65,23 @@
 
     @media #{$spot-mq-drop-modal-in-context}
       display: none
+
+  &--header
+    @extend .spot-modal--header
+    font-size: var(--body-font-size) !important
+    line-height: 1 !important
+
+  &--header-title
+    @extend .spot-modal--header-title
+
+  &--header-close-button
+    @extend .spot-modal--header-close-button
+
+  &--header-close-button-icon
+    @extend .spot-modal--header-close-button-icon
+
+  &--content
+    margin: $spot-spacing-1
 
   &--close-button
     display: block

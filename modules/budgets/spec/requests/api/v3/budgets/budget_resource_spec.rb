@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Budget resource' do
+RSpec.describe "API v3 Budget resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -42,61 +42,61 @@ RSpec.describe 'API v3 Budget resource' do
 
   subject(:response) { last_response }
 
-  describe 'budgets/:id' do
+  describe "budgets/:id" do
     let(:get_path) { api_v3_paths.budget budget.id }
 
-    context 'logged in user' do
+    context "logged in user" do
       before do
         allow(User).to receive(:current).and_return current_user
 
         get get_path
       end
 
-      context 'valid id' do
-        it 'returns HTTP 200' do
+      context "valid id" do
+        it "returns HTTP 200" do
           expect(response.status).to be(200)
         end
       end
 
-      context 'invalid id' do
-        let(:get_path) { api_v3_paths.budget 'bogus' }
+      context "invalid id" do
+        let(:get_path) { api_v3_paths.budget "bogus" }
 
-        it_behaves_like 'param validation error' do
-          let(:id) { 'bogus' }
+        it_behaves_like "param validation error" do
+          let(:id) { "bogus" }
         end
       end
     end
 
-    context 'not logged in user' do
+    context "not logged in user" do
       before do
         get get_path
       end
 
-      it_behaves_like 'forbidden response based on login_required'
+      it_behaves_like "forbidden response based on login_required"
     end
   end
 
-  describe 'projects/:id/budgets' do
+  describe "projects/:id/budgets" do
     let(:get_path) { api_v3_paths.budgets_by_project project.id }
 
-    context 'logged in user' do
+    context "logged in user" do
       before do
         allow(User).to receive(:current).and_return current_user
 
         get get_path
       end
 
-      it 'returns HTTP 200' do
+      it "returns HTTP 200" do
         expect(response.status).to be(200)
       end
     end
 
-    context 'not logged in user' do
+    context "not logged in user" do
       before do
         get get_path
       end
 
-      it_behaves_like 'not found response based on login_required'
+      it_behaves_like "not found response based on login_required"
     end
   end
 end

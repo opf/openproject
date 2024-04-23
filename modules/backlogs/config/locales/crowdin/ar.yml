@@ -64,7 +64,7 @@ ar:
     properties: "الخصائص"
     rebuild: "إعِدْ بناء"
     rebuild_positions: "أعِد بناء المواقع"
-    remaining_hours: "Remaining work"
+    remaining_hours: ""
     remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "الرسم البياني للعمل المتبقي"
     story: "القصة"

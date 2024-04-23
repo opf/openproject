@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Loggin (with brute force protection)' do
-  let(:login) { 'my_user' }
+RSpec.describe "Loggin (with brute force protection)" do
+  let(:login) { "my_user" }
   let(:password) { "PassW0rd!!!" }
   let(:invalid_password) { password[0..-2] }
   let!(:user) do
@@ -42,7 +42,7 @@ RSpec.describe 'Loggin (with brute force protection)' do
   def new_login_attempt(login_attempt, password_attempt)
     # The login name already provided is retained
     expect(page)
-      .to have_field 'Username', with: login_attempt
+      .to have_field "Username", with: login_attempt
 
     login_with(login_attempt, password_attempt)
   end
@@ -53,7 +53,7 @@ RSpec.describe 'Loggin (with brute force protection)' do
       .update_all(last_failed_login_on: time)
   end
 
-  it 'blocks login attempts after too many tries for the configured time',
+  it "blocks login attempts after too many tries for the configured time",
      with_settings: { brute_force_block_minutes: 5, brute_force_block_after_failed_logins: 2 } do
     login_with login, invalid_password
 
@@ -96,7 +96,7 @@ RSpec.describe 'Loggin (with brute force protection)' do
       .to be 0
   end
 
-  it 'does not block if brute force is disabled',
+  it "does not block if brute force is disabled",
      with_settings: { brute_force_block_minutes: 5, brute_force_block_after_failed_logins: 0 } do
     login_with login, invalid_password
 

@@ -60,7 +60,7 @@ module Components
 
     def set_filter_selected(filter)
       within_body do
-        page.find("[data-test-selector='spot-toggle--option']", text: filter ? 'Only selected' : 'All projects').click
+        page.find("[data-test-selector='spot-toggle--option']", text: filter ? "Only selected" : "All projects").click
       end
     end
 
@@ -94,7 +94,7 @@ module Components
 
     def click_button(text)
       within_body do
-        page.find('button:not([disabled])', text:).click
+        page.find("button:not([disabled])", text:).click
       end
     end
 
@@ -107,11 +107,11 @@ module Components
     end
 
     def body_selector
-      '.spot-drop-modal-portal .spot-drop-modal--body'
+      ".spot-drop-modal-portal .spot-drop-modal--body"
     end
 
     def selector
-      '.op-project-include'
+      ".op-project-include"
     end
 
     def no_loading_indicator

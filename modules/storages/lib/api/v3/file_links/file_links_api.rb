@@ -42,7 +42,7 @@ class API::V3::FileLinks::FileLinksAPI < API::OpenProjectAPI
 
     # `route_param` extends the route by a route parameter of the endpoint.
     # The input parameter value is parsed into the `:file_link_id` symbol.
-    route_param :file_link_id, type: Integer, desc: 'File link id' do
+    route_param :file_link_id, type: Integer, desc: "File link id" do
       # The after validation hook executes after the validation of the request format, but before any execution
       # inside the endpoint context. Hence, it is a good place to actually fetch the handled resource.
       after_validation do

@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'OAuth Access Grant Nudge upon adding a storage to a project',
+RSpec.describe "OAuth Access Grant Nudge upon adding a storage to a project",
                :js,
                :webmock do
-  shared_let(:user) { create(:user, preferences: { time_zone: 'Etc/UTC' }) }
+  shared_let(:user) { create(:user, preferences: { time_zone: "Etc/UTC" }) }
 
   shared_let(:role) do
     create(:project_role, permissions: %i[manage_storages_in_project
@@ -54,7 +54,7 @@ RSpec.describe 'OAuth Access Grant Nudge upon adding a storage to a project',
 
   current_user { user }
 
-  let(:nonce) { '57a17c3f-b2ed-446e-9dd8-651ba3aec37d' }
+  let(:nonce) { "57a17c3f-b2ed-446e-9dd8-651ba3aec37d" }
   let(:redirect_uri) do
     "#{CGI.escape(OpenProject::Application.root_url)}/oauth_clients/#{storage.oauth_client.client_id}/callback"
   end
@@ -64,28 +64,44 @@ RSpec.describe 'OAuth Access Grant Nudge upon adding a storage to a project',
     allow(SecureRandom).to receive(:uuid).and_return(nonce).ordered
   end
 
-  it 'adds a storage, nudges the project admin to grant OAuth access' do
+  it "adds a storage, nudges the project admin to grant OAuth access" do
     visit project_settings_project_storages_path(project_id: project)
 
-    click_on('Storage')
+    click_on("Storage")
 
-    expect(page).to have_select('Storage', options: ["#{storage.name} (nextcloud)"])
-    click_on('Continue')
+    expect(page).to have_select("Storage", options: ["#{storage.name} (nextcloud)"])
+    click_on("Continue")
 
-    # by default automatic have to be choosen if storage has automatic management enabled
     expect(page).to have_checked_field("New folder with automatically managed permissions")
-    click_on('Add')
+    click_on("Add")
 
-    # The list of enabled file storages should now contain Storage 1
-    expect(page).to have_text('File storages available in this project')
+    expect(page).to have_text("File storages available in this project")
     expect(page).to have_text(storage.name)
 
-    within_test_selector('oauth-access-grant-nudge-modal') do
-      expect(page).to have_text('One more step...')
+    within_test_selector("oauth-access-grant-nudge-modal") do
+      expect(page).to be_axe_clean
+      expect(page).to have_text("One more step...")
+      click_on("Login")
+      wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
+                                          "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+    end
+  end
 
-      click_on('Login')
-      expect(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
-                                        "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+  it "edits a storage, nudges the project admin to grant OAuth access" do
+    project_storage = create(:project_storage, project:, storage:)
+
+    visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
+
+    expect(page).to have_text("Edit the file storage to this project")
+
+    click_on "Save"
+
+    within_test_selector("oauth-access-grant-nudge-modal") do
+      expect(page).to be_axe_clean
+      expect(page).to have_text("One more step...")
+      click_on("Login")
+      wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
+                                          "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end
   end
 end

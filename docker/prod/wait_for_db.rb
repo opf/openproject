@@ -1,6 +1,6 @@
-require 'timeout'
+require "timeout"
 
-timeout = (ENV['WAIT_FOR_DB_TIMEOUT_SECONDS'] || 120).to_i
+timeout = (ENV["WAIT_FOR_DB_TIMEOUT_SECONDS"] || 120).to_i
 
 Timeout::timeout(timeout) do
   loop do

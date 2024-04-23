@@ -43,5 +43,5 @@ See COPYRIGHT and LICENSE files for more details.
                                              html: {id: 'custom_field_form', class: "-wide-labels"} do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= hidden_field_tag 'type', @custom_field.type %>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

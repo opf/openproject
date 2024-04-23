@@ -21,7 +21,7 @@
 #++
 zh-TW:
   plugin_openproject_github_integration:
-    name: "OpenProject GitHub Integration"
+    name: "OpenProject GitHub 整合"
     description: "Integrates OpenProject and GitHub for a better workflow"
   project_module_github: "GitHub"
   permission_show_github_content: "顯示 GitHub 內容"

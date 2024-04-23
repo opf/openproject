@@ -25,10 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Days::NonWorkingDaysAPI,
-               'show',
+               "show",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -42,44 +42,44 @@ RSpec.describe API::V3::Days::NonWorkingDaysAPI,
     get path
   end
 
-  context 'for an admin user' do
+  context "for an admin user" do
     let(:user) { build(:admin) }
 
-    it_behaves_like 'successful response'
+    it_behaves_like "successful response"
 
-    it 'responds with the correct day' do
-      expect(subject).to be_json_eql('NonWorkingDay'.to_json).at_path('_type')
-      expect(subject).to be_json_eql(non_working_day.date.to_json).at_path('date')
+    it "responds with the correct day" do
+      expect(subject).to be_json_eql("NonWorkingDay".to_json).at_path("_type")
+      expect(subject).to be_json_eql(non_working_day.date.to_json).at_path("date")
     end
 
-    context 'when requesting nonexistent date' do
+    context "when requesting nonexistent date" do
       let(:path) { api_v3_paths.days_non_working_day(Time.zone.today) }
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
 
-    context 'when requesting an incorrect date' do
+    context "when requesting an incorrect date" do
       let(:path) { api_v3_paths.days_non_working_day("incorrect") }
 
-      it_behaves_like 'param validation error' do
-        let(:id) { 'incorrect' }
+      it_behaves_like "param validation error" do
+        let(:id) { "incorrect" }
       end
     end
   end
 
-  context 'for a not logged in user' do
+  context "for a not logged in user" do
     let(:user) { build(:anonymous) }
 
-    context 'when login_required', with_settings: { login_required: true } do
-      it_behaves_like 'unauthenticated access'
+    context "when login_required", with_settings: { login_required: true } do
+      it_behaves_like "unauthenticated access"
     end
 
-    context 'when not login_required', with_settings: { login_required: false } do
-      it_behaves_like 'successful response'
+    context "when not login_required", with_settings: { login_required: false } do
+      it_behaves_like "successful response"
 
-      it 'responds with the correct _type and day', :aggregate_failures do
-        expect(subject).to be_json_eql('NonWorkingDay'.to_json).at_path('_type')
-        expect(subject).to be_json_eql(non_working_day.date.to_json).at_path('date')
+      it "responds with the correct _type and day", :aggregate_failures do
+        expect(subject).to be_json_eql("NonWorkingDay".to_json).at_path("_type")
+        expect(subject).to be_json_eql(non_working_day.date.to_json).at_path("date")
       end
     end
   end

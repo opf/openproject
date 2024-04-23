@@ -4,5 +4,5 @@ hu:
     calendar:
       create_new: 'Új naptár létrehozása'
       title: 'Naptár'
-      too_many: 'Összesen %{count} munkacsomag van, de csak %{max} jeleníthető meg.'
+      too_many: 'Összesen %{százalék_szám} munkacsomag van, de csak %{maximum} jeleníthető meg.'
       unsaved_title: 'Névtelen naptár'

@@ -29,7 +29,7 @@
 #++
 
 class Activities::DaysComponent < ViewComponent::Base
-  def initialize(events:, current_project: nil, display_user: true, header_tag: 'h3', activity_page: nil)
+  def initialize(events:, current_project: nil, display_user: true, header_tag: "h3", activity_page: nil)
     super()
     @events = events
     @current_project = current_project

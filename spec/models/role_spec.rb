@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Role do
   let(:permissions) { %i[permission1 permission2] }
   let(:build_role) { build(:project_role, permissions:) }
   let(:created_role) { create(:project_role, permissions:) }
 
-  describe '.create' do
-    it 'is prevented for type Role' do
+  describe ".create" do
+    it "is prevented for type Role" do
       build_role.type = described_class.name
 
       expect(build_role.save).to be_falsey
     end
   end
 
-  describe '.givable' do
+  describe ".givable" do
     let!(:project_role) { create(:project_role) }
     let!(:non_member_role) { create(:non_member) }
     let!(:anonymous_role) { create(:anonymous_role) }
@@ -51,8 +51,8 @@ RSpec.describe Role do
     it { expect(described_class.givable.to_a).to eql [project_role, work_package_role, global_role] }
   end
 
-  describe '#by_permission' do
-    it 'returns roles with given permission' do
+  describe "#by_permission" do
+    it "returns roles with given permission" do
       created_role
 
       expect(Role.by_permission(permissions[0])).to include created_role
@@ -60,9 +60,9 @@ RSpec.describe Role do
     end
   end
 
-  describe '#permissions' do
-    shared_examples_for 'writing and reading' do
-      it 'returns the values written before' do
+  describe "#permissions" do
+    shared_examples_for "writing and reading" do
+      it "returns the values written before" do
         perms = permissions + [:permission3]
 
         role.permissions = perms
@@ -70,15 +70,15 @@ RSpec.describe Role do
         expect(role.permissions).to match_array(perms)
       end
 
-      it 'removes empty permissions' do
-        perms = permissions + ['']
+      it "removes empty permissions" do
+        perms = permissions + [""]
 
         role.permissions = perms
 
         expect(role.permissions).to match_array(permissions)
       end
 
-      it 'does not readd permissions' do
+      it "does not readd permissions" do
         perms = permissions + permissions.map(&:to_s)
 
         role.permissions = perms
@@ -86,29 +86,29 @@ RSpec.describe Role do
         expect(role.permissions).to match_array(permissions)
       end
 
-      it 'allows clearing the permissions' do
+      it "allows clearing the permissions" do
         role.permissions = []
 
         expect(role.permissions).to be_empty
       end
     end
 
-    context 'for a non persisted role' do
+    context "for a non persisted role" do
       let(:role) { build_role }
 
-      it_behaves_like 'writing and reading'
+      it_behaves_like "writing and reading"
     end
 
-    context 'for a persisted role' do
+    context "for a persisted role" do
       let(:role) { created_role }
 
-      it_behaves_like 'writing and reading'
+      it_behaves_like "writing and reading"
     end
   end
 
-  describe '#remove_permission!' do
-    shared_examples_for 'removing' do
-      it 'removes the specified permission' do
+  describe "#remove_permission!" do
+    shared_examples_for "removing" do
+      it "removes the specified permission" do
         perm = permissions.first
 
         role.remove_permission!(perm)
@@ -117,48 +117,48 @@ RSpec.describe Role do
       end
     end
 
-    context 'for a non persisted role' do
+    context "for a non persisted role" do
       let(:role) { build_role }
 
-      it_behaves_like 'removing'
+      it_behaves_like "removing"
     end
 
-    context 'for a persisted role' do
+    context "for a persisted role" do
       let(:role) { created_role }
 
-      it_behaves_like 'removing'
+      it_behaves_like "removing"
     end
   end
 
-  describe '#add_permission!' do
-    shared_examples_for 'adding' do
-      it 'adds the specified permission' do
+  describe "#add_permission!" do
+    shared_examples_for "adding" do
+      it "adds the specified permission" do
         role.add_permission!(:permission3)
 
-        expect(role.role_permissions.map(&:permission)).to include 'permission3'
+        expect(role.role_permissions.map(&:permission)).to include "permission3"
       end
     end
 
-    context 'for a non persisted role' do
+    context "for a non persisted role" do
       let(:role) { build_role }
 
-      it_behaves_like 'adding'
+      it_behaves_like "adding"
     end
 
-    context 'for a persisted role' do
+    context "for a persisted role" do
       let(:role) { created_role }
 
-      it_behaves_like 'adding'
+      it_behaves_like "adding"
     end
   end
 
-  describe '.workflows.copy_from_role' do
+  describe ".workflows.copy_from_role" do
     before do
       allow(Workflow)
         .to receive(:copy)
     end
 
-    it 'calls Workflow.copy' do
+    it "calls Workflow.copy" do
       build_role.workflows.copy_from_role(created_role)
 
       expect(Workflow)

@@ -43,7 +43,7 @@ module Queries::Storages::FileLinks::Filter
     end
 
     def where
-      operator_strategy.sql_for_field(values, ::Storages::FileLink.table_name, 'storage_id')
+      operator_strategy.sql_for_field(values, ::Storages::FileLink.table_name, "storage_id")
     end
   end
 end

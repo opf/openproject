@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'model_contract'
+require "model_contract"
 
 module Types
   class BaseContract < ::ModelContract
@@ -93,7 +93,7 @@ module Types
         if key.is_a?(String) && valid_attributes.exclude?(key)
           errors.add(
             :attribute_groups,
-            I18n.t('activerecord.errors.models.type.attributes.attribute_groups.attribute_unknown_name',
+            I18n.t("activerecord.errors.models.type.attributes.attribute_groups.attribute_unknown_name",
                    attribute: key)
           )
         end

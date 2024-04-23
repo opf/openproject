@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:operator) { '=' }
+  let(:operator) { "=" }
   let(:values) { [status.id.to_s] }
 
   let(:status) { build_stubbed(:status) }
@@ -52,25 +52,25 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       .and_return([status])
   end
 
-  describe 'generation' do
+  describe "generation" do
     subject { representer.to_json }
 
-    describe '_links' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'filter' }
-        let(:href) { api_v3_paths.query_filter 'status' }
-        let(:title) { 'Status' }
+    describe "_links" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "filter" }
+        let(:href) { api_v3_paths.query_filter "status" }
+        let(:title) { "Status" }
       end
 
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'operator' }
-        let(:href) { api_v3_paths.query_operator(CGI.escape('=')) }
-        let(:title) { 'is (OR)' }
+      it_behaves_like "has a titled link" do
+        let(:link) { "operator" }
+        let(:href) { api_v3_paths.query_operator(CGI.escape("=")) }
+        let(:title) { "is (OR)" }
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'schema' }
-        let(:href) { api_v3_paths.query_filter_instance_schema 'status' }
+      it_behaves_like "has an untitled link" do
+        let(:link) { "schema" }
+        let(:href) { api_v3_paths.query_filter_instance_schema "status" }
       end
 
       it "has a 'values' collection" do
@@ -81,7 +81,7 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
 
         expect(subject)
           .to be_json_eql([expected].to_json)
-          .at_path('_links/values')
+          .at_path("_links/values")
       end
 
       it "renders templated values as part of the 'values' collection" do
@@ -90,30 +90,30 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
           .and_return([Queries::Filters::TemplatedValue.new(Status)])
 
         expected = {
-          href: api_v3_paths.status('{id}'),
+          href: api_v3_paths.status("{id}"),
           title: nil,
           templated: true
         }
 
         expect(subject)
           .to be_json_eql([expected].to_json)
-                .at_path('_links/values')
+                .at_path("_links/values")
       end
     end
 
-    it 'has _type StatusQueryFilter' do
+    it "has _type StatusQueryFilter" do
       expect(subject)
-        .to be_json_eql('StatusQueryFilter'.to_json)
-        .at_path('_type')
+        .to be_json_eql("StatusQueryFilter".to_json)
+        .at_path("_type")
     end
 
-    it 'has name Status' do
+    it "has name Status" do
       expect(subject)
-        .to be_json_eql('Status'.to_json)
-        .at_path('name')
+        .to be_json_eql("Status".to_json)
+        .at_path("name")
     end
 
-    context 'with an invalid value_objects' do
+    context "with an invalid value_objects" do
       let(:filter) do
         f = Queries::WorkPackages::Filter::AssignedToFilter.create!
         f.operator = operator
@@ -121,7 +121,7 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
 
         f
       end
-      let(:values) { ['1'] }
+      let(:values) { ["1"] }
 
       before do
         allow(filter)
@@ -132,16 +132,16 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       it "has a 'values' collection" do
         expected = {
           href: nil,
-          title: 'Anonymous'
+          title: "Anonymous"
         }
 
         expect(subject)
           .to be_json_eql([expected].to_json)
-                .at_path('_links/values')
+                .at_path("_links/values")
       end
     end
 
-    context 'with a subproject filter value_objects' do
+    context "with a subproject filter value_objects" do
       shared_let(:admin) { create(:admin) }
 
       let(:project) { create(:project) }
@@ -151,7 +151,7 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         project.reload
 
         f = Queries::WorkPackages::Filter::SubprojectFilter.create!(context: project)
-        f.operator = '='
+        f.operator = "="
         f.values = [subproject.id]
 
         f
@@ -176,12 +176,12 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
 
         expect(subject)
           .to be_json_eql([expected].to_json)
-                .at_path('_links/values')
+                .at_path("_links/values")
       end
     end
 
-    context 'with a non ar object filter' do
-      let(:values) { ['lorem ipsum'] }
+    context "with a non ar object filter" do
+      let(:values) { ["lorem ipsum"] }
       let(:filter) do
         f = Queries::WorkPackages::Filter::SubjectFilter.create!
         f.operator = operator
@@ -190,21 +190,21 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         f
       end
 
-      describe '_links' do
-        it 'has no values link' do
+      describe "_links" do
+        it "has no values link" do
           expect(subject)
-            .not_to have_json_path('_links/values')
+            .not_to have_json_path("_links/values")
         end
       end
 
       it "has a 'values' array property" do
         expect(subject)
           .to be_json_eql(values.to_json)
-          .at_path('values')
+          .at_path("values")
       end
     end
 
-    context 'with a bool custom field filter' do
+    context "with a bool custom field filter" do
       let(:bool_cf) { create(:boolean_wp_custom_field) }
       let(:filter) do
         Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: bool_cf.column_name, operator:, values:)
@@ -216,7 +216,7 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         it "has `true` for 'values'" do
           expect(subject)
             .to be_json_eql([true].to_json)
-            .at_path('values')
+            .at_path("values")
         end
       end
 
@@ -226,17 +226,17 @@ RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         it "has `true` for 'values'" do
           expect(subject)
             .to be_json_eql([false].to_json)
-            .at_path('values')
+            .at_path("values")
         end
       end
 
       context "with something as filter value" do
-        let(:values) { ['blubs'] }
+        let(:values) { ["blubs"] }
 
         it "has `true` for 'values'" do
           expect(subject)
             .to be_json_eql([false].to_json)
-            .at_path('values')
+            .at_path("values")
         end
       end
     end

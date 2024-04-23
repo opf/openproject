@@ -103,7 +103,7 @@ module AuthSourceSSO
   def extract_from_header(value)
     if header_secret.present?
       valid_secret = value.end_with?(":#{header_secret}")
-      login = value.gsub(/:#{Regexp.escape(header_secret)}\z/, '')
+      login = value.gsub(/:#{Regexp.escape(header_secret)}\z/, "")
 
       [login, valid_secret]
     else

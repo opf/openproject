@@ -3,15 +3,15 @@ ms:
     name: "OpenProject OpenID Connect"
     description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Anda telah log keluar. Apa-apa bentuk kandungan yang anda hantar mungkin hilang. Sila [log masuk].
   activemodel:
     attributes:
       openid_connect/provider:
-        name: Name
-        display_name: Display name
+        name: Nama
+        display_name: Nama paparan
         identifier: Identifier
-        secret: Secret
-        scope: Scope
+        secret: "Sulit\n"
+        scope: Skop
         limit_self_registration: Limit self registration
   openid_connect:
     menu_title: OpenID providers

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/calendar'
+require "spec_helper"
+require_relative "../support/pages/calendar"
 
-RSpec.shared_context 'with calendar full access' do
+RSpec.shared_context "with calendar full access" do
   shared_let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end

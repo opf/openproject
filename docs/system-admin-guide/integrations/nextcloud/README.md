@@ -348,9 +348,9 @@ You have setup the *Project folder* in both environments (Nextcloud and OpenProj
 
    a. If you have root access to the OpenProject server where your worker should be running, check if the worker processes are in fact present:
    `ps aux | grep job`
-   The result should show lines containing `bundle exec rake jobs:work`
+   The result should show lines containing `bundle exec bundle exec good_job start`
 
-   b. If you don't have root access to the OpenProject server then you can check the following URL in your browser: `https://<your-openproject-server>/health_checks/all` (please insert the domain name of your OpenProject server). If your background workers are running, you should see a line like that `delayed_jobs_never_ran: PASSED All previous jobs have completed within the past 5 minutes`
+   b. If you don't have root access to the OpenProject server then you can check the following URL in your browser: `https://<your-openproject-server>/health_checks/all` (please insert the domain name of your OpenProject server). If your background workers are running, you should see a line like that `worker_backed_up: PASSED No jobs are waiting to be picked up.`
 
 2. Ensure that your project is setup correctly:
    1. In your browser navigate to the project for which you want the **Project folders** feature to be working.

@@ -34,7 +34,7 @@ module Calendar
       private
 
       def view_type
-        'work_packages_calendar'
+        "work_packages_calendar"
       end
     end
   end

@@ -47,10 +47,10 @@ module PlaceholderUsers
     def delete_link
       if helpers.can_delete_placeholder_user?(placeholder_user, User.current)
         link_to deletion_info_placeholder_user_path(placeholder_user) do
-          helpers.tooltip_tag I18n.t('placeholder_users.delete_tooltip'), icon: 'icon-delete'
+          helpers.tooltip_tag I18n.t("placeholder_users.delete_tooltip"), icon: "icon-delete"
         end
       else
-        helpers.tooltip_tag I18n.t('placeholder_users.right_to_manage_members_missing'), icon: 'icon-help2'
+        helpers.tooltip_tag I18n.t("placeholder_users.right_to_manage_members_missing"), icon: "icon-help2"
       end
     end
 

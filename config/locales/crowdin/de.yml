@@ -26,15 +26,14 @@ de:
       no_results_title_text: Innerhalb dieses Zeitraums haben keine Aktivitäten in dem Projekt stattgefunden.
   admin:
     plugins:
-      no_results_title_text: Zur Zeit stehen keine Plugins zur Verfügung.
+      no_results_title_text: Es sind derzeit keine Plugins installiert.
+      no_results_content_text: Weitere Informationen finden Sie auf unserer Seite für Integrationen und Plugins.
     custom_styles:
       color_theme: "Farbschema"
       color_theme_custom: "(Benutzerdefiniert)"
       colors:
-        alternative-color: "Alternativ"
-        content-link-color: "Link-Schriftfarbe"
-        primary-color: "Primärfarbe"
-        primary-color-dark: "Primärfarbe (dunkel)"
+        primary-button-color: "Primäre Schaltfläche"
+        accent-color: "Akzent"
         header-bg-color: "Hintergrund der Kopfzeile"
         header-item-bg-hover-color: "Hintergrund der Kopfzeile bei Hover"
         header-item-font-color: "Textfarbe der Kopfzeile"
@@ -53,10 +52,8 @@ de:
       enterprise_more_info: "Hinweis: Das verwendete Logo wird öffentlich zugänglich sein."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
-        alternative-color: "Starke Akzentfarbe, wird normalerweise für die wichtigste Schaltfläche auf dem Bildschirm verwendet."
-        content-link-color: "Schriftfarbe der meisten Links."
-        primary-color: "Hauptfarbe."
-        primary-color-dark: "In der Regel wird eine dunklere Version der Hauptfarbe für Hover-Effekte verwendet."
+        primary-button-color: "Starke Akzentfarbe, die für die wichtigste Schaltfläche auf einem Bildschirm verwendet wird."
+        accent-color: "Farbe für Links und andere dezent hervorgehobene Elemente."
         header-item-bg-hover-color: "Hintergrundfarbe von Header-Elementen während Mouse-hover."
         header-item-font-color: "Schriftfarbe von anklickbaren Header-Elementen."
         header-item-font-hover-color: "Schriftfarbe von anklickbaren Header-Elementen während Mouse-hover."
@@ -91,16 +88,16 @@ de:
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
   antivirus_scan:
-    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
-    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
-    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
-    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
-    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    not_processed_yet_message: "Das Herunterladen ist blockiert, da die Datei noch nicht auf Viren gescannt wurde. Bitte versuchen Sie es später noch einmal."
+    quarantined_message: "In der Datei '%{filename}' wurde ein Virus entdeckt. Sie wurde unter Quarantäne gestellt und kann nicht heruntergeladen werden."
+    deleted_message: "In der Datei '%{filename}' wurde ein Virus entdeckt. Die Datei wurde gelöscht."
+    deleted_by_admin: "Die unter Quarantäne gestellte Datei '%{filename}' wurde von einem Administrator gelöscht."
+    overridden_by_admin: "Die Quarantäne für die Datei '%{filename}' wurde von %{user} entfernt. Auf die Datei kann nun zugegriffen werden."
     quarantined_attachments:
       container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
-      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
+      delete: "Unter Quarantäne gestellte Datei löschen"
+      title: "Unter Quarantäne gestellte Anhänge"
+      error_cannot_act_self: "Sie können keine Aktionen für Ihre eigenen hochgeladenen Dateien durchführen."
   attribute_help_texts:
     note_public: "Alle Texte und Bilder, die Sie diesem Feld hinzufügen, sind öffentlich für angemeldete Benutzer sichtbar."
     text_overview: "In dieser Ansicht können Sie benutzerdefinierte Hilfe-Texte für Attribute definieren. Für Attribute mit hinterlegtem Text können diese über ein kleines Hilfe-Icon neben dem Attribut angezeigt werden."
@@ -262,12 +259,15 @@ de:
       no_results_title_text: Es gibt aktuell keine Projekte
       no_results_content_text: Neues Projekt erstellen
     lists:
-      active: 'Aktive Projekte'
-      my: 'Meine Projekte'
-      archived: 'Archivierte Projekte'
-      my_private: 'Meine privaten Projektlisten'
+      active: "Aktive Projekte"
+      my: "Meine Projekte"
+      archived: "Archivierte Projekte"
+      my_private: "Meine privaten Projektlisten"
       new:
-        placeholder: 'Neue Projektliste'
+        placeholder: "Neue Projektliste"
+      delete_modal:
+        title: "Projektliste löschen"
+        text: "Diese Aktion löscht keine Projekte, die in der Liste enthalten sind. Sind Sie sicher, dass Sie diese Projektliste löschen möchten?"
     settings:
       change_identifier: Kennung ändern
       activities:
@@ -280,6 +280,17 @@ de:
         no_results_content_text: Neue Arbeitspaket-Kategorie erstellen
       custom_fields:
         no_results_title_text: Derzeit stehen keine benutzerdefinierten Felder zur Verfügung.
+      project_custom_fields:
+        header:
+          title: "Projektattribute"
+          description: "Diese Projektattribute werden auf Ihrer <a href=%{overview_url} target=\"_blank\">Projektübersichtsseite</a> in den jeweiligen Abschnitten angezeigt. Sie können einzelne Attribute aktivieren oder deaktivieren. Projektattribute und -abschnitte werden in den <a href=%{admin_settings_url} target=\"_blank\">Administrationseinstellungen</a> durch den Administrator der Instanz definiert. "
+        filter:
+          label: "Projektattribut suchen"
+        actions:
+          label_enable_single: "In diesem Projekt aktiv, zum Deaktivieren anklicken"
+          label_disable_single: "In diesem Projekt inaktiv, zum Aktivieren anklicken"
+          label_enable_all: "Alles aktivieren"
+          label_disable_all: "Alles deaktivieren"
       types:
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
         form:
@@ -289,13 +300,14 @@ de:
         no_results_content_text: Neue Version erstellen
       storage:
         no_results_title_text: Durch dieses Projekt wird kein zusätzlicher erfasster Speicherplatz verbraucht.
+  lists:
+    can_be_saved_as: "Die Änderungen können nur in einer neuen Liste gespeichert werden."
   members:
     index:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
       no_results_content_text: Mitglied zum Projekt hinzufügen
     invite_by_mail: "Einladung an %{mail} senden"
     send_invite_to: "Einladung senden an"
-    no_modify_on_shared: "Sie können die freigegebenen Mitgliedschaften derzeit nicht über die Mitgliederseite ändern oder entfernen. Verwenden Sie stattdessen bitte das Teilen-Fenster."
     columns:
       shared: "Geteilt"
     filters:
@@ -307,6 +319,48 @@ de:
       project_roles: "Projektrollen"
       wp_shares: "Arbeitspaket-Freigaben"
       groups: "Gruppen"
+    delete_member_dialog:
+      title: "Mitglied entfernen"
+      will_remove_the_users_role: "Dadurch wird die Rolle des Benutzers aus diesem Projekt entfernt."
+      will_remove_the_groups_role: "Dadurch wird die Gruppenrolle von diesem Projekt entfernt."
+      however_work_packages_shared_with_user_html:
+        one: "Allerdings wurde %{shared_work_packages_link} auch mit diesem Benutzer geteilt."
+        other: "Allerdings wurden auch %{shared_work_packages_link} mit diesem Benutzer geteilt."
+      however_work_packages_shared_with_group_html:
+        one: "Allerdings wurde %{shared_work_packages_link} auch mit dieser Gruppe geteilt."
+        other: "Allerdings wurden %{shared_work_packages_link} auch mit dieser Gruppe geteilt."
+      remove_work_packages_shared_with_user_too: "Ein Benutzer, der als Mitglied entfernt wurde, kann immer noch auf gemeinsame Arbeitspakete zugreifen. Möchten Sie auch die Freigaben entfernen?"
+      remove_work_packages_shared_with_group_too: "Eine Gruppe, die als Mitglied entfernt wurde, kann immer noch auf mit ihr geteilte Arbeitspakete zugreifen. Möchten Sie auch den Zugriff auf diese geteilten Arbeitspakete entfernen?"
+      will_not_affect_inherited_shares: "(Dies hat keine Auswirkungen auf Arbeitspakete, die mit ihrer Gruppe geteilt werden)."
+      can_remove_direct_but_not_shared_roles: "Sie können diesen Benutzer als direktes Projektmitglied entfernen. Eine Gruppe, in der dieser Benutzer Mitglied ist, ist auch Mitglied dieses Projekts, so dass er weiterhin über die Gruppe Mitglied bleibt."
+      also_work_packages_shared_with_user_html:
+        one: "Außerdem wurde %{shared_work_packages_link} mit diesem Benutzer geteilt."
+        other: "Außerdem wurden %{shared_work_packages_link} mit diesem Benutzer geteilt."
+      remove_project_membership_or_work_package_shares_too: "Möchten Sie nur den Benutzer als direktes Mitglied entfernen (und die damit geteilten Arbeitspakete behalten) oder auch alle Zugänge zu geteilten Arbeitspaketen entfernen?"
+      will_remove_all_user_access_priveleges: "Wenn Sie dieses Mitglied löschen, werden alle Zugriffsrechte des Benutzers auf das Projekt entfernt. Der Benutzer bleibt als Teil der Instanz erhalten."
+      will_remove_all_group_access_priveleges: "Wenn Sie dieses Mitglied löschen, werden alle Zugriffsrechte der Gruppe auf das Projekt entfernt. Die Gruppe bleibt als Teil der Instanz bestehen."
+      cannot_delete_inherited_membership: "Sie können dieses Mitglied nicht löschen, da es zu einer Gruppe gehört, die selbst Mitglied dieses Projekts ist."
+      cannot_delete_inherited_membership_note_admin_html: "Sie können entweder die Gruppe als Mitglied des Projekts oder dieses bestimmte Mitglied aus der Gruppe in der %{administration_settings_link}entfernen."
+      cannot_delete_inherited_membership_note_non_admin: "Sie können entweder die Gruppe als Mitglied des Projekts entfernen oder sich an Ihren Administrator wenden, um dieses spezielle Mitglied aus der Gruppe zu entfernen."
+    delete_work_package_shares_dialog:
+      title: "Arbeitspaket-Freigaben wiederrufen"
+      shared_with_this_user_html:
+        one: "%{all_shared_work_packages_link} wurde mit diesem Benutzer geteilt."
+        other: "%{all_shared_work_packages_link} wurden mit diesem Benutzer geteilt."
+      shared_with_this_group_html:
+        one: "%{all_shared_work_packages_link} wurde mit dieser Gruppe geteilt."
+        other: "%{all_shared_work_packages_link} wurden mit dieser Gruppe geteilt."
+      shared_with_permission_html:
+        one: "Nur %{shared_work_packages_link} wurde mit den Berechtigungen %{shared_role_name} geteilt."
+        other: "Nur %{shared_work_packages_link} wurde mit den Berechtigungen %{shared_role_name} geteilt."
+      revoke_all_or_with_role: "Möchten Sie den Zugriff auf alle gemeinsamen Arbeitspakete widerrufen oder nur diejenigen mit %{shared_role_name}-Berechtigungen?"
+      will_not_affect_inherited_shares: "(Dies hat keine Auswirkungen auf Arbeitspakete, die mit ihrer Gruppe geteilt werden)."
+      cannot_remove_inherited: "Die über Gruppen geteilten Arbeitspakete können nicht entfernt werden."
+      cannot_remove_inherited_with_role: "Die mit der Rolle %{shared_role_name} geteilten Arbeitspakete werden über Gruppen geteilt und können nicht entfernt werden."
+      cannot_remove_inherited_note_admin_html: "Sie können entweder die Freigabe für die Gruppe widerrufen oder dieses bestimmte Mitglied aus der Gruppe unter %{administration_settings_link} entfernen."
+      cannot_remove_inherited_note_non_admin: "Sie können entweder die das geteilte Arbeitspaket für die Gruppe entfernen oder sich an Ihren Administrator wenden, um das betreffende Mitglied aus der Gruppe zu entfernen."
+      will_revoke_directly_granted_access: "Diese Aktion entzieht den gesamten Zugriff auf alle außer die durch eine Gruppenmitgliedschaft geteilten Arbeitspakete."
+      will_revoke_access_to_all: "Mit dieser Aktion wird der Zugriff auf alle diese Arbeitspakete entfernt."
   my:
     access_token:
       failed_to_reset_token: "Zusatztoken konnte nicht zurückgesetzt werden: %{error}"
@@ -341,7 +395,7 @@ de:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       Sie sind nicht berechtigt, diesen Platzhalter zu löschen. Sie haben nicht das Recht, Mitglieder für alle Projekte zu verwalten, in denen der Platzhalter Mitglied ist.
@@ -539,7 +593,7 @@ de:
       oauth_client:
         client: "Client-ID"
       relation:
-        delay: "Pufferzeit"
+        lag: "Verzögerung"
         from: "Arbeitspaket"
         to: "Zugehöriges Arbeitspaket"
       status:
@@ -562,6 +616,7 @@ de:
           false: "privat"
         queries: "Abfragen"
         status_code: "Projektstatus"
+        description: "Beschreibung"
         status_explanation: "Projektstatusbeschreibung"
         status_codes:
           not_started: "Nicht gestartet"
@@ -631,13 +686,15 @@ de:
         redirect_existing_links: "Existierende Links umleiten"
       planning_element_type_color:
         hexcode: Fabcode (Hex)
+      project_custom_field:
+        custom_field_section: Abschnitt
       work_package:
         begin_insertion: "Beginn der Einfügung"
         begin_deletion: "Beginn des Löschvorgangs"
         children: "Kindelemente"
-        derived_done_ratio: "Total % complete"
-        derived_remaining_hours: "Total remaining work"
-        derived_remaining_time: "Total remaining work"
+        derived_done_ratio: "Insgesamt % abgeschlossen"
+        derived_remaining_hours: "Verbleibende Arbeit insgesamt"
+        derived_remaining_time: "Verbleibende Arbeit insgesamt"
         done_ratio: "% abgeschlossen"
         duration: "Dauer"
         end_insertion: "Ende der Einfügung"
@@ -687,7 +744,7 @@ de:
         confirmation: "stimmt nicht mit %{attribute} überein."
         could_not_be_copied: "%{dependency} konnte nicht (vollständig) kopiert werden."
         does_not_exist: "existiert nicht."
-        error_enterprise_only: "ist nur in OpenProject Enterprise on-premises verfügbar"
+        error_enterprise_only: "%{action} ist nur in OpenProject Enterprise on-premises verfügbar"
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
         error_conflict: "Die Informationen wurde zwischenzeitlich durch andere Benutzer geändert."
@@ -836,6 +893,10 @@ de:
               invalid: "Zeitstempel enthalten ungültige Werte: %{values}"
               forbidden: "Zeitstempel enthalten ungültige Werte: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "Die Spalte ‚Name‘ muss enthalten sein"
+              nonexistent: "Die Spalte ‚%{column}‘ existiert nicht."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
           filters:
             custom_fields:
@@ -927,7 +988,14 @@ de:
               only_same_project_categories_allowed: "Ein Arbeitpaket und seine Kategorie müssen im selben Projekt sein."
               does_not_exist: "Die angegebene Kategorie existiert nicht."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "muss >= 0 sein."
+              cant_be_inferior_to_remaining_work: "Kann nicht niedriger sein als Verbleibender Aufwand."
+              must_be_set_when_remaining_work_is_set: "Ist erforderlich, wenn Verbleibender Aufwand gesetzt ist."
+              only_values_greater_or_equal_zeroes_allowed: "Muss >= 0 sein."
+              format: "%{message}"
+            remaining_hours:
+              cant_exceed_work: "Kann nicht größer als der Aufwand sein."
+              must_be_set_when_work_is_set: "Ist erforderlich, wenn Aufwand gesetzt ist."
+              format: "%{message}"
           readonly_status: "Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können."
         type:
           attributes:
@@ -1030,6 +1098,12 @@ de:
       updated_by_on_time_entry: "Zeitbuchung aktualisiert durch %{user} am %{datetime}"
       updated_on: "aktualisiert am %{datetime}"
       updated_on_time_entry: "Zeitbuchung aktualisiert am %{datetime}"
+      deleted_on: "gelöscht am %{datetime}"
+      deleted_by_on: "gelöscht von %{user} am %{datetime}"
+      added_on: "hinzugefügt am %{datetime}"
+      added_by_on: "hinzugefügt von %{user} am %{datetime}"
+      removed_on: "entfernt am %{datetime}"
+      removed_by_on: "entfernt von %{user} an %{datetime}"
       parent_without_of: "Unterprojekt"
       parent_no_longer: "Nicht mehr Unterprojekt von"
       time_entry:
@@ -1041,6 +1115,18 @@ de:
           other: "<i>%{count} Stunden</i>"
         updated: "geändert von %{old_value} zu %{value}"
         logged_for: "Gebucht für"
+      meeting_agenda_item:
+        duration:
+          added: "auf %{value} eingestellt"
+          added_html: "auf <i>%{value}</i> eingestellt"
+          removed: "entfernt"
+          updated: "von %{old_value} zu %{value} geändert"
+          updated_html: "von <i>%{old_value}</i> zu <i>%{value}</i> geändert"
+        position:
+          updated: "neu geordnet"
+        work_package:
+          updated: "von %{old_value} zu %{value} geändert"
+          updated_html: "von <i>%{old_value}</i> zu <i>%{value}</i> geändert"
     filter:
       changeset: "Änderungssätze"
       message: "Foren"
@@ -1071,7 +1157,7 @@ de:
     default_columns: "Standard-Spalten"
     description: "Beschreibung"
     derived_due_date: "Aggregierter Endtermin"
-    derived_estimated_hours: "Total work"
+    derived_estimated_hours: "Arbeit insgesamt"
     derived_start_date: "Aggregierter Starttermin"
     display_sums: "Summen anzeigen"
     due_date: "Endtermin"
@@ -1138,6 +1224,7 @@ de:
       token_cooldown: Der Backup-Token ist in %{hours} Stunden gültig.
       backup_pending: Es wird bereits ein Backup bearbeitet.
       limit_reached: Sie können nur %{limit} Backups pro Tag durchführen.
+  button_actions: "Aktionen"
   button_add: "Hinzufügen"
   button_add_comment: "Kommentar hinzufügen"
   button_add_member: Mitglied hinzufügen
@@ -1188,6 +1275,7 @@ de:
   button_reset: "Zurücksetzen"
   button_rollback: "Auf diese Version zurücksetzen"
   button_save: "Speichern"
+  button_save_as: "Speichern unter"
   button_apply_changes: "Änderungen anwenden"
   button_save_back: "Speichern und zurück"
   button_show: "Anzeigen"
@@ -1207,6 +1295,14 @@ de:
   button_add_menu_entry: "Menüpunkt hinzufügen"
   button_configure_menu_entry: "Menüpunkt konfigurieren"
   button_delete_menu_entry: "Menüpunkt entfernen"
+  button_view_shared_work_packages: "Gemeinsame Arbeitspakete ansehen"
+  button_manage_roles: "Rollen verwalten"
+  button_remove_member: "Mitglied entfernen"
+  button_remove_member_and_shares: "Mitglied und Freigaben entfernen"
+  button_revoke_work_package_shares: "Arbeitspaket-Freigaben wiederrufen"
+  button_revoke_access: "Zugang widerrufen"
+  button_revoke_all: "Alles widerrufen"
+  button_revoke_only: "Nur %{shared_role_name} widerrufen"
   consent:
     checkbox_label: Ich habe die obigen Angaben zur Kenntnis genommen und erkläre mich einverstanden.
     failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
@@ -1422,7 +1518,6 @@ de:
   error_pdf_export_too_many_columns: "Zu viele Spalten für PDF-Export ausgewählt. Bitte reduzieren Sie die Anzahl der ausgewählten Spalten."
   error_pdf_failed_to_export: "Der PDF-Export konnte nicht gespeichert werden: %{error}"
   error_token_authenticity: "Das Cross-Site Request Forgery Token konnte nicht verfiziert werden. Wenn Sie versucht haben, Daten auf mehreren Tabs oder Browsern abzuspeichern, schließen sie diese und laden diese Seite erneut um den Vorgang zu wiederholen."
-  error_work_package_done_ratios_not_updated: "Arbeitspaket-Wert für % abgeschlossen nicht aktualisiert."
   error_work_package_not_found_in_project: "Das Arbeitspaket wurde nicht gefunden oder gehört nicht zu diesem Projekt."
   error_must_be_project_member: "muss Mitglied des Projekts sein"
   error_migrations_are_pending: "Ihre OpenProject-Installation hat noch ausstehende Datenbankmigrationen. Sie haben wahrscheinlich die Migration für Ihr letztes Upgrade nicht durchgeführt. Bitte überprüfen Sie die Upgrade-Anleitung, um Ihre Installation korrekt zu aktualisieren."
@@ -1516,6 +1611,7 @@ de:
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
       user_guides: "Benutzerhandbuch"
       faq: "Häufig gestellte Fragen"
+      impressum: "Impressum"
       glossary: "Glossar"
       shortcuts: "Tastenkürzel"
       blog: "OpenProject Blog"
@@ -1527,6 +1623,9 @@ de:
     changes_retracted: "Die Änderungen wurden zurückgezogen."
     caused_changes:
       dates_changed: "Datum geändert"
+      default_attribute_written: "Nur-Lese-Attribute wurde geschrieben"
+      progress_mode_changed_to_status_based: "Fortschrittsberechnung aktualisiert"
+      status_p_complete_changed: "Status % abgeschlossen geändert"
       system_update: "OpenProject-Systemaktualisierung:"
     cause_descriptions:
       work_package_predecessor_changed_times: durch Änderungen am Vorgänger %{link}
@@ -1542,9 +1641,16 @@ de:
         dates:
           working: "%{date} ist jetzt ein Arbeitstag"
           non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
+      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
+      status_p_complete_changed: >-
+        % Abgeschlossen für Status '%{status_name}' geändert von %{old_value}% auf %{new_value}%
       system_update:
         file_links_journal: >
           Ab sofort erscheinen hier Aktivitäten, die sich auf Datei-Links beziehen (Dateien in externen Speichermedien) auf der Registerkarte Aktivität. Folgende Aktivitäten betreffen bereits existierende Links:
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Konfigurationsanleitung"
     get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
@@ -1559,6 +1665,8 @@ de:
       api_and_webhooks: "API und Webhooks"
     quick_add:
       label: "Schnellmenue öffnen"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1660,14 +1768,13 @@ de:
   label_ascending: "Aufsteigend"
   label_assigned_to_me_work_packages: "Mir zugewiesene Arbeitspakete"
   label_associated_revisions: "Zugehörige Revisionen"
-  label_attachment_delete: "Anhang löschen"
-  label_attachment_new: "Neue Datei"
-  label_attachment_plural: "Dateien"
+  label_attachment_plural: "Anhänge"
   label_attribute: "Attribut"
   label_attribute_plural: "Attribute"
   label_ldap_auth_source_new: "Neue LDAP-Verbindung"
   label_ldap_auth_source: "LDAP-Verbindung"
   label_ldap_auth_source_plural: "LDAP-Verbindungen"
+  label_attribute_expand_text: "Der vollständige Text für '%{attribute}'"
   label_authentication: "Authentifizierung"
   label_available_global_roles: "Verfügbare globale Rollen"
   label_available_project_forums: "Verfügbare Foren"
@@ -1772,6 +1879,7 @@ de:
   label_diff_side_by_side: "nebeneinander"
   label_digital_accessibility: "Erklärung zur digitalen Barrierefreiheit"
   label_disabled: "deaktiviert"
+  label_disabled_uppercase: "Deaktiviert"
   label_display: "Anzeige"
   label_display_per_page: "Pro Seite: %{value}"
   label_display_used_statuses_only: "Zeige nur Status an, die von diesem Typ verwendet werden"
@@ -1798,7 +1906,7 @@ de:
   label_enterprise_support: "Enterprise Support"
   label_enterprise_addon: "Enterprise Add-on"
   label_environment: "Umgebung"
-  label_estimates_and_time: "Schätzungen & Zeiten"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "ist"
   label_everywhere: "überall"
   label_example: "Beispiel"
@@ -1808,6 +1916,7 @@ de:
   label_ifc_model_plural: "IFC-Modelle"
   label_import: "Import"
   label_export_to: "Auch abrufbar als:"
+  label_expand: "Aufklappen"
   label_expanded_click_to_collapse: "Erweitert. Klicken Sie zum Ausblenden"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
@@ -1846,7 +1955,6 @@ de:
   label_subject_or_id: "Titel oder ID"
   label_calendar_subscriptions: "Kalenderabonnements"
   label_identifier: "Kennung"
-  label_impressum: "Impressum"
   label_in: "an"
   label_in_less_than: "in weniger als"
   label_in_more_than: "in mehr als"
@@ -1882,6 +1990,7 @@ de:
   label_latest_revision: "Aktuellste Revision"
   label_latest_revision_plural: "Aktuellste Revisionen"
   label_ldap_authentication: "LDAP-Authentifizierung"
+  label_learn_more: "Mehr erfahren"
   label_less_or_equal: "<="
   label_less_than_ago: "vor weniger als (Tage)"
   label_list: "Liste"
@@ -1906,7 +2015,7 @@ de:
   label_member_new: "Neues Mitglied"
   label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_plural: "Mitglieder"
-  label_membership_plural: "Memberships"
+  label_membership_plural: "Mitgliedschaften"
   lable_membership_added: "Mitglied hinzugefügt"
   lable_membership_updated: "Mitglied aktualisiert"
   label_menu_badge:
@@ -1999,6 +2108,7 @@ de:
   label_precedes: "Vorgänger von"
   label_preferences: "Präferenzen"
   label_preview: "Vorschau"
+  label_preview_not_available: "Vorschau nicht verfügbar"
   label_previous: "Zurück"
   label_previous_week: "Woche zurück"
   label_principal_invite_via_email: " oder Nutzer per E-Mail einladen"
@@ -2006,6 +2116,7 @@ de:
   label_privacy_policy: "Datenschutz- und Sicherheitsrichtlinien"
   label_product_version: "Produktversion"
   label_profile: "Profil"
+  label_percent_complete: "% abgeschlossen"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
   label_project_count: "Gesamtzahl der Projekte"
@@ -2015,7 +2126,11 @@ de:
   label_project_hierarchy: "Projekthierarchie"
   label_project_new: "Neues Projekt"
   label_project_plural: "Projekte"
+  label_project_list_plural: "Projektlisten"
+  label_project_attributes_plural: "Projektattribute"
+  label_project_custom_field_plural: "Projektattribute"
   label_project_settings: "Projektkonfiguration"
+  label_project_attributes_settings: "Einstellungen für Projektattribute"
   label_project_storage_plural: "Dateispeicher"
   label_project_storage_project_folder: "Dateispeicher: Projektordner"
   label_projects_storage_information: "%{count} Projekte verbrauchen insgesamt %{storage} Speicherplatz"
@@ -2038,6 +2153,7 @@ de:
   label_relation_delete: "Beziehung löschen"
   label_relation_new: "Neue Beziehung"
   label_release_notes: "Release Notes"
+  label_remaining_work: "Verbleibender Aufwand"
   label_remove_columns: "Ausgewählte Spalten entfernen"
   label_renamed: "umbenannt"
   label_reply_plural: "Antworten"
@@ -2116,7 +2232,6 @@ de:
   label_type_new: "Neuer Typ"
   label_type_plural: "Typen"
   label_ui: "Nutzeroberfläche"
-  label_update_work_package_done_ratios: "Arbeitspaket-Wert % abgeschlossen aktualisieren"
   label_updated_time: "Vor %{value} aktualisiert"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Von %{author} vor %{age} aktualisiert"
@@ -2171,6 +2286,7 @@ de:
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt anzeigen"
   label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
   label_wiki_start: "Hauptseite"
+  label_work: "Aufwand"
   label_work_package: "Arbeitspaket"
   label_work_package_attachments: "Anhänge des Arbeitspakets"
   label_work_package_category_new: "Neue Kategorie"
@@ -2210,10 +2326,11 @@ de:
     other: "%{count} Projekte"
     zero: "Keine Projekte"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "1 Datei"
+    other: "%{count} Dateien"
+    zero: "keine Dateien"
   label_yesterday: "gestern"
+  label_zen_mode: "Zen-Modus"
   label_role_type: "Typ"
   label_member_role: "Projektrolle"
   label_global_role: "Globale Rolle"
@@ -2287,6 +2404,35 @@ de:
         summary:
           user: "%{user} hat Ihnen ein Arbeitspaket mit %{role_rights} Rechten geteilt"
           group: "%{user} hat ein Arbeitspaket mit der Gruppe %{group} geteilt, in der Sie Mitglied sind"
+    storages:
+      health:
+        plaintext:
+          storage: "Speicherung"
+          healthy:
+            summary: "Gute Nachrichten! Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Gesund“ angezeigt."
+            error-solved-on: "Gelöst am"
+            recommendation: "Wir werden das System weiterhin überwachen, um sicherzustellen, dass es in gutem Zustand bleibt. Im Falle von Unstimmigkeiten werden wir Sie benachrichtigen."
+            details: "Für weitere Einzelheiten oder um notwendige Änderungen vorzunehmen, können Sie Ihre Speicherkonfiguration aufrufen"
+          unhealthy:
+            summary: "Der Status Ihres Speichers, %{storage_name}, wird derzeit als „Fehler“ angezeigt. Wir haben ein Problem festgestellt, das möglicherweise Ihre Aufmerksamkeit erfordert."
+            error-details: "Fehlerdetails"
+            error-message: "Fehlermeldung"
+            error-occurred-on: "Aufgetreten am"
+            recommendation: "Wir empfehlen, die Speicherkonfigurationsseite aufzurufen, um dieses Problem zu lösen"
+            unsubscribe: "Wenn Sie diese Benachrichtigungen nicht mehr erhalten möchten, können Sie sie jederzeit abbestellen. Um sich abzumelden, folgen Sie bitte den Anweisungen auf dieser Seite"
+        email_notification_settings: "Einstellungen für E-Mail-Benachrichtigungen zur Speicherung"
+        see_storage_settings: "Siehe Speicherungseinstellungen"
+        healthy:
+          subject: "Der Speicher „%{name}“ ist jetzt gesund!"
+          solved_at: "gelöst am"
+          summary: "Das Problem mit Ihrer %{storage_name}-Speicherintegration ist nun gelöst"
+        unhealthy:
+          subject: "Der Speicher „%{name}“ ist ungesund!"
+          since: "seit"
+          summary: "Es gibt ein Problem mit Ihrer %{storage_name}-Speicherintegration"
+          troubleshooting:
+            text: "Weitere Informationen finden Sie unter Dateispeicher"
+            link_text: "Dokumentation zur Fehlersuche"
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
@@ -2392,7 +2538,6 @@ de:
   notice_file_not_found: "Die von Ihnen aufgerufene Seite existiert nicht oder ist verschoben worden."
   notice_forced_logout: "Nach %{ttl_time} Minuten Inaktivität wurden Sie automatisch ausgeloggt."
   notice_internal_server_error: "Auf der von Ihnen aufgerufenen Seite ist ein Fehler aufgetreten. Kontaktieren Sie bitte Ihren %{app_title} Administrator, wenn Sie wiederholt Probleme mit dem Aufrufen der Seite haben."
-  notice_work_package_done_ratios_updated: "% vollständig aktualisiert"
   notice_locking_conflict: "Die Informationen wurde zwischenzeitlich von einem anderen Benutzer geändert."
   notice_locking_conflict_additional_information: "Die Änderung(en) wurde(n) durchgeführt von %{users}."
   notice_locking_conflict_reload_page: "Bitte laden Sie die Seite neu, prüfen Sie die Anpassungen und geben Sie Ihre Änderungen noch einmal ein."
@@ -2518,6 +2663,7 @@ de:
   permission_save_queries: "Ansichten speichern"
   permission_search_project: "Projekt suchen"
   permission_select_custom_fields: "Benutzerdefinierte Felder verwalten"
+  permission_select_project_custom_fields: "Projektattribute auswählen"
   permission_select_project_modules: "Projektmodule auswählen"
   permission_share_work_packages: "Arbeitspakete teilen"
   permission_manage_types: "Typen auswählen"
@@ -2566,6 +2712,10 @@ de:
     archive:
       are_you_sure: "Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?"
       archived: "Archiviert"
+    count:
+      zero: "0 Projekte"
+      one: "1 Projekt"
+      other: "%{count} Projekte"
   project_module_activity: "Aktivität"
   project_module_forums: "Foren"
   project_module_work_package_tracking: "Arbeitspakete"
@@ -2585,6 +2735,7 @@ de:
     name_or_identifier: "Name oder Kennung"
     only_subproject_id: "Nur Unterprojekt"
     shared_with_user: "Mit Benutzer geteilt"
+    shared_with_me: "Mit mir geteilt"
     subproject_id: "Einschließlich Unterprojekt"
   repositories:
     at_identifier: "auf %{identifier}"
@@ -2702,6 +2853,9 @@ de:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) erlaubte Origins"
   setting_apiv3_cors_origins_text_html: >
     Wenn CORS aktiviert ist, sind dies die Origins, die auf die OpenProject API zugreifen dürfen. <br/> Bitte überprüfen Sie die <a href="%{origin_link}" target="_blank">Dokumentation über den Origin Header</a>, wie die Werte anzugeben sind.
+  setting_apiv3_write_readonly_attributes: "Schreibzugriff auf schreibgeschützte Attribute"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    Diese Option erlaubt API Administratoren, bei der Erstellung statische schreibgeschützte Attribute wie createdAt und author zu schreiben. <br/> <strong>Warnung:</strong> Diese Einstellung ist z.B. für den Import von Daten nützlich, ermöglicht es aber Administratoren, sich bei der Erstellung von Objekten als andere Benutzer auszugeben. Alle Anfragen werden jedoch immer auch mit dem wahren Autor protokolliert. </br> Weitere Informationen zu Attributen und unterstützten Ressourcen finden Sie unter %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximale API-Seitengröße"
   setting_apiv3_max_page_instructions_html: >
     Legen Sie die maximale Seitengröße fest, mit der die API antworten soll. Es wird nicht möglich sein, API-Anfragen durchzuführen, die mehr Werte auf einer einzelnen Seite zurückgeben. <br/> <strong>Warnung:</strong> Bitte ändern Sie diesen Wert nur, wenn Sie sicher sind, warum Sie ihn benötigen. Die Einstellung auf einen hohen Wert führt zu erheblichen Performance-Auswirkungen, während ein Wert niedriger als die Einstellung "Objekte pro Seite" zu Fehlern in paginierten Ansichten führt.
@@ -2725,8 +2879,8 @@ de:
   setting_app_subtitle: "Applikations-Untertitel"
   setting_app_title: "Applikations-Titel"
   setting_attachment_max_size: "Max. Dateigröße"
-  setting_antivirus_scan_mode: "Scan mode"
-  setting_antivirus_scan_action: "Infected file action"
+  setting_antivirus_scan_mode: "Scanmodus"
+  setting_antivirus_scan_action: "Aktion für infizierte Datei"
   setting_autofetch_changesets: "Automatisches Abrufen von Projektarchiv-Änderungen"
   setting_autologin: "Automatische Anmeldung"
   setting_available_languages: "Verfügbare Sprachen"
@@ -2735,7 +2889,7 @@ de:
   setting_brute_force_block_minutes: "Sperre Benutzer für Dauer von"
   setting_cache_formatted_text: "Formatierten Text im Cache speichern"
   setting_use_wysiwyg_description: "Aktivieren, um den CKEditor5 WYSIWYG-Editor für alle Nutzer zu aktivieren. CKEditor hat aktuell eingeschränkte Formatierungsfunktionen für Markdown."
-  setting_column_options: "Anpassen der Darstellung der Arbeitspaketlisten"
+  setting_column_options: "Standard-Arbeitspaket listet Spalten auf"
   setting_commit_fix_keywords: "Schlüsselwörter (Status)"
   setting_commit_logs_encoding: "Codierung der Commit-Log-Meldungen"
   setting_commit_logtime_activity_id: "Aktivität für die Zeiterfassung"
@@ -2757,18 +2911,18 @@ de:
   setting_emails_header: "E-Mail-Kopfzeile"
   setting_email_login: "E-Mail als Benutzername verwenden"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
-  setting_enabled_projects_columns: "In der Projektliste sichtbar"
+  setting_enabled_projects_columns: "Standardmäßig angezeigte Spalten in einer Projektliste"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_ical_enabled: "iCalendar-Abonnements aktivieren"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"
   setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
-  setting_work_package_done_ratio: "Arbeitspaket-Wert für % abgeschlossen berechnen mit"
-  setting_work_package_done_ratio_field: "Das Arbeitspaket-Feld"
-  setting_work_package_done_ratio_status: "Arbeitspaket-Status"
-  setting_work_package_done_ratio_disabled: "Deaktivieren (Verstecke das % abgeschlossen-Feld)"
-  setting_work_package_list_default_columns: "Standardmäßig anzeigen"
+  setting_work_package_done_ratio: "Fortschrittsberechnung"
+  setting_work_package_done_ratio_field: "Arbeitsbezogen"
+  setting_work_package_done_ratio_status: "Statusbezogen"
+  setting_work_package_done_ratio_explanation_html: >
+    Im <b>aufwandsbezogenen</b> Modus wird % Abgeschlossen durch das Verhältnis zu, Gesamtaufwand berechnet. Im <b>statusbasierten</b> Modus ist mit jedem Status ein fester Wert für % Abgeschlossen verbunden. Wenn Sie den Status ändern, ändert sich dadurch auch das % Abgeschlossen Attribut.
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_projects_export_limit: "Arbeitspakete / Exportlimit für Projekte"
@@ -2827,26 +2981,26 @@ de:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
     antivirus:
-      title: "Virus scanning"
-      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      title: "Virenscan"
+      clamav_ping_failed: "Die Verbindung zum ClamAV-Daemon konnte nicht hergestellt werden. Überprüfen Sie die Konfiguration und versuchen Sie es erneut."
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        Die Virenprüfung wurde deaktiviert. %{file_count} verbleiben in Quarantäne. Um die unter Quarantäne gestellten Dateien zu überprüfen, besuchen Sie bitte diesen Link: %{link}
       remaining_scan_complete_html: >
-        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+        Die verbleibenden Dateien wurden gescannt. Es befinden sich %{file_count} unter Quarantäne. Sie werden zur Quarantäneseite weitergeleitet. Auf dieser Seite können Sie unter Quarantäne gestellte Dateien löschen oder überschreiben.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Die Virenprüfung wurde erfolgreich aktiviert. Es gibt %{file_count} , die bis zum aktuellen Zeitpunkt hochgeladen wurden und noch gescannt werden müssen. Dieser Vorgang wird im Hintergrund ausgeführt. Die Dateien bleiben während des Scans zugänglich.
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "Stellen Sie sicher, dass hochgeladene Dateien in OpenProject auf Viren gescannt werden, bevor sie für andere Benutzer zugänglich sind."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Datei löschen"
+        quarantine: "Datei unter Quarantäne stellen"
         instructions_html: >
-          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+          Wählen Sie die Aktion aus, die für Dateien durchgeführt werden soll, in denen ein Virus erkannt wurde: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Die Datei unter Quarantäne stellen, sodass Benutzer nicht darauf zugreifen können. Administratoren können die unter Quarantäne gestellten Dateien in der Administration überprüfen und löschen.</li> <li><strong>%{delete_option}</strong>: Die Datei sofort löschen.</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
-        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        clamav_socket_html: Geben Sie den Socket für den clamd-Daemon ein, z.B. %{example}
+        clamav_host_html: 'Geben Sie den Hostnamen und den Port des clamd Daemons ein, getrennt durch einen Doppelpunkt. z.B.: %{example}'
         description_html: >
-          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
+          Wählen Sie den Betriebsmodus für die Integration des Antiviren-Scanners aus. <br/> <ul> <li><strong>%{disabled_option}</strong>: Hochgeladene Dateien werden nicht auf Viren gescannt.</li> <li><strong>%{socket_option}</strong>: Sie haben ClamAV auf demselben Server wie OpenProject eingerichtet und der Scan-Daemon clamd läuft im Hintergrund</li> <li><strong>%{host_option}</strong>: Sie streamen Dateien an einen externen Virenscanner.</li> </ul>
     brute_force_prevention: "Automatisches Sperren von Benutzern"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2873,10 +3027,24 @@ de:
       delay_minutes_explanation: "Das Senden von E-Mails kann verzögert werden, damit Benutzer über In-App-Benachrichtigungen benachrichtigt werden können, bevor eine E-Mail versendet wird. Benutzer, die eine Benachrichtigung innerhalb der Anwendung lesen, erhalten keine separate E-Mail."
     other: "Andere"
     passwords: "Passwörter"
+    project_attributes:
+      heading: "Projektattribute"
+      label_new_attribute: "Projektattribut"
+      label_new_section: "Abschnitt"
+      label_edit_section: "Titel bearbeiten"
+      label_section_actions: "Abschnittsoptionen"
+      heading_description: "Diese Projektattribute erscheinen auf der Übersichtsseite eines jeden Projekts. Sie können neue Attribute hinzufügen, sie in Abschnitte gruppieren und sie nach Belieben neu anordnen. Diese Attribute können aktiviert oder deaktiviert werden, aber nicht auf Projektebene neu geordnet werden."
+      label_project_custom_field_actions: "Aktionen für Projektattribute"
+      label_no_project_custom_fields: "In diesem Abschnitt sind keine Projektattribute definiert"
+      edit:
+        description: "Änderungen an diesem Projektattribut werden in allen Projekten übernommen, in denen es aktiviert ist. Erforderliche Attribute können nicht projektweise deaktiviert werden."
+      new:
+        heading: "Neues Attribut"
+        description: "Änderungen an diesem Projektattribut werden in allen Projekten übernommen, in denen es aktiviert ist. Erforderliche Attribute können nicht projektweise deaktiviert werden."
     projects:
       missing_dependencies: "Projektmodul %{module} wurde aktiviert, hängt aber ab von %{dependencies}. Sie müssen diese Module ebenfalls aktivieren."
       section_new_projects: "Einstellungen für neue Projekte"
-      section_project_overview: "Einstellungen für Projektliste"
+      section_project_overview: "Einstellungen für Projektlisten"
     session: "Sitzung"
     user:
       default_preferences: "Standardeinstellungen"
@@ -2905,6 +3073,7 @@ de:
   text_are_you_sure: "Sind Sie sicher?"
   text_are_you_sure_continue: "Sind Sie sicher, dass Sie fortfahren möchten?"
   text_are_you_sure_with_children: "Lösche Aufgabe und alle Unteraufgaben?"
+  text_are_you_sure_with_project_custom_fields: "Wenn Sie dieses Attribut löschen, werden auch dessen Werte in allen Projekten gelöscht. Sind Sie sicher, dass Sie dies tun möchten?"
   text_assign_to_project: "Dem Projekt zuweisen"
   text_form_configuration: >
     Sie können anpassen, welche Felder in den Arbeitspaket-Formularen angezeigt werden. Sie können die Felder entsprechend Ihren Bedürfnissen frei gruppieren.
@@ -3041,6 +3210,12 @@ de:
       Wenn aktiviert, kann ein Nutzer seinen Benutzernamen bei der Registrierung nicht selbst wählen. Stattdessen wird dessen E-Mail-Adresse als Benutzername verwendet. Ein Administrator kann unabhängig davon den Benutzernamen weiterhin ändern.
   queries:
     apply_filter: vorkonfigurierten Filter anwenden
+    configure_view:
+      heading: Ansicht konfigurieren
+      columns:
+        input_label: "Spalten hinzufügen"
+        input_placeholder: "Spalte auswählen"
+        drag_area_label: "Spalten verwalten und neu anordnen"
   top_menu:
     additional_resources: "Weitere Ressourcen"
     getting_started: "Erste Schritte"
@@ -3075,6 +3250,7 @@ de:
     status_user_and_brute_force: "%{user} und %{brute_force}"
     status_change: "Status geändert"
     text_change_disabled_for_provider_login: "Der Name wird von Ihrem Login-Provider gesetzt und kann daher nicht geändert werden."
+    text_change_disabled_for_ldap_login: "Der Name und die E-Mail-Adresse werden über LDAP festgelegt und können daher nicht geändert werden."
     unlock: "Entsperren"
     unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
   version_status_closed: "geschlossen"
@@ -3119,6 +3295,12 @@ de:
     destroy:
       info: "Die Löschung des Arbeitspakets kann nicht rückgängig gemacht werden."
       title: "Arbeitspaket löschen"
+    progress:
+      label_note: "Hinweis:"
+      modal:
+        work_based_help_text: "% Abgeschlossen wird automatisch aus Aufwand und Verbleibender Aufwand abgeleitet."
+        status_based_help_text: "% Abgeschlossen wird durch den Status des Arbeitspakets festgelegt."
+        migration_warning_text: "Im aufwandsbezogenen Modus, kann % Fertig nicht manuell eingegeben werden und ist immer an den Aufwand gebunden. Der vorhandene Wert wurde beibehalten, kann aber nicht bearbeitet werden. Bitte geben Sie zuerst den Wert für Aufwand ein."
     sharing:
       count:
         zero: "0 Benutzer"
@@ -3227,9 +3409,7 @@ de:
         unsupported_context: "Die übergebene Ressource wird nicht als Kontext unterstützt."
         context_object_not_found: "Die als Kontext übergebene Ressource konnte nicht gefunden werden."
       validation:
-        done_ratio: "Der Fortschritt kann nicht gesetzt werden falls es sich um ein Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn er komplett deaktiviert wurde."
         due_date: "Der Endtermin kann für Eltern-Arbeitspakete nicht gesetzt werden."
-        estimated_hours: "Aufwand kann nicht für übergeordnete Arbeitspakete gesetzt werden." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
         start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
       eprops:
@@ -3342,7 +3522,7 @@ de:
       label_request_token: "Token anfordern"
       label_refresh_token: "Token aktualisieren"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 hat einen Fehler zurückgemeldet"
+      oauth_authorization_code_grant_had_errors: "OAuth2 Autorisierung fehlgeschlagen"
       oauth_reported: "OAuth2-Anbieter meldete"
       oauth_returned_error: "OAuth2 hat einen Fehler zurückgemeldet"
       oauth_returned_json_error: "OAuth2 meldet einen JSON-Fehler zurück"

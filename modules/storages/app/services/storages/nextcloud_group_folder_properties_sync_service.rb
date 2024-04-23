@@ -110,13 +110,13 @@ module Storages
 
     def add_user_to_remote_group(user)
       Peripherals::Registry
-        .resolve("commands.nextcloud.add_user_to_group")
+        .resolve("nextcloud.commands.add_user_to_group")
         .call(storage: @storage, user:)
     end
 
     def remove_user_from_remote_group(user)
       Peripherals::Registry
-        .resolve("commands.nextcloud.remove_user_from_group")
+        .resolve("nextcloud.commands.remove_user_from_group")
         .call(storage: @storage, user:)
     end
 
@@ -140,7 +140,7 @@ module Storages
       }
 
       Peripherals::Registry
-        .resolve("commands.nextcloud.set_permissions")
+        .resolve("nextcloud.commands.set_permissions")
         .call(storage: @storage, **command_params)
         .result_or do |error|
         format_and_log_error(error, folder: project_storage.managed_project_folder_path)
@@ -160,7 +160,7 @@ module Storages
     def hide_inactive_folders(remote_folders)
       project_folder_ids = active_project_storages_scope.pluck(:project_folder_id).compact
       remote_folders.except("#{@storage.group_folder}/").each do |(path, attrs)|
-        next if project_folder_ids.include?(attrs['fileid'])
+        next if project_folder_ids.include?(attrs["fileid"])
 
         command_params = {
           path:,
@@ -171,16 +171,16 @@ module Storages
         }
 
         Peripherals::Registry
-          .resolve("commands.nextcloud.set_permissions")
+          .resolve("nextcloud.commands.set_permissions")
           .call(storage: @storage, **command_params)
           .on_failure do |service_result|
-          format_and_log_error(service_result.errors, folder: path, context: 'hide_folder')
+          format_and_log_error(service_result.errors, folder: path, context: "hide_folder")
         end
       end
     end
 
     def ensure_folders_exist(remote_folders)
-      id_folder_map = remote_folders.to_h { |folder, properties| [properties['fileid'], folder] }
+      id_folder_map = remote_folders.to_h { |folder, properties| [properties["fileid"], folder] }
 
       active_project_storages_scope.includes(:project).map do |project_storage|
         next create_folder(project_storage) unless id_folder_map.key?(project_storage.project_folder_id)
@@ -204,14 +204,14 @@ module Storages
 
     def rename_folder(project_storage, current_name)
       Peripherals::Registry
-        .resolve("commands.nextcloud.rename_file")
+        .resolve("nextcloud.commands.rename_file")
         .call(storage: @storage, source: current_name, target: project_storage.managed_project_folder_path)
     end
 
     def create_folder(project_storage)
       folder_path = project_storage.managed_project_folder_path
       Peripherals::Registry
-        .resolve("commands.nextcloud.create_folder")
+        .resolve("nextcloud.commands.create_folder")
         .call(storage: @storage, folder_path:)
         .result_or do |error|
         format_and_log_error(error, folder: folder_path)
@@ -220,7 +220,7 @@ module Storages
       end
 
       folder_id_result = Peripherals::Registry
-                           .resolve('queries.nextcloud.file_ids')
+                           .resolve("nextcloud.queries.file_ids")
                            .call(storage: @storage, path: folder_path)
                            .result_or do |error|
         format_and_log_error(error, path:)
@@ -228,7 +228,7 @@ module Storages
         return ServiceResult.failure(errors: error)
       end
 
-      project_folder_id = folder_id_result.dig(folder_path, 'fileid')
+      project_folder_id = folder_id_result.dig(folder_path, "fileid")
       last_project_folder = ::Storages::LastProjectFolder
                               .find_by(
                                 project_storage_id: project_storage.id,
@@ -254,20 +254,20 @@ module Storages
       }
 
       Peripherals::Registry
-        .resolve("commands.nextcloud.set_permissions")
+        .resolve("nextcloud.commands.set_permissions")
         .call(storage: @storage, **command_params)
     end
 
     ### Base Queries/Commands
     def remote_root_folder_properties
       Peripherals::Registry
-        .resolve("queries.nextcloud.file_ids")
+        .resolve("nextcloud.queries.file_ids")
         .call(storage: @storage, path: @storage.group_folder)
     end
 
     def remote_group_users
       Peripherals::Registry
-        .resolve("queries.nextcloud.group_users")
+        .resolve("nextcloud.queries.group_users")
         .call(storage: @storage, group: @storage.group)
     end
 

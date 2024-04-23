@@ -35,21 +35,21 @@ module Components
     def expect_range(from, to, total)
       within_pagination do
         expect(page)
-          .to have_css('.op-pagination--range', text: "(#{from} - #{to}/#{total})")
+          .to have_css(".op-pagination--range", text: "(#{from} - #{to}/#{total})")
       end
     end
 
     def expect_no_per_page_options
       within_pagination do
         expect(page)
-          .to have_no_css('.op-pagination--options')
+          .to have_no_css(".op-pagination--options")
       end
     end
 
     protected
 
     def within_pagination(&)
-      within('.op-pagination', &)
+      within(".op-pagination", &)
     end
   end
 end

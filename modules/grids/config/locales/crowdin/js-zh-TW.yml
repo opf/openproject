@@ -6,8 +6,9 @@ zh-TW:
       configure: '設定小工具'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        link: '企業版。'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: '自訂文字'
         documents:
@@ -33,7 +34,7 @@ zh-TW:
           title: '專案狀態'
           not_started: '未開始'
           on_track: '進度良好'
-          off_track: '進度脫軌'
+          off_track: '進度落後'
           at_risk: '存在風險'
           not_set: '未設定'
           finished: '已完成'

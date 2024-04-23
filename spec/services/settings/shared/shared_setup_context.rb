@@ -29,9 +29,9 @@
 # ++
 #
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.shared_context 'with update service setup' do
+RSpec.shared_context "with update service setup" do
   let(:instance) do
     described_class.new(user:)
   end
@@ -46,8 +46,8 @@ RSpec.shared_context 'with update service setup' do
     instance_double(Settings::Definition)
   end
   let(:setting_name) { :a_setting_name }
-  let(:new_setting_value) { 'a_new_setting_value' }
-  let(:previous_setting_value) { 'the_previous_setting_value' }
+  let(:new_setting_value) { "a_new_setting_value" }
+  let(:previous_setting_value) { "the_previous_setting_value" }
   let(:params) { { setting_name => new_setting_value } }
 
   before do

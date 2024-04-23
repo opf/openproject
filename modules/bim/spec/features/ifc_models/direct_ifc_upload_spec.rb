@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'ifc_upload_shared_examples'
+require "spec_helper"
+require_relative "ifc_upload_shared_examples"
 
-RSpec.describe 'direct IFC upload', :js, with_config: { edition: 'bim' }, with_direct_uploads: :redirect do
-  it_behaves_like 'can upload an IFC file' do
+RSpec.describe "direct IFC upload", :js, with_config: { edition: "bim" }, with_direct_uploads: :redirect do
+  it_behaves_like "can upload an IFC file" do
     # with direct upload, we don't get the model name
-    let(:model_name) { 'model.ifc' }
+    let(:model_name) { "model.ifc" }
   end
 end

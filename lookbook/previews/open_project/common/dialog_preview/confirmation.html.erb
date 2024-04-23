@@ -1,0 +1,15 @@
+<%= render(Primer::Alpha::Dialog.new(title: dialog_title,
+                                     size: :large,
+                                     id: dialog_id)) do |d| %>
+  <% d.with_show_button { button_text } %>
+
+  <% d.with_header(variant: :large) %>
+  <% d.with_body { message } %>
+
+  <% d.with_footer do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { 'Cancel' } %>
+    <%= form_with(url: 'some_url', method: :post) do %>
+      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { 'Confirm' } %>
+    <% end %>
+  <% end %>
+<% end %>

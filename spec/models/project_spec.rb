@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require File.expand_path('../support/shared/become_member', __dir__)
+require "spec_helper"
+require File.expand_path("../support/shared/become_member", __dir__)
 
 RSpec.describe Project do
   include BecomeMember
@@ -38,48 +38,48 @@ RSpec.describe Project do
   let(:build_project) { build_stubbed(:project, active:) }
   let(:user) { create(:user) }
 
-  describe '#active?' do
-    context 'if active' do
-      it 'is true' do
+  describe "#active?" do
+    context "if active" do
+      it "is true" do
         expect(project).to be_active
       end
     end
 
-    context 'if not active' do
+    context "if not active" do
       let(:active) { false }
 
-      it 'is false' do
+      it "is false" do
         expect(project).not_to be_active
       end
     end
   end
 
-  describe '#archived?' do
+  describe "#archived?" do
     subject { project.archived? }
 
-    context 'if active is true' do
+    context "if active is true" do
       let(:active) { true }
 
       it { is_expected.to be false }
     end
 
-    context 'if active is false' do
+    context "if active is false" do
       let(:active) { false }
 
       it { is_expected.to be true }
     end
   end
 
-  describe '#being_archived?' do
+  describe "#being_archived?" do
     subject { project.being_archived? }
 
-    context 'if active is true' do
+    context "if active is true" do
       let(:active) { true }
 
       it { is_expected.to be false }
     end
 
-    context 'if active was true and changes to false (marking as archived)' do
+    context "if active was true and changes to false (marking as archived)" do
       let(:active) { true }
 
       before do
@@ -89,13 +89,13 @@ RSpec.describe Project do
       it { is_expected.to be true }
     end
 
-    context 'if active is false' do
+    context "if active is false" do
       let(:active) { false }
 
       it { is_expected.to be false }
     end
 
-    context 'if active was false and changes to true (marking as active)' do
+    context "if active was false and changes to true (marking as active)" do
       let(:active) { false }
 
       before do
@@ -106,26 +106,26 @@ RSpec.describe Project do
     end
   end
 
-  context 'when the wiki module is enabled' do
-    let(:project) { create(:project, disable_modules: 'wiki') }
+  context "when the wiki module is enabled" do
+    let(:project) { create(:project, disable_modules: "wiki") }
 
     before do
-      project.enabled_module_names = project.enabled_module_names | ['wiki']
+      project.enabled_module_names = project.enabled_module_names | ["wiki"]
       project.save
       project.reload
     end
 
-    it 'creates a wiki' do
+    it "creates a wiki" do
       expect(project.wiki).to be_present
     end
 
-    it 'creates a wiki menu item named like the default start page' do
+    it "creates a wiki menu item named like the default start page" do
       expect(project.wiki.wiki_menu_items).to be_one
       expect(project.wiki.wiki_menu_items.first.title).to eq(project.wiki.start_page)
     end
   end
 
-  describe '#copy_allowed?' do
+  describe "#copy_allowed?" do
     let(:user) { build_stubbed(:user) }
     let(:project) { build_stubbed(:project) }
     let(:permission_granted) { true }
@@ -138,45 +138,45 @@ RSpec.describe Project do
       login_as(user)
     end
 
-    context 'with copy project permission' do
-      it 'is true' do
+    context "with copy project permission" do
+      it "is true" do
         expect(project).to be_copy_allowed
       end
     end
 
-    context 'without copy project permission' do
+    context "without copy project permission" do
       before { mock_permissions_for(user, &:forbid_everything) }
 
-      it 'is false' do
+      it "is false" do
         expect(project).not_to be_copy_allowed
       end
     end
   end
 
-  describe 'name' do
-    let(:name) { '     Hello    World   ' }
+  describe "name" do
+    let(:name) { "     Hello    World   " }
     let(:project) { described_class.new attributes_for(:project, name:) }
 
-    context 'with white spaces in the name' do
-      it 'trims the name' do
+    context "with white spaces in the name" do
+      it "trims the name" do
         project.save
-        expect(project.name).to eql('Hello World')
+        expect(project.name).to eql("Hello World")
       end
     end
 
-    context 'when updating the name' do
-      it 'persists the update' do
+    context "when updating the name" do
+      it "persists the update" do
         project.save
-        project.name = 'A new name'
+        project.name = "A new name"
         project.save
         project.reload
 
-        expect(project.name).to eql('A new name')
+        expect(project.name).to eql("A new name")
       end
     end
   end
 
-  describe '#types_used_by_work_packages' do
+  describe "#types_used_by_work_packages" do
     let(:project) { create(:project_with_types) }
     let(:type) { project.types.first }
     let(:other_type) { create(:type) }
@@ -184,7 +184,7 @@ RSpec.describe Project do
     let(:other_project) { create(:project, types: [other_type, type]) }
     let(:other_project_work_package) { create(:work_package, type: other_type, project: other_project) }
 
-    it 'returns the type used by a work package of the project' do
+    it "returns the type used by a work package of the project" do
       project_work_package
       other_project_work_package
 
@@ -192,11 +192,11 @@ RSpec.describe Project do
     end
   end
 
-  describe 'Views belonging to queries that belong to the project' do
+  describe "Views belonging to queries that belong to the project" do
     let(:query) { create(:query, project:) }
     let(:view) { create(:view, query:) }
 
-    it 'destroys the views and queries when project gets destroyed' do
+    it "destroys the views and queries when project gets destroyed" do
       view
       project.destroy
 
@@ -205,7 +205,7 @@ RSpec.describe Project do
     end
   end
 
-  describe '#members' do
+  describe "#members" do
     let(:role) { create(:project_role) }
     let(:active_user) { create(:user) }
     let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
@@ -213,17 +213,17 @@ RSpec.describe Project do
     let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
     let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
 
-    it 'only includes active members' do
+    it "only includes active members" do
       expect(project.members)
         .to eq [active_member]
     end
   end
 
-  include_examples 'creates an audit trail on destroy' do
+  include_examples "creates an audit trail on destroy" do
     subject { create(:attachment) }
   end
 
-  describe '#users' do
+  describe "#users" do
     let(:role) { create(:project_role) }
     let(:active_user) { create(:user) }
     let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
@@ -231,19 +231,19 @@ RSpec.describe Project do
     let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
     let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
 
-    it 'only includes active users' do
+    it "only includes active users" do
       expect(project.users)
         .to eq [active_user]
     end
   end
 
-  include_examples 'creates an audit trail on destroy' do
+  include_examples "creates an audit trail on destroy" do
     subject { create(:attachment) }
   end
 
-  describe '#close_completed_versions' do
+  describe "#close_completed_versions" do
     let!(:completed_version) do
-      create(:version, project:, effective_date: Date.parse('2000-01-01')).tap do |v|
+      create(:version, project:, effective_date: Date.parse("2000-01-01")).tap do |v|
         create(:work_package, version: v, status: create(:closed_status))
       end
     end
@@ -253,7 +253,7 @@ RSpec.describe Project do
       end
     end
     let!(:version_with_open_wps) do
-      create(:version, project:, effective_date: Date.parse('2000-01-01')).tap do |v|
+      create(:version, project:, effective_date: Date.parse("2000-01-01")).tap do |v|
         create(:work_package, version: v)
       end
     end
@@ -262,87 +262,87 @@ RSpec.describe Project do
       project.close_completed_versions
     end
 
-    it 'closes the completed version' do
+    it "closes the completed version" do
       expect(completed_version.reload.status)
-        .to eq 'closed'
+        .to eq "closed"
     end
 
-    it 'keeps the version with the not yet reached date open' do
+    it "keeps the version with the not yet reached date open" do
       expect(ineffective_version.reload.status)
-        .to eq 'open'
+        .to eq "open"
     end
 
-    it 'keeps the version with open work packages open' do
+    it "keeps the version with open work packages open" do
       expect(version_with_open_wps.reload.status)
-        .to eq 'open'
+        .to eq "open"
     end
   end
 
-  describe 'hierarchy methods' do
+  describe "hierarchy methods" do
     shared_let(:root_project) { create(:project) }
     shared_let(:parent_project) { create(:project, parent: root_project) }
     shared_let(:child_project1) { create(:project, parent: parent_project) }
     shared_let(:child_project2) { create(:project, parent: parent_project) }
 
-    describe '#parent' do
-      it 'returns the parent' do
+    describe "#parent" do
+      it "returns the parent" do
         expect(parent_project.parent)
           .to eq root_project
       end
     end
 
-    describe '#root' do
-      it 'returns the root of the hierarchy' do
+    describe "#root" do
+      it "returns the root of the hierarchy" do
         expect(child_project1.root)
           .to eq root_project
       end
     end
 
-    describe '#ancestors' do
-      it 'returns the ancestors of the work package' do
+    describe "#ancestors" do
+      it "returns the ancestors of the work package" do
         expect(child_project1.ancestors)
           .to eq [root_project, parent_project]
       end
 
-      it 'returns empty array if there are no ancestors' do
+      it "returns empty array if there are no ancestors" do
         expect(root_project.ancestors)
           .to be_empty
       end
     end
 
-    describe '#descendants' do
-      it 'returns the descendants of the work package' do
+    describe "#descendants" do
+      it "returns the descendants of the work package" do
         expect(root_project.descendants)
           .to contain_exactly(parent_project, child_project1, child_project2)
       end
 
-      it 'returns empty array if there are no descendants' do
+      it "returns empty array if there are no descendants" do
         expect(child_project2.descendants)
           .to be_empty
       end
     end
 
-    describe '#children' do
-      it 'returns the children of the work package' do
+    describe "#children" do
+      it "returns the children of the work package" do
         expect(parent_project.children)
           .to contain_exactly(child_project1, child_project2)
       end
 
-      it 'returns empty array if there are no descendants' do
+      it "returns empty array if there are no descendants" do
         expect(child_project2.children)
           .to be_empty
       end
     end
   end
 
-  describe '#active_subprojects' do
+  describe "#active_subprojects" do
     subject { root_project.active_subprojects }
 
     shared_let(:root_project) { create(:project) }
     shared_let(:parent_project) { create(:project, parent: root_project) }
     shared_let(:child_project1) { create(:project, parent: parent_project) }
 
-    context 'with an archived subproject' do
+    context "with an archived subproject" do
       before do
         child_project1.active = false
         child_project1.save
@@ -351,12 +351,12 @@ RSpec.describe Project do
       it { is_expected.to eq [parent_project] }
     end
 
-    context 'with all active subprojects' do
+    context "with all active subprojects" do
       it { is_expected.to eq [parent_project, child_project1] }
     end
   end
 
-  describe '#rolled_up_types' do
+  describe "#rolled_up_types" do
     let!(:parent) do
       create(:project, types: [parent_type]).tap do |p|
         project.update_attribute(:parent, p)
@@ -377,7 +377,7 @@ RSpec.describe Project do
       end
     end
 
-    it 'includes all types of active projects starting from receiver down to the leaves' do
+    it "includes all types of active projects starting from receiver down to the leaves" do
       project.reload
 
       expect(project.rolled_up_types)
@@ -385,29 +385,29 @@ RSpec.describe Project do
     end
   end
 
-  describe '#enabled_module_names=', with_settings: { default_projects_modules: %w(work_package_tracking repository) } do
-    context 'when assigning a new value' do
+  describe "#enabled_module_names=", with_settings: { default_projects_modules: %w(work_package_tracking repository) } do
+    context "when assigning a new value" do
       let(:new_value) { %w(work_package_tracking news) }
 
       subject do
         project.enabled_module_names = new_value
       end
 
-      it 'sets the value' do
+      it "sets the value" do
         subject
 
         expect(project.reload.enabled_module_names.sort)
           .to eql new_value.sort
       end
 
-      it 'keeps already assigned modules intact (same id)' do
+      it "keeps already assigned modules intact (same id)" do
         expect { subject }
-          .not_to change { project.reload.enabled_modules.find { |em| em.name == 'work_package_tracking' }.id }
+          .not_to change { project.reload.enabled_modules.find { |em| em.name == "work_package_tracking" }.id }
       end
     end
   end
 
-  it_behaves_like 'acts_as_customizable included' do
+  it_behaves_like "acts_as_customizable included" do
     let(:model_instance) { project }
     let(:custom_field) { create(:string_project_custom_field) }
   end

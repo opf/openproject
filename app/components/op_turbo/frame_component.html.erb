@@ -26,6 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<turbo-frame id="<%=turbo_frame_id%>">
-  <%= content %>
-</turbo-frame>
+<% if options[:lazy] == true %>
+  <turbo-frame id="<%=turbo_frame_id%>" src="<%= options[:lazy_source] %>" loading="lazy">
+    <%= content %>
+  </turbo-frame>
+<% else %>
+  <turbo-frame id="<%=turbo_frame_id%>">
+    <%= content %>
+  </turbo-frame>
+<% end %>

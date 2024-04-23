@@ -30,7 +30,7 @@ echo "---------------------------------------"
 echo "Done. Now start the following services"
 echo '- Rails server `RAILS_ENV=development bin/rails server`'
 echo '- Angular CLI: `npm run serve`'
-echo '- Delayed Job worker: `RAILS_ENV=development bin/rails jobs:work`'
+echo '- Good Job worker: `RAILS_ENV=development bundle exec good_job start`'
 echo ""
 echo 'You can also run `bin/dev` to run all the above on a single terminal.'
 echo ""

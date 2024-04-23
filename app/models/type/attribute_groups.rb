@@ -41,11 +41,11 @@ module Type::AttributeGroups
     # May be extended by plugins
     mattr_accessor :default_group_map do
       {
-        author: :people,
         assignee: :people,
         responsible: :people,
         estimated_time: :estimates_and_time,
         remaining_time: :estimates_and_time,
+        percentage_done: :estimates_and_time,
         spent_time: :estimates_and_time,
         priority: :details
       }
@@ -58,7 +58,7 @@ module Type::AttributeGroups
         estimates_and_time: :label_estimates_and_time,
         details: :label_details,
         other: :label_other,
-        children: :'activerecord.attributes.work_package.children'
+        children: :"activerecord.attributes.work_package.children"
       }
     end
   end
@@ -117,6 +117,7 @@ module Type::AttributeGroups
   # the default group map.
   def default_attribute_groups
     values = work_package_attributes_by_default_group_key
+    values.reject! { |k, _| k == :estimates_and_time } if is_milestone?
 
     default_groups.keys.each_with_object([]) do |groupkey, array|
       members = values[groupkey]
@@ -167,9 +168,11 @@ module Type::AttributeGroups
   # it will put them into the other group.
   def work_package_attributes_by_default_group_key
     active_cfs = active_custom_field_attributes
+
     work_package_attributes
       .keys
       .select { |key| default_attribute?(active_cfs, key) }
+      .sort_by { |key| default_group_map.keys.index(key.to_sym) || default_group_map.keys.size }
       .group_by { |key| default_group_key(key.to_sym) }
   end
 

@@ -29,36 +29,20 @@
 #++
 
 FactoryBot.define do
-  factory :storage, class: 'Storages::Storage' do
+  factory :storage, class: "Storages::Storage" do
     sequence(:name) { |n| "Storage #{n}" }
     creator factory: :user
 
-    # rubocop:disable FactoryBot/FactoryAssociationWithStrategy
-    # For some reason the order of saving breaks STI
     trait :with_oauth_client do
-      oauth_client { build(:oauth_client) }
-    end
-    # rubocop:enable FactoryBot/FactoryAssociationWithStrategy
-
-    trait :as_generic do
-      provider_type { 'Storages::Storage' }
+      oauth_client
     end
 
     trait :as_generic do
-      provider_type { 'Storages::Storage' }
+      provider_type { "Storages::Storage" }
     end
-  end
 
-  factory :nextcloud_storage,
-          parent: :storage,
-          class: '::Storages::NextcloudStorage' do
-    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-    sequence(:host) { |n| "https://host#{n}.example.com" }
-
-    trait :as_automatically_managed do
-      automatically_managed { true }
-      username { 'OpenProject' }
-      password { 'Password123' }
+    trait :as_generic do
+      provider_type { "Storages::Storage" }
     end
 
     trait :as_not_automatically_managed do
@@ -66,31 +50,52 @@ FactoryBot.define do
     end
 
     trait :as_healthy do
-      health_status { 'healthy' }
+      health_status { "healthy" }
       health_reason { nil }
       health_changed_at { Time.now.utc }
       health_checked_at { Time.now.utc }
     end
 
     trait :as_unhealthy do
-      health_status { 'unhealthy' }
-      health_reason { 'error_code | description' }
+      health_status { "unhealthy" }
+      health_reason { "error_code | description" }
       health_changed_at { Time.now.utc }
       health_checked_at { Time.now.utc }
     end
 
     trait :as_unhealthy_long_reason do
-      health_status { 'unhealthy' }
-      health_reason { 'unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>' }
+      health_status { "unhealthy" }
+      health_reason { "unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>" }
       health_changed_at { Time.now.utc }
       health_checked_at { Time.now.utc }
     end
 
     trait :as_pending do
-      health_status { 'pending' }
+      health_status { "pending" }
       health_reason { nil }
       health_changed_at { Time.now.utc }
       health_checked_at { Time.now.utc }
+    end
+
+    trait :with_health_notifications_enabled do
+      health_notifications_enabled { true }
+    end
+
+    trait :with_health_notifications_disabled do
+      health_notifications_enabled { false }
+    end
+  end
+
+  factory :nextcloud_storage,
+          parent: :storage,
+          class: "::Storages::NextcloudStorage" do
+    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+    sequence(:host) { |n| "https://host#{n}.example.com" }
+
+    trait :as_automatically_managed do
+      automatically_managed { true }
+      username { "OpenProject" }
+      password { "Password123" }
     end
   end
 
@@ -108,8 +113,8 @@ FactoryBot.define do
       oauth_client_token_user { association :user }
     end
 
-    name { 'Nextcloud Local' }
-    host { 'https://nextcloud.local' }
+    name { "Nextcloud Local" }
+    host { "https://nextcloud.local" }
 
     initialize_with do
       Storages::NextcloudStorage.create_or_find_by(attributes.except(:oauth_client, :oauth_application))
@@ -117,27 +122,27 @@ FactoryBot.define do
 
     after(:create) do |storage, evaluator|
       create(:oauth_client,
-             client_id: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID', 'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID'),
-             client_secret: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET', 'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET'),
+             client_id: ENV.fetch("NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID", "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID"),
+             client_secret: ENV.fetch("NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET", "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET"),
              integration: storage)
 
       create(:oauth_application,
-             uid: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_UID', 'MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_UID'),
-             secret: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_SECRET', 'MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_SECRET'),
-             redirect_uri: ENV.fetch('NEXTCLOUD_LOCAL_OPENPROJECT_REDIRECT_URI',
+             uid: ENV.fetch("NEXTCLOUD_LOCAL_OPENPROJECT_UID", "MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_UID"),
+             secret: ENV.fetch("NEXTCLOUD_LOCAL_OPENPROJECT_SECRET", "MISSING_NEXTCLOUD_LOCAL_OPENPROJECT_SECRET"),
+             redirect_uri: ENV.fetch("NEXTCLOUD_LOCAL_OPENPROJECT_REDIRECT_URI",
                                      "https://nextcloud.local/index.php/apps/integration_openproject/oauth-redirect"),
-             scopes: 'api_v3',
+             scopes: "api_v3",
              integration: storage)
 
       create(:oauth_client_token,
              oauth_client: storage.oauth_client,
              user: evaluator.oauth_client_token_user,
-             access_token: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN',
-                                     'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN'),
-             refresh_token: ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN',
-                                      'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN'),
-             token_type: 'bearer',
-             origin_user_id: 'admin')
+             access_token: ENV.fetch("NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN",
+                                     "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN"),
+             refresh_token: ENV.fetch("NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN",
+                                      "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN"),
+             token_type: "bearer",
+             origin_user_id: "admin")
     end
   end
 
@@ -154,38 +159,44 @@ FactoryBot.define do
 
   factory :one_drive_storage,
           parent: :storage,
-          class: '::Storages::OneDriveStorage' do
+          class: "::Storages::OneDriveStorage" do
     host { nil }
     tenant_id { SecureRandom.uuid }
     drive_id { SecureRandom.uuid }
+
+    trait :as_automatically_managed do
+      automatically_managed { true }
+    end
   end
 
   factory :sharepoint_dev_drive_storage,
           parent: :one_drive_storage do
+    automatically_managed { false }
+
     transient do
       oauth_client_token_user { association :user }
     end
 
-    name { 'Sharepoint VCR drive' }
-    tenant_id { ENV.fetch('ONE_DRIVE_TEST_TENANT_ID', '4d44bf36-9b56-45c0-8807-bbf386dd047f') }
-    drive_id { ENV.fetch('ONE_DRIVE_TEST_DRIVE_ID', 'b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs') }
+    name { "Sharepoint VCR drive" }
+    tenant_id { ENV.fetch("ONE_DRIVE_TEST_TENANT_ID", "4d44bf36-9b56-45c0-8807-bbf386dd047f") }
+    drive_id { ENV.fetch("ONE_DRIVE_TEST_DRIVE_ID", "b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs") }
 
     after(:create) do |storage, evaluator|
       create(:oauth_client,
-             client_id: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_ID', 'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ID'),
-             client_secret: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_SECRET',
-                                      'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_SECRET'),
+             client_id: ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_ID", "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ID"),
+             client_secret: ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_SECRET",
+                                      "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_SECRET"),
              integration: storage)
 
       create(:oauth_client_token,
              oauth_client: storage.oauth_client,
              user: evaluator.oauth_client_token_user,
-             access_token: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN',
-                                     'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN'),
-             refresh_token: ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN',
-                                      'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN'),
-             token_type: 'bearer',
-             origin_user_id: '33db2c84-275d-46af-afb0-c26eb786b194')
+             access_token: ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN",
+                                     "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN"),
+             refresh_token: ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN",
+                                      "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN"),
+             token_type: "bearer",
+             origin_user_id: "33db2c84-275d-46af-afb0-c26eb786b194")
     end
   end
 end

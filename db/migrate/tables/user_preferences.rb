@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::UserPreferences < Tables::Base
   def self.table(migration)
@@ -37,7 +37,7 @@ class Tables::UserPreferences < Tables::Base
       t.string :time_zone
       t.boolean :impaired, default: false
 
-      t.index :user_id, name: 'index_user_preferences_on_user_id'
+      t.index :user_id, name: "index_user_preferences_on_user_id"
     end
   end
 end

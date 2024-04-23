@@ -26,33 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
+RSpec.describe Attachments::FinishDirectUploadJob, "integration", type: :job do
   shared_let(:user) { create(:admin) }
 
   let!(:pending_attachment) do
     create(:attachment,
            author: user,
            status: :prepared,
-           digest: '',
+           digest: "",
            container:)
   end
 
   let(:job) { described_class.new }
 
-  shared_examples_for 'turning pending attachment into a standard attachment' do
+  shared_examples_for "turning pending attachment into a standard attachment" do
     it do
       job.perform(pending_attachment.id)
 
       attachment = Attachment.find(pending_attachment.id)
 
-      expect(attachment.status).to eq 'uploaded'
+      expect(attachment.status).to eq "uploaded"
       expect(attachment.downloads)
         .to be(0)
       # expect to replace the content type with the actual value
       expect(attachment.content_type)
-        .to eql('text/plain')
+        .to eql("text/plain")
       expect(attachment.digest)
         .to eql("9473fdd0d880a43c21b7778d34872157")
     end
@@ -72,11 +72,11 @@ RSpec.describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
     end
   end
 
-  context 'for a journalized container' do
+  context "for a journalized container" do
     let!(:container) { create(:work_package) }
     let!(:container_timestamp) { container.updated_at }
 
-    it_behaves_like 'turning pending attachment into a standard attachment'
+    it_behaves_like "turning pending attachment into a standard attachment"
     it_behaves_like "adding a journal to the attachment in the name of the attachment's author"
 
     it "adds a journal to the container in the name of the attachment's author" do
@@ -99,7 +99,7 @@ RSpec.describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
         .to be 0
     end
 
-    describe 'attachment created event' do
+    describe "attachment created event" do
       let(:attachment_ids) { [] }
 
       let!(:subscription) do
@@ -120,21 +120,21 @@ RSpec.describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
     end
   end
 
-  context 'for a non journalized container' do
+  context "for a non journalized container" do
     let!(:container) { create(:wiki_page) }
 
-    it_behaves_like 'turning pending attachment into a standard attachment'
+    it_behaves_like "turning pending attachment into a standard attachment"
     it_behaves_like "adding a journal to the attachment in the name of the attachment's author"
   end
 
-  context 'for a nil container' do
+  context "for a nil container" do
     let!(:container) { nil }
 
-    it_behaves_like 'turning pending attachment into a standard attachment'
+    it_behaves_like "turning pending attachment into a standard attachment"
     it_behaves_like "adding a journal to the attachment in the name of the attachment's author"
   end
 
-  context 'with an incompatible attachment whitelist',
+  context "with an incompatible attachment whitelist",
           with_settings: { attachment_whitelist: %w[image/png] } do
     let!(:container) { create(:work_package) }
     let!(:container_timestamp) { container.updated_at }
@@ -154,7 +154,7 @@ RSpec.describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
       expect { pending_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    context 'when the job is getting a whitelist override' do
+    context "when the job is getting a whitelist override" do
       it "Does save the attachment" do
         job.perform(pending_attachment.id, whitelist: false)
 
@@ -168,7 +168,7 @@ RSpec.describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
     end
   end
 
-  context 'with the user not being allowed',
+  context "with the user not being allowed",
           with_settings: { attachment_whitelist: %w[image/png] } do
     shared_let(:user) { create(:user) }
     let!(:container) { create(:work_package) }

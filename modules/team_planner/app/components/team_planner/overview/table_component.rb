@@ -34,13 +34,13 @@ module TeamPlanner
       sortable_columns :name, :project_name, :created_at
 
       def initial_sort_correlation
-        ['queries.name', 'asc']
+        ["queries.name", "asc"]
       end
 
       def sortable_columns_correlation
-        super.merge(name: 'queries.name',
-                    project_name: 'projects.name',
-                    created_at: 'queries.created_at')
+        super.merge(name: "queries.name",
+                    project_name: "projects.name",
+                    created_at: "queries.created_at")
       end
 
       def paginated?

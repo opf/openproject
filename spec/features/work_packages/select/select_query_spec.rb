@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'Query selection' do
-  let(:project) { create(:project, identifier: 'test_project', public: false) }
+RSpec.describe "Query selection" do
+  let(:project) { create(:project, identifier: "test_project", public: false) }
   let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:current_user) do
     create(:user, member_with_roles: { project => role })
@@ -43,8 +43,8 @@ RSpec.describe 'Query selection' do
   let(:query) do
     build(:query, project:, public: true).tap do |query|
       query.filters.clear
-      query.add_filter('assigned_to_id', '=', ['me'])
-      query.add_filter('done_ratio', '>=', [10])
+      query.add_filter("assigned_to_id", "=", ["me"])
+      query.add_filter("done_ratio", ">=", [10])
       query.save!
       create(:view_work_packages_table,
              query:)
@@ -61,35 +61,35 @@ RSpec.describe 'Query selection' do
     login_as(current_user)
   end
 
-  context 'default view, without a query selected' do
+  context "default view, without a query selected" do
     before do
       work_packages_page.visit_index
       filters.open
     end
 
-    it 'shows the default (status) filter', :js do
+    it "shows the default (status) filter", :js do
       filters.expect_filter_count 1
-      filters.expect_filter_by 'Status', 'open', nil
+      filters.expect_filter_by "Status", "open", nil
     end
   end
 
-  context 'when a query is selected' do
+  context "when a query is selected" do
     before do
       query
 
       work_packages_page.select_query query
     end
 
-    it 'shows the saved filters', :js do
+    it "shows the saved filters", :js do
       filters.open
-      filters.expect_filter_by 'Assignee', 'is (OR)', ['me']
-      filters.expect_filter_by 'Percent Complete', '>=', ['10'], 'percentageDone'
+      filters.expect_filter_by "Assignee", "is (OR)", ["me"]
+      filters.expect_filter_by "Percent Complete", ">=", ["10"], "percentageDone"
 
-      expect(page).to have_css("#{test_selector('wp-filter-button')} .badge", text: '2')
+      expect(page).to have_css("#{test_selector('wp-filter-button')} .badge", text: "2")
     end
   end
 
-  context 'when the selected query is changed' do
+  context "when the selected query is changed" do
     let(:query2) do
       create(:query_with_view_work_packages_table,
              project:,
@@ -103,10 +103,10 @@ RSpec.describe 'Query selection' do
       work_packages_page.select_query query
     end
 
-    it 'updates the page upon query switching', :js do
+    it "updates the page upon query switching", :js do
       wp_page.expect_title query.name, editable: false
 
-      find('.op-sidemenu--item-action', text: query2.name).click
+      find(".op-sidemenu--item-action", text: query2.name).click
     end
   end
 end

@@ -28,11 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe RootSeeder, 'Storage module' do
-  it 'seeds role permissions for Storages' do
+RSpec.describe RootSeeder, "Storage module" do
+  it "seeds role permissions for Storages" do
     described_class.new.seed_data!
 
     expect(RolePermission.where(permission: :view_file_links).count).to eq 7

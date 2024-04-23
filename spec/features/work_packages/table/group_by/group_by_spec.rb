@@ -28,9 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work Package group by progress', :js do
+RSpec.describe "Work Package group by progress", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:group_by) { Components::WorkPackages::GroupBy.new }
@@ -49,6 +49,6 @@ RSpec.describe 'Work Package group by progress', :js do
 
     # Expect table to be grouped into 1 group
     group_by.expect_number_of_groups 1
-    group_by.expect_grouped_by_value '0%', 3
+    group_by.expect_grouped_by_value "-", 3
   end
 end

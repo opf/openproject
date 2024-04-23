@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/work_packages/abstract_work_package_create'
-require_relative '../../components/bcf_details_viewpoints'
+require "support/pages/page"
+require "support/pages/work_packages/abstract_work_package_create"
+require_relative "../../components/bcf_details_viewpoints"
 
 module Pages
   module BCF
@@ -47,7 +47,7 @@ module Pages
 
       # Override delete viewpoint since we don't have confirm alert
       def delete_viewpoint_at_position(index)
-        page.all('.icon-delete.ngx-gallery-icon-content')[index].click
+        page.all(".icon-delete.ngx-gallery-icon-content")[index].click
       end
 
       def path

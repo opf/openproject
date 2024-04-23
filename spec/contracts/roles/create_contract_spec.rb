@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Roles::CreateContract do
-  it_behaves_like 'roles contract' do
+  it_behaves_like "roles contract" do
     let(:work_package_role) do
       build(:work_package_role) do |r|
         r.name = role_name
@@ -54,21 +54,21 @@ RSpec.describe Roles::CreateContract do
 
     subject(:contract) { described_class.new(role, current_user) }
 
-    describe 'validation' do
-      context 'with the type set manually' do
+    describe "validation" do
+      context "with the type set manually" do
         before do
-          role.type = 'GlobalRole'
+          role.type = "GlobalRole"
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like "is valid"
       end
 
-      context 'with the type set manually to something other than Role or GlobalRole' do
+      context "with the type set manually to something other than Role or GlobalRole" do
         before do
-          role.type = 'MyRole'
+          role.type = "MyRole"
         end
 
-        it 'is invalid' do
+        it "is invalid" do
           # The inclusion is in here twice because:
           # * The contract validates the type (to check that only GlobalRole and ProjectRole are created)
           # * The model validates the type (to check that only Role subclasses are created)

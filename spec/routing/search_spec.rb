@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe SearchController do
-  it 'connects GET /search to search#index' do
-    expect(get('/search')).to route_to(controller: 'search',
-                                       action: 'index')
+  it "connects GET /search to search#index" do
+    expect(get("/search")).to route_to(controller: "search",
+                                       action: "index")
   end
 end

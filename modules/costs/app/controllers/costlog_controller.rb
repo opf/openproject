@@ -37,7 +37,7 @@ class CostlogController < ApplicationController
   def new
     new_default_cost_entry
 
-    render action: 'edit'
+    render action: "edit"
   end
 
   def edit
@@ -57,7 +57,7 @@ class CostlogController < ApplicationController
       flash[:notice] = t(:notice_cost_logged_successfully)
       redirect_back_or_default work_package_path(@cost_entry.work_package)
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
@@ -74,7 +74,7 @@ class CostlogController < ApplicationController
       redirect_back fallback_location: work_package_path(@cost_entry.work_package)
 
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
@@ -85,8 +85,8 @@ class CostlogController < ApplicationController
     @cost_entry.destroy
     flash[:notice] = t(:notice_successful_delete)
 
-    if request.referer.include?('cost_reports')
-      redirect_to controller: '/cost_reports', action: :index
+    if request.referer.include?("cost_reports")
+      redirect_to controller: "/cost_reports", action: :index
     else
       redirect_back fallback_location: work_package_path(@cost_entry.work_package)
     end

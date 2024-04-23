@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :xml_viewpoint, class: 'OpenStruct' do
+  factory :xml_viewpoint, class: "OpenStruct" do
     uuid { SecureRandom.uuid }
     viewpoint_name { "full_viewpoint.bcfv" }
     viewpoint do

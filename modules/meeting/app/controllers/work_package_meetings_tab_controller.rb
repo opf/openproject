@@ -28,6 +28,7 @@
 
 class WorkPackageMeetingsTabController < ApplicationController
   include OpTurbo::ComponentStream
+  include OpTurbo::DialogStreamHelper
   include Meetings::WorkPackageMeetingsTabComponentStreams
 
   before_action :set_work_package
@@ -56,7 +57,7 @@ class WorkPackageMeetingsTabController < ApplicationController
   end
 
   def add_work_package_to_meeting_dialog
-    render(WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.new(work_package: @work_package), layout: false)
+    respond_with_dialog WorkPackageMeetingsTab::AddWorkPackageToMeetingDialogComponent.new(work_package: @work_package)
   end
 
   def add_work_package_to_meeting
@@ -125,9 +126,9 @@ class WorkPackageMeetingsTabController < ApplicationController
         .includes(:meeting)
         .where(meeting_id: Meeting.visible(current_user))
         .where(work_package_id: @work_package.id)
-        .order('meetings.start_time': :asc)
+        .order("meetings.start_time": :asc)
 
-    comparison = direction == :past ? '<' : '>='
+    comparison = direction == :past ? "<" : ">="
     agenda_items.where("meetings.start_time + (interval '1 hour' * meetings.duration) #{comparison} ?", Time.zone.now)
   end
 end

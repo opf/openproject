@@ -35,7 +35,7 @@ module OpenProject
     # Try to find a matching rule to respond with
     # or use the default responder
     def throttled_response(request)
-      rule = active_rules.find { |r| r.rule_name == request.env['rack.attack.matched'] }
+      rule = active_rules.find { |r| r.rule_name == request.env["rack.attack.matched"] }
 
       if rule
         rule.response(request)

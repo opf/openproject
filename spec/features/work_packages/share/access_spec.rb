@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Shared Work Package Access',
+RSpec.describe "Shared Work Package Access",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
   shared_let(:project) { create(:project_with_types) }
-  shared_let(:work_package) { create(:work_package, project:, journal_notes: 'Hello!') }
+  shared_let(:work_package) { create(:work_package, project:, journal_notes: "Hello!") }
   shared_let(:sharer) { create(:admin) }
-  shared_let(:shared_with_user) { create(:user, firstname: 'Mean', lastname: 'Turkey') }
+  shared_let(:shared_with_user) { create(:user, firstname: "Mean", lastname: "Turkey") }
 
   shared_let(:viewer_role) { create(:view_work_package_role) }
   shared_let(:commenter_role) { create(:comment_work_package_role) }
@@ -47,8 +47,8 @@ RSpec.describe 'Shared Work Package Access',
   let(:work_packages_page) { Pages::WorkPackagesTable.new(project) }
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
-  let(:add_comment_button_selector) { '.work-packages--activity--add-comment' }
-  let(:attach_files_button_selector) { 'op-attachments--upload-button' }
+  let(:add_comment_button_selector) { ".work-packages--activity--add-comment" }
+  let(:attach_files_button_selector) { "op-attachments--upload-button" }
 
   specify "'View' role share access" do
     using_session "sharer" do
@@ -59,17 +59,17 @@ RSpec.describe 'Shared Work Package Access',
       work_package_page.click_share_button
       share_modal.expect_open
 
-      share_modal.invite_user!(shared_with_user, 'View')
+      share_modal.invite_user!(shared_with_user, "View")
 
       share_modal.close
 
       # Shared-with users with the "View" role CAN'T become assignees
       assignee_field = work_package_page.edit_field(:assignee)
       assignee_field.activate!
-      results = assignee_field.autocomplete('Mean Turkey', select: false)
+      results = assignee_field.autocomplete("Mean Turkey", select: false)
       wait_for_network_idle
       expect(results)
-        .to have_no_css('.ng-option', text: 'Mean Turkey', wait: 0)
+        .to have_no_css(".ng-option", text: "Mean Turkey", wait: 0)
       assignee_field.cancel_by_escape
     end
 
@@ -90,7 +90,7 @@ RSpec.describe 'Shared Work Package Access',
       #
       # Work Package is now visible
       project_page.within_sidebar do
-        click_link(I18n.t('label_work_package_plural'))
+        click_link(I18n.t("label_work_package_plural"))
       end
       work_packages_page.expect_work_package_listed(work_package)
       work_package_page.visit!
@@ -100,7 +100,7 @@ RSpec.describe 'Shared Work Package Access',
       %i[type subject description
          assignee responsible
          estimatedTime remainingTime
-         combinedDate percentageDone category version
+         combinedDate category version
          overallCosts laborCosts].each do |field|
         work_package_page.edit_field(field).expect_read_only
       end
@@ -113,8 +113,8 @@ RSpec.describe 'Shared Work Package Access',
       end
 
       # And so is viewing and uploading attachments
-      work_package_page.switch_to_tab(tab: 'Files')
-      work_package_page.expect_tab('Files')
+      work_package_page.switch_to_tab(tab: "Files")
+      work_package_page.expect_tab("Files")
       work_package_page.within_active_tab do
         expect(page)
           .not_to have_test_selector(attach_files_button_selector)
@@ -131,7 +131,7 @@ RSpec.describe 'Shared Work Package Access',
       work_package_page.click_share_button
       share_modal.expect_open
 
-      share_modal.invite_user!(shared_with_user, 'Comment')
+      share_modal.invite_user!(shared_with_user, "Comment")
       share_modal.close
 
       # TODO: This is currently expected failing behavior.
@@ -164,7 +164,7 @@ RSpec.describe 'Shared Work Package Access',
       #
       # Work Package is now visible
       project_page.within_sidebar do
-        click_link(I18n.t('label_work_package_plural'))
+        click_link(I18n.t("label_work_package_plural"))
       end
       work_packages_page.expect_work_package_listed(work_package)
       work_package_page.visit!
@@ -174,13 +174,13 @@ RSpec.describe 'Shared Work Package Access',
       %i[type subject description
          assignee responsible
          estimatedTime remainingTime
-         combinedDate percentageDone category version
+         combinedDate category version
          overallCosts laborCosts].each do |field|
         work_package_page.edit_field(field).expect_read_only
       end
 
       # Spent time is visible and loggable
-      SpentTimeEditField.new(page, 'spentTime')
+      SpentTimeEditField.new(page, "spentTime")
                         .time_log_icon_visible(true)
 
       work_package_page.ensure_page_loaded # waits for activity section to be ready
@@ -191,8 +191,8 @@ RSpec.describe 'Shared Work Package Access',
       end
 
       # Attachments are uploadable
-      work_package_page.switch_to_tab(tab: 'Files')
-      work_package_page.expect_tab('Files')
+      work_package_page.switch_to_tab(tab: "Files")
+      work_package_page.expect_tab("Files")
       work_package_page.within_active_tab do
         expect(page)
           .to have_test_selector(attach_files_button_selector)
@@ -209,7 +209,7 @@ RSpec.describe 'Shared Work Package Access',
       work_package_page.click_share_button
       share_modal.expect_open
 
-      share_modal.invite_user!(shared_with_user, 'Edit')
+      share_modal.invite_user!(shared_with_user, "Edit")
 
       share_modal.close
 
@@ -243,7 +243,7 @@ RSpec.describe 'Shared Work Package Access',
       #
       # Work Package is now visible
       project_page.within_sidebar do
-        click_link(I18n.t('label_work_package_plural'))
+        click_link(I18n.t("label_work_package_plural"))
       end
       work_packages_page.expect_work_package_listed(work_package)
       work_package_page.visit!
@@ -253,7 +253,7 @@ RSpec.describe 'Shared Work Package Access',
       %i[type subject description
          assignee responsible
          estimatedTime remainingTime
-         combinedDate percentageDone category].each do |field|
+         combinedDate category].each do |field|
         expect(work_package_page.edit_field(field))
           .to be_editable
       end
@@ -264,7 +264,7 @@ RSpec.describe 'Shared Work Package Access',
       end
 
       # Spent time is visible and loggable
-      SpentTimeEditField.new(page, 'spentTime')
+      SpentTimeEditField.new(page, "spentTime")
                         .time_log_icon_visible(true)
 
       work_package_page.ensure_page_loaded # waits for activity section to be ready
@@ -275,8 +275,8 @@ RSpec.describe 'Shared Work Package Access',
       end
 
       # Attachments are uploadable
-      work_package_page.switch_to_tab(tab: 'Files')
-      work_package_page.expect_tab('Files')
+      work_package_page.switch_to_tab(tab: "Files")
+      work_package_page.expect_tab("Files")
       work_package_page.within_active_tab do
         expect(page)
           .to have_test_selector(attach_files_button_selector)

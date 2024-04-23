@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rubocop/cop/open_project/use_service_result_factory_methods'
+require "spec_helper"
+require "rubocop/cop/open_project/use_service_result_factory_methods"
 
 RSpec.describe RuboCop::Cop::OpenProject::UseServiceResultFactoryMethods do
   include RuboCop::RSpec::ExpectOffense
-  include_context 'config'
+  include_context "config"
 
-  it 'registers an offense for ServiceResult.new without any success: argument' do
+  it "registers an offense for ServiceResult.new without any success: argument" do
     expect_offense(<<~RUBY)
       ServiceResult.new
                     ^^^ Use ServiceResult.failure instead of ServiceResult.new.
@@ -47,24 +47,24 @@ RSpec.describe RuboCop::Cop::OpenProject::UseServiceResultFactoryMethods do
     RUBY
   end
 
-  it 'allows ServiceResult.new(success: some_value) (no explicit true/false value)' do
-    expect_no_offenses('ServiceResult.new(success: some_value)')
+  it "allows ServiceResult.new(success: some_value) (no explicit true/false value)" do
+    expect_no_offenses("ServiceResult.new(success: some_value)")
     expect_no_offenses('ServiceResult.new(foo: "bar", success: some_value, bar: "baz")')
   end
 
-  it 'allows ServiceResult.new(**kw) (no explicit true/false value)' do
-    expect_no_offenses('ServiceResult.new(**kw)')
+  it "allows ServiceResult.new(**kw) (no explicit true/false value)" do
+    expect_no_offenses("ServiceResult.new(**kw)")
     expect_no_offenses('ServiceResult.new(foo: "bar", **kw)')
     expect_no_offenses('ServiceResult.new(**kw, foo: "bar")')
   end
 
-  include_context 'ruby 3.1' do
-    it 'allows ServiceResult.new(success:) (no explicit true/false value)' do
-      expect_no_offenses('ServiceResult.new(success:)')
+  include_context "ruby 3.1" do
+    it "allows ServiceResult.new(success:) (no explicit true/false value)" do
+      expect_no_offenses("ServiceResult.new(success:)")
       expect_no_offenses('ServiceResult.new(foo: "bar", success:, bar: "baz")')
     end
 
-    it 'allows ServiceResult.new(...) (no explicit true/false value)' do
+    it "allows ServiceResult.new(...) (no explicit true/false value)" do
       expect_no_offenses(<<~RUBY)
         def call(...)
           ServiceResult.new(...)
@@ -73,7 +73,7 @@ RSpec.describe RuboCop::Cop::OpenProject::UseServiceResultFactoryMethods do
     end
   end
 
-  it 'registers an offense for ServiceResult.new(success: true) with no additional args' do
+  it "registers an offense for ServiceResult.new(success: true) with no additional args" do
     expect_offense(<<~RUBY)
       ServiceResult.new(success: true)
                         ^^^^^^^^^^^^^ Use ServiceResult.success(...) instead of ServiceResult.new(success: true, ...).
@@ -84,7 +84,7 @@ RSpec.describe RuboCop::Cop::OpenProject::UseServiceResultFactoryMethods do
     RUBY
   end
 
-  it 'registers an offense for ServiceResult.new(success: true) with additional args' do
+  it "registers an offense for ServiceResult.new(success: true) with additional args" do
     expect_offense(<<~RUBY)
       ServiceResult.new(success: true,
                         ^^^^^^^^^^^^^ Use ServiceResult.success(...) instead of ServiceResult.new(success: true, ...).
@@ -100,7 +100,7 @@ RSpec.describe RuboCop::Cop::OpenProject::UseServiceResultFactoryMethods do
     RUBY
   end
 
-  it 'registers an offense for ServiceResult.new(success: false) with no additional args' do
+  it "registers an offense for ServiceResult.new(success: false) with no additional args" do
     expect_offense(<<~RUBY)
       ServiceResult.new(success: false)
                         ^^^^^^^^^^^^^^ Use ServiceResult.failure(...) instead of ServiceResult.new(success: false, ...).
@@ -114,7 +114,7 @@ RSpec.describe RuboCop::Cop::OpenProject::UseServiceResultFactoryMethods do
     RUBY
   end
 
-  it 'registers an offense for ServiceResult.new(success: false) with additional args' do
+  it "registers an offense for ServiceResult.new(success: false) with additional args" do
     expect_offense(<<~RUBY)
       ServiceResult.new(success: false,
                         ^^^^^^^^^^^^^^ Use ServiceResult.failure(...) instead of ServiceResult.new(success: false, ...).
@@ -130,7 +130,7 @@ RSpec.describe RuboCop::Cop::OpenProject::UseServiceResultFactoryMethods do
     RUBY
   end
 
-  it 'registers an offense for ServiceResult.new(success: true/false) with splat kwargs' do
+  it "registers an offense for ServiceResult.new(success: true/false) with splat kwargs" do
     expect_offense(<<~RUBY)
       ServiceResult.new(success: true, **kw)
                         ^^^^^^^^^^^^^ Use ServiceResult.success(...) instead of ServiceResult.new(success: true, ...).

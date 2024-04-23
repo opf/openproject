@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :day, class: 'Day' do
+  factory :day, class: "Day" do
     sequence :date do |n|
       (1.year.ago + n.days).to_date
     end

@@ -25,11 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'services/work_packages/shared/shared_examples_days'
+require "spec_helper"
+require "services/work_packages/shared/shared_examples_days"
 
 RSpec.describe API::V3::Days::NonWorkingDaysAPI,
-               'index',
+               "index",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -42,18 +42,18 @@ RSpec.describe API::V3::Days::NonWorkingDaysAPI,
     get api_v3_paths.path_for :days_non_working, filters:
   end
 
-  context 'for an admin user', :non_working_days_from_this_and_next_year do
+  context "for an admin user", :non_working_days_from_this_and_next_year do
     let(:user) { build(:admin) }
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'NonWorkingDay'
+    it_behaves_like "API V3 collection response", 2, 2, "NonWorkingDay"
 
-    context 'when filtering by date' do
+    context "when filtering by date" do
       let(:filters) do
-        [{ date: { operator: '<>d',
+        [{ date: { operator: "<>d",
                    values: [first_of_may.date.beginning_of_month.iso8601, new_year_day.date.iso8601] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'NonWorkingDay'
+      it_behaves_like "API V3 collection response", 3, 3, "NonWorkingDay"
     end
   end
 end

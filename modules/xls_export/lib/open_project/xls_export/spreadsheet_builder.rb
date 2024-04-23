@@ -1,4 +1,4 @@
-require 'spreadsheet'
+require "spreadsheet"
 
 # A simple convenience class that wraps some of the spreadsheet
 # gem's functionality. It's designed to build spreadsheets incrementally
@@ -17,7 +17,7 @@ module OpenProject::XlsExport
     Worksheet = Struct.new(:sheet, :column_widths) unless defined? Worksheet
 
     def initialize(name = nil)
-      Spreadsheet.client_encoding = 'UTF-8'
+      Spreadsheet.client_encoding = "UTF-8"
       @xls = Spreadsheet::Workbook.new
       @worksheets = []
       worksheet(0, name)
@@ -53,7 +53,7 @@ module OpenProject::XlsExport
 
     # Get the approximate width of a value as seen in the excel sheet
     def get_value_width(value)
-      if ['Time', 'Date'].include?(value.class.name) && !(value.to_s.length < 18)
+      if ["Time", "Date"].include?(value.class.name) && !(value.to_s.length < 18)
         return 18
       end
 
@@ -61,11 +61,11 @@ module OpenProject::XlsExport
       idx = 0
       value.to_s.each_char do |c|
         case c
-        when '0'..'9'
+        when "0".."9"
           tot_w[idx] += 1.2
-        when '.', ';', ':', ',', ' ', 'i', 'I', 'j', 'J', '(', ')', '[', ']', '!', '-', 't', 'l'
+        when ".", ";", ":", ",", " ", "i", "I", "j", "J", "(", ")", "[", "]", "!", "-", "t", "l"
           tot_w[idx] += 0.7
-        when 'W', 'M', 'D'
+        when "W", "M", "D"
           tot_w[idx] += 1.2
         when "\n"
           idx = idx + 1
@@ -215,11 +215,11 @@ module OpenProject::XlsExport
     end
 
     def currency_sign
-      Setting.plugin_costs['costs_currency']
+      Setting.plugin_costs["costs_currency"]
     end
 
     def escaped_worksheet_name(name)
-      name.gsub!(/[\/\\*\[\]:?]/, '#')
+      name.gsub!(/[\/\\*\[\]:?]/, "#")
       name = name[0, [name.length, 27].min] + "..." if name.length > 31
 
       name

@@ -30,14 +30,14 @@
 
 module RuboCop::Cop::OpenProject
   class AddPreviewForViewComponent < RuboCop::Cop::Base
-    COMPONENT_PATH = '/app/components/'
-    PREVIEW_PATH = '/lookbook/previews/'
+    COMPONENT_PATH = "/app/components/"
+    PREVIEW_PATH = "/lookbook/previews/"
 
     def on_class(node)
       path = node.loc.expression.source_buffer.name
-      return unless path.include?(COMPONENT_PATH) && path.end_with?('.rb')
+      return unless path.include?(COMPONENT_PATH) && path.end_with?(".rb")
 
-      preview_path = path.sub(COMPONENT_PATH, PREVIEW_PATH).sub('.rb', '_preview.rb')
+      preview_path = path.sub(COMPONENT_PATH, PREVIEW_PATH).sub(".rb", "_preview.rb")
 
       unless File.exist?(preview_path)
         message = "Missing Lookbook preview for #{path}. Expected preview to exist at #{preview_path}."

@@ -63,7 +63,7 @@ module Grids::Copy
 
     # Provide a human readable name for the widget
     def widget_model_name(widget)
-      I18n.t('grids.label_widget_in_grid', grid_name: widget.grid.to_s)
+      I18n.t("grids.label_widget_in_grid", grid_name: widget.grid.to_s)
     end
 
     def map_references(widget, params)

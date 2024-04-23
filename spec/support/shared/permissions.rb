@@ -28,10 +28,10 @@
 
 module PermissionSpecHelpers
   def spec_permissions(test_denied = true)
-    describe 'w/ valid auth' do
+    describe "w/ valid auth" do
       before { allow(User).to receive(:current).and_return valid_user }
 
-      it 'grants access' do
+      it "grants access" do
         fetch
 
         if respond_to? :expect_redirect_to
@@ -54,10 +54,10 @@ module PermissionSpecHelpers
     end
 
     if test_denied
-      describe 'w/o valid auth' do
+      describe "w/o valid auth" do
         before { allow(User).to receive(:current).and_return invalid_user }
 
-        it 'denies access' do
+        it "denies access" do
           fetch
 
           if invalid_user.logged?
@@ -74,14 +74,14 @@ module PermissionSpecHelpers
   end
 end
 
-RSpec.shared_context 'a controller action with unrestricted access' do
+RSpec.shared_context "a controller action with unrestricted access" do
   let(:valid_user) { create(:anonymous) }
 
   extend PermissionSpecHelpers
   spec_permissions(false)
 end
 
-RSpec.shared_context 'a controller action with require_login' do
+RSpec.shared_context "a controller action with require_login" do
   let(:valid_user)   { create(:user) }
   let(:invalid_user) { create(:anonymous) }
 
@@ -89,7 +89,7 @@ RSpec.shared_context 'a controller action with require_login' do
   spec_permissions
 end
 
-RSpec.shared_context 'a controller action with require_admin' do
+RSpec.shared_context "a controller action with require_admin" do
   let(:valid_user)   { User.where(admin: true).first || create(:admin) }
   let(:invalid_user) { create(:user) }
 
@@ -97,7 +97,7 @@ RSpec.shared_context 'a controller action with require_admin' do
   spec_permissions
 end
 
-RSpec.shared_context 'a controller action which needs project permissions' do
+RSpec.shared_context "a controller action which needs project permissions" do
   # Expecting the following environment
   #
   # let(:project) { create(:project) }

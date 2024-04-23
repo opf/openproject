@@ -35,7 +35,7 @@ class Exports::CleanupOutdatedJob < ApplicationJob
 
   def perform
     Export
-      .where('created_at <= ?', Time.current - OpenProject::Configuration.attachments_grace_period.minutes)
+      .where("created_at <= ?", Time.current - OpenProject::Configuration.attachments_grace_period.minutes)
       .destroy_all
   end
 end

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/assets'
+require "open_project/assets"
 
 # The ng build task must run before assets:environment task.
 # Otherwise Sprockets cannot find the files that webpack produces.
-Rake::Task['assets:precompile']
+Rake::Task["assets:precompile"]
   .clear_prerequisites
   .enhance(%w[assets:compile_environment assets:prepare_op])
 
@@ -38,37 +38,37 @@ namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
   task compile_environment: :prepare_op do
     # Turn the yarn:install task into a noop.
-    Rake::Task['yarn:install']
+    Rake::Task["yarn:install"]
       .clear
 
-    Rake::Task['assets:environment'].invoke
+    Rake::Task["assets:environment"].invoke
   end
 
-  desc 'Prepare locales and angular assets'
+  desc "Prepare locales and angular assets"
   task prepare_op: %i[export_locales angular]
 
-  desc 'Compile assets with webpack'
+  desc "Compile assets with webpack"
   task :angular do
     # We skip angular compilation if backend was requested
     # but frontend was not explicitly set
-    if ENV['RECOMPILE_RAILS_ASSETS'] == 'true' && ENV['RECOMPILE_ANGULAR_ASSETS'] != 'true'
+    if ENV["RECOMPILE_RAILS_ASSETS"] == "true" && ENV["RECOMPILE_ANGULAR_ASSETS"] != "true"
       next
     end
 
     OpenProject::Assets.clear!
 
     puts "Linking frontend plugins"
-    Rake::Task['openproject:plugins:register_frontend'].invoke
+    Rake::Task["openproject:plugins:register_frontend"].invoke
 
     puts "Building angular frontend"
-    Dir.chdir Rails.root.join('frontend') do
+    Dir.chdir Rails.root.join("frontend") do
       cmd =
-        if ENV['CI']
-          'npm run build:ci'
-        elsif ENV['OPENPROJECT_ANGULAR_UGLIFY'] == 'false'
-          'npm run build:fast'
+        if ENV["CI"]
+          "npm run build:ci"
+        elsif ENV["OPENPROJECT_ANGULAR_UGLIFY"] == "false"
+          "npm run build:fast"
         else
-          'npm run build'
+          "npm run build"
         end
 
       sh(cmd) do |ok, res|
@@ -76,20 +76,20 @@ namespace :assets do
       end
     end
 
-    Rake::Task['assets:rebuild_manifest'].invoke
+    Rake::Task["assets:rebuild_manifest"].invoke
   end
 
-  desc 'Write angular assets manifest'
+  desc "Write angular assets manifest"
   task :rebuild_manifest do
     puts "Writing angular assets manifest"
     OpenProject::Assets.rebuild_manifest!
   end
 
-  desc 'Export frontend locale files'
+  desc "Export frontend locale files"
   task export_locales: :environment do
     puts "Exporting I18n.js locales"
     time = Benchmark.realtime do
-      I18nJS.call(config_file: Rails.root.join('config/i18n.yml'))
+      I18nJS.call(config_file: Rails.root.join("config/i18n.yml"))
     end
     puts "=> Done in #{time.round(2)}s"
   end

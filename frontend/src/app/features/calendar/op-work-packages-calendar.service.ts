@@ -61,6 +61,7 @@ import { OpCalendarService } from 'core-app/features/calendar/op-calendar.servic
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { IDay } from 'core-app/core/state/days/day.model';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
+import allLocales from '@fullcalendar/core/locales-all';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -341,6 +342,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   private defaultOptions():CalendarOptionsWithDayGrid {
     return {
       editable: false,
+      locales: allLocales,
       locale: this.I18n.locale,
       fixedWeekCount: false,
       firstDay: this.configuration.startOfWeek(),

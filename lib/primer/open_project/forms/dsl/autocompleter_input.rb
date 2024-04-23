@@ -5,7 +5,7 @@ module Primer
     module Forms
       module Dsl
         class AutocompleterInput < Primer::Forms::Dsl::Input
-          attr_reader :name, :label, :autocomplete_options, :select_options
+          attr_reader :name, :label, :autocomplete_options, :select_options, :wrapper_data_attributes
 
           class Option
             attr_reader :label, :value, :selected
@@ -25,10 +25,11 @@ module Primer
             end
           end
 
-          def initialize(name:, label:, autocomplete_options:, **system_arguments)
+          def initialize(name:, label:, autocomplete_options:, wrapper_data_attributes: {}, **system_arguments)
             @name = name
             @label = label
             @autocomplete_options = autocomplete_options
+            @wrapper_data_attributes = wrapper_data_attributes
             @select_options = []
 
             super(**system_arguments)
@@ -41,7 +42,7 @@ module Primer
           end
 
           def to_component
-            Autocompleter.new(input: self, autocomplete_options:)
+            Autocompleter.new(input: self, autocomplete_options:, wrapper_data_attributes:)
           end
 
           def type

@@ -28,32 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Principal do
   let(:user) { build(:user) }
   let(:group) { build(:group) }
 
   def self.should_return_groups_and_users_if_active(method, *)
-    it 'returns a user' do
+    it "returns a user" do
       user.save!
 
       expect(described_class.send(method, *).where(id: user.id)).to eq([user])
     end
 
-    it 'returns a group' do
+    it "returns a group" do
       group.save!
 
       expect(described_class.send(method, *).where(id: group.id)).to eq([group])
     end
 
-    it 'does not return the anonymous user' do
+    it "does not return the anonymous user" do
       User.anonymous
 
       expect(described_class.send(method, *).where(id: user.id)).to eq([])
     end
 
-    it 'does not return an inactive user' do
+    it "does not return an inactive user" do
       user.status = User.statuses[:locked]
 
       user.save!
@@ -62,16 +62,16 @@ RSpec.describe Principal do
     end
   end
 
-  describe 'associations' do
+  describe "associations" do
     subject { described_class.new }
 
     it { is_expected.to have_many(:work_package_shares).conditions(entity_type: WorkPackage.name) }
   end
 
-  describe 'active' do
+  describe "active" do
     should_return_groups_and_users_if_active(:active)
 
-    it 'does not return a registered user' do
+    it "does not return a registered user" do
       user.status = User.statuses[:registered]
 
       user.save!
@@ -80,10 +80,10 @@ RSpec.describe Principal do
     end
   end
 
-  describe 'not_locked' do
+  describe "not_locked" do
     should_return_groups_and_users_if_active(:not_locked)
 
-    it 'returns a registered user' do
+    it "returns a registered user" do
       user.status = User.statuses[:registered]
 
       user.save!
@@ -92,7 +92,7 @@ RSpec.describe Principal do
     end
   end
 
-  describe '.memberships' do
+  describe ".memberships" do
     let(:project_role) { create(:project_role) }
     let(:global_role) { create(:global_role) }
     let(:work_package_role) { create(:view_work_package_role) }
@@ -123,7 +123,7 @@ RSpec.describe Principal do
              roles: [work_package_role])
     end
 
-    it 'returns all active projects and global members' do
+    it "returns all active projects and global members" do
       expect(user.memberships)
         .to contain_exactly(active_project_member, global_member)
     end

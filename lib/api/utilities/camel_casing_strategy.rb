@@ -41,7 +41,7 @@ module API
       private
 
       def to_camel_case(string)
-        return string if string.first == '_'
+        return string if string.first == "_"
 
         string.camelize(:lower)
       end

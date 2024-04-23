@@ -28,15 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require_relative '../support/pages/calendar'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "../support/pages/calendar"
+require_relative "shared_context"
 
-RSpec.describe 'Calendar',
-               'Creating a view from a Global Context',
+RSpec.describe "Calendar",
+               "Creating a view from a Global Context",
                :js,
                :with_cuprite do
-  include_context 'with calendar full access'
+  include_context "with calendar full access"
 
   let(:calendars_page) { Pages::Calendar.new nil }
 
@@ -44,29 +44,29 @@ RSpec.describe 'Calendar',
     login_as user
   end
 
-  context 'within the global index page' do
+  context "within the global index page" do
     before do
       visit calendars_path
     end
 
-    context 'when clicking on the create button' do
+    context "when clicking on the create button" do
       before do
         calendars_page.click_on_create_button
       end
 
-      it 'navigates to the global create form' do
+      it "navigates to the global create form" do
         expect(page).to have_current_path new_calendar_path
         expect(page).to have_content I18n.t(:label_new_calendar)
       end
     end
   end
 
-  context 'within the global create page' do
+  context "within the global create page" do
     before do
       visit new_calendar_path
     end
 
-    context 'with all fields set' do
+    context "with all fields set" do
       before do
         wait_for_reload # Halt until the project autocompleter is ready
 
@@ -79,15 +79,15 @@ RSpec.describe 'Calendar',
         wait_for_reload
       end
 
-      it 'creates a view and redirects me to it' do
+      it "creates a view and redirects me to it" do
         expect(page).to have_text(I18n.t(:notice_successful_create))
         expect(page).to have_current_path(project_calendar_path(project, Query.last), ignore_query: true)
         expect(page).to have_text("Batman's Itinerary")
       end
     end
 
-    context 'when missing a required field' do
-      describe 'title' do
+    context "when missing a required field" do
+      describe "title" do
         before do
           wait_for_reload # Halt until the project autocompleter is ready
 
@@ -95,7 +95,7 @@ RSpec.describe 'Calendar',
           calendars_page.click_on_submit
         end
 
-        it 'renders a required attribute validation error' do
+        it "renders a required attribute validation error" do
           expect(Query.all).to be_empty
 
           # Required HTML attribute just warns
@@ -103,7 +103,7 @@ RSpec.describe 'Calendar',
         end
       end
 
-      describe 'project_id' do
+      describe "project_id" do
         before do
           calendars_page.set_title("Batman's Itinerary")
           calendars_page.click_on_submit
@@ -111,7 +111,7 @@ RSpec.describe 'Calendar',
           wait_for_reload
         end
 
-        it 'renders a required attribute validation error' do
+        it "renders a required attribute validation error" do
           expect(Query.all).to be_empty
 
           expect(page).to have_text("Project can't be blank.")
@@ -119,13 +119,13 @@ RSpec.describe 'Calendar',
       end
     end
 
-    describe 'cancel button' do
+    describe "cancel button" do
       context "when it's clicked" do
         before do
           calendars_page.click_on_cancel_button
         end
 
-        it 'navigates back to the global index page' do
+        it "navigates back to the global index page" do
           expect(page).to have_current_path(calendars_path)
         end
       end

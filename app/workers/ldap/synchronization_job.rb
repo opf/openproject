@@ -27,10 +27,7 @@
 #++
 
 module Ldap
-  class SynchronizationJob < ::Cron::CronJob
-    # Run once per night at 11:30pm
-    self.cron_expression = '30 23 * * *'
-
+  class SynchronizationJob < ApplicationJob
     def perform
       run_user_sync
     end

@@ -54,7 +54,7 @@ module Grids::Configuration
           @options_representer = klass
         end
 
-        @options_representer || '::API::V3::Grids::Widgets::DefaultOptionsRepresenter'
+        @options_representer || "::API::V3::Grids::Widgets::DefaultOptionsRepresenter"
       end
     end
   end

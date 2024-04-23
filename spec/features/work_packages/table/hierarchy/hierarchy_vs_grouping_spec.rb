@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work Package table hierarchy vs grouping', :js do
+RSpec.describe "Work Package table hierarchy vs grouping", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
@@ -40,25 +40,25 @@ RSpec.describe 'Work Package table hierarchy vs grouping', :js do
     login_as(user)
   end
 
-  it 'is mutually exclusive' do
+  it "is mutually exclusive" do
     wp_table.visit!
 
     hierarchy.expect_mode_enabled
 
-    group_by.enable_via_header('Type')
+    group_by.enable_via_header("Type")
 
     hierarchy.expect_mode_disabled
 
     hierarchy.enable_via_menu
 
-    group_by.expect_not_grouped_by('Type')
+    group_by.expect_not_grouped_by("Type")
 
-    group_by.enable_via_menu('Type')
+    group_by.enable_via_menu("Type")
 
     hierarchy.expect_mode_disabled
 
     hierarchy.enable_via_header
 
-    group_by.expect_not_grouped_by('Type')
+    group_by.expect_not_grouped_by("Type")
   end
 end

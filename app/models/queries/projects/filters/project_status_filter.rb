@@ -51,7 +51,7 @@ module Queries
         end
 
         def human_name
-          I18n.t('js.grid.widgets.project_status.title')
+          I18n.t("js.grid.widgets.project_status.title")
         end
       end
     end

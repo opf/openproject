@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'User custom fields edit', :js, :with_cuprite do
+RSpec.describe "User custom fields edit", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 
@@ -37,33 +37,33 @@ RSpec.describe 'User custom fields edit', :js, :with_cuprite do
     visit custom_fields_path
   end
 
-  it 'can create and edit user custom fields (#48725)' do
+  it "can create and edit user custom fields (#48725)" do
     # Create CF
-    click_link 'Create a new custom field'
+    click_link "Create a new custom field"
 
     wait_for_reload
 
-    fill_in 'custom_field_name', with: 'My User CF'
-    select 'User', from: 'custom_field_field_format'
+    fill_in "custom_field_name", with: "My User CF"
+    select "User", from: "custom_field_field_format"
 
-    expect(page).to have_no_field('custom_field_custom_options_attributes_0_value')
+    expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")
 
-    click_on 'Save'
+    click_on "Save"
 
     # Expect field to be created
     cf = CustomField.last
-    expect(cf.name).to eq('My User CF')
+    expect(cf.name).to eq("My User CF")
 
     # Edit again
-    find('a', text: 'My User CF').click
+    find("a", text: "My User CF").click
 
-    expect(page).to have_no_field('custom_field_custom_options_attributes_0_value')
-    fill_in 'custom_field_name', with: 'My User CF (edited)'
+    expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")
+    fill_in "custom_field_name", with: "My User CF (edited)"
 
-    click_on 'Save'
+    click_on "Save"
 
     # Expect field to be saved
     cf = CustomField.last
-    expect(cf.name).to eq('My User CF (edited)')
+    expect(cf.name).to eq("My User CF (edited)")
   end
 end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe ParamsToQueryService, 'project query' do
+RSpec.describe ParamsToQueryService, "project query" do
   # This spec does currently not cover the whole functionality.
 
   let(:user) { build_stubbed(:admin) }
@@ -37,42 +37,42 @@ RSpec.describe ParamsToQueryService, 'project query' do
   let(:instance) { described_class.new(model, user) }
   let(:service_call) { instance.call(params) }
 
-  context 'for a new query' do
-    context 'when applying filters' do
+  context "for a new query" do
+    context "when applying filters" do
       let(:params) do
         { filters: JSON.dump([{ active: { operator: "=", values: ["t"] } },
                               { created_at: { operator: ">t-", values: ["4"] } }]) }
       end
 
-      it 'returns a new query' do
+      it "returns a new query" do
         expect(service_call)
           .to be_a Queries::Projects::ProjectQuery
       end
 
-      it 'applies the filters' do
+      it "applies the filters" do
         expect(service_call.filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
           .to contain_exactly({ field: :active, operator: "=", values: ["t"] },
                               { field: :created_at, operator: ">t-", values: ["4"] })
       end
     end
 
-    context 'when sending neither filters nor orders props' do
-      it 'returns a new query' do
+    context "when sending neither filters nor orders props" do
+      it "returns a new query" do
         expect(service_call)
           .to be_a Queries::Projects::ProjectQuery
       end
 
-      it 'sets no name' do
+      it "sets no name" do
         expect(service_call.name)
           .to be_blank
       end
 
-      it 'applies no filter' do
+      it "applies no filter" do
         expect(service_call.filters)
           .to be_empty
       end
 
-      it 'does not apply sorting' do
+      it "does not apply sorting" do
         expect(service_call.orders)
           .to be_empty
       end

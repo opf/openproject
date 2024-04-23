@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
   let(:commit_role) do
@@ -34,15 +34,15 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
   end
   let(:browse_role) { create(:project_role, permissions: [:browse_repository]) }
   let(:guest_role) { create(:project_role, permissions: []) }
-  let(:valid_user_password) { 'Top Secret Password' }
+  let(:valid_user_password) { "Top Secret Password" }
   let(:valid_user) do
     create(:user,
-           login: 'johndoe',
+           login: "johndoe",
            password: valid_user_password,
            password_confirmation: valid_user_password)
   end
 
-  let(:api_key) { '12345678' }
+  let(:api_key) { "12345678" }
 
   let(:public) { false }
   let(:project) { create(:project, public:) }
@@ -61,132 +61,132 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
     RequestStore.clear!
   end
 
-  describe 'svn' do
+  describe "svn" do
     let!(:repository) { create(:repository_subversion, project:) }
 
-    describe 'repo_auth' do
-      context 'for valid login, but no access to repo_auth' do
+    describe "repo_auth" do
+      context "for valid login, but no access to repo_auth" do
         before do
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
 
-          post 'repo_auth', params: { key: api_key,
-                                      repository: 'without-access',
-                                      method: 'GET' }
+          post "repo_auth", params: { key: api_key,
+                                      repository: "without-access",
+                                      method: "GET" }
         end
 
-        it 'responds 403 not allowed' do
-          expect(response.code).to eq('403')
-          expect(response.body).to eq('Not allowed')
+        it "responds 403 not allowed" do
+          expect(response.code).to eq("403")
+          expect(response.body).to eq("Not allowed")
         end
       end
 
-      context 'for valid login and user has read permission (role reporter) for project' do
+      context "for valid login and user has read permission (role reporter) for project" do
         before do
           create(:member,
                  user: valid_user,
                  roles: [browse_role],
                  project:)
 
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
         end
 
-        it 'responds 200 okay dokay for GET' do
-          post 'repo_auth', params: { key: api_key,
+        it "responds 200 okay dokay for GET" do
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET' }
+                                      method: "GET" }
 
-          expect(response.code).to eq('200')
+          expect(response.code).to eq("200")
         end
 
-        it 'responds 403 not allowed for POST' do
-          post 'repo_auth', params: { key: api_key,
+        it "responds 403 not allowed for POST" do
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'POST' }
+                                      method: "POST" }
 
-          expect(response.code).to eq('403')
+          expect(response.code).to eq("403")
         end
       end
 
-      context 'for valid login and user has rw permission (role developer) for project' do
+      context "for valid login and user has rw permission (role developer) for project" do
         before do
           create(:member,
                  user: valid_user,
                  roles: [commit_role],
                  project:)
           valid_user.save
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
         end
 
-        it 'responds 200 okay dokay for GET' do
-          post 'repo_auth', params: { key: api_key,
+        it "responds 200 okay dokay for GET" do
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET' }
+                                      method: "GET" }
 
-          expect(response.code).to eq('200')
+          expect(response.code).to eq("200")
         end
 
-        it 'responds 200 okay dokay for POST' do
-          post 'repo_auth', params: { key: api_key,
+        it "responds 200 okay dokay for POST" do
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'POST' }
+                                      method: "POST" }
 
-          expect(response.code).to eq('200')
+          expect(response.code).to eq("200")
         end
       end
 
-      context 'for invalid login and user has role manager for project' do
+      context "for invalid login and user has role manager for project" do
         before do
           create(:member,
                  user: valid_user,
                  roles: [commit_role],
                  project:)
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
-              valid_user_password + 'made invalid'
+              valid_user_password + "made invalid"
             )
 
-          post 'repo_auth', params: { key: api_key,
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET' }
+                                      method: "GET" }
         end
 
-        it 'responds 401 auth required' do
-          expect(response.code).to eq('401')
+        it "responds 401 auth required" do
+          expect(response.code).to eq("401")
         end
       end
 
-      context 'for valid login and user is not member for project' do
+      context "for valid login and user is not member for project" do
         before do
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
 
-          post 'repo_auth', params: { key: api_key,
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET' }
+                                      method: "GET" }
         end
 
-        it 'responds 403 not allowed' do
-          expect(response.code).to eq('403')
+        it "responds 403 not allowed" do
+          expect(response.code).to eq("403")
         end
       end
 
-      context 'for valid login and project is public' do
+      context "for valid login and project is public" do
         let(:public) { true }
 
         before do
@@ -196,134 +196,134 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
                  roles: [browse_role],
                  project: random_project)
 
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
 
-          post 'repo_auth', params: { key: api_key,
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET' }
+                                      method: "GET" }
         end
 
-        it 'responds 200 OK' do
-          expect(response.code).to eq('200')
+        it "responds 200 OK" do
+          expect(response.code).to eq("200")
         end
       end
 
-      context 'for invalid credentials' do
+      context "for invalid credentials" do
         before do
-          post 'repo_auth', params: { key: api_key,
-                                      repository: 'any-repo',
-                                      method: 'GET' }
+          post "repo_auth", params: { key: api_key,
+                                      repository: "any-repo",
+                                      method: "GET" }
         end
 
-        it 'responds 401 auth required' do
-          expect(response.code).to eq('401')
-          expect(response.body).to eq('Authorization required')
+        it "responds 401 auth required" do
+          expect(response.code).to eq("401")
+          expect(response.body).to eq("Authorization required")
         end
       end
 
-      context 'for invalid api key' do
-        it 'responds 403 for valid username/password' do
-          request.env['HTTP_AUTHORIZATION'] =
+      context "for invalid api key" do
+        it "responds 403 for valid username/password" do
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
-          post 'repo_auth', params: { key: 'not_the_api_key',
-                                      repository: 'any-repo',
-                                      method: 'GET' }
+          post "repo_auth", params: { key: "not_the_api_key",
+                                      repository: "any-repo",
+                                      method: "GET" }
 
-          expect(response.code).to eq('403')
+          expect(response.code).to eq("403")
           expect(response.body)
-            .to eq('Access denied. Repository management WS is disabled or key is invalid.')
+            .to eq("Access denied. Repository management WS is disabled or key is invalid.")
         end
 
-        it 'responds 403 for invalid username/password' do
-          request.env['HTTP_AUTHORIZATION'] =
+        it "responds 403 for invalid username/password" do
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
-              'invalid',
-              'invalid'
+              "invalid",
+              "invalid"
             )
 
-          post 'repo_auth', params: { key: 'not_the_api_key',
-                                      repository: 'any-repo',
-                                      method: 'GET' }
+          post "repo_auth", params: { key: "not_the_api_key",
+                                      repository: "any-repo",
+                                      method: "GET" }
 
-          expect(response.code).to eq('403')
+          expect(response.code).to eq("403")
           expect(response.body)
-            .to eq('Access denied. Repository management WS is disabled or key is invalid.')
+            .to eq("Access denied. Repository management WS is disabled or key is invalid.")
         end
       end
     end
   end
 
-  describe 'git' do
+  describe "git" do
     let!(:repository) { create(:repository_git, project:) }
 
-    describe 'repo_auth' do
-      context 'for valid login, but no access to repo_auth' do
+    describe "repo_auth" do
+      context "for valid login, but no access to repo_auth" do
         before do
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
 
-          post 'repo_auth', params: { key: api_key,
-                                      repository: 'without-access',
-                                      method: 'GET',
-                                      git_smart_http: '1',
-                                      uri: '/git',
-                                      location: '/git' }
+          post "repo_auth", params: { key: api_key,
+                                      repository: "without-access",
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git",
+                                      location: "/git" }
         end
 
-        it 'responds 403 not allowed' do
-          expect(response.code).to eq('403')
-          expect(response.body).to eq('Not allowed')
+        it "responds 403 not allowed" do
+          expect(response.code).to eq("403")
+          expect(response.body).to eq("Not allowed")
         end
       end
 
-      context 'for valid login and user has read permission (role reporter) for project' do
+      context "for valid login and user has read permission (role reporter) for project" do
         before do
           create(:member,
                  user: valid_user,
                  roles: [browse_role],
                  project:)
 
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
         end
 
-        it 'responds 200 okay dokay for read-only access' do
-          post 'repo_auth', params: { key: api_key,
+        it "responds 200 okay dokay for read-only access" do
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET',
-                                      git_smart_http: '1',
-                                      uri: '/git',
-                                      location: '/git' }
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git",
+                                      location: "/git" }
 
-          expect(response.code).to eq('200')
+          expect(response.code).to eq("200")
         end
 
-        it 'responds 403 not allowed for write (push)' do
-          post 'repo_auth', params: { key: api_key,
+        it "responds 403 not allowed for write (push)" do
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'POST',
-                                      git_smart_http: '1',
+                                      method: "POST",
+                                      git_smart_http: "1",
                                       uri: "/git/#{project.identifier}/git-receive-pack",
-                                      location: '/git' }
+                                      location: "/git" }
 
-          expect(response.code).to eq('403')
+          expect(response.code).to eq("403")
         end
       end
 
-      context 'for valid login and user has rw permission (role developer) for project' do
+      context "for valid login and user has rw permission (role developer) for project" do
         before do
           create(:member,
                  user: valid_user,
@@ -331,85 +331,85 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
                  project:)
           valid_user.save
 
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
         end
 
-        it 'responds 200 okay dokay for GET' do
-          post 'repo_auth', params: { key: api_key,
+        it "responds 200 okay dokay for GET" do
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET',
-                                      git_smart_http: '1',
-                                      uri: '/git',
-                                      location: '/git' }
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git",
+                                      location: "/git" }
 
-          expect(response.code).to eq('200')
+          expect(response.code).to eq("200")
         end
 
-        it 'responds 200 okay dokay for POST' do
-          post 'repo_auth', params: { key: api_key,
+        it "responds 200 okay dokay for POST" do
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'POST',
-                                      git_smart_http: '1',
+                                      method: "POST",
+                                      git_smart_http: "1",
                                       uri: "/git/#{project.identifier}/git-receive-pack",
-                                      location: '/git' }
+                                      location: "/git" }
 
-          expect(response.code).to eq('200')
+          expect(response.code).to eq("200")
         end
       end
 
-      context 'for invalid login and user has role manager for project' do
+      context "for invalid login and user has role manager for project" do
         before do
           create(:member,
                  user: valid_user,
                  roles: [commit_role],
                  project:)
 
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
-              valid_user_password + 'made invalid'
+              valid_user_password + "made invalid"
             )
 
-          post 'repo_auth', params: { key: api_key,
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET',
-                                      git_smart_http: '1',
-                                      uri: '/git',
-                                      location: '/git' }
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git",
+                                      location: "/git" }
         end
 
-        it 'responds 401 auth required' do
-          expect(response.code).to eq('401')
+        it "responds 401 auth required" do
+          expect(response.code).to eq("401")
         end
       end
 
-      context 'for valid login and user is not member for project' do
+      context "for valid login and user is not member for project" do
         before do
           project = create(:project, public: false)
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
 
-          post 'repo_auth', params: { key: api_key,
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET',
-                                      git_smart_http: '1',
-                                      uri: '/git',
-                                      location: '/git' }
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git",
+                                      location: "/git" }
         end
 
-        it 'responds 403 not allowed' do
-          expect(response.code).to eq('403')
+        it "responds 403 not allowed" do
+          expect(response.code).to eq("403")
         end
       end
 
-      context 'for valid login and project is public' do
+      context "for valid login and project is public" do
         let(:public) { true }
 
         before do
@@ -419,117 +419,117 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
                  roles: [browse_role],
                  project: random_project)
 
-          request.env['HTTP_AUTHORIZATION'] =
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
-          post 'repo_auth', params: { key: api_key,
+          post "repo_auth", params: { key: api_key,
                                       repository: project.identifier,
-                                      method: 'GET',
-                                      git_smart_http: '1',
-                                      uri: '/git',
-                                      location: '/git' }
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git",
+                                      location: "/git" }
         end
 
-        it 'responds 200 OK' do
-          expect(response.code).to eq('200')
+        it "responds 200 OK" do
+          expect(response.code).to eq("200")
         end
       end
 
-      context 'for invalid credentials' do
+      context "for invalid credentials" do
         before do
-          post 'repo_auth', params: { key: api_key,
-                                      repository: 'any-repo',
-                                      method: 'GET',
-                                      git_smart_http: '1',
-                                      uri: '/git',
-                                      location: '/git' }
+          post "repo_auth", params: { key: api_key,
+                                      repository: "any-repo",
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git",
+                                      location: "/git" }
         end
 
-        it 'responds 401 auth required' do
-          expect(response.code).to eq('401')
-          expect(response.body).to eq('Authorization required')
+        it "responds 401 auth required" do
+          expect(response.code).to eq("401")
+          expect(response.body).to eq("Authorization required")
         end
       end
 
-      context 'for invalid api key' do
-        it 'responds 403 for valid username/password' do
-          request.env['HTTP_AUTHORIZATION'] =
+      context "for invalid api key" do
+        it "responds 403 for valid username/password" do
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
               valid_user_password
             )
 
-          post 'repo_auth', params: { key: 'not_the_api_key',
-                                      repository: 'any-repo',
-                                      method: 'GET',
-                                      git_smart_http: '1',
-                                      uri: '/git',
-                                      location: '/git' }
+          post "repo_auth", params: { key: "not_the_api_key",
+                                      repository: "any-repo",
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git",
+                                      location: "/git" }
 
-          expect(response.code).to eq('403')
+          expect(response.code).to eq("403")
           expect(response.body)
-            .to eq('Access denied. Repository management WS is disabled or key is invalid.')
+            .to eq("Access denied. Repository management WS is disabled or key is invalid.")
         end
 
-        it 'responds 403 for invalid username/password' do
-          request.env['HTTP_AUTHORIZATION'] =
+        it "responds 403 for invalid username/password" do
+          request.env["HTTP_AUTHORIZATION"] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
-              'invalid',
-              'invalid'
+              "invalid",
+              "invalid"
             )
 
-          post 'repo_auth', params: { key: 'not_the_api_key',
-                                      repository: 'any-repo',
-                                      method: 'GET',
-                                      git_smart_http: '1',
-                                      uri: '/git',
-                                      location: '/git' }
+          post "repo_auth", params: { key: "not_the_api_key",
+                                      repository: "any-repo",
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git",
+                                      location: "/git" }
 
-          expect(response.code).to eq('403')
+          expect(response.code).to eq("403")
           expect(response.body)
-            .to eq('Access denied. Repository management WS is disabled or key is invalid.')
+            .to eq("Access denied. Repository management WS is disabled or key is invalid.")
         end
       end
     end
   end
 
-  describe '#cached_user_login' do
+  describe "#cached_user_login" do
     let(:cache_key) do
       OpenProject::RepositoryAuthentication::CACHE_PREFIX +
         Digest::SHA1.hexdigest("#{valid_user.login}#{valid_user_password}")
     end
     let(:cache_expiry) { OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER }
 
-    it 'calls user_login only once when called twice' do
+    it "calls user_login only once when called twice" do
       expect(controller).to receive(:user_login).once.and_return(valid_user)
       2.times { controller.send(:cached_user_login, valid_user.login, valid_user_password) }
     end
 
-    it 'returns the same as user_login for valid creds' do
+    it "returns the same as user_login for valid creds" do
       expect(controller.send(:cached_user_login, valid_user.login, valid_user_password))
         .to eq(controller.send(:user_login, valid_user.login, valid_user_password))
     end
 
-    it 'returns the same as user_login for invalid creds' do
-      expect(controller.send(:cached_user_login, 'invalid', 'invalid'))
-        .to eq(controller.send(:user_login, 'invalid', 'invalid'))
+    it "returns the same as user_login for invalid creds" do
+      expect(controller.send(:cached_user_login, "invalid", "invalid"))
+        .to eq(controller.send(:user_login, "invalid", "invalid"))
     end
 
-    it 'uses cache' do
+    it "uses cache" do
       allow(Rails.cache).to receive(:fetch).and_call_original
       expect(Rails.cache).to receive(:fetch).with(cache_key, expires_in: cache_expiry)
         .and_return(Marshal.dump(valid_user.id.to_s))
       controller.send(:cached_user_login, valid_user.login, valid_user_password)
     end
 
-    describe 'with caching disabled' do
+    describe "with caching disabled" do
       before do
         allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(false)
       end
 
-      it 'does not use a cache' do
+      it "does not use a cache" do
         allow(Rails.cache).to receive(:fetch).and_wrap_original do |m, *args, &block|
           expect(args.first).not_to eq(cache_key)
           m.call(*args, &block)
@@ -539,28 +539,28 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
       end
     end
 
-    describe 'update_required_storage' do
+    describe "update_required_storage" do
       let(:force) { nil }
       let(:apikey) { Setting.sys_api_key }
       let(:last_updated) { nil }
 
       def request_storage
-        get 'update_required_storage', params: { key: apikey,
+        get "update_required_storage", params: { key: apikey,
                                                  id:,
                                                  force: }
       end
 
-      context 'missing project' do
+      context "missing project" do
         let(:id) { 1234 }
 
-        it 'returns 404' do
+        it "returns 404" do
           request_storage
-          expect(response.code).to eq('404')
-          expect(response.body).to include('Could not find project #1234')
+          expect(response.code).to eq("404")
+          expect(response.body).to include("Could not find project #1234")
         end
       end
 
-      context 'available project, but missing repository' do
+      context "available project, but missing repository" do
         let(:project) { build_stubbed(:project) }
         let(:id) { project.id }
 
@@ -569,13 +569,13 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
           request_storage
         end
 
-        it 'returns 404' do
-          expect(response.code).to eq('404')
+        it "returns 404" do
+          expect(response.code).to eq("404")
           expect(response.body).to include("Project ##{project.id} does not have a repository.")
         end
       end
 
-      context 'stubbed repository' do
+      context "stubbed repository" do
         let(:project) { build_stubbed(:project) }
         let(:id) { project.id }
         let(:repository) do
@@ -590,29 +590,29 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
           request_storage
         end
 
-        context 'local non-existing repository' do
-          let(:root_url) { '/tmp/does/not/exist/svn/foo.svn' }
+        context "local non-existing repository" do
+          let(:root_url) { "/tmp/does/not/exist/svn/foo.svn" }
           let(:url) { "file://#{root_url}" }
 
-          it 'does not have storage available' do
+          it "does not have storage available" do
             expect(repository.scm.storage_available?).to be false
-            expect(response.code).to eq('400')
+            expect(response.code).to eq("400")
           end
         end
 
-        context 'remote stubbed repository' do
-          let(:root_url) { '' }
-          let(:url) { 'https://foo.example.org/svn/bar' }
+        context "remote stubbed repository" do
+          let(:root_url) { "" }
+          let(:url) { "https://foo.example.org/svn/bar" }
 
-          it 'has no storage available' do
+          it "has no storage available" do
             request_storage
             expect(repository.scm.storage_available?).to be false
-            expect(response.code).to eq('400')
+            expect(response.code).to eq("400")
           end
         end
       end
 
-      context 'local existing repository' do
+      context "local existing repository" do
         with_subversion_repository do |repo_dir|
           let(:root_url) { repo_dir }
           let(:url) { "file://#{root_url}" }
@@ -629,17 +629,17 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
             allow(repository).to receive(:storage_updated_at).and_return(last_updated)
           end
 
-          it 'has storage available' do
+          it "has storage available" do
             expect(repository.scm.storage_available?).to be true
           end
 
-          context 'storage never updated before' do
-            it 'updates the storage' do
+          context "storage never updated before" do
+            it "updates the storage" do
               expect(repository.required_storage_bytes).to eq 0
               request_storage
 
-              expect(response.code).to eq('200')
-              expect(response.body).to include('Updated: true')
+              expect(response.code).to eq("200")
+              expect(response.body).to include("Updated: true")
 
               perform_enqueued_jobs
 
@@ -648,29 +648,29 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
             end
           end
 
-          context 'outdated storage' do
+          context "outdated storage" do
             let(:last_updated) { 2.days.ago }
 
-            it 'updates the storage' do
+            it "updates the storage" do
               expect(SCM::StorageUpdaterJob).to receive(:perform_later)
               request_storage
             end
           end
 
-          context 'valid storage time' do
+          context "valid storage time" do
             let(:last_updated) { 10.minutes.ago }
 
-            it 'does not update to storage' do
+            it "does not update to storage" do
               expect(SCM::StorageUpdaterJob).not_to receive(:perform_later)
               request_storage
             end
           end
 
-          context 'valid storage time and force' do
-            let(:force) { '1' }
+          context "valid storage time and force" do
+            let(:force) { "1" }
             let(:last_updated) { 10.minutes.ago }
 
-            it 'does update to storage' do
+            it "does update to storage" do
               expect(SCM::StorageUpdaterJob).to receive(:perform_later)
               request_storage
             end
@@ -680,43 +680,43 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
     end
   end
 
-  describe '#projects' do
+  describe "#projects" do
     before do
-      request.env['HTTP_AUTHORIZATION'] =
+      request.env["HTTP_AUTHORIZATION"] =
         ActionController::HttpAuthentication::Basic.encode_credentials(
           valid_user.login,
           valid_user_password
         )
 
-      get 'projects', params: { key: api_key }
+      get "projects", params: { key: api_key }
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(response)
         .to have_http_status(:ok)
     end
 
-    it 'returns an xml with the projects having a repository' do
+    it "returns an xml with the projects having a repository" do
       expect(response.content_type)
-        .to eql 'application/xml; charset=utf-8'
+        .to eql "application/xml; charset=utf-8"
 
-      expect(Nokogiri::XML::Document.parse(response.body).xpath('//projects[1]//id').text)
+      expect(Nokogiri::XML::Document.parse(response.body).xpath("//projects[1]//id").text)
         .to eql repository_project.id.to_s
     end
 
-    context 'when disabled', with_settings: { sys_api_enabled?: false } do
-      it 'is 403 forbidden' do
+    context "when disabled", with_settings: { sys_api_enabled?: false } do
+      it "is 403 forbidden" do
         expect(response)
           .to have_http_status(:forbidden)
       end
     end
   end
 
-  describe '#fetch_changesets' do
+  describe "#fetch_changesets" do
     let(:params) { { id: repository_project.identifier } }
 
     before do
-      request.env['HTTP_AUTHORIZATION'] =
+      request.env["HTTP_AUTHORIZATION"] =
         ActionController::HttpAuthentication::Basic.encode_credentials(
           valid_user.login,
           valid_user_password
@@ -724,36 +724,36 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
 
       allow_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
 
-      get 'fetch_changesets', params: params.merge({ key: api_key })
+      get "fetch_changesets", params: params.merge({ key: api_key })
     end
 
-    context 'with a project identifier' do
-      it 'is successful' do
+    context "with a project identifier" do
+      it "is successful" do
         expect(response)
           .to have_http_status(:ok)
       end
     end
 
-    context 'without a project identifier' do
+    context "without a project identifier" do
       let(:params) { {} }
 
-      it 'is successful' do
+      it "is successful" do
         expect(response)
           .to have_http_status(:ok)
       end
     end
 
-    context 'for an unknown project' do
+    context "for an unknown project" do
       let(:params) { { id: 0 } }
 
-      it 'returns 404' do
+      it "returns 404" do
         expect(response)
           .to have_http_status(:not_found)
       end
     end
 
-    context 'when disabled', with_settings: { sys_api_enabled?: false } do
-      it 'is 403 forbidden' do
+    context "when disabled", with_settings: { sys_api_enabled?: false } do
+      it "is 403 forbidden" do
         expect(response)
           .to have_http_status(:forbidden)
       end

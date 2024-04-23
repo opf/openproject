@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.shared_examples 'member job' do
+RSpec.shared_examples "member job" do
   subject(:run_job) do
     described_class.perform_now(current_user:,
                                 member:,
@@ -97,12 +97,12 @@ RSpec.shared_examples 'member job' do
     %i[added_project updated_global updated_project].each do |mails|
       allow(MemberMailer)
         .to receive(mails)
-              .and_return(double('mail', deliver_now: nil)) # rubocop:disable RSpec/VerifiedDoubles
+              .and_return(double("mail", deliver_now: nil)) # rubocop:disable RSpec/VerifiedDoubles
     end
   end
 
-  shared_examples_for 'sends no mail' do
-    it 'sends no mail' do
+  shared_examples_for "sends no mail" do
+    it "sends no mail" do
       run_job
 
       %i[added_project updated_global updated_project].each do |mails|
@@ -112,11 +112,11 @@ RSpec.shared_examples 'member job' do
     end
   end
 
-  context 'with a global membership' do
+  context "with a global membership" do
     let(:project) { nil }
 
-    context 'with sending enabled' do
-      it 'sends mail' do
+    context "with sending enabled" do
+      it "sends mail" do
         run_job
 
         expect(MemberMailer)
@@ -125,7 +125,7 @@ RSpec.shared_examples 'member job' do
       end
     end
 
-    context 'with sending disabled' do
+    context "with sending disabled" do
       let(:principal) do
         create(:user,
                notification_settings: [
@@ -135,7 +135,7 @@ RSpec.shared_examples 'member job' do
                ])
       end
 
-      it 'still sends mail due to the message present' do
+      it "still sends mail due to the message present" do
         run_job
 
         expect(MemberMailer)
@@ -143,23 +143,23 @@ RSpec.shared_examples 'member job' do
                 .with(current_user, member, message)
       end
 
-      context 'when the message is nil' do
-        let(:message) { '' }
+      context "when the message is nil" do
+        let(:message) { "" }
 
-        it_behaves_like 'sends no mail'
+        it_behaves_like "sends no mail"
       end
     end
 
-    context 'with the current user being the membership user' do
+    context "with the current user being the membership user" do
       let(:user) { current_user }
 
-      it_behaves_like 'sends no mail'
+      it_behaves_like "sends no mail"
     end
   end
 
-  context 'with a user membership' do
-    context 'with sending enabled' do
-      it 'sends mail' do
+  context "with a user membership" do
+    context "with sending enabled" do
+      it "sends mail" do
         run_job
 
         expect(MemberMailer)
@@ -168,10 +168,10 @@ RSpec.shared_examples 'member job' do
       end
     end
 
-    context 'with the current user being the member user' do
+    context "with the current user being the member user" do
       let(:user) { current_user }
 
-      it_behaves_like 'sends no mail'
+      it_behaves_like "sends no mail"
     end
   end
 end

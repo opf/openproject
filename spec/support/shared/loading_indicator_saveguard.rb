@@ -34,5 +34,5 @@
 #
 
 def loading_indicator_saveguard
-  expect(page).to have_no_css('.op-loading-indicator')
+  expect(page).to have_no_css(".op-loading-indicator")
 end

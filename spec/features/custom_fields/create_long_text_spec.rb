@@ -1,10 +1,10 @@
-require 'spec_helper'
-require 'support/pages/custom_fields'
+require "spec_helper"
+require "support/pages/custom_fields"
 
-RSpec.describe 'custom fields', :js do
+RSpec.describe "custom fields", :js do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
-  let(:editor) { Components::WysiwygEditor.new '#custom_field_form' }
+  let(:editor) { Components::WysiwygEditor.new "#custom_field_form" }
   let(:type) { create(:type_task) }
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking], types: [type]) }
 
@@ -44,7 +44,7 @@ RSpec.describe 'custom fields', :js do
       expect(page).to have_text("New Field")
 
       cf = CustomField.last
-      expect(cf.field_format).to eq 'text'
+      expect(cf.field_format).to eq "text"
 
       # textareas get carriage returns entered
       expect(cf.default_value.gsub("\r\n", "\n").strip).to eq default_text.strip
@@ -53,12 +53,12 @@ RSpec.describe 'custom fields', :js do
       type.save!
 
       wp_page.visit!
-      wp_editor = TextEditorField.new(page, 'description', selector: ".inline-edit--container.customField#{cf.id}")
+      wp_editor = TextEditorField.new(page, "description", selector: ".inline-edit--container.customField#{cf.id}")
       wp_editor.expect_active!
 
       wp_editor.ckeditor.in_editor do |container, _|
-        expect(container).to have_css('h1', text: 'This is an exemplary test')
-        expect(container).to have_css('strong', text: 'Foo bar')
+        expect(container).to have_css("h1", text: "This is an exemplary test")
+        expect(container).to have_css("strong", text: "Foo bar")
       end
     end
   end

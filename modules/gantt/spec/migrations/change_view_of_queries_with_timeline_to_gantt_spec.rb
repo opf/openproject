@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require Rails.root.join("db/migrate/20231201085450_change_view_of_queries_with_timeline_to_gantt.rb")
 
 RSpec.describe ChangeViewOfQueriesWithTimelineToGantt, type: :model do
@@ -55,13 +55,13 @@ RSpec.describe ChangeViewOfQueriesWithTimelineToGantt, type: :model do
     query
   end
 
-  context 'when migrating up' do
+  context "when migrating up" do
     # Silencing migration logs, since we are not interested in that during testing
     subject { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 
     it "changes the view type for (work package table) queries with enabled timeline" do
       expect { subject }
-        .to change { View.where(query_id: wp_query_with_timeline.id).first.type }.from('work_packages_table').to('gantt')
+        .to change { View.where(query_id: wp_query_with_timeline.id).first.type }.from("work_packages_table").to("gantt")
       expect { subject }
         .not_to change { View.where(query_id: wp_query_without_timeline.id).first.type }
       expect { subject }
@@ -69,7 +69,7 @@ RSpec.describe ChangeViewOfQueriesWithTimelineToGantt, type: :model do
     end
   end
 
-  context 'when migrating down' do
+  context "when migrating down" do
     let!(:gantt_query) do
       query = create(:query_with_view_gantt)
       query.timeline_visible = true
@@ -83,7 +83,7 @@ RSpec.describe ChangeViewOfQueriesWithTimelineToGantt, type: :model do
 
     it "changes the view type for (gantt table) queries" do
       expect { subject }
-        .to change { View.where(query_id: gantt_query.id).first.type }.from('gantt').to('work_packages_table')
+        .to change { View.where(query_id: gantt_query.id).first.type }.from("gantt").to("work_packages_table")
       expect { subject }
         .not_to change { View.where(query_id: wp_query_with_timeline.id).first.type }
       expect { subject }

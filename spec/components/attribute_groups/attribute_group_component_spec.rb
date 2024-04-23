@@ -31,7 +31,7 @@
 require "rails_helper"
 
 RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
-  it 'renders the title' do
+  it "renders the title" do
     render_inline(described_class.new) do |component|
       component.with_header(title: "A Title")
 
@@ -41,32 +41,32 @@ RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
       )
     end
 
-    aggregate_failures 'group header' do
-      expect(page).to have_css('.attributes-group')
-      expect(page).to have_css('h3.attributes-group--header-text', text: 'A Title')
+    aggregate_failures "group header" do
+      expect(page).to have_css(".attributes-group")
+      expect(page).to have_css("h3.attributes-group--header-text", text: "A Title")
     end
 
-    aggregate_failures 'attribute key value' do
-      expect(page).to have_css('.attributes-key-value')
-      expect(page).to have_css('.attributes-key-value--key', text: 'Attribute Key 1') &
-       have_css('.attributes-key-value--value.-text', text: 'Attribute Value 1')
-      expect(page).to have_css('.attributes-key-value--key', text: 'Attribute Key 2') &
-       have_css('.attributes-key-value--value.-text', text: 'Attribute Value 2')
+    aggregate_failures "attribute key value" do
+      expect(page).to have_css(".attributes-key-value")
+      expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key 1") &
+       have_css(".attributes-key-value--value.-text", text: "Attribute Value 1")
+      expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key 2") &
+       have_css(".attributes-key-value--value.-text", text: "Attribute Value 2")
     end
   end
 
-  it 'renders content when provided' do
+  it "renders content when provided" do
     render_inline(described_class.new) do |component|
       component.with_header(title: "A Title")
 
       "Raw Content"
     end
 
-    expect(page).to have_css('.attributes-group--content', text: 'Raw Content')
+    expect(page).to have_css(".attributes-group--content", text: "Raw Content")
 
-    aggregate_failures 'group header' do
-      expect(page).to have_css('.attributes-group')
-      expect(page).to have_css('h3.attributes-group--header-text', text: 'A Title')
+    aggregate_failures "group header" do
+      expect(page).to have_css(".attributes-group")
+      expect(page).to have_css("h3.attributes-group--header-text", text: "A Title")
     end
   end
 end

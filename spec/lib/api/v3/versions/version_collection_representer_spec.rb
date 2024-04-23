@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Versions::VersionCollectionRepresenter do
-  let(:self_link) { '/api/v3/projects/1/versions' }
+  let(:self_link) { "/api/v3/projects/1/versions" }
   let(:versions) { build_stubbed_list(:version, 3) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(versions, self_link:, current_user: user) }
@@ -37,48 +37,48 @@ RSpec.describe API::V3::Versions::VersionCollectionRepresenter do
 
   include API::V3::Utilities::PathHelper
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'projects/1/versions', 'Version'
+    it_behaves_like "unpaginated APIv3 collection", 3, "projects/1/versions", "Version"
 
-    context '_links' do
+    context "_links" do
       before do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project *permissions, project: build_stubbed(:project) # any project
         end
       end
 
-      describe 'createVersionImmediately' do
-        context 'if the user is allowed to' do
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'createVersionImmediately' }
+      describe "createVersionImmediately" do
+        context "if the user is allowed to" do
+          it_behaves_like "has an untitled link" do
+            let(:link) { "createVersionImmediately" }
             let(:href) { api_v3_paths.versions }
           end
         end
 
-        context 'if the user is not allowed to' do
+        context "if the user is not allowed to" do
           let(:permissions) { [] }
 
-          it_behaves_like 'has no link' do
-            let(:link) { 'createVersionImmediately' }
+          it_behaves_like "has no link" do
+            let(:link) { "createVersionImmediately" }
           end
         end
       end
 
-      describe 'createVersion' do
-        context 'if the user is allowed to' do
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'createVersion' }
+      describe "createVersion" do
+        context "if the user is allowed to" do
+          it_behaves_like "has an untitled link" do
+            let(:link) { "createVersion" }
             let(:href) { api_v3_paths.create_version_form }
           end
         end
 
-        context 'if the user is not allowed to' do
+        context "if the user is not allowed to" do
           let(:permissions) { [] }
 
-          it_behaves_like 'has no link' do
-            let(:link) { 'createVersion' }
+          it_behaves_like "has no link" do
+            let(:link) { "createVersion" }
           end
         end
       end

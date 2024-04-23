@@ -26,15 +26,14 @@ ko:
       no_results_title_text: 이 시간 프레임 내에서 프로젝트에 대한 활동이 없습니다.
   admin:
     plugins:
-      no_results_title_text: 사용 가능한 플러그인이 없습니다.
+      no_results_title_text: 현재 설치된 플러그인이 없습니다.
+      no_results_content_text: 자세한 내용은 통합 및 플러그인 페이지를 참조하세요.
     custom_styles:
       color_theme: "컬러 테마"
       color_theme_custom: "(사용자 지정)"
       colors:
-        alternative-color: "대안"
-        content-link-color: "링크 글꼴"
-        primary-color: "기본"
-        primary-color-dark: "기본(진함)"
+        primary-button-color: "기본 버튼"
+        accent-color: "강조 색"
         header-bg-color: "헤더 배경"
         header-item-bg-hover-color: "가리킬 때 헤더 배경"
         header-item-font-color: "헤더 글꼴"
@@ -53,10 +52,8 @@ ko:
       enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
-        alternative-color: "강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다."
-        content-link-color: "대부분 링크의 글꼴색입니다."
-        primary-color: "주 색상"
-        primary-color-dark: "일반적으로 메인 색상의 어두운 버전은 호버 효과에 사용됩니다."
+        primary-button-color: "강한 강조 색은 화면의 가장 중요한 버튼에 사용됩니다."
+        accent-color: "링크 및 기타 적절하게 강조 표시된 요소의 색상을 지정하세요."
         header-item-bg-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 배경색입니다."
         header-item-font-color: "클릭 가능한 헤더 항목의 글꼴색입니다."
         header-item-font-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 글꼴색입니다."
@@ -91,16 +88,16 @@ ko:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
   antivirus_scan:
-    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
-    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
-    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
-    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
-    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    not_processed_yet_message: "아직 파일의 바이러스 검사가 수행되지 않았으므로 다운로드가 차단되었습니다. 나중에 다시 시도하세요."
+    quarantined_message: "'%{filename}' 파일에서 바이러스가 발견되었습니다. 이 파일은 격리되어 다운로드할 수 없습니다."
+    deleted_message: "'%{filename}' 파일에서 바이러스가 발견되었습니다. 이 파일은 삭제되었습니다."
+    deleted_by_admin: "격리된 '%{filename}'  파일이 관리자에 의해 삭제되었습니다."
+    overridden_by_admin: "'%{filename}' 파일에 대한 격리가 %{user} 님에 의해 제거되었습니다. 이제 이 파일에 액세스할 수 있습니다."
     quarantined_attachments:
-      container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
-      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
+      container: "컨테이너"
+      delete: "격리된 파일 삭제"
+      title: "격리된 첨부 파일"
+      error_cannot_act_self: "고유한 업로드 파일에서는 작업을 수행할 수 없습니다."
   attribute_help_texts:
     note_public: "이 필드에 추가하는 모든 텍스트와 이미지는 로그인한 모든 사용자에게 공개됩니다!"
     text_overview: "이 보기에서 특성 보기에 대한 사용자 지정 도움말 텍스트를 작성할 수 있습니다. 이 텍스트를 정의하면 속하는 특성 옆에 있는 도움말 아이콘을 클릭하여 표시할 수 있습니다."
@@ -265,12 +262,15 @@ ko:
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
     lists:
-      active: '활성 프로젝트'
-      my: '내 프로젝트'
-      archived: '보관된 프로젝트'
-      my_private: '내 비공개 프로젝트 목록'
+      active: "활성 프로젝트"
+      my: "내 프로젝트"
+      archived: "보관된 프로젝트"
+      my_private: "내 비공개 프로젝트 목록"
       new:
-        placeholder: '새 프로젝트 목록'
+        placeholder: "새 프로젝트 목록"
+      delete_modal:
+        title: "프로젝트 목록 삭제"
+        text: "이 작업을 수행해도 목록에 포함된 프로젝트는 삭제되지 않습니다. 이 프로젝트 목록을 삭제하시겠습니까?"
     settings:
       change_identifier: 식별자 변경
       activities:
@@ -283,6 +283,17 @@ ko:
         no_results_content_text: 새 작업 패키지 구분 생성
       custom_fields:
         no_results_title_text: 사용 가능한 사용자 필드가 없습니다.
+      project_custom_fields:
+        header:
+          title: "프로젝트 특성"
+          description: "이러한 프로젝트 특성은 해당 섹션 아래의 <a href=%{overview_url} target=\"_blank\">프로젝트 개요 페이지</a>에 표시됩니다. 개별 특성을 활성화하거나 비활성화할 수 있습니다. 프로젝트 특성 및 섹션은 인스턴스 관리자가 <a href=%{admin_settings_url} target=\"_blank\">관리 설정</a>에서 정의합니다. "
+        filter:
+          label: "프로젝트 특성 검색"
+        actions:
+          label_enable_single: "이 프로젝트에서 활성화되어 있습니다. 비활성화하려면 클릭하세요."
+          label_disable_single: "이 프로젝트에서 비활성화되어 있습니다. 활성화하려면 클릭하세요."
+          label_enable_all: "모두 활성화"
+          label_disable_all: "모두 비활성화"
       types:
         no_results_title_text: 사용 가능한 타입이 없습니다.
         form:
@@ -292,13 +303,14 @@ ko:
         no_results_content_text: 새 버전 생성
       storage:
         no_results_title_text: 이 프로젝트에서 사용하는 추가 기록 디스크 공간이 없습니다.
+  lists:
+    can_be_saved_as: "수정 사항은 새 목록에만 저장할 수 있습니다."
   members:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
       no_results_content_text: 프로젝트에 새 멤버 추가
     invite_by_mail: "%{mail}에 초대 보내기"
     send_invite_to: "다음으로 초대장 보내기:"
-    no_modify_on_shared: "현재는 멤버 페이지에서 공유 멤버십을 수정하거나 제거할 수 없습니다. 대신 공유 모달을 사용하세요."
     columns:
       shared: "공유됨"
     filters:
@@ -310,6 +322,42 @@ ko:
       project_roles: "프로젝트 역할"
       wp_shares: "작업 패키지 공유"
       groups: "그룹"
+    delete_member_dialog:
+      title: "멤버 제거"
+      will_remove_the_users_role: "이렇게 하면 이 프로젝트에서 사용자의 역할이 제거됩니다."
+      will_remove_the_groups_role: "이렇게 하면 이 프로젝트에서 그룹 역할이 제거됩니다."
+      however_work_packages_shared_with_user_html:
+        other: "하지만 %{shared_work_packages_link}도 이 사용자와 공유되었습니다."
+      however_work_packages_shared_with_group_html:
+        other: "하지만 %{shared_work_packages_link}도 이 그룹과 공유되었습니다."
+      remove_work_packages_shared_with_user_too: "멤버로 제거된 사용자가 공유 작업 패키지에 계속 액세스할 수 있습니다. 공유도 제거하시겠습니까?"
+      remove_work_packages_shared_with_group_too: "멤버로 제거된 그룹이 공유 작업 패키지에 계속 액세스할 수 있습니다. 공유도 제거하시겠습니까?"
+      will_not_affect_inherited_shares: "(해당 그룹과 공유된 작업 패키지에는 영향을 미치지 않습니다.)"
+      can_remove_direct_but_not_shared_roles: "이 사용자를 직접 프로젝트 멤버로 제거할 수 있지만 해당 사용자가 속한 그룹도 이 프로젝트의 멤버이므로 그룹을 통해 계속 멤버로 남게 됩니다."
+      also_work_packages_shared_with_user_html:
+        other: "또한 %{shared_work_packages_link}이(가) 이 사용자와 공유되었습니다."
+      remove_project_membership_or_work_package_shares_too: "직접 멤버인 사용자만 제거하고 공유는 유지하시겠습니까, 아니면 작업 패키지 공유도 제거하시겠습니까?"
+      will_remove_all_user_access_priveleges: "이 멤버를 삭제하면 프로젝트에 대한 사용자의 모든 액세스 권한이 제거됩니다. 이 사용자는 여전히 인스턴스의 일부로 존재하게 됩니다."
+      will_remove_all_group_access_priveleges: "이 멤버를 삭제하면 프로젝트에 대한 그룹의 모든 액세스 권한이 제거됩니다. 이 그룹은 여전히 인스턴스의 일부로 존재하게 됩니다."
+      cannot_delete_inherited_membership: "이 멤버는 해당 프로젝트의 멤버인 그룹에 속해 있으므로 삭제할 수 없습니다."
+      cannot_delete_inherited_membership_note_admin_html: "프로젝트의 멤버로서 그룹을 제거하거나 %{administration_settings_link}의 그룹에서 이 특정 멤버를 제거할 수 있습니다."
+      cannot_delete_inherited_membership_note_non_admin: "프로젝트의 멤버로서 그룹을 제거하거나 관리자에게 연락하여 이 특정 멤버를 그룹에서 제거할 수 있습니다."
+    delete_work_package_shares_dialog:
+      title: "작업 패키지 공유 취소"
+      shared_with_this_user_html:
+        other: "%{all_shared_work_packages_link}이(가) 이 사용자와 공유되었습니다."
+      shared_with_this_group_html:
+        other: "%{all_shared_work_packages_link}이(가) 이 그룹과 공유되었습니다."
+      shared_with_permission_html:
+        other: "%{shared_role_name} 권한으로 %{shared_work_packages_link}만 공유되었습니다."
+      revoke_all_or_with_role: "모든 공유 작업 패키지에 대한 액세스 권한을 취소하시겠습니까, 아니면 %{shared_role_name} 권한이 있는 것만 취소하시겠습니까?"
+      will_not_affect_inherited_shares: "(해당 그룹과 공유된 작업 패키지에는 영향을 미치지 않습니다.)"
+      cannot_remove_inherited: "그룹을 통해 공유된 작업 패키지 공유는 제거할 수 없습니다."
+      cannot_remove_inherited_with_role: "%{shared_role_name} 역할이 있는 작업 패키지 공유는 그룹을 통해 공유되며 제거할 수 없습니다."
+      cannot_remove_inherited_note_admin_html: "그룹에 대한 공유를 취소하거나 %{administration_settings_link}의 그룹에서 이 특정 멤버를 제거할 수 있습니다."
+      cannot_remove_inherited_note_non_admin: "그룹에 대한 공유를 취소하거나 관리자에게 연락하여 이 특정 멤버를 그룹에서 제거할 수 있습니다."
+      will_revoke_directly_granted_access: "이 작업을 수행하면 그룹과 공유된 작업 패키지를 제외한 모든 작업 패키지에 대한 액세스 권한이 취소됩니다."
+      will_revoke_access_to_all: "이 작업을 수행하면 모두에 대한 액세스 권한이 취소됩니다."
   my:
     access_token:
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
@@ -344,7 +392,7 @@ ko:
     memberships:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
   page:
-    text: '텍스트'
+    text: "텍스트"
   placeholder_users:
     right_to_manage_members_missing: >
       플레이스홀더 사용자를 삭제할 수 없습니다. 플레이스홀더 사용자가 멤버로 들어가 있는 모든 프로젝트의 구성원을 관리할 권한이 없습니다.
@@ -542,7 +590,7 @@ ko:
       oauth_client:
         client: "클라이언트 ID"
       relation:
-        delay: "지연"
+        lag: "지연"
         from: "작업 패키지"
         to: "관련 패키지"
       status:
@@ -565,6 +613,7 @@ ko:
           false: "비공개"
         queries: "쿼리"
         status_code: "프로젝트 상태"
+        description: "설명"
         status_explanation: "프로젝트 상태 설명"
         status_codes:
           not_started: "시작되지 않음"
@@ -634,13 +683,15 @@ ko:
         redirect_existing_links: "기존 링크 리디렉션"
       planning_element_type_color:
         hexcode: 16진수 코드
+      project_custom_field:
+        custom_field_section: 섹션
       work_package:
         begin_insertion: "삽입 시작"
         begin_deletion: "삭제 시작"
         children: "하위 요소"
-        derived_done_ratio: "Total % complete"
-        derived_remaining_hours: "Total remaining work"
-        derived_remaining_time: "Total remaining work"
+        derived_done_ratio: "총 완료 %"
+        derived_remaining_hours: "총 남은 작업"
+        derived_remaining_time: "총 남은 작업"
         done_ratio: "완료 %"
         duration: "기간"
         end_insertion: "삽입 끝"
@@ -839,6 +890,10 @@ ko:
               invalid: "타임스탬프에 잘못된 값이 포함되어 있습니다: %{values}"
               forbidden: "타임스탬프에 금지된 값이 포함되어 있습니다: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "'이름' 열을 포함해야 합니다"
+              nonexistent: "'%{column}' 열이 존재하지 않습니다."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
             custom_fields:
@@ -930,7 +985,14 @@ ko:
               only_same_project_categories_allowed: "작업 패키지의 카테고리는 작업 패키지와 동일한 프로젝트에 있어야 합니다."
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
-              only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 함"
+              cant_be_inferior_to_remaining_work: "Cannot be lower than Remaining work."
+              must_be_set_when_remaining_work_is_set: "Required when Remaining work is set."
+              only_values_greater_or_equal_zeroes_allowed: "Must be >= 0."
+              format: "%{message}"
+            remaining_hours:
+              cant_exceed_work: "Cannot be higher than Work."
+              must_be_set_when_work_is_set: "Required when Work is set."
+              format: "%{message}"
           readonly_status: "작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다."
         type:
           attributes:
@@ -1027,6 +1089,12 @@ ko:
       updated_by_on_time_entry: "%{datetime}, %{user} 님이 기록한 시간을 업데이트함"
       updated_on: "%{datetime} 업데이트함"
       updated_on_time_entry: "%{datetime}, 기록한 시간을 업데이트함"
+      deleted_on: "삭제: %{datetime}"
+      deleted_by_on: "삭제: %{user}, %{datetime}"
+      added_on: "추가: %{datetime}"
+      added_by_on: "추가: %{user}, %{datetime}"
+      removed_on: "제거: %{datetime}"
+      removed_by_on: "제거: %{user}, %{datetime}"
       parent_without_of: "하위 프로젝트"
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
       time_entry:
@@ -1036,6 +1104,18 @@ ko:
           other: "<i>%{count}시간</i>"
         updated: "%{old_value}에서 %{value}(으)로 변경됨"
         logged_for: "기록함 -"
+      meeting_agenda_item:
+        duration:
+          added: "%{value}(으)로 설정됨"
+          added_html: "<i>%{value}</i>(으)로 설정됨"
+          removed: "제거됨"
+          updated: "%{old_value}에서 %{value}(으)로 변경됨"
+          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
+        position:
+          updated: "재정렬됨"
+        work_package:
+          updated: "%{old_value}에서 %{value}(으)로 변경됨"
+          updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
     filter:
       changeset: "변경 집합"
       message: "포럼"
@@ -1066,7 +1146,7 @@ ko:
     default_columns: "기본 칼럼"
     description: "설명"
     derived_due_date: "파생된 완료 날짜"
-    derived_estimated_hours: "Total work"
+    derived_estimated_hours: "총 작업"
     derived_start_date: "파생된 시작 날짜"
     display_sums: "합계 표시"
     due_date: "완료 날짜"
@@ -1133,6 +1213,7 @@ ko:
       token_cooldown: '%{hours}시간 후부터 백업 토큰이 유효합니다.'
       backup_pending: 이미 대기 중인 백업이 있습니다.
       limit_reached: 하루에 백업 %{limit}회만 진행할 수 있습니다.
+  button_actions: "작업"
   button_add: "추가"
   button_add_comment: "댓글 달기"
   button_add_member: 멤버 추가
@@ -1183,6 +1264,7 @@ ko:
   button_reset: "재설정"
   button_rollback: "이 버전으로 롤백"
   button_save: "저장"
+  button_save_as: "다른 이름으로 저장"
   button_apply_changes: "변경 사항 적용"
   button_save_back: "저장하고 돌아가기"
   button_show: "표시"
@@ -1202,6 +1284,14 @@ ko:
   button_add_menu_entry: "메뉴 항목 추가"
   button_configure_menu_entry: "메뉴 항목 구성"
   button_delete_menu_entry: "메뉴 항목 삭제"
+  button_view_shared_work_packages: "공유된 작업 패키지 보기"
+  button_manage_roles: "역할 관리"
+  button_remove_member: "멤버 제거"
+  button_remove_member_and_shares: "멤버 및 공유 제거"
+  button_revoke_work_package_shares: "작업 패키지 공유 취소"
+  button_revoke_access: "액세스 취소"
+  button_revoke_all: "모두 취소"
+  button_revoke_only: "%{shared_role_name}만 취소"
   consent:
     checkbox_label: 위 내용을 확인했으며 이에 동의합니다.
     failure_message: 동의에 실패했습니다. 계속할 수 없습니다.
@@ -1399,7 +1489,6 @@ ko:
   error_pdf_export_too_many_columns: "PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오."
   error_pdf_failed_to_export: "PDF 내보내기를 저장할 수 없습니다: %{error}"
   error_token_authenticity: "교차 사이트 요청 위조 토큰을 확인할 수 없습니다. 여러 브라우저나 탭에서 데이터 제출을 시도하셨습니까? 모든 탭을 닫고 다시 시도하세요."
-  error_work_package_done_ratios_not_updated: "작업 패키지 완료 % 값이 업데이트되지 않았습니다."
   error_work_package_not_found_in_project: "작업 패키지가 없거나 이 프로젝트에 속하지 않습니다."
   error_must_be_project_member: "은(는) 프로젝트 멤버여야 합니다."
   error_migrations_are_pending: "OpenProject 설치에 보류 중인 데이터베이스 마이그레이션이 있습니다. 지난 업그레이드에서 마이그레이션을 실행하지 않았을 가능성이 있습니다. 업그레이드 가이드를 확인하여 제대로 설치를 업그레이드하세요."
@@ -1493,6 +1582,7 @@ ko:
       postgres_migration: "설치를 PostgreSQL로 마이그레이션"
       user_guides: "사용자 가이드"
       faq: "FAQ"
+      impressum: "법적 고지"
       glossary: "용어집"
       shortcuts: "바로가기 "
       blog: "OpenProject 블로그"
@@ -1504,6 +1594,9 @@ ko:
     changes_retracted: "변경 사항이 취소되었습니다."
     caused_changes:
       dates_changed: "변경된 날짜"
+      default_attribute_written: "읽기 전용 특성 작성됨"
+      progress_mode_changed_to_status_based: "진행률 계산 업데이트됨"
+      status_p_complete_changed: "상태 완료 % 변경됨"
       system_update: "OpenProject 시스템 업데이트:"
     cause_descriptions:
       work_package_predecessor_changed_times: 이전 %{link}에 대한 변경 사항 기준
@@ -1519,9 +1612,16 @@ ko:
         dates:
           working: "%{date}은(는) 이제 근무일입니다."
           non_working: "%{date}은(는) 이제 휴무일입니다."
+      progress_mode_changed_to_status_based: 진행률 계산 모드가 상태 기반으로 설정되었습니다
+      status_p_complete_changed: >-
+        상태 '%{status_name}'의 완료 % 값이 %{old_value}%에서 %{new_value}%(으)로 변경되었습니다
       system_update:
         file_links_journal: >
           지금부터 파일 링크(외부 저장소에 저장된 파일)와 관련된 활동이 활동 탭에 표시됩니다. 다음은 이미 존재하는 링크와 관련된 활동을 나타냅니다.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "구성 가이드"
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1536,6 +1636,8 @@ ko:
       api_and_webhooks: "API 및 webhook"
     quick_add:
       label: "빠른 추가 메뉴 열기"
+    breadcrumb:
+      nested_element: "%{section_header}: <b>%{title}</b>"
   my_account:
     access_tokens:
       no_results:
@@ -1637,14 +1739,13 @@ ko:
   label_ascending: "오름차순"
   label_assigned_to_me_work_packages: "내게 할당된 작업 패키지"
   label_associated_revisions: "연결된 수정"
-  label_attachment_delete: "파일 삭제"
-  label_attachment_new: "새 파일"
-  label_attachment_plural: "파일"
+  label_attachment_plural: "첨부 파일"
   label_attribute: "특성"
   label_attribute_plural: "특성"
   label_ldap_auth_source_new: "새로운 LDAP 연결"
   label_ldap_auth_source: "LDAP 연결"
   label_ldap_auth_source_plural: "LDAP 연결"
+  label_attribute_expand_text: "'%{attribute}'의 전체 텍스트"
   label_authentication: "인증"
   label_available_global_roles: "사용 가능한 글로벌 역할"
   label_available_project_forums: "사용 가능한 포럼"
@@ -1749,6 +1850,7 @@ ko:
   label_diff_side_by_side: "나란히"
   label_digital_accessibility: "디지털 접근성(DE)"
   label_disabled: "사용 안 함"
+  label_disabled_uppercase: "사용 안 함"
   label_display: "표시"
   label_display_per_page: "페이지당: %{value}"
   label_display_used_statuses_only: "이 유형에 사용되는 상태만 표시"
@@ -1775,7 +1877,7 @@ ko:
   label_enterprise_support: "엔터프라이즈 지원"
   label_enterprise_addon: "Enterprise 추가 기능"
   label_environment: "환경"
-  label_estimates_and_time: "견적 및 시간"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "일치함"
   label_everywhere: "어디에 있든지"
   label_example: "예"
@@ -1785,6 +1887,7 @@ ko:
   label_ifc_model_plural: "Ifc 모델"
   label_import: "가져오기"
   label_export_to: "다음에서도 사용 가능:"
+  label_expand: "확장"
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
@@ -1823,7 +1926,6 @@ ko:
   label_subject_or_id: "제목 또는 ID"
   label_calendar_subscriptions: "캘린더 구독"
   label_identifier: "식별자"
-  label_impressum: "법적 고지"
   label_in: "-"
   label_in_less_than: "보다 작음"
   label_in_more_than: "보다 큼"
@@ -1859,6 +1961,7 @@ ko:
   label_latest_revision: "최근 수정"
   label_latest_revision_plural: "최근 수정"
   label_ldap_authentication: "LDAP 인증"
+  label_learn_more: "자세히 알아보기"
   label_less_or_equal: "<="
   label_less_than_ago: "일 미만 전"
   label_list: "목록"
@@ -1883,7 +1986,7 @@ ko:
   label_member_new: "새 멤버"
   label_member_all_admin: "(관리 상태에 따른 모든 역할)"
   label_member_plural: "멤버"
-  label_membership_plural: "Memberships"
+  label_membership_plural: "멤버십"
   lable_membership_added: "멤버 추가됨"
   lable_membership_updated: "멤버 갱신됨"
   label_menu_badge:
@@ -1976,6 +2079,7 @@ ko:
   label_precedes: "선행"
   label_preferences: "기본 설정"
   label_preview: "미리 보기"
+  label_preview_not_available: "미리 보기를 사용할 수 없음"
   label_previous: "이전"
   label_previous_week: "이전 주"
   label_principal_invite_via_email: " 또는 이메일을 통해 새 사용자 초대하기"
@@ -1983,6 +2087,7 @@ ko:
   label_privacy_policy: "데이터 프라이버시 및 보안 정책"
   label_product_version: "제품 버전"
   label_profile: "프로필"
+  label_percent_complete: "완료 %"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
   label_project_count: "전체 프로젝트 수"
@@ -1992,7 +2097,11 @@ ko:
   label_project_hierarchy: "프로젝트 계층 구조"
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
+  label_project_list_plural: "프로젝트 목록"
+  label_project_attributes_plural: "프로젝트 특성"
+  label_project_custom_field_plural: "프로젝트 특성"
   label_project_settings: "프로젝트 설정"
+  label_project_attributes_settings: "프로젝트 특성 설정"
   label_project_storage_plural: "파일 저장소"
   label_project_storage_project_folder: "파일 저장소: 프로젝트 폴더"
   label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
@@ -2015,6 +2124,7 @@ ko:
   label_relation_delete: "관계 삭제"
   label_relation_new: "새 관계"
   label_release_notes: "릴리스 노트"
+  label_remaining_work: "남은 작업"
   label_remove_columns: "선택된 열 제거"
   label_renamed: "이름 변경됨"
   label_reply_plural: "회신"
@@ -2093,7 +2203,6 @@ ko:
   label_type_new: "새 유형"
   label_type_plural: "유형"
   label_ui: "사용자 인터페이스"
-  label_update_work_package_done_ratios: "작업 패키지 완료 % 값 업데이트"
   label_updated_time: "%{value} 전에 업데이트됨"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}이(가) %{age} 전에 업데이트함"
@@ -2148,6 +2257,7 @@ ko:
   label_wiki_show_new_page_link: "하위 메뉴 항목 '새 자식 페이지 만들기' 표시"
   label_wiki_show_submenu_item: "다음의 하위 메뉴 항목으로 표시: "
   label_wiki_start: "시작 페이지"
+  label_work: "작업"
   label_work_package: "작업 패키지"
   label_work_package_attachments: "작업 패키지 첨부 파일"
   label_work_package_category_new: "새 카테고리"
@@ -2187,10 +2297,11 @@ ko:
     other: "%{count}개 프로젝트"
     zero: "프로젝트 없음"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "파일 1개"
+    other: "파일 %{count}개"
+    zero: "파일 없음"
   label_yesterday: "어제"
+  label_zen_mode: "젠 모드"
   label_role_type: "유형"
   label_member_role: "프로젝트 역할"
   label_global_role: "글로벌 역할"
@@ -2263,6 +2374,35 @@ ko:
         summary:
           user: "%{user} 님이 %{role_rights} 권한으로 작업 패키지를 귀하와 공유했습니다."
           group: "%{user} 님이 귀하가 속한 %{group} 그룹과 작업 패키지를 공유했습니다"
+    storages:
+      health:
+        plaintext:
+          storage: "저장소"
+          healthy:
+            summary: "반가운 소식입니다! 저장소 %{storage_name}의 상태가 현재 \"정상\"으로 표시되고 있습니다."
+            error-solved-on: "해결:"
+            recommendation: "당사는 시스템이 양호한 상태를 유지하도록 지속적으로 시스템을 모니터링할 것입니다. 문제가 발견되면 알려드리겠습니다."
+            details: "자세한 내용을 확인하거나 필요한 사항을 수정하려면 저장소 구성을 방문하세요"
+          unhealthy:
+            summary: "현재, 저장소 %{storage_name}의 상태가 \"오류\"로 표시되고 있습니다. 주의가 필요할 수 있는 이슈가 감지되었습니다."
+            error-details: "오류 세부 정보"
+            error-message: "오류 메시지"
+            error-occurred-on: "발생:"
+            recommendation: "이 문제를 해결하려면 저장소 구성 페이지로 이동하는 것이 좋습니다"
+            unsubscribe: "이러한 알림을 더 이상 받고 싶지 않다면 언제든지 구독 취소할 수 있습니다. 구독 취소하려면 이 페이지의 지침을 따르세요."
+        email_notification_settings: "저장소 이메일 알림 설정"
+        see_storage_settings: "저장소 설정 보기"
+        healthy:
+          subject: "\"%{name}\" 저장소가 이제 정상입니다!"
+          solved_at: "해결:"
+          summary: "%{storage_name} 저장소 통합 문제가 이제 해결되었습니다"
+        unhealthy:
+          subject: "\"%{name}\" 저장소에 문제가 있습니다!"
+          since: "이후"
+          summary: "%{storage_name} 저장소 통합에 문제가 있습니다"
+          troubleshooting:
+            text: "자세한 내용은 파일 저장소를 확인하세요"
+            link_text: "문제 해결 문서"
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
@@ -2368,7 +2508,6 @@ ko:
   notice_file_not_found: "액세스하려는 페이지가 존재하지 않거나 제거되었습니다."
   notice_forced_logout: "비활성화된지 %{ttl_time}분 후 자동으로 로그아웃되었습니다."
   notice_internal_server_error: "액세스하려는 페이지에 오류가 발생했습니다. 계속하여 문제가 발생하는 경우 %{app_title} 관리자에게 문의하여 지원을 받으세요."
-  notice_work_package_done_ratios_updated: "완료 % 업데이트됨"
   notice_locking_conflict: "그 사이에 정보가 한 명 이상의 다른 사용자에 의해 업데이트되었습니다."
   notice_locking_conflict_additional_information: "%{users}의 업데이트입니다."
   notice_locking_conflict_reload_page: "페이지를 다시 로드하고, 변경 사항을 검토하고, 업데이트를 다시 적용하세요."
@@ -2492,6 +2631,7 @@ ko:
   permission_save_queries: "보기 저장"
   permission_search_project: "프로젝트 검색"
   permission_select_custom_fields: "사용자 지정 필드 선택"
+  permission_select_project_custom_fields: "프로젝트 특성 선택"
   permission_select_project_modules: "프로젝트 모듈 선택"
   permission_share_work_packages: "작업 패키지 공유"
   permission_manage_types: "유형 선택"
@@ -2540,13 +2680,17 @@ ko:
     archive:
       are_you_sure: "프로젝트 '%{name}'을(를) 보관하시겠습니까?"
       archived: "보관됨"
+    count:
+      zero: "0개 프로젝트"
+      one: "1개 프로젝트"
+      other: "%{count}개 프로젝트"
   project_module_activity: "활동"
   project_module_forums: "포럼"
   project_module_work_package_tracking: "작업 패키지"
   project_module_news: "뉴스"
   project_module_repository: "리포지토리"
   project_module_wiki: "위키"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "작업 패키지 및 Gantt 차트"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2559,6 +2703,7 @@ ko:
     name_or_identifier: "이름 또는 식별자"
     only_subproject_id: "하위 프로젝트만"
     shared_with_user: "사용자와 공유됨"
+    shared_with_me: "나와 공유됨"
     subproject_id: "하위 프로젝트 포함"
   repositories:
     at_identifier: "- %{identifier}"
@@ -2674,6 +2819,9 @@ ko:
   setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
+  setting_apiv3_write_readonly_attributes: "읽기 전용 특성에 대한 쓰기 액세스"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    활성화하면, API를 통해 관리자가 생성 중에 createdAt 및 author 등의 정적 읽기 전용 특성을 작성할 수 있습니다. <br/> <strong>경고:</strong> 이 설정은 데이터 가져오기 등의 사용 사례가 있지만 관리자가 다른 사용자로 가장하여 항목을 만들 수 있습니다. 그러나 모든 생성 요청은 실제 작성자와 함께 기록되고 있습니다. </br> 특성 및 지원되는 리소스에 대한 자세한 내용은 %{api_documentation_link}에서 참조하세요.
   setting_apiv3_max_page_size: "최대 API 페이지 크기"
   setting_apiv3_max_page_instructions_html: >
     API가 응답할 최대 페이지 크기를 설정하세요. 단일 페이지에서 더 많은 값을 반환하는 API 요청을 수행할 수 없습니다. <br/> <strong>경고:</strong> 이 값이 필요한 이유가 확실한 경우에만 이 값을 변경하세요. 높은 값으로 설정하면 성능에 상당한 영향을 미치고, 페이지당 옵션보다 낮은 값은 페이지가 매겨진 보기에서 오류를 일으킵니다.
@@ -2697,8 +2845,8 @@ ko:
   setting_app_subtitle: "응용 프로그램 부제목"
   setting_app_title: "응용 프로그램 제목"
   setting_attachment_max_size: "첨부 파일 최대 크기"
-  setting_antivirus_scan_mode: "Scan mode"
-  setting_antivirus_scan_action: "Infected file action"
+  setting_antivirus_scan_mode: "스캔 모드"
+  setting_antivirus_scan_action: "감염된 파일 작업"
   setting_autofetch_changesets: "Autofetch 리포지토리 변경 사항"
   setting_autologin: "자동 로그인"
   setting_available_languages: "사용 가능한 언어"
@@ -2707,7 +2855,7 @@ ko:
   setting_brute_force_block_minutes: "사용자가 다음 시간 동안 차단되었습니다."
   setting_cache_formatted_text: "캐시 서식 있는 텍스트"
   setting_use_wysiwyg_description: "기본적으로 모든 사용자에 대한 CKEditor5 WYSIWYG 편집기를 활성화하려면 선택하세요. CKEditor는 GFM Markdown용 기능을 제한했습니다."
-  setting_column_options: "작업 패키지 목록의 모양 사용자 지정"
+  setting_column_options: "기본 작업 패키지 목록 열"
   setting_commit_fix_keywords: "키워드 수정"
   setting_commit_logs_encoding: "커밋 메시지 인코딩"
   setting_commit_logtime_activity_id: "기록된 시간의 작업"
@@ -2729,18 +2877,18 @@ ko:
   setting_emails_header: "이메일 머리글"
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
-  setting_enabled_projects_columns: "프로젝트 목록에 표시"
+  setting_enabled_projects_columns: "기본적으로 표시되는 프로젝트 목록의 열"
   setting_feeds_enabled: "피드 사용"
   setting_ical_enabled: "iCalendar 구독 활성화"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"
   setting_invitation_expiration_days: "활성화 이메일 만료 기간:"
-  setting_work_package_done_ratio: "작업 패키지 완료 % 계산:"
-  setting_work_package_done_ratio_field: "작업 패키지 필드"
-  setting_work_package_done_ratio_status: "작업 패키지 상태"
-  setting_work_package_done_ratio_disabled: "비활성화(완료 % 필드 숨기기)"
-  setting_work_package_list_default_columns: "기본적으로 사용 안 함"
+  setting_work_package_done_ratio: "진행률 계산"
+  setting_work_package_done_ratio_field: "작업 기반"
+  setting_work_package_done_ratio_status: "상태 기반"
+  setting_work_package_done_ratio_explanation_html: >
+    <b>작업 기반</b> 모드에서 완료 %는 총 작업 대비 완료된 작업을 기준으로 계산됩니다. <b>상태 기반</b> 모드에서는 각 상태에 완료 % 값이 연결되어 있습니다. 상태를 변경하면 완료 %도 변경됩니다.
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_projects_export_limit: "작업 패키지/프로젝트 내보내기 제한"
@@ -2799,26 +2947,26 @@ ko:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
     antivirus:
-      title: "Virus scanning"
-      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      title: "바이러스 검사"
+      clamav_ping_failed: "ClamAV 데몬을 연결하지 못했습니다. 구성을 다시 확인하고 다시 시도하세요."
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        바이러스 검사가 비활성화되었습니다. %{file_count}개는 격리된 상태로 유지됩니다. 격리된 파일을 검토하려면 다음 링크를 참조하세요: %{link}
       remaining_scan_complete_html: >
-        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+        나머지 파일을 검사했습니다. %{file_count}개가 격리되었습니다. 격리 페이지로 리디렉션되는 중입니다. 이 페이지에서 격리된 파일을 삭제하거나 무시하세요.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        바이러스 검사가 활성화되었습니다. 이전에 업로드되었지만 아직 검사해야 하는 %{file_count}개가 있습니다. 이 프로세스는 백그라운드에서 예약되었습니다. 검사하는 동안 파일에 계속 액세스할 수 있습니다.
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "OpenProject에서 업로드된 파일은 바이러스 검사를 수행한 후에 다른 사용자가 액세스해야 합니다."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "파일 삭제"
+        quarantine: "파일 격리"
         instructions_html: >
-          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+          바이러스가 발견된 파일에 수행할 작업을 선택하세요: <br/> <ul> <li><strong>%{quarantine_option}</strong>: 파일을 격리하여 사용자가 액세스하지 못하도록 합니다. 관리자는 관리에서 격리된 파일을 검토하고 삭제할 수 있습니다.</li> <li><strong>%{delete_option}</strong>: 파일을 즉시 삭제합니다.</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
-        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        clamav_socket_html: 'clamd 데몬의 소켓을 입력하세요. 예: %{example}'
+        clamav_host_html: '호스트 이름 및 clamd 데몬의 포트를 콜론으로 구분하여 입력하세요. 예: %{example}'
         description_html: >
-          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
+          바이러스 백신 스캐너 통합이 작동되어야 하는 모드를 선택하세요. <br/> <ul> <li><strong>%{disabled_option}</strong>: 업로드된 파일은 바이러스 검사를 받지 않습니다.</li> <li><strong>%{socket_option}</strong>: OpenProject와 동일한 서버에서 ClamAV를 설정했으며 스캔 데몬 clamd가 백그라운드에서 실행 중입니다.</li> <li><strong>%{host_option}</strong>: 외부 바이러스 스캔 호스트에 파일을 스트리밍하고 있습니다.</li> </ul>
     brute_force_prevention: "자동화된 사용자 차단"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2845,10 +2993,24 @@ ko:
       delay_minutes_explanation: "인앱 알림이 구성된 사용자가 메일이 전송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
     other: "기타"
     passwords: "암호"
+    project_attributes:
+      heading: "프로젝트 특성"
+      label_new_attribute: "프로젝트 특성"
+      label_new_section: "섹션"
+      label_edit_section: "제목 편집"
+      label_section_actions: "섹션 작업"
+      heading_description: "이러한 프로젝트 특성은 각 프로젝트의 개요 페이지에 표시됩니다. 새 특성을 추가하고, 섹션으로 그룹화하고, 원하는 대로 재정렬할 수 있습니다. 이러한 특성은 활성화 또는 비활성화할 수 있지만 프로젝트 레벨에서 재정렬할 수는 없습니다."
+      label_project_custom_field_actions: "프로젝트 특성 작업"
+      label_no_project_custom_fields: "이 섹션에 정의된 프로젝트 특성이 없습니다"
+      edit:
+        description: "이 프로젝트 특성에 대한 변경 사항은 이 특성이 활성화된 모든 프로젝트에 반영됩니다. 필수 특성은 프로젝트별로 비활성화할 수 없습니다."
+      new:
+        heading: "새로운 특성"
+        description: "이 프로젝트 특성에 대한 변경 사항은 이 특성이 활성화된 모든 프로젝트에 반영됩니다. 필수 특성은 프로젝트별로 비활성화할 수 없습니다."
     projects:
       missing_dependencies: "%{dependencies}에 의존하는 프로젝트 모듈 %{module}이(가) 확인되었습니다. 이러한 종속성도 확인해야 합니다."
       section_new_projects: "새 프로젝트의 설정"
-      section_project_overview: "프로젝트 개요 목록의 설정"
+      section_project_overview: "프로젝트 목록의 설정"
     session: "세션"
     user:
       default_preferences: "기본 설정"
@@ -2877,6 +3039,7 @@ ko:
   text_are_you_sure: "계속하시겠습니까?"
   text_are_you_sure_continue: "계속하시겠습니까?"
   text_are_you_sure_with_children: "작업 패키지 및 모든 자식 작업 패키지를 삭제하시겠습니까?"
+  text_are_you_sure_with_project_custom_fields: "이 특성을 삭제하면 모든 프로젝트에서 해당 값도 삭제됩니다. 계속하시겠습니까?"
   text_assign_to_project: "프로젝트에 할당"
   text_form_configuration: >
     작업 패키지 양식으로 표시할 필드를 사용자 지정할 수 있습니다. 해당 도메인의 요구 사항을 반영하도록 필드를 자유롭게 그룹화할 수 있습니다.
@@ -3013,6 +3176,12 @@ ko:
       활성화된 경우, 사용자는 등록 중에 로그인 방식을 선택할 수 없습니다. 대신 주어진 이메일 주소가 로그인 방식으로 사용됩니다. 관리자는 로그인 방식을 개별적으로 변경할 수 있습니다.
   queries:
     apply_filter: 미리 구성된 필터 적용
+    configure_view:
+      heading: 보기 구성
+      columns:
+        input_label: "열 추가"
+        input_placeholder: "열 선택"
+        drag_area_label: "열 관리 및 재정렬"
   top_menu:
     additional_resources: "추가 리소스"
     getting_started: "시작하기"
@@ -3046,6 +3215,7 @@ ko:
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: "상태 변경"
     text_change_disabled_for_provider_login: "이 이름은 로그인 공급자가 설정하므로 변경 가능하지 않습니다."
+    text_change_disabled_for_ldap_login: "이름과 이메일은 LDAP에 의해 설정되므로 변경할 수 없습니다."
     unlock: "잠금 해제"
     unlock_and_reset_failed_logins: "실패한 로그인 잠금 해제 및 재설정"
   version_status_closed: "닫음"
@@ -3091,6 +3261,12 @@ ko:
     destroy:
       info: "작업 패키지 삭제는 취소할 수 없는 작업입니다."
       title: "작업 패키지 삭제"
+    progress:
+      label_note: "참고:"
+      modal:
+        work_based_help_text: "완료 %는 작업 및 남은 작업에서 자동으로 파생됩니다."
+        status_based_help_text: "완료 %는 작업 패키지 상태에 따라 설정됩니다."
+        migration_warning_text: "작업 기반 진행률 계산 모드에서 완료 %는 수동으로 설정할 수 없으며 작업에 연결됩니다. 기존 값은 유지되지만 편집할 수 없습니다. 먼저 작업을 입력하세요."
     sharing:
       count:
         zero: "사용자 0명"
@@ -3199,9 +3375,7 @@ ko:
         unsupported_context: "지정된 리소스는 컨텍스트로 지원되지 않습니다."
         context_object_not_found: "컨텍스트로 지정된 리소스를 찾을 수 없습니다."
       validation:
-        done_ratio: "완료 %는 상태에 의해 유추되는 경우 또는 비활성화된 경우 부모 작업 패키지에서 설정할 수 없습니다."
         due_date: "완료 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
-        estimated_hours: "작업은 부모 작업 패키지에서 설정할 수 없습니다." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "선택한 사용자는 이 작업 패키지에 대해 '%{property}' 허가되지 않았습니다."
         start_date: "시작 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
       eprops:
@@ -3313,7 +3487,7 @@ ko:
       label_request_token: "토큰 요청"
       label_refresh_token: "토큰 새로고침"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2가 오류를 반환했습니다."
+      oauth_authorization_code_grant_had_errors: "OAuth2 권한 부여에 실패했습니다"
       oauth_reported: "OAuth2 공급자가 다음을 보고했습니다:"
       oauth_returned_error: "OAuth2가 오류를 반환했습니다."
       oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."

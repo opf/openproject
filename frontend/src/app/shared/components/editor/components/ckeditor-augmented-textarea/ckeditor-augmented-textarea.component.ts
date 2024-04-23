@@ -64,11 +64,15 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   @Input() public macros:ICKEditorMacroType;
 
+  @Input() public removePlugins:string[] = [];
+
   @Input() public resource?:object;
 
   @Input() public turboMode = false;
 
   @Input() public editorType:ICKEditorType = 'full';
+
+  @Input() public showAttachments = true;
 
   // Which template to include
   public element:HTMLElement;
@@ -128,6 +132,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
       type: this.editorType,
       resource: this.halResource,
       previewContext: this.previewContext,
+      removePlugins: this.removePlugins,
     };
     if (this.readOnly) {
       this.context.macros = 'none';

@@ -75,7 +75,7 @@ class ActivitiesController < ApplicationController
   end
 
   def verify_activities_module_activated
-    render_403 if @project && !@project.module_enabled?('activity')
+    render_403 if @project && !@project.module_enabled?("activity")
   end
 
   def determine_date_range
@@ -101,7 +101,7 @@ class ActivitiesController < ApplicationController
                         elsif params[:with_subprojects].nil?
                           session[:activity][:with_subprojects]
                         else
-                          params[:with_subprojects] == '1'
+                          params[:with_subprojects] == "1"
                         end
   end
 
@@ -136,7 +136,7 @@ class ActivitiesController < ApplicationController
   end
 
   def set_current_activity_page
-    @activity_page = @project ? "projects/#{@project.identifier}" : 'all'
+    @activity_page = @project ? "projects/#{@project.identifier}" : "all"
   end
 
   def set_session

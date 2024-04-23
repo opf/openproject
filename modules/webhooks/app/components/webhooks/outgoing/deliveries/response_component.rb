@@ -7,7 +7,7 @@ module ::Webhooks
         property :response_body
 
         def title
-          model.class.human_attribute_name('response_body')
+          model.class.human_attribute_name("response_body")
         end
       end
     end

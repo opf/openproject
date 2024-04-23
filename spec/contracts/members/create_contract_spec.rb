@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Members::CreateContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
-  it_behaves_like 'member contract' do
+  it_behaves_like "member contract" do
     let(:member) do
       Member.new(project: member_project,
                  roles: member_roles,
@@ -41,36 +41,36 @@ RSpec.describe Members::CreateContract do
 
     let(:contract) { described_class.new(member, current_user) }
 
-    describe '#validation' do
-      context 'if the principal is nil' do
+    describe "#validation" do
+      context "if the principal is nil" do
         let(:member_principal) { nil }
 
-        it_behaves_like 'contract is invalid', principal: :blank
+        it_behaves_like "contract is invalid", principal: :blank
       end
 
-      context 'if the principal is a builtin user' do
+      context "if the principal is a builtin user" do
         let(:member_principal) { build_stubbed(:anonymous) }
 
-        it_behaves_like 'contract is invalid', principal: :unassignable
+        it_behaves_like "contract is invalid", principal: :unassignable
       end
 
-      context 'if the principal is a locked user' do
+      context "if the principal is a locked user" do
         let(:member_principal) { build_stubbed(:locked_user) }
 
-        it_behaves_like 'contract is invalid', principal: :unassignable
+        it_behaves_like "contract is invalid", principal: :unassignable
       end
     end
 
-    describe '#assignable_projects' do
-      context 'as a user without permission' do
+    describe "#assignable_projects" do
+      context "as a user without permission" do
         let(:current_user) { build_stubbed(:user) }
 
-        it 'is empty' do
+        it "is empty" do
           expect(contract.assignable_projects).to be_empty
         end
       end
 
-      context 'as a user with permission in one project' do
+      context "as a user with permission in one project" do
         let!(:project1) { create(:project) }
         let!(:project2) { create(:project) }
         let(:current_user) do
@@ -78,7 +78,7 @@ RSpec.describe Members::CreateContract do
                  member_with_permissions: { project1 => %i[manage_members] })
         end
 
-        it 'returns the one project' do
+        it "returns the one project" do
           expect(contract.assignable_projects.to_a).to eq [project1]
         end
       end

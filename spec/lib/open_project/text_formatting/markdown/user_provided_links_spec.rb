@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
 RSpec.describe OpenProject::TextFormatting,
-               'user provided links' do
-  include_context 'expected markdown modules'
+               "user provided links" do
+  include_context "expected markdown modules"
 
-  context 'hardened against tabnabbing' do
-    it_behaves_like 'format_text produces' do
+  context "hardened against tabnabbing" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           this is a <a style="display:none;" target="_top" href="http://malicious">
@@ -51,9 +51,9 @@ RSpec.describe OpenProject::TextFormatting,
     end
   end
 
-  context 'autolinks' do
-    context 'for urls' do
-      it_behaves_like 'format_text produces' do
+  context "autolinks" do
+    context "for urls" do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             Autolink to http://www.google.com
@@ -63,15 +63,15 @@ RSpec.describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Autolink to <a href="http://www.google.com" class="op-uc-link">http://www.google.com</a>
+              Autolink to <a href="http://www.google.com" rel="noopener noreferrer" target="_top" class="op-uc-link">http://www.google.com</a>
             </p>
           EXPECTED
         end
       end
     end
 
-    context 'for email addresses' do
-      it_behaves_like 'format_text produces' do
+    context "for email addresses" do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             Mailto link to foo@bar.com
@@ -81,7 +81,7 @@ RSpec.describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              Mailto link to <a href="mailto:foo@bar.com" class="op-uc-link">foo@bar.com</a>
+              Mailto link to <a href="mailto:foo@bar.com" rel="noopener noreferrer" target="_top" class="op-uc-link">foo@bar.com</a>
             </p>
           EXPECTED
         end
@@ -89,9 +89,9 @@ RSpec.describe OpenProject::TextFormatting,
     end
   end
 
-  context 'relative URLS' do
-    context 'path_only is true (default)' do
-      it_behaves_like 'format_text produces' do
+  context "relative URLS" do
+    context "path_only is true (default)" do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             Link to [relative path](/foo/bar)
@@ -108,10 +108,10 @@ RSpec.describe OpenProject::TextFormatting,
       end
     end
 
-    context 'path_only is false', with_settings: { host_name: "openproject.org" } do
+    context "path_only is false", with_settings: { host_name: "openproject.org" } do
       let(:options) { { only_path: false } }
 
-      it_behaves_like 'format_text produces' do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             Link to [relative path](/foo/bar)

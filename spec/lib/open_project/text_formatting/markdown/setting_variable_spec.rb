@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
 RSpec.describe OpenProject::TextFormatting,
-               'Setting variable' do
-  include_context 'expected markdown modules'
+               "Setting variable" do
+  include_context "expected markdown modules"
 
-  describe 'attribute label macros' do
-    it_behaves_like 'format_text produces' do
+  describe "attribute label macros" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           Inline reference to variable setting: {{opSetting:host_name}}
@@ -57,16 +57,15 @@ RSpec.describe OpenProject::TextFormatting,
             Inline reference to variable setting: #{OpenProject::StaticRouting::UrlHelpers.host}
           </p>
           <p class="op-uc-p">
-            Inline reference to base_url variable: #{Rails.application.root_url}
+            Inline reference to base_url variable: <a href="#{Rails.application.root_url}" target="_top" rel="noopener noreferrer"
+               class="op-uc-link">#{Rails.application.root_url}</a>
           </p>
           <p class="op-uc-p">
-            <a href="#{Rails.application.root_url}/foo/bar" rel="noopener noreferrer"
-               target="_top"
+            <a href="#{Rails.application.root_url}/foo/bar" target="_top" rel="noopener noreferrer"
                class="op-uc-link">Link with setting</a>
           </p>
           <p class="op-uc-p">
-            <a href="#{Rails.application.root_url}/foo/bar" rel="noopener noreferrer"
-               target="_top"
+            <a href="#{Rails.application.root_url}/foo/bar" target="_top" rel="noopener noreferrer"
                class="op-uc-link">Saved and transformed link with setting</a>
           </p>
           <p class="op-uc-p">

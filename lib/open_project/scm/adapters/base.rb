@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/scm/adapters'
-require 'pathname'
+require "open_project/scm/adapters"
+require "pathname"
 
 module OpenProject
   module SCM
@@ -94,12 +94,12 @@ module OpenProject
         end
 
         def search_entries(parts, identifier)
-          search_path = parts[0..-2].join('/')
+          search_path = parts[0..-2].join("/")
           search_name = parts[-1]
 
           if search_path.blank? && search_name.blank?
             # Root entry
-            Entry.new(path: '', kind: 'dir')
+            Entry.new(path: "", kind: "dir")
           else
             # Search for the entry in the parent directory
             es = entries(search_path, identifier)
@@ -142,23 +142,23 @@ module OpenProject
         end
 
         def with_leading_slash(path)
-          path ||= ''
-          path[0, 1] == '/' ? path : "/#{path}"
+          path ||= ""
+          path[0, 1] == "/" ? path : "/#{path}"
         end
 
         def with_trailling_slash(path)
-          path ||= ''
-          path[-1, 1] == '/' ? path : "#{path}/"
+          path ||= ""
+          path[-1, 1] == "/" ? path : "#{path}/"
         end
 
         def without_leading_slash(path)
-          path ||= ''
-          path.gsub(%r{\A/+}, '')
+          path ||= ""
+          path.gsub(%r{\A/+}, "")
         end
 
         def without_trailling_slash(path)
-          path ||= ''
-          path[-1, 1] == '/' ? path[0..-2] : path
+          path ||= ""
+          path[-1, 1] == "/" ? path[0..-2] : path
         end
       end
 

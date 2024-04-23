@@ -26,45 +26,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wysiwyg bold behavior', :js, :with_cuprite do
+RSpec.describe "Wysiwyg bold behavior", :js, :with_cuprite do
   current_user { create(:admin) }
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }
 
   def mac_osx?
-    RUBY_PLATFORM.include?('darwin')
+    RUBY_PLATFORM.include?("darwin")
   end
 
   def bold_keystroke
     if mac_osx?
-      [:meta, 'b']
+      [:meta, "b"]
     else
-      [:ctrl, 'b']
+      [:ctrl, "b"]
     end
   end
 
-  describe 'in wikis' do
-    describe 'creating a wiki page' do
+  describe "in wikis" do
+    describe "creating a wiki page" do
       before do
         visit project_wiki_path(project, :wiki)
       end
 
-      it 'can insert strong formatting with nbsp' do
-        editor.click_and_type_slowly 'some text ', bold_keystroke, 'with bold'
+      it "can insert strong formatting with nbsp" do
+        editor.click_and_type_slowly "some text ", bold_keystroke, "with bold"
 
         # Save wiki page
-        click_on 'Save'
+        click_on "Save"
 
-        expect(page).to have_css('.op-toast.-success')
+        expect(page).to have_css(".op-toast.-success")
 
-        within('#content') do
-          expect(page).to have_css('p') { |node|
-            node.text.include?('some text') && node.text.include?('with bold')
+        within("#content") do
+          expect(page).to have_css("p") { |node|
+            node.text.include?("some text") && node.text.include?("with bold")
           }
-          expect(page).to have_css('strong', text: 'with bold')
+          expect(page).to have_css("strong", text: "with bold")
         end
       end
     end

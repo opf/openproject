@@ -25,8 +25,8 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'icalendar'
-require 'icalendar/tzinfo'
+require "icalendar"
+require "icalendar/tzinfo"
 
 module Meetings
   class ICalService
@@ -73,9 +73,13 @@ module Meetings
     def ical_event(&)
       calendar = ::Icalendar::Calendar.new
 
+      ical_timezone = @timezone.tzinfo.ical_timezone meeting.start_time
+      calendar.add_timezone ical_timezone
+
       calendar.event(&)
 
       calendar.publish
+
       calendar.to_ical
     end
 
@@ -104,7 +108,7 @@ module Meetings
     end
 
     def ical_datetime(time, timezone_id)
-      Icalendar::Values::DateTime.new time.in_time_zone(timezone_id), 'tzid' => timezone_id
+      Icalendar::Values::DateTime.new time.in_time_zone(timezone_id), "tzid" => timezone_id
     end
 
     def ical_organizer

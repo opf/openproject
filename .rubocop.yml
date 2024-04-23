@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-rspec_rails
   - ./lib_static/rubocop/cop/open_project/add_preview_for_view_component.rb
   - ./lib_static/rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect.rb
   - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
@@ -257,8 +258,10 @@ RSpec/ContextWording:
     - as
     - even
     - for
+    - given
     - having
     - if
+    - in
     - 'on'
     - to
     - unless
@@ -415,10 +418,9 @@ Style/SpecialGlobalVars:
 #   For the record: using single quotes does NOT have any performance advantages.
 #   Even if it did, this would be a silly argument.
 #
-# Ideally we would just use double quotes everywhere but since that would result
-# in innumerable rubocop offenses we will just disable this. Quote away.
+# Quote away.
 Style/StringLiterals:
-  Enabled: false
+  EnforcedStyle: double_quotes
 
 Style/TrivialAccessors:
   Enabled: false

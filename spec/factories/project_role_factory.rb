@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'digest'
+require "digest"
 
 FactoryBot.define do
   factory :project_role do
@@ -43,13 +43,13 @@ FactoryBot.define do
     end
 
     factory :non_member do
-      name { 'Non member' }
+      name { "Non member" }
       builtin { Role::BUILTIN_NON_MEMBER }
       initialize_with { ProjectRole.where(builtin: Role::BUILTIN_NON_MEMBER).first_or_initialize }
     end
 
     factory :anonymous_role do
-      name { 'Anonymous' }
+      name { "Anonymous" }
       builtin { Role::BUILTIN_ANONYMOUS }
       initialize_with { ProjectRole.where(builtin: Role::BUILTIN_ANONYMOUS).first_or_initialize }
     end

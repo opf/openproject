@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe TimeEntryWebhookJob, :webmock, type: :job do
   shared_let(:user) { create(:admin) }
@@ -57,7 +57,7 @@ RSpec.describe TimeEntryWebhookJob, :webmock, type: :job do
             "action" => event,
             "time_entry" => hash_including(
               "_type" => "TimeEntry",
-              "hours" => 'PT10H'
+              "hours" => "PT10H"
             )
           ),
           headers: request_headers
@@ -82,7 +82,7 @@ RSpec.describe TimeEntryWebhookJob, :webmock, type: :job do
       stub
     end
 
-    it 'requests with all projects' do
+    it "requests with all projects" do
       expect(webhook)
         .to receive(:enabled_for_project?).with(time_entry.project_id)
         .and_call_original
@@ -91,7 +91,7 @@ RSpec.describe TimeEntryWebhookJob, :webmock, type: :job do
       expect(stub).to have_been_requested
     end
 
-    it 'does not request when project does not match' do
+    it "does not request when project does not match" do
       expect(webhook)
         .to receive(:enabled_for_project?).with(time_entry.project_id)
         .and_return(false)
@@ -100,7 +100,7 @@ RSpec.describe TimeEntryWebhookJob, :webmock, type: :job do
       expect(stub).not_to have_been_requested
     end
 
-    describe 'successful flow' do
+    describe "successful flow" do
       before do
         subject
       end

@@ -8,9 +8,6 @@
   width: $spot-spacing-2 + $spot-spacing-0_25
   flex-shrink: 0
 
-  &:focus-within &--fake
-    @include spot-focus
-
   &, *
     box-sizing: border-box
 
@@ -49,12 +46,12 @@
       transition-timing-function: ease
 
   &--input:checked + &--fake
-    border-color: var(--primary-color)
-    background-color: var(--primary-color--minor3)
+    border-color: var(--control-checked-color)
+    background-color: var(--control-checked-color--minor1)
 
   &--input:checked + &--fake::before
     left: calc(100% - #{$spot-spacing-1} - 1px)
-    background-color: var(--primary-color)
+    background-color: var(--control-checked-color)
 
   &--input:disabled + &--fake,
   &--input:disabled + &--fake::before

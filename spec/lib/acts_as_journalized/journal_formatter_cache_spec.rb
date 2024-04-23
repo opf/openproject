@@ -26,33 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe JournalFormatterCache do
   subject(:cache) { described_class.new }
 
-  describe '#fetch' do
-    it 'caches and returns the value returned by the block on cache miss' do
-      expect(cache.fetch(User, 3) { 'user_3' }).to eq('user_3')
-      expect(cache.fetch('Answer', 42) { 'Life Universe Everything' }).to eq('Life Universe Everything')
+  describe "#fetch" do
+    it "caches and returns the value returned by the block on cache miss" do
+      expect(cache.fetch(User, 3) { "user_3" }).to eq("user_3")
+      expect(cache.fetch("Answer", 42) { "Life Universe Everything" }).to eq("Life Universe Everything")
     end
 
-    it 'returns nil on cache miss if no block is given' do
+    it "returns nil on cache miss if no block is given" do
       expect(cache.fetch(User, 3)).to be_nil
       expect(cache.fetch(User, 17)).to be_nil
     end
 
-    it 'returns the cached value on cache hit' do
-      cache.fetch(User, 3) { 'user_3' }
+    it "returns the cached value on cache hit" do
+      cache.fetch(User, 3) { "user_3" }
 
-      expect(cache.fetch(User, 3)).to eq('user_3')
-      expect(cache.fetch(User, 3) { 'another value' }).to eq('user_3')
+      expect(cache.fetch(User, 3)).to eq("user_3")
+      expect(cache.fetch(User, 3) { "another value" }).to eq("user_3")
 
       expect(cache.fetch(Project, 62)).to be_nil
-      cache.fetch(Project, 62) { 'project_62' }
-      expect(cache.fetch(Project, 62)).to eq('project_62')
-      cache.fetch(Project, 62) { 'another value' }
-      expect(cache.fetch(Project, 62)).to eq('project_62')
+      cache.fetch(Project, 62) { "project_62" }
+      expect(cache.fetch(Project, 62)).to eq("project_62")
+      cache.fetch(Project, 62) { "another value" }
+      expect(cache.fetch(Project, 62)).to eq("project_62")
     end
   end
 end

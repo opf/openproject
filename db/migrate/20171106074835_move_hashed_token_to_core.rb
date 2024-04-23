@@ -57,7 +57,7 @@ class MoveHashedTokenToCore < ActiveRecord::Migration[5.1]
   def migrate_existing_tokens
     # API tokens
     ::Token::API.transaction do
-      OldToken.where(action: 'api').find_each do |token|
+      OldToken.where(action: "api").find_each do |token|
         result = ::Token::API.create(user_id: token.user_id, value: ::Token::API.hash_function(token.value))
         warn "Failed to migrate API token for ##{user.id}" unless result
       end
@@ -65,7 +65,7 @@ class MoveHashedTokenToCore < ActiveRecord::Migration[5.1]
 
     # RSS tokens
     ::Token::RSS.transaction do
-      OldToken.where(action: 'feeds').find_each do |token|
+      OldToken.where(action: "feeds").find_each do |token|
         result = ::Token::RSS.create(user_id: token.user_id, value: token.value)
         warn "Failed to migrate RSS token for ##{user.id}" unless result
       end

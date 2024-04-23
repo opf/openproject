@@ -29,7 +29,7 @@
 module API::V3::OAuth
   class OAuthClientCredentialsAPI < ::API::OpenProjectAPI
     resources :oauth_client_credentials do
-      route_param :oauth_client_credentials_id, type: Integer, desc: 'OAuth Client Credentials id' do
+      route_param :oauth_client_credentials_id, type: Integer, desc: "OAuth Client Credentials id" do
         after_validation do
           authorize_admin
           @oauth_client = ::OAuthClient.find(params[:oauth_client_credentials_id])

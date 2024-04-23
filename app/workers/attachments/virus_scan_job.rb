@@ -40,7 +40,7 @@ module Attachments
       return unless attachment.status_uploaded?
 
       User.execute_as(User.system) do
-        OpenProject::Mutex.with_advisory_lock_transaction(attachment, 'virus_scan') do
+        OpenProject::Mutex.with_advisory_lock_transaction(attachment, "virus_scan") do
           scan_attachment(attachment)
         end
       end
@@ -84,11 +84,11 @@ module Attachments
     def delete_attachment(attachment)
       container = attachment.container
       attachment.destroy!
-      create_journal(container, I18n.t('antivirus_scan.deleted_message', filename: attachment.filename))
+      create_journal(container, I18n.t("antivirus_scan.deleted_message", filename: attachment.filename))
     end
 
     def quarantine_attachment(attachment)
-      create_journal(attachment.container, I18n.t('antivirus_scan.quarantined_message', filename: attachment.filename))
+      create_journal(attachment.container, I18n.t("antivirus_scan.quarantined_message", filename: attachment.filename))
       attachment.update!(status: :quarantined)
     end
 

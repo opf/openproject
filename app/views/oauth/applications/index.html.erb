@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t('oauth.application.plural'), title_class: 'no-padding-bottom' do %>
   <li class="toolbar-item">
     <%= link_to new_oauth_application_path,
-        { class: 'button -alt-highlight',
+        { class: 'button -primary',
           title: t('oauth.application.new')} do %>
       <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= t(:button_add) %></span>

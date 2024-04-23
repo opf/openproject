@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
   let(:grace_period) { 120 }
@@ -57,7 +57,7 @@ RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
       .and_return(grace_period)
   end
 
-  it 'removes all uncontainered attachments and pending uploads that are older than the grace period' do
+  it "removes all uncontainered attachments and pending uploads that are older than the grace period" do
     job.perform
 
     expect(Attachment.all)

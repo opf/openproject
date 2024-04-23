@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
-RSpec.describe 'Deleting a budget', :js do
+RSpec.describe "Deleting a budget", :js do
   let(:project) { create(:project, enabled_module_names: %i[budgets costs]) }
   let(:user) { create(:admin) }
   let(:budget_subject) { "A budget subject" }
@@ -49,8 +49,8 @@ RSpec.describe 'Deleting a budget', :js do
     budget_page.visit!
   end
 
-  context 'when no WP are assigned to this budget' do
-    it 'simply deletes the budget without additional checks' do
+  context "when no WP are assigned to this budget" do
+    it "simply deletes the budget without additional checks" do
       # Delete the budget
       budget_page.click_delete
 
@@ -59,7 +59,7 @@ RSpec.describe 'Deleting a budget', :js do
     end
   end
 
-  context 'when WPs are assigned to this budget' do
+  context "when WPs are assigned to this budget" do
     let(:wp1) { create(:work_package, project:, budget:) }
     let(:wp2) { create(:work_package, project:, budget:) }
     let(:budget_destroy_info_page) { Pages::DestroyInfo.new budget }
@@ -69,7 +69,7 @@ RSpec.describe 'Deleting a budget', :js do
       wp2
     end
 
-    context 'with no other budget to assign to' do
+    context "with no other budget to assign to" do
       before do
         # When deleting with WPs assigned we get to the destroy_info page
         budget_page.click_delete
@@ -79,7 +79,7 @@ RSpec.describe 'Deleting a budget', :js do
         budget_destroy_info_page.expect_delete_option
       end
 
-      it 'deletes the budget from the WPs' do
+      it "deletes the budget from the WPs" do
         # Select to delete the budget from the WPs
         budget_destroy_info_page.expect_no_reassign_option
         budget_destroy_info_page.select_delete_option
@@ -98,10 +98,10 @@ RSpec.describe 'Deleting a budget', :js do
       end
     end
 
-    context 'with another budget to assign to' do
+    context "with another budget to assign to" do
       let(:budget2) do
         create(:budget,
-               subject: 'Another budget',
+               subject: "Another budget",
                description: budget_description,
                author: user,
                project:)
@@ -118,7 +118,7 @@ RSpec.describe 'Deleting a budget', :js do
         budget_destroy_info_page.expect_delete_option
       end
 
-      it 'reassigns the WP to another budget' do
+      it "reassigns the WP to another budget" do
         # Select reassign
         budget_destroy_info_page.expect_reassign_option
         budget_destroy_info_page.select_reassign_option budget2.subject

@@ -1,0 +1,67 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+de:
+  activerecord:
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: "muss ein Array von Hashes mit folgenden Schlüsseln sein: Farbe, Titel"
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: "muss ein Array von Hashes mit folgenden Schlüsseln sein: Farbe, Titel"
+  project_module_gitlab: "GitLab"
+  permission_show_gitlab_content: "GitLab-Inhalt anzeigen"
+  gitlab_integration:
+    merge_request_opened_comment: >
+      **MR eröffnet:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) eröffnet.
+    merge_request_closed_comment: >
+      **MR geschlossen:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.
+    merge_request_merged_comment: >
+      **MR Zusammengeführt:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) zusammengeführt.
+    merge_request_reopened_comment: >
+      **MR Wiedereröffnet:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) wiedereröffnet.
+    note_commit_referenced_comment: >
+      **Referenziert in Commit:** [%{gitlab_user}](%{gitlab_user_url}) verwies auf dieses WP in einer Commit Note [%{commit_id}](%{commit_url}) auf [%{repository}](%{repository_url}): %{commit_note}
+    note_mr_referenced_comment: >
+      **Referenziert in MR:** [%{gitlab_user}](%{gitlab_user_url}) verwies auf dieses WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) auf [%{repository}](%{repository_url}): %{mr_note}
+    note_mr_commented_comment: >
+      **Kommentiert in MR:** [%{gitlab_user}](%{gitlab_user_url}) kommentierte dieses WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) auf [%{repository}](%{repository_url}): %{mr_note}
+    note_issue_referenced_comment: >
+      **Referenziert in Issue:** [%{gitlab_user}](%{gitlab_user_url}) verwies auf dieses WP in %{issue_number} [%{issue_title}](%{issue_url}) auf [%{repository}](%{repository_url}): %{issue_note}
+    note_issue_commented_comment: >
+      **Kommentiert in Issue:** [%{gitlab_user}](%{gitlab_user_url}) kommentierte dieses WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) auf [%{repository}](%{repository_url}): %{issue_note}
+    note_snippet_referenced_comment: >
+      **Referenziert in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) verweist auf dieses WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) auf [%{repository}](%{repository_url}): %{snippet_note}
+    issue_opened_referenced_comment: >
+      **Issue eröffnet:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) eröffnet.
+    issue_closed_referenced_comment: >
+      **Issue geschlossen:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.
+    issue_reopened_referenced_comment: >
+      **Wiedereröffnetes Issue:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) wiedereröffnet.
+    push_single_commit_comment: >
+      **In MR gepusht:** [%{gitlab_user}](%{gitlab_user_url}) hat [%{commit_number}](%{commit_url}) auf [%{repository}](%{repository_url}) in %{commit_timestamp}gedrückt: %{commit_note}
+    push_multiple_commits_comment: >
+      **Im MR gepusht:** [%{gitlab_user}](%{gitlab_user_url}) hat mehrere Commits [%{commit_number}](%{commit_url}) bis [%{repository}](%{repository_url}) unter %{commit_timestamp}gepusht : %{commit_note}

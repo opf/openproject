@@ -28,9 +28,9 @@
 
 class Workflow < ApplicationRecord
   belongs_to :role
-  belongs_to :old_status, class_name: 'Status'
-  belongs_to :new_status, class_name: 'Status'
-  belongs_to :type, inverse_of: 'workflows'
+  belongs_to :old_status, class_name: "Status"
+  belongs_to :new_status, class_name: "Status"
+  belongs_to :type, inverse_of: "workflows"
 
   validates :role, :old_status, :new_status, presence: true
 
@@ -38,15 +38,15 @@ class Workflow < ApplicationRecord
   def self.count_by_type_and_role
     counts = connection
              .select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
-    roles = Role.order(Arel.sql('builtin, position'))
-    types = ::Type.order(Arel.sql('position'))
+    roles = Role.order(Arel.sql("builtin, position"))
+    types = ::Type.order(Arel.sql("position"))
 
     result = []
     types.each do |type|
       t = []
       roles.each do |role|
-        row = counts.detect { |c| c['role_id'].to_s == role.id.to_s && c['type_id'].to_s == type.id.to_s }
-        t << [role, (row.nil? ? 0 : row['c'].to_i)]
+        row = counts.detect { |c| c["role_id"].to_s == role.id.to_s && c["type_id"].to_s == type.id.to_s }
+        t << [role, (row.nil? ? 0 : row["c"].to_i)]
       end
       result << [type, t]
     end
@@ -90,7 +90,7 @@ class Workflow < ApplicationRecord
   # Copies workflows from source to targets
   def self.copy(source_type, source_role, target_types, target_roles)
     unless source_type.is_a?(::Type) || source_role.is_a?(Role)
-      raise ArgumentError.new('source_type or source_role must be specified')
+      raise ArgumentError.new("source_type or source_role must be specified")
     end
 
     target_types = Array(target_types)
@@ -116,7 +116,7 @@ class Workflow < ApplicationRecord
            target_type.is_a?(::Type) && !target_type.new_record? &&
            target_role.is_a?(Role) && !target_role.new_record?
 
-      raise ArgumentError.new('arguments can not be nil or unsaved objects')
+      raise ArgumentError.new("arguments can not be nil or unsaved objects")
     end
 
     if source_type == target_type && source_role == target_role

@@ -50,7 +50,7 @@ module DemoData
     end
 
     def seed_data!
-      print_status '    ↳ Creating work_packages' do
+      print_status "    ↳ Creating work_packages" do
         seed_demo_work_packages
         set_work_package_relations
       end
@@ -63,7 +63,7 @@ module DemoData
     attr_reader :relations_to_create
 
     def seed_demo_work_packages
-      project_data.each('work_packages') do |attributes|
+      project_data.each("work_packages") do |attributes|
         create_or_update_work_package(attributes)
       end
     end
@@ -97,18 +97,18 @@ module DemoData
       {
         project:,
         author: admin_user,
-        assigned_to: find_principal(attributes['assigned_to']),
-        subject: attributes['subject'],
-        description: attributes['description'],
+        assigned_to: find_principal(attributes["assigned_to"]),
+        subject: attributes["subject"],
+        description: attributes["description"],
         status: find_status(attributes),
         type: find_type(attributes),
         priority: IssuePriority.default,
-        parent: find_work_package(attributes['parent'])
+        parent: find_work_package(attributes["parent"])
       }
     end
 
     def create_children!(work_package, attributes)
-      Array(attributes['children']).each do |child_attributes|
+      Array(attributes["children"]).each do |child_attributes|
         child = create_work_package child_attributes
 
         child.parent = work_package
@@ -125,14 +125,14 @@ module DemoData
     end
 
     def add_relations_to_create(work_package, attributes)
-      Array(attributes['relations']).each do |relation|
-        relation_data = RelationData.new(from: work_package, to_reference: relation['to'], type: relation['type'])
+      Array(attributes["relations"]).each do |relation|
+        relation_data = RelationData.new(from: work_package, to_reference: relation["to"], type: relation["type"])
         relations_to_create.push(relation_data)
       end
     end
 
     def memorize_work_package(work_package, attributes)
-      project_data.store_reference(attributes['reference'], work_package)
+      project_data.store_reference(attributes["reference"], work_package)
     end
 
     def find_work_package(reference)
@@ -144,15 +144,15 @@ module DemoData
     end
 
     def find_status(attributes)
-      seed_data.find_reference(attributes['status'].to_sym)
+      seed_data.find_reference(attributes["status"].to_sym)
     end
 
     def find_type(attributes)
-      seed_data.find_reference(attributes['type'].to_sym)
+      seed_data.find_reference(attributes["type"].to_sym)
     end
 
     def set_version!(wp_attr, attributes)
-      version = seed_data.find_reference(attributes['version'])
+      version = seed_data.find_reference(attributes["version"])
       if version
         wp_attr[:version] = version
       end
@@ -167,8 +167,8 @@ module DemoData
     end
 
     def set_backlogs_attributes!(wp_attr, attributes)
-      wp_attr[:position] = attributes['position'].presence&.to_i
-      wp_attr[:story_points] = attributes['story_points'].presence&.to_i
+      wp_attr[:position] = attributes["position"].presence&.to_i
+      wp_attr[:story_points] = attributes["story_points"].presence&.to_i
     end
 
     def set_work_package_relations
@@ -212,12 +212,12 @@ module DemoData
       end
 
       def start_date
-        days_ahead = attributes['start'] || 0
+        days_ahead = attributes["start"] || 0
         Time.zone.today.monday + days_ahead.days
       end
 
       def due_date
-        all_days.due_date(start_date, attributes['duration'])
+        all_days.due_date(start_date, attributes["duration"])
       end
 
       def duration
@@ -231,7 +231,7 @@ module DemoData
       end
 
       def estimated_hours
-        attributes['estimated_hours']&.to_i
+        attributes["estimated_hours"]&.to_i
       end
 
       def all_days

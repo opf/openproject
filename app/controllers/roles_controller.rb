@@ -29,7 +29,7 @@
 class RolesController < ApplicationController
   include PaginationHelper
 
-  layout 'admin'
+  layout "admin"
 
   before_action :require_admin
 
@@ -41,7 +41,7 @@ class RolesController < ApplicationController
              .page(page_param)
              .per_page(per_page_param)
 
-    render action: 'index', layout: false if request.xhr?
+    render action: "index", layout: false if request.xhr?
   end
 
   def new
@@ -52,7 +52,7 @@ class RolesController < ApplicationController
 
   def edit
     @role = Role.find(params[:id])
-    @call = set_role_attributes(@role, 'update')
+    @call = set_role_attributes(@role, "update")
   end
 
   def create
@@ -61,11 +61,11 @@ class RolesController < ApplicationController
 
     if @call.success?
       flash[:notice] = t(:notice_successful_create)
-      redirect_to action: 'index'
+      redirect_to action: "index"
     else
       @roles = roles_scope
 
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -75,9 +75,9 @@ class RolesController < ApplicationController
 
     if @call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'index'
+      redirect_to action: "index"
     else
-      render action: 'edit'
+      render action: "edit"
     end
   end
 
@@ -92,7 +92,7 @@ class RolesController < ApplicationController
     else
       flash[:error] = I18n.t(:error_can_not_remove_role)
     end
-    redirect_to action: 'index'
+    redirect_to action: "index"
   end
 
   def report
@@ -107,11 +107,11 @@ class RolesController < ApplicationController
 
     if calls.all?(&:success?)
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'index'
+      redirect_to action: "index"
     else
       @calls = calls
       @permissions = OpenProject::AccessControl.permissions.reject(&:public?)
-      render action: 'report'
+      render action: "report"
     end
   end
 
@@ -144,10 +144,10 @@ class RolesController < ApplicationController
   end
 
   def default_breadcrumb
-    if action_name == 'index'
-      t('label_role_plural')
+    if action_name == "index"
+      t("label_role_plural")
     else
-      ActionController::Base.helpers.link_to(t('label_role_plural'), roles_path)
+      ActionController::Base.helpers.link_to(t("label_role_plural"), roles_path)
     end
   end
 

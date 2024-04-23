@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'OAuth applications management', :js, :with_cuprite do
+RSpec.describe "OAuth applications management", :js, :with_cuprite do
   let(:admin) { create(:admin) }
 
   before do
@@ -36,59 +36,59 @@ RSpec.describe 'OAuth applications management', :js, :with_cuprite do
     visit oauth_applications_path
   end
 
-  it 'can create, update, show and delete applications' do
+  it "can create, update, show and delete applications" do
     # Initially empty
-    expect(page).to have_css('.generic-table--empty-row', text: 'There is currently nothing to display')
+    expect(page).to have_css(".generic-table--empty-row", text: "There is currently nothing to display")
 
     # Create application
-    find('.button', text: 'Add').click
+    find(".button", text: "Add").click
 
-    fill_in 'application_name', with: 'My API application'
+    fill_in "application_name", with: "My API application"
     # Fill invalid redirect_uri
-    fill_in 'application_redirect_uri', with: "not a url!"
-    click_on 'Create'
+    fill_in "application_redirect_uri", with: "not a url!"
+    click_on "Create"
 
-    expect(page).to have_css('.errorExplanation', text: 'Redirect URI must be an absolute URI.')
+    expect(page).to have_css(".errorExplanation", text: "Redirect URI must be an absolute URI.")
 
-    fill_in('application_redirect_uri', with: "")
+    fill_in("application_redirect_uri", with: "")
     # Fill rediret_uri which does not provide a Secure Context
-    fill_in 'application_redirect_uri', with: "http://example.org"
-    click_on 'Create'
+    fill_in "application_redirect_uri", with: "http://example.org"
+    click_on "Create"
 
-    expect(page).to have_css('.errorExplanation', text: 'Redirect URI is not providing a "Secure Context"')
+    expect(page).to have_css(".errorExplanation", text: 'Redirect URI is not providing a "Secure Context"')
 
     # Can create localhost without https (https://community.openproject.com/wp/34025)
-    fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"
-    click_on 'Create'
+    fill_in "application_redirect_uri", with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"
+    click_on "Create"
 
-    expect(page).to have_css('.op-toast.-success', text: 'Successful creation.')
+    expect(page).to have_css(".op-toast.-success", text: "Successful creation.")
 
-    expect(page).to have_css('.attributes-key-value--key', text: 'Client ID')
-    expect(page).to have_css('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback")
+    expect(page).to have_css(".attributes-key-value--key", text: "Client ID")
+    expect(page).to have_css(".attributes-key-value--value", text: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback")
 
     # Should print secret on initial visit
-    expect(page).to have_css('.attributes-key-value--key', text: 'Client secret')
-    expect(page.first('.attributes-key-value--value code').text).to match /\w+/
+    expect(page).to have_css(".attributes-key-value--key", text: "Client secret")
+    expect(page.first(".attributes-key-value--value code").text).to match /\w+/
 
     # Edit again
-    click_on 'Edit'
+    click_on "Edit"
 
-    fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob"
-    click_on 'Save'
+    fill_in "application_redirect_uri", with: "urn:ietf:wg:oauth:2.0:oob"
+    click_on "Save"
 
     # Show application
-    find('td a', text: 'My API application').click
+    find("td a", text: "My API application").click
 
-    expect(page).to have_no_css('.attributes-key-value--key', text: 'Client secret')
-    expect(page).to have_no_css('.attributes-key-value--value code')
-    expect(page).to have_css('.attributes-key-value--key', text: 'Client ID')
-    expect(page).to have_css('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob")
+    expect(page).to have_no_css(".attributes-key-value--key", text: "Client secret")
+    expect(page).to have_no_css(".attributes-key-value--value code")
+    expect(page).to have_css(".attributes-key-value--key", text: "Client ID")
+    expect(page).to have_css(".attributes-key-value--value", text: "urn:ietf:wg:oauth:2.0:oob")
 
     accept_alert do
-      click_on 'Delete'
+      click_on "Delete"
     end
 
     # Table is empty again
-    expect(page).to have_css('.generic-table--empty-row', text: 'There is currently nothing to display')
+    expect(page).to have_css(".generic-table--empty-row", text: "There is currently nothing to display")
   end
 end

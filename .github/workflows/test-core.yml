@@ -23,7 +23,7 @@ jobs:
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
-    runs-on: [self-hosted, aws, ubuntu22, x64, 2XL]
+    runs-on: runs-on,runner=32cpu-linux-x64,run-id=${{ github.run_id }}
     timeout-minutes: 40
     env:
       DOCKER_BUILDKIT: 1
@@ -32,7 +32,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Cache DOCKER
       id: cache_docker
-      uses: actions/cache@v3
+      uses: runs-on/cache@v4
       with:
         path: cache/docker
         # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
@@ -41,28 +41,28 @@ jobs:
       if: steps.cache_docker.outputs.cache-hit == 'true'
       run: docker load -i cache/docker/image.tar
     - name: Cache GEM
-      uses: actions/cache@v3
+      uses: runs-on/cache@v4
       with:
         path: cache/bundle
         key: gem-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           gem-
     - name: Cache NPM
-      uses: actions/cache@v3
+      uses: runs-on/cache@v4
       with:
         path: cache/node
         key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           node-
     - name: Cache ANGULAR
-      uses: actions/cache@v3
+      uses: runs-on/cache@v4
       with:
         path: cache/angular
         key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           angular-
     - name: Cache TEST RUNTIME
-      uses: actions/cache@v3
+      uses: runs-on/cache@v4
       with:
         path: cache/runtime-logs
         key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}

@@ -34,9 +34,9 @@ module API
           IntegerFilterDependencyRepresenter
           def type
             if operator == ::Queries::Operators::OnDateTime
-              '[1]DateTime'
+              "[1]DateTime"
             elsif operator == ::Queries::Operators::BetweenDateTime
-              '[2]DateTime'
+              "[2]DateTime"
             else
               super
             end

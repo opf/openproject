@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
   let(:query) { Queries::Projects::ProjectQuery.new }
@@ -52,7 +52,7 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
   end
   let(:cf_accessor) { custom_field.column_name }
   let(:instance) do
-    described_class.create!(name: cf_accessor, operator: '=', context: query)
+    described_class.create!(name: cf_accessor, operator: "=", context: query)
   end
   let(:instance_key) { nil }
 
@@ -64,64 +64,64 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
       .and_return(all_custom_fields)
   end
 
-  describe 'invalid custom field' do
-    let(:cf_accessor) { 'cf_100' }
+  describe "invalid custom field" do
+    let(:cf_accessor) { "cf_100" }
     let(:all_custom_fields) { [] }
 
-    it 'raises exception' do
+    it "raises exception" do
       expect { instance }.to raise_error(Queries::Filters::InvalidError)
     end
   end
 
-  describe '.valid?' do
+  describe ".valid?" do
     let(:custom_field) { string_project_custom_field }
 
     before do
-      instance.values = ['bogus']
+      instance.values = ["bogus"]
       allow(ProjectCustomField)
               .to receive_message_chain(:visible, :exists?) # rubocop:disable RSpec/MessageChain
               .and_return(true)
     end
 
-    shared_examples_for 'custom field type dependent validity' do
-      context 'with a string custom field' do
-        it 'is valid' do
+    shared_examples_for "custom field type dependent validity" do
+      context "with a string custom field" do
+        it "is valid" do
           expect(instance).to be_valid
         end
       end
 
-      context 'with a list custom field' do
+      context "with a list custom field" do
         let(:custom_field) { list_project_custom_field }
 
         before do
           instance.values = [list_project_custom_field.possible_values.first.id]
         end
 
-        it 'is valid' do
+        it "is valid" do
           expect(instance).to be_valid
         end
 
         it "is invalid if the value is not one of the custom field's possible values" do
-          instance.values = ['bogus']
+          instance.values = ["bogus"]
 
           expect(instance).not_to be_valid
         end
       end
     end
 
-    context 'without a project' do
-      it_behaves_like 'custom field type dependent validity'
+    context "without a project" do
+      it_behaves_like "custom field type dependent validity"
     end
   end
 
-  describe '.key' do
-    it 'is a regular expression' do
+  describe ".key" do
+    it "is a regular expression" do
       expect(described_class.key).to eql(/cf_(\d+)/)
     end
   end
 
-  describe 'instance attributes' do
-    it 'are valid' do
+  describe "instance attributes" do
+    it "are valid" do
       all_custom_fields.each do |cf|
         name = "cf_#{cf.id}"
         filter = described_class.create!(name:)
@@ -131,138 +131,138 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
     end
   end
 
-  describe '#type' do
-    context 'integer' do
+  describe "#type" do
+    context "integer" do
       let(:cf_accessor) { int_project_custom_field.column_name }
 
-      it 'is integer for an integer' do
+      it "is integer for an integer" do
         expect(instance.type)
           .to be(:integer)
       end
     end
 
-    context 'float' do
+    context "float" do
       let(:cf_accessor) { float_project_custom_field.column_name }
 
-      it 'is integer for a float' do
+      it "is integer for a float" do
         expect(instance.type)
           .to be(:float)
       end
     end
 
-    context 'text' do
+    context "text" do
       let(:cf_accessor) { text_project_custom_field.column_name }
 
-      it 'is text for a text' do
+      it "is text for a text" do
         expect(instance.type)
           .to be(:text)
       end
     end
 
-    context 'list optional' do
+    context "list optional" do
       let(:cf_accessor) { list_project_custom_field.column_name }
 
-      it 'is list_optional for a list' do
+      it "is list_optional for a list" do
         expect(instance.type)
           .to be(:list_optional)
       end
     end
 
-    context 'user' do
+    context "user" do
       let(:cf_accessor) { user_project_custom_field.column_name }
 
-      it 'is list_optional for a user' do
+      it "is list_optional for a user" do
         expect(instance.type)
           .to be(:list_optional)
       end
     end
 
-    context 'version' do
+    context "version" do
       let(:cf_accessor) { version_project_custom_field.column_name }
 
-      it 'is list_optional for a version' do
+      it "is list_optional for a version" do
         expect(instance.type)
           .to be(:list_optional)
       end
     end
 
-    context 'version' do
+    context "version" do
       let(:cf_accessor) { date_project_custom_field.column_name }
 
-      it 'is date for a date' do
+      it "is date for a date" do
         expect(instance.type)
           .to be(:date)
       end
     end
 
-    context 'bool' do
+    context "bool" do
       let(:cf_accessor) { bool_project_custom_field.column_name }
 
-      it 'is list for a bool' do
+      it "is list for a bool" do
         expect(instance.type)
           .to be(:list)
       end
     end
 
-    context 'string' do
+    context "string" do
       let(:cf_accessor) { string_project_custom_field.column_name }
 
-      it 'is string for a string' do
+      it "is string for a string" do
         expect(instance.type)
           .to be(:string)
       end
     end
   end
 
-  describe '#human_name' do
-    it 'is the field name' do
+  describe "#human_name" do
+    it "is the field name" do
       expect(instance.human_name)
         .to eql(list_project_custom_field.name)
     end
   end
 
-  describe '#allowed_values' do
-    context 'integer' do
+  describe "#allowed_values" do
+    context "integer" do
       let(:cf_accessor) { int_project_custom_field.column_name }
 
-      it 'is nil for an integer' do
+      it "is nil for an integer" do
         expect(instance.allowed_values)
           .to be_nil
       end
     end
 
-    context 'float' do
+    context "float" do
       let(:cf_accessor) { float_project_custom_field.column_name }
 
-      it 'is integer for a float' do
+      it "is integer for a float" do
         expect(instance.allowed_values)
           .to be_nil
       end
     end
 
-    context 'text' do
+    context "text" do
       let(:cf_accessor) { text_project_custom_field.column_name }
 
-      it 'is text for a text' do
+      it "is text for a text" do
         expect(instance.allowed_values)
           .to be_nil
       end
     end
 
-    context 'list' do
+    context "list" do
       let(:cf_accessor) { list_project_custom_field.column_name }
 
-      it 'is list_optional for a list' do
+      it "is list_optional for a list" do
         expect(instance.allowed_values)
           .to match_array(list_project_custom_field.custom_options.map { |co| [co.value, co.id.to_s] })
       end
     end
 
-    context 'user' do
+    context "user" do
       let(:cf_accessor) { user_project_custom_field.column_name }
 
-      it 'is list_optional for a user' do
-        bogus_return_value = ['user1', 'user2']
+      it "is list_optional for a user" do
+        bogus_return_value = ["user1", "user2"]
         allow(user_project_custom_field)
           .to receive(:possible_values_options)
           .and_return(bogus_return_value)
@@ -272,11 +272,11 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
       end
     end
 
-    context 'version' do
+    context "version" do
       let(:cf_accessor) { version_project_custom_field.column_name }
 
-      it 'is list_optional for a version' do
-        bogus_return_value = ['version1', 'version2']
+      it "is list_optional for a version" do
+        bogus_return_value = ["version1", "version2"]
         allow(version_project_custom_field)
           .to receive(:possible_values_options)
           .and_return(bogus_return_value)
@@ -286,36 +286,36 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
       end
     end
 
-    context 'date' do
+    context "date" do
       let(:cf_accessor) { date_project_custom_field.column_name }
 
-      it 'is nil for a date' do
+      it "is nil for a date" do
         expect(instance.allowed_values)
           .to be_nil
       end
     end
 
-    context 'bool' do
+    context "bool" do
       let(:cf_accessor) { bool_project_custom_field.column_name }
 
-      it 'is list for a bool' do
+      it "is list for a bool" do
         expect(instance.allowed_values)
           .to contain_exactly([I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
                               [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE])
       end
     end
 
-    context 'string' do
+    context "string" do
       let(:cf_accessor) { string_project_custom_field.column_name }
 
-      it 'is nil for a string' do
+      it "is nil for a string" do
         expect(instance.allowed_values)
           .to be_nil
       end
     end
   end
 
-  describe '.all_for' do
+  describe ".all_for" do
     before do
       allow(ProjectCustomField)
         .to receive(:visible)
@@ -328,7 +328,7 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
                      string_project_custom_field])
     end
 
-    it 'returns a list with a filter for every custom field' do
+    it "returns a list with a filter for every custom field" do
       filters = described_class.all_for
 
       [list_project_custom_field,
@@ -348,30 +348,30 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
     end
   end
 
-  context 'list cf' do
-    describe '#ar_object_filter? / #value_objects' do
+  context "list cf" do
+    describe "#ar_object_filter? / #value_objects" do
       let(:custom_field) { list_project_custom_field }
 
-      describe '#ar_object_filter?' do
-        it 'is true' do
+      describe "#ar_object_filter?" do
+        it "is true" do
           expect(instance)
             .to be_ar_object_filter
         end
       end
 
-      describe '#value_objects' do
+      describe "#value_objects" do
         before do
           instance.values = [custom_field.custom_options.last.id,
                              custom_field.custom_options.first.id]
         end
 
-        it 'returns an array with custom classes' do
+        it "returns an array with custom classes" do
           expect(instance.value_objects)
             .to contain_exactly(custom_field.custom_options.last, custom_field.custom_options.first)
         end
 
-        it 'ignores invalid values' do
-          instance.values = ['invalid',
+        it "ignores invalid values" do
+          instance.values = ["invalid",
                              custom_field.custom_options.last.id]
 
           expect(instance.value_objects)
@@ -380,41 +380,41 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
       end
     end
 
-    context 'bool cf' do
+    context "bool cf" do
       let(:custom_field) { bool_project_custom_field }
 
-      it_behaves_like 'non ar filter'
+      it_behaves_like "non ar filter"
     end
 
-    context 'int cf' do
+    context "int cf" do
       let(:custom_field) { int_project_custom_field }
 
-      it_behaves_like 'non ar filter'
+      it_behaves_like "non ar filter"
     end
 
-    context 'float cf' do
+    context "float cf" do
       let(:custom_field) { float_project_custom_field }
 
-      it_behaves_like 'non ar filter'
+      it_behaves_like "non ar filter"
     end
 
-    context 'text cf' do
+    context "text cf" do
       let(:custom_field) { text_project_custom_field }
 
-      it_behaves_like 'non ar filter'
+      it_behaves_like "non ar filter"
     end
 
-    context 'user cf' do
+    context "user cf" do
       let(:custom_field) { user_project_custom_field }
 
-      describe '#ar_object_filter?' do
-        it 'is true' do
+      describe "#ar_object_filter?" do
+        it "is true" do
           expect(instance)
             .to be_ar_object_filter
         end
       end
 
-      describe '#value_objects' do
+      describe "#value_objects" do
         let(:user1) { build_stubbed(:user) }
         let(:user2) { build_stubbed(:user) }
 
@@ -426,24 +426,24 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
           instance.values = [user1.id.to_s, user2.id.to_s]
         end
 
-        it 'returns an array with users' do
+        it "returns an array with users" do
           expect(instance.value_objects)
             .to contain_exactly(user1, user2)
         end
       end
     end
 
-    context 'version cf' do
+    context "version cf" do
       let(:custom_field) { version_project_custom_field }
 
-      describe '#ar_object_filter?' do
-        it 'is true' do
+      describe "#ar_object_filter?" do
+        it "is true" do
           expect(instance)
             .to be_ar_object_filter
         end
       end
 
-      describe '#value_objects' do
+      describe "#value_objects" do
         let(:version1) { build_stubbed(:version) }
         let(:version2) { build_stubbed(:version) }
 
@@ -456,23 +456,23 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
           instance.values = [version1.id.to_s, version2.id.to_s]
         end
 
-        it 'returns an array with users' do
+        it "returns an array with users" do
           expect(instance.value_objects)
             .to contain_exactly(version1, version2)
         end
       end
     end
 
-    context 'date cf' do
+    context "date cf" do
       let(:custom_field) { date_project_custom_field }
 
-      it_behaves_like 'non ar filter'
+      it_behaves_like "non ar filter"
     end
 
-    context 'string cf' do
+    context "string cf" do
       let(:custom_field) { string_project_custom_field }
 
-      it_behaves_like 'non ar filter'
+      it_behaves_like "non ar filter"
     end
   end
 end

@@ -37,7 +37,7 @@ module Tasks
         if file_name && File.readable?(file)
           FileUtils.move file, new_file unless file == new_file
           attachment.file = File.open(new_file)
-          attachment.filename = ''
+          attachment.filename = ""
           attachment.save!
 
           FileUtils.rm_f new_file
@@ -101,7 +101,7 @@ module Tasks
       # This method strips the leading timestamp from a given file name and returns the plain,
       # original file name.
       def strip_timestamp_from_filename(file)
-        Pathname(file).dirname + Pathname(file).basename.to_s.gsub(/^[^_]+_/, '')
+        Pathname(file).dirname + Pathname(file).basename.to_s.gsub(/^[^_]+_/, "")
       end
     end
   end

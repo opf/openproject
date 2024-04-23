@@ -34,6 +34,7 @@ class Queries::Projects::ProjectQuery < ApplicationRecord
 
   serialize :filters, coder: Queries::Serialization::Filters.new(self)
   serialize :orders, coder: Queries::Serialization::Orders.new(self)
+  serialize :selects, coder: Queries::Serialization::Selects.new(self)
 
   def self.model
     Project

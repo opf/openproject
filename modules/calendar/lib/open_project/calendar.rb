@@ -28,6 +28,6 @@
 
 module OpenProject
   module Calendar
-    require 'open_project/calendar/engine'
+    require "open_project/calendar/engine"
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require Rails.root.join("db/migrate/20220428071221_restore_defaults_on_empty_settings.rb")
 
 RSpec.describe RestoreDefaultsOnEmptySettings, type: :model do
@@ -42,14 +42,14 @@ RSpec.describe RestoreDefaultsOnEmptySettings, type: :model do
       Setting.create name: setting_name, value: ""
     end
 
-    it 'migrates the value to the expected value' do
+    it "migrates the value to the expected value" do
       expect { run_migration }
         .to change { Setting.find_by(name: setting_name).value }
         .from(old_value)
         .to(expected_value)
     end
 
-    it 'does not raise a type error' do
+    it "does not raise a type error" do
       expect { run_migration }.not_to raise_error
     end
   end
@@ -58,13 +58,6 @@ RSpec.describe RestoreDefaultsOnEmptySettings, type: :model do
     it_behaves_like "a successful migration of an empty setting" do
       let(:setting_name) { "apiv3_cors_origins" }
       let(:expected_value) { [] }
-    end
-  end
-
-  context "with an empty setting which must be a hash" do
-    it_behaves_like "a successful migration of an empty setting" do
-      let(:setting_name) { "ldap_tls_options" }
-      let(:expected_value) { {} }
     end
   end
 
@@ -86,7 +79,7 @@ RSpec.describe RestoreDefaultsOnEmptySettings, type: :model do
   context "with an empty setting which is not writable" do
     let(:setting_name) { "smtp_openssl_verify_mode" }
 
-    it 'deletes the setting from the database' do
+    it "deletes the setting from the database" do
       setting = Setting.new name: setting_name
       setting.set_value!("", force: true)
       setting.save!

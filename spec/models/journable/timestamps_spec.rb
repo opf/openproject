@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Journable::Timestamps do
   # See: https://github.com/opf/openproject/pull/11243
@@ -86,7 +86,7 @@ RSpec.describe Journable::Timestamps do
         expect(subject.first.readonly?).to be true
       end
 
-      it 'adds a `timestamp` property to the returned work packages' do
+      it "adds a `timestamp` property to the returned work packages" do
         expect(subject.first.timestamp).to eq timestamp.iso8601
       end
 
@@ -173,7 +173,7 @@ RSpec.describe Journable::Timestamps do
           expect(subject.find { |wp| wp.timestamp == monday.iso8601 }.description)
             .to eq "The work package as it has been on Monday"
 
-          expect(subject.find { |wp| wp.timestamp == 'PT0S' }.description)
+          expect(subject.find { |wp| wp.timestamp == "PT0S" }.description)
             .to eq "The work package as it is since Friday"
         end
       end
@@ -397,7 +397,7 @@ RSpec.describe Journable::Timestamps do
 
       describe "when using a GROUP BY COUNT HAVING query" do
         describe "without at_timestamp" do
-          subject { WorkPackage.group(:estimated_hours).having('estimated_hours > 3').count }
+          subject { WorkPackage.group(:estimated_hours).having("estimated_hours > 3").count }
 
           it "returns the correct result for today" do
             expect(subject).to eq({ 10.0 => 1 })
@@ -405,7 +405,7 @@ RSpec.describe Journable::Timestamps do
         end
 
         describe "after at_timestamp" do
-          subject { WorkPackage.at_timestamp(monday).group(:estimated_hours).having('estimated_hours > 3').count }
+          subject { WorkPackage.at_timestamp(monday).group(:estimated_hours).having("estimated_hours > 3").count }
 
           it "returns the correct result for that timestamp" do
             expect(subject).to eq({ 5.0 => 1 })
@@ -609,10 +609,10 @@ RSpec.describe Journable::Timestamps do
           end
         end
 
-        context 'with a custom field present' do
+        context "with a custom field present" do
           let!(:custom_field) do
             create(:string_wp_custom_field,
-                   name: 'String CF',
+                   name: "String CF",
                    types: project.types,
                    projects: [project])
           end
@@ -621,12 +621,12 @@ RSpec.describe Journable::Timestamps do
             create(:journal_customizable_journal,
                    journal: monday_journal,
                    custom_field:,
-                   value: 'The custom field as it has been on Monday')
+                   value: "The custom field as it has been on Monday")
           end
 
-          it 'loads the custom_values relation with the historic values' do
+          it "loads the custom_values relation with the historic values" do
             expect(subject.send(:"custom_field_#{custom_field.id}"))
-              .to eq 'The custom field as it has been on Monday'
+              .to eq "The custom field as it has been on Monday"
           end
         end
       end

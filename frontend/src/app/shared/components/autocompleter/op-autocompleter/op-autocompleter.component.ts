@@ -104,7 +104,9 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public inputName?:string;
 
-  @Input() public inputValue?:string;
+  @Input() public inputValue?:string|string[];
+
+  @Input() public multipleAsSeparateInputs = true;
 
   @Input() public inputBindValue = 'id';
 
@@ -141,7 +143,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public classes?:string;
 
-  @Input() public multiple?:boolean = false;
+  @Input() public multiple = false;
 
   @Input() public openDirectly?:boolean = false;
 
@@ -189,9 +191,9 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public searchFn:(term:string, item:any) => boolean;
 
-  @Input() public trackByFn ? = null;
+  @Input() public trackByFn = this.defaultTrackByFunction();
 
-  @Input() public compareWith ? = (a:unknown, b:unknown):boolean => a === b;
+  @Input() public compareWith = this.defaultCompareWithFunction();
 
   @Input() public clearOnBackspace?:boolean = true;
 
@@ -212,6 +214,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   @Input() public keyDownFn ? = ():boolean => true;
 
   @Input() public typeahead:BehaviorSubject<string>|null = null;
+
+  @Input() public resetOnChange?:boolean = false;
 
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
@@ -301,7 +305,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     if (this.inputValue && !this.model) {
       this
         .opAutocompleterService
-        .loadValue(this.inputValue, this.resource)
+        .loadValue(this.inputValue, this.resource, this.multiple)
         .subscribe((resource) => {
           this.model = resource as unknown as T;
           this.syncHiddenField(this.mappedInputValue);
@@ -343,13 +347,13 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     });
   }
 
-  public get mappedInputValue():string {
+  public get mappedInputValue():string|string[] {
     if (!this.model) {
       return '';
     }
 
     if (Array.isArray(this.model)) {
-      return this.model.map((el) => el[this.inputBindValue as 'id']).join(',');
+      return this.model.map((el) => el[this.inputBindValue as 'id'] as string);
     }
 
     return this.model[this.inputBindValue as 'id'] as string;
@@ -394,6 +398,11 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     this.onChange(val);
     this.syncHiddenField(this.mappedInputValue);
     this.change.emit(val);
+
+    if (this.resetOnChange) {
+      this.ngSelectInstance.clearModel();
+    }
+
     this.cdRef.detectChanges();
   }
 
@@ -530,10 +539,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     );
   }
 
-  protected syncHiddenField(mappedInputValue:string) {
+  protected syncHiddenField(mappedInputValue:string|string[]) {
     const input = this.syncedInput?.nativeElement;
     if (input) {
-      input.value = mappedInputValue;
+      input.value = Array.isArray(mappedInputValue) ? mappedInputValue.join(',') : mappedInputValue;
       const event = new Event('change');
       input.dispatchEvent(event);
     }
@@ -541,5 +550,13 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   public addNewObjectFn(searchTerm:string):unknown {
     return this.bindLabel ? { [this.bindLabel]: searchTerm } : searchTerm;
+  }
+
+  protected defaultTrackByFunction():((x:unknown) => unknown)|null {
+    return null;
+  }
+
+  protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {
+    return (a, b) => a === b;
   }
 }

@@ -1,0 +1,145 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+pt-PT:
+  plugin_costs:
+    name: "Tempo e custos"
+    description: "Este módulo acrescenta funcionalidades para planear e acompanhar os custos dos projetos."
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Pacote de trabalho"
+        overridden_costs: "Custos substituídos"
+        spent: "Gasto"
+        spent_on: "Data"
+      cost_type:
+        unit: "Nome da Unidade"
+        unit_plural: "Nome da unidade no plural"
+      work_package:
+        costs_by_type: "Unidades gastas"
+        labor_costs: "Custos de trabalho"
+        material_costs: "Custos unitários"
+        overall_costs: "Custos totais"
+        spent_costs: "Custos de gastos"
+        spent_units: "Unidades gastas"
+      rate:
+        rate: "Taxa"
+      user:
+        default_rates: "Taxas padrão"
+    models:
+      cost_type:
+        one: "Tipo de custo"
+        other: "Tipos de custos"
+      rate: "Taxa"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Pacote de trabalho #%{id} não é um destino válido para reatribuir os registos de custo."
+          nullify_is_not_valid_for_cost_entries: "Entradas de custo não podem ser atribuídas a um projeto."
+  attributes:
+    comment: "Comentário"
+    cost_type: "Tipo de custo"
+    costs: "Custos"
+    current_rate: "Taxa atual"
+    hours: "Horas"
+    units: "Unidades"
+    valid_from: "Válido desde"
+    fixed_date: "Data fixa"
+  button_add_rate: "Adicionar Taxa"
+  button_log_costs: "Registar custos unitários"
+  caption_booked_on_project: "Marcado no projeto"
+  caption_default: "Predefinido"
+  caption_default_rate_history_for: "História de taxa padrão para %{user}"
+  caption_locked_on: "Bloqueado em"
+  caption_materials: "Unidades"
+  caption_rate_history: "Histórico de taxas"
+  caption_rate_history_for: "Histórico de taxas para %{user}"
+  caption_rate_history_for_project: "Histórico de taxas de %{user} no projeto %{project}"
+  caption_save_rate: "Salvar Taxa"
+  caption_set_rate: "Definir taxa atual"
+  caption_show_locked: "Mostrar tipos bloqueados"
+  description_date_for_new_rate: "Data para nova taxa"
+  group_by_others: "em nenhum grupo"
+  label_between: "entre"
+  label_cost_filter_add: "Adicionar filtro de entrada de custo"
+  label_costlog: "Custos unitários registados"
+  label_cost_plural: "Custos"
+  label_cost_type_plural: "Tipos de custos"
+  label_cost_type_specific: "Tipos de custo #%{id}: %{name}"
+  label_costs_per_page: "Custos por página"
+  label_currency: "Moeda"
+  label_currency_format: "Formato de moeda"
+  label_current_default_rate: "Taxa atual por defeito"
+  label_date_on: "em"
+  label_deleted_cost_types: "Tipos de custos apagados"
+  label_locked_cost_types: "Tipos de custos bloqueados"
+  label_display_cost_entries: "Mostrar custos unitários"
+  label_display_time_entries: "Mostrar horas reportadas"
+  label_display_types: "Mostrar tipos"
+  label_edit: "Editar"
+  label_generic_user: "Utilizador genérico"
+  label_greater_or_equal: ">="
+  label_group_by: "Agrupar por"
+  label_group_by_add: "Adicionar campo de agrupamento"
+  label_hourly_rate: "Taxa horária"
+  label_include_deleted: "Incluir eliminados"
+  label_work_package_filter_add: "Adicionar filtro de pacote de trabalho"
+  label_kind: "Tipo"
+  label_less_or_equal: "<="
+  label_log_costs: "Registar custos unitários"
+  label_no: "Não"
+  label_option_plural: "Opções"
+  label_overall_costs: "Custos totais"
+  label_rate: "Taxa"
+  label_rate_plural: "Taxas"
+  label_status_finished: "Terminado"
+  label_units: "Custos unitários"
+  label_user: "Utilizador"
+  label_until: "até"
+  label_valid_from: "Válido desde"
+  label_yes: "Sim"
+  notice_something_wrong: "Ocorreu um erro. Por favor, tente novamente."
+  notice_successful_restore: "Restauração bem-sucedida."
+  notice_successful_lock: "Bloqueado com êxito."
+  notice_cost_logged_successfully: 'Custo unitário registado com êxito.'
+  permission_edit_cost_entries: "Editar custos unitários marcados"
+  permission_edit_own_cost_entries: "Editar custos unitários próprios marcados"
+  permission_edit_hourly_rates: "Editar taxas horárias"
+  permission_edit_own_hourly_rate: "Editar taxas horárias próprias"
+  permission_edit_rates: "Editar taxas"
+  permission_log_costs: "Marcar custos unitários"
+  permission_log_own_costs: "Marcar custos unitários para si próprio"
+  permission_view_cost_entries: "Ver custos marcados"
+  permission_view_cost_rates: "Ver taxas de custo"
+  permission_view_hourly_rates: "Ver os todas as taxas horárias"
+  permission_view_own_cost_entries: "Ver custos próprios marcados"
+  permission_view_own_hourly_rate: "Ver taxa horária própria"
+  permission_view_own_time_entries: "Ver tempo próprio gasto"
+  project_module_costs: "Tempo e custos"
+  text_assign_time_and_cost_entries_to_project: "Atribuir horas e custos reportados ao projeto"
+  text_destroy_cost_entries_question: "%{cost_entries} foram reportados nos pacotes de trabalho que está prestes a apagar. Tem a certeza que pretende apagar?"
+  text_destroy_time_and_cost_entries: "Apagar horas e custos reportados"
+  text_destroy_time_and_cost_entries_question: "%{hours} horas, %{cost_entries} foram reportados nos pacotes de trabalho que está prestes a apagar. Tem a certeza que pretende apagar?"
+  text_reassign_time_and_cost_entries: "Reatribuir horas e custos reportados para este pacote de trabalho:"
+  text_warning_hidden_elements: "Algumas entradas podem ter sido excluídas da agregação."
+  week: "semana"
+  js:
+    text_are_you_sure: "Tem a certeza?"

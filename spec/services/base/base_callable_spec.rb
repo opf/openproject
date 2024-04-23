@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BaseServices::BaseCallable, type: :model do
   let(:test_service) do
     Class.new(BaseServices::BaseCallable) do
       def perform(*)
-        state.test = 'foo'
-        ServiceResult.success(result: 'something')
+        state.test = "foo"
+        ServiceResult.success(result: "something")
       end
     end
   end
@@ -41,8 +41,8 @@ RSpec.describe BaseServices::BaseCallable, type: :model do
   let(:test_service2) do
     Class.new(BaseServices::BaseCallable) do
       def perform(*)
-        state.test2 = 'foo'
-        ServiceResult.success(result: 'something')
+        state.test2 = "foo"
+        ServiceResult.success(result: "something")
       end
     end
   end
@@ -51,22 +51,22 @@ RSpec.describe BaseServices::BaseCallable, type: :model do
 
   subject { instance.call }
 
-  describe 'state' do
+  describe "state" do
     let(:result_state) { subject.state }
 
-    it 'is returned from the call', :aggregate_failures do
+    it "is returned from the call", :aggregate_failures do
       expect(result_state).to be_a(Shared::ServiceState)
-      expect(result_state.test).to eq 'foo'
+      expect(result_state.test).to eq "foo"
       expect(subject).to be_a ServiceResult
     end
 
-    describe 'with state already passed into the service' do
-      let(:instance) { test_service.new.with_state(bar: 'some value') }
+    describe "with state already passed into the service" do
+      let(:instance) { test_service.new.with_state(bar: "some value") }
 
-      it 'keeps that value', :aggregate_failures do
+      it "keeps that value", :aggregate_failures do
         expect(result_state).to be_a(Shared::ServiceState)
-        expect(result_state.test).to eq 'foo'
-        expect(result_state.bar).to eq 'some value'
+        expect(result_state.test).to eq "foo"
+        expect(result_state.bar).to eq "some value"
       end
     end
   end

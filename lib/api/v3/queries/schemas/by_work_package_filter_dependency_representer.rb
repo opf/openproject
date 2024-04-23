@@ -47,7 +47,7 @@ module API
           private
 
           def type
-            '[]WorkPackage'
+            "[]WorkPackage"
           end
         end
       end

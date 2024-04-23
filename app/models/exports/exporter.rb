@@ -51,9 +51,9 @@ module Exports
     def sane_filename(name)
       parts = name.split /(?<=.)\.(?=[^.])(?!.*\.[^.])/m
 
-      parts.map! { |s| s.gsub /[^a-z0-9-]+/i, '_' }
+      parts.map! { |s| s.gsub /[^a-z0-9-]+/i, "_" }
 
-      parts.join '.'
+      parts.join "."
     end
 
     # Run the export, yielding the result of the render output

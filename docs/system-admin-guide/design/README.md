@@ -14,14 +14,13 @@ Navigate to -> *Administration* -> *Design* in order to customize your OpenProje
 The design page provides several options to customize your OpenProject Enterprise edition:
 
 1. Choose a default color theme: OpenProject, Light or Dark. Press the Save button to apply your changes.
-
 2. Upload your own **custom logo** to replace the default OpenProject logo.
-
 3. Set a custom **favicon** which is shown as an icon in your browser window/tab.
 4. Upload a custom **touch icon** which is shown on your smartphone or tablet when you bookmark OpenProject on your home screen.
-5. [Advanced settings](#advanced-settings) to configure **custom colors** to adjust nearly any aspect of OpenProject, such  as the color of the header and side menu, the link color and the hover color.
+5. Set the **Custom PDF export settings** for [exporting work packages in a PDF format](../../user-guide/work-packages/exporting/#pdf-export).
+6. [Advanced settings](#advanced-settings) to configure **custom colors** to adjust nearly any aspect of OpenProject, such  as the color of the header and side menu, the link color and the hover color.
 
-![System-admin-guide_design](System-admin-guide_design.png)
+![Design settings in an OpenProject system admin guide](openproject_system_guide_design.png)
 
 ## Choose a color theme
 
@@ -39,21 +38,21 @@ Press the Save button to apply your changes. The theme will then be changed.
 
 ## Upload a custom logo
 
-To replace the default OpenProject logo with your own logo, make sure that your logo has the dimensions 460 by 60 pixels. Select the *Choose File* button and select the file from your hard drive to upload it (1).
+To replace the default OpenProject logo with your own logo, make sure that your logo has the dimensions 460 by 60 pixels. Select the *Browse* button and select the file from your hard drive to upload it.
 
-Click the *Upload* button to confirm and upload your logo (2).
+Click the *Upload* button to confirm and upload your logo.
 
 ![Sys-admin-design-upload-logo](Sys-admin-design-upload-logo.png)
 
-![upload logo](image-20200121143402479.png)
+![upload logo](system_admin_logo_updated.png)
 
 ## Set a custom favicon
 
-To set a custom favicon to be shown in your browser’s tab, make sure  you have a PNG file with the dimensions 32 by 32 pixels. Select the *Choose File* button and select the file from your hard drive to upload it (1).
+To set a custom favicon to be shown in your browser’s tab, make sure  you have a PNG file with the dimensions 32 by 32 pixels. Select the *Choose File* button and select the file from your hard drive to upload it.
 
-Click the *Upload* button to confirm and upload your favicon (2).
+Then click the *Upload* button to confirm and upload your favicon.
 
-![Sys-admin-design-favicon](Sys-admin-design-favicon-1579613889024.png)
+![Sys-admin-design-favicon](Sys-admin-design-favicon.png)
 
 ## Set a custom touch icon
 
@@ -67,10 +66,10 @@ When you bookmark your OpenProject environment’s URL, you will see that the up
 
 Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment. 
 
-To do this change the color values (entered as color hex code) in the *Custom Colors* section. In order to find the right hex code for a color, you can use a website, such as [color-hex.com](https://www.color-hex.com/).
+To do this change the color values (entered as color hex code) in the *Advanced settings* section. In order to find the right hex code for a color, you can use a website, such as [color-hex.com](https://www.color-hex.com/).
  You can see the selected color in the preview area next to the color hex code. Therefore, it is possible to see the selected color before saving the changes.
 
-![Advanced settings colors](image-20200211140615090.png)
+![Advanced color settings in OpenProject](openproject_system_guide_design_advanced_settings_primer.png)
 
 As soon as you press the **Save** button your changes are applied and the colors of your OpenProject environment are adjusted accordingly.
 

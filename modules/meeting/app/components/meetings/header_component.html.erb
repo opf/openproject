@@ -43,6 +43,17 @@
                   end
                 end
 
+                menu.with_item(label: t(:label_history),
+                               tag: :a,
+                               href: history_meeting_path(@meeting),
+                               content_arguments: {
+                                 "data-controller": "async-dialog",
+                               },
+                               value: ""
+                               ) do |item|
+                  item.with_leading_visual_icon(icon: :clock) # or :check TBD
+                end
+
                 menu.with_item(label: t("label_meeting_delete"),
                                scheme: :danger,
                                href: meeting_path(@meeting),

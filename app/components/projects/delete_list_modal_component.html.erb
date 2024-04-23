@@ -1,0 +1,16 @@
+<%= render(Primer::Alpha::Dialog.new(title: t(:'projects.lists.delete_modal.title'),
+                                     size: :large,
+                                     id: MODAL_ID,
+                                     data: { 'test-selector': MODAL_ID })) do |d| %>
+  <% d.with_header(variant: :large, mb: 2) %>
+  <% d.with_body { t(:'projects.lists.delete_modal.text') } %>
+
+  <% d.with_footer do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
+    <%= form_with(url: projects_query_path(query),
+                  method: :delete) do %>
+      <%= render(Primer::Beta::Button.new(scheme: :danger,
+                                          type: :submit)) { I18n.t(:button_delete) } %>
+      <% end %>
+  <% end %>
+<% end %>

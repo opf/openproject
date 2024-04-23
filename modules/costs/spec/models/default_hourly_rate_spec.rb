@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + "/../spec_helper"
 
 RSpec.describe DefaultHourlyRate do
   let(:project) { create(:project) }
@@ -36,8 +36,8 @@ RSpec.describe DefaultHourlyRate do
                                 user:)
   end
 
-  describe '#user' do
-    describe 'WHEN an existing user is provided' do
+  describe "#user" do
+    describe "WHEN an existing user is provided" do
       before do
         rate.user = user
         rate.save!
@@ -46,7 +46,7 @@ RSpec.describe DefaultHourlyRate do
       it { expect(rate.user).to eq(user) }
     end
 
-    describe 'WHEN a non existing user is provided (i.e. the user is deleted)' do
+    describe "WHEN a non existing user is provided (i.e. the user is deleted)" do
       before do
         rate.user = user
         rate.save!

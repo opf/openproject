@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Groups::GroupCollectionRepresenter do
-  let(:self_base_link) { '/api/v3/groups' }
+  let(:self_base_link) { "/api/v3/groups" }
   let(:groups) do
     build_stubbed_list(:group, 3).tap do |groups|
       allow(groups)
@@ -59,13 +59,13 @@ RSpec.describe API::V3::Groups::GroupCollectionRepresenter do
   let(:page) { 1 }
   let(:page_size) { 2 }
   let(:actual_count) { 3 }
-  let(:collection_inner_type) { 'Group' }
+  let(:collection_inner_type) { "Group" }
 
   include API::V3::Utilities::PathHelper
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'offset-paginated APIv3 collection', 3, 'groups', 'Group'
+    it_behaves_like "offset-paginated APIv3 collection", 3, "groups", "Group"
   end
 end

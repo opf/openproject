@@ -8,6 +8,7 @@
         text: "Noen widgeter, som arbeidspakke-diagram-modulen, er bare tilgjengelig i Enterprise versjonen."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "Du har ikke nødvendige tillatelser til å se denne widgeten."
         custom_text:
           title: 'Tilpasset tekst'
         documents:

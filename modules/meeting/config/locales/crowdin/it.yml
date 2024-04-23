@@ -40,13 +40,14 @@ it:
         participants_invited: "Invitati"
         project: "Progetto"
         start_date: "Data"
-        start_time: "Tempo"
+        start_time: "Ora di inizio"
         start_time_hour: "Ora di inizio"
-      meeting_agenda_items:
+      meeting_agenda_item:
         title: "Titolo"
-        author: "Responsabile"
-        duration_in_minutes: "Durata (min)"
+        author: "Autore"
+        duration_in_minutes: "min"
         description: "Note"
+        presenter: "Presentatore"
     errors:
       messages:
         invalid_time_format: "non è un tempo valido. Formato richiesto: HH: mm"
@@ -95,6 +96,14 @@ it:
   label_time_zone: "Fuso orario"
   label_start_date: "Data di inizio"
   meeting:
+    attachments:
+      text: "I file allegati sono disponibili per tutti i partecipanti alla riunione. Puoi anche trascinarli nelle note dei punti all'ordine del giorno."
+    copy:
+      title: "Copia riunione %{title}"
+      attachments: "Copia allegati"
+      attachments_text: "Copia tutti i file allegati nella nuova riunione"
+      agenda: "Copia ordine del giorno"
+      agenda_text: "Copia l'ordine del giorno della vecchia riunione"
     email:
       open_meeting_link: "Apri riunione"
       invited:
@@ -107,11 +116,11 @@ it:
         new_date_time: "Nuova data/ora"
     label_mail_all_participants: "Invia e-mail a tutti i partecipanti"
     types:
-      classic: 'Classica'
-      classic_text: 'Organizza la tua riunione in un''agenda e un protocollo di testo formattabile.'
-      structured: 'Dinamica'
-      structured_text: 'Organizza la tua riunione come un elenco di punti all''ordine del giorno, collegandoli facoltativamente a un pacchetto di lavoro.'
-      structured_text_copy: 'La copia di una riunione al momento non copierà gli elementi dell''ordine del giorno della riunione, ma solo i dettagli'
+      classic: "Classica"
+      classic_text: "Organizza la tua riunione in un'agenda e un protocollo di testo formattabile."
+      structured: "Dinamica"
+      structured_text: "Organizza la tua riunione come un elenco di punti all'ordine del giorno, collegandoli facoltativamente a un pacchetto di lavoro."
+      structured_text_copy: "La copia di una riunione al momento non copierà gli elementi dell'ordine del giorno della riunione, ma solo i dettagli"
     copied: "Copiato dalla riunione #%{id}"
   notice_successful_notification: "Notifica inviata con successo"
   notice_timezone_missing: Nessun fuso orario è impostato e la %{zone} è un requisito necessario. Per scegliere il tuo fuso orario, fare clic qui.
@@ -139,13 +148,16 @@ it:
   text_notificiation_invited: "Questa mail contiene un elemento di riunione ics qui in seguito:"
   text_meeting_empty_heading: "La tua riunione è vuota"
   text_meeting_empty_description_1: "Inizia con l'aggiunta di elementi dell'ordine del giorno qui sotto. Ogni elemento può essere semplice come solo un titolo, ma è anche possibile aggiungere ulteriori dettagli come durata e note."
-  text_meeting_empty_description_2: "Puoi anche aggiungere riferimenti alle macro-attività esistenti. Quando lo fai, le note correlate saranno automaticamente visibili nella scheda \"Riunioni\" della macro-attività."
+  text_meeting_empty_description_2: 'Puoi anche aggiungere riferimenti alle macro-attività esistenti. Quando lo fai, le note correlate saranno automaticamente visibili nella scheda "Riunioni" della macro-attività.'
   label_meeting_empty_action: "Aggiungi punto all'ordine del giorno"
   label_meeting_actions: "Azioni di riunione"
   label_meeting_edit_title: "Modifica titolo riunione"
   label_meeting_delete: "Annulla la riunione"
   label_meeting_created_by: "Creato da"
   label_meeting_last_updated: "Ultimo aggiornamento"
+  label_agenda_items: "Punti all'ordine del giorno"
+  label_agenda_items_reordered: "riordinato"
+  label_agenda_item_remove: "Rimuovi dall'ordine del giorno"
   label_agenda_item_undisclosed_wp: "Macro-attività #%{id} non visibile"
   label_agenda_item_deleted_wp: "Riferimento della macro-attività eliminato"
   label_agenda_item_actions: "Azioni all'ordine del giorno"
@@ -154,10 +166,18 @@ it:
   label_agenda_item_move_up: "Sposta su"
   label_agenda_item_move_down: "Sposta giu"
   label_agenda_item_add_notes: "Aggiungi nota"
+  label_agenda_item_work_package: "Macro-attività nei punti all'ordine del giorno"
+  text_agenda_item_title: 'Punto all''ordine del giorno "%{title}"'
+  text_agenda_work_package_deleted: 'Punto all''ordine del giorno per la macro-attività cancellata'
+  text_deleted_agenda_item: 'Punto all''ordine del giorno cancellato'
+  label_initial_meeting_details: "Riunione"
   label_meeting_details: "Dettagli della riunione"
   label_meeting_details_edit: "Modifica dettagli riunione"
+  label_meeting_state: "Stato della riunione"
   label_meeting_state_open: "Aperti"
+  label_meeting_state_open_html: "<i>Aperta</i>"
   label_meeting_state_closed: "Chiuso"
+  label_meeting_state_closed_html: "<i>Chiusa</i>"
   label_meeting_reopen_action: "Riapri la riunione"
   label_meeting_close_action: "Chiudi riunione"
   text_meeting_open_description: "Questa riunione è aperta. Puoi aggiungere/rimuovere gli elementi dell'ordine del giorno e modificarli come vuoi. Una volta finita la riunione, chiuderla per bloccarla."
@@ -176,5 +196,5 @@ it:
   text_agenda_item_no_notes: "Nessuna nota fornita"
   text_agenda_item_not_editable_anymore: "Questo punto dell'ordine del giorno non è più modificabile."
   text_work_package_has_no_upcoming_meeting_agenda_items: "Questa macro-attività non è ancora programmata in un prossimo ordine del giorno di riunione."
-  text_work_package_add_to_meeting_hint: "Utilizzare il pulsante \"Aggiungi alla riunione\" per aggiungere questa macro-attività a una riunione imminente."
+  text_work_package_add_to_meeting_hint: 'Utilizzare il pulsante "Aggiungi alla riunione" per aggiungere questa macro-attività a una riunione imminente.'
   text_work_package_has_no_past_meeting_agenda_items: "Questa macro-attività non è stato menzionata in una riunione precedente."

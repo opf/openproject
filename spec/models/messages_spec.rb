@@ -26,36 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require 'support/shared/acts_as_watchable'
+require "support/shared/acts_as_watchable"
 
 RSpec.describe Message do
   let(:message) { create(:message) }
 
-  it_behaves_like 'acts_as_watchable included' do
+  it_behaves_like "acts_as_watchable included" do
     let(:model_instance) { message }
     let(:watch_permission) { :view_messages } # view_messages is a public permission
     let(:project) { model_instance.forum.project }
   end
 
-  it_behaves_like 'acts_as_attachable included' do
+  it_behaves_like "acts_as_attachable included" do
     let(:model_instance) { create(:message) }
   end
 
-  describe '#project' do
-    it 'is the same as the project on wiki' do
+  describe "#project" do
+    it "is the same as the project on wiki" do
       expect(message.project).to eql(message.forum.project)
     end
   end
 
-  describe 'with forum' do
+  describe "with forum" do
     shared_let(:forum) { create(:forum) }
     let(:message) do
-      build(:message, forum:, subject: 'Test message', content: 'Test message content')
+      build(:message, forum:, subject: "Test message", content: "Test message content")
     end
 
-    it 'creates' do
+    it "creates" do
       topics_count = forum.topics_count
       messages_count = forum.messages_count
 
@@ -70,13 +70,13 @@ RSpec.describe Message do
       message.reload
     end
 
-    context 'with previous message' do
+    context "with previous message" do
       let(:topic) { create(:message) }
       let(:reply) do
-        create(:message, forum:, subject: 'Test reply', parent: topic)
+        create(:message, forum:, subject: "Test reply", parent: topic)
       end
 
-      it 'replies' do
+      it "replies" do
         topics_count = forum.topics_count
         messages_count = forum.messages_count
         replies_count = topic.replies_count
@@ -96,12 +96,12 @@ RSpec.describe Message do
       end
     end
 
-    describe 'moving' do
+    describe "moving" do
       let!(:forum1) { create(:forum) }
       let!(:forum2) { create(:forum) }
       let!(:message) { create(:message, forum: forum1) }
 
-      it 'movings message should update counters' do
+      it "movings message should update counters" do
         expect do
           forum1.reload
           expect(forum1.topics_count).to eq 1
@@ -119,7 +119,7 @@ RSpec.describe Message do
       end
     end
 
-    it 'sets sticky' do
+    it "sets sticky" do
       message = Message.new
       expect(message.sticky).to eq 0
       message.sticky = nil
@@ -128,18 +128,18 @@ RSpec.describe Message do
       expect(message.sticky).to eq 0
       message.sticky = true
       expect(message.sticky).to eq 1
-      message.sticky = '0'
+      message.sticky = "0"
       expect(message.sticky).to eq 0
-      message.sticky = '1'
+      message.sticky = "1"
       expect(message.sticky).to eq 1
     end
 
-    describe 'with reply set' do
+    describe "with reply set" do
       let!(:reply) do
         create(:message, forum: message.forum, parent: message)
       end
 
-      it 'destroys topic' do
+      it "destroys topic" do
         forum = message.forum.reload
         expect(forum.topics_count).to eq 1
         expect(forum.messages_count).to eq 2
@@ -151,7 +151,7 @@ RSpec.describe Message do
         expect(forum.messages_count).to eq 0
       end
 
-      it 'destroys reply' do
+      it "destroys reply" do
         forum = message.forum
         expect(forum.topics_count).to eq 1
         expect(forum.messages_count).to eq 2

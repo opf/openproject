@@ -44,10 +44,10 @@ module Admin
 
       def headers
         [
-          ['filename', { caption: Attachment.human_attribute_name(:filename) }],
-          ['attached_to', { caption: I18n.t('antivirus_scan.quarantined_attachments.container') }],
-          ['author', { caption: Attachment.human_attribute_name(:author) }],
-          ['created_at', { caption: Attachment.human_attribute_name(:created_at) }]
+          ["filename", { caption: Attachment.human_attribute_name(:filename) }],
+          ["attached_to", { caption: I18n.t("antivirus_scan.quarantined_attachments.container") }],
+          ["author", { caption: Attachment.human_attribute_name(:author) }],
+          ["created_at", { caption: Attachment.human_attribute_name(:created_at) }]
         ]
       end
     end

@@ -40,8 +40,8 @@
       type_to_search: "Skriv for å søke"
     autocomplete_select:
       placeholder:
-        multi: "Legg til \"%{name}\""
-        single: "Velg \"%{name}\""
+        multi: 'Legg til "%{name}"'
+        single: 'Velg "%{name}"'
       remove: "Fjern %{name}"
       active: "Aktiv %{label} %{name}"
     backup:
@@ -107,99 +107,98 @@
     button_export-atom: "Last ned Atom"
     button_create: "Opprett"
     card:
-      add_new: 'Legg til nytt kort'
+      add_new: "Legg til nytt kort"
       highlighting:
-        inline: 'Uthev linje:'
-        entire_card_by: 'Hele kortet med'
-      remove_from_list: 'Fjern oppgavelapp fra listen'
+        inline: "Uthev linje:"
+        entire_card_by: "Hele kortet med"
+      remove_from_list: "Fjern oppgavelapp fra listen"
     caption_rate_history: "Satshistorikk"
     clipboard:
       browser_error: "Nettleseren støtter ikke kopiering til utklippstavlen. Kopier den manuelt: %{content}"
       copied_successful: "Kopiert til utklippstavlen!"
     chart:
-      type: 'Diagram type'
-      axis_criteria: 'Akse- kriterier'
-      modal_title: 'Konfigurering av arbeidspakkediagram'
+      type: "Diagram type"
+      axis_criteria: "Akse- kriterier"
+      modal_title: "Konfigurering av arbeidspakkediagram"
       types:
-        line: 'Linje'
-        horizontal_bar: 'Horisontal linje'
-        bar: 'Stolpe'
-        pie: 'Kake'
-        doughnut: 'Smultring'
-        radar: 'Radar'
-        polar_area: 'Polar område'
+        line: "Linje"
+        horizontal_bar: "Horisontal linje"
+        bar: "Stolpe"
+        pie: "Kake"
+        doughnut: "Smultring"
+        radar: "Radar"
+        polar_area: "Polar område"
       tabs:
-        graph_settings: 'Generell'
-        dataset: 'Datasett %{number}'
+        graph_settings: "Generell"
+        dataset: "Datasett %{number}"
       errors:
-        could_not_load: 'Data for visning av grafen kan ikke lastes. De nødvendige tillatelsene kan være mangler.'
+        could_not_load: "Data for visning av grafen kan ikke lastes. De nødvendige tillatelsene kan være mangler."
     description_available_columns: "Tilgjengelige Kolonner"
     description_current_position: "Du er her: "
     description_select_work_package: "Velg arbeidspakke #%{id}"
-    description_selected_columns: "Valgte Kolonner"
     description_subwork_package: "Barn av arbeidspakke #%{id}"
     editor:
-      preview: 'Veksle forhåndsvisningsmodus'
-      source_code: 'Veksle ''Markdown''-kildemodus'
-      error_saving_failed: 'Lagring av dokumentet mislyktes med følgende feil: %{error}'
-      ckeditor_error: 'Det oppstod en feil i CKEditor'
+      preview: "Veksle forhåndsvisningsmodus"
+      source_code: "Veksle 'Markdown'-kildemodus"
+      error_saving_failed: "Lagring av dokumentet mislyktes med følgende feil: %{error}"
+      ckeditor_error: "Det oppstod en feil i CKEditor"
       mode:
-        manual: 'Bytt til Markdown-kilde'
-        wysiwyg: 'Bytt til WYSIWYG editor'
+        manual: "Bytt til Markdown-kilde"
+        wysiwyg: "Bytt til WYSIWYG editor"
       macro:
-        error: 'Kan ikke utvide makro: %{message}'
+        error: "Kan ikke utvide makro: %{message}"
         attribute_reference:
-          macro_help_tooltip: 'Dette tekstsegmentet er dynamisk gjengitt av en makro.'
-          not_found: 'Finner ikke forespurt ressurs'
+          macro_help_tooltip: "Dette tekstsegmentet er dynamisk gjengitt av en makro."
+          not_found: "Finner ikke forespurt ressurs"
           invalid_attribute: "Den valgte egenskapen '%{name}' eksisterer ikke."
         child_pages:
-          button: 'Lenker til undersider'
-          include_parent: 'Inkluder overordnet'
-          text: '[Placeholder] Lenker til undersider i'
-          page: 'Wiki-side'
-          this_page: 'denne siden'
+          button: "Lenker til undersider"
+          include_parent: "Inkluder overordnet"
+          text: "[Placeholder] Lenker til undersider i"
+          page: "Wiki-side"
+          this_page: "denne siden"
           hint: |
             La dette feltet stå tomt for å liste alle undersider av gjeldende side. Har du en annen side å referere til, dens tittel eller slug.
         code_block:
-          button: 'Sett inn code snippet'
-          title: 'Sett inn / rediger Code snippet'
-          language: 'Formaterer språk'
-          language_hint: 'Angi formateringsspråket som vil bli brukt til å fremheve (hvis støttet).'
+          button: "Sett inn code snippet"
+          title: "Sett inn / rediger Code snippet"
+          language: "Formaterer språk"
+          language_hint: "Angi formateringsspråket som vil bli brukt til å fremheve (hvis støttet)."
         dropdown:
-          macros: 'Makroer'
-          chose_macro: 'Velg makro'
-        toc: 'Innholdsfortegnelse'
-        toolbar_help: 'Klikk for å velge widget og vise verktøylinjen. Dobbelklikk for å redigere widgeten.'
+          macros: "Makroer"
+          chose_macro: "Velg makro"
+        toc: "Innholdsfortegnelse"
+        toolbar_help: "Klikk for å velge widget og vise verktøylinjen. Dobbelklikk for å redigere widgeten."
         wiki_page_include:
-          button: 'Inkluder innhold fra en annen wiki-side'
-          text: '[Placeholder] Inkludert wiki-side'
-          page: 'Wiki-side'
-          not_set: '(Siden er ikke valgt ennå)'
+          button: "Inkluder innhold fra en annen wiki-side"
+          text: "[Placeholder] Inkludert wiki-side"
+          page: "Wiki-side"
+          not_set: "(Siden er ikke valgt ennå)"
           hint: |
             Inkluder innholdet i en annen wiki-side ved å angi dets tittel eller slug.
             Du kan inkludere wiki-siden til et annet prosjekt ved å separere dem med et kolon som følgende eksempel.
         work_package_button:
-          button: 'Sett inn knappen for Opprett arbeidspakke'
-          type: 'Arbeidspakke type'
-          button_style: 'Bruk stil for knapper'
-          button_style_hint: 'Valgfritt: Huk av om makroen skal vises som en knapp, ikke som en lenke.'
-          without_type: 'Opprett arbeidspakke'
-          with_type: 'Opprett arbeidspakke (ype: %{typename})'
+          button: "Sett inn knappen for Opprett arbeidspakke"
+          type: "Arbeidspakke type"
+          button_style: "Bruk stil for knapper"
+          button_style_hint: "Valgfritt: Huk av om makroen skal vises som en knapp, ikke som en lenke."
+          without_type: "Opprett arbeidspakke"
+          with_type: "Opprett arbeidspakke (ype: %{typename})"
         embedded_table:
-          button: 'Bygg inn arbeidspakker'
-          text: '[Placeholder] Innebygd arbeidspakke-tabell'
+          button: "Bygg inn arbeidspakker"
+          text: "[Placeholder] Innebygd arbeidspakke-tabell"
         embedded_calendar:
-          text: '[Placeholder] Innbygget kalender'
+          text: "[Placeholder] Innbygget kalender"
     admin:
       type_form:
-        custom_field: 'Egendefinert felt'
-        inactive: 'Inaktiv'
+        custom_field: "Egendefinert felt"
+        inactive: "Inaktiv"
         drag_to_activate: "Dra feltene herfra for å aktivere dem"
         add_group: "Legg til egenskapsgruppe"
         add_table: "Legg til tabell over tilknyttede arbeidspakker"
-        edit_query: 'Rediger spørring'
-        new_group: 'Ny gruppe'
-        reset_to_defaults: 'Tilbakestill til standard'
+        edit_query: "Rediger spørring"
+        new_group: "Ny gruppe"
+        reset_to_defaults: "Tilbakestill til standard"
       enterprise:
         text_reprieve_days_left: "%{days} dager til slutten av utsettelsesperioden"
         text_expired: "utløpt"
@@ -265,7 +264,7 @@
         calendar:
           empty_state_header: "Arbeidsfrie dager"
           empty_state_description: 'Ingen spesifikke arbeidsfrie dager er definert for dette år. Klikk på "+ Arbeidsfri dag" nedenfor for å legge til en dato.'
-          new_date: '(ny)'
+          new_date: "(ny)"
         add_non_working_day: "Arbeidsfri dag"
         already_added_error: "En arbeidsfri dag for denne datoen finnes allerede. Det kan bare være en arbeidsfri dag som er opprettet for hver unike dato."
         change_button: "Lagre og endre"
@@ -277,8 +276,8 @@
           Er du sikker på at du vil fortsette?
     custom_actions:
       date:
-        specific: 'på'
-        current_date: 'Dagens dato'
+        specific: "på"
+        current_date: "Dagens dato"
     error:
       internal: "En intern feil har oppstått."
       cannot_save_changes_with_message: "Kan ikke lagre endringene på grunn av følgende feil: %{error}"
@@ -304,22 +303,22 @@
           two: "Andre sorteringskriterie"
           three: "Tredje sorteringskriterie"
     gantt_chart:
-      label: 'Gantt diagram'
-      quarter_label: 'Q%{quarter_number}'
+      label: "Gantt diagram"
+      quarter_label: "Q%{quarter_number}"
       labels:
-        title: 'Etikettkonfigurasjon'
-        bar: 'Linjeetiketter'
-        left: 'Venstre'
-        right: 'Høyre'
-        farRight: 'Langt til høyre'
+        title: "Etikettkonfigurasjon"
+        bar: "Linjeetiketter"
+        left: "Venstre"
+        right: "Høyre"
+        farRight: "Langt til høyre"
         description: >
           Velg attributtene du vil bli vist i de respektive posisjonene i Gantt-diagrammet til enhver tid. Merk at når man peker på et element, vil datomerkene vises i stedet for disse attributtene.
-      button_activate: 'Vis Gantt-diagram'
-      button_deactivate: 'Skjul Gantt-diagram'
+      button_activate: "Vis Gantt-diagram"
+      button_deactivate: "Skjul Gantt-diagram"
       filter:
         noneSelection: "(ingen)"
       selection_mode:
-        notification: 'Klikk på eventuelle uthevede arbeidspakker for å opprette relasjonen. Trykk escape for å avbryte.'
+        notification: "Klikk på eventuelle uthevede arbeidspakker for å opprette relasjonen. Trykk escape for å avbryte."
       zoom:
         in: "Zoom inn"
         out: "Zoom ut"
@@ -349,24 +348,24 @@
           learn_about: "Lær mer om de nye funksjonene"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_3':
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                Denne versjonen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>Filtrer og lagre egendefinerte prosjektlister.</li> <li>Separat Gantt-diagram-modul med nye standardvisninger.</li> <li>Automatisk administrerte prosjektmapper for OneDrive/SharePoint integrasjon.</li> <li>Vis antall "Delte brukere" i knappen Deling og vis dem i listen over arbeidspakker.</li> <li>Forbedrede beregninger og oppdateringer for fremdriftsrapportering for arbeidspakkehierarkier.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "Abonner på kalender"
       inital_setup_error_message: "En feil oppstod under henting av data."
       description: "Du kan bruke URLen (iCalendar) til å abonnere på denne kalenderen i en ekstern klient og vise oppdatert arbeidspakkeinformasjon derfra."
       warning: "Ikke del denne URL-adressen med andre brukere. Alle med denne lenken vil kunne se arbeidspakkedetaljer uten konto eller passord."
       token_name_label: "Hvor kommer du til å bruke dette?"
-      token_name_placeholder: "Skriv inn et navn, f.eks. \"Telefon\""
-      token_name_description_text: "Hvis du abonnerer på denne kalenderen fra flere enheter, vil dette navnet hjelpe deg med å skille dem fra i listen <a href=\"my/access_token\", target=\"_blank\">tilgangsnøkkel</a> listen."
+      token_name_placeholder: 'Skriv inn et navn, f.eks. "Telefon"'
+      token_name_description_text: 'Hvis du abonnerer på denne kalenderen fra flere enheter, vil dette navnet hjelpe deg med å skille dem fra i listen <a href="my/access_token", target="_blank">tilgangsnøkkel</a> listen.'
       copy_url_label: "Kopier URL"
       ical_generation_error_text: "Det oppstod en feil ved generering av kalenderURL."
-      success_message: "URL-adressen \"%{name}\" ble vellykket kopiert til utklippstavlen. Lim den inn i kalenderklienten for å fullføre abonnementet."
+      success_message: 'URL-adressen "%{name}" ble vellykket kopiert til utklippstavlen. Lim den inn i kalenderklienten for å fullføre abonnementet.'
     label_activate: "Aktiver"
-    label_assignee: 'Deltaker'
+    label_assignee: "Deltaker"
     label_add_column_after: "Legg til kolonne etter"
     label_add_column_before: "Legg til kolonne før"
     label_add_columns: "Legg til kolonner"
@@ -376,7 +375,7 @@
     label_add_row_before: "Sett inn rad før"
     label_add_selected_columns: "Legg til valgte kolonner"
     label_added_by: "lagt til av"
-    label_added_time_by: "Lagt til av <a href=\"%{authorLink}\">%{author}</a> i %{age}"
+    label_added_time_by: 'Lagt til av <a href="%{authorLink}">%{author}</a> i %{age}'
     label_ago: "dager siden"
     label_all: "alle"
     label_all_work_packages: "alle arbeidspakker"
@@ -425,7 +424,7 @@
     label_general: "Generell"
     label_global_roles: "Globale roller"
     label_greater_or_equal: ">="
-    label_group: 'Gruppe'
+    label_group: "Gruppe"
     label_group_by: "Grupper etter"
     label_group_plural: "Grupper"
     label_hide_attributes: "Vis færre"
@@ -445,6 +444,7 @@
     label_less_than_ago: "mindre enn dager siden"
     label_loading: "Laster..."
     label_mail_notification: "E-postvarsler"
+    label_manage_columns: "Behandle og endre rekkefølgen på kolonner"
     label_me: "meg"
     label_meeting_agenda: "Saksliste"
     label_meeting_minutes: "Referat"
@@ -483,6 +483,7 @@
     label_report: "Rapport"
     label_repository_plural: "Pakkebrønner"
     label_save_as: "Lagre som"
+    label_search_columns: "Søk i en kolonne"
     label_select_project: "Velg et prosjekt"
     label_select_watcher: "Velg en overvåker..."
     label_selected_filter_list: "Valgte filtre"
@@ -553,86 +554,86 @@
     label_version_plural: "Versjoner"
     label_view_has_changed: "Denne visningen har ulagrede endringer. Klikk for å lagre dem."
     help_texts:
-      show_modal: 'Vis oppføring for hjelpetekst'
+      show_modal: "Vis oppføring for hjelpetekst"
     onboarding:
       buttons:
-        skip: 'Hopp over'
-        next: 'Neste'
-        got_it: 'Forstått'
+        skip: "Hopp over"
+        next: "Neste"
+        got_it: "Forstått"
       steps:
-        help_menu: 'Hjelpemenyen (?) gir <b>ytterligere hjelpemidler</b>. Her kan du finne en brukerveiledning, hjelpevideoer og mer. <br> Nyt ditt arbeid med OpenProject!'
-        members: 'Inviter nye <b>medlemmer</b> til å bli med i prosjektet ditt.'
-        quick_add_button: 'Klikk på plussikonet (+) i toppnavigasjonen til <b>opprette et nytt prosjekt</b> eller for å  <b>inviterer kolleger</b>.'
+        help_menu: "Hjelpemenyen (?) gir <b>ytterligere hjelpemidler</b>. Her kan du finne en brukerveiledning, hjelpevideoer og mer. <br> Nyt ditt arbeid med OpenProject!"
+        members: "Inviter nye <b>medlemmer</b> til å bli med i prosjektet ditt."
+        quick_add_button: "Klikk på plussikonet (+) i toppnavigasjonen til <b>opprette et nytt prosjekt</b> eller for å  <b>inviterer kolleger</b>."
         sidebar_arrow: "Bruk returpilen i øvre venstre hjørne for å gå tilbake til prosjektets <b>hovedmeny</b>."
-        welcome: 'Ta en tre minutters introduksjon for å lære de <b>viktigste mulighetene</b>.<br>Vi anbefaler å fullføre alle trinnene.  Du kan når som helst starte på nytt.'
-        wiki: 'I <b>wiki</b> kan du dokumentere og dele kunnskap sammen med teamet.'
+        welcome: "Ta en tre minutters introduksjon for å lære de <b>viktigste mulighetene</b>.<br>Vi anbefaler å fullføre alle trinnene.  Du kan når som helst starte på nytt."
+        wiki: "I <b>wiki</b> kan du dokumentere og dele kunnskap sammen med teamet."
         backlogs:
           overview: "Administrer arbeidet ditt i <b>- backlogs</b> -visningen."
           sprints: "Til høyre har du produktet etterslep og feilloggen, til venstre har du de respektive stegene. Her kan du lage <b>epics, brukerhistorier og bugs</b>, prioriterer du via dra og slipp og legge dem til et steg."
-          task_board_arrow: 'For å se <b>oppgavetavle</b>, åpne steg fra nedtrekksmenyen...'
-          task_board_select: '...og velg <b>oppgavetavlens</b> oppføring.'
+          task_board_arrow: "For å se <b>oppgavetavle</b>, åpne steg fra nedtrekksmenyen..."
+          task_board_select: "...og velg <b>oppgavetavlens</b> oppføring."
           task_board: "Oppgavetavlen visualiserer <b>fremdriften for denne etappen</b>. Klikk på plussikonet (+) ved siden av en brukerhistorie for å legge til nye oppgaver eller hindringer. <br> Statusen kan oppdateres ved å dra og slipp."
         boards:
-          overview: 'Velg <b>tavler</b> for å skift visningen og administrere prosjektet ved hjelp av den dynamiske tavlevisningen.'
-          lists_kanban: 'Her kan du opprette flere lister (kolonner) i tavlen. Denne funksjonen lar deg for eksempel opprette en <b>Kanban tavle</b>.'
-          lists_basic: 'Her kan du lage flere lister (kolonner) på din dynamiske tavle.'
-          add: 'Klikk på pluss (+) ikonet til <b>opprette et nytt kort</b> eller <b>legg til et eksisterende kort</b> på listen på tavlen.'
-          drag: 'Dra og slipp oppgavelapper innenfor en gitt liste for å omorganisere dem, eller flytte dem til en annen liste. <br> Du kan klikke på informasjonsikonet (i) i øvre høyre hjørne eller dobbeltklikke på et kort for å åpne detaljene.'
+          overview: "Velg <b>tavler</b> for å skift visningen og administrere prosjektet ved hjelp av den dynamiske tavlevisningen."
+          lists_kanban: "Her kan du opprette flere lister (kolonner) i tavlen. Denne funksjonen lar deg for eksempel opprette en <b>Kanban tavle</b>."
+          lists_basic: "Her kan du lage flere lister (kolonner) på din dynamiske tavle."
+          add: "Klikk på pluss (+) ikonet til <b>opprette et nytt kort</b> eller <b>legg til et eksisterende kort</b> på listen på tavlen."
+          drag: "Dra og slipp oppgavelapper innenfor en gitt liste for å omorganisere dem, eller flytte dem til en annen liste. <br> Du kan klikke på informasjonsikonet (i) i øvre høyre hjørne eller dobbeltklikke på et kort for å åpne detaljene."
         wp:
           toggler: "La oss nå se på seksjonen <b>arbeidspakke</b> som gir deg en mer detaljert visning av arbeidet ditt."
-          list: 'Denne <b>arbeidspakke</b>-oversikten viser en liste over alt arbeidet i ditt prosjekt, som oppgaver, milepæler, faser m.m.<br>Arbeidspakker kan opprettes og redigeres fra denne visningen.  For p se detaljer i den enkelte arbeidspakke, er det bare å dobbeltklikke på raden.'
-          full_view: '<b>Arbeidspakke detaljer</b>-visningen gir deg all relevant informasjon vedrørende en gitt arbeidspakke, som beskrivelse, status, prioritet, aktiviteter, avhengigheter og kommentarer.'
-          back_button: 'Bruk returpilen i øvre venstre hjørne for å avslutte og gå tilbake til listen med arbeidspakker.'
-          create_button: '<b>+ Opprett</b>-knappen vil legge til en ny nettverkspakke til ditt prosjekt.'
-          gantt_menu: 'Opprett prosjektplaner og tidslinjer uanstrengt ved hjelp av Gantt-kartmodulen.'
-          timeline: 'Her kan du <b>redigere prosjektplanen din</b>, opprette nye nettverkspakker som oppgaver, milepæler, fases og mer, og også <b>legge til avhengigheter</b>.  Alle medlemmer kan se og oppdatere de siste planene til enhver tid.'
+          list: "Denne <b>arbeidspakke</b>-oversikten viser en liste over alt arbeidet i ditt prosjekt, som oppgaver, milepæler, faser m.m.<br>Arbeidspakker kan opprettes og redigeres fra denne visningen.  For p se detaljer i den enkelte arbeidspakke, er det bare å dobbeltklikke på raden."
+          full_view: "<b>Arbeidspakke detaljer</b>-visningen gir deg all relevant informasjon vedrørende en gitt arbeidspakke, som beskrivelse, status, prioritet, aktiviteter, avhengigheter og kommentarer."
+          back_button: "Bruk returpilen i øvre venstre hjørne for å avslutte og gå tilbake til listen med arbeidspakker."
+          create_button: "<b>+ Opprett</b>-knappen vil legge til en ny nettverkspakke til ditt prosjekt."
+          gantt_menu: "Opprett prosjektplaner og tidslinjer uanstrengt ved hjelp av Gantt-kartmodulen."
+          timeline: "Her kan du <b>redigere prosjektplanen din</b>, opprette nye nettverkspakker som oppgaver, milepæler, fases og mer, og også <b>legge til avhengigheter</b>.  Alle medlemmer kan se og oppdatere de siste planene til enhver tid."
         team_planner:
-          overview: 'Gruppeplanleggeren lar deg visuelt tildele oppgaver til teammedlemmer og få en oversikt over hvem som jobber med hva.'
-          calendar: 'Ukentlig eller annenhver uke viser tavlen alle arbeidspakker som er tilordnet gruppemedlemmene.'
-          add_assignee: 'For å komme i gang, legg til personer i gruppeplanleggeren.'
-          add_existing: 'Søk etter eksisterende arbeidspakker og dra dem til gruppeplanleggeren for å umiddelbart tildele dem til et gruppemedlem og definere start- og sluttdato.'
-          card: 'Dra arbeidspakker horisontalt for å flytte dem bakover eller forover i tid, dra kantene for å endre start- og sluttdatoer, og selv dra dem vertikalt til en annen rad for å tilordne dem til en annen medlem.'
+          overview: "Gruppeplanleggeren lar deg visuelt tildele oppgaver til teammedlemmer og få en oversikt over hvem som jobber med hva."
+          calendar: "Ukentlig eller annenhver uke viser tavlen alle arbeidspakker som er tilordnet gruppemedlemmene."
+          add_assignee: "For å komme i gang, legg til personer i gruppeplanleggeren."
+          add_existing: "Søk etter eksisterende arbeidspakker og dra dem til gruppeplanleggeren for å umiddelbart tildele dem til et gruppemedlem og definere start- og sluttdato."
+          card: "Dra arbeidspakker horisontalt for å flytte dem bakover eller forover i tid, dra kantene for å endre start- og sluttdatoer, og selv dra dem vertikalt til en annen rad for å tilordne dem til en annen medlem."
     notifications:
       title: "Varsler"
       no_unread: "Ingen uleste varsler"
       reasons:
-        mentioned: 'nevnt'
-        watched: 'overvåker'
-        assigned: 'oppdragstaker'
-        responsible: 'ansvarlig'
-        created: 'opprettet'
-        scheduled: 'planlagt'
-        commented: 'kommentert'
-        processed: 'behandlet'
-        prioritized: 'prioritert'
-        dateAlert: 'Dato varsel'
-        shared: 'delt'
+        mentioned: "nevnt"
+        watched: "overvåker"
+        assigned: "oppdragstaker"
+        responsible: "ansvarlig"
+        created: "opprettet"
+        scheduled: "planlagt"
+        commented: "kommentert"
+        processed: "behandlet"
+        prioritized: "prioritert"
+        dateAlert: "Dato varsel"
+        shared: "delt"
       date_alerts:
-        milestone_date: 'Milepæl dato'
-        overdue: 'Forfalt'
-        overdue_since: 'siden %{difference_in_days}'
-        property_today: 'er i dag'
-        property_is: 'er om  %{difference_in_days}'
-        property_was: 'var %{difference_in_days} siden'
-        property_is_deleted: 'er slettet'
+        milestone_date: "Milepæl dato"
+        overdue: "Forfalt"
+        overdue_since: "siden %{difference_in_days}"
+        property_today: "er i dag"
+        property_is: "er om  %{difference_in_days}"
+        property_was: "var %{difference_in_days} siden"
+        property_is_deleted: "er slettet"
         upsale:
-          title: 'Dato varsler'
-          description: 'Med datovarsler, vil du bli varslet om kommende start- eller sluttdatoer slik at du aldri går glipp av eller glemmer en viktig frist.'
+          title: "Dato varsler"
+          description: "Med datovarsler, vil du bli varslet om kommende start- eller sluttdatoer slik at du aldri går glipp av eller glemmer en viktig frist."
       facets:
-        unread: 'Ulest'
-        unread_title: 'Vis ulest'
-        all: 'Alle'
-        all_title: 'Vis alle'
+        unread: "Ulest"
+        unread_title: "Vis ulest"
+        all: "Alle"
+        all_title: "Vis alle"
       center:
-        label_actor_and: 'og'
+        label_actor_and: "og"
         and_more_users:
-          one: 'og 1 annen'
-          other: 'og %{count} andre'
+          one: "og 1 annen"
+          other: "og %{count} andre"
         no_results:
-          at_all: 'Nye varsler vises her når det er aktivitet som gjelder deg.'
-          with_current_filter: 'Det er ingen varsler i denne visningen for øyeblikket'
-        mark_all_read: 'Merk alle som lest'
-        mark_as_read: 'Merk som lest'
+          at_all: "Nye varsler vises her når det er aktivitet som gjelder deg."
+          with_current_filter: "Det er ingen varsler i denne visningen for øyeblikket"
+        mark_all_read: "Merk alle som lest"
+        mark_as_read: "Merk som lest"
         text_update_date: "%{date} av"
         total_count_warning: "Viser de %{newest_count} nyeste varsler. %{more_count} flere er ikke vist."
         empty_state:
@@ -641,17 +642,17 @@
           no_notification_with_current_filter: "Ser ut som du er helt oppdatert med filteret %{filter}."
           no_selection: "Klikk på en melding for å se alle aktivitetsdetaljer."
         new_notifications:
-          message: 'Det finnes nye varsler.'
-          link_text: 'Klikk her for å laste dem'
+          message: "Det finnes nye varsler."
+          link_text: "Click here to load them."
       menu:
-        accountable: 'Ansvarlig'
-        by_project: 'Ulest av prosjektet'
-        by_reason: 'Grunn'
-        inbox: 'Innboks'
-        mentioned: 'Nevnt'
-        watched: 'Overvåker'
-        date_alert: 'Dato varsel'
-        shared: 'Delt'
+        accountable: "Ansvarlig"
+        by_project: "Ulest av prosjektet"
+        by_reason: "Grunn"
+        inbox: "Innboks"
+        mentioned: "Nevnt"
+        watched: "Overvåker"
+        date_alert: "Dato varsel"
+        shared: "Delt"
       settings:
         change_notification_settings: 'Du kan endre <a target="_blank" href="%{url}">varslingsinnstillinger</a> for å sikre at du aldri går glipp av en viktig oppdatering.'
         title: "Varslingsinnstillinger"
@@ -670,93 +671,93 @@
               P7D: hver uke
         reasons:
           mentioned:
-            title: 'Nevnt'
-            description: 'Motta en melding hver gang noen nevner meg hvor som helst'
-          assignee: 'Deltaker'
-          responsible: 'Ansvarlig'
-          shared: 'Delt'
-          watched: 'Overvåker'
-          work_package_commented: 'Alle nye kommentarer'
-          work_package_created: 'Nye arbeidspakker'
-          work_package_processed: 'Alle statusendringer'
-          work_package_prioritized: 'Alle endringer i prioritet'
-          work_package_scheduled: 'Alle dato endringer'
+            title: "Nevnt"
+            description: "Motta en melding hver gang noen nevner meg hvor som helst"
+          assignee: "Deltaker"
+          responsible: "Ansvarlig"
+          shared: "Delt"
+          watched: "Overvåker"
+          work_package_commented: "Alle nye kommentarer"
+          work_package_created: "Nye arbeidspakker"
+          work_package_processed: "Alle statusendringer"
+          work_package_prioritized: "Alle endringer i prioritet"
+          work_package_scheduled: "Alle dato endringer"
         global:
           immediately:
-            title: 'Deltar'
-            description: 'Varsler for alle aktiviteter i arbeidspakker du er involvert i (oppdragstaker, ansvarlig eller overvåker).'
+            title: "Deltar"
+            description: "Varsler for alle aktiviteter i arbeidspakker du er involvert i (oppdragstaker, ansvarlig eller overvåker)."
           delayed:
-            title: 'Ikke-deltakende'
-            description: 'Melding om ytterligere aktiviteter i alle prosjekter.'
+            title: "Ikke-deltakende"
+            description: "Melding om ytterligere aktiviteter i alle prosjekter."
           date_alerts:
-            title: 'Dato varsler'
-            description: 'Automatiske varsler når viktige datoer nærmer seg for åpne arbeidspakker du er med i (oppdragstaker, ansvarlig eller overvåker).'
-            teaser_text: 'Med datovarsler, vil du bli varslet om kommende start- eller sluttdatoer slik at du aldri går glipp av eller glemmer en viktig frist.'
+            title: "Dato varsler"
+            description: "Automatiske varsler når viktige datoer nærmer seg for åpne arbeidspakker du er med i (oppdragstaker, ansvarlig eller overvåker)."
+            teaser_text: "Med datovarsler, vil du bli varslet om kommende start- eller sluttdatoer slik at du aldri går glipp av eller glemmer en viktig frist."
           overdue: Når forfalt
         project_specific:
-          title: 'Prosjekt-spesifikke varslingsinnstillinger'
-          description: 'Disse prosjektspesifikke innstillingene overstyrer standardinnstillingene ovenfor.'
-          add: 'Legg til innstilling for prosjekt'
-          already_selected: 'Dette prosjektet er allerede valgt'
-          remove: 'Fjern prosjektinnstillinger'
+          title: "Prosjekt-spesifikke varslingsinnstillinger"
+          description: "Disse prosjektspesifikke innstillingene overstyrer standardinnstillingene ovenfor."
+          add: "Legg til innstilling for prosjekt"
+          already_selected: "Dette prosjektet er allerede valgt"
+          remove: "Fjern prosjektinnstillinger"
     password_confirmation:
-      field_description: 'Du må skrive inn ditt passord for å bekrefte denne endringen.'
-      title: 'Bekreft ditt passord for å fortsette'
+      field_description: "Du må skrive inn ditt passord for å bekrefte denne endringen."
+      title: "Bekreft ditt passord for å fortsette"
     pagination:
       no_other_page: "Du er på den eneste siden."
       pages:
         next: "Gå til neste side"
         previous: "Tilbake til forrige side"
     placeholders:
-      default: '-'
-      subject: 'Angi emne her'
-      selection: 'Vennligst velg'
-      description: 'Beskrivelse: Klikk for å redigere...'
-      relation_description: 'Klikk for å legge til beskrivelse for denne relasjonen'
+      default: "-"
+      subject: "Angi emne her"
+      selection: "Vennligst velg"
+      description: "Beskrivelse: Klikk for å redigere..."
+      relation_description: "Klikk for å legge til beskrivelse for denne relasjonen"
     project:
       required_outside_context: >
         Velg et prosjekt for å opprette arbeidspakken og se alle egenskaper. Du kan bare velge prosjekter som har typen ovenfor aktivert.
-      details_activity: 'Aktivitet for prosjektdetaljer'
-      context: 'Prosjekt kontekst'
-      click_to_switch_to_project: 'Prosjekt: %{projectname}'
-      confirm_template_load: 'Bytte av mal vil laste siden på nytt, og du vil miste alle data på dette skjemaet. Vil du fortsette?'
+      details_activity: "Aktivitet for prosjektdetaljer"
+      context: "Prosjekt kontekst"
+      click_to_switch_to_project: "Prosjekt: %{projectname}"
+      confirm_template_load: "Bytte av mal vil laste siden på nytt, og du vil miste alle data på dette skjemaet. Vil du fortsette?"
       use_template: "Bruk mal"
       no_template_selected: "(Ingen)"
       copy:
         copy_options: "Kopier alternativer"
       autocompleter:
-        label: 'Prosjektet autofullføring'
+        label: "Prosjektet autofullføring"
     reminders:
       settings:
         daily:
-          add_time: 'Legg til tid'
-          enable: 'Aktiver daglige e-postpåminnelser'
-          explanation: 'Du får bare disse påminnelsene for uleste varslinger og bare på tider du angir. %{no_time_zone}'
-          no_time_zone: 'Fram til du konfigurerer en tidssone for kontoen din, vil tidene bli tolket til å være i UTC.'
-          time_label: 'Tid %{counter}:'
-          title: 'Send meg daglige e-postpåminnelser for uleste varslinger'
+          add_time: "Legg til tid"
+          enable: "Aktiver daglige e-postpåminnelser"
+          explanation: "Du får bare disse påminnelsene for uleste varslinger og bare på tider du angir. %{no_time_zone}"
+          no_time_zone: "Fram til du konfigurerer en tidssone for kontoen din, vil tidene bli tolket til å være i UTC."
+          time_label: "Tid %{counter}:"
+          title: "Send meg daglige e-postpåminnelser for uleste varslinger"
         workdays:
-          title: 'Motta e-postpåminnelser for disse dagene'
+          title: "Motta e-postpåminnelser for disse dagene"
         immediate:
-          title: 'Send meg en påminnelse'
-          mentioned: 'Umiddelbart hvis noen @nevner meg'
+          title: "Send meg en påminnelse"
+          mentioned: "Umiddelbart hvis noen @nevner meg"
         alerts:
-          title: 'Epost varsler for andre produkter (som ikke er arbeidspakker)'
+          title: "Epost varsler for andre produkter (som ikke er arbeidspakker)"
           explanation: >
             Varsler i dag er begrenset til arbeidspakker. Du kan velge å fortsette å motta e-postvarsler for disse hendelsene inntil de er inkludert i varsler:
-          news_added: 'Lagt til nyhet'
-          news_commented: 'Kommenter en nyhet'
-          document_added: 'Dokumenter lagt til'
-          forum_messages: 'Nye forummeldinger'
-          wiki_page_added: 'Wiki-side lagt til'
-          wiki_page_updated: 'Wiki-side oppdatert'
-          membership_added: 'Medlemskap lagt til'
-          membership_updated: 'Medlemskapet er oppdatert'
-        title: 'E-post påminnelser'
+          news_added: "Lagt til nyhet"
+          news_commented: "Kommenter en nyhet"
+          document_added: "Dokumenter lagt til"
+          forum_messages: "Nye forummeldinger"
+          wiki_page_added: "Wiki-side lagt til"
+          wiki_page_updated: "Wiki-side oppdatert"
+          membership_added: "Medlemskap lagt til"
+          membership_updated: "Medlemskapet er oppdatert"
+        title: "E-post påminnelser"
         pause:
-          label: 'pause daglige e-postpåminnelser midlertidig'
-          first_day: 'Første dag '
-          last_day: 'Siste dag'
+          label: "pause daglige e-postpåminnelser midlertidig"
+          first_day: "Første dag "
+          last_day: "Siste dag"
     text_are_you_sure: "Er du sikker?"
     text_data_lost: "Alle angitte data vil gå tapt."
     text_user_wrote: "%{value} skrev:"
@@ -776,18 +777,18 @@
         projects: "Prosjekter"
         settings: "Innstillinger"
     time_entry:
-      work_package_required: 'Valg av arbeidspakke er påkrevd'
-      title: 'Logg tid'
-      tracking: 'Tidsstyring'
-      stop: 'Stopp'
+      work_package_required: "Valg av arbeidspakke er påkrevd"
+      title: "Logg tid"
+      tracking: "Tidsstyring"
+      stop: "Stopp"
     timer:
-      start_new_timer: 'Start ny tidtaker'
-      timer_already_running: 'For å starte en ny tidtaker må du først stoppe den gjeldende tidtakeren:'
-      timer_already_stopped: 'Ingen aktiv tidtaker for denne arbeidspakken, har du stoppet den i et annet vindu?'
-      tracking_time: 'Sporingstid'
-      button_stop: 'Stopp nåværende tidtaker'
+      start_new_timer: "Start ny tidtaker"
+      timer_already_running: "For å starte en ny tidtaker må du først stoppe den gjeldende tidtakeren:"
+      timer_already_stopped: "Ingen aktiv tidtaker for denne arbeidspakken, har du stoppet den i et annet vindu?"
+      tracking_time: "Sporingstid"
+      button_stop: "Stopp nåværende tidtaker"
     two_factor_authentication:
-      label_two_factor_authentication: 'Tofaktorautentisering'
+      label_two_factor_authentication: "Tofaktorautentisering"
     watchers:
       label_loading: laster overvåkere...
       label_error_loading: Det oppstod en feil under lasting av overvåkere
@@ -848,27 +849,27 @@
       project:
         placeholder: "Velg prosjekt"
     repositories:
-      select_tag: 'Velg etikett'
-      select_branch: 'Velg gren'
+      select_tag: "Velg etikett"
+      select_branch: "Velg gren"
     field_value_enter_prompt: "Angi en verdi for '%{field}'"
     project_menu_details: "Detaljer"
     scheduling:
-      manual: 'Manuell planlegging'
+      manual: "Manuell planlegging"
     sort:
-      sorted_asc: 'Stigende sortering er valgt,'
-      sorted_dsc: 'Synkende sortering er valgt,'
-      sorted_no: 'Ingen sortering er valgt,'
-      sorting_disabled: 'Sortering er deaktivert'
-      activate_asc: 'aktiver for å bruke stigende sortering'
-      activate_dsc: 'aktiver for å bruke synkende sortering'
-      activate_no: 'aktiver for å fjerne sortering'
+      sorted_asc: "Stigende sortering er valgt,"
+      sorted_dsc: "Synkende sortering er valgt,"
+      sorted_no: "Ingen sortering er valgt,"
+      sorting_disabled: "Sortering er deaktivert"
+      activate_asc: "aktiver for å bruke stigende sortering"
+      activate_dsc: "aktiver for å bruke synkende sortering"
+      activate_no: "aktiver for å fjerne sortering"
     text_work_packages_destroy_confirmation: "Er du sikker på at du vil slette valgte arbeidspakke(r)?"
     text_query_destroy_confirmation: "Er du sikker på at du vil slette valgte visning?"
     tl_toolbar:
       zooms: "Zoom-nivå"
       outlines: "Nivå"
     upsale:
-      ee_only: 'Enterprise edition utvidelse'
+      ee_only: "Enterprise edition utvidelse"
     wiki_formatting:
       strong: "Halvfet"
       italic: "Kursiv"
@@ -887,10 +888,10 @@
       image: "Bilde"
     work_packages:
       bulk_actions:
-        move: 'Endre prosjekt i bulk'
-        edit: 'Bulk redigere'
-        copy: 'Bulk kopiering'
-        delete: 'Bulk slette'
+        move: "Endre prosjekt i bulk"
+        edit: "Bulk redigere"
+        copy: "Bulk kopiering"
+        delete: "Bulk slette"
       button_clear: "Nullstill"
       comment_added: "Kommentaren ble lagt til."
       comment_send_failed: "En feil har oppstått.  Kommentaren kunne ikke sendes inn."
@@ -902,9 +903,9 @@
         start_date_limited_by_relations: "Tilgjengelige start- og sluttdatoer er begrenset av relasjoner."
         changing_dates_affects_follow_relations: "Endring av disse datoene vil ha innvirkning på daoter i relaterte arbeidspakker."
         click_on_show_relations_to_open_gantt: 'Klikk på "%{button_name}" for GANTT oversikt.'
-        show_relations: 'Vis relasjoner'
+        show_relations: "Vis relasjoner"
         ignore_non_working_days:
-          title: 'Kun arbeidsdager'
+          title: "Kun arbeidsdager"
       description_filter: "Filter"
       description_enter_text: "Skriv tekst"
       description_options_hide: "Skjul alternativer"
@@ -924,32 +925,34 @@
       message_work_package_read_only: "Arbeidspakken er låst i denne statusen. Ingen egenskaper annet enn status kan endres."
       message_work_package_status_blocked: "Status for arbeidspakke er ikke skrivbar på grunn av at lukket status og lukket versjon er tildelt."
       placeholder_filter_by_text: "Emne, beskrivelse, kommentarer, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
-        addition_label: 'Lagt til for visning i tidsperioden for sammenligning'
-        removal_label: 'Fjernet fra visning i tidsperioden for sammenligning'
-        modification_label: 'Endret i perioden for sammenligning'
-        column_incompatible: 'Denne kolonnen viser ikke endringer i baseline modus.'
+        addition_label: "Lagt til for visning i tidsperioden for sammenligning"
+        removal_label: "Fjernet fra visning i tidsperioden for sammenligning"
+        modification_label: "Endret i perioden for sammenligning"
+        column_incompatible: "Denne kolonnen viser ikke endringer i baseline modus."
       filters:
-        title: 'Filtrer arbeidspakker'
-        baseline_incompatible: 'Dette filterattributtet er ikke tatt i betraktning i baseline-modus.'
-        baseline_warning: 'Basismodus er på men noen av dine aktive filtre er ikke inkludert i sammenligningen.'
+        title: "Filtrer arbeidspakker"
+        baseline_incompatible: "Dette filterattributtet er ikke tatt i betraktning i baseline-modus."
+        baseline_warning: "Basismodus er på men noen av dine aktive filtre er ikke inkludert i sammenligningen."
       inline_create:
-        title: 'Klikk her for å legge til en nye arbeidspakke i listen'
+        title: "Klikk her for å legge til en nye arbeidspakke i listen"
       create:
-        title: 'Ny arbeidspakke'
-        header: 'Ny %{type}'
-        header_no_type: 'Ny arbeidspakke (type ikke satt ennå)'
-        header_with_parent: 'Ny %{type} (Undertype av %{parent_type} #%{id})'
-        button: 'Opprett'
+        title: "Ny arbeidspakke"
+        header: "Ny %{type}"
+        header_no_type: "Ny arbeidspakke (type ikke satt ennå)"
+        header_with_parent: "Ny %{type} (Undertype av %{parent_type} #%{id})"
+        button: "Opprett"
       copy:
-        title: 'Kopier arbeidspakke'
+        title: "Kopier arbeidspakke"
       hierarchy:
         show: "Vis hierarki modus"
         hide: "Skjul hierarkimodus"
-        toggle_button: 'Klikk for å endre hierarkimodus.'
-        leaf: 'Lad av arbeidspakker på nivå %{level}.'
-        children_collapsed: 'Nivå %{level}for hierarki, skjules. Klikk for å vise de filtrerte underpakkene'
-        children_expanded: 'Hierarki nivå %{level}, utvidet. Klikk for å kollapse de filtrerte underordnede'
+        toggle_button: "Klikk for å endre hierarkimodus."
+        leaf: "Lad av arbeidspakker på nivå %{level}."
+        children_collapsed: "Nivå %{level}for hierarki, skjules. Klikk for å vise de filtrerte underpakkene"
+        children_expanded: "Hierarki nivå %{level}, utvidet. Klikk for å kollapse de filtrerte underordnede"
       faulty_query:
         title: Arbeidspakker kan ikke lastes.
         description: Visningen din er feilaktig og kunne ikke behandles.
@@ -1000,6 +1003,7 @@
         all_open: "Alle åpne"
         summary: "Sammendrag"
         shared_with_users: "Delt med brukere"
+        shared_with_me: "Delt med meg"
       jump_marks:
         pagination: "Gå til tabell paginering"
         label_pagination: "Klikk her for å hoppe over tabellen for arbeidspakker og gå til paginering"
@@ -1037,7 +1041,7 @@
         is_parent: "Datoene for denne arbeidspakken trekkes automatisk fra de underordnede. Aktiver 'Manuell planlegging' for å angi datoene."
         is_switched_from_manual_to_automatic: "Datoene for denne arbeidspakken må eventuelt beregnes på nytt etter å ha byttet fra manual til automatisk planlegging på grunn av relasjoner med andre arbeidspakker."
       sharing:
-        share: 'Del'
+        share: "Del"
         title: "Del arbeidspakke"
         show_all_users: "Vis alle delte brukere"
         selected_count: "%{count} valgte"
@@ -1046,45 +1050,45 @@
         upsale:
           description: "Del arbeidspakker med brukere som ikke er medlemmer i prosjektet."
       table:
-        configure_button: 'Konfigurer tabell for arbeidspakke'
+        configure_button: "Konfigurer tabell for arbeidspakke"
         summary: "Tabell med rader for arbeidspakke og kolonner for arbeidspakkeegenskaper."
         text_inline_edit: "De fleste celler i denne tabellen er knapper som aktiverer inkorporering av funksjonaliteten til den egenskapen."
         text_sort_hint: "Med lenkene i tabelloverskriftene kan du sortere, gruppe, omorganisere og legge til tabellkolonner."
         text_select_hint: "Velg bokser skal åpnes med 'ALT' og piltaster."
       table_configuration:
-        button: 'Konfigurer tabellen for arbeidspakker'
-        choose_display_mode: 'Vis arbeidspakker som'
-        modal_title: 'Tabelloppsett for arbeidspakke'
+        button: "Konfigurer tabellen for arbeidspakker"
+        choose_display_mode: "Vis arbeidspakker som"
+        modal_title: "Tabelloppsett for arbeidspakke"
         embedded_tab_disabled: "Denne konfigurasjons-fanen er ikke tilgjengelig for den innebygde visningen du redigerer."
         default: "standard"
-        display_settings: 'Skjerminnstillinger'
+        display_settings: "Skjerminnstillinger"
         default_mode: "Flat liste"
         hierarchy_mode: "Hierarki"
         hierarchy_hint: "Alle filtrerte tabellresultater vil bli forsterket med sine overordnede. Hierarkier kan utvides og kollapses."
         display_sums_hint: "Vis summer av alle summerbare egenskaper i en rad under tabellresultatene."
         show_timeline_hint: "Vis et interaktivt gantt-diagram på høyre side av tabellen. Du kan endre bredden ved å dra skillelinjen mellom tabell og gantt-tegnet."
-        highlighting: 'Utheving'
+        highlighting: "Utheving"
         highlighting_mode:
           description: "Marker med farge"
           none: "Ingen utheving"
-          inline: 'Uthevede egenskap(er)'
-          inline_all: 'Alle egenskaper'
-          entire_row_by: 'Hele raden etter'
-          status: 'Status'
-          priority: 'Prioritet'
-          type: 'Type'
+          inline: "Uthevede egenskap(er)"
+          inline_all: "Alle egenskaper"
+          entire_row_by: "Hele raden etter"
+          status: "Status"
+          priority: "Prioritet"
+          type: "Type"
         sorting_mode:
-          description: 'Velg modus for å sortere arbeidspakkene:'
-          automatic: 'Automatisk'
-          manually: 'Manuelt'
-          warning: 'Du vil miste din forrige sortering når du aktiverer automatiske sorteringsmodus.'
+          description: "Velg modus for å sortere arbeidspakkene:"
+          automatic: "Automatisk"
+          manually: "Manuelt"
+          warning: "Du vil miste din forrige sortering når du aktiverer automatiske sorteringsmodus."
         columns_help_text: "Bruk inndatafelt over for å legge til kolonner til din tabellvisning. Du kan dra og slippe kolonnene for å endre rekkefølgen for dem."
         upsale:
-          attribute_highlighting: 'Trenger du visse arbeidspakker som skiller seg ut fra massen?'
-          relation_columns: 'Trenger du å se relasjoner i listen over arbeidspakke?'
-          check_out_link: 'Sjekk ut Enterprise-utgaven.'
+          attribute_highlighting: "Trenger du visse arbeidspakker som skiller seg ut fra massen?"
+          relation_columns: "Trenger du å se relasjoner i listen over arbeidspakke?"
+          check_out_link: "Sjekk ut Enterprise-utgaven."
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filtrer arbeidspakker etter relasjonstype'
+          filter_work_packages_by_relation_type: "Filtrer arbeidspakker etter relasjonstype"
       tabs:
         overview: Oversikt
         activity: Aktivitet
@@ -1124,8 +1128,8 @@
       button_cancel: "Avbryt"
       button_delete: "Slett"
       form_submit:
-        title: 'Bekreft for å fortsette'
-        text: 'Er du sikker på at du vil utføre denne handlingen?'
+        title: "Bekreft for å fortsette"
+        text: "Er du sikker på at du vil utføre denne handlingen?"
       destroy_work_package:
         title: "Bekreft sletting av %{label}"
         single_text: "Er du sikker på at du vil slette arbeidspakken"
@@ -1157,11 +1161,11 @@
       null_value_label: "Ingen verdi"
       clear_value_label: "-"
       errors:
-        required: '%{field} kan ikke være tomt'
-        number: '%{field} er ikke et gyldig tall'
-        maxlength: '%{field} kan ikke inneholde mer enn %{maxLength} siffer()'
-        minlength: '%{field} kan ikke inneholde mindre enn %{minLength} digit(s)'
-        messages_on_field: 'Dette feltet er ugyldig: %{messages}'
+        required: "%{field} kan ikke være tomt"
+        number: "%{field} er ikke et gyldig tall"
+        maxlength: "%{field} kan ikke inneholde mer enn %{maxLength} siffer()"
+        minlength: "%{field} kan ikke inneholde mindre enn %{minLength} digit(s)"
+        messages_on_field: "Dette feltet er ugyldig: %{messages}"
     error_could_not_resolve_version_name: "Kunne ikke slå opp versjonsnavnet"
     error_could_not_resolve_user_name: "Kunne ikke slå opp brukernavn"
     error_attachment_upload: "Filen kunne ikke lastes opp: %{error}"
@@ -1182,8 +1186,8 @@
         other: "%{count} dager"
         zero: "0 dager"
     zen_mode:
-      button_activate: 'Aktiver zen modus'
-      button_deactivate: 'Deaktiver zen modus'
+      button_activate: "Aktiver zen modus"
+      button_deactivate: "Deaktiver zen modus"
     global_search:
       all_projects: "I alle prosjekter"
       close_search: "Lukk søk"
@@ -1196,129 +1200,134 @@
         project_and_subprojects: "og alle underprosjekter"
         search_for: "Søk etter"
     views:
-      card: 'Kort'
-      list: 'Tabell'
-      timeline: 'Gantt'
+      card: "Kort"
+      list: "Tabell"
+      timeline: "Gantt"
     invite_user_modal:
-      back: 'Tilbake'
-      invite: 'Inviter'
+      back: "Tilbake"
+      invite: "Inviter"
       title:
-        invite: 'Inviter bruker'
-        invite_to_project: 'Inviter %{type} til %{project}'
-        User: 'bruker'
-        Group: 'gruppe'
-        PlaceholderUser: 'plassholder bruker'
-        invite_principal_to_project: 'Inviter %{principal} til %{project}'
+        invite: "Inviter bruker"
+        invite_to_project: "Inviter %{type} til %{project}"
+        User: "bruker"
+        Group: "gruppe"
+        PlaceholderUser: "plassholder bruker"
+        invite_principal_to_project: "Inviter %{principal} til %{project}"
       project:
-        label: 'Prosjekt'
-        required: 'Velg et prosjekt'
-        lacking_permission: 'Velg et annet prosjekt da du mangler tillatelser for å tildele brukere til de valgte alternativene.'
-        lacking_permission_info: 'Du mangler tillatelse til å tilordne brukere til prosjektet du er i. Du må velge et annet.'
-        next_button: 'Neste'
-        no_results: 'Ingen prosjekter ble funnet'
-        no_invite_rights: 'Du har ikke lov til å invitere medlemmer til dette prosjektet'
+        label: "Prosjekt"
+        required: "Velg et prosjekt"
+        lacking_permission: "Velg et annet prosjekt da du mangler tillatelser for å tildele brukere til de valgte alternativene."
+        lacking_permission_info: "Du mangler tillatelse til å tilordne brukere til prosjektet du er i. Du må velge et annet."
+        next_button: "Neste"
+        no_results: "Ingen prosjekter ble funnet"
+        no_invite_rights: "Du har ikke lov til å invitere medlemmer til dette prosjektet"
       type:
-        required: 'Velg typen som skal inviteres'
+        required: "Velg typen som skal inviteres"
         user:
-          title: 'Bruker'
-          description: 'Tillatelser basert på den tilordnede rollen i det valgte prosjektet'
+          title: "Bruker"
+          description: "Tillatelser basert på den tilordnede rollen i det valgte prosjektet"
         group:
-          title: 'Gruppe'
-          description: 'Tillatelser basert på den tilordnede rollen i det valgte prosjektet'
+          title: "Gruppe"
+          description: "Tillatelser basert på den tilordnede rollen i det valgte prosjektet"
         placeholder:
-          title: 'Plassholder bruker'
-          title_no_ee: 'Midlertidig bruker (kun tillegg for Enterprise-utgave)'
-          description: 'Har ikke tilgang til prosjektet og ingen e-poster blir sendt ut.'
+          title: "Plassholder bruker"
+          title_no_ee: "Midlertidig bruker (kun tillegg for Enterprise-utgave)"
+          description: "Har ikke tilgang til prosjektet og ingen e-poster blir sendt ut."
           description_no_ee: 'Har ikke tilgang til prosjektet og ingen e-poster har blitt sendt ut. <br>Sjekk ut <a href="%{eeHref}" target="_blank">Enterprise-utgaven</a>'
       principal:
         label:
-          name_or_email: 'Navn eller e-postadresse'
-          name: 'Navn'
-        already_member_message: 'Allerede et medlem av %{project}'
-        no_results_user: 'Ingen brukere ble funnet'
-        invite_user: 'Inviter:'
-        no_results_placeholder: 'Ingen plassholdere ble funnet'
-        create_new_placeholder: 'Opprett ny plassholder:'
-        no_results_group: 'Ingen grupper ble funnet'
-        next_button: 'Neste'
+          name_or_email: "Navn eller e-postadresse"
+          name: "Navn"
+        already_member_message: "Allerede et medlem av %{project}"
+        no_results_user: "Ingen brukere ble funnet"
+        invite_user: "Inviter:"
+        no_results_placeholder: "Ingen plassholdere ble funnet"
+        create_new_placeholder: "Opprett ny plassholder:"
+        no_results_group: "Ingen grupper ble funnet"
+        next_button: "Neste"
         required:
-          user: 'Vennligst velg en bruker'
-          placeholder: 'Vennligst velg en plassholder'
-          group: 'Velg en gruppe'
+          user: "Vennligst velg en bruker"
+          placeholder: "Vennligst velg en plassholder"
+          group: "Velg en gruppe"
       role:
-        label: 'Rolle i %{project}'
-        no_roles_found: 'Ingen roller ble funnet'
-        description: 'Dette er rollen brukeren vil få når de blir med i prosjektet. Rollen definerer hvilke tiltak de har lov til å ta, og hvilken informasjon de har lov til å se. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Lær mer om roller og tillatelser. </a>'
-        required: 'Vennligst velg en rolle'
-        next_button: 'Neste'
+        label: "Rolle i %{project}"
+        no_roles_found: "Ingen roller ble funnet"
+        description: >-
+          Dette er rollen brukeren vil få når de blir med i prosjektet. Rollen definerer hvilke tiltak de har lov til å ta, og hvilken informasjon de har lov til å se. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Lær mer om roller og tillatelser. </a>
+        required: "Vennligst velg en rolle"
+        next_button: "Neste"
       message:
-        label: 'Melding i invitasjon'
-        description: 'Vi vil sende en e-post til brukeren, som du kan skrive en personlig melding til her. En forklaring på invitasjonen kan være nyttig, eller kanskje en litt informasjon om prosjektet for å hjelpe dem i gang.'
-        next_button: 'Neste'
+        label: "Melding i invitasjon"
+        description: "Vi vil sende en e-post til brukeren, som du kan skrive en personlig melding til her. En forklaring på invitasjonen kan være nyttig, eller kanskje en litt informasjon om prosjektet for å hjelpe dem i gang."
+        next_button: "Neste"
       summary:
-        next_button: 'Send invitasjon'
+        next_button: "Send invitasjon"
       success:
-        title: '%{principal} ble invitert!'
+        title: "%{principal} ble invitert!"
         description:
-          user: 'Brukeren kan nå logge inn for å få tilgang til %{project}. Selv så kan du allerede planlegge med den brukeren og tilknytte arbeidspakker for forekomst.'
-          placeholder: 'Plassholderen kan nå brukes i %{project}. Samtidig kan du allerede planlegge med den brukeren og tilordne arbeidspakker i forekomsten.'
-          group: 'Gruppen er nå en del av %{project}. Dette betyr at du allerede kan planlegge med den gruppen og tildele arbeidspakker for forekomst.'
-        next_button: 'Fortsett'
+          user: "Brukeren kan nå logge inn for å få tilgang til %{project}. Selv så kan du allerede planlegge med den brukeren og tilknytte arbeidspakker for forekomst."
+          placeholder: "Plassholderen kan nå brukes i %{project}. Samtidig kan du allerede planlegge med den brukeren og tilordne arbeidspakker i forekomsten."
+          group: "Gruppen er nå en del av %{project}. Dette betyr at du allerede kan planlegge med den gruppen og tildele arbeidspakker for forekomst."
+        next_button: "Fortsett"
     include_projects:
-      toggle_title: 'Inkluder prosjekter'
-      title: 'Prosjekter'
-      clear_selection: 'Tøm valg'
-      apply: 'Bruk'
+      toggle_title: "Inkluder prosjekter"
+      title: "Prosjekter"
+      clear_selection: "Tøm valg"
+      apply: "Bruk"
       selected_filter:
-        all: 'Alle prosjekter'
-        selected: 'Kun valgte'
-      search_placeholder: 'Søk i prosjekt...'
-      include_subprojects: 'Inkluder alle underprosjekter'
+        all: "Alle prosjekter"
+        selected: "Kun valgte"
+      search_placeholder: "Søk i prosjekt..."
+      include_subprojects: "Inkluder alle underprosjekter"
       tooltip:
-        include_all_selected: 'Prosjektet er allerede inkludert siden det alle underprosjekter er aktivert.'
-        current_project: 'Dette er det nåværende prosjektet du er i.'
-        does_not_match_search: 'Prosjektet samsvarer ikke med søkekriteriene.'
-      no_results: 'Ingen treff på dine søkekriterier.'
+        include_all_selected: "Prosjektet er allerede inkludert siden det alle underprosjekter er aktivert."
+        current_project: "Dette er det nåværende prosjektet du er i."
+        does_not_match_search: "Prosjektet samsvarer ikke med søkekriteriene."
+      no_results: "Ingen treff på dine søkekriterier."
     baseline:
-      toggle_title: 'Grunnlinje'
-      clear: 'Nullstill'
-      apply: 'Bruk'
-      header_description: 'Marker endringer som er gjort på denne listen tidligere.'
-      enterprise_header_description: 'Marker endringer på denne listen tidligere med Enterprise Edition.'
-      show_changes_since: 'Vis endringer siden'
-      baseline_comparison: 'Sammenligning grunnlinje'
-      help_description: 'Referansetidssone for grunnlinjen.'
-      time_description: 'I din lokale tid: %{datetime}'
-      time: 'Tidspunkt'
-      from: 'Fra'
-      to: 'Til'
+      toggle_title: "Grunnlinje"
+      clear: "Nullstill"
+      apply: "Bruk"
+      header_description: "Marker endringer som er gjort på denne listen tidligere."
+      enterprise_header_description: "Marker endringer på denne listen tidligere med Enterprise Edition."
+      show_changes_since: "Vis endringer siden"
+      baseline_comparison: "Sammenligning grunnlinje"
+      help_description: "Referansetidssone for grunnlinjen."
+      time_description: "I din lokale tid: %{datetime}"
+      time: "Tidspunkt"
+      from: "Fra"
+      to: "Til"
       drop_down:
-        none: '-'
-        yesterday: 'i går'
-        last_working_day: 'siste arbeidsdag'
-        last_week: 'siste uke'
-        last_month: 'siste måned'
-        a_specific_date: 'en bestemt dato'
-        between_two_specific_dates: 'mellom to spesifikke datoer'
+        none: "-"
+        yesterday: "i går"
+        last_working_day: "siste arbeidsdag"
+        last_week: "siste uke"
+        last_month: "siste måned"
+        a_specific_date: "en bestemt dato"
+        between_two_specific_dates: "mellom to spesifikke datoer"
       legends:
-        changes_since: 'Endringer siden'
-        changes_between: 'Endringer mellom'
-        now_meets_filter_criteria: 'Oppfyller nå filterkriteriene'
-        no_longer_meets_filter_criteria: 'Oppfyller ikke lenger filterkriteriene'
-        maintained_with_changes: 'Beholdt med endringer'
-        in_your_timezone: 'I din lokale tidssone:'
+        changes_since: "Endringer siden"
+        changes_between: "Endringer mellom"
+        now_meets_filter_criteria: "Oppfyller nå filterkriteriene"
+        no_longer_meets_filter_criteria: "Oppfyller ikke lenger filterkriteriene"
+        maintained_with_changes: "Beholdt med endringer"
+        in_your_timezone: "I din lokale tidssone:"
       icon_tooltip:
-        added: 'Lagt til for visning i tidsperioden for sammenligning'
-        removed: 'Fjernet fra visning i tidsperioden for sammenligning'
-        changed: 'Beholdt med modifikasjoner'
+        added: "Lagt til for visning i tidsperioden for sammenligning"
+        removed: "Fjernet fra visning i tidsperioden for sammenligning"
+        changed: "Beholdt med modifikasjoner"
     forms:
-      submit_success_message: 'Skjemaet ble sendt inn'
-      load_error_message: 'En feil oppstod under lasting av skjemaet'
-      validation_error_message: 'Vennligst fiks feilene i skjemaet'
-      advanced_settings: 'Avanserte innstillinger'
+      submit_success_message: "Skjemaet ble sendt inn"
+      load_error_message: "En feil oppstod under lasting av skjemaet"
+      validation_error_message: "Vennligst fiks feilene i skjemaet"
+      advanced_settings: "Avanserte innstillinger"
     spot:
       filter_chip:
-        remove: 'Fjern'
+        remove: "Fjern"
       drop_modal:
-        focus_grab: 'Dette er et fokusanker for modaler. Trykk shift+tab for å gå tilbake til modal trigger elementet.'
-        Close: 'Lukk'
+        focus_grab: "Dette er et fokusanker for modaler. Trykk shift+tab for å gå tilbake til modal trigger elementet."
+        Close: "Lukk"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."
