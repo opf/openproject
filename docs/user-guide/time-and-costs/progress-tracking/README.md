@@ -78,7 +78,7 @@ OpenProject will automatically show totals for Work, Remaining work and % Comple
 
 > **Note**: The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will advance the sum of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done. 
 
-
+<!--
 ### Excluding certain work packages from totals
 
 In some cases, you might want to exclude certain work packages (like those with status *rejected*) from sum calculations of the parent. Administrators can define these exclusions by going to the [Administration settings for any status] and check a new option called "Exclude from calculation of totals in hierarchy". All work packages with this status will then be excluded when calculating the sum value for the parent (for all fields: Work, Remaining work and %&nbsp;Complete).
@@ -86,6 +86,7 @@ In some cases, you might want to exclude certain work packages (like those with 
 A small info icon will appear next to excluded values to remind you of this fact:
 
 ![Warning that a work package type is excluded from hierarchy totals](progress-work-estimates-excludedFromParent.png)
+-->
 
 ## Changing modes 
 
