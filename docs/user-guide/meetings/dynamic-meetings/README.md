@@ -84,7 +84,7 @@ You can add items to an agenda or directly link to existing work packages by sel
 
 ![The add button with two choices: agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
 
-If you select the **Agenda item** option, you can name that item, set the anticipated duration in minutes and select a user to be displayed next to the agenda item. This could for example be a meeting or a project member that is accountable for this particular agenda item. By default the name of the user adding the agenda item will be pre-selected, but it can either be removed or replaced by one of the other meeting invitees. 
+If you select the **Agenda item** option, you can name that item, set the anticipated duration in minutes and select a user to be displayed next to the agenda item. This could for example be a meeting or a project member that is accountable for or a presenter of this particular agenda item. By default the name of the user adding the agenda item will be pre-selected, but it can either be removed or replaced by one of the other meeting invitees. 
 
 ![](openproject_userguide_add_agenda_item.png)
 
