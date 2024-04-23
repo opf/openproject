@@ -39,14 +39,14 @@ module VersionsHelper
   end
 
   def link_to_version(version, html_options = {}, options = {})
-    return '' unless version&.is_a?(Version)
+    return "" unless version.is_a?(Version)
 
     html_options = html_options.merge(id: link_to_version_id(version))
 
     link_name = options[:before_text].to_s.html_safe + format_version_name(version, options[:project] || @project)
     link_to_if version.visible?,
                link_name,
-               { controller: '/versions', action: 'show', id: version },
+               { controller: "/versions", action: "show", id: version },
                html_options
   end
 
@@ -75,7 +75,7 @@ module VersionsHelper
   end
 
   def format_version_sharing(sharing)
-    sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
+    sharing = "none" unless Version::VERSION_SHARINGS.include?(sharing)
     t("label_version_sharing_#{sharing}")
   end
 
@@ -84,5 +84,18 @@ module VersionsHelper
       hash[version.project.name] << [version.name, version.id]
       hash
     end
+  end
+
+  def version_wp_overview_graph_initial_filters(version)
+    filters = []
+    case version.sharing
+    when "hierarchy", "tree"
+      filters << { project: { operator: "=", values: version.projects.visible.ids } }
+    when "descendants"
+      filters << { subprojectId: { operator: "*", values: [] } }
+    end
+    filters << { version: { operator: "=", values: [version.id] } }
+
+    JSON.dump(filters)
   end
 end

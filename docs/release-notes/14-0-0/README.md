@@ -10,33 +10,25 @@ release_date: 2024-04-08
 
 Release date: 2024-04-08
 
-We released [OpenProject 14.0.0](https://community.openproject.org/versions/1356).
-The release contains several bug fixes and we recommend updating to the newest version.
+We released [OpenProject 14.0.0](https://community.openproject.org/versions/1356). The major release contains several bug fixes, and we recommend updating to the newest version. In these Release Notes, we will first list important technical updates, then give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 ## Important updates and breaking changes
 
 ### Docker registry renaming
 
-Starting with OpenProject 14.0., docker images will be published
-to [openproject/openproject](https://hub.docker.com/r/openproject/openproject) on Docker Hub.
-If your setup is still using the old image name (openproject/community), you will need to update your configuration to
-use the new image names.
+Starting with OpenProject 14.0, docker images will be published to [openproject/openproject](https://hub.docker.com/r/openproject/openproject) on Docker Hub. If your setup is still using the old image name (openproject/community), you will need to update your configuration to use the new image names.
 
 All previous images have been pushed there as well, so you can simply update your configuration to use the new image
 name ahead of your update.
 
 ### API V3: Renaming of Delay to Lag
 
-In the relations API, the attribute `delay` has been renamed to `lag`.
-This change is to align the API with the terminology used in project management and the UI.
-
-For more information, see [#44054](https://community.openproject.org/work_packages/44054)
+In the relations API, the attribute `delay` has been renamed to `lag`. This change is to align the API with the terminology used in project management and the UI. For more information, see [#44054](https://community.openproject.org/work_packages/44054).
 
 ### Removed deprecated methods for permission checks
 
 In version 13.1 we have overhauled our system to handle internal permission checks by allowing permissions to not only be
-defined on project or global level, but also on resources like work packages. Therefore we have introduced new methods to
-check permissions. The old methods have been marked as deprecated and are now removed in 14.0.
+defined on project or global level, but also on resources like work packages. Therefore, we have introduced new methods to check permissions. The old methods have been marked as deprecated and are now removed in 14.0.
 
 Affected methods are:
 - `User#allowed_to?`
@@ -44,15 +36,11 @@ Affected methods are:
 - `User#allowed_to_in_project?`
 
 If you have developed a plugin or have custom code that uses these methods, you need to update your code to use the new
-methods.
-
-For more information, see [#51212](https://community.openproject.org/work_packages/51212).
+methods. For more information, see [#51212](https://community.openproject.org/work_packages/51212).
 
 ### Reduced number of configurable design variables
 
-We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings).
-This simplifies the process of setting the desired colour scheme for users.
-It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colourblind mode in the future.
+We have changed the number and naming of the [configurable design variables](https://www.openproject.org/docs/system-admin-guide/design/#advanced-settings). This simplifies the process of setting the desired color scheme for users. It also allows us to get closer to the **Primer design system** in order to benefit from its other modes such as the dark mode or the colorblind mode in the future.
 
 The following variables have been changed:
 
@@ -65,29 +53,104 @@ The following variables have been changed:
 
 
 If you have developed a plugin or have custom code that uses these variables, you need to update your code to use the new
-names. The rest of the variables is unchanged.
-
-For more information, see [#53309](https://community.openproject.org/work_packages/53309).
+names. The rest of the variables is unchanged. For more information, see [#53309](https://community.openproject.org/work_packages/53309).
 
 ### Removal of the model_changeset_scan_commit_for_issue_ids_pre_issue_update hook
 
-The `model_changeset_scan_commit_for_issue_ids_pre_issue_update` hook has been removed completely. This was made necessary as the code around it was not making use of the proper update mechanisms (Service objects) which lead to inconsistencies in the data, i.e. ancestor work packages.
-
-For more information, see [#40749](https://community.openproject.org/work_packages/40749)
+The `model_changeset_scan_commit_for_issue_ids_pre_issue_update` hook has been removed completely. This was made necessary as the code around it was not making use of the proper update mechanisms (Service objects) which lead to inconsistencies in the data, i.e. ancestor work packages. For more information, see [#40749](https://community.openproject.org/work_packages/40749).
 
 ### Removal of the commit_fix_done_ratio setting
 
-Since the done_ratio is now a read only value, derived from work and remaining work, the `commit_fix_done_ratio` setting has been removed.
-
-For more information, see [#40749](https://community.openproject.org/work_packages/40749)
+Since the done_ratio is now a read only value, derived from work and remaining work, the `commit_fix_done_ratio` setting has been removed. For more information, see [#40749](https://community.openproject.org/work_packages/40749).
 
 ### Removed `available_responsibles` from the API
 
 The `available_responsibles` endpoint has been removed from the API. This endpoint was used to retrieve a list of users that could be set as the **responsible** for a work package. This information has been identical to the results by the  `available_assignees` endpoint. When you are using the `available_responsibles` endpoint in your application, you should switch to using the `available_assignees` endpoint instead.
 
+## Important feature changes
+
+### Progress reporting across work package hierarchies
+
+There are some major changes in terms of progress reporting for work package hierarchies. The calculation of progress (% Complete) in work package hierarchies is now consistent. This leads to the following important changes:
+
+#### % Complete will be an automatically calculated (non-editable) attribute based on Work.
+
+In Work-based progress reporting, % Complete will be automatically calculated and can therefore no longer be edited manually. This means that for a work package to have a value for % Complete, both Work and Remaining work are required to be set. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
+
+![Work-based progress reporting](progress-work-estimates-workMode.jpg)
+
+#### In status-based progress reporting, Remaining work will be automatically calculated.
+
+In Status-based progress reporting mode, Work is not a required value. However, if Work is set, Remaining work is automatically calculated. To make this link clear and transparent, clicking on any of the three values to modify them will display the following pop-over:
+
+![Status-based progress reporting](progress-work-estimates-statusMode.jpg)
+
+#### Administrators will be able to exclude certain work packages from hierarchy totals of Work, Remaining work and % Complete.
+
+Admins are able to exclude specific work packages (e.g., those marked as rejected) from the total sum calculations of their parent. In this case, a small info icon will appear next to excluded values:
+
+![Progress work estimates excluded from parent](progress-work-estimates-excludedFromParent.jpg)
+
+In addition to these changes, the section 'Estimates and Time' has been renamed to 'Estimates and Progress' and this is where you will now find % Complete. Also, the seeding of statuses has been fixed to include % Complete values and in the Progress modal, you will now be able to preview changes amongst the fields live.
+
+Please note that regarding progress reporting, **updating to OpenProject 14.0 might result in automated data modification in certain cases**. See our blog to learn about the [details and motives on these significant changes to progress and work estimates](https://www.openproject.org/blog/changes-progress-work-estimates/) and how it might affect you.
+
+### Project attributes management on the project overview page
+
+With OpenProject 14.0, you are now able to view and edit custom fields for projects in a structured way, organized in sections, on the project overview page. These fields are now referred to as **'Project attributes'**. Admins can edit them directly on the project overview page:
+
+![Project attributes shown on project overview page, divided in sections](14-0-project-attributes-sections-highlighted.png)
+
+Project attributes as well as the sections can be managed in administration/projects/project attributes.
+
+![Manage project attributes and sections in administration](14-0-project-attributes-administration.png)
+
+### Streamlined view of custom fields in project lists and project overview
+
+Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed. 
+
+As described above, *project* custom fields are now called 'Project attributes' and can be shown in a sidebar on the project overview page on a per-project configuration.
+
+### Enhanced Meetings module with new features
+
+OpenProject's [(Dynamic) Meetings](https://www.openproject.org/docs/user-guide/meetings/dynamic-meetings/) have been updated with the following new features:
+
+* [Meetings attachments](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-attachments) are now shown in the bottom section of the right-hand sidebar. You can add them directly to the meeting there and drag and drop them from this section to the Notes section of the agenda items.
+* When [copying a meeting](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#copy-a-meeting), you can now check a box to choose whether you want to include attachments.
+* A [meeting history](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-history) has been added and can be found in the Meetings menu, showing previous changes.
+* The presenter of an agenda item can now be changed from the creator of the agenda item to any person in the project.
+* An option to copy a URL of a specific agenda item has been added.
+
+### Automatic alerts for unhealthy file storages, and toggle options
+
+With OpenProject 14.0, admins now get email notifications when a file storage (e.g. Nextcloud) is unhealthy. To avoid sending unwanted messages, we also added the option to deactivate these health status notifications for a storage.
+
+Read more about file storage troubleshooting in our [documentation](https://www.openproject.com/docs/system-admin-guide/file-storages/file-storage-troubleshooting/).
+
+### OneDrive/SharePoint: Copying template projects including automatically managed project folders
+
+If you copy a project where a file storage has automatically managed project folders selected, you will now have the following options:
+
+* Deactivate the copy option "File Storages: Project folders" – this will copy the file storage, but not the specific project folder.
+* Deactivate the copy option "File Storages" – this will not copy any file storage.
+
+### Reminder for admins when revoking a project membership to remove shares on work packages 
+
+As of 14.0, admins are asked whether they also want to remove access to [shared work packages](https://www.openproject.com/docs/user-guide/work-packages/share-work-packages/) when removing a project member or group from a project.
+
+### 4 and 8-week display modes for the team planner
+
+The [team planner](https://www.openproject.com/docs/user-guide/team-planner/) allows for easy planning of users assigned to work packages. It is now possible to have the team planner span more than two weeks, with newly added options for 4-week and 8-week timeframes.
+
+### Unified page headers with the sleek Primer design
+
+As mentioned in the earlier blog post about the Primer Design System, work is ongoing to unify more and more components of the application to match this design. In 14.0, we have started to add new primer-based page headers.
+
 <!--more-->
 
-## Bug fixes and changes
+## Complete list of changes and bug fixes
+
+Apart from the features mentioned above, there have been a lot of other changes, smaller features and, of course, bug fixes for OpenProject 14.0:
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
 <!-- BEGIN AUTOMATED SECTION -->
@@ -116,7 +179,7 @@ The `available_responsibles` endpoint has been removed from the API. This endpoi
 - Bugfix: Odd spacing in Notification and Email Reminder personal setting
   pages \[[#51772](https://community.openproject.org/wp/51772)\]
 - Bugfix: Misleading error message: IFC upload (file size) \[[#52098](https://community.openproject.org/wp/52098)\]
-- Bugfix: OpenProject behind prefix some assests still loaded from web
+- Bugfix: OpenProject behind prefix some assets still loaded from web
   root \[[#52292](https://community.openproject.org/wp/52292)\]
 - Bugfix: Position of status selector too high after opening the drop
   down \[[#52669](https://community.openproject.org/wp/52669)\]
@@ -144,7 +207,7 @@ The `available_responsibles` endpoint has been removed from the API. This endpoi
 - Bugfix: Toolbar buttons too close on user page \[[#53477](https://community.openproject.org/wp/53477)\]
 - Bugfix: Link on top of the storage should be removed if the read_files permission is missing when it is a
   automatically managed project folder. \[[#53484](https://community.openproject.org/wp/53484)\]
-- Bugfix: Buttons have the wrong colour in freshly seeded BIM
+- Bugfix: Buttons have the wrong color in freshly seeded BIM
   instance \[[#53504](https://community.openproject.org/wp/53504)\]
 - Bugfix: Removing a project custom field stored as a filter in a project list leads to wrong counter
   value \[[#53585](https://community.openproject.org/wp/53585)\]
@@ -269,9 +332,13 @@ The `available_responsibles` endpoint has been removed from the API. This endpoi
 
 #### Contributions
 
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+A very special thank you goes to our sponsors for features and improvements of this release:
 
-Special thanks for reporting and finding bugs go to
+* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
+* City of Cologne for sponsoring features for project portfolio management
+* Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
 
-Silas Kropf, Philipp Schulz, Benjamin Rönnau, Mario Haustein, Matt User, Mario Zeppin, Romain Besson, Cécile Guiot,
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to:
+
+Silas Kropf, Philipp Schulz, Benjamin Rönnau, Mario Haustein, Matt User, Mario Zeppin, Romain Besson,
 Daniel Hilbrand, Christina Vechkanova, Sven Kunze, Richard Richter, Julian Wolff

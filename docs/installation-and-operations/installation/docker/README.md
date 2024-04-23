@@ -41,10 +41,10 @@ OpenProject's docker setup can be launched in two ways:
 
 ### Quick Start
 
-First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/13/compose) repository:
+First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/14/compose) repository:
 
 ```shell
-git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/13 openproject
+git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/14 openproject
 ```
 
 Then, change into the compose folder, this folder will be the location where you enter all following commands:
