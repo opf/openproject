@@ -227,6 +227,8 @@ gem "turbo-rails", "~> 2.0.0"
 
 gem "httpx"
 
+gem "gitlab_chronic_duration"
+
 group :test do
   gem "launchy", "~> 3.0.0"
   gem "rack-test", "~> 2.1.0"
