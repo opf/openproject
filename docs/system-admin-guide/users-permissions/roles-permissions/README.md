@@ -131,7 +131,7 @@ No, only Administrators can update other Administrators attributes like name or 
 
 ### Can I set a default role for a user that creates a new project?
 
-You can set a [default role](../../system-settings/projects/new-project) that users with this permission will have in a project they created.
+You can set a [default role](../../projects/new-project) that users with this permission will have in a project they created.
 
 ### Users do not see the action *Create project* in the main navigation even though they have the create project permission?
 
