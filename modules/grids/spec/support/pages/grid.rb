@@ -80,10 +80,10 @@ module Pages
     private
 
     def within_add_widget_modal(row_number, column_number, location, &)
+      enable_add_widget_mode
+
       area = area_of(row_number, column_number, location)
       area.hover
-
-      enable_add_widget_mode_for(area)
 
       add_widget_button = area.find(".grid--widget-add")
       add_widget_button.click
@@ -91,7 +91,7 @@ module Pages
       within(".spot-modal", &)
     end
 
-    def enable_add_widget_mode_for(area)
+    def enable_add_widget_mode
       within('.toolbar-items') do
         button = find_button "Add widget"
         button.click if button[:class].exclude? "-active"
