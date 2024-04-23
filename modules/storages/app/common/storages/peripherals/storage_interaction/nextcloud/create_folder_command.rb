@@ -49,14 +49,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
 
       folder_path = Util.join_uri_path(parent_location, folder_name)
+      base_url = Util.join_uri_path(@storage.uri, "remote.php/dav/files", CGI.escapeURIComponent(origin_user_id.result))
+      path_prefix = URI.parse(base_url).path
+      request_url = Util.join_uri_path(base_url, Util.escape_path(folder_path))
 
       Auth[auth_strategy].call(storage: @storage) do |http|
-        request_url = Util.join_uri_path(@storage.uri,
-                                         "remote.php/dav/files",
-                                         CGI.escapeURIComponent(origin_user_id.result),
-                                         Util.escape_path(folder_path))
+        result = handle_response(http.mkcol(request_url))
+        return result if result.failure?
 
-        handle_response http.mkcol(request_url)
+        handle_response(http.propfind(request_url, requested_properties)).map(&storage_file(path_prefix))
       end
     end
 
@@ -65,31 +66,61 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def handle_response(response)
       case response
       in { status: 200..299 }
-        ServiceResult.success(message: "Folder was successfully created.")
-      in { status: 405 }
-        if Util.error_text_from_response(response) == "The resource you tried to create already exists"
-          ServiceResult.success(message: "Folder already exists.")
-        else
-          Util.failure(code: :not_allowed,
-                       data: Util.error_data_from_response(caller: self.class, response:),
-                       log_message: "Outbound request method not allowed!")
-        end
+        ServiceResult.success(result: response)
       in { status: 401 }
         Util.failure(code: :unauthorized,
                      data: Util.error_data_from_response(caller: self.class, response:),
                      log_message: "Outbound request not authorized!")
-      in { status: 404 }
+      in { status: 404 | 409 } # webDAV endpoint returns 409 if path does not exist
         Util.failure(code: :not_found,
                      data: Util.error_data_from_response(caller: self.class, response:),
                      log_message: "Outbound request destination not found!")
-      in { status: 409 }
+      in { status: 405 } # webDAV endpoint returns 405 if folder already exists
         Util.failure(code: :conflict,
                      data: Util.error_data_from_response(caller: self.class, response:),
-                     log_message: Util.error_text_from_response(response))
+                     log_message: "Folder already exists")
       else
         Util.failure(code: :error,
                      data: Util.error_data_from_response(caller: self.class, response:),
                      log_message: "Outbound request failed with unknown error!")
+      end
+    end
+
+    def requested_properties
+      Nokogiri::XML::Builder.new do |xml|
+        xml["d"].propfind(
+          "xmlns:d" => "DAV:",
+          "xmlns:oc" => "http://owncloud.org/ns"
+        ) do
+          xml["d"].prop do
+            xml["oc"].fileid
+            xml["oc"].size
+            xml["d"].getlastmodified
+            xml["oc"].send(:"owner-display-name")
+          end
+        end
+      end.to_xml
+    end
+
+    def storage_file(path_prefix)
+      ->(response) do
+        xml = response.xml
+        path = xml.xpath('//d:response/d:href/text()').to_s
+        timestamp = xml.xpath('//d:response/d:propstat/d:prop/d:getlastmodified/text()').to_s
+        creator = xml.xpath('//d:response/d:propstat/d:prop/oc:owner-display-name/text()').to_s
+        location = CGI.unescapeURIComponent(path.gsub(path_prefix, "")).delete_suffix("/")
+
+        Storages::StorageFile.new(
+          id: xml.xpath('//d:response/d:propstat/d:prop/oc:fileid/text()').to_s,
+          name: location.split('/').last,
+          size: xml.xpath('//d:response/d:propstat/d:prop/oc:size/text()').to_s,
+          mime_type: "application/x-op-directory",
+          created_at: Time.zone.parse(timestamp),
+          last_modified_at: Time.zone.parse(timestamp),
+          created_by_name: creator,
+          last_modified_by_name: creator,
+          location:
+        )
       end
     end
   end
