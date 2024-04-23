@@ -9,7 +9,8 @@
                               mobile_label: label_text,
                               aria: { label: accessibility_label_text },
                               title: accessibility_label_text,
-                              id: id) do |button|
+                              id: id,
+                              test_selector: "add-meeting-button") do |button|
       button.with_leading_visual_icon(icon: :plus)
       label_text
     end
