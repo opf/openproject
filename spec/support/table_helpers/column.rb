@@ -46,14 +46,20 @@ module TableHelpers
         raise ArgumentError, 'Please use "remaining work" instead of "remaining hours"'
       when /\A\s*work/i
         Duration.new(header:, attribute: :estimated_hours)
-      when /derived work/i
+      when /(∑|derived|total) work/i
         Duration.new(header:, attribute: :derived_estimated_hours)
       when /\A\s*remaining work/i
         Duration.new(header:, attribute: :remaining_hours)
-      when /derived remaining work/i
+      when /(∑|derived|total) remaining work/i
         Duration.new(header:, attribute: :derived_remaining_hours)
+      when /\A\s*% complete/i
+        Percentage.new(header:, attribute: :done_ratio)
+      when /(∑|derived|total) % complete/i
+        Percentage.new(header:, attribute: :derived_done_ratio)
       when /end date/i
         Generic.new(header:, attribute: :due_date)
+      when /status/
+        Status.new(header:)
       when /subject/
         Subject.new(header:)
       when /hierarchy/
@@ -98,6 +104,10 @@ module TableHelpers
         :ljust
       end
 
+      def attribute_value_for(work_package)
+        work_package.read_attribute(attribute)
+      end
+
       def read_and_update_work_packages_data(work_packages_data)
         work_packages_data.each do |work_package_data|
           work_package_data => { attributes:, row: }
@@ -105,6 +115,10 @@ module TableHelpers
           work_package_data.merge!(metadata_for_value(raw_value))
           attributes.merge!(attributes_for_raw_value(raw_value, work_package_data, work_packages_data))
         end
+      end
+
+      def attributes_for_work_package(work_package)
+        { attribute => work_package.read_attribute(attribute) }
       end
 
       def attributes_for_raw_value(raw_value, _data, _work_packages_data)
@@ -116,7 +130,7 @@ module TableHelpers
       end
     end
 
-    module Identifiable
+    module WithIdentifierMetadata
       include Identifier
 
       def metadata_for_value(raw_value, *)
@@ -144,12 +158,43 @@ module TableHelpers
       end
     end
 
+    class Percentage < Generic
+      def text_align
+        :rjust
+      end
+
+      def format(value)
+        if value.nil?
+          ""
+        else
+          "%s%%" % value.to_i
+        end
+      end
+
+      def parse(raw_value)
+        raw_value.blank? ? nil : raw_value.to_i
+      end
+    end
+
+    class Status < Generic
+      def attributes_for_work_package(work_package)
+        { status: work_package.status.name }
+      end
+    end
+
     class Subject < Generic
-      include Identifiable
+      include WithIdentifierMetadata
     end
 
     class Hierarchy < Generic
-      include Identifiable
+      include WithIdentifierMetadata
+
+      def attributes_for_work_package(work_package)
+        {
+          parent: to_identifier(work_package.parent&.subject),
+          subject: work_package.subject
+        }
+      end
 
       def attributes_for_raw_value(raw_value, data, work_packages_data)
         {

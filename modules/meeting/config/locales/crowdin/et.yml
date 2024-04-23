@@ -40,13 +40,13 @@ et:
         participants_invited: "Kutsutud"
         project: "Projekt"
         start_date: "Kuupäev"
-        start_time: "Aeg"
-        start_time_hour: "Starting time"
-      meeting_agenda_items:
-        title: "Pealkiri"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
         author: "Author"
-        duration_in_minutes: "Duration (min)"
-        description: "Märkmed"
+        duration_in_minutes: "min"
+        description: "Notes"
         presenter: "Presenter"
     errors:
       messages:
@@ -97,7 +97,7 @@ et:
   label_start_date: "Alguskuupäev"
   meeting:
     attachments:
-      text: "Attached files are available to all meeting participants. You can also drag and drop tehse into agenda item notes."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Copy meeting %{title}"
       attachments: "Copy attachments"
@@ -155,6 +155,8 @@ et:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "Created by"
   label_meeting_last_updated: "Last updated"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Deleted work package reference"
@@ -164,10 +166,18 @@ et:
   label_agenda_item_move_up: "Nihuta üles"
   label_agenda_item_move_down: "Nihuta alla"
   label_agenda_item_add_notes: "Märkusi lisada"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Avatud"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Suletud"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Reopen meeting"
   label_meeting_close_action: "Close meeting"
   text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. After the meeting is over, close it to lock it."

@@ -39,7 +39,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
 
   let(:type) { "follows" }
   let(:description) { "This first" }
-  let(:delay) { 3 }
+  let(:lag) { 3 }
 
   let(:params) do
     {
@@ -53,7 +53,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
       },
       type:,
       description:,
-      delay:
+      lag:
     }
   end
   let(:relation) do
@@ -62,7 +62,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
            to:,
            relation_type: type,
            description:,
-           delay:)
+           lag:)
   end
 
   before do
@@ -78,7 +78,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
         expect(rel.to).to eq to
         expect(rel.relation_type).to eq type
         expect(rel.description).to eq description
-        expect(rel.delay).to eq delay
+        expect(rel.lag).to eq lag
       end
     end
 
@@ -226,12 +226,12 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
 
   describe "updating a relation" do
     let(:new_description) { "This is another description" }
-    let(:new_delay) { 42 }
+    let(:new_lag) { 42 }
 
     let(:update) do
       {
         description: new_description,
-        delay: new_delay
+        lag: new_lag
       }
     end
 
@@ -249,8 +249,8 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
       expect(relation.reload.description).to eq new_description
     end
 
-    it "updates the relation's delay" do
-      expect(relation.reload.delay).to eq new_delay
+    it "updates the relation's lag" do
+      expect(relation.reload.lag).to eq new_lag
     end
 
     it "returns the updated relation" do

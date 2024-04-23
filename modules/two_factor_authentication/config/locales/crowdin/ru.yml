@@ -174,7 +174,7 @@ ru:
   label_expiration_hint: "%{date} или при выходе из системы"
   label_actions: "Действия"
   label_confirmed: "Подтвержден"
-  button_continue: "Далее"
+  button_continue: "Продолжить"
   button_make_default: "Задать по умолчанию"
   label_unverified_phone: "Сотовый телефон еще не подтвержден"
   notice_phone_number_format: "Введите номер в следующем формате: +XX XXXXXXXX."

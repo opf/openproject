@@ -150,7 +150,7 @@ hu:
   remaining_hours: "Fennmaradó órák"
   required_burn_rate_hours: "required burn rate (hours)"
   required_burn_rate_points: "required burn rate (points)"
-  todo_work_package_description: "%{összegzés}: %{url}\n%{leírás}"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Hátralévő feladatok oszlopa"
   version_settings_display_option_left: "balra"

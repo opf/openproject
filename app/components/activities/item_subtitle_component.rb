@@ -29,12 +29,13 @@
 #++
 
 class Activities::ItemSubtitleComponent < ViewComponent::Base
-  def initialize(user:, datetime:, is_creation:, is_deletion:, journable_type:)
+  def initialize(user:, datetime:, is_creation:, is_deletion:, is_work_package:, journable_type:)
     super()
     @user = user
     @datetime = datetime
     @is_creation = is_creation
     @is_deletion = is_deletion
+    @is_work_package = is_work_package
     @journable_type = journable_type
   end
 
@@ -42,9 +43,9 @@ class Activities::ItemSubtitleComponent < ViewComponent::Base
     return unless @user
 
     [
-      helpers.avatar(@user, size: 'mini'),
-      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
-    ].join(' ')
+      helpers.avatar(@user, size: "mini"),
+      helpers.content_tag("span", helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
+    ].join(" ")
   end
 
   def datetime_html
@@ -52,19 +53,27 @@ class Activities::ItemSubtitleComponent < ViewComponent::Base
   end
 
   def time_entry?
-    @journable_type == 'TimeEntry'
+    @journable_type == "TimeEntry"
   end
 
   def i18n_key
-    i18n_key = 'activity.item.'.dup
-    i18n_key << (if @is_deletion
-                   'deleted_'
-                 else
-                   (@is_creation ? 'created_' : 'updated_')
-                 end)
-    i18n_key << 'by_' if @user
-    i18n_key << 'on'
-    i18n_key << '_time_entry' if time_entry?
+    i18n_key = +"activity.item."
+    i18n_key << (@is_deletion ? deletion_selector : creation_selector)
+    i18n_key << "by_" if @user
+    i18n_key << "on"
+    i18n_key << "_time_entry" if time_entry?
     i18n_key
+  end
+
+  def deletion_selector
+    @is_work_package ? "removed_" : "deleted_"
+  end
+
+  def creation_selector
+    if @is_creation
+      @is_work_package ? "added_" : "created_"
+    else
+      "updated_"
+    end
   end
 end

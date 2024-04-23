@@ -25,6 +25,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   formUrl:string;
 
   hiddenFields:string[] = [
+    'createdAt',
     'identifier',
     'active',
   ];

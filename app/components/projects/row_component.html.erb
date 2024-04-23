@@ -37,19 +37,8 @@ See COPYRIGHT and LICENSE files for more details.
     </td>
   <% end %>
   <td class="buttons">
-    <% if more_menu_items.any?  %>
-      <ul class="project-actions">
-        <li aria-haspopup="true" title="<%= I18n.t(:label_open_menu) %>" class="drop-down">
-          <a class="icon icon-show-more-horizontal context-menu--icon" title="<%= t(:label_open_menu) %>" href></a>
-          <ul style="display:none;" class="menu-drop-down-container">
-            <% more_menu_items.each do |item| %>
-              <li>
-                <%= link_to(*item) %>
-              </li>
-            <% end %>
-          </ul>
-        </li>
-      </ul>
+    <% button_links.each do |link| %>
+      <%= link %>
     <% end %>
   </td>
 </tr>

@@ -28,11 +28,8 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title(variant: :medium) { @custom_field.name }
-    header.with_description { t('settings.project_attributes.edit.description') }
-    header.with_parent_link(href: admin_settings_project_custom_fields_path, 'aria-label':  I18n.t("button_back")) do
-      t('settings.project_attributes.heading')
-    end
-    header.with_back_button(href: admin_settings_project_custom_fields_path, 'aria-label': t('button_back'))
+    header.with_title { @custom_field.name }
+    header.with_description { t("settings.project_attributes.edit.description") }
+    header.with_breadcrumbs(breadcrumbs_items)
   end
 %>

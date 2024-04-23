@@ -56,10 +56,14 @@ module Pages::StructuredMeeting
     end
 
     def cancel_edit_form(item)
-      page.within("#meeting-agenda-items-item-component-#{item.id}") do
+      in_edit_form(item) do
         click_on I18n.t(:button_cancel)
         expect(page).to have_no_link I18n.t(:button_cancel)
       end
+    end
+
+    def in_edit_form(item, &)
+      page.within("#meeting-agenda-items-item-component-#{item.id}", &)
     end
 
     def in_agenda_form(&)
@@ -150,6 +154,11 @@ module Pages::StructuredMeeting
     def clear_item_edit_work_package_title
       ng_select_clear page.find(".op-meeting-agenda-item-form--title")
       expect(page).to have_css(".ng-input  ", value: nil)
+    end
+
+    def open_participant_form
+      page.find_test_selector("manage-participants-button").click
+      expect(page).to have_css("#meetings-sidebar-participants-form-component")
     end
 
     def in_participant_form(&)

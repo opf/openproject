@@ -33,7 +33,7 @@ pl:
             labels:
               invalid_schema: "musi być tablicą skrótów z kluczami: color, title"
   project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Show GitLab content"
+  permission_show_gitlab_content: "Pokaż treść GitLab"
   gitlab_integration:
     merge_request_opened_comment: >
       **Otwarto MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało otwarte przez [%{gitlab_user}](%{gitlab_user_url}).

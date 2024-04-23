@@ -10,7 +10,7 @@ tr:
     error_captcha: "Hesabınız doğrulanamadı. Lütfen bir yöneticiye başvurun."
     settings:
       website_key: 'Web sitesi anahtarı'
-      response_limit: 'Response limit for HCaptcha'
+      response_limit: 'HCaptcha için yanıt sınırı'
       response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Bu etki alanı için reCAPTCHA yönetici konsolunda oluşturduğunuz web sitesi anahtarını girin.'
       secret_key: 'Gizli anahtar'
@@ -19,6 +19,6 @@ tr:
       type_disabled: 'ReCAPTCHA''yı devre dışı bırak'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
-      type_hcaptcha: 'HCaptcha'
+      type_hcaptcha: 'HCaptcha '
       recaptcha_description_html: >
         reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link}

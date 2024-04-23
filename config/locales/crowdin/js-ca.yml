@@ -102,7 +102,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitza"
+    button_update: "Actualitzar"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -348,11 +348,11 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "S'ha produït un error en carregar les dades."
@@ -643,7 +643,7 @@ ca:
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
           message: "No hi ha notificacions noves"
-          link_text: "Fes clic aquí per carregar-les"
+          link_text: "Click here to load them."
       menu:
         accountable: "Responsable"
         by_project: "No llegit per projecte"
@@ -758,7 +758,7 @@ ca:
           label: "Pausa els correu electrònic recordatori temporalment"
           first_day: "Primer dia"
           last_day: "Últim dia"
-    text_are_you_sure: "N'esteu segur?"
+    text_are_you_sure: "N'estas segur?"
     text_data_lost: "Totes les dades entrades es perdran."
     text_user_wrote: "%{value} wrote:"
     types:
@@ -925,6 +925,8 @@ ca:
       message_work_package_read_only: "El paquet de treball està bloquejat en aquest estat. Cap atribut excepte l'estat es pot modificar."
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
+      progress:
+        title: "Work estimates and progress"
       baseline:
         addition_label: "Afegit a la vista en el període de temps de la comparació"
         removal_label: "Eliminat de la vista en el període de temps de la comparació"
@@ -1250,7 +1252,8 @@ ca:
       role:
         label: "Rol en %{project}"
         no_roles_found: "No s'ha trobat cap rol"
-        description: 'Aquest és el rol que l''usuari rebrà quan s''uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>'
+        description: >-
+          Aquest és el rol que l'usuari rebrà quan s'uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>
         required: "Si us plau, selecciona un rol"
         next_button: "Següent"
       message:
@@ -1324,3 +1327,7 @@ ca:
       drop_modal:
         focus_grab: "Estàs en un focus ancorat per a finestres emergents. Fes clic a shift+tab per tornar a l'element que ha activat la finestra emergent."
         Close: "Tanca"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "There is a network problem."
+        network_on: "Network is back. We are trying."

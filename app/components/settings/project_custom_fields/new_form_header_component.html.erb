@@ -29,11 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title(variant: :medium) { t('settings.project_attributes.new.heading') }
+    header.with_title { t('settings.project_attributes.new.heading') }
     header.with_description { t('settings.project_attributes.new.description') }
-    header.with_parent_link(href: admin_settings_project_custom_fields_path, 'aria-label':  I18n.t("button_back")) do
-      t('settings.project_attributes.heading')
-    end
-    header.with_back_button(href: admin_settings_project_custom_fields_path, 'aria-label': t('button_back'))
+    header.with_breadcrumbs(breadcrumb_items)
   end
 %>

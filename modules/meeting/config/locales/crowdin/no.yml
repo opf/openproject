@@ -40,14 +40,14 @@
         participants_invited: "Inviterte"
         project: "Prosjekt"
         start_date: "Dato"
-        start_time: "Tidspunkt"
-        start_time_hour: "Starter"
-      meeting_agenda_items:
-        title: "Tittel"
-        author: "Forfatter"
-        duration_in_minutes: "Varighet (min)"
-        description: "Notater"
-        presenter: "Foredragsholder"
+        start_time: "Start time"
+        start_time_hour: "Start time"
+      meeting_agenda_item:
+        title: "Title"
+        author: "Author"
+        duration_in_minutes: "min"
+        description: "Notes"
+        presenter: "Presenter"
     errors:
       messages:
         invalid_time_format: "er ikke et gyldig tidpunkt. Formatet må være HH:MM"
@@ -97,7 +97,7 @@
   label_start_date: "Startdato"
   meeting:
     attachments:
-      text: "Vedlagte filer er tilgjengelige for alle møtedeltakere. Du kan også dra og slippe disse inn i til dagsorden."
+      text: "Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes."
     copy:
       title: "Kopier møtet %{title}"
       attachments: "Kopier vedlegg"
@@ -155,6 +155,8 @@
   label_meeting_delete: "Slett møte"
   label_meeting_created_by: "Opprettet av"
   label_meeting_last_updated: "Sist oppdatert"
+  label_agenda_items: "Agenda items"
+  label_agenda_items_reordered: "reordered"
   label_agenda_item_remove: "Remove from agenda"
   label_agenda_item_undisclosed_wp: "Arbeidspakke #%{id} er ikke synlig"
   label_agenda_item_deleted_wp: "Slettet arbeidspakkereferanse"
@@ -164,10 +166,18 @@
   label_agenda_item_move_up: "Flytt opp"
   label_agenda_item_move_down: "Flytt ned"
   label_agenda_item_add_notes: "Legg til notater"
+  label_agenda_item_work_package: "Agenda item work package"
+  text_agenda_item_title: 'Agenda item "%{title}"'
+  text_agenda_work_package_deleted: 'Agenda item for deleted work package'
+  text_deleted_agenda_item: 'Deleted agenda item'
+  label_initial_meeting_details: "Meeting"
   label_meeting_details: "Møtedetaljer"
   label_meeting_details_edit: "Rediger møtedetaljer"
+  label_meeting_state: "Meeting status"
   label_meeting_state_open: "Åpne"
+  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Stengt"
+  label_meeting_state_closed_html: "<i>Closed</i>"
   label_meeting_reopen_action: "Gjenåpne møte"
   label_meeting_close_action: "Lukk møtet"
   text_meeting_open_description: "Dette møtet er åpen. Du kan legge til/fjerne punkter på dagsorden og redigere dem etter hvert som du ønsker. Etter at møtet er over, lukk det for å låse det."

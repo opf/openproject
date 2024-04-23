@@ -347,11 +347,11 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_4":
+          "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
               new_features_html: >
-                A versão contém vários recursos e aprimoramentos novos: <br> <ul class="%{list_styling_class}"> <li>Integração com o GitLab (originalmente desenvolvido por colaboradores da Comunidade)</li> <li>Recursos avançados para listas de projetos personalizadas</li> <li>Recursos avançados para o módulo Meetings</li> <li>Funcionalidade de verificação de vírus com o ClamAV (complemento Enterprise)</li> <li>Exportação de PDF: Há suporte para listas em células de tabela</li> <li>O WebAuthn/FIDO/U2F foi adicionado como um segundo fator</li> <li>Mais idiomas adicionados ao conjunto padrão disponível</li> </ul>
+                A nova versão traz várias melhorias e recursos: <br> <ul class="%{list_styling_class}"> <li>Relatório de progresso agora disponível para hierarquias de pacotes de trabalho.</li> <li>Gerenciamento estruturado dos atributos do projeto na página de visão geral do projeto.</li> <li>Visualização simplificada de campos personalizados nas listas de projeto e visão geral do projeto.</li> <li>Cabeçalhos de página unificados com o moderno design Primer.</li> <li>Reuniões aprimoradas com novos recursos, incluindo upload de anexos, atribuição de responsáveis e histórico de reuniões.</li> <li>Alertas automáticos para armazenamentos de arquivos com problemas, com opções de controle.</li> <li>Auto-cópia da pasta de projeto gerenciada automaticamente para o OneDrive/SharePoint durante a cópia de projetos.</li> <li>Solicitação aos administradores para remover compartilhamentos nos pacotes de trabalho ao revogar a participação em um projeto.</li> <li>Melhorias de planejamento com novos modos de exibição de 4 e 8 semanas no planejador de equipe.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -642,7 +642,7 @@ pt-BR:
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: "Há novas notificações."
-          link_text: "Clique aqui para carregá-las"
+          link_text: "Clique aqui para carregá-las."
       menu:
         accountable: "Responsável"
         by_project: "Não lido por projeto"
@@ -924,6 +924,8 @@ pt-BR:
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido a situação fechada e a versão fechada."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
+      progress:
+        title: "Estimativas e progresso de trabalho"
       baseline:
         addition_label: "Adicionado à exibição dentro do período de comparação"
         removal_label: "Removido da exibição dentro do período de comparação"
@@ -1249,7 +1251,8 @@ pt-BR:
       role:
         label: "Papel em %{project}"
         no_roles_found: "Nenhum papel encontrado"
-        description: 'Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>'
+        description: >-
+          Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>
         required: "Selecione um papel"
         next_button: "Próxima"
       message:
@@ -1323,3 +1326,7 @@ pt-BR:
       drop_modal:
         focus_grab: "Esta é uma âncora de foco para modais. Pressione Shift+tab para voltar ao elemento trigger modal."
         Close: "Fechar"
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: "Ocorreu um problema de rede"
+        network_on: "A rede voltou. Estamos tentando."

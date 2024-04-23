@@ -258,9 +258,13 @@ module Pages
 
       def open_filters
         retry_block do
-          page.find('[data-test-selector="filter-component-toggle"]').click
+          toggle_filters_section
           page.find_field("Add filter", visible: true)
         end
+      end
+
+      def toggle_filters_section
+        page.find('[data-test-selector="filter-component-toggle"]').click
       end
 
       def set_columns(*columns)
@@ -307,10 +311,11 @@ module Pages
       def activate_menu_of(project)
         within_row(project) do |row|
           row.hover
-          menu = find("ul.project-actions")
-          menu.click
+          menu = find("[data-test-selector='project-list-row--action-menu']")
+          menu_button = find("[data-test-selector='project-list-row--action-menu'] button")
+          menu_button.click
           wait_for_network_idle if using_cuprite?
-          expect(page).to have_css(".menu-drop-down-container")
+          expect(page).to have_css("[data-test-selector='project-list-row--action-menu-item']")
           yield menu
         end
       end

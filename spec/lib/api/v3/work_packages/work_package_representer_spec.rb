@@ -401,16 +401,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         context "when setting enabled" do
           it { expect(parse_json(subject)["percentageDone"]).to eq(50) }
         end
-
-        context "when setting disabled" do
-          before do
-            allow(Setting)
-              .to receive(:work_package_done_ratio)
-                    .and_return("disabled")
-          end
-
-          it { is_expected.not_to have_json_path("percentageDone") }
-        end
       end
     end
 

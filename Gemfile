@@ -164,7 +164,7 @@ gem "meta-tags", "~> 2.20.0"
 
 gem "paper_trail", "~> 15.1.0"
 
-gem "clamav-client", github: "honestica/clamav-client", ref: "29e78ae94307cb34e79ddd29c5da79752239d8b7"
+gem "op-clamav-client", "~> 3.4", require: "clamav"
 
 group :production do
   # we use dalli as standard memcache client
@@ -233,7 +233,7 @@ group :test do
   # Test prof provides factories from code
   # and other niceties
   gem "test-prof", "~> 1.3.0"
-  gem "turbo_tests", github: "crohr/turbo_tests", ref: "fix/runtime-info"
+  gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.0"
@@ -292,7 +292,7 @@ end
 group :development do
   gem "listen", "~> 3.9.0" # Use for event-based reloaders
 
-  gem 'letter_opener_web'
+  gem "letter_opener_web"
 
   gem "spring"
   gem "spring-commands-rspec"
@@ -381,6 +381,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.8.0"
-gem "openproject-octicons_helper", "~>19.8.0"
-gem "openproject-primer_view_components", "~>0.23.0"
+gem "openproject-octicons", "~>19.10.0"
+gem "openproject-octicons_helper", "~>19.10.0"
+gem "openproject-primer_view_components", "~>0.28.1"

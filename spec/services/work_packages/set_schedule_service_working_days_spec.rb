@@ -254,11 +254,11 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
         end
       end
 
-      context "with the follower having some space left and a delay" do
+      context "with the follower having some space left and a lag" do
         let_schedule(<<~CHART)
           days          | MTWTFSSmtwtfss  |
           work_package  | X               |
-          follower      |        XXX      | follows work_package with delay 3
+          follower      |        XXX      | follows work_package with lag 3
         CHART
 
         before do
@@ -268,7 +268,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
           CHART
         end
 
-        it "reschedules the follower to start after the delay" do
+        it "reschedules the follower to start after the lag" do
           expect_schedule(subject.all_results, <<~CHART)
                           | MTWTFSSmtwtfss   |
             work_package  | XXXXX..X         |
@@ -277,11 +277,11 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
         end
       end
 
-      context "with the follower having a delay overlapping non-working days" do
+      context "with the follower having a lag overlapping non-working days" do
         let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | X       |
-          follower      |    XX   | follows work_package with delay 2
+          follower      |    XX   | follows work_package with lag 2
         CHART
 
         before do
@@ -291,7 +291,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
           CHART
         end
 
-        it "reschedules the follower to start after the non-working days and the delay" do
+        it "reschedules the follower to start after the non-working days and the lag" do
           expect(subject.all_results).to match_schedule(<<~CHART)
                           | MTWTFSSmtwt |
             work_package  |     X       |
@@ -350,7 +350,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
         let_schedule(<<~CHART)
           days          | mtwtfssmtwtfssMTWTFSS |
           work_package  |               X       |
-          follower      |                XX     | follows work_package, follows annoyer with delay 2
+          follower      |                XX     | follows work_package, follows annoyer with lag 2
           annoyer       |    XX..XX             |
         CHART
 
@@ -943,12 +943,12 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
       end
     end
 
-    context "when moving forward with some delay and spaces between the followers" do
+    context "when moving forward with some lag and spaces between the followers" do
       let_schedule(<<~CHART)
         days         | MTWTFSSm     sm     sm     |
         work_package | ]                          |
         follower1    |  XXX                       | follows work_package
-        follower2    |        XXXX                | follows follower1 with delay 3
+        follower2    |        XXXX                | follows follower1 with lag 3
         follower3    |                 XXX..XX    | follows follower2
         follower4    |                         XX | follows follower3
       CHART
@@ -960,7 +960,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
         CHART
       end
 
-      it "reschedules all the followers keeping the delay and compacting the extra spaces" do
+      it "reschedules all the followers keeping the lag and compacting the extra spaces" do
         expect(subject.all_results).to match_schedule(<<~CHART)
           days         | MTWTFSSm     sm     sm     sm |
           work_package |    ]                          |
@@ -994,7 +994,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
         CHART
       end
 
-      it "reschedules all the followers keeping the delay and compacting the extra spaces" do
+      it "reschedules all the followers keeping the lag and compacting the extra spaces" do
         expect(subject.all_results).to match_schedule(<<~CHART)
           days         | MTWTFSSm w    m |
           work_package | X.X             |
@@ -1125,7 +1125,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
       let_schedule(<<~CHART)
         days                   | MTWTFSS |
         work_package           |         |
-        new_parent             |         | follows new_parent_predecessor with delay 3
+        new_parent             |         | follows new_parent_predecessor with lag 3
         new_parent_predecessor |   X     |
       CHART
 
@@ -1147,7 +1147,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
       let_schedule(<<~CHART)
         days                   | MTWTFSS |
         work_package           |         | duration 4
-        new_parent             |         | follows new_parent_predecessor with delay 3
+        new_parent             |         | follows new_parent_predecessor with lag 3
         new_parent_predecessor |   X     |
       CHART
 
@@ -1170,7 +1170,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
       let_schedule(<<~CHART)
         days                   | MTWTFSS   |
         work_package           | ]         |
-        new_parent             |           | follows new_parent_predecessor with delay 3
+        new_parent             |           | follows new_parent_predecessor with lag 3
         new_parent_predecessor | X         |
       CHART
 
@@ -1192,7 +1192,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
       let_schedule(<<~CHART)
         days                   | MTWTFSS   |
         work_package           |         ] |
-        new_parent             |           | follows new_parent_predecessor with delay 3
+        new_parent             |           | follows new_parent_predecessor with lag 3
         new_parent_predecessor | X         |
       CHART
 
@@ -1214,7 +1214,7 @@ RSpec.describe WorkPackages::SetScheduleService, "working days" do
       let_schedule(<<~CHART)
         days                   | MTWTFSS   |
         work_package           |        XX |
-        new_parent             |           | follows new_parent_predecessor with delay 3
+        new_parent             |           | follows new_parent_predecessor with lag 3
         new_parent_predecessor | X         |
       CHART
 

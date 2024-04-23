@@ -126,7 +126,7 @@ module Pages
     # @param key_value_map [Hash] The attribute-value map.
     def update_work_package_attributes(work_package, **key_value_map)
       key_value_map.each do |key, value|
-        field = EditField.new(work_package_container(work_package), key)
+        field = work_package_field(work_package, key)
         field.update(value, save: true)
       end
     end
@@ -270,6 +270,14 @@ module Pages
       table_container.find(row_selector(work_package))
     end
 
+    # Returns the row element for the work package inline creation (after
+    # clicking "Create new work package").
+    #
+    # @return [Capybara::Node::Element] The row element.
+    def creation_row
+      table_container.find(".wp-inline-create-row")
+    end
+
     # Returns the CSS selector for the row of the specified work package.
     #
     # @param elem [WorkPackage, String, Integer] The work package object or ID.
@@ -285,14 +293,7 @@ module Pages
     # @param attribute [Symbol] The attribute name.
     # @return [EditField, DateEditField] The edit field.
     def edit_field(work_package, attribute)
-      context =
-        if work_package.nil?
-          table_container.find(".wp-inline-create-row")
-        else
-          row(work_package)
-        end
-
-      work_package_field(work_package, context, attribute)
+      work_package_field(work_package, attribute)
     end
 
     # Opens the context menu for the specified work package row.
@@ -347,11 +348,11 @@ module Pages
     end
 
     def work_package_container(work_package)
-      table_container.find(work_package_row_selector(work_package))
-    end
-
-    def work_package_row_selector(work_package)
-      ".wp-row-#{work_package.id}"
+      if work_package.nil?
+        creation_row
+      else
+        row(work_package)
+      end
     end
 
     protected
@@ -360,12 +361,15 @@ module Pages
       page
     end
 
-    def work_package_field(work_package, context, key)
+    def work_package_field(work_package, key)
+      container = work_package_container(work_package)
       case key.to_sym
-      when :date, :startDate, :dueDate
-        DateEditField.new context, key, is_milestone: work_package.milestone?, is_table: true
+      when :date, :startDate, :dueDate, :combinedDate
+        DateEditField.new container, key, is_milestone: work_package.milestone?, is_table: true
+      when :estimatedTime, :remainingTime
+        ProgressEditField.new container, key
       else
-        EditField.new context, key
+        EditField.new container, key
       end
     end
 

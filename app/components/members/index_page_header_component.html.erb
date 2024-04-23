@@ -1,39 +1,27 @@
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_member_plural) }
+    header.with_title { page_title }
+    header.with_breadcrumbs(breadcrumb_items)
 
-    header.with_actions do
-      flex_layout do |actions|
-        if User.current.allowed_in_project?(:manage_members, @project)
-          actions.with_column(mr: BUTTON_MARGIN_RIGHT) do
-            render(
-              Primer::Beta::Button.new(
-                scheme: :primary,
-                size: :medium,
-                aria: { label: I18n.t(:button_add_member) },
-                title: I18n.t(:button_add_member),
-                id: 'add-member-button',
-                data: add_button_data_attributes
-              )
-            ) do |button|
-              button.with_leading_visual_icon(icon: :plus)
-              t('activerecord.models.member')
-            end
-          end
-        end
-
-        actions.with_column do
-          render(
-            Primer::Beta::IconButton.new(
-              icon: 'filter',
-              id: 'filter-member-button',
-              aria: { label: I18n.t(:description_filter) },
-              class: 'toggle-member-filter-link',
-              data: filter_button_data_attributes
-            )
-          )
-        end
-      end
+    header.with_action_button(scheme: :primary,
+                              mobile_icon: :plus,
+                              mobile_label: t('activerecord.models.member'),
+                              size: :medium,
+                              aria: { label: I18n.t(:button_add_member) },
+                              title: I18n.t(:button_add_member),
+                              id: "add-member-button",
+                              data: add_button_data_attributes) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t('activerecord.models.member')
     end
+
+    header.with_action_icon_button(mobile_icon: "filter",
+                                   scheme: :default,
+                                   icon: "filter",
+                                   label: I18n.t(:description_filter),
+                                   id: "filter-member-button",
+                                   aria: { label: I18n.t(:description_filter) },
+                                   class: "toggle-member-filter-link",
+                                   data: filter_button_data_attributes)
   end
 %>
