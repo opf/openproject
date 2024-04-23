@@ -47,10 +47,7 @@ module OpenProject
         # as it's used to identify whether a user can actually favorite the object.
         def acts_as_favorable
           return if included_modules.include?(::OpenProject::Acts::Favorable::InstanceMethods)
-
-          unless ::OpenProject::Acts::Favorable::Registry.exists?(self)
-            raise ArgumentError.new("You need to register #{name} to the acts_as_favorable initializer")
-          end
+          OpenProject::Acts::Favorable::Registry.add(self)
 
           class_eval do
             has_many :favorites, as: :favored, dependent: :delete_all, validate: false
