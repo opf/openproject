@@ -167,12 +167,13 @@ Rails.application.routes.draw do
     resource :wiki_menu_item, only: %i[edit update]
   end
 
+  # generic route for adding/removing watchers
   scope ":object_type/:object_id", constraints: OpenProject::Acts::Watchable::Routes do
     post "/watch" => "watchers#watch"
     delete "/unwatch" => "watchers#unwatch"
   end
 
-  # generic route for adding/removing watchers and favorites.
+  # generic route for adding/removing favorites
   scope ":object_type/:object_id", constraints: OpenProject::Acts::Favorable::Routes do
     post "/favorite" => "favorites#favorite"
     delete "/favorite" => "favorites#unfavorite"
