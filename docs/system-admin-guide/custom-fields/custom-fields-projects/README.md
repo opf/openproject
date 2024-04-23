@@ -9,6 +9,6 @@ keywords: custom fields for projects, show custom fields
 
 As a user of [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [OpenProject Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) you can customize the work package list and show additional project information by adding custom attributes to the project list, e.g. adding accountable, project due date, progress, and more.
 
->**Important**: Starting with version 14.0, project custom fields are called "project attributes". Please refer to our [user guide on project attributes](../../../project-overview) for more information. 
+>**Important**: Starting with version 14.0, project custom fields are called "project attributes". Please refer to our [user guide on project attributes](../../../user-guide/project-overview) for more information. 
 >
 >If you are an administrator and wish to configure project attributes, please refer to our [admin guide on project attributes](../../project-settings/project-attributes).
