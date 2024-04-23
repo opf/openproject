@@ -1713,8 +1713,10 @@ uk:
       system_update:
         file_links_journal: >
           Тепер дії, пов’язані з посиланнями на файли (файли, що зберігаються в зовнішніх сховищах), з’являтимуться на вкладці «Активність». Наявні дії, пов’язані із посиланнями:
-        progress_calculation_changed: >
-          Обчислення прогресу оновлено.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Посібник з налаштування"
     get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
@@ -1970,7 +1972,7 @@ uk:
   label_enterprise_support: "Корпоративна підтримка"
   label_enterprise_addon: "Доповнення версії Enterprise"
   label_environment: "Навколишнє середовище"
-  label_estimates_and_time: "Оцінки та час"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "є"
   label_everywhere: "скрізь"
   label_example: "Приклад"

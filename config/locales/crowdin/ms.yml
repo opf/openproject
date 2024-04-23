@@ -1618,8 +1618,10 @@ ms:
       system_update:
         file_links_journal: >
           Mulai sekarang, aktiviti berkaitan dengan pautan fail (fail-fail yang disimpan di penyimpanan luaran) akan muncul dalam tab aktiviti. Yang berikut mewakili aktiviti berkenaan pautan yang sudah sedia ada:
-        progress_calculation_changed: >
-          Pengiraan kemajuan dikemas kini.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Panduan konfigurasi"
     get_in_touch: "Anda mempunyai soalan? Sila hubungi kami."
@@ -1875,7 +1877,7 @@ ms:
   label_enterprise_support: "Enterprise support"
   label_enterprise_addon: "Enterprise add-on"
   label_environment: "Persekitaran"
-  label_estimates_and_time: "Anggaran dan masa"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "ialah"
   label_everywhere: "di mana-mana saja"
   label_example: "Contoh"
@@ -2827,14 +2829,14 @@ ms:
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Dokumentasi"
-  setting_apiv3_docs_enabled: "Bolehkan halaman dokumen"
+  setting_apiv3_docs_enabled: "Benarkan halaman docs"
   setting_apiv3_docs_enabled_instructions_html: >
-    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+    Jika halaman docs dibenarkan anda boleh mendapatkan paparan interaktif dokumentasi APIv3 dibawah <a href="%{link}" target="_blank">.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Kaedah penghantaran e-mel"
-  setting_emails_salutation: "Address user in emails with"
+  setting_emails_salutation: "Menggelar pengguna dalam e-mel dengan"
   setting_sendmail_location: "Location of the sendmail executable"
-  setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
+  setting_smtp_enable_starttls_auto: "Gunakan secara automatik STARTTLS jika tersedia"
   setting_smtp_ssl: "Guna sambungan SSL"
   setting_smtp_address: "Pelayan SMTP"
   setting_smtp_port: "Port SMTP"
@@ -2843,13 +2845,13 @@ ms:
   setting_smtp_password: "Kata laluan SMTP"
   setting_smtp_domain: "Domain SMTP HELO"
   setting_activity_days_default: "Hari yang dipaparkan pada aktiviti projek"
-  setting_app_subtitle: "Application subtitle"
+  setting_app_subtitle: "Subtajuk aplikasi"
   setting_app_title: "Nama aplikasi"
   setting_attachment_max_size: "Saiz maksimum lampiran"
   setting_antivirus_scan_mode: "Mod pengimbas"
   setting_antivirus_scan_action: "Tindakan fail yang dijangkiti"
   setting_autofetch_changesets: "Autofetch repository changes"
-  setting_autologin: "Autologin"
+  setting_autologin: "Log masuk automatik"
   setting_available_languages: "Bahasa tersedia"
   setting_bcc_recipients: "Blind carbon copy recipients (bcc)"
   setting_brute_force_block_after_failed_logins: "Sekat pengguna selepas bilangan percubaan log masuk gagal ini"
@@ -2858,9 +2860,9 @@ ms:
   setting_use_wysiwyg_description: "Pilih untuk aktifkan penyunting CKEditor5 WYSIWYG untuk semua pengguna secara asas. CKEditor mempunyai kefungsian terhad untuk GFM Markdown."
   setting_column_options: "Senarai lajur pakej kerja asas"
   setting_commit_fix_keywords: "Fixing keywords"
-  setting_commit_logs_encoding: "Commit messages encoding"
+  setting_commit_logs_encoding: "Pengekodan mesej komit"
   setting_commit_logtime_activity_id: "Activity for logged time"
-  setting_commit_logtime_enabled: "Enable time logging"
+  setting_commit_logtime_enabled: "Benarkan pencatatan masa"
   setting_commit_ref_keywords: "Referencing keywords"
   setting_consent_time: "Consent time"
   setting_consent_info: "Teks maklumat kebenaran"
@@ -2951,13 +2953,13 @@ ms:
       title: "Pengimbasan virus"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        Pengimbasan virus telah dinyahaktifkan. %{file_count} kekal di dalam kuarantin. Untuk menyemak fail yang dikuarantin, sila lawati pautan ini: %{link}
       remaining_scan_complete_html: >
         Fail yang berbaki telah diimbas. Terdapat %{file_count} dalam kuarantin. Anda sedang diarahkan ke halaman kuarantin. Guna halaman ini untuk memadam atau mengatasi fail yang dikuarantinkan.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Pengimbasan virus telah berjaya diaktifkan. Terdapat %{file_count} yang sebelum ini dimuat naik dan masih perlu diimbas. Proses ini telah dijadualkan di latar belakang. Fail tersebut akan kekal boleh diakses semasa pengimbasan.
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "Pastikan fail yang dimuat naik dalam OpenProject diimbas untuk virus sebelum boleh diakses oleh pengguna lain."
       actions:
         delete: "Padam fail tersebut"
         quarantine: "Kuarantin fail tersebut"
@@ -3137,7 +3139,7 @@ ms:
   text_unallowed_characters: "Aksara yang tidak dibenarkan"
   text_user_invited: Pengguna telah dijemput dan sedang menunggu pendaftaran.
   text_user_wrote: "%{value} menulis:"
-  text_warn_on_leaving_unsaved: "The work package contains unsaved text that will be lost if you leave this page."
+  text_warn_on_leaving_unsaved: "Pakej kerja tersebut mengandungi teks yang belum disimpan yang akan hilang jika anda tinggalkan halaman ini."
   text_what_did_you_change_click_to_add_comment: "Apakah yang anda ubah? Klik untuk tambah komen"
   text_wiki_destroy_confirmation: "Adakah anda pasti anda ingin memadam wiki ini dan semua kandungannya?"
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"

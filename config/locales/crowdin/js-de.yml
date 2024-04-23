@@ -349,9 +349,9 @@ de:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           "14_0":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-14-0-release/
+              learn_about_link: https://www.openproject.org/de/blog/openproject-14-0-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Implement progress reporting across work package hierarchies.</li> <li>Manage project attributes in a structured way on the project overview page.</li> <li>Streamlined view of custom fields in project list and project overview.</li> <li>Unified page headers with the sleek Primer design.</li> <li>Enhance meetings with new features like attachment uploads, responsible, and meeting history.</li> <li>Automatic alerts for unhealthy file storages, and gain control with toggle options.</li> <li>Copy automatically managed project folder for OneDrive/SharePoint when copying projects.</li> <li>Ask admins to remove shares on work packages when revoking a project membership.</li> <li>Enhance planning with 4 and 8-week display modes in the team planner.</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Fortschrittsberechnung über Arbeitspaket-Hierarchien hinweg.</li> <li>Strukturierte Verwaltung von Attributen auf der Projektübersichtsseite.</li> <li>Optimierte Ansicht der benutzerdefinierten Felder in der Projektliste und der Projektübersicht.</li> <li>Vereinheitlichte Seitenköpfe mit dem schlanken Primer-Design.</li> <li>Weitere Verbesserungen an Besprechungen, wie dem Hochladen von Anhängen, setzen eines Referenten und Anzeige des Änderungsverlaufs.</li> <li>Automatische Warnungen für defekte Dateispeicher und Kontrolle durch mehr Optionen.</li> <li>Verwaltete Projektordner für OneDrive/SharePoint können beim Kopieren von Projekten mit kopiert werden.</li> <li>Admins anfragen können, Freigaben für Arbeitspakete zu entfernen, wenn Sie eine Projektmitgliedschaft widerrufen.</li> <li>4- und 8-Wochen-Anzeigemodi im Teamplaner.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -642,7 +642,7 @@ de:
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: "Es gibt neue Benachrichtigungen."
-          link_text: "Click here to load them."
+          link_text: "Hier klicken zum Aktualisieren."
       menu:
         accountable: "Verantwortlich"
         by_project: "Ungelesen pro Projekt"
@@ -925,7 +925,7 @@ de:
       message_work_package_status_blocked: "Das Arbeitspaket ist auf geschlossene Status- und Versions-Attribute gesetzt, der Status kann nicht verändert werden."
       placeholder_filter_by_text: "Titel, Beschreibung, Kommentare, ..."
       progress:
-        title: "Work estimates and progress"
+        title: "Aufwandsschätzung und Fortschritt"
       baseline:
         addition_label: "Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt"
         removal_label: "Innerhalb des Vergleichszeitraums aus der Ansicht entfernt"
@@ -1329,4 +1329,4 @@ de:
     open_project_storage_modal:
       waiting_subtitle:
         network_off: "Es gibt ein Netzwerkproblem."
-        network_on: "Network is back. We are trying."
+        network_on: "Netzwerk ist wieder da. Wir versuchen es erneut."
