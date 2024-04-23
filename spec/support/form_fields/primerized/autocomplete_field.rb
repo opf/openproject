@@ -28,6 +28,12 @@ module FormFields
         field_container.find(".ng-select-container input").set text
       end
 
+      def close_autocompleter
+        if page.has_css?(".ng-select-container input", wait: 0.1)
+          field_container.find(".ng-select-container input").send_keys :escape
+        end
+      end
+
       def open_options
         field_container.find(".ng-select-container").click
       end
@@ -69,7 +75,7 @@ module FormFields
       end
 
       def expect_error(string = nil)
-        expect(field_container).to have_css(".FormControl-inlineValidation")
+        expect(field_container).to have_css(".FormControl-inlineValidation", visible: :all)
         expect(field_container).to have_content(string) if string
       end
     end

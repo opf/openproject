@@ -40,10 +40,6 @@ module ProjectCustomFields
         @project = project
         @project_custom_field_section = project_custom_field_section
       end
-
-      def wrapper_uniq_by
-        @project_custom_field_section.id
-      end
     end
   end
 end

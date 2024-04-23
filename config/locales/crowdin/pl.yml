@@ -351,15 +351,15 @@ pl:
     delete_work_package_shares_dialog:
       title: "Unieważnij udostępnienia pakietów roboczych"
       shared_with_this_user_html:
-        one: "Temu użytkownikowi udostępniono %{shared_work_packages_link}."
-        few: "Temu użytkownikowi udostępniono %{shared_work_packages_link}."
-        many: "Temu użytkownikowi udostępniono %{shared_work_packages_link}."
-        other: "Temu użytkownikowi udostępniono %{shared_work_packages_link}."
+        one: "Temu użytkownikowi udostępniono %{all_shared_work_packages_link}."
+        few: "Temu użytkownikowi udostępniono %{all_shared_work_packages_link}."
+        many: "Temu użytkownikowi udostępniono %{all_shared_work_packages_link}."
+        other: "Temu użytkownikowi udostępniono %{all_shared_work_packages_link}."
       shared_with_this_group_html:
-        one: "Tej grupie udostępniono %{shared_work_packages_link}."
-        few: "Tej grupie udostępniono %{shared_work_packages_link}."
-        many: "Tej grupie udostępniono %{shared_work_packages_link}."
-        other: "Tej grupie udostępniono %{shared_work_packages_link}."
+        one: "Tej grupie udostępniono %{all_shared_work_packages_link}."
+        few: "Tej grupie udostępniono %{all_shared_work_packages_link}."
+        many: "Tej grupie udostępniono %{all_shared_work_packages_link}."
+        other: "Tej grupie udostępniono %{all_shared_work_packages_link}."
       shared_with_permission_html:
         one: "Tylko %{shared_work_packages_link} udostępniono z uprawnieniami %{shared_role_name}."
         few: "Tylko %{shared_work_packages_link} udostępniono z uprawnieniami %{shared_role_name}."
@@ -1715,8 +1715,10 @@ pl:
       system_update:
         file_links_journal: >
           Od teraz aktywność związana z linkami do plików (plików przechowywanych w magazynach zewnętrznych) będzie wyświetlana na karcie Aktywność. Poniżej przedstawiono aktywność dotyczącą linków, które już istniały:
-        progress_calculation_changed: >
-          Zaktualizowano obliczenie postępu
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Przewodnik po konfiguracji"
     get_in_touch: "Masz pytania? Skontaktuj się z nami."
@@ -1972,7 +1974,7 @@ pl:
   label_enterprise_support: "Wsparcie Enterprise"
   label_enterprise_addon: "Dodatek wersji Enterprise"
   label_environment: "Środowisko"
-  label_estimates_and_time: "Szacowany czas"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "jest"
   label_everywhere: "wszędzie"
   label_example: "Przykład"
@@ -3433,8 +3435,8 @@ pl:
         working: "%{day} jest teraz dniem roboczym"
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
-        working: "%{day} jest teraz roboczym"
-        non_working: "%{day} jest teraz wolnym od pracy"
+        working: "%{date} jest teraz roboczym"
+        non_working: "%{date} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

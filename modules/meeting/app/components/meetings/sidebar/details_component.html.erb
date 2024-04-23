@@ -102,23 +102,15 @@
                   render(Primer::Beta::Button.new(
                     scheme: :link,
                     underline: false,
-                    data: { 'show-dialog-id': "edit-participants-dialog" }
+                    tag: :a,
+                    href: participants_dialog_meeting_path(@meeting),
+                    data: { controller: 'async-dialog' }
                   )) do
                     t("label_meeting_show_all_participants")
                   end
                 end
               end
             end
-          end
-
-          details.with_row do
-            render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
-              id: "edit-participants-dialog",
-              src: participants_dialog_meeting_path(@meeting),
-              size: :medium_portrait,
-              title: Meeting.human_attribute_name(:participants),
-              hide_button: true
-            ))
           end
         end
       end

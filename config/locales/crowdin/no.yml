@@ -1652,8 +1652,10 @@
       system_update:
         file_links_journal: >
           Fra nå av vil aktivitet knyttet til linker (filer lagret i eksterne lagringer) vises her i aktivitetsfanen. Følgende representerer aktivitet med lenker som allerede eksisterer:
-        progress_calculation_changed: >
-          Progress calculation updated.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "Konfigurasjonsveiviser"
     get_in_touch: "Har du spørsmål? Ta kontakt med oss."
@@ -1909,7 +1911,7 @@
   label_enterprise_support: "Bedriftsstøtte"
   label_enterprise_addon: "Enterprise utvidelse"
   label_environment: "Miljø"
-  label_estimates_and_time: "Estimater og tid"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "er"
   label_everywhere: "overalt"
   label_example: "Eksempel"

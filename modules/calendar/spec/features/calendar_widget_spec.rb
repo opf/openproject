@@ -41,7 +41,7 @@ RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
   shared_let(:meeting) do
-    create(:structured_meeting, title: "Weekly", project:, start_time: Time.zone.today + 10.hours)
+    create(:structured_meeting, title: "Weekly", project:, start_time: Time.zone.tomorrow + 10.hours)
   end
 
   let(:overview_page) do

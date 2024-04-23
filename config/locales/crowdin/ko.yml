@@ -1618,8 +1618,10 @@ ko:
       system_update:
         file_links_journal: >
           지금부터 파일 링크(외부 저장소에 저장된 파일)와 관련된 활동이 활동 탭에 표시됩니다. 다음은 이미 존재하는 링크와 관련된 활동을 나타냅니다.
-        progress_calculation_changed: >
-          진행률 계산이 업데이트되었습니다.
+        progress_calculation_adjusted_from_disabled_mode: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+        progress_calculation_adjusted: >-
+          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
   links:
     configuration_guide: "구성 가이드"
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1875,7 +1877,7 @@ ko:
   label_enterprise_support: "엔터프라이즈 지원"
   label_enterprise_addon: "Enterprise 추가 기능"
   label_environment: "환경"
-  label_estimates_and_time: "견적 및 시간"
+  label_estimates_and_time: "Estimates and progress"
   label_equals: "일치함"
   label_everywhere: "어디에 있든지"
   label_example: "예"

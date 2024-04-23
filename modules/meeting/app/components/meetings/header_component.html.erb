@@ -44,8 +44,11 @@
                 end
 
                 menu.with_item(label: t(:label_history),
-                               tag: :button,
-                               content_arguments: { "data-show-dialog-id": "meetings-history-dialog" },
+                               tag: :a,
+                               href: history_meeting_path(@meeting),
+                               content_arguments: {
+                                 "data-controller": "async-dialog",
+                               },
                                value: ""
                                ) do |item|
                   item.with_leading_visual_icon(icon: :clock) # or :check TBD
@@ -62,17 +65,6 @@
               end
             end
           end
-        end
-
-        show_header.with_row do
-          render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
-            id: "meetings-history-dialog",
-            src: history_meeting_path(@meeting),
-            size: :xlarge,
-            header_variant: :large,
-            title: I18n.t(:label_history),
-            hide_button: true
-          ))
         end
 
         show_header.with_row do
