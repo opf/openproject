@@ -1716,9 +1716,9 @@ lt:
         file_links_journal: >
           Nuo dabar, su failų nuorodomis (failais, saugomais išorinse saugyklose) susiję veiksmai bus rodomi Veiksmų kortelėje. Žemiau pateikiamas jau egzistavusių nuorodų veiksmų sąrašas:
         progress_calculation_adjusted_from_disabled_mode: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
+          Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">nustatytas į paremtą darbu ir pakeistas su versijos atnaujinimu</a>.
         progress_calculation_adjusted: >-
-          Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
+          Eigos skaičiavimas automatiškai <a href="%{href}" target="_blank">pakeistas su versijos atnaujinimu</a>.
   links:
     configuration_guide: "Konfigūravimo vadovas"
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1974,7 +1974,7 @@ lt:
   label_enterprise_support: "„Enterprise“ palaikymas"
   label_enterprise_addon: "Enterprise priedas"
   label_environment: "Aplinka"
-  label_estimates_and_time: "Estimates and progress"
+  label_estimates_and_time: "Įvertinimai ir eiga"
   label_equals: "yra"
   label_everywhere: "visur"
   label_example: "Pavyzdys"
