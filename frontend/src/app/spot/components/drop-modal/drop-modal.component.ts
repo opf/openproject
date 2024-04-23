@@ -39,6 +39,8 @@ export class SpotDropModalComponent implements OnDestroy {
    */
   @Input() public allowRepositioning = true;
 
+  @Input() public notFullscreen = false;
+
   /**
    * The default alignment of the drop modal. There are twelve alignments in total. You can check which ones they are in
    * @floating-ui/utils: `Placement` in floating-ui.utils.d.ts
@@ -185,7 +187,6 @@ export class SpotDropModalComponent implements OnDestroy {
   close():void {
     this._opened = false;
     this.closed.emit();
-
     /*
      * The same as with opening; if we don't deactivate the body after
      * one tick, angular will complain because it already rendered the
