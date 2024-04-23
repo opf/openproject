@@ -104,8 +104,9 @@ export default class PreviewProgressController extends Controller {
   private ensureValidPathname(formAction:string):string {
     const wpPath = new URL(formAction);
 
-    if (wpPath.pathname === '/work_packages/progress') {
-      wpPath.pathname = '/work_packages/new/progress';
+    if (wpPath.pathname.endsWith('/work_packages/progress')) {
+      // Replace /work_packages/progress with /work_packages/new/progress
+      wpPath.pathname = wpPath.pathname.replace('/work_packages/progress', '/work_packages/new/progress');
     }
 
     return wpPath.toString();
