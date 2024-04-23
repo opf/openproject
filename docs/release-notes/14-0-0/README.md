@@ -335,10 +335,14 @@ Apart from the features mentioned above, there have been a lot of other changes,
 A very special thank you goes to our sponsors for features and improvements of this release:
 
 * German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
-* City of Cologne for sponsoring features for project portfolio management
+* City of Cologne for sponsoring features on project attributes
 * Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to:
 
-Silas Kropf, Philipp Schulz, Benjamin Rönnau, Mario Haustein, Matt User, Mario Zeppin, Romain Besson,
-Daniel Hilbrand, Christina Vechkanova, Sven Kunze, Richard Richter, Julian Wolff
+Silas Kropf, Philipp Schulz, Benjamin Rönnau, Mario Haustein, Matt User, Mario Zeppin, Romain Besson, Daniel Hilbrand, Christina Vechkanova, Sven Kunze, Richard Richter, Julian Wolff
+
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to highlight user [izzahk](https://crowdin.com/profile/izzahk)
+who has done an outstanding number of translations for the Malaysian language in recent weeks.
+
+Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
