@@ -37,9 +37,9 @@ You will then get a list of all your active projects in OpenProject.
 
 ### Project lists view explained
 
-You can use the Project overview page to **create a multi-project status dashboard** if you include your own [project attributes](../../../system-admin-guide/projects/project-attributes/), e.g. custom status options, project duration or any relevant project information.
+You can use the Project overview page to **create a multi-project status dashboard** if you include your own [project attributes](../../../system-admin-guide/projects/project-attributes), e.g. custom status options, project duration or any relevant project information.
 
-> **Please note:** Project attributes an an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
+> **Please note:** Project attributes are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
 Each project is displayed in a single line. For the the fields where the text is too long to be displayed completely, please use the **Expand** link. 
 
@@ -49,7 +49,7 @@ With the horizontal **three dots** icon on the right side of the list you can op
 
 ![new subproject project list](new-subproject-project-list.png)
 
-You can choose the **columns displayed by default** in the [System settings](../../../system-admin-guide/system-settings/project-system-settings) in the Administration. 
+You can choose the **columns displayed by default** in the [Project lists settings](../../../system-admin-guide/projects/project-lists) in the Administration. 
 
 You can add the columns, as well as define the order of the columns by using the **Configure view** modal. Navigate to it via the menu in the far right corner (three dots) and click **Configure view**.
 
@@ -59,7 +59,7 @@ A dialogue will open, allowing you to manage and reorder columns. Click **Apply*
 
 ![Configuration form for project lists in OpenProject](configure-view-form-project-list.png)
 
-To change the order of the displayed [custom fields](../../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/#display-project-custom-fields).
+To change the order of the displayed [custom fields](../../../system-admin-guide/projects/project-lists) (columns) follow the instructions here: [Displaying a project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/#display-project-custom-fields).
 
 ### Project lists filters
 
@@ -103,7 +103,7 @@ You can always remove your private project lists by using the **Delete** option.
 
 To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the [section below](#project-overarching-reports). 
 
-The Gantt chart view can be configured in the [System settings](../../../system-admin-guide/system-settings/project-system-settings) in the Administration.
+The Gantt chart view can be configured in the [System settings](../../../system-admin-guide/projects/project-lists) in the Administration.
 
 ![display all work packages](display-all-workpackages.png)
 
