@@ -28,14 +28,40 @@
 
 require "spec_helper"
 
+module PDF
+  class Inspector
+    class Generic < Inspector
+      attr_reader :calls
+
+      def initialize
+        super
+        @calls = []
+      end
+
+      def method_missing(*args)
+        @calls << args
+      end
+
+      def respond_to_missing?(*)
+        true
+      end
+
+      def respond_to?(*)
+        true
+      end
+    end
+  end
+end
+
 RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
-  let(:type_standard) { create(:type_standard, color: create(:color)) }
-  let!(:type_milestone) { create(:type, name: "Milestone", is_milestone: true, color: create(:color)) }
+  let(:type_standard) { create(:type_standard, color: create(:color, hexcode: "#FFFF00")) }
+  let(:type_bug) { create(:type_bug, color: create(:color, hexcode: "#00FFFF")) }
+  let!(:type_milestone) { create(:type, name: "Milestone", is_milestone: true, color: create(:color, hexcode: "#FF0000")) }
   let(:types) { [type_standard, type_milestone] }
   let(:project) do
-    create(:project, name: "Foo Bla. Report No. 4/2021 with/for Case 42", types: types)
+    create(:project, name: "Foo Bla. Report No. 4/2021 with/for Case 42", types:)
   end
   let(:user) do
     create(:user,
@@ -98,8 +124,14 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            due_date: work_package_milestone_due)
   end
   let(:filler_work_packages) do
-    Array.new(50) { create(:work_package, project:, subject: "Work package Filler",
-                           start_date: work_package_task_start, due_date: work_package_task_due, type: type_standard) }
+    Array.new(50) do
+      create(:work_package,
+             project:,
+             subject: "Work package Filler",
+             start_date: work_package_task_start,
+             due_date: work_package_task_due,
+             type: type_bug)
+    end
   end
 
   let(:work_packages) do
@@ -111,24 +143,56 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     `#{cmd}`
   end
 
+  def show_calls
+    pp pdf[:calls]
+  end
+
   def wp_title_column(wp)
     "#{wp.type} ##{wp.id} - #{wp.subject}"
   end
 
-  subject(:pdf_strings) do
-    # Joining the results for comparison since word wrapping leads to a different array for the same content
-    PDF::Inspector::Text.analyze(File.read(export_pdf.content.path)).strings.join(" ").squeeze(" ")
+  subject(:pdf) do
+    content = File.read(export_pdf.content.path)
+    {
+      # Joining the results for comparison since word wrapping leads to a different array for the same content
+      strings: PDF::Inspector::Text.analyze(content).strings.join(" ").squeeze(" "),
+      calls: PDF::Inspector::Generic.analyze(content).calls
+    }
+  end
+
+  def include_calls?(calls_to_find, all_calls)
+    positions = all_calls.each_index.select { |i| all_calls[i] == calls_to_find[0] }
+    positions.any? do |position|
+      test_array = all_calls.slice(position, calls_to_find.length)
+      test_array & calls_to_find == calls_to_find
+    end
   end
 
   describe "with a request for a PDF gantt" do
     it "contains correct data" do
-      expect(pdf_strings).to eq [
-                                  query.name,
-                                  "2024 Apr 21 22 23", # header columns
-                                  wp_title_column(work_package_task),
-                                  wp_title_column(work_package_milestone),
-                                  "1/1", export_time_formatted, query.name
-                                ].join(" ")
+      expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
+                                   wp_title_column(work_package_task),
+                                   wp_title_column(work_package_milestone),
+                                   "1/1", export_time_formatted, query.name].join(" ")
+
+      # if one of these expect fails you can output the actual pdf calls uncommenting the following line
+      # show_calls
+      milestone = [
+        [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
+        [:begin_new_subpath, 628.5, 401.86],
+        [:append_line, 634.5, 407.86],
+        [:append_line, 640.5, 401.86],
+        [:append_line, 634.5, 395.86],
+        [:append_line, 628.5, 401.86],
+        [:close_subpath]
+      ]
+      expect(include_calls?(milestone, pdf[:calls])).to be true
+      task = [
+        [:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], # yellow rectangle
+        [:append_rectangle, 207.0, 416.86, 171.0, 10.0],
+        [:fill_path_with_nonzero]
+      ]
+      expect(include_calls?(task, pdf[:calls])).to be true
     end
   end
 
@@ -136,16 +200,33 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:work_package_milestone_due) do
       Date.new(2024, 5, 8)
     end
+
     it "contains correct data" do
-      expect(pdf_strings).to eq [
-                                  query.name,
-                                  "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-                                  wp_title_column(work_package_task),
-                                  wp_title_column(work_package_milestone),
-                                  "1/2", export_time_formatted, query.name,
-                                  "2024 May 6 7 8", # header columns
-                                  "2/2", export_time_formatted, query.name,
-                                ].join(" ")
+      expect(pdf[:strings]).to eq [query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
+                                   wp_title_column(work_package_task),
+                                   wp_title_column(work_package_milestone),
+                                   "1/2", export_time_formatted, query.name,
+                                   "2024 May 6 7 8", # header columns
+                                   "2/2", export_time_formatted, query.name].join(" ")
+
+      # if one of these expect fails you can output the actual pdf calls uncommenting the following line
+      # show_calls
+      milestone = [
+        [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
+        [:begin_new_subpath, 111.42857, 390.0],
+        [:append_line, 117.42857, 396.0],
+        [:append_line, 123.42857, 390.0],
+        [:append_line, 117.42857, 384.0],
+        [:append_line, 111.42857, 390.0],
+        [:close_subpath]
+      ]
+      expect(include_calls?(milestone, pdf[:calls])).to be true
+      task = [
+        [:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], # yellow rectangle
+        [:append_rectangle, 231.42857, 405.0, 32.57143, 10.0],
+        [:fill_path_with_nonzero]
+      ]
+      expect(include_calls?(task, pdf[:calls])).to be true
     end
   end
 
@@ -156,6 +237,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:work_package_milestone_due) do
       Date.new(2024, 5, 8)
     end
+
     it "contains correct data" do
       test = [
         query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
@@ -181,7 +263,29 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
         "2024 May 6 7 8", # header columns
         "6/6", export_time_formatted, query.name
       ].flatten.join(" ")
-      expect(pdf_strings).to eq test
+      expect(pdf[:strings]).to eq test
+
+      # if one of these expect fails you can output the actual pdf calls uncommenting the following line
+      # show_calls
+      milestone = [
+        [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
+        [:begin_new_subpath, 111.42857, 110.0],
+        [:append_line, 117.42857, 116.0],
+        [:append_line, 123.42857, 110.0],
+        [:append_line, 117.42857, 104.0],
+        [:append_line, 111.42857, 110.0],
+        [:close_subpath]
+      ]
+      expect(include_calls?(milestone, pdf[:calls])).to be true
+      task = [
+        [:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], # yellow rectangle
+        [:append_rectangle, 231.42857, 405.0, 32.57143, 10.0],
+        [:fill_path_with_nonzero]
+      ]
+      expect(include_calls?(task, pdf[:calls])).to be true
+      expect(
+        pdf[:calls].count { |call| call == [:set_color_for_nonstroking_and_special, 0.0, 1.0, 1.0] } # aqua color rectangles
+      ).to be filler_work_packages.length
     end
   end
 end
