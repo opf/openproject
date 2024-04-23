@@ -96,6 +96,8 @@ If the project member you are removing has shared work packages, you will also b
 
 > Note: please keep in mind that removing  project members can only be done if you have correct permissions.
 
+> Note: a project member can be a part of the project either individually, as a member of a group, or both.   The role removal will only affect the member's individual roles. All those roles obtained via a group will not be removed. To remove those group roles you can either remove the member from the group or remove the entire group from the project.
+
 ## Revoke sharing privileges
 
 If a work package has been [shared](../work-packages/share-work-packages), you may need to revoke sharing privileges at a later stage in the project. To do that select the **More** icon at the right end of the row with the corresponding member name and select **Revoke work package shares**. You can also choose the **View shared work packages** option to see the list of all  work packages shared with the user.
