@@ -103,7 +103,7 @@ With OpenProject 14.0, you are now able to view and edit custom fields for proje
 
 Project attributes as well as the sections can be managed in administration/projects/project attributes.
 
-![Manage project attributes and sections in adminstrations](14-0-project-attributes-administration.png)
+![Manage project attributes and sections in administration](14-0-project-attributes-administration.png)
 
 ### Streamlined view of custom fields in project lists and project overview
 
@@ -179,7 +179,7 @@ Apart from the features mentioned above, there have been a lot of other changes,
 - Bugfix: Odd spacing in Notification and Email Reminder personal setting
   pages \[[#51772](https://community.openproject.org/wp/51772)\]
 - Bugfix: Misleading error message: IFC upload (file size) \[[#52098](https://community.openproject.org/wp/52098)\]
-- Bugfix: OpenProject behind prefix some assests still loaded from web
+- Bugfix: OpenProject behind prefix some assets still loaded from web
   root \[[#52292](https://community.openproject.org/wp/52292)\]
 - Bugfix: Position of status selector too high after opening the drop
   down \[[#52669](https://community.openproject.org/wp/52669)\]
@@ -207,7 +207,7 @@ Apart from the features mentioned above, there have been a lot of other changes,
 - Bugfix: Toolbar buttons too close on user page \[[#53477](https://community.openproject.org/wp/53477)\]
 - Bugfix: Link on top of the storage should be removed if the read_files permission is missing when it is a
   automatically managed project folder. \[[#53484](https://community.openproject.org/wp/53484)\]
-- Bugfix: Buttons have the wrong colour in freshly seeded BIM
+- Bugfix: Buttons have the wrong color in freshly seeded BIM
   instance \[[#53504](https://community.openproject.org/wp/53504)\]
 - Bugfix: Removing a project custom field stored as a filter in a project list leads to wrong counter
   value \[[#53585](https://community.openproject.org/wp/53585)\]

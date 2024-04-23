@@ -88,7 +88,7 @@ Accessibility functionality: Convey to screenreaders when OAuth login has starte
 
 OpenProject version 13.4 now supports PDF exports with lists in table cells that are displayed correctly. Export a work package that contains a table with lists in it into a PDF. Here is an example of how this looks from now on:
 
-![Work package with a table in the description field and how it looks when exportet as PDF](openproject-13-4-pdf-export-table-lists.png)
+![Work package with a table in the description field and how it looks when exported as PDF](openproject-13-4-pdf-export-table-lists.png)
 
 ### WebAuthn/FIDO/U2F is added as a second factor
 
@@ -139,13 +139,13 @@ Thanks to our great Community we can continuously offer more languages for OpenP
 - Bugfix: LDAP user can't be created if optional attributes are not mapped \[[#53327](https://community.openproject.org/wp/53327)\]
 - Bugfix: Page editor menu moves under the header \[[#53365](https://community.openproject.org/wp/53365)\]
 - Bugfix: Project folder is shown in the main menu based on the wrong permission for automatically managed project folders \[[#53367](https://community.openproject.org/wp/53367)\]
-- Bugfix: Portuguese and Portuguese Brezilian should be distinct from each other \[[#53374](https://community.openproject.org/wp/53374)\]
+- Bugfix: Portuguese and Portuguese Brazilian should be distinct from each other \[[#53374](https://community.openproject.org/wp/53374)\]
 - Bugfix: Blacklisted routes not working \[[#53399](https://community.openproject.org/wp/53399)\]
 - Bugfix: Incorrect spelling of GitLab module under project settings \[[#53434](https://community.openproject.org/wp/53434)\]
 - Bugfix: Webauthn fails on mobile Safari \[[#53442](https://community.openproject.org/wp/53442)\]
 - Bugfix: Rake secret task gone in 13.3.1 (breaking scripts & diverging from docs) \[[#53447](https://community.openproject.org/wp/53447)\]
 - Bugfix: WebAuth fails on iOS \[[#53494](https://community.openproject.org/wp/53494)\]
-- Bugfix: WebAuthen not selectable on mobile \[[#53495](https://community.openproject.org/wp/53495)\]
+- Bugfix: WebAuthn not selectable on mobile \[[#53495](https://community.openproject.org/wp/53495)\]
 - Bugfix: Cannot delete reports in time and costs \[[#52284](https://community.openproject.org/projects/openproject/work_packages/52284/activity)\]
 
 <!-- END AUTOMATED SECTION -->
