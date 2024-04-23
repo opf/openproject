@@ -3436,7 +3436,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{date} jest teraz roboczym"
-        non_working: "%{date} jest teraz wolnym od pracy"
+        non_working: "%{day} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:
