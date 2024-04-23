@@ -59,7 +59,7 @@ A dialogue will open, allowing you to manage and reorder columns. Click **Apply*
 
 ![Configuration form for project lists in OpenProject](configure-view-form-project-list.png)
 
-To change the order of the displayed [custom fields](../../../system-admin-guide/projects/project-lists) (columns) follow the instructions here: [Displaying a project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/#display-project-custom-fields).
+To change the order of the displayed [project attributes](../../../system-admin-guide/projects/project-lists) (columns) follow the instructions here: [Displaying a project attribute (formerly called custom field)](../../../system-admin-guide/projects/project-lists).
 
 ### Project lists filters
 
