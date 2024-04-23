@@ -42,7 +42,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
   let(:folder) do
     Storages::Peripherals::Registry
       .resolve("one_drive.commands.create_folder")
-      .call(storage:, folder_path: "Permission Test Folder")
+      .call(storage:,
+            auth_strategy:,
+            folder_name: "Permission Test Folder",
+            parent_location: Storages::Peripherals::ParentFolder.new("/"))
       .result
   end
 
@@ -63,7 +66,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
     after do
       Storages::Peripherals::Registry
         .resolve("one_drive.commands.delete_folder")
-        .call(storage:, auth_strategy: ,location: path)
+        .call(storage:, auth_strategy:, location: path)
     end
 
     context "when trying to access a non-existing driveItem" do

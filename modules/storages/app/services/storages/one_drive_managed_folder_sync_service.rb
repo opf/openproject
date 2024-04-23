@@ -114,9 +114,10 @@ module Storages
         .result_or { |error| format_and_log_error(error, source:, target:) }
     end
 
+    # rubocop:disable Metrics/AbcSize
     def create_folder(project_storage)
       folder_name = project_storage.managed_project_folder_path
-      parent_location = Peripherals::ParentFolder.new('/')
+      parent_location = Peripherals::ParentFolder.new("/")
 
       Peripherals::Registry
         .resolve("one_drive.commands.create_folder")
@@ -134,6 +135,8 @@ module Storages
                  end
                end)
     end
+
+    # rubocop:enable Metrics/AbcSize
 
     def remote_folders_map
       using_admin_token do |http|
@@ -187,7 +190,7 @@ module Storages
     end
 
     def auth_strategy
-      Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
+      Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
     end
 
     def admin_client_tokens_scope

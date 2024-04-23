@@ -210,7 +210,7 @@ module Storages
 
     def create_folder(project_storage)
       folder_name = project_storage.managed_project_folder_path
-      parent_location = Storages::Peripherals::ParentFolder.new("/")
+      parent_location = Peripherals::ParentFolder.new("/")
 
       Peripherals::Registry
         .resolve("nextcloud.commands.create_folder")
@@ -298,7 +298,7 @@ module Storages
     end
 
     def auth_strategy
-      Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy
+      Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy
     end
 
     def admin_client_tokens_scope
