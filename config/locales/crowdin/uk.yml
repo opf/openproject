@@ -349,10 +349,10 @@ uk:
     delete_work_package_shares_dialog:
       title: "Відкликати дозволи на доступ до пакета робіт"
       shared_with_this_user_html:
-        one: "Цьому користувачу надано доступ до %{shared_work_packages_link}."
-        few: "Цьому користувачу надано доступ до %{shared_work_packages_link}."
-        many: "Цьому користувачу надано доступ до %{shared_work_packages_link}."
-        other: "Цьому користувачу надано доступ до %{shared_work_packages_link}."
+        one: "Цьому користувачу надано доступ до %{all_shared_work_packages_link}."
+        few: "Цьому користувачу надано доступ до %{all_shared_work_packages_link}."
+        many: "Цьому користувачу надано доступ до %{all_shared_work_packages_link}."
+        other: "Цьому користувачу надано доступ до %{all_shared_work_packages_link}."
       shared_with_this_group_html:
         one: "Цій групі надано доступ до %{all_shared_work_packages_link}."
         few: "Цій групі надано доступ до %{shared_work_packages_link}."
